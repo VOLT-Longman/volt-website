@@ -1,0 +1,1629 @@
+/**
+ * VOLT Fleet Stylesheet
+ * =====================
+ * 구조:
+ * 1. CSS Variables (디자인 토큰)
+ * 2. Reset & Base
+ * 3. Layout Components (Navigation, Hero, Sections, Footer)
+ * 4. Content Components (Cards, Timeline, Forms)
+ * 5. Utilities
+ * 6. Responsive
+ *
+ * 향후 확장 시:
+ * - Tailwind CSS 도입 시: utility classes만 변환
+ * - CSS Modules / styled-components 전환 시: 컴포넌트별 분리 쉬움
+ */
+
+/* ==========================================================================
+   1. CSS Variables (디자인 토큰)
+   ========================================================================== */
+
+:root {
+    /* VOLT Brand Colors */
+    --volt-orange: #E8482F;
+    --volt-orange-light: #FF5F44;
+    --volt-orange-dark: #C13A24;
+    --volt-orange-glow: rgba(232, 72, 47, 0.15);
+
+    /* Base Colors */
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #0a0a0a;
+    --color-bg-card: rgba(255, 255, 255, 0.03);
+    --color-bg-card-hover: rgba(255, 255, 255, 0.05);
+    --color-text-primary: #f5f5f7;
+    --color-text-secondary: #a1a1a6;
+    --color-text-tertiary: #86868b;
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-accent: rgba(232, 72, 47, 0.3);
+    --color-border-hover: rgba(255, 255, 255, 0.15);
+
+    /* Spacing */
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+    --spacing-2xl: 60px;
+
+    /* Border Radius */
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-full: 980px;
+
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Pretendard", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", "Menlo", "Consolas", "Courier New", monospace;
+
+    /* Z-index Layers */
+    --z-nav: 1000;
+    --z-mobile-menu: 999;
+    --z-modal: 1100;
+}
+
+/* ==========================================================================
+   2. Reset & Base
+   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+}
+
+/* Document Tag (공문 느낌) */
+.doc-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--volt-orange);
+    background: rgba(232, 72, 47, 0.08);
+    border: 1px solid var(--color-border-accent);
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   3. Layout - Navigation
+   ========================================================================== */
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    z-index: var(--z-nav);
+    transition: background 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.nav.scrolled {
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom-color: var(--color-border);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-logo img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.nav-logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--volt-orange);
+    letter-spacing: -0.02em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s ease;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--volt-orange);
+}
+
+.nav-links a:focus-visible,
+.mobile-menu a:focus-visible,
+.footer-section a:focus-visible {
+    outline: 2px solid var(--volt-orange);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.nav-discord {
+    background: var(--volt-orange);
+    color: #fff !important;
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-discord:hover {
+    background: var(--volt-orange-light);
+    color: #fff !important;
+    transform: scale(1.03);
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    background: transparent;
+    border: none;
+}
+
+.hamburger span {
+    width: 22px;
+    height: 2px;
+    background: var(--color-text-primary);
+    transition: all 0.3s ease;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.98);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    z-index: var(--z-mobile-menu);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu-close {
+    position: absolute;
+    top: 16px;
+    right: 22px;
+    font-size: 36px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 8px;
+    line-height: 1;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    align-items: center;
+}
+
+.mobile-menu a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.mobile-menu a:hover {
+    color: var(--volt-orange);
+}
+
+/* ==========================================================================
+   3. Layout - Hero Section (수정된 레이아웃)
+   ========================================================================== */
+
+.hero {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* 핵심 수정: 위쪽 패딩을 nav 높이만큼만 주고, 콘텐츠는 자연스럽게 중앙 정렬 */
+    padding: 100px 22px 80px;
+    background:
+        radial-gradient(ellipse at top, rgba(232, 72, 47, 0.12) 0%, transparent 60%),
+        linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(232, 72, 47, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 95, 68, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Grid background pattern */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+.hero-content {
+    max-width: 980px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    /* 콘텐츠 내부 정렬 - flexbox로 일관된 간격 관리 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 핵심 수정: 로고 크기와 마진 조정 */
+.hero-logo {
+    width: 200px;
+    height: auto;
+    /* 로고 자체 여백 보정 (이미지 위아래 여백을 음수 마진으로 상쇄) */
+    margin-top: -20px;
+    margin-bottom: -10px;
+    animation: fadeInUp 1s ease;
+    filter: drop-shadow(0 0 40px rgba(232, 72, 47, 0.3));
+}
+
+.hero-logo-fallback {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--volt-orange) 0%, var(--volt-orange-dark) 100%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -3px;
+    animation: fadeInUp 1s ease;
+}
+
+.hero-logo-fallback.active {
+    display: flex;
+}
+
+.hero-tagline {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--volt-orange);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding: 6px 16px;
+    border: 1px solid var(--color-border-accent);
+    border-radius: 4px;
+    background: rgba(232, 72, 47, 0.05);
+    animation: fadeInUp 1s ease 0.1s backwards;
+}
+
+.hero h1 {
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: -3px;
+    margin-bottom: 12px;
+    line-height: 1.05;
+    animation: fadeInUp 1s ease 0.2s backwards;
+    background: linear-gradient(180deg, #ffffff 0%, #b8b8bd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero .subtitle {
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+    animation: fadeInUp 1s ease 0.4s backwards;
+}
+
+.hero .description {
+    font-size: 17px;
+    font-weight: 400;
+    color: #b3b3b6;
+    margin-bottom: 32px;
+    line-height: 1.6;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 1s ease 0.6s backwards;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease 0.8s backwards;
+}
+
+/* Hero Stats Bar */
+.hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease 1s backwards;
+    width: 100%;
+    max-width: 600px;
+}
+
+.hero-stat {
+    text-align: center;
+}
+
+.hero-stat-value {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--volt-orange);
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.hero-stat-label {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   3. Layout - Buttons (재사용 가능한 컴포넌트)
+   ========================================================================== */
+
+.btn {
+    padding: 14px 32px;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: var(--volt-orange);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(232, 72, 47, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--volt-orange-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(232, 72, 47, 0.45);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--color-text-primary);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--volt-orange);
+    outline-offset: 4px;
+}
+
+/* ==========================================================================
+   3. Layout - Sections
+   ========================================================================== */
+
+.section {
+    width: 100%;
+    padding: 100px 22px;
+    position: relative;
+    border-top: 1px solid var(--color-border);
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.section-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.section-header h2 {
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+
+.section-header h2 .accent {
+    color: var(--volt-orange);
+}
+
+.section-header p {
+    font-size: 20px;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    letter-spacing: -0.3px;
+}
+
+/* ==========================================================================
+   4. Content - About Section
+   ========================================================================== */
+
+.about {
+    background: #000;
+}
+
+.about-intro,
+.culture-section,
+.about-info,
+.join-cta,
+.hub-content {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+    padding: 56px 48px;
+    border: 1px solid var(--color-border);
+}
+
+.about-intro {
+    margin-bottom: 56px;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-intro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--volt-orange) 0%, transparent 100%);
+}
+
+.culture-section,
+.about-info {
+    margin-top: 56px;
+}
+
+.about-intro h3,
+.culture-section h3,
+.about-info h3,
+.join-cta h3,
+.hub-content h3 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -0.8px;
+}
+
+.culture-section h3 {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.about-intro p {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 56px;
+}
+
+/* ==========================================================================
+   4. Content - Cards (Reusable)
+   ========================================================================== */
+
+.card {
+    background: var(--color-bg-card);
+    border-radius: var(--radius-md);
+    padding: 40px 32px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--color-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    background: var(--color-bg-card-hover);
+    transform: translateY(-4px);
+    border-color: var(--color-border-accent);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--volt-orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.about-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.about-card p {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.culture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.culture-item {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: var(--radius-sm);
+    padding: 28px 24px;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--volt-orange);
+}
+
+.culture-item h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-text-primary);
+}
+
+.culture-item p {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.about-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    margin-top: 32px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+}
+
+.info-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--volt-orange);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+/* ==========================================================================
+   4. Content - Timeline (연혁)
+   ========================================================================== */
+
+.timeline-section {
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+}
+
+.timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 60px auto 0;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 12px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--volt-orange) 0%, rgba(232, 72, 47, 0.2) 100%);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 40px;
+    padding-left: 32px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -36px;
+    top: 8px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--volt-orange);
+    box-shadow: 0 0 0 4px rgba(232, 72, 47, 0.2), 0 0 20px rgba(232, 72, 47, 0.5);
+}
+
+.timeline-date {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--volt-orange);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.timeline-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+}
+
+.timeline-desc {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   4. Content - Leadership
+   ========================================================================== */
+
+.leadership {
+    background: #000;
+}
+
+.leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 56px;
+}
+
+.leader-card {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+    padding: 36px 28px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--color-border);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.leader-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-4px);
+    border-color: var(--color-border-accent);
+}
+
+.leader-avatar {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.leader-info {
+    flex: 1;
+    text-align: left;
+    min-width: 0; /* flex 자식 텍스트 오버플로우 방지 */
+}
+
+.leader-info h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.leader-role {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--volt-orange);
+    margin-bottom: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    background: rgba(232, 72, 47, 0.1);
+    border-radius: 4px;
+}
+
+.leader-contact {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    border: 1px solid var(--color-border);
+    word-break: break-all;
+}
+
+.leader-description {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+.leader-duties {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    line-height: 1.6;
+}
+
+.leader-duties strong {
+    color: var(--volt-orange);
+    font-weight: 600;
+}
+
+/* CEO Special Card */
+.leader-card.ceo-card {
+    grid-column: 1 / -1;
+    max-width: 100%;
+    background: linear-gradient(135deg, rgba(232, 72, 47, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid var(--color-border-accent);
+}
+
+.leader-card.ceo-card .leader-avatar {
+    background: linear-gradient(135deg, var(--volt-orange) 0%, var(--volt-orange-dark) 100%);
+    width: 88px;
+    height: 88px;
+    min-width: 88px;
+    font-size: 36px;
+    box-shadow: 0 0 30px rgba(232, 72, 47, 0.3);
+}
+
+.leader-card.ceo-card .leader-info h3 {
+    font-size: 26px;
+}
+
+.leader-card.ceo-card .leader-role {
+    font-size: 12px;
+}
+
+.leader-card.ceo-card .leader-description {
+    font-size: 15px;
+    margin-bottom: 16px;
+}
+
+.leader-details {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+}
+
+.leader-details-item {
+    margin-bottom: 16px;
+}
+
+.leader-details-item strong {
+    color: var(--volt-orange);
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: var(--font-mono);
+}
+
+.leader-details-item p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.leader-competencies {
+    margin-top: 16px;
+}
+
+.leader-competencies strong {
+    color: var(--color-text-primary);
+    display: block;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.leader-competencies ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.leader-competencies li {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    padding-left: 16px;
+    position: relative;
+}
+
+.leader-competencies li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--volt-orange);
+}
+
+/* ==========================================================================
+   4. Content - Hub Section
+   ========================================================================== */
+
+.hub {
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+}
+
+.hub-content {
+    margin-top: 0;
+}
+
+.hub-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.hub-feature {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: var(--radius-sm);
+    padding: 24px;
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--volt-orange);
+}
+
+.hub-feature h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-text-primary);
+}
+
+.hub-feature ul {
+    list-style: none;
+}
+
+.hub-feature li {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    padding-left: 16px;
+    position: relative;
+}
+
+.hub-feature li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--volt-orange);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.hub-notice {
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: rgba(232, 72, 47, 0.05);
+    border-left: 3px solid var(--volt-orange);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+   4. Content - Streamers (이미지 적용)
+   ========================================================================== */
+
+.streamers {
+    background: #000;
+}
+
+.streamers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 28px;
+    margin-top: 56px;
+}
+
+.streamer-card {
+    background: var(--color-bg-card);
+    border-radius: var(--radius-md);
+    padding: 40px 28px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--color-border);
+    will-change: transform;
+}
+
+.streamer-card:hover {
+    background: var(--color-bg-card-hover);
+    transform: translateY(-4px);
+    border-color: var(--color-border-accent);
+}
+
+/* 스트리머 프로필 이미지 (사진 적용) */
+.streamer-icon {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 3px solid var(--color-border);
+    transition: border-color 0.3s ease;
+    background: var(--color-bg-secondary);
+}
+
+.streamer-card:hover .streamer-icon {
+    border-color: var(--volt-orange);
+    box-shadow: 0 0 30px rgba(232, 72, 47, 0.3);
+}
+
+.streamer-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Fallback 이모지 (이미지 없을 때) */
+.streamer-icon-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+}
+
+.streamer-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+}
+
+.streamer-platform {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--volt-orange);
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    background: rgba(232, 72, 47, 0.1);
+    border-radius: 4px;
+}
+
+.streamer-description {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    margin-bottom: 24px;
+    font-style: italic;
+}
+
+.streamer-details {
+    text-align: left;
+    margin-bottom: 28px;
+}
+
+.streamer-sub-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 18px;
+    margin-bottom: 12px;
+    border: 1px solid var(--color-border);
+}
+
+.streamer-sub-section:last-child {
+    margin-bottom: 0;
+}
+
+.streamer-sub-section h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--volt-orange);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.streamer-sub-section p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.streamer-link {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #00d962;
+    color: #000;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.streamer-link:hover {
+    background: #00f170;
+    transform: scale(1.05);
+}
+
+.streamer-link:focus-visible {
+    outline: 2px solid #00f170;
+    outline-offset: 4px;
+}
+
+/* ==========================================================================
+   4. Content - Gallery
+   ========================================================================== */
+
+.gallery {
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 56px;
+}
+
+.gallery-item {
+    aspect-ratio: 16/9;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: rgba(255, 255, 255, 0.2);
+    will-change: transform;
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--color-border-accent);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-notice {
+    text-align: center;
+    margin-top: 32px;
+    padding: 20px;
+    background: rgba(232, 72, 47, 0.05);
+    border: 1px dashed var(--color-border-accent);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-tertiary);
+    font-size: 13px;
+    font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   4. Content - Join Section
+   ========================================================================== */
+
+.join {
+    background: #000;
+}
+
+.join-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.join-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin: 56px 0;
+}
+
+.join-step {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+    padding: 36px 28px;
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.join-step:hover {
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-4px);
+    border-color: var(--color-border-accent);
+}
+
+.step-number {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--volt-orange) 0%, var(--volt-orange-dark) 100%);
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(232, 72, 47, 0.3);
+}
+
+.join-step h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.join-step p {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.join-cta {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.join-cta p {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 32px;
+}
+
+.join-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   3. Layout - Footer
+   ========================================================================== */
+
+.footer {
+    width: 100%;
+    background: #000;
+    padding: 80px 22px 40px;
+    border-top: 1px solid var(--color-border);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 48px;
+    margin-bottom: 56px;
+}
+
+.footer-section h4 {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--volt-orange);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section li {
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.footer-section a:hover {
+    color: var(--volt-orange);
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.footer-brand img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.footer-brand-text {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--volt-orange);
+}
+
+.footer-description {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+}
+
+.footer-bottom p {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   5. Animations
+   ========================================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ==========================================================================
+   6. Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .hero {
+        padding: 90px 22px 60px;
+    }
+
+    .hero h1 {
+        font-size: 52px;
+        letter-spacing: -2px;
+    }
+
+    .hero .subtitle {
+        font-size: 19px;
+    }
+
+    .hero .description {
+        font-size: 15px;
+    }
+
+    .hero-logo {
+        width: 150px;
+        margin-top: -10px;
+        margin-bottom: -5px;
+    }
+
+    .hero-logo-fallback {
+        width: 120px;
+        height: 120px;
+        font-size: 48px;
+    }
+
+    .hero-stats {
+        gap: 24px;
+        margin-top: 36px;
+    }
+
+    .hero-stat-value {
+        font-size: 22px;
+    }
+
+    .section-header h2 {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+
+    .section-header p {
+        font-size: 16px;
+    }
+
+    .section {
+        padding: 64px 22px;
+    }
+
+    .about-grid,
+    .leadership-grid,
+    .streamers-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-intro,
+    .about-info,
+    .culture-section,
+    .join-cta,
+    .hub-content {
+        padding: 36px 24px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .leader-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .leader-info {
+        text-align: center;
+    }
+
+    .leader-card.ceo-card {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .leader-card.ceo-card .leader-info {
+        text-align: center;
+    }
+
+    .timeline {
+        padding-left: 32px;
+    }
+
+    .timeline-item {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0 16px;
+    }
+
+    .hero {
+        padding: 80px 16px 48px;
+    }
+
+    .hero-logo {
+        width: 130px;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+        line-height: 1.1;
+    }
+
+    .hero .subtitle {
+        font-size: 16px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .section {
+        padding: 48px 16px;
+    }
+
+    .section-header h2 {
+        font-size: 30px;
+    }
+
+    .about-card,
+    .leader-card,
+    .streamer-card {
+        padding: 28px 22px;
+    }
+
+    .join-steps {
+        grid-template-columns: 1fr;
+    }
+}
