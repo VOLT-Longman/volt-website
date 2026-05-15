@@ -6,13 +6,11 @@
   <meta name="description" content="VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 안전한 운송, 체계적인 무역, 전문적인 정보 전달을 핵심 가치로 운영됩니다.">
   <meta name="keywords" content="VOLT, 스타시티즌, 한국 커뮤니티 함대, 물류, 무역, 게임 커뮤니티">
   <meta name="author" content="VOLT Fleet">
-  <!-- Open Graph -->
   <meta property="og:title" content="VOLT - Voyagers of Logistics and Trade">
   <meta property="og:description" content="한국 커뮤니티의 Star Citizen 물류·무역 전문 함대">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ko_KR">
   <meta property="og:image" content="assets/images/VOLT_logo.png">
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="VOLT - Voyagers of Logistics and Trade">
   <meta name="twitter:description" content="한국 커뮤니티의 Star Citizen 물류·무역 전문 함대">
@@ -21,7 +19,6 @@
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
  </head>
  <body>
-  <!-- Navigation -->
   <nav class="nav" id="nav">
    <div class="nav-container">
     <a href="#home" class="nav-logo" data-section="home">
@@ -39,14 +36,11 @@
      <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="nav-discord">Discord</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
-     <span></span>
-     <span></span>
-     <span></span>
+     <span></span><span></span><span></span>
     </button>
    </div>
   </nav>
 
-  <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="모바일 메뉴">
    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="메뉴 닫기">×</button>
    <ul>
@@ -61,7 +55,6 @@
    </ul>
   </div>
 
-  <!-- Hero Section -->
   <section class="hero" id="home">
    <div class="hero-content">
     <img src="assets/images/VOLT_logo.png" alt="VOLT 함대 로고" class="hero-logo" id="heroLogo" loading="eager" decoding="async" onerror="this.style.display='none'; document.getElementById('heroLogoFallback').classList.add('active');">
@@ -75,27 +68,14 @@
      <a href="#about" data-section="about" class="btn btn-secondary">함대 알아보기</a>
     </div>
     <div class="hero-stats">
-     <div class="hero-stat">
-      <div class="hero-stat-value">2953</div>
-      <div class="hero-stat-label">EST.</div>
-     </div>
-     <div class="hero-stat">
-      <div class="hero-stat-value">49+</div>
-      <div class="hero-stat-label">MEMBERS</div>
-     </div>
-     <div class="hero-stat">
-      <div class="hero-stat-value">KST</div>
-      <div class="hero-stat-label">TIMEZONE</div>
-     </div>
-     <div class="hero-stat">
-      <div class="hero-stat-value">KR</div>
-      <div class="hero-stat-label">REGION</div>
-     </div>
+     <div class="hero-stat"><div class="hero-stat-value">2953</div><div class="hero-stat-label">EST.</div></div>
+     <div class="hero-stat"><div class="hero-stat-value">49+</div><div class="hero-stat-label">MEMBERS</div></div>
+     <div class="hero-stat"><div class="hero-stat-value">KST</div><div class="hero-stat-label">TIMEZONE</div></div>
+     <div class="hero-stat"><div class="hero-stat-value">KR</div><div class="hero-stat-label">REGION</div></div>
     </div>
    </div>
   </section>
 
-  <!-- About Section -->
   <section class="section about" id="about">
    <div class="section-content">
     <div class="section-header">
@@ -108,39 +88,23 @@
      <p>VOLT는 전략적 작전과 자율적 참여를 기반으로 한 한국 커뮤니티 Star Citizen 함대입니다. 물류·무역을 중심으로 전투, 정보, 커뮤니티 운영을 아우르는 통합된 체계적 구조를 갖추고 있으며, 대규모 작전에서도 충돌과 혼란을 최소화하도록 설계되었습니다.</p>
      <p style="margin-top: 16px;">"자율적으로 참여하되, 기준은 명확하다" — VOLT는 강압이 아닌 구조적 리더십을 통해, 구성원들이 예측 가능한 규칙 안에서 안정적으로 협업하는 환경을 추구합니다.</p>
     </div>
-    <!-- 부서 카드 (JS에서 동적 렌더링) -->
     <div class="about-grid" id="about-grid"></div>
-    <!-- 핵심 가치 -->
     <div class="culture-section">
      <h3>VOLT의 핵심 가치</h3>
      <div class="culture-grid" id="culture-grid"></div>
     </div>
-    <!-- 함대 정보 -->
     <div class="about-info">
      <h3>함대 정보</h3>
      <div class="about-info-grid">
-      <div class="info-item">
-       <span class="info-label">FOUNDED</span>
-       <span class="info-value">2953.06.18</span>
-      </div>
-      <div class="info-item">
-       <span class="info-label">PLATFORM</span>
-       <span class="info-value">Star Citizen</span>
-      </div>
-      <div class="info-item">
-       <span class="info-label">TIMEZONE</span>
-       <span class="info-value">아시아 (KST)</span>
-      </div>
-      <div class="info-item">
-       <span class="info-label">CORE VALUES</span>
-       <span class="info-value">효율 · 조직화 · 확장</span>
-      </div>
+      <div class="info-item"><span class="info-label">FOUNDED</span><span class="info-value">2953.06.18</span></div>
+      <div class="info-item"><span class="info-label">PLATFORM</span><span class="info-value">Star Citizen</span></div>
+      <div class="info-item"><span class="info-label">TIMEZONE</span><span class="info-value">아시아 (KST)</span></div>
+      <div class="info-item"><span class="info-label">CORE VALUES</span><span class="info-value">효율 · 조직화 · 확장</span></div>
      </div>
     </div>
    </div>
   </section>
 
-  <!-- Timeline Section -->
   <section class="section timeline-section" id="timeline">
    <div class="section-content">
     <div class="section-header">
@@ -152,7 +116,6 @@
    </div>
   </section>
 
-  <!-- Leadership Section -->
   <section class="section leadership" id="leadership">
    <div class="section-content">
     <div class="section-header">
@@ -164,7 +127,6 @@
    </div>
   </section>
 
-  <!-- Hub Section -->
   <section class="section hub" id="hub">
    <div class="section-content">
     <div class="section-header">
@@ -186,7 +148,6 @@
    </div>
   </section>
 
-  <!-- Streamers Section -->
   <section class="section streamers" id="streamers">
    <div class="section-content">
     <div class="section-header">
@@ -198,7 +159,6 @@
    </div>
   </section>
 
-  <!-- Gallery Section -->
   <section class="section gallery" id="gallery">
    <div class="section-content">
     <div class="section-header">
@@ -214,13 +174,10 @@
      <div class="gallery-item" aria-hidden="true">🌟</div>
      <div class="gallery-item" aria-hidden="true">✨</div>
     </div>
-    <div class="gallery-notice">
-     // 향후 함대 활동 사진이 업로드될 예정입니다
-    </div>
+    <div class="gallery-notice">// 향후 함대 활동 사진이 업로드될 예정입니다</div>
    </div>
   </section>
 
-  <!-- Join Section -->
   <section class="section join" id="join">
    <div class="section-content">
     <div class="join-content">
@@ -242,7 +199,6 @@
    </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
    <div class="footer-content">
     <div class="footer-grid">
@@ -275,7 +231,6 @@
       <ul>
        <li><a href="https://chzzk.naver.com/420728e601f2f4bbcb9cad159f071cec" target="_blank" rel="noopener noreferrer">페르마</a></li>
        <li><a href="https://chzzk.naver.com/b61999886b91fb3fa362cf17fef0fd31" target="_blank" rel="noopener noreferrer">쿠욱밥</a></li>
-       <li><a href="https://chzzk.naver.com/635c06515700592bdb116b3ad561ef94" target="_blank" rel="noopener noreferrer">주이켠</a></li>
       </ul>
      </div>
      <div class="footer-section">
@@ -292,7 +247,6 @@
    </div>
   </footer>
 
-  <!-- 데이터 + 메인 스크립트 (순서 중요: data가 먼저 로드되어야 함) -->
   <script src="data/volt-data.js"></script>
   <script src="js/main.js"></script>
  </body>
