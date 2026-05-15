@@ -143,29 +143,6 @@ const VOLT_DATA = {
                     content: "890 점프의 전설을 가진 조금 기묘한 친구. 함께라면 좋든 나쁘든 항상 사건이 일어나죠!"
                 }
             ]
-        },
-        {
-            id: "juikyeon",
-            name: "주이켠",
-            platform: "치지직",
-            description: "경쟁과 FPS를 즐기는 종합게임 스트리머",
-            image: "assets/images/streamers/juikyeon.png",
-            iconBg: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-            channelUrl: "https://chzzk.naver.com/635c06515700592bdb116b3ad561ef94",
-            sections: [
-                {
-                    title: "⚡ 도전 정신",
-                    content: "남들이 말리던 슈일렌으로 입문해서 우주 탑건을 노리며 정진 중이고, 후엔 어엿한 캡틴이 목표입니다!"
-                },
-                {
-                    title: "🎯 콘텐츠 스타일",
-                    content: "· Star Citizen 경쟁 콘텐츠<br>· FPS 및 전투 중심 게임플레이<br>· 신규 유저 지원<br>· 다양한 종합게임"
-                },
-                {
-                    title: "🤝 커뮤니티",
-                    content: "필요하신 분이 있다면 힘 닿는 한 도와드립니다. 함께 재미있게 즐길 수 있도록 노력하고 있습니다."
-                }
-            ]
         }
     ],
 

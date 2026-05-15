@@ -768,7 +768,7 @@ body {
 .timeline-item::before {
     content: '';
     position: absolute;
-    left: -36px;
+    left: -34px;
     top: 8px;
     width: 14px;
     height: 14px;
