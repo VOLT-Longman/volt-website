@@ -1,9 +1,9 @@
 /**
- * VOLT Fleet - Main Script (v2)
+ * VOLT Fleet - Main Script (v3)
  * ==============================
  * 1. Renderers  - 데이터 → HTML
  * 2. Navigation - 섹션 전환 / URL / 모바일 / 활성 링크
- * 3. Features   - 스플래시 / 테마 / 스크롤 상단 / reveal
+ * 3. Features   - 스플래시 / 테마 / 검색 / 모달 / reveal
  * 4. Init
  */
 
@@ -11,290 +11,329 @@
     'use strict';
 
     const data = window.VOLT_DATA;
-    if (!data) { console.error('VOLT_DATA 미로드'); return; }
-
-    // ============================================================
-    // UTIL
-    // ============================================================
-    function escapeHtml(str) {
-        if (typeof str !== 'string') return '';
-        return str
-            .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    if (!data) {
+        console.error('VOLT_DATA 미로드');
+        return;
     }
 
-    // ============================================================
-    // 1. RENDERERS
-    // ============================================================
+    const PAGE_SIZE = 4;
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'schedule', 'policy', 'faq', 'guide'];
+    const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
+    const shipState = { filter: 'all', query: '', sort: 'name' };
+    let currentSection = null;
+    let revealObserver;
+    let activeModal = null;
+
+    function escapeHtml(value) {
+        if (typeof value !== 'string') return '';
+        return value
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function formatMultilineText(value) {
+        return escapeHtml(value).replace(/\n/g, '<br>');
+    }
+
+    function compareText(left, right) {
+        return left.localeCompare(right, 'ko', { numeric: true, sensitivity: 'base' });
+    }
+
+    function parseLargestNumber(value) {
+        const matches = String(value).match(/\d+/g);
+        if (!matches) return 0;
+        return Math.max(...matches.map(Number));
+    }
+
+    function getCargoValue(value) {
+        return Number(String(value).replace(/[^\d]/g, '')) || 0;
+    }
+
+    function observeNewReveals(container) {
+        if (!revealObserver || !container) return;
+        container.querySelectorAll('.reveal:not(.revealed)').forEach((element) => revealObserver.observe(element));
+    }
 
     function renderLeaders() {
-        const c = document.getElementById('leadership-grid');
-        if (!c) return;
-        c.innerHTML = data.leadership.map(l => {
-            const isCeo = l.avatarStyle === 'ceo';
-            const avatarStyle = l.avatarGradient ? `style="background:${l.avatarGradient};"` : '';
-            const detailsHtml = l.details ? `<div class="leader-details">${l.details.map(d=>`
-                <div class="leader-details-item"><strong>${escapeHtml(d.title)}</strong><p>${escapeHtml(d.content)}</p></div>`).join('')}</div>` : '';
-            const compHtml = l.competencies ? `<div class="leader-competencies"><strong>핵심 역량</strong><ul>${l.competencies.map(c=>`<li>${escapeHtml(c)}</li>`).join('')}</ul></div>` : '';
-            const dutiesHtml = l.duties ? `<div class="leader-duties"><strong>주요 업무</strong> · ${escapeHtml(l.duties)}</div>` : '';
-            return `<div class="${isCeo?'leader-card ceo-card':'leader-card'} reveal">
-                <div class="leader-avatar" ${avatarStyle} aria-hidden="true">${escapeHtml(l.avatar)}</div>
+        const container = document.getElementById('leadership-grid');
+        if (!container || !Array.isArray(data.leadership)) return;
+        container.innerHTML = data.leadership.map((leader) => {
+            const avatarStyle = leader.avatarGradient ? `style="background:${escapeHtml(leader.avatarGradient)};"` : '';
+            const details = renderLeaderDetails(leader);
+            return `<div class="${leader.avatarStyle === 'ceo' ? 'leader-card ceo-card' : 'leader-card'} reveal">
+                <div class="leader-avatar" ${avatarStyle} aria-hidden="true">${escapeHtml(leader.avatar)}</div>
                 <div class="leader-info">
-                    <h3>${escapeHtml(l.name)}</h3>
-                    <span class="leader-role">${escapeHtml(l.role)}</span>
-                    <p class="leader-contact">Discord: ${escapeHtml(l.discord)}</p>
-                    <p class="leader-description">${escapeHtml(l.description)}</p>
-                    ${detailsHtml}${compHtml}${dutiesHtml}
-                </div></div>`;
+                    <h3>${escapeHtml(leader.name)}</h3>
+                    <span class="leader-role">${escapeHtml(leader.role)}</span>
+                    <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
+                    <p class="leader-description">${escapeHtml(leader.description)}</p>
+                    ${details}
+                </div>
+            </div>`;
         }).join('');
     }
 
+    function renderLeaderDetails(leader) {
+        const details = Array.isArray(leader.details) ? `<div class="leader-details">${leader.details.map((item) => `
+            <div class="leader-details-item"><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.content)}</p></div>`).join('')}</div>` : '';
+        const competencies = Array.isArray(leader.competencies) ? `<div class="leader-competencies"><strong>핵심 역량</strong><ul>${leader.competencies.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>` : '';
+        const duties = leader.duties ? `<div class="leader-duties"><strong>주요 업무</strong> · ${escapeHtml(leader.duties)}</div>` : '';
+        return `${details}${competencies}${duties}`;
+    }
+
     function renderStreamers() {
-        const c = document.getElementById('streamers-grid');
-        if (!c) return;
-        c.innerHTML = data.streamers.map(s => {
-            const icon = s.image
-                ? `<img src="${escapeHtml(s.image)}" alt="${escapeHtml(s.name)}" onerror="this.parentElement.innerHTML='<div class=&quot;streamer-icon-fallback&quot;>👤</div>'">`
-                : `<div class="streamer-icon-fallback">👤</div>`;
-            const secs = s.sections.map(sec=>`<div class="streamer-sub-section"><h4>${escapeHtml(sec.title)}</h4><p>${sec.content}</p></div>`).join('');
+        const container = document.getElementById('streamers-grid');
+        if (!container || !Array.isArray(data.streamers)) return;
+        container.innerHTML = data.streamers.map((streamer) => {
+            const icon = streamer.image
+                ? `<img src="${escapeHtml(streamer.image)}" alt="${escapeHtml(streamer.name)}" loading="lazy" decoding="async">`
+                : '<div class="streamer-icon-fallback">👤</div>';
             return `<div class="streamer-card reveal">
                 <div class="streamer-icon">${icon}</div>
-                <h3>${escapeHtml(s.name)}</h3>
-                <span class="streamer-platform">${escapeHtml(s.platform)}</span>
-                <p class="streamer-description">${escapeHtml(s.description)}</p>
-                <div class="streamer-details">${secs}</div>
-                <a href="${escapeHtml(s.channelUrl)}" target="_blank" rel="noopener noreferrer" class="streamer-link">방송 보기</a>
+                <h3>${escapeHtml(streamer.name)}</h3>
+                <span class="streamer-platform">${escapeHtml(streamer.platform)}</span>
+                <p class="streamer-description">${escapeHtml(streamer.description)}</p>
+                <div class="streamer-details">${streamer.sections.map((section) => `<div class="streamer-sub-section"><h4>${escapeHtml(section.title)}</h4><p>${formatMultilineText(section.content)}</p></div>`).join('')}</div>
+                <a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer" class="streamer-link">방송 보기</a>
             </div>`;
         }).join('');
     }
 
     function renderTimeline() {
-        const c = document.getElementById('timeline-list');
-        if (!c) return;
-        c.innerHTML = data.timeline.map(t=>`
+        const container = document.getElementById('timeline-list');
+        if (!container || !Array.isArray(data.timeline)) return;
+        container.innerHTML = data.timeline.map((item) => `
             <div class="timeline-item reveal">
-                <div class="timeline-date">${escapeHtml(t.date)}</div>
-                <div class="timeline-title">${escapeHtml(t.title)}</div>
-                <div class="timeline-desc">${escapeHtml(t.description)}</div>
+                <div class="timeline-date">${escapeHtml(item.date)}</div>
+                <div class="timeline-title">${escapeHtml(item.title)}</div>
+                <div class="timeline-desc">${escapeHtml(item.description)}</div>
             </div>`).join('');
     }
 
     function renderDepartments() {
-        const c = document.getElementById('about-grid');
-        if (!c) return;
-        c.innerHTML = data.departments.map(d=>`
+        const container = document.getElementById('about-grid');
+        if (!container || !Array.isArray(data.departments)) return;
+        container.innerHTML = data.departments.map((department) => `
             <div class="card about-card reveal">
-                <h3>${escapeHtml(d.icon)} ${escapeHtml(d.name)}</h3>
-                <p>${escapeHtml(d.description)}</p>
+                <h3>${escapeHtml(department.icon)} ${escapeHtml(department.name)}</h3>
+                <p>${escapeHtml(department.description)}</p>
             </div>`).join('');
     }
 
     function renderCoreValues() {
-        const c = document.getElementById('culture-grid');
-        if (!c) return;
-        c.innerHTML = data.coreValues.map(v=>`
+        const container = document.getElementById('culture-grid');
+        if (!container || !Array.isArray(data.coreValues)) return;
+        container.innerHTML = data.coreValues.map((value) => `
             <div class="culture-item reveal">
-                <h4>${escapeHtml(v.title)}</h4>
-                <p>${escapeHtml(v.description)}</p>
+                <h4>${escapeHtml(value.title)}</h4>
+                <p>${escapeHtml(value.description)}</p>
             </div>`).join('');
     }
 
     function renderHubFeatures() {
-        const c = document.getElementById('hub-features');
-        if (!c) return;
-        c.innerHTML = data.hub.features.map(f=>`
+        const container = document.getElementById('hub-features');
+        if (!container || !data.hub || !Array.isArray(data.hub.features)) return;
+        container.innerHTML = data.hub.features.map((feature) => `
             <div class="hub-feature reveal">
-                <h4>${escapeHtml(f.icon)} ${escapeHtml(f.title)}</h4>
-                <ul>${f.items.map(i=>`<li>${escapeHtml(i)}</li>`).join('')}</ul>
+                <h4>${escapeHtml(feature.icon)} ${escapeHtml(feature.title)}</h4>
+                <ul>${feature.items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
             </div>`).join('');
     }
 
     function renderJoinSteps() {
-        const c = document.getElementById('join-steps');
-        if (!c) return;
-        c.innerHTML = data.joinSteps.map(s=>`
+        const container = document.getElementById('join-steps');
+        if (!container || !Array.isArray(data.joinSteps)) return;
+        container.innerHTML = data.joinSteps.map((step) => `
             <div class="join-step reveal">
-                <div class="step-number">${s.number}</div>
-                <h4>${escapeHtml(s.title)}</h4>
-                <p>${escapeHtml(s.description)}</p>
+                <div class="step-number">${escapeHtml(String(step.number))}</div>
+                <h4>${escapeHtml(step.title)}</h4>
+                <p>${escapeHtml(step.description)}</p>
             </div>`).join('');
     }
 
     function renderFooterStreamers() {
-        const c = document.getElementById('footer-streamers-list');
-        if (!c) return;
-        c.innerHTML = data.streamers.map(s=>`
-            <li><a href="${escapeHtml(s.channelUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.name)}</a></li>`).join('');
+        const container = document.getElementById('footer-streamers-list');
+        if (!container || !Array.isArray(data.streamers)) return;
+        container.innerHTML = data.streamers.map((streamer) => `
+            <li><a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(streamer.name)}</a></li>`).join('');
     }
 
-    // ── 공지사항 ──
-    function renderAnnouncements() {
-        const c = document.getElementById('notices-list');
-        if (!c || !data.announcements) return;
-        const tagColors = { orange:'var(--volt-orange)', red:'#e53e3e', blue:'#3182ce', green:'#38a169' };
-        c.innerHTML = data.announcements.map(a=>`
-            <div class="notice-card reveal">
-                <div class="notice-meta">
-                    <span class="notice-tag" style="background:${tagColors[a.tagColor]||'var(--volt-orange)'}20;color:${tagColors[a.tagColor]||'var(--volt-orange)'};">${escapeHtml(a.tag)}</span>
-                    <span class="notice-date">${escapeHtml(a.date)}</span>
-                </div>
-                <h3 class="notice-title">${escapeHtml(a.title)}</h3>
-                <p class="notice-content">${escapeHtml(a.content)}</p>
-            </div>`).join('');
-    }
-
-    // ── 함선 데이터베이스 ──
-    let allShips = [];
-
-    function renderShips(filter = 'all', query = '') {
-        const c = document.getElementById('ships-grid');
-        if (!c || !data.ships) return;
-
-        const filtered = data.ships.filter(s => {
-            const matchFilter = filter === 'all' || s.tags.includes(filter);
-            const q = query.toLowerCase();
-            const matchQuery = !q || s.name.toLowerCase().includes(q) || s.manufacturer.toLowerCase().includes(q) || s.role.toLowerCase().includes(q);
-            return matchFilter && matchQuery;
-        });
-
-        if (filtered.length === 0) {
-            c.innerHTML = '<div class="ships-empty">검색 결과가 없습니다.</div>';
+    function renderGallery() {
+        const container = document.getElementById('gallery-grid');
+        if (!container || !Array.isArray(data.gallery)) return;
+        if (data.gallery.length === 0) {
+            container.innerHTML = '<div class="gallery-empty">assets/images/gallery/에 이미지를 추가하고 volt-data.js의 gallery 배열에 등록하면 자동으로 표시됩니다.</div>';
             return;
         }
+        container.innerHTML = data.gallery.map((item) => `
+            <button class="gallery-item reveal" type="button" data-gallery-id="${escapeHtml(item.id)}" aria-label="${escapeHtml(item.title)} 크게 보기">
+                <img src="${escapeHtml(item.thumb || item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
+                <span class="gallery-item-overlay">
+                    <span class="gallery-item-title">${escapeHtml(item.title)}</span>
+                    <span class="gallery-item-meta">${escapeHtml(item.date)}</span>
+                </span>
+            </button>`).join('');
+        observeNewReveals(container);
+    }
 
-        const focusColors = { 물류:'#f6ad55', 전투:'#fc8181', 탐사:'#68d391', 채굴:'#76e4f7' };
-        c.innerHTML = filtered.map(s=>`
-            <div class="ship-card reveal">
+    function getNoticeTags() {
+        if (!Array.isArray(data.announcements)) return [];
+        return [...new Set(data.announcements.map((announcement) => announcement.tag))];
+    }
+
+    function renderNoticeFilters() {
+        const container = document.getElementById('notice-filters');
+        if (!container) return;
+        const buttons = ['all', ...getNoticeTags()].map((tag) => {
+            const label = tag === 'all' ? '전체' : tag;
+            const active = tag === noticeState.tag ? ' active' : '';
+            return `<button class="notice-filter-btn${active}" type="button" data-tag="${escapeHtml(tag)}">${escapeHtml(label)}</button>`;
+        });
+        container.innerHTML = buttons.join('');
+    }
+
+    function getFilteredAnnouncements() {
+        if (!Array.isArray(data.announcements)) return [];
+        return [...data.announcements]
+            .filter((announcement) => noticeState.tag === 'all' || announcement.tag === noticeState.tag)
+            .sort((left, right) => right.date.localeCompare(left.date));
+    }
+
+    function renderAnnouncements() {
+        const container = document.getElementById('notices-list');
+        const loadMore = document.getElementById('notice-load-more');
+        if (!container || !loadMore) return;
+        const colors = { '공지': 'var(--volt-orange)', '정책': '#e53e3e', '작전': '#3182ce', '시스템': '#38a169' };
+        const items = getFilteredAnnouncements();
+        const visibleItems = items.slice(0, noticeState.visibleCount);
+        container.innerHTML = visibleItems.map((announcement) => `
+            <div class="notice-card reveal">
+                <div class="notice-meta">
+                    <span class="notice-tag" style="background:${colors[announcement.tag] || 'var(--volt-orange)'}20;color:${colors[announcement.tag] || 'var(--volt-orange)'};">${escapeHtml(announcement.tag)}</span>
+                    <span class="notice-date">${escapeHtml(announcement.date)}</span>
+                </div>
+                <h3 class="notice-title">${escapeHtml(announcement.title)}</h3>
+                <p class="notice-content">${escapeHtml(announcement.content)}</p>
+            </div>`).join('');
+        loadMore.hidden = visibleItems.length >= items.length;
+        observeNewReveals(container);
+    }
+
+    function getSortedShips() {
+        if (!Array.isArray(data.ships)) return [];
+        const sizeOrder = { '소형': 1, '중형': 2, '대형': 3 };
+        return [...data.ships].sort((left, right) => {
+            if (shipState.sort === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99) || compareText(left.name, right.name);
+            if (shipState.sort === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew) || compareText(left.name, right.name);
+            if (shipState.sort === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo) || compareText(left.name, right.name);
+            return compareText(left.name, right.name);
+        });
+    }
+
+    function getVisibleShips() {
+        const query = shipState.query.trim().toLowerCase();
+        return getSortedShips().filter((ship) => {
+            const matchesFilter = shipState.filter === 'all' || ship.tags.includes(shipState.filter);
+            const haystack = [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description].join(' ').toLowerCase();
+            return matchesFilter && (!query || haystack.includes(query));
+        });
+    }
+
+    function renderShips() {
+        const container = document.getElementById('ships-grid');
+        if (!container) return;
+        const ships = getVisibleShips();
+        if (ships.length === 0) {
+            container.innerHTML = '<div class="ships-empty">검색 결과가 없습니다.</div>';
+            return;
+        }
+        const focusColors = { '물류': '#f6ad55', '전투': '#fc8181', '탐사': '#68d391', '채굴': '#76e4f7' };
+        container.innerHTML = ships.map((ship) => `
+            <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(ship.name)} 상세 보기">
                 <div class="ship-card-header">
                     <div>
-                        <h3 class="ship-name">${escapeHtml(s.name)}</h3>
-                        <span class="ship-mfr">${escapeHtml(s.manufacturer)}</span>
+                        <h3 class="ship-name">${escapeHtml(ship.name)}</h3>
+                        <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
-                    <span class="ship-focus-badge" style="background:${focusColors[s.focus]||'#a0aec0'}22;color:${focusColors[s.focus]||'#a0aec0'};">${escapeHtml(s.focus)}</span>
+                    <span class="ship-focus-badge" style="background:${focusColors[ship.focus] || '#a0aec0'}22;color:${focusColors[ship.focus] || '#a0aec0'};">${escapeHtml(ship.focus)}</span>
                 </div>
-                <p class="ship-desc">${escapeHtml(s.description)}</p>
+                <p class="ship-desc">${escapeHtml(ship.description)}</p>
                 <div class="ship-stats">
-                    <div class="ship-stat"><span class="ship-stat-label">역할</span><span class="ship-stat-value">${escapeHtml(s.role)}</span></div>
-                    <div class="ship-stat"><span class="ship-stat-label">크기</span><span class="ship-stat-value">${escapeHtml(s.size)}</span></div>
-                    <div class="ship-stat"><span class="ship-stat-label">승무원</span><span class="ship-stat-value">${escapeHtml(s.crew)}</span></div>
-                    <div class="ship-stat"><span class="ship-stat-label">화물</span><span class="ship-stat-value">${escapeHtml(s.cargo)}</span></div>
+                    <div class="ship-stat"><span class="ship-stat-label">역할</span><span class="ship-stat-value">${escapeHtml(ship.role)}</span></div>
+                    <div class="ship-stat"><span class="ship-stat-label">크기</span><span class="ship-stat-value">${escapeHtml(ship.size)}</span></div>
+                    <div class="ship-stat"><span class="ship-stat-label">승무원</span><span class="ship-stat-value">${escapeHtml(ship.crew)}</span></div>
+                    <div class="ship-stat"><span class="ship-stat-label">화물</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
                 </div>
-                <div class="ship-tags">${s.tags.map(t=>`<span class="ship-tag">${escapeHtml(t)}</span>`).join('')}</div>
-            </div>`).join('');
-
-        // 새로 렌더링된 reveal 요소 Observer 등록
-        if (revealObserver) {
-            c.querySelectorAll('.reveal:not(.revealed)').forEach(el => revealObserver.observe(el));
-        }
+                <div class="ship-tags">${ship.tags.map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+            </article>`).join('');
+        observeNewReveals(container);
     }
 
-    function setupShipFilters() {
-        const btns = document.querySelectorAll('.ship-filter-btn');
-        const search = document.getElementById('ship-search');
-        let currentFilter = 'all';
-        let currentQuery = '';
-
-        btns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                btns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.getAttribute('data-filter');
-                renderShips(currentFilter, currentQuery);
-            });
-        });
-
-        if (search) {
-            search.addEventListener('input', () => {
-                currentQuery = search.value;
-                renderShips(currentFilter, currentQuery);
-            });
-        }
-    }
-
-    // ── 작전 일정 ──
     function renderSchedule() {
-        const c = document.getElementById('schedule-list');
-        if (!c || !data.calendar) return;
-        const statusColors = { 예정:'var(--volt-orange)', 대기:'#a0aec0', 계획:'#63b3ed' };
-        c.innerHTML = data.calendar.map(e=>`
+        const container = document.getElementById('schedule-list');
+        if (!container || !Array.isArray(data.calendar)) return;
+        const colors = { '예정': 'var(--volt-orange)', '대기': '#a0aec0', '계획': '#63b3ed' };
+        container.innerHTML = data.calendar.map((event) => `
             <div class="schedule-item reveal">
                 <div class="schedule-date-col">
-                    <span class="schedule-date">${escapeHtml(e.dateLabel)}</span>
-                    <span class="schedule-status" style="color:${statusColors[e.status]||'#a0aec0'};">${escapeHtml(e.status)}</span>
+                    <span class="schedule-date">${escapeHtml(event.dateLabel)}</span>
+                    <span class="schedule-status" style="color:${colors[event.status] || '#a0aec0'};">${escapeHtml(event.status)}</span>
                 </div>
                 <div class="schedule-body">
-                    <div class="schedule-type-badge">${escapeHtml(e.type)}</div>
-                    <h3>${escapeHtml(e.title)}</h3>
-                    <p>${escapeHtml(e.description)}</p>
+                    <div class="schedule-type-badge">${escapeHtml(event.type)}</div>
+                    <h3>${escapeHtml(event.title)}</h3>
+                    <p>${escapeHtml(event.description)}</p>
                 </div>
             </div>`).join('');
     }
 
-    // ── 운영정책 ──
     function renderPolicy() {
-        const c = document.getElementById('policy-list');
-        if (!c || !data.policy) return;
-        const noticeHtml = (notice) => notice ? `<div class="policy-notice">${escapeHtml(notice)}</div>` : '';
-        c.innerHTML = `
-            <div class="policy-updated">최종 업데이트: ${escapeHtml(data.policy.lastUpdated)}</div>
-            ${data.policy.sections.map(sec=>`
-                <div class="policy-section reveal">
-                    <h3 class="policy-section-title">${escapeHtml(sec.title)}</h3>
-                    ${noticeHtml(sec.notice)}
-                    <div class="policy-items">
-                        ${sec.items.map(item=>`
-                            <div class="policy-item">
-                                <span class="policy-num">${escapeHtml(item.num)}</span>
-                                <span class="policy-text">${escapeHtml(item.text)}</span>
-                            </div>`).join('')}
-                    </div>
-                </div>`).join('')}`;
+        const container = document.getElementById('policy-list');
+        if (!container || !data.policy || !Array.isArray(data.policy.sections)) return;
+        container.innerHTML = `<div class="policy-updated">최종 업데이트: ${escapeHtml(data.policy.lastUpdated)}</div>
+            ${data.policy.sections.map((section, index) => renderPolicySection(section, index)).join('')}`;
     }
 
-    // ── FAQ 아코디언 ──
+    function renderPolicySection(section, index) {
+        const sectionId = `policy-section-${index + 1}`;
+        const notice = section.notice ? `<div class="policy-notice">${escapeHtml(section.notice)}</div>` : '';
+        return `<div class="policy-section reveal" id="${sectionId}">
+            <div class="policy-section-heading">
+                <h3 class="policy-section-title">${escapeHtml(section.title)}</h3>
+                <button class="policy-anchor-copy" type="button" data-policy-index="${index + 1}" aria-label="${escapeHtml(section.title)} 링크 복사">🔗</button>
+            </div>
+            ${notice}
+            <div class="policy-items">${section.items.map((item) => `<div class="policy-item"><span class="policy-num">${escapeHtml(item.num)}</span><span class="policy-text">${escapeHtml(item.text)}</span></div>`).join('')}</div>
+        </div>`;
+    }
+
     function renderFaq() {
-        const c = document.getElementById('faq-list');
-        if (!c || !data.faq) return;
-        c.innerHTML = `<div class="faq-accordion">${data.faq.map((f, i)=>`
-            <div class="faq-item reveal" id="faq-item-${i}">
-                <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-${i}">
-                    <span>${escapeHtml(f.q)}</span>
+        const container = document.getElementById('faq-list');
+        if (!container || !Array.isArray(data.faq)) return;
+        container.innerHTML = `<div class="faq-accordion">${data.faq.map((item, index) => `
+            <div class="faq-item reveal" id="faq-item-${index}">
+                <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-${index}">
+                    <span>${escapeHtml(item.q)}</span>
                     <span class="faq-icon">+</span>
                 </button>
-                <div class="faq-answer" id="faq-ans-${i}" role="region">
-                    <p>${escapeHtml(f.a)}</p>
+                <div class="faq-answer" id="faq-ans-${index}" role="region">
+                    <p>${escapeHtml(item.a)}</p>
                 </div>
             </div>`).join('')}</div>`;
-
-        c.querySelectorAll('.faq-question').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const expanded = btn.getAttribute('aria-expanded') === 'true';
-                // 다른 항목 닫기
-                c.querySelectorAll('.faq-question').forEach(b => {
-                    b.setAttribute('aria-expanded', 'false');
-                    b.querySelector('.faq-icon').textContent = '+';
-                    b.nextElementSibling.style.maxHeight = null;
-                });
-                if (!expanded) {
-                    btn.setAttribute('aria-expanded', 'true');
-                    btn.querySelector('.faq-icon').textContent = '−';
-                    const ans = btn.nextElementSibling;
-                    ans.style.maxHeight = ans.scrollHeight + 'px';
-                }
-            });
-        });
     }
 
-    // ── 무역 가이드 ──
     function renderTradeGuide() {
-        const c = document.getElementById('guide-list');
-        if (!c || !data.tradeGuide) return;
-        c.innerHTML = data.tradeGuide.map(g=>`
+        const container = document.getElementById('guide-list');
+        if (!container || !Array.isArray(data.tradeGuide)) return;
+        container.innerHTML = data.tradeGuide.map((guide) => `
             <div class="guide-card reveal">
-                <div class="guide-step-num">${g.step}</div>
-                <div class="guide-icon">${escapeHtml(g.icon)}</div>
-                <h3>${escapeHtml(g.title)}</h3>
-                <p>${escapeHtml(g.content)}</p>
+                <div class="guide-step-num">${escapeHtml(String(guide.step))}</div>
+                <div class="guide-icon">${escapeHtml(guide.icon)}</div>
+                <h3>${escapeHtml(guide.title)}</h3>
+                <p>${escapeHtml(guide.content)}</p>
             </div>`).join('');
     }
 
@@ -305,59 +344,51 @@
         renderLeaders();
         renderHubFeatures();
         renderStreamers();
+        renderGallery();
         renderJoinSteps();
         renderFooterStreamers();
+        renderNoticeFilters();
         renderAnnouncements();
-        renderShips('all', '');
+        renderShips();
         renderSchedule();
         renderPolicy();
         renderFaq();
         renderTradeGuide();
-        setupShipFilters();
     }
 
-    // ============================================================
-    // 2. NAVIGATION
-    // ============================================================
-
-    let currentSection = null;
-    let revealObserver;
-
-    const VALID_SECTIONS = ['about','timeline','leadership','hub','streamers','gallery','join','notices','ships','schedule','policy','faq','guide'];
-
     function updateActiveNav(id) {
-        document.querySelectorAll('.nav-links [data-section]').forEach(l => {
-            l.classList.toggle('nav-active', l.getAttribute('data-section') === id);
+        document.querySelectorAll('.nav-links [data-section]').forEach((link) => {
+            link.classList.toggle('nav-active', link.getAttribute('data-section') === id);
         });
     }
 
     function showSection(id, push = true) {
         if (id === currentSection) return;
-        currentSection = id;
-
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         const home = document.getElementById('home');
-
+        if (!home) return;
+        currentSection = id;
+        document.querySelectorAll('.section').forEach((section) => section.classList.remove('active'));
         if (id === 'home') {
             home.style.display = 'flex';
         } else {
             home.style.display = 'none';
-            const target = document.getElementById(id);
-            if (target) {
-                target.classList.add('active');
-                if (revealObserver) {
-                    target.querySelectorAll('.reveal:not(.revealed)').forEach(el => revealObserver.observe(el));
-                }
-            }
+            activateSection(id);
         }
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
         updateActiveNav(id);
+        if (push) updateHistory(id);
+    }
 
-        if (push) {
-            const hash = id === 'home' ? '' : `#${id}`;
-            history.pushState({ section: id }, '', hash || window.location.pathname);
-        }
+    function activateSection(id) {
+        const target = document.getElementById(id);
+        if (!target) return;
+        target.classList.add('active');
+        observeNewReveals(target);
+    }
+
+    function updateHistory(id) {
+        const hash = id === 'home' ? '' : `#${id}`;
+        history.pushState({ section: id }, '', hash || window.location.pathname);
     }
 
     function getInitialSection() {
@@ -366,55 +397,357 @@
     }
 
     function setupNavLinks() {
-        document.querySelectorAll('[data-section]').forEach(l => {
-            l.addEventListener('click', e => {
-                e.preventDefault();
-                showSection(l.getAttribute('data-section'));
+        document.querySelectorAll('[data-section]').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                showSection(link.getAttribute('data-section'));
             });
         });
     }
 
     function setupMobileMenu() {
-        const ham = document.getElementById('hamburger');
         const menu = document.getElementById('mobileMenu');
-        const close = document.getElementById('mobileMenuClose');
-        if (!ham || !menu || !close) return;
-
-        const open = () => { menu.classList.add('active'); ham.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; };
-        const shut = () => { menu.classList.remove('active'); ham.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
-
-        ham.addEventListener('click', open);
-        close.addEventListener('click', shut);
-        document.addEventListener('keydown', e => { if (e.key==='Escape' && menu.classList.contains('active')) shut(); });
-        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { if(menu.classList.contains('active')) shut(); }));
+        const openButton = document.getElementById('hamburger');
+        const closeButton = document.getElementById('mobileMenuClose');
+        if (!menu || !openButton || !closeButton) return;
+        const open = () => setMobileMenuState(menu, openButton, true);
+        const close = () => setMobileMenuState(menu, openButton, false);
+        openButton.addEventListener('click', open);
+        closeButton.addEventListener('click', close);
+        menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && menu.classList.contains('active')) close();
+        });
     }
 
-    // ============================================================
-    // 3. FEATURES
-    // ============================================================
+    function setMobileMenuState(menu, button, isOpen) {
+        menu.classList.toggle('active', isOpen);
+        button.setAttribute('aria-expanded', String(isOpen));
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
 
-    // ── 로딩 스플래시 ──
+    function setupNoticeControls() {
+        const filters = document.getElementById('notice-filters');
+        const loadMore = document.getElementById('notice-load-more');
+        if (!filters || !loadMore) return;
+        filters.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-tag]');
+            if (!button) return;
+            noticeState.tag = button.getAttribute('data-tag');
+            noticeState.visibleCount = PAGE_SIZE;
+            renderNoticeFilters();
+            renderAnnouncements();
+        });
+        loadMore.addEventListener('click', () => {
+            noticeState.visibleCount += PAGE_SIZE;
+            renderAnnouncements();
+        });
+    }
+
+    function setupShipControls() {
+        const filters = document.querySelector('.ship-filters');
+        const search = document.getElementById('ship-search');
+        const sort = document.getElementById('ship-sort');
+        const grid = document.getElementById('ships-grid');
+        if (!filters || !search || !sort || !grid) return;
+        filters.addEventListener('click', handleShipFilterClick);
+        search.addEventListener('input', () => { shipState.query = search.value; renderShips(); });
+        sort.addEventListener('change', () => { shipState.sort = sort.value; renderShips(); });
+        grid.addEventListener('click', openShipFromEvent);
+        grid.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') openShipFromEvent(event);
+        });
+    }
+
+    function handleShipFilterClick(event) {
+        const button = event.target.closest('[data-filter]');
+        if (!button) return;
+        document.querySelectorAll('.ship-filter-btn').forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        shipState.filter = button.getAttribute('data-filter');
+        renderShips();
+    }
+
+    function openShipFromEvent(event) {
+        const card = event.target.closest('[data-ship-id]');
+        if (!card) return;
+        event.preventDefault();
+        const ship = data.ships.find((item) => item.id === card.getAttribute('data-ship-id'));
+        if (ship) openShipModal(ship);
+    }
+
+    function setupGalleryInteractions() {
+        const grid = document.getElementById('gallery-grid');
+        if (!grid) return;
+        grid.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-gallery-id]');
+            if (!button) return;
+            const item = data.gallery.find((galleryItem) => galleryItem.id === button.getAttribute('data-gallery-id'));
+            if (item) openGalleryLightbox(item);
+        });
+    }
+
+    function ensureModalRoot() {
+        let modal = document.getElementById('global-modal');
+        if (modal) return modal;
+        modal = document.createElement('div');
+        modal.id = 'global-modal';
+        modal.className = 'modal-backdrop';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(modal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeModal();
+        });
+        return modal;
+    }
+
+    function openModal(content, wide = false) {
+        const modal = ensureModalRoot();
+        modal.innerHTML = `<div class="modal-card${wide ? ' modal-card-wide' : ''}" role="dialog" aria-modal="true">${content}</div>`;
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        activeModal = modal;
+        modal.querySelector('.modal-close')?.focus();
+    }
+
+    function closeModal() {
+        if (!activeModal) return;
+        activeModal.classList.remove('active');
+        activeModal.setAttribute('aria-hidden', 'true');
+        activeModal.innerHTML = '';
+        activeModal = null;
+        document.body.style.overflow = '';
+    }
+
+    function openShipModal(ship) {
+        const slug = ship.rsiSlug || ship.id;
+        const url = `https://robertsspaceindustries.com/en/pledge/ships/${encodeURIComponent(slug)}`;
+        openModal(`<div class="modal-header">
+                <div>
+                    <div class="ship-mfr">${escapeHtml(ship.manufacturer)}</div>
+                    <h2 class="modal-title">${escapeHtml(ship.name)}</h2>
+                </div>
+                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+            </div>
+            <div class="modal-body">
+                <p>${escapeHtml(ship.description)}</p>
+                <div class="ship-modal-grid">
+                    <div class="ship-modal-stat"><span>역할</span><strong>${escapeHtml(ship.role)}</strong></div>
+                    <div class="ship-modal-stat"><span>크기</span><strong>${escapeHtml(ship.size)}</strong></div>
+                    <div class="ship-modal-stat"><span>승무원</span><strong>${escapeHtml(ship.crew)}</strong></div>
+                    <div class="ship-modal-stat"><span>화물</span><strong>${escapeHtml(ship.cargo)}</strong></div>
+                </div>
+                <a class="btn btn-primary ship-modal-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">RSI 공식 페이지</a>
+            </div>`);
+    }
+
+    function openGalleryLightbox(item) {
+        openModal(`<div class="modal-header">
+                <div>
+                    <div class="ship-mfr">${escapeHtml(item.date)}</div>
+                    <h2 class="modal-title">${escapeHtml(item.title)}</h2>
+                </div>
+                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+            </div>
+            <img class="gallery-lightbox-image" src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
+            <div class="gallery-lightbox-copy"><p>${escapeHtml(item.description)}</p></div>`, true);
+    }
+
+    function setupModalControls() {
+        document.addEventListener('click', (event) => {
+            if (event.target.closest('.modal-close')) closeModal();
+        });
+    }
+
+    function setupPolicyAnchors() {
+        const policy = document.getElementById('policy-list');
+        if (!policy) return;
+        policy.addEventListener('click', async (event) => {
+            const button = event.target.closest('[data-policy-index]');
+            if (!button) return;
+            const index = button.getAttribute('data-policy-index');
+            await copyPolicyUrl(index, button);
+        });
+    }
+
+    async function copyPolicyUrl(index, button) {
+        const suffix = `/policy#section-${index}`;
+        const value = window.location.origin === 'null' ? suffix : `${window.location.origin}${suffix}`;
+        try {
+            if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(value);
+            else copyTextFallback(value);
+            showCopyFeedback(button);
+        } catch (error) {
+            try {
+                copyTextFallback(value);
+                showCopyFeedback(button);
+            } catch (fallbackError) {
+                console.error('정책 링크 복사 실패', fallbackError || error);
+            }
+        }
+    }
+
+    function copyTextFallback(value) {
+        const input = document.createElement('textarea');
+        input.value = value;
+        input.setAttribute('readonly', '');
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        const copied = document.execCommand('copy');
+        document.body.removeChild(input);
+        if (!copied) throw new Error('복사 명령 실패');
+    }
+
+    function showCopyFeedback(button) {
+        const original = button.textContent;
+        button.textContent = '✓';
+        window.setTimeout(() => { button.textContent = original; }, 1200);
+    }
+
+    function setupFaqAccordion() {
+        const container = document.getElementById('faq-list');
+        if (!container) return;
+        container.addEventListener('click', (event) => {
+            const button = event.target.closest('.faq-question');
+            if (!button) return;
+            const expanded = button.getAttribute('aria-expanded') === 'true';
+            container.querySelectorAll('.faq-question').forEach(collapseFaqItem);
+            if (!expanded) expandFaqItem(button);
+        });
+    }
+
+    function collapseFaqItem(button) {
+        button.setAttribute('aria-expanded', 'false');
+        button.querySelector('.faq-icon').textContent = '+';
+        button.nextElementSibling.style.maxHeight = null;
+    }
+
+    function expandFaqItem(button) {
+        button.setAttribute('aria-expanded', 'true');
+        button.querySelector('.faq-icon').textContent = '−';
+        const answer = button.nextElementSibling;
+        answer.style.maxHeight = `${answer.scrollHeight}px`;
+    }
+
+    function setupSearch() {
+        const overlay = document.getElementById('search-overlay');
+        const desktopButton = document.getElementById('search-toggle');
+        const mobileButton = document.getElementById('mobile-search-toggle');
+        const closeButton = document.getElementById('search-close');
+        const input = document.getElementById('global-search-input');
+        if (!overlay || !desktopButton || !mobileButton || !closeButton || !input) return;
+        const open = () => openSearch(overlay, input);
+        desktopButton.addEventListener('click', open);
+        mobileButton.addEventListener('click', open);
+        closeButton.addEventListener('click', () => closeSearch(overlay, input));
+        overlay.addEventListener('click', (event) => { if (event.target === overlay) closeSearch(overlay, input); });
+        input.addEventListener('input', () => renderSearchResults(input.value));
+    }
+
+    function openSearch(overlay, input) {
+        if (!overlay || !input) return;
+        const mobileMenu = document.getElementById('mobileMenu');
+        const hamburger = document.getElementById('hamburger');
+        if (mobileMenu && hamburger && mobileMenu.classList.contains('active')) {
+            setMobileMenuState(mobileMenu, hamburger, false);
+        }
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        input.value = '';
+        renderSearchResults('');
+        input.focus();
+    }
+
+    function closeSearch(overlay, input) {
+        if (!overlay || !input) return;
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        input.value = '';
+    }
+
+    function buildSearchIndex() {
+        return [
+            ...data.announcements.map((item) => makeSearchItem('공지', 'notices', item.title, item.content)),
+            ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description}`)),
+            ...data.faq.map((item) => makeSearchItem('FAQ', 'faq', item.q, item.a)),
+            ...data.timeline.map((item) => makeSearchItem('연혁', 'timeline', item.title, item.description)),
+            ...data.leadership.map((item) => makeSearchItem('임원진', 'leadership', item.name, `${item.role} ${item.description}`)),
+            ...data.departments.map((item) => makeSearchItem('소개', 'about', item.name, item.description)),
+            ...data.coreValues.map((item) => makeSearchItem('가치', 'about', item.title, item.description)),
+            ...data.calendar.map((item) => makeSearchItem('일정', 'schedule', item.title, item.description)),
+            ...data.tradeGuide.map((item) => makeSearchItem('가이드', 'guide', item.title, item.content)),
+            ...data.joinSteps.map((item) => makeSearchItem('가입', 'join', item.title, item.description)),
+            ...data.gallery.map((item) => makeSearchItem('갤러리', 'gallery', item.title, item.description)),
+            ...data.policy.sections.map((item) => makeSearchItem('정책', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' ')))
+        ];
+    }
+
+    function makeSearchItem(type, section, title, body) {
+        return { type, section, title, body, haystack: `${title} ${body}`.toLowerCase() };
+    }
+
+    function renderSearchResults(query) {
+        const container = document.getElementById('search-results');
+        if (!container) return;
+        const normalized = query.trim().toLowerCase();
+        const results = buildSearchIndex().filter((item) => !normalized || item.haystack.includes(normalized)).slice(0, 12);
+        if (results.length === 0) {
+            container.innerHTML = '<div class="search-empty">검색 결과가 없습니다.</div>';
+            return;
+        }
+        container.innerHTML = results.map((item) => `
+            <button class="search-result" type="button" data-search-section="${escapeHtml(item.section)}">
+                <span class="search-result-type">${escapeHtml(item.type)}</span>
+                <span class="search-result-title">${escapeHtml(item.title)}</span>
+                <span class="search-result-summary">${escapeHtml(item.body)}</span>
+            </button>`).join('');
+        container.querySelectorAll('[data-search-section]').forEach((button) => {
+            button.addEventListener('click', () => selectSearchResult(button.getAttribute('data-search-section')));
+        });
+    }
+
+    function selectSearchResult(section) {
+        const overlay = document.getElementById('search-overlay');
+        const input = document.getElementById('global-search-input');
+        if (overlay && input) closeSearch(overlay, input);
+        showSection(section);
+    }
+
+    function setupGlobalKeyboardShortcuts() {
+        document.addEventListener('keydown', (event) => {
+            const searchOverlay = document.getElementById('search-overlay');
+            const isTyping = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
+            if (event.key === '/' && !isTyping && searchOverlay && !searchOverlay.classList.contains('active')) {
+                event.preventDefault();
+                document.getElementById('search-toggle')?.click();
+            }
+            if (event.key === 'Escape') {
+                if (searchOverlay?.classList.contains('active')) closeSearch(searchOverlay, document.getElementById('global-search-input'));
+                else if (activeModal) closeModal();
+            }
+        });
+    }
+
     function setupSplash() {
         const splash = document.getElementById('loading-splash');
         if (!splash) return;
-        // 페이지 로드 후 1.2초 뒤 페이드 아웃
-        setTimeout(() => {
+        window.setTimeout(() => {
             splash.classList.add('splash-hide');
-            setTimeout(() => { splash.style.display = 'none'; }, 600);
+            window.setTimeout(() => { splash.style.display = 'none'; }, 600);
         }, 1200);
     }
 
-    // ── 테마 토글 (다크/라이트) ──
     function setupTheme() {
-        const btn = document.getElementById('theme-toggle');
-        if (!btn) return;
-
-        const saved = localStorage.getItem('volt-theme') || 'dark';
-        applyTheme(saved);
-
-        btn.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-            const next = current === 'light' ? 'dark' : 'light';
+        const button = document.getElementById('theme-toggle');
+        if (!button) return;
+        applyTheme(localStorage.getItem('volt-theme') || 'dark');
+        button.addEventListener('click', () => {
+            const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             applyTheme(next);
             localStorage.setItem('volt-theme', next);
         });
@@ -422,58 +755,48 @@
 
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        const btn = document.getElementById('theme-toggle');
-        if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+        const button = document.getElementById('theme-toggle');
+        if (button) button.textContent = theme === 'light' ? '🌙' : '☀️';
     }
 
-    // ── 스크롤 상단 이동 버튼 ──
     function setupScrollTop() {
-        const btn = document.getElementById('scroll-to-top');
-        if (!btn) return;
+        const button = document.getElementById('scroll-to-top');
+        if (!button) return;
         let ticking = false;
         window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    btn.classList.toggle('visible', window.scrollY > 300);
-                    ticking = false;
-                });
-                ticking = true;
-            }
+            if (ticking) return;
+            window.requestAnimationFrame(() => {
+                button.classList.toggle('visible', window.scrollY > 300);
+                ticking = false;
+            });
+            ticking = true;
         }, { passive: true });
-        btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
-    // ── 네비게이션 스크롤 효과 ──
     function setupScrollEffect() {
         const nav = document.getElementById('nav');
         if (!nav) return;
         let ticking = false;
         window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    nav.classList.toggle('scrolled', window.scrollY > 50);
-                    ticking = false;
-                });
-                ticking = true;
-            }
+            if (ticking) return;
+            window.requestAnimationFrame(() => {
+                nav.classList.toggle('scrolled', window.scrollY > 50);
+                ticking = false;
+            });
+            ticking = true;
         }, { passive: true });
     }
 
-    // ── Intersection Observer reveal ──
     function setupRevealObserver() {
-        revealObserver = new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('revealed');
-                    revealObserver.unobserve(e.target);
-                }
+        revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('revealed');
+                revealObserver.unobserve(entry.target);
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     }
-
-    // ============================================================
-    // 4. INIT
-    // ============================================================
 
     function init() {
         setupSplash();
@@ -481,22 +804,25 @@
         renderAll();
         setupNavLinks();
         setupMobileMenu();
+        setupNoticeControls();
+        setupShipControls();
+        setupGalleryInteractions();
+        setupModalControls();
+        setupPolicyAnchors();
+        setupFaqAccordion();
+        setupSearch();
+        setupGlobalKeyboardShortcuts();
         setupScrollEffect();
         setupScrollTop();
         setupTheme();
-
-        window.addEventListener('popstate', e => showSection(e.state?.section || 'home', false));
-
+        window.addEventListener('popstate', (event) => showSection(event.state?.section || 'home', false));
         const initial = getInitialSection();
         history.replaceState({ section: initial }, '', window.location.href);
         showSection(initial, false);
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
 
     window.VOLT_APP = { showSection, renderAll };
 })();

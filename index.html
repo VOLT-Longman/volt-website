@@ -27,7 +27,7 @@
  <body>
   <!-- Loading Splash -->
   <div id="loading-splash">
-   <img src="assets/images/VOLT_logo.png" class="splash-logo" alt="VOLT">
+   <img src="assets/images/VOLT_logo.png" class="splash-logo" alt="VOLT" loading="eager" decoding="async">
    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
   </div>
 
@@ -36,7 +36,7 @@
   <nav class="nav" id="nav">
    <div class="nav-container">
     <a href="#home" class="nav-logo" data-section="home">
-     <img src="assets/images/VOLT_logo.png" alt="" onerror="this.style.display='none'">
+     <img src="assets/images/VOLT_logo.png" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">
      <span class="nav-logo-text">VOLT</span>
     </a>
     <ul class="nav-links">
@@ -50,6 +50,7 @@
      <li><a href="#policy" data-section="policy">정책</a></li>
      <li><a href="#faq" data-section="faq">FAQ</a></li>
      <li><a href="#join" data-section="join">가입하기</a></li>
+     <li><button id="search-toggle" class="nav-icon-button" aria-label="검색 열기" aria-haspopup="dialog">⌕</button></li>
      <li><button id="theme-toggle" aria-label="테마 변경">☀️</button></li>
      <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="nav-discord">Discord</a></li>
     </ul>
@@ -75,6 +76,7 @@
     <li><a href="#guide" data-section="guide">무역가이드</a></li>
     <li><a href="#gallery" data-section="gallery">갤러리</a></li>
     <li><a href="#join" data-section="join">가입하기</a></li>
+    <li><button id="mobile-search-toggle" class="mobile-search-toggle" aria-label="검색 열기">검색</button></li>
     <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord</a></li>
    </ul>
   </div>
@@ -190,15 +192,7 @@
      <h2>활동 <span class="accent">갤러리</span></h2>
      <p>VOLT의 발자취</p>
     </div>
-    <div class="gallery-grid" id="gallery-grid" aria-label="VOLT 함대 갤러리">
-     <div class="gallery-item" aria-hidden="true">🚀</div>
-     <div class="gallery-item" aria-hidden="true">🌌</div>
-     <div class="gallery-item" aria-hidden="true">⚡</div>
-     <div class="gallery-item" aria-hidden="true">🛸</div>
-     <div class="gallery-item" aria-hidden="true">🌟</div>
-     <div class="gallery-item" aria-hidden="true">✨</div>
-    </div>
-    <div class="gallery-notice">// 향후 함대 활동 사진이 업로드될 예정입니다</div>
+    <div class="gallery-grid" id="gallery-grid" aria-label="VOLT 함대 갤러리"></div>
    </div>
   </section>
 
@@ -231,7 +225,11 @@
      <h2>함대 <span class="accent">공지사항</span></h2>
      <p>최근 함대 소식</p>
     </div>
+    <div class="notice-filters" id="notice-filters" role="toolbar" aria-label="공지사항 태그 필터"></div>
     <div class="notices-grid" id="notices-list"></div>
+    <div class="notice-actions">
+     <button class="btn btn-secondary notice-load-more" id="notice-load-more" type="button">더 보기</button>
+    </div>
    </div>
   </section>
 
@@ -253,7 +251,16 @@
       <button class="ship-filter-btn" data-filter="지원">지원</button>
       <button class="ship-filter-btn" data-filter="캐피탈">캐피탈</button>
      </div>
-     <input type="text" id="ship-search" class="ship-search" placeholder="함선명 또는 제조사 검색...">
+     <div class="ships-toolbar">
+      <input type="text" id="ship-search" class="ship-search" placeholder="함선명 또는 제조사 검색...">
+      <label class="ship-sort-label" for="ship-sort">정렬</label>
+      <select id="ship-sort" class="ship-sort">
+       <option value="name">이름순</option>
+       <option value="size">크기순</option>
+       <option value="crew">승무원순</option>
+       <option value="cargo">화물용량순</option>
+      </select>
+     </div>
     </div>
     <div class="ships-grid" id="ships-grid"></div>
    </div>
@@ -337,7 +344,7 @@
     <div class="footer-grid">
      <div class="footer-section">
       <div class="footer-brand">
-       <img src="assets/images/VOLT_logo.png" alt="" onerror="this.style.display='none'">
+       <img src="assets/images/VOLT_logo.png" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">
        <span class="footer-brand-text">VOLT</span>
       </div>
       <p class="footer-description">Voyagers of Logistics &amp; Trade<br>한국 커뮤니티 Star Citizen 함대</p>
@@ -376,6 +383,18 @@
     </div>
    </div>
   </footer>
+
+  <div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-labelledby="search-title" aria-hidden="true">
+   <div class="search-panel">
+    <div class="search-header">
+     <h2 id="search-title">전체 검색</h2>
+     <button class="search-close" id="search-close" type="button" aria-label="검색 닫기">×</button>
+    </div>
+    <label class="sr-only" for="global-search-input">전체 검색어</label>
+    <input id="global-search-input" class="global-search-input" type="search" placeholder="공지, 함선, FAQ, 연혁 검색..." autocomplete="off">
+    <div class="search-results" id="search-results" aria-live="polite"></div>
+   </div>
+  </div>
 
   <script src="data/volt-data.js"></script>
   <script src="js/main.js"></script>
