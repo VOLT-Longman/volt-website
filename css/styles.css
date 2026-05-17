@@ -596,7 +596,7 @@ body {
    ========================================================================== */
 
 .about {
-    background: #000;
+    background: var(--color-bg-primary);
 }
 
 .about-intro,
@@ -717,7 +717,7 @@ body {
 }
 
 .culture-item {
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--color-bg-card);
     border-radius: var(--radius-sm);
     padding: 28px 24px;
     border: 1px solid var(--color-border);
@@ -840,7 +840,7 @@ body {
    ========================================================================== */
 
 .leadership {
-    background: #000;
+    background: var(--color-bg-primary);
 }
 
 .leadership-grid {
@@ -1032,7 +1032,7 @@ body {
    ========================================================================== */
 
 .hub {
-    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
 }
 
 .hub-content {
@@ -1047,7 +1047,7 @@ body {
 }
 
 .hub-feature {
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--color-bg-card);
     border-radius: var(--radius-sm);
     padding: 24px;
     border: 1px solid var(--color-border);
@@ -1099,7 +1099,7 @@ body {
    ========================================================================== */
 
 .streamers {
-    background: #000;
+    background: var(--color-bg-primary);
 }
 
 .streamers-grid {
@@ -1250,7 +1250,7 @@ body {
    ========================================================================== */
 
 .gallery {
-    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
 }
 
 .gallery-grid {
@@ -1712,7 +1712,7 @@ body {
    ========================================================================== */
 
 .join {
-    background: #000;
+    background: var(--color-bg-primary);
 }
 
 .join-content {
@@ -1795,7 +1795,7 @@ body {
 
 .footer {
     width: 100%;
-    background: #000;
+    background: var(--color-bg-primary);
     padding: 80px 22px 40px;
     border-top: 1px solid var(--color-border);
 }
@@ -2649,7 +2649,13 @@ body {
 [data-theme="light"] .nav.scrolled { background: rgba(245,245,247,0.98); }
 [data-theme="light"] .hero { background: radial-gradient(ellipse at top, rgba(232,72,47,0.08) 0%, transparent 60%), linear-gradient(180deg,#f5f5f7 0%,#ffffff 100%); }
 [data-theme="light"] .timeline-section { background: linear-gradient(180deg,#f5f5f7 0%,#ffffff 100%); }
-[data-theme="light"] .about,.leadership,.join,.footer { background: #ffffff; }
+[data-theme="light"] .about,
+[data-theme="light"] .leadership,
+[data-theme="light"] .streamers,
+[data-theme="light"] .join,
+[data-theme="light"] .footer { background: #ffffff; }
+[data-theme="light"] .hub,
+[data-theme="light"] .gallery { background: linear-gradient(180deg,#f5f5f7 0%,#ffffff 100%); }
 [data-theme="light"] .mobile-menu { background: rgba(245,245,247,0.98); }
 [data-theme="light"] .mobile-menu a { color: var(--color-text-primary); }
 
