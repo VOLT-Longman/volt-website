@@ -525,6 +525,40 @@ body {
 
 .section.active {
     display: block;
+    animation: sectionFadeIn 0.4s ease;
+}
+
+@keyframes sectionFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 스크롤 reveal ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── 활성 nav 링크 ── */
+.nav-links a.nav-active {
+    color: var(--volt-orange);
+}
+
+.nav-links a.nav-active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--volt-orange);
+    border-radius: 1px;
 }
 
 .section-content {

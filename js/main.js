@@ -1,38 +1,25 @@
 /**
  * VOLT Fleet - Main Script
  * ========================
- *
- * 구조:
- * 1. Renderers - 데이터를 HTML로 렌더링하는 함수들
- * 2. Navigation - 섹션 전환 및 모바일 메뉴
- * 3. Effects - 스크롤 효과 등
- * 4. Initialization - 페이지 로드 시 실행
- *
- * 향후 확장 시:
- * - 각 Renderer를 React/Vue 컴포넌트로 변환 쉬움
- * - 데이터 소스를 fetch()로 변경하면 API 연동
- * - showSection()을 React Router로 교체 가능
+ * 1. Renderers  - 데이터를 HTML로 렌더링
+ * 2. Navigation - 섹션 전환 / URL 히스토리 / 모바일 메뉴 / 활성 링크
+ * 3. Effects    - 스크롤 효과 / Intersection Observer reveal
+ * 4. Init       - 페이지 로드 시 실행
  */
 
-(function() {
+(function () {
     'use strict';
 
-    // ===== 데이터 가져오기 =====
     const data = window.VOLT_DATA;
-
     if (!data) {
-        console.error('VOLT_DATA가 로드되지 않았습니다. data/volt-data.js 파일이 먼저 로드되어야 합니다.');
+        console.error('VOLT_DATA가 로드되지 않았습니다.');
         return;
     }
 
     // ============================================================
-    // 1. RENDERERS - 데이터 → HTML 변환
+    // 1. RENDERERS
     // ============================================================
 
-    /**
-     * HTML 문자열의 특수문자를 이스케이프 (XSS 방지)
-     * 향후 사용자 입력 콘텐츠 표시 시 필수
-     */
     function escapeHtml(str) {
         if (typeof str !== 'string') return '';
         return str
@@ -43,48 +30,35 @@
             .replace(/'/g, '&#39;');
     }
 
-    /**
-     * 임원진 카드 렌더링
-     */
     function renderLeaders() {
         const container = document.getElementById('leadership-grid');
         if (!container) return;
 
         container.innerHTML = data.leadership.map(leader => {
             const isCeo = leader.avatarStyle === 'ceo';
-            const cardClass = isCeo ? 'leader-card ceo-card' : 'leader-card';
+            const cardClass = isCeo ? 'leader-card ceo-card reveal' : 'leader-card reveal';
             const avatarStyle = leader.avatarGradient
-                ? `style="background: ${leader.avatarGradient};"`
-                : '';
+                ? `style="background: ${leader.avatarGradient};"` : '';
 
-            // 상세 정보 (CEO만 사용)
             const detailsHtml = leader.details ? `
                 <div class="leader-details">
                     ${leader.details.map(d => `
                         <div class="leader-details-item">
                             <strong>${escapeHtml(d.title)}</strong>
                             <p>${escapeHtml(d.content)}</p>
-                        </div>
-                    `).join('')}
-                </div>
-            ` : '';
+                        </div>`).join('')}
+                </div>` : '';
 
-            // 핵심 역량 (CEO만 사용)
             const competenciesHtml = leader.competencies ? `
                 <div class="leader-competencies">
                     <strong>핵심 역량</strong>
-                    <ul>
-                        ${leader.competencies.map(c => `<li>${escapeHtml(c)}</li>`).join('')}
-                    </ul>
-                </div>
-            ` : '';
+                    <ul>${leader.competencies.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>
+                </div>` : '';
 
-            // 일반 임원진 업무
             const dutiesHtml = leader.duties ? `
                 <div class="leader-duties">
                     <strong>주요 업무</strong> · ${escapeHtml(leader.duties)}
-                </div>
-            ` : '';
+                </div>` : '';
 
             return `
                 <div class="${cardClass}">
@@ -94,24 +68,17 @@
                         <span class="leader-role">${escapeHtml(leader.role)}</span>
                         <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
                         <p class="leader-description">${escapeHtml(leader.description)}</p>
-                        ${detailsHtml}
-                        ${competenciesHtml}
-                        ${dutiesHtml}
+                        ${detailsHtml}${competenciesHtml}${dutiesHtml}
                     </div>
-                </div>
-            `;
+                </div>`;
         }).join('');
     }
 
-    /**
-     * 스트리머 카드 렌더링 (프로필 이미지 포함)
-     */
     function renderStreamers() {
         const container = document.getElementById('streamers-grid');
         if (!container) return;
 
         container.innerHTML = data.streamers.map(streamer => {
-            // 이미지가 있으면 img 태그, 없으면 그라디언트 배경
             const iconContent = streamer.image
                 ? `<img src="${escapeHtml(streamer.image)}" alt="${escapeHtml(streamer.name)} 프로필"
                        onerror="this.parentElement.innerHTML='<div class=&quot;streamer-icon-fallback&quot;>👤</div>'">`
@@ -121,108 +88,93 @@
                 <div class="streamer-sub-section">
                     <h4>${escapeHtml(s.title)}</h4>
                     <p>${s.content}</p>
-                </div>
-            `).join('');
+                </div>`).join('');
 
             return `
-                <div class="streamer-card">
-                    <div class="streamer-icon" aria-hidden="true">
-                        ${iconContent}
-                    </div>
+                <div class="streamer-card reveal">
+                    <div class="streamer-icon" aria-hidden="true">${iconContent}</div>
                     <h3>${escapeHtml(streamer.name)}</h3>
                     <span class="streamer-platform">${escapeHtml(streamer.platform)}</span>
                     <p class="streamer-description">${escapeHtml(streamer.description)}</p>
-                    <div class="streamer-details">
-                        ${sectionsHtml}
-                    </div>
+                    <div class="streamer-details">${sectionsHtml}</div>
                     <a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer" class="streamer-link">방송 보기</a>
-                </div>
-            `;
+                </div>`;
         }).join('');
     }
 
-    /**
-     * 연혁 타임라인 렌더링
-     */
     function renderTimeline() {
         const container = document.getElementById('timeline-list');
         if (!container) return;
 
         container.innerHTML = data.timeline.map(item => `
-            <div class="timeline-item">
+            <div class="timeline-item reveal">
                 <div class="timeline-date">${escapeHtml(item.date)}</div>
                 <div class="timeline-title">${escapeHtml(item.title)}</div>
                 <div class="timeline-desc">${escapeHtml(item.description)}</div>
-            </div>
-        `).join('');
+            </div>`).join('');
     }
 
-    /**
-     * 부서 카드 렌더링
-     */
     function renderDepartments() {
         const container = document.getElementById('about-grid');
         if (!container) return;
 
         container.innerHTML = data.departments.map(dept => `
-            <div class="card about-card">
+            <div class="card about-card reveal">
                 <h3>${escapeHtml(dept.icon)} ${escapeHtml(dept.name)}</h3>
                 <p>${escapeHtml(dept.description)}</p>
-            </div>
-        `).join('');
+            </div>`).join('');
     }
 
-    /**
-     * 핵심 가치 렌더링
-     */
     function renderCoreValues() {
         const container = document.getElementById('culture-grid');
         if (!container) return;
 
         container.innerHTML = data.coreValues.map(value => `
-            <div class="culture-item">
+            <div class="culture-item reveal">
                 <h4>${escapeHtml(value.title)}</h4>
                 <p>${escapeHtml(value.description)}</p>
-            </div>
-        `).join('');
+            </div>`).join('');
     }
 
-    /**
-     * 무역허브 기능 렌더링
-     */
     function renderHubFeatures() {
         const container = document.getElementById('hub-features');
         if (!container) return;
 
         container.innerHTML = data.hub.features.map(feature => `
-            <div class="hub-feature">
+            <div class="hub-feature reveal">
                 <h4>${escapeHtml(feature.icon)} ${escapeHtml(feature.title)}</h4>
-                <ul>
-                    ${feature.items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
-                </ul>
-            </div>
-        `).join('');
+                <ul>${feature.items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+            </div>`).join('');
     }
 
-    /**
-     * 가입 절차 렌더링
-     */
     function renderJoinSteps() {
         const container = document.getElementById('join-steps');
         if (!container) return;
 
         container.innerHTML = data.joinSteps.map(step => `
-            <div class="join-step">
+            <div class="join-step reveal">
                 <div class="step-number" aria-hidden="true">${step.number}</div>
                 <h4>${escapeHtml(step.title)}</h4>
                 <p>${escapeHtml(step.description)}</p>
-            </div>
-        `).join('');
+            </div>`).join('');
     }
 
     /**
-     * 모든 동적 콘텐츠 렌더링
+     * 푸터 스트리머 링크 동적 렌더링
+     * volt-data.js streamers 배열과 자동 동기화
      */
+    function renderFooterStreamers() {
+        const container = document.getElementById('footer-streamers-list');
+        if (!container) return;
+
+        container.innerHTML = data.streamers.map(streamer => `
+            <li>
+                <a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer">
+                    ${escapeHtml(streamer.name)}
+                </a>
+            </li>`).join('');
+    }
+
     function renderAll() {
         renderDepartments();
         renderCoreValues();
@@ -231,20 +183,29 @@
         renderHubFeatures();
         renderStreamers();
         renderJoinSteps();
+        renderFooterStreamers();
     }
 
     // ============================================================
-    // 2. NAVIGATION - 섹션 전환 시스템
+    // 2. NAVIGATION
     // ============================================================
 
-    /**
-     * 섹션 전환 (SPA 스타일)
-     * 향후 React Router로 교체 시 이 함수만 변경
-     */
-    function showSection(sectionId) {
-        document.querySelectorAll('.section').forEach(section => {
-            section.classList.remove('active');
+    let currentSection = null;
+    let revealObserver;
+
+    /** 활성 nav 링크 업데이트 */
+    function updateActiveNav(sectionId) {
+        document.querySelectorAll('.nav-links [data-section]').forEach(link => {
+            link.classList.toggle('nav-active', link.getAttribute('data-section') === sectionId);
         });
+    }
+
+    /** 섹션 전환 + URL 히스토리 관리 */
+    function showSection(sectionId, pushHistory = true) {
+        if (sectionId === currentSection) return;
+        currentSection = sectionId;
+
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
 
         const home = document.getElementById('home');
 
@@ -252,137 +213,147 @@
             home.style.display = 'flex';
         } else {
             home.style.display = 'none';
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.classList.add('active');
+                // 해당 섹션의 reveal 요소 Observer 등록
+                if (revealObserver) {
+                    target.querySelectorAll('.reveal:not(.revealed)').forEach(el => {
+                        revealObserver.observe(el);
+                    });
+                }
             }
         }
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        updateActiveNav(sectionId);
 
-        // 향후 확장: URL 업데이트로 브라우저 히스토리 관리
-        // history.pushState({}, '', `#${sectionId}`);
+        if (pushHistory) {
+            const hash = sectionId === 'home' ? '' : `#${sectionId}`;
+            history.pushState({ section: sectionId }, '', hash || window.location.pathname);
+        }
     }
 
-    /**
-     * 모든 [data-section] 링크에 클릭 핸들러 부여
-     */
+    /** 뒤로가기/앞으로가기 대응 */
+    function setupHistoryListener() {
+        window.addEventListener('popstate', (e) => {
+            const sectionId = e.state?.section || 'home';
+            showSection(sectionId, false);
+        });
+    }
+
+    /** 초기 URL 해시로 섹션 결정 */
+    function getInitialSection() {
+        const hash = window.location.hash.replace('#', '');
+        const valid = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join'];
+        return valid.includes(hash) ? hash : 'home';
+    }
+
     function setupNavigationLinks() {
         document.querySelectorAll('[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const sectionId = link.getAttribute('data-section');
-                showSection(sectionId);
+                showSection(link.getAttribute('data-section'));
             });
         });
     }
 
-    /**
-     * 모바일 메뉴 시스템
-     */
     function setupMobileMenu() {
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileMenuClose = document.getElementById('mobileMenuClose');
-
         if (!hamburger || !mobileMenu || !mobileMenuClose) return;
 
-        function open() {
+        const open = () => {
             mobileMenu.classList.add('active');
             hamburger.setAttribute('aria-expanded', 'true');
             document.body.style.overflow = 'hidden';
-        }
+        };
 
-        function close() {
+        const close = () => {
             mobileMenu.classList.remove('active');
             hamburger.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
-        }
+        };
 
         hamburger.addEventListener('click', open);
         mobileMenuClose.addEventListener('click', close);
 
-        // ESC 키로 닫기
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-                close();
-            }
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) close();
         });
 
-        // 메뉴 내 링크 클릭 시 자동 닫기
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                if (mobileMenu.classList.contains('active')) {
-                    close();
-                }
+                if (mobileMenu.classList.contains('active')) close();
             });
         });
     }
 
     // ============================================================
-    // 3. EFFECTS - 스크롤, 애니메이션
+    // 3. EFFECTS
     // ============================================================
 
-    /**
-     * 네비게이션 스크롤 효과
-     */
     function setupScrollEffect() {
         const nav = document.getElementById('nav');
         if (!nav) return;
 
-        let scrollTicking = false;
-
+        let ticking = false;
         window.addEventListener('scroll', () => {
-            if (!scrollTicking) {
+            if (!ticking) {
                 window.requestAnimationFrame(() => {
-                    if (window.scrollY > 50) {
-                        nav.classList.add('scrolled');
-                    } else {
-                        nav.classList.remove('scrolled');
-                    }
-                    scrollTicking = false;
+                    nav.classList.toggle('scrolled', window.scrollY > 50);
+                    ticking = false;
                 });
-                scrollTicking = true;
+                ticking = true;
             }
         }, { passive: true });
     }
 
+    /** Intersection Observer - 스크롤 진입 시 reveal */
+    function setupRevealObserver() {
+        revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        });
+    }
+
     // ============================================================
-    // 4. INITIALIZATION
+    // 4. INIT
     // ============================================================
 
     function init() {
-        // 데이터 기반 콘텐츠 렌더링
         renderAll();
-
-        // 인터랙션 설정
+        setupRevealObserver();
         setupNavigationLinks();
         setupMobileMenu();
         setupScrollEffect();
+        setupHistoryListener();
 
-        // 초기 화면 표시
-        showSection('home');
+        const initialSection = getInitialSection();
+        history.replaceState({ section: initialSection }, '', window.location.href);
+        showSection(initialSection, false);
     }
 
-    // DOM 준비되면 실행
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
     }
 
-    // ============================================================
-    // 향후 확장을 위한 글로벌 API 노출
-    // ============================================================
     window.VOLT_APP = {
         showSection,
         renderAll,
         renderLeaders,
         renderStreamers,
         renderTimeline,
-        // 향후 추가될 메서드들:
-        // - login(provider) : Discord OAuth
-        // - uploadGalleryImage(file) : 갤러리 업로드
-        // - updateContent(section, data) : 관리자 편집
+        renderFooterStreamers,
     };
 })();
