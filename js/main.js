@@ -321,11 +321,11 @@
         if (!container || !Array.isArray(data.faq)) return;
         container.innerHTML = `<div class="faq-accordion">${data.faq.map((item, index) => `
             <div class="faq-item reveal" id="faq-item-${index}">
-                <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-${index}">
+                <button class="faq-question" id="faq-q-${index}" aria-expanded="false" aria-controls="faq-ans-${index}">
                     <span>${escapeHtml(item.q)}</span>
                     <span class="faq-icon">+</span>
                 </button>
-                <div class="faq-answer" id="faq-ans-${index}" role="region">
+                <div class="faq-answer" id="faq-ans-${index}" role="region" aria-labelledby="faq-q-${index}" hidden>
                     <p>${escapeHtml(item.a)}</p>
                 </div>
             </div>`).join('')}</div>`;
@@ -639,13 +639,16 @@
     function collapseFaqItem(button) {
         button.setAttribute('aria-expanded', 'false');
         button.querySelector('.faq-icon').textContent = '+';
-        button.nextElementSibling.style.maxHeight = null;
+        const answer = button.nextElementSibling;
+        answer.hidden = true;
+        answer.style.maxHeight = null;
     }
 
     function expandFaqItem(button) {
         button.setAttribute('aria-expanded', 'true');
         button.querySelector('.faq-icon').textContent = '−';
         const answer = button.nextElementSibling;
+        answer.hidden = false;
         answer.style.maxHeight = `${answer.scrollHeight}px`;
     }
 

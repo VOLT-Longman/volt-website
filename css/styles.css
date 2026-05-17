@@ -2856,6 +2856,7 @@ body {
     max-height: 0; overflow: hidden;
     transition: max-height 0.35s ease;
 }
+.faq-answer[hidden] { display: none; }
 .faq-answer p { padding: 0 24px 20px; font-size: 15px; color: var(--color-text-secondary); line-height: 1.8; }
 
 /* ── 무역 가이드 ── */
