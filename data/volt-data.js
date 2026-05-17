@@ -314,6 +314,32 @@ const VOLT_DATA = {
             description: "승인 후 공식 VOLT 함대원이 되어 다양한 활동에 참여하게 됩니다."
         }
     ],
+    joinChecklist: [
+        {
+            title: "뉴비도 환영",
+            description: "Star Citizen 경험이 적어도 괜찮습니다. 필요한 기본 안내를 함께 제공합니다."
+        },
+        {
+            title: "활동 강제 없음",
+            description: "상시 의무 활동보다 자율 참여를 우선합니다. 가능한 때에 함께하면 됩니다."
+        },
+        {
+            title: "Discord 선참여 가능",
+            description: "지원 전 Discord에 먼저 들어와 분위기와 공지를 확인할 수 있습니다."
+        },
+        {
+            title: "다양한 플레이 허용",
+            description: "물류·무역 중심이지만 전투, 탐사, 정보 수집 등 다양한 활동을 함께합니다."
+        },
+        {
+            title: "대표 ORG 안내",
+            description: "가입 후 대표 ORG 설정 방법을 안내하며, 필요한 절차를 차근히 도와드립니다."
+        },
+        {
+            title: "닉네임 기준 명확",
+            description: "디코닉(핸들네임) 형식만 맞추면 운영진과 함대원이 서로를 쉽게 찾을 수 있습니다."
+        }
+    ],
 
     // ===== 운영정책 =====
     policy: {
@@ -390,7 +416,8 @@ const VOLT_DATA = {
             title: "공식 홈페이지 리뉴얼 오픈",
             content: "함대 정체성과 방향성을 명확히 보여주기 위한 공식 홈페이지가 새롭게 개편되었습니다. 임원진 소개, 연혁, 무역허브, 운영정책 등 주요 정보를 확인하실 수 있습니다.",
             tag: "공지",
-            tagColor: "orange"
+            tagColor: "orange",
+            pinned: true
         },
         {
             id: "ann-005",

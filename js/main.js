@@ -163,6 +163,23 @@
             </div>`).join('');
     }
 
+    function renderJoinChecklist() {
+        const container = document.getElementById('join-checklist');
+        if (!container || !Array.isArray(data.joinChecklist)) return;
+        container.innerHTML = `
+            <div class="join-checklist-heading">
+                <h3>가입 전 확인</h3>
+                <p>지원 전에 가장 많이 궁금해하는 내용을 먼저 정리했습니다.</p>
+            </div>
+            <div class="join-checklist-grid">
+                ${data.joinChecklist.map((item) => `
+                    <article class="join-checklist-card reveal">
+                        <h4>${escapeHtml(item.title)}</h4>
+                        <p>${escapeHtml(item.description)}</p>
+                    </article>`).join('')}
+            </div>`;
+    }
+
     function renderFooterStreamers() {
         const container = document.getElementById('footer-streamers-list');
         if (!container || !Array.isArray(data.streamers)) return;
@@ -208,7 +225,12 @@
         if (!Array.isArray(data.announcements)) return [];
         return [...data.announcements]
             .filter((announcement) => noticeState.tag === 'all' || announcement.tag === noticeState.tag)
-            .sort((left, right) => right.date.localeCompare(left.date));
+            .sort(compareAnnouncements);
+    }
+
+    function compareAnnouncements(left, right) {
+        if (Boolean(left.pinned) !== Boolean(right.pinned)) return left.pinned ? -1 : 1;
+        return right.date.localeCompare(left.date);
     }
 
     function renderAnnouncements() {
@@ -219,8 +241,9 @@
         const items = getFilteredAnnouncements();
         const visibleItems = items.slice(0, noticeState.visibleCount);
         container.innerHTML = visibleItems.map((announcement) => `
-            <div class="notice-card reveal">
+            <div class="notice-card${announcement.pinned ? ' notice-card-pinned' : ''} reveal">
                 <div class="notice-meta">
+                    ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
                     <span class="notice-tag" style="background:${colors[announcement.tag] || 'var(--volt-orange)'}20;color:${colors[announcement.tag] || 'var(--volt-orange)'};">${escapeHtml(announcement.tag)}</span>
                     <span class="notice-date">${escapeHtml(announcement.date)}</span>
                 </div>
@@ -426,6 +449,7 @@
         renderStreamers();
         renderGallery();
         renderJoinSteps();
+        renderJoinChecklist();
         renderFooterStreamers();
         renderNoticeFilters();
         renderAnnouncements();

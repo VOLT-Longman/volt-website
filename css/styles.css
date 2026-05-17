@@ -1784,6 +1784,49 @@ body {
     line-height: 1.7;
 }
 
+.join-checklist {
+    margin-top: -16px;
+}
+
+.join-checklist-heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.join-checklist-heading h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.join-checklist-heading p {
+    color: var(--color-text-secondary);
+}
+
+.join-checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.join-checklist-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+}
+
+.join-checklist-card h4 {
+    color: var(--volt-orange);
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.join-checklist-card p {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
 .join-cta {
     margin-top: 40px;
     text-align: center;
@@ -2686,6 +2729,16 @@ body {
 }
 .notice-card:hover::before { transform: scaleX(1); }
 .notice-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.notice-card-pinned { border-color: var(--color-border-accent); }
+.notice-pin {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--volt-orange);
+    color: #fff;
+    font-family: var(--font-mono);
+}
 .notice-tag {
     font-size: 11px; font-weight: 600; padding: 3px 10px;
     border-radius: 4px; font-family: var(--font-mono); letter-spacing: 0.05em;
@@ -2873,6 +2926,7 @@ body {
     .policy-num { min-width: 80px; }
     .guide-grid { grid-template-columns: 1fr; }
     .guide-tools-grid { grid-template-columns: 1fr 1fr; }
+    .join-checklist-grid { grid-template-columns: 1fr; }
     #scroll-to-top { bottom: 20px; right: 16px; }
     .search-overlay { padding-top: 72px; }
     .search-header h2 { font-size: 20px; }
