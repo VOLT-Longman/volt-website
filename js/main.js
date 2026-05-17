@@ -584,6 +584,28 @@
         });
     }
 
+    function resetShipState() {
+        shipState.filter = 'all';
+        shipState.manufacturer = 'all';
+        shipState.hideUnreleased = false;
+        shipState.query = '';
+        shipState.sort = 'name-asc';
+        syncShipControls();
+        renderShipFilters();
+        renderShips();
+    }
+
+    function syncShipControls() {
+        const search = document.getElementById('ship-search');
+        const manufacturer = document.getElementById('ship-manufacturer');
+        const hideUnreleased = document.getElementById('ship-hide-unreleased');
+        const sort = document.getElementById('ship-sort');
+        if (search) search.value = shipState.query;
+        if (manufacturer) manufacturer.value = shipState.manufacturer;
+        if (hideUnreleased) hideUnreleased.checked = shipState.hideUnreleased;
+        if (sort) sort.value = shipState.sort;
+    }
+
     function handleShipFilterClick(event) {
         const button = event.target.closest('[data-filter]');
         if (!button) return;
@@ -825,7 +847,7 @@
     function buildSearchIndex() {
         return [
             ...data.announcements.map((item) => makeSearchItem('공지', 'notices', item.title, item.content)),
-            ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description}`)),
+            ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description}`, item.id)),
             ...data.faq.map((item) => makeSearchItem('FAQ', 'faq', item.q, item.a)),
             ...data.timeline.map((item) => makeSearchItem('연혁', 'timeline', item.title, item.description)),
             ...data.leadership.map((item) => makeSearchItem('임원진', 'leadership', item.name, `${item.role} ${item.description}`)),
@@ -839,8 +861,8 @@
         ];
     }
 
-    function makeSearchItem(type, section, title, body) {
-        return { type, section, title, body, haystack: `${title} ${body}`.toLowerCase() };
+    function makeSearchItem(type, section, title, body, itemId = '') {
+        return { type, section, title, body, itemId, haystack: `${title} ${body}`.toLowerCase() };
     }
 
     function renderSearchResults(query) {
@@ -853,21 +875,31 @@
             return;
         }
         container.innerHTML = results.map((item) => `
-            <button class="search-result" type="button" data-search-section="${escapeHtml(item.section)}">
+            <button class="search-result" type="button" data-search-section="${escapeHtml(item.section)}" data-search-item-id="${escapeHtml(item.itemId)}">
                 <span class="search-result-type">${escapeHtml(item.type)}</span>
                 <span class="search-result-title">${escapeHtml(item.title)}</span>
                 <span class="search-result-summary">${escapeHtml(item.body)}</span>
             </button>`).join('');
         container.querySelectorAll('[data-search-section]').forEach((button) => {
-            button.addEventListener('click', () => selectSearchResult(button.getAttribute('data-search-section')));
+            button.addEventListener('click', () => selectSearchResult(button.getAttribute('data-search-section'), button.getAttribute('data-search-item-id')));
         });
     }
 
-    function selectSearchResult(section) {
+    function selectSearchResult(section, itemId = '') {
         const overlay = document.getElementById('search-overlay');
         const input = document.getElementById('global-search-input');
         if (overlay && input) closeSearch(overlay, input);
+        if (section === 'ships') resetShipState();
         showSection(section);
+        if (section === 'ships' && itemId) focusShipResult(itemId);
+    }
+
+    function focusShipResult(shipId) {
+        const ship = shipById.get(shipId);
+        if (!ship) return;
+        const card = document.querySelector(`[data-ship-id="${CSS.escape(shipId)}"]`);
+        card?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        openShipModal(ship);
     }
 
     function setupGlobalKeyboardShortcuts() {
@@ -1017,9 +1049,18 @@
         };
         window.addEventListener('popstate', applyRouteFromLocation);
         window.addEventListener('hashchange', applyRouteFromLocation);
-        const initial = parseRouteFromHash();
-        history.replaceState({ section: initial.section }, '', window.location.href);
+        const initial = getInitialRoute();
+        history.replaceState({ section: initial.section }, '', initial.url);
         showSection(initial.section, false, initial.anchorId);
+    }
+
+    function getInitialRoute() {
+        const navigation = performance.getEntriesByType('navigation')[0];
+        if (navigation?.type === 'reload') {
+            return { section: 'home', anchorId: null, url: `${window.location.pathname}${window.location.search}` };
+        }
+        const route = parseRouteFromHash();
+        return { ...route, url: window.location.href };
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
