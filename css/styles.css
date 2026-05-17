@@ -1566,6 +1566,12 @@ body {
     background: var(--color-bg-card);
     color: var(--color-text-primary);
     font: inherit;
+    color-scheme: dark;
+}
+
+.ship-sort option {
+    background: #1d1d1f;
+    color: #f5f5f7;
 }
 
 .ship-card {
@@ -2587,6 +2593,13 @@ body {
 [data-theme="light"] .mobile-menu { background: rgba(245,245,247,0.98); }
 [data-theme="light"] .mobile-menu a { color: var(--color-text-primary); }
 [data-theme="light"] .streamer-sub-section { background: rgba(0,0,0,0.06); }
+[data-theme="light"] .ship-sort {
+    color-scheme: light;
+}
+[data-theme="light"] .ship-sort option {
+    background: #ffffff;
+    color: #1d1d1f;
+}
 
 /* ── 로딩 스플래시 ── */
 #loading-splash {
@@ -2704,6 +2717,12 @@ body {
     color: var(--color-text-tertiary);
     font-size: 13px;
 }
+.ships-toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
 .ship-checkbox-label {
     display: inline-flex;
     align-items: center;
@@ -2738,11 +2757,7 @@ body {
     background: rgba(232,72,47,0.1);
     color: var(--volt-orange);
     font-family: var(--font-mono);
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-.ship-tag:hover {
-    background: rgba(232,72,47,0.18);
-    color: var(--volt-orange);
+    transition: background-color 0.2s ease;
 }
 
 /* ── 작전 일정 ── */
@@ -2862,6 +2877,21 @@ body {
     .search-overlay { padding-top: 72px; }
     .search-header h2 { font-size: 20px; }
     .ship-modal-grid { grid-template-columns: 1fr; }
+    .ships-toolbar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: end;
+    }
+    .ship-search {
+        grid-column: 1 / -1;
+    }
+    .ship-filter-label,
+    .ship-sort-label {
+        margin-top: 4px;
+    }
+    .ship-checkbox-label {
+        grid-column: 1 / -1;
+    }
     .modal-header { padding: 22px 22px 0; }
     .modal-body,
     .gallery-lightbox-copy { padding: 18px 22px 22px; }
@@ -2873,6 +2903,9 @@ body {
     .ships-toolbar { align-items: stretch; flex-direction: column; }
     .ship-sort,
     .ship-search { max-width: 100%; width: 100%; }
+    .ships-toolbar { grid-template-columns: 1fr; }
+    .ship-search,
+    .ship-checkbox-label { grid-column: auto; }
 }
 
 /* ==========================================================================
