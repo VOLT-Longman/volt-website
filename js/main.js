@@ -165,7 +165,7 @@
         const container = document.getElementById('gallery-grid');
         if (!container || !Array.isArray(data.gallery)) return;
         if (data.gallery.length === 0) {
-            container.innerHTML = '<div class="gallery-empty">assets/images/gallery/에 이미지를 추가하고 volt-data.js의 gallery 배열에 등록하면 자동으로 표시됩니다.</div>';
+            container.innerHTML = '<div class="gallery-empty"><p class="gallery-empty-icon">🚀</p><p class="gallery-empty-title">활동 사진을 준비 중입니다</p><p class="gallery-empty-sub">VOLT 함대의 생생한 활동 현장을 곧 만나보실 수 있습니다.</p></div>';
             return;
         }
         container.innerHTML = data.gallery.map((item) => `
@@ -857,6 +857,10 @@
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
     else init();
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
 
     window.VOLT_APP = { showSection, renderAll };
 })();
