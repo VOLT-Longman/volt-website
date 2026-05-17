@@ -272,12 +272,13 @@
         if (field === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99);
         if (field === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew);
         if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
+        if (field === 'price') return getPriceValue(left.priceUsd) - getPriceValue(right.priceUsd);
         return compareText(left.name, right.name);
     }
 
     function getShipFilterTags() {
         if (!Array.isArray(data.ships)) return [];
-        const tags = new Set(data.ships.flatMap((ship) => ship.tags || []));
+        const tags = new Set(data.ships.flatMap((ship) => [ship.focus, ...(ship.tags || [])]));
         return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
     }
 
@@ -311,7 +312,7 @@
         const query = shipState.query.trim().toLowerCase();
         return getSortedShips().filter((ship) => {
             const tags = getShipTags(ship);
-            const matchesFilter = shipState.filter === 'all' || tags.includes(shipState.filter);
+            const matchesFilter = shipState.filter === 'all' || ship.focus === shipState.filter || tags.includes(shipState.filter);
             const matchesManufacturer = shipState.manufacturer === 'all' || ship.manufacturer === shipState.manufacturer;
             const matchesReleaseState = !shipState.hideUnreleased || !tags.includes('미구현');
             const haystack = buildShipSearchText(ship, tags);
@@ -324,7 +325,15 @@
     }
 
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
-        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ...tags].join(' ').toLowerCase();
+        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, formatShipPrice(ship.priceUsd), ...tags].join(' ').toLowerCase();
+    }
+
+    function formatShipPrice(priceUsd) {
+        return Number.isFinite(priceUsd) ? `$${priceUsd.toLocaleString('en-US')}` : '미공개';
+    }
+
+    function getPriceValue(priceUsd) {
+        return Number.isFinite(priceUsd) ? priceUsd : Number.MAX_SAFE_INTEGER;
     }
 
     function renderShips() {
@@ -369,6 +378,7 @@
                     <div class="ship-stat"><span class="ship-stat-label">크기</span><span class="ship-stat-value">${escapeHtml(ship.size)}</span></div>
                     <div class="ship-stat"><span class="ship-stat-label">승무원</span><span class="ship-stat-value">${escapeHtml(ship.crew)}</span></div>
                     <div class="ship-stat"><span class="ship-stat-label">화물</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
+                    <div class="ship-stat"><span class="ship-stat-label">USD 가격</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
                 </div>
                 <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
                 <button class="ship-compare-toggle${shipCompareState.has(ship.id) ? ' active' : ''}" type="button" data-compare-ship-id="${escapeHtml(ship.id)}" aria-pressed="${shipCompareState.has(ship.id)}">
@@ -1030,7 +1040,8 @@
             ['분류', 'focus'],
             ['크기', 'size'],
             ['승무원', 'crew'],
-            ['화물', 'cargo']
+            ['화물', 'cargo'],
+            ['USD 가격', 'priceUsd']
         ];
         return `<div class="modal-header">
                 <div>
@@ -1067,7 +1078,7 @@
         const differs = new Set(values).size > 1;
         return `<tr class="${differs ? 'is-different' : ''}">
             <th scope="row">${escapeHtml(label)}</th>
-            ${values.map((value) => `<td>${escapeHtml(value)}</td>`).join('')}
+            ${values.map((value) => `<td>${escapeHtml(key === 'priceUsd' ? formatShipPrice(value) : value)}</td>`).join('')}
         </tr>`;
     }
 
@@ -1132,6 +1143,7 @@
                     <div class="ship-modal-stat"><span>크기</span><strong>${escapeHtml(ship.size)}</strong></div>
                     <div class="ship-modal-stat"><span>승무원</span><strong>${escapeHtml(ship.crew)}</strong></div>
                     <div class="ship-modal-stat"><span>화물</span><strong>${escapeHtml(ship.cargo)}</strong></div>
+                    <div class="ship-modal-stat"><span>USD 가격</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
                 </div>
                 <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
             </div>`);
