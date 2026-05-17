@@ -1,0 +1,18 @@
+{
+  "name": "VOLT - Voyagers of Logistics & Trade",
+  "short_name": "VOLT",
+  "description": "한국 기반 Star Citizen 물류·무역 전문 함대",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#E8482F",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "assets/images/VOLT_logo.png",
+      "sizes": "1000x1000",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

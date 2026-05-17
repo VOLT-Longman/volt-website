@@ -1317,13 +1317,30 @@ body {
 
 .gallery-empty {
     grid-column: 1 / -1;
-    padding: 36px;
+    padding: 60px 36px;
     border: 1px dashed var(--color-border-accent);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     color: var(--color-text-tertiary);
     text-align: center;
-    font-family: var(--font-mono);
-    background: rgba(232, 72, 47, 0.05);
+    background: rgba(232, 72, 47, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.gallery-empty-icon {
+    font-size: 40px;
+    margin-bottom: 4px;
+}
+.gallery-empty-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+.gallery-empty-sub {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    line-height: 1.6;
 }
 
 .gallery-notice {
