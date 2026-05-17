@@ -20,7 +20,7 @@
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'schedule', 'policy', 'faq', 'guide'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
     const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc' };
-    const SHIP_FILTER_ORDER = ['화물', '전투', '다목적', '탐사', '채굴', '인양', '연구', '정제', '주유', '의료', '입문', '방송', '기함', '미구현'];
+    const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     let currentSection = null;
@@ -267,7 +267,7 @@
     }
 
     function compareShipField(left, right, field) {
-        const sizeOrder = { '소형': 1, '중형': 2, '대형': 3, '캐피탈': 4 };
+        const sizeOrder = { '초소형': 1, '지상': 2, '소형': 3, '중형': 4, '대형': 5, '캐피탈': 6 };
         if (field === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99);
         if (field === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew);
         if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
