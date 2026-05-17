@@ -1634,6 +1634,8 @@ body.nav-more-open::before {
 
 .ship-card {
     cursor: pointer;
+    content-visibility: auto;
+    contain-intrinsic-size: 340px;
 }
 
 .modal-backdrop {
@@ -3151,6 +3153,11 @@ body.nav-more-open::before {
     color: var(--color-text-primary);
     resize: vertical;
 }
+
+.trade-briefing button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
 .logistics-result {
     margin-top: 24px;
 }
@@ -3304,12 +3311,42 @@ body.nav-more-open::before {
     .ship-sort-label {
         margin-top: 4px;
     }
+    .ship-filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+    }
+    .ship-filter-btn {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
     .ship-checkbox-label {
         grid-column: 1 / -1;
     }
     .modal-header { padding: 22px 22px 0; }
     .modal-body,
     .gallery-lightbox-copy { padding: 18px 22px 22px; }
+}
+
+@media (max-width: 640px) {
+    .trade-planner-form,
+    .trade-planner-layout,
+    .logistics-result-grid,
+    .trade-result-columns {
+        grid-template-columns: 1fr;
+    }
+    .trade-planner-form input,
+    .trade-planner-form select {
+        font-size: 16px;
+    }
+    .trade-briefing-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 480px) {

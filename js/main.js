@@ -583,7 +583,7 @@
 
     function getLogisticsShips() {
         return (data.ships || [])
-            .filter((ship) => ship.focus === '화물' || getShipTags(ship).includes('화물'))
+            .filter((ship) => getCargoValue(ship.cargo) > 0)
             .sort((left, right) => getCargoValue(right.cargo) - getCargoValue(left.cargo) || compareText(left.name, right.name));
     }
 
@@ -895,6 +895,7 @@
         const operationSelect = document.getElementById('trade-operation-type');
         const riskSelect = document.getElementById('trade-risk');
         const result = document.getElementById('logistics-result');
+        const copyButton = document.getElementById('trade-briefing-copy');
         if (!cargoInput || !crewInput || !shipSelect || !operationSelect || !riskSelect || !result) return;
         const cargoTarget = Math.max(0, Number(cargoInput.value) || 0);
         const crewAvailable = Math.max(1, Number(crewInput.value) || 0);
@@ -904,8 +905,10 @@
             renderTradeToolHint(operationSelect.value);
             renderTradeChecklistPrompt();
             renderTradeBriefingPrompt();
+            if (copyButton) copyButton.disabled = true;
             return;
         }
+        if (copyButton) copyButton.disabled = false;
         const recommendation = buildLogisticsRecommendation({
             cargoTarget,
             crewAvailable,
@@ -1639,6 +1642,7 @@
             if (event.key === 'Escape') {
                 if (searchOverlay?.classList.contains('active')) closeSearch(searchOverlay, document.getElementById('global-search-input'));
                 else if (activeModal) closeModal();
+                else closeMoreMenu();
             }
         });
     }
