@@ -521,17 +521,17 @@ const VOLT_DATA = {
         { id: "reliant-mako", name: "Reliant Mako", manufacturer: "MISC", role: "방송/중계", focus: "방송", size: "중형", crew: "1명", cargo: "0 SCU", description: "방송·중계용. 현재 기능 미구현.", tags: ["방송", "중계", "미구현"] },
         { id: "reliant-sen", name: "Reliant Sen", manufacturer: "MISC", role: "소형 과학/연구", focus: "연구", size: "중형", crew: "1명", cargo: "0 SCU", description: "소형 과학·연구선.", tags: ["과학", "입문", "연구"] },
         { id: "reliant-tana", name: "Reliant Tana", manufacturer: "MISC", role: "경 전투기", focus: "전투", size: "중형", crew: "1명", cargo: "1 SCU", description: "입문용 함선. 간단한 전투가 가능.", tags: ["입문", "전투"] },
-        { id: "starfarer", name: "Starfarer", manufacturer: "MISC", role: "중형 주유", focus: "주유", size: "대형", crew: "1명", cargo: "291 SCU", description: "민간용 수소·퀀텀 주유함선.", tags: ["화물", "주유", "다목적"] },
-        { id: "starfarer-gemini", name: "Starfarer Gemini", manufacturer: "MISC", role: "중형 주유", focus: "주유", size: "대형", crew: "1명", cargo: "291 SCU", description: "군용 수소·퀀텀 주유함선. 민간용보다 튼튼함.", tags: ["화물", "주유", "다목적"] },
-        { id: "starlancer-max", name: "Starlancer MAX", manufacturer: "MISC", role: "대형 화물선", focus: "화물", size: "대형", crew: "1명", cargo: "224 SCU", description: "장거리 화물선. 1인 운송에 최적화.", tags: ["화물", "장거리", "다목적"] },
+        { id: "starfarer", name: "Starfarer", manufacturer: "MISC", role: "중형 주유", focus: "주유", size: "대형", crew: "1명", cargo: "291 SCU", description: "민간용 수소·퀀텀 주유함선.", tags: ["화물", "주유"] },
+        { id: "starfarer-gemini", name: "Starfarer Gemini", manufacturer: "MISC", role: "중형 주유", focus: "주유", size: "대형", crew: "1명", cargo: "291 SCU", description: "군용 수소·퀀텀 주유함선. 민간용보다 튼튼함.", tags: ["화물", "주유"] },
+        { id: "starlancer-max", name: "Starlancer MAX", manufacturer: "MISC", role: "대형 화물선", focus: "화물", size: "대형", crew: "1명", cargo: "224 SCU", description: "장거리 화물선. 1인 운송에 최적화.", tags: ["화물", "장거리"] },
         { id: "starlancer-tac", name: "Starlancer TAC", manufacturer: "MISC", role: "건쉽", focus: "전투", size: "대형", crew: "1명", cargo: "96 SCU", description: "건쉽. 내부 소형 차량까지 수송 가능.", tags: ["전투", "차량 운송", "다목적"] },
         { id: "starlite", name: "Starlite", manufacturer: "MISC", role: "소형 주유", focus: "주유", size: "소형", crew: "1명", cargo: "0 SCU", description: "입문용 소형 주유함.", tags: ["주유", "입문"] },
         { id: "prospector", name: "Prospector", manufacturer: "MISC", role: "채굴", focus: "채굴", size: "소형", crew: "1명", cargo: "12 SCU", description: "단독 소행성 채굴에 최적화된 소형 채굴선.", tags: ["채굴", "소형", "입문"] },
 
         // ===== RSI =====
         { id: "constellation-andromeda", name: "Constellation Andromeda", manufacturer: "RSI", role: "중형 화물/건쉽", focus: "물류/전투", size: "중형", crew: "2-4명", cargo: "96 SCU", description: "전투 능력과 화물 운송을 겸비한 범용 중형 함선.", tags: ["화물", "다목적", "전투"] },
-        { id: "constellation-aquila", name: "Constellation Aquila", manufacturer: "RSI", role: "탐사", focus: "탐사", size: "중형", crew: "2-4명", cargo: "96 SCU", description: "심우주 탐사선. 내부에 탐사 차량을 수납 가능.", tags: ["화물", "다목적", "탐사"] },
-        { id: "constellation-phoenix", name: "Constellation Phoenix", manufacturer: "RSI", role: "럭셔리 투어링", focus: "VIP 여행용", size: "중형", crew: "2-4명", cargo: "80 SCU", description: "VIP 인원 수송용 함선. 내부에 피아노 설치 가능.", tags: ["화물", "다목적", "인원 수송"] },
+        { id: "constellation-aquila", name: "Constellation Aquila", manufacturer: "RSI", role: "탐사", focus: "탐사", size: "중형", crew: "2-4명", cargo: "96 SCU", description: "심우주 탐사선. 내부에 탐사 차량을 수납 가능.", tags: ["화물", "탐사"] },
+        { id: "constellation-phoenix", name: "Constellation Phoenix", manufacturer: "RSI", role: "럭셔리 투어링", focus: "VIP 여행용", size: "중형", crew: "2-4명", cargo: "80 SCU", description: "VIP 인원 수송용 함선. 내부에 피아노 설치 가능.", tags: ["화물", "인원 수송"] },
         { id: "constellation-taurus", name: "Constellation Taurus", manufacturer: "RSI", role: "중형 화물", focus: "물류", size: "중형", crew: "2-4명", cargo: "174 SCU", description: "전투 능력과 화물 운송을 겸비한 범용 중형 함선.", tags: ["화물", "다목적", "전투"] },
         { id: "galaxy", name: "Galaxy", manufacturer: "RSI", role: "중형 화물/모듈함", focus: "물류/모듈", size: "대형", crew: "2-4명(변경 예정)", cargo: "64 SCU", description: "미구현, 모듈 교체로 다목적 운용 가능.", tags: ["미구현", "다목적", "화물"] },
         { id: "hermes", name: "Hermes", manufacturer: "RSI", role: "중형 화물", focus: "물류", size: "중형", crew: "2-4명", cargo: "288 SCU", description: "화물 운송 성능을 최대화한 함선.", tags: ["화물", "다목적", "전투"] },
@@ -546,28 +546,28 @@ const VOLT_DATA = {
         { id: "ursa", name: "Ursa", manufacturer: "RSI", role: "지상 탐사", focus: "탐사", size: "소형", crew: "1명", cargo: "0 SCU", description: "지상 탐사 차량. Constellation Aquila에 기본 탑재.", tags: ["지상", "탐사", "함재기"] },
         { id: "ursa-medivac", name: "Ursa Medivac", manufacturer: "RSI", role: "지상 의료차량", focus: "의료", size: "소형", crew: "1명", cargo: "0 SCU", description: "지상 의료차량. 3티어 메디베이 탑재.", tags: ["지상", "의료", "함재기"] },
         { id: "zeus-mk2-cl", name: "Zeus MK2 CL", manufacturer: "RSI", role: "중형 화물", focus: "물류", size: "중형", crew: "1~3명", cargo: "128 SCU", description: "중형 화물선. 깔끔한 외형과 빠른 속도, 함선 트랙터빔 기본 장착으로 인기.", tags: ["화물", "다목적", "전투"] },
-        { id: "zeus-mk2-es", name: "Zeus MK2 ES", manufacturer: "RSI", role: "탐사", focus: "탐사", size: "중형", crew: "1~3명", cargo: "32 SCU", description: "심우주 탐사선. 적당한 카고량과 풍부한 퀀텀·수소 연료로 인기.", tags: ["화물", "탐사", "다목적"] },
+        { id: "zeus-mk2-es", name: "Zeus MK2 ES", manufacturer: "RSI", role: "탐사", focus: "탐사", size: "중형", crew: "1~3명", cargo: "32 SCU", description: "심우주 탐사선. 적당한 카고량과 풍부한 퀀텀·수소 연료로 인기.", tags: ["화물", "탐사"] },
         { id: "zeus-mk2-mr", name: "Zeus MK2 MR", manufacturer: "RSI", role: "경찰/바운티 헌터", focus: "전투", size: "중형", crew: "1~3명", cargo: "16 SCU", description: "미구현, Zeus MK2 베이스에서 전투 능력을 극대화한 함선. 유일하게 바운티 헌터로 분류.", tags: ["미구현", "다목적", "전투"] },
-        { id: "apollo-medivac", name: "Apollo Medivac", manufacturer: "RSI", role: "의료선", focus: "의료", size: "대형", crew: "1~2명", cargo: "32 SCU", description: "전투 지역에 진입해 부상자를 치료하는 군용 의료함.", tags: ["의료", "다목적", "전투"] },
-        { id: "apollo-triage", name: "Apollo Triage", manufacturer: "RSI", role: "의료선", focus: "의료", size: "대형", crew: "1~2명", cargo: "32 SCU", description: "전투 지역에 진입해 부상자를 치료하는 민간 의료함.", tags: ["의료", "다목적", "전투"] },
+        { id: "apollo-medivac", name: "Apollo Medivac", manufacturer: "RSI", role: "의료선", focus: "의료", size: "대형", crew: "1~2명", cargo: "32 SCU", description: "전투 지역에 진입해 부상자를 치료하는 군용 의료함.", tags: ["의료", "전투"] },
+        { id: "apollo-triage", name: "Apollo Triage", manufacturer: "RSI", role: "의료선", focus: "의료", size: "대형", crew: "1~2명", cargo: "32 SCU", description: "전투 지역에 진입해 부상자를 치료하는 민간 의료함.", tags: ["의료", "전투"] },
         { id: "arrastra", name: "Arrastra", manufacturer: "RSI", role: "채굴/정제", focus: "채굴/정제", size: "대형", crew: "1~2명(미구현)", cargo: "64 SCU", description: "미구현, 대형급 채굴함. 혼자서 정제까지 가능.", tags: ["채굴", "정제", "산업", "미구현"] },
         { id: "aurora-cl", name: "Aurora CL", manufacturer: "RSI", role: "경 화물선", focus: "화물", size: "소형", crew: "1명", cargo: "6 SCU", description: "입문용 경 화물선. 현재 단종.", tags: ["화물", "입문", "단종"] },
         { id: "aurora-es", name: "Aurora ES", manufacturer: "RSI", role: "입문/탐사선", focus: "탐사", size: "소형", crew: "1명", cargo: "3 SCU", description: "입문용 탐사선. 현재 단종.", tags: ["탐사", "입문", "단종"] },
         { id: "aurora-ln", name: "Aurora LN", manufacturer: "RSI", role: "경 전투기", focus: "전투", size: "소형", crew: "1명", cargo: "3 SCU", description: "입문용 경 전투기. 현재 단종.", tags: ["다목적", "입문", "단종"] },
-        { id: "aurora-lx", name: "Aurora LX", manufacturer: "RSI", role: "탐사선", focus: "탐사", size: "소형", crew: "1명", cargo: "3 SCU", description: "입문용 탐사선. 현재 단종.", tags: ["다목적", "입문", "탐사", "단종"] },
+        { id: "aurora-lx", name: "Aurora LX", manufacturer: "RSI", role: "탐사선", focus: "탐사", size: "소형", crew: "1명", cargo: "3 SCU", description: "입문용 탐사선. 현재 단종.", tags: ["입문", "탐사", "단종"] },
         { id: "aurora-mk1-se", name: "Aurora Mk1 SE", manufacturer: "RSI", role: "경 전투기", focus: "전투", size: "소형", crew: "1명", cargo: "6 SCU", description: "입문용 경 전투기. 현재 단종.", tags: ["다목적", "입문", "단종"] },
         { id: "aurora-mk2", name: "Aurora MK2", manufacturer: "RSI", role: "입문/경 전투기", focus: "전투", size: "소형", crew: "1명", cargo: "2 SCU", description: "입문용 경 전투기. 모듈형으로 전투·운송 성능을 극대화 가능.", tags: ["모듈형", "입문", "전투"] },
         { id: "aurora-mr", name: "Aurora MR", manufacturer: "RSI", role: "경 전투기", focus: "전투", size: "소형", crew: "1명", cargo: "3 SCU", description: "입문용 경 전투기. 현재 단종.", tags: ["다목적", "입문", "단종"] },
         { id: "polaris", name: "Polaris", manufacturer: "RSI", role: "코르벳", focus: "전투", size: "대형", crew: "14명", cargo: "576 SCU", description: "VOLT × MJO 합동 작전에서 운용된 함대급 코르벳. 어뢰 및 함재기 운용.", tags: ["전투", "함대", "기함"] },
 
         // ===== Drake =====
-        { id: "caterpillar", name: "Caterpillar", manufacturer: "Drake", role: "중형 화물", focus: "물류", size: "대형", crew: "5명", cargo: "576 SCU", description: "다용도 화물선. 전리품 수거 및 화물 운송 겸용으로 활용.", tags: ["화물", "다목적"] },
-        { id: "caterpillar-pirate", name: "Caterpillar Pirate", manufacturer: "Drake", role: "중형 화물", focus: "물류", size: "대형", crew: "5명", cargo: "576 SCU", description: "다용도 화물선. 전리품 수거 및 화물 운송 겸용. 해적 스웜 클리어 보상.", tags: ["화물", "다목적"] },
+        { id: "caterpillar", name: "Caterpillar", manufacturer: "Drake", role: "중형 화물", focus: "물류", size: "대형", crew: "5명", cargo: "576 SCU", description: "다용도 화물선. 전리품 수거 및 화물 운송 겸용으로 활용.", tags: ["화물"] },
+        { id: "caterpillar-pirate", name: "Caterpillar Pirate", manufacturer: "Drake", role: "중형 화물", focus: "물류", size: "대형", crew: "5명", cargo: "576 SCU", description: "다용도 화물선. 전리품 수거 및 화물 운송 겸용. 해적 스웜 클리어 보상.", tags: ["화물"] },
         { id: "cutlass-black", name: "Cutlass Black", manufacturer: "Drake", role: "다목적", focus: "전투", size: "중형", crew: "1-2명", cargo: "46 SCU", description: "전투와 물류를 겸비한 범용 함선. 초보자 권장.", tags: ["전투", "다목적", "입문"] },
 
         // ===== Aegis =====
         { id: "hammerhead", name: "Hammerhead", manufacturer: "Aegis", role: "전투함", focus: "전투", size: "대형", crew: "9명", cargo: "0 SCU", description: "함대 호위 및 전투 지원을 담당하는 주력 전투함.", tags: ["전투", "호위", "대형"] },
-        { id: "reclaimer", name: "Reclaimer", manufacturer: "Aegis", role: "구난·해체", focus: "해체", size: "대형", crew: "5명", cargo: "5,280 SCU", description: "난파선 해체 및 자원 수거 전문 함선. 전리품 회수 활동에 활용.", tags: ["해체", "자원", "대형"] },
+        { id: "reclaimer", name: "Reclaimer", manufacturer: "Aegis", role: "구난·인양", focus: "인양", size: "대형", crew: "5명", cargo: "5,280 SCU", description: "난파선 해체 및 자원 수거 전문 함선. 전리품 회수 활동에 활용.", tags: ["인양", "자원", "대형"] },
 
         // ===== Anvil =====
         { id: "carrack", name: "Carrack", manufacturer: "Anvil", role: "탐사", focus: "탐사", size: "대형", crew: "6명", cargo: "456 SCU", description: "장거리 탐사 및 정보 수집에 특화된 자급자족형 탐사선.", tags: ["탐사", "정보", "장거리"] }

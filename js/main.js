@@ -20,7 +20,7 @@
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'schedule', 'policy', 'faq', 'guide'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
     const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc' };
-    const SHIP_FILTER_ORDER = ['화물', '전투', '다목적', '탐사', '채굴', '인양', '해체', '연구', '정제', '주유', '의료', '입문', '방송', '기함', '미구현'];
+    const SHIP_FILTER_ORDER = ['화물', '전투', '다목적', '탐사', '채굴', '인양', '연구', '정제', '주유', '의료', '입문', '방송', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     let currentSection = null;
@@ -339,7 +339,6 @@
             '전투': '#fc8181',
             '탐사': '#68d391',
             '채굴': '#76e4f7',
-            '해체': '#b794f4',
             '연구': '#90cdf4',
             '정제': '#fbd38d',
             '인양': '#d6bcfa',
