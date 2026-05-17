@@ -104,6 +104,7 @@ const VOLT_DATA = {
             platform: "치지직",
             description: "토크 중심 방송과 종합게임을 함께 즐기는 스타시티즌 뉴비",
             image: "assets/images/streamers/rudy-v2.png",
+            imagePosition: "center 18%",
             iconBg: "linear-gradient(135deg, #9ae6b4 0%, #38b2ac 100%)",
             channelUrl: "https://chzzk.naver.com/05c6daaae355aeae2f1843b9edc426b3",
             sections: [

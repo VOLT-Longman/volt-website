@@ -11,10 +11,11 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.volt.ceo/">
   <meta property="og:locale" content="ko_KR">
-  <meta property="og:image" content="assets/images/VOLT_logo.png">
+  <meta property="og:image" content="https://www.volt.ceo/assets/images/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="VOLT - Voyagers of Logistics and Trade">
   <meta name="twitter:description" content="한국 커뮤니티의 Star Citizen 물류·무역 전문 함대">
+  <meta name="twitter:image" content="https://www.volt.ceo/assets/images/og-image.png">
   <link rel="canonical" href="https://www.volt.ceo/">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#E8482F">
@@ -24,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260517-9">
+  <link rel="stylesheet" href="css/styles.css?v=20260517-12">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -272,6 +273,12 @@
      <div class="ship-filters" id="ship-filters"></div>
      <div class="ships-toolbar">
       <input type="text" id="ship-search" class="ship-search" placeholder="함선명 또는 제조사 검색...">
+      <label class="ship-filter-label" for="ship-manufacturer">제조사</label>
+      <select id="ship-manufacturer" class="ship-sort"></select>
+      <label class="ship-checkbox-label" for="ship-hide-unreleased">
+       <input id="ship-hide-unreleased" type="checkbox">
+       <span>미구현 제외</span>
+      </label>
       <label class="ship-sort-label" for="ship-sort">정렬</label>
       <select id="ship-sort" class="ship-sort">
        <option value="name-asc">이름 가나다순</option>
@@ -421,7 +428,8 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260517-9"></script>
-  <script src="js/main.js?v=20260517-9"></script>
+  <script src="data/volt-data.js?v=20260517-12"></script>
+  <script src="js/main.js?v=20260517-12"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"1c86868908484152bb27fe39459f8c82"}'></script>
  </body>
 </html>

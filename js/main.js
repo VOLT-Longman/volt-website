@@ -19,8 +19,10 @@
     const PAGE_SIZE = 4;
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'schedule', 'policy', 'faq', 'guide'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
-    const shipState = { filter: 'all', query: '', sort: 'name-asc' };
+    const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc' };
     const SHIP_FILTER_ORDER = ['화물', '전투', '다목적', '탐사', '채굴', '인양', '해체', '연구', '정제', '주유', '의료', '입문', '방송', '기함', '미구현'];
+    const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
+    const shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     let currentSection = null;
     let revealObserver;
     let activeModal = null;
@@ -89,8 +91,9 @@
         const container = document.getElementById('streamers-grid');
         if (!container || !Array.isArray(data.streamers)) return;
         container.innerHTML = data.streamers.map((streamer) => {
+            const imagePosition = streamer.imagePosition ? ` style="object-position:${escapeHtml(streamer.imagePosition)};"` : '';
             const icon = streamer.image
-                ? `<img src="${escapeHtml(streamer.image)}" alt="${escapeHtml(streamer.name)}" loading="lazy" decoding="async">`
+                ? `<img src="${escapeHtml(streamer.image)}" alt="${escapeHtml(streamer.name)}" loading="lazy" decoding="async"${imagePosition}>`
                 : '<div class="streamer-icon-fallback">👤</div>';
             return `<div class="streamer-card reveal">
                 <div class="streamer-icon">${icon}</div>
@@ -254,6 +257,21 @@
         return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
     }
 
+    function getShipManufacturers() {
+        if (!Array.isArray(data.ships)) return [];
+        return [...new Set(data.ships.map((ship) => ship.manufacturer))].sort(compareText);
+    }
+
+    function renderShipManufacturers() {
+        const select = document.getElementById('ship-manufacturer');
+        if (!select) return;
+        select.innerHTML = [
+            '<option value="all">전체</option>',
+            ...getShipManufacturers().map((manufacturer) => `<option value="${escapeHtml(manufacturer)}">${escapeHtml(manufacturer)}</option>`)
+        ].join('');
+        select.value = shipState.manufacturer;
+    }
+
     function renderShipFilters() {
         const container = document.getElementById('ship-filters');
         if (!container) return;
@@ -268,10 +286,21 @@
     function getVisibleShips() {
         const query = shipState.query.trim().toLowerCase();
         return getSortedShips().filter((ship) => {
-            const matchesFilter = shipState.filter === 'all' || ship.tags.includes(shipState.filter);
-            const haystack = [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ...(ship.tags || [])].join(' ').toLowerCase();
-            return matchesFilter && (!query || haystack.includes(query));
+            const tags = getShipTags(ship);
+            const matchesFilter = shipState.filter === 'all' || tags.includes(shipState.filter);
+            const matchesManufacturer = shipState.manufacturer === 'all' || ship.manufacturer === shipState.manufacturer;
+            const matchesReleaseState = !shipState.hideUnreleased || !tags.includes('미구현');
+            const haystack = buildShipSearchText(ship, tags);
+            return matchesFilter && matchesManufacturer && matchesReleaseState && (!query || haystack.includes(query));
         });
+    }
+
+    function getShipTags(ship) {
+        return Array.isArray(ship.tags) ? ship.tags : [];
+    }
+
+    function buildShipSearchText(ship, tags = getShipTags(ship)) {
+        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ...tags].join(' ').toLowerCase();
     }
 
     function renderShips() {
@@ -318,7 +347,7 @@
                     <div class="ship-stat"><span class="ship-stat-label">승무원</span><span class="ship-stat-value">${escapeHtml(ship.crew)}</span></div>
                     <div class="ship-stat"><span class="ship-stat-label">화물</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
                 </div>
-                <div class="ship-tags">${ship.tags.map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
             </article>`).join('');
         observeNewReveals(container);
     }
@@ -401,6 +430,7 @@
         renderNoticeFilters();
         renderAnnouncements();
         renderShipFilters();
+        renderShipManufacturers();
         renderShips();
         renderSchedule();
         renderPolicy();
@@ -538,11 +568,15 @@
     function setupShipControls() {
         const filters = document.querySelector('.ship-filters');
         const search = document.getElementById('ship-search');
+        const manufacturer = document.getElementById('ship-manufacturer');
+        const hideUnreleased = document.getElementById('ship-hide-unreleased');
         const sort = document.getElementById('ship-sort');
         const grid = document.getElementById('ships-grid');
-        if (!filters || !search || !sort || !grid) return;
+        if (!filters || !search || !manufacturer || !hideUnreleased || !sort || !grid) return;
         filters.addEventListener('click', handleShipFilterClick);
         search.addEventListener('input', () => { shipState.query = search.value; renderShips(); });
+        manufacturer.addEventListener('change', () => { shipState.manufacturer = manufacturer.value; renderShips(); });
+        hideUnreleased.addEventListener('change', () => { shipState.hideUnreleased = hideUnreleased.checked; renderShips(); });
         sort.addEventListener('change', () => { shipState.sort = sort.value; renderShips(); });
         grid.addEventListener('click', openShipFromEvent);
         grid.addEventListener('keydown', (event) => {
@@ -563,7 +597,7 @@
         const card = event.target.closest('[data-ship-id]');
         if (!card) return;
         event.preventDefault();
-        const ship = data.ships.find((item) => item.id === card.getAttribute('data-ship-id'));
+        const ship = shipById.get(card.getAttribute('data-ship-id'));
         if (ship) openShipModal(ship);
     }
 
@@ -612,8 +646,8 @@
     }
 
     function openShipModal(ship) {
-        const slug = ship.rsiSlug || ship.id;
-        const url = `https://robertsspaceindustries.com/en/pledge/ships/${encodeURIComponent(slug)}`;
+        const officialUrl = getShipOfficialUrl(ship);
+        const officialLabel = ship.rsiUrl ? 'RSI 공식 페이지' : 'RSI 함선 매트릭스';
         openModal(`<div class="modal-header">
                 <div>
                     <div class="ship-mfr">${escapeHtml(ship.manufacturer)}</div>
@@ -629,8 +663,12 @@
                     <div class="ship-modal-stat"><span>승무원</span><strong>${escapeHtml(ship.crew)}</strong></div>
                     <div class="ship-modal-stat"><span>화물</span><strong>${escapeHtml(ship.cargo)}</strong></div>
                 </div>
-                <a class="btn btn-primary ship-modal-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">RSI 공식 페이지</a>
+                <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
             </div>`);
+    }
+
+    function getShipOfficialUrl(ship) {
+        return ship.rsiUrl || RSI_SHIP_MATRIX_URL;
     }
 
     function openGalleryLightbox(item) {

@@ -514,6 +514,11 @@ body {
     outline-offset: 4px;
 }
 
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--volt-orange);
+    outline-offset: 3px;
+}
+
 /* ==========================================================================
    3. Layout - Sections
    ========================================================================== */
@@ -2290,7 +2295,6 @@ body {
 }
 
 .ship-search:focus {
-    outline: none;
     border-color: var(--volt-orange);
 }
 
@@ -2572,10 +2576,17 @@ body {
 [data-theme="light"] .streamers,
 [data-theme="light"] .join,
 [data-theme="light"] .footer { background: #ffffff; }
+[data-theme="light"] #notices,
+[data-theme="light"] #ships,
+[data-theme="light"] #schedule,
+[data-theme="light"] #policy,
+[data-theme="light"] #faq,
+[data-theme="light"] #guide { background: var(--color-bg-primary); }
 [data-theme="light"] .hub,
 [data-theme="light"] .gallery { background: linear-gradient(180deg,#f5f5f7 0%,#ffffff 100%); }
 [data-theme="light"] .mobile-menu { background: rgba(245,245,247,0.98); }
 [data-theme="light"] .mobile-menu a { color: var(--color-text-primary); }
+[data-theme="light"] .streamer-sub-section { background: rgba(0,0,0,0.06); }
 
 /* ── 로딩 스플래시 ── */
 #loading-splash {
@@ -2687,7 +2698,21 @@ body {
     border-radius: var(--radius-full); color: var(--color-text-primary);
     font-size: 14px; font-family: inherit; transition: border-color 0.2s;
 }
-.ship-search:focus { outline: none; border-color: var(--volt-orange); }
+.ship-search:focus { border-color: var(--volt-orange); }
+.ship-filter-label,
+.ship-checkbox-label {
+    color: var(--color-text-tertiary);
+    font-size: 13px;
+}
+.ship-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+.ship-checkbox-label input {
+    accent-color: var(--volt-orange);
+}
 .ship-search::placeholder { color: var(--color-text-tertiary); }
 .ships-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 20px; }
 .ships-empty { text-align: center; color: var(--color-text-tertiary); padding: 60px 0; font-family: var(--font-mono); font-size: 14px; }
@@ -2706,7 +2731,19 @@ body {
 .ship-stat-label { font-size: 10px; color: var(--color-text-tertiary); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 2px; }
 .ship-stat-value { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
 .ship-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.ship-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(232,72,47,0.1); color: var(--volt-orange); font-family: var(--font-mono); }
+.ship-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(232,72,47,0.1);
+    color: var(--volt-orange);
+    font-family: var(--font-mono);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.ship-tag:hover {
+    background: rgba(232,72,47,0.18);
+    color: var(--volt-orange);
+}
 
 /* ── 작전 일정 ── */
 .schedule-list { display: flex; flex-direction: column; gap: 16px; margin-top: 56px; }
