@@ -1,195 +1,261 @@
-# VOLT Fleet Website
+﻿# VOLT Fleet Website
 
-> 한국 커뮤니티 Star Citizen 물류·무역 전문 함대 **VOLT**의 공식 홈페이지
+한국 커뮤니티 Star Citizen 물류·무역 전문 함대 **VOLT**의 공식 홈페이지입니다.
 
-🌐 **[volt.ceo](https://www.volt.ceo)** · 💬 **[Discord](https://discord.gg/voltstarcitizen)** · 🚀 **[RSI 공식 페이지](https://robertsspaceindustries.com/orgs/VOLT)**
+- 라이브 사이트: https://www.volt.ceo
+- Discord: https://discord.gg/voltstarcitizen
+- RSI 공식 페이지: https://robertsspaceindustries.com/orgs/VOLT
+
+이 프로젝트는 별도 설치 과정 없이 동작하는 정적 웹사이트입니다. 복잡한 프로그램 설치나 빌드 없이, 파일을 수정한 뒤 GitHub `main` 브랜치에 올리면 Cloudflare Pages가 자동으로 배포합니다.
 
 ---
 
-## 📂 프로젝트 구조
+## 한눈에 보기
 
-```
+이 사이트는 크게 세 종류의 파일로 이루어져 있습니다.
+
+| 파일 | 하는 일 | 보통 누가 수정하나요? |
+|---|---|---|
+| `data/volt-data.js` | 공지, 함선, FAQ, 스트리머 같은 실제 내용 저장 | 운영진이 가장 자주 수정 |
+| `index.html` | 화면의 큰 틀과 섹션 배치 | 새 메뉴나 새 섹션이 필요할 때 |
+| `css/styles.css` / `js/main.js` | 디자인과 동작 | 기능 수정이 필요할 때 |
+
+가장 중요한 원칙은 하나입니다.
+
+> **사이트 내용은 가능한 한 `data/volt-data.js`에서만 바꿉니다.**
+
+공지 하나를 추가하거나, 함선 정보를 고치거나, FAQ 문구를 바꾸는 일은 대부분 이 파일 하나만 수정하면 됩니다.
+
+---
+
+## 현재 제공 기능
+
+| 기능 | 설명 |
+|---|---|
+| 섹션형 홈페이지 | 메뉴를 누르면 같은 페이지 안에서 원하는 화면으로 전환 |
+| 다크 / 라이트 테마 | 우측 상단 버튼으로 전환, 선택값 자동 저장 |
+| 공지사항 | 최신 공지 4개를 먼저 보여주고 `더 보기`로 추가 표시 |
+| 공지 태그 필터 | `전체 / 공지 / 정책 / 작전 / 시스템`으로 분류 |
+| 함선 데이터베이스 | 검색, 필터, 정렬, 상세 모달 지원 |
+| 전역 검색 | 우측 상단 검색 버튼 또는 `/` 키로 사이트 전체 검색 |
+| FAQ | 질문을 클릭하면 답변이 열리는 아코디언 방식 |
+| 운영정책 링크 복사 | 각 조항 옆 링크 버튼으로 바로가기 주소 복사 |
+| 스트리머 섹션 | 공식 스트리머 카드와 푸터 링크 자동 동기화 |
+| 갤러리 | 이미지 등록 시 자동 그리드 표시, 클릭 시 크게 보기 |
+| 반응형 화면 | 모바일, 태블릿, 데스크탑에 맞춰 자동 조정 |
+| 404 페이지 | 잘못된 주소 접속 시 전용 오류 페이지 표시 |
+
+---
+
+## 사이트 메뉴 구성
+
+| 메뉴 | 내용 |
+|---|---|
+| 소개 | VOLT 소개, 핵심 가치, 함대 정보 |
+| 연혁 | 주요 이정표 |
+| 임원진 | 운영진 소개 |
+| 공지 | 함대 소식 |
+| 함선DB | 함선 검색과 상세 정보 |
+| 일정 | 작전 및 이벤트 예정 |
+| 무역허브 | 함대 전용 교역 시스템 안내 |
+| 스트리머 | 공식 스트리머 소개 |
+| 갤러리 | 활동 이미지 |
+| 정책 | 운영정책 전문 |
+| FAQ | 자주 묻는 질문 |
+| 무역가이드 | 입문용 무역 안내 |
+| 가입하기 | 지원 절차와 링크 |
+
+---
+
+## 폴더 구조
+
+```text
 volt-website/
-├── index.html                  # 메인 HTML (SPA 구조)
-├── 404.html                    # 커스텀 404 에러 페이지
+├── index.html                  메인 페이지
+├── 404.html                    잘못된 주소용 페이지
+├── README.md                   이 안내 문서
 ├── css/
-│   └── styles.css              # 전체 스타일시트 (CSS 변수 기반 테마 포함)
+│   └── styles.css              디자인과 테마
 ├── js/
-│   └── main.js                 # 메인 스크립트 (렌더링 + 네비게이션 + 기능)
+│   └── main.js                 메뉴 전환, 검색, 모달 등 기능
 ├── data/
-│   └── volt-data.js            # 함대 데이터 (단일 진실 공급원)
+│   └── volt-data.js            실제 사이트 내용
 └── assets/
     └── images/
-        ├── VOLT_logo.png
-        ├── streamers/          # 스트리머 프로필 이미지
-        │   ├── perma.png
-        │   └── kookbap.png
-        └── leaders/            # 임원진 프로필 (추가 예정)
+        ├── VOLT_logo.png       로고
+        ├── streamers/          스트리머 이미지
+        └── gallery/            갤러리 이미지
 ```
 
 ---
 
-## 🗂️ 섹션 구성
+## 가장 자주 하는 수정 방법
 
-| 섹션 ID | 이름 | 설명 |
-|---|---|---|
-| `about` | 소개 | 함대 소개, 핵심 가치, 부서 |
-| `timeline` | 연혁 | 함대 주요 이정표 |
-| `leadership` | 임원진 | 운영진 카드 |
-| `notices` | 공지사항 | 최근 함대 소식 |
-| `ships` | 함선 DB | 필터·검색 지원 함선 데이터베이스 |
-| `schedule` | 작전 일정 | 예정 작전 및 이벤트 |
-| `hub` | 무역허브 | 함대 전용 교역 시스템 안내 |
-| `policy` | 운영정책 | 전문 (2026.05.15 시행) |
-| `faq` | FAQ | 자주 묻는 질문 아코디언 |
-| `streamers` | 스트리머 | 공식 스트리머 카드 |
-| `guide` | 무역 가이드 | 무역·물류 입문 안내 |
-| `gallery` | 갤러리 | 활동 사진 (업로드 예정) |
-| `join` | 가입하기 | 지원 절차 및 CTA |
+### 1. 공지 추가하기
 
----
+`data/volt-data.js`의 `announcements` 목록에 아래 형식으로 새 항목을 추가합니다.
 
-## 🛠️ 콘텐츠 수정 방법
-
-**모든 콘텐츠는 `data/volt-data.js` 한 파일에서 관리합니다.**  
-HTML이나 JS를 건드릴 필요 없이, 아래 배열만 수정하면 자동으로 반영됩니다.
-
-### 임원진 추가/변경
 ```javascript
-// data/volt-data.js > leadership 배열
-{
-    id: "coo",
-    name: "가스펠",
-    role: "COO · 운영총괄이사",
-    avatar: "G",
-    avatarGradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-    discord: "@gospel0927",
-    description: "조직 운영 표준을 수립하고...",
-    duties: "운영 시스템 개선 및 표준 수립 · ..."
-}
-```
-
-### 스트리머 추가/변경
-```javascript
-// data/volt-data.js > streamers 배열
-{
-    id: "perma",
-    name: "페르마",
-    platform: "치지직",
-    description: "소개 문구",
-    image: "assets/images/streamers/perma.png",  // 이미지 파일도 업로드 필요
-    channelUrl: "https://chzzk.naver.com/...",
-    sections: [
-        { title: "📢 섹션 제목", content: "내용" }
-    ]
-}
-```
-> 푸터 스트리머 링크는 이 배열에서 **자동 동기화**됩니다. 별도로 수정할 필요 없습니다.
-
-### 연혁 추가
-```javascript
-// data/volt-data.js > timeline 배열
-{
-    date: "2956.06",
-    title: "새로운 이벤트",
-    description: "이벤트 설명..."
-}
-```
-
-### 공지사항 추가
-```javascript
-// data/volt-data.js > announcements 배열
 {
     id: "ann-007",
     date: "2026.06.01",
     title: "공지 제목",
-    content: "공지 내용...",
-    tag: "공지",               // 태그 텍스트
-    tagColor: "orange"         // orange | red | blue | green
+    content: "공지 내용",
+    tag: "공지",
+    tagColor: "orange"
 }
 ```
 
-### 작전 일정 추가
+- `tag`는 화면의 필터 버튼 이름과 연결됩니다.
+- 현재 권장 태그는 `공지`, `정책`, `작전`, `시스템`입니다.
+- 최근 날짜가 먼저 보이도록 작성하는 것을 권장합니다.
+
+### 2. 작전 일정 추가하기
+
 ```javascript
-// data/volt-data.js > calendar 배열
 {
     id: "cal-005",
     date: "2026.09",
     dateLabel: "2026년 9월 예정",
     title: "작전명",
-    description: "작전 설명...",
-    type: "작전",              // 작전 | 이벤트 | 프로젝트 | 정책
-    status: "예정"             // 예정 | 대기 | 계획
+    description: "작전 설명",
+    type: "작전",
+    status: "예정"
 }
 ```
 
-### 함선 DB 추가
+### 3. 함선 추가하기
+
 ```javascript
-// data/volt-data.js > ships 배열
 {
     id: "ship-id",
     name: "함선명",
     manufacturer: "제조사",
     role: "역할",
-    focus: "물류",             // 물류 | 전투 | 탐사 | 채굴
+    focus: "물류",
     size: "대형",
     crew: "2-4명",
     cargo: "4,608 SCU",
-    description: "함선 설명...",
+    description: "함선 설명",
     tags: ["화물", "무역"]
 }
 ```
 
-### FAQ 추가
+- `focus`는 현재 `물류`, `전투`, `탐사`, `채굴` 중 하나를 쓰는 것이 가장 자연스럽습니다.
+- `tags`는 함선 필터와 검색에 사용됩니다.
+
+### 4. FAQ 추가하기
+
 ```javascript
-// data/volt-data.js > faq 배열
 {
     q: "질문 내용",
     a: "답변 내용"
 }
 ```
 
+### 5. 스트리머 추가하기
+
+```javascript
+{
+    id: "streamer-id",
+    name: "이름",
+    platform: "치지직",
+    description: "짧은 소개",
+    image: "assets/images/streamers/example.png",
+    channelUrl: "https://...",
+    sections: [
+        { title: "📢 소개", content: "내용" }
+    ]
+}
+```
+
+- 이미지는 `assets/images/streamers/` 폴더에 넣습니다.
+- 푸터의 스트리머 링크는 자동으로 갱신됩니다.
+
+### 6. 갤러리 이미지 추가하기
+
+1. 이미지를 `assets/images/gallery/` 폴더에 넣습니다.
+2. `data/volt-data.js`의 `gallery` 목록에 등록합니다.
+
+```javascript
+{
+    id: "gallery-001",
+    src: "assets/images/gallery/lazarus-raid.jpg",
+    thumb: "assets/images/gallery/lazarus-raid-thumb.jpg",
+    title: "Lazarus Complex 레이드",
+    date: "2025.08.02",
+    description: "하반기 첫 공식 단체 작전"
+}
+```
+
+- `thumb`는 썸네일 이미지입니다. 없으면 원본 이미지를 그대로 써도 됩니다.
+- 등록된 이미지는 자동으로 갤러리에 표시됩니다.
+
 ---
 
-## ⚙️ 기능 목록 (v2)
+## 수정할 때 꼭 지켜야 할 것
 
-| 기능 | 설명 |
+### 콘텐츠 수정 시
+
+- 내용을 바꿀 때는 먼저 `data/volt-data.js`를 확인합니다.
+- 따옴표, 쉼표를 빠뜨리면 사이트 전체가 멈출 수 있습니다.
+- 이미지 경로는 실제 파일 위치와 정확히 같아야 합니다.
+
+### 새 섹션을 만들 때
+
+새 메뉴나 새 화면을 만들 때는 다음 파일을 함께 수정해야 합니다.
+
+1. `data/volt-data.js` — 내용 추가
+2. `index.html` — 섹션과 메뉴 추가
+3. `js/main.js` — 렌더링 함수와 섹션 등록
+4. `css/styles.css` — 디자인 추가
+
+### 배포 후 확인할 것
+
+배포가 끝나면 아래 순서로 확인하는 것이 좋습니다.
+
+1. 메인 화면이 정상 표시되는지
+2. 메뉴를 눌렀을 때 섹션이 잘 바뀌는지
+3. 다크 / 라이트 테마가 모든 섹션에서 자연스럽게 전환되는지
+4. 공지 필터, 함선 검색, FAQ, 검색창이 정상 동작하는지
+5. 브라우저 새로고침 후에도 최신 파일이 보이는지
+
+> 화면이 예전처럼 보이면 브라우저 캐시 때문일 수 있습니다. 강력 새로고침을 한 번 해보세요.
+
+---
+
+## 배포 방법
+
+현재 배포 방식은 단순합니다.
+
+1. 수정한 파일을 GitHub 저장소에 반영
+2. `main` 브랜치에 push
+3. Cloudflare Pages가 자동으로 배포
+4. 보통 1~2분 뒤 `www.volt.ceo`에서 확인 가능
+
+별도의 빌드 명령어는 없습니다.
+
+---
+
+## 기술 메모
+
+- Vanilla HTML / CSS / JavaScript만 사용
+- 프레임워크, 번들러, npm 사용 없음
+- 콘텐츠 원본은 `window.VOLT_DATA`
+- 메뉴 전환은 URL 해시 기반 SPA 방식
+- 테마는 CSS 변수와 `localStorage`로 관리
+
+---
+
+## 향후 확장 아이디어
+
+| 단계 | 아이디어 |
 |---|---|
-| SPA 라우팅 | URL 해시 기반 섹션 전환, 뒤로가기/앞으로가기 지원 |
-| 다크/라이트 테마 | CSS 변수 기반, 설정 로컬 저장 |
-| 로딩 스플래시 | VOLT 로고 + 프로그레스 바 |
-| 스크롤 상단 버튼 | 300px 이상 스크롤 시 표시 |
-| 스크롤 reveal | Intersection Observer 기반 카드 진입 애니메이션 |
-| 활성 nav 링크 | 현재 섹션 nav 하이라이트 |
-| 함선 DB 필터/검색 | 역할 필터 + 실시간 텍스트 검색 |
-| FAQ 아코디언 | 클릭 시 펼침/닫힘, 하나만 열림 |
-| 404 페이지 | VOLT 스타일 커스텀 에러 페이지 |
-| 푸터 동적 렌더링 | 스트리머 데이터와 자동 동기화 |
-
----
-
-## 🚀 배포
-
-GitHub `main` 브랜치에 push하면 **Cloudflare Pages**가 자동으로 빌드 및 배포합니다.  
-별도의 빌드 명령어 없음 — 정적 파일 그대로 서빙.
-
-```
-도메인: volt.ceo / www.volt.ceo
-플랫폼: Cloudflare Pages
-브랜치: main (자동 배포)
-```
-
----
-
-## 🔮 향후 확장 계획
-
-| Phase | 내용 | 상태 |
-|---|---|---|
-| **Phase 1** | 정적 사이트 (현재) | ✅ 완료 |
-| **Phase 2** | 갤러리 이미지 업로드 (Supabase Storage) | 🔜 예정 |
-| **Phase 3** | Discord OAuth 로그인 + 관리자 편집 페이지 | 🔜 예정 |
-| **Phase 4** | 무역허브 게시판, 실시간 작전 캘린더 | 🔜 예정 |
-| **Phase 5** | 함대원 대시보드, 포인트/기여도 시스템 | 💡 검토 중 |
+| 다음 | 실제 갤러리 이미지 채우기 |
+| 이후 | 관리자용 편집 화면 |
+| 이후 | Discord 로그인 연동 |
+| 이후 | 무역허브 게시판 / 실시간 일정 |
+| 장기 | 함대원 대시보드와 기여도 시스템 |
 
 ---
 
