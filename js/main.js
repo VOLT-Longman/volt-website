@@ -610,7 +610,10 @@
         const hideUnreleased = document.getElementById('ship-hide-unreleased');
         const sort = document.getElementById('ship-sort');
         const grid = document.getElementById('ships-grid');
-        if (!filters || !search || !manufacturer || !hideUnreleased || !sort || !grid) return;
+        const purpose = document.getElementById('ship-purpose');
+        const purposeApply = document.getElementById('ship-purpose-apply');
+        const purposeReset = document.getElementById('ship-purpose-reset');
+        if (!filters || !search || !manufacturer || !hideUnreleased || !sort || !grid || !purpose || !purposeApply || !purposeReset) return;
         filters.addEventListener('click', handleShipFilterClick);
         search.addEventListener('input', () => { shipState.query = search.value; renderShips(); });
         manufacturer.addEventListener('change', () => { shipState.manufacturer = manufacturer.value; renderShips(); });
@@ -620,7 +623,19 @@
         grid.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') openShipFromEvent(event);
         });
+        purposeApply.addEventListener('click', () => applyShipPurpose(purpose.value));
+        purposeReset.addEventListener('click', () => applyShipPurpose(''));
         setupShipCompareControls();
+    }
+
+    function applyShipPurpose(purpose) {
+        if (!purpose) {
+            shipState.filter = 'all';
+        } else {
+            shipState.filter = purpose;
+        }
+        renderShipFilters();
+        renderShips();
     }
 
     function setupShipCompareControls() {
@@ -697,7 +712,7 @@
     function openShipComparison() {
         const ships = [...shipCompareState].map((id) => shipById.get(id)).filter(Boolean);
         if (ships.length < 2) return;
-        openModal(renderShipComparison(ships));
+        openModal(renderShipComparison(ships), true);
     }
 
     function renderShipComparison(ships) {
@@ -714,25 +729,28 @@
                     <span class="eyebrow">Ship Compare</span>
                     <h2>함선 비교</h2>
                 </div>
+                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
             </div>
-            <div class="ship-compare-table-wrap">
-                <table class="ship-compare-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">항목</th>
-                            ${ships.map((ship) => `<th scope="col">${escapeHtml(ship.name)}</th>`).join('')}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${fields.map(([label, key]) => renderComparisonRow(label, key, ships)).join('')}
-                    </tbody>
-                </table>
-            </div>
-            <div class="ship-compare-tags">
-                ${ships.map((ship) => `<section>
-                    <h3>${escapeHtml(ship.name)}</h3>
-                    <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
-                </section>`).join('')}
+            <div class="modal-body">
+                <div class="ship-compare-table-wrap">
+                    <table class="ship-compare-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">항목</th>
+                                ${ships.map((ship) => `<th scope="col">${escapeHtml(ship.name)}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${fields.map(([label, key]) => renderComparisonRow(label, key, ships)).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ship-compare-tags">
+                    ${ships.map((ship) => `<section>
+                        <h3>${escapeHtml(ship.name)}</h3>
+                        <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                    </section>`).join('')}
+                </div>
             </div>`;
     }
 
