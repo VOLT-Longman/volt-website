@@ -16,9 +16,23 @@
   <meta name="twitter:description" content="한국 커뮤니티의 Star Citizen 물류·무역 전문 함대">
   <link rel="icon" type="image/png" href="assets/images/VOLT_logo.png">
   <link rel="stylesheet" href="css/styles.css">
+  <script>
+    (function() {
+      const t = localStorage.getItem('volt-theme');
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
  </head>
  <body>
+  <!-- Loading Splash -->
+  <div id="loading-splash">
+   <img src="assets/images/VOLT_logo.png" class="splash-logo" alt="VOLT">
+   <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+  </div>
+
+  <!-- Scroll to Top -->
+  <button id="scroll-to-top" aria-label="맨 위로">↑</button>
   <nav class="nav" id="nav">
    <div class="nav-container">
     <a href="#home" class="nav-logo" data-section="home">
@@ -29,10 +43,14 @@
      <li><a href="#about" data-section="about">소개</a></li>
      <li><a href="#timeline" data-section="timeline">연혁</a></li>
      <li><a href="#leadership" data-section="leadership">임원진</a></li>
+     <li><a href="#notices" data-section="notices">공지</a></li>
+     <li><a href="#ships" data-section="ships">함선DB</a></li>
+     <li><a href="#schedule" data-section="schedule">일정</a></li>
      <li><a href="#hub" data-section="hub">무역허브</a></li>
-     <li><a href="#streamers" data-section="streamers">스트리머</a></li>
-     <li><a href="#gallery" data-section="gallery">갤러리</a></li>
+     <li><a href="#policy" data-section="policy">정책</a></li>
+     <li><a href="#faq" data-section="faq">FAQ</a></li>
      <li><a href="#join" data-section="join">가입하기</a></li>
+     <li><button id="theme-toggle" aria-label="테마 변경">☀️</button></li>
      <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="nav-discord">Discord</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
@@ -47,8 +65,14 @@
     <li><a href="#about" data-section="about">소개</a></li>
     <li><a href="#timeline" data-section="timeline">연혁</a></li>
     <li><a href="#leadership" data-section="leadership">임원진</a></li>
+    <li><a href="#notices" data-section="notices">공지</a></li>
+    <li><a href="#ships" data-section="ships">함선DB</a></li>
+    <li><a href="#schedule" data-section="schedule">일정</a></li>
     <li><a href="#hub" data-section="hub">무역허브</a></li>
     <li><a href="#streamers" data-section="streamers">스트리머</a></li>
+    <li><a href="#policy" data-section="policy">정책</a></li>
+    <li><a href="#faq" data-section="faq">FAQ</a></li>
+    <li><a href="#guide" data-section="guide">무역가이드</a></li>
     <li><a href="#gallery" data-section="gallery">갤러리</a></li>
     <li><a href="#join" data-section="join">가입하기</a></li>
     <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord</a></li>
@@ -194,6 +218,115 @@
        <a href="https://forms.gle/2X3jLNATNj3fneQq8" target="_blank" rel="noopener noreferrer" class="btn btn-primary">지원서 제출</a>
        <a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Discord 참여</a>
       </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- Notices Section -->
+  <section class="section notices" id="notices">
+   <div class="section-content">
+    <div class="section-header">
+     <span class="doc-tag">VOLT-DOC / 08</span>
+     <h2>함대 <span class="accent">공지사항</span></h2>
+     <p>최근 함대 소식</p>
+    </div>
+    <div class="notices-grid" id="notices-list"></div>
+   </div>
+  </section>
+
+  <!-- Ships Section -->
+  <section class="section" id="ships">
+   <div class="section-content">
+    <div class="section-header">
+     <span class="doc-tag">VOLT-DOC / 09</span>
+     <h2>함선 <span class="accent">데이터베이스</span></h2>
+     <p>Star Citizen 주요 함선 정보</p>
+    </div>
+    <div class="ships-controls">
+     <div class="ship-filters">
+      <button class="ship-filter-btn active" data-filter="all">전체</button>
+      <button class="ship-filter-btn" data-filter="화물">화물</button>
+      <button class="ship-filter-btn" data-filter="전투">전투</button>
+      <button class="ship-filter-btn" data-filter="다목적">다목적</button>
+      <button class="ship-filter-btn" data-filter="탐험">탐험</button>
+      <button class="ship-filter-btn" data-filter="지원">지원</button>
+      <button class="ship-filter-btn" data-filter="캐피탈">캐피탈</button>
+     </div>
+     <input type="text" id="ship-search" class="ship-search" placeholder="함선명 또는 제조사 검색...">
+    </div>
+    <div class="ships-grid" id="ships-grid"></div>
+   </div>
+  </section>
+
+  <!-- Schedule Section -->
+  <section class="section" id="schedule">
+   <div class="section-content">
+    <div class="section-header">
+     <span class="doc-tag">VOLT-DOC / 10</span>
+     <h2>작전 <span class="accent">일정</span></h2>
+     <p>함대 주요 일정 및 이벤트</p>
+    </div>
+    <div class="schedule-list" id="schedule-list"></div>
+   </div>
+  </section>
+
+  <!-- Policy Section -->
+  <section class="section" id="policy">
+   <div class="section-content">
+    <div class="section-header">
+     <span class="doc-tag">VOLT-DOC / 11</span>
+     <h2>함대 <span class="accent">운영정책</span></h2>
+     <p>2026년 5월 15일 정식 시행</p>
+    </div>
+    <div id="policy-list"></div>
+   </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section" id="faq">
+   <div class="section-content">
+    <div class="section-header">
+     <span class="doc-tag">VOLT-DOC / 12</span>
+     <h2>자주 묻는 <span class="accent">질문</span></h2>
+     <p>VOLT 함대 FAQ</p>
+    </div>
+    <div id="faq-list"></div>
+   </div>
+  </section>
+
+  <!-- Trade Guide Section -->
+  <section class="section" id="guide">
+   <div class="section-content">
+    <div class="section-header">
+     <span class="doc-tag">VOLT-DOC / 13</span>
+     <h2>무역 <span class="accent">가이드</span></h2>
+     <p>스타시티즌 물류·무역 입문 안내</p>
+    </div>
+    <div class="guide-grid" id="guide-list"></div>
+    <div class="guide-tools">
+     <h3>추천 외부 도구</h3>
+     <div class="guide-tools-grid">
+      <a href="https://sc-trade.tools" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
+       <span class="guide-tool-icon">📊</span>
+       <span class="guide-tool-name">SC Trade Tools</span>
+       <span class="guide-tool-desc">무역 루트 최적화</span>
+      </a>
+      <a href="https://uexcorp.space" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
+       <span class="guide-tool-icon">🌌</span>
+       <span class="guide-tool-name">UEX Corp</span>
+       <span class="guide-tool-desc">상품 가격 데이터베이스</span>
+      </a>
+      <a href="https://www.erkul.games" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
+       <span class="guide-tool-icon">⚙️</span>
+       <span class="guide-tool-name">Erkul.games</span>
+       <span class="guide-tool-desc">함선 무장 시뮬레이터</span>
+      </a>
+      <a href="https://robertsspaceindustries.com/spectrum" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
+       <span class="guide-tool-icon">📡</span>
+       <span class="guide-tool-name">RSI Spectrum</span>
+       <span class="guide-tool-desc">공식 커뮤니티 포럼</span>
+      </a>
      </div>
     </div>
    </div>
