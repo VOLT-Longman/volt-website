@@ -250,7 +250,13 @@
             container.innerHTML = '<div class="ships-empty">검색 결과가 없습니다.</div>';
             return;
         }
-        const focusColors = { '물류': '#f6ad55', '전투': '#fc8181', '탐사': '#68d391', '채굴': '#76e4f7' };
+        const focusColors = {
+            '물류': '#f6ad55',
+            '전투': '#fc8181',
+            '탐사': '#68d391',
+            '채굴': '#76e4f7',
+            '해체': '#b794f4'
+        };
         container.innerHTML = ships.map((ship) => `
             <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(ship.name)} 상세 보기">
                 <div class="ship-card-header">

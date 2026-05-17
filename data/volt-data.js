@@ -565,12 +565,12 @@ const VOLT_DATA = {
             name: "Reclaimer",
             manufacturer: "Aegis",
             role: "구난·해체",
-            focus: "채굴",
+            focus: "해체",
             size: "대형",
             crew: "5명",
             cargo: "5,280 SCU",
             description: "난파선 해체 및 자원 수거 전문 함선. 전리품 회수 활동에 활용.",
-            tags: ["채굴", "해체", "자원"]
+            tags: ["해체", "자원", "대형"]
         }
     ],
 
