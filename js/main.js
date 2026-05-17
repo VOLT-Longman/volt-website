@@ -19,11 +19,116 @@
     const PAGE_SIZE = 4;
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'schedule', 'policy', 'faq', 'guide'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
-    const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc' };
+    const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '' };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     const shipCompareState = new Set();
+    const SHIP_PURPOSE_COPY = {
+        '입문': {
+            criterion: '적은 인원으로 운용 가능하고 기본 활동을 익히기 좋은 함선을 우선합니다.',
+            useCase: '첫 구매, 복귀 유저, 1~2인 소규모 활동에 적합합니다.'
+        },
+        '화물': {
+            criterion: 'SCU 적재량과 물류 운용성을 기준으로 추천합니다.',
+            useCase: '상업 운송, 반복 루트, 함대 보급 임무에 적합합니다.'
+        },
+        '탐사': {
+            criterion: '탐사 또는 장거리 활동 태그를 가진 함선을 중심으로 묶습니다.',
+            useCase: '장거리 항해, 정보 수집, 미지 구역 탐색에 적합합니다.'
+        },
+        '인양': {
+            criterion: '인양 역할을 가진 함선을 중심으로 추천합니다.',
+            useCase: '난파선 회수, 자원 수거, 산업 플레이에 적합합니다.'
+        },
+        '채굴': {
+            criterion: '채굴 또는 정제 관련 함선을 중심으로 추천합니다.',
+            useCase: '광물 채집, 현장 정제, 산업 루프 확장에 적합합니다.'
+        },
+        '의료': {
+            criterion: '의료 지원 역할을 가진 함선을 중심으로 추천합니다.',
+            useCase: '구조, 전투 지원, 장거리 원정 보조에 적합합니다.'
+        }
+    };
+    const TRADE_OPERATION_CONFIG = {
+        solo: {
+            label: '단독 저위험 운송',
+            summary: '짧은 루트와 낮은 노출로 손실 가능성을 줄이는 운용입니다.',
+            escortBase: 0,
+            toolSteps: [
+                'UEX Corp에서 매수·매도 위치와 재고 변동 확인',
+                'SC Trade Tools에서 짧은 루트와 시간당 수익 비교',
+                'VOLT 플래너에서 단독 운용 가능 여부 최종 확인'
+            ],
+            checklist: ['출발지와 도착지 혼잡도 확인', '단독 운용 시 우회 루트 확보']
+        },
+        small: {
+            label: '소규모 화물 운송',
+            summary: '적은 인원으로 반복 운송 효율을 확보하는 기본 편성입니다.',
+            escortBase: 0,
+            toolSteps: [
+                'UEX Corp에서 소량 거래 가능한 상품과 재고 확인',
+                'SC Trade Tools에서 회전율이 좋은 루트 비교',
+                'VOLT 플래너에서 적재량 대비 출격 횟수 점검'
+            ],
+            checklist: ['적재·하역 시간을 고려한 회차 계획', '소규모 편성용 집결 채널 확인']
+        },
+        convoy: {
+            label: '호송 운송',
+            summary: '운송과 호위를 분리해 생존성과 안정성을 높이는 편성입니다.',
+            escortBase: 1,
+            toolSteps: [
+                'UEX Corp에서 상품 가격과 판매지 위험도 확인',
+                'SC Trade Tools에서 수익 루트와 우회 루트 함께 비교',
+                'VOLT 플래너에서 호위·지원 인원 배치 확정'
+            ],
+            checklist: ['호위 집결 시각과 교전 규칙 공유', '우회 루트와 랠리 포인트 확인']
+        },
+        bulk: {
+            label: '대량 수송',
+            summary: '적재량과 회전율을 우선해 편대 효율을 극대화하는 운용입니다.',
+            escortBase: 1,
+            toolSteps: [
+                'UEX Corp에서 대량 거래 가능한 재고와 판매처 확인',
+                'SC Trade Tools에서 화물량 기준 총수익과 회전율 비교',
+                'VOLT 플래너에서 다중 출격 또는 추가 함선 필요 여부 판단'
+            ],
+            checklist: ['대량 매입 가능 수량 재확인', '하역 대기와 분산 판매 계획 수립']
+        },
+        highValue: {
+            label: '고가 화물 운송',
+            summary: '수익보다 손실 방지와 정보 통제가 우선인 고위험 편성입니다.',
+            escortBase: 1,
+            toolSteps: [
+                'UEX Corp에서 고가 상품 가격과 공급량 확인',
+                'SC Trade Tools에서 수익 대비 노출 시간이 짧은 루트 비교',
+                'VOLT 플래너에서 호위와 정찰 인원 충족 여부 확인'
+            ],
+            checklist: ['루트 공유 범위 최소화', '정찰 선행과 긴급 이탈 지점 지정']
+        },
+        mining: {
+            label: '채굴/정제 후 운송',
+            summary: '생산 루프와 물류 루프를 이어 손실 없는 반출을 목표로 합니다.',
+            escortBase: 0,
+            toolSteps: [
+                'UEX Corp에서 정제 후 판매처와 상품 수요 확인',
+                'SC Trade Tools에서 최종 판매 루트 수익 비교',
+                'VOLT 플래너에서 운송 함선 적재량과 회차 계획 점검'
+            ],
+            checklist: ['정제 완료 시각 확인', '채굴팀과 반출 시점 동기화']
+        },
+        supply: {
+            label: '작전 보급 운송',
+            summary: '수익보다 정시 도착과 작전 지속성을 우선하는 지원 편성입니다.',
+            escortBase: 1,
+            toolSteps: [
+                'UEX Corp에서 필요한 보급품의 구매 가능 위치 확인',
+                'SC Trade Tools에서 가장 빠른 보급 루트 비교',
+                'VOLT 플래너에서 도착 시각과 지원 인력 배치 확인'
+            ],
+            checklist: ['보급 우선순위와 하역 담당 지정', '작전 지휘부와 도착 시간 공유']
+        }
+    };
     let currentSection = null;
     let revealObserver;
     let activeModal = null;
@@ -192,7 +297,17 @@
         const container = document.getElementById('gallery-grid');
         if (!container || !Array.isArray(data.gallery)) return;
         if (data.gallery.length === 0) {
-            container.innerHTML = '<div class="gallery-empty"><p>🚀 활동 사진을 준비 중입니다.</p><p>곧 VOLT 함대의 생생한 활동 현장을 만나보실 수 있습니다.</p></div>';
+            container.innerHTML = `
+                <div class="gallery-empty">
+                    <span class="gallery-empty-kicker">곧 공개될 활동 기록</span>
+                    <p>VOLT의 작전과 항해 장면을 준비 중입니다.</p>
+                    <ul>
+                        <li>단체 작전 스크린샷</li>
+                        <li>함선 편대와 물류 활동</li>
+                        <li>행성 풍경과 이벤트 기록</li>
+                    </ul>
+                    <small>좋은 장면이 있다면 Discord에서 활동 사진 제보를 남겨 주세요.</small>
+                </div>`;
             return;
         }
         container.innerHTML = data.gallery.map((item) => `
@@ -242,7 +357,7 @@
         const items = getFilteredAnnouncements();
         const visibleItems = items.slice(0, noticeState.visibleCount);
         container.innerHTML = visibleItems.map((announcement) => `
-            <div class="notice-card${announcement.pinned ? ' notice-card-pinned' : ''} reveal">
+            <button class="notice-card${announcement.pinned ? ' notice-card-pinned' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(announcement.title)} 상세 보기">
                 <div class="notice-meta">
                     ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
                     <span class="notice-tag" style="background:${colors[announcement.tag] || 'var(--volt-orange)'}20;color:${colors[announcement.tag] || 'var(--volt-orange)'};">${escapeHtml(announcement.tag)}</span>
@@ -250,7 +365,7 @@
                 </div>
                 <h3 class="notice-title">${escapeHtml(announcement.title)}</h3>
                 <p class="notice-content">${escapeHtml(announcement.content)}</p>
-            </div>`).join('');
+            </button>`).join('');
         loadMore.hidden = visibleItems.length >= items.length;
         observeNewReveals(container);
     }
@@ -340,6 +455,7 @@
         const container = document.getElementById('ships-grid');
         if (!container) return;
         const ships = getVisibleShips();
+        renderShipPurposeSummary(ships.length);
         if (ships.length === 0) {
             container.innerHTML = '<div class="ships-empty">검색 결과가 없습니다.</div>';
             return;
@@ -522,6 +638,13 @@
         updateActiveNav(id);
         if (anchorId) scrollToAnchor(anchorId);
         if (push) updateHistory(id);
+        if (id === 'notices') openNoticeFromQuery();
+    }
+
+    function openNoticeFromQuery() {
+        const noticeId = new URLSearchParams(window.location.search).get('notice');
+        const notice = noticeId ? findAnnouncement(noticeId) : null;
+        if (notice) openNoticeModal(notice);
     }
 
     function activateSection(id) {
@@ -637,7 +760,8 @@
     function setupNoticeControls() {
         const filters = document.getElementById('notice-filters');
         const loadMore = document.getElementById('notice-load-more');
-        if (!filters || !loadMore) return;
+        const list = document.getElementById('notices-list');
+        if (!filters || !loadMore || !list) return;
         filters.addEventListener('click', (event) => {
             const button = event.target.closest('[data-tag]');
             if (!button) return;
@@ -650,6 +774,34 @@
             noticeState.visibleCount += PAGE_SIZE;
             renderAnnouncements();
         });
+        list.addEventListener('click', (event) => {
+            const card = event.target.closest('[data-notice-id]');
+            if (!card) return;
+            const notice = findAnnouncement(card.getAttribute('data-notice-id'));
+            if (notice) openNoticeModal(notice);
+        });
+    }
+
+    function findAnnouncement(id) {
+        return (data.announcements || []).find((announcement) => announcement.id === id);
+    }
+
+    function openNoticeModal(announcement) {
+        openModal(`<div class="modal-header">
+                <div>
+                    ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
+                    <h2 class="modal-title">${escapeHtml(announcement.title)}</h2>
+                </div>
+                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+            </div>
+            <div class="modal-body notice-modal-body">
+                <div class="notice-meta">
+                    <span class="notice-tag">${escapeHtml(announcement.tag)}</span>
+                    <span class="notice-date">${escapeHtml(announcement.date)}</span>
+                </div>
+                <p>${escapeHtml(announcement.content)}</p>
+                <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">공지 링크 복사</button>
+            </div>`);
     }
 
     function setupShipControls() {
@@ -678,13 +830,30 @@
     }
 
     function applyShipPurpose(purpose) {
-        if (!purpose) {
-            shipState.filter = 'all';
-        } else {
-            shipState.filter = purpose;
-        }
+        shipState.purpose = purpose;
+        shipState.filter = purpose || 'all';
         renderShipFilters();
         renderShips();
+    }
+
+    function renderShipPurposeSummary(visibleCount = getVisibleShips().length) {
+        const container = document.getElementById('ship-recommendation-summary');
+        if (!container) return;
+        const copy = SHIP_PURPOSE_COPY[shipState.purpose];
+        if (!copy) {
+            container.hidden = true;
+            container.innerHTML = '';
+            return;
+        }
+        container.hidden = false;
+        container.innerHTML = `
+            <strong>${escapeHtml(shipState.purpose)} 추천</strong>
+            <p>${escapeHtml(copy.criterion)}</p>
+            <div>
+                <span>현재 추천 함선</span>
+                <b>${escapeHtml(String(visibleCount))}척</b>
+            </div>
+            <small>${escapeHtml(copy.useCase)}</small>`;
     }
 
     function setupShipCompareControls() {
@@ -700,9 +869,20 @@
     function setupLogisticsCalculator() {
         const button = document.getElementById('logistics-calculate');
         const copyButton = document.getElementById('trade-briefing-copy');
+        const controls = [
+            document.getElementById('trade-operation-type'),
+            document.getElementById('logistics-cargo'),
+            document.getElementById('logistics-ship'),
+            document.getElementById('logistics-crew'),
+            document.getElementById('trade-risk')
+        ].filter(Boolean);
         if (!button || !copyButton) return;
         button.addEventListener('click', renderLogisticsRecommendation);
         copyButton.addEventListener('click', copyTradeBriefing);
+        controls.forEach((control) => {
+            control.addEventListener('change', renderLogisticsRecommendation);
+            if (control.tagName === 'INPUT') control.addEventListener('input', renderLogisticsRecommendation);
+        });
         renderLogisticsRecommendation();
     }
 
@@ -728,7 +908,8 @@
         result.innerHTML = `
             <div class="operation-fit operation-fit-${escapeHtml(recommendation.fit.level)}">
                 <span>${escapeHtml(recommendation.fit.label)}</span>
-                <strong>${escapeHtml(recommendation.fit.reason)}</strong>
+                <strong>${escapeHtml(recommendation.fit.summary)}</strong>
+                <ul>${recommendation.fit.reasons.map((reason) => `<li>${escapeHtml(reason)}</li>`).join('')}</ul>
             </div>
             <div class="logistics-result-main">
                 <strong>${escapeHtml(recommendation.title)}</strong>
@@ -763,7 +944,7 @@
         const summary = `${cargoTarget.toLocaleString()} SCU를 ${ship.name}(${ship.cargo})로 처리하는 구성입니다. 위험도 ${getRiskLabel(risk)} 기준, ${getOperationSummary(operationType)}.`;
         const note = buildOperationNote({ supportCrew, requiredEscort, risk });
         const rolePlan = buildRolePlan({ crewAvailable, transportCrewNeeded, requiredEscort, operationType });
-        const fit = buildOperationFit({ cargoCapacity, sorties, supportCrew, requiredEscort, risk });
+        const fit = buildOperationFit({ cargoCapacity, sorties, supportCrew, requiredEscort, risk, ship });
         return {
             title,
             summary,
@@ -784,26 +965,28 @@
         };
     }
 
-    function buildOperationFit({ cargoCapacity, sorties, supportCrew, requiredEscort, risk }) {
-        if (cargoCapacity === 0) {
-            return { level: 'poor', label: '비추천', reason: '선택 함선의 화물량이 0 SCU입니다.' };
+    function buildOperationFit({ cargoCapacity, sorties, supportCrew, requiredEscort, risk, ship }) {
+        const reasons = [`화물량 대비 예상 출격 ${sorties}회`, `운송 외 지원 가능 인원 ${supportCrew}명`];
+        if (cargoCapacity === 0) reasons.push('선택 함선의 화물량이 0 SCU입니다.');
+        if (sorties >= 3) reasons.push('출격 횟수가 3회 이상이라 추가 화물선 투입이 유리합니다.');
+        if (requiredEscort > 0) reasons.push(`권장 호위 ${requiredEscort}명 중 ${Math.min(supportCrew, requiredEscort)}명 확보`);
+        if (risk === 'high') reasons.push('고위험 작전은 호위와 우회 계획이 필수입니다.');
+        if (getShipTags(ship).includes('미구현')) reasons.push('미구현 함선이므로 실제 라이브 운용 전 확인이 필요합니다.');
+        if (cargoCapacity === 0 || (risk === 'high' && supportCrew < requiredEscort)) {
+            return { level: 'poor', label: '비추천', summary: '현재 조건으로는 바로 출발하기 어렵습니다.', reasons };
         }
-        if (risk === 'high' && supportCrew < requiredEscort) {
-            return { level: 'poor', label: '비추천', reason: '고위험 작전인데 권장 호위 인원이 부족합니다.' };
+        if (sorties >= 3 || (requiredEscort > 0 && supportCrew === requiredEscort) || getShipTags(ship).includes('미구현')) {
+            return { level: 'caution', label: '주의', summary: '진행은 가능하지만 보완이 필요한 구성입니다.', reasons };
         }
-        if (sorties >= 3) {
-            return { level: 'caution', label: '주의', reason: '출격 횟수가 3회 이상입니다. 추가 화물선 투입을 권장합니다.' };
-        }
-        if (requiredEscort > 0 && supportCrew === requiredEscort) {
-            return { level: 'caution', label: '주의', reason: '필수 호위만 겨우 충족합니다. 예비 인원이 없습니다.' };
-        }
-        return { level: 'good', label: '적합', reason: '현재 조건에서 무리 없이 운용 가능한 구성입니다.' };
+        return { level: 'good', label: '적합', summary: '현재 조건에서 무리 없이 운용 가능한 구성입니다.', reasons };
     }
 
     function buildRolePlan({ crewAvailable, transportCrewNeeded, requiredEscort, operationType }) {
-        const route = crewAvailable >= 2 ? 1 : 0;
+        const routeRequired = ['convoy', 'highValue', 'bulk', 'supply'].includes(operationType);
+        const route = crewAvailable >= 2 && routeRequired ? 1 : 0;
         const escort = Math.min(requiredEscort, Math.max(0, crewAvailable - transportCrewNeeded - route));
-        const cargoAssist = operationType === 'bulk' && crewAvailable - transportCrewNeeded - route - escort > 0 ? 1 : 0;
+        const cargoAssistNeeded = ['bulk', 'mining', 'supply'].includes(operationType);
+        const cargoAssist = cargoAssistNeeded && crewAvailable - transportCrewNeeded - route - escort > 0 ? 1 : 0;
         const reserve = Math.max(0, crewAvailable - transportCrewNeeded - route - escort - cargoAssist);
         return {
             transport: transportCrewNeeded,
@@ -816,23 +999,33 @@
 
     function renderShipSuitabilityCard(recommendation) {
         const ship = recommendation.ship;
+        const tags = getShipTags(ship);
         const advantages = [
             `${ship.cargo} 적재`,
             recommendation.cargoCapacity >= 500 ? '대량 운송에 유리' : '회전율 관리에 적합',
             parseLargestNumber(ship.crew) <= 2 ? '소수 인원 운용 가능' : '다인 운용에 적합'
         ];
+        if (tags.includes('화물')) advantages.push('물류 목적에 직접 부합');
+        if (tags.includes('입문')) advantages.push('입문 운용 난도가 낮음');
         const cautions = [];
         if (recommendation.cargoCapacity === 0) cautions.push('화물 운송 불가');
-        if (recommendation.sorties.startsWith('3')) cautions.push('다회 출격 필요');
-        if ((ship.tags || []).includes('미구현')) cautions.push('미구현 함선');
+        if (parseLargestNumber(recommendation.sorties) >= 3) cautions.push('다회 출격 필요');
+        if (tags.includes('미구현')) cautions.push('실제 라이브 운용 전 확인 필요');
         if (cautions.length === 0) cautions.push('특이 주의점 없음');
-        const scale = recommendation.cargoCapacity >= 1000 ? '대형 작전' : recommendation.cargoCapacity >= 200 ? '중형 작전' : '소규모 작전';
+        const scale = getRecommendedOperationScale(recommendation);
         return `<section class="trade-detail-card">
             <h4>선택 함선 적합도</h4>
-            <strong>${escapeHtml(ship.name)} · ${escapeHtml(scale)}</strong>
-            <p>장점: ${escapeHtml(advantages.join(' / '))}</p>
+            <strong>${escapeHtml(ship.name)} · 추천 운용 규모: ${escapeHtml(scale)}</strong>
+            <p>장점: ${escapeHtml(advantages.slice(0, 3).join(' / '))}</p>
             <p>주의: ${escapeHtml(cautions.join(' / '))}</p>
         </section>`;
+    }
+
+    function getRecommendedOperationScale(recommendation) {
+        if (recommendation.cargoCapacity >= 1000) return '대형';
+        if (recommendation.cargoCapacity >= 250) return '중형';
+        if (parseLargestNumber(recommendation.ship.crew) <= 1) return '단독';
+        return '소규모';
     }
 
     function renderRolePlanCard(recommendation) {
@@ -842,7 +1035,7 @@
             <ul>
                 <li>운송 담당 ${escapeHtml(String(role.transport))}명</li>
                 <li>루트 확인 담당 ${escapeHtml(String(role.route))}명</li>
-                <li>호위 ${escapeHtml(String(role.escort))}명</li>
+                <li>호위 담당 ${escapeHtml(String(role.escort))}명</li>
                 <li>정찰/예비 ${escapeHtml(String(role.reserve))}명</li>
                 <li>적재/하역 보조 ${escapeHtml(String(role.cargoAssist))}명</li>
             </ul>
@@ -850,7 +1043,7 @@
     }
 
     function getOperationLabel(type) {
-        return { solo: '단독 운송', convoy: '호송 운송', bulk: '대량 수송' }[type] || '무역 작전';
+        return TRADE_OPERATION_CONFIG[type]?.label || '무역 작전';
     }
 
     function getRiskLabel(risk) {
@@ -858,17 +1051,14 @@
     }
 
     function getOperationSummary(type) {
-        return {
-            solo: '빠른 판단과 단순한 지휘 체계가 핵심입니다',
-            convoy: '운송과 호위를 분리하는 편이 안정적입니다',
-            bulk: '적재량과 회전율을 우선해 편대를 짜는 편이 유리합니다'
-        }[type] || '운송 효율을 우선합니다';
+        return TRADE_OPERATION_CONFIG[type]?.summary || '운송 효율을 우선합니다';
     }
 
     function getEscortRequirement(type, risk) {
-        if (risk === 'high') return type === 'solo' ? 1 : 2;
-        if (risk === 'medium') return type === 'bulk' ? 1 : 0;
-        return 0;
+        const base = TRADE_OPERATION_CONFIG[type]?.escortBase || 0;
+        if (risk === 'high') return Math.max(base, type === 'solo' ? 1 : 2);
+        if (risk === 'medium') return Math.max(base, ['bulk', 'highValue', 'supply'].includes(type) ? 1 : 0);
+        return base;
     }
 
     function buildOperationNote({ supportCrew, requiredEscort, risk }) {
@@ -891,6 +1081,7 @@
             'SC Trade Tools에서 화물량 기준 루트 수익 비교',
             `${recommendation.ship.name} 적재량과 출격 횟수 재확인`,
             recommendation.requiredEscort > 0 ? `호위 ${recommendation.requiredEscort}명 확보` : '호위 필요 여부 최종 확인',
+            ...(TRADE_OPERATION_CONFIG[recommendation.operationType]?.checklist || []),
             'Discord 집결 채널과 출발 시각 공지',
             '착륙지·판매지 혼잡도 확인'
         ];
@@ -901,23 +1092,7 @@
     function renderTradeToolHint(operationType) {
         const hint = document.querySelector('.trade-tool-hint ol');
         if (!hint) return;
-        const items = {
-            solo: [
-                'UEX Corp에서 매수·매도 위치와 재고 변동 확인',
-                'SC Trade Tools에서 짧은 루트와 시간당 수익 비교',
-                'VOLT 플래너에서 단독 운용 가능 여부 최종 확인'
-            ],
-            convoy: [
-                'UEX Corp에서 상품 가격과 판매지 위험도 확인',
-                'SC Trade Tools에서 수익 루트와 우회 루트 함께 비교',
-                'VOLT 플래너에서 호위·지원 인원 배치 확정'
-            ],
-            bulk: [
-                'UEX Corp에서 대량 거래 가능한 재고와 판매처 확인',
-                'SC Trade Tools에서 화물량 기준 총수익과 회전율 비교',
-                'VOLT 플래너에서 다중 출격 또는 추가 함선 필요 여부 판단'
-            ]
-        }[operationType];
+        const items = TRADE_OPERATION_CONFIG[operationType]?.toolSteps || [];
         hint.innerHTML = items.map((item, index) => `<li><strong>${index + 1}.</strong> ${escapeHtml(item)}</li>`).join('');
     }
 
@@ -925,28 +1100,29 @@
         const field = document.getElementById('trade-briefing-text');
         if (!field) return;
         field.value = [
-            `[VOLT 무역 작전 모집]`,
+            `[VOLT 무역 작전 모집] ${getOperationLabel(recommendation.operationType)}`,
             `작전 유형: ${getOperationLabel(recommendation.operationType)}`,
-            `작전 적합도: ${recommendation.fit.label} - ${recommendation.fit.reason}`,
+            `작전 적합도: ${recommendation.fit.label} - ${recommendation.fit.summary}`,
             `위험도: ${getRiskLabel(recommendation.risk)}`,
             `운송 목표: ${recommendation.cargoTarget.toLocaleString()} SCU`,
             `주력 함선: ${recommendation.ship.name} (${recommendation.ship.cargo})`,
-            `권장 운송: ${recommendation.sorties}`,
-            `모집 인원: ${recommendation.crewAvailable}명`,
+            `예상 출격 횟수: ${recommendation.sorties}`,
+            `모집/참여 인원: ${recommendation.crewAvailable}명`,
             ``,
             `필요 역할`,
             `- 운송 담당 ${recommendation.rolePlan.transport}명`,
             `- 루트 확인 담당 ${recommendation.rolePlan.route}명`,
-            `- 호위 ${recommendation.rolePlan.escort}명`,
+            `- 호위 담당 ${recommendation.rolePlan.escort}명`,
             `- 정찰/예비 ${recommendation.rolePlan.reserve}명`,
             `- 적재/하역 보조 ${recommendation.rolePlan.cargoAssist}명`,
             ``,
             `사전 확인`,
-            `1. UEX Corp에서 상품 가격 / 매수·매도 위치 확인`,
-            `2. SC Trade Tools에서 루트 수익률 비교`,
-            `3. 집결 시각과 역할 배정은 Discord에서 확정`,
+            ...TRADE_OPERATION_CONFIG[recommendation.operationType].toolSteps.map((item, index) => `${index + 1}. ${item}`),
+            `${TRADE_OPERATION_CONFIG[recommendation.operationType].toolSteps.length + 1}. 집결 시각과 역할 배정은 Discord에서 확정`,
             ``,
-            `주의: ${recommendation.note}`
+            `주의사항`,
+            ...recommendation.fit.reasons.map((reason) => `- ${reason}`),
+            `- ${recommendation.note}`
         ].join('\n');
     }
 
@@ -972,6 +1148,7 @@
         shipState.hideUnreleased = false;
         shipState.query = '';
         shipState.sort = 'name-asc';
+        shipState.purpose = '';
         syncShipControls();
         renderShipFilters();
         renderShips();
@@ -982,10 +1159,12 @@
         const manufacturer = document.getElementById('ship-manufacturer');
         const hideUnreleased = document.getElementById('ship-hide-unreleased');
         const sort = document.getElementById('ship-sort');
+        const purpose = document.getElementById('ship-purpose');
         if (search) search.value = shipState.query;
         if (manufacturer) manufacturer.value = shipState.manufacturer;
         if (hideUnreleased) hideUnreleased.checked = shipState.hideUnreleased;
         if (sort) sort.value = shipState.sort;
+        if (purpose) purpose.value = shipState.purpose;
     }
 
     function handleShipFilterClick(event) {
@@ -994,6 +1173,7 @@
         document.querySelectorAll('.ship-filter-btn').forEach((item) => item.classList.remove('active'));
         button.classList.add('active');
         shipState.filter = button.getAttribute('data-filter');
+        shipState.purpose = '';
         renderShips();
     }
 
@@ -1051,6 +1231,7 @@
                 <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
             </div>
             <div class="modal-body">
+                ${renderShipComparisonSummary(ships)}
                 <div class="ship-compare-table-wrap">
                     <table class="ship-compare-table">
                         <thead>
@@ -1071,6 +1252,44 @@
                     </section>`).join('')}
                 </div>
             </div>`;
+    }
+
+    function renderShipComparisonSummary(ships) {
+        const cargoLeader = getShipByMetric(ships, (ship) => getCargoValue(ship.cargo), 'max');
+        const crewLeader = getShipByMetric(ships, (ship) => parseSmallestNumber(ship.crew), 'min');
+        const largeOpsLeader = getShipByMetric(ships, (ship) => getCargoValue(ship.cargo) + parseLargestNumber(ship.crew) * 10, 'max');
+        const smallOpsLeader = getShipByMetric(ships, (ship) => parseSmallestNumber(ship.crew) * 100 - getCargoValue(ship.cargo), 'min');
+        return `<section class="ship-compare-summary">
+            <h3>비교 요약</h3>
+            <div>
+                ${renderComparisonSummaryItem('최대 화물량', cargoLeader)}
+                ${renderComparisonSummaryItem('최소 인원 운용', crewLeader)}
+                ${renderComparisonSummaryItem('대형 작전', largeOpsLeader)}
+                ${renderComparisonSummaryItem('소규모/입문 운용', smallOpsLeader)}
+            </div>
+            <ul>${ships.map(renderComparisonTagNote).join('')}</ul>
+        </section>`;
+    }
+
+    function getShipByMetric(ships, getValue, direction) {
+        return [...ships].sort((left, right) => {
+            const delta = getValue(left) - getValue(right);
+            return direction === 'max' ? -delta : delta;
+        })[0];
+    }
+
+    function renderComparisonSummaryItem(label, ship) {
+        return `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(ship.name)}</strong></article>`;
+    }
+
+    function renderComparisonTagNote(ship) {
+        const tags = getShipTags(ship);
+        const notes = [];
+        if (tags.includes('화물')) notes.push('물류/화물 운송 후보');
+        if (tags.includes('입문')) notes.push('입문자 운용 후보');
+        if (tags.includes('미구현')) notes.push('현재 실사용 주의');
+        if (notes.length === 0) return `<li><strong>${escapeHtml(ship.name)}</strong> · 특화 태그 중심 운용</li>`;
+        return `<li><strong>${escapeHtml(ship.name)}</strong> · ${escapeHtml(notes.join(' / '))}</li>`;
     }
 
     function renderComparisonRow(label, key, ships) {
@@ -1168,7 +1387,21 @@
     function setupModalControls() {
         document.addEventListener('click', (event) => {
             if (event.target.closest('.modal-close')) closeModal();
+            const noticeCopyButton = event.target.closest('[data-copy-notice-id]');
+            if (noticeCopyButton) copyNoticeLink(noticeCopyButton.getAttribute('data-copy-notice-id'));
         });
+    }
+
+    async function copyNoticeLink(id) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('notice', id);
+        url.hash = 'notices';
+        try {
+            await navigator.clipboard.writeText(url.toString());
+            showToast('공지 링크를 복사했습니다.');
+        } catch (error) {
+            showToast('공지 링크 복사에 실패했습니다.');
+        }
     }
 
     function setupPolicyAnchors() {

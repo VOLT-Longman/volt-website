@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260518-28">
+  <link rel="stylesheet" href="css/styles.css?v=20260518-29">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -306,6 +306,7 @@
      <button class="btn btn-secondary" id="ship-purpose-apply" type="button">추천 보기</button>
      <button class="btn btn-secondary" id="ship-purpose-reset" type="button">해제</button>
     </div>
+    <div class="ship-recommendation-summary" id="ship-recommendation-summary" hidden aria-live="polite"></div>
     <div class="ship-compare-bar" id="ship-compare-bar" hidden>
      <div>
       <strong>비교함</strong>
@@ -370,9 +371,13 @@
       <label>
        <span>작전 유형</span>
        <select id="trade-operation-type">
-        <option value="solo">단독 운송</option>
+        <option value="solo">단독 저위험 운송</option>
+        <option value="small">소규모 화물 운송</option>
         <option value="convoy" selected>호송 운송</option>
         <option value="bulk">대량 수송</option>
+        <option value="highValue">고가 화물 운송</option>
+        <option value="mining">채굴/정제 후 운송</option>
+        <option value="supply">작전 보급 운송</option>
        </select>
       </label>
       <label>
@@ -509,7 +514,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260518-28"></script>
-  <script src="js/main.js?v=20260518-28"></script>
+  <script src="data/volt-data.js?v=20260518-29"></script>
+  <script src="js/main.js?v=20260518-29"></script>
  </body>
 </html>

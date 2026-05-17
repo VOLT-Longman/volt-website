@@ -3261,7 +3261,15 @@ body {
     .ship-recommendation .ship-sort {
         grid-column: 1 / -1;
     }
+    .ship-recommendation-summary > div {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
     .ship-compare-tags {
+        grid-template-columns: 1fr;
+    }
+    .ship-compare-summary > div {
         grid-template-columns: 1fr;
     }
     .ship-filter-label,
@@ -3331,10 +3339,125 @@ body {
     background: var(--color-bg-card);
 }
 
-.gallery-empty p:first-child {
+.gallery-empty p {
     color: var(--color-text-primary);
     font-size: 18px;
     font-weight: 700;
+}
+
+.gallery-empty-kicker {
+    color: var(--volt-orange);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+}
+
+.gallery-empty ul {
+    display: grid;
+    gap: 6px;
+    margin: 8px 0;
+    padding-left: 18px;
+    color: var(--color-text-secondary);
+    text-align: left;
+}
+
+.gallery-empty small {
+    color: var(--color-text-tertiary);
+}
+
+.ship-recommendation-summary {
+    display: grid;
+    gap: 8px;
+    margin: 16px 0 24px;
+    padding: 18px;
+    border: 1px solid var(--color-border-accent);
+    border-radius: var(--radius-sm);
+    background: rgba(232, 72, 47, 0.08);
+}
+
+.ship-recommendation-summary[hidden] {
+    display: none;
+}
+
+.ship-recommendation-summary > div {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.ship-recommendation-summary span,
+.ship-recommendation-summary p,
+.ship-recommendation-summary small {
+    color: var(--color-text-secondary);
+}
+
+.ship-recommendation-summary b {
+    color: var(--volt-orange);
+}
+
+.ship-compare-summary {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card-hover);
+}
+
+.ship-compare-summary > div {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.ship-compare-summary article {
+    display: grid;
+    gap: 4px;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card);
+}
+
+.ship-compare-summary span {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+}
+
+.ship-compare-summary ul {
+    display: grid;
+    gap: 6px;
+    padding-left: 18px;
+    color: var(--color-text-secondary);
+}
+
+.notice-card {
+    width: 100%;
+    color: inherit;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+}
+
+.notice-modal-body {
+    display: grid;
+    gap: 18px;
+}
+
+.notice-modal-body p {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+}
+
+.notice-copy-link {
+    justify-self: start;
+}
+
+.operation-fit ul {
+    display: grid;
+    gap: 4px;
+    margin-top: 6px;
+    padding-left: 18px;
 }
 
 .toast {
