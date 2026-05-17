@@ -23,6 +23,7 @@
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
+    const shipCompareState = new Set();
     let currentSection = null;
     let revealObserver;
     let activeModal = null;
@@ -370,8 +371,22 @@
                     <div class="ship-stat"><span class="ship-stat-label">화물</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
                 </div>
                 <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                <button class="ship-compare-toggle${shipCompareState.has(ship.id) ? ' active' : ''}" type="button" data-compare-ship-id="${escapeHtml(ship.id)}" aria-pressed="${shipCompareState.has(ship.id)}">
+                    ${shipCompareState.has(ship.id) ? '비교 제거' : '비교 추가'}
+                </button>
             </article>`).join('');
+        renderShipCompareBar();
         observeNewReveals(container);
+    }
+
+    function renderShipCompareBar() {
+        const bar = document.getElementById('ship-compare-bar');
+        const summary = document.getElementById('ship-compare-summary');
+        const openButton = document.getElementById('ship-compare-open');
+        if (!bar || !summary || !openButton) return;
+        summary.textContent = `${shipCompareState.size} / 3척 선택`;
+        bar.hidden = shipCompareState.size === 0;
+        openButton.disabled = shipCompareState.size < 2;
     }
 
     function renderSchedule() {
@@ -605,6 +620,17 @@
         grid.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') openShipFromEvent(event);
         });
+        setupShipCompareControls();
+    }
+
+    function setupShipCompareControls() {
+        const grid = document.getElementById('ships-grid');
+        const clearButton = document.getElementById('ship-compare-clear');
+        const openButton = document.getElementById('ship-compare-open');
+        if (!grid || !clearButton || !openButton) return;
+        grid.addEventListener('click', handleShipCompareToggle);
+        clearButton.addEventListener('click', clearShipComparison);
+        openButton.addEventListener('click', openShipComparison);
     }
 
     function resetShipState() {
@@ -639,11 +665,84 @@
     }
 
     function openShipFromEvent(event) {
+        if (event.target.closest('[data-compare-ship-id]')) return;
         const card = event.target.closest('[data-ship-id]');
         if (!card) return;
         event.preventDefault();
         const ship = shipById.get(card.getAttribute('data-ship-id'));
         if (ship) openShipModal(ship);
+    }
+
+    function handleShipCompareToggle(event) {
+        const button = event.target.closest('[data-compare-ship-id]');
+        if (!button) return;
+        event.preventDefault();
+        event.stopPropagation();
+        const shipId = button.getAttribute('data-compare-ship-id');
+        if (shipCompareState.has(shipId)) {
+            shipCompareState.delete(shipId);
+        } else if (shipCompareState.size < 3) {
+            shipCompareState.add(shipId);
+        } else {
+            showToast('함선 비교는 최대 3척까지 가능합니다.');
+        }
+        renderShips();
+    }
+
+    function clearShipComparison() {
+        shipCompareState.clear();
+        renderShips();
+    }
+
+    function openShipComparison() {
+        const ships = [...shipCompareState].map((id) => shipById.get(id)).filter(Boolean);
+        if (ships.length < 2) return;
+        openModal(renderShipComparison(ships));
+    }
+
+    function renderShipComparison(ships) {
+        const fields = [
+            ['제조사', 'manufacturer'],
+            ['역할', 'role'],
+            ['분류', 'focus'],
+            ['크기', 'size'],
+            ['승무원', 'crew'],
+            ['화물', 'cargo']
+        ];
+        return `<div class="modal-header">
+                <div>
+                    <span class="eyebrow">Ship Compare</span>
+                    <h2>함선 비교</h2>
+                </div>
+            </div>
+            <div class="ship-compare-table-wrap">
+                <table class="ship-compare-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">항목</th>
+                            ${ships.map((ship) => `<th scope="col">${escapeHtml(ship.name)}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${fields.map(([label, key]) => renderComparisonRow(label, key, ships)).join('')}
+                    </tbody>
+                </table>
+            </div>
+            <div class="ship-compare-tags">
+                ${ships.map((ship) => `<section>
+                    <h3>${escapeHtml(ship.name)}</h3>
+                    <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                </section>`).join('')}
+            </div>`;
+    }
+
+    function renderComparisonRow(label, key, ships) {
+        const values = ships.map((ship) => ship[key]);
+        const differs = new Set(values).size > 1;
+        return `<tr class="${differs ? 'is-different' : ''}">
+            <th scope="row">${escapeHtml(label)}</th>
+            ${values.map((value) => `<td>${escapeHtml(value)}</td>`).join('')}
+        </tr>`;
     }
 
     function setupGalleryInteractions() {

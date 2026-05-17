@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260517-21">
+  <link rel="stylesheet" href="css/styles.css?v=20260517-22">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -284,6 +284,16 @@
       </select>
      </div>
     </div>
+    <div class="ship-compare-bar" id="ship-compare-bar" hidden>
+     <div>
+      <strong>비교함</strong>
+      <span id="ship-compare-summary">0 / 3척 선택</span>
+     </div>
+     <div class="ship-compare-actions">
+      <button class="btn btn-secondary" id="ship-compare-clear" type="button">초기화</button>
+      <button class="btn btn-primary" id="ship-compare-open" type="button" disabled>비교 보기</button>
+     </div>
+    </div>
     <div class="ships-grid" id="ships-grid"></div>
    </div>
   </section>
@@ -416,7 +426,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260517-21"></script>
-  <script src="js/main.js?v=20260517-21"></script>
+  <script src="data/volt-data.js?v=20260517-22"></script>
+  <script src="js/main.js?v=20260517-22"></script>
  </body>
 </html>
