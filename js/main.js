@@ -452,6 +452,21 @@
                 <h3>${escapeHtml(guide.title)}</h3>
                 <p>${escapeHtml(guide.content)}</p>
             </div>`).join('');
+        renderLogisticsShipOptions();
+    }
+
+    function getLogisticsShips() {
+        return (data.ships || [])
+            .filter((ship) => getShipTags(ship).includes('화물'))
+            .sort((left, right) => getCargoValue(right.cargo) - getCargoValue(left.cargo));
+    }
+
+    function renderLogisticsShipOptions() {
+        const select = document.getElementById('logistics-ship');
+        if (!select) return;
+        select.innerHTML = getLogisticsShips().map((ship) => (
+            `<option value="${escapeHtml(ship.id)}">${escapeHtml(ship.name)} · ${escapeHtml(ship.cargo)}</option>`
+        )).join('');
     }
 
     function renderAll() {
@@ -670,6 +685,165 @@
         grid.addEventListener('click', handleShipCompareToggle);
         clearButton.addEventListener('click', clearShipComparison);
         openButton.addEventListener('click', openShipComparison);
+    }
+
+    function setupLogisticsCalculator() {
+        const button = document.getElementById('logistics-calculate');
+        const copyButton = document.getElementById('trade-briefing-copy');
+        if (!button || !copyButton) return;
+        button.addEventListener('click', renderLogisticsRecommendation);
+        copyButton.addEventListener('click', copyTradeBriefing);
+        renderLogisticsRecommendation();
+    }
+
+    function renderLogisticsRecommendation() {
+        const cargoInput = document.getElementById('logistics-cargo');
+        const crewInput = document.getElementById('logistics-crew');
+        const shipSelect = document.getElementById('logistics-ship');
+        const operationSelect = document.getElementById('trade-operation-type');
+        const riskSelect = document.getElementById('trade-risk');
+        const result = document.getElementById('logistics-result');
+        if (!cargoInput || !crewInput || !shipSelect || !operationSelect || !riskSelect || !result) return;
+        const cargoTarget = Math.max(1, Number(cargoInput.value) || 0);
+        const crewAvailable = Math.max(1, Number(crewInput.value) || 0);
+        const selectedShip = shipById.get(shipSelect.value);
+        if (!selectedShip) return;
+        const recommendation = buildLogisticsRecommendation({
+            cargoTarget,
+            crewAvailable,
+            ship: selectedShip,
+            operationType: operationSelect.value,
+            risk: riskSelect.value
+        });
+        result.innerHTML = `
+            <div class="logistics-result-main">
+                <strong>${escapeHtml(recommendation.title)}</strong>
+                <p>${escapeHtml(recommendation.summary)}</p>
+            </div>
+            <div class="logistics-result-grid">
+                <div><span>추천 출격</span><strong>${escapeHtml(recommendation.sorties)}</strong></div>
+                <div><span>필요 운송 인원</span><strong>${escapeHtml(recommendation.transportCrew)}</strong></div>
+                <div><span>남는 인원</span><strong>${escapeHtml(recommendation.supportCrew)}</strong></div>
+                <div><span>적재 여유</span><strong>${escapeHtml(recommendation.buffer)}</strong></div>
+            </div>
+            <p class="logistics-result-note">${escapeHtml(recommendation.note)}</p>`;
+        renderTradeChecklist(recommendation);
+        renderTradeBriefing(recommendation);
+    }
+
+    function buildLogisticsRecommendation({ cargoTarget, crewAvailable, ship, operationType, risk }) {
+        const cargoCapacity = Math.max(1, getCargoValue(ship.cargo));
+        const sorties = Math.ceil(cargoTarget / cargoCapacity);
+        const minCrew = Math.max(1, parseSmallestNumber(ship.crew));
+        const transportCrewNeeded = Math.min(crewAvailable, minCrew);
+        const requiredEscort = getEscortRequirement(operationType, risk);
+        const supportCrew = Math.max(0, crewAvailable - transportCrewNeeded);
+        const totalCapacity = sorties * cargoCapacity;
+        const buffer = `${Math.max(0, totalCapacity - cargoTarget).toLocaleString()} SCU`;
+        const title = `${getOperationLabel(operationType)} · ${ship.name} 기준 ${sorties}회 운송`;
+        const summary = `${cargoTarget.toLocaleString()} SCU를 ${ship.name}(${ship.cargo})로 처리하는 구성입니다. 위험도 ${getRiskLabel(risk)} 기준, ${getOperationSummary(operationType)}.`;
+        const note = buildOperationNote({ supportCrew, requiredEscort, risk });
+        return {
+            title,
+            summary,
+            sorties: `${sorties}회`,
+            transportCrew: `${transportCrewNeeded}명`,
+            supportCrew: `${supportCrew}명`,
+            buffer,
+            note,
+            operationType,
+            risk,
+            ship,
+            cargoTarget,
+            crewAvailable,
+            requiredEscort
+        };
+    }
+
+    function getOperationLabel(type) {
+        return { solo: '단독 운송', convoy: '호송 운송', bulk: '대량 수송' }[type] || '무역 작전';
+    }
+
+    function getRiskLabel(risk) {
+        return { low: '낮음', medium: '보통', high: '높음' }[risk] || '보통';
+    }
+
+    function getOperationSummary(type) {
+        return {
+            solo: '빠른 판단과 단순한 지휘 체계가 핵심입니다',
+            convoy: '운송과 호위를 분리하는 편이 안정적입니다',
+            bulk: '적재량과 회전율을 우선해 편대를 짜는 편이 유리합니다'
+        }[type] || '운송 효율을 우선합니다';
+    }
+
+    function getEscortRequirement(type, risk) {
+        if (risk === 'high') return type === 'solo' ? 1 : 2;
+        if (risk === 'medium') return type === 'bulk' ? 1 : 0;
+        return 0;
+    }
+
+    function buildOperationNote({ supportCrew, requiredEscort, risk }) {
+        if (requiredEscort > 0 && supportCrew < requiredEscort) {
+            return `현재 인원으로는 권장 호위 ${requiredEscort}명을 채우기 어렵습니다. 위험도 ${getRiskLabel(risk)} 작전은 추가 모집 후 진행하는 편이 안전합니다.`;
+        }
+        if (requiredEscort > 0) {
+            return `남는 인원 중 ${requiredEscort}명은 호위에 우선 배치하고, 나머지는 적재 보조와 경계에 배치하세요.`;
+        }
+        return supportCrew > 0
+            ? `남는 ${supportCrew}명은 적재 보조, 정찰, 경계 임무에 배치하면 운용이 매끄럽습니다.`
+            : '운송 인원이 빠듯합니다. 출발 전 적재와 목적지 절차를 더 단순하게 잡는 편이 좋습니다.';
+    }
+
+    function renderTradeChecklist(recommendation) {
+        const list = document.getElementById('trade-checklist');
+        if (!list) return;
+        const items = [
+            'UEX Corp에서 최신 매수·매도 위치 확인',
+            'SC Trade Tools에서 화물량 기준 루트 수익 비교',
+            `${recommendation.ship.name} 적재량과 출격 횟수 재확인`,
+            recommendation.requiredEscort > 0 ? `호위 ${recommendation.requiredEscort}명 확보` : '호위 필요 여부 최종 확인',
+            'Discord 집결 채널과 출발 시각 공지',
+            '착륙지·판매지 혼잡도 확인'
+        ];
+        list.innerHTML = items.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
+    }
+
+    function renderTradeBriefing(recommendation) {
+        const field = document.getElementById('trade-briefing-text');
+        if (!field) return;
+        field.value = [
+            `[VOLT 무역 작전 브리핑]`,
+            `유형: ${getOperationLabel(recommendation.operationType)}`,
+            `위험도: ${getRiskLabel(recommendation.risk)}`,
+            `운송 목표: ${recommendation.cargoTarget.toLocaleString()} SCU`,
+            `주력 함선: ${recommendation.ship.name} (${recommendation.ship.cargo})`,
+            `권장 운송: ${recommendation.sorties}`,
+            `참여 인원: ${recommendation.crewAvailable}명`,
+            `운송 담당: ${recommendation.transportCrew}`,
+            `지원 가능: ${recommendation.supportCrew}`,
+            `비고: ${recommendation.note}`,
+            ``,
+            `사전 확인`,
+            `1. UEX Corp에서 상품 가격 / 매수·매도 위치 확인`,
+            `2. SC Trade Tools에서 루트 수익률 비교`,
+            `3. 집결 시각과 역할 배정은 Discord에서 확정`
+        ].join('\n');
+    }
+
+    async function copyTradeBriefing() {
+        const field = document.getElementById('trade-briefing-text');
+        if (!field) return;
+        try {
+            await navigator.clipboard.writeText(field.value);
+            showToast('브리핑을 복사했습니다.');
+        } catch (error) {
+            showToast('브리핑 복사에 실패했습니다.');
+        }
+    }
+
+    function parseSmallestNumber(value) {
+        const matches = String(value).match(/\d+/g);
+        return matches ? Number(matches[0]) : 1;
     }
 
     function resetShipState() {
@@ -1197,6 +1371,7 @@
         setupMobileMenu();
         setupNoticeControls();
         setupShipControls();
+        setupLogisticsCalculator();
         setupGalleryInteractions();
         setupModalControls();
         setupPolicyAnchors();

@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260517-24">
+  <link rel="stylesheet" href="css/styles.css?v=20260517-26">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -359,6 +359,67 @@
      <p>스타시티즌 물류·무역 입문 안내</p>
     </div>
     <div class="guide-grid" id="guide-list"></div>
+    <div class="trade-planner">
+     <div class="trade-planner-header">
+      <h3>VOLT 무역 작전 플래너</h3>
+      <p>외부 시세 도구로 루트를 확인하고, 여기서는 함선·인원·위험도에 맞는 운영 방식을 정합니다.</p>
+     </div>
+     <div class="trade-planner-form">
+      <label>
+       <span>작전 유형</span>
+       <select id="trade-operation-type">
+        <option value="solo">단독 운송</option>
+        <option value="convoy" selected>호송 운송</option>
+        <option value="bulk">대량 수송</option>
+       </select>
+      </label>
+      <label>
+       <span>운송 화물량 (SCU)</span>
+       <input id="logistics-cargo" type="number" min="1" step="1" value="576">
+      </label>
+      <label>
+       <span>보유 함선</span>
+       <select id="logistics-ship"></select>
+      </label>
+      <label>
+       <span>참여 인원</span>
+       <input id="logistics-crew" type="number" min="1" step="1" value="4">
+      </label>
+      <label>
+       <span>위험도</span>
+       <select id="trade-risk">
+        <option value="low">낮음</option>
+        <option value="medium" selected>보통</option>
+        <option value="high">높음</option>
+       </select>
+      </label>
+      <button class="btn btn-primary" id="logistics-calculate" type="button">작전 추천 생성</button>
+     </div>
+     <div class="trade-planner-layout">
+      <div class="logistics-result" id="logistics-result" aria-live="polite"></div>
+      <div class="trade-planner-side">
+       <div class="trade-tool-hint">
+        <h4>외부 도구 확인 순서</h4>
+        <ol>
+         <li><strong>UEX Corp</strong>에서 상품 가격과 매수/매도 위치 확인</li>
+         <li><strong>SC Trade Tools</strong>에서 화물량 기준 수익 루트 비교</li>
+         <li><strong>VOLT 플래너</strong>에서 인원·위험도 기준 작전 방식 확정</li>
+        </ol>
+       </div>
+       <div class="trade-checklist">
+        <h4>작전 전 체크리스트</h4>
+        <ul id="trade-checklist"></ul>
+       </div>
+      </div>
+     </div>
+     <div class="trade-briefing">
+      <div class="trade-briefing-header">
+       <h4>Discord 공유용 브리핑</h4>
+       <button class="btn btn-secondary" id="trade-briefing-copy" type="button">브리핑 복사</button>
+      </div>
+      <textarea id="trade-briefing-text" readonly></textarea>
+     </div>
+    </div>
     <div class="guide-tools">
      <h3>추천 외부 도구</h3>
      <div class="guide-tools-grid">
@@ -446,7 +507,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260517-24"></script>
-  <script src="js/main.js?v=20260517-24"></script>
+  <script src="data/volt-data.js?v=20260517-26"></script>
+  <script src="js/main.js?v=20260517-26"></script>
  </body>
 </html>
