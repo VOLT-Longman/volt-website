@@ -532,8 +532,32 @@
             link.addEventListener('click', (event) => {
                 event.preventDefault();
                 showSection(link.getAttribute('data-section'));
+                closeMoreMenu();
             });
         });
+        setupMoreMenu();
+    }
+
+    function setupMoreMenu() {
+        const toggle = document.getElementById('nav-more-toggle');
+        const menu = document.getElementById('nav-more-menu');
+        if (!toggle || !menu) return;
+        toggle.addEventListener('click', () => {
+            const expanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!expanded));
+            menu.classList.toggle('active', !expanded);
+        });
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.nav-more')) closeMoreMenu();
+        });
+    }
+
+    function closeMoreMenu() {
+        const toggle = document.getElementById('nav-more-toggle');
+        const menu = document.getElementById('nav-more-menu');
+        if (!toggle || !menu) return;
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('active');
     }
 
     function setupMobileMenu() {

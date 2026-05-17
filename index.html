@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260517-23">
+  <link rel="stylesheet" href="css/styles.css?v=20260517-24">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -66,18 +66,23 @@
     </a>
     <ul class="nav-links">
      <li><a href="#about" data-section="about">소개</a></li>
-     <li><a href="#timeline" data-section="timeline">연혁</a></li>
-     <li><a href="#leadership" data-section="leadership">임원진</a></li>
-     <li><a href="#notices" data-section="notices">공지</a></li>
      <li><a href="#ships" data-section="ships">함선DB</a></li>
-     <li><a href="#schedule" data-section="schedule">일정</a></li>
      <li><a href="#hub" data-section="hub">무역허브</a></li>
-     <li><a href="#streamers" data-section="streamers">스트리머</a></li>
-     <li><a href="#gallery" data-section="gallery">갤러리</a></li>
-     <li><a href="#policy" data-section="policy">정책</a></li>
-     <li><a href="#faq" data-section="faq">FAQ</a></li>
-     <li><a href="#guide" data-section="guide">무역가이드</a></li>
+     <li><a href="#notices" data-section="notices">공지</a></li>
      <li><a href="#join" data-section="join">가입하기</a></li>
+     <li class="nav-more">
+      <button class="nav-more-toggle" id="nav-more-toggle" type="button" aria-expanded="false" aria-controls="nav-more-menu">더보기</button>
+      <ul class="nav-more-menu" id="nav-more-menu">
+       <li><a href="#timeline" data-section="timeline">연혁</a></li>
+       <li><a href="#leadership" data-section="leadership">임원진</a></li>
+       <li><a href="#schedule" data-section="schedule">일정</a></li>
+       <li><a href="#streamers" data-section="streamers">스트리머</a></li>
+       <li><a href="#gallery" data-section="gallery">갤러리</a></li>
+       <li><a href="#policy" data-section="policy">정책</a></li>
+       <li><a href="#faq" data-section="faq">FAQ</a></li>
+       <li><a href="#guide" data-section="guide">무역가이드</a></li>
+      </ul>
+     </li>
      <li><button id="search-toggle" class="nav-icon-button" aria-label="검색 열기" aria-haspopup="dialog">⌕</button></li>
      <li><button id="theme-toggle" aria-label="테마 변경">☀️</button></li>
      <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="nav-discord">Discord</a></li>
@@ -92,18 +97,19 @@
    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="메뉴 닫기">×</button>
    <ul>
     <li><a href="#about" data-section="about">소개</a></li>
+    <li><a href="#ships" data-section="ships">함선DB</a></li>
+    <li><a href="#hub" data-section="hub">무역허브</a></li>
+    <li><a href="#notices" data-section="notices">공지</a></li>
+    <li><a href="#join" data-section="join">가입하기</a></li>
+    <li class="mobile-menu-group-label">더보기</li>
     <li><a href="#timeline" data-section="timeline">연혁</a></li>
     <li><a href="#leadership" data-section="leadership">임원진</a></li>
-    <li><a href="#notices" data-section="notices">공지</a></li>
-    <li><a href="#ships" data-section="ships">함선DB</a></li>
     <li><a href="#schedule" data-section="schedule">일정</a></li>
-    <li><a href="#hub" data-section="hub">무역허브</a></li>
     <li><a href="#streamers" data-section="streamers">스트리머</a></li>
+    <li><a href="#gallery" data-section="gallery">갤러리</a></li>
     <li><a href="#policy" data-section="policy">정책</a></li>
     <li><a href="#faq" data-section="faq">FAQ</a></li>
     <li><a href="#guide" data-section="guide">무역가이드</a></li>
-    <li><a href="#gallery" data-section="gallery">갤러리</a></li>
-    <li><a href="#join" data-section="join">가입하기</a></li>
     <li><button id="mobile-search-toggle" class="mobile-search-toggle" aria-label="검색 열기">검색</button></li>
     <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord</a></li>
    </ul>
@@ -440,7 +446,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260517-23"></script>
-  <script src="js/main.js?v=20260517-23"></script>
+  <script src="data/volt-data.js?v=20260517-24"></script>
+  <script src="js/main.js?v=20260517-24"></script>
  </body>
 </html>
