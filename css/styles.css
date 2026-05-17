@@ -3134,6 +3134,28 @@ body {
 .logistics-result {
     margin-top: 24px;
 }
+.operation-fit {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 18px;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+}
+.operation-fit span {
+    font-weight: 700;
+}
+.operation-fit-good {
+    background: rgba(72, 187, 120, 0.12);
+    color: #68d391;
+}
+.operation-fit-caution {
+    background: rgba(246, 173, 85, 0.12);
+    color: #f6ad55;
+}
+.operation-fit-poor {
+    background: rgba(245, 101, 101, 0.12);
+    color: #fc8181;
+}
 .logistics-result-main p,
 .logistics-result-note {
     color: var(--color-text-secondary);
@@ -3154,6 +3176,30 @@ body {
     margin-bottom: 6px;
     color: var(--color-text-tertiary);
     font-size: 12px;
+}
+.trade-result-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.trade-detail-card {
+    padding: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card-hover);
+}
+.trade-detail-card h4 {
+    margin-bottom: 10px;
+}
+.trade-detail-card p,
+.trade-detail-card li {
+    color: var(--color-text-secondary);
+}
+.trade-detail-card ul {
+    display: grid;
+    gap: 6px;
+    padding-left: 18px;
 }
 .guide-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 16px; }
 .guide-tool-card {
@@ -3180,7 +3226,8 @@ body {
     .guide-tools-grid { grid-template-columns: 1fr 1fr; }
     .trade-planner-form,
     .trade-planner-layout,
-    .logistics-result-grid {
+    .logistics-result-grid,
+    .trade-result-columns {
         grid-template-columns: 1fr 1fr;
     }
     .join-checklist-grid { grid-template-columns: 1fr; }
@@ -3236,7 +3283,8 @@ body {
     }
     .trade-planner-form,
     .trade-planner-layout,
-    .logistics-result-grid {
+    .logistics-result-grid,
+    .trade-result-columns {
         grid-template-columns: 1fr;
     }
     .trade-briefing-header {

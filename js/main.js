@@ -716,6 +716,10 @@
             risk: riskSelect.value
         });
         result.innerHTML = `
+            <div class="operation-fit operation-fit-${escapeHtml(recommendation.fit.level)}">
+                <span>${escapeHtml(recommendation.fit.label)}</span>
+                <strong>${escapeHtml(recommendation.fit.reason)}</strong>
+            </div>
             <div class="logistics-result-main">
                 <strong>${escapeHtml(recommendation.title)}</strong>
                 <p>${escapeHtml(recommendation.summary)}</p>
@@ -726,23 +730,30 @@
                 <div><span>남는 인원</span><strong>${escapeHtml(recommendation.supportCrew)}</strong></div>
                 <div><span>적재 여유</span><strong>${escapeHtml(recommendation.buffer)}</strong></div>
             </div>
+            <div class="trade-result-columns">
+                ${renderShipSuitabilityCard(recommendation)}
+                ${renderRolePlanCard(recommendation)}
+            </div>
             <p class="logistics-result-note">${escapeHtml(recommendation.note)}</p>`;
         renderTradeChecklist(recommendation);
         renderTradeBriefing(recommendation);
     }
 
     function buildLogisticsRecommendation({ cargoTarget, crewAvailable, ship, operationType, risk }) {
-        const cargoCapacity = Math.max(1, getCargoValue(ship.cargo));
-        const sorties = Math.ceil(cargoTarget / cargoCapacity);
+        const cargoCapacity = getCargoValue(ship.cargo);
+        const usableCapacity = Math.max(1, cargoCapacity);
+        const sorties = Math.ceil(cargoTarget / usableCapacity);
         const minCrew = Math.max(1, parseSmallestNumber(ship.crew));
         const transportCrewNeeded = Math.min(crewAvailable, minCrew);
         const requiredEscort = getEscortRequirement(operationType, risk);
         const supportCrew = Math.max(0, crewAvailable - transportCrewNeeded);
-        const totalCapacity = sorties * cargoCapacity;
+        const totalCapacity = sorties * usableCapacity;
         const buffer = `${Math.max(0, totalCapacity - cargoTarget).toLocaleString()} SCU`;
         const title = `${getOperationLabel(operationType)} · ${ship.name} 기준 ${sorties}회 운송`;
         const summary = `${cargoTarget.toLocaleString()} SCU를 ${ship.name}(${ship.cargo})로 처리하는 구성입니다. 위험도 ${getRiskLabel(risk)} 기준, ${getOperationSummary(operationType)}.`;
         const note = buildOperationNote({ supportCrew, requiredEscort, risk });
+        const rolePlan = buildRolePlan({ crewAvailable, transportCrewNeeded, requiredEscort, operationType });
+        const fit = buildOperationFit({ cargoCapacity, sorties, supportCrew, requiredEscort, risk });
         return {
             title,
             summary,
@@ -756,8 +767,76 @@
             ship,
             cargoTarget,
             crewAvailable,
-            requiredEscort
+            requiredEscort,
+            cargoCapacity,
+            rolePlan,
+            fit
         };
+    }
+
+    function buildOperationFit({ cargoCapacity, sorties, supportCrew, requiredEscort, risk }) {
+        if (cargoCapacity === 0) {
+            return { level: 'poor', label: '비추천', reason: '선택 함선의 화물량이 0 SCU입니다.' };
+        }
+        if (risk === 'high' && supportCrew < requiredEscort) {
+            return { level: 'poor', label: '비추천', reason: '고위험 작전인데 권장 호위 인원이 부족합니다.' };
+        }
+        if (sorties >= 3) {
+            return { level: 'caution', label: '주의', reason: '출격 횟수가 3회 이상입니다. 추가 화물선 투입을 권장합니다.' };
+        }
+        if (requiredEscort > 0 && supportCrew === requiredEscort) {
+            return { level: 'caution', label: '주의', reason: '필수 호위만 겨우 충족합니다. 예비 인원이 없습니다.' };
+        }
+        return { level: 'good', label: '적합', reason: '현재 조건에서 무리 없이 운용 가능한 구성입니다.' };
+    }
+
+    function buildRolePlan({ crewAvailable, transportCrewNeeded, requiredEscort, operationType }) {
+        const route = crewAvailable >= 2 ? 1 : 0;
+        const escort = Math.min(requiredEscort, Math.max(0, crewAvailable - transportCrewNeeded - route));
+        const cargoAssist = operationType === 'bulk' && crewAvailable - transportCrewNeeded - route - escort > 0 ? 1 : 0;
+        const reserve = Math.max(0, crewAvailable - transportCrewNeeded - route - escort - cargoAssist);
+        return {
+            transport: transportCrewNeeded,
+            route,
+            escort,
+            reserve,
+            cargoAssist
+        };
+    }
+
+    function renderShipSuitabilityCard(recommendation) {
+        const ship = recommendation.ship;
+        const advantages = [
+            `${ship.cargo} 적재`,
+            recommendation.cargoCapacity >= 500 ? '대량 운송에 유리' : '회전율 관리에 적합',
+            parseLargestNumber(ship.crew) <= 2 ? '소수 인원 운용 가능' : '다인 운용에 적합'
+        ];
+        const cautions = [];
+        if (recommendation.cargoCapacity === 0) cautions.push('화물 운송 불가');
+        if (recommendation.sorties.startsWith('3')) cautions.push('다회 출격 필요');
+        if ((ship.tags || []).includes('미구현')) cautions.push('미구현 함선');
+        if (cautions.length === 0) cautions.push('특이 주의점 없음');
+        const scale = recommendation.cargoCapacity >= 1000 ? '대형 작전' : recommendation.cargoCapacity >= 200 ? '중형 작전' : '소규모 작전';
+        return `<section class="trade-detail-card">
+            <h4>선택 함선 적합도</h4>
+            <strong>${escapeHtml(ship.name)} · ${escapeHtml(scale)}</strong>
+            <p>장점: ${escapeHtml(advantages.join(' / '))}</p>
+            <p>주의: ${escapeHtml(cautions.join(' / '))}</p>
+        </section>`;
+    }
+
+    function renderRolePlanCard(recommendation) {
+        const role = recommendation.rolePlan;
+        return `<section class="trade-detail-card">
+            <h4>역할 배분 추천</h4>
+            <ul>
+                <li>운송 담당 ${escapeHtml(String(role.transport))}명</li>
+                <li>루트 확인 담당 ${escapeHtml(String(role.route))}명</li>
+                <li>호위 ${escapeHtml(String(role.escort))}명</li>
+                <li>정찰/예비 ${escapeHtml(String(role.reserve))}명</li>
+                <li>적재/하역 보조 ${escapeHtml(String(role.cargoAssist))}명</li>
+            </ul>
+        </section>`;
     }
 
     function getOperationLabel(type) {
@@ -806,27 +885,58 @@
             '착륙지·판매지 혼잡도 확인'
         ];
         list.innerHTML = items.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
+        renderTradeToolHint(recommendation.operationType);
+    }
+
+    function renderTradeToolHint(operationType) {
+        const hint = document.querySelector('.trade-tool-hint ol');
+        if (!hint) return;
+        const items = {
+            solo: [
+                'UEX Corp에서 매수·매도 위치와 재고 변동 확인',
+                'SC Trade Tools에서 짧은 루트와 시간당 수익 비교',
+                'VOLT 플래너에서 단독 운용 가능 여부 최종 확인'
+            ],
+            convoy: [
+                'UEX Corp에서 상품 가격과 판매지 위험도 확인',
+                'SC Trade Tools에서 수익 루트와 우회 루트 함께 비교',
+                'VOLT 플래너에서 호위·지원 인원 배치 확정'
+            ],
+            bulk: [
+                'UEX Corp에서 대량 거래 가능한 재고와 판매처 확인',
+                'SC Trade Tools에서 화물량 기준 총수익과 회전율 비교',
+                'VOLT 플래너에서 다중 출격 또는 추가 함선 필요 여부 판단'
+            ]
+        }[operationType];
+        hint.innerHTML = items.map((item, index) => `<li><strong>${index + 1}.</strong> ${escapeHtml(item)}</li>`).join('');
     }
 
     function renderTradeBriefing(recommendation) {
         const field = document.getElementById('trade-briefing-text');
         if (!field) return;
         field.value = [
-            `[VOLT 무역 작전 브리핑]`,
-            `유형: ${getOperationLabel(recommendation.operationType)}`,
+            `[VOLT 무역 작전 모집]`,
+            `작전 유형: ${getOperationLabel(recommendation.operationType)}`,
+            `작전 적합도: ${recommendation.fit.label} - ${recommendation.fit.reason}`,
             `위험도: ${getRiskLabel(recommendation.risk)}`,
             `운송 목표: ${recommendation.cargoTarget.toLocaleString()} SCU`,
             `주력 함선: ${recommendation.ship.name} (${recommendation.ship.cargo})`,
             `권장 운송: ${recommendation.sorties}`,
-            `참여 인원: ${recommendation.crewAvailable}명`,
-            `운송 담당: ${recommendation.transportCrew}`,
-            `지원 가능: ${recommendation.supportCrew}`,
-            `비고: ${recommendation.note}`,
+            `모집 인원: ${recommendation.crewAvailable}명`,
+            ``,
+            `필요 역할`,
+            `- 운송 담당 ${recommendation.rolePlan.transport}명`,
+            `- 루트 확인 담당 ${recommendation.rolePlan.route}명`,
+            `- 호위 ${recommendation.rolePlan.escort}명`,
+            `- 정찰/예비 ${recommendation.rolePlan.reserve}명`,
+            `- 적재/하역 보조 ${recommendation.rolePlan.cargoAssist}명`,
             ``,
             `사전 확인`,
             `1. UEX Corp에서 상품 가격 / 매수·매도 위치 확인`,
             `2. SC Trade Tools에서 루트 수익률 비교`,
-            `3. 집결 시각과 역할 배정은 Discord에서 확정`
+            `3. 집결 시각과 역할 배정은 Discord에서 확정`,
+            ``,
+            `주의: ${recommendation.note}`
         ].join('\n');
     }
 
