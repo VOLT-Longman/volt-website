@@ -207,6 +207,16 @@ body {
     background: var(--color-bg-card-hover);
 }
 
+body.nav-more-open::before {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--z-nav) - 1);
+    background: rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    content: '';
+}
+
 .nav-links a {
     color: var(--color-text-primary);
     text-decoration: none;
@@ -3081,6 +3091,16 @@ body {
     background: var(--color-bg-card);
     color: var(--color-text-primary);
 }
+
+.trade-planner-form select option {
+    background: #1d1d1f;
+    color: #f5f5f7;
+}
+
+[data-theme="light"] .trade-planner-form select option {
+    background: #ffffff;
+    color: #1d1d1f;
+}
 .trade-planner-layout {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
@@ -3133,6 +3153,14 @@ body {
 }
 .logistics-result {
     margin-top: 24px;
+}
+
+.logistics-empty {
+    padding: 24px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card-hover);
+    color: var(--color-text-secondary);
 }
 .operation-fit {
     display: grid;

@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260518-29">
+  <link rel="stylesheet" href="css/styles.css?v=20260518-30">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -382,7 +382,7 @@
       </label>
       <label>
        <span>운송 화물량 (SCU)</span>
-       <input id="logistics-cargo" type="number" min="1" step="1" value="576">
+       <input id="logistics-cargo" type="number" min="0" step="1" value="0">
       </label>
       <label>
        <span>보유 함선</span>
@@ -390,13 +390,13 @@
       </label>
       <label>
        <span>참여 인원</span>
-       <input id="logistics-crew" type="number" min="1" step="1" value="4">
+       <input id="logistics-crew" type="number" min="1" step="1" value="1">
       </label>
       <label>
        <span>위험도</span>
        <select id="trade-risk">
-        <option value="low">낮음</option>
-        <option value="medium" selected>보통</option>
+        <option value="low" selected>낮음</option>
+        <option value="medium">보통</option>
         <option value="high">높음</option>
        </select>
       </label>
@@ -514,7 +514,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260518-29"></script>
-  <script src="js/main.js?v=20260518-29"></script>
+  <script src="data/volt-data.js?v=20260518-30"></script>
+  <script src="js/main.js?v=20260518-30"></script>
  </body>
 </html>

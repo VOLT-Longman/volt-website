@@ -583,16 +583,16 @@
 
     function getLogisticsShips() {
         return (data.ships || [])
-            .filter((ship) => getShipTags(ship).includes('화물'))
-            .sort((left, right) => getCargoValue(right.cargo) - getCargoValue(left.cargo));
+            .filter((ship) => ship.focus === '화물' || getShipTags(ship).includes('화물'))
+            .sort((left, right) => getCargoValue(right.cargo) - getCargoValue(left.cargo) || compareText(left.name, right.name));
     }
 
     function renderLogisticsShipOptions() {
         const select = document.getElementById('logistics-ship');
         if (!select) return;
-        select.innerHTML = getLogisticsShips().map((ship) => (
+        select.innerHTML = `<option value="">보유 함선 선택</option>${getLogisticsShips().map((ship) => (
             `<option value="${escapeHtml(ship.id)}">${escapeHtml(ship.name)} · ${escapeHtml(ship.cargo)}</option>`
-        )).join('');
+        )).join('')}`;
     }
 
     function renderAll() {
@@ -694,6 +694,7 @@
             const expanded = toggle.getAttribute('aria-expanded') === 'true';
             toggle.setAttribute('aria-expanded', String(!expanded));
             menu.classList.toggle('active', !expanded);
+            document.body.classList.toggle('nav-more-open', !expanded);
         });
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.nav-more')) closeMoreMenu();
@@ -706,6 +707,7 @@
         if (!toggle || !menu) return;
         toggle.setAttribute('aria-expanded', 'false');
         menu.classList.remove('active');
+        document.body.classList.remove('nav-more-open');
     }
 
     function setupMobileMenu() {
@@ -894,10 +896,16 @@
         const riskSelect = document.getElementById('trade-risk');
         const result = document.getElementById('logistics-result');
         if (!cargoInput || !crewInput || !shipSelect || !operationSelect || !riskSelect || !result) return;
-        const cargoTarget = Math.max(1, Number(cargoInput.value) || 0);
+        const cargoTarget = Math.max(0, Number(cargoInput.value) || 0);
         const crewAvailable = Math.max(1, Number(crewInput.value) || 0);
         const selectedShip = shipById.get(shipSelect.value);
-        if (!selectedShip) return;
+        if (!selectedShip || cargoTarget === 0) {
+            renderLogisticsPrompt(result, Boolean(selectedShip), cargoTarget);
+            renderTradeToolHint(operationSelect.value);
+            renderTradeChecklistPrompt();
+            renderTradeBriefingPrompt();
+            return;
+        }
         const recommendation = buildLogisticsRecommendation({
             cargoTarget,
             crewAvailable,
@@ -928,6 +936,31 @@
             <p class="logistics-result-note">${escapeHtml(recommendation.note)}</p>`;
         renderTradeChecklist(recommendation);
         renderTradeBriefing(recommendation);
+    }
+
+    function renderLogisticsPrompt(result, hasShip, cargoTarget) {
+        const message = !hasShip
+            ? '보유 함선을 선택하면 작전 추천을 시작합니다.'
+            : cargoTarget === 0
+                ? '운송 화물량을 입력하면 출격 횟수와 역할 배분을 계산합니다.'
+                : '입력값을 확인해 주세요.';
+        result.innerHTML = `<div class="logistics-empty">${escapeHtml(message)}</div>`;
+    }
+
+    function renderTradeChecklistPrompt() {
+        const list = document.getElementById('trade-checklist');
+        if (!list) return;
+        list.innerHTML = [
+            '운송 목표량 입력',
+            '보유 함선 선택',
+            '참여 인원과 위험도 설정'
+        ].map((item) => `<li>${escapeHtml(item)}</li>`).join('');
+    }
+
+    function renderTradeBriefingPrompt() {
+        const field = document.getElementById('trade-briefing-text');
+        if (!field) return;
+        field.value = '작전 정보를 입력하면 Discord 공유용 브리핑이 생성됩니다.';
     }
 
     function buildLogisticsRecommendation({ cargoTarget, crewAvailable, ship, operationType, risk }) {
@@ -1093,7 +1126,7 @@
         const hint = document.querySelector('.trade-tool-hint ol');
         if (!hint) return;
         const items = TRADE_OPERATION_CONFIG[operationType]?.toolSteps || [];
-        hint.innerHTML = items.map((item, index) => `<li><strong>${index + 1}.</strong> ${escapeHtml(item)}</li>`).join('');
+        hint.innerHTML = items.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
     }
 
     function renderTradeBriefing(recommendation) {
