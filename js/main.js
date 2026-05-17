@@ -97,9 +97,14 @@
                 <span class="streamer-platform">${escapeHtml(streamer.platform)}</span>
                 <p class="streamer-description">${escapeHtml(streamer.description)}</p>
                 <div class="streamer-details">${streamer.sections.map((section) => `<div class="streamer-sub-section"><h4>${escapeHtml(section.title)}</h4><p>${formatMultilineText(section.content)}</p></div>`).join('')}</div>
-                <a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer" class="streamer-link">방송 보기</a>
+                ${renderStreamerLink(streamer)}
             </div>`;
         }).join('');
+    }
+
+    function renderStreamerLink(streamer) {
+        if (!streamer.channelUrl) return '';
+        return `<a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer" class="streamer-link">방송 보기</a>`;
     }
 
     function renderTimeline() {
@@ -165,7 +170,7 @@
         const container = document.getElementById('gallery-grid');
         if (!container || !Array.isArray(data.gallery)) return;
         if (data.gallery.length === 0) {
-            container.innerHTML = '<div class="gallery-empty">assets/images/gallery/에 이미지를 추가하고 volt-data.js의 gallery 배열에 등록하면 자동으로 표시됩니다.</div>';
+            container.innerHTML = '<div class="gallery-empty"><p>🚀 활동 사진을 준비 중입니다.</p><p>곧 VOLT 함대의 생생한 활동 현장을 만나보실 수 있습니다.</p></div>';
             return;
         }
         container.innerHTML = data.gallery.map((item) => `
@@ -442,7 +447,9 @@
         closeButton.addEventListener('click', close);
         menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && menu.classList.contains('active')) close();
+            if (!menu.classList.contains('active')) return;
+            if (event.key === 'Escape') close();
+            if (event.key === 'Tab') trapFocus(menu, event);
         });
     }
 
@@ -450,6 +457,32 @@
         menu.classList.toggle('active', isOpen);
         button.setAttribute('aria-expanded', String(isOpen));
         document.body.style.overflow = isOpen ? 'hidden' : '';
+        if (isOpen) {
+            menu.dataset.returnFocusId = document.activeElement?.id || '';
+            getFocusableElements(menu)[0]?.focus();
+        } else {
+            const returnTarget = menu.dataset.returnFocusId ? document.getElementById(menu.dataset.returnFocusId) : button;
+            returnTarget?.focus();
+        }
+    }
+
+    function getFocusableElements(container) {
+        return [...container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+            .filter((element) => !element.hasAttribute('hidden'));
+    }
+
+    function trapFocus(container, event) {
+        const focusable = getFocusableElements(container);
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
     }
 
     function setupNoticeControls() {
@@ -604,10 +637,12 @@
             if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(value);
             else copyTextFallback(value);
             showCopyFeedback(button);
+            showToast('정책 링크를 복사했습니다.');
         } catch (error) {
             try {
                 copyTextFallback(value);
                 showCopyFeedback(button);
+                showToast('정책 링크를 복사했습니다.');
             } catch (fallbackError) {
                 console.error('정책 링크 복사 실패', fallbackError || error);
             }
@@ -631,6 +666,22 @@
         const original = button.textContent;
         button.textContent = '✓';
         window.setTimeout(() => { button.textContent = original; }, 1200);
+    }
+
+    function showToast(message) {
+        let toast = document.getElementById('toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.className = 'toast';
+            toast.setAttribute('role', 'status');
+            toast.setAttribute('aria-live', 'polite');
+            document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.classList.add('visible');
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(() => toast.classList.remove('visible'), 2200);
     }
 
     function setupFaqAccordion() {
@@ -790,6 +841,49 @@
         if (button) button.textContent = theme === 'light' ? '🌙' : '☀️';
     }
 
+    function injectStructuredData() {
+        injectFaqStructuredData();
+        injectEventStructuredData();
+    }
+
+    function injectFaqStructuredData() {
+        if (!Array.isArray(data.faq) || data.faq.length === 0) return;
+        appendJsonLd('faq-schema', {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: data.faq.map((item) => ({
+                '@type': 'Question',
+                name: item.q,
+                acceptedAnswer: { '@type': 'Answer', text: item.a }
+            }))
+        });
+    }
+
+    function injectEventStructuredData() {
+        if (!Array.isArray(data.calendar)) return;
+        const events = data.calendar
+            .filter((item) => /^\d{4}\.\d{2}\.\d{2}$/.test(item.date))
+            .map((item) => ({
+                '@type': 'Event',
+                name: item.title,
+                description: item.description,
+                startDate: item.date.replace(/\./g, '-'),
+                eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+                eventStatus: 'https://schema.org/EventScheduled',
+                organizer: { '@type': 'Organization', name: data.fleet.name, url: 'https://www.volt.ceo/' }
+            }));
+        if (events.length > 0) appendJsonLd('event-schema', { '@context': 'https://schema.org', '@graph': events });
+    }
+
+    function appendJsonLd(id, payload) {
+        if (document.getElementById(id)) return;
+        const script = document.createElement('script');
+        script.id = id;
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(payload);
+        document.head.appendChild(script);
+    }
+
     function setupScrollTop() {
         const button = document.getElementById('scroll-to-top');
         if (!button) return;
@@ -846,6 +940,7 @@
         setupScrollEffect();
         setupScrollTop();
         setupTheme();
+        injectStructuredData();
         const applyRouteFromLocation = () => {
             const route = parseRouteFromHash();
             showSection(route.section, false, route.anchorId);

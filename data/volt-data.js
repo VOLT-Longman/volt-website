@@ -99,6 +99,29 @@ const VOLT_DATA = {
     // ===== 공식 스트리머 =====
     streamers: [
         {
+            id: "rudy",
+            name: "루디",
+            platform: "치지직",
+            description: "토크 중심 방송과 종합게임을 함께 즐기는 스타시티즌 뉴비",
+            image: "assets/images/streamers/rudy.png",
+            iconBg: "linear-gradient(135deg, #9ae6b4 0%, #38b2ac 100%)",
+            channelUrl: "https://chzzk.naver.com/05c6daaae355aeae2f1843b9edc426b3",
+            sections: [
+                {
+                    title: "📢 대표 스트리머",
+                    content: "스타시티즌 패치나 대규모 함대전 이벤트를 방송과 유튜브에 송출·업로드할 예정입니다."
+                },
+                {
+                    title: "🎨 콘텐츠 특징",
+                    content: "· 스타시티즌은 매우 뉴비\n· 토크 콘텐츠 위주의 방송 스타일\n· 종합게임도 함께 진행"
+                },
+                {
+                    title: "✨ 스트리머 특징",
+                    content: "VOLT 함대를 통해 스타시티즌을 함께 즐기고, 아름다운 행성 경관을 관광하거나 다양한 콘텐츠를 즐겨나갈 예정입니다!"
+                }
+            ]
+        },
+        {
             id: "perma",
             name: "페르마",
             platform: "치지직",
