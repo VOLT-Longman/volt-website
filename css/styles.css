@@ -51,7 +51,7 @@
     --radius-full: 980px;
 
     /* Typography */
-    --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Pretendard", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-family: "Pretendard Variable", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --font-mono: "SF Mono", "Menlo", "Consolas", "Courier New", monospace;
 
     /* Z-index Layers */
@@ -84,6 +84,7 @@ body {
     background: var(--color-bg-primary);
     color: var(--color-text-primary);
     line-height: 1.6;
+    word-break: keep-all;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
@@ -170,7 +171,8 @@ body {
     color: var(--color-text-primary);
     text-decoration: none;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
+    letter-spacing: -0.02em;
     transition: color 0.2s ease;
     letter-spacing: -0.01em;
     cursor: pointer;
@@ -575,7 +577,8 @@ body {
 .section-header h2 {
     font-size: 52px;
     font-weight: 700;
-    letter-spacing: -2px;
+    line-height: 1.12;
+    letter-spacing: -0.045em;
     margin-bottom: 16px;
     line-height: 1.1;
 }
@@ -2074,37 +2077,6 @@ body {
 }
 
 /* ==========================================================================
-   LIGHT THEME
-   ========================================================================== */
-[data-theme="light"] {
-    --color-bg-primary: #f5f5f7;
-    --color-bg-secondary: #ffffff;
-    --color-bg-card: rgba(0, 0, 0, 0.04);
-    --color-bg-card-hover: rgba(0, 0, 0, 0.07);
-    --color-text-primary: #1d1d1f;
-    --color-text-secondary: #3d3d3f;
-    --color-text-tertiary: #6e6e73;
-    --color-border: rgba(0, 0, 0, 0.1);
-    --color-border-accent: rgba(232, 72, 47, 0.4);
-    --color-border-hover: rgba(0, 0, 0, 0.2);
-}
-
-[data-theme="light"] body { background: var(--color-bg-primary); }
-[data-theme="light"] .nav { background: rgba(245, 245, 247, 0.85); }
-[data-theme="light"] .nav.scrolled { background: rgba(245, 245, 247, 0.95); }
-[data-theme="light"] .hero {
-    background: radial-gradient(ellipse at top, rgba(232,72,47,0.08) 0%, transparent 60%),
-                linear-gradient(180deg, #f5f5f7 0%, #ffffff 100%);
-}
-[data-theme="light"] .about,
-[data-theme="light"] .leadership,
-[data-theme="light"] .join,
-[data-theme="light"] .footer { background: #ffffff; }
-[data-theme="light"] .timeline-section { background: linear-gradient(180deg, #f5f5f7 0%, #ffffff 100%); }
-[data-theme="light"] .mobile-menu { background: rgba(245,245,247,0.98); }
-[data-theme="light"] .mobile-menu a { color: var(--color-text-primary); }
-
-/* ==========================================================================
    THEME TOGGLE BUTTON
    ========================================================================== */
 #theme-toggle {
@@ -2634,12 +2606,12 @@ body {
 [data-theme="light"] {
     --color-bg-primary: #f5f5f7;
     --color-bg-secondary: #ffffff;
-    --color-bg-card: rgba(0,0,0,0.03);
-    --color-bg-card-hover: rgba(0,0,0,0.06);
+    --color-bg-card: rgba(0,0,0,0.05);
+    --color-bg-card-hover: rgba(0,0,0,0.08);
     --color-text-primary: #1d1d1f;
     --color-text-secondary: #424245;
     --color-text-tertiary: #6e6e73;
-    --color-border: rgba(0,0,0,0.1);
+    --color-border: rgba(0,0,0,0.12);
     --color-border-accent: rgba(232,72,47,0.4);
     --color-border-hover: rgba(0,0,0,0.2);
 }
@@ -2851,7 +2823,7 @@ body {
     font-size: 20px; color: var(--volt-orange); min-width: 20px;
     text-align: center; font-weight: 300; transition: transform 0.3s;
 }
-.faq-question[aria-expanded="true"] .faq-icon { transform: rotate(45deg); }
+.faq-question[aria-expanded="true"] .faq-icon { transform: none; }
 .faq-answer {
     max-height: 0; overflow: hidden;
     transition: max-height 0.35s ease;

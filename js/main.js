@@ -19,7 +19,7 @@
     const PAGE_SIZE = 4;
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'schedule', 'policy', 'faq', 'guide'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
-    const shipState = { filter: 'all', query: '', sort: 'name' };
+    const shipState = { filter: 'all', query: '', sort: 'name-asc' };
     let currentSection = null;
     let revealObserver;
     let activeModal = null;
@@ -224,13 +224,22 @@
 
     function getSortedShips() {
         if (!Array.isArray(data.ships)) return [];
+        return [...data.ships].sort(compareShips);
+    }
+
+    function compareShips(left, right) {
+        const [field, direction] = shipState.sort.split('-');
+        const multiplier = direction === 'desc' ? -1 : 1;
+        const comparison = compareShipField(left, right, field);
+        return (comparison || compareText(left.name, right.name)) * multiplier;
+    }
+
+    function compareShipField(left, right, field) {
         const sizeOrder = { '소형': 1, '중형': 2, '대형': 3 };
-        return [...data.ships].sort((left, right) => {
-            if (shipState.sort === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99) || compareText(left.name, right.name);
-            if (shipState.sort === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew) || compareText(left.name, right.name);
-            if (shipState.sort === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo) || compareText(left.name, right.name);
-            return compareText(left.name, right.name);
-        });
+        if (field === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99);
+        if (field === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew);
+        if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
+        return compareText(left.name, right.name);
     }
 
     function getVisibleShips() {

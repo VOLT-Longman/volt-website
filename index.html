@@ -15,7 +15,7 @@
   <meta name="twitter:title" content="VOLT - Voyagers of Logistics and Trade">
   <meta name="twitter:description" content="한국 커뮤니티의 Star Citizen 물류·무역 전문 함대">
   <link rel="icon" type="image/png" href="assets/images/VOLT_logo.png">
-  <link rel="stylesheet" href="css/styles.css?v=20260517-5">
+  <link rel="stylesheet" href="css/styles.css?v=20260517-6">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -259,10 +259,14 @@
       <input type="text" id="ship-search" class="ship-search" placeholder="함선명 또는 제조사 검색...">
       <label class="ship-sort-label" for="ship-sort">정렬</label>
       <select id="ship-sort" class="ship-sort">
-       <option value="name">이름순</option>
-       <option value="size">크기순</option>
-       <option value="crew">승무원순</option>
-       <option value="cargo">화물용량순</option>
+       <option value="name-asc">이름 가나다순</option>
+       <option value="name-desc">이름 역순</option>
+       <option value="size-asc">크기 작은순</option>
+       <option value="size-desc">크기 큰순</option>
+       <option value="crew-asc">승무원 적은순</option>
+       <option value="crew-desc">승무원 많은순</option>
+       <option value="cargo-asc">화물 적은순</option>
+       <option value="cargo-desc">화물 많은순</option>
       </select>
      </div>
     </div>
@@ -402,7 +406,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260517-5"></script>
-  <script src="js/main.js?v=20260517-5"></script>
+  <script src="data/volt-data.js?v=20260517-6"></script>
+  <script src="js/main.js?v=20260517-6"></script>
  </body>
 </html>
