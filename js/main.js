@@ -20,6 +20,7 @@
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'schedule', 'policy', 'faq', 'guide'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
     const shipState = { filter: 'all', query: '', sort: 'name-asc' };
+    const SHIP_FILTER_ORDER = ['화물', '전투', '다목적', '탐사', '채굴', '인양', '해체', '연구', '정제', '주유', '의료', '입문', '방송', '기함', '미구현'];
     let currentSection = null;
     let revealObserver;
     let activeModal = null;
@@ -240,18 +241,35 @@
     }
 
     function compareShipField(left, right, field) {
-        const sizeOrder = { '소형': 1, '중형': 2, '대형': 3 };
+        const sizeOrder = { '소형': 1, '중형': 2, '대형': 3, '캐피탈': 4 };
         if (field === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99);
         if (field === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew);
         if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
         return compareText(left.name, right.name);
     }
 
+    function getShipFilterTags() {
+        if (!Array.isArray(data.ships)) return [];
+        const tags = new Set(data.ships.flatMap((ship) => ship.tags || []));
+        return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
+    }
+
+    function renderShipFilters() {
+        const container = document.getElementById('ship-filters');
+        if (!container) return;
+        const filters = ['all', ...getShipFilterTags()];
+        container.innerHTML = filters.map((filter) => {
+            const label = filter === 'all' ? '전체' : filter;
+            const active = filter === shipState.filter ? ' active' : '';
+            return `<button class="ship-filter-btn${active}" type="button" data-filter="${escapeHtml(filter)}">${escapeHtml(label)}</button>`;
+        }).join('');
+    }
+
     function getVisibleShips() {
         const query = shipState.query.trim().toLowerCase();
         return getSortedShips().filter((ship) => {
             const matchesFilter = shipState.filter === 'all' || ship.tags.includes(shipState.filter);
-            const haystack = [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description].join(' ').toLowerCase();
+            const haystack = [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ...(ship.tags || [])].join(' ').toLowerCase();
             return matchesFilter && (!query || haystack.includes(query));
         });
     }
@@ -269,7 +287,20 @@
             '전투': '#fc8181',
             '탐사': '#68d391',
             '채굴': '#76e4f7',
-            '해체': '#b794f4'
+            '해체': '#b794f4',
+            '연구': '#90cdf4',
+            '정제': '#fbd38d',
+            '인양': '#d6bcfa',
+            '방송': '#f687b3',
+            '주유': '#63b3ed',
+            '의료': '#68d391',
+            '입문': '#a0aec0',
+            '화물': '#f6ad55',
+            '물류/전투': '#f56565',
+            '물류/모듈': '#ed8936',
+            'VIP 여행용': '#f6e05e',
+            '지상 차량': '#a0aec0',
+            '채굴/정제': '#4fd1c5'
         };
         container.innerHTML = ships.map((ship) => `
             <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(ship.name)} 상세 보기">
@@ -369,6 +400,7 @@
         renderFooterStreamers();
         renderNoticeFilters();
         renderAnnouncements();
+        renderShipFilters();
         renderShips();
         renderSchedule();
         renderPolicy();
