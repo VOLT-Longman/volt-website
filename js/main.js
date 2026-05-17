@@ -362,8 +362,7 @@
         });
     }
 
-    function showSection(id, push = true) {
-        if (id === currentSection) return;
+    function showSection(id, push = true, anchorId = null) {
         const home = document.getElementById('home');
         if (!home) return;
         currentSection = id;
@@ -376,6 +375,7 @@
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         updateActiveNav(id);
+        if (anchorId) scrollToAnchor(anchorId);
         if (push) updateHistory(id);
     }
 
@@ -391,9 +391,20 @@
         history.pushState({ section: id }, '', hash || window.location.pathname);
     }
 
-    function getInitialSection() {
+    function parseRouteFromHash() {
         const hash = window.location.hash.replace('#', '');
-        return VALID_SECTIONS.includes(hash) ? hash : 'home';
+        const policyMatch = hash.match(/^policy-section-(\d+)$/);
+        if (policyMatch) return { section: 'policy', anchorId: hash };
+        return {
+            section: VALID_SECTIONS.includes(hash) ? hash : 'home',
+            anchorId: null
+        };
+    }
+
+    function scrollToAnchor(anchorId) {
+        window.requestAnimationFrame(() => {
+            document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
     }
 
     function setupNavLinks() {
@@ -572,7 +583,7 @@
     }
 
     async function copyPolicyUrl(index, button) {
-        const suffix = `/policy#section-${index}`;
+        const suffix = `/#policy-section-${index}`;
         const value = window.location.origin === 'null' ? suffix : `${window.location.origin}${suffix}`;
         try {
             if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(value);
@@ -815,10 +826,15 @@
         setupScrollEffect();
         setupScrollTop();
         setupTheme();
-        window.addEventListener('popstate', (event) => showSection(event.state?.section || 'home', false));
-        const initial = getInitialSection();
-        history.replaceState({ section: initial }, '', window.location.href);
-        showSection(initial, false);
+        const applyRouteFromLocation = () => {
+            const route = parseRouteFromHash();
+            showSection(route.section, false, route.anchorId);
+        };
+        window.addEventListener('popstate', applyRouteFromLocation);
+        window.addEventListener('hashchange', applyRouteFromLocation);
+        const initial = parseRouteFromHash();
+        history.replaceState({ section: initial.section }, '', window.location.href);
+        showSection(initial.section, false, initial.anchorId);
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
