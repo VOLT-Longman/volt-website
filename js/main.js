@@ -133,6 +133,20 @@
             checklist: ['보급 우선순위와 하역 담당 지정', '작전 지휘부와 도착 시간 공유']
         }
     };
+    const TRADE_PRESETS = [
+        { id: 'starter', label: '입문자 단독 무역', operationType: 'solo', risk: 'low', crew: 1, cargo: 64, shipIds: ['hull-a', 'cutlass-black'] },
+        { id: 'small', label: '소규모 화물 운송', operationType: 'small', risk: 'low', crew: 2, cargo: 128, shipIds: ['zeus-mk2-cl', 'freelancer-max'] },
+        { id: 'bulk', label: '대형 수송 작전', operationType: 'bulk', risk: 'medium', crew: 4, cargo: 576, shipIds: ['caterpillar', 'hull-c'] },
+        { id: 'high-value', label: '고가 화물 호송', operationType: 'highValue', risk: 'high', crew: 4, cargo: 174, shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
+        { id: 'mining', label: '채굴/정제 후 운송', operationType: 'mining', risk: 'low', crew: 2, cargo: 64, shipIds: ['expanse', 'starlancer-max'] },
+        { id: 'supply', label: '작전 보급 운송', operationType: 'supply', risk: 'medium', crew: 3, cargo: 224, shipIds: ['starlancer-max', 'freelancer-max'] }
+    ];
+    const RECOMMENDED_TRADE_GROUPS = [
+        { title: '입문/소규모 운송 추천', shipIds: ['hull-a', 'cutlass-black', 'zeus-mk2-cl'] },
+        { title: '대량 수송 추천', shipIds: ['caterpillar', 'hull-c'] },
+        { title: '고가 화물/호송 추천', shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
+        { title: '채굴/정제 후 운송 추천', shipIds: ['expanse', 'starlancer-max'] }
+    ];
     let currentSection = null;
     let revealObserver;
     let activeModal = null;
@@ -501,6 +515,9 @@
                     <div class="ship-stat"><span class="ship-stat-label">USD 가격</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
                 </div>
                 <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                <button class="ship-planner-toggle" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">
+                    무역 플래너에서 사용
+                </button>
                 <button class="ship-compare-toggle${shipCompareState.has(ship.id) ? ' active' : ''}" type="button" data-compare-ship-id="${escapeHtml(ship.id)}" aria-pressed="${shipCompareState.has(ship.id)}">
                     ${shipCompareState.has(ship.id) ? '비교 제거' : '비교 추가'}
                 </button>
@@ -583,6 +600,41 @@
                 <p>${escapeHtml(guide.content)}</p>
             </div>`).join('');
         renderLogisticsShipOptions();
+        renderTradePresets();
+        renderRecommendedTradeShips();
+    }
+
+    function renderTradePresets() {
+        const container = document.getElementById('trade-preset-grid');
+        if (!container) return;
+        container.innerHTML = TRADE_PRESETS.map((preset) => `
+            <button class="trade-preset-card" type="button" data-trade-preset-id="${escapeHtml(preset.id)}">
+                <strong>${escapeHtml(preset.label)}</strong>
+                <span>${escapeHtml(getOperationSummary(preset.operationType))}</span>
+            </button>`).join('');
+    }
+
+    function renderRecommendedTradeShips() {
+        const container = document.getElementById('recommended-trade-grid');
+        if (!container) return;
+        container.innerHTML = RECOMMENDED_TRADE_GROUPS.map((group) => {
+            const ships = group.shipIds.map((id) => shipById.get(id)).filter(Boolean);
+            return `<section class="recommended-trade-group">
+                <h4>${escapeHtml(group.title)}</h4>
+                <div>${ships.map(renderRecommendedTradeShipCard).join('')}</div>
+            </section>`;
+        }).join('');
+    }
+
+    function renderRecommendedTradeShipCard(ship) {
+        return `<article class="recommended-trade-card">
+            <strong>${escapeHtml(ship.name)}</strong>
+            <span>${escapeHtml(ship.cargo)} · ${escapeHtml(ship.role)}</span>
+            <div>
+                <button class="btn btn-secondary" type="button" data-open-ship-id="${escapeHtml(ship.id)}">함선 상세</button>
+                <button class="btn btn-primary" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>
+            </div>
+        </article>`;
     }
 
     function getLogisticsShips() {
@@ -832,7 +884,36 @@
         });
         purposeApply.addEventListener('click', () => applyShipPurpose(purpose.value));
         purposeReset.addEventListener('click', () => applyShipPurpose(''));
+        document.addEventListener('click', handleShipPlannerActions);
         setupShipCompareControls();
+    }
+
+    function handleShipPlannerActions(event) {
+        const plannerButton = event.target.closest('[data-use-planner-ship-id]');
+        if (plannerButton) {
+            event.preventDefault();
+            useShipInPlanner(plannerButton.getAttribute('data-use-planner-ship-id'));
+            return;
+        }
+        const openButton = event.target.closest('[data-open-ship-id]');
+        if (!openButton) return;
+        event.preventDefault();
+        const ship = shipById.get(openButton.getAttribute('data-open-ship-id'));
+        if (ship) openShipModal(ship);
+    }
+
+    function useShipInPlanner(shipId) {
+        const ship = shipById.get(shipId);
+        const shipSelect = document.getElementById('logistics-ship');
+        const cargoInput = document.getElementById('logistics-cargo');
+        if (!ship || !shipSelect || !cargoInput) return;
+        shipSelect.value = ship.id;
+        const cargoValue = getCargoValue(ship.cargo);
+        if (cargoValue > 0) cargoInput.value = String(cargoValue);
+        closeModal();
+        showSection('guide');
+        renderLogisticsRecommendation();
+        showToast(`${ship.name}을 무역 플래너에 적용했습니다.`);
     }
 
     function applyShipPurpose(purpose) {
@@ -875,6 +956,7 @@
     function setupLogisticsCalculator() {
         const button = document.getElementById('logistics-calculate');
         const copyButton = document.getElementById('trade-briefing-copy');
+        const presets = document.getElementById('trade-preset-grid');
         const controls = [
             document.getElementById('trade-operation-type'),
             document.getElementById('logistics-cargo'),
@@ -885,11 +967,34 @@
         if (!button || !copyButton) return;
         button.addEventListener('click', renderLogisticsRecommendation);
         copyButton.addEventListener('click', copyTradeBriefing);
+        presets?.addEventListener('click', (event) => {
+            const presetButton = event.target.closest('[data-trade-preset-id]');
+            if (!presetButton) return;
+            applyTradePreset(presetButton.getAttribute('data-trade-preset-id'));
+        });
         controls.forEach((control) => {
             control.addEventListener('change', renderLogisticsRecommendation);
             if (control.tagName === 'INPUT') control.addEventListener('input', renderLogisticsRecommendation);
         });
         renderLogisticsRecommendation();
+    }
+
+    function applyTradePreset(presetId) {
+        const preset = TRADE_PRESETS.find((item) => item.id === presetId);
+        if (!preset) return;
+        setPlannerControlValue('trade-operation-type', preset.operationType);
+        setPlannerControlValue('trade-risk', preset.risk);
+        setPlannerControlValue('logistics-crew', String(preset.crew));
+        setPlannerControlValue('logistics-cargo', String(preset.cargo));
+        const ship = preset.shipIds.map((id) => shipById.get(id)).find(Boolean);
+        if (ship) setPlannerControlValue('logistics-ship', ship.id);
+        renderLogisticsRecommendation();
+        showToast(`${preset.label} 프리셋을 적용했습니다.`);
+    }
+
+    function setPlannerControlValue(id, value) {
+        const control = document.getElementById(id);
+        if (control) control.value = value;
     }
 
     function setupUexLivePanel() {
@@ -1189,6 +1294,7 @@
             <strong>${escapeHtml(ship.name)} · 추천 운용 규모: ${escapeHtml(scale)}</strong>
             <p>장점: ${escapeHtml(advantages.slice(0, 3).join(' / '))}</p>
             <p>주의: ${escapeHtml(cautions.join(' / '))}</p>
+            <button class="btn btn-secondary trade-ship-detail" type="button" data-open-ship-id="${escapeHtml(ship.id)}">함선 상세 보기</button>
         </section>`;
     }
 
@@ -1277,6 +1383,7 @@
             `위험도: ${getRiskLabel(recommendation.risk)}`,
             `운송 목표: ${recommendation.cargoTarget.toLocaleString()} SCU`,
             `주력 함선: ${recommendation.ship.name} (${recommendation.ship.cargo})`,
+            `함선 정보: VOLT 사이트 함선DB에서 ${recommendation.ship.name} 확인 (ship id: ${recommendation.ship.id})`,
             `예상 출격 횟수: ${recommendation.sorties}`,
             `모집/참여 인원: ${recommendation.crewAvailable}명`,
             ``,
@@ -1364,7 +1471,7 @@
     }
 
     function openShipFromEvent(event) {
-        if (event.target.closest('[data-compare-ship-id]')) return;
+        if (event.target.closest('[data-compare-ship-id], [data-use-planner-ship-id]')) return;
         const card = event.target.closest('[data-ship-id]');
         if (!card) return;
         event.preventDefault();
@@ -1435,6 +1542,7 @@
                     ${ships.map((ship) => `<section>
                         <h3>${escapeHtml(ship.name)}</h3>
                         <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                        <button class="btn btn-secondary ship-compare-use" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>
                     </section>`).join('')}
                 </div>
             </div>`;
@@ -1550,7 +1658,10 @@
                     <div class="ship-modal-stat"><span>화물</span><strong>${escapeHtml(ship.cargo)}</strong></div>
                     <div class="ship-modal-stat"><span>USD 가격</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
                 </div>
-                <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
+                <div class="ship-modal-actions">
+                    <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
+                    <button class="btn btn-secondary ship-modal-link" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>
+                </div>
             </div>`);
     }
 
