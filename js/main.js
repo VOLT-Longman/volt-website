@@ -17,7 +17,7 @@
     }
 
     const PAGE_SIZE = 4;
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'schedule', 'policy', 'faq', 'guide'];
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
     const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '' };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
@@ -28,6 +28,7 @@
     const shipCompareState = new Set();
     const uexCache = new Map();
     let currentUexModel = null;
+    let availableUexCommodities = [];
     const SHIP_PURPOSE_COPY = {
         '입문': {
             criterion: '적은 인원으로 운용 가능하고 기본 활동을 익히기 좋은 함선을 우선합니다.',
@@ -515,9 +516,7 @@
                     <div class="ship-stat"><span class="ship-stat-label">USD 가격</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
                 </div>
                 <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
-                <button class="ship-planner-toggle" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">
-                    무역 플래너에서 사용
-                </button>
+                ${renderShipPlannerButton(ship)}
                 <button class="ship-compare-toggle${shipCompareState.has(ship.id) ? ' active' : ''}" type="button" data-compare-ship-id="${escapeHtml(ship.id)}" aria-pressed="${shipCompareState.has(ship.id)}">
                     ${shipCompareState.has(ship.id) ? '비교 제거' : '비교 추가'}
                 </button>
@@ -534,6 +533,11 @@
         summary.textContent = `${shipCompareState.size} / 3척 선택`;
         bar.hidden = shipCompareState.size === 0;
         openButton.disabled = shipCompareState.size < 2;
+    }
+
+    function renderShipPlannerButton(ship) {
+        if (!isPlannerEligibleShip(ship)) return '';
+        return `<button class="ship-planner-toggle" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>`;
     }
 
     function renderSchedule() {
@@ -618,7 +622,7 @@
         const container = document.getElementById('recommended-trade-grid');
         if (!container) return;
         container.innerHTML = RECOMMENDED_TRADE_GROUPS.map((group) => {
-            const ships = group.shipIds.map((id) => shipById.get(id)).filter(Boolean);
+            const ships = group.shipIds.map((id) => shipById.get(id)).filter((ship) => ship && isPlannerEligibleShip(ship));
             return `<section class="recommended-trade-group">
                 <h4>${escapeHtml(group.title)}</h4>
                 <div>${ships.map(renderRecommendedTradeShipCard).join('')}</div>
@@ -639,8 +643,8 @@
 
     function getLogisticsShips() {
         return (data.ships || [])
-            .filter((ship) => getCargoValue(ship.cargo) > 0)
-            .sort((left, right) => getCargoValue(right.cargo) - getCargoValue(left.cargo) || compareText(left.name, right.name));
+            .filter(isPlannerEligibleShip)
+            .sort(comparePlannerShips);
     }
 
     function renderLogisticsShipOptions() {
@@ -649,6 +653,115 @@
         select.innerHTML = `<option value="">보유 함선 선택</option>${getLogisticsShips().map((ship) => (
             `<option value="${escapeHtml(ship.id)}">${escapeHtml(ship.name)} · ${escapeHtml(ship.cargo)}</option>`
         )).join('')}`;
+    }
+
+    function isPlannerEligibleShip(ship) {
+        const tags = getShipTags(ship);
+        return ship.plannerEligible !== false
+            && ship.implemented !== false
+            && !tags.includes('미구현')
+            && getCargoValue(ship.cargo) > 0;
+    }
+
+    function comparePlannerShips(left, right) {
+        const eligibilityDelta = Number(right.plannerEligible === true) - Number(left.plannerEligible === true);
+        if (eligibilityDelta) return eligibilityDelta;
+        const cargoDelta = getCargoValue(right.cargo) - getCargoValue(left.cargo);
+        if (cargoDelta) return cargoDelta;
+        const tradeDelta = getPlannerTradeScore(right) - getPlannerTradeScore(left);
+        return tradeDelta || compareText(left.name, right.name);
+    }
+
+    function getPlannerTradeScore(ship) {
+        const text = [ship.role, ship.focus, ...getShipTags(ship)].join(' ');
+        return ['화물', '수송', '무역', '물류'].reduce((score, token) => score + Number(text.includes(token)), 0);
+    }
+
+    function setupPlannerShipPicker() {
+        const input = document.getElementById('logistics-ship-search');
+        const results = document.getElementById('logistics-ship-results');
+        if (!input || !results) return;
+        input.addEventListener('focus', () => renderPlannerShipResults(input.value));
+        input.addEventListener('input', () => renderPlannerShipResults(input.value));
+        input.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectPlannerShip));
+        results.addEventListener('click', (event) => {
+            const option = event.target.closest('[data-planner-ship-id]');
+            if (option) selectPlannerShip(option.getAttribute('data-planner-ship-id'), true);
+        });
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('#logistics-ship-picker')) closePicker(input, results);
+        });
+    }
+
+    function renderPlannerShipResults(query = '') {
+        const input = document.getElementById('logistics-ship-search');
+        const results = document.getElementById('logistics-ship-results');
+        if (!input || !results) return;
+        const ships = filterPlannerShips(query).slice(0, 12);
+        results.innerHTML = ships.length ? ships.map(renderPlannerShipOption).join('') : '<div class="planner-picker-empty">검색 결과가 없습니다.</div>';
+        results.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+    }
+
+    function filterPlannerShips(query) {
+        const normalized = query.trim().toLowerCase();
+        if (!normalized) return getLogisticsShips();
+        return getLogisticsShips().filter((ship) => buildShipSearchText(ship, getShipTags(ship)).includes(normalized));
+    }
+
+    function renderPlannerShipOption(ship) {
+        const tags = getShipTags(ship).slice(0, 3).join(' · ') || ship.focus;
+        return `<button class="planner-picker-option" type="button" role="option" data-planner-ship-id="${escapeHtml(ship.id)}">
+            <strong>${escapeHtml(ship.name)}</strong>
+            <span>${escapeHtml(ship.manufacturer)} · ${escapeHtml(ship.size)} · ${escapeHtml(ship.cargo)}</span>
+            <small>${escapeHtml(tags)}</small>
+        </button>`;
+    }
+
+    function selectPlannerShip(shipId, setCargo = false) {
+        const ship = shipById.get(shipId);
+        if (!ship || !isPlannerEligibleShip(ship)) return;
+        setPlannerControlValue('logistics-ship', ship.id);
+        const input = document.getElementById('logistics-ship-search');
+        if (input) input.value = ship.name;
+        if (setCargo) setPlannerControlValue('logistics-cargo', String(getCargoValue(ship.cargo)));
+        renderPlannerShipSummary(ship);
+        closePicker(input, document.getElementById('logistics-ship-results'));
+        renderLogisticsRecommendation();
+    }
+
+    function renderPlannerShipSummary(ship) {
+        const summary = document.getElementById('logistics-ship-summary');
+        if (!summary) return;
+        summary.hidden = false;
+        summary.innerHTML = `<strong>${escapeHtml(ship.name)}</strong><span>${escapeHtml(ship.manufacturer)} · ${escapeHtml(ship.cargo)} · ${escapeHtml(ship.size)}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small>`;
+    }
+
+    function getPlannerShipRecommendation(ship) {
+        if (getCargoValue(ship.cargo) >= 500) return '대량 수송 / 호송 운송 추천';
+        if (parseLargestNumber(ship.crew) <= 1) return '단독 운송 / 소규모 화물 추천';
+        return '소규모 화물 / 호송 운송 추천';
+    }
+
+    function handlePickerKeyboard(event, results, onSelect) {
+        const options = [...results.querySelectorAll('[role="option"]')];
+        if (event.key === 'Escape') return closePicker(event.target, results);
+        if (options.length === 0 || !['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) return;
+        event.preventDefault();
+        const current = options.indexOf(document.activeElement);
+        if (event.key === 'Enter' && current >= 0) return onSelect(getPickerOptionValue(options[current]), true);
+        const direction = event.key === 'ArrowUp' ? -1 : 1;
+        options[(current + direction + options.length) % options.length].focus();
+    }
+
+    function getPickerOptionValue(option) {
+        return option.getAttribute('data-planner-ship-id') || option.getAttribute('data-commodity-id');
+    }
+
+    function closePicker(input, results) {
+        if (!input || !results) return;
+        results.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
     }
 
     function renderAll() {
@@ -904,14 +1017,13 @@
 
     function useShipInPlanner(shipId) {
         const ship = shipById.get(shipId);
-        const shipSelect = document.getElementById('logistics-ship');
-        const cargoInput = document.getElementById('logistics-cargo');
-        if (!ship || !shipSelect || !cargoInput) return;
-        shipSelect.value = ship.id;
-        const cargoValue = getCargoValue(ship.cargo);
-        if (cargoValue > 0) cargoInput.value = String(cargoValue);
+        if (!ship || !isPlannerEligibleShip(ship)) {
+            showToast('이 함선은 무역 플래너 후보로 사용할 수 없습니다.');
+            return;
+        }
+        selectPlannerShip(ship.id, true);
         closeModal();
-        showSection('guide');
+        showSection('trade-planner');
         renderLogisticsRecommendation();
         showToast(`${ship.name}을 무역 플래너에 적용했습니다.`);
     }
@@ -976,6 +1088,7 @@
             control.addEventListener('change', renderLogisticsRecommendation);
             if (control.tagName === 'INPUT') control.addEventListener('input', renderLogisticsRecommendation);
         });
+        setupPlannerShipPicker();
         renderLogisticsRecommendation();
     }
 
@@ -986,8 +1099,8 @@
         setPlannerControlValue('trade-risk', preset.risk);
         setPlannerControlValue('logistics-crew', String(preset.crew));
         setPlannerControlValue('logistics-cargo', String(preset.cargo));
-        const ship = preset.shipIds.map((id) => shipById.get(id)).find(Boolean);
-        if (ship) setPlannerControlValue('logistics-ship', ship.id);
+        const ship = preset.shipIds.map((id) => shipById.get(id)).find((item) => item && isPlannerEligibleShip(item));
+        if (ship) selectPlannerShip(ship.id);
         renderLogisticsRecommendation();
         showToast(`${preset.label} 프리셋을 적용했습니다.`);
     }
@@ -999,9 +1112,20 @@
 
     function setupUexLivePanel() {
         const select = document.getElementById('uex-commodity-select');
+        const search = document.getElementById('uex-commodity-search');
+        const results = document.getElementById('uex-commodity-results');
         const button = document.getElementById('uex-refresh');
-        if (!select || !button) return;
-        select.addEventListener('change', () => button.disabled = !select.value);
+        if (!select || !search || !results || !button) return;
+        search.addEventListener('focus', () => renderCommodityResults(search.value));
+        search.addEventListener('input', () => renderCommodityResults(search.value));
+        search.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectCommodity));
+        results.addEventListener('click', (event) => {
+            const option = event.target.closest('[data-commodity-id]');
+            if (option) selectCommodity(option.getAttribute('data-commodity-id'));
+        });
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.uex-live-controls')) closePicker(search, results);
+        });
         button.addEventListener('click', () => renderUexCommodityCandidates(select.value));
         loadUexCommodities();
     }
@@ -1013,15 +1137,62 @@
         try {
             const commodities = await fetchUexData('commodities', UEX_CACHE_TTL_MS.commodities);
             const visible = commodities.filter((item) => item.is_visible && item.is_available_live);
+            availableUexCommodities = visible;
             select.innerHTML = `<option value="">상품 선택</option>${visible.map((item) => (
                 `<option value="${escapeHtml(String(item.id))}">${escapeHtml(item.name)}</option>`
             )).join('')}`;
             select.disabled = false;
+            const search = document.getElementById('uex-commodity-search');
+            if (search) search.disabled = false;
             status.textContent = `상품 ${visible.length}종을 불러왔습니다.`;
         } catch (error) {
             select.innerHTML = '<option value="">상품 목록을 불러오지 못했습니다</option>';
             status.textContent = 'UEX API 연결이 불안정합니다. 잠시 후 다시 시도해 주세요.';
         }
+    }
+
+    function renderCommodityResults(query = '') {
+        const input = document.getElementById('uex-commodity-search');
+        const results = document.getElementById('uex-commodity-results');
+        if (!input || !results) return;
+        const normalized = query.trim().toLowerCase();
+        const items = availableUexCommodities
+            .filter((item) => !normalized || buildCommoditySearchText(item).includes(normalized))
+            .slice(0, 12);
+        results.innerHTML = items.length ? items.map(renderCommodityOption).join('') : '<div class="planner-picker-empty">검색 결과가 없습니다.</div>';
+        results.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+    }
+
+    function buildCommoditySearchText(item) {
+        return [item.name, item.code, item.category_name].filter(Boolean).join(' ').toLowerCase();
+    }
+
+    function renderCommodityOption(item) {
+        return `<button class="planner-picker-option" type="button" role="option" data-commodity-id="${escapeHtml(String(item.id))}">
+            <strong>${escapeHtml(item.name)}</strong>
+            ${item.code ? `<span>${escapeHtml(item.code)}</span>` : ''}
+        </button>`;
+    }
+
+    function selectCommodity(id) {
+        const item = availableUexCommodities.find((commodity) => String(commodity.id) === String(id));
+        const select = document.getElementById('uex-commodity-select');
+        const search = document.getElementById('uex-commodity-search');
+        const button = document.getElementById('uex-refresh');
+        if (!item || !select || !search || !button) return;
+        select.value = String(item.id);
+        search.value = item.name;
+        button.disabled = false;
+        renderCommoditySummary(item);
+        closePicker(search, document.getElementById('uex-commodity-results'));
+    }
+
+    function renderCommoditySummary(item) {
+        const summary = document.getElementById('uex-commodity-summary');
+        if (!summary) return;
+        summary.hidden = false;
+        summary.innerHTML = `<strong>${escapeHtml(item.name)}</strong><span>UEX 거래 후보 조회 준비 완료</span>`;
     }
 
     async function renderUexCommodityCandidates(commodityId) {
@@ -1542,7 +1713,7 @@
                     ${ships.map((ship) => `<section>
                         <h3>${escapeHtml(ship.name)}</h3>
                         <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
-                        <button class="btn btn-secondary ship-compare-use" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>
+                        ${renderShipPlannerAction(ship, 'btn btn-secondary ship-compare-use')}
                     </section>`).join('')}
                 </div>
             </div>`;
@@ -1660,9 +1831,14 @@
                 </div>
                 <div class="ship-modal-actions">
                     <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
-                    <button class="btn btn-secondary ship-modal-link" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>
+                    ${renderShipPlannerAction(ship, 'btn btn-secondary ship-modal-link')}
                 </div>
             </div>`);
+    }
+
+    function renderShipPlannerAction(ship, className) {
+        if (!isPlannerEligibleShip(ship)) return '';
+        return `<button class="${escapeHtml(className)}" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>`;
     }
 
     function getShipOfficialUrl(ship) {

@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260518-35">
+  <link rel="stylesheet" href="css/styles.css?v=20260518-36">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -67,6 +67,7 @@
     <ul class="nav-links">
      <li><a href="#about" data-section="about">소개</a></li>
      <li><a href="#ships" data-section="ships">함선DB</a></li>
+     <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
      <li><a href="#hub" data-section="hub">무역허브</a></li>
      <li><a href="#notices" data-section="notices">공지</a></li>
      <li><a href="#join" data-section="join">가입하기</a></li>
@@ -98,6 +99,7 @@
    <ul>
     <li><a href="#about" data-section="about">소개</a></li>
     <li><a href="#ships" data-section="ships">함선DB</a></li>
+    <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
     <li><a href="#hub" data-section="hub">무역허브</a></li>
     <li><a href="#notices" data-section="notices">공지</a></li>
     <li><a href="#join" data-section="join">가입하기</a></li>
@@ -362,6 +364,45 @@
      <p>스타시티즌 물류·무역 입문 안내</p>
     </div>
     <div class="guide-grid" id="guide-list"></div>
+    <div class="guide-planner-cta">
+     <strong>작전 계산이 필요하다면 VOLT 무역플래너를 사용하세요.</strong>
+     <button class="btn btn-primary" type="button" data-section="trade-planner">무역플래너 열기</button>
+    </div>
+    <div class="guide-tools">
+     <h3>추천 외부 도구</h3>
+     <div class="guide-tools-grid">
+      <a href="https://sc-trade.tools" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
+       <span class="guide-tool-icon">📊</span>
+       <span class="guide-tool-name">SC Trade Tools</span>
+       <span class="guide-tool-desc">무역 루트 최적화</span>
+      </a>
+      <a href="https://uexcorp.space" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
+       <span class="guide-tool-icon">🌌</span>
+       <span class="guide-tool-name">UEX Corp</span>
+       <span class="guide-tool-desc">상품 가격 데이터베이스</span>
+      </a>
+      <a href="https://www.erkul.games" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
+       <span class="guide-tool-icon">⚙️</span>
+       <span class="guide-tool-name">Erkul.games</span>
+       <span class="guide-tool-desc">함선 무장 시뮬레이터</span>
+      </a>
+      <a href="https://robertsspaceindustries.com/spectrum" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
+       <span class="guide-tool-icon">📡</span>
+       <span class="guide-tool-name">RSI Spectrum</span>
+       <span class="guide-tool-desc">공식 커뮤니티 포럼</span>
+      </a>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- Trade Planner Section -->
+  <section class="section" id="trade-planner">
+   <div class="section-content">
+    <div class="section-header">
+     <h2>무역 <span class="accent">플래너</span></h2>
+     <p>함선·인원·위험도 기준으로 VOLT식 무역 작전을 준비합니다.</p>
+    </div>
     <div class="trade-presets">
      <h3>작전 프리셋</h3>
      <div class="trade-preset-grid" id="trade-preset-grid"></div>
@@ -388,10 +429,12 @@
        <span>운송 화물량 (SCU)</span>
        <input id="logistics-cargo" type="number" min="0" step="1" value="0">
       </label>
-      <label>
-       <span>보유 함선</span>
-       <select id="logistics-ship"></select>
-      </label>
+      <div class="planner-picker" id="logistics-ship-picker">
+       <label for="logistics-ship-search">보유 함선</label>
+       <input id="logistics-ship-search" type="search" autocomplete="off" placeholder="함선명, 제조사, 역할 검색" role="combobox" aria-expanded="false" aria-controls="logistics-ship-results">
+       <select id="logistics-ship" class="visually-hidden-select" tabindex="-1" aria-hidden="true"></select>
+       <div class="planner-picker-results" id="logistics-ship-results" role="listbox" hidden></div>
+      </div>
       <label>
        <span>참여 인원</span>
        <input id="logistics-crew" type="number" min="1" step="1" value="1">
@@ -406,6 +449,7 @@
       </label>
       <button class="btn btn-primary" id="logistics-calculate" type="button">작전 추천 생성</button>
      </div>
+     <div class="planner-selection-card" id="logistics-ship-summary" hidden></div>
      <div class="trade-planner-layout">
       <div class="logistics-result" id="logistics-result" aria-live="polite"></div>
       <div class="trade-planner-side">
@@ -428,7 +472,7 @@
        <h4>Discord 공유용 브리핑</h4>
        <button class="btn btn-secondary" id="trade-briefing-copy" type="button">브리핑 복사</button>
       </div>
-     <textarea id="trade-briefing-text" readonly></textarea>
+      <textarea id="trade-briefing-text" readonly></textarea>
      </div>
     </div>
     <div class="recommended-trade-ships">
@@ -444,41 +488,19 @@
       <span class="uex-live-badge">MVP</span>
      </div>
      <div class="uex-live-controls">
-      <label>
-       <span>상품</span>
-       <select id="uex-commodity-select" disabled>
+      <div class="planner-picker">
+       <label for="uex-commodity-search">상품</label>
+       <input id="uex-commodity-search" type="search" autocomplete="off" placeholder="상품명 검색" role="combobox" aria-expanded="false" aria-controls="uex-commodity-results" disabled>
+       <select id="uex-commodity-select" class="visually-hidden-select" tabindex="-1" aria-hidden="true" disabled>
         <option value="">상품 목록 불러오는 중...</option>
        </select>
-      </label>
+       <div class="planner-picker-results" id="uex-commodity-results" role="listbox" hidden></div>
+      </div>
       <button class="btn btn-secondary" id="uex-refresh" type="button" disabled>후보 조회</button>
      </div>
      <p class="uex-live-status" id="uex-status" aria-live="polite"></p>
+     <div class="planner-selection-card" id="uex-commodity-summary" hidden></div>
      <div class="uex-live-results" id="uex-results"></div>
-    </div>
-    <div class="guide-tools">
-     <h3>추천 외부 도구</h3>
-     <div class="guide-tools-grid">
-      <a href="https://sc-trade.tools" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
-       <span class="guide-tool-icon">📊</span>
-       <span class="guide-tool-name">SC Trade Tools</span>
-       <span class="guide-tool-desc">무역 루트 최적화</span>
-      </a>
-      <a href="https://uexcorp.space" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
-       <span class="guide-tool-icon">🌌</span>
-       <span class="guide-tool-name">UEX Corp</span>
-       <span class="guide-tool-desc">상품 가격 데이터베이스</span>
-      </a>
-      <a href="https://www.erkul.games" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
-       <span class="guide-tool-icon">⚙️</span>
-       <span class="guide-tool-name">Erkul.games</span>
-       <span class="guide-tool-desc">함선 무장 시뮬레이터</span>
-      </a>
-      <a href="https://robertsspaceindustries.com/spectrum" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
-       <span class="guide-tool-icon">📡</span>
-       <span class="guide-tool-name">RSI Spectrum</span>
-       <span class="guide-tool-desc">공식 커뮤니티 포럼</span>
-      </a>
-     </div>
     </div>
    </div>
   </section>
@@ -542,7 +564,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260518-35"></script>
-  <script src="js/main.js?v=20260518-35"></script>
+  <script src="data/volt-data.js?v=20260518-36"></script>
+  <script src="js/main.js?v=20260518-36"></script>
  </body>
 </html>
