@@ -22,8 +22,11 @@
     const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '' };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
+    const UEX_API_BASE_URL = 'https://api.uexcorp.space/2.0';
+    const UEX_CACHE_TTL_MS = { commodities: 60 * 60 * 1000, prices: 30 * 60 * 1000 };
     const shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     const shipCompareState = new Set();
+    const uexCache = new Map();
     const SHIP_PURPOSE_COPY = {
         '입문': {
             criterion: '적은 인원으로 운용 가능하고 기본 활동을 익히기 좋은 함선을 우선합니다.',
@@ -886,6 +889,119 @@
             if (control.tagName === 'INPUT') control.addEventListener('input', renderLogisticsRecommendation);
         });
         renderLogisticsRecommendation();
+    }
+
+    function setupUexLivePanel() {
+        const select = document.getElementById('uex-commodity-select');
+        const button = document.getElementById('uex-refresh');
+        if (!select || !button) return;
+        select.addEventListener('change', () => button.disabled = !select.value);
+        button.addEventListener('click', () => renderUexCommodityCandidates(select.value));
+        loadUexCommodities();
+    }
+
+    async function loadUexCommodities() {
+        const select = document.getElementById('uex-commodity-select');
+        const status = document.getElementById('uex-status');
+        if (!select || !status) return;
+        try {
+            const commodities = await fetchUexData('commodities', UEX_CACHE_TTL_MS.commodities);
+            const visible = commodities.filter((item) => item.is_visible && item.is_available_live);
+            select.innerHTML = `<option value="">상품 선택</option>${visible.map((item) => (
+                `<option value="${escapeHtml(String(item.id))}">${escapeHtml(item.name)}</option>`
+            )).join('')}`;
+            select.disabled = false;
+            status.textContent = `상품 ${visible.length}종을 불러왔습니다.`;
+        } catch (error) {
+            select.innerHTML = '<option value="">상품 목록을 불러오지 못했습니다</option>';
+            status.textContent = 'UEX API 연결이 불안정합니다. 잠시 후 다시 시도해 주세요.';
+        }
+    }
+
+    async function renderUexCommodityCandidates(commodityId) {
+        const status = document.getElementById('uex-status');
+        const results = document.getElementById('uex-results');
+        if (!commodityId || !status || !results) return;
+        status.textContent = '거래 후보를 조회하는 중입니다...';
+        results.innerHTML = '';
+        try {
+            const prices = await fetchUexData(`commodities_prices?id_commodity=${encodeURIComponent(commodityId)}`, UEX_CACHE_TTL_MS.prices);
+            const model = buildUexCandidateModel(prices);
+            results.innerHTML = renderUexCandidateCards(model);
+            status.textContent = model.lastUpdatedLabel;
+        } catch (error) {
+            status.textContent = 'UEX API 응답을 받지 못했습니다. UEX Corp에서 직접 확인해 주세요.';
+        }
+    }
+
+    async function fetchUexData(path, ttlMs) {
+        const cacheKey = path;
+        const cached = uexCache.get(cacheKey);
+        if (cached && Date.now() - cached.timestamp < ttlMs) return cached.data;
+        const response = await fetch(`${UEX_API_BASE_URL}/${path}`);
+        if (!response.ok) throw new Error(`UEX ${response.status}`);
+        const payload = await response.json();
+        if (payload.status !== 'ok' || !Array.isArray(payload.data)) throw new Error('Invalid UEX payload');
+        uexCache.set(cacheKey, { data: payload.data, timestamp: Date.now() });
+        return payload.data;
+    }
+
+    function buildUexCandidateModel(prices) {
+        const buyRows = prices.filter((row) => row.price_buy > 0);
+        const sellRows = prices.filter((row) => row.price_sell > 0);
+        const bestBuy = getBestUexRow(buyRows, 'price_buy', 'min');
+        const bestSell = getBestUexRow(sellRows, 'price_sell', 'max');
+        const selectedShip = shipById.get(document.getElementById('logistics-ship')?.value);
+        const cargoCapacity = selectedShip ? getCargoValue(selectedShip.cargo) : 0;
+        const cargoTarget = Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || cargoCapacity);
+        const usableScu = Math.min(cargoCapacity || cargoTarget, cargoTarget || cargoCapacity);
+        const profitPerScu = bestBuy && bestSell ? Math.max(0, bestSell.price_sell - bestBuy.price_buy) : 0;
+        const lastUpdated = prices.length ? Math.max(...prices.map((row) => row.date_modified || 0)) : 0;
+        return {
+            commodityName: prices[0]?.commodity_name || '선택 상품',
+            bestBuy,
+            bestSell,
+            usableScu,
+            profitPerScu,
+            estimatedProfit: profitPerScu * usableScu,
+            lastUpdatedLabel: lastUpdated
+                ? `최근 갱신: ${new Date(lastUpdated * 1000).toLocaleString('ko-KR')}`
+                : '최근 갱신 시각을 확인할 수 없습니다.'
+        };
+    }
+
+    function getBestUexRow(rows, field, direction) {
+        return [...rows].sort((left, right) => direction === 'min' ? left[field] - right[field] : right[field] - left[field])[0] || null;
+    }
+
+    function renderUexCandidateCards(model) {
+        if (!model.bestBuy || !model.bestSell) {
+            return '<div class="uex-empty">현재 표시할 매수·매도 후보가 없습니다.</div>';
+        }
+        return `
+            <article>
+                <span>최저 매수 후보</span>
+                <strong>${escapeHtml(formatUexLocation(model.bestBuy))}</strong>
+                <b>${escapeHtml(formatCredits(model.bestBuy.price_buy))} / SCU</b>
+            </article>
+            <article>
+                <span>최고 매도 후보</span>
+                <strong>${escapeHtml(formatUexLocation(model.bestSell))}</strong>
+                <b>${escapeHtml(formatCredits(model.bestSell.price_sell))} / SCU</b>
+            </article>
+            <article>
+                <span>${escapeHtml(model.commodityName)} 예상 수익</span>
+                <strong>${escapeHtml(formatCredits(model.profitPerScu))} / SCU</strong>
+                <b>${escapeHtml(String(model.usableScu))} SCU 기준 ${escapeHtml(formatCredits(model.estimatedProfit))}</b>
+            </article>`;
+    }
+
+    function formatUexLocation(row) {
+        return [row.terminal_name, row.city_name, row.planet_name].filter(Boolean).join(' · ');
+    }
+
+    function formatCredits(value) {
+        return `${Math.round(value).toLocaleString('ko-KR')} aUEC`;
     }
 
     function renderLogisticsRecommendation() {
@@ -1764,6 +1880,7 @@
         setupNoticeControls();
         setupShipControls();
         setupLogisticsCalculator();
+        setupUexLivePanel();
         setupGalleryInteractions();
         setupModalControls();
         setupPolicyAnchors();

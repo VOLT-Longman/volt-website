@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260518-32">
+  <link rel="stylesheet" href="css/styles.css?v=20260518-33">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -424,8 +424,28 @@
        <h4>Discord 공유용 브리핑</h4>
        <button class="btn btn-secondary" id="trade-briefing-copy" type="button">브리핑 복사</button>
       </div>
-      <textarea id="trade-briefing-text" readonly></textarea>
+     <textarea id="trade-briefing-text" readonly></textarea>
      </div>
+    </div>
+    <div class="uex-live-panel" aria-labelledby="uex-live-title">
+     <div class="uex-live-header">
+      <div>
+       <h3 id="uex-live-title">UEX 실시간 거래 후보</h3>
+       <p>공개 API에서 상품과 매수·매도 후보를 직접 조회합니다. 가격은 참고용이며 출발 전 외부 도구에서 다시 확인하세요.</p>
+      </div>
+      <span class="uex-live-badge">MVP</span>
+     </div>
+     <div class="uex-live-controls">
+      <label>
+       <span>상품</span>
+       <select id="uex-commodity-select" disabled>
+        <option value="">상품 목록 불러오는 중...</option>
+       </select>
+      </label>
+      <button class="btn btn-secondary" id="uex-refresh" type="button" disabled>후보 조회</button>
+     </div>
+     <p class="uex-live-status" id="uex-status" aria-live="polite"></p>
+     <div class="uex-live-results" id="uex-results"></div>
     </div>
     <div class="guide-tools">
      <h3>추천 외부 도구</h3>
@@ -514,7 +534,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260518-32"></script>
-  <script src="js/main.js?v=20260518-32"></script>
+  <script src="data/volt-data.js?v=20260518-33"></script>
+  <script src="js/main.js?v=20260518-33"></script>
  </body>
 </html>
