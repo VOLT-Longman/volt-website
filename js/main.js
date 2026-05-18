@@ -27,6 +27,7 @@
     const shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     const shipCompareState = new Set();
     const uexCache = new Map();
+    let currentUexModel = null;
     const SHIP_PURPOSE_COPY = {
         '입문': {
             criterion: '적은 인원으로 운용 가능하고 기본 활동을 익히기 좋은 함선을 우선합니다.',
@@ -927,10 +928,14 @@
         try {
             const prices = await fetchUexData(`commodities_prices?id_commodity=${encodeURIComponent(commodityId)}`, UEX_CACHE_TTL_MS.prices);
             const model = buildUexCandidateModel(prices);
+            currentUexModel = model;
             results.innerHTML = renderUexCandidateCards(model);
             status.textContent = model.lastUpdatedLabel;
+            renderLogisticsRecommendation();
         } catch (error) {
+            currentUexModel = null;
             status.textContent = 'UEX API 응답을 받지 못했습니다. UEX Corp에서 직접 확인해 주세요.';
+            renderLogisticsRecommendation();
         }
     }
 
@@ -1052,9 +1057,23 @@
                 ${renderShipSuitabilityCard(recommendation)}
                 ${renderRolePlanCard(recommendation)}
             </div>
+            ${renderUexRecommendationSummary(recommendation)}
             <p class="logistics-result-note">${escapeHtml(recommendation.note)}</p>`;
         renderTradeChecklist(recommendation);
         renderTradeBriefing(recommendation);
+    }
+
+    function renderUexRecommendationSummary(recommendation) {
+        if (!currentUexModel?.bestBuy || !currentUexModel?.bestSell) return '';
+        const projectedScu = Math.min(recommendation.cargoTarget, recommendation.cargoCapacity);
+        const projectedProfit = currentUexModel.profitPerScu * projectedScu;
+        return `<section class="trade-detail-card trade-uex-summary">
+            <h4>선택 상품 기준 예상 수익</h4>
+            <strong>${escapeHtml(currentUexModel.commodityName)} · ${escapeHtml(formatCredits(currentUexModel.profitPerScu))} / SCU</strong>
+            <p>매수 후보: ${escapeHtml(formatUexLocation(currentUexModel.bestBuy))}</p>
+            <p>매도 후보: ${escapeHtml(formatUexLocation(currentUexModel.bestSell))}</p>
+            <p>${escapeHtml(String(projectedScu))} SCU 기준 예상 수익: ${escapeHtml(formatCredits(projectedProfit))}</p>
+        </section>`;
     }
 
     function renderLogisticsPrompt(result, hasShip, cargoTarget) {
@@ -1251,7 +1270,7 @@
     function renderTradeBriefing(recommendation) {
         const field = document.getElementById('trade-briefing-text');
         if (!field) return;
-        field.value = [
+        const lines = [
             `[VOLT 무역 작전 모집] ${getOperationLabel(recommendation.operationType)}`,
             `작전 유형: ${getOperationLabel(recommendation.operationType)}`,
             `작전 적합도: ${recommendation.fit.label} - ${recommendation.fit.summary}`,
@@ -1275,7 +1294,22 @@
             `주의사항`,
             ...recommendation.fit.reasons.map((reason) => `- ${reason}`),
             `- ${recommendation.note}`
-        ].join('\n');
+        ];
+        if (currentUexModel?.bestBuy && currentUexModel?.bestSell) {
+            const projectedScu = Math.min(recommendation.cargoTarget, recommendation.cargoCapacity);
+            const projectedProfit = currentUexModel.profitPerScu * projectedScu;
+            lines.splice(8, 0,
+                ``,
+                `UEX 거래 정보`,
+                `- 상품: ${currentUexModel.commodityName}`,
+                `- 매수 후보: ${formatUexLocation(currentUexModel.bestBuy)}`,
+                `- 매도 후보: ${formatUexLocation(currentUexModel.bestSell)}`,
+                `- SCU당 예상 수익: ${formatCredits(currentUexModel.profitPerScu)}`,
+                `- 선택 화물량 기준 예상 수익: ${formatCredits(projectedProfit)}`,
+                `- UEX 최근 갱신: ${currentUexModel.lastUpdatedLabel.replace('최근 갱신: ', '')}`
+            );
+        }
+        field.value = lines.join('\n');
     }
 
     async function copyTradeBriefing() {
