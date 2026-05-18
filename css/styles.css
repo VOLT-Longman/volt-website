@@ -3609,6 +3609,11 @@ body.nav-more-open::before {
 }
 
 @media (max-width: 640px) {
+    .planner-picker-results {
+        width: 100%;
+        max-width: 100%;
+    }
+
     .trade-planner-form,
     .trade-planner-layout,
     .logistics-result-grid,

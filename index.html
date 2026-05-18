@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260518-36">
+  <link rel="stylesheet" href="css/styles.css?v=20260518-37">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -449,7 +449,7 @@
       </label>
       <button class="btn btn-primary" id="logistics-calculate" type="button">작전 추천 생성</button>
      </div>
-     <div class="planner-selection-card" id="logistics-ship-summary" hidden></div>
+     <div class="planner-selection-card" id="logistics-ship-summary" aria-live="polite" hidden></div>
      <div class="trade-planner-layout">
       <div class="logistics-result" id="logistics-result" aria-live="polite"></div>
       <div class="trade-planner-side">
@@ -499,9 +499,10 @@
       <button class="btn btn-secondary" id="uex-refresh" type="button" disabled>후보 조회</button>
      </div>
      <p class="uex-live-status" id="uex-status" aria-live="polite"></p>
-     <div class="planner-selection-card" id="uex-commodity-summary" hidden></div>
+     <div class="planner-selection-card" id="uex-commodity-summary" aria-live="polite" hidden></div>
      <div class="uex-live-results" id="uex-results"></div>
     </div>
+    <div class="sr-only" id="planner-picker-live" aria-live="polite"></div>
    </div>
   </section>
 
@@ -564,7 +565,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260518-36"></script>
-  <script src="js/main.js?v=20260518-36"></script>
+  <script src="data/volt-data.js?v=20260518-37"></script>
+  <script src="js/main.js?v=20260518-37"></script>
  </body>
 </html>

@@ -139,14 +139,14 @@
         { id: 'small', label: '소규모 화물 운송', operationType: 'small', risk: 'low', crew: 2, cargo: 128, shipIds: ['zeus-mk2-cl', 'freelancer-max'] },
         { id: 'bulk', label: '대형 수송 작전', operationType: 'bulk', risk: 'medium', crew: 4, cargo: 576, shipIds: ['caterpillar', 'hull-c'] },
         { id: 'high-value', label: '고가 화물 호송', operationType: 'highValue', risk: 'high', crew: 4, cargo: 174, shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
-        { id: 'mining', label: '채굴/정제 후 운송', operationType: 'mining', risk: 'low', crew: 2, cargo: 64, shipIds: ['expanse', 'starlancer-max'] },
+        { id: 'mining', label: '채굴/정제 후 운송', operationType: 'mining', risk: 'low', crew: 2, cargo: 64, shipIds: ['starlancer-max', 'hull-a'] },
         { id: 'supply', label: '작전 보급 운송', operationType: 'supply', risk: 'medium', crew: 3, cargo: 224, shipIds: ['starlancer-max', 'freelancer-max'] }
     ];
     const RECOMMENDED_TRADE_GROUPS = [
         { title: '입문/소규모 운송 추천', shipIds: ['hull-a', 'cutlass-black', 'zeus-mk2-cl'] },
         { title: '대량 수송 추천', shipIds: ['caterpillar', 'hull-c'] },
         { title: '고가 화물/호송 추천', shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
-        { title: '채굴/정제 후 운송 추천', shipIds: ['expanse', 'starlancer-max'] }
+        { title: '채굴/정제 후 운송 추천', shipIds: ['starlancer-max', 'hull-a'] }
     ];
     let currentSection = null;
     let revealObserver;
@@ -657,19 +657,21 @@
 
     function isPlannerEligibleShip(ship) {
         const tags = getShipTags(ship);
+        const isCoreCargoShip = ship.focus === '화물';
         return ship.plannerEligible !== false
             && ship.implemented !== false
             && !tags.includes('미구현')
-            && getCargoValue(ship.cargo) > 0;
+            && getCargoValue(ship.cargo) > 0
+            && (ship.plannerEligible === true || isCoreCargoShip);
     }
 
     function comparePlannerShips(left, right) {
         const eligibilityDelta = Number(right.plannerEligible === true) - Number(left.plannerEligible === true);
         if (eligibilityDelta) return eligibilityDelta;
-        const cargoDelta = getCargoValue(right.cargo) - getCargoValue(left.cargo);
-        if (cargoDelta) return cargoDelta;
         const tradeDelta = getPlannerTradeScore(right) - getPlannerTradeScore(left);
-        return tradeDelta || compareText(left.name, right.name);
+        if (tradeDelta) return tradeDelta;
+        const cargoDelta = getCargoValue(right.cargo) - getCargoValue(left.cargo);
+        return cargoDelta || compareText(left.name, right.name);
     }
 
     function getPlannerTradeScore(ship) {
@@ -684,6 +686,7 @@
         input.addEventListener('focus', () => renderPlannerShipResults(input.value));
         input.addEventListener('input', () => renderPlannerShipResults(input.value));
         input.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectPlannerShip));
+        results.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectPlannerShip));
         results.addEventListener('click', (event) => {
             const option = event.target.closest('[data-planner-ship-id]');
             if (option) selectPlannerShip(option.getAttribute('data-planner-ship-id'), true);
@@ -698,7 +701,7 @@
         const results = document.getElementById('logistics-ship-results');
         if (!input || !results) return;
         const ships = filterPlannerShips(query).slice(0, 12);
-        results.innerHTML = ships.length ? ships.map(renderPlannerShipOption).join('') : '<div class="planner-picker-empty">검색 결과가 없습니다.</div>';
+        results.innerHTML = ships.length ? ships.map(renderPlannerShipOption).join('') : '<div class="planner-picker-empty">검색 결과가 없습니다. 함선명, 제조사, 역할 또는 화물량으로 다시 검색해 보세요.</div>';
         results.hidden = false;
         input.setAttribute('aria-expanded', 'true');
     }
@@ -711,7 +714,8 @@
 
     function renderPlannerShipOption(ship) {
         const tags = getShipTags(ship).slice(0, 3).join(' · ') || ship.focus;
-        return `<button class="planner-picker-option" type="button" role="option" data-planner-ship-id="${escapeHtml(ship.id)}">
+        const selected = document.getElementById('logistics-ship')?.value === ship.id;
+        return `<button class="planner-picker-option" type="button" role="option" aria-selected="${selected}" data-planner-ship-id="${escapeHtml(ship.id)}">
             <strong>${escapeHtml(ship.name)}</strong>
             <span>${escapeHtml(ship.manufacturer)} · ${escapeHtml(ship.size)} · ${escapeHtml(ship.cargo)}</span>
             <small>${escapeHtml(tags)}</small>
@@ -723,9 +727,12 @@
         if (!ship || !isPlannerEligibleShip(ship)) return;
         setPlannerControlValue('logistics-ship', ship.id);
         const input = document.getElementById('logistics-ship-search');
+        const cargoInput = document.getElementById('logistics-cargo');
         if (input) input.value = ship.name;
-        if (setCargo) setPlannerControlValue('logistics-cargo', String(getCargoValue(ship.cargo)));
+        const shouldUseShipCargo = setCargo || !Number(cargoInput?.value);
+        if (shouldUseShipCargo) setPlannerControlValue('logistics-cargo', String(getCargoValue(ship.cargo)));
         renderPlannerShipSummary(ship);
+        announcePickerSelection(`${ship.name} 함선을 선택했습니다.`);
         closePicker(input, document.getElementById('logistics-ship-results'));
         renderLogisticsRecommendation();
     }
@@ -749,7 +756,10 @@
         if (options.length === 0 || !['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) return;
         event.preventDefault();
         const current = options.indexOf(document.activeElement);
-        if (event.key === 'Enter' && current >= 0) return onSelect(getPickerOptionValue(options[current]), true);
+        if (event.key === 'Enter') {
+            const option = current >= 0 ? options[current] : options[0];
+            return onSelect(getPickerOptionValue(option), true);
+        }
         const direction = event.key === 'ArrowUp' ? -1 : 1;
         options[(current + direction + options.length) % options.length].focus();
     }
@@ -762,6 +772,11 @@
         if (!input || !results) return;
         results.hidden = true;
         input.setAttribute('aria-expanded', 'false');
+    }
+
+    function announcePickerSelection(message) {
+        const liveRegion = document.getElementById('planner-picker-live');
+        if (liveRegion) liveRegion.textContent = message;
     }
 
     function renderAll() {
@@ -1119,6 +1134,7 @@
         search.addEventListener('focus', () => renderCommodityResults(search.value));
         search.addEventListener('input', () => renderCommodityResults(search.value));
         search.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectCommodity));
+        results.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectCommodity));
         results.addEventListener('click', (event) => {
             const option = event.target.closest('[data-commodity-id]');
             if (option) selectCommodity(option.getAttribute('data-commodity-id'));
@@ -1134,6 +1150,7 @@
         const select = document.getElementById('uex-commodity-select');
         const status = document.getElementById('uex-status');
         if (!select || !status) return;
+        status.textContent = 'UEX 상품 목록을 불러오는 중입니다.';
         try {
             const commodities = await fetchUexData('commodities', UEX_CACHE_TTL_MS.commodities);
             const visible = commodities.filter((item) => item.is_visible && item.is_available_live);
@@ -1147,7 +1164,7 @@
             status.textContent = `상품 ${visible.length}종을 불러왔습니다.`;
         } catch (error) {
             select.innerHTML = '<option value="">상품 목록을 불러오지 못했습니다</option>';
-            status.textContent = 'UEX API 연결이 불안정합니다. 잠시 후 다시 시도해 주세요.';
+            status.textContent = 'UEX API 연결이 불안정합니다. UEX Corp에서 직접 확인해 주세요.';
         }
     }
 
@@ -1159,7 +1176,7 @@
         const items = availableUexCommodities
             .filter((item) => !normalized || buildCommoditySearchText(item).includes(normalized))
             .slice(0, 12);
-        results.innerHTML = items.length ? items.map(renderCommodityOption).join('') : '<div class="planner-picker-empty">검색 결과가 없습니다.</div>';
+        results.innerHTML = items.length ? items.map(renderCommodityOption).join('') : '<div class="planner-picker-empty">검색 결과가 없습니다. 영문 상품명 또는 코드로 다시 검색해 보세요.</div>';
         results.hidden = false;
         input.setAttribute('aria-expanded', 'true');
     }
@@ -1169,9 +1186,11 @@
     }
 
     function renderCommodityOption(item) {
-        return `<button class="planner-picker-option" type="button" role="option" data-commodity-id="${escapeHtml(String(item.id))}">
+        const selected = document.getElementById('uex-commodity-select')?.value === String(item.id);
+        return `<button class="planner-picker-option" type="button" role="option" aria-selected="${selected}" data-commodity-id="${escapeHtml(String(item.id))}">
             <strong>${escapeHtml(item.name)}</strong>
             ${item.code ? `<span>${escapeHtml(item.code)}</span>` : ''}
+            ${item.category_name ? `<small>${escapeHtml(item.category_name)}</small>` : ''}
         </button>`;
     }
 
@@ -1185,6 +1204,7 @@
         search.value = item.name;
         button.disabled = false;
         renderCommoditySummary(item);
+        announcePickerSelection(`${item.name} 상품을 선택했습니다.`);
         closePicker(search, document.getElementById('uex-commodity-results'));
     }
 
@@ -1192,7 +1212,8 @@
         const summary = document.getElementById('uex-commodity-summary');
         if (!summary) return;
         summary.hidden = false;
-        summary.innerHTML = `<strong>${escapeHtml(item.name)}</strong><span>UEX 거래 후보 조회 준비 완료</span>`;
+        const meta = [item.code, item.category_name].filter(Boolean).join(' · ');
+        summary.innerHTML = `<strong>${escapeHtml(item.name)}</strong>${meta ? `<span>${escapeHtml(meta)}</span>` : ''}<small>후보 조회 준비 완료</small>`;
     }
 
     async function renderUexCommodityCandidates(commodityId) {
