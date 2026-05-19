@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260518-37">
+  <link rel="stylesheet" href="css/styles.css?v=20260519-38">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -70,7 +70,6 @@
      <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
      <li><a href="#hub" data-section="hub">무역허브</a></li>
      <li><a href="#notices" data-section="notices">공지</a></li>
-     <li><a href="#join" data-section="join">가입하기</a></li>
      <li class="nav-more">
       <button class="nav-more-toggle" id="nav-more-toggle" type="button" aria-expanded="false" aria-controls="nav-more-menu">더보기</button>
       <ul class="nav-more-menu" id="nav-more-menu">
@@ -86,7 +85,7 @@
      </li>
      <li><button id="search-toggle" class="nav-icon-button" aria-label="검색 열기" aria-haspopup="dialog">⌕</button></li>
      <li><button id="theme-toggle" aria-label="테마 변경">☀️</button></li>
-     <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="nav-discord">Discord</a></li>
+     <li><a href="#join" data-section="join" class="nav-discord nav-join-cta">가입하기</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
      <span></span><span></span><span></span>
@@ -95,26 +94,37 @@
   </nav>
 
   <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="모바일 메뉴">
-   <button class="mobile-menu-close" id="mobileMenuClose" aria-label="메뉴 닫기">×</button>
-   <ul>
-    <li><a href="#about" data-section="about">소개</a></li>
-    <li><a href="#ships" data-section="ships">함선DB</a></li>
-    <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
-    <li><a href="#hub" data-section="hub">무역허브</a></li>
-    <li><a href="#notices" data-section="notices">공지</a></li>
-    <li><a href="#join" data-section="join">가입하기</a></li>
-    <li class="mobile-menu-group-label">더보기</li>
-    <li><a href="#timeline" data-section="timeline">연혁</a></li>
-    <li><a href="#leadership" data-section="leadership">임원진</a></li>
-    <li><a href="#schedule" data-section="schedule">일정</a></li>
-    <li><a href="#streamers" data-section="streamers">스트리머</a></li>
-    <li><a href="#gallery" data-section="gallery">갤러리</a></li>
-    <li><a href="#policy" data-section="policy">정책</a></li>
-    <li><a href="#faq" data-section="faq">FAQ</a></li>
-    <li><a href="#guide" data-section="guide">무역가이드</a></li>
-    <li><button id="mobile-search-toggle" class="mobile-search-toggle" aria-label="검색 열기">검색</button></li>
-    <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord</a></li>
-   </ul>
+   <div class="mobile-menu-panel">
+    <div class="mobile-menu-header">
+     <button class="mobile-menu-back" type="button" data-mobile-menu-close aria-label="메뉴 닫기">← 닫기</button>
+     <strong>VOLT 메뉴</strong>
+     <button class="mobile-menu-close" id="mobileMenuClose" type="button" aria-label="메뉴 닫기">×</button>
+    </div>
+    <nav class="mobile-menu-scroll" aria-label="모바일 사이트 메뉴">
+     <ul class="mobile-menu-primary">
+      <li><a href="#about" data-section="about">소개</a></li>
+      <li><a href="#ships" data-section="ships">함선DB</a></li>
+      <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
+      <li><a href="#hub" data-section="hub">무역허브</a></li>
+      <li><a href="#notices" data-section="notices">공지</a></li>
+      <li><a href="#join" data-section="join">가입하기</a></li>
+      <li class="mobile-menu-group-label">더보기</li>
+      <li><a href="#timeline" data-section="timeline">연혁</a></li>
+      <li><a href="#leadership" data-section="leadership">임원진</a></li>
+      <li><a href="#schedule" data-section="schedule">일정</a></li>
+      <li><a href="#streamers" data-section="streamers">스트리머</a></li>
+      <li><a href="#gallery" data-section="gallery">갤러리</a></li>
+      <li><a href="#policy" data-section="policy">정책</a></li>
+      <li><a href="#faq" data-section="faq">FAQ</a></li>
+      <li><a href="#guide" data-section="guide">무역가이드</a></li>
+     </ul>
+     <div class="mobile-menu-actions">
+      <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-label="검색 열기">검색 열기</button>
+      <a class="mobile-discord-link" href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord 참여</a>
+      <button class="mobile-menu-close-secondary" type="button" data-mobile-menu-close>메뉴 닫기</button>
+     </div>
+    </nav>
+   </div>
   </div>
 
   <section class="hero" id="home">
@@ -401,18 +411,24 @@
    <div class="section-content">
     <div class="section-header">
      <h2>무역 <span class="accent">플래너</span></h2>
-     <p>함선·인원·위험도 기준으로 VOLT식 무역 작전을 준비합니다.</p>
-    </div>
-    <div class="trade-presets">
-     <h3>작전 프리셋</h3>
-     <div class="trade-preset-grid" id="trade-preset-grid"></div>
+     <p>함선 선택부터 상품 후보, 작전 결과, Discord 브리핑까지 한 흐름으로 준비합니다.</p>
     </div>
     <div class="trade-planner">
      <div class="trade-planner-header">
       <h3>VOLT 무역 작전 플래너</h3>
-      <p>외부 시세 도구로 루트를 확인하고, 여기서는 함선·인원·위험도에 맞는 운영 방식을 정합니다.</p>
+      <p>내 함선과 거래 상품을 먼저 고른 뒤, 조건을 조정해 결과와 브리핑을 확인하세요.</p>
      </div>
      <div class="trade-planner-form">
+      <div class="planner-picker" id="logistics-ship-picker">
+       <label for="logistics-ship-search">내 함선 검색</label>
+       <input id="logistics-ship-search" type="search" autocomplete="off" placeholder="함선명, 제조사, 역할 검색" role="combobox" aria-expanded="false" aria-controls="logistics-ship-results">
+       <select id="logistics-ship" class="visually-hidden-select" tabindex="-1" aria-hidden="true"></select>
+       <div class="planner-picker-results" id="logistics-ship-results" role="listbox" hidden></div>
+      </div>
+      <label>
+       <span>운송 화물량 (SCU)</span>
+       <input id="logistics-cargo" type="number" min="0" step="1" value="0">
+      </label>
       <label>
        <span>작전 유형</span>
        <select id="trade-operation-type">
@@ -425,16 +441,6 @@
         <option value="supply">작전 보급 운송</option>
        </select>
       </label>
-      <label>
-       <span>운송 화물량 (SCU)</span>
-       <input id="logistics-cargo" type="number" min="0" step="1" value="0">
-      </label>
-      <div class="planner-picker" id="logistics-ship-picker">
-       <label for="logistics-ship-search">보유 함선</label>
-       <input id="logistics-ship-search" type="search" autocomplete="off" placeholder="함선명, 제조사, 역할 검색" role="combobox" aria-expanded="false" aria-controls="logistics-ship-results">
-       <select id="logistics-ship" class="visually-hidden-select" tabindex="-1" aria-hidden="true"></select>
-       <div class="planner-picker-results" id="logistics-ship-results" role="listbox" hidden></div>
-      </div>
       <label>
        <span>참여 인원</span>
        <input id="logistics-crew" type="number" min="1" step="1" value="1">
@@ -450,9 +456,39 @@
       <button class="btn btn-primary" id="logistics-calculate" type="button">작전 추천 생성</button>
      </div>
      <div class="planner-selection-card" id="logistics-ship-summary" aria-live="polite" hidden></div>
+     <div class="uex-live-panel" aria-labelledby="uex-live-title">
+      <div class="uex-live-header">
+       <div>
+        <h3 id="uex-live-title">UEX 실시간 거래 후보</h3>
+        <p>상품을 검색해 매수·매도 후보와 선택 화물량 기준 예상 수익을 확인합니다.</p>
+       </div>
+       <span class="uex-live-badge">Live API</span>
+      </div>
+      <div class="uex-live-controls">
+       <div class="planner-picker">
+        <label for="uex-commodity-search">거래 상품 검색</label>
+        <input id="uex-commodity-search" type="search" autocomplete="off" placeholder="상품명 검색" role="combobox" aria-expanded="false" aria-controls="uex-commodity-results" disabled>
+        <select id="uex-commodity-select" class="visually-hidden-select" tabindex="-1" aria-hidden="true" disabled>
+         <option value="">상품 목록 불러오는 중...</option>
+        </select>
+        <div class="planner-picker-results" id="uex-commodity-results" role="listbox" hidden></div>
+       </div>
+       <button class="btn btn-secondary" id="uex-refresh" type="button" disabled>후보 조회</button>
+      </div>
+      <p class="uex-live-status" id="uex-status" aria-live="polite"></p>
+      <div class="planner-selection-card" id="uex-commodity-summary" aria-live="polite" hidden></div>
+      <div class="uex-live-results" id="uex-results"></div>
+     </div>
      <div class="trade-planner-layout">
       <div class="logistics-result" id="logistics-result" aria-live="polite"></div>
       <div class="trade-planner-side">
+       <div class="trade-briefing">
+        <div class="trade-briefing-header">
+         <h4>Discord 공유용 브리핑</h4>
+         <button class="btn btn-secondary" id="trade-briefing-copy" type="button">브리핑 복사</button>
+        </div>
+        <textarea id="trade-briefing-text" readonly></textarea>
+       </div>
        <div class="trade-tool-hint">
         <h4>외부 도구 확인 순서</h4>
         <ol>
@@ -467,41 +503,17 @@
        </div>
       </div>
      </div>
-     <div class="trade-briefing">
-      <div class="trade-briefing-header">
-       <h4>Discord 공유용 브리핑</h4>
-       <button class="btn btn-secondary" id="trade-briefing-copy" type="button">브리핑 복사</button>
-      </div>
-      <textarea id="trade-briefing-text" readonly></textarea>
-     </div>
     </div>
-    <div class="recommended-trade-ships">
-     <h3>추천 무역 함선</h3>
+    <details class="trade-presets trade-secondary-block">
+     <summary>작전 프리셋 보기</summary>
+     <p>조건 입력이 막힐 때만 프리셋을 참고하세요. 선택 즉시 값이 자동 적용됩니다.</p>
+     <div class="trade-preset-grid" id="trade-preset-grid"></div>
+    </details>
+    <details class="recommended-trade-ships trade-secondary-block">
+     <summary>추천 함선 보기</summary>
+     <p>아직 사용할 함선이 정해지지 않았다면 추천 함선을 참고하세요.</p>
      <div class="recommended-trade-grid" id="recommended-trade-grid"></div>
-    </div>
-    <div class="uex-live-panel" aria-labelledby="uex-live-title">
-     <div class="uex-live-header">
-      <div>
-       <h3 id="uex-live-title">UEX 실시간 거래 후보</h3>
-       <p>공개 API에서 상품과 매수·매도 후보를 직접 조회합니다. 가격은 참고용이며 출발 전 외부 도구에서 다시 확인하세요.</p>
-      </div>
-      <span class="uex-live-badge">MVP</span>
-     </div>
-     <div class="uex-live-controls">
-      <div class="planner-picker">
-       <label for="uex-commodity-search">상품</label>
-       <input id="uex-commodity-search" type="search" autocomplete="off" placeholder="상품명 검색" role="combobox" aria-expanded="false" aria-controls="uex-commodity-results" disabled>
-       <select id="uex-commodity-select" class="visually-hidden-select" tabindex="-1" aria-hidden="true" disabled>
-        <option value="">상품 목록 불러오는 중...</option>
-       </select>
-       <div class="planner-picker-results" id="uex-commodity-results" role="listbox" hidden></div>
-      </div>
-      <button class="btn btn-secondary" id="uex-refresh" type="button" disabled>후보 조회</button>
-     </div>
-     <p class="uex-live-status" id="uex-status" aria-live="polite"></p>
-     <div class="planner-selection-card" id="uex-commodity-summary" aria-live="polite" hidden></div>
-     <div class="uex-live-results" id="uex-results"></div>
-    </div>
+    </details>
     <div class="sr-only" id="planner-picker-live" aria-live="polite"></div>
    </div>
   </section>
@@ -565,7 +577,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260518-37"></script>
-  <script src="js/main.js?v=20260518-37"></script>
+  <script src="data/volt-data.js?v=20260519-38"></script>
+  <script src="js/main.js?v=20260519-38"></script>
  </body>
 </html>

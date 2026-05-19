@@ -897,12 +897,15 @@
     function setupMobileMenu() {
         const menu = document.getElementById('mobileMenu');
         const openButton = document.getElementById('hamburger');
-        const closeButton = document.getElementById('mobileMenuClose');
-        if (!menu || !openButton || !closeButton) return;
+        const closeButtons = menu ? [...menu.querySelectorAll('#mobileMenuClose, [data-mobile-menu-close]')] : [];
+        if (!menu || !openButton || closeButtons.length === 0) return;
         const open = () => setMobileMenuState(menu, openButton, true);
         const close = () => setMobileMenuState(menu, openButton, false);
         openButton.addEventListener('click', open);
-        closeButton.addEventListener('click', close);
+        closeButtons.forEach((button) => button.addEventListener('click', close));
+        menu.addEventListener('click', (event) => {
+            if (event.target === menu) close();
+        });
         menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
         document.addEventListener('keydown', (event) => {
             if (!menu.classList.contains('active')) return;
@@ -917,6 +920,8 @@
         document.body.style.overflow = isOpen ? 'hidden' : '';
         if (isOpen) {
             menu.dataset.returnFocusId = document.activeElement?.id || '';
+            menu.scrollTop = 0;
+            menu.querySelector('.mobile-menu-scroll')?.scrollTo({ top: 0 });
             getFocusableElements(menu)[0]?.focus();
         } else {
             const returnTarget = menu.dataset.returnFocusId ? document.getElementById(menu.dataset.returnFocusId) : button;
