@@ -3536,6 +3536,94 @@ body.nav-more-open::before {
 .uex-live-results b {
     color: var(--volt-orange);
 }
+
+.uex-recommend-panel {
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card-hover);
+}
+
+.uex-recommend-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.uex-recommend-header h4 {
+    margin: 0 0 6px;
+}
+
+.uex-recommend-header p,
+.uex-recommend-disclaimer {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.uex-recommend-disclaimer {
+    padding: 12px 14px;
+    border-left: 3px solid var(--volt-orange);
+    border-radius: var(--radius-sm);
+    background: rgba(232, 72, 47, 0.08);
+    font-size: 13px;
+}
+
+.uex-recommend-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+}
+
+.uex-recommend-card {
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card);
+}
+
+.uex-recommend-card strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.uex-recommend-grade {
+    display: inline-flex;
+    width: fit-content;
+    padding: 4px 9px;
+    border-radius: var(--radius-full);
+    background: rgba(232, 72, 47, 0.14);
+    color: var(--volt-orange);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.uex-recommend-card dl {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+}
+
+.uex-recommend-card dl div {
+    display: grid;
+    gap: 3px;
+}
+
+.uex-recommend-card dt {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+}
+
+.uex-recommend-card dd {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
 .logistics-result {
     margin-top: 24px;
 }
@@ -3746,11 +3834,15 @@ body.nav-more-open::before {
         flex-direction: column;
     }
     .uex-live-header,
-    .uex-live-controls {
+    .uex-live-controls,
+    .uex-recommend-header {
         grid-template-columns: 1fr;
         flex-direction: column;
     }
     .uex-live-results {
+        grid-template-columns: 1fr;
+    }
+    .uex-recommend-results {
         grid-template-columns: 1fr;
     }
 }

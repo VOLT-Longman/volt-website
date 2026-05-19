@@ -148,6 +148,41 @@
         { title: '고가 화물/호송 추천', shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
         { title: '채굴/정제 후 운송 추천', shipIds: ['starlancer-max', 'hull-a'] }
     ];
+    const UEX_COMMODITY_TRANSLATIONS = {
+        'Gold': '금',
+        'Beryl': '베릴',
+        'Laranite': '라라나이트',
+        'Agricium': '아그리시움',
+        'Titanium': '티타늄',
+        'Quartz': '석영',
+        'Diamond': '다이아몬드',
+        'Medical Supplies': '의료 보급품',
+        'Processed Food': '가공식품',
+        'Distilled Spirits': '증류주',
+        'Hydrogen': '수소',
+        'Iodine': '아이오딘',
+        'Fluorine': '플루오린',
+        'Chlorine': '염소',
+        'Aluminum': '알루미늄',
+        'Copper': '구리',
+        'Iron': '철',
+        'Tungsten': '텅스텐'
+    };
+    const RECOMMENDED_COMMODITY_CANDIDATES = [
+        'Gold',
+        'Beryl',
+        'Laranite',
+        'Agricium',
+        'Titanium',
+        'Diamond',
+        'Quartz',
+        'Medical Supplies',
+        'Processed Food',
+        'Distilled Spirits'
+    ];
+    const SUPPLY_COMMODITY_NAMES = ['Medical Supplies', 'Processed Food'];
+    const MINING_COMMODITY_NAMES = ['Beryl', 'Laranite', 'Agricium', 'Titanium', 'Quartz', 'Diamond', 'Gold'];
+    const HIGH_VALUE_COMMODITY_NAMES = ['Gold', 'Beryl', 'Laranite', 'Agricium', 'Diamond'];
     let currentSection = null;
     let revealObserver;
     let activeModal = null;
@@ -1135,6 +1170,8 @@
         const search = document.getElementById('uex-commodity-search');
         const results = document.getElementById('uex-commodity-results');
         const button = document.getElementById('uex-refresh');
+        const recommendButton = document.getElementById('uex-recommend-refresh');
+        const recommendResults = document.getElementById('uex-recommend-results');
         if (!select || !search || !results || !button) return;
         search.addEventListener('focus', () => renderCommodityResults(search.value));
         search.addEventListener('input', () => renderCommodityResults(search.value));
@@ -1148,6 +1185,16 @@
             if (!event.target.closest('.uex-live-controls')) closePicker(search, results);
         });
         button.addEventListener('click', () => renderUexCommodityCandidates(select.value));
+        if (recommendButton) recommendButton.addEventListener('click', renderRecommendedCommodities);
+        if (recommendResults) {
+            recommendResults.addEventListener('click', (event) => {
+                const option = event.target.closest('[data-recommended-commodity-id]');
+                if (!option) return;
+                const commodityId = option.getAttribute('data-recommended-commodity-id');
+                selectCommodity(commodityId);
+                renderUexCommodityCandidates(commodityId);
+            });
+        }
         loadUexCommodities();
     }
 
@@ -1161,14 +1208,18 @@
             const visible = commodities.filter((item) => item.is_visible && item.is_available_live);
             availableUexCommodities = visible;
             select.innerHTML = `<option value="">상품 선택</option>${visible.map((item) => (
-                `<option value="${escapeHtml(String(item.id))}">${escapeHtml(item.name)}</option>`
+                `<option value="${escapeHtml(String(item.id))}">${escapeHtml(formatCommodityLabel(item.name))}</option>`
             )).join('')}`;
             select.disabled = false;
             const search = document.getElementById('uex-commodity-search');
             if (search) search.disabled = false;
+            const recommendButton = document.getElementById('uex-recommend-refresh');
+            if (recommendButton) recommendButton.disabled = false;
             status.textContent = `상품 ${visible.length}종을 불러왔습니다.`;
         } catch (error) {
             select.innerHTML = '<option value="">상품 목록을 불러오지 못했습니다</option>';
+            const recommendButton = document.getElementById('uex-recommend-refresh');
+            if (recommendButton) recommendButton.disabled = true;
             status.textContent = 'UEX API 연결이 불안정합니다. UEX Corp에서 직접 확인해 주세요.';
         }
     }
@@ -1187,15 +1238,25 @@
     }
 
     function buildCommoditySearchText(item) {
-        return [item.name, item.code, item.category_name].filter(Boolean).join(' ').toLowerCase();
+        return [item.name, getCommodityKoreanName(item.name), item.code, item.category_name].filter(Boolean).join(' ').toLowerCase();
+    }
+
+    function getCommodityKoreanName(name) {
+        return UEX_COMMODITY_TRANSLATIONS[name] || '';
+    }
+
+    function formatCommodityLabel(name) {
+        const korean = getCommodityKoreanName(name);
+        return korean ? `${name} / ${korean}` : name;
     }
 
     function renderCommodityOption(item) {
         const selected = document.getElementById('uex-commodity-select')?.value === String(item.id);
+        const korean = getCommodityKoreanName(item.name);
+        const meta = [korean, item.code, item.category_name].filter(Boolean).join(' · ');
         return `<button class="planner-picker-option" type="button" role="option" aria-selected="${selected}" data-commodity-id="${escapeHtml(String(item.id))}">
             <strong>${escapeHtml(item.name)}</strong>
-            ${item.code ? `<span>${escapeHtml(item.code)}</span>` : ''}
-            ${item.category_name ? `<small>${escapeHtml(item.category_name)}</small>` : ''}
+            ${meta ? `<span>${escapeHtml(meta)}</span>` : ''}
         </button>`;
     }
 
@@ -1206,10 +1267,10 @@
         const button = document.getElementById('uex-refresh');
         if (!item || !select || !search || !button) return;
         select.value = String(item.id);
-        search.value = item.name;
+        search.value = formatCommodityLabel(item.name);
         button.disabled = false;
         renderCommoditySummary(item);
-        announcePickerSelection(`${item.name} 상품을 선택했습니다.`);
+        announcePickerSelection(`${formatCommodityLabel(item.name)} 상품을 선택했습니다.`);
         closePicker(search, document.getElementById('uex-commodity-results'));
     }
 
@@ -1217,7 +1278,7 @@
         const summary = document.getElementById('uex-commodity-summary');
         if (!summary) return;
         summary.hidden = false;
-        const meta = [item.code, item.category_name].filter(Boolean).join(' · ');
+        const meta = [getCommodityKoreanName(item.name), item.code, item.category_name].filter(Boolean).join(' · ');
         summary.innerHTML = `<strong>${escapeHtml(item.name)}</strong>${meta ? `<span>${escapeHtml(meta)}</span>` : ''}<small>후보 조회 준비 완료</small>`;
     }
 
@@ -1229,7 +1290,8 @@
         results.innerHTML = '';
         try {
             const prices = await fetchUexData(`commodities_prices?id_commodity=${encodeURIComponent(commodityId)}`, UEX_CACHE_TTL_MS.prices);
-            const model = buildUexCandidateModel(prices);
+            const selectedCommodity = availableUexCommodities.find((item) => String(item.id) === String(commodityId));
+            const model = buildUexCandidateModel(prices, selectedCommodity);
             currentUexModel = model;
             results.innerHTML = renderUexCandidateCards(model);
             status.textContent = model.lastUpdatedLabel;
@@ -1253,7 +1315,7 @@
         return payload.data;
     }
 
-    function buildUexCandidateModel(prices) {
+    function buildUexCandidateModel(prices, commodity = null) {
         const buyRows = prices.filter((row) => row.price_buy > 0);
         const sellRows = prices.filter((row) => row.price_sell > 0);
         const bestBuy = getBestUexRow(buyRows, 'price_buy', 'min');
@@ -1264,13 +1326,17 @@
         const usableScu = Math.min(cargoCapacity || cargoTarget, cargoTarget || cargoCapacity);
         const profitPerScu = bestBuy && bestSell ? Math.max(0, bestSell.price_sell - bestBuy.price_buy) : 0;
         const lastUpdated = prices.length ? Math.max(...prices.map((row) => row.date_modified || 0)) : 0;
+        const commodityName = commodity?.name || prices[0]?.commodity_name || '선택 상품';
         return {
-            commodityName: prices[0]?.commodity_name || '선택 상품',
+            commodityId: commodity?.id || prices[0]?.id_commodity || null,
+            commodityName,
+            commodityLabel: formatCommodityLabel(commodityName),
             bestBuy,
             bestSell,
             usableScu,
             profitPerScu,
             estimatedProfit: profitPerScu * usableScu,
+            lastUpdated,
             lastUpdatedLabel: lastUpdated
                 ? `최근 갱신: ${new Date(lastUpdated * 1000).toLocaleString('ko-KR')}`
                 : '최근 갱신 시각을 확인할 수 없습니다.'
@@ -1297,10 +1363,107 @@
                 <b>${escapeHtml(formatCredits(model.bestSell.price_sell))} / SCU</b>
             </article>
             <article>
-                <span>${escapeHtml(model.commodityName)} 예상 수익</span>
+                <span>${escapeHtml(model.commodityLabel)} 예상 수익</span>
                 <strong>${escapeHtml(formatCredits(model.profitPerScu))} / SCU</strong>
                 <b>${escapeHtml(String(model.usableScu))} SCU 기준 ${escapeHtml(formatCredits(model.estimatedProfit))}</b>
             </article>`;
+    }
+
+    async function renderRecommendedCommodities() {
+        const status = document.getElementById('uex-recommend-status');
+        const results = document.getElementById('uex-recommend-results');
+        const button = document.getElementById('uex-recommend-refresh');
+        if (!status || !results || !button) return;
+        if (!availableUexCommodities.length) {
+            status.textContent = 'UEX 상품 목록을 먼저 불러와야 합니다.';
+            return;
+        }
+        button.disabled = true;
+        status.textContent = '추천 무역품 후보를 조회하는 중입니다.';
+        results.innerHTML = '';
+        try {
+            const models = await Promise.all(RECOMMENDED_COMMODITY_CANDIDATES.map(fetchRecommendedCommodityModel));
+            const ranked = models.filter(Boolean)
+                .map(scoreRecommendedCommodity)
+                .sort((left, right) => right.score - left.score)
+                .slice(0, 5);
+            results.innerHTML = ranked.length ? ranked.map(renderRecommendedCommodityCard).join('') : '<div class="uex-empty">추천 가능한 거래 후보가 없습니다. UEX Corp에서 직접 확인해 주세요.</div>';
+            status.textContent = ranked.length ? `추천 후보 ${ranked.length}개를 표시합니다.` : '추천 후보를 찾지 못했습니다.';
+        } catch (error) {
+            results.innerHTML = '<div class="uex-empty">UEX API 연결이 불안정합니다. UEX Corp에서 직접 확인해 주세요.</div>';
+            status.textContent = '추천 무역품 조회에 실패했습니다.';
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    async function fetchRecommendedCommodityModel(name) {
+        const commodity = findCommodityByName(name);
+        if (!commodity) return null;
+        try {
+            const prices = await fetchUexData(`commodities_prices?id_commodity=${encodeURIComponent(commodity.id)}`, UEX_CACHE_TTL_MS.prices);
+            const model = buildUexCandidateModel(prices, commodity);
+            if (!model.bestBuy || !model.bestSell || model.profitPerScu <= 0) return null;
+            return model;
+        } catch (error) {
+            console.warn('UEX recommendation candidate failed', name, error);
+            return null;
+        }
+    }
+
+    function findCommodityByName(name) {
+        const normalized = name.toLowerCase();
+        return availableUexCommodities.find((item) => String(item.name).toLowerCase() === normalized);
+    }
+
+    function scoreRecommendedCommodity(model) {
+        const operationType = document.getElementById('trade-operation-type')?.value || 'solo';
+        const risk = document.getElementById('trade-risk')?.value || 'low';
+        const ageHours = model.lastUpdated ? Math.max(0, (Date.now() / 1000 - model.lastUpdated) / 3600) : 999;
+        const freshnessBonus = ageHours <= 6 ? 5000 : ageHours <= 24 ? 2500 : 0;
+        const estimatedWeight = operationType === 'bulk' ? model.estimatedProfit / 40 : model.estimatedProfit / 80;
+        let score = model.profitPerScu * 20 + estimatedWeight + freshnessBonus;
+        const isHighValue = HIGH_VALUE_COMMODITY_NAMES.includes(model.commodityName);
+        const isMining = MINING_COMMODITY_NAMES.includes(model.commodityName);
+        const isSupply = SUPPLY_COMMODITY_NAMES.includes(model.commodityName);
+
+        if (operationType === 'highValue' && isHighValue) score += 12000;
+        if (operationType === 'mining' && isMining) score += 9000;
+        if (operationType === 'supply' && isSupply) score += 9000;
+        if (operationType === 'solo' && isHighValue) score -= risk === 'low' ? 3000 : 9000;
+        if (risk === 'high' && !isHighValue) score += 2500;
+        if (!model.bestBuy || !model.bestSell) score -= 30000;
+
+        return {
+            ...model,
+            score,
+            grade: getCommodityRecommendationGrade({ operationType, risk, isHighValue, isSupply, profitPerScu: model.profitPerScu })
+        };
+    }
+
+    function getCommodityRecommendationGrade({ operationType, risk, isHighValue, isSupply, profitPerScu }) {
+        if (operationType === 'supply' && isSupply) return '보급 적합';
+        if (isHighValue && profitPerScu > 0) return risk === 'high' || operationType === 'highValue' ? '고수익' : '주의';
+        if (risk === 'high') return '주의';
+        return '추천';
+    }
+
+    function renderRecommendedCommodityCard(model) {
+        const projectedScu = model.usableScu;
+        return `<article class="uex-recommend-card">
+            <div>
+                <strong>${escapeHtml(model.commodityLabel)}</strong>
+                <span class="uex-recommend-grade">${escapeHtml(model.grade)}</span>
+            </div>
+            <dl>
+                <div><dt>SCU당 예상 수익</dt><dd>${escapeHtml(formatCredits(model.profitPerScu))}</dd></div>
+                <div><dt>${escapeHtml(String(projectedScu))} SCU 기준 예상 수익</dt><dd>${escapeHtml(formatCredits(model.estimatedProfit))}</dd></div>
+                <div><dt>매수</dt><dd>${escapeHtml(formatUexLocation(model.bestBuy))}</dd></div>
+                <div><dt>매도</dt><dd>${escapeHtml(formatUexLocation(model.bestSell))}</dd></div>
+                <div><dt>최근 갱신</dt><dd>${escapeHtml(model.lastUpdatedLabel.replace('최근 갱신: ', ''))}</dd></div>
+            </dl>
+            <button class="btn btn-secondary" type="button" data-recommended-commodity-id="${escapeHtml(String(model.commodityId))}">이 상품 선택</button>
+        </article>`;
     }
 
     function formatUexLocation(row) {
@@ -1371,7 +1534,7 @@
         const projectedProfit = currentUexModel.profitPerScu * projectedScu;
         return `<section class="trade-detail-card trade-uex-summary">
             <h4>선택 상품 기준 예상 수익</h4>
-            <strong>${escapeHtml(currentUexModel.commodityName)} · ${escapeHtml(formatCredits(currentUexModel.profitPerScu))} / SCU</strong>
+            <strong>${escapeHtml(currentUexModel.commodityLabel)} · ${escapeHtml(formatCredits(currentUexModel.profitPerScu))} / SCU</strong>
             <p>매수 후보: ${escapeHtml(formatUexLocation(currentUexModel.bestBuy))}</p>
             <p>매도 후보: ${escapeHtml(formatUexLocation(currentUexModel.bestSell))}</p>
             <p>${escapeHtml(String(projectedScu))} SCU 기준 예상 수익: ${escapeHtml(formatCredits(projectedProfit))}</p>
@@ -1605,7 +1768,7 @@
             lines.splice(8, 0,
                 ``,
                 `UEX 거래 정보`,
-                `- 상품: ${currentUexModel.commodityName}`,
+                `- 상품: ${currentUexModel.commodityLabel}`,
                 `- 매수 후보: ${formatUexLocation(currentUexModel.bestBuy)}`,
                 `- 매도 후보: ${formatUexLocation(currentUexModel.bestSell)}`,
                 `- SCU당 예상 수익: ${formatCredits(currentUexModel.profitPerScu)}`,
