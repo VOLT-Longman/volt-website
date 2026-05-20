@@ -3391,12 +3391,14 @@ body.nav-more-open::before {
 .trade-planner-layout {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    align-items: stretch;
     gap: 20px;
     margin-top: 24px;
 }
 .trade-planner-side {
     display: grid;
     gap: 16px;
+    min-height: 100%;
 }
 .trade-tool-hint,
 .trade-checklist,
@@ -3419,9 +3421,13 @@ body.nav-more-open::before {
     color: var(--color-text-secondary);
 }
 .trade-briefing {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    margin-top: 0;
 }
 .trade-briefing-header {
+    flex: 0 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -3429,14 +3435,16 @@ body.nav-more-open::before {
     margin-bottom: 12px;
 }
 .trade-briefing textarea {
+    flex: 1 1 auto;
     width: 100%;
-    min-height: 220px;
+    min-height: 420px;
     padding: 16px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     background: var(--color-bg-card);
     color: var(--color-text-primary);
     resize: vertical;
+    overflow: auto;
 }
 
 .trade-briefing button:disabled {
@@ -3618,21 +3626,57 @@ body.nav-more-open::before {
 }
 
 .uex-candidate-card.is-selected {
-    box-shadow: 0 0 0 1px rgba(232, 72, 47, 0.25);
+    box-shadow: inset 4px 0 0 var(--volt-orange), 0 0 0 1px rgba(232, 72, 47, 0.35);
 }
 
-.uex-candidate-card span {
+.uex-candidate-location {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
     color: var(--color-text-primary);
     font-weight: 700;
 }
 
+.uex-candidate-location em {
+    flex: 0 0 auto;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    background: var(--volt-orange);
+    color: #fff;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 800;
+}
+
 .uex-candidate-card strong {
     color: var(--volt-orange);
+    font-size: 18px;
+    line-height: 1.25;
 }
 
 .uex-candidate-card small {
     color: var(--color-text-tertiary);
     line-height: 1.5;
+}
+
+.uex-candidate-card mark {
+    width: fit-content;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(232, 72, 47, 0.14);
+    color: var(--volt-orange);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+[data-theme="light"] .uex-candidate-card {
+    background: #ffffff;
+}
+
+[data-theme="light"] .uex-candidate-card:hover,
+[data-theme="light"] .uex-candidate-card.is-selected {
+    background: rgba(232, 72, 47, 0.08);
 }
 
 .uex-recommend-panel {
@@ -3803,6 +3847,13 @@ body.nav-more-open::before {
 
 .trade-uex-summary {
     margin-bottom: 18px;
+    border-color: rgba(232, 72, 47, 0.35);
+    background: linear-gradient(135deg, rgba(232, 72, 47, 0.12), var(--color-bg-card-hover));
+}
+
+.trade-uex-summary strong {
+    color: var(--volt-orange);
+    font-size: 18px;
 }
 .guide-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 16px; }
 .guide-tool-card {
@@ -3943,6 +3994,18 @@ body.nav-more-open::before {
     }
     .trade-briefing-header {
         align-items: stretch;
+        flex-direction: column;
+    }
+    .trade-briefing {
+        min-height: auto;
+    }
+    .trade-briefing textarea {
+        flex: 0 0 auto;
+        min-height: 260px;
+        max-height: 460px;
+    }
+    .uex-candidate-location {
+        align-items: flex-start;
         flex-direction: column;
     }
     .uex-live-header,
