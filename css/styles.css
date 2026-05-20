@@ -3600,22 +3600,26 @@ body.nav-more-open::before {
     display: grid;
     gap: 10px;
     max-height: 360px;
-    overflow: auto;
-    padding-right: 4px;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-gutter: stable;
 }
 
 .uex-candidate-card {
+    position: relative;
     display: grid;
-    gap: 6px;
+    grid-template-rows: auto auto auto;
+    gap: 8px;
     width: 100%;
-    min-height: 72px;
-    padding: 14px;
+    min-height: 116px;
+    padding: 16px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     background: var(--color-bg-card-hover);
     color: var(--color-text-primary);
     text-align: left;
     cursor: pointer;
+    overflow: hidden;
     transition: border-color var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
 }
 
@@ -3629,45 +3633,61 @@ body.nav-more-open::before {
     box-shadow: inset 4px 0 0 var(--volt-orange), 0 0 0 1px rgba(232, 72, 47, 0.35);
 }
 
-.uex-candidate-location {
+.uex-candidate-top,
+.uex-candidate-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 12px;
+}
+
+.uex-candidate-location {
+    min-width: 0;
+    overflow: hidden;
     color: var(--color-text-primary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-weight: 700;
 }
 
-.uex-candidate-location em {
+.uex-candidate-selected,
+.uex-candidate-quantity {
     flex: 0 0 auto;
-    padding: 3px 8px;
+    padding: 4px 8px;
     border-radius: var(--radius-full);
-    background: var(--volt-orange);
-    color: #fff;
-    font-style: normal;
-    font-size: 11px;
-    font-weight: 800;
-}
-
-.uex-candidate-card strong {
-    color: var(--volt-orange);
-    font-size: 18px;
-    line-height: 1.25;
-}
-
-.uex-candidate-card small {
-    color: var(--color-text-tertiary);
-    line-height: 1.5;
-}
-
-.uex-candidate-card mark {
-    width: fit-content;
-    padding: 3px 8px;
-    border-radius: var(--radius-full);
-    background: rgba(232, 72, 47, 0.14);
-    color: var(--volt-orange);
     font-size: 12px;
     font-weight: 800;
+    line-height: 1;
+}
+
+.uex-candidate-selected {
+    background: var(--volt-orange);
+    color: #fff;
+}
+
+.uex-candidate-quantity {
+    background: rgba(232, 72, 47, 0.14);
+    color: var(--volt-orange);
+}
+
+.uex-candidate-price {
+    display: block;
+    color: var(--color-text-primary);
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.uex-candidate-card .uex-candidate-price {
+    color: var(--volt-orange);
+}
+
+.uex-candidate-updated {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--color-text-tertiary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.5;
 }
 
 [data-theme="light"] .uex-candidate-card {
@@ -3935,6 +3955,22 @@ body.nav-more-open::before {
     .ship-compare-summary > div {
         grid-template-columns: 1fr;
     }
+    .uex-candidate-card {
+        min-height: auto;
+        padding: 14px;
+    }
+    .uex-candidate-top,
+    .uex-candidate-bottom {
+        align-items: flex-start;
+    }
+    .uex-candidate-location {
+        overflow: visible;
+        text-overflow: initial;
+        white-space: normal;
+    }
+    .uex-candidate-price {
+        font-size: 18px;
+    }
     .ship-filter-label,
     .ship-sort-label {
         margin-top: 4px;
@@ -4003,10 +4039,6 @@ body.nav-more-open::before {
         flex: 0 0 auto;
         min-height: 260px;
         max-height: 460px;
-    }
-    .uex-candidate-location {
-        align-items: flex-start;
-        flex-direction: column;
     }
     .uex-live-header,
     .uex-live-controls,

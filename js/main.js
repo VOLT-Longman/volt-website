@@ -1460,12 +1460,16 @@
         const field = side === 'buy' ? 'price_buy' : 'price_sell';
         const selected = row.uexKey === selectedKey ? ' is-selected' : '';
         const quantity = formatUexQuantity(row, side);
-        const selectedText = selected ? '<em>선택됨</em>' : '';
         return `<button class="uex-candidate-card${selected}" type="button" data-uex-side="${escapeHtml(side)}" data-uex-key="${escapeHtml(row.uexKey)}" aria-pressed="${selected ? 'true' : 'false'}">
-            <span class="uex-candidate-location">${index + 1}. ${escapeHtml(formatUexLocation(row))}${selectedText}</span>
-            <strong>${escapeHtml(formatCredits(row[field]))} / SCU</strong>
-            <small>${escapeHtml(formatUexUpdated(row) || '갱신 시각 미확인')}</small>
-            ${quantity ? `<mark>${escapeHtml(quantity)}</mark>` : ''}
+            <div class="uex-candidate-top">
+                <span class="uex-candidate-location">${index + 1}. ${escapeHtml(formatUexLocation(row))}</span>
+                ${selected ? '<span class="uex-candidate-selected">선택됨</span>' : ''}
+            </div>
+            <strong class="uex-candidate-price">${escapeHtml(formatCredits(row[field]))} / SCU</strong>
+            <div class="uex-candidate-bottom">
+                <small class="uex-candidate-updated">${escapeHtml(formatUexUpdated(row) || '갱신 시각 미확인')}</small>
+                ${quantity ? `<span class="uex-candidate-quantity">${escapeHtml(quantity)}</span>` : ''}
+            </div>
         </button>`;
     }
 
