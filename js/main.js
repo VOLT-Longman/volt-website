@@ -1507,7 +1507,7 @@
                 ${selected ? '<span class="uex-candidate-selected">선택됨</span>' : ''}
             </div>
             <strong class="uex-candidate-price">${escapeHtml(formatCredits(row[field]))} / SCU</strong>
-            <div class="uex-candidate-bottom">
+            <div class="uex-candidate-meta">
                 <small class="uex-candidate-updated">${escapeHtml(formatUexUpdated(row) || '갱신 시각 미확인')}</small>
                 ${quantity ? `<span class="uex-candidate-quantity">${escapeHtml(quantity)}</span>` : ''}
             </div>
