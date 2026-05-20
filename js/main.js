@@ -2380,7 +2380,216 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     }
+    function setupAuthStatus() {
+        const desktop = document.getElementById('volt-auth-desktop');
+        const mobile = document.getElementById('volt-auth-mobile');
 
+        if (!desktop && !mobile) return;
+
+        renderAuthLoading(desktop, mobile);
+
+        fetch('/auth/me', {
+            method: 'GET',
+            credentials: 'same-origin',
+            cache: 'no-store',
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`AUTH ${response.status}`);
+            }
+
+            return response.json();
+        })
+        .then((payload) => {
+            if (payload && payload.logged_in && payload.user) {
+                renderAuthLoggedIn(payload.user, desktop, mobile);
+            } else {
+                renderAuthLoggedOut(desktop, mobile);
+            }
+        })
+        .catch(() => {
+            renderAuthError(desktop, mobile);
+        });
+    }
+
+    function renderAuthLoading(desktop, mobile) {
+        const html = `
+            <span class="volt-auth-loading">
+                인증 확인 중
+            </span>
+        `;
+
+        if (desktop) desktop.innerHTML = html;
+        if (mobile) mobile.innerHTML = html;
+    }
+
+    function renderAuthLoggedOut(desktop, mobile) {
+        const html = `
+            <a class="volt-auth-login" href="/auth/discord/login">
+                Discord 로그인
+            </a>
+        `;
+
+        if (desktop) desktop.innerHTML = html;
+        if (mobile) mobile.innerHTML = html;
+    }
+
+    function renderAuthError(desktop, mobile) {
+        const html = `
+            <a class="volt-auth-login volt-auth-warning" href="/auth/discord/login">
+                인증 재시도
+            </a>
+        `;
+
+        if (desktop) desktop.innerHTML = html;
+        if (mobile) mobile.innerHTML = html;
+    }
+
+    function renderAuthLoggedIn(user, desktop, mobile) {
+        const displayName = getAuthDisplayName(user);
+        const roleLabel = getAuthRoleLabel(user);
+        const avatarUrl = typeof user.avatar_url === 'string'
+            ? user.avatar_url
+            : '';
+
+        const desktopHtml = buildAuthDesktopHtml({
+            displayName,
+            roleLabel,
+            avatarUrl
+        });
+
+        const mobileHtml = buildAuthMobileHtml({
+            displayName,
+            roleLabel,
+            avatarUrl
+        });
+
+        if (desktop) desktop.innerHTML = desktopHtml;
+        if (mobile) mobile.innerHTML = mobileHtml;
+    }
+
+    function getAuthDisplayName(user) {
+        return user.display_name
+            || user.username
+            || 'VOLT 사용자';
+    }
+
+    function getAuthRoleLabel(user) {
+        const roles = Array.isArray(user.roles)
+            ? user.roles
+            : [];
+
+        if (roles.includes('대표이사')) return '대표이사';
+        if (roles.includes('감찰')) return '감찰';
+        if (roles.includes('임원진')) return '임원진';
+        if (roles.includes('HR전략실')) return 'HR전략실';
+        if (roles.includes('홍보부')) return '홍보부';
+        if (roles.includes('VOLT 함대원')) return 'VOLT 함대원';
+        if (roles.includes('손님')) return '손님';
+
+        return roles[0] || '인증 사용자';
+    }
+
+    function buildAuthDesktopHtml({
+        displayName,
+        roleLabel,
+        avatarUrl
+    }) {
+
+        const avatar = avatarUrl
+            ? `
+                <img
+                    class="volt-auth-avatar"
+                    src="${escapeHtml(avatarUrl)}"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                >
+            `
+            : `
+                <span class="volt-auth-avatar volt-auth-avatar-fallback">
+                    ${escapeHtml(getAuthInitial(displayName))}
+                </span>
+            `;
+
+        return `
+            <div class="volt-auth-user">
+                ${avatar}
+
+                <span class="volt-auth-user-text">
+                    <strong>
+                        ${escapeHtml(displayName)}
+                    </strong>
+
+                    <small>
+                        ${escapeHtml(roleLabel)}
+                    </small>
+                </span>
+
+                <a class="volt-auth-logout" href="/auth/logout">
+                    로그아웃
+                </a>
+            </div>
+        `;
+    }
+
+    function buildAuthMobileHtml({
+        displayName,
+        roleLabel,
+        avatarUrl
+    }) {
+
+        const avatar = avatarUrl
+            ? `
+                <img
+                    class="volt-auth-avatar"
+                    src="${escapeHtml(avatarUrl)}"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                >
+            `
+            : `
+                <span class="volt-auth-avatar volt-auth-avatar-fallback">
+                    ${escapeHtml(getAuthInitial(displayName))}
+                </span>
+            `;
+
+        return `
+            <div class="volt-auth-mobile-card">
+
+                <div class="volt-auth-mobile-user">
+                    ${avatar}
+
+                    <span>
+                        <strong>
+                            ${escapeHtml(displayName)}
+                        </strong>
+
+                        <small>
+                            ${escapeHtml(roleLabel)}
+                        </small>
+                    </span>
+                </div>
+
+                <a class="volt-auth-logout" href="/auth/logout">
+                    로그아웃
+                </a>
+
+            </div>
+        `;
+    }
+
+    function getAuthInitial(value) {
+        const text = String(value || '').trim();
+
+        return text
+            ? text.charAt(0).toUpperCase()
+            : 'V';
+    }
     function init() {
         setupSplash();
         setupRevealObserver();
@@ -2399,6 +2608,7 @@
         setupGlobalKeyboardShortcuts();
         setupScrollEffect();
         setupScrollTop();
+        setupAuthStatus();
         setupTheme();
         injectStructuredData();
         const applyRouteFromLocation = () => {
