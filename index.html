@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260519-41">
+  <link rel="stylesheet" href="css/styles.css?v=20260520-auth1">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -87,6 +87,9 @@
      <li><button id="theme-toggle" aria-label="테마 변경">☀️</button></li>
      <li><a href="#join" data-section="join" class="nav-discord nav-join-cta">가입하기</a></li>
     </ul>
+    <div class="volt-auth-slot volt-auth-header" id="volt-auth-desktop" aria-live="polite">
+     <a class="volt-auth-login" href="/auth/discord/login">Discord 로그인</a>
+    </div>
     <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
      <span></span><span></span><span></span>
     </button>
@@ -119,6 +122,9 @@
       <li><a href="#guide" data-section="guide">무역가이드</a></li>
      </ul>
      <div class="mobile-menu-actions">
+      <div class="volt-auth-mobile" id="volt-auth-mobile" aria-live="polite">
+       <a class="volt-auth-login" href="/auth/discord/login">Discord 로그인</a>
+      </div>
       <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-label="검색 열기">검색 열기</button>
       <a class="mobile-discord-link" href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord 참여</a>
       <button class="mobile-menu-close-secondary" type="button" data-mobile-menu-close>메뉴 닫기</button>
@@ -589,7 +595,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260519-41"></script>
-  <script src="js/main.js?v=20260519-41"></script>
+  <script src="data/volt-data.js?v=20260520-auth1"></script>
+  <script src="js/main.js?v=20260520-auth1"></script>
  </body>
 </html>
