@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260519-41">
+  <link rel="stylesheet" href="css/styles.css?v=20260520-42">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -453,8 +453,7 @@
         <option value="high">높음</option>
        </select>
       </label>
-      <button class="btn btn-primary" id="logistics-calculate" type="button">작전 추천 생성</button>
-     </div>
+      </div>
      <div class="planner-selection-card" id="logistics-ship-summary" aria-live="polite" hidden></div>
      <div class="uex-live-panel" aria-labelledby="uex-live-title">
       <div class="uex-live-header">
@@ -473,23 +472,24 @@
         </select>
         <div class="planner-picker-results" id="uex-commodity-results" role="listbox" hidden></div>
        </div>
-       <button class="btn btn-secondary" id="uex-refresh" type="button" disabled>후보 조회</button>
-      </div>
-      <p class="uex-live-status" id="uex-status" aria-live="polite"></p>
-      <div class="planner-selection-card" id="uex-commodity-summary" aria-live="polite" hidden></div>
-      <div class="uex-recommend-panel" aria-labelledby="uex-recommend-title">
-       <div class="uex-recommend-header">
-        <div>
-         <h4 id="uex-recommend-title">추천 무역품</h4>
+        <button class="btn btn-secondary" id="uex-refresh" type="button" disabled>거래 후보 조회</button>
+       </div>
+       <p class="uex-live-status" id="uex-status" aria-live="polite"></p>
+       <div class="planner-selection-card" id="uex-commodity-summary" aria-live="polite" hidden></div>
+       <div class="uex-live-results" id="uex-results"></div>
+       <details class="uex-recommend-panel trade-secondary-block" aria-labelledby="uex-recommend-title">
+        <summary>추천 무역품 보기</summary>
+        <div class="uex-recommend-header">
+         <div>
+          <h4 id="uex-recommend-title">추천 무역품</h4>
          <p>UEX 기준 수익 후보를 참고용으로 표시합니다. 출발 전 가격과 수요를 반드시 재확인하세요.</p>
         </div>
         <button class="btn btn-secondary" id="uex-recommend-refresh" type="button" disabled>추천 무역품 조회</button>
        </div>
-       <p class="uex-recommend-disclaimer">추천 무역품은 UEX 기준 매수·매도 후보와 VOLT 무역플래너 조건을 바탕으로 계산한 참고용 결과입니다. 실제 출발 전에는 재고, 수요, 서버 상태, 루트 위험도를 UEX Corp와 SC Trade Tools에서 다시 확인하세요.</p>
-       <p class="uex-live-status" id="uex-recommend-status" aria-live="polite"></p>
-       <div class="uex-recommend-results" id="uex-recommend-results"></div>
-      </div>
-      <div class="uex-live-results" id="uex-results"></div>
+        <p class="uex-recommend-disclaimer">추천 무역품은 UEX 기준 매수·매도 후보와 VOLT 무역플래너 조건을 바탕으로 계산한 참고용 결과입니다. 실제 출발 전에는 재고, 수요, 서버 상태, 루트 위험도를 UEX Corp와 SC Trade Tools에서 다시 확인하세요.</p>
+        <p class="uex-live-status" id="uex-recommend-status" aria-live="polite"></p>
+        <div class="uex-recommend-results" id="uex-recommend-results"></div>
+       </details>
      </div>
      <div class="trade-planner-layout">
       <div class="logistics-result" id="logistics-result" aria-live="polite"></div>
@@ -501,19 +501,7 @@
         </div>
         <textarea id="trade-briefing-text" readonly></textarea>
        </div>
-       <div class="trade-tool-hint">
-        <h4>외부 도구 확인 순서</h4>
-        <ol>
-         <li><strong>UEX Corp</strong>에서 상품 가격과 매수/매도 위치 확인</li>
-         <li><strong>SC Trade Tools</strong>에서 화물량 기준 수익 루트 비교</li>
-         <li><strong>VOLT 플래너</strong>에서 인원·위험도 기준 작전 방식 확정</li>
-        </ol>
        </div>
-       <div class="trade-checklist">
-        <h4>작전 전 체크리스트</h4>
-        <ul id="trade-checklist"></ul>
-       </div>
-      </div>
      </div>
     </div>
     <details class="trade-presets trade-secondary-block">
@@ -589,7 +577,7 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260519-41"></script>
-  <script src="js/main.js?v=20260519-41"></script>
+  <script src="data/volt-data.js?v=20260520-42"></script>
+  <script src="js/main.js?v=20260520-42"></script>
  </body>
 </html>

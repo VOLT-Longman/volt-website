@@ -3514,11 +3514,10 @@ body.nav-more-open::before {
 
 .uex-live-results {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
 }
 
-.uex-live-results article,
+.uex-summary-card,
 .uex-empty {
     display: grid;
     gap: 6px;
@@ -3535,6 +3534,105 @@ body.nav-more-open::before {
 
 .uex-live-results b {
     color: var(--volt-orange);
+}
+
+.uex-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.uex-summary-card strong {
+    color: var(--color-text-primary);
+}
+
+.uex-summary-card b {
+    color: var(--volt-orange);
+    font-size: 13px;
+}
+
+.uex-warning {
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 184, 77, 0.35);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 184, 77, 0.12);
+    color: var(--color-warning);
+    font-weight: 700;
+}
+
+.uex-candidate-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.uex-candidate-column {
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+
+.uex-candidate-column-header {
+    display: grid;
+    gap: 4px;
+}
+
+.uex-candidate-column-header h4,
+.uex-candidate-column-header p {
+    margin: 0;
+}
+
+.uex-candidate-column-header p {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+}
+
+.uex-candidate-list {
+    display: grid;
+    gap: 10px;
+    max-height: 360px;
+    overflow: auto;
+    padding-right: 4px;
+}
+
+.uex-candidate-card {
+    display: grid;
+    gap: 6px;
+    width: 100%;
+    min-height: 72px;
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card-hover);
+    color: var(--color-text-primary);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
+}
+
+.uex-candidate-card:hover,
+.uex-candidate-card.is-selected {
+    border-color: var(--volt-orange);
+    background: rgba(232, 72, 47, 0.12);
+}
+
+.uex-candidate-card.is-selected {
+    box-shadow: 0 0 0 1px rgba(232, 72, 47, 0.25);
+}
+
+.uex-candidate-card span {
+    color: var(--color-text-primary);
+    font-weight: 700;
+}
+
+.uex-candidate-card strong {
+    color: var(--volt-orange);
+}
+
+.uex-candidate-card small {
+    color: var(--color-text-tertiary);
+    line-height: 1.5;
 }
 
 .uex-recommend-panel {
@@ -3738,6 +3836,12 @@ body.nav-more-open::before {
     .trade-preset-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+    .uex-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .uex-candidate-layout {
+        grid-template-columns: 1fr;
+    }
     .join-checklist-grid { grid-template-columns: 1fr; }
     #scroll-to-top { bottom: 20px; right: 16px; }
     .search-overlay { padding-top: 72px; }
@@ -3814,8 +3918,16 @@ body.nav-more-open::before {
     .trade-planner-form,
     .trade-planner-layout,
     .logistics-result-grid,
-    .trade-result-columns {
+    .trade-result-columns,
+    .uex-live-controls,
+    .uex-summary-grid {
         grid-template-columns: 1fr;
+    }
+    .uex-live-panel {
+        padding: 18px;
+    }
+    .uex-candidate-list {
+        max-height: 300px;
     }
     .trade-preset-grid,
     .recommended-trade-grid {
