@@ -495,7 +495,7 @@
     }
 
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
-        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, formatShipPrice(ship.priceUsd), ...tags].join(' ').toLowerCase();
+        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd), ...tags].join(' ').toLowerCase();
     }
 
     function formatShipPrice(priceUsd) {
@@ -693,12 +693,10 @@
 
     function isPlannerEligibleShip(ship) {
         const tags = getShipTags(ship);
-        const isCoreCargoShip = ship.focus === '화물';
         return ship.plannerEligible !== false
             && ship.implemented !== false
             && !tags.includes('미구현')
-            && getCargoValue(ship.cargo) > 0
-            && (ship.plannerEligible === true || isCoreCargoShip);
+            && getCargoValue(ship.cargo) > 0;
     }
 
     function comparePlannerShips(left, right) {
@@ -711,8 +709,10 @@
     }
 
     function getPlannerTradeScore(ship) {
-        const text = [ship.role, ship.focus, ...getShipTags(ship)].join(' ');
-        return ['화물', '수송', '무역', '물류'].reduce((score, token) => score + Number(text.includes(token)), 0);
+        const text = [ship.role, ship.focus, ship.description, ...getShipTags(ship)].join(' ');
+        const weights = { 화물: 3, 물류: 3, 무역: 3, 수송: 2, 운송: 2, 보급: 2, 산업: 1, 다목적: 1 };
+        const score = Object.entries(weights).reduce((total, [token, weight]) => total + (text.includes(token) ? weight : 0), 0);
+        return text.includes('전투') ? score - 0.5 : score;
     }
 
     function setupPlannerShipPicker() {
