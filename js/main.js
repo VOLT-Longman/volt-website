@@ -841,6 +841,8 @@
         document.querySelectorAll('.nav-links [data-section]').forEach((link) => {
             link.classList.toggle('nav-active', link.getAttribute('data-section') === id);
         });
+        document.getElementById('nav-trade-toggle')?.classList.toggle('nav-active', ['trade-planner', 'hub', 'guide'].includes(id));
+        document.getElementById('nav-more-toggle')?.classList.toggle('nav-active', ['timeline', 'leadership', 'streamers', 'gallery', 'policy', 'faq'].includes(id));
     }
 
     function showSection(id, push = true, anchorId = null) {
@@ -901,33 +903,68 @@
                 event.preventDefault();
                 showSection(link.getAttribute('data-section'));
                 closeMoreMenu();
+                closeTradeMenu();
             });
         });
         setupMoreMenu();
+        setupTradeMenu();
     }
 
     function setupMoreMenu() {
-        const toggle = document.getElementById('nav-more-toggle');
-        const menu = document.getElementById('nav-more-menu');
-        if (!toggle || !menu) return;
-        toggle.addEventListener('click', () => {
-            const expanded = toggle.getAttribute('aria-expanded') === 'true';
-            toggle.setAttribute('aria-expanded', String(!expanded));
-            menu.classList.toggle('active', !expanded);
-            document.body.classList.toggle('nav-more-open', !expanded);
+        setupDropdownMenu({
+            rootSelector: '.nav-more',
+            toggleId: 'nav-more-toggle',
+            menuId: 'nav-more-menu',
+            bodyClass: 'nav-more-open',
+            closeOther: closeTradeMenu
         });
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.nav-more')) closeMoreMenu();
         });
     }
 
+    function setupTradeMenu() {
+        setupDropdownMenu({
+            rootSelector: '.nav-trade',
+            toggleId: 'nav-trade-toggle',
+            menuId: 'nav-trade-menu',
+            bodyClass: 'nav-trade-open',
+            closeOther: closeMoreMenu
+        });
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.nav-trade')) closeTradeMenu();
+        });
+    }
+
+    function setupDropdownMenu({ toggleId, menuId, bodyClass, closeOther }) {
+        const toggle = document.getElementById(toggleId);
+        const menu = document.getElementById(menuId);
+        if (!toggle || !menu) return;
+        toggle.addEventListener('click', () => {
+            const expanded = toggle.getAttribute('aria-expanded') === 'true';
+            if (!expanded) closeOther?.();
+            setDropdownState(toggle, menu, bodyClass, !expanded);
+        });
+    }
+
+    function setDropdownState(toggle, menu, bodyClass, isOpen) {
+        toggle.setAttribute('aria-expanded', String(isOpen));
+        menu.classList.toggle('active', isOpen);
+        document.body.classList.toggle(bodyClass, isOpen);
+    }
+
     function closeMoreMenu() {
         const toggle = document.getElementById('nav-more-toggle');
         const menu = document.getElementById('nav-more-menu');
         if (!toggle || !menu) return;
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.classList.remove('active');
-        document.body.classList.remove('nav-more-open');
+        setDropdownState(toggle, menu, 'nav-more-open', false);
+    }
+
+    function closeTradeMenu() {
+        const toggle = document.getElementById('nav-trade-toggle');
+        const menu = document.getElementById('nav-trade-menu');
+        if (!toggle || !menu) return;
+        setDropdownState(toggle, menu, 'nav-trade-open', false);
     }
 
     function setupMobileMenu() {
@@ -951,6 +988,10 @@
     }
 
     function setMobileMenuState(menu, button, isOpen) {
+        if (isOpen) {
+            closeMoreMenu();
+            closeTradeMenu();
+        }
         menu.classList.toggle('active', isOpen);
         button.setAttribute('aria-expanded', String(isOpen));
         document.body.style.overflow = isOpen ? 'hidden' : '';
@@ -2295,6 +2336,8 @@
 
     function openSearch(overlay, input) {
         if (!overlay || !input) return;
+        closeMoreMenu();
+        closeTradeMenu();
         const mobileMenu = document.getElementById('mobileMenu');
         const hamburger = document.getElementById('hamburger');
         if (mobileMenu && hamburger && mobileMenu.classList.contains('active')) {
@@ -2385,7 +2428,10 @@
             if (event.key === 'Escape') {
                 if (searchOverlay?.classList.contains('active')) closeSearch(searchOverlay, document.getElementById('global-search-input'));
                 else if (activeModal) closeModal();
-                else closeMoreMenu();
+                else {
+                    closeMoreMenu();
+                    closeTradeMenu();
+                }
             }
         });
     }

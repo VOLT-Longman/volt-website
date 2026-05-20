@@ -166,10 +166,13 @@ body {
     list-style: none;
     align-items: center;
 }
-.nav-more {
+.nav-more,
+.nav-trade {
     position: relative;
 }
-.nav-more-toggle {
+
+.nav-more-toggle,
+.nav-trade-toggle {
     border: 0;
     background: transparent;
     color: var(--color-text-primary);
@@ -177,10 +180,16 @@ body {
     font-weight: 600;
     cursor: pointer;
 }
-.nav-more-toggle:hover {
+
+.nav-more-toggle:hover,
+.nav-trade-toggle:hover,
+.nav-more-toggle.nav-active,
+.nav-trade-toggle.nav-active {
     color: var(--volt-orange);
 }
-.nav-more-menu {
+
+.nav-more-menu,
+.nav-trade-menu {
     position: absolute;
     top: calc(100% + 14px);
     right: 0;
@@ -194,20 +203,33 @@ body {
     list-style: none;
     z-index: 20;
 }
-.nav-more-menu.active {
+
+.nav-trade-menu {
+    left: 0;
+    right: auto;
+    min-width: 180px;
+}
+
+.nav-more-menu.active,
+.nav-trade-menu.active {
     display: grid;
     gap: 8px;
 }
-.nav-more-menu a {
+
+.nav-more-menu a,
+.nav-trade-menu a {
     display: block;
     padding: 8px 10px;
     border-radius: 8px;
 }
-.nav-more-menu a:hover {
+
+.nav-more-menu a:hover,
+.nav-trade-menu a:hover {
     background: var(--color-bg-card-hover);
 }
 
-body.nav-more-open::before {
+body.nav-more-open::before,
+body.nav-trade-open::before {
     position: fixed;
     inset: 0;
     z-index: calc(var(--z-nav) - 1);
@@ -234,6 +256,8 @@ body.nav-more-open::before {
 }
 
 .nav-links a:focus-visible,
+.nav-more-toggle:focus-visible,
+.nav-trade-toggle:focus-visible,
 .mobile-menu a:focus-visible,
 .mobile-menu button:focus-visible,
 .footer-section a:focus-visible {
@@ -699,7 +723,9 @@ body.nav-more-open::before {
     color: var(--volt-orange);
 }
 
-.nav-links a.nav-active::after {
+.nav-links a.nav-active::after,
+.nav-more-toggle.nav-active::after,
+.nav-trade-toggle.nav-active::after {
     content: '';
     position: absolute;
     bottom: -4px;
@@ -708,6 +734,11 @@ body.nav-more-open::before {
     height: 2px;
     background: var(--volt-orange);
     border-radius: 1px;
+}
+
+.nav-more-toggle,
+.nav-trade-toggle {
+    position: relative;
 }
 
 .section-content {
