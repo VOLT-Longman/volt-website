@@ -4044,3 +4044,100 @@ body.nav-more-open::before {
     opacity: 1;
     transform: translate(-50%, 0);
 }
+/* ==========================================================================
+   VOLT AUTH UI
+   ========================================================================== */
+
+.volt-auth-user,
+.volt-auth-mobile-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.volt-auth-user {
+    padding-left: 8px;
+}
+
+.volt-auth-mobile-card {
+    justify-content: space-between;
+    width: 100%;
+}
+
+.volt-auth-mobile-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.volt-auth-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+}
+
+.volt-auth-avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    background: var(--volt-orange);
+}
+
+.volt-auth-user-text,
+.volt-auth-mobile-user span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.volt-auth-user-text strong,
+.volt-auth-mobile-user strong {
+    font-size: 14px;
+    color: var(--color-text-primary);
+}
+
+.volt-auth-user-text small,
+.volt-auth-mobile-user small {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+}
+
+.volt-auth-login,
+.volt-auth-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border-accent);
+    background: rgba(232, 72, 47, 0.08);
+    color: var(--volt-orange);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.volt-auth-login:hover,
+.volt-auth-logout:hover {
+    background: rgba(232, 72, 47, 0.18);
+    border-color: var(--volt-orange);
+}
+
+.volt-auth-warning {
+    color: #ffb347;
+    border-color: rgba(255, 179, 71, 0.4);
+}
+
+.volt-auth-loading {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+}
