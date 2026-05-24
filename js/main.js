@@ -1703,11 +1703,15 @@
     function renderUexRecommendationSummary(recommendation) {
         if (!currentUexModel?.bestBuy || !currentUexModel?.bestSell) return '';
         return `<section class="trade-detail-card trade-uex-summary">
-            <h4>선택 거래 기준 예상 수익</h4>
-            <strong>${escapeHtml(currentUexModel.commodityLabel)} · ${escapeHtml(formatCredits(currentUexModel.estimatedProfit))}</strong>
-            <p>매수: ${escapeHtml(formatUexLocation(currentUexModel.bestBuy))} · ${escapeHtml(formatCredits(currentUexModel.bestBuy.price_buy))} / SCU</p>
-            <p>매도: ${escapeHtml(formatUexLocation(currentUexModel.bestSell))} · ${escapeHtml(formatCredits(currentUexModel.bestSell.price_sell))} / SCU</p>
-            <p>필요 자금 ${escapeHtml(formatCredits(currentUexModel.purchaseCost))} · 예상 매출 ${escapeHtml(formatCredits(currentUexModel.grossRevenue))} · 수익률 ${escapeHtml(formatPercent(currentUexModel.profitRate))}</p>
+            <h4>선택 거래 수익 요약</h4>
+            <div class="trade-profit-grid">
+                <div><span>상품</span><strong>${escapeHtml(currentUexModel.commodityLabel)}</strong></div>
+                <div><span>매수 후보</span><strong>${escapeHtml(formatUexLocation(currentUexModel.bestBuy))}</strong><b>${escapeHtml(formatCredits(currentUexModel.bestBuy.price_buy))} / SCU</b></div>
+                <div><span>매도 후보</span><strong>${escapeHtml(formatUexLocation(currentUexModel.bestSell))}</strong><b>${escapeHtml(formatCredits(currentUexModel.bestSell.price_sell))} / SCU</b></div>
+                <div><span>필요 구매 자금</span><strong>${escapeHtml(formatCredits(currentUexModel.purchaseCost))}</strong></div>
+                <div><span>예상 판매 금액</span><strong>${escapeHtml(formatCredits(currentUexModel.grossRevenue))}</strong></div>
+                <div><span>예상 순수익</span><strong>${escapeHtml(formatCredits(currentUexModel.estimatedProfit))}</strong><b>${escapeHtml(formatCredits(currentUexModel.profitPerScu))} / SCU · ${escapeHtml(formatPercent(currentUexModel.profitRate))}</b></div>
+            </div>
         </section>`;
     }
 

@@ -96,3 +96,13 @@ RSI 공식 페이지와 Erkul 표기가 다를 수 있으므로, 데이터는 �
 2. 먼저 `implemented: false`, `plannerEligible: false`, `erkulStatus: "unreleased"` 또는 `"review"`로 격리합니다.
 3. 중복은 `canonicalId`로 대표 항목을 지정합니다.
 4. 최종 삭제는 별도 리뷰 후 진행합니다.
+
+## 마감 점검 기준
+
+- Erkul/DPS Calculator에 있는 함선은 구현 함선으로 간주합니다.
+- Erkul/DPS Calculator에 없는 함선은 삭제하지 않고 `implemented: false`, `plannerEligible: false`로 보존합니다.
+- 무역플래너 노출 여부는 `implemented !== false`, `plannerEligible !== false`, `tags`에 `미구현` 없음, cargo > 0 기준으로 판단합니다.
+- `plannerEligible: true`는 우선 노출 신호이고, `plannerEligible: false`는 강제 제외 신호입니다.
+- `plannerEligible`이 없더라도 구현됨 + cargo > 0이면 기본 노출 대상입니다.
+- 중복 의심 항목은 즉시 삭제하지 않고 `canonicalId`로 대표 항목에 연결합니다.
+- 같은 시리즈라도 역할, cargo, crew가 다르면 별도 항목으로 유지합니다.
