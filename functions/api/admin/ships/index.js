@@ -1,6 +1,7 @@
-import { requireAdmin } from '../../../_shared/auth.js';
+﻿import { requireAdmin } from '../../../_shared/auth.js';
 import { json, methodNotAllowed, requireDb } from '../../../_shared/http.js';
 import { mapShipOverride } from '../../../_shared/cms.js';
+import { ensureShipOverridesTable } from '../../../_shared/ships.js';
 
 export async function onRequest({ request, env }) {
   const unauthorized = await requireAdmin(request, env);
@@ -10,6 +11,9 @@ export async function onRequest({ request, env }) {
 }
 
 async function listItems(env) {
-  const result = await requireDb(env).prepare('SELECT * FROM ship_overrides ORDER BY ship_id ASC').all();
+  const db = requireDb(env);
+  await ensureShipOverridesTable(db);
+  const result = await db.prepare('SELECT * FROM ship_overrides ORDER BY ship_id ASC').all();
   return json({ items: (result.results || []).map(mapShipOverride) });
 }
+
