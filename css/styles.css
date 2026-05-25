@@ -3851,6 +3851,13 @@ body.nav-trade-open::before {
     margin-bottom: 6px;
 }
 
+.uex-recommend-desc {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
 .uex-recommend-grade {
     display: inline-flex;
     width: fit-content;
@@ -3983,6 +3990,33 @@ body.nav-trade-open::before {
 .guide-tool-icon { font-size: 24px; margin-bottom: 4px; }
 .guide-tool-name { font-size: 14px; font-weight: 700; color: var(--color-text-primary); }
 .guide-tool-desc { font-size: 12px; color: var(--color-text-tertiary); }
+.guide-glossary {
+    margin-top: 24px;
+}
+.guide-glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+}
+.guide-glossary-item,
+.guide-glossary-empty {
+    display: grid;
+    gap: 4px;
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card);
+}
+.guide-glossary-item strong {
+    color: var(--volt-orange);
+    font-size: 13px;
+}
+.guide-glossary-item span,
+.guide-glossary-empty {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+}
 
 /* ── 반응형 ── */
 @media (max-width: 768px) {

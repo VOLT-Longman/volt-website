@@ -15,6 +15,7 @@
         console.error('VOLT_DATA 미로드');
         return;
     }
+    const localization = window.VOLT_LOCALIZATION || {};
 
     const PAGE_SIZE = 4;
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
@@ -149,298 +150,8 @@
         { title: '고가 화물/호송 추천', shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
         { title: '채굴/정제 후 운송 추천', shipIds: ['starlancer-max', 'hull-a'] }
     ];
-    const UEX_COMMODITY_TRANSLATIONS = {
-        "acryliplex": "아크릴리플렉스 복합재",
-        "agricium": "아그리슘",
-        "agricium_ore": "아그리슘 (광석)",
-        "agriculturalGoods": "농산물",
-        "agriculturalSupplies": "농업 용품",
-        "altruciatoxin": "알트루시아톡신",
-        "altruciatoxin_unprocessed": "레버넌트 나무 꽃가루",
-        "aluminum": "알루미늄",
-        "aluminum_ore": "알루미늄 (광석)",
-        "amiantpod": "아미안트 꼬투리",
-        "amioshiplague": "아미오시 플레이그",
-        "ammocrate": "탄약 상자",
-        "ammonia": "암모니아",
-        "antiHydrogen": "반-수소",
-        "aphorite": "아포라이트",
-        "aphorite_raw": "아포라이트 (원석)",
-        "apoxygenite": "아폭시제나이트",
-        "argon": "아르곤",
-        "arsenic": "비소",
-        "aslarite": "아슬라라이트",
-        "aslarite_raw": "아슬라라이트 (원석)",
-        "Astatine": "아스타틴",
-        "atlasium": "아틀라티움",
-        "atlasium_8scu": "아틀라시움 (8 SCU)",
-        "AudioVisualEquipment": "시청각 장비",
-        "beradom": "베라돔",
-        "beradom_raw": "베라돔 (원석)",
-        "beryl": "베릴",
-        "beryl_raw": "베릴 (원석)",
-        "bexalite": "벡사라이트",
-        "bexalite_raw": "벡사라이트 (원석)",
-        "biologicalsamples": "생물학 표본",
-        "bioplastic": "바이오플라스틱",
-        "bluebilva": "블루 빌바",
-        "borase": "버레즈",
-        "borase_ore": "버레즈 (광석)",
-        "boron": "보론",
-        "cadmiumallinide": "카드뮴 알리나드",
-        "carbon": "탄소",
-        "carbonsilk": "카본-실크",
-        "carinite": "카리나이트",
-        "carinite_pure": "카리나이트 (순수)",
-        "carinite_raw": "카리나이트 (원석)",
-        "chlorine": "염소",
-        "CK13GIDSeeds": "CK13-GID 종자 혼합물",
-        "Coal": "석탄",
-        "cobalt": "코발트",
-        "compboard": "컴보드",
-        "ConstructionMaterials": "건축 자재",
-        "ConstructionMaterialsChunks": "자재 파편",
-        "ConstructionMaterialsPowder": "자재 부스러기",
-        "ConstructionMaterialsScraps": "자재 조각",
-        "ConsumerGoods": "소비자 물자",
-        "copper": "구리",
-        "copper_ore": "구리 (광석)",
-        "corundum": "커런덤",
-        "corundum_raw": "커런덤 (원석)",
-        "countermeasures_decoy": "함선 디코이 대응책",
-        "countermeasures_noise": "함선 노이즈 대응책",
-        "crudeOil": "원유",
-        "DCSR2": "DCSR2",
-        "decaripod": "데카리 자루",
-        "degnousroot": "데그너스 뿌리",
-        "detatrine": "데타트린",
-        "diamond": "다이아몬드",
-        "diamond_raw": "다이아몬드 (원석)",
-        "diamondlaminate": "다이아몬드 적층판",
-        "diluthermex": "딜루더맥스",
-        "distilledSpirits": "증류주",
-        "dolivine": "돌리빈",
-        "dolivine_raw": "돌리빈 (원석)",
-        "dopple": "도플",
-        "dymantium": "다이만티움",
-        "dynaflex": "다이나플렉스",
-        "elespo": "에레스포",
-        "eriesium": "에리슘",
-        "etam": "이'템",
-        "europium": "유로퓸",
-        "evaFuel": "EVA 연료",
-        "feynmaline": "페인말린",
-        "feynmaline_raw": "페인말린 (원석)",
-        "Fireworks": "폭죽",
-        "flareweedstalk": "플레어위드 줄기",
-        "fluorine": "플루오린",
-        "fotiascrub": "포셔 꼬투리",
-        "freeze": "프리즈",
-        "freshFood": "신선 식품",
-        "GaspingWeevilEggs": "가스핑 딱정벌레 알",
-        "genmodseeds": "유전자 변형 종자",
-        "glacosite": "글라코사이트",
-        "glacosite_raw": "글라코사이트 (원석)",
-        "glow": "글로우",
-        "gold": "금",
-        "gold_ore": "금 (광석)",
-        "goldenmedmon": "골든 메드몬",
-        "hadanite": "하다나이트",
-        "hadanite_raw": "하다나이트 (원석)",
-        "heartofthewoods": "나무심장",
-        "helium": "헬륨",
-        "hephaestanite": "헤파이스탄나이트",
-        "hephaestanite_raw": "헤파이스탄나이트 (원석)",
-        "HLX99Hyperprocessors": "HLX99 하이퍼프로세서",
-        "HumanFoodBars": "휴먼 푸드 바",
-        "hydrogen": "수소",
-        "inert_materials": "불활성 물질",
-        "iodine": "아이오딘",
-        "iron": "철",
-        "iron_ore": "철 (광석)",
-        "jaclium": "자클리움",
-        "jaclium_ore": "자클리움 (광석)",
-        "jahlium": "잘륨",
-        "janalite": "자나라이트",
-        "janalite_raw": "자나라이트 (원석)",
-        "jumpinglimes": "점핑 라임",
-        "kopionhorn": "코피온 뿔",
-        "kopionhorn_cave": "동굴 코피온 뿔",
-        "kopionhorn_irradiated": "피폭된 코피온 뿔",
-        "kopionhorn_savannah": "사바나 코피온 뿔",
-        "kopionhorn_tundra": "툰드라 코피온 뿔",
-        "krypton": "크립톤",
-        "laranite": "라라나이트",
-        "laranite_raw": "라라나이트 (원석)",
-        "lastaprene": "라스타프렌",
-        "LifeCureMedSticks": "라이프큐어 메드스틱",
-        "lindinium": "린디늄",
-        "lindinium_ore": "린디늄 (광석)",
-        "lithium": "리튬",
-        "lycara": "리카라",
-        "magnesium": "마그네슘",
-        "mala": "말라",
-        "marokgem": "마록석",
-        "maze": "메이즈",
-        "medGel": "메드젤",
-        "medicalSupplies": "의약용품",
-        "medPens": "메드펜",
-        "mercury": "수은",
-        "methane": "메탄",
-        "militarySupplies": "전투 보급품",
-        "mixedMining": "혼합 채광품",
-        "mobyGlass": "모네글라쓰 개인용 컴퓨터",
-        "MoldSamples": "몰리나 곰팡이 샘플",
-        "MoldTreatment": "몰리나 곰팡이 치료제",
-        "neodymium": "네오디뮴",
-        "neograph": "네오그래프",
-        "neon": "네온",
-        "nereus": "네레우스",
-        "nitrogen": "질소",
-        "omnapoxy": "옴나폭시",
-        "organimass": "유기체",
-        "organs": "장기",
-        "OsoianHides": "오소이안 가죽",
-        "ouratite": "아우라타이트",
-        "oxygen": "산소",
-        "oxyPens": "옥시펜",
-        "oza": "오자",
-        "partillium": "파르티륨",
-        "PartyFavors": "파티 기념품",
-        "phosphorus": "인",
-        "pingala": "핑갈라 씨앗",
-        "pitambu": "피탐부",
-        "polonium": "폴로늄",
-        "potassium": "칼륨",
-        "praseodymium": "프라세오디뮴",
-        "pressurized_ice": "가압 얼음",
-        "processedFood": "가공 식품",
-        "prota": "프로타",
-        "quantainium": "퀀터늄",
-        "quantainium_raw": "퀀터늄 (원석)",
-        "quartz": "석영",
-        "quartz_raw": "석영 (원석)",
-        "quasigrazeregg": "사막 콰시 그레이저 알",
-        "quasigrazeregg_boreal": "보리얼 콰시 그레이저 알",
-        "quasigrazeregg_grassland": "초원 콰시 그레이저 알",
-        "quasigrazeregg_jungle": "정글 콰시 그레이저 알",
-        "quasigrazeregg_tundra": "툰드라 콰시 그레이저 알",
-        "quasigrazertongue": "콰시 그레이저 혀",
-        "rantadung": "란타 똥",
-        "raw_ice": "생 얼음",
-        "raw_ouratite": "아우라타이트 원석",
-        "raw_silicon": "실리콘 원료",
-        "RedfinEnergyModulator": "레드핀 에너지 모듈레이터",
-        "revenantpod": "레버넌트 꼬투리",
-        "riccite": "릭사이트",
-        "riccite_ore": "릭사이트 (광석)",
-        "RS1OdyseySpacesuits": "RS1 오디새이 스페이스슈트",
-        "rubidium": "루비듐",
-        "sadaryx": "사다릭스",
-        "sadaryx_raw": "사다릭스 (원석)",
-        "saldynium": "살디늄",
-        "saldynium_ore": "살디늄 (광석)",
-        "sarilus": "사릴루스",
-        "savrilium": "사브릴륨",
-        "savrilium_ore": "사브릴륨 (광석)",
-        "scr": "SCR",
-        "scrap": "고철",
-        "selenium": "셀레늄",
-        "shipammo_size_1": "함선 탄약 - 1 사이즈",
-        "shipammo_size_2": "함선 탄약 - 2 사이즈",
-        "shipammo_size_3": "함선 탄약 - 3 사이즈",
-        "shipammo_size_4": "함선 탄약 - 4 사이즈",
-        "shipammo_size_5": "함선 탄약 - 5 사이즈",
-        "shipammo_size_6": "함선 탄약 - 6 사이즈",
-        "shipammo_size_7": "함선 탄약 - 7 사이즈",
-        "shipammo_size_8": "함선 탄약 - 8 사이즈",
-        "shipammo_size_9": "함선 탄약 - 9 사이즈",
-        "silicon": "규소",
-        "silnex": "실넥스",
-        "slam": "SLAM",
-        "sodium": "나트륨",
-        "Souvenirs": "기념품",
-        "special_holidaybox": "루미날리아 선물",
-        "special_lunar_envelope": "말의 해 봉투",
-        "special_lunar_envelope_1_dog_a": "개의 해 봉투",
-        "special_lunar_envelope_1_monkey_a": "원숭이의 해 봉투",
-        "special_lunar_envelope_1_pig_a": "돼지의 해 봉투",
-        "special_lunar_envelope_1_ram_a": "양의 해 봉투",
-        "special_lunar_envelope_1_rat_a": "쥐의 해 봉투",
-        "special_lunar_envelope_1_rooster_a": "닭의 해 봉투",
-        "spiral": "루네스 (회오리 열매)",
-        "steel": "강철",
-        "stileron": "스틸레론",
-        "stileron_ore": "스틸레론 (광석)",
-        "stims": "스팀",
-        "stonebugshell": "돌 벌레 껍데기",
-        "sulfermoss": "유황 이끼",
-        "sunsetberry": "선셋 베리",
-        "taranite": "타라나이트",
-        "taranite_raw": "타라나이트 (원석)",
-        "tellurim": "텔루륨",
-        "thermalfoam": "써멀폼",
-        "thorium": "토륨",
-        "thrust": "쓰러스트",
-        "tin": "주석",
-        "tin_ore": "주석 (광석)",
-        "titanium": "티타늄",
-        "titanium_ore": "티타늄 (광석)",
-        "torite": "토라이트",
-        "torite_ore": "토라이트 (광석)",
-        "tritium": "삼중 수소",
-        "tungsten": "텅스텐",
-        "tungsten_ore": "텅스텐 (광석)",
-        "type_agriculturalSupply": "농업 물품",
-        "type_alloy": "합금",
-        "type_consumerGoods": "소비자 상품",
-        "type_drink": "음료",
-        "type_food": "식품",
-        "type_gas": "가스",
-        "type_HPMC": "헥사폴리메쉬 코팅",
-        "type_manmade": "공산품",
-        "type_medicalSupply": "의료 보급품",
-        "type_metal": "금속",
-        "type_militarySupply": "군사 보급품",
-        "type_Mineral": "광물",
-        "type_natural": "자연물",
-        "type_nonmetals": "비금속",
-        "type_plasmaFuel": "수소 연료",
-        "type_processedGoods": "가공품",
-        "type_quantumFuel": "퀀텀 연료",
-        "type_RMC": "재활용 소재 복합체",
-        "type_scrap": "고철",
-        "type_vice": "범죄 물품",
-        "type_waste": "쓰레기",
-        "uncutslam": "가공되지 않은 SLAM",
-        "uranium": "우라늄",
-        "valakkaregg_irradiated": "피폭된 발라카 알",
-        "valakkarfang_adult": "발라카 송곳니 (성체)",
-        "valakkarfang_adult_irradiated": "피폭된 발라카 송곳니 (성체)",
-        "valakkarfang_apex_irradiated": "피폭된 발라카 송곳니 (포식자)",
-        "valakkarfang_juvenile": "발라카 송곳니 (유생체)",
-        "valakkarfang_juvenile_irradiated": "피폭된 발라카 송곳니 (유생체)",
-        "valakkarhide_irradiated": "피폭된 발라카 가죽",
-        "valakkarpearl_apex_irradiated": "피폭된 발라카 진주",
-        "valakkarpearl_apex_irradiated_tier1": "피폭된 발라카 진주 (AAA 등급)",
-        "valakkarpearl_apex_irradiated_tier2": "피폭된 발라카 진주 (AA 등급)",
-        "valakkarpearl_apex_irradiated_tier3": "피폭된 발라카 진주 (A 등급)",
-        "valakkarpearl_apex_irradiated_tier4": "피폭된 발라카 진주 (B 등급)",
-        "valakkarpearl_apex_irradiated_tier5": "피폭된 발라카 진주 (C 등급)",
-        "VentFilters": "몰리나 환기 필터",
-        "ventslug": "환기구 민달팽이",
-        "viruscultures": "바이러스 배양균",
-        "waste": "쓰레기",
-        "waste_rock": "암석",
-        "widow": "위도우",
-        "wuotanseed": "우오탄 씨앗",
-        "xapyen": "샤'폔",
-        "xenon": "제논",
-        "yormandi_eye": "요르만디 눈",
-        "yormandi_tongue": "요르만디 혀",
-        "zetaprolanide": "제타-프롤라나이드",
-        "zip": "Zip"
-    };
+    const UEX_COMMODITY_TRANSLATIONS = {};
+    const localizationLookupCache = new Map();
     let commodityTranslationLookup = null;
     const RECOMMENDED_COMMODITY_CANDIDATES = [
         'Gold',
@@ -768,7 +479,12 @@
     }
 
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
-        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd), ...tags].join(' ').toLowerCase();
+        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd), ...tags, ...getShipAliases(ship)].join(' ').toLowerCase();
+    }
+
+    function getShipAliases(ship) {
+        const aliases = getLocalizationValue(ship.name, 'ships');
+        return Array.isArray(aliases) ? aliases : [];
     }
 
     function formatShipPrice(priceUsd) {
@@ -915,6 +631,17 @@
         renderLogisticsShipOptions();
         renderTradePresets();
         renderRecommendedTradeShips();
+        renderTradeGlossary();
+    }
+
+    function renderTradeGlossary() {
+        const container = document.getElementById('guide-glossary');
+        const glossary = localization.glossary || {};
+        if (!container) return;
+        const entries = Object.entries(glossary).slice(0, 20);
+        container.innerHTML = entries.length
+            ? entries.map(([term, label]) => `<div class="guide-glossary-item"><strong>${escapeHtml(term)}</strong><span>${escapeHtml(label)}</span></div>`).join('')
+            : '<div class="guide-glossary-empty">등록된 용어가 없습니다.</div>';
     }
 
     function renderTradePresets() {
@@ -1560,7 +1287,15 @@
 
     function getCommodityKoreanName(name) {
         if (!name) return '';
+        const localized = getLocalizationValue(name, 'commodities');
+        if (localized?.ko) return localized.ko;
+        if (typeof localized === 'string') return localized;
         return getCommodityTranslationLookup().get(normalizeCommodityKey(name)) || '';
+    }
+
+    function getCommodityDescription(name) {
+        const localized = getLocalizationValue(name, 'commodities');
+        return localized && typeof localized === 'object' ? localized.desc || '' : '';
     }
 
     function getCommodityTranslationLookup() {
@@ -1574,6 +1309,33 @@
 
     function normalizeCommodityKey(value) {
         return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function getLocalizationValue(rawName, category) {
+        if (!rawName || !localization[category]) return '';
+        return getLocalizationLookup(category).get(normalizeLocalizationKey(rawName)) || '';
+    }
+
+    function getLocalizationLookup(category) {
+        if (localizationLookupCache.has(category)) return localizationLookupCache.get(category);
+        const lookup = new Map();
+        Object.entries(localization[category] || {}).forEach(([key, value]) => {
+            lookup.set(normalizeLocalizationKey(key), value);
+        });
+        localizationLookupCache.set(category, lookup);
+        return lookup;
+    }
+
+    function normalizeLocalizationKey(value) {
+        return String(value || '').toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+    }
+
+    function formatLocalizedName(rawName, category) {
+        if (!rawName) return '';
+        const localized = getLocalizationValue(rawName, category);
+        if (!localized) return rawName;
+        const korean = typeof localized === 'string' ? localized : localized.ko;
+        return korean ? `${rawName} / ${korean}` : rawName;
     }
 
     function formatCommodityLabel(name) {
@@ -1882,11 +1644,13 @@
 
     function renderRecommendedCommodityCard(model) {
         const projectedScu = model.usableScu;
+        const description = getCommodityDescription(model.commodityName);
         return `<article class="uex-recommend-card">
             <div>
                 <strong>${escapeHtml(model.commodityLabel)}</strong>
                 <span class="uex-recommend-grade">${escapeHtml(model.grade)}</span>
             </div>
+            ${description ? `<p class="uex-recommend-desc">${escapeHtml(description)}</p>` : ''}
             <dl>
                 <div><dt>SCU당 예상 수익</dt><dd>${escapeHtml(formatCredits(model.profitPerScu))}</dd></div>
                 <div><dt>${escapeHtml(String(projectedScu))} SCU 기준 예상 수익</dt><dd>${escapeHtml(formatCredits(model.estimatedProfit))}</dd></div>
@@ -1900,7 +1664,15 @@
 
     function formatUexLocation(row) {
         if (!row) return '미선택';
-        return [row.terminal_name, row.city_name, row.planet_name].filter(Boolean).join(' · ');
+        return [
+            formatLocalizedName(row.terminal_name, 'terminals'),
+            formatLocalizedName(row.outpost_name, 'locations'),
+            formatLocalizedName(row.space_station_name, 'locations'),
+            formatLocalizedName(row.station_name, 'locations'),
+            formatLocalizedName(row.city_name, 'locations'),
+            formatLocalizedName(row.moon_name, 'locations'),
+            formatLocalizedName(row.planet_name, 'locations')
+        ].filter(Boolean).filter((item, index, list) => list.indexOf(item) === index).join(' · ');
     }
 
     function formatCredits(value) {
@@ -2653,7 +2425,7 @@
     function buildSearchIndex() {
         return [
             ...data.announcements.map((item) => makeSearchItem('공지', 'notices', item.title, item.content)),
-            ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description}`, item.id)),
+            ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description}`, item.id, getShipAliases(item).join(' '))),
             ...data.faq.map((item) => makeSearchItem('FAQ', 'faq', item.q, item.a)),
             ...data.timeline.map((item) => makeSearchItem('연혁', 'timeline', item.title, item.description)),
             ...data.leadership.map((item) => makeSearchItem('임원진', 'leadership', item.name, `${item.role} ${item.description}`)),
@@ -2663,12 +2435,24 @@
             ...data.tradeGuide.map((item) => makeSearchItem('가이드', 'guide', item.title, item.content)),
             ...data.joinSteps.map((item) => makeSearchItem('가입', 'join', item.title, item.description)),
             ...data.gallery.map((item) => makeSearchItem('갤러리', 'gallery', item.title, item.description)),
-            ...data.policy.sections.map((item) => makeSearchItem('정책', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' ')))
+            ...data.policy.sections.map((item) => makeSearchItem('정책', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' '))),
+            ...buildLocalizationSearchItems()
         ];
     }
 
-    function makeSearchItem(type, section, title, body, itemId = '') {
-        return { type, section, title, body, itemId, haystack: `${title} ${body}`.toLowerCase() };
+    function buildLocalizationSearchItems() {
+        const commodityItems = Object.entries(localization.commodities || {}).map(([name, value]) => {
+            const korean = typeof value === 'string' ? value : value.ko || '';
+            const desc = typeof value === 'object' ? value.desc || '' : '';
+            return makeSearchItem('무역품', 'trade-planner', name, `${korean} ${desc}`);
+        });
+        const glossaryItems = Object.entries(localization.glossary || {}).map(([term, label]) => makeSearchItem('용어', 'guide', term, label));
+        const locationItems = Object.entries(localization.locations || {}).map(([name, label]) => makeSearchItem('위치', 'trade-planner', name, label));
+        return [...commodityItems, ...glossaryItems, ...locationItems];
+    }
+
+    function makeSearchItem(type, section, title, body, itemId = '', extra = '') {
+        return { type, section, title, body, itemId, haystack: `${title} ${body} ${extra}`.toLowerCase() };
     }
 
     function renderSearchResults(query) {
