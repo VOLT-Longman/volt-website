@@ -225,6 +225,7 @@ function renderShipField(field, item) {
   const base = item.base || {};
   const value = field === 'tags' ? normalizeTags(override.tags).join(', ') : override[field] ?? '';
   const placeholder = field === 'tags' ? normalizeTags(base.tags).join(', ') : base[field] ?? '';
+  if (field === 'tags') return renderShipTagSelector(item);
   if (field === 'description') return `<label>${LABELS[field]}<textarea name="${field}" placeholder="${escapeHtml(placeholder)}">${escapeHtml(value)}</textarea></label>`;
   if (field === 'implemented' || field === 'plannerEligible') return renderShipTriState(field, value);
   return `<label>${LABELS[field]}<input name="${field}" value="${escapeHtml(value)}" placeholder="${escapeHtml(placeholder)}"></label>`;
@@ -232,6 +233,31 @@ function renderShipField(field, item) {
 
 function renderShipTriState(field, value) {
   return `<label>${LABELS[field]}<select name="${field}"><option value="" ${value === '' || value === null || value === undefined ? 'selected' : ''}>원본 유지</option><option value="true" ${value === true ? 'selected' : ''}>true</option><option value="false" ${value === false ? 'selected' : ''}>false</option></select></label>`;
+}
+
+function renderShipTagSelector(item) {
+  const selectedTags = getSelectedShipTags(item);
+  const options = getShipTagOptions(selectedTags);
+  const checkboxes = options.map((tag) => renderShipTagOption(tag, selectedTags)).join('');
+  return `<fieldset class="ship-tag-selector"><legend>${LABELS.tags}</legend><p>기존 함선DB 태그 중에서 선택합니다. 새 태그가 필요하면 먼저 데이터 기준을 정리해 주세요.</p><div class="ship-tag-options">${checkboxes}</div></fieldset>`;
+}
+
+function renderShipTagOption(tag, selectedTags) {
+  const checked = selectedTags.includes(tag) ? 'checked' : '';
+  return `<label class="ship-tag-option"><input type="checkbox" name="tags" value="${escapeHtml(tag)}" ${checked}> <span>${escapeHtml(tag)}</span></label>`;
+}
+
+function getSelectedShipTags(item) {
+  const overrideTags = normalizeTags(item?.override?.tags);
+  if (item?.override && Array.isArray(item.override.tags)) return overrideTags;
+  return overrideTags.length ? overrideTags : normalizeTags(item?.base?.tags);
+}
+
+function getShipTagOptions(extraTags = []) {
+  const tags = new Set(extraTags.filter(Boolean));
+  (window.VOLT_DATA?.ships || []).forEach((ship) => normalizeTags(ship.tags).forEach((tag) => tags.add(tag)));
+  state.shipOverrides.forEach((override) => normalizeTags(override.tags).forEach((tag) => tags.add(tag)));
+  return [...tags].sort((left, right) => left.localeCompare(right, 'ko'));
 }
 
 function getFormPayload() {
@@ -257,11 +283,14 @@ function getShipPayload() {
   const form = $('#cms-form');
   const payload = {};
   SHIP_EDIT_FIELDS.forEach((field) => {
+    if (field === 'tags') {
+      payload[field] = [...form.querySelectorAll('input[name="tags"]:checked')].map((input) => input.value);
+      return;
+    }
     const input = form.elements[field];
     if (!input) return;
     const value = input.value.trim();
-    if (field === 'tags') payload[field] = value ? value.split(',').map((tag) => tag.trim()).filter(Boolean) : null;
-    else if (field === 'priceUsd') payload[field] = value ? Number(value) : null;
+    if (field === 'priceUsd') payload[field] = value ? Number(value) : null;
     else if (field === 'implemented' || field === 'plannerEligible') payload[field] = value === '' ? null : value === 'true';
     else payload[field] = value || null;
   });
