@@ -24,7 +24,7 @@
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const UEX_API_BASE_URL = 'https://api.uexcorp.space/2.0';
     const UEX_CACHE_TTL_MS = { commodities: 60 * 60 * 1000, prices: 30 * 60 * 1000 };
-    const shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
+    let shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     const shipCompareState = new Set();
     const uexCache = new Map();
     let currentUexModel = null;
@@ -681,7 +681,7 @@
         const container = document.getElementById('notices-list');
         const loadMore = document.getElementById('notice-load-more');
         if (!container || !loadMore) return;
-        const colors = { '공지': 'var(--volt-orange)', '정책': '#e53e3e', '작전': '#3182ce', '시스템': '#38a169' };
+        const colors = { '공지': 'var(--volt-orange)', '중요': '#e53e3e', '업데이트': '#3182ce', '이벤트': '#805ad5', '작전': '#38a169', '시스템': '#319795', '모집': '#d69e2e', '정책': '#e53e3e' };
         const items = getFilteredAnnouncements();
         const visibleItems = items.slice(0, noticeState.visibleCount);
         container.innerHTML = visibleItems.map((announcement) => `
@@ -852,7 +852,7 @@
     function renderSchedule() {
         const container = document.getElementById('schedule-list');
         if (!container || !Array.isArray(data.calendar)) return;
-        const colors = { '예정': 'var(--volt-orange)', '대기': '#a0aec0', '계획': '#63b3ed' };
+        const colors = { '예정': 'var(--volt-orange)', '진행중': '#38a169', '완료': '#718096', '취소': '#e53e3e', '연기': '#d69e2e', '대기': '#a0aec0', '계획': '#63b3ed' };
         container.innerHTML = data.calendar.map((event) => `
             <div class="schedule-item reveal">
                 <div class="schedule-date-col">
@@ -1090,14 +1090,16 @@
 
 
     async function loadCmsContent() {
-        const [notices, events, gallery] = await Promise.all([
+        const [notices, events, gallery, shipOverrides] = await Promise.all([
             fetchCmsCollection('/api/notices'),
             fetchCmsCollection('/api/events'),
-            fetchCmsCollection('/api/gallery')
+            fetchCmsCollection('/api/gallery'),
+            fetchCmsCollection('/api/ship-overrides')
         ]);
         if (Array.isArray(notices)) data.announcements = notices;
         if (Array.isArray(events)) data.calendar = events;
         if (Array.isArray(gallery)) data.gallery = gallery;
+        if (Array.isArray(shipOverrides)) applyShipOverrides(shipOverrides);
     }
 
     async function fetchCmsCollection(url) {
@@ -1110,6 +1112,29 @@
             console.warn(`CMS API fallback: ${url}`, error);
             return null;
         }
+    }
+
+
+    function applyShipOverrides(overrides) {
+        if (!Array.isArray(overrides) || !Array.isArray(data.ships)) return;
+        const overrideById = new Map(overrides.map((item) => [item.shipId || item.id, item]));
+        data.ships = data.ships.map((ship) => mergeShipOverride(ship, overrideById.get(ship.id)));
+        rebuildShipIndex();
+    }
+
+    function mergeShipOverride(ship, override) {
+        if (!override) return ship;
+        const merged = { ...ship };
+        Object.entries(override).forEach(([key, value]) => {
+            if (['id', 'shipId', 'updatedAt'].includes(key)) return;
+            if (value === null || value === undefined || value === '') return;
+            merged[key] = key === 'tags' && !Array.isArray(value) ? getShipTags({ tags: value }) : value;
+        });
+        return merged;
+    }
+
+    function rebuildShipIndex() {
+        shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     }
 
     function renderAll() {

@@ -59,3 +59,71 @@ export function galleryInput(body, existing = {}) {
     updated_at: timestamp
   };
 }
+
+
+export function mapShipOverride(row) {
+  return {
+    id: row.ship_id,
+    shipId: row.ship_id,
+    name: row.name,
+    manufacturer: row.manufacturer,
+    role: row.role,
+    focus: row.focus,
+    size: row.size,
+    crew: row.crew,
+    cargo: row.cargo,
+    priceUsd: row.price_usd === null || row.price_usd === undefined ? null : Number(row.price_usd),
+    implemented: row.implemented === null || row.implemented === undefined ? null : Boolean(row.implemented),
+    plannerEligible: row.planner_eligible === null || row.planner_eligible === undefined ? null : Boolean(row.planner_eligible),
+    tags: parseTags(row.tags),
+    description: row.description,
+    updatedAt: row.updated_at
+  };
+}
+
+export function shipOverrideInput(shipId, body) {
+  return {
+    ship_id: sanitizeText(shipId),
+    name: nullableText(body.name),
+    manufacturer: nullableText(body.manufacturer),
+    role: nullableText(body.role),
+    focus: nullableText(body.focus),
+    size: nullableText(body.size),
+    crew: nullableText(body.crew),
+    cargo: nullableText(body.cargo),
+    price_usd: nullableNumber(body.priceUsd ?? body.price_usd),
+    implemented: nullableBooleanInt(body.implemented),
+    planner_eligible: nullableBooleanInt(body.plannerEligible ?? body.planner_eligible),
+    tags: body.tags === null || body.tags === undefined ? null : JSON.stringify(Array.isArray(body.tags) ? body.tags : parseTags(body.tags)),
+    description: nullableText(body.description),
+    updated_at: nowIso()
+  };
+}
+
+function nullableText(value) {
+  const text = sanitizeText(value);
+  return text ? text : null;
+}
+
+function nullableNumber(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const number = Number(value);
+  if (!Number.isFinite(number)) throw new Error('Invalid number');
+  return number;
+}
+
+function nullableBooleanInt(value) {
+  if (value === null || value === undefined || value === '') return null;
+  return value === true || value === 1 || value === '1' || value === 'true' ? 1 : 0;
+}
+
+function parseTags(value) {
+  if (Array.isArray(value)) return value;
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (_error) {
+    return String(value).split(',').map((tag) => tag.trim()).filter(Boolean);
+  }
+}
