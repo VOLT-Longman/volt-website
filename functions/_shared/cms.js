@@ -1,4 +1,4 @@
-import { createId, nowIso, sanitizeText, toBooleanInt } from './http.js';
+﻿import { createId, nowIso, sanitizeText, toBooleanInt } from './http.js';
 
 export function mapNotice(row) {
   return { id: row.id, title: row.title, content: row.content, tag: row.tag || '공지', pinned: Boolean(row.pinned), published: Boolean(row.published), date: row.date || row.created_at || '' };
@@ -40,7 +40,7 @@ export function eventInput(body, existing = {}) {
 }
 
 export function mapGallery(row) {
-  return { id: row.id, title: row.title, description: row.description || '', category: row.category || '활동', src: row.image_url, thumb: row.thumb_url || row.image_url, date: row.date || '', sortOrder: Number(row.sort_order || 0), published: Boolean(row.published) };
+  return { id: row.id, title: row.title, description: row.description || '', category: row.category || '기타', src: row.image_url, thumb: row.thumb_url || row.image_url, date: row.date || '', sortOrder: Number(row.sort_order || 0), published: Boolean(row.published) };
 }
 
 export function galleryInput(body, existing = {}) {
@@ -49,7 +49,7 @@ export function galleryInput(body, existing = {}) {
     id: existing.id || sanitizeText(body.id) || createId('gallery'),
     title: sanitizeText(body.title),
     description: sanitizeText(body.description),
-    category: sanitizeText(body.category, '활동'),
+    category: sanitizeText(body.category, '기타'),
     image_url: sanitizeText(body.imageUrl || body.image_url || body.src),
     thumb_url: sanitizeText(body.thumbUrl || body.thumb_url || body.thumb || body.imageUrl || body.image_url || body.src),
     date: sanitizeText(body.date, timestamp.slice(0, 10)),
@@ -127,3 +127,4 @@ function parseTags(value) {
     return String(value).split(',').map((tag) => tag.trim()).filter(Boolean);
   }
 }
+

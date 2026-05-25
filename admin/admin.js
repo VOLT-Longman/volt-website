@@ -1,4 +1,4 @@
-const state = {
+﻿const state = {
   tab: 'notices',
   items: [],
   editing: null,
@@ -210,7 +210,7 @@ function renderCheckbox(field, item) {
 function renderGalleryUpload(item) {
   if (!state.galleryImageUrls.length && item) state.galleryImageUrls = [item.src || item.imageUrl || ''].filter(Boolean);
   const previews = state.galleryImageUrls.length ? state.galleryImageUrls.map((url) => `<img src="${escapeHtml(url)}" alt="갤러리 이미지 미리보기">`).join('') : '<div class="image-placeholder">이미지 없음</div>';
-  const fileNames = state.galleryFiles.length ? state.galleryFiles.map((file) => escapeHtml(file.name)).join(', ') : '선택된 파일 없음';
+  const fileNames = state.galleryFiles.length ? state.galleryFiles.map((file) => escapeHtml(file.name)).join(', ') : '선택한 파일 없음';
   return `<section class="gallery-upload-panel"><h3>이미지 업로드</h3><p>JPG, PNG, WEBP · 권장 비율 16:9 · 권장 해상도 1920×1080 이상 · 파일당 10MB 이하 권장</p><div class="gallery-preview" id="gallery-preview">${previews}</div><label>이미지 선택<input id="upload-file" type="file" accept="image/jpeg,image/png,image/webp" multiple></label><div class="upload-actions"><span id="upload-file-name">${fileNames}</span></div><div class="upload-progress" id="upload-progress" aria-live="polite"></div></section>`;
 }
 
@@ -299,7 +299,7 @@ function getShipPayload() {
 
 function validatePayload(payload) {
   if (state.tab === 'gallery' && !payload.title) throw new Error('갤러리 제목은 필수입니다.');
-  if (state.tab === 'gallery' && !payload.imageUrl) throw new Error('갤러리 이미지를 업로드하거나 기존 이미지를 유지해야 합니다.');
+  if (state.tab === 'gallery' && !payload.imageUrl) throw new Error('갤러리 이미지를 업로드하거나 기존 이미지를 선택해야 합니다.');
   if (state.tab === 'ships' && payload.priceUsd !== null && !Number.isFinite(payload.priceUsd)) throw new Error('가격은 숫자만 입력할 수 있습니다.');
 }
 
@@ -390,7 +390,12 @@ function validateImageFile(file) {
 function normalizeTags(tags) {
   if (Array.isArray(tags)) return tags;
   if (typeof tags === 'string') {
-    try { const parsed = JSON.parse(tags); return Array.isArray(parsed) ? parsed : []; } catch (_error) { return tags.split(',').map((tag) => tag.trim()).filter(Boolean); }
+    try {
+      const parsed = JSON.parse(tags);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (_error) {
+      return tags.split(',').map((tag) => tag.trim()).filter(Boolean);
+    }
   }
   return [];
 }
@@ -438,7 +443,7 @@ function handleDocumentChange(event) {
   state.galleryFiles = Array.from(event.target.files || []);
   state.galleryImageUrls = [];
   const name = $('#upload-file-name');
-  if (name) name.textContent = state.galleryFiles.length ? state.galleryFiles.map((file) => file.name).join(', ') : '선택된 파일 없음';
+  if (name) name.textContent = state.galleryFiles.length ? state.galleryFiles.map((file) => file.name).join(', ') : '선택한 파일 없음';
   renderLocalPreviews(state.galleryFiles);
 }
 
