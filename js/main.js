@@ -16,6 +16,8 @@
         return;
     }
 
+    const localization = window.VOLT_LOCALIZATION || {};
+
     const PAGE_SIZE = 4;
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
@@ -441,6 +443,7 @@
         "zetaprolanide": "제타-프롤라나이드",
         "zip": "Zip"
     };
+    const localizationLookupCache = new Map();
     let commodityTranslationLookup = null;
     const RECOMMENDED_COMMODITY_CANDIDATES = [
         'Gold',
@@ -768,7 +771,12 @@
     }
 
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
-        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd), ...tags].join(' ').toLowerCase();
+        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd), ...tags, ...getShipAliases(ship)].join(' ').toLowerCase();
+    }
+
+    function getShipAliases(ship) {
+        const aliases = getLocalizationValue(ship.name, 'ships');
+        return Array.isArray(aliases) ? aliases : [];
     }
 
     function formatShipPrice(priceUsd) {
@@ -915,6 +923,17 @@
         renderLogisticsShipOptions();
         renderTradePresets();
         renderRecommendedTradeShips();
+        renderTradeGlossary();
+    }
+
+    function renderTradeGlossary() {
+        const container = document.getElementById('guide-glossary');
+        const glossary = localization.glossary || {};
+        if (!container) return;
+        const entries = Object.entries(glossary).slice(0, 20);
+        container.innerHTML = entries.length
+            ? entries.map(([term, label]) => `<div class="guide-glossary-item"><strong>${escapeHtml(term)}</strong><span>${escapeHtml(label)}</span></div>`).join('')
+            : '<div class="guide-glossary-empty">등록된 용어가 없습니다.</div>';
     }
 
     function renderTradePresets() {
@@ -1609,7 +1628,15 @@
 
     function getCommodityKoreanName(name) {
         if (!name) return '';
+        const localized = getLocalizationValue(name, 'commodities');
+        if (localized?.ko) return localized.ko;
+        if (typeof localized === 'string') return localized;
         return getCommodityTranslationLookup().get(normalizeCommodityKey(name)) || '';
+    }
+
+    function getCommodityDescription(name) {
+        const localized = getLocalizationValue(name, 'commodities');
+        return localized && typeof localized === 'object' ? localized.desc || '' : '';
     }
 
     function getCommodityTranslationLookup() {
@@ -1623,6 +1650,34 @@
 
     function normalizeCommodityKey(value) {
         return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+
+    function getLocalizationValue(rawName, category) {
+        if (!rawName || !localization[category]) return '';
+        return getLocalizationLookup(category).get(normalizeLocalizationKey(rawName)) || '';
+    }
+
+    function getLocalizationLookup(category) {
+        if (localizationLookupCache.has(category)) return localizationLookupCache.get(category);
+        const lookup = new Map();
+        Object.entries(localization[category] || {}).forEach(([key, value]) => {
+            lookup.set(normalizeLocalizationKey(key), value);
+        });
+        localizationLookupCache.set(category, lookup);
+        return lookup;
+    }
+
+    function normalizeLocalizationKey(value) {
+        return String(value || '').toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+    }
+
+    function formatLocalizedName(rawName, category) {
+        if (!rawName) return '';
+        const localized = getLocalizationValue(rawName, category);
+        if (!localized) return rawName;
+        const korean = typeof localized === 'string' ? localized : localized.ko;
+        return korean ? `${rawName} / ${korean}` : rawName;
     }
 
     function formatCommodityLabel(name) {
@@ -1949,7 +2004,14 @@
 
     function formatUexLocation(row) {
         if (!row) return '미선택';
-        return [row.terminal_name, row.city_name, row.planet_name].filter(Boolean).join(' · ');
+        return [
+            formatLocalizedName(row.terminal_name, 'terminals'),
+            formatLocalizedName(row.city_name, 'locations'),
+            formatLocalizedName(row.outpost_name, 'locations'),
+            formatLocalizedName(row.space_station_name, 'locations'),
+            formatLocalizedName(row.moon_name, 'locations'),
+            formatLocalizedName(row.planet_name, 'locations')
+        ].filter(Boolean).join(' · ');
     }
 
     function formatCredits(value) {
@@ -2533,15 +2595,17 @@
     }
 
     function openGalleryLightbox(item) {
-        openModal(`<div class="modal-header">
-                <div>
+        openModal(`<div class="modal-header gallery-modal-header">
+                <div class="gallery-modal-heading">
                     <div class="ship-mfr">${escapeHtml(item.date)}</div>
-                    <h2 class="modal-title">${escapeHtml(item.title)}</h2>
+                    <h2 class="modal-title gallery-modal-title">${escapeHtml(item.title)}</h2>
                 </div>
                 <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
             </div>
-            <img class="gallery-lightbox-image" src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
-            <div class="gallery-lightbox-copy"><p>${escapeHtml(item.description)}</p></div>`, true);
+            <div class="gallery-modal-image-wrap">
+                <img class="gallery-lightbox-image gallery-modal-image" src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
+            </div>
+            <div class="gallery-lightbox-copy gallery-modal-description"><p>${escapeHtml(item.description)}</p></div>`, true);
     }
 
     function setupModalControls() {
@@ -2702,7 +2766,7 @@
     function buildSearchIndex() {
         return [
             ...data.announcements.map((item) => makeSearchItem('공지', 'notices', item.title, item.content)),
-            ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description}`, item.id)),
+            ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description} ${getShipAliases(item).join(' ')}`, item.id)),
             ...data.faq.map((item) => makeSearchItem('FAQ', 'faq', item.q, item.a)),
             ...data.timeline.map((item) => makeSearchItem('연혁', 'timeline', item.title, item.description)),
             ...data.leadership.map((item) => makeSearchItem('임원진', 'leadership', item.name, `${item.role} ${item.description}`)),
@@ -2712,8 +2776,20 @@
             ...data.tradeGuide.map((item) => makeSearchItem('가이드', 'guide', item.title, item.content)),
             ...data.joinSteps.map((item) => makeSearchItem('가입', 'join', item.title, item.description)),
             ...data.gallery.map((item) => makeSearchItem('갤러리', 'gallery', item.title, item.description)),
-            ...data.policy.sections.map((item) => makeSearchItem('정책', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' ')))
+            ...data.policy.sections.map((item) => makeSearchItem('정책', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' '))),
+            ...getLocalizationSearchItems()
         ];
+    }
+
+    function getLocalizationSearchItems() {
+        const commodities = Object.entries(localization.commodities || {}).map(([name, value]) => {
+            const label = typeof value === 'string' ? value : [value.ko, value.desc].filter(Boolean).join(' ');
+            return makeSearchItem('무역품', 'trade-planner', name, label);
+        });
+        const locations = Object.entries(localization.locations || {}).map(([name, value]) => makeSearchItem('위치', 'trade-planner', name, String(value)));
+        const terminals = Object.entries(localization.terminals || {}).map(([name, value]) => makeSearchItem('터미널', 'trade-planner', name, String(value)));
+        const glossary = Object.entries(localization.glossary || {}).map(([term, label]) => makeSearchItem('용어', 'guide', term, String(label)));
+        return [...commodities, ...locations, ...terminals, ...glossary];
     }
 
     function makeSearchItem(type, section, title, body, itemId = '') {
