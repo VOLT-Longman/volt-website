@@ -1,6 +1,6 @@
-import { requireAdmin } from '../../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../../_shared/http.js';
-import { mapGallery, galleryInput } from '../../../../_shared/cms.js';
+﻿import { requireAdmin } from '../../../_shared/auth.js';
+import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { mapGallery, galleryInput } from '../../../_shared/cms.js';
 
 export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
@@ -24,3 +24,4 @@ async function deleteItem(env, id) {
   await requireDb(env).prepare('DELETE FROM gallery_items WHERE id = ?').bind(id).run();
   return json({ ok: true });
 }
+
