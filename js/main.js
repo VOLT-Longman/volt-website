@@ -20,8 +20,10 @@
 
     const PAGE_SIZE = 4;
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
+    const PLANNER_STORAGE_KEY = 'volt-planner-state';
+    const HANGAR_KEY = 'volt-hangar';
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
-    const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '' };
+    const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const UEX_API_BASE_URL = 'https://api.uexcorp.space/2.0';
@@ -514,6 +516,70 @@
         return Number(String(value).replace(/[^\d]/g, '')) || 0;
     }
 
+    function getHangar() {
+        try {
+            const parsed = JSON.parse(localStorage.getItem(HANGAR_KEY) || '[]');
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+            console.warn('Invalid hangar state', error);
+            localStorage.removeItem(HANGAR_KEY);
+            return [];
+        }
+    }
+
+    function setHangar(hangar) {
+        localStorage.setItem(HANGAR_KEY, JSON.stringify([...new Set(hangar)]));
+    }
+
+    function toggleHangar(shipId) {
+        const hangar = getHangar();
+        const index = hangar.indexOf(shipId);
+        if (index === -1) hangar.push(shipId);
+        else hangar.splice(index, 1);
+        setHangar(hangar);
+        return hangar.includes(shipId);
+    }
+
+    function isInHangar(shipId) {
+        return getHangar().includes(shipId);
+    }
+
+    function savePlannerState() {
+        const state = {
+            shipId: document.getElementById('logistics-ship')?.value || '',
+            shipSearch: document.getElementById('logistics-ship-search')?.value || '',
+            cargo: document.getElementById('logistics-cargo')?.value || '',
+            opType: document.getElementById('trade-operation-type')?.value || '',
+            crew: document.getElementById('logistics-crew')?.value || '',
+            risk: document.getElementById('trade-risk')?.value || '',
+            travelTime: document.getElementById('planner-travel-time')?.value || ''
+        };
+        localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function restorePlannerState() {
+        try {
+            const raw = localStorage.getItem(PLANNER_STORAGE_KEY);
+            if (!raw) return;
+            const state = JSON.parse(raw);
+            const set = (id, value) => {
+                const element = document.getElementById(id);
+                if (element && value !== undefined) element.value = value;
+            };
+            set('logistics-ship', state.shipId);
+            set('logistics-ship-search', state.shipSearch);
+            set('logistics-cargo', state.cargo);
+            set('trade-operation-type', state.opType);
+            set('logistics-crew', state.crew);
+            set('trade-risk', state.risk);
+            set('planner-travel-time', state.travelTime);
+            syncPlannerSelectedShip(state.shipId);
+        } catch (error) {
+            console.warn('Invalid planner state', error);
+            localStorage.removeItem(PLANNER_STORAGE_KEY);
+        }
+    }
+
     function observeNewReveals(container) {
         if (!revealObserver || !container) return;
         container.querySelectorAll('.reveal:not(.revealed)').forEach((element) => revealObserver.observe(element));
@@ -735,6 +801,7 @@
         if (field === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew);
         if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
         if (field === 'price') return getPriceValue(left.priceUsd) - getPriceValue(right.priceUsd);
+        if (field === 'efficiency') return (calcCargoEfficiency(left) ?? -1) - (calcCargoEfficiency(right) ?? -1);
         return compareText(left.name, right.name);
     }
 
@@ -772,14 +839,22 @@
 
     function getVisibleShips() {
         const query = shipState.query.trim().toLowerCase();
-        return getSortedShips().filter((ship) => {
+        let ships = getSortedShips().filter((ship) => {
             const tags = getShipTags(ship);
             const matchesFilter = shipState.filter === 'all' || ship.focus === shipState.filter || tags.includes(shipState.filter);
             const matchesManufacturer = shipState.manufacturer === 'all' || ship.manufacturer === shipState.manufacturer;
-            const matchesReleaseState = !shipState.hideUnreleased || !tags.includes('미구현');
+            const matchesReleaseState = !shipState.hideUnreleased || !tags.includes('\ubbf8\uad6c\ud604');
             const haystack = buildShipSearchText(ship, tags);
             return matchesFilter && matchesManufacturer && matchesReleaseState && (!query || haystack.includes(query));
         });
+        if (shipState.cargoMin > 0) {
+            ships = ships.filter((ship) => getCargoValue(ship.cargo) >= shipState.cargoMin);
+        }
+        if (shipState.hangarOnly) {
+            const hangar = getHangar();
+            ships = ships.filter((ship) => hangar.includes(ship.id));
+        }
+        return ships;
     }
 
     function getShipTags(ship) {
@@ -803,6 +878,18 @@
         return Number.isFinite(priceUsd) ? priceUsd : Number.MAX_SAFE_INTEGER;
     }
 
+    function calcCargoEfficiency(ship) {
+        const scu = getCargoValue(ship?.cargo);
+        const usd = Number(ship?.priceUsd) || 0;
+        if (usd === 0 || scu === 0) return null;
+        return (scu / usd) * 1000;
+    }
+
+    function formatCargoEfficiency(ship) {
+        const efficiency = calcCargoEfficiency(ship);
+        return efficiency !== null ? `${efficiency.toFixed(2)} SCU/k$` : '\u2014';
+    }
+
     function renderShips() {
         const container = document.getElementById('ships-grid');
         if (!container) return;
@@ -819,14 +906,11 @@
                         <h3 class="ship-name">${escapeHtml(ship.name)}</h3>
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
-                    <span class="ship-focus-badge" style="background:${FOCUS_COLORS[ship.focus] || '#a0aec0'}22;color:${FOCUS_COLORS[ship.focus] || '#a0aec0'};">${escapeHtml(ship.focus)}</span>
+                    <div class="ship-card-actions"><span class="ship-focus-badge" style="background:${FOCUS_COLORS[ship.focus] || '#a0aec0'}22;color:${FOCUS_COLORS[ship.focus] || '#a0aec0'};">${escapeHtml(ship.focus)}</span>${renderHangarToggleButton(ship)}</div>
                 </div>
                 <p class="ship-desc">${escapeHtml(ship.description)}</p>
                 <div class="ship-stats">
-                    <div class="ship-stat"><span class="ship-stat-label">역할</span><span class="ship-stat-value">${escapeHtml(ship.role)}</span></div>
-                    <div class="ship-stat"><span class="ship-stat-label">크기</span><span class="ship-stat-value">${escapeHtml(ship.size)}</span></div>
-                    <div class="ship-stat"><span class="ship-stat-label">승무원</span><span class="ship-stat-value">${escapeHtml(ship.crew)}</span></div>
-                    <div class="ship-stat"><span class="ship-stat-label">화물</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
+                    <div class="ship-stat"><span class="ship-stat-label">\ud654\ubb3c</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span>${renderCargoEfficiencyBadge(ship)}</div>
                     <div class="ship-stat"><span class="ship-stat-label">USD 가격</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
                 </div>
                 <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
@@ -851,7 +935,20 @@
 
     function renderShipPlannerButton(ship) {
         if (!isPlannerEligibleShip(ship)) return '';
-        return `<button class="ship-planner-toggle" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>`;
+        return `<button class="ship-planner-toggle" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">\ubb34\uc5ed \ud50c\ub798\ub108\uc5d0\uc11c \uc0ac\uc6a9</button>`;
+    }
+
+    function renderCargoEfficiencyBadge(ship) {
+        const efficiency = calcCargoEfficiency(ship);
+        if (efficiency === null) return '';
+        return `<span class="ship-card-efficiency" title="\ud654\ubb3c \ud6a8\uc728 (SCU/$1,000)">${efficiency.toFixed(2)} SCU/k$</span>`;
+    }
+
+    function renderHangarToggleButton(ship, label = false) {
+        const owned = isInHangar(ship.id);
+        const title = owned ? '\uaca9\ub0a9\uace0\uc5d0\uc11c \uc81c\uac70' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00';
+        const text = label ? (owned ? '\u2605 \uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c' : '\u2606 \uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00') : (owned ? '\u2605' : '\u2606');
+        return `<button class="hangar-toggle-btn${owned ? ' owned' : ''}${label ? ' modal-hangar-btn' : ''}" type="button" data-hangar-ship-id="${escapeHtml(ship.id)}" aria-label="${title}" title="${title}">${text}</button>`;
     }
 
     function renderSchedule() {
@@ -1065,6 +1162,7 @@
         renderPlannerShipSummary(ship);
         announcePickerSelection(`${ship.name} 함선을 선택했습니다.`);
         closePicker(input, document.getElementById('logistics-ship-results'));
+        savePlannerState();
         renderLogisticsRecommendation();
     }
 
@@ -1444,6 +1542,8 @@
         const purpose = document.getElementById('ship-purpose');
         const purposeApply = document.getElementById('ship-purpose-apply');
         const purposeReset = document.getElementById('ship-purpose-reset');
+        const hangarFilter = document.getElementById('hangar-filter-btn');
+        const cargoButtons = [...document.querySelectorAll('.cargo-filter-btn')];
         if (!filters || !search || !manufacturer || !hideUnreleased || !sort || !grid || !purpose || !purposeApply || !purposeReset) return;
         filters.addEventListener('click', handleShipFilterClick);
         search.addEventListener('input', () => { shipState.query = search.value; renderShips(); });
@@ -1456,11 +1556,30 @@
         });
         purposeApply.addEventListener('click', () => applyShipPurpose(purpose.value));
         purposeReset.addEventListener('click', () => applyShipPurpose(''));
+        cargoButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                shipState.cargoMin = Number(button.dataset.cargoMin) || 0;
+                syncShipControls();
+                renderShips();
+            });
+        });
+        hangarFilter?.addEventListener('click', () => {
+            shipState.hangarOnly = !shipState.hangarOnly;
+            syncShipControls();
+            renderShips();
+        });
         document.addEventListener('click', handleShipPlannerActions);
         setupShipCompareControls();
     }
 
     function handleShipPlannerActions(event) {
+        const hangarButton = event.target.closest('[data-hangar-ship-id]');
+        if (hangarButton) {
+            event.preventDefault();
+            event.stopPropagation();
+            handleHangarToggle(hangarButton);
+            return;
+        }
         const plannerButton = event.target.closest('[data-use-planner-ship-id]');
         if (plannerButton) {
             event.preventDefault();
@@ -1476,15 +1595,34 @@
 
     function useShipInPlanner(shipId) {
         const ship = shipById.get(shipId);
-        if (!ship || !isPlannerEligibleShip(ship)) {
-            showToast('이 함선은 무역 플래너 후보로 사용할 수 없습니다.');
-            return;
-        }
-        selectPlannerShip(ship.id, true);
         closeModal();
         showSection('trade-planner');
-        renderLogisticsRecommendation();
-        showToast(`${ship.name}을 무역 플래너에 적용했습니다.`);
+        window.requestAnimationFrame(() => {
+            if (ship && isPlannerEligibleShip(ship)) {
+                selectPlannerShip(ship.id, true);
+                renderLogisticsRecommendation();
+                savePlannerState();
+                showToast(`${ship.name}\uc744 \ubb34\uc5ed \ud50c\ub798\ub108\uc5d0 \uc801\uc6a9\ud588\uc2b5\ub2c8\ub2e4.`);
+            } else {
+                showToast('\uc774 \ud568\uc120\uc740 \ubb34\uc5ed \ud50c\ub798\ub108 \uc120\ud0dd \ub300\uc0c1\uc774 \uc544\ub2d9\ub2c8\ub2e4.');
+            }
+        });
+    }
+
+    function handleHangarToggle(button) {
+        const shipId = button.getAttribute('data-hangar-ship-id');
+        const ship = shipById.get(shipId);
+        if (!ship) return;
+        const owned = toggleHangar(shipId);
+        document.querySelectorAll(`[data-hangar-ship-id="${CSS.escape(shipId)}"]`).forEach((item) => {
+            item.classList.toggle('owned', owned);
+            const label = item.classList.contains('modal-hangar-btn');
+            item.textContent = label ? (owned ? '\u2605 \uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c' : '\u2606 \uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00') : (owned ? '\u2605' : '\u2606');
+            const title = owned ? '\uaca9\ub0a9\uace0\uc5d0\uc11c \uc81c\uac70' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00';
+            item.setAttribute('aria-label', title);
+            item.setAttribute('title', title);
+        });
+        if (shipState.hangarOnly) renderShips();
     }
 
     function applyShipPurpose(purpose) {
@@ -1533,7 +1671,8 @@
             document.getElementById('logistics-cargo'),
             document.getElementById('logistics-ship'),
             document.getElementById('logistics-crew'),
-            document.getElementById('trade-risk')
+            document.getElementById('trade-risk'),
+            document.getElementById('planner-travel-time')
         ].filter(Boolean);
         if (!copyButton) return;
         button?.addEventListener('click', renderLogisticsRecommendation);
@@ -1544,10 +1683,19 @@
             applyTradePreset(presetButton.getAttribute('data-trade-preset-id'));
         });
         controls.forEach((control) => {
-            control.addEventListener('change', renderLogisticsRecommendation);
-            if (control.tagName === 'INPUT') control.addEventListener('input', renderLogisticsRecommendation);
+            control.addEventListener('change', () => {
+                savePlannerState();
+                renderLogisticsRecommendation();
+            });
+            if (control.tagName === 'INPUT') {
+                control.addEventListener('input', () => {
+                    savePlannerState();
+                    renderLogisticsRecommendation();
+                });
+            }
         });
         setupPlannerShipPicker();
+        restorePlannerState();
         renderLogisticsRecommendation();
     }
 
@@ -1560,6 +1708,7 @@
         setPlannerControlValue('logistics-cargo', String(preset.cargo));
         const ship = preset.shipIds.map((id) => shipById.get(id)).find((item) => item && isPlannerEligibleShip(item));
         if (ship) selectPlannerShip(ship.id);
+        savePlannerState();
         renderLogisticsRecommendation();
         showToast(`${preset.label} 프리셋을 적용했습니다.`);
     }
@@ -1567,6 +1716,14 @@
     function setPlannerControlValue(id, value) {
         const control = document.getElementById(id);
         if (control) control.value = value;
+    }
+
+    function syncPlannerSelectedShip(shipId) {
+        const ship = shipById.get(shipId);
+        if (!ship || !isPlannerEligibleShip(ship)) return;
+        const input = document.getElementById('logistics-ship-search');
+        if (input) input.value = ship.name;
+        renderPlannerShipSummary(ship);
     }
 
     function setupUexLivePanel() {
@@ -2105,10 +2262,8 @@
                 <p>${escapeHtml(recommendation.summary)}</p>
             </div>
             <div class="logistics-result-grid">
-                <div><span>추천 출격</span><strong>${escapeHtml(recommendation.sorties)}</strong></div>
-                <div><span>필요 운송 인원</span><strong>${escapeHtml(recommendation.transportCrew)}</strong></div>
-                <div><span>남는 인원</span><strong>${escapeHtml(recommendation.supportCrew)}</strong></div>
-                <div><span>적재 여유</span><strong>${escapeHtml(recommendation.buffer)}</strong></div>
+                <div><span>\uc801\uc7ac \uc5ec\uc720</span><strong>${escapeHtml(recommendation.buffer)}</strong></div>
+                ${renderHourlyProfitResult(recommendation)}
             </div>
             <div class="trade-result-columns">
                 ${renderShipSuitabilityCard(recommendation)}
@@ -2117,6 +2272,17 @@
             <p class="logistics-result-note">${escapeHtml(recommendation.note)}</p>`;
         renderTradeChecklist(recommendation);
         renderTradeBriefing(recommendation);
+    }
+
+    function renderHourlyProfitResult(recommendation) {
+        const travelMinutes = Math.max(0, Number(document.getElementById('planner-travel-time')?.value) || 0);
+        if (travelMinutes <= 0) return '';
+        const sorties = Number(recommendation.sortiesCount) || 0;
+        const totalMinutes = sorties * travelMinutes * 2;
+        const totalHours = totalMinutes / 60;
+        const totalProfit = currentUexModel?.estimatedProfit || 0;
+        const hourlyProfit = totalHours > 0 ? Math.round(totalProfit / totalHours) : 0;
+        return `<div id="result-hourly"><span>\uc2dc\uac04\ub2f9 \uc218\uc775 (\uc608\uc0c1)</span><strong class="result-value">${hourlyProfit.toLocaleString()} aUEC/h</strong></div>`;
     }
 
     function renderUexRecommendationSummary(recommendation) {
@@ -2177,7 +2343,8 @@
         return {
             title,
             summary,
-            sorties: `${sorties}회`,
+            sorties: `${sorties}\ud68c`,
+            sortiesCount: sorties,
             transportCrew: `${transportCrewNeeded}명`,
             supportCrew: `${supportCrew}명`,
             buffer,
@@ -2383,6 +2550,8 @@
         shipState.query = '';
         shipState.sort = 'name-asc';
         shipState.purpose = '';
+        shipState.cargoMin = 0;
+        shipState.hangarOnly = false;
         syncShipControls();
         renderShipFilters();
         renderShips();
@@ -2399,6 +2568,15 @@
         if (hideUnreleased) hideUnreleased.checked = shipState.hideUnreleased;
         if (sort) sort.value = shipState.sort;
         if (purpose) purpose.value = shipState.purpose;
+        document.querySelectorAll('.cargo-filter-btn').forEach((button) => {
+            const isActive = Number(button.dataset.cargoMin) === shipState.cargoMin;
+            button.classList.toggle('active', isActive);
+        });
+        const hangarFilter = document.getElementById('hangar-filter-btn');
+        if (hangarFilter) {
+            hangarFilter.classList.toggle('active', shipState.hangarOnly);
+            hangarFilter.setAttribute('aria-pressed', String(shipState.hangarOnly));
+        }
     }
 
     function handleShipFilterClick(event) {
@@ -2412,7 +2590,7 @@
     }
 
     function openShipFromEvent(event) {
-        if (event.target.closest('[data-compare-ship-id], [data-use-planner-ship-id]')) return;
+        if (event.target.closest('[data-compare-ship-id], [data-use-planner-ship-id], [data-hangar-ship-id]')) return;
         const card = event.target.closest('[data-ship-id]');
         if (!card) return;
         event.preventDefault();
@@ -2449,20 +2627,21 @@
 
     function renderShipComparison(ships) {
         const fields = [
-            ['제조사', 'manufacturer'],
-            ['역할', 'role'],
-            ['분류', 'focus'],
-            ['크기', 'size'],
-            ['승무원', 'crew'],
-            ['화물', 'cargo'],
-            ['USD 가격', 'priceUsd']
+            { label: '\uc81c\uc870\uc0ac', key: 'manufacturer', format: (ship) => ship.manufacturer },
+            { label: '\uc5ed\ud560', key: 'role', format: (ship) => ship.role },
+            { label: '\ubd84\ub958', key: 'focus', format: (ship) => ship.focus },
+            { label: '\ud06c\uae30', key: 'size', format: (ship) => ship.size },
+            { label: '\uc2b9\ubb34\uc6d0', key: 'crew', format: (ship) => ship.crew, rawValue: (ship) => parseLargestNumber(ship.crew), numeric: true, higherIsBetter: true },
+            { label: '\ud654\ubb3c', key: 'cargo', format: (ship) => ship.cargo, rawValue: (ship) => getCargoValue(ship.cargo), numeric: true, higherIsBetter: true },
+            { label: 'USD \uac00\uaca9', key: 'priceUsd', format: (ship) => formatShipPrice(ship.priceUsd), rawValue: (ship) => Number(ship.priceUsd), numeric: true, higherIsBetter: false },
+            { label: '\ud654\ubb3c \ud6a8\uc728', key: 'efficiency', format: formatCargoEfficiency, rawValue: calcCargoEfficiency, numeric: true, higherIsBetter: true }
         ];
         return `<div class="modal-header">
                 <div>
                     <span class="eyebrow">Ship Compare</span>
-                    <h2>함선 비교</h2>
+                    <h2>\ud568\uc120 \ube44\uad50</h2>
                 </div>
-                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+                <button class="modal-close" type="button" aria-label="\ubaa8\ub2ec \ub2eb\uae30">\u00d7</button>
             </div>
             <div class="modal-body">
                 ${renderShipComparisonSummary(ships)}
@@ -2470,12 +2649,12 @@
                     <table class="ship-compare-table">
                         <thead>
                             <tr>
-                                <th scope="col">항목</th>
+                                <th scope="col">\ud56d\ubaa9</th>
                                 ${ships.map((ship) => `<th scope="col">${escapeHtml(ship.name)}</th>`).join('')}
                             </tr>
                         </thead>
                         <tbody>
-                            ${fields.map(([label, key]) => renderComparisonRow(label, key, ships)).join('')}
+                            ${fields.map((field) => renderComparisonRow(field, ships)).join('')}
                         </tbody>
                     </table>
                 </div>
@@ -2527,12 +2706,29 @@
         return `<li><strong>${escapeHtml(ship.name)}</strong> · ${escapeHtml(notes.join(' / '))}</li>`;
     }
 
-    function renderComparisonRow(label, key, ships) {
-        const values = ships.map((ship) => ship[key]);
-        const differs = new Set(values).size > 1;
-        return `<tr class="${differs ? 'is-different' : ''}">
-            <th scope="row">${escapeHtml(label)}</th>
-            ${values.map((value) => `<td>${escapeHtml(key === 'priceUsd' ? formatShipPrice(value) : value)}</td>`).join('')}
+    function renderComparisonRow(field, ships) {
+        const values = ships.map((ship) => {
+            if (!field.numeric) return null;
+            const raw = Number(field.rawValue?.(ship));
+            return Number.isFinite(raw) ? raw : null;
+        });
+        const comparable = values.filter((value) => value !== null);
+        const bestIndex = field.numeric && ships.length > 1 && comparable.length
+            ? values.reduce((best, value, index) => {
+                if (value === null) return best;
+                if (best === -1) return index;
+                const bestValue = values[best];
+                return field.higherIsBetter ? (value > bestValue ? index : best) : (value < bestValue ? index : best);
+            }, -1)
+            : -1;
+        const displays = ships.map((ship, index) => {
+            const display = field.format(ship);
+            const winner = field.numeric && index === bestIndex && values[index] !== null;
+            return `<td class="${winner ? 'compare-winner' : ''}">${escapeHtml(display)}</td>`;
+        }).join('');
+        return `<tr class="${new Set(ships.map((ship) => field.format(ship))).size > 1 ? 'is-different' : ''}">
+            <th scope="row">${escapeHtml(field.label)}</th>
+            ${displays}
         </tr>`;
     }
 
@@ -2597,11 +2793,13 @@
                     <div class="ship-modal-stat"><span>크기</span><strong>${escapeHtml(ship.size)}</strong></div>
                     <div class="ship-modal-stat"><span>승무원</span><strong>${escapeHtml(ship.crew)}</strong></div>
                     <div class="ship-modal-stat"><span>화물</span><strong>${escapeHtml(ship.cargo)}</strong></div>
-                    <div class="ship-modal-stat"><span>USD 가격</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
+                    <div class="ship-modal-stat"><span>USD \uac00\uaca9</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
+                <div class="ship-modal-stat"><span>\ud654\ubb3c \ud6a8\uc728</span><strong>${escapeHtml(formatCargoEfficiency(ship))}</strong></div>
                 </div>
                 <div class="ship-modal-actions">
                     <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
                     ${renderShipPlannerAction(ship, 'btn btn-secondary ship-modal-link')}
+                    ${renderHangarToggleButton(ship, true)}
                 </div>
             </div>`);
     }

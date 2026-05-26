@@ -4615,3 +4615,111 @@ body.nav-trade-open::before {
         padding: 16px;
     }
 }
+/* Trade planner and ship database enhancements */
+.ship-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ship-card-efficiency {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--volt-orange);
+    background: rgba(232, 72, 47, 0.12);
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-top: 4px;
+}
+
+.compare-winner {
+    background: rgba(232, 72, 47, 0.15);
+    color: var(--volt-orange);
+    font-weight: 700;
+    position: relative;
+}
+
+.compare-winner::after {
+    content: '\25B2';
+    font-size: 0.65rem;
+    margin-left: 4px;
+    opacity: 0.7;
+}
+
+.ships-cargo-filter {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.cargo-filter-btn,
+.hangar-filter-toggle {
+    padding: 4px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.cargo-filter-btn:hover,
+.cargo-filter-btn.active,
+.hangar-filter-toggle.active {
+    background: var(--volt-orange);
+    color: #fff;
+    border-color: var(--volt-orange);
+}
+
+.hangar-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    padding: 2px 4px;
+    line-height: 1;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.hangar-toggle-btn:hover {
+    transform: scale(1.16);
+}
+
+.hangar-toggle-btn.owned {
+    color: var(--volt-orange);
+}
+
+.modal-hangar-btn {
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+.planner-field-hint {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.72rem;
+    color: var(--color-text-secondary);
+}
+
+#result-hourly .result-value {
+    color: var(--volt-orange);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .ships-cargo-filter {
+        gap: 4px;
+    }
+
+    .cargo-filter-btn,
+    .hangar-filter-toggle {
+        font-size: 0.75rem;
+        padding: 3px 9px;
+    }
+}

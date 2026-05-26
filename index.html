@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260526-01">
+  <link rel="stylesheet" href="css/styles.css?v=20260526-03">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -308,8 +308,16 @@
        <option value="cargo-asc">화물 적은순</option>
        <option value="cargo-desc">화물 많은순</option>
        <option value="price-asc">가격 낮은순</option>
-       <option value="price-desc">가격 높은순</option>
+       <option value="price-desc">&#44032;&#44201; &#45458;&#51008;&#49692;</option>
+       <option value="efficiency-desc">&#54952;&#50984;&#49692; (SCU/k$)</option>
       </select>
+      <div class="ships-cargo-filter" role="group" aria-label="&#54868;&#47932;&#47049; &#54596;&#53552;">
+       <button class="cargo-filter-btn active" type="button" data-cargo-min="0">&#51204;&#52404;</button>
+       <button class="cargo-filter-btn" type="button" data-cargo-min="100">100 SCU+</button>
+       <button class="cargo-filter-btn" type="button" data-cargo-min="500">500 SCU+</button>
+       <button class="cargo-filter-btn" type="button" data-cargo-min="1000">1000 SCU+</button>
+      </div>
+      <button id="hangar-filter-btn" class="hangar-filter-toggle" type="button" aria-pressed="false">&#9733; &#45236; &#44201;&#45225;&#44256;</button>
      </div>
     </div>
     <div class="ship-recommendation" id="ship-recommendation">
@@ -466,6 +474,11 @@
         <option value="high">높음</option>
        </select>
       </label>
+      <label class="planner-field">
+       <span>&#54200;&#46020; &#51060;&#46041; &#49884;&#44036; (&#48516;)</span>
+       <input type="number" id="planner-travel-time" min="1" max="600" placeholder="&#50696;: 15" inputmode="numeric">
+       <small class="planner-field-hint">&#52636;&#48156;&#51648;&#8594;&#47785;&#51201;&#51648; &#54200;&#46020; &#44592;&#51456;</small>
+      </label>
       </div>
      <div class="planner-selection-card" id="logistics-ship-summary" aria-live="polite" hidden></div>
      <div class="uex-live-panel" aria-labelledby="uex-live-title">
@@ -592,6 +605,6 @@
 
   <script src="data/volt-data.js?v=20260526-01"></script>
   <script src="data/volt-localization.js?v=20260526-01"></script>
-  <script src="js/main.js?v=20260526-01"></script>
+  <script src="js/main.js?v=20260526-03"></script>
  </body>
 </html>
