@@ -9,3 +9,5 @@
 
 /* Ship tag selector */
 .ship-tag-selector{margin:14px 0;padding:16px;border:1px solid var(--border);border-radius:16px;background:#101012}.ship-tag-selector legend{padding:0 6px;color:var(--muted);font-weight:800}.ship-tag-selector p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.5}.ship-tag-options{display:flex;flex-wrap:wrap;gap:8px}.ship-tag-option{display:inline-flex;align-items:center;gap:8px;margin:0;padding:8px 11px;border:1px solid var(--border);border-radius:999px;background:var(--panel-2);color:var(--text);font-size:13px;font-weight:800;cursor:pointer}.ship-tag-option input{width:auto;margin:0;accent-color:var(--orange)}.ship-tag-option:has(input:checked){border-color:var(--orange);background:rgba(232,72,47,.14);color:#fff}@media(max-width:860px){.ship-tag-options{gap:7px}.ship-tag-option{font-size:12px;padding:8px 10px}}
+
+.upload-multi-hint{color:var(--orange)!important;font-size:13px;margin:0;line-height:1.5}.gallery-preview img[data-object-url]{object-fit:cover}

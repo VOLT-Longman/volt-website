@@ -1,4 +1,4 @@
-﻿import { createId, nowIso, sanitizeText, toBooleanInt } from './http.js';
+import { createId, limitText, nowIso, sanitizeText, toBooleanInt } from './http.js';
 
 export function mapNotice(row) {
   return { id: row.id, title: row.title, content: row.content, tag: row.tag || '공지', pinned: Boolean(row.pinned), published: Boolean(row.published), date: row.date || row.created_at || '' };
@@ -8,12 +8,12 @@ export function noticeInput(body, existing = {}) {
   const timestamp = nowIso();
   return {
     id: existing.id || sanitizeText(body.id) || createId('notice'),
-    title: sanitizeText(body.title),
-    content: sanitizeText(body.content),
-    tag: sanitizeText(body.tag, '공지'),
+    title: limitText(body.title, 200),
+    content: limitText(body.content, 20000),
+    tag: limitText(body.tag, 20, '공지'),
     pinned: toBooleanInt(body.pinned),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
-    date: sanitizeText(body.date, timestamp.slice(0, 10)),
+    date: limitText(body.date, 40, timestamp.slice(0, 10)),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
   };
@@ -27,12 +27,12 @@ export function eventInput(body, existing = {}) {
   const timestamp = nowIso();
   return {
     id: existing.id || sanitizeText(body.id) || createId('event'),
-    title: sanitizeText(body.title),
-    description: sanitizeText(body.description),
-    type: sanitizeText(body.type, '작전'),
-    status: sanitizeText(body.status, '예정'),
-    date_label: sanitizeText(body.dateLabel || body.date_label || body.date),
-    event_date: sanitizeText(body.eventDate || body.event_date),
+    title: limitText(body.title, 200),
+    description: limitText(body.description, 20000),
+    type: limitText(body.type, 20, '작전'),
+    status: limitText(body.status, 20, '예정'),
+    date_label: limitText(body.dateLabel || body.date_label || body.date, 80),
+    event_date: limitText(body.eventDate || body.event_date, 40),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
@@ -47,12 +47,12 @@ export function galleryInput(body, existing = {}) {
   const timestamp = nowIso();
   return {
     id: existing.id || sanitizeText(body.id) || createId('gallery'),
-    title: sanitizeText(body.title),
-    description: sanitizeText(body.description),
-    category: sanitizeText(body.category, '기타'),
-    image_url: sanitizeText(body.imageUrl || body.image_url || body.src),
-    thumb_url: sanitizeText(body.thumbUrl || body.thumb_url || body.thumb || body.imageUrl || body.image_url || body.src),
-    date: sanitizeText(body.date, timestamp.slice(0, 10)),
+    title: limitText(body.title, 200),
+    description: limitText(body.description, 20000),
+    category: limitText(body.category, 40, '기타'),
+    image_url: limitText(body.imageUrl || body.image_url || body.src, 2048),
+    thumb_url: limitText(body.thumbUrl || body.thumb_url || body.thumb || body.imageUrl || body.image_url || body.src, 2048),
+    date: limitText(body.date, 40, timestamp.slice(0, 10)),
     sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,
@@ -83,26 +83,32 @@ export function mapShipOverride(row) {
 
 export function shipOverrideInput(shipId, body) {
   return {
-    ship_id: sanitizeText(shipId),
-    name: nullableText(body.name),
-    manufacturer: nullableText(body.manufacturer),
-    role: nullableText(body.role),
-    focus: nullableText(body.focus),
-    size: nullableText(body.size),
-    crew: nullableText(body.crew),
-    cargo: nullableText(body.cargo),
+    ship_id: limitText(shipId, 120),
+    name: nullableText(body.name, 200),
+    manufacturer: nullableText(body.manufacturer, 120),
+    role: nullableText(body.role, 120),
+    focus: nullableText(body.focus, 80),
+    size: nullableText(body.size, 80),
+    crew: nullableText(body.crew, 80),
+    cargo: nullableText(body.cargo, 80),
     price_usd: nullableNumber(body.priceUsd ?? body.price_usd),
     implemented: nullableBooleanInt(body.implemented),
     planner_eligible: nullableBooleanInt(body.plannerEligible ?? body.planner_eligible),
-    tags: body.tags === null || body.tags === undefined ? null : JSON.stringify(Array.isArray(body.tags) ? body.tags : parseTags(body.tags)),
-    description: nullableText(body.description),
+    tags: normalizeTagsInput(body.tags),
+    description: nullableText(body.description, 20000),
     updated_at: nowIso()
   };
 }
 
-function nullableText(value) {
-  const text = sanitizeText(value);
+function nullableText(value, maxLength = 2000) {
+  const text = limitText(value, maxLength);
   return text ? text : null;
+}
+
+function normalizeTagsInput(value) {
+  if (value === null || value === undefined) return null;
+  const tags = Array.isArray(value) ? value : parseTags(value);
+  return JSON.stringify(tags.map((tag) => limitText(tag, 40)).slice(0, 24));
 }
 
 function nullableNumber(value) {

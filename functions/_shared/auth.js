@@ -4,7 +4,9 @@ const SESSION_COOKIE = 'volt_admin_session';
 const SESSION_MAX_AGE = 60 * 60 * 8;
 
 function getSecret(env) {
-  return env.ADMIN_SESSION_SECRET || env.ADMIN_TOKEN || env.ADMIN_PASSWORD || 'volt-dev-session-secret';
+  const secret = env.ADMIN_SESSION_SECRET || env.ADMIN_TOKEN || env.ADMIN_PASSWORD;
+  if (!secret) throw new Error('ADMIN_SESSION_SECRET is not configured');
+  return secret;
 }
 
 function getPassword(env) {

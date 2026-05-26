@@ -16,7 +16,7 @@ async function listItems(env) {
 }
 
 async function createItem(request, env) {
-  const item = noticeInput((await readJson(request)) || {});
+  let item; try { item = noticeInput((await readJson(request)) || {}); } catch (err) { return error(err.message || 'Invalid input', 422); }
   if (!item.title) return error('Missing required fields', 422);
   await requireDb(env).prepare('INSERT INTO notices (id, title, content, tag, pinned, published, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').bind(item.id, item.title, item.content, item.tag, item.pinned, item.published, item.date, item.created_at, item.updated_at).run();
   return json({ item: mapNotice(item) }, { status: 201 });

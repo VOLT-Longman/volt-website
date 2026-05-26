@@ -16,7 +16,7 @@ async function listItems(env) {
 }
 
 async function createItem(request, env) {
-  const item = eventInput((await readJson(request)) || {});
+  let item; try { item = eventInput((await readJson(request)) || {}); } catch (err) { return error(err.message || 'Invalid input', 422); }
   if (!item.title) return error('Missing required fields', 422);
   await requireDb(env).prepare('INSERT INTO events (id, title, description, type, status, date_label, event_date, published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').bind(item.id, item.title, item.description, item.type, item.status, item.date_label, item.event_date, item.published, item.created_at, item.updated_at).run();
   return json({ item: mapEvent(item) }, { status: 201 });

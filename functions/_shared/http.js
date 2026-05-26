@@ -30,6 +30,12 @@ export function sanitizeText(value, fallback = '') {
   return String(value ?? fallback).trim();
 }
 
+export function limitText(value, maxLength, fallback = '') {
+  const text = sanitizeText(value, fallback);
+  if (text.length > maxLength) throw new Error(`Input is too long (max ${maxLength} characters)`);
+  return text;
+}
+
 export function toBooleanInt(value) {
   return value === true || value === 1 || value === '1' || value === 'true' ? 1 : 0;
 }
