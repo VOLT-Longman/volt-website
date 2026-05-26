@@ -58,6 +58,10 @@
     --z-nav: 1000;
     --z-mobile-menu: 1200;
     --z-modal: 1300;
+
+    --transition-fast: 0.2s ease;
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --color-warning: #ffb300;
 }
 
 /* ==========================================================================
@@ -273,7 +277,7 @@ body.nav-trade-open::before {
     padding: 6px 16px;
     border-radius: var(--radius-full);
     font-weight: 500;
-    transition: all 0.2s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .nav-discord:hover,
@@ -298,7 +302,7 @@ body.nav-trade-open::before {
     width: 22px;
     height: 2px;
     background: var(--color-text-primary);
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 .mobile-menu {
@@ -642,7 +646,7 @@ body.nav-trade-open::before {
     text-decoration: none;
     font-size: 16px;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
     display: inline-block;
     letter-spacing: -0.01em;
     cursor: pointer;
@@ -848,7 +852,7 @@ body.nav-trade-open::before {
     background: var(--color-bg-card);
     border-radius: var(--radius-md);
     padding: 40px 32px;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
     border: 1px solid var(--color-border);
     position: relative;
     overflow: hidden;
@@ -1034,7 +1038,7 @@ body.nav-trade-open::before {
     background: rgba(255, 255, 255, 0.02);
     border-radius: var(--radius-md);
     padding: 36px 28px;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
     border: 1px solid var(--color-border);
     display: flex;
     gap: 20px;
@@ -1294,7 +1298,7 @@ body.nav-trade-open::before {
     border-radius: var(--radius-md);
     padding: 40px 28px;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
     border: 1px solid var(--color-border);
     will-change: transform;
 }
@@ -1412,7 +1416,7 @@ body.nav-trade-open::before {
     border-radius: var(--radius-full);
     font-weight: 700;
     font-size: 14px;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 .streamer-link:hover {
@@ -1445,7 +1449,7 @@ body.nav-trade-open::before {
     background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius-sm);
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
     border: 1px solid var(--color-border);
     display: flex;
     align-items: center;
@@ -1522,7 +1526,7 @@ body.nav-trade-open::before {
     color: var(--color-text-primary);
     cursor: pointer;
     font: inherit;
-    transition: all 0.2s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .nav-icon-button {
@@ -1656,7 +1660,7 @@ body.nav-trade-open::before {
 .search-result:hover,
 .search-result:focus-visible {
     background: var(--color-bg-card-hover);
-    outline: none;
+    outline: 2px solid var(--volt-orange);
 }
 
 .search-result-type {
@@ -1921,7 +1925,7 @@ body.nav-trade-open::before {
     border-radius: var(--radius-md);
     padding: 36px 28px;
     border: 1px solid var(--color-border);
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
     position: relative;
 }
 
@@ -2493,7 +2497,7 @@ body.nav-trade-open::before {
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
     font-family: inherit;
 }
 
@@ -2535,7 +2539,7 @@ body.nav-trade-open::before {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 24px;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 .ship-card:hover {
@@ -2652,7 +2656,7 @@ body.nav-trade-open::before {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 28px 32px;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 .schedule-item:hover {
@@ -2724,7 +2728,7 @@ body.nav-trade-open::before {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 28px;
-    transition: all 0.3s ease;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 .notice-card:hover {
@@ -2833,10 +2837,7 @@ body.nav-trade-open::before {
     filter: drop-shadow(0 0 30px rgba(232,72,47,0.4));
     animation: splashPulse 1.2s ease-in-out infinite alternate;
 }
-@keyframes splashPulse {
-    from { filter: drop-shadow(0 0 20px rgba(232,72,47,0.3)); transform: scale(0.97); }
-    to   { filter: drop-shadow(0 0 50px rgba(232,72,47,0.6)); transform: scale(1); }
-}
+
 .splash-bar {
     width: 200px; height: 2px;
     background: rgba(255,255,255,0.1); border-radius: 1px; overflow: hidden;
@@ -2845,7 +2846,7 @@ body.nav-trade-open::before {
     height: 100%; width: 0; background: var(--volt-orange);
     animation: splashLoad 1.2s ease forwards;
 }
-@keyframes splashLoad { to { width: 100%; } }
+
 
 /* ── 스크롤 상단 이동 버튼 ── */
 #scroll-to-top {
@@ -2880,10 +2881,7 @@ body.nav-trade-open::before {
     height: 2px; background: var(--volt-orange); border-radius: 1px;
 }
 .section.active { display: block; animation: sectionFadeIn 0.4s ease; }
-@keyframes sectionFadeIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
+
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
 .reveal.revealed { opacity: 1; transform: translateY(0); }
 
@@ -2895,7 +2893,7 @@ body.nav-trade-open::before {
 .notice-card {
     background: var(--color-bg-card); border: 1px solid var(--color-border);
     border-radius: var(--radius-md); padding: 28px 28px 24px;
-    transition: all 0.3s ease; position: relative; overflow: hidden;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast); position: relative; overflow: hidden;
 }
 .notice-card:hover { background: var(--color-bg-card-hover); transform: translateY(-3px); border-color: var(--color-border-accent); }
 .notice-card::before {
@@ -2929,7 +2927,7 @@ body.nav-trade-open::before {
     padding: 7px 18px; border-radius: var(--radius-full);
     border: 1px solid var(--color-border); background: transparent;
     color: var(--color-text-secondary); font-size: 13px; font-weight: 500;
-    cursor: pointer; transition: all 0.2s; font-family: inherit;
+    cursor: pointer; transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast); font-family: inherit;
 }
 .ship-filter-btn:hover { border-color: var(--volt-orange); color: var(--volt-orange); }
 .ship-filter-btn.active { background: var(--volt-orange); border-color: var(--volt-orange); color: #fff; }
@@ -2965,7 +2963,7 @@ body.nav-trade-open::before {
 .ships-empty { text-align: center; color: var(--color-text-tertiary); padding: 60px 0; font-family: var(--font-mono); font-size: 14px; }
 .ship-card {
     background: var(--color-bg-card); border: 1px solid var(--color-border);
-    border-radius: var(--radius-md); padding: 24px; transition: all 0.3s;
+    border-radius: var(--radius-md); padding: 24px; transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 .ship-card:hover { background: var(--color-bg-card-hover); transform: translateY(-3px); border-color: var(--color-border-accent); }
 .ship-compare-toggle {
@@ -3098,7 +3096,7 @@ body.nav-trade-open::before {
 .schedule-item {
     display: flex; gap: 32px; align-items: flex-start;
     background: var(--color-bg-card); border: 1px solid var(--color-border);
-    border-radius: var(--radius-md); padding: 28px; transition: all 0.3s;
+    border-radius: var(--radius-md); padding: 28px; transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 .schedule-item:hover { background: var(--color-bg-card-hover); border-color: var(--color-border-accent); }
 .schedule-date-col { min-width: 140px; display: flex; flex-direction: column; gap: 6px; }
@@ -3170,7 +3168,7 @@ body.nav-trade-open::before {
 .guide-card {
     background: var(--color-bg-card); border: 1px solid var(--color-border);
     border-radius: var(--radius-md); padding: 28px; position: relative;
-    transition: all 0.3s;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 .guide-card:hover { background: var(--color-bg-card-hover); transform: translateY(-3px); border-color: var(--color-border-accent); }
 .guide-step-num {
@@ -3977,7 +3975,7 @@ body.nav-trade-open::before {
     display: flex; flex-direction: column; gap: 4px;
     padding: 20px; background: var(--color-bg-card); border-radius: var(--radius-sm);
     border: 1px solid var(--color-border); text-decoration: none;
-    transition: all 0.2s;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 .guide-tool-card:hover { border-color: var(--volt-orange); background: var(--volt-orange-glow); }
 .guide-tool-icon { font-size: 24px; margin-bottom: 4px; }
@@ -4216,30 +4214,14 @@ body.nav-trade-open::before {
     background: var(--color-bg-card);
 }
 
-.gallery-empty p {
+.gallery-empty-title {
     color: var(--color-text-primary);
     font-size: 18px;
     font-weight: 700;
 }
 
-.gallery-empty-kicker {
-    color: var(--volt-orange);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-}
-
-.gallery-empty ul {
-    display: grid;
-    gap: 6px;
-    margin: 8px 0;
-    padding-left: 18px;
+.gallery-empty-desc {
     color: var(--color-text-secondary);
-    text-align: left;
-}
-
-.gallery-empty small {
-    color: var(--color-text-tertiary);
 }
 
 .ship-recommendation-summary {
@@ -4484,5 +4466,152 @@ body.nav-trade-open::before {
     .gallery-modal-description p {
         font-size: 14px;
         line-height: 1.7;
+    }
+}
+.about-intro-secondary {
+    margin-top: 16px;
+}
+
+.hub-description {
+    color: var(--color-text-secondary);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.text-warning {
+    color: var(--volt-orange);
+}
+
+.gallery-empty {
+    display: grid;
+    grid-column: 1 / -1;
+    gap: 8px;
+    justify-items: center;
+    padding: 64px 24px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card);
+}
+.skip-nav {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    z-index: 9999;
+    padding: 8px 16px;
+    background: var(--volt-orange);
+    color: #fff;
+    transition: top var(--transition-fast);
+}
+
+.skip-nav:focus {
+    top: 0;
+}
+[data-theme="light"] .modal-content {
+    background: #ffffff;
+    color: var(--color-text-primary);
+    border: 1px solid #e0e0e0;
+}
+
+[data-theme="light"] .ship-card {
+    background: #f5f5f5;
+    border-color: #e0e0e0;
+}
+
+[data-theme="light"] .ship-card:hover {
+    background: #ececec;
+}
+
+[data-theme="light"] .faq-item {
+    background: #f5f5f5;
+    border-color: #e0e0e0;
+}
+
+[data-theme="light"] .faq-answer {
+    color: var(--color-text-secondary);
+}
+
+[data-theme="light"] .notice-card {
+    background: #f5f5f5;
+    border-color: #e0e0e0;
+}
+
+[data-theme="light"] .schedule-item {
+    background: #f5f5f5;
+    border-color: #e0e0e0;
+}
+.schedule-item-toggle {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.schedule-item-toggle:hover,
+.schedule-item-toggle:focus-visible {
+    color: var(--volt-orange);
+}
+
+.schedule-item-detail {
+    margin-top: 10px;
+}
+
+.schedule-item-detail p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+@media (max-width: 768px) {
+    /* Responsive maintenance: ships */
+    .ships-toolbar {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .ship-search {
+        width: 100%;
+    }
+
+    .ships-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ship-compare-bar {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .faq-item summary,
+    .faq-question {
+        padding: 14px 16px;
+        font-size: 15px;
+    }
+
+    .trade-planner-layout {
+        flex-direction: column;
+    }
+
+    .trade-planner-form {
+        grid-template-columns: 1fr;
+    }
+
+    .uex-live-controls {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .ships-toolbar {
+        gap: 6px;
+    }
+
+    .ship-card {
+        padding: 16px;
     }
 }

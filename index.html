@@ -25,7 +25,7 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260525-58">
+  <link rel="stylesheet" href="css/styles.css?v=20260526-01">
   <script>
     (function() {
       const t = localStorage.getItem('volt-theme');
@@ -50,7 +50,9 @@
   </script>
  </head>
  <body>
-  <!-- Loading Splash -->
+  
+  <a href="#home" class="skip-nav">&#47700;&#51064; &#53080;&#53584;&#52768;&#47196; &#48148;&#47196; &#51060;&#46041;</a>
+<!-- Loading Splash -->
   <div id="loading-splash">
    <img src="assets/images/VOLT_logo.png" class="splash-logo" alt="VOLT" loading="eager" decoding="async">
    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
@@ -147,7 +149,7 @@
     </div>
     <div class="hero-stats">
      <div class="hero-stat"><div class="hero-stat-value">2953</div><div class="hero-stat-label">EST.</div></div>
-     <div class="hero-stat"><div class="hero-stat-value">49+</div><div class="hero-stat-label">MEMBERS</div></div>
+     <div class="hero-stat" data-type="members"><div class="hero-stat-value">49+</div><div class="hero-stat-label">MEMBERS</div></div>
      <div class="hero-stat"><div class="hero-stat-value">KST</div><div class="hero-stat-label">TIMEZONE</div></div>
      <div class="hero-stat"><div class="hero-stat-value">KR</div><div class="hero-stat-label">REGION</div></div>
     </div>
@@ -163,7 +165,7 @@
     <div class="about-intro">
      <h3>VOLT란?</h3>
      <p>VOLT는 전략적 작전과 자율적 참여를 기반으로 한 한국 커뮤니티 Star Citizen 함대입니다. 물류·무역을 중심으로 전투, 정보, 커뮤니티 운영을 아우르는 통합된 체계적 구조를 갖추고 있으며, 대규모 작전에서도 충돌과 혼란을 최소화하도록 설계되었습니다.</p>
-     <p style="margin-top: 16px;">"자율적으로 참여하되, 기준은 명확하다" — VOLT는 강압이 아닌 구조적 리더십을 통해, 구성원들이 예측 가능한 규칙 안에서 안정적으로 협업하는 환경을 추구합니다.</p>
+     <p class="about-intro-secondary">"자율적으로 참여하되, 기준은 명확하다" — VOLT는 강압이 아닌 구조적 리더십을 통해, 구성원들이 예측 가능한 규칙 안에서 안정적으로 협업하는 환경을 추구합니다.</p>
     </div>
     <div class="about-grid" id="about-grid"></div>
     <div class="culture-section">
@@ -210,13 +212,13 @@
     </div>
     <div class="hub-content">
      <h3>VOLT-무역허브란?</h3>
-     <p style="font-size: 16px; color: var(--color-text-secondary); line-height: 1.8;">
+     <p class="hub-description">
       무역허브는 함대 내부 거래, 임무 모집, 자산 흐름 관리를 위한 운영 플랫폼입니다.
       무역플래너가 개별 작전의 수익과 운송 조건을 계산하는 도구라면, 무역허브는 함대 단위의 거래와 인력 매칭을 관리하는 공간입니다.
      </p>
      <div class="hub-features" id="hub-features"></div>
      <div class="hub-notice">
-      <strong style="color: var(--volt-orange);">⚠️ 유의사항</strong> · 모든 거래는 인게임 화폐(aUEC)만 허용되며, 현금·계좌이체·실물 등 현금성 거래는 전면 금지됩니다. 시세 교란, 허위 매물, 분쟁 유발 행위 또한 금지되며, 반복 위반 시 이용 제한 조치가 적용됩니다.
+      <strong class="text-warning">⚠️ 유의사항</strong> · 모든 거래는 인게임 화폐(aUEC)만 허용되며, 현금·계좌이체·실물 등 현금성 거래는 전면 금지됩니다. 시세 교란, 허위 매물, 분쟁 유발 행위 또한 금지되며, 반복 위반 시 이용 제한 조치가 적용됩니다.
      </div>
     </div>
    </div>
@@ -588,8 +590,8 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260525-58"></script>
-  <script src="data/volt-localization.js?v=20260525-58"></script>
-  <script src="js/main.js?v=20260525-58"></script>
+  <script src="data/volt-data.js?v=20260526-01"></script>
+  <script src="data/volt-localization.js?v=20260526-01"></script>
+  <script src="js/main.js?v=20260526-01"></script>
  </body>
 </html>

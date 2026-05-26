@@ -32,6 +32,28 @@
     let currentUexModel = null;
     let currentUexSelection = { buyKey: '', sellKey: '' };
     let availableUexCommodities = [];
+    let searchIndexCache = null;
+    const NOTICE_TAG_COLORS = { '\uACF5\uC9C0': 'var(--volt-orange)', '\uC911\uC694': '#e53e3e', '\uC5C5\uB370\uC774\uD2B8': '#3182ce', '\uC774\uBCA4\uD2B8': '#805ad5', '\uC791\uC804': '#38a169', '\uC2DC\uC2A4\uD15C': '#319795', '\uBAA8\uC9D1': '#d69e2e', '\uC815\uCC45': '#e53e3e' };
+    const FOCUS_COLORS = {
+        '\uBB3C\uB958': '#f6ad55',
+        '\uC804\uD22C': '#fc8181',
+        '\uD0D0\uC0AC': '#68d391',
+        '\uCC44\uAD74': '#76e4f7',
+        '\uC5F0\uAD6C': '#90cdf4',
+        '\uC815\uC81C': '#fbd38d',
+        '\uC778\uC591': '#d6bcfa',
+        '\uBC29\uC1A1': '#f687b3',
+        '\uC8FC\uC720': '#63b3ed',
+        '\uC758\uB8CC': '#68d391',
+        '\uC785\uBB38': '#a0aec0',
+        '\uD654\uBB3C': '#f6ad55',
+        '\uBB3C\uB958/\uC804\uD22C': '#f56565',
+        '\uBB3C\uB958/\uBAA8\uB4C8': '#ed8936',
+        'VIP \uC5EC\uAC1D\uC120': '#f6e05e',
+        '\uC9C0\uC6D0 \uCC28\uB7C9': '#a0aec0',
+        '\uCC44\uAD74/\uC815\uC81C': '#4fd1c5'
+    };
+
     const SHIP_PURPOSE_COPY = {
         '입문': {
             criterion: '적은 인원으로 운용 가능하고 기본 활동을 익히기 좋은 함선을 우선합니다.',
@@ -626,18 +648,12 @@
 
     function renderGallery() {
         const container = document.getElementById('gallery-grid');
-        if (!container || !Array.isArray(data.gallery)) return;
-        if (data.gallery.length === 0) {
+        if (!container) return;
+        if (!Array.isArray(data.gallery) || data.gallery.length === 0) {
             container.innerHTML = `
                 <div class="gallery-empty">
-                    <span class="gallery-empty-kicker">곧 공개될 활동 기록</span>
-                    <p>VOLT의 작전과 항해 장면을 준비 중입니다.</p>
-                    <ul>
-                        <li>단체 작전 스크린샷</li>
-                        <li>함선 편대와 물류 활동</li>
-                        <li>행성 풍경과 이벤트 기록</li>
-                    </ul>
-                    <small>좋은 장면이 있다면 Discord에서 활동 사진 제보를 남겨 주세요.</small>
+                    <p class="gallery-empty-title">&#xac24;&#xb7ec;&#xb9ac; &#xc900;&#xbe44; &#xc911;</p>
+                    <p class="gallery-empty-desc">&#xace7; &#xd65c;&#xb3d9; &#xc0ac;&#xc9c4;&#xc774; &#xc5c5;&#xb85c;&#xb4dc;&#xb420; &#xc608;&#xc815;&#xc785;&#xb2c8;&#xb2e4;.</p>
                 </div>`;
             return;
         }
@@ -691,11 +707,11 @@
             <button class="notice-card${announcement.pinned ? ' notice-card-pinned' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(announcement.title)} 상세 보기">
                 <div class="notice-meta">
                     ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
-                    <span class="notice-tag" style="background:${colors[announcement.tag] || 'var(--volt-orange)'}20;color:${colors[announcement.tag] || 'var(--volt-orange)'};">${escapeHtml(announcement.tag)}</span>
+                    <span class="notice-tag" style="background:${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20;color:${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'};">${escapeHtml(announcement.tag)}</span>
                     <span class="notice-date">${escapeHtml(announcement.date)}</span>
                 </div>
                 <h3 class="notice-title">${escapeHtml(announcement.title)}</h3>
-                <p class="notice-content">${escapeHtml(announcement.content)}</p>
+                <p class="notice-content">${formatMultilineText(announcement.content)}</p>
             </button>`).join('');
         loadMore.hidden = visibleItems.length >= items.length;
         observeNewReveals(container);
@@ -796,25 +812,6 @@
             container.innerHTML = '<div class="ships-empty">검색 결과가 없습니다.</div>';
             return;
         }
-        const focusColors = {
-            '물류': '#f6ad55',
-            '전투': '#fc8181',
-            '탐사': '#68d391',
-            '채굴': '#76e4f7',
-            '연구': '#90cdf4',
-            '정제': '#fbd38d',
-            '인양': '#d6bcfa',
-            '방송': '#f687b3',
-            '주유': '#63b3ed',
-            '의료': '#68d391',
-            '입문': '#a0aec0',
-            '화물': '#f6ad55',
-            '물류/전투': '#f56565',
-            '물류/모듈': '#ed8936',
-            'VIP 여행용': '#f6e05e',
-            '지상 차량': '#a0aec0',
-            '채굴/정제': '#4fd1c5'
-        };
         container.innerHTML = ships.map((ship) => `
             <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(ship.name)} 상세 보기">
                 <div class="ship-card-header">
@@ -822,7 +819,7 @@
                         <h3 class="ship-name">${escapeHtml(ship.name)}</h3>
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
-                    <span class="ship-focus-badge" style="background:${focusColors[ship.focus] || '#a0aec0'}22;color:${focusColors[ship.focus] || '#a0aec0'};">${escapeHtml(ship.focus)}</span>
+                    <span class="ship-focus-badge" style="background:${FOCUS_COLORS[ship.focus] || '#a0aec0'}22;color:${FOCUS_COLORS[ship.focus] || '#a0aec0'};">${escapeHtml(ship.focus)}</span>
                 </div>
                 <p class="ship-desc">${escapeHtml(ship.description)}</p>
                 <div class="ship-stats">
@@ -860,19 +857,25 @@
     function renderSchedule() {
         const container = document.getElementById('schedule-list');
         if (!container || !Array.isArray(data.calendar)) return;
-        const colors = { '예정': 'var(--volt-orange)', '진행중': '#38a169', '완료': '#718096', '취소': '#e53e3e', '연기': '#d69e2e', '대기': '#a0aec0', '계획': '#63b3ed' };
-        container.innerHTML = data.calendar.map((event) => `
-            <div class="schedule-item reveal">
+        const colors = { '\uC608\uC815': 'var(--volt-orange)', '\uC9C4\uD589\uC911': '#38a169', '\uC644\uB8CC': '#718096', '\uCDE8\uC18C': '#e53e3e', '\uC5F0\uAE30': '#d69e2e', '\uB300\uAE30': '#a0aec0', '\uACC4\uD68D': '#63b3ed' };
+        container.innerHTML = data.calendar.map((event) => {
+            const detailId = `schedule-detail-${escapeHtml(event.id || event.title)}`;
+            return `<div class="schedule-item reveal">
                 <div class="schedule-date-col">
                     <span class="schedule-date">${escapeHtml(event.dateLabel)}</span>
                     <span class="schedule-status" style="color:${colors[event.status] || '#a0aec0'};">${escapeHtml(event.status)}</span>
                 </div>
                 <div class="schedule-body">
                     <div class="schedule-type-badge">${escapeHtml(event.type)}</div>
-                    <h3>${escapeHtml(event.title)}</h3>
-                    <p>${escapeHtml(event.description)}</p>
+                    <button class="schedule-item-toggle" type="button" aria-expanded="false" aria-controls="${detailId}">
+                        ${escapeHtml(event.title)}
+                    </button>
+                    <div class="schedule-item-detail" id="${detailId}" hidden>
+                        <p>${formatMultilineText(event.description)}</p>
+                    </div>
                 </div>
-            </div>`).join('');
+            </div>`;
+        }).join('');
     }
 
     function renderPolicy() {
@@ -1108,6 +1111,10 @@
     }
 
 
+    function invalidateSearchCache() {
+        searchIndexCache = null;
+    }
+
     async function loadCmsContent() {
         const [notices, events, gallery, shipOverrides] = await Promise.all([
             fetchCmsCollection('/api/notices'),
@@ -1119,6 +1126,7 @@
         if (Array.isArray(events)) data.calendar = events;
         if (Array.isArray(gallery)) data.gallery = gallery;
         if (Array.isArray(shipOverrides)) applyShipOverrides(shipOverrides);
+    invalidateSearchCache();
     }
 
     async function fetchCmsCollection(url) {
@@ -1156,7 +1164,20 @@
         shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     }
 
+    function getMemberCount() {
+        if (Number.isFinite(data.memberCount)) return data.memberCount;
+        if (Number.isFinite(data.fleet?.memberCount)) return data.fleet.memberCount;
+        return null;
+    }
+
+    function renderMemberCount() {
+        const element = document.querySelector('.hero-stat[data-type="members"] .hero-stat-value');
+        if (!element) return;
+        const memberCount = getMemberCount();
+        element.textContent = `${memberCount ?? '?'}+`;
+    }
     function renderAll() {
+        renderMemberCount();
         renderDepartments();
         renderCoreValues();
         renderTimeline();
@@ -1408,7 +1429,7 @@
                     <span class="notice-tag">${escapeHtml(announcement.tag)}</span>
                     <span class="notice-date">${escapeHtml(announcement.date)}</span>
                 </div>
-                <p>${escapeHtml(announcement.content)}</p>
+                <p>${formatMultilineText(announcement.content)}</p>
                 <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">공지 링크 복사</button>
             </div>`);
     }
@@ -2693,6 +2714,20 @@
         showToast.timer = window.setTimeout(() => toast.classList.remove('visible'), 2200);
     }
 
+    function setupScheduleAccordion() {
+        const container = document.getElementById('schedule-list');
+        if (!container) return;
+        container.addEventListener('click', (event) => {
+            const button = event.target.closest('.schedule-item-toggle');
+            if (!button) return;
+            const detail = document.getElementById(button.getAttribute('aria-controls'));
+            if (!detail) return;
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', String(!isExpanded));
+            detail.hidden = isExpanded;
+        });
+    }
+
     function setupFaqAccordion() {
         const container = document.getElementById('faq-list');
         if (!container) return;
@@ -2764,7 +2799,8 @@
     }
 
     function buildSearchIndex() {
-        return [
+        if (searchIndexCache) return searchIndexCache;
+        const result = [
             ...data.announcements.map((item) => makeSearchItem('공지', 'notices', item.title, item.content)),
             ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description} ${getShipAliases(item).join(' ')}`, item.id)),
             ...data.faq.map((item) => makeSearchItem('FAQ', 'faq', item.q, item.a)),
@@ -2969,6 +3005,7 @@
         setupMobileMenu();
         setupNoticeControls();
         setupShipControls();
+        setupScheduleAccordion();
         setupLogisticsCalculator();
         setupUexLivePanel();
         setupGalleryInteractions();
@@ -2995,7 +3032,9 @@
     function getInitialRoute() {
         const navigation = performance.getEntriesByType('navigation')[0];
         if (navigation?.type === 'reload') {
-            return { section: 'home', anchorId: null, url: `${window.location.pathname}${window.location.search}` };
+            const route = parseRouteFromHash();
+            const homeUrl = window.location.pathname + window.location.search;
+            return { ...route, url: route.section === 'home' ? homeUrl : window.location.href };
         }
         const route = parseRouteFromHash();
         return { ...route, url: window.location.href };
