@@ -120,13 +120,13 @@ function setTab(tab) {
   loadItems().catch(showFormError);
 }
 
-async function loadItems() {
+async function loadItems(clearForm = true) {
   const config = CONFIG[state.tab];
   $('#list-title').textContent = `${config.title} \ubaa9\ub85d`;
   $('#form-title').textContent = `${config.title} \uc791\uc131`;
   state.items = state.tab === 'ships' ? await loadShipItems() : (await api(config.endpoint)).items || [];
   renderList();
-  renderForm(null);
+  if (clearForm) renderForm(null);
 }
 
 async function loadShipItems() {
@@ -137,7 +137,7 @@ async function loadShipItems() {
   }));
 
   if (!state.shipOverridesLoaded) {
-    const payload = await api('/api/ship-overrides').catch(() => ({ items: [] }));
+    const payload = await api(CONFIG.ships.endpoint).catch(() => ({ items: [] }));
     state.shipOverrides = new Map((payload.items || []).map((item) => [item.shipId, item]));
     state.shipOverridesLoaded = true;
   }
@@ -384,10 +384,11 @@ async function saveItem(event) {
     }
     const payload = getFormPayload();
     validatePayload(payload);
+    const previousEditingId = state.editing?.id;
     const result = await savePayload(payload);
     if (state.tab === 'ships') state.shipOverridesLoaded = false;
-    await loadItems();
-    const savedId = result?.item?.id || result?.item?.shipId || state.editing?.id;
+    await loadItems(false);
+    const savedId = result?.item?.id || result?.item?.shipId || previousEditingId;
     if (savedId) {
       const saved = state.items.find((item) => item.id === savedId || item.shipId === savedId);
       if (saved) renderForm(saved);
