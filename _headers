@@ -7,14 +7,23 @@
   Cross-Origin-Opener-Policy: same-origin
   Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self' https://forms.gle; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://cloudflareinsights.com https://api.uexcorp.space; font-src 'self' data:; object-src 'none'; upgrade-insecure-requests
 
+/
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
 /css/*
   Cache-Control: public, max-age=31536000, immutable
 
 /js/*
   Cache-Control: public, max-age=31536000, immutable
 
-/assets/*
+/data/*
   Cache-Control: public, max-age=31536000, immutable
 
-/*.html
-  Cache-Control: public, max-age=0, must-revalidate
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
