@@ -2891,9 +2891,9 @@
     }
 
     function showCopyFeedback(button) {
-        const original = button.textContent;
-        button.textContent = '✓';
-        window.setTimeout(() => { button.textContent = original; }, 1200);
+        const original = button.innerHTML;
+        button.innerHTML = '✓';
+        window.setTimeout(() => { button.innerHTML = original; }, 1200);
     }
 
     function showToast(message) {
