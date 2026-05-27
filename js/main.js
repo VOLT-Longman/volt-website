@@ -619,7 +619,7 @@
             const imagePosition = streamer.imagePosition ? ` style="object-position:${escapeHtml(streamer.imagePosition)};"` : '';
             const icon = streamer.image
                 ? `<img src="${escapeHtml(streamer.image)}" alt="${escapeHtml(streamer.name)}" loading="lazy" decoding="async"${imagePosition}>`
-                : '<div class="streamer-icon-fallback">👤</div>';
+                : `<div class="streamer-icon-fallback" aria-hidden="true">${escapeHtml((streamer.name || '?').charAt(0).toUpperCase())}</div>`;
             return `<div class="streamer-card reveal">
                 <div class="streamer-icon">${icon}</div>
                 <h3>${escapeHtml(streamer.name)}</h3>
@@ -988,7 +988,7 @@
         return `<div class="policy-section reveal" id="${sectionId}">
             <div class="policy-section-heading">
                 <h3 class="policy-section-title">${escapeHtml(section.title)}</h3>
-                <button class="policy-anchor-copy" type="button" data-policy-index="${index + 1}" aria-label="${escapeHtml(section.title)} 링크 복사">🔗</button>
+                <button class="policy-anchor-copy" type="button" data-policy-index="${index + 1}" aria-label="${escapeHtml(section.title)} \ub9c1\ud06c \ubcf5\uc0ac"><span class="icon-link" aria-hidden="true"></span></button>
             </div>
             ${notice}
             <div class="policy-items">${section.items.map((item) => `<div class="policy-item"><span class="policy-num">${escapeHtml(item.num)}</span><span class="policy-text">${escapeHtml(item.text)}</span></div>`).join('')}</div>
@@ -3109,7 +3109,7 @@
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         const button = document.getElementById('theme-toggle');
-        if (button) button.textContent = theme === 'light' ? '🌙' : '☀️';
+        if (button) button.setAttribute('data-current-theme', theme);
     }
 
     function injectStructuredData() {
