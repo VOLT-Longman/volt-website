@@ -519,7 +519,7 @@ body.nav-trade-open::before {
     margin-top: -20px;
     margin-bottom: -10px;
     animation: fadeInUp 1s ease;
-    filter: drop-shadow(0 0 40px rgba(232, 72, 47, 0.3));
+    filter: drop-shadow(0 4px 20px rgba(232, 72, 47, 0.18));
 }
 
 .hero-logo-fallback {
@@ -993,7 +993,7 @@ body.nav-trade-open::before {
     height: 14px;
     border-radius: 50%;
     background: var(--volt-orange);
-    box-shadow: 0 0 0 4px rgba(232, 72, 47, 0.2), 0 0 20px rgba(232, 72, 47, 0.5);
+    box-shadow: 0 0 0 4px rgba(232, 72, 47, 0.3);
 }
 
 .timeline-date {
@@ -1137,7 +1137,7 @@ body.nav-trade-open::before {
     height: 88px;
     min-width: 88px;
     font-size: 36px;
-    box-shadow: 0 0 30px rgba(232, 72, 47, 0.3);
+    box-shadow: none;
 }
 
 .leader-card.ceo-card .leader-info h3 {
@@ -1326,7 +1326,7 @@ body.nav-trade-open::before {
 
 .streamer-card:hover .streamer-icon {
     border-color: var(--volt-orange);
-    box-shadow: 0 0 30px rgba(232, 72, 47, 0.3);
+    box-shadow: none;
 }
 
 .streamer-icon img {
@@ -1410,8 +1410,8 @@ body.nav-trade-open::before {
 .streamer-link {
     display: inline-block;
     padding: 10px 24px;
-    background: #00d962;
-    color: #000;
+    background: var(--volt-orange);
+    color: #fff;
     text-decoration: none;
     border-radius: var(--radius-full);
     font-weight: 700;
@@ -1420,12 +1420,12 @@ body.nav-trade-open::before {
 }
 
 .streamer-link:hover {
-    background: #00f170;
+    background: var(--volt-orange-light);
     transform: scale(1.05);
 }
 
 .streamer-link:focus-visible {
-    outline: 2px solid #00f170;
+    outline: 2px solid var(--volt-orange);
     outline-offset: 4px;
 }
 
@@ -1588,7 +1588,7 @@ body.nav-trade-open::before {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-bg-secondary);
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
     overflow: hidden;
 }
 
@@ -1779,7 +1779,7 @@ body.nav-trade-open::before {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-bg-secondary);
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
     overflow: hidden;
     animation: modalIn 0.2s ease;
 }
@@ -2355,7 +2355,7 @@ body.nav-trade-open::before {
 .splash-logo {
     width: 120px;
     animation: splashPulse 1.2s ease infinite alternate;
-    filter: drop-shadow(0 0 30px rgba(232, 72, 47, 0.5));
+    filter: drop-shadow(0 4px 16px rgba(232, 72, 47, 0.20));
 }
 
 .splash-bar {
@@ -2404,7 +2404,7 @@ body.nav-trade-open::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(232, 72, 47, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
 }
 
 #scroll-to-top.visible {
@@ -2834,7 +2834,7 @@ body.nav-trade-open::before {
 #loading-splash.splash-hide { opacity: 0; pointer-events: none; }
 #loading-splash .splash-logo {
     width: 140px; height: auto;
-    filter: drop-shadow(0 0 30px rgba(232,72,47,0.4));
+    filter: drop-shadow(0 4px 16px rgba(232,72,47,0.20));
     animation: splashPulse 1.2s ease-in-out infinite alternate;
 }
 
@@ -2855,7 +2855,7 @@ body.nav-trade-open::before {
     background: var(--volt-orange); color: #fff;
     border: none; font-size: 20px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 20px rgba(232,72,47,0.4);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.28);
     opacity: 0; transform: translateY(16px);
     transition: opacity 0.3s, transform 0.3s;
     pointer-events: none;
@@ -3362,7 +3362,7 @@ body.nav-trade-open::before {
     border: 1px solid var(--color-border-accent);
     border-radius: var(--radius-sm);
     background: #151517;
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.40), 0 0 0 1px rgba(255, 255, 255, 0.04);
     isolation: isolate;
 }
 .planner-picker-option {
@@ -3392,7 +3392,7 @@ body.nav-trade-open::before {
 
 [data-theme="light"] .planner-picker-results {
     background: #ffffff;
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 .planner-selection-card {
     display: grid;
@@ -4913,4 +4913,14 @@ body.nav-trade-open::before {
 .streamer-card:hover,
 .hub-feature-card:hover {
     transform: translateY(-3px);
+}
+.hangar-filter-toggle.active::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    margin-right: 6px;
+    vertical-align: middle;
 }
