@@ -515,6 +515,29 @@
         return left.localeCompare(right, 'ko', { numeric: true, sensitivity: 'base' });
     }
 
+    function formatApproximateMemberCount(memberCount) {
+        if (!Number.isInteger(memberCount) || memberCount < 0) return null;
+        const rounded = Math.floor(memberCount / 100) * 100;
+        const displayCount = rounded > 0 ? rounded : memberCount;
+        return `${displayCount.toLocaleString('en-US')}+`;
+    }
+
+    async function hydrateMemberCount() {
+        const target = document.querySelector('[data-stat="members"]');
+        if (!target) return;
+
+        try {
+            const response = await fetch('/api/discord-stats', { headers: { Accept: 'application/json' } });
+            if (!response.ok) throw new Error(`Discord stats API failed: ${response.status}`);
+
+            const payload = await response.json();
+            const label = formatApproximateMemberCount(payload?.memberCount);
+            if (label) target.textContent = label;
+        } catch (error) {
+            console.warn('Discord member count fallback', error);
+        }
+    }
+
     function parseLargestNumber(value) {
         const matches = String(value).match(/\d+/g);
         if (!matches) return 0;
@@ -3231,6 +3254,7 @@
         setupScrollEffect();
         setupScrollTop();
         setupTheme();
+        hydrateMemberCount();
         injectStructuredData();
         const applyRouteFromLocation = () => {
             const route = parseRouteFromHash();
