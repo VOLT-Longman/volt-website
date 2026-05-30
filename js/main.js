@@ -25,6 +25,19 @@
         return `<svg class="${className}" aria-hidden="true" viewBox="0 0 24 24" fill="none">${icons[name] || ''}</svg>`;
     }
 
+
+    function trackEvent(name, params = {}) {
+        if (!name) return;
+        const payload = { event_category: 'VOLT', ...params };
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', name, payload);
+            return;
+        }
+        if (typeof window.plausible === 'function') {
+            window.plausible(name, { props: payload });
+        }
+    }
+
     const localization = window.VOLT_LOCALIZATION || {};
 
     const PAGE_SIZE = 4;
@@ -32,10 +45,10 @@
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
-    const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false };
+    const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, selectedTags: [] };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
-    const UEX_API_BASE_URL = 'https://api.uexcorp.space/2.0';
+    const UEX_API_BASE_URL = '/api/uex';
     const UEX_CACHE_TTL_MS = { commodities: 60 * 60 * 1000, prices: 30 * 60 * 1000 };
     let shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     const shipCompareState = new Set();
@@ -44,6 +57,8 @@
     let currentUexSelection = { buyKey: '', sellKey: '' };
     let availableUexCommodities = [];
     let searchIndexCache = null;
+    let lastSearchTrigger = null;
+    let deferredInstallPrompt = null;
     const NOTICE_TAG_COLORS = { '\uACF5\uC9C0': 'var(--volt-orange)', '\uC911\uC694': '#e53e3e', '\uC5C5\uB370\uC774\uD2B8': '#3182ce', '\uC774\uBCA4\uD2B8': '#805ad5', '\uC791\uC804': '#38a169', '\uC2DC\uC2A4\uD15C': '#319795', '\uBAA8\uC9D1': '#d69e2e', '\uC815\uCC45': '#e53e3e' };
     const FOCUS_COLORS = {
         '\uBB3C\uB958': '#f6ad55',
@@ -843,6 +858,12 @@
         return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
     }
 
+    function getShipMultiFilterTags() {
+        if (!Array.isArray(data.ships)) return [];
+        const tags = new Set(data.ships.flatMap((ship) => getShipTags(ship)));
+        return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
+    }
+
     function getShipManufacturers() {
         if (!Array.isArray(data.ships)) return [];
         return [...new Set(data.ships.map((ship) => ship.manufacturer))].sort(compareText);
@@ -869,6 +890,20 @@
         }).join('');
     }
 
+    function renderShipTagFilters() {
+        const container = document.getElementById('ship-tag-filters');
+        if (!container) return;
+        const selectedTags = new Set(shipState.selectedTags);
+        const buttons = getShipMultiFilterTags().map((tag) => {
+            const active = selectedTags.has(tag) ? ' active' : '';
+            return `<button class="ship-filter-btn${active}" type="button" data-ship-tag-filter="${escapeHtml(tag)}" aria-pressed="${selectedTags.has(tag)}">${escapeHtml(tag)}</button>`;
+        });
+        const clearButton = shipState.selectedTags.length
+            ? '<button class="ship-filter-btn ship-filter-clear active" type="button" data-ship-tag-clear>태그 초기화</button>'
+            : '';
+        container.innerHTML = [...buttons, clearButton].join('');
+    }
+
     function getVisibleShips() {
         const query = shipState.query.trim().toLowerCase();
         let ships = getSortedShips().filter((ship) => {
@@ -876,8 +911,9 @@
             const matchesFilter = shipState.filter === 'all' || ship.focus === shipState.filter || tags.includes(shipState.filter);
             const matchesManufacturer = shipState.manufacturer === 'all' || ship.manufacturer === shipState.manufacturer;
             const matchesReleaseState = !shipState.hideUnreleased || !tags.includes('\ubbf8\uad6c\ud604');
+            const matchesSelectedTags = shipState.selectedTags.length === 0 || shipState.selectedTags.some((tag) => ship.focus === tag || tags.includes(tag));
             const haystack = buildShipSearchText(ship, tags);
-            return matchesFilter && matchesManufacturer && matchesReleaseState && (!query || haystack.includes(query));
+            return matchesFilter && matchesManufacturer && matchesReleaseState && matchesSelectedTags && (!query || haystack.includes(query));
         });
         if (shipState.cargoMin > 0) {
             ships = ships.filter((ship) => getCargoValue(ship.cargo) >= shipState.cargoMin);
@@ -926,6 +962,7 @@
         const container = document.getElementById('ships-grid');
         if (!container) return;
         const ships = getVisibleShips();
+        renderShipTagFilters();
         renderShipPurposeSummary(ships.length);
         if (ships.length === 0) {
             container.innerHTML = '<div class="ships-empty">검색 결과가 없습니다.</div>';
@@ -1184,6 +1221,7 @@
     function selectPlannerShip(shipId, setCargo = false) {
         const ship = shipById.get(shipId);
         if (!ship || !isPlannerEligibleShip(ship)) return;
+        trackEvent('planner_ship_select', { shipId: ship.id, shipName: ship.name });
         setPlannerControlValue('logistics-ship', ship.id);
         const input = document.getElementById('logistics-ship-search');
         const cargoInput = document.getElementById('logistics-cargo');
@@ -1337,6 +1375,7 @@
     }
 
     function showSection(id, push = true, anchorId = null) {
+        trackEvent('section_view', { section: id });
         const home = document.getElementById('home');
         if (!home) return;
         currentSection = id;
@@ -1574,9 +1613,11 @@
         const purposeApply = document.getElementById('ship-purpose-apply');
         const purposeReset = document.getElementById('ship-purpose-reset');
         const hangarFilter = document.getElementById('hangar-filter-btn');
+        const tagFilters = document.getElementById('ship-tag-filters');
         const cargoButtons = [...document.querySelectorAll('.cargo-filter-btn')];
         if (!filters || !search || !manufacturer || !hideUnreleased || !sort || !grid || !purpose || !purposeApply || !purposeReset) return;
         filters.addEventListener('click', handleShipFilterClick);
+        tagFilters?.addEventListener('click', handleShipTagFilterClick);
         search.addEventListener('input', () => { shipState.query = search.value; renderShips(); });
         manufacturer.addEventListener('change', () => { shipState.manufacturer = manufacturer.value; renderShips(); });
         hideUnreleased.addEventListener('change', () => { shipState.hideUnreleased = hideUnreleased.checked; renderShips(); });
@@ -1601,6 +1642,22 @@
         });
         document.addEventListener('click', handleShipPlannerActions);
         setupShipCompareControls();
+    }
+
+    function handleShipTagFilterClick(event) {
+        const clearButton = event.target.closest('[data-ship-tag-clear]');
+        if (clearButton) {
+            shipState.selectedTags = [];
+            renderShips();
+            return;
+        }
+        const button = event.target.closest('[data-ship-tag-filter]');
+        if (!button) return;
+        const tag = button.getAttribute('data-ship-tag-filter');
+        shipState.selectedTags = shipState.selectedTags.includes(tag)
+            ? shipState.selectedTags.filter((value) => value !== tag)
+            : [...shipState.selectedTags, tag];
+        renderShips();
     }
 
     function handleShipPlannerActions(event) {
@@ -1939,7 +1996,7 @@
         results.innerHTML = '';
         currentUexSelection = { buyKey: '', sellKey: '' };
         try {
-            const prices = await fetchUexData(`commodities_prices?id_commodity=${encodeURIComponent(commodityId)}`, UEX_CACHE_TTL_MS.prices);
+            const prices = await fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices);
             const selectedCommodity = availableUexCommodities.find((item) => String(item.id) === String(commodityId));
             const model = buildUexCandidateModel(prices, selectedCommodity);
             currentUexModel = model;
@@ -1957,12 +2014,13 @@
         const cacheKey = path;
         const cached = uexCache.get(cacheKey);
         if (cached && Date.now() - cached.timestamp < ttlMs) return cached.data;
-        const response = await fetch(`${UEX_API_BASE_URL}/${path}`);
+        const response = await fetch(`${UEX_API_BASE_URL}/${path}`, { headers: { Accept: 'application/json' } });
         if (!response.ok) throw new Error(`UEX ${response.status}`);
         const payload = await response.json();
-        if (payload.status !== 'ok' || !Array.isArray(payload.data)) throw new Error('Invalid UEX payload');
-        uexCache.set(cacheKey, { data: payload.data, timestamp: Date.now() });
-        return payload.data;
+        const rows = Array.isArray(payload.data) ? payload.data : [];
+        if ((payload.status && payload.status !== 'ok') || !Array.isArray(payload.data)) throw new Error('Invalid UEX payload');
+        uexCache.set(cacheKey, { data: rows, timestamp: Date.now() });
+        return rows;
     }
 
     function buildUexCandidateModel(prices, commodity = null, selectionState = currentUexSelection) {
@@ -2146,7 +2204,7 @@
         const commodity = findCommodityByName(name);
         if (!commodity) return null;
         try {
-            const prices = await fetchUexData(`commodities_prices?id_commodity=${encodeURIComponent(commodity.id)}`, UEX_CACHE_TTL_MS.prices);
+            const prices = await fetchUexData(`commodities/${encodeURIComponent(commodity.id)}/prices`, UEX_CACHE_TTL_MS.prices);
             const model = buildUexCandidateModel(prices, commodity, { buyKey: '', sellKey: '' });
             if (!model.bestBuy || !model.bestSell || model.profitPerScu <= 0) return null;
             return model;
@@ -2583,6 +2641,7 @@
         shipState.purpose = '';
         shipState.cargoMin = 0;
         shipState.hangarOnly = false;
+        shipState.selectedTags = [];
         syncShipControls();
         renderShipFilters();
         renderShips();
@@ -2604,6 +2663,7 @@
             button.classList.toggle('active', isActive);
         });
         const hangarFilter = document.getElementById('hangar-filter-btn');
+        const tagFilters = document.getElementById('ship-tag-filters');
         if (hangarFilter) {
             hangarFilter.classList.toggle('active', shipState.hangarOnly);
             hangarFilter.setAttribute('aria-pressed', String(shipState.hangarOnly));
@@ -2808,6 +2868,7 @@
     }
 
     function openShipModal(ship) {
+        trackEvent('ship_modal_open', { shipId: ship?.id || '', shipName: ship?.name || '' });
         const officialUrl = getShipOfficialUrl(ship);
         const officialLabel = ship.rsiUrl ? 'RSI 공식 페이지' : 'RSI 함선 매트릭스';
         openModal(`<div class="modal-header">
@@ -2994,16 +3055,16 @@
         const closeButton = document.getElementById('search-close');
         const input = document.getElementById('global-search-input');
         if (!overlay || !desktopButton || !mobileButton || !closeButton || !input) return;
-        const open = () => openSearch(overlay, input);
-        desktopButton.addEventListener('click', open);
-        mobileButton.addEventListener('click', open);
+        desktopButton.addEventListener('click', () => openSearch(overlay, input, desktopButton));
+        mobileButton.addEventListener('click', () => openSearch(overlay, input, mobileButton));
         closeButton.addEventListener('click', () => closeSearch(overlay, input));
         overlay.addEventListener('click', (event) => { if (event.target === overlay) closeSearch(overlay, input); });
         input.addEventListener('input', () => renderSearchResults(input.value));
     }
 
-    function openSearch(overlay, input) {
+    function openSearch(overlay, input, trigger = document.activeElement) {
         if (!overlay || !input) return;
+        lastSearchTrigger = trigger instanceof HTMLElement ? trigger : null;
         closeMoreMenu();
         closeTradeMenu();
         const mobileMenu = document.getElementById('mobileMenu');
@@ -3025,6 +3086,8 @@
         overlay.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         input.value = '';
+        if (lastSearchTrigger?.isConnected) lastSearchTrigger.focus({ preventScroll: true });
+        lastSearchTrigger = null;
     }
 
     function buildSearchIndex() {
@@ -3085,6 +3148,7 @@
         const overlay = document.getElementById('search-overlay');
         const input = document.getElementById('global-search-input');
         if (overlay && input) closeSearch(overlay, input);
+        trackEvent('search_result_select', { section, itemId });
         if (section === 'ships') resetShipState();
         showSection(section);
         if (section === 'ships' && itemId) focusShipResult(itemId);
@@ -3129,12 +3193,22 @@
     function setupTheme() {
         const button = document.getElementById('theme-toggle');
         if (!button) return;
-        applyTheme(localStorage.getItem('volt-theme') || 'dark');
+        applyTheme(getPreferredTheme());
         button.addEventListener('click', () => {
             const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             applyTheme(next);
             localStorage.setItem('volt-theme', next);
         });
+        const media = window.matchMedia?.('(prefers-color-scheme: light)');
+        media?.addEventListener?.('change', () => {
+            if (!localStorage.getItem('volt-theme')) applyTheme(getPreferredTheme());
+        });
+    }
+
+    function getPreferredTheme() {
+        const storedTheme = localStorage.getItem('volt-theme');
+        if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
+        return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
     }
 
     function applyTheme(theme) {
@@ -3233,6 +3307,52 @@
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     }
 
+
+    function setupPwaInstallPrompt() {
+        if (localStorage.getItem('volt-pwa-install-dismissed') === 'true') return;
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredInstallPrompt = event;
+            renderPwaInstallPrompt();
+        });
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            localStorage.setItem('volt-pwa-install-dismissed', 'true');
+            document.getElementById('pwa-install-prompt')?.remove();
+            showToast('VOLT 앱 설치가 완료되었습니다.');
+        });
+    }
+
+    function renderPwaInstallPrompt() {
+        if (!deferredInstallPrompt || document.getElementById('pwa-install-prompt')) return;
+        const prompt = document.createElement('aside');
+        prompt.id = 'pwa-install-prompt';
+        prompt.className = 'pwa-install-prompt';
+        prompt.setAttribute('role', 'status');
+        prompt.innerHTML = `
+            <div>
+                <strong>VOLT 앱 설치</strong>
+                <span>홈 화면에서 빠르게 함선DB와 무역플래너를 열 수 있습니다.</span>
+            </div>
+            <button class="btn btn-primary" type="button" data-pwa-install>설치</button>
+            <button class="btn btn-secondary" type="button" data-pwa-dismiss aria-label="설치 안내 닫기">닫기</button>`;
+        prompt.addEventListener('click', handlePwaPromptClick);
+        document.body.appendChild(prompt);
+    }
+
+    async function handlePwaPromptClick(event) {
+        if (event.target.closest('[data-pwa-dismiss]')) {
+            localStorage.setItem('volt-pwa-install-dismissed', 'true');
+            document.getElementById('pwa-install-prompt')?.remove();
+            return;
+        }
+        if (!event.target.closest('[data-pwa-install]') || !deferredInstallPrompt) return;
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        document.getElementById('pwa-install-prompt')?.remove();
+    }
+
     async function init() {
         setupSplash();
         setupRevealObserver();
@@ -3254,6 +3374,7 @@
         setupScrollEffect();
         setupScrollTop();
         setupTheme();
+        setupPwaInstallPrompt();
         hydrateMemberCount();
         injectStructuredData();
         const applyRouteFromLocation = () => {

@@ -25,8 +25,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260530-05"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260530-05">
+  <script src="js/theme-init.js?v=20260530-09"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260530-09">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -45,8 +45,16 @@
   </script>
  </head>
  <body>
-  
-  <a href="#home" class="skip-nav">&#47700;&#51064; &#53080;&#53584;&#52768;&#47196; &#48148;&#47196; &#51060;&#46041;</a>
+
+  <noscript class="noscript-fallback">
+   <style>#loading-splash{display:none!important}</style>
+   <section>
+    <h1>VOLT - Voyagers of Logistics and Trade</h1>
+    <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
+    <p><a href="https://discord.gg/voltstarcitizen">Discord 참여</a> · <a href="https://robertsspaceindustries.com/orgs/VOLT">RSI 공식 조직 페이지</a></p>
+   </section>
+  </noscript>
+  <a href="#home" class="skip-nav">콘텐츠로 바로 이동</a>
 <!-- Loading Splash -->
   <div id="loading-splash">
    <img src="assets/images/VOLT_logo.webp" class="splash-logo" alt="VOLT" loading="eager" decoding="async">
@@ -130,6 +138,7 @@
    </div>
   </div>
 
+  <main id="main-content" tabindex="-1">
   <section class="hero" id="home">
    <div class="hero-content">
     <img src="assets/images/VOLT_logo.webp" alt="VOLT 함대 로고" class="hero-logo" id="heroLogo" loading="eager" decoding="async">
@@ -314,6 +323,10 @@
        <button class="cargo-filter-btn" type="button" data-cargo-min="1000">1000 SCU+</button>
       </div>
       <button id="hangar-filter-btn" class="hangar-filter-toggle" type="button" aria-pressed="false">&#45236; &#44201;&#45225;&#44256;</button>
+     </div>
+     <div class="ship-tag-filter-panel" aria-label="태그 다중 필터">
+      <div class="ship-tag-filter-title">태그 다중 필터 <span>선택한 태그 중 하나라도 포함된 함선을 표시합니다.</span></div>
+      <div class="ship-tag-filter-buttons" id="ship-tag-filters"></div>
      </div>
     </div>
     <div class="ship-recommendation" id="ship-recommendation">
@@ -587,6 +600,8 @@
    </div>
   </footer>
 
+  </main>
+
   <div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-labelledby="search-title" aria-hidden="true">
    <div class="search-panel">
     <div class="search-header">
@@ -599,8 +614,9 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260530-05"></script>
-  <script src="data/volt-localization.js?v=20260530-05"></script>
-  <script src="js/main.js?v=20260530-05"></script>
+  <script src="data/volt-data.js?v=20260530-09"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"1c86868908484152bb27fe39459f8c82"}'></script>
+  <script src="data/volt-localization.js?v=20260530-09"></script>
+  <script src="js/main.js?v=20260530-09"></script>
  </body>
 </html>

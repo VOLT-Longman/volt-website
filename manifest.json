@@ -6,7 +6,43 @@
   "background_color": "#1a1a1a",
   "theme_color": "#E8482F",
   "icons": [
-    { "src": "assets/images/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "assets/images/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "assets/images/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "무역플래너",
+      "short_name": "무역플래너",
+      "description": "함선과 UEX 거래 후보 기준 무역 작전을 계산합니다.",
+      "url": "/#trade-planner",
+      "icons": [
+        {
+          "src": "assets/images/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "함선DB",
+      "short_name": "함선DB",
+      "description": "VOLT 함선 데이터베이스를 엽니다.",
+      "url": "/#ships",
+      "icons": [
+        {
+          "src": "assets/images/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
   ]
 }
