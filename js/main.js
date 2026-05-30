@@ -13,20 +13,16 @@
     const data = window.VOLT_DATA;
     if (!data) {
         console.error('VOLT_DATA 미로드');
-        const splash = document.getElementById('loading-splash');
-        if (splash) splash.style.display = 'none';
-        const main = document.querySelector('main');
-        if (main) {
-            main.innerHTML = `
-                <section class="section active static-fallback">
-                    <div class="section-header">
-                        <h1>VOLT</h1>
-                        <p>사이트 데이터를 불러오지 못했습니다. 잠시 후 새로고침하거나 Discord에서 공지를 확인해 주세요.</p>
-                        <a class="btn btn-primary" href="https://discord.gg/voltstarcitizen">Discord 참여</a>
-                    </div>
-                </section>`;
-        }
         return;
+    }
+
+    function renderInlineIcon(name, className = 'inline-svg-icon') {
+        const icons = {
+            check: '<path d="m5 12 4 4 10-10"></path>',
+            moon: '<path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 7 7 0 1 0 20 15.5Z"></path>',
+            sun: '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>'
+        };
+        return `<svg class="${className}" aria-hidden="true" viewBox="0 0 24 24" fill="none">${icons[name] || ''}</svg>`;
     }
 
     const localization = window.VOLT_LOCALIZATION || {};
@@ -665,7 +661,7 @@
         if (!container || !Array.isArray(data.departments)) return;
         container.innerHTML = data.departments.map((department) => `
             <div class="card about-card reveal">
-                <h3>${escapeHtml(department.icon)} ${escapeHtml(department.name)}</h3>
+                <h3>${escapeHtml(department.name)}</h3>
                 <p>${escapeHtml(department.description)}</p>
             </div>`).join('');
     }
@@ -685,7 +681,7 @@
         if (!container || !data.hub || !Array.isArray(data.hub.features)) return;
         container.innerHTML = data.hub.features.map((feature) => `
             <div class="hub-feature reveal">
-                <h4>${escapeHtml(feature.icon)} ${escapeHtml(feature.title)}</h4>
+                <h4>${escapeHtml(feature.title)}</h4>
                 <ul>${feature.items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
             </div>`).join('');
     }
@@ -1029,7 +1025,6 @@
         container.innerHTML = data.tradeGuide.map((guide) => `
             <div class="guide-card reveal">
                 <div class="guide-step-num">${escapeHtml(String(guide.step))}</div>
-                <div class="guide-icon">${escapeHtml(guide.icon)}</div>
                 <h3>${escapeHtml(guide.title)}</h3>
                 <p>${escapeHtml(guide.content)}</p>
             </div>`).join('');
@@ -2904,9 +2899,9 @@
     }
 
     function showCopyFeedback(button) {
-        const original = button.textContent;
-        button.textContent = '✓';
-        window.setTimeout(() => { button.textContent = original; }, 1200);
+        const original = button.innerHTML;
+        button.innerHTML = renderInlineIcon('check', 'copy-feedback-icon');
+        window.setTimeout(() => { button.innerHTML = original; }, 1200);
     }
 
     function showToast(message) {
@@ -3120,9 +3115,17 @@
     }
 
     function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
+        const normalizedTheme = theme === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', normalizedTheme);
+
         const button = document.getElementById('theme-toggle');
-        if (button) button.setAttribute('data-current-theme', theme);
+        if (!button) return;
+
+        const nextThemeLabel = normalizedTheme === 'light' ? '다크 모드로 전환' : '라이트 모드로 전환';
+        button.setAttribute('data-current-theme', normalizedTheme);
+        button.setAttribute('aria-label', nextThemeLabel);
+        button.setAttribute('title', nextThemeLabel);
+        button.innerHTML = renderInlineIcon(normalizedTheme === 'light' ? 'moon' : 'sun', 'theme-icon');
     }
 
     function injectStructuredData() {
