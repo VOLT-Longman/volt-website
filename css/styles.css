@@ -5041,3 +5041,11 @@ body.nav-trade-open::before {
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1, "kern" 1;
 }
+
+
+/* Nav active state: text color only, no underline artifact. */
+.nav-links a.nav-active::after,
+.nav-more-toggle.nav-active::after,
+.nav-trade-toggle.nav-active::after {
+    display: none;
+}
