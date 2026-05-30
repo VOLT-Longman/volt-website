@@ -25,13 +25,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="stylesheet" href="css/styles.css?v=20260527-03">
-  <script>
-    (function() {
-      const t = localStorage.getItem('volt-theme');
-      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-    })();
-  </script>
+  <script src="js/theme-init.js?v=20260530-01"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260530-01">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -39,7 +34,7 @@
     "@type": "Organization",
     "name": "VOLT - Voyagers of Logistics & Trade",
     "url": "https://www.volt.ceo/",
-    "logo": "https://www.volt.ceo/assets/images/VOLT_logo.png",
+    "logo": "https://www.volt.ceo/assets/images/VOLT_logo.webp",
     "description": "한국 기반 Star Citizen 물류·무역 전문 함대",
     "foundingDate": "2023",
     "sameAs": [
@@ -54,7 +49,7 @@
   <a href="#home" class="skip-nav">&#47700;&#51064; &#53080;&#53584;&#52768;&#47196; &#48148;&#47196; &#51060;&#46041;</a>
 <!-- Loading Splash -->
   <div id="loading-splash">
-   <img src="assets/images/VOLT_logo.png" class="splash-logo" alt="VOLT" loading="eager" decoding="async">
+   <img src="assets/images/VOLT_logo.webp" class="splash-logo" alt="VOLT" loading="eager" decoding="async">
    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
   </div>
 
@@ -63,7 +58,7 @@
   <nav class="nav" id="nav">
    <div class="nav-container">
     <a href="#home" class="nav-logo" data-section="home">
-     <img src="assets/images/VOLT_logo.png" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">
+     <img src="assets/images/VOLT_logo.webp" alt="" loading="lazy" decoding="async">
      <span class="nav-logo-text">VOLT</span>
     </a>
     <ul class="nav-links">
@@ -137,7 +132,7 @@
 
   <section class="hero" id="home">
    <div class="hero-content">
-    <img src="assets/images/VOLT_logo.png" alt="VOLT 함대 로고" class="hero-logo" id="heroLogo" loading="eager" decoding="async" onerror="this.style.display='none'; document.getElementById('heroLogoFallback').classList.add('active');">
+    <img src="assets/images/VOLT_logo.webp" alt="VOLT 함대 로고" class="hero-logo" id="heroLogo" loading="eager" decoding="async">
     <div class="hero-logo-fallback" id="heroLogoFallback" aria-hidden="true">V</div>
     <div class="hero-tagline">VOYAGERS OF LOGISTICS &amp; TRADE</div>
     <h1>VOLT</h1>
@@ -550,7 +545,7 @@
     <div class="footer-grid">
      <div class="footer-section">
       <div class="footer-brand">
-       <img src="assets/images/VOLT_logo.png" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">
+       <img src="assets/images/VOLT_logo.webp" alt="" loading="lazy" decoding="async">
        <span class="footer-brand-text">VOLT</span>
       </div>
       <p class="footer-description">Voyagers of Logistics &amp; Trade<br>한국 커뮤니티 Star Citizen 함대</p>
@@ -604,8 +599,8 @@
    </div>
   </div>
 
-  <script src="data/volt-data.js?v=20260527-03"></script>
-  <script src="data/volt-localization.js?v=20260527-03"></script>
-  <script src="js/main.js?v=20260527-03"></script>
+  <script src="data/volt-data.js?v=20260530-01"></script>
+  <script src="data/volt-localization.js?v=20260530-01"></script>
+  <script src="js/main.js?v=20260530-01"></script>
  </body>
 </html>

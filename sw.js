@@ -4,18 +4,21 @@
  * 구버전 캐시를 자동 삭제하고 최신 CSS/JS를 적용합니다.
  */
 
-const CACHE_VERSION = '20260517';
+const CACHE_VERSION = '20260530-01';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
     '/',
     '/index.html',
     '/css/styles.css',
+    '/js/theme-init.js',
     '/js/main.js',
     '/data/volt-data.js',
-    '/assets/images/VOLT_logo.png',
+    '/data/volt-localization.js',
+    '/assets/images/VOLT_logo.webp',
     '/assets/images/streamers/perma.png',
     '/assets/images/streamers/kookbap.png',
+    '/assets/images/streamers/rudy.webp',
 ];
 
 self.addEventListener('install', (event) => {

@@ -13,6 +13,19 @@
     const data = window.VOLT_DATA;
     if (!data) {
         console.error('VOLT_DATA 미로드');
+        const splash = document.getElementById('loading-splash');
+        if (splash) splash.style.display = 'none';
+        const main = document.querySelector('main');
+        if (main) {
+            main.innerHTML = `
+                <section class="section active static-fallback">
+                    <div class="section-header">
+                        <h1>VOLT</h1>
+                        <p>사이트 데이터를 불러오지 못했습니다. 잠시 후 새로고침하거나 Discord에서 공지를 확인해 주세요.</p>
+                        <a class="btn btn-primary" href="https://discord.gg/voltstarcitizen">Discord 참여</a>
+                    </div>
+                </section>`;
+        }
         return;
     }
 

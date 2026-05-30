@@ -1,4 +1,4 @@
-# VOLT Fleet Website
+﻿# VOLT Fleet Website
 
 한국 커뮤니티 Star Citizen 물류·무역 전문 함대 **VOLT**의 공식 홈페이지입니다.
 
@@ -22,7 +22,7 @@
 | 콘텐츠 데이터 | `data/volt-data.js`의 `window.VOLT_DATA` |
 | 배포 | Cloudflare Pages |
 | 기본 브랜치 | `main` |
-| 최신 에셋 버전 | `20260517-14` |
+| 최신 에셋 버전 | `20260530-01` |
 | 분석 | Cloudflare Web Analytics 자동 설치 사용 |
 | 보안 헤더 | `_headers`에서 관리 |
 
@@ -47,7 +47,7 @@
 | 갤러리 | 이미지 등록 시 그리드와 라이트박스 자동 표시 |
 | OG/Twitter 메타 | 링크 공유용 대표 이미지와 설명 제공 |
 | PWA Manifest | 홈 화면 설치용 manifest와 아이콘 정보 제공 |
-| 보안 헤더 | CSP Report-Only, HSTS, X-Frame-Options 등 적용 |
+| 보안 헤더 | CSP enforce, HSTS, X-Frame-Options 등 적용 |
 
 ---
 
@@ -354,31 +354,30 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 최신 파일 반영 여부는 페이지 소스에서 아래 버전을 확인합니다.
 
 ```html
-css/styles.css?v=20260517-14
-data/volt-data.js?v=20260517-14
-js/main.js?v=20260517-14
+css/styles.css?v=20260530-01
+data/volt-data.js?v=20260530-01
+js/main.js?v=20260530-01
 ```
 
 ---
 
 ## 캐시와 버전 관리
 
-정적 에셋은 강한 캐시가 적용될 수 있으므로 CSS, JS, 데이터 파일을 수정한 경우 `index.html`의 버전 쿼리를 갱신합니다.
+정적 에셋은 강한 캐시가 적용될 수 있으므로 CSS, JS, 데이터 파일을 수정한 경우 캐시 버전을 일괄 갱신합니다.
 
-```html
-<link rel="stylesheet" href="css/styles.css?v=YYYYMMDD-N">
-<script src="data/volt-data.js?v=YYYYMMDD-N"></script>
-<script src="js/main.js?v=YYYYMMDD-N"></script>
+```powershell
+node scripts/update-cache-version.js YYYYMMDD-NN
 ```
+
+이 스크립트는 `index.html`, `admin/index.html`, `sw.js`의 버전을 함께 갱신합니다.
 
 버전 예시는 다음과 같습니다.
 
 ```text
-20260517-14
+20260530-01
 ```
 
 브라우저에 이전 화면이 보이면 강력 새로고침을 하거나 Cloudflare 캐시 상태를 확인합니다.
-
 ---
 
 ## Cloudflare Web Analytics
@@ -409,9 +408,9 @@ index.html 수동 beacon 스크립트 없음
 | `Permissions-Policy` | 카메라, 마이크, 위치 권한 차단 |
 | `Strict-Transport-Security` | HTTPS 강제 |
 | `Cross-Origin-Opener-Policy: same-origin` | 브라우징 컨텍스트 격리 강화 |
-| `Content-Security-Policy-Report-Only` | CSP 위반을 관찰 모드로 점검 |
+| `Content-Security-Policy` | CSP 위반 차단 |
 
-현재 CSP는 Report-Only입니다. 충분히 확인한 뒤 강제 `Content-Security-Policy`로 전환하는 것이 안전합니다.
+현재 CSP는 enforce 모드입니다. `script-src`는 인라인 실행을 허용하지 않으며, JSON-LD는 `_headers`에 등록된 SHA-256 해시로 허용합니다. `style-src`의 `unsafe-inline`은 렌더러의 인라인 스타일 제거 전까지 임시 유지합니다.
 
 ---
 
@@ -505,3 +504,5 @@ assets/images/og-image.png
 ## 라이선스 / 권리
 
 이 저장소의 사이트 코드와 콘텐츠는 VOLT Fleet 운영 목적에 맞춰 관리됩니다. 로고, 이미지, 문구, 함대 운영정책 등 브랜드 자산은 무단 사용하지 않는 것을 원칙으로 합니다.
+
+

@@ -1,11 +1,11 @@
-# VOLT 관리자 CMS 운영 문서
+﻿# VOLT 관리자 CMS 운영 문서
 
 > 이 문서는 `volt-website-copy` CMS 실험본 기준이다. 원본 반영은 별도 승인 후 진행한다.
 
 ## 로그인
 
 1. `/admin/` 접속
-2. Cloudflare 환경변수 `ADMIN_PASSWORD` 또는 `ADMIN_TOKEN` 값 입력
+2. Cloudflare 환경변수 `ADMIN_PASSWORD` 값 입력
 3. 공지, 일정, 갤러리 관리
 
 ## 콘텐츠 관리
@@ -18,9 +18,15 @@
 
 - `DB`: D1 binding
 - `GALLERY_BUCKET`: R2 binding
-- `ADMIN_PASSWORD` 또는 `ADMIN_TOKEN`
-- `ADMIN_SESSION_SECRET`
+- `ADMIN_PASSWORD`: 관리자 로그인 비밀번호
+- `ADMIN_SESSION_SECRET`: 세션 서명 전용 시크릿. `ADMIN_PASSWORD`와 다른 긴 난수 값을 사용해야 하며, 미설정 시 관리자 로그인과 세션 검증이 안전하게 실패합니다.
 - `R2_PUBLIC_BASE_URL`
+
+## 보안 운영 기준
+
+- ADMIN_SESSION_SECRET은 코드에 하드코딩하지 않습니다.
+- ADMIN_SESSION_SECRET은 ADMIN_PASSWORD 또는 과거 ADMIN_TOKEN과 공유하지 않습니다.
+- ADMIN_TOKEN은 세션 서명키로 사용하지 않습니다.
 
 ## 장애 확인
 
@@ -103,3 +109,4 @@
 함선DB 태그는 자유 입력하지 않고 기존 함선DB에 존재하는 태그 중에서 선택합니다.
 새 태그가 필요하면 먼저 태그 분류 기준을 정리한 뒤 `data/volt-data.js` 또는 별도 데이터 감사 절차에서 추가합니다.
 관리자 화면에서 저장하면 선택된 태그만 D1 override에 JSON 배열로 저장됩니다.
+

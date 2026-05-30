@@ -38,7 +38,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   const body = await readJson(request);
-  if (!validateLoginToken(body?.password || body?.token, env)) {
+  if (!(await validateLoginToken(body?.password || body?.token, env))) {
     await recordFailure(env, ip);
     return error('Invalid credentials', 401);
   }

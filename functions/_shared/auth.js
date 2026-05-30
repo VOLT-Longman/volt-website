@@ -2,15 +2,16 @@ import { error } from './http.js';
 
 const SESSION_COOKIE = 'volt_admin_session';
 const SESSION_MAX_AGE = 60 * 60 * 8;
+const MISCONFIGURED_SECRET_MESSAGE = 'Server misconfigured: ADMIN_SESSION_SECRET';
 
 function getSecret(env) {
-  const secret = env.ADMIN_SESSION_SECRET || env.ADMIN_TOKEN || env.ADMIN_PASSWORD;
-  if (!secret) throw new Error('ADMIN_SESSION_SECRET is not configured');
+  const secret = env.ADMIN_SESSION_SECRET;
+  if (!secret) throw new Error(MISCONFIGURED_SECRET_MESSAGE);
   return secret;
 }
 
 function getPassword(env) {
-  return env.ADMIN_PASSWORD || env.ADMIN_TOKEN || '';
+  return env.ADMIN_PASSWORD || '';
 }
 
 function parseCookies(request) {
@@ -26,6 +27,18 @@ async function hmac(message, secret) {
   const key = await crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(message));
   return [...new Uint8Array(signature)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function constantTimeEqual(left, right) {
+  if (typeof left !== 'string' || typeof right !== 'string') return false;
+  let diff = left.length ^ right.length;
+  const length = Math.max(left.length, right.length);
+
+  for (let index = 0; index < length; index += 1) {
+    diff |= (left.charCodeAt(index) || 0) ^ (right.charCodeAt(index) || 0);
+  }
+
+  return diff === 0;
 }
 
 export async function createSessionCookie(env) {
@@ -46,7 +59,8 @@ export async function isAuthenticated(request, env) {
   if (parts.length !== 3) return false;
   const [role, expires, signature] = parts;
   if (role !== 'admin' || Number(expires) < Math.floor(Date.now() / 1000)) return false;
-  return signature === await hmac(`${role}.${expires}`, getSecret(env));
+  const expectedSignature = await hmac(`${role}.${expires}`, getSecret(env));
+  return constantTimeEqual(signature, expectedSignature);
 }
 
 export async function requireAdmin(request, env) {
@@ -54,7 +68,13 @@ export async function requireAdmin(request, env) {
   return error('Unauthorized', 401);
 }
 
-export function validateLoginToken(token, env) {
+export async function validateLoginToken(token, env) {
   const password = getPassword(env);
-  return Boolean(password && token && token === password);
+  if (!password || !token) return false;
+  const secret = getSecret(env);
+  const [candidateHash, passwordHash] = await Promise.all([
+    hmac(String(token), secret),
+    hmac(String(password), secret)
+  ]);
+  return constantTimeEqual(candidateHash, passwordHash);
 }
