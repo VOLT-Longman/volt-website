@@ -5024,6 +5024,10 @@ body.nav-trade-open::before {
     max-width: 65ch;
 }
 
+.section-header p {
+    margin-inline: auto;
+}
+
 .hero-stat-value,
 .ship-stat-value,
 .ship-price,
