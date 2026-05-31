@@ -4,7 +4,7 @@
  * 구버전 캐시를 자동 삭제하고 최신 CSS/JS를 적용합니다.
  */
 
-const CACHE_VERSION = '20260531-05';
+const CACHE_VERSION = '20260531-06';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [

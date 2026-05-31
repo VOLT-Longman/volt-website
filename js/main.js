@@ -1023,7 +1023,7 @@
     function renderHangarToggleButton(ship, label = false) {
         const owned = isInHangar(ship.id);
         const title = owned ? '\uaca9\ub0a9\uace0\uc5d0\uc11c \uc81c\uac70' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00';
-        const text = label ? (owned ? '\u2605 \uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c' : '\u2606 \uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00') : (owned ? '\u2605' : '\u2606');
+        const text = label ? (owned ? '\uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00') : (owned ? '\u2605' : '\u2606');
         return `<button class="hangar-toggle-btn${owned ? ' owned' : ''}${label ? ' modal-hangar-btn' : ''}" type="button" data-hangar-ship-id="${escapeHtml(ship.id)}" aria-label="${title}" title="${title}">${text}</button>`;
     }
 
@@ -1160,10 +1160,9 @@
 
     function isPlannerEligibleShip(ship) {
         const tags = getShipTags(ship);
-        return ship.plannerEligible !== false
-            && ship.implemented !== false
+        return ship?.implemented !== false
             && !tags.includes('미구현')
-            && getCargoValue(ship.cargo) > 0;
+            && getCargoValue(ship?.cargo) > 0;
     }
 
     function comparePlannerShips(left, right) {
@@ -1766,7 +1765,7 @@
         document.querySelectorAll(`[data-hangar-ship-id="${CSS.escape(shipId)}"]`).forEach((item) => {
             item.classList.toggle('owned', owned);
             const label = item.classList.contains('modal-hangar-btn');
-            item.textContent = label ? (owned ? '\u2605 \uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c' : '\u2606 \uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00') : (owned ? '\u2605' : '\u2606');
+            item.textContent = label ? (owned ? '\uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00') : (owned ? '\u2605' : '\u2606');
             const title = owned ? '\uaca9\ub0a9\uace0\uc5d0\uc11c \uc81c\uac70' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00';
             item.setAttribute('aria-label', title);
             item.setAttribute('title', title);
