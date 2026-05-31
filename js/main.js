@@ -872,7 +872,6 @@
         if (field === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew);
         if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
         if (field === 'price') return getPriceValue(left.priceUsd) - getPriceValue(right.priceUsd);
-        if (field === 'efficiency') return (calcCargoEfficiency(left) ?? -1) - (calcCargoEfficiency(right) ?? -1);
         return compareText(left.name, right.name);
     }
 
@@ -970,17 +969,6 @@
         return Number.isFinite(priceUsd) ? priceUsd : Number.MAX_SAFE_INTEGER;
     }
 
-    function calcCargoEfficiency(ship) {
-        const scu = getCargoValue(ship?.cargo);
-        const usd = Number(ship?.priceUsd) || 0;
-        if (usd === 0 || scu === 0) return null;
-        return (scu / usd) * 1000;
-    }
-
-    function formatCargoEfficiency(ship) {
-        const efficiency = calcCargoEfficiency(ship);
-        return efficiency !== null ? `${efficiency.toFixed(2)} SCU/k$` : '\u2014';
-    }
 
     function renderShips() {
         const container = document.getElementById('ships-grid');
@@ -1003,7 +991,7 @@
                 </div>
                 <p class="ship-desc">${escapeHtml(ship.description)}</p>
                 <div class="ship-stats">
-                    <div class="ship-stat"><span class="ship-stat-label">\ud654\ubb3c</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span>${renderCargoEfficiencyBadge(ship)}</div>
+                    <div class="ship-stat"><span class="ship-stat-label">\ud654\ubb3c</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
                     <div class="ship-stat"><span class="ship-stat-label">USD 가격</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
                 </div>
                 <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
@@ -1031,11 +1019,6 @@
         return `<button class="ship-planner-toggle" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">\ubb34\uc5ed \ud50c\ub798\ub108\uc5d0\uc11c \uc0ac\uc6a9</button>`;
     }
 
-    function renderCargoEfficiencyBadge(ship) {
-        const efficiency = calcCargoEfficiency(ship);
-        if (efficiency === null) return '';
-        return `<span class="ship-card-efficiency" title="\ud654\ubb3c \ud6a8\uc728 (SCU/$1,000)">${efficiency.toFixed(2)} SCU/k$</span>`;
-    }
 
     function renderHangarToggleButton(ship, label = false) {
         const owned = isInHangar(ship.id);
@@ -2802,8 +2785,7 @@
             { label: '\ud06c\uae30', key: 'size', format: (ship) => ship.size },
             { label: '\uc2b9\ubb34\uc6d0', key: 'crew', format: (ship) => ship.crew, rawValue: (ship) => parseLargestNumber(ship.crew), numeric: true, higherIsBetter: true },
             { label: '\ud654\ubb3c', key: 'cargo', format: (ship) => ship.cargo, rawValue: (ship) => getCargoValue(ship.cargo), numeric: true, higherIsBetter: true },
-            { label: 'USD \uac00\uaca9', key: 'priceUsd', format: (ship) => formatShipPrice(ship.priceUsd), rawValue: (ship) => Number(ship.priceUsd), numeric: true, higherIsBetter: false },
-            { label: '\ud654\ubb3c \ud6a8\uc728', key: 'efficiency', format: formatCargoEfficiency, rawValue: calcCargoEfficiency, numeric: true, higherIsBetter: true }
+            { label: 'USD \uac00\uaca9', key: 'priceUsd', format: (ship) => formatShipPrice(ship.priceUsd), rawValue: (ship) => Number(ship.priceUsd), numeric: true, higherIsBetter: false }
         ];
         return `<div class="modal-header">
                 <div>
@@ -2964,7 +2946,6 @@
                     <div class="ship-modal-stat"><span>승무원</span><strong>${escapeHtml(ship.crew)}</strong></div>
                     <div class="ship-modal-stat"><span>화물</span><strong>${escapeHtml(ship.cargo)}</strong></div>
                     <div class="ship-modal-stat"><span>USD \uac00\uaca9</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
-                <div class="ship-modal-stat"><span>\ud654\ubb3c \ud6a8\uc728</span><strong>${escapeHtml(formatCargoEfficiency(ship))}</strong></div>
                 </div>
                 <div class="ship-modal-actions">
                     <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>

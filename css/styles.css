@@ -4636,15 +4636,6 @@ body.nav-trade-open::before {
     gap: 8px;
 }
 
-.ship-card-efficiency {
-    display: inline-block;
-    font-size: 0.72rem;
-    color: var(--volt-orange);
-    background: rgba(232, 72, 47, 0.12);
-    border-radius: 4px;
-    padding: 1px 6px;
-    margin-top: 4px;
-}
 
 .compare-winner {
     background: rgba(232, 72, 47, 0.15);
