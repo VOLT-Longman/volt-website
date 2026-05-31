@@ -1,4 +1,4 @@
-﻿import { json, requireDb } from '../_shared/http.js';
+import { json, requireDb } from '../_shared/http.js';
 import { mapShipOverride } from '../_shared/cms.js';
 import { ensureShipOverridesTable } from '../_shared/ships.js';
 

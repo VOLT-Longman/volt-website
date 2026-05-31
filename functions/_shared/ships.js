@@ -1,4 +1,4 @@
-﻿export async function ensureShipOverridesTable(db) {
+export async function ensureShipOverridesTable(db) {
   await db.prepare(`CREATE TABLE IF NOT EXISTS ship_overrides (
     id TEXT PRIMARY KEY,
     ship_id TEXT NOT NULL UNIQUE,

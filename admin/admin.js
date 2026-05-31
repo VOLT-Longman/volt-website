@@ -13,6 +13,8 @@ const NOTICE_TAGS = ['\uacf5\uc9c0', '\uc911\uc694', '\uc5c5\ub370\uc774\ud2b8',
 const EVENT_TYPES = ['\uc815\uae30\uc791\uc804', '\ud569\ub3d9\uc791\uc804', '\uc774\ubca4\ud2b8', '\ud68c\uc758', '\ud6c8\ub828', '\uc810\uac80', '\uae30\ud0c0'];
 const EVENT_STATUSES = ['\uc608\uc815', '\uc9c4\ud589\uc911', '\uc644\ub8cc', '\ucde8\uc18c', '\uc5f0\uae30'];
 const GALLERY_CATEGORIES = ['\uc791\uc804', '\ud568\uc120', '\ud48d\uacbd', '\uc774\ubca4\ud2b8', '\uae30\ud0c0'];
+const PARTNER_REGIONS = ['한국', '아시아', '글로벌', '북미', '유럽', '기타'];
+const PARTNER_GAMES = ['Star Citizen', '기타'];
 const GALLERY_MAX_SIZE = 10 * 1024 * 1024;
 const SHIP_EDIT_FIELDS = ['manufacturer', 'role', 'focus', 'size', 'crew', 'cargo', 'priceUsd', 'implemented', 'plannerEligible', 'tags', 'description'];
 const SHIP_SEARCH_DELAY_MS = 200;
@@ -23,13 +25,15 @@ const CONFIG = {
   notices: { title: '\uacf5\uc9c0', endpoint: '/api/admin/notices', fields: ['title', 'content', 'tag', 'date', 'pinned', 'published'] },
   events: { title: '\uc77c\uc815', endpoint: '/api/admin/events', fields: ['title', 'description', 'type', 'status', 'dateLabel', 'eventDate', 'published'] },
   gallery: { title: '\uac24\ub7ec\ub9ac', endpoint: '/api/admin/gallery', fields: ['title', 'description', 'category', 'date', 'published'] },
+  'partner-fleets': { title: '협력함대', endpoint: '/api/admin/partner-fleets', fields: ['name', 'region', 'game', 'focus', 'description', 'memberCount', 'discordUrl', 'websiteUrl', 'logoUrl', 'established', 'sortOrder', 'published'] },
   ships: { title: '\ud568\uc120DB', endpoint: '/api/admin/ships', fields: SHIP_EDIT_FIELDS }
 };
 
 const FIELD_OPTIONS = {
   notices: { tag: NOTICE_TAGS },
   events: { type: EVENT_TYPES, status: EVENT_STATUSES },
-  gallery: { category: GALLERY_CATEGORIES }
+  gallery: { category: GALLERY_CATEGORIES },
+  'partner-fleets': { region: PARTNER_REGIONS, game: PARTNER_GAMES }
 };
 
 const LABELS = {
@@ -45,6 +49,12 @@ const LABELS = {
   dateLabel: '\ud45c\uc2dc \ub0a0\uc9dc',
   eventDate: '\uc2e4\uc81c \ub0a0\uc9dc',
   category: '\uce74\ud14c\uace0\ub9ac',
+  memberCount: '멤버 수',
+  discordUrl: 'Discord URL',
+  websiteUrl: '웹사이트 URL',
+  logoUrl: '로고 URL',
+  established: '창설',
+  sortOrder: '정렬 순서',
   manufacturer: '\uc81c\uc870\uc0ac',
   role: '\uc5ed\ud560',
   focus: '\uc8fc \uc5ed\ud560',
@@ -181,10 +191,19 @@ function renderList() {
 
 function renderStandardListItem(item) {
   if (state.tab === 'gallery') return renderGalleryListItem(item);
+  if (state.tab === 'partner-fleets') return renderPartnerFleetListItem(item);
   const meta = [item.date || item.dateLabel || item.type || '', item.published === false ? '\ucd08\uc548' : '\uac8c\uc2dc']
     .filter(Boolean)
     .join(' - ');
   return `<button class="item-button${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(meta)}</span></button>`;
+}
+
+
+function renderPartnerFleetListItem(item) {
+  const meta = [item.region || '', item.game || '', item.focus || '', item.published === false ? '초안' : '게시']
+    .filter(Boolean)
+    .join(' - ');
+  return `<button class="item-button${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(item.name || '협력함대')}</strong><span>${escapeHtml(meta)}</span></button>`;
 }
 
 function renderGalleryListItem(item) {
@@ -237,7 +256,7 @@ function renderField(field, item) {
   if (field === 'content' || field === 'description') {
     return `<label>${LABELS[field]}<textarea name="${field}">${escapeHtml(value)}</textarea></label>`;
   }
-  const type = field === 'eventDate' || field === 'date' ? 'date' : 'text';
+  const type = field === 'eventDate' || field === 'date' ? 'date' : field === 'memberCount' || field === 'sortOrder' ? 'number' : 'text';
   return `<label>${LABELS[field]}<input type="${type}" name="${field}" value="${escapeHtml(value)}"></label>`;
 }
 
@@ -261,6 +280,9 @@ function getItemValue(item, field) {
   if (state.tab === 'notices' && field === 'tag') return '\uacf5\uc9c0';
   if (state.tab === 'events' && field === 'type') return '\uc815\uae30\uc791\uc804';
   if (state.tab === 'events' && field === 'status') return '\uc608\uc815';
+  if (state.tab === 'partner-fleets' && field === 'region') return '한국';
+  if (state.tab === 'partner-fleets' && field === 'game') return 'Star Citizen';
+  if (state.tab === 'partner-fleets' && field === 'sortOrder') return '0';
   return '';
 }
 
@@ -338,7 +360,13 @@ function getFormPayload() {
     if (input) payload[field] = input.type === 'checkbox' ? input.checked : input.value.trim();
   });
   if (state.tab === 'gallery') applyGalleryPayloadDefaults(payload);
+  if (state.tab === 'partner-fleets') normalizePartnerFleetPayload(payload);
   return payload;
+}
+
+function normalizePartnerFleetPayload(payload) {
+  payload.memberCount = payload.memberCount === '' ? '' : Number(payload.memberCount);
+  payload.sortOrder = payload.sortOrder === '' ? 0 : Number(payload.sortOrder);
 }
 
 function applyGalleryPayloadDefaults(payload) {

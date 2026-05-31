@@ -41,7 +41,7 @@
     const localization = window.VOLT_LOCALIZATION || {};
 
     const PAGE_SIZE = 4;
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
@@ -1307,15 +1307,17 @@
     }
 
     async function loadCmsContent() {
-        const [notices, events, gallery, shipOverrides] = await Promise.all([
+        const [notices, events, gallery, partnerFleets, shipOverrides] = await Promise.all([
             fetchCmsCollection('/api/notices'),
             fetchCmsCollection('/api/events'),
             fetchCmsCollection('/api/gallery'),
+            fetchCmsCollection('/api/partner-fleets'),
             fetchCmsCollection('/api/ship-overrides')
         ]);
         if (Array.isArray(notices)) data.announcements = notices;
         if (Array.isArray(events)) data.calendar = events;
         if (Array.isArray(gallery)) data.gallery = gallery;
+        if (Array.isArray(partnerFleets)) data.partnerFleets = partnerFleets;
         if (Array.isArray(shipOverrides)) applyShipOverrides(shipOverrides);
     invalidateSearchCache();
     }
@@ -1367,12 +1369,64 @@
         const memberCount = getMemberCount();
         element.textContent = `${memberCount ?? '?'}+`;
     }
+
+    function renderPartnerFleets() {
+        const container = document.getElementById('partner-fleets-grid');
+        if (!container) return;
+        const fleets = Array.isArray(data.partnerFleets)
+            ? data.partnerFleets.filter((fleet) => fleet.published !== false)
+            : [];
+        if (!fleets.length) {
+            container.innerHTML = '<div class="partner-fleets-empty">등록된 협력함대가 없습니다.</div>';
+            return;
+        }
+        container.innerHTML = fleets
+            .slice()
+            .sort((left, right) => (Number(left.sortOrder || 0) - Number(right.sortOrder || 0)) || String(left.name || '').localeCompare(String(right.name || ''), 'ko'))
+            .map(renderPartnerFleetCard)
+            .join('');
+        observeNewReveals(container);
+    }
+
+    function renderPartnerFleetCard(fleet) {
+        const name = fleet.name || '협력함대';
+        const logo = fleet.logoUrl
+            ? `<img class="partner-fleet-logo" src="${escapeHtml(fleet.logoUrl)}" alt="${escapeHtml(name)} 로고" loading="lazy">`
+            : `<span class="partner-fleet-logo-fallback" aria-hidden="true">${escapeHtml(name.slice(0, 2).toUpperCase())}</span>`;
+        const meta = [fleet.region, fleet.game, fleet.focus].filter(Boolean)
+            .map((item) => `<span class="partner-fleet-badge">${escapeHtml(item)}</span>`)
+            .join('');
+        const stats = [
+            fleet.memberCount ? `멤버 ${Number(fleet.memberCount).toLocaleString('ko-KR')}명` : '',
+            fleet.established ? `창설 ${fleet.established}` : ''
+        ].filter(Boolean).map((item) => `<span class="partner-fleet-stat">${escapeHtml(item)}</span>`).join('');
+        const links = [
+            fleet.discordUrl ? `<a class="partner-fleet-link" href="${escapeHtml(fleet.discordUrl)}" target="_blank" rel="noopener noreferrer">Discord</a>` : '',
+            fleet.websiteUrl ? `<a class="partner-fleet-link" href="${escapeHtml(fleet.websiteUrl)}" target="_blank" rel="noopener noreferrer">웹사이트</a>` : ''
+        ].filter(Boolean).join('');
+        return `
+            <article class="partner-fleet-card reveal">
+                <div class="partner-fleet-header">
+                    ${logo}
+                    <div>
+                        <h3 class="partner-fleet-title">${escapeHtml(name)}</h3>
+                        <div class="partner-fleet-meta">${meta}</div>
+                    </div>
+                </div>
+                <p class="partner-fleet-description">${escapeHtml(fleet.description || '협력 관계 정보를 준비 중입니다.')}</p>
+                ${stats ? `<div class="partner-fleet-stats">${stats}</div>` : ''}
+                ${links ? `<div class="partner-fleet-actions">${links}</div>` : ''}
+            </article>
+        `;
+    }
+
     function renderAll() {
         renderMemberCount();
         renderDepartments();
         renderCoreValues();
         renderTimeline();
         renderLeaders();
+        renderPartnerFleets();
         renderHubFeatures();
         renderStreamers();
         renderGallery();
@@ -3122,6 +3176,7 @@
             ...data.faq.map((item) => makeSearchItem('FAQ', 'faq', item.q, item.a)),
             ...data.timeline.map((item) => makeSearchItem('연혁', 'timeline', item.title, item.description)),
             ...data.leadership.map((item) => makeSearchItem('임원진', 'leadership', item.name, `${item.role} ${item.description}`)),
+            ...(Array.isArray(data.partnerFleets) ? data.partnerFleets.map((item) => makeSearchItem('협력함대', 'partner-fleets', item.name, `${item.region || ''} ${item.game || ''} ${item.focus || ''} ${item.description || ''}`)) : []),
             ...data.departments.map((item) => makeSearchItem('소개', 'about', item.name, item.description)),
             ...data.coreValues.map((item) => makeSearchItem('가치', 'about', item.title, item.description)),
             ...data.calendar.map((item) => makeSearchItem('일정', 'schedule', item.title, item.description)),

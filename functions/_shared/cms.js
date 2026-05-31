@@ -62,6 +62,48 @@ export function galleryInput(body, existing = {}) {
 }
 
 
+
+export function mapPartnerFleet(row) {
+  return {
+    id: row.id,
+    name: row.name,
+    region: row.region || '',
+    game: row.game || '',
+    focus: row.focus || '',
+    description: row.description || '',
+    memberCount: row.member_count === null || row.member_count === undefined ? null : Number(row.member_count),
+    discordUrl: row.discord_url || '',
+    websiteUrl: row.website_url || '',
+    logoUrl: row.logo_url || '',
+    established: row.established || '',
+    sortOrder: Number(row.sort_order || 0),
+    published: Boolean(row.published),
+    createdAt: row.created_at || '',
+    updatedAt: row.updated_at || ''
+  };
+}
+
+export function partnerFleetInput(body, existing = {}) {
+  const timestamp = nowIso();
+  return {
+    id: existing.id || sanitizeText(body.id) || createId('partner'),
+    name: limitText(body.name, 200),
+    region: limitText(body.region, 80),
+    game: limitText(body.game, 80),
+    focus: limitText(body.focus, 120),
+    description: limitText(body.description, 20000),
+    member_count: nullableNumber(body.memberCount ?? body.member_count),
+    discord_url: limitText(body.discordUrl || body.discord_url, 2048),
+    website_url: limitText(body.websiteUrl || body.website_url, 2048),
+    logo_url: limitText(body.logoUrl || body.logo_url, 2048),
+    established: limitText(body.established, 80),
+    sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
+    published: body.published === undefined ? 1 : toBooleanInt(body.published),
+    created_at: existing.created_at || timestamp,
+    updated_at: timestamp
+  };
+}
+
 export function mapShipOverride(row) {
   return {
     id: row.ship_id,

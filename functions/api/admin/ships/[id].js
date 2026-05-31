@@ -1,4 +1,4 @@
-﻿import { requireAdmin } from '../../../_shared/auth.js';
+import { requireAdmin } from '../../../_shared/auth.js';
 import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
 import { mapShipOverride, shipOverrideInput } from '../../../_shared/cms.js';
 import { ensureShipOverridesTable } from '../../../_shared/ships.js';

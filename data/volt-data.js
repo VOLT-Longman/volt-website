@@ -178,6 +178,25 @@ const VOLT_DATA = {
     // ===== 활동 갤러리 =====
     gallery: [],
 
+    // ===== 협력 함대 =====
+    partnerFleets: [
+        {
+            id: "mjo",
+            name: "MJO",
+            region: "한국",
+            game: "Star Citizen",
+            focus: "합동 작전",
+            description: "VOLT와 합동 작전 및 교류를 진행하는 협력 함대입니다.",
+            memberCount: null,
+            discordUrl: "",
+            websiteUrl: "",
+            logoUrl: "",
+            established: "",
+            sortOrder: 1,
+            published: true
+        }
+    ],
+
     // ===== 함대 연혁 =====
     timeline: [
         {

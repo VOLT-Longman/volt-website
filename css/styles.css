@@ -1,4 +1,4 @@
-﻿/**
+/**
  * VOLT Fleet Stylesheet
  * =====================
  * 援ъ“:
@@ -5189,3 +5189,123 @@ body.nav-trade-open::before {
     stroke-linejoin: round;
 }
 
+
+
+/* 20260531-03: trade planner alignment and partner fleets */
+.trade-planner-form {
+    align-items: start;
+}
+
+.planner-field-hint {
+    line-height: 1.25;
+}
+
+.partner-fleets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.partner-fleet-card {
+    display: grid;
+    gap: 16px;
+    padding: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-card);
+    box-shadow: var(--shadow-card);
+}
+
+.partner-fleet-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.partner-fleet-logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-elevated);
+}
+
+.partner-fleet-logo-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    background: linear-gradient(135deg, rgba(232, 72, 47, 0.18), rgba(255, 255, 255, 0.04));
+    color: var(--volt-orange);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.partner-fleet-title {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: var(--text-h3);
+    line-height: 1.2;
+}
+
+.partner-fleet-meta,
+.partner-fleet-stats,
+.partner-fleet-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.partner-fleet-badge,
+.partner-fleet-stat {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 6px 10px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-elevated);
+    color: var(--color-text-secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.partner-fleet-description {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+.partner-fleet-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.partner-fleet-link:hover,
+.partner-fleet-link:focus-visible {
+    border-color: var(--volt-orange);
+    color: var(--volt-orange);
+}
+
+.partner-fleets-empty {
+    grid-column: 1 / -1;
+    padding: 28px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-text-secondary);
+    text-align: center;
+    background: var(--color-bg-card);
+}
