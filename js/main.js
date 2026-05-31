@@ -806,7 +806,31 @@
 
     function compareAnnouncements(left, right) {
         if (Boolean(left.pinned) !== Boolean(right.pinned)) return left.pinned ? -1 : 1;
-        return right.date.localeCompare(left.date);
+        const leftTime = getDateSortTime(left.date);
+        const rightTime = getDateSortTime(right.date);
+        if (leftTime !== rightTime) return rightTime - leftTime;
+        return String(right.date || '').localeCompare(String(left.date || ''));
+    }
+
+    function getDateSortTime(value) {
+        const raw = String(value || '').trim().replace(/\./g, '-');
+        const time = Date.parse(raw);
+        return Number.isNaN(time) ? 0 : time;
+    }
+
+    function formatDisplayDate(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw.replace(/-/g, '.');
+        const time = Date.parse(raw);
+        if (!Number.isNaN(time) && raw.includes('T')) {
+            return new Date(time).toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).replace(/\.\s/g, '.').replace(/\.$/, '');
+        }
+        return raw;
     }
 
     function renderAnnouncements() {
@@ -821,7 +845,7 @@
                 <div class="notice-meta">
                     ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
                     <span class="notice-tag" style="background:${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20;color:${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'};">${escapeHtml(announcement.tag)}</span>
-                    <span class="notice-date">${escapeHtml(announcement.date)}</span>
+                    <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
                 </div>
                 <h3 class="notice-title">${escapeHtml(announcement.title)}</h3>
                 <p class="notice-content">${formatMultilineText(announcement.content)}</p>
@@ -1595,7 +1619,7 @@
             <div class="modal-body notice-modal-body">
                 <div class="notice-meta">
                     <span class="notice-tag">${escapeHtml(announcement.tag)}</span>
-                    <span class="notice-date">${escapeHtml(announcement.date)}</span>
+                    <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
                 </div>
                 <p>${formatMultilineText(announcement.content)}</p>
                 <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">공지 링크 복사</button>
@@ -3308,6 +3332,15 @@
     }
 
 
+    function registerServiceWorker() {
+        if (!('serviceWorker' in navigator)) return;
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch((error) => {
+                console.warn('VOLT service worker registration failed:', error);
+            });
+        }, { once: true });
+    }
+
     function setupPwaInstallPrompt() {
         if (localStorage.getItem('volt-pwa-install-dismissed') === 'true') return;
         window.addEventListener('beforeinstallprompt', (event) => {
@@ -3375,6 +3408,7 @@
         setupScrollTop();
         setupTheme();
         setupPwaInstallPrompt();
+        registerServiceWorker();
         hydrateMemberCount();
         injectStructuredData();
         const applyRouteFromLocation = () => {

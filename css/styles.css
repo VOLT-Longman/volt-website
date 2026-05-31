@@ -5149,3 +5149,43 @@ body.nav-trade-open::before {
     color: var(--volt-orange);
     font-weight: 700;
 }
+
+/* Header utility icon normalization: keeps search/theme icons centered. */
+.nav-links > li:has(#search-toggle),
+.nav-links > li:has(#theme-toggle) {
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-links #search-toggle.nav-icon-button,
+.nav-links #theme-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    line-height: 1;
+    overflow: hidden;
+}
+
+.nav-links #search-toggle.nav-icon-button svg,
+.nav-links #theme-toggle svg,
+.nav-links .nav-svg-icon,
+.nav-links .theme-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    flex: 0 0 auto;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+

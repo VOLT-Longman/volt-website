@@ -25,6 +25,7 @@ export function mapEvent(row) {
 
 export function eventInput(body, existing = {}) {
   const timestamp = nowIso();
+  const eventDate = limitText(body.eventDate || body.event_date, 40);
   return {
     id: existing.id || sanitizeText(body.id) || createId('event'),
     title: limitText(body.title, 200),
@@ -32,7 +33,7 @@ export function eventInput(body, existing = {}) {
     type: limitText(body.type, 20, '작전'),
     status: limitText(body.status, 20, '예정'),
     date_label: limitText(body.dateLabel || body.date_label || body.date, 80),
-    event_date: limitText(body.eventDate || body.event_date, 40),
+    event_date: eventDate || null,
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
