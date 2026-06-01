@@ -5326,3 +5326,158 @@ body.nav-trade-open::before {
     text-align: center;
     background: var(--color-bg-card);
 }
+
+/* ==========================================================================
+   VOLT DISCORD AUTH UI
+   ========================================================================== */
+
+.volt-auth-slot {
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-more-menu .volt-auth-slot {
+    display: block;
+    width: 100%;
+}
+
+.nav-more-menu .volt-auth-slot .volt-auth-login,
+.nav-more-menu .volt-auth-slot .volt-auth-logout {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+.volt-auth-user,
+.volt-auth-mobile-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.volt-auth-user {
+    padding: 4px 0;
+}
+
+.volt-auth-mobile-card {
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card);
+}
+
+.volt-auth-mobile-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.volt-auth-avatar {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+}
+
+.volt-auth-avatar-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: var(--volt-orange);
+    font-weight: 800;
+}
+
+.volt-auth-user-text,
+.volt-auth-mobile-user span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.volt-auth-user-text strong,
+.volt-auth-mobile-user strong {
+    color: var(--color-text-primary);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.volt-auth-user-text small,
+.volt-auth-mobile-user small {
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.volt-auth-login,
+.volt-auth-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--color-border-accent);
+    border-radius: var(--radius-full);
+    background: rgba(232, 72, 47, 0.08);
+    color: var(--volt-orange);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.volt-auth-login:hover,
+.volt-auth-logout:hover,
+.volt-auth-login:focus-visible,
+.volt-auth-logout:focus-visible {
+    background: rgba(232, 72, 47, 0.18);
+    border-color: var(--volt-orange);
+    color: var(--volt-orange);
+    transform: translateY(-1px);
+}
+
+.volt-auth-warning {
+    color: var(--color-warning);
+    border-color: rgba(255, 179, 0, 0.45);
+    background: rgba(255, 179, 0, 0.08);
+}
+
+.volt-auth-loading {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.volt-auth-mobile {
+    display: block;
+    width: 100%;
+}
+
+.volt-auth-mobile .volt-auth-login,
+.volt-auth-mobile .volt-auth-logout {
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .nav-more-menu .volt-auth-slot {
+        display: none;
+    }
+}
+
