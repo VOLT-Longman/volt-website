@@ -1219,7 +1219,7 @@ body.nav-trade-open::before {
 }
 
 .leader-competencies li::before {
-    content: "??;
+    content: '\2022';
     position: absolute;
     left: 0;
     color: var(--volt-orange);
@@ -1272,7 +1272,7 @@ body.nav-trade-open::before {
 }
 
 .hub-feature li::before {
-    content: "쨌";
+    content: '\2022';
     position: absolute;
     left: 0;
     color: var(--volt-orange);
@@ -1857,7 +1857,6 @@ body.nav-trade-open::before {
 
 .ship-modal-link {
     display: inline-flex;
-    margin-top: 18px;
 }
 
 .gallery-lightbox-image {
@@ -3296,6 +3295,7 @@ body.nav-trade-open::before {
 .ship-modal-actions {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
 }
 .recommended-trade-card .btn,
@@ -4700,8 +4700,9 @@ body.nav-trade-open::before {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 48px;
-    padding: 14px 28px;
+    margin: 0;
+    min-height: 52px;
+    padding: 14px 32px;
     border: 1.5px solid var(--color-border);
     border-radius: var(--radius-full);
     background: transparent;
@@ -4709,6 +4710,8 @@ body.nav-trade-open::before {
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.01em;
+    line-height: 1;
+    transform: none;
 }
 
 .modal-hangar-btn:hover {
