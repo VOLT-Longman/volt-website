@@ -26,7 +26,7 @@
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
   <script src="js/theme-init.js?v=20260531-08"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260531-08">
+  <link rel="stylesheet" href="css/styles.css?v=20260602-auth1">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -96,6 +96,9 @@
       </li>
      <li><button id="search-toggle" class="nav-icon-button" aria-label="&#44160;&#49353; &#50676;&#44592;" aria-haspopup="dialog"><svg class="nav-svg-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg></button></li>
      <li><button id="theme-toggle" aria-label="&#53580;&#47560; &#48320;&#44221;"><svg class="theme-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button></li>
+     <li class="volt-auth-slot" id="volt-auth-desktop" aria-live="polite">
+      <a class="volt-auth-login" href="/auth/discord/login">Discord 로그인</a>
+     </li>
      <li><a href="#join" data-section="join" class="nav-discord nav-join-cta">가입하기</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
@@ -132,6 +135,9 @@
        <li><a href="#faq" data-section="faq">FAQ</a></li>
       </ul>
      <div class="mobile-menu-actions">
+      <div class="volt-auth-mobile" id="volt-auth-mobile" aria-live="polite">
+       <a class="volt-auth-login" href="/auth/discord/login">Discord 로그인</a>
+      </div>
       <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-label="검색 열기">검색 열기</button>
       <a class="mobile-discord-link" href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord 참여</a>
       <button class="mobile-menu-close-secondary" type="button" data-mobile-menu-close>메뉴 닫기</button>
@@ -629,6 +635,6 @@
   <script src="data/volt-data.js?v=20260531-08"></script>
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"1c86868908484152bb27fe39459f8c82"}'></script>
   <script src="data/volt-localization.js?v=20260531-08"></script>
-  <script src="js/main.js?v=20260531-08"></script>
+  <script src="js/main.js?v=20260602-auth1"></script>
  </body>
 </html>
