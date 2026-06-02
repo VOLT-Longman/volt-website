@@ -5481,3 +5481,128 @@ body.nav-trade-open::before {
     }
 }
 
+
+
+/* Member features: RSVP, auth gates, My Page */
+.is-auth-locked {
+    opacity: 0.62;
+}
+
+.schedule-rsvp {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border);
+}
+
+.schedule-rsvp-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.schedule-rsvp-btn {
+    min-height: 36px;
+    padding: 8px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-bg-card-hover);
+    color: var(--color-text-primary);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.schedule-rsvp-btn.is-selected,
+.schedule-rsvp-btn:hover,
+.schedule-rsvp-btn:focus-visible {
+    border-color: var(--volt-orange);
+    color: var(--volt-orange);
+}
+
+.schedule-rsvp-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.schedule-rsvp-summary {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+}
+
+.mypage-panel {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.mypage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.mypage-card {
+    padding: 22px;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    background: var(--color-bg-card);
+}
+
+.mypage-card h3 {
+    margin: 0 0 12px;
+    font-size: 18px;
+}
+
+.mypage-list {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mypage-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--color-text-secondary);
+}
+
+.mypage-list button {
+    border: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+}
+
+.mypage-planner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 14px;
+    margin: 0;
+}
+
+.mypage-planner dt {
+    color: var(--color-text-tertiary);
+}
+
+.mypage-planner dd {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-weight: 700;
+}
+
+.trade-briefing-header {
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .schedule-rsvp-actions,
+    .mypage-list li {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}

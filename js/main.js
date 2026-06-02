@@ -41,9 +41,10 @@
     const localization = window.VOLT_LOCALIZATION || {};
 
     const PAGE_SIZE = 4;
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
+    const RSVP_STATUSES = ['참가', '대기', '불참'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
     const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, selectedTags: [] };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
@@ -59,6 +60,9 @@
     let searchIndexCache = null;
     let lastSearchTrigger = null;
     let deferredInstallPrompt = null;
+    let authState = { loggedIn: false, user: null, roles: [] };
+    let userPreferencesLoaded = false;
+    let preferencesSaveTimer = null;
     const NOTICE_TAG_COLORS = { '\uACF5\uC9C0': 'var(--volt-orange)', '\uC911\uC694': '#e53e3e', '\uC5C5\uB370\uC774\uD2B8': '#3182ce', '\uC774\uBCA4\uD2B8': '#805ad5', '\uC791\uC804': '#38a169', '\uC2DC\uC2A4\uD15C': '#319795', '\uBAA8\uC9D1': '#d69e2e', '\uC815\uCC45': '#e53e3e' };
     const FOCUS_COLORS = {
         '\uBB3C\uB958': '#f6ad55',
@@ -574,8 +578,10 @@
         }
     }
 
-    function setHangar(hangar) {
+    function setHangar(hangar, options = {}) {
         localStorage.setItem(HANGAR_KEY, JSON.stringify([...new Set(hangar)]));
+        if (options.sync !== false) schedulePreferenceSave();
+        renderMyPage();
     }
 
     function toggleHangar(shipId) {
@@ -602,6 +608,8 @@
             travelTime: document.getElementById('planner-travel-time')?.value || ''
         };
         localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(state));
+        schedulePreferenceSave();
+        renderMyPage();
     }
 
     function restorePlannerState() {
@@ -1032,8 +1040,9 @@
         if (!container || !Array.isArray(data.calendar)) return;
         const colors = { '\uC608\uC815': 'var(--volt-orange)', '\uC9C4\uD589\uC911': '#38a169', '\uC644\uB8CC': '#718096', '\uCDE8\uC18C': '#e53e3e', '\uC5F0\uAE30': '#d69e2e', '\uB300\uAE30': '#a0aec0', '\uACC4\uD68D': '#63b3ed' };
         container.innerHTML = data.calendar.map((event) => {
-            const detailId = `schedule-detail-${escapeHtml(event.id || event.title)}`;
-            return `<div class="schedule-item reveal">
+            const eventId = getEventId(event);
+            const detailId = `schedule-detail-${escapeHtml(eventId)}`;
+            return `<div class="schedule-item reveal" data-schedule-event-id="${escapeHtml(eventId)}">
                 <div class="schedule-date-col">
                     <span class="schedule-date">${escapeHtml(event.dateLabel)}</span>
                     <span class="schedule-status" style="color:${colors[event.status] || '#a0aec0'};">${escapeHtml(event.status)}</span>
@@ -1046,9 +1055,69 @@
                     <div class="schedule-item-detail" id="${detailId}" hidden>
                         <p>${formatMultilineText(event.description)}</p>
                     </div>
+                    ${renderRsvpControls(eventId)}
                 </div>
             </div>`;
         }).join('');
+        window.requestAnimationFrame(loadScheduleRsvps);
+    }
+
+    function getEventId(event) {
+        return String(event.id || event.title || '').trim().replace(/\s+/g, '-');
+    }
+
+    function renderRsvpControls(eventId) {
+        return `<div class="schedule-rsvp" data-rsvp-event-id="${escapeHtml(eventId)}">
+            <div class="schedule-rsvp-actions" aria-label="일정 참가 상태 선택">
+                ${RSVP_STATUSES.map((status) => `<button class="schedule-rsvp-btn" type="button" data-requires-auth data-rsvp-status="${escapeHtml(status)}">${escapeHtml(status)}</button>`).join('')}
+            </div>
+            <div class="schedule-rsvp-summary" data-rsvp-summary>로그인하면 참가 상태를 남길 수 있습니다.</div>
+        </div>`;
+    }
+
+    async function loadScheduleRsvps() {
+        const controls = Array.from(document.querySelectorAll('[data-rsvp-event-id]'));
+        await Promise.all(controls.map(async (control) => {
+            const eventId = control.getAttribute('data-rsvp-event-id');
+            if (!eventId) return;
+            try {
+                const response = await fetch(`/api/events/${encodeURIComponent(eventId)}/rsvp`, { headers: { Accept: 'application/json' } });
+                if (!response.ok) throw new Error(`RSVP ${response.status}`);
+                renderRsvpSummary(control, await response.json());
+            } catch (error) {
+                console.warn('RSVP load failed', error);
+            }
+        }));
+        applyRoleGates();
+    }
+
+    function renderRsvpSummary(control, payload) {
+        const summary = control.querySelector('[data-rsvp-summary]');
+        const counts = payload?.counts || {};
+        const parts = RSVP_STATUSES.map((status) => `${status} ${Number(counts[status] || 0)}명`);
+        if (summary) summary.textContent = parts.join(' · ');
+    }
+
+    async function saveEventRsvp(eventId, status) {
+        if (!authState.loggedIn) {
+            showToast('Discord 로그인 후 참가 상태를 남길 수 있습니다.');
+            return;
+        }
+        const response = await fetch(`/api/events/${encodeURIComponent(eventId)}/rsvp`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ status })
+        });
+        if (!response.ok) throw new Error(`RSVP ${response.status}`);
+        const control = document.querySelector(`[data-rsvp-event-id="${CSS.escape(eventId)}"]`);
+        if (control) {
+            renderRsvpSummary(control, await response.json());
+            control.querySelectorAll('[data-rsvp-status]').forEach((button) => {
+                button.classList.toggle('is-selected', button.getAttribute('data-rsvp-status') === status);
+            });
+        }
+        renderMyPage();
     }
 
     function renderPolicy() {
@@ -1813,6 +1882,7 @@
     function setupLogisticsCalculator() {
         const button = document.getElementById('logistics-calculate');
         const copyButton = document.getElementById('trade-briefing-copy');
+        const shareButton = document.getElementById('trade-briefing-share');
         const presets = document.getElementById('trade-preset-grid');
         const controls = [
             document.getElementById('trade-operation-type'),
@@ -1825,6 +1895,7 @@
         if (!copyButton) return;
         button?.addEventListener('click', renderLogisticsRecommendation);
         copyButton.addEventListener('click', copyTradeBriefing);
+        shareButton?.addEventListener('click', shareTradeBriefing);
         presets?.addEventListener('click', (event) => {
             const presetButton = event.target.closest('[data-trade-preset-id]');
             if (!presetButton) return;
@@ -2378,6 +2449,7 @@
         const riskSelect = document.getElementById('trade-risk');
         const result = document.getElementById('logistics-result');
         const copyButton = document.getElementById('trade-briefing-copy');
+        const shareButton = document.getElementById('trade-briefing-share');
         if (!cargoInput || !crewInput || !shipSelect || !operationSelect || !riskSelect || !result) return;
         const cargoTarget = Math.max(0, Number(cargoInput.value) || 0);
         const crewAvailable = Math.max(1, Number(crewInput.value) || 0);
@@ -2472,6 +2544,8 @@
         const field = document.getElementById('trade-briefing-text');
         if (!field) return;
         field.value = '작전 정보를 입력하면 Discord 공유용 브리핑이 생성됩니다.';
+        const shareButton = document.getElementById('trade-briefing-share');
+        if (shareButton) shareButton.disabled = true;
     }
 
     function buildLogisticsRecommendation({ cargoTarget, crewAvailable, ship, operationType, risk }) {
@@ -2656,7 +2730,6 @@
         ];
         if (currentUexModel?.bestBuy && currentUexModel?.bestSell) {
             lines.splice(4, 0,
-                ``,
                 `상품: ${currentUexModel.commodityLabel}`,
                 ``,
                 `매수 후보: ${formatUexLocation(currentUexModel.bestBuy)}`,
@@ -2670,10 +2743,13 @@
                 `예상 계산:`,
                 `예상 순수익: ${formatCredits(currentUexModel.estimatedProfit)}`,
                 `SCU당 수익: ${formatCredits(currentUexModel.profitPerScu)}`,
-                `수익률: ${formatPercent(currentUexModel.profitRate)}`
+                `수익률: ${formatPercent(currentUexModel.profitRate)}`,
+                ``
             );
         }
         field.value = lines.join('\n');
+        const shareButton = document.getElementById('trade-briefing-share');
+        if (shareButton) shareButton.disabled = !authState.loggedIn;
     }
 
     async function copyTradeBriefing() {
@@ -2684,6 +2760,28 @@
             showToast('브리핑을 복사했습니다.');
         } catch (error) {
             showToast('브리핑 복사에 실패했습니다.');
+        }
+    }
+
+    async function shareTradeBriefing() {
+        const field = document.getElementById('trade-briefing-text');
+        if (!field) return;
+        if (!authState.loggedIn) {
+            showToast('Discord 로그인 후 전송할 수 있습니다.');
+            return;
+        }
+        try {
+            const response = await fetch('/api/briefing/share', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({ text: field.value })
+            });
+            if (!response.ok) throw new Error(`BRIEFING ${response.status}`);
+            showToast('Discord 채널로 브리핑을 전송했습니다.');
+        } catch (error) {
+            console.warn('Briefing share failed', error);
+            showToast('Discord 전송에 실패했습니다.');
         }
     }
 
@@ -3066,6 +3164,17 @@
         const container = document.getElementById('schedule-list');
         if (!container) return;
         container.addEventListener('click', (event) => {
+            const rsvpButton = event.target.closest('[data-rsvp-status]');
+            if (rsvpButton) {
+                const control = rsvpButton.closest('[data-rsvp-event-id]');
+                const eventId = control?.getAttribute('data-rsvp-event-id');
+                const status = rsvpButton.getAttribute('data-rsvp-status');
+                if (eventId && status) saveEventRsvp(eventId, status).catch((error) => {
+                    console.warn('RSVP save failed', error);
+                    showToast('참가 상태 저장에 실패했습니다.');
+                });
+                return;
+            }
             const button = event.target.closest('.schedule-item-toggle');
             if (!button) return;
             const detail = document.getElementById(button.getAttribute('aria-controls'));
@@ -3269,14 +3378,33 @@
             })
             .then((payload) => {
                 if (payload && payload.logged_in && payload.user) {
+                    authState = normalizeAuthState(payload.user);
                     renderAuthLoggedIn(payload.user, desktop, mobile);
+                    applyRoleGates();
+                    loadUserPreferences().catch((error) => console.warn('Preference load failed', error));
                 } else {
-                    renderAuthLoggedOut(desktop, mobile);
+                    setLoggedOutState(desktop, mobile);
                 }
             })
             .catch(() => {
+                authState = { loggedIn: false, user: null, roles: [] };
+                userPreferencesLoaded = false;
                 renderAuthError(desktop, mobile);
+                applyRoleGates();
+                renderMyPage();
             });
+    }
+
+    function normalizeAuthState(user) {
+        return { loggedIn: true, user, roles: Array.isArray(user.roles) ? user.roles : [] };
+    }
+
+    function setLoggedOutState(desktop, mobile) {
+        authState = { loggedIn: false, user: null, roles: [] };
+        userPreferencesLoaded = false;
+        renderAuthLoggedOut(desktop, mobile);
+        applyRoleGates();
+        renderMyPage();
     }
 
     function renderAuthLoading(desktop, mobile) {
@@ -3359,6 +3487,132 @@
     function getAuthInitial(value) {
         const text = String(value || '').trim();
         return text ? text.charAt(0).toUpperCase() : 'V';
+    }
+
+
+    function applyRoleGates() {
+        document.querySelectorAll('[data-requires-auth]').forEach((element) => {
+            const locked = !authState.loggedIn;
+            element.classList.toggle('is-auth-locked', locked);
+            if ('disabled' in element) element.disabled = locked;
+            if (locked && element.tagName === 'A') element.setAttribute('aria-disabled', 'true');
+            else element.removeAttribute('aria-disabled');
+        });
+        document.querySelectorAll('[data-requires-role]').forEach((element) => {
+            const roles = String(element.getAttribute('data-requires-role') || '').split(',').map((role) => role.trim()).filter(Boolean);
+            element.hidden = roles.length > 0 && !userHasAnyRole(roles);
+        });
+        const shareButton = document.getElementById('trade-briefing-share');
+        if (shareButton) shareButton.disabled = !authState.loggedIn || !document.getElementById('trade-briefing-text')?.value;
+    }
+
+    function userHasAnyRole(roles) {
+        return roles.some((role) => authState.roles.includes(role));
+    }
+
+    async function loadUserPreferences() {
+        if (!authState.loggedIn) return;
+        const response = await fetch('/api/me/preferences', { credentials: 'same-origin', headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error(`PREF ${response.status}`);
+        const payload = await response.json();
+        mergeUserPreferences(payload.preferences || {});
+        userPreferencesLoaded = true;
+        await saveUserPreferences();
+        renderMyPage();
+    }
+
+    function mergeUserPreferences(preferences) {
+        const remoteFavorites = Array.isArray(preferences.favorites) ? preferences.favorites.map(String) : [];
+        const mergedFavorites = [...new Set([...remoteFavorites, ...getHangar()])];
+        setHangar(mergedFavorites, { sync: false });
+        const localPlanner = getPlannerStateFromStorage();
+        if (!hasPlannerState(localPlanner) && preferences.planner && typeof preferences.planner === 'object') {
+            localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(preferences.planner));
+            restorePlannerState();
+            renderLogisticsRecommendation();
+        }
+    }
+
+    function getPlannerStateFromStorage() {
+        try {
+            return JSON.parse(localStorage.getItem(PLANNER_STORAGE_KEY) || '{}');
+        } catch (error) {
+            console.warn('Invalid planner state', error);
+            localStorage.removeItem(PLANNER_STORAGE_KEY);
+            return {};
+        }
+    }
+
+    function hasPlannerState(state) {
+        return Object.values(state || {}).some((value) => String(value || '').trim());
+    }
+
+    function schedulePreferenceSave() {
+        if (!authState.loggedIn || !userPreferencesLoaded) return;
+        window.clearTimeout(preferencesSaveTimer);
+        preferencesSaveTimer = window.setTimeout(() => {
+            saveUserPreferences().catch((error) => console.warn('Preference save failed', error));
+        }, 800);
+    }
+
+    async function saveUserPreferences() {
+        if (!authState.loggedIn) return;
+        const response = await fetch('/api/me/preferences', {
+            method: 'PUT',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ favorites: getHangar(), planner: getPlannerStateFromStorage() })
+        });
+        if (!response.ok) throw new Error(`PREF ${response.status}`);
+    }
+
+    async function loadMyRsvps() {
+        const list = document.getElementById('mypage-rsvp-list');
+        if (!list || !authState.loggedIn) return;
+        try {
+            const response = await fetch('/api/me/rsvps', { credentials: 'same-origin', headers: { Accept: 'application/json' } });
+            if (!response.ok) throw new Error(`MYRSVP ${response.status}`);
+            const payload = await response.json();
+            const items = payload.items || [];
+            list.innerHTML = items.length ? items.map((item) => `<li><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.status)} · ${escapeHtml(item.dateLabel || '일정 미정')}</span></li>`).join('') : '<li>참가 상태를 남긴 일정이 없습니다.</li>';
+        } catch (error) {
+            console.warn('My RSVP load failed', error);
+            list.innerHTML = '<li>참가 일정 정보를 불러오지 못했습니다.</li>';
+        }
+    }
+
+    function renderMyPage() {
+        const container = document.getElementById('mypage-content');
+        if (!container) return;
+        if (!authState.loggedIn) {
+            container.innerHTML = '<div class="mypage-card"><h3>로그인이 필요합니다</h3><p>Discord 로그인 후 참가 일정, 격납고, 무역플래너 설정을 확인할 수 있습니다.</p><a class="btn btn-primary" href="/auth/discord/login">Discord 로그인</a></div>';
+            return;
+        }
+        const user = authState.user || {};
+        const favoriteShips = getHangar().map((shipId) => shipById.get(shipId)).filter(Boolean);
+        const planner = getPlannerStateFromStorage();
+        container.innerHTML = `<div class="mypage-grid">
+            <article class="mypage-card"><h3>프로필</h3><p>${escapeHtml(getAuthDisplayName(user))}</p><small>${escapeHtml(getAuthRoleLabel(user))}</small></article>
+            <article class="mypage-card"><h3>격납고</h3>${renderMyPageShips(favoriteShips)}</article>
+            <article class="mypage-card"><h3>무역플래너 저장값</h3>${renderMyPagePlanner(planner)}</article>
+            <article class="mypage-card"><h3>참가 일정</h3><ul class="mypage-list" id="mypage-rsvp-list"><li>불러오는 중입니다.</li></ul></article>
+        </div>`;
+        loadMyRsvps();
+    }
+
+    function renderMyPageShips(ships) {
+        if (!ships.length) return '<p>격납고에 추가한 함선이 없습니다.</p>';
+        return `<ul class="mypage-list">${ships.slice(0, 12).map((ship) => `<li><button type="button" data-ship-id="${escapeHtml(ship.id)}">${escapeHtml(ship.name)}</button><span>${escapeHtml(ship.cargo || '0 SCU')}</span></li>`).join('')}</ul>`;
+    }
+
+    function renderMyPagePlanner(planner) {
+        if (!hasPlannerState(planner)) return '<p>저장된 무역플래너 설정이 없습니다.</p>';
+        const ship = planner.shipId ? shipById.get(planner.shipId) : null;
+        return `<dl class="mypage-planner">
+            <dt>함선</dt><dd>${escapeHtml(ship?.name || planner.shipSearch || '미선택')}</dd>
+            <dt>화물량</dt><dd>${escapeHtml(planner.cargo || '0')} SCU</dd>
+            <dt>인원</dt><dd>${escapeHtml(planner.crew || '1')}명</dd>
+        </dl>`;
     }
 
     function setupTheme() {
