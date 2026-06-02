@@ -14,7 +14,7 @@ function getPassword(env) {
   return env.ADMIN_PASSWORD || '';
 }
 
-function parseCookies(request) {
+export function parseCookies(request) {
   const cookie = request.headers.get('Cookie') || '';
   return Object.fromEntries(cookie.split(';').map((part) => {
     const [key, ...rest] = part.trim().split('=');
@@ -22,14 +22,14 @@ function parseCookies(request) {
   }).filter(([key]) => key));
 }
 
-async function hmac(message, secret) {
+export async function hmac(message, secret) {
   const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(message));
   return [...new Uint8Array(signature)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
-function constantTimeEqual(left, right) {
+export function constantTimeEqual(left, right) {
   if (typeof left !== 'string' || typeof right !== 'string') return false;
   let diff = left.length ^ right.length;
   const length = Math.max(left.length, right.length);

@@ -22,6 +22,20 @@
 - `ADMIN_SESSION_SECRET`: 세션 서명 전용 시크릿. `ADMIN_PASSWORD`와 다른 긴 난수 값을 사용해야 하며, 미설정 시 관리자 로그인과 세션 검증이 안전하게 실패합니다.
 - `R2_PUBLIC_BASE_URL`
 
+
+## Discord 소셜 로그인 환경변수
+
+Discord OAuth 로그인은 Cloudflare Pages Functions의 `/auth/discord/*` 엔드포인트로 처리합니다. 아래 값이 없으면 로그인은 안전하게 실패합니다.
+
+- `DISCORD_CLIENT_ID`: Discord Application Client ID
+- `DISCORD_CLIENT_SECRET`: Discord Application Client Secret. Secret 환경변수로 등록합니다.
+- `DISCORD_REDIRECT_URI`: 운영 기준 `https://www.volt.ceo/auth/discord/callback`
+- `DISCORD_GUILD_ID`: VOLT Discord 서버 ID
+- `DISCORD_ROLE_MAP`: Discord role ID를 한글 역할명으로 매핑한 JSON. 예: `{"123":"대표이사","456":"VOLT 함대원"}`
+- `DISCORD_SESSION_SECRET`: 사용자 세션 쿠키 서명용 긴 난수. ADMIN_SESSION_SECRET과 공유하지 않습니다.
+
+Discord Developer Portal의 OAuth2 Redirects에는 `DISCORD_REDIRECT_URI`와 동일한 URL을 등록해야 합니다.
+
 ## 보안 운영 기준
 
 - ADMIN_SESSION_SECRET은 코드에 하드코딩하지 않습니다.
