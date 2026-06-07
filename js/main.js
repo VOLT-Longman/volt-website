@@ -1667,8 +1667,9 @@
     }
 
     function getFocusableElements(container) {
-        return [...container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')]
-            .filter((element) => !element.hasAttribute('hidden'));
+        const selector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+        return [...container.querySelectorAll(selector)]
+            .filter((element) => !element.hasAttribute('hidden') && element.offsetParent !== null);
     }
 
     function trapFocus(container, event) {
@@ -1676,7 +1677,10 @@
         if (focusable.length === 0) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
+        if (!container.contains(document.activeElement)) {
+            event.preventDefault();
+            first.focus();
+        } else if (event.shiftKey && document.activeElement === first) {
             event.preventDefault();
             last.focus();
         } else if (!event.shiftKey && document.activeElement === last) {
@@ -3013,15 +3017,16 @@
         modal.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        activeModal = modal;
-        modal.querySelector('.modal-close')?.focus();
+        activeModal = modal.querySelector('.modal-card') || modal;
+        activeModal.querySelector('.modal-close')?.focus();
     }
 
     function closeModal() {
         if (!activeModal) return;
-        activeModal.classList.remove('active');
-        activeModal.setAttribute('aria-hidden', 'true');
-        activeModal.innerHTML = '';
+        const modal = document.getElementById('global-modal');
+        modal?.classList.remove('active');
+        modal?.setAttribute('aria-hidden', 'true');
+        if (modal) modal.innerHTML = '';
         activeModal = null;
         document.body.style.overflow = '';
         lastModalTrigger?.focus();

@@ -2,6 +2,8 @@ import { requireMember } from '../../_shared/rbac.js';
 import { error, json, methodNotAllowed, readJson, requireDb, nowIso } from '../../_shared/http.js';
 
 const MAX_JSON_LENGTH = 24000;
+const MAX_PLANNER_FIELD_LENGTH = 160;
+const PLANNER_KEYS = new Set(['shipId', 'shipSearch', 'cargo', 'opType', 'crew', 'risk', 'travelTime']);
 
 export async function onRequest({ request, env }) {
   if (request.method === 'GET') return getPreferences(request, env);
@@ -23,7 +25,7 @@ async function savePreferences(request, env) {
   let favoritesJson; let plannerJson;
   try {
     favoritesJson = serializeJson(Array.isArray(body.favorites) ? body.favorites.map(String).slice(0, 500) : []);
-    plannerJson = serializeJson(body.planner && typeof body.planner === 'object' ? body.planner : {});
+    plannerJson = serializeJson(sanitizePlanner(body.planner));
   } catch (err) {
     return error(err.message || 'Invalid preferences', 422);
   }
@@ -40,6 +42,16 @@ function serializeJson(value) {
   const jsonText = JSON.stringify(value || null);
   if (jsonText.length > MAX_JSON_LENGTH) throw new Error('Preference payload is too large');
   return jsonText;
+}
+
+function sanitizePlanner(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
+  return Object.fromEntries(Object.entries(value).flatMap(([key, rawValue]) => {
+    if (!PLANNER_KEYS.has(key)) return [];
+    const text = String(rawValue ?? '').trim();
+    if (text.length > MAX_PLANNER_FIELD_LENGTH) throw new Error(`Planner field is too long: ${key}`);
+    return text ? [[key, text]] : [];
+  }));
 }
 
 function mapPreferences(row) {

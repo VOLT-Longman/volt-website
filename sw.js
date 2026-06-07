@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20260607-01';
+const CACHE_VERSION = '20260607-02';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [

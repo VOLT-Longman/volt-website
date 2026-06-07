@@ -22,4 +22,10 @@ let serviceWorker = fs.readFileSync(swPath, 'utf8');
 serviceWorker = serviceWorker.replace(/const CACHE_VERSION = '[^']+';/, `const CACHE_VERSION = '${version}';`);
 fs.writeFileSync(swPath, serviceWorker, 'utf8');
 
+const sitemapPath = path.join(root, 'sitemap.xml');
+const lastmod = `${version.slice(0, 4)}-${version.slice(4, 6)}-${version.slice(6, 8)}`;
+let sitemap = fs.readFileSync(sitemapPath, 'utf8');
+sitemap = sitemap.replace(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g, `<lastmod>${lastmod}</lastmod>`);
+fs.writeFileSync(sitemapPath, sitemap, 'utf8');
+
 console.log(`Cache version updated to ${version}`);

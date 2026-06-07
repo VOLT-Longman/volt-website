@@ -7,7 +7,8 @@ export async function onRequestGet({ env }) {
       .prepare('SELECT * FROM gallery_items WHERE published = 1 ORDER BY sort_order ASC, date DESC, created_at DESC')
       .all();
     return json({ items: (result.results || []).map(mapGallery) }, { cacheControl: 'public, max-age=60' });
-  } catch (_error) {
+  } catch (error) {
+    console.error('Public gallery API unavailable', error);
     return json({ items: [], warning: 'gallery unavailable' }, { cacheControl: 'no-store' });
   }
 }

@@ -12,7 +12,8 @@ export async function onRequestGet({ env }) {
   try {
     const result = await requireDb(env).prepare(EVENTS_QUERY).all();
     return json({ items: (result.results || []).map(mapEvent) }, { cacheControl: 'public, max-age=60' });
-  } catch (_error) {
+  } catch (error) {
+    console.error('Public events API unavailable', error);
     return json({ items: [], warning: 'events unavailable' }, { cacheControl: 'no-store' });
   }
 }

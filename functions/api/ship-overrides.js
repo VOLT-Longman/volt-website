@@ -9,6 +9,7 @@ export async function onRequestGet({ env }) {
     const result = await db.prepare('SELECT * FROM ship_overrides ORDER BY ship_id ASC').all();
     return json({ items: (result.results || []).map(mapShipOverride) }, { cacheControl: 'public, max-age=60' });
   } catch (error) {
+    console.error('Public ship_overrides API unavailable', error);
     return json({ items: [], warning: 'ship_overrides unavailable' }, { cacheControl: 'no-store' });
   }
 }
