@@ -9,14 +9,13 @@ function getClientIp(request) {
 }
 
 async function getRateLimit(env, ip) {
-  if (!env.RATE_LIMIT_KV) return { count: 0, locked: false };
+  if (!env.RATE_LIMIT_KV) throw new Error('Server misconfigured: RATE_LIMIT_KV');
   const key = `login_fail:${ip}`;
   const raw = await env.RATE_LIMIT_KV.get(key, { type: 'json' });
   return raw || { count: 0, locked: false };
 }
 
 async function recordFailure(env, ip) {
-  if (!env.RATE_LIMIT_KV) return;
   const key = `login_fail:${ip}`;
   const current = await getRateLimit(env, ip);
   const count = current.count + 1;
@@ -25,7 +24,6 @@ async function recordFailure(env, ip) {
 }
 
 async function clearFailures(env, ip) {
-  if (!env.RATE_LIMIT_KV) return;
   await env.RATE_LIMIT_KV.delete(`login_fail:${ip}`);
 }
 

@@ -515,6 +515,7 @@
     let currentSection = null;
     let revealObserver;
     let activeModal = null;
+    let lastModalTrigger = null;
 
     function escapeHtml(value) {
         if (typeof value !== 'string') return '';
@@ -3007,6 +3008,7 @@
 
     function openModal(content, wide = false) {
         const modal = ensureModalRoot();
+        lastModalTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         modal.innerHTML = `<div class="modal-card${wide ? ' modal-card-wide' : ''}" role="dialog" aria-modal="true">${content}</div>`;
         modal.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
@@ -3022,6 +3024,8 @@
         activeModal.innerHTML = '';
         activeModal = null;
         document.body.style.overflow = '';
+        lastModalTrigger?.focus();
+        lastModalTrigger = null;
     }
 
     function openShipModal(ship) {
@@ -3338,6 +3342,10 @@
                 event.preventDefault();
                 document.getElementById('search-toggle')?.click();
             }
+            if (activeModal && event.key === 'Tab') {
+                trapFocus(activeModal, event);
+                return;
+            }
             if (event.key === 'Escape') {
                 if (searchOverlay?.classList.contains('active')) closeSearch(searchOverlay, document.getElementById('global-search-input'));
                 else if (activeModal) closeModal();
@@ -3381,7 +3389,11 @@
                     authState = normalizeAuthState(payload.user);
                     renderAuthLoggedIn(payload.user, desktop, mobile);
                     applyRoleGates();
-                    loadUserPreferences().catch((error) => console.warn('Preference load failed', error));
+                    loadUserPreferences().catch((error) => {
+                        console.warn('Preference load failed', error);
+                        userPreferencesLoaded = false;
+                        renderMyPage();
+                    });
                 } else {
                     setLoggedOutState(desktop, mobile);
                 }
@@ -3787,10 +3799,16 @@
         document.getElementById('pwa-install-prompt')?.remove();
     }
 
-    async function init() {
+    function refreshCmsRenderedContent() {
+        renderAll();
+        setupFaqAccordion();
+        applyRoleGates();
+        renderMyPage();
+    }
+
+    function init() {
         setupSplash();
         setupRevealObserver();
-        await loadCmsContent();
         renderAll();
         setupNavLinks();
         setupMobileMenu();
@@ -3822,6 +3840,9 @@
         const initial = getInitialRoute();
         history.replaceState({ section: initial.section }, '', initial.url);
         showSection(initial.section, false, initial.anchorId);
+        loadCmsContent()
+            .then(refreshCmsRenderedContent)
+            .catch((error) => console.warn('CMS content refresh failed', error));
     }
 
     function getInitialRoute() {

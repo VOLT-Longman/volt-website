@@ -13,7 +13,7 @@ const htmlFiles = ['index.html', 'admin/index.html'];
 for (const relativePath of htmlFiles) {
   const filePath = path.join(root, relativePath);
   let content = fs.readFileSync(filePath, 'utf8');
-  content = content.replace(/\?v=20\d{6}-\d{2}/g, `?v=${version}`);
+  content = content.replace(/\?v=[\w.-]+/g, `?v=${version}`);
   fs.writeFileSync(filePath, content, 'utf8');
 }
 

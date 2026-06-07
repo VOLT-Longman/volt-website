@@ -2,7 +2,6 @@ import { requireAdmin } from './auth.js';
 import { readUserSession } from './discord-auth.js';
 import { error } from './http.js';
 
-const MEMBER_ROLES = ['VOLT 함대원', '홍보부', 'HR전략실', '임원진', '감찰', '대표이사'];
 const DEFAULT_ADMIN_ROLES = ['임원진', '감찰', '대표이사'];
 const COLLECTION_ROLE_RULES = {
   notices: ['대표이사', '감찰', '임원진', '홍보부'],
@@ -18,7 +17,8 @@ function parseJsonArray(value, fallback) {
     const parsed = JSON.parse(value);
     return Array.isArray(parsed) ? parsed.map(String) : fallback;
   } catch (_error) {
-    return fallback;
+    const roles = String(value).split(',').map((role) => role.trim()).filter(Boolean);
+    return roles.length ? roles : fallback;
   }
 }
 
@@ -33,7 +33,13 @@ export function hasAnyRole(session, roles) {
 }
 
 export function isMember(session) {
-  return hasAnyRole(session, MEMBER_ROLES);
+  return Array.isArray(session?.roles) && session.roles.length > 0;
+}
+
+export async function requireMember(request, env) {
+  const session = await requireUser(request, env);
+  if (session instanceof Response) return session;
+  return isMember(session) ? session : error('Forbidden', 403);
 }
 
 export function getAdminRoles(env = {}) {

@@ -1,4 +1,4 @@
-import { requireUser } from '../../_shared/rbac.js';
+import { requireMember } from '../../_shared/rbac.js';
 import { error, json, methodNotAllowed, readJson, requireDb, nowIso } from '../../_shared/http.js';
 
 const MAX_JSON_LENGTH = 24000;
@@ -10,14 +10,14 @@ export async function onRequest({ request, env }) {
 }
 
 async function getPreferences(request, env) {
-  const session = await requireUser(request, env);
+  const session = await requireMember(request, env);
   if (session instanceof Response) return session;
   const row = await requireDb(env).prepare('SELECT * FROM user_preferences WHERE user_sub = ?').bind(session.sub).first();
   return json({ preferences: mapPreferences(row) });
 }
 
 async function savePreferences(request, env) {
-  const session = await requireUser(request, env);
+  const session = await requireMember(request, env);
   if (session instanceof Response) return session;
   const body = (await readJson(request)) || {};
   let favoritesJson; let plannerJson;

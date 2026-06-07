@@ -1,10 +1,9 @@
 /**
  * VOLT Service Worker
- * 배포 시 CACHE_VERSION을 날짜 기반으로 갱신하면 브라우저가 새 SW를 감지해
- * 구버전 캐시를 자동 삭제하고 최신 CSS/JS를 적용합니다.
+ * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20260531-08';
+const CACHE_VERSION = '20260607-01';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -43,11 +42,11 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(request.url);
 
     if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/')) return;
 
     const isHTML = request.headers.get('accept')?.includes('text/html');
 
     if (isHTML) {
-        // HTML: 네트워크 우선, 실패 시 캐시 fallback
         event.respondWith(
             fetch(request)
                 .then((response) => {
@@ -57,19 +56,19 @@ self.addEventListener('fetch', (event) => {
                 })
                 .catch(() => caches.match(request))
         );
-    } else {
-        // 정적 에셋: 캐시 우선, 없으면 네트워크 후 캐시 저장
-        event.respondWith(
-            caches.match(request).then((cached) => {
-                if (cached) return cached;
-                return fetch(request).then((response) => {
-                    if (response.ok) {
-                        const clone = response.clone();
-                        caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-                    }
-                    return response;
-                });
-            })
-        );
+        return;
     }
+
+    event.respondWith(
+        caches.match(request).then((cached) => {
+            if (cached) return cached;
+            return fetch(request).then((response) => {
+                if (response.ok) {
+                    const clone = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+                }
+                return response;
+            });
+        })
+    );
 });

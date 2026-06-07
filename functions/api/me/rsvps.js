@@ -1,8 +1,8 @@
-import { requireUser } from '../../_shared/rbac.js';
+import { requireMember } from '../../_shared/rbac.js';
 import { json, requireDb } from '../../_shared/http.js';
 
 export async function onRequestGet({ request, env }) {
-  const session = await requireUser(request, env);
+  const session = await requireMember(request, env);
   if (session instanceof Response) return session;
   const result = await requireDb(env).prepare(`
     SELECT r.*, e.title, e.date_label, e.event_date, e.status AS event_status

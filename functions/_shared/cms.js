@@ -51,8 +51,8 @@ export function galleryInput(body, existing = {}) {
     title: limitText(body.title, 200),
     description: limitText(body.description, 20000),
     category: limitText(body.category, 40, '기타'),
-    image_url: limitText(body.imageUrl || body.image_url || body.src, 2048),
-    thumb_url: limitText(body.thumbUrl || body.thumb_url || body.thumb || body.imageUrl || body.image_url || body.src, 2048),
+    image_url: nullableHttpUrl(body.imageUrl || body.image_url || body.src),
+    thumb_url: nullableHttpUrl(body.thumbUrl || body.thumb_url || body.thumb || body.imageUrl || body.image_url || body.src),
     date: limitText(body.date, 40, timestamp.slice(0, 10)),
     sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
@@ -93,9 +93,9 @@ export function partnerFleetInput(body, existing = {}) {
     focus: limitText(body.focus, 120),
     description: limitText(body.description, 20000),
     member_count: nullableNumber(body.memberCount ?? body.member_count),
-    discord_url: limitText(body.discordUrl || body.discord_url, 2048),
-    website_url: limitText(body.websiteUrl || body.website_url, 2048),
-    logo_url: limitText(body.logoUrl || body.logo_url, 2048),
+    discord_url: nullableHttpUrl(body.discordUrl || body.discord_url),
+    website_url: nullableHttpUrl(body.websiteUrl || body.website_url),
+    logo_url: nullableHttpUrl(body.logoUrl || body.logo_url),
     established: limitText(body.established, 80),
     sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
@@ -141,6 +141,19 @@ export function shipOverrideInput(shipId, body) {
     description: nullableText(body.description, 20000),
     updated_at: nowIso()
   };
+}
+
+function nullableHttpUrl(value, maxLength = 2048) {
+  const text = nullableText(value, maxLength);
+  if (!text) return null;
+  let url;
+  try {
+    url = new URL(text);
+  } catch (_error) {
+    throw new Error('Invalid URL');
+  }
+  if (!['http:', 'https:'].includes(url.protocol)) throw new Error('Invalid URL scheme');
+  return text;
 }
 
 function nullableText(value, maxLength = 2000) {

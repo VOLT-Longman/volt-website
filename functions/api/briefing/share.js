@@ -1,4 +1,4 @@
-import { requireUser } from '../../_shared/rbac.js';
+import { requireMember } from '../../_shared/rbac.js';
 import { error, json, readJson, limitText } from '../../_shared/http.js';
 
 const RATE_LIMIT_SECONDS = 30;
@@ -9,15 +9,22 @@ function getWebhookUrl(env) {
   return url;
 }
 
-function rateLimitKey(request, userSub) {
-  return new Request(new URL(`/api/briefing/share-rate/${encodeURIComponent(userSub)}`, request.url).toString());
+function getRateLimitKv(env) {
+  if (!env.RATE_LIMIT_KV) throw new Error('Server misconfigured: RATE_LIMIT_KV');
+  return env.RATE_LIMIT_KV;
 }
 
-export async function onRequestPost({ request, env, waitUntil }) {
-  const session = await requireUser(request, env);
+function rateLimitKey(userSub) {
+  return `briefing_share:${userSub}`;
+}
+
+export async function onRequestPost({ request, env }) {
+  const session = await requireMember(request, env);
   if (session instanceof Response) return session;
-  const cacheKey = rateLimitKey(request, session.sub);
-  if (await caches.default.match(cacheKey)) return error('Too many requests', 429);
+
+  const kv = getRateLimitKv(env);
+  const key = rateLimitKey(session.sub);
+  if (await kv.get(key)) return error('Too many requests', 429);
 
   const body = (await readJson(request)) || {};
   let text;
@@ -31,11 +38,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
   const response = await fetch(getWebhookUrl(env), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content: text })
+    body: JSON.stringify({ content: text, allowed_mentions: { parse: [] } })
   });
   if (!response.ok) return error('Discord webhook failed', 502);
 
-  const marker = json({ ok: true }, { cacheControl: `public, max-age=${RATE_LIMIT_SECONDS}` });
-  waitUntil(caches.default.put(cacheKey, marker.clone()));
+  await kv.put(key, '1', { expirationTtl: RATE_LIMIT_SECONDS });
   return json({ ok: true });
 }
