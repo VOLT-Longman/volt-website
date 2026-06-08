@@ -3368,6 +3368,7 @@ function setupAiInterface() {
     const imageInput = document.getElementById('ai-image-input');
     const imageButton = document.getElementById('ai-image-button');
     const voiceButton = document.getElementById('ai-voice-button');
+    const attachmentPreview = document.getElementById('ai-attachment-preview');
 
     if (!form || !input || !log) return;
 
@@ -3391,6 +3392,12 @@ function setupAiInterface() {
         const file = imageInput.files?.[0];
         if (!file) return;
 
+        if (attachmentPreview) {
+            attachmentPreview.hidden = false;
+            attachmentPreview.classList.add('active');
+            attachmentPreview.textContent = `첨부 대기 이미지: ${file.name}`;
+        }
+
         appendAiChatMessage('user', `이미지 첨부: ${file.name}`);
         appendAiChatMessage('system', '이미지 분석 시스템은 추후 백엔드 연동 후 활성화됩니다.');
         imageInput.value = '';
@@ -3405,18 +3412,19 @@ function appendAiChatMessage(type, text) {
     const log = document.getElementById('ai-chat-log');
     if (!log) return;
 
-    const message = document.createElement('div');
-    message.className = `ai-chat-message ai-chat-message-${type}`;
+    const message = document.createElement('article');
+    message.className = type === 'user' ? 'ai-message is-user' : 'ai-message';
 
-    const label = type === 'user' ? 'USER' : type === 'system' ? 'SYSTEM' : 'AI';
+    const label = type === 'user' ? 'USER' : 'VOLT AI';
     message.innerHTML = `
-        <span class="ai-chat-message-label">${label}</span>
-        <p>${escapeHtml(text)}</p>
+        <span class="ai-message-meta">${label}</span>
+        <div class="ai-message-bubble">${escapeHtml(text)}</div>
     `;
 
     log.appendChild(message);
     log.scrollTop = log.scrollHeight;
 }
+
     function setupSplash() {
         const splash = document.getElementById('loading-splash');
         if (!splash) return;
