@@ -41,7 +41,7 @@
     const localization = window.VOLT_LOCALIZATION || {};
 
     const PAGE_SIZE = 4;
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'ai', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
@@ -3361,69 +3361,6 @@
             }
         });
     }
-function setupAiInterface() {
-    const form = document.getElementById('ai-chat-form');
-    const input = document.getElementById('ai-chat-input');
-    const log = document.getElementById('ai-chat-log');
-    const imageInput = document.getElementById('ai-image-input');
-    const imageButton = document.getElementById('ai-image-button');
-    const voiceButton = document.getElementById('ai-voice-button');
-    const attachmentPreview = document.getElementById('ai-attachment-preview');
-
-    if (!form || !input || !log) return;
-
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-
-        const message = input.value.trim();
-        if (!message) return;
-
-        appendAiChatMessage('user', message);
-        input.value = '';
-
-        appendAiChatMessage('system', 'AI 시스템 연동 대기 상태입니다. 현재는 프론트엔드 UI만 동작합니다.');
-    });
-
-    imageButton?.addEventListener('click', () => {
-        imageInput?.click();
-    });
-
-    imageInput?.addEventListener('change', () => {
-        const file = imageInput.files?.[0];
-        if (!file) return;
-
-        if (attachmentPreview) {
-            attachmentPreview.hidden = false;
-            attachmentPreview.classList.add('active');
-            attachmentPreview.textContent = `첨부 대기 이미지: ${file.name}`;
-        }
-
-        appendAiChatMessage('user', `이미지 첨부: ${file.name}`);
-        appendAiChatMessage('system', '이미지 분석 시스템은 추후 백엔드 연동 후 활성화됩니다.');
-        imageInput.value = '';
-    });
-
-    voiceButton?.addEventListener('click', () => {
-        appendAiChatMessage('system', '음성 명령 시스템은 추후 백엔드 연동 후 활성화됩니다.');
-    });
-}
-
-function appendAiChatMessage(type, text) {
-    const log = document.getElementById('ai-chat-log');
-    if (!log) return;
-
-    const message = document.createElement('article');
-    message.className = type === 'user' ? 'ai-message is-user' : 'ai-message';
-
-    const label = type === 'user' ? 'USER' : 'VOLT AI';
-    message.innerHTML = `
-        <span class="ai-message-meta">${label}</span>
-        <div class="ai-message-bubble">${escapeHtml(text)}</div>
-    `;
-
-    log.appendChild(message);
-    log.scrollTop = log.scrollHeight;
-}
 
     function setupSplash() {
         const splash = document.getElementById('loading-splash');
@@ -3891,7 +3828,6 @@ function appendAiChatMessage(type, text) {
         setupFaqAccordion();
         setupSearch();
         setupGlobalKeyboardShortcuts();
-        setupAiInterface();
         setupScrollEffect();
         setupScrollTop();
         setupTheme();
