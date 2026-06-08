@@ -100,6 +100,7 @@
         <li><a href="#guide" data-section="guide">무역가이드</a></li>
        </ul>
       </li>
+      <li><a href="#ai" data-section="ai">AI</a></li>
       <li><a href="#notices" data-section="notices">공지</a></li>
       <li><a href="#schedule" data-section="schedule">일정</a></li>
       <li class="nav-more">
@@ -145,10 +146,13 @@
        <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
        <li><a href="#hub" data-section="hub">무역허브</a></li>
        <li><a href="#guide" data-section="guide">무역가이드</a></li>
+       <li class="mobile-menu-group-label">지원 시스템</li>
+       <li><a href="#ai" data-section="ai">VOLT AI Command</a></li>
        <li class="mobile-menu-group-label">더보기</li>
        <li><a href="#timeline" data-section="timeline">연혁</a></li>
        <li><a href="#leadership" data-section="leadership">임원진</a></li>
        <li><a href="#partner-fleets" data-section="partner-fleets">협력함대</a></li>
+       <li><a href="#ai" data-section="ai">AI</a></li>
        <li><a href="#streamers" data-section="streamers">스트리머</a></li>
        <li><a href="#gallery" data-section="gallery">갤러리</a></li>
        <li><a href="#policy" data-section="policy">정책</a></li>
@@ -603,6 +607,89 @@
    </div>
   </section>
 
+
+  <!-- AI Command Section -->
+  <section class="section ai-command" id="ai" aria-labelledby="ai-title">
+   <div class="section-content">
+    <div class="section-header">
+     <span class="doc-tag">VOLT AI SYSTEM</span>
+     <h2>VOLT <span class="accent">AI Command</span></h2>
+     <p>채팅, 이미지 업로드, 음성 명령을 위한 VOLT 전용 AI 인터페이스 베이스입니다.</p>
+    </div>
+
+    <div class="ai-command-shell reveal">
+     <aside class="ai-command-sidebar" aria-label="AI 상태 및 기능 패널">
+      <div class="ai-status-card">
+       <span class="ai-status-label">SYSTEM STATUS</span>
+       <strong>FRONTEND READY</strong>
+       <p>AI 처리 시스템은 추후 별도 백엔드와 연결 예정입니다.</p>
+      </div>
+
+      <div class="ai-mode-panel">
+       <h3>Command Modes</h3>
+       <button class="ai-mode-button active" type="button" data-ai-mode="chat">
+        <span>TEXT CHAT</span>
+        <small>일반 채팅</small>
+       </button>
+       <button class="ai-mode-button" type="button" data-ai-mode="image">
+        <span>IMAGE UPLOAD</span>
+        <small>이미지 첨부 대기</small>
+       </button>
+       <button class="ai-mode-button" type="button" data-ai-mode="voice">
+        <span>VOICE COMMAND</span>
+        <small>음성 명령 대기</small>
+       </button>
+      </div>
+
+      <div class="ai-system-note">
+       <span>BACKEND</span>
+       <strong>PENDING</strong>
+       <p>실제 AI 응답, 이미지 분석, 음성 인식은 시스템 담당자가 연결합니다.</p>
+      </div>
+     </aside>
+
+     <div class="ai-chat-panel" aria-label="VOLT AI 채팅 패널">
+      <div class="ai-chat-header">
+       <div>
+        <span class="ai-chat-kicker">VOLT COMMAND INTERFACE</span>
+        <h3 id="ai-title">AI 작전 지원 콘솔</h3>
+       </div>
+       <span class="ai-live-badge">UI ONLY</span>
+      </div>
+
+      <div class="ai-chat-log" id="ai-chat-log" aria-live="polite">
+       <article class="ai-message ai-message-system">
+        <span class="ai-message-role">VOLT AI</span>
+        <p>VOLT AI Command 인터페이스가 준비되었습니다. 현재는 UI 베이스 단계이며, 실제 AI 시스템은 추후 연결됩니다.</p>
+       </article>
+       <article class="ai-message ai-message-user">
+        <span class="ai-message-role">USER</span>
+        <p>함선 정보, 무역 루트, 공지 확인, 이미지 분석, 음성 명령을 이곳에서 사용할 예정입니다.</p>
+       </article>
+       <article class="ai-message ai-message-system">
+        <span class="ai-message-role">VOLT AI</span>
+        <p>텍스트 입력, 이미지 업로드, 음성 명령 버튼은 프론트엔드 연결 지점으로 먼저 구성되어 있습니다.</p>
+       </article>
+      </div>
+
+      <form class="ai-composer" id="ai-composer" aria-label="AI 메시지 입력">
+       <div class="ai-attachment-preview" id="ai-attachment-preview" hidden></div>
+       <div class="ai-composer-row">
+        <label class="ai-tool-button" for="ai-image-input" aria-label="이미지 업로드">
+         <span aria-hidden="true">IMG</span>
+        </label>
+        <input id="ai-image-input" type="file" accept="image/*" hidden>
+        <button class="ai-tool-button" id="ai-voice-button" type="button" aria-label="음성 명령">VOICE</button>
+        <label class="sr-only" for="ai-message-input">AI 메시지 입력</label>
+        <textarea id="ai-message-input" rows="1" placeholder="VOLT AI에게 메시지를 입력하세요. 현재는 UI 테스트 모드입니다."></textarea>
+        <button class="btn btn-primary ai-send-button" type="submit">전송</button>
+       </div>
+      </form>
+     </div>
+    </div>
+   </div>
+  </section>
+
   <footer class="footer">
    <div class="footer-content">
     <div class="footer-grid">
@@ -627,6 +714,7 @@
        <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord</a></li>
        <li><a href="#hub" data-section="hub">무역허브</a></li>
        <li><a href="#partner-fleets" data-section="partner-fleets">협력함대</a></li>
+       <li><a href="#ai" data-section="ai">AI</a></li>
        <li><a href="#streamers" data-section="streamers">스트리머</a></li>
        <li><a href="#gallery" data-section="gallery">갤러리</a></li>
        <li><a href="#guide" data-section="guide">무역가이드</a></li>
