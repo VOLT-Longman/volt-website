@@ -5598,3 +5598,321 @@ body.nav-trade-open::before {
         flex-direction: column;
     }
 }
+
+/* ==========================================================================
+   VOLT AI
+   ========================================================================== */
+
+.volt-ai {
+    background:
+        radial-gradient(circle at 18% 12%, rgba(232, 72, 47, 0.16), transparent 30%),
+        radial-gradient(circle at 82% 18%, rgba(255, 95, 68, 0.08), transparent 28%),
+        linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+}
+
+.volt-ai-shell {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+    gap: 24px;
+    align-items: stretch;
+}
+
+.volt-ai-sidebar,
+.volt-ai-chat-panel {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: var(--shadow-lg);
+}
+
+.volt-ai-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+}
+
+.volt-ai-side-title {
+    margin-bottom: 8px;
+    color: var(--volt-orange);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.volt-ai-tool-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    min-height: 46px;
+    padding: 0 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.volt-ai-tool-button:hover,
+.volt-ai-tool-button:focus-visible {
+    border-color: var(--volt-orange);
+    background: rgba(232, 72, 47, 0.12);
+    color: var(--volt-orange);
+    transform: translateY(-1px);
+}
+
+.volt-ai-chat-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 620px;
+    overflow: hidden;
+}
+
+.volt-ai-chat-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--color-border);
+    background: linear-gradient(90deg, rgba(232, 72, 47, 0.10), transparent);
+}
+
+.volt-ai-chat-title {
+    margin: 0 0 6px;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1.1;
+    letter-spacing: var(--tracking-tight);
+}
+
+.volt-ai-chat-title span {
+    color: var(--volt-orange);
+}
+
+.volt-ai-chat-subtitle {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.volt-ai-chat-badge {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+    border: 1px solid var(--color-border-accent);
+    border-radius: var(--radius-full);
+    background: rgba(232, 72, 47, 0.10);
+    color: var(--volt-orange);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.volt-ai-chat-log {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 28px;
+    overflow-y: auto;
+    background:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 42px 42px;
+}
+
+.volt-ai-message {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: min(720px, 86%);
+}
+
+.volt-ai-message.is-user {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.volt-ai-message-meta {
+    color: var(--volt-orange);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.volt-ai-message-bubble {
+    padding: 14px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.045);
+    color: var(--color-text-primary);
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.volt-ai-message.is-user .volt-ai-message-bubble {
+    border-color: rgba(232, 72, 47, 0.45);
+    background: linear-gradient(135deg, var(--volt-orange-dark), var(--volt-orange));
+    color: #fff;
+}
+
+.volt-ai-input-form {
+    padding: 18px 20px 20px;
+    border-top: 1px solid var(--color-border);
+    background: rgba(0, 0, 0, 0.24);
+}
+
+.volt-ai-attachment-preview {
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border-accent);
+    border-radius: var(--radius-sm);
+    background: rgba(232, 72, 47, 0.08);
+    color: var(--color-text-secondary);
+    font-size: 13px;
+}
+
+.volt-ai-input-row {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: end;
+}
+
+.volt-ai-icon-button,
+.volt-ai-send-button {
+    min-height: 46px;
+    border-radius: var(--radius-full);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.volt-ai-icon-button {
+    width: 46px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+}
+
+.volt-ai-icon-button:hover,
+.volt-ai-icon-button:focus-visible {
+    border-color: var(--volt-orange);
+    background: rgba(232, 72, 47, 0.12);
+    color: var(--volt-orange);
+    transform: translateY(-1px);
+}
+
+.volt-ai-input {
+    min-height: 46px;
+    max-height: 180px;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 22px;
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.volt-ai-input:focus {
+    border-color: var(--volt-orange);
+    outline: 2px solid rgba(232, 72, 47, 0.25);
+    outline-offset: 2px;
+}
+
+.volt-ai-input::placeholder {
+    color: var(--color-text-tertiary);
+}
+
+.volt-ai-send-button {
+    min-width: 86px;
+    padding: 0 20px;
+    border: 1px solid var(--volt-orange);
+    background: var(--volt-orange);
+    color: #fff;
+}
+
+.volt-ai-send-button:hover,
+.volt-ai-send-button:focus-visible {
+    background: var(--volt-orange-light);
+    border-color: var(--volt-orange-light);
+    transform: translateY(-1px);
+}
+
+[data-theme="light"] .volt-ai {
+    background:
+        radial-gradient(circle at 18% 12%, rgba(232, 72, 47, 0.10), transparent 30%),
+        linear-gradient(180deg, #f5f5f7 0%, #ffffff 100%);
+}
+
+[data-theme="light"] .volt-ai-chat-log {
+    background-color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 900px) {
+    .volt-ai-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .volt-ai-sidebar {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .volt-ai-side-title {
+        grid-column: 1 / -1;
+    }
+
+    .volt-ai-chat-panel {
+        min-height: 560px;
+    }
+}
+
+@media (max-width: 640px) {
+    .volt-ai-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .volt-ai-chat-header {
+        flex-direction: column;
+        padding: 22px;
+    }
+
+    .volt-ai-chat-log {
+        padding: 20px;
+    }
+
+    .volt-ai-message {
+        max-width: 94%;
+    }
+
+    .volt-ai-input-row {
+        grid-template-columns: auto auto 1fr;
+    }
+
+    .volt-ai-input {
+        grid-column: 1 / -1;
+        order: -1;
+        width: 100%;
+    }
+
+    .volt-ai-send-button {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
