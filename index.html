@@ -616,74 +616,87 @@
      <h2>VOLT <span class="accent">AI Command</span></h2>
      <p>채팅, 이미지 업로드, 음성 명령을 위한 VOLT 전용 AI 인터페이스 베이스입니다.</p>
     </div>
-
-    <div class="ai-command-shell reveal">
-     <aside class="ai-command-sidebar" aria-label="AI 상태 및 기능 패널">
-      <div class="ai-status-card">
-       <span class="ai-status-label">SYSTEM STATUS</span>
-       <strong>FRONTEND READY</strong>
-       <p>AI 처리 시스템은 추후 별도 백엔드와 연결 예정입니다.</p>
+  
+    <div class="ai-command-layout reveal">
+     <aside class="ai-command-panel" aria-label="AI 상태 및 기능 패널">
+      <div class="ai-panel-header">
+       <span class="ai-panel-eyebrow">COMMAND READY</span>
+       <h3 class="ai-panel-title">VOLT AI SYSTEM</h3>
+       <p class="ai-panel-copy">관제 HUD와 채팅형 인터페이스를 결합한 VOLT 전용 AI 프론트엔드 베이스입니다.</p>
       </div>
-
-      <div class="ai-mode-panel">
-       <h3>Command Modes</h3>
-       <button class="ai-mode-button active" type="button" data-ai-mode="chat">
-        <span>TEXT CHAT</span>
-        <small>일반 채팅</small>
-       </button>
-       <button class="ai-mode-button" type="button" data-ai-mode="image">
-        <span>IMAGE UPLOAD</span>
-        <small>이미지 첨부 대기</small>
-       </button>
-       <button class="ai-mode-button" type="button" data-ai-mode="voice">
-        <span>VOICE COMMAND</span>
-        <small>음성 명령 대기</small>
-       </button>
+  
+      <div class="ai-status-grid" aria-label="AI 시스템 상태">
+       <div class="ai-status-card">
+        <span class="ai-status-label">FRONTEND</span>
+        <strong class="ai-status-value is-online">READY</strong>
+       </div>
+       <div class="ai-status-card">
+        <span class="ai-status-label">BACKEND</span>
+        <strong class="ai-status-value">PENDING</strong>
+       </div>
+       <div class="ai-status-card">
+        <span class="ai-status-label">MODE</span>
+        <strong class="ai-status-value">UI TEST</strong>
+       </div>
       </div>
-
-      <div class="ai-system-note">
-       <span>BACKEND</span>
-       <strong>PENDING</strong>
-       <p>실제 AI 응답, 이미지 분석, 음성 인식은 시스템 담당자가 연결합니다.</p>
+  
+      <div class="ai-tool-list" aria-label="AI 명령 모드">
+       <div class="ai-tool-item">
+        <span class="ai-tool-label">TEXT CHAT</span>
+        <span class="ai-tool-state">대기</span>
+       </div>
+       <div class="ai-tool-item">
+        <span class="ai-tool-label">IMAGE UPLOAD</span>
+        <span class="ai-tool-state">프론트 연결</span>
+       </div>
+       <div class="ai-tool-item">
+        <span class="ai-tool-label">VOICE COMMAND</span>
+        <span class="ai-tool-state">프론트 연결</span>
+       </div>
       </div>
      </aside>
-
-     <div class="ai-chat-panel" aria-label="VOLT AI 채팅 패널">
+  
+     <div class="ai-chat-console" aria-label="VOLT AI 채팅 패널">
       <div class="ai-chat-header">
        <div>
-        <span class="ai-chat-kicker">VOLT COMMAND INTERFACE</span>
-        <h3 id="ai-title">AI 작전 지원 콘솔</h3>
+        <h3 class="ai-chat-title" id="ai-title">AI 작전 지원 콘솔</h3>
+        <p class="ai-chat-subtitle">함선 정보, 무역 루트, 공지 확인, 이미지 분석, 음성 명령을 위한 통합 인터페이스입니다.</p>
        </div>
-       <span class="ai-live-badge">UI ONLY</span>
+       <span class="ai-chat-badge">UI ONLY</span>
       </div>
-
+  
       <div class="ai-chat-log" id="ai-chat-log" aria-live="polite">
-       <article class="ai-message ai-message-system">
-        <span class="ai-message-role">VOLT AI</span>
-        <p>VOLT AI Command 인터페이스가 준비되었습니다. 현재는 UI 베이스 단계이며, 실제 AI 시스템은 추후 연결됩니다.</p>
+       <article class="ai-message">
+        <span class="ai-message-meta">VOLT AI</span>
+        <div class="ai-message-bubble">
+         VOLT AI Command 인터페이스가 준비되었습니다. 현재는 UI 베이스 단계이며, 실제 AI 시스템은 추후 연결됩니다.
+        </div>
        </article>
-       <article class="ai-message ai-message-user">
-        <span class="ai-message-role">USER</span>
-        <p>함선 정보, 무역 루트, 공지 확인, 이미지 분석, 음성 명령을 이곳에서 사용할 예정입니다.</p>
+       <article class="ai-message is-user">
+        <span class="ai-message-meta">USER</span>
+        <div class="ai-message-bubble">
+         함선 정보, 무역 루트, 공지 확인, 이미지 분석, 음성 명령을 이곳에서 사용할 예정입니다.
+        </div>
        </article>
-       <article class="ai-message ai-message-system">
-        <span class="ai-message-role">VOLT AI</span>
-        <p>텍스트 입력, 이미지 업로드, 음성 명령 버튼은 프론트엔드 연결 지점으로 먼저 구성되어 있습니다.</p>
+       <article class="ai-message">
+        <span class="ai-message-meta">VOLT AI</span>
+        <div class="ai-message-bubble">
+         텍스트 입력, 이미지 업로드, 음성 명령 버튼은 프론트엔드 연결 지점으로 먼저 구성되어 있습니다.
+        </div>
        </article>
       </div>
-
-      <form class="ai-composer" id="ai-composer" aria-label="AI 메시지 입력">
+  
+      <form class="ai-chat-input-area" id="ai-chat-form" aria-label="AI 메시지 입력">
        <div class="ai-attachment-preview" id="ai-attachment-preview" hidden></div>
-       <div class="ai-composer-row">
-        <label class="ai-tool-button" for="ai-image-input" aria-label="이미지 업로드">
-         <span aria-hidden="true">IMG</span>
-        </label>
+       <div class="ai-input-row">
+        <button class="ai-icon-button" id="ai-image-button" type="button" aria-label="이미지 업로드">IMG</button>
         <input id="ai-image-input" type="file" accept="image/*" hidden>
-        <button class="ai-tool-button" id="ai-voice-button" type="button" aria-label="음성 명령">VOICE</button>
-        <label class="sr-only" for="ai-message-input">AI 메시지 입력</label>
-        <textarea id="ai-message-input" rows="1" placeholder="VOLT AI에게 메시지를 입력하세요. 현재는 UI 테스트 모드입니다."></textarea>
+        <button class="ai-icon-button" id="ai-voice-button" type="button" aria-label="음성 명령">MIC</button>
+        <label class="sr-only" for="ai-chat-input">AI 메시지 입력</label>
+        <textarea id="ai-chat-input" class="ai-input-field" rows="1" placeholder="VOLT AI에게 메시지를 입력하세요. 현재는 UI 테스트 모드입니다."></textarea>
         <button class="btn btn-primary ai-send-button" type="submit">전송</button>
        </div>
+       <p class="ai-input-hint">현재는 프론트엔드 UI 테스트 단계입니다. 실제 AI 응답은 백엔드 연동 후 활성화됩니다.</p>
       </form>
      </div>
     </div>
