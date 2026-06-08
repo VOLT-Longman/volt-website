@@ -41,7 +41,7 @@
     const localization = window.VOLT_LOCALIZATION || {};
 
     const PAGE_SIZE = 4;
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'ai', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide'];
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
@@ -3361,7 +3361,62 @@
             }
         });
     }
+function setupAiInterface() {
+    const form = document.getElementById('ai-chat-form');
+    const input = document.getElementById('ai-chat-input');
+    const log = document.getElementById('ai-chat-log');
+    const imageInput = document.getElementById('ai-image-input');
+    const imageButton = document.getElementById('ai-image-button');
+    const voiceButton = document.getElementById('ai-voice-button');
 
+    if (!form || !input || !log) return;
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const message = input.value.trim();
+        if (!message) return;
+
+        appendAiChatMessage('user', message);
+        input.value = '';
+
+        appendAiChatMessage('system', 'AI 시스템 연동 대기 상태입니다. 현재는 프론트엔드 UI만 동작합니다.');
+    });
+
+    imageButton?.addEventListener('click', () => {
+        imageInput?.click();
+    });
+
+    imageInput?.addEventListener('change', () => {
+        const file = imageInput.files?.[0];
+        if (!file) return;
+
+        appendAiChatMessage('user', `이미지 첨부: ${file.name}`);
+        appendAiChatMessage('system', '이미지 분석 시스템은 추후 백엔드 연동 후 활성화됩니다.');
+        imageInput.value = '';
+    });
+
+    voiceButton?.addEventListener('click', () => {
+        appendAiChatMessage('system', '음성 명령 시스템은 추후 백엔드 연동 후 활성화됩니다.');
+    });
+}
+
+function appendAiChatMessage(type, text) {
+    const log = document.getElementById('ai-chat-log');
+    if (!log) return;
+
+    const message = document.createElement('div');
+    message.className = `ai-chat-message ai-chat-message-${type}`;
+
+    const label = type === 'user' ? 'USER' : type === 'system' ? 'SYSTEM' : 'AI';
+    message.innerHTML = `
+        <span class="ai-chat-message-label">${label}</span>
+        <p>${escapeHtml(text)}</p>
+    `;
+
+    log.appendChild(message);
+    log.scrollTop = log.scrollHeight;
+}
     function setupSplash() {
         const splash = document.getElementById('loading-splash');
         if (!splash) return;
@@ -3828,6 +3883,7 @@
         setupFaqAccordion();
         setupSearch();
         setupGlobalKeyboardShortcuts();
+        setupAiInterface();
         setupScrollEffect();
         setupScrollTop();
         setupTheme();
