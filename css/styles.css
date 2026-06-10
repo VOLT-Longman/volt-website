@@ -4499,17 +4499,18 @@ body.nav-trade-open::before {
 }
 .skip-nav {
     position: absolute;
-    top: -40px;
+    top: 0;
     left: 0;
     z-index: 9999;
     padding: 8px 16px;
     background: var(--volt-orange);
     color: #fff;
-    transition: top var(--transition-fast);
+    transform: translateY(-100%);
+    transition: transform var(--transition-fast);
 }
 
 .skip-nav:focus {
-    top: 0;
+    transform: translateY(0);
 }
 [data-theme="light"] .modal-content {
     background: #ffffff;
