@@ -3631,86 +3631,6 @@
             <dt>인원</dt><dd>${escapeHtml(planner.crew || '1')}명</dd>
         </dl>`;
     }
-function setupVoltAiInterface() {
-    const form = document.getElementById('volt-ai-form');
-    const input = document.getElementById('volt-ai-input');
-    const messages = document.getElementById('volt-ai-messages');
-    const fileInput = document.getElementById('volt-ai-file');
-    const imageButton = document.getElementById('volt-ai-image-button');
-    const voiceButton = document.getElementById('volt-ai-voice-button');
-    const newChatButton = document.getElementById('volt-ai-new-chat');
-    const historyButton = document.getElementById('volt-ai-history-button');
-    const settingsButton = document.getElementById('volt-ai-settings-button');
-    const attachmentPreview = document.getElementById('volt-ai-attachment-preview');
-
-    if (!form || !input || !messages) return;
-
-    function appendVoltAiMessage(type, text) {
-        const article = document.createElement('article');
-        article.className = type === 'user' ? 'volt-ai-message is-user' : 'volt-ai-message';
-
-        const meta = document.createElement('span');
-        meta.className = 'volt-ai-message-meta';
-        meta.textContent = type === 'user' ? 'USER' : 'VOLT AI';
-
-        const bubble = document.createElement('div');
-        bubble.className = 'volt-ai-message-bubble';
-        bubble.textContent = text;
-
-        article.append(meta, bubble);
-        messages.appendChild(article);
-        messages.scrollTop = messages.scrollHeight;
-    }
-
-    function resetAttachmentPreview() {
-        if (!attachmentPreview) return;
-        attachmentPreview.hidden = true;
-        attachmentPreview.textContent = '';
-    }
-
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const value = input.value.trim();
-        if (!value) return;
-
-        appendVoltAiMessage('user', value);
-        input.value = '';
-        input.focus();
-    });
-
-    imageButton?.addEventListener('click', function () {
-        fileInput?.click();
-    });
-
-    fileInput?.addEventListener('change', function () {
-        const file = fileInput.files?.[0];
-        if (!file || !attachmentPreview) return;
-
-        attachmentPreview.hidden = false;
-        attachmentPreview.textContent = `이미지 선택됨: ${file.name}`;
-    });
-
-    voiceButton?.addEventListener('click', function () {
-        input.focus();
-    });
-
-    newChatButton?.addEventListener('click', function () {
-        messages.innerHTML = '';
-        resetAttachmentPreview();
-        appendVoltAiMessage('ai', '안녕하세요. 무엇을 도와드릴까요?');
-        input.value = '';
-        input.focus();
-    });
-
-    historyButton?.addEventListener('click', function () {
-        input.focus();
-    });
-
-    settingsButton?.addEventListener('click', function () {
-        input.focus();
-    });
-}
     function setupTheme() {
         const button = document.getElementById('theme-toggle');
         if (!button) return;
@@ -3910,7 +3830,6 @@ function setupVoltAiInterface() {
         setupScrollEffect();
         setupScrollTop();
         setupTheme();
-        setupVoltAiInterface();
         setupAuthStatus();
         setupPwaInstallPrompt();
         registerServiceWorker();

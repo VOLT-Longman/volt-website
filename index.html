@@ -27,8 +27,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260609-ai02"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260609-ai02">
+  <script src="js/theme-init.js?v=20260610-01"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260610-01">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -102,7 +102,7 @@
       </li>
       <li><a href="#notices" data-section="notices">공지</a></li>
       <li><a href="#schedule" data-section="schedule">일정</a></li>
-      <li><a href="#ai" data-section="ai">VOLT AI</a></li>
+      <li><a href="#ai" data-section="ai">VOLT AI <span class="nav-soon-tag">SOON</span></a></li>
       <li class="nav-more">
        <button class="nav-more-toggle" id="nav-more-toggle" type="button" aria-expanded="false" aria-controls="nav-more-menu">더보기</button>
        <ul class="nav-more-menu" id="nav-more-menu">
@@ -141,7 +141,7 @@
        <li><a href="#ships" data-section="ships">함선DB</a></li>
        <li><a href="#notices" data-section="notices">공지</a></li>
        <li><a href="#schedule" data-section="schedule">일정</a></li>
-       <li><a href="#ai" data-section="ai">VOLT AI</a></li>
+       <li><a href="#ai" data-section="ai">VOLT AI <span class="nav-soon-tag">SOON</span></a></li>
        <li><a href="#join" data-section="join">가입하기</a></li>
        <li class="mobile-menu-group-label">무역</li>
        <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
@@ -609,52 +609,55 @@
    <div class="section-content">
     <div class="section-header">
      <span class="doc-tag">VOLT FLEET AI</span>
-     <h2 id="volt-ai-title">VOLT <span class="accent">AI</span></h2>
-     <p>채팅, 이미지 업로드, 음성 입력을 위한 VOLT 전용 대화형 AI 인터페이스입니다.</p>
+     <h2 id="volt-ai-title">VOLT <span class="accent">AI</span> <span class="volt-ai-status-badge">?? ?</span></h2>
+     <p>VOLT ?? AI ?????? ???? ????. ? ???? ? ????.</p>
     </div>
 
-    <div class="volt-ai-shell reveal">
-     <aside class="volt-ai-sidebar" aria-label="VOLT AI 도구">
+    <div class="volt-ai-shell reveal is-preparing">
+     <aside class="volt-ai-sidebar" aria-label="VOLT AI ??">
       <h3 class="volt-ai-side-title">AI Tools</h3>
-      <button class="volt-ai-tool-button" id="volt-ai-new-chat" type="button">
-       <span>새 대화</span>
-       <span aria-hidden="true">＋</span>
+      <button class="volt-ai-tool-button" id="volt-ai-new-chat" type="button" disabled aria-disabled="true" title="?? ?">
+       <span>? ??</span>
+       <span class="volt-ai-tool-status">SOON</span>
       </button>
-      <button class="volt-ai-tool-button" id="volt-ai-history-button" type="button">
-       <span>대화 기록</span>
-       <span aria-hidden="true">⌁</span>
+      <button class="volt-ai-tool-button" id="volt-ai-history-button" type="button" disabled aria-disabled="true" title="?? ?">
+       <span>?? ??</span>
+       <span class="volt-ai-tool-status">SOON</span>
       </button>
-      <button class="volt-ai-tool-button" id="volt-ai-settings-button" type="button">
-       <span>설정</span>
-       <span aria-hidden="true">⚙</span>
+      <button class="volt-ai-tool-button" id="volt-ai-settings-button" type="button" disabled aria-disabled="true" title="?? ?">
+       <span>??</span>
+       <span class="volt-ai-tool-status">SOON</span>
       </button>
      </aside>
 
-     <div class="volt-ai-chat-panel" aria-label="VOLT AI 대화 패널">
+     <div class="volt-ai-chat-panel" aria-label="VOLT AI ?? ??">
       <div class="volt-ai-chat-header">
        <div>
         <h3 class="volt-ai-chat-title">VOLT <span>AI</span></h3>
-        <p class="volt-ai-chat-subtitle">메시지를 입력하거나 이미지와 음성 버튼을 사용해 대화를 시작하세요.</p>
+        <p class="volt-ai-chat-subtitle">?? Beta ?? ????. ?? ?? ??? ?? ??? ?????? ????.</p>
        </div>
-       <span class="volt-ai-chat-badge">VOLT AI</span>
+       <span class="volt-ai-chat-badge">BETA ?? ?</span>
       </div>
 
       <div class="volt-ai-chat-log" id="volt-ai-messages" aria-live="polite">
-       <article class="volt-ai-message">
-        <span class="volt-ai-message-meta">VOLT AI</span>
-        <div class="volt-ai-message-bubble">안녕하세요. 무엇을 도와드릴까요?</div>
+       <article class="volt-ai-message volt-ai-message-notice">
+        <span class="volt-ai-message-meta">?? ?</span>
+        <div class="volt-ai-message-bubble">
+         <strong>VOLT AI? ?? ?? ????.</strong>
+         <p>??DB, ?????, ??? FAQ? ???? ???? ?? ?????? ???? ????. ??? ??? ??? ? ??? ?????? ?????.</p>
+        </div>
        </article>
       </div>
 
-      <form class="volt-ai-input-form" id="volt-ai-form" aria-label="VOLT AI 메시지 입력">
+      <form class="volt-ai-input-form" id="volt-ai-form" aria-label="VOLT AI ??? ??">
        <div class="volt-ai-attachment-preview" id="volt-ai-attachment-preview" hidden></div>
        <div class="volt-ai-input-row">
-        <input id="volt-ai-file" type="file" accept="image/*" hidden>
-        <button class="volt-ai-icon-button" id="volt-ai-image-button" type="button" aria-label="이미지 업로드">IMG</button>
-        <button class="volt-ai-icon-button" id="volt-ai-voice-button" type="button" aria-label="음성 입력">MIC</button>
-        <label class="sr-only" for="volt-ai-input">VOLT AI 메시지 입력</label>
-        <textarea id="volt-ai-input" class="volt-ai-input" rows="1" placeholder="VOLT AI에게 메시지를 입력하세요."></textarea>
-        <button class="volt-ai-send-button" id="volt-ai-send" type="submit">전송</button>
+        <input id="volt-ai-file" type="file" accept="image/*" hidden disabled>
+        <button class="volt-ai-icon-button" id="volt-ai-image-button" type="button" aria-label="??? ??? ?? ?" disabled aria-disabled="true" title="?? ?">IMG</button>
+        <button class="volt-ai-icon-button" id="volt-ai-voice-button" type="button" aria-label="?? ?? ?? ?" disabled aria-disabled="true" title="?? ?">MIC</button>
+        <label class="sr-only" for="volt-ai-input">VOLT AI ??? ??</label>
+        <textarea id="volt-ai-input" class="volt-ai-input" rows="1" placeholder="?? ????" disabled aria-disabled="true"></textarea>
+        <button class="volt-ai-send-button" id="volt-ai-send" type="submit" disabled aria-disabled="true" title="?? ?">??</button>
        </div>
       </form>
      </div>
@@ -724,8 +727,9 @@
    </div>
   </div>
 
-<script src="data/volt-data.js?v=20260609-ai02"></script>
-<script src="data/volt-localization.js?v=20260609-ai02"></script>
-<script src="js/main.js?v=20260609-ai02"></script>
+<script src="data/volt-data.js?v=20260610-01"></script>
+<script src="data/volt-localization.js?v=20260610-01"></script>
+<script src="js/main.js?v=20260610-01"></script>
+<script src="js/volt-ai.js?v=20260610-01"></script>
  </body>
 </html>

@@ -769,23 +769,8 @@ body.nav-trade-open::before {
     margin-bottom: 64px;
 }
 
-.section-header h2 {
-    font-size: 52px;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.045em;
-    margin-bottom: 16px;
-}
-
 .section-header h2 .accent {
     color: var(--volt-orange);
-}
-
-.section-header p {
-    font-size: 20px;
-    color: var(--color-text-secondary);
-    font-weight: 400;
-    letter-spacing: var(--tracking-snug);
 }
 
 /* ==========================================================================
@@ -2577,12 +2562,6 @@ body.nav-trade-open::before {
     letter-spacing: 0.05em;
 }
 
-.ship-role-?붾Ъ  { background: rgba(255,179,0,0.12);  color: #ffb300; }
-.ship-role-?꾪닾  { background: rgba(232,72,47,0.12);  color: var(--volt-orange); }
-.ship-role-?ㅻぉ?? background: rgba(102,126,234,0.12); color: #667eea; }
-.ship-role-?먰뿕  { background: rgba(132,250,176,0.12); color: #84fab0; }
-.ship-role-吏?? { background: rgba(79,172,254,0.12);  color: #4facfe; }
-.ship-role-罹먰뵾?? background: rgba(240,147,251,0.12); color: #f093fb; }
 
 .ship-status {
     font-family: var(--font-family);
@@ -5033,6 +5012,42 @@ body.nav-trade-open::before {
     font-weight: 400;
 }
 
+.nav-soon-tag,
+.volt-ai-status-badge,
+.volt-ai-tool-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border-accent);
+    border-radius: var(--radius-full);
+    background: rgba(232, 72, 47, 0.10);
+    color: var(--volt-orange);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.nav-soon-tag {
+    margin-left: 6px;
+    padding: 3px 6px;
+    vertical-align: middle;
+}
+
+.volt-ai-status-badge {
+    transform: translateY(-0.2em);
+    margin-left: 10px;
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+}
+
+.volt-ai-tool-status {
+    padding: 4px 8px;
+}
+
 .hero-stat-value,
 .ship-stat-value,
 .ship-price,
@@ -5853,6 +5868,54 @@ body.nav-trade-open::before {
     transform: translateY(-1px);
 }
 
+.volt-ai-message-notice {
+    max-width: min(760px, 100%);
+}
+
+.volt-ai-message-notice .volt-ai-message-bubble {
+    border-color: rgba(232, 72, 47, 0.35);
+    background: rgba(232, 72, 47, 0.08);
+}
+
+.volt-ai-message-notice strong,
+.volt-ai-message-notice p {
+    display: block;
+    margin: 0;
+}
+
+.volt-ai-message-notice p {
+    margin-top: 8px;
+    color: var(--color-text-secondary);
+}
+
+.volt-ai-tool-button:disabled,
+.volt-ai-icon-button:disabled,
+.volt-ai-send-button:disabled,
+.volt-ai-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+    transform: none;
+}
+
+.volt-ai-tool-button:disabled:hover,
+.volt-ai-tool-button:disabled:focus-visible,
+.volt-ai-icon-button:disabled:hover,
+.volt-ai-icon-button:disabled:focus-visible,
+.volt-ai-send-button:disabled:hover,
+.volt-ai-send-button:disabled:focus-visible {
+    border-color: var(--color-border);
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+    transform: none;
+}
+
+.volt-ai-send-button:disabled:hover,
+.volt-ai-send-button:disabled:focus-visible {
+    border-color: var(--volt-orange);
+    background: var(--volt-orange);
+    color: #fff;
+}
+
 [data-theme="light"] .volt-ai {
     background:
         radial-gradient(circle at 18% 12%, rgba(232, 72, 47, 0.10), transparent 30%),
@@ -5915,192 +5978,3 @@ body.nav-trade-open::before {
         width: 100%;
     }
 }
-/* VOLT AI A1.4 HTML compatibility patch */
-
-.volt-ai-header {
-    grid-column: 1 / -1;
-}
-
-.volt-ai-console {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
-    gap: 24px;
-    align-items: stretch;
-}
-
-.volt-ai-side {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 20px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.03);
-    box-shadow: var(--shadow-lg);
-}
-
-.volt-ai-tool {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 46px;
-    padding: 0 16px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    background: var(--color-bg-card);
-    color: var(--color-text-primary);
-    font: inherit;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.volt-ai-tool:hover,
-.volt-ai-tool:focus-visible {
-    border-color: var(--volt-orange);
-    background: rgba(232, 72, 47, 0.12);
-    color: var(--volt-orange);
-}
-
-.volt-ai-chat {
-    display: flex;
-    flex-direction: column;
-    min-height: 620px;
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.03);
-    box-shadow: var(--shadow-lg);
-}
-
-.volt-ai-messages {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 28px;
-    overflow-y: auto;
-    background:
-        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-    background-size: 42px 42px;
-}
-
-.volt-ai-message {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    max-width: min(720px, 86%);
-}
-
-.volt-ai-message-user {
-    align-self: flex-end;
-    align-items: flex-end;
-}
-
-.volt-ai-message strong {
-    color: var(--volt-orange);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-}
-
-.volt-ai-message p {
-    margin: 0;
-    padding: 14px 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.045);
-    color: var(--color-text-primary);
-    font-size: 15px;
-    line-height: 1.75;
-}
-
-.volt-ai-message-user p {
-    border-color: rgba(232, 72, 47, 0.45);
-    background: linear-gradient(135deg, var(--volt-orange-dark), var(--volt-orange));
-    color: #fff;
-}
-
-.volt-ai-form {
-    display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr) auto;
-    gap: 10px;
-    align-items: end;
-    padding: 18px 20px 20px;
-    border-top: 1px solid var(--color-border);
-    background: rgba(0, 0, 0, 0.24);
-}
-
-#volt-ai-input {
-    min-height: 46px;
-    max-height: 180px;
-    padding: 12px 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 22px;
-    background: var(--color-bg-card);
-    color: var(--color-text-primary);
-    font: inherit;
-    font-size: 15px;
-    line-height: 1.5;
-    resize: vertical;
-}
-
-#volt-ai-input:focus {
-    border-color: var(--volt-orange);
-    outline: 2px solid rgba(232, 72, 47, 0.25);
-    outline-offset: 2px;
-}
-
-.volt-ai-send {
-    min-width: 86px;
-    min-height: 46px;
-    padding: 0 20px;
-    border: 1px solid var(--volt-orange);
-    border-radius: var(--radius-full);
-    background: var(--volt-orange);
-    color: #fff;
-    font: inherit;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.volt-ai-send:hover,
-.volt-ai-send:focus-visible {
-    background: var(--volt-orange-light);
-    border-color: var(--volt-orange-light);
-}
-
-@media (max-width: 900px) {
-    .volt-ai-console {
-        grid-template-columns: 1fr;
-    }
-
-    .volt-ai-side {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 640px) {
-    .volt-ai-side {
-        grid-template-columns: 1fr;
-    }
-
-    .volt-ai-form {
-        grid-template-columns: auto auto 1fr;
-    }
-
-    #volt-ai-input {
-        grid-column: 1 / -1;
-        order: -1;
-        width: 100%;
-    }
-
-    .volt-ai-send {
-        grid-column: 1 / -1;
-        width: 100%;
-    }
-}
-
