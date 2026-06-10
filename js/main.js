@@ -2782,6 +2782,14 @@
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                 body: JSON.stringify({ text: field.value })
             });
+            if (response.status === 429) {
+                showToast('전송 간격 제한입니다. 30초 후 다시 시도해 주세요.');
+                return;
+            }
+            if (response.status === 401 || response.status === 403) {
+                showToast('함대 멤버만 Discord로 전송할 수 있습니다.');
+                return;
+            }
             if (!response.ok) throw new Error(`BRIEFING ${response.status}`);
             showToast('Discord 채널로 브리핑을 전송했습니다.');
         } catch (error) {
@@ -3377,6 +3385,7 @@
         const mobile = document.getElementById('volt-auth-mobile');
         if (!desktop && !mobile) return;
 
+        notifyAuthErrorFromQuery();
         renderAuthLoading(desktop, mobile);
 
         fetch('/auth/me', {
@@ -3422,6 +3431,15 @@
         renderAuthLoggedOut(desktop, mobile);
         applyRoleGates();
         renderMyPage();
+    }
+
+    function notifyAuthErrorFromQuery() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('auth') !== 'error') return;
+        showToast('Discord 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+        const url = new URL(window.location.href);
+        url.searchParams.delete('auth');
+        history.replaceState(history.state, '', url.toString());
     }
 
     function renderAuthLoading(desktop, mobile) {

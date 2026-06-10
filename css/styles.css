@@ -5391,7 +5391,6 @@ body.nav-trade-open::before {
 .volt-auth-user-text small,
 .volt-auth-mobile-user small {
     color: var(--color-text-tertiary);
-    font-family: var(--font-mono);
     font-size: 11px;
     line-height: 1.2;
 }
@@ -5409,19 +5408,18 @@ body.nav-trade-open::before {
     color: var(--volt-orange);
     text-decoration: none;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
     white-space: nowrap;
-    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .volt-auth-login:hover,
 .volt-auth-logout:hover,
 .volt-auth-login:focus-visible,
 .volt-auth-logout:focus-visible {
-    background: rgba(232, 72, 47, 0.18);
+    background: rgba(232, 72, 47, 0.16);
     border-color: var(--volt-orange);
     color: var(--volt-orange);
-    transform: translateY(-1px);
 }
 
 .volt-auth-warning {
@@ -5435,7 +5433,6 @@ body.nav-trade-open::before {
     align-items: center;
     min-height: 36px;
     color: var(--color-text-tertiary);
-    font-family: var(--font-mono);
     font-size: 12px;
 }
 
@@ -5479,10 +5476,10 @@ body.nav-trade-open::before {
     min-height: 36px;
     padding: 8px 14px;
     border: 1px solid var(--color-border);
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     background: var(--color-bg-card-hover);
     color: var(--color-text-primary);
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
 }
 
@@ -5524,6 +5521,8 @@ body.nav-trade-open::before {
 .mypage-card h3 {
     margin: 0 0 12px;
     font-size: 18px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-snug);
 }
 
 .mypage-list {
@@ -5547,7 +5546,7 @@ body.nav-trade-open::before {
     background: transparent;
     color: var(--color-text-primary);
     font: inherit;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
     text-align: left;
 }
@@ -5566,7 +5565,7 @@ body.nav-trade-open::before {
 .mypage-planner dd {
     margin: 0;
     color: var(--color-text-primary);
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .trade-briefing-header {
@@ -5586,10 +5585,7 @@ body.nav-trade-open::before {
    ========================================================================== */
 
 .volt-ai {
-    background:
-        radial-gradient(circle at 18% 12%, rgba(232, 72, 47, 0.16), transparent 30%),
-        radial-gradient(circle at 82% 18%, rgba(255, 95, 68, 0.08), transparent 28%),
-        linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+    background: var(--color-bg-primary);
 }
 
 .volt-ai-shell {
@@ -5603,8 +5599,7 @@ body.nav-trade-open::before {
 .volt-ai-chat-panel {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.03);
-    box-shadow: var(--shadow-lg);
+    background: var(--color-bg-card);
 }
 
 .volt-ai-sidebar {
@@ -5616,11 +5611,10 @@ body.nav-trade-open::before {
 
 .volt-ai-side-title {
     margin-bottom: 8px;
-    color: var(--volt-orange);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    color: var(--color-text-tertiary);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
@@ -5638,17 +5632,15 @@ body.nav-trade-open::before {
     color: var(--color-text-primary);
     font: inherit;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
-    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
 
 .volt-ai-tool-button:hover,
 .volt-ai-tool-button:focus-visible {
-    border-color: var(--volt-orange);
-    background: rgba(232, 72, 47, 0.12);
-    color: var(--volt-orange);
-    transform: translateY(-1px);
+    border-color: var(--color-border-hover);
+    background: var(--color-bg-card-hover);
 }
 
 .volt-ai-chat-panel {
@@ -5665,14 +5657,14 @@ body.nav-trade-open::before {
     gap: 18px;
     padding: 24px 28px;
     border-bottom: 1px solid var(--color-border);
-    background: linear-gradient(90deg, rgba(232, 72, 47, 0.10), transparent);
 }
 
 .volt-ai-chat-title {
     margin: 0 0 6px;
-    font-size: clamp(24px, 3vw, 36px);
-    line-height: 1.1;
-    letter-spacing: var(--tracking-tight);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: var(--tracking-snug);
 }
 
 .volt-ai-chat-title span {
@@ -5688,15 +5680,15 @@ body.nav-trade-open::before {
 
 .volt-ai-chat-badge {
     flex: 0 0 auto;
-    padding: 6px 12px;
+    padding: 4px 12px;
     border: 1px solid var(--color-border-accent);
-    border-radius: var(--radius-full);
-    background: rgba(232, 72, 47, 0.10);
+    border-radius: 4px;
+    background: rgba(232, 72, 47, 0.08);
     color: var(--volt-orange);
-    font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
 .volt-ai-chat-log {
@@ -5706,10 +5698,6 @@ body.nav-trade-open::before {
     gap: 16px;
     padding: 28px;
     overflow-y: auto;
-    background:
-        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-    background-size: 42px 42px;
 }
 
 .volt-ai-message {
@@ -5725,33 +5713,32 @@ body.nav-trade-open::before {
 }
 
 .volt-ai-message-meta {
-    color: var(--volt-orange);
-    font-family: var(--font-mono);
+    color: var(--color-text-tertiary);
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-weight: 500;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
 }
 
 .volt-ai-message-bubble {
     padding: 14px 16px;
     border: 1px solid var(--color-border);
     border-radius: 18px;
-    background: rgba(255, 255, 255, 0.045);
+    background: var(--color-bg-card);
     color: var(--color-text-primary);
     font-size: 15px;
     line-height: 1.75;
 }
 
 .volt-ai-message.is-user .volt-ai-message-bubble {
-    border-color: rgba(232, 72, 47, 0.45);
-    background: linear-gradient(135deg, var(--volt-orange-dark), var(--volt-orange));
+    border-color: var(--volt-orange);
+    background: var(--volt-orange);
     color: #fff;
 }
 
 .volt-ai-input-form {
     padding: 18px 20px 20px;
     border-top: 1px solid var(--color-border);
-    background: rgba(0, 0, 0, 0.24);
 }
 
 .volt-ai-attachment-preview {
@@ -5776,9 +5763,9 @@ body.nav-trade-open::before {
     min-height: 46px;
     border-radius: var(--radius-full);
     font: inherit;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
-    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
 
 .volt-ai-icon-button {
@@ -5790,10 +5777,8 @@ body.nav-trade-open::before {
 
 .volt-ai-icon-button:hover,
 .volt-ai-icon-button:focus-visible {
-    border-color: var(--volt-orange);
-    background: rgba(232, 72, 47, 0.12);
-    color: var(--volt-orange);
-    transform: translateY(-1px);
+    border-color: var(--color-border-hover);
+    background: var(--color-bg-card-hover);
 }
 
 .volt-ai-input {
@@ -5832,7 +5817,6 @@ body.nav-trade-open::before {
 .volt-ai-send-button:focus-visible {
     background: var(--volt-orange-light);
     border-color: var(--volt-orange-light);
-    transform: translateY(-1px);
 }
 
 /* 준비 중(coming soon) 상태 */
@@ -5842,13 +5826,12 @@ body.nav-trade-open::before {
     margin-left: 10px;
     padding: 4px 12px;
     border: 1px solid var(--color-border-accent);
-    border-radius: var(--radius-full);
-    background: rgba(232, 72, 47, 0.10);
+    border-radius: 4px;
+    background: rgba(232, 72, 47, 0.08);
     color: var(--volt-orange);
-    font-family: var(--font-mono);
     font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-weight: 500;
+    letter-spacing: 0.1em;
 }
 
 .nav-soon-tag {
@@ -5857,13 +5840,12 @@ body.nav-trade-open::before {
     margin-left: 4px;
     padding: 1px 6px;
     border: 1px solid var(--color-border-accent);
-    border-radius: var(--radius-full);
-    background: rgba(232, 72, 47, 0.10);
+    border-radius: 4px;
+    background: rgba(232, 72, 47, 0.08);
     color: var(--volt-orange);
-    font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    font-weight: 500;
+    letter-spacing: 0.08em;
 }
 
 .volt-ai-tool-button:disabled,
@@ -5894,36 +5876,6 @@ body.nav-trade-open::before {
     opacity: 0.55;
     cursor: not-allowed;
     resize: none;
-}
-
-[data-theme="light"] .volt-ai {
-    background:
-        radial-gradient(circle at 18% 12%, rgba(232, 72, 47, 0.10), transparent 30%),
-        linear-gradient(180deg, #f5f5f7 0%, #ffffff 100%);
-}
-
-[data-theme="light"] .volt-ai-sidebar,
-[data-theme="light"] .volt-ai-chat-panel {
-    background: #ffffff;
-}
-
-[data-theme="light"] .volt-ai-chat-log {
-    background-color: rgba(255, 255, 255, 0.55);
-    background-image:
-        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-}
-
-[data-theme="light"] .volt-ai-message-bubble {
-    background: rgba(0, 0, 0, 0.04);
-}
-
-[data-theme="light"] .volt-ai-message.is-user .volt-ai-message-bubble {
-    background: linear-gradient(135deg, var(--volt-orange-dark), var(--volt-orange));
-}
-
-[data-theme="light"] .volt-ai-input-form {
-    background: rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 900px) {

@@ -11,6 +11,15 @@ test.describe('인증 게이팅', () => {
         await expect(content.locator('a[href="/auth/discord/login"]')).toBeVisible();
     });
 
+    test('로그인 실패(?auth=error): 토스트 안내 + URL 정리', async ({ page }) => {
+        await mockApi(page, { loggedIn: false });
+        await page.goto('/?auth=error');
+        await page.waitForSelector('#loading-splash', { state: 'hidden' });
+
+        await expect(page.locator('#toast')).toContainText('로그인에 실패');
+        await expect.poll(() => page.url()).not.toContain('auth=error');
+    });
+
     test('로그인(모킹): 마이페이지 프로필 렌더', async ({ page }) => {
         await mockApi(page, { loggedIn: true });
         await gotoSection(page, '#mypage');

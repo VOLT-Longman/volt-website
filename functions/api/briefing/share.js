@@ -35,10 +35,13 @@ export async function onRequestPost({ request, env }) {
   }
   if (!text) return error('Missing briefing text', 422);
 
+  // 발신자를 명시해 사칭을 막고 감사 추적이 가능하게 한다. (1800자 제한 + 머리글 < 2000자)
+  const sender = String(session.display_name || session.username || 'VOLT 멤버').slice(0, 80);
+  const content = `**${sender}** 님의 무역 브리핑\n${text}`;
   const response = await fetch(getWebhookUrl(env), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content: text, allowed_mentions: { parse: [] } })
+    body: JSON.stringify({ content, allowed_mentions: { parse: [] } })
   });
   if (!response.ok) return error('Discord webhook failed', 502);
 
