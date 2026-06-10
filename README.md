@@ -22,7 +22,7 @@
 | 콘텐츠 데이터 | `data/volt-data.js`의 `window.VOLT_DATA` |
 | 배포 | Cloudflare Pages |
 | 기본 브랜치 | `main` |
-| 최신 에셋 버전 | `20260610-01` |
+| 최신 에셋 버전 | `20260610-05` |
 | 분석 | Cloudflare Web Analytics 자동 설치 사용 |
 | 보안 헤더 | `_headers`에서 관리 |
 
@@ -355,9 +355,9 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 최신 파일 반영 여부는 페이지 소스에서 아래 버전을 확인합니다.
 
 ```html
-css/styles.css?v=20260610-01
-data/volt-data.js?v=20260610-01
-js/main.js?v=20260610-01
+css/styles.css?v=20260610-05
+data/volt-data.js?v=20260610-05
+js/main.js?v=20260610-05
 ```
 
 ---
@@ -403,6 +403,7 @@ GitHub Actions(`.github/workflows/smoke.yml`)에서 자동 실행됩니다.
 ```bash
 npm install                      # 최초 1회
 npx playwright install chromium  # 최초 1회 (브라우저)
+npm run check                    # JS 문법/임포트 검증 (CI에서도 자동 실행)
 npx playwright test              # 전체 스모크 실행
 npm run serve                    # 로컬 미리보기 (http://localhost:8787)
 ```

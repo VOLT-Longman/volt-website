@@ -1,6 +1,7 @@
 # VOLT 관리자 CMS 1차 구축 계획
 
-> 이 작업은 **volt-website-copy에서만 진행한다**. 원본 `volt-website-main` 또는 안정화된 원본 프로젝트 파일은 수정하지 않는다.
+> **[기록용 문서]** 아래 내용은 1차 구축 당시(volt-website-copy 분리 작업) 계획 기록입니다.
+> 현재 CMS는 본 저장소(`volt-website`)에서 운영 중이며, 최신 운영 절차는 `docs/ADMIN_CMS_RUNBOOK.md`를 참고하세요.
 
 ## 목표
 

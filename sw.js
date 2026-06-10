@@ -3,18 +3,26 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20260610-04';
+const CACHE_VERSION = '20260610-05';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
-const STATIC_ASSETS = [
-    '/',
-    '/index.html',
+// index.html에서 ?v= 버전 쿼리를 붙여 로드하는 에셋.
+// 프리캐시 키가 실제 요청 URL과 일치하도록 버전 쿼리를 함께 캐시한다.
+const VERSIONED_ASSETS = [
     '/css/styles.css',
     '/js/theme-init.js',
     '/js/main.js',
     '/js/volt-ai.js',
     '/data/volt-data.js',
     '/data/volt-localization.js',
+];
+
+const STATIC_ASSETS = [
+    '/',
+    '/index.html',
+    '/404.html',
+    '/manifest.json',
+    ...VERSIONED_ASSETS.map((assetPath) => `${assetPath}?v=${CACHE_VERSION}`),
     '/assets/images/VOLT_logo.webp',
     '/assets/images/streamers/perma.png',
     '/assets/images/streamers/kookbap.png',

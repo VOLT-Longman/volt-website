@@ -2,3 +2,14 @@ node_modules/
 test-results/
 playwright-report/
 .DS_Store
+
+# 로컬 시크릿 / 환경변수 (절대 커밋 금지)
+.env
+.env.*
+.dev.vars
+.wrangler/
+
+# 에디터 설정
+.vscode/
+.idea/
+*.swp
