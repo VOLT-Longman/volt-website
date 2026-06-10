@@ -12,6 +12,7 @@ const STATIC_ASSETS = [
     '/css/styles.css',
     '/js/theme-init.js',
     '/js/main.js',
+    '/js/volt-ai.js',
     '/data/volt-data.js',
     '/data/volt-localization.js',
     '/assets/images/VOLT_logo.webp',

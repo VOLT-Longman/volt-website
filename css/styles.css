@@ -769,8 +769,26 @@ body.nav-trade-open::before {
     margin-bottom: 64px;
 }
 
+.section-header h2 {
+    font-size: var(--text-h2);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: 16px;
+}
+
 .section-header h2 .accent {
     color: var(--volt-orange);
+}
+
+.section-header p {
+    margin: 8px auto 0;
+    max-width: 65ch;
+    color: var(--color-text-secondary);
+    font-size: var(--text-lead);
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: var(--tracking-normal);
 }
 
 /* ==========================================================================
@@ -2190,15 +2208,6 @@ body.nav-trade-open::before {
         font-size: 22px;
     }
 
-    .section-header h2 {
-        font-size: 36px;
-        letter-spacing: var(--tracking-snug);
-    }
-
-    .section-header p {
-        font-size: 16px;
-    }
-
     .section {
         padding: 64px 22px;
     }
@@ -2288,10 +2297,6 @@ body.nav-trade-open::before {
 
     .section {
         padding: 48px 16px;
-    }
-
-    .section-header h2 {
-        font-size: 30px;
     }
 
     .about-card,
@@ -2562,6 +2567,12 @@ body.nav-trade-open::before {
     letter-spacing: 0.05em;
 }
 
+.ship-role-?붾Ъ  { background: rgba(255,179,0,0.12);  color: #ffb300; }
+.ship-role-?꾪닾  { background: rgba(232,72,47,0.12);  color: var(--volt-orange); }
+.ship-role-?ㅻぉ?? background: rgba(102,126,234,0.12); color: #667eea; }
+.ship-role-?먰뿕  { background: rgba(132,250,176,0.12); color: #84fab0; }
+.ship-role-吏?? { background: rgba(79,172,254,0.12);  color: #4facfe; }
+.ship-role-罹먰뵾?? background: rgba(240,147,251,0.12); color: #f093fb; }
 
 .ship-status {
     font-family: var(--font-family);
@@ -4945,7 +4956,6 @@ body.nav-trade-open::before {
     letter-spacing: var(--tracking-tight);
 }
 
-.section-header h2,
 .join-content h2,
 .trade-planner h2,
 .manual-hero h2 {
@@ -4970,7 +4980,6 @@ body.nav-trade-open::before {
 }
 
 .hero .subtitle,
-.section-header p,
 .trade-planner-intro,
 .guide-planner-cta strong {
     font-size: var(--text-lead);
@@ -4996,7 +5005,6 @@ body.nav-trade-open::before {
 }
 
 .hero .description,
-.section-header p,
 .leader-description,
 .streamer-description,
 .join-checklist-card p,
@@ -5004,48 +5012,6 @@ body.nav-trade-open::before {
 .faq-answer p,
 .guide-card p {
     max-width: 65ch;
-}
-
-.section-header p {
-    margin: 8px auto 0;
-    color: var(--color-text-secondary);
-    font-weight: 400;
-}
-
-.nav-soon-tag,
-.volt-ai-status-badge,
-.volt-ai-tool-status {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--color-border-accent);
-    border-radius: var(--radius-full);
-    background: rgba(232, 72, 47, 0.10);
-    color: var(--volt-orange);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    line-height: 1;
-    text-transform: uppercase;
-}
-
-.nav-soon-tag {
-    margin-left: 6px;
-    padding: 3px 6px;
-    vertical-align: middle;
-}
-
-.volt-ai-status-badge {
-    transform: translateY(-0.2em);
-    margin-left: 10px;
-    padding: 6px 10px;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-}
-
-.volt-ai-tool-status {
-    padding: 4px 8px;
 }
 
 .hero-stat-value,
@@ -5868,52 +5834,65 @@ body.nav-trade-open::before {
     transform: translateY(-1px);
 }
 
-.volt-ai-message-notice {
-    max-width: min(760px, 100%);
+/* 준비 중(coming soon) 상태 */
+.volt-ai-status-badge {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    padding: 4px 12px;
+    border: 1px solid var(--color-border-accent);
+    border-radius: var(--radius-full);
+    background: rgba(232, 72, 47, 0.10);
+    color: var(--volt-orange);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
 }
 
-.volt-ai-message-notice .volt-ai-message-bubble {
-    border-color: rgba(232, 72, 47, 0.35);
-    background: rgba(232, 72, 47, 0.08);
-}
-
-.volt-ai-message-notice strong,
-.volt-ai-message-notice p {
-    display: block;
-    margin: 0;
-}
-
-.volt-ai-message-notice p {
-    margin-top: 8px;
-    color: var(--color-text-secondary);
+.nav-soon-tag {
+    display: inline-block;
+    vertical-align: 2px;
+    margin-left: 4px;
+    padding: 1px 6px;
+    border: 1px solid var(--color-border-accent);
+    border-radius: var(--radius-full);
+    background: rgba(232, 72, 47, 0.10);
+    color: var(--volt-orange);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
 }
 
 .volt-ai-tool-button:disabled,
 .volt-ai-icon-button:disabled,
-.volt-ai-send-button:disabled,
-.volt-ai-input:disabled {
+.volt-ai-send-button:disabled {
+    opacity: 0.55;
     cursor: not-allowed;
-    opacity: 0.58;
     transform: none;
 }
 
 .volt-ai-tool-button:disabled:hover,
-.volt-ai-tool-button:disabled:focus-visible,
 .volt-ai-icon-button:disabled:hover,
-.volt-ai-icon-button:disabled:focus-visible,
-.volt-ai-send-button:disabled:hover,
-.volt-ai-send-button:disabled:focus-visible {
+.volt-ai-send-button:disabled:hover {
     border-color: var(--color-border);
     background: var(--color-bg-card);
     color: var(--color-text-primary);
     transform: none;
 }
 
-.volt-ai-send-button:disabled:hover,
-.volt-ai-send-button:disabled:focus-visible {
+.volt-ai-send-button:disabled,
+.volt-ai-send-button:disabled:hover {
     border-color: var(--volt-orange);
     background: var(--volt-orange);
     color: #fff;
+}
+
+.volt-ai-input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    resize: none;
 }
 
 [data-theme="light"] .volt-ai {
@@ -5922,8 +5901,28 @@ body.nav-trade-open::before {
         linear-gradient(180deg, #f5f5f7 0%, #ffffff 100%);
 }
 
+[data-theme="light"] .volt-ai-sidebar,
+[data-theme="light"] .volt-ai-chat-panel {
+    background: #ffffff;
+}
+
 [data-theme="light"] .volt-ai-chat-log {
     background-color: rgba(255, 255, 255, 0.55);
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+}
+
+[data-theme="light"] .volt-ai-message-bubble {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .volt-ai-message.is-user .volt-ai-message-bubble {
+    background: linear-gradient(135deg, var(--volt-orange-dark), var(--volt-orange));
+}
+
+[data-theme="light"] .volt-ai-input-form {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 900px) {

@@ -1,12 +1,12 @@
 {
   "name": "volt-website",
-  "version": "1.0.0",
   "private": true,
   "scripts": {
+    "serve": "node scripts/dev-server.js",
     "test": "playwright test",
-    "test:smoke": "playwright test tests/smoke"
+    "cache-version": "node scripts/update-cache-version.js"
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0"
+    "@playwright/test": "^1.56.1"
   }
 }

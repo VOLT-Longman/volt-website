@@ -1,4 +1,4 @@
-# VOLT Fleet Website
+﻿# VOLT Fleet Website
 
 한국 커뮤니티 Star Citizen 물류·무역 전문 함대 **VOLT**의 공식 홈페이지입니다.
 
@@ -22,7 +22,7 @@
 | 콘텐츠 데이터 | `data/volt-data.js`의 `window.VOLT_DATA` |
 | 배포 | Cloudflare Pages |
 | 기본 브랜치 | `main` |
-| 최신 에셋 버전 | `20260530-01` |
+| 최신 에셋 버전 | `20260610-01` |
 | 분석 | Cloudflare Web Analytics 자동 설치 사용 |
 | 보안 헤더 | `_headers`에서 관리 |
 
@@ -326,6 +326,7 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 □ data/volt-data.js 쉼표, 따옴표, 배열 구조 오류 없음
 □ 새 이미지 경로가 실제 파일 위치와 일치함
 □ CSS/JS 수정 후 캐시 버전 쿼리 갱신
+□ npx playwright test 스모크 테스트 전체 통과
 □ 다크 모드와 라이트 모드 모두 확인
 □ 모바일 480px / 768px 폭 확인
 □ 검색, 필터, 모달, FAQ, 메뉴 동작 확인
@@ -354,9 +355,9 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 최신 파일 반영 여부는 페이지 소스에서 아래 버전을 확인합니다.
 
 ```html
-css/styles.css?v=20260530-01
-data/volt-data.js?v=20260530-01
-js/main.js?v=20260530-01
+css/styles.css?v=20260610-01
+data/volt-data.js?v=20260610-01
+js/main.js?v=20260610-01
 ```
 
 ---
@@ -369,7 +370,8 @@ js/main.js?v=20260530-01
 node scripts/update-cache-version.js YYYYMMDD-NN
 ```
 
-이 스크립트는 `index.html`, `admin/index.html`, `sw.js`의 버전을 함께 갱신합니다.
+이 스크립트는 `index.html`, `admin/index.html`, `sw.js`의 버전을 함께 갱신하고,
+버전 쿼리가 누락된 에셋 참조나 존재하지 않는 프리캐시 항목이 있으면 실패합니다.
 
 버전 예시는 다음과 같습니다.
 
@@ -378,6 +380,36 @@ node scripts/update-cache-version.js YYYYMMDD-NN
 ```
 
 브라우저에 이전 화면이 보이면 강력 새로고침을 하거나 Cloudflare 캐시 상태를 확인합니다.
+
+---
+
+## 개발 규칙
+
+### JS/CSS 비대화 방지
+
+`js/main.js`(약 190KB)는 더 이상 키우지 않습니다.
+
+- **신규 기능 JS는 별도 파일**로 추가합니다: `js/<feature>.js` (예: `js/volt-ai.js`)
+- `index.html`에서 `js/main.js` 뒤에 `?v=` 버전 쿼리와 함께 로드합니다
+- `sw.js`의 `STATIC_ASSETS` 프리캐시 목록에도 추가합니다
+- 기존 main.js 코드 수정은 허용하되, 새 기능 블록을 main.js에 직접 추가하지 않습니다
+- 규모가 큰 신규 CSS도 같은 원칙으로 분리를 검토합니다
+
+### 스모크 테스트
+
+Playwright 스모크 테스트가 핵심 사용자 흐름을 보호합니다. `main` push/PR 시
+GitHub Actions(`.github/workflows/smoke.yml`)에서 자동 실행됩니다.
+
+```bash
+npm install                      # 최초 1회
+npx playwright install chromium  # 최초 1회 (브라우저)
+npx playwright test              # 전체 스모크 실행
+npm run serve                    # 로컬 미리보기 (http://localhost:8787)
+```
+
+테스트는 `tests/smoke/`에 있으며 백엔드 API는 `tests/smoke/helpers.js`에서 모킹합니다.
+기능을 추가하거나 수정하면 해당 흐름의 스모크 시나리오도 함께 추가합니다.
+
 ---
 
 ## Cloudflare Web Analytics
@@ -505,9 +537,4 @@ assets/images/og-image.png
 
 이 저장소의 사이트 코드와 콘텐츠는 VOLT Fleet 운영 목적에 맞춰 관리됩니다. 로고, 이미지, 문구, 함대 운영정책 등 브랜드 자산은 무단 사용하지 않는 것을 원칙으로 합니다.
 
-## 개발 가드레일
 
-- 새 기능 JavaScript는 `js/<feature>.js`처럼 별도 파일로 추가하고, `js/main.js`에는 직접 누적하지 않습니다.
-- 새 기능 CSS는 가능한 경우 기능 단위 선택자로 범위를 제한하고, 기존 전역 규칙을 덮어쓰는 패치성 override를 만들지 않습니다.
-- 새 정적 파일을 추가하거나 CSS/JS/data/admin 파일을 수정한 경우 `index.html` 또는 `admin/index.html`에 로드 항목을 명시하고 `node scripts/update-cache-version.js YYYYMMDD-NN`로 캐시 버전을 일괄 갱신합니다.
-- 배포 전 `npm run test:smoke`를 실행해 홈, 함선DB, 무역플래너, 공지/갤러리, 테마, VOLT AI 준비중 상태를 확인합니다.

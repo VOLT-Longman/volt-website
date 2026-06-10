@@ -1,34 +1,35 @@
+// VOLT AI — 준비 중(coming soon) 상태 전용 스크립트.
+// 실제 어시스턴트 구현 시 이 파일을 교체한다. (main.js에 추가하지 말 것 — README 참조)
 (function () {
     'use strict';
 
-    const DISABLED_SELECTOR = 'button, textarea, input[type="file"]';
-    const READY_MESSAGE = '?? ?';
+    function setupVoltAiComingSoon() {
+        const form = document.getElementById('volt-ai-form');
+        if (!form) return;
 
-    function markControlDisabled(control) {
-        control.disabled = true;
-        control.setAttribute('aria-disabled', 'true');
-        if (!control.title) control.title = READY_MESSAGE;
-    }
-
-    function preventPreparedFormSubmit(form) {
+        // 마크업의 disabled 속성이 1차 방어, 여기는 2차 방어.
         form.addEventListener('submit', function (event) {
             event.preventDefault();
         });
-    }
 
-    function setupVoltAiInterface() {
-        const root = document.getElementById('ai');
-        const form = document.getElementById('volt-ai-form');
-        if (!root || !form) return;
-
-        root.querySelectorAll(DISABLED_SELECTOR).forEach(markControlDisabled);
-        preventPreparedFormSubmit(form);
+        const controls = [
+            document.getElementById('volt-ai-input'),
+            document.getElementById('volt-ai-send'),
+            document.getElementById('volt-ai-image-button'),
+            document.getElementById('volt-ai-voice-button'),
+            document.getElementById('volt-ai-file'),
+            document.getElementById('volt-ai-new-chat'),
+            document.getElementById('volt-ai-history-button'),
+            document.getElementById('volt-ai-settings-button'),
+        ];
+        controls.forEach((el) => {
+            if (el) el.disabled = true;
+        });
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setupVoltAiInterface, { once: true });
-        return;
+        document.addEventListener('DOMContentLoaded', setupVoltAiComingSoon);
+    } else {
+        setupVoltAiComingSoon();
     }
-
-    setupVoltAiInterface();
-}());
+})();
