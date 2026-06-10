@@ -62,6 +62,7 @@
     let deferredInstallPrompt = null;
     let authState = { loggedIn: false, user: null, roles: [] };
     let userPreferencesLoaded = false;
+    let liveMemberCount = null;
     let preferencesSaveTimer = null;
     const NOTICE_TAG_COLORS = { '\uACF5\uC9C0': 'var(--volt-orange)', '\uC911\uC694': '#e53e3e', '\uC5C5\uB370\uC774\uD2B8': '#3182ce', '\uC774\uBCA4\uD2B8': '#805ad5', '\uC791\uC804': '#38a169', '\uC2DC\uC2A4\uD15C': '#319795', '\uBAA8\uC9D1': '#d69e2e', '\uC815\uCC45': '#e53e3e' };
     const FOCUS_COLORS = {
@@ -537,7 +538,8 @@
 
     function formatApproximateMemberCount(memberCount) {
         if (!Number.isInteger(memberCount) || memberCount < 0) return null;
-        const rounded = Math.floor(memberCount / 100) * 100;
+        // 10단위로 내림: 근사 표기를 유지하되 100단위 내림처럼 크게 어긋나지 않게 한다.
+        const rounded = Math.floor(memberCount / 10) * 10;
         const displayCount = rounded > 0 ? rounded : memberCount;
         return `${displayCount.toLocaleString('en-US')}+`;
     }
@@ -551,8 +553,11 @@
             if (!response.ok) throw new Error(`Discord stats API failed: ${response.status}`);
 
             const payload = await response.json();
-            const label = formatApproximateMemberCount(payload?.memberCount);
-            if (label) target.textContent = label;
+            if (Number.isInteger(payload?.memberCount) && payload.memberCount >= 0) {
+                // 라이브값을 저장해 두면 이후 CMS 새로고침으로 renderAll이 다시 돌아도 유지된다.
+                liveMemberCount = payload.memberCount;
+                renderMemberCount();
+            }
         } catch (error) {
             console.warn('Discord member count fallback', error);
         }
@@ -1418,6 +1423,12 @@
     function renderMemberCount() {
         const element = document.querySelector('.hero-stat[data-type="members"] .hero-stat-value');
         if (!element) return;
+        // 라이브 디스코드 멤버수가 있으면 항상 우선(정적값으로 덮어쓰지 않는다).
+        const liveLabel = formatApproximateMemberCount(liveMemberCount);
+        if (liveLabel) {
+            element.textContent = liveLabel;
+            return;
+        }
         const memberCount = getMemberCount();
         element.textContent = `${memberCount ?? '?'}+`;
     }

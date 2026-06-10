@@ -1,8 +1,10 @@
 import { json } from '../_shared/http.js';
 
+// 주의: vanity(맞춤) 초대코드는 invite API에서 approximate_member_count가 비어 오는 경우가 많다.
+// 실시간 멤버수가 안 나오면 DISCORD_INVITE_CODE를 만료 없는 "일반" 초대코드로 설정할 것.
 const DEFAULT_INVITE_CODE = 'voltstarcitizen';
 const DISCORD_API_BASE = 'https://discord.com/api/v10/invites';
-const CACHE_TTL_SECONDS = 600;
+const CACHE_TTL_SECONDS = 300;
 
 function createFallbackResponse() {
   return json({ memberCount: null }, { cacheControl: 'no-store' });
