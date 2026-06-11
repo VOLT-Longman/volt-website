@@ -15,6 +15,7 @@
         console.error('VOLT_DATA 미로드');
         return;
     }
+    const staticLeadership = Array.isArray(data.leadership) ? data.leadership.slice() : [];
 
     function renderInlineIcon(name, className = 'inline-svg-icon') {
         const icons = {
@@ -355,8 +356,9 @@
 
     function renderLeaders() {
         const container = document.getElementById('leadership-grid');
-        if (!container || !Array.isArray(data.leadership)) return;
-        container.innerHTML = data.leadership.map((leader) => {
+        if (!container) return;
+        const leaders = getRenderableLeadership();
+        container.innerHTML = leaders.map((leader) => {
             const details = renderLeaderDetails(leader);
             return `<div class="${leader.avatarStyle === 'ceo' ? 'leader-card ceo-card' : 'leader-card'} reveal">
                 ${renderLeaderAvatar(leader)}
@@ -369,6 +371,13 @@
                 </div>
             </div>`;
         }).join('');
+    }
+
+    function getRenderableLeadership() {
+        const leaders = Array.isArray(data.leadership)
+            ? data.leadership.filter((leader) => leader && leader.published !== false)
+            : [];
+        return leaders.length ? leaders : staticLeadership;
     }
 
     function renderLeaderAvatar(leader) {

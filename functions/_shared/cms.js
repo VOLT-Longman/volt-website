@@ -125,7 +125,7 @@ export function mapLeader(row) {
     details: Array.isArray(extras.details) ? extras.details : undefined,
     competencies: Array.isArray(extras.competencies) ? extras.competencies : undefined,
     sortOrder: Number(row.sort_order || 0),
-    published: Boolean(row.published)
+    published: row.published === null || row.published === undefined ? true : Boolean(row.published)
   };
 }
 
@@ -145,7 +145,7 @@ export function leaderInput(body, existing = {}) {
     // 상세 항목(details/competencies)은 관리자 UI 미노출 — 기존 값을 보존한다.
     extras: existing.extras ?? null,
     sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
-    published: body.published === undefined ? 1 : toBooleanInt(body.published),
+    published: publishedInput(body, existing),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
   };
@@ -260,6 +260,12 @@ function nullableNumber(value) {
 function nullableBooleanInt(value) {
   if (value === null || value === undefined || value === '') return null;
   return value === true || value === 1 || value === '1' || value === 'true' ? 1 : 0;
+}
+
+function publishedInput(body, existing = {}) {
+  if (body.published !== undefined) return toBooleanInt(body.published);
+  if (existing.published !== null && existing.published !== undefined) return toBooleanInt(existing.published);
+  return 1;
 }
 
 function parseTags(value) {

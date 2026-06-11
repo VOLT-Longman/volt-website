@@ -4,7 +4,7 @@ import { mapLeader } from '../_shared/cms.js';
 const LEADERSHIP_QUERY = `
   SELECT *
   FROM leadership_members
-  WHERE published = 1
+  WHERE published = 1 OR published IS NULL
   ORDER BY sort_order ASC, created_at ASC
 `;
 
