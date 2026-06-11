@@ -46,7 +46,7 @@
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
     const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
-    const shipState = { filter: 'all', manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, selectedTags: [] };
+    const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, selectedTags: [] };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const UEX_API_BASE_URL = '/api/uex';
@@ -602,12 +602,6 @@
         return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
     }
 
-    function getShipMultiFilterTags() {
-        if (!Array.isArray(data.ships)) return [];
-        const tags = new Set(data.ships.flatMap((ship) => getShipTags(ship)));
-        return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
-    }
-
     function getShipManufacturers() {
         if (!Array.isArray(data.ships)) return [];
         return [...new Set(data.ships.map((ship) => ship.manufacturer))].sort(compareText);
@@ -617,47 +611,37 @@
         const select = document.getElementById('ship-manufacturer');
         if (!select) return;
         select.innerHTML = [
-            '<option value="all">전체</option>',
+            '<option value="all">제조사 전체</option>',
             ...getShipManufacturers().map((manufacturer) => `<option value="${escapeHtml(manufacturer)}">${escapeHtml(manufacturer)}</option>`)
         ].join('');
         select.value = shipState.manufacturer;
     }
 
-    function renderShipFilters() {
-        const container = document.getElementById('ship-filters');
-        if (!container) return;
-        const filters = ['all', ...getShipFilterTags()];
-        container.innerHTML = filters.map((filter) => {
-            const label = filter === 'all' ? '전체' : filter;
-            const active = filter === shipState.filter ? ' active' : '';
-            return `<button class="ship-filter-btn${active}" type="button" data-filter="${escapeHtml(filter)}">${escapeHtml(label)}</button>`;
-        }).join('');
-    }
-
+    // 통합 태그 칩: '전체' + 역할 태그(복수 선택). 선택한 태그 중 하나라도 포함되면 표시한다.
     function renderShipTagFilters() {
         const container = document.getElementById('ship-tag-filters');
         if (!container) return;
         const selectedTags = new Set(shipState.selectedTags);
-        const buttons = getShipMultiFilterTags().map((tag) => {
+        const allActive = selectedTags.size === 0 ? ' active' : '';
+        const buttons = getShipFilterTags().map((tag) => {
             const active = selectedTags.has(tag) ? ' active' : '';
             return `<button class="ship-filter-btn${active}" type="button" data-ship-tag-filter="${escapeHtml(tag)}" aria-pressed="${selectedTags.has(tag)}">${escapeHtml(tag)}</button>`;
         });
-        const clearButton = shipState.selectedTags.length
-            ? '<button class="ship-filter-btn ship-filter-clear active" type="button" data-ship-tag-clear>태그 초기화</button>'
-            : '';
-        container.innerHTML = [...buttons, clearButton].join('');
+        container.innerHTML = [
+            `<button class="ship-filter-btn${allActive}" type="button" data-ship-tag-clear aria-pressed="${selectedTags.size === 0}">전체</button>`,
+            ...buttons
+        ].join('');
     }
 
     function getVisibleShips() {
         const query = shipState.query.trim().toLowerCase();
         let ships = getSortedShips().filter((ship) => {
             const tags = getShipTags(ship);
-            const matchesFilter = shipState.filter === 'all' || ship.focus === shipState.filter || tags.includes(shipState.filter);
             const matchesManufacturer = shipState.manufacturer === 'all' || ship.manufacturer === shipState.manufacturer;
             const matchesReleaseState = !shipState.hideUnreleased || !tags.includes('\ubbf8\uad6c\ud604');
             const matchesSelectedTags = shipState.selectedTags.length === 0 || shipState.selectedTags.some((tag) => ship.focus === tag || tags.includes(tag));
             const haystack = buildShipSearchText(ship, tags);
-            return matchesFilter && matchesManufacturer && matchesReleaseState && matchesSelectedTags && (!query || haystack.includes(query));
+            return matchesManufacturer && matchesReleaseState && matchesSelectedTags && (!query || haystack.includes(query));
         });
         if (shipState.cargoMin > 0) {
             ships = ships.filter((ship) => getCargoValue(ship.cargo) >= shipState.cargoMin);
@@ -1205,7 +1189,6 @@
         renderFooterStreamers();
         renderNoticeFilters();
         renderAnnouncements();
-        renderShipFilters();
         renderShipManufacturers();
         renderShips();
         renderSchedule();
@@ -1455,31 +1438,29 @@
     }
 
     function setupShipControls() {
-        const filters = document.querySelector('.ship-filters');
         const search = document.getElementById('ship-search');
         const manufacturer = document.getElementById('ship-manufacturer');
         const hideUnreleased = document.getElementById('ship-hide-unreleased');
         const sort = document.getElementById('ship-sort');
         const grid = document.getElementById('ships-grid');
         const purpose = document.getElementById('ship-purpose');
-        const purposeApply = document.getElementById('ship-purpose-apply');
-        const purposeReset = document.getElementById('ship-purpose-reset');
-        const hangarFilter = document.getElementById('hangar-filter-btn');
+        const hangarOnly = document.getElementById('ship-hangar-only');
         const tagFilters = document.getElementById('ship-tag-filters');
+        const advancedToggle = document.getElementById('ship-advanced-toggle');
+        const advancedPanel = document.getElementById('ship-advanced-panel');
+        const filterReset = document.getElementById('ship-filter-reset');
         const cargoButtons = [...document.querySelectorAll('.cargo-filter-btn')];
-        if (!filters || !search || !manufacturer || !hideUnreleased || !sort || !grid || !purpose || !purposeApply || !purposeReset) return;
-        filters.addEventListener('click', handleShipFilterClick);
+        if (!search || !manufacturer || !hideUnreleased || !sort || !grid || !purpose) return;
         tagFilters?.addEventListener('click', handleShipTagFilterClick);
         search.addEventListener('input', () => { shipState.query = search.value; renderShips(); });
         manufacturer.addEventListener('change', () => { shipState.manufacturer = manufacturer.value; renderShips(); });
-        hideUnreleased.addEventListener('change', () => { shipState.hideUnreleased = hideUnreleased.checked; renderShips(); });
+        hideUnreleased.addEventListener('change', () => { shipState.hideUnreleased = hideUnreleased.checked; syncShipControls(); renderShips(); });
         sort.addEventListener('change', () => { shipState.sort = sort.value; renderShips(); });
         grid.addEventListener('click', openShipFromEvent);
         grid.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') openShipFromEvent(event);
         });
-        purposeApply.addEventListener('click', () => applyShipPurpose(purpose.value));
-        purposeReset.addEventListener('click', () => applyShipPurpose(''));
+        purpose.addEventListener('change', () => applyShipPurpose(purpose.value));
         cargoButtons.forEach((button) => {
             button.addEventListener('click', () => {
                 shipState.cargoMin = Number(button.dataset.cargoMin) || 0;
@@ -1487,11 +1468,17 @@
                 renderShips();
             });
         });
-        hangarFilter?.addEventListener('click', () => {
-            shipState.hangarOnly = !shipState.hangarOnly;
+        hangarOnly?.addEventListener('change', () => {
+            shipState.hangarOnly = hangarOnly.checked;
             syncShipControls();
             renderShips();
         });
+        advancedToggle?.addEventListener('click', () => {
+            const expanded = advancedToggle.getAttribute('aria-expanded') === 'true';
+            advancedToggle.setAttribute('aria-expanded', String(!expanded));
+            if (advancedPanel) advancedPanel.hidden = expanded;
+        });
+        filterReset?.addEventListener('click', () => resetShipState());
         document.addEventListener('click', handleShipPlannerActions);
         setupShipCompareControls();
     }
@@ -1500,6 +1487,8 @@
         const clearButton = event.target.closest('[data-ship-tag-clear]');
         if (clearButton) {
             shipState.selectedTags = [];
+            shipState.purpose = '';
+            syncShipControls();
             renderShips();
             return;
         }
@@ -1509,6 +1498,9 @@
         shipState.selectedTags = shipState.selectedTags.includes(tag)
             ? shipState.selectedTags.filter((value) => value !== tag)
             : [...shipState.selectedTags, tag];
+        // 목적별 추천으로 선택된 태그를 직접 해제하면 추천 모드도 함께 종료한다.
+        if (shipState.purpose && !shipState.selectedTags.includes(shipState.purpose)) shipState.purpose = '';
+        syncShipControls();
         renderShips();
     }
 
@@ -1567,8 +1559,8 @@
 
     function applyShipPurpose(purpose) {
         shipState.purpose = purpose;
-        shipState.filter = purpose || 'all';
-        renderShipFilters();
+        shipState.selectedTags = purpose ? [purpose] : [];
+        syncShipControls();
         renderShips();
     }
 
@@ -2509,7 +2501,6 @@
     }
 
     function resetShipState() {
-        shipState.filter = 'all';
         shipState.manufacturer = 'all';
         shipState.hideUnreleased = false;
         shipState.query = '';
@@ -2519,8 +2510,14 @@
         shipState.hangarOnly = false;
         shipState.selectedTags = [];
         syncShipControls();
-        renderShipFilters();
         renderShips();
+    }
+
+    function countActiveAdvancedFilters() {
+        return (shipState.cargoMin > 0 ? 1 : 0)
+            + (shipState.purpose ? 1 : 0)
+            + (shipState.hideUnreleased ? 1 : 0)
+            + (shipState.hangarOnly ? 1 : 0);
     }
 
     function syncShipControls() {
@@ -2529,31 +2526,25 @@
         const hideUnreleased = document.getElementById('ship-hide-unreleased');
         const sort = document.getElementById('ship-sort');
         const purpose = document.getElementById('ship-purpose');
+        const hangarOnly = document.getElementById('ship-hangar-only');
         if (search) search.value = shipState.query;
         if (manufacturer) manufacturer.value = shipState.manufacturer;
         if (hideUnreleased) hideUnreleased.checked = shipState.hideUnreleased;
         if (sort) sort.value = shipState.sort;
         if (purpose) purpose.value = shipState.purpose;
+        if (hangarOnly) hangarOnly.checked = shipState.hangarOnly;
         document.querySelectorAll('.cargo-filter-btn').forEach((button) => {
             const isActive = Number(button.dataset.cargoMin) === shipState.cargoMin;
             button.classList.toggle('active', isActive);
         });
-        const hangarFilter = document.getElementById('hangar-filter-btn');
-        const tagFilters = document.getElementById('ship-tag-filters');
-        if (hangarFilter) {
-            hangarFilter.classList.toggle('active', shipState.hangarOnly);
-            hangarFilter.setAttribute('aria-pressed', String(shipState.hangarOnly));
+        const badge = document.getElementById('ship-filter-count');
+        const toggle = document.getElementById('ship-advanced-toggle');
+        const activeCount = countActiveAdvancedFilters();
+        if (badge) {
+            badge.hidden = activeCount === 0;
+            badge.textContent = String(activeCount);
         }
-    }
-
-    function handleShipFilterClick(event) {
-        const button = event.target.closest('[data-filter]');
-        if (!button) return;
-        document.querySelectorAll('.ship-filter-btn').forEach((item) => item.classList.remove('active'));
-        button.classList.add('active');
-        shipState.filter = button.getAttribute('data-filter');
-        shipState.purpose = '';
-        renderShips();
+        toggle?.classList.toggle('has-active', activeCount > 0);
     }
 
     function openShipFromEvent(event) {

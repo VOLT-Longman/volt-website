@@ -1745,11 +1745,6 @@ body.nav-trade-open::before {
     gap: 12px;
 }
 
-.ship-sort-label {
-    color: var(--color-text-tertiary);
-    font-size: 13px;
-}
-
 .ship-sort {
     min-width: 130px;
     padding: 10px 14px;
@@ -3003,7 +2998,6 @@ body.nav-trade-open::before {
     font-size: 14px; font-family: inherit; transition: border-color 0.2s;
 }
 .ship-search:focus { border-color: var(--volt-orange); }
-.ship-filter-label,
 .ship-checkbox-label {
     color: var(--color-text-tertiary);
     font-size: 13px;
@@ -3074,6 +3068,7 @@ body.nav-trade-open::before {
     border-radius: var(--radius-md);
     background: var(--color-bg-card);
 }
+.ship-compare-bar[hidden] { display: none; }
 .ship-compare-bar strong {
     display: block;
     margin-bottom: 4px;
@@ -3126,16 +3121,81 @@ body.nav-trade-open::before {
 .ship-compare-tags h3 {
     margin-bottom: 10px;
 }
-.ship-recommendation {
+/* 함선 상세 필터 토글/패널 */
+.ship-advanced-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+.ship-advanced-toggle:hover,
+.ship-advanced-toggle[aria-expanded="true"],
+.ship-advanced-toggle.has-active {
+    border-color: var(--volt-orange);
+    color: var(--volt-orange);
+}
+.ship-filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: var(--volt-orange);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+}
+.ship-filter-count[hidden] { display: none; }
+.ship-advanced-panel {
+    display: grid;
+    gap: 14px;
+    margin-top: 14px;
+    padding: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    background: var(--color-bg-card);
+}
+.ship-advanced-panel[hidden] { display: none; }
+.ship-advanced-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
-.ship-recommendation label {
+.ship-advanced-label {
+    min-width: 90px;
     color: var(--color-text-secondary);
+    font-size: 13px;
     font-weight: 600;
 }
+.ship-filter-reset {
+    margin-left: auto;
+    padding: 6px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+.ship-filter-reset:hover {
+    border-color: var(--volt-orange);
+    color: var(--volt-orange);
+}
+[data-theme="light"] .ship-advanced-panel { background: #ffffff; border-color: #e3e3e6; }
+[data-theme="light"] .ship-advanced-toggle { background: #ffffff; }
 .ship-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
 .ship-name { font-size: 18px; font-weight: 700; letter-spacing: var(--tracking-snug); }
 .ship-mfr { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-family); margin-top: 2px; }
@@ -4098,16 +4158,6 @@ body.nav-trade-open::before {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
-    .ship-recommendation {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-    }
-    .ship-recommendation label {
-        grid-column: 1 / -1;
-    }
-    .ship-recommendation .ship-sort {
-        grid-column: 1 / -1;
-    }
     .ship-recommendation-summary > div {
         align-items: flex-start;
         flex-direction: column;
@@ -4140,10 +4190,6 @@ body.nav-trade-open::before {
     }
     .uex-candidate-price {
         font-size: 18px;
-    }
-    .ship-filter-label,
-    .ship-sort-label {
-        margin-top: 4px;
     }
     .ship-filters {
         flex-wrap: nowrap;
@@ -4720,8 +4766,7 @@ body.nav-trade-open::before {
     flex-wrap: wrap;
 }
 
-.cargo-filter-btn,
-.hangar-filter-toggle {
+.cargo-filter-btn {
     padding: 4px 12px;
     border: 1px solid var(--color-border);
     border-radius: 20px;
@@ -4733,8 +4778,7 @@ body.nav-trade-open::before {
 }
 
 .cargo-filter-btn:hover,
-.cargo-filter-btn.active,
-.hangar-filter-toggle.active {
+.cargo-filter-btn.active {
     background: var(--volt-orange);
     color: #fff;
     border-color: var(--volt-orange);
@@ -4807,8 +4851,7 @@ body.nav-trade-open::before {
         gap: 4px;
     }
 
-    .cargo-filter-btn,
-    .hangar-filter-toggle {
+    .cargo-filter-btn {
         font-size: 0.75rem;
         padding: 3px 9px;
     }
@@ -5007,16 +5050,6 @@ body.nav-trade-open::before {
 .hub-feature-card:hover {
     transform: translateY(-3px);
 }
-.hangar-filter-toggle.active::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    margin-right: 6px;
-    vertical-align: middle;
-}
 
 
 
@@ -5160,41 +5193,6 @@ body.nav-trade-open::before {
 }
 
 
-/* Ship tag multi-filter */
-.ship-tag-filter-panel {
-    display: grid;
-    gap: 12px;
-    margin-top: 14px;
-    padding: 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 18px;
-    background: var(--color-bg-card);
-}
-
-.ship-tag-filter-title {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 10px;
-    color: var(--color-text-primary);
-    font-weight: 700;
-}
-
-.ship-tag-filter-title span {
-    color: var(--color-text-secondary);
-    font-size: 13px;
-    font-weight: 500;
-}
-
-.ship-tag-filter-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.ship-filter-clear {
-    margin-left: auto;
-}
 
 
 /* JavaScript disabled fallback */
