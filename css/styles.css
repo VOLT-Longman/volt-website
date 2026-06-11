@@ -2785,14 +2785,15 @@ body.nav-trade-open::before {
 [data-theme="light"] {
     --color-bg-primary: #f5f5f7;
     --color-bg-secondary: #ffffff;
-    --color-bg-card: rgba(0,0,0,0.05);
-    --color-bg-card-hover: rgba(0,0,0,0.08);
+    --color-bg-card: rgba(0,0,0,0.04);
+    --color-bg-card-hover: rgba(0,0,0,0.07);
     --color-text-primary: #1d1d1f;
-    --color-text-secondary: #424245;
-    --color-text-tertiary: #6e6e73;
-    --color-border: rgba(0,0,0,0.12);
-    --color-border-accent: rgba(232,72,47,0.4);
-    --color-border-hover: rgba(0,0,0,0.2);
+    --color-text-secondary: #3a3a3c;
+    --color-text-tertiary: #56565c;
+    --color-border: rgba(0,0,0,0.16);
+    --color-border-accent: rgba(232,72,47,0.45);
+    --color-border-hover: rgba(0,0,0,0.3);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
 }
 
 [data-theme="light"] body { background: var(--color-bg-primary); }
@@ -2823,6 +2824,68 @@ body.nav-trade-open::before {
 [data-theme="light"] .ship-sort option {
     background: #ffffff;
     color: #1d1d1f;
+}
+
+/* 라이트 테마 시인성/완성도 보강
+   - 다크 전용으로 하드코딩된 흰색 그라데이션/틴트를 라이트 대응 값으로 교체 */
+[data-theme="light"] .hero h1 {
+    /* 다크용 흰색 그라데이션 텍스트가 밝은 배경에서 사라지는 문제 보정 */
+    background: linear-gradient(180deg, #1d1d1f 0%, #6e6e73 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+[data-theme="light"] .hero::after {
+    background-image:
+        linear-gradient(rgba(0,0,0,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.045) 1px, transparent 1px);
+}
+[data-theme="light"] .nav,
+[data-theme="light"] .nav.scrolled {
+    border-bottom-color: rgba(0,0,0,0.08);
+}
+
+[data-theme="light"] .btn-secondary {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.24);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .btn-secondary:hover {
+    background: #ffffff;
+    border-color: var(--volt-orange);
+    color: var(--volt-orange);
+}
+
+[data-theme="light"] .hub-content,
+[data-theme="light"] .join-cta,
+[data-theme="light"] .leader-card,
+[data-theme="light"] .join-step {
+    background: #ffffff;
+    border-color: #e3e3e6;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+[data-theme="light"] .leader-card:hover,
+[data-theme="light"] .join-step:hover {
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+}
+[data-theme="light"] .leader-card.ceo-card {
+    background: linear-gradient(135deg, rgba(232,72,47,0.06) 0%, #ffffff 100%);
+}
+[data-theme="light"] .leader-contact {
+    background: rgba(0,0,0,0.04);
+}
+
+[data-theme="light"] .gallery-item {
+    background: rgba(0,0,0,0.05);
+    color: rgba(0,0,0,0.25);
+}
+[data-theme="light"] .gallery-item:hover {
+    background: rgba(0,0,0,0.08);
+}
+
+[data-theme="light"] .schedule-type,
+[data-theme="light"] .status-done {
+    background: rgba(0,0,0,0.07);
 }
 
 /* ?? 濡쒕뵫 ?ㅽ뵆?섏떆 ?? */
@@ -4519,17 +4582,20 @@ body.nav-trade-open::before {
 }
 
 [data-theme="light"] .ship-card {
-    background: #f5f5f5;
-    border-color: #e0e0e0;
+    background: #ffffff;
+    border-color: #e3e3e6;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
 [data-theme="light"] .ship-card:hover {
-    background: #ececec;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
 }
 
 [data-theme="light"] .faq-item {
-    background: #f5f5f5;
-    border-color: #e0e0e0;
+    background: #ffffff;
+    border-color: #e3e3e6;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
 [data-theme="light"] .faq-answer {
@@ -4537,13 +4603,20 @@ body.nav-trade-open::before {
 }
 
 [data-theme="light"] .notice-card {
-    background: #f5f5f5;
-    border-color: #e0e0e0;
+    background: #ffffff;
+    border-color: #e3e3e6;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+[data-theme="light"] .notice-card:hover {
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
 }
 
 [data-theme="light"] .schedule-item {
-    background: #f5f5f5;
-    border-color: #e0e0e0;
+    background: #ffffff;
+    border-color: #e3e3e6;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 .schedule-item-toggle {
     display: block;
