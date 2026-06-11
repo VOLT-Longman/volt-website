@@ -14,7 +14,7 @@ async function mockApi(page, { loggedIn = false } = {}) {
         json: loggedIn ? { logged_in: true, user: TEST_USER } : { logged_in: false },
     }));
     // items 키가 없으면 fetchCmsCollection이 null을 반환해 정적 데이터로 폴백한다.
-    await page.route(/\/api\/(notices|events|gallery|partner-fleets|ship-overrides)$/, (route) => route.fulfill({ json: {} }));
+    await page.route(/\/api\/(notices|events|gallery|partner-fleets|ship-overrides|leadership|timeline)$/, (route) => route.fulfill({ json: {} }));
     await page.route('**/api/uex/**', (route) => route.fulfill({ json: { status: 'ok', data: [] } }));
     await page.route('**/api/discord-stats', (route) => route.fulfill({ json: { memberCount: 1234 } }));
     await page.route('**/api/me/**', (route) => route.fulfill({ json: { items: [] } }));

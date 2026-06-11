@@ -26,6 +26,8 @@ const CONFIG = {
   events: { title: '\uc77c\uc815', endpoint: '/api/admin/events', fields: ['title', 'description', 'type', 'status', 'dateLabel', 'eventDate', 'published'] },
   gallery: { title: '\uac24\ub7ec\ub9ac', endpoint: '/api/admin/gallery', fields: ['title', 'description', 'category', 'date', 'published'] },
   'partner-fleets': { title: '협력함대', endpoint: '/api/admin/partner-fleets', fields: ['name', 'region', 'game', 'focus', 'description', 'memberCount', 'discordUrl', 'websiteUrl', 'logoUrl', 'established', 'sortOrder', 'published'] },
+  leadership: { title: '\uc784\uc6d0\uc9c4', endpoint: '/api/admin/leadership', fields: ['name', 'role', 'discord', 'description', 'duties', 'avatar', 'avatarGradient', 'sortOrder', 'published'] },
+  timeline: { title: '\uc5f0\ud601', endpoint: '/api/admin/timeline', fields: ['dateLabel', 'title', 'description', 'sortOrder', 'published'] },
   ships: { title: '\ud568\uc120DB', endpoint: '/api/admin/ships', fields: SHIP_EDIT_FIELDS }
 };
 
@@ -64,7 +66,12 @@ const LABELS = {
   priceUsd: '\uac00\uaca9(USD)',
   implemented: '\uad6c\ud604 \uc5ec\ubd80',
   plannerEligible: '\ubb34\uc5ed\ud50c\ub798\ub108 \ub178\ucd9c',
-  tags: '\ud0dc\uadf8'
+  tags: '\ud0dc\uadf8',
+  name: '\uc774\ub984',
+  discord: 'Discord',
+  duties: '\uc8fc\uc694 \uc5c5\ubb34',
+  avatar: '\uc544\ubc14\ud0c0 \uc774\ub2c8\uc15c',
+  avatarGradient: '\uc544\ubc14\ud0c0 \uadf8\ub77c\ub370\uc774\uc158(CSS)'
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -192,12 +199,18 @@ function renderList() {
 function renderStandardListItem(item) {
   if (state.tab === 'gallery') return renderGalleryListItem(item);
   if (state.tab === 'partner-fleets') return renderPartnerFleetListItem(item);
+  if (state.tab === 'leadership') return renderLeaderListItem(item);
   const meta = [item.date || item.dateLabel || item.type || '', item.published === false ? '\ucd08\uc548' : '\uac8c\uc2dc']
     .filter(Boolean)
     .join(' - ');
   return `<button class="item-button${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(meta)}</span></button>`;
 }
 
+
+function renderLeaderListItem(item) {
+  const meta = [item.role || '', item.published === false ? '초안' : '게시'].filter(Boolean).join(' - ');
+  return `<button class="item-button${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(item.name || '임원')}</strong><span>${escapeHtml(meta)}</span></button>`;
+}
 
 function renderPartnerFleetListItem(item) {
   const meta = [item.region || '', item.game || '', item.focus || '', item.published === false ? '초안' : '게시']
@@ -253,7 +266,7 @@ function renderField(field, item) {
   const value = getItemValue(item, field);
   if (field === 'published' || field === 'pinned') return renderCheckbox(field, item);
   if (getFieldOptions(field)) return renderSelectField(field, value);
-  if (field === 'content' || field === 'description') {
+  if (field === 'content' || field === 'description' || field === 'duties') {
     return `<label>${LABELS[field]}<textarea name="${field}">${escapeHtml(value)}</textarea></label>`;
   }
   const type = field === 'eventDate' || field === 'date' ? 'date' : field === 'memberCount' || field === 'sortOrder' ? 'number' : 'text';
@@ -283,6 +296,7 @@ function getItemValue(item, field) {
   if (state.tab === 'partner-fleets' && field === 'region') return '한국';
   if (state.tab === 'partner-fleets' && field === 'game') return 'Star Citizen';
   if (state.tab === 'partner-fleets' && field === 'sortOrder') return '0';
+  if ((state.tab === 'leadership' || state.tab === 'timeline') && field === 'sortOrder') return '0';
   return '';
 }
 
@@ -361,6 +375,9 @@ function getFormPayload() {
   });
   if (state.tab === 'gallery') applyGalleryPayloadDefaults(payload);
   if (state.tab === 'partner-fleets') normalizePartnerFleetPayload(payload);
+  if (state.tab === 'leadership' || state.tab === 'timeline') {
+    payload.sortOrder = payload.sortOrder === '' ? 0 : Number(payload.sortOrder);
+  }
   return payload;
 }
 
@@ -396,6 +413,9 @@ function getShipPayload() {
 }
 
 function validatePayload(payload) {
+  if (state.tab === 'leadership' && !payload.name) throw new Error('이름은 필수입니다.');
+  if (state.tab === 'timeline' && !payload.title) throw new Error('제목은 필수입니다.');
+  if (state.tab === 'timeline' && !payload.dateLabel) throw new Error('표시 날짜는 필수입니다.');
   if (state.tab === 'gallery' && !payload.title) throw new Error('\uac24\ub7ec\ub9ac \uc81c\ubaa9\uc740 \ud544\uc218\uc785\ub2c8\ub2e4.');
   if (state.tab === 'gallery' && !payload.imageUrl) throw new Error('\uac24\ub7ec\ub9ac \uc774\ubbf8\uc9c0\ub97c \uc5c5\ub85c\ub4dc\ud558\uac70\ub098 \uae30\uc874 \uc774\ubbf8\uc9c0\ub97c \uc120\ud0dd\ud574\uc57c \ud569\ub2c8\ub2e4.');
   if (state.tab === 'ships' && payload.priceUsd !== null && !Number.isFinite(payload.priceUsd)) {

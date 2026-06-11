@@ -104,6 +104,82 @@ export function partnerFleetInput(body, existing = {}) {
   };
 }
 
+export function mapLeader(row) {
+  const extras = parseJsonObject(row.extras);
+  return {
+    id: row.id,
+    name: row.name,
+    role: row.role || '',
+    discord: row.discord || '',
+    description: row.description || '',
+    duties: row.duties || '',
+    avatar: row.avatar || (row.name || '?').charAt(0).toUpperCase(),
+    avatarGradient: row.avatar_gradient || '',
+    avatarStyle: row.avatar_style || '',
+    details: Array.isArray(extras.details) ? extras.details : undefined,
+    competencies: Array.isArray(extras.competencies) ? extras.competencies : undefined,
+    sortOrder: Number(row.sort_order || 0),
+    published: Boolean(row.published)
+  };
+}
+
+export function leaderInput(body, existing = {}) {
+  const timestamp = nowIso();
+  return {
+    id: existing.id || sanitizeText(body.id) || createId('leader'),
+    name: limitText(body.name, 80),
+    role: limitText(body.role, 160),
+    discord: limitText(body.discord, 80),
+    description: limitText(body.description, 4000),
+    duties: limitText(body.duties, 2000),
+    avatar: limitText(body.avatar, 8),
+    avatar_gradient: limitText(body.avatarGradient || body.avatar_gradient, 200),
+    avatar_style: limitText(body.avatarStyle || body.avatar_style, 20),
+    // 상세 항목(details/competencies)은 관리자 UI 미노출 — 기존 값을 보존한다.
+    extras: existing.extras ?? null,
+    sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
+    published: body.published === undefined ? 1 : toBooleanInt(body.published),
+    created_at: existing.created_at || timestamp,
+    updated_at: timestamp
+  };
+}
+
+export function mapTimelineEntry(row) {
+  return {
+    id: row.id,
+    date: row.date_label || '',
+    dateLabel: row.date_label || '',
+    title: row.title,
+    description: row.description || '',
+    sortOrder: Number(row.sort_order || 0),
+    published: Boolean(row.published)
+  };
+}
+
+export function timelineInput(body, existing = {}) {
+  const timestamp = nowIso();
+  return {
+    id: existing.id || sanitizeText(body.id) || createId('tl'),
+    date_label: limitText(body.dateLabel || body.date_label || body.date, 40),
+    title: limitText(body.title, 200),
+    description: limitText(body.description, 4000),
+    sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
+    published: body.published === undefined ? 1 : toBooleanInt(body.published),
+    created_at: existing.created_at || timestamp,
+    updated_at: timestamp
+  };
+}
+
+function parseJsonObject(value) {
+  if (!value) return {};
+  try {
+    const parsed = JSON.parse(value);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch (_error) {
+    return {};
+  }
+}
+
 export function mapShipOverride(row) {
   return {
     id: row.ship_id,

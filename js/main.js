@@ -1055,18 +1055,23 @@
     }
 
     async function loadCmsContent() {
-        const [notices, events, gallery, partnerFleets, shipOverrides] = await Promise.all([
+        const [notices, events, gallery, partnerFleets, shipOverrides, leadership, timeline] = await Promise.all([
             fetchCmsCollection('/api/notices'),
             fetchCmsCollection('/api/events'),
             fetchCmsCollection('/api/gallery'),
             fetchCmsCollection('/api/partner-fleets'),
-            fetchCmsCollection('/api/ship-overrides')
+            fetchCmsCollection('/api/ship-overrides'),
+            fetchCmsCollection('/api/leadership'),
+            fetchCmsCollection('/api/timeline')
         ]);
         if (Array.isArray(notices)) data.announcements = notices;
         if (Array.isArray(events)) data.calendar = events;
         if (Array.isArray(gallery)) data.gallery = gallery;
         if (Array.isArray(partnerFleets)) data.partnerFleets = partnerFleets;
         if (Array.isArray(shipOverrides)) applyShipOverrides(shipOverrides);
+        // 임원진/연혁은 volt-data.js에 정적 폴백이 있으므로 CMS에 데이터가 있을 때만 교체한다.
+        if (Array.isArray(leadership) && leadership.length) data.leadership = leadership;
+        if (Array.isArray(timeline) && timeline.length) data.timeline = timeline;
     invalidateSearchCache();
     }
 

@@ -91,13 +91,13 @@ const VOLT_DATA = {
         {
             id: "hr",
             name: "아마그란데",
-            role: "HR · 인사부장",
+            role: "인사·재무 이사",
             avatar: "A",
             avatarGradient: "linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)",
             discord: "@amagrande",
-            description: "함대원 모집 및 관리, 인사 시스템 운영을 담당합니다. VOLT AI 봇 개발을 통해 함대원의 게임 정보 활용을 지원하고 있습니다.",
-            duties: "신규 함대원 모집 및 온보딩 · VOLT AI 시스템 개발 및 운영 · 함대원 데이터베이스 관리",
-            responsibilities: ["신규 함대원 모집 및 온보딩 · VOLT AI 시스템 개발 및 운영 · 함대원 데이터베이스 관리"]
+            description: "함대원 모집 및 관리, 인사 시스템과 함대 재무 운영을 총괄합니다. VOLT AI 봇 개발을 통해 함대원의 게임 정보 활용을 지원하고 있습니다.",
+            duties: "신규 함대원 모집 및 온보딩 · 함대 재무 관리 및 자산 운영 · VOLT AI 시스템 개발 및 운영 · 함대원 데이터베이스 관리",
+            responsibilities: ["신규 함대원 모집 및 온보딩 · 함대 재무 관리 및 자산 운영 · VOLT AI 시스템 개발 및 운영 · 함대원 데이터베이스 관리"]
         }
     ],
 
