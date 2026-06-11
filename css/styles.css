@@ -5335,32 +5335,40 @@ body.nav-trade-open::before {
 
 .partner-fleets-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+    align-items: start;
+    gap: 20px;
 }
 
 .partner-fleet-card {
-    display: grid;
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 0;
     padding: 24px;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background: var(--color-bg-card);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)), var(--color-bg-card);
     box-shadow: var(--shadow-card);
+    transition: border-color var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
+}
+
+.partner-fleet-card:hover {
+    border-color: rgba(232, 72, 47, 0.42);
+    transform: translateY(-2px);
 }
 
 .partner-fleet-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 14px;
 }
 
 .partner-fleet-logo {
-    width: 54px;
-    height: 54px;
-    aspect-ratio: 1 / 1;
-    flex: 0 0 54px;
-    border-radius: 16px;
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    border-radius: 14px;
     object-fit: cover;
     border: 1px solid var(--color-border);
     background: var(--color-bg-elevated);
@@ -5370,23 +5378,28 @@ body.nav-trade-open::before {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 54px;
-    height: 54px;
-    aspect-ratio: 1 / 1;
-    flex: 0 0 54px;
-    border-radius: 16px;
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    border-radius: 14px;
     border: 1px solid var(--color-border);
     background: linear-gradient(135deg, rgba(232, 72, 47, 0.18), rgba(255, 255, 255, 0.04));
     color: var(--volt-orange);
     font-weight: 800;
-    letter-spacing: -0.04em;
+    letter-spacing: 0;
+}
+
+.partner-fleet-heading {
+    min-width: 0;
+    padding-top: 2px;
 }
 
 .partner-fleet-title {
     margin: 0;
     color: var(--color-text-primary);
-    font-size: var(--text-h3);
-    line-height: 1.2;
+    font-size: 1.45rem;
+    line-height: 1.18;
+    overflow-wrap: anywhere;
 }
 
 .partner-fleet-meta,
@@ -5397,35 +5410,52 @@ body.nav-trade-open::before {
     gap: 8px;
 }
 
+.partner-fleet-meta {
+    margin-top: 10px;
+}
+
+.partner-fleet-stats,
+.partner-fleet-actions {
+    align-items: center;
+}
+
 .partner-fleet-badge,
 .partner-fleet-stat {
     display: inline-flex;
     align-items: center;
     border-radius: 999px;
-    padding: 6px 10px;
+    min-height: 30px;
+    padding: 5px 10px;
     border: 1px solid var(--color-border);
     background: var(--color-bg-elevated);
     color: var(--color-text-secondary);
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: 700;
+    line-height: 1;
 }
 
 .partner-fleet-description {
     margin: 0;
     color: var(--color-text-secondary);
-    line-height: 1.75;
+    line-height: 1.65;
     word-break: keep-all;
     overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
 }
 
 .partner-fleet-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 auto;
     min-height: 38px;
     padding: 0 14px;
     border-radius: 999px;
     border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.03);
     color: var(--color-text-primary);
     font-weight: 700;
     text-decoration: none;

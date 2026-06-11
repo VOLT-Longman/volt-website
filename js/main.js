@@ -1181,7 +1181,7 @@
             <article class="partner-fleet-card reveal">
                 <div class="partner-fleet-header">
                     ${logo}
-                    <div>
+                    <div class="partner-fleet-heading">
                         <h3 class="partner-fleet-title">${escapeHtml(name)}</h3>
                         <div class="partner-fleet-meta">${meta}</div>
                     </div>
@@ -1196,7 +1196,7 @@
     function renderPartnerFleetImage(fleet, name) {
         const imageUrl = fleet.photoUrl || fleet.imageUrl || fleet.logoUrl || '';
         if (imageUrl) {
-            return `<img class="partner-fleet-logo partner-fleet-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(name)} image" loading="lazy" decoding="async">`;
+            return `<img class="partner-fleet-logo partner-fleet-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(name)}" loading="lazy" decoding="async">`;
         }
         return `<span class="partner-fleet-logo-fallback" aria-hidden="true">${escapeHtml(getPartnerFleetInitials(name))}</span>`;
     }
