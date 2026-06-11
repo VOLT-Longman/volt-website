@@ -22,7 +22,7 @@
 | 콘텐츠 데이터 | `data/volt-data.js`의 `window.VOLT_DATA` |
 | 배포 | Cloudflare Pages |
 | 기본 브랜치 | `main` |
-| 최신 에셋 버전 | `20260610-05` |
+| 최신 에셋 버전 | `20260610-06` |
 | 분석 | Cloudflare Web Analytics 자동 설치 사용 |
 | 보안 헤더 | `_headers`에서 관리 |
 
@@ -355,9 +355,9 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 최신 파일 반영 여부는 페이지 소스에서 아래 버전을 확인합니다.
 
 ```html
-css/styles.css?v=20260610-05
-data/volt-data.js?v=20260610-05
-js/main.js?v=20260610-05
+css/styles.css?v=20260610-06
+data/volt-data.js?v=20260610-06
+js/main.js?v=20260610-06
 ```
 
 ---
@@ -404,12 +404,17 @@ GitHub Actions(`.github/workflows/smoke.yml`)에서 자동 실행됩니다.
 npm install                      # 최초 1회
 npx playwright install chromium  # 최초 1회 (브라우저)
 npm run check                    # JS 문법/임포트 검증 (CI에서도 자동 실행)
+npm run test:functions           # 백엔드 Functions 단위 테스트 (CI에서도 자동 실행)
 npx playwright test              # 전체 스모크 실행
 npm run serve                    # 로컬 미리보기 (http://localhost:8787)
 ```
 
 테스트는 `tests/smoke/`에 있으며 백엔드 API는 `tests/smoke/helpers.js`에서 모킹합니다.
 기능을 추가하거나 수정하면 해당 흐름의 스모크 시나리오도 함께 추가합니다.
+
+백엔드 Functions(로그인 rate limit, 세션 서명 검증, 업로드 타입 검증, 공지 CRUD,
+RSVP 권한)는 `tests/functions/`에서 Node 내장 테스트 러너로 검증합니다. D1/KV/R2는
+`tests/functions/helpers.mjs`의 모의 바인딩을 사용하며 별도 의존성이 필요 없습니다.
 
 ---
 

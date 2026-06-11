@@ -23,6 +23,9 @@ jobs:
       - name: Validate JavaScript syntax
         run: npm run check
 
+      - name: Run backend function tests
+        run: npm run test:functions
+
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 

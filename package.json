@@ -5,6 +5,7 @@
     "serve": "node scripts/dev-server.js",
     "test": "playwright test",
     "check": "node scripts/check-syntax.mjs",
+    "test:functions": "node --test \"tests/functions/**/*.test.mjs\"",
     "cache-version": "node scripts/update-cache-version.js"
   },
   "devDependencies": {
