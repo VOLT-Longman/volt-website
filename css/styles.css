@@ -88,6 +88,11 @@ html {
     scroll-behavior: smooth;
 }
 
+/* 앵커 이동 시 고정 내비에 대상이 가리지 않도록 여백 확보 (예: #policy-section-1) */
+[id] {
+    scroll-margin-top: 76px;
+}
+
 html, body {
     width: 100%;
     overflow-x: hidden;
@@ -2203,8 +2208,9 @@ body.nav-trade-open::before {
         font-size: 22px;
     }
 
+    /* 고정 내비(56px)에 섹션 제목이 가리지 않도록 상단 여백 확보 */
     .section {
-        padding: 64px 22px;
+        padding: 88px 22px 64px;
     }
 
     .about-grid,
@@ -2256,6 +2262,11 @@ body.nav-trade-open::before {
     .timeline-item {
         padding-left: 20px;
     }
+
+    /* 점 중심이 세로선 중심(13px)과 일치하도록 모바일 패딩에 맞춰 보정 */
+    .timeline-item::before {
+        left: -26px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2291,7 +2302,7 @@ body.nav-trade-open::before {
     }
 
     .section {
-        padding: 48px 16px;
+        padding: 84px 16px 48px;
     }
 
     .about-card,
