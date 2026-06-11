@@ -2479,32 +2479,6 @@ body.nav-trade-open::before {
     margin-bottom: 40px;
 }
 
-.ship-filters {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.ship-filter-btn {
-    padding: 8px 18px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-border);
-    background: transparent;
-    color: var(--color-text-secondary);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-    font-family: inherit;
-}
-
-.ship-filter-btn:hover,
-.ship-filter-btn.active {
-    background: var(--volt-orange);
-    border-color: var(--volt-orange);
-    color: #fff;
-}
-
 .ship-search {
     width: 100%;
     max-width: 360px;
@@ -2989,7 +2963,12 @@ body.nav-trade-open::before {
     color: var(--color-text-secondary); font-size: 13px; font-weight: 500;
     cursor: pointer; transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast); font-family: inherit;
 }
-.ship-filter-btn:hover { border-color: var(--volt-orange); color: var(--volt-orange); }
+/* 터치 기기의 sticky hover로 칩이 선택된 것처럼 보이는 문제를 막기 위해
+   hover 스타일은 hover를 지원하는 포인터에만 적용한다. */
+@media (hover: hover) {
+    .ship-filter-btn:hover { border-color: var(--volt-orange); color: var(--volt-orange); }
+    .ship-filter-btn.active:hover { color: #fff; }
+}
 .ship-filter-btn.active { background: var(--volt-orange); border-color: var(--volt-orange); color: #fff; }
 .ship-search {
     width: 100%; max-width: 420px; padding: 10px 18px;
