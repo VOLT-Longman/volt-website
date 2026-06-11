@@ -2062,6 +2062,18 @@ body.nav-trade-open::before {
     margin-bottom: 56px;
 }
 
+/* 넓은 화면: 5열 고정 + 브랜드 영역 2행 차지 →
+   2행이 소개 열부터 시작해 스트리머가 소개 아래에 정렬된다. */
+@media (min-width: 1100px) {
+    .footer-grid {
+        grid-template-columns: 1.2fr repeat(4, 1fr);
+        row-gap: 40px;
+    }
+    .footer-grid > .footer-section:first-child {
+        grid-row: 1 / span 2;
+    }
+}
+
 .footer-section h4 {
     font-family: var(--font-family);
     font-size: 12px;
