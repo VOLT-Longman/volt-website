@@ -357,10 +357,9 @@
         const container = document.getElementById('leadership-grid');
         if (!container || !Array.isArray(data.leadership)) return;
         container.innerHTML = data.leadership.map((leader) => {
-            const avatarStyle = leader.avatarGradient ? `style="background:${escapeHtml(leader.avatarGradient)};"` : '';
             const details = renderLeaderDetails(leader);
             return `<div class="${leader.avatarStyle === 'ceo' ? 'leader-card ceo-card' : 'leader-card'} reveal">
-                <div class="leader-avatar" ${avatarStyle} aria-hidden="true">${escapeHtml(leader.avatar)}</div>
+                ${renderLeaderAvatar(leader)}
                 <div class="leader-info">
                     <h3>${escapeHtml(leader.name)}</h3>
                     <span class="leader-role">${escapeHtml(leader.role)}</span>
@@ -370,6 +369,23 @@
                 </div>
             </div>`;
         }).join('');
+    }
+
+    function renderLeaderAvatar(leader) {
+        const avatarUrl = getLeaderAvatarUrl(leader);
+        if (avatarUrl) {
+            return `<img class="leader-avatar leader-avatar-image" src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(leader.name || 'Leader')} profile photo" loading="lazy" decoding="async">`;
+        }
+        const avatarStyle = leader.avatarGradient ? `style="background:${escapeHtml(leader.avatarGradient)};"` : '';
+        return `<div class="leader-avatar leader-avatar-fallback" ${avatarStyle} aria-hidden="true">${escapeHtml(getLeaderInitial(leader))}</div>`;
+    }
+
+    function getLeaderAvatarUrl(leader) {
+        return leader.avatarUrl || leader.photoUrl || leader.imageUrl || '';
+    }
+
+    function getLeaderInitial(leader) {
+        return leader.avatar || (leader.name || '?').charAt(0).toUpperCase();
     }
 
     function renderLeaderDetails(leader) {
@@ -1149,9 +1165,7 @@
 
     function renderPartnerFleetCard(fleet) {
         const name = fleet.name || '협력함대';
-        const logo = fleet.logoUrl
-            ? `<img class="partner-fleet-logo" src="${escapeHtml(fleet.logoUrl)}" alt="${escapeHtml(name)} 로고" loading="lazy">`
-            : `<span class="partner-fleet-logo-fallback" aria-hidden="true">${escapeHtml(name.slice(0, 2).toUpperCase())}</span>`;
+        const logo = renderPartnerFleetImage(fleet, name);
         const meta = [fleet.region, fleet.game, fleet.focus].filter(Boolean)
             .map((item) => `<span class="partner-fleet-badge">${escapeHtml(item)}</span>`)
             .join('');
@@ -1177,6 +1191,18 @@
                 ${links ? `<div class="partner-fleet-actions">${links}</div>` : ''}
             </article>
         `;
+    }
+
+    function renderPartnerFleetImage(fleet, name) {
+        const imageUrl = fleet.photoUrl || fleet.imageUrl || fleet.logoUrl || '';
+        if (imageUrl) {
+            return `<img class="partner-fleet-logo partner-fleet-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(name)} image" loading="lazy" decoding="async">`;
+        }
+        return `<span class="partner-fleet-logo-fallback" aria-hidden="true">${escapeHtml(getPartnerFleetInitials(name))}</span>`;
+    }
+
+    function getPartnerFleetInitials(name) {
+        return String(name || '?').trim().slice(0, 2).toUpperCase();
     }
 
     function renderAll() {
@@ -3012,6 +3038,8 @@
             ...data.policy.sections.map((item) => makeSearchItem('정책', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' '))),
             ...getLocalizationSearchItems()
         ];
+        searchIndexCache = result;
+        return searchIndexCache;
     }
 
     function getLocalizationSearchItems() {

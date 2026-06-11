@@ -24,8 +24,8 @@ async function createItem(request, env) {
   }
   if (!item.name) return error('Missing required fields', 422);
   await requireDb(env).prepare(`
-    INSERT INTO partner_fleets (id, name, region, game, focus, description, member_count, discord_url, website_url, logo_url, established, sort_order, published, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(item.id, item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, item.logo_url, item.established, item.sort_order, item.published, item.created_at, item.updated_at).run();
+    INSERT INTO partner_fleets (id, name, region, game, focus, description, member_count, discord_url, website_url, photo_url, logo_url, established, sort_order, published, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).bind(item.id, item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, item.photo_url, item.logo_url, item.established, item.sort_order, item.published, item.created_at, item.updated_at).run();
   return json({ item: mapPartnerFleet(item) }, { status: 201 });
 }

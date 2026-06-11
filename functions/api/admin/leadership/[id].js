@@ -23,9 +23,9 @@ async function updateItem(request, env, id) {
   if (!item.name) return error('Missing required fields', 422);
   await db.prepare(`
     UPDATE leadership_members
-    SET name = ?, role = ?, discord = ?, description = ?, duties = ?, avatar = ?, avatar_gradient = ?, avatar_style = ?, extras = ?, sort_order = ?, published = ?, updated_at = ?
+    SET name = ?, role = ?, discord = ?, description = ?, duties = ?, avatar = ?, avatar_url = ?, avatar_gradient = ?, avatar_style = ?, extras = ?, sort_order = ?, published = ?, updated_at = ?
     WHERE id = ?
-  `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id).run();
+  `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_url, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id).run();
   return json({ item: mapLeader(item) });
 }
 

@@ -448,7 +448,7 @@ index.html 수동 beacon 스크립트 없음
 | `Cross-Origin-Opener-Policy: same-origin` | 브라우징 컨텍스트 격리 강화 |
 | `Content-Security-Policy` | CSP 위반 차단 |
 
-현재 CSP는 enforce 모드입니다. `script-src`는 인라인 실행을 허용하지 않으며, JSON-LD는 `_headers`에 등록된 SHA-256 해시로 허용합니다. `style-src`의 `unsafe-inline`은 렌더러의 인라인 스타일 제거 전까지 임시 유지합니다.
+현재 CSP는 enforce 모드입니다. `script-src`의 `unsafe-inline`은 정적/동적 JSON-LD 구조화 데이터를 유지하기 위한 임시 예외이며, 일반 스크립트는 외부 파일로 분리해 관리합니다. `style-src`의 `unsafe-inline`은 렌더러의 인라인 스타일 제거 전까지 임시 유지합니다.
 
 ---
 
@@ -542,5 +542,4 @@ assets/images/og-image.png
 ## 라이선스 / 권리
 
 이 저장소의 사이트 코드와 콘텐츠는 VOLT Fleet 운영 목적에 맞춰 관리됩니다. 로고, 이미지, 문구, 함대 운영정책 등 브랜드 자산은 무단 사용하지 않는 것을 원칙으로 합니다.
-
 

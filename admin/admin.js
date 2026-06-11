@@ -25,8 +25,8 @@ const CONFIG = {
   notices: { title: '\uacf5\uc9c0', endpoint: '/api/admin/notices', fields: ['title', 'content', 'tag', 'date', 'pinned', 'published'] },
   events: { title: '\uc77c\uc815', endpoint: '/api/admin/events', fields: ['title', 'description', 'type', 'status', 'dateLabel', 'eventDate', 'published'] },
   gallery: { title: '\uac24\ub7ec\ub9ac', endpoint: '/api/admin/gallery', fields: ['title', 'description', 'category', 'date', 'published'] },
-  'partner-fleets': { title: '협력함대', endpoint: '/api/admin/partner-fleets', fields: ['name', 'region', 'game', 'focus', 'description', 'memberCount', 'discordUrl', 'websiteUrl', 'logoUrl', 'established', 'sortOrder', 'published'] },
-  leadership: { title: '\uc784\uc6d0\uc9c4', endpoint: '/api/admin/leadership', fields: ['name', 'role', 'discord', 'description', 'duties', 'avatar', 'avatarGradient', 'sortOrder', 'published'] },
+  'partner-fleets': { title: '협력함대', endpoint: '/api/admin/partner-fleets', fields: ['name', 'region', 'game', 'focus', 'description', 'memberCount', 'discordUrl', 'websiteUrl', 'photoUrl', 'logoUrl', 'established', 'sortOrder', 'published'] },
+  leadership: { title: '\uc784\uc6d0\uc9c4', endpoint: '/api/admin/leadership', fields: ['name', 'role', 'discord', 'description', 'duties', 'avatarUrl', 'avatar', 'avatarGradient', 'sortOrder', 'published'] },
   timeline: { title: '\uc5f0\ud601', endpoint: '/api/admin/timeline', fields: ['dateLabel', 'title', 'description', 'sortOrder', 'published'] },
   ships: { title: '\ud568\uc120DB', endpoint: '/api/admin/ships', fields: SHIP_EDIT_FIELDS }
 };
@@ -54,6 +54,7 @@ const LABELS = {
   memberCount: '멤버 수',
   discordUrl: 'Discord URL',
   websiteUrl: '웹사이트 URL',
+  photoUrl: '\uc0ac\uc9c4 URL',
   logoUrl: '로고 URL',
   established: '창설',
   sortOrder: '정렬 순서',
@@ -70,6 +71,7 @@ const LABELS = {
   name: '\uc774\ub984',
   discord: 'Discord',
   duties: '\uc8fc\uc694 \uc5c5\ubb34',
+  avatarUrl: '\ud504\ub85c\ud544 \uc0ac\uc9c4 URL',
   avatar: '\uc544\ubc14\ud0c0 \uc774\ub2c8\uc15c',
   avatarGradient: '\uc544\ubc14\ud0c0 \uadf8\ub77c\ub370\uc774\uc158(CSS)'
 };

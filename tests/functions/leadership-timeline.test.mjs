@@ -5,7 +5,7 @@ import { onRequest as leadershipAdmin } from '../../functions/api/admin/leadersh
 import { onRequest as timelineAdmin } from '../../functions/api/admin/timeline/index.js';
 import { onRequestGet as leadershipPublic } from '../../functions/api/leadership.js';
 import { onRequestGet as timelinePublic } from '../../functions/api/timeline.js';
-import { leaderInput, timelineInput, mapLeader } from '../../functions/_shared/cms.js';
+import { leaderInput, mapLeader, mapPartnerFleet, partnerFleetInput, timelineInput } from '../../functions/_shared/cms.js';
 import { TEST_ENV, adminCookie, createMockDb, jsonRequest } from './helpers.mjs';
 
 test('임원진/연혁 관리 API: 비인증 → 401, DB 접근 없음', async () => {
@@ -95,6 +95,43 @@ test('leaderInput: 수정 시 extras 보존', () => {
     assert.equal(item.extras, '{"competencies":["전략"]}');
     assert.equal(item.id, 'ceo');
     assert.equal(item.created_at, '2026-01-01');
+});
+
+test('people and partner image fields: URL 저장 + fallback 필드 유지', () => {
+    const leader = mapLeader({
+        id: 'ceo',
+        name: 'Longman',
+        avatar: 'L',
+        avatar_url: 'https://cdn.volt.ceo/leaders/longman.webp',
+        published: 1,
+        sort_order: 1
+    });
+    assert.equal(leader.avatar, 'L');
+    assert.equal(leader.avatarUrl, 'https://cdn.volt.ceo/leaders/longman.webp');
+    assert.equal(leader.photoUrl, 'https://cdn.volt.ceo/leaders/longman.webp');
+
+    const leaderPayload = leaderInput({
+        name: 'Longman',
+        avatarUrl: 'https://cdn.volt.ceo/leaders/longman.webp'
+    });
+    assert.equal(leaderPayload.avatar_url, 'https://cdn.volt.ceo/leaders/longman.webp');
+
+    const fleet = mapPartnerFleet({
+        id: 'mjo',
+        name: 'MJO',
+        photo_url: 'https://cdn.volt.ceo/partners/mjo.webp',
+        logo_url: 'https://cdn.volt.ceo/partners/mjo-logo.webp',
+        published: 1
+    });
+    assert.equal(fleet.photoUrl, 'https://cdn.volt.ceo/partners/mjo.webp');
+    assert.equal(fleet.imageUrl, 'https://cdn.volt.ceo/partners/mjo.webp');
+    assert.equal(fleet.logoUrl, 'https://cdn.volt.ceo/partners/mjo-logo.webp');
+
+    const fleetPayload = partnerFleetInput({
+        name: 'MJO',
+        photoUrl: 'https://cdn.volt.ceo/partners/mjo.webp'
+    });
+    assert.equal(fleetPayload.photo_url, 'https://cdn.volt.ceo/partners/mjo.webp');
 });
 
 test('timelineInput: date/dateLabel 별칭 허용 + 길이 제한', () => {

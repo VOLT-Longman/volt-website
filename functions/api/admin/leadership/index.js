@@ -24,8 +24,8 @@ async function createItem(request, env) {
   }
   if (!item.name) return error('Missing required fields', 422);
   await requireDb(env).prepare(`
-    INSERT INTO leadership_members (id, name, role, discord, description, duties, avatar, avatar_gradient, avatar_style, extras, sort_order, published, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(item.id, item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.created_at, item.updated_at).run();
+    INSERT INTO leadership_members (id, name, role, discord, description, duties, avatar, avatar_url, avatar_gradient, avatar_style, extras, sort_order, published, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).bind(item.id, item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_url, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.created_at, item.updated_at).run();
   return json({ item: mapLeader(item) }, { status: 201 });
 }
