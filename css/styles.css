@@ -71,6 +71,12 @@
 
     --transition-fast: 0.2s ease;
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+    /* 카드/플로팅 요소용 보조 토큰 (협력함대·임원진 카드 등에서 참조) */
+    --radius-lg: 24px;
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.22);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5);
+    --color-bg-elevated: rgba(255, 255, 255, 0.06);
+    --font-primary: var(--font-family);
     --color-warning: #ffb300;
 }
 
@@ -2798,6 +2804,9 @@ body.nav-trade-open::before {
     --color-border-accent: rgba(232,72,47,0.45);
     --color-border-hover: rgba(0,0,0,0.3);
     --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+    --shadow-card: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-xl: 0 16px 48px rgba(0,0,0,0.16);
+    --color-bg-elevated: rgba(0,0,0,0.04);
 }
 
 [data-theme="light"] body { background: var(--color-bg-primary); }
