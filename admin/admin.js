@@ -69,6 +69,8 @@ const LABELS = {
   plannerEligible: '\ubb34\uc5ed\ud50c\ub798\ub108 \ub178\ucd9c',
   tags: '\ud0dc\uadf8',
   name: '\uc774\ub984',
+  region: '\uc9c0\uc5ed',
+  game: '\uac8c\uc784',
   discord: 'Discord',
   duties: '\uc8fc\uc694 \uc5c5\ubb34',
   avatarUrl: '\ud504\ub85c\ud544 \uc0ac\uc9c4 URL',
