@@ -2,6 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { onRequest as leadershipAdmin } from '../../functions/api/admin/leadership/index.js';
+import { onRequest as leadershipAdminItem } from '../../functions/api/admin/leadership/[id].js';
+import { onRequest as partnerFleetAdmin } from '../../functions/api/admin/partner-fleets/index.js';
+import { onRequest as partnerFleetAdminItem } from '../../functions/api/admin/partner-fleets/[id].js';
 import { onRequest as timelineAdmin } from '../../functions/api/admin/timeline/index.js';
 import { onRequestGet as leadershipPublic } from '../../functions/api/leadership.js';
 import { onRequestGet as timelinePublic } from '../../functions/api/timeline.js';
@@ -132,6 +135,100 @@ test('people and partner image fields: URL 저장 + fallback 필드 유지', () 
         photoUrl: 'https://cdn.volt.ceo/partners/mjo.webp'
     });
     assert.equal(fleetPayload.photo_url, 'https://cdn.volt.ceo/partners/mjo.webp');
+});
+
+test('partner fleet admin: update works before photo_url migration', async () => {
+    const photoUrl = 'https://cdn.volt.ceo/partners/mjo.webp';
+    const db = createMockDb((sql, _args, op) => {
+        if (op === 'first' && sql.includes('SELECT * FROM partner_fleets')) {
+            return { id: 'mjo', name: 'MJO', published: 1, created_at: '2026-01-01' };
+        }
+        if (op === 'all' && sql.includes('PRAGMA table_info(partner_fleets)')) return [];
+        return [];
+    });
+    const env = { ...TEST_ENV, DB: db };
+    const request = jsonRequest('https://volt.ceo/api/admin/partner-fleets/mjo', {
+        method: 'PUT',
+        cookie: await adminCookie(),
+        body: { name: 'MJO', photoUrl }
+    });
+
+    const response = await partnerFleetAdminItem({ request, env, params: { id: 'mjo' } });
+
+    assert.equal(response.status, 200);
+    const update = db.calls.find((call) => call.sql.includes('UPDATE partner_fleets'));
+    assert.ok(update);
+    assert.equal(update.sql.includes('photo_url'), false);
+    assert.equal(update.args[8], photoUrl);
+});
+
+test('partner fleet admin: update uses photo_url after migration', async () => {
+    const photoUrl = 'https://cdn.volt.ceo/partners/mjo.webp';
+    const db = createMockDb((sql, _args, op) => {
+        if (op === 'first' && sql.includes('SELECT * FROM partner_fleets')) {
+            return { id: 'mjo', name: 'MJO', published: 1, created_at: '2026-01-01' };
+        }
+        if (op === 'all' && sql.includes('PRAGMA table_info(partner_fleets)')) return [{ name: 'photo_url' }];
+        return [];
+    });
+    const env = { ...TEST_ENV, DB: db };
+    const request = jsonRequest('https://volt.ceo/api/admin/partner-fleets/mjo', {
+        method: 'PUT',
+        cookie: await adminCookie(),
+        body: { name: 'MJO', photoUrl }
+    });
+
+    const response = await partnerFleetAdminItem({ request, env, params: { id: 'mjo' } });
+
+    assert.equal(response.status, 200);
+    const update = db.calls.find((call) => call.sql.includes('UPDATE partner_fleets'));
+    assert.ok(update);
+    assert.equal(update.sql.includes('photo_url'), true);
+    assert.equal(update.args[8], photoUrl);
+});
+
+test('partner fleet admin: create works before photo_url migration', async () => {
+    const photoUrl = 'https://cdn.volt.ceo/partners/mjo.webp';
+    const db = createMockDb((sql, _args, op) => {
+        if (op === 'all' && sql.includes('PRAGMA table_info(partner_fleets)')) return [];
+        return [];
+    });
+    const env = { ...TEST_ENV, DB: db };
+    const request = jsonRequest('https://volt.ceo/api/admin/partner-fleets', {
+        cookie: await adminCookie(),
+        body: { name: 'MJO', photoUrl }
+    });
+
+    const response = await partnerFleetAdmin({ request, env });
+
+    assert.equal(response.status, 201);
+    const insert = db.calls.find((call) => call.sql.includes('INSERT INTO partner_fleets'));
+    assert.ok(insert);
+    assert.equal(insert.sql.includes('photo_url'), false);
+    assert.equal(insert.args[9], photoUrl);
+});
+
+test('leadership admin: update works before avatar_url migration', async () => {
+    const db = createMockDb((sql, _args, op) => {
+        if (op === 'first' && sql.includes('SELECT * FROM leadership_members')) {
+            return { id: 'ceo', name: 'Longman', published: 1, created_at: '2026-01-01' };
+        }
+        if (op === 'all' && sql.includes('PRAGMA table_info(leadership_members)')) return [];
+        return [];
+    });
+    const env = { ...TEST_ENV, DB: db };
+    const request = jsonRequest('https://volt.ceo/api/admin/leadership/ceo', {
+        method: 'PUT',
+        cookie: await adminCookie(),
+        body: { name: 'Longman', avatarUrl: 'https://cdn.volt.ceo/leaders/longman.webp' }
+    });
+
+    const response = await leadershipAdminItem({ request, env, params: { id: 'ceo' } });
+
+    assert.equal(response.status, 200);
+    const update = db.calls.find((call) => call.sql.includes('UPDATE leadership_members'));
+    assert.ok(update);
+    assert.equal(update.sql.includes('avatar_url'), false);
 });
 
 test('timelineInput: date/dateLabel 별칭 허용 + 길이 제한', () => {
