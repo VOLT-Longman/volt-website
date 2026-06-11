@@ -27,8 +27,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260610-11"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260610-11">
+  <script src="js/theme-init.js?v=20260610-12"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260610-12">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -500,9 +500,17 @@
     </div>
     <div class="trade-planner">
      <div class="trade-planner-header">
-      <h3>VOLT 무역 작전 플래너</h3>
-      <p>함선 검색 → 거래 상품 검색 → 매수/매도 후보 선택 → 수익 확인 → 브리핑 복사 순서로 사용합니다.</p>
+      <div>
+       <h3>VOLT 무역 작전 플래너</h3>
+       <ol class="planner-steps" aria-label="사용 순서">
+        <li><span class="planner-step-num">1</span>함선·작전 조건 입력</li>
+        <li><span class="planner-step-num">2</span>거래 상품 선택</li>
+        <li><span class="planner-step-num">3</span>수익 확인 후 브리핑 공유</li>
+       </ol>
+      </div>
+      <button class="btn btn-secondary planner-reset-btn" id="planner-reset" type="button">입력 초기화</button>
      </div>
+     <h4 class="planner-step-title"><span class="planner-step-num">1</span>함선과 작전 조건</h4>
      <div class="trade-planner-form">
       <div class="planner-picker" id="logistics-ship-picker">
        <label for="logistics-ship-search">내 함선 검색</label>
@@ -548,7 +556,7 @@
      <div class="uex-live-panel" aria-labelledby="uex-live-title">
       <div class="uex-live-header">
        <div>
-        <h3 id="uex-live-title">UEX 실시간 거래 후보</h3>
+        <h3 id="uex-live-title"><span class="planner-step-num">2</span>UEX 실시간 거래 후보</h3>
         <p>상품을 검색해 매수·매도 후보와 선택 화물량 기준 예상 수익을 확인합니다.</p>
        </div>
        <span class="uex-live-badge">Live API</span>
@@ -581,6 +589,7 @@
         <div class="uex-recommend-results" id="uex-recommend-results"></div>
        </details>
      </div>
+     <h4 class="planner-step-title"><span class="planner-step-num">3</span>결과 확인 · 브리핑 공유</h4>
      <div class="trade-planner-layout">
       <div class="logistics-result" id="logistics-result" aria-live="polite"></div>
       <div class="trade-planner-side">
@@ -685,17 +694,34 @@
        <li><a href="#about" data-section="about">함대 소개</a></li>
        <li><a href="#timeline" data-section="timeline">연혁</a></li>
        <li><a href="#leadership" data-section="leadership">임원진</a></li>
+       <li><a href="#partner-fleets" data-section="partner-fleets">협력함대</a></li>
+      </ul>
+     </div>
+     <div class="footer-section">
+      <h4>콘텐츠</h4>
+      <ul>
+       <li><a href="#notices" data-section="notices">공지</a></li>
+       <li><a href="#schedule" data-section="schedule">일정</a></li>
+       <li><a href="#ships" data-section="ships">함선DB</a></li>
+       <li><a href="#gallery" data-section="gallery">갤러리</a></li>
+       <li><a href="#policy" data-section="policy">정책</a></li>
+       <li><a href="#faq" data-section="faq">FAQ</a></li>
+      </ul>
+     </div>
+     <div class="footer-section">
+      <h4>무역</h4>
+      <ul>
+       <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
+       <li><a href="#hub" data-section="hub">무역허브</a></li>
+       <li><a href="#guide" data-section="guide">무역가이드</a></li>
       </ul>
      </div>
      <div class="footer-section">
       <h4>커뮤니티</h4>
       <ul>
        <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord</a></li>
-       <li><a href="#hub" data-section="hub">무역허브</a></li>
-       <li><a href="#partner-fleets" data-section="partner-fleets">협력함대</a></li>
        <li><a href="#streamers" data-section="streamers">스트리머</a></li>
-       <li><a href="#gallery" data-section="gallery">갤러리</a></li>
-       <li><a href="#guide" data-section="guide">무역가이드</a></li>
+       <li><a href="#ai" data-section="ai">VOLT AI</a></li>
        <li><a href="#join" data-section="join">가입하기</a></li>
       </ul>
      </div>
@@ -731,9 +757,9 @@
    </div>
   </div>
 
-<script src="data/volt-data.js?v=20260610-11"></script>
-<script src="data/volt-localization.js?v=20260610-11"></script>
-<script src="js/main.js?v=20260610-11"></script>
-<script src="js/volt-ai.js?v=20260610-11"></script>
+<script src="data/volt-data.js?v=20260610-12"></script>
+<script src="data/volt-localization.js?v=20260610-12"></script>
+<script src="js/main.js?v=20260610-12"></script>
+<script src="js/volt-ai.js?v=20260610-12"></script>
  </body>
 </html>

@@ -1616,6 +1616,7 @@
         button?.addEventListener('click', renderLogisticsRecommendation);
         copyButton.addEventListener('click', copyTradeBriefing);
         shareButton?.addEventListener('click', shareTradeBriefing);
+        document.getElementById('planner-reset')?.addEventListener('click', resetPlannerInputs);
         presets?.addEventListener('click', (event) => {
             const presetButton = event.target.closest('[data-trade-preset-id]');
             if (!presetButton) return;
@@ -1655,6 +1656,24 @@
     function setPlannerControlValue(id, value) {
         const control = document.getElementById(id);
         if (control) control.value = value;
+    }
+
+    function resetPlannerInputs() {
+        setPlannerControlValue('logistics-ship', '');
+        setPlannerControlValue('logistics-ship-search', '');
+        setPlannerControlValue('logistics-cargo', '0');
+        setPlannerControlValue('logistics-crew', '1');
+        setPlannerControlValue('trade-operation-type', 'convoy');
+        setPlannerControlValue('trade-risk', 'low');
+        setPlannerControlValue('planner-travel-time', '');
+        const summary = document.getElementById('logistics-ship-summary');
+        if (summary) {
+            summary.hidden = true;
+            summary.innerHTML = '';
+        }
+        localStorage.removeItem(PLANNER_STORAGE_KEY);
+        renderLogisticsRecommendation();
+        showToast('무역플래너 입력을 초기화했습니다.');
     }
 
     function syncPlannerSelectedShip(shipId) {
