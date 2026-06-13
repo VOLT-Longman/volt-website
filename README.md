@@ -510,8 +510,12 @@ index.html 수동 beacon 스크립트 없음
 - `tests/smoke/csp.spec.js`가 이 정책을 강제 주입한 상태에서 홈·관리자 페이지가 위반 0으로 정상 동작함을 검증합니다(회귀 가드레일). 음성 테스트로 검출 하니스의 동작도 확인했습니다.
 - 되돌리려면 `_headers`의 `script-src`에 `'unsafe-inline'`을 다시 추가하면 됩니다(엣지 즉시 반영).
 
-**Stage B (대기)** — `style-src`에서 `unsafe-inline` 제거:
-- `main.js` 렌더러가 생성하는 동적 인라인 `style="..."` 5곳(임원진 그라데이션, 스트리머 image-position, 공지/함선/일정 색상)과 `<style>` 블록 2개(index.html noscript, 404.html)를 CSS 변수/CSSOM 또는 해시로 옮긴 뒤 제거합니다.
+**Stage B (완료)** — enforce `style-src`에서 `unsafe-inline` 제거:
+- `main.js`의 동적 인라인 `style="..."` 5곳(임원진 그라데이션, 스트리머 image-position, 공지/함선/일정 색상)을 `data-style-*` 속성으로 바꾸고, `MutationObserver` 기반 적용기(`setupDynamicStyles`)가 렌더 후 **CSSOM**(`el.style`)으로 적용합니다. CSSOM은 CSP `style-src` 적용 대상이 아니라 `unsafe-inline` 없이 동작합니다.
+- 인라인 `<style>` 블록 2개는 외부 파일로 분리했습니다: `css/noscript.css`(index.html의 noscript 스플래시 숨김), `css/404.css`(404 페이지 스타일).
+- 이로써 저장소에 인라인 `style` 속성/블록이 0개가 되어 enforce `style-src`를 `'self'`로 전환했습니다.
+- `tests/smoke/csp.spec.js`가 강화된 `script-src`+`style-src`를 강제 주입한 상태에서 홈·함선·공지·스트리머·임원진·일정·관리자 화면이 위반 0으로 동작함을 검증합니다.
+- 되돌리려면 `_headers`의 `style-src`에 `'unsafe-inline'`을 다시 추가하면 됩니다(엣지 즉시 반영).
 
 ---
 

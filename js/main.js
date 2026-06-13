@@ -385,8 +385,8 @@
         if (avatarUrl) {
             return `<img class="leader-avatar leader-avatar-image" src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(leader.name || 'Leader')} profile photo" loading="lazy" decoding="async">`;
         }
-        const avatarStyle = leader.avatarGradient ? `style="background:${escapeHtml(leader.avatarGradient)};"` : '';
-        return `<div class="leader-avatar leader-avatar-fallback" ${avatarStyle} aria-hidden="true">${escapeHtml(getLeaderInitial(leader))}</div>`;
+        const avatarBg = leader.avatarGradient ? ` data-style-bg="${escapeHtml(leader.avatarGradient)}"` : '';
+        return `<div class="leader-avatar leader-avatar-fallback"${avatarBg} aria-hidden="true">${escapeHtml(getLeaderInitial(leader))}</div>`;
     }
 
     function getLeaderAvatarUrl(leader) {
@@ -409,7 +409,7 @@
         const container = document.getElementById('streamers-grid');
         if (!container || !Array.isArray(data.streamers)) return;
         container.innerHTML = data.streamers.map((streamer) => {
-            const imagePosition = streamer.imagePosition ? ` style="object-position:${escapeHtml(streamer.imagePosition)};"` : '';
+            const imagePosition = streamer.imagePosition ? ` data-style-object-position="${escapeHtml(streamer.imagePosition)}"` : '';
             const icon = streamer.image
                 ? `<img src="${escapeHtml(streamer.image)}" alt="${escapeHtml(streamer.name)}" loading="lazy" decoding="async"${imagePosition}>`
                 : `<div class="streamer-icon-fallback" aria-hidden="true">${escapeHtml((streamer.name || '?').charAt(0).toUpperCase())}</div>`;
@@ -590,7 +590,7 @@
             <button class="notice-card${announcement.pinned ? ' notice-card-pinned' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(announcement.title)} 상세 보기">
                 <div class="notice-meta">
                     ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
-                    <span class="notice-tag" style="background:${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20;color:${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'};">${escapeHtml(announcement.tag)}</span>
+                    <span class="notice-tag" data-style-bg="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20" data-style-color="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}">${escapeHtml(announcement.tag)}</span>
                     <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
                 </div>
                 <h3 class="notice-title">${escapeHtml(announcement.title)}</h3>
@@ -717,7 +717,7 @@
                         <h3 class="ship-name">${escapeHtml(ship.name)}</h3>
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
-                    <div class="ship-card-actions"><span class="ship-focus-badge" style="background:${FOCUS_COLORS[ship.focus] || '#a0aec0'}22;color:${FOCUS_COLORS[ship.focus] || '#a0aec0'};">${escapeHtml(ship.focus)}</span>${renderHangarToggleButton(ship)}</div>
+                    <div class="ship-card-actions"><span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(ship.focus)}</span>${renderHangarToggleButton(ship)}</div>
                 </div>
                 <p class="ship-desc">${escapeHtml(ship.description)}</p>
                 <div class="ship-stats">
@@ -767,7 +767,7 @@
             return `<div class="schedule-item reveal" data-schedule-event-id="${escapeHtml(eventId)}">
                 <div class="schedule-date-col">
                     <span class="schedule-date">${escapeHtml(event.dateLabel)}</span>
-                    <span class="schedule-status" style="color:${colors[event.status] || '#a0aec0'};">${escapeHtml(event.status)}</span>
+                    <span class="schedule-status" data-style-color="${colors[event.status] || '#a0aec0'}">${escapeHtml(event.status)}</span>
                 </div>
                 <div class="schedule-body">
                     <div class="schedule-type-badge">${escapeHtml(event.type)}</div>
@@ -3593,7 +3593,33 @@
         renderMyPage();
     }
 
+    // 동적 색상·그라데이션을 인라인 style 속성 대신 data 속성으로 전달하고,
+    // 렌더 후 CSSOM(el.style)으로 적용한다. CSSOM은 CSP style-src 적용 대상이
+    // 아니라 style-src 'unsafe-inline' 없이도 동작한다. innerHTML로 삽입되는
+    // 모든 재렌더를 MutationObserver로 감지해 적용한다.
+    const DYNAMIC_STYLE_SELECTOR = '[data-style-bg],[data-style-color],[data-style-object-position]';
+
+    function applyDynamicStyle(el) {
+        if (el.dataset.styleBg) el.style.background = el.dataset.styleBg;
+        if (el.dataset.styleColor) el.style.color = el.dataset.styleColor;
+        if (el.dataset.styleObjectPosition) el.style.objectPosition = el.dataset.styleObjectPosition;
+    }
+
+    function applyDynamicStyles(root) {
+        if (!root || root.nodeType !== 1) return;
+        if (root.matches?.(DYNAMIC_STYLE_SELECTOR)) applyDynamicStyle(root);
+        root.querySelectorAll?.(DYNAMIC_STYLE_SELECTOR).forEach(applyDynamicStyle);
+    }
+
+    function setupDynamicStyles() {
+        applyDynamicStyles(document.body);
+        new MutationObserver((mutations) => {
+            for (const mutation of mutations) mutation.addedNodes.forEach(applyDynamicStyles);
+        }).observe(document.body, { childList: true, subtree: true });
+    }
+
     function init() {
+        setupDynamicStyles();
         setupSplash();
         setupRevealObserver();
         renderAll();
