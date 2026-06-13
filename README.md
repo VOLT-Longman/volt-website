@@ -505,10 +505,10 @@ index.html 수동 beacon 스크립트 없음
 
 **인벤토리 결과**: HTML에는 실행되는 인라인 `<script>`나 인라인 이벤트 핸들러가 0개이며, 모든 로직은 외부 파일(`theme-init.js`, `main.js`, `volt-ai.js`, `admin.js`)에 있습니다. `<script type="application/ld+json">`(JSON-LD)은 실행 가능한 스크립트가 아니라 **데이터**라서 `script-src` 적용 대상이 아닙니다. 따라서 "JSON-LD 때문에 `script-src 'unsafe-inline'`이 필요하다"는 기존 설명은 오해이며, 해시/nonce 없이도 제거할 수 있습니다. Cloudflare Insights는 엣지에서 외부 `static.cloudflareinsights.com` 스크립트로 주입되므로 이미 허용 목록에 있습니다.
 
-**Stage A (진행 중)** — `script-src`에서 `unsafe-inline` 제거:
-- `_headers`에 `Content-Security-Policy-Report-Only`를 병행 추가해(enforce는 그대로 유지) 강화된 `script-src`를 관측 중입니다. 위반은 브라우저 콘솔로만 확인합니다(수집 엔드포인트 미설치).
-- `tests/smoke/csp.spec.js`가 강화 정책을 강제 주입한 상태에서 홈·관리자 페이지가 위반 0으로 정상 동작함을 검증합니다(enforce 전환 가드레일).
-- QA에서 위반 0이 확인되면 enforce CSP의 `script-src`에서 `unsafe-inline`을 제거합니다.
+**Stage A (완료)** — enforce `script-src`에서 `unsafe-inline` 제거:
+- enforce CSP의 `script-src`를 `'self' https://static.cloudflareinsights.com`로 전환했습니다(`unsafe-inline` 제거). 관측용 `Content-Security-Policy-Report-Only` 헤더는 역할을 다해 제거했습니다.
+- `tests/smoke/csp.spec.js`가 이 정책을 강제 주입한 상태에서 홈·관리자 페이지가 위반 0으로 정상 동작함을 검증합니다(회귀 가드레일). 음성 테스트로 검출 하니스의 동작도 확인했습니다.
+- 되돌리려면 `_headers`의 `script-src`에 `'unsafe-inline'`을 다시 추가하면 됩니다(엣지 즉시 반영).
 
 **Stage B (대기)** — `style-src`에서 `unsafe-inline` 제거:
 - `main.js` 렌더러가 생성하는 동적 인라인 `style="..."` 5곳(임원진 그라데이션, 스트리머 image-position, 공지/함선/일정 색상)과 `<style>` 블록 2개(index.html noscript, 404.html)를 CSS 변수/CSSOM 또는 해시로 옮긴 뒤 제거합니다.
