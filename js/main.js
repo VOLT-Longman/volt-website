@@ -3407,38 +3407,46 @@
         </dl>`;
     }
     function setupTheme() {
-        const button = document.getElementById('theme-toggle');
-        if (!button) return;
+        const buttons = ['theme-toggle', 'mobile-theme-toggle']
+            .map((id) => document.getElementById(id))
+            .filter(Boolean);
+        if (!buttons.length) return;
         applyTheme(getPreferredTheme());
-        button.addEventListener('click', () => {
+        buttons.forEach((button) => button.addEventListener('click', () => {
             const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             applyTheme(next);
             localStorage.setItem('volt-theme', next);
-        });
-        const media = window.matchMedia?.('(prefers-color-scheme: light)');
-        media?.addEventListener?.('change', () => {
-            if (!localStorage.getItem('volt-theme')) applyTheme(getPreferredTheme());
-        });
+        }));
     }
 
     function getPreferredTheme() {
         const storedTheme = localStorage.getItem('volt-theme');
         if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
-        return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        // 저장된 선택이 없으면 시스템 설정과 무관하게 다크 모드가 기본.
+        return 'dark';
     }
 
     function applyTheme(theme) {
         const normalizedTheme = theme === 'light' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', normalizedTheme);
 
-        const button = document.getElementById('theme-toggle');
-        if (!button) return;
-
         const nextThemeLabel = normalizedTheme === 'light' ? '다크 모드로 전환' : '라이트 모드로 전환';
-        button.setAttribute('data-current-theme', normalizedTheme);
-        button.setAttribute('aria-label', nextThemeLabel);
-        button.setAttribute('title', nextThemeLabel);
-        button.innerHTML = renderInlineIcon(normalizedTheme === 'light' ? 'moon' : 'sun', 'theme-icon');
+        const icon = renderInlineIcon(normalizedTheme === 'light' ? 'moon' : 'sun', 'theme-icon');
+
+        const button = document.getElementById('theme-toggle');
+        if (button) {
+            button.setAttribute('data-current-theme', normalizedTheme);
+            button.setAttribute('aria-label', nextThemeLabel);
+            button.setAttribute('title', nextThemeLabel);
+            button.innerHTML = icon;
+        }
+
+        const mobileButton = document.getElementById('mobile-theme-toggle');
+        if (mobileButton) {
+            mobileButton.setAttribute('data-current-theme', normalizedTheme);
+            mobileButton.setAttribute('aria-label', nextThemeLabel);
+            mobileButton.innerHTML = `${icon}<span>${nextThemeLabel}</span>`;
+        }
     }
 
     function injectStructuredData() {
