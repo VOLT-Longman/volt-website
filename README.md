@@ -9,7 +9,16 @@
 - Discord: https://discord.gg/voltstarcitizen
 - RSI 공식 페이지: https://robertsspaceindustries.com/orgs/VOLT
 
-이 저장소는 **Cloudflare Pages로 배포되는 정적 웹사이트**입니다. 별도 빌드 과정 없이 HTML, CSS, JavaScript, 데이터 파일을 수정한 뒤 `main` 브랜치에 반영하면 자동 배포됩니다.
+이 저장소는 **Cloudflare Pages에 배포되는 풀스택 애플리케이션**입니다. 프런트엔드는 빌드 과정 없는 정적 HTML/CSS/Vanilla JS이고, 백엔드는 같은 저장소의 `functions/` 디렉토리에 있는 **Cloudflare Pages Functions**로 동작합니다. `main` 브랜치에 반영하면 프런트엔드와 Functions가 함께 자동 배포됩니다(별도 빌드 명령 없음).
+
+백엔드는 다음 Cloudflare 리소스에 의존합니다.
+
+- **D1**(`DB`) — 공지·일정·갤러리·협력함대·임원진·연혁·함선 보정값 등 CMS 콘텐츠 저장
+- **KV**(`RATE_LIMIT_KV`) — 로그인 등 rate limiting
+- **R2**(`GALLERY_BUCKET`) — 관리자 이미지 업로드 저장소
+- **Discord OAuth** — 소셜 로그인(`/auth/discord/*`), 관리자 RBAC(`ADMIN_DISCORD_ROLES`)
+
+이들 바인딩과 시크릿(`ADMIN_SESSION_SECRET`, `ADMIN_PASSWORD`, `UEX_API_BASE_URL`, `DISCORD_OPERATION_WEBHOOK_URL` 등)은 Cloudflare Pages 대시보드에서 설정합니다. `functions/` 디렉토리 규칙으로 배포되므로 `wrangler.toml`은 필요하지 않습니다.
 
 ---
 
@@ -17,12 +26,15 @@
 
 | 항목 | 내용 |
 |---|---|
-| 사이트 유형 | 정적 SPA 스타일 공식 홈페이지 |
-| 주 언어 | HTML / CSS / Vanilla JavaScript |
-| 콘텐츠 데이터 | `data/volt-data.js`의 `window.VOLT_DATA` |
-| 배포 | Cloudflare Pages |
+| 사이트 유형 | SPA 스타일 공식 홈페이지 + Pages Functions 백엔드 |
+| 프런트엔드 | HTML / CSS / Vanilla JavaScript (빌드 없음) |
+| 백엔드 | Cloudflare Pages Functions (`functions/`) |
+| 데이터 저장소 | D1(콘텐츠) · KV(rate limit) · R2(이미지) |
+| 콘텐츠 데이터 | 관리자 CMS(`/api/*`, D1) 우선, `data/volt-data.js`의 `window.VOLT_DATA`는 폴백/시드 |
+| 인증 | Discord OAuth 소셜 로그인 + 관리자 RBAC |
+| 배포 | Cloudflare Pages (프런트 + Functions 동시) |
 | 기본 브랜치 | `main` |
-| 최신 에셋 버전 | `20260611-02` |
+| 최신 에셋 버전 | `20260613-02` |
 | 분석 | Cloudflare Web Analytics 자동 설치 사용 |
 | 보안 헤더 | `_headers`에서 관리 |
 
@@ -48,6 +60,11 @@
 | OG/Twitter 메타 | 링크 공유용 대표 이미지와 설명 제공 |
 | PWA Manifest | 홈 화면 설치용 manifest와 아이콘 정보 제공 |
 | 보안 헤더 | CSP enforce, HSTS, X-Frame-Options 등 적용 |
+| 무역플래너 | 함선·화물·인원·위험도 기반 작전 적합도/수익 계산, UEX 시세 연동, Discord 브리핑 |
+| Discord 로그인 | Discord OAuth 소셜 로그인(`/auth/discord/*`) |
+| 마이페이지 | 참가 일정, 격납고(즐겨찾기 함선), 무역플래너 저장값 |
+| 일정 참가(RSVP) | 참가/대기/불참 선택 및 상태별 집계 |
+| 관리자 CMS | `/admin`에서 공지·일정·갤러리·협력함대·임원진·연혁·함선 보정 CRUD + 이미지 업로드 |
 
 ---
 
@@ -86,9 +103,21 @@ volt-website/
 ├── css/
 │   └── styles.css              디자인, 테마, 반응형, 접근성 스타일
 ├── js/
-│   └── main.js                 렌더링, 검색, 모달, 메뉴, 테마 등 기능
+│   ├── theme-init.js           초기 테마 적용(렌더 전 실행, 기본 다크)
+│   ├── main.js                 렌더링, 검색, 모달, 메뉴, 테마, 플래너, 인증 등 핵심 기능
+│   └── volt-ai.js              VOLT AI 페이지 기능
 ├── data/
-│   └── volt-data.js            공지, 함선, 일정, FAQ, 정책 등 실제 콘텐츠
+│   ├── volt-data.js            CMS 폴백/시드 + 정적 콘텐츠(함대 정보, 함선 기본값, FAQ, 정책, 스트리머 등)
+│   ├── volt-localization.js    무역품 한글 검색용 번역 데이터
+│   └── *.json                  RSI 함선 매트릭스, 시세 데이터
+├── functions/                  Cloudflare Pages Functions(백엔드)
+│   ├── api/                    공개 API(notices, events, gallery, uex, rsvp 등) + admin/ CRUD
+│   ├── auth/                   Discord OAuth 로그인/콜백/로그아웃
+│   └── _shared/                인증, RBAC, CMS, 스키마, HTTP 유틸
+├── admin/                      관리자 CMS 페이지(index.html, admin.js, admin.css)
+├── migrations/                 D1 스키마/시드 마이그레이션(SQL)
+├── scripts/                    캐시 버전 갱신, 데이터 빌드, 점검 스크립트
+├── tests/                      smoke(Playwright) + functions(Node 테스트)
 └── assets/
     └── images/
         ├── VOLT_logo.png       기본 로고
@@ -96,18 +125,22 @@ volt-website/
         ├── og-image.png        공유 미리보기 이미지
         ├── icons/              PWA 아이콘
         ├── streamers/          스트리머 이미지
-        └── gallery/            갤러리 이미지
+        └── gallery/            갤러리 이미지(R2 업로드 사용 시 외부 URL)
 ```
 
 ---
 
 ## 운영 원칙
 
-가장 중요한 원칙은 다음과 같습니다.
+콘텐츠는 **저장 위치가 두 갈래**로 나뉩니다. 무엇을 어디서 고칠지 먼저 구분해야 합니다.
 
-> **콘텐츠 수정은 가능한 한 `data/volt-data.js`에서 처리합니다.**
+> **운영 콘텐츠(공지·일정·갤러리·협력함대·임원진·연혁·함선 보정)는 `/admin` 관리자 CMS에서 처리합니다.**
 
-공지, 일정, 함선, FAQ, 정책, 스트리머, 갤러리 데이터는 대부분 `data/volt-data.js`에서 관리합니다. 새 화면 구조가 필요할 때만 `index.html`, `js/main.js`, `css/styles.css`를 함께 수정합니다.
+이 항목들은 D1에 저장되고 `/api/*`로 제공되며, 프런트엔드는 `fetchCmsCollection()`으로 불러옵니다. API가 비어 있거나 실패하면 `data/volt-data.js`의 동일 키를 **폴백/시드**로 사용합니다. 따라서 `data/volt-data.js`의 해당 배열은 "초기 시드 + 백업"이지 운영 중 단일 원본이 아닙니다.
+
+> **CMS 엔드포인트가 없는 정적 콘텐츠(함대 기본 정보, 함선 기본값, FAQ, 정책, 스트리머, 무역허브, 무역가이드)는 `data/volt-data.js`에서 직접 수정합니다.**
+
+새 화면 구조가 필요할 때만 `index.html`, `js/main.js`, `css/styles.css`를 함께 수정합니다. 아래 "자주 하는 수정"의 `volt-data.js` 예시는 정적 콘텐츠 또는 시드값 기준이며, 운영 중 공지·일정·갤러리는 관리자 CMS에서 다루는 것을 권장합니다.
 
 ---
 
@@ -355,9 +388,9 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 최신 파일 반영 여부는 페이지 소스에서 아래 버전을 확인합니다.
 
 ```html
-css/styles.css?v=20260611-02
-data/volt-data.js?v=20260611-02
-js/main.js?v=20260611-02
+css/styles.css?v=20260613-02
+data/volt-data.js?v=20260613-02
+js/main.js?v=20260613-02
 ```
 
 ---
@@ -500,13 +533,12 @@ assets/images/og-image.png
 
 ## 기술 메모
 
-- 프레임워크 없음
-- 번들러 없음
-- npm 설치 없음
-- Vanilla HTML / CSS / JavaScript 기반
-- 데이터 원본은 `window.VOLT_DATA`
+- 프런트엔드: 프레임워크/번들러 없는 Vanilla HTML / CSS / JavaScript
+- 백엔드: Cloudflare Pages Functions(`functions/`), D1 / KV / R2 바인딩
+- npm은 개발/테스트용으로만 사용(Playwright). 프런트엔드 런타임 의존성 없음
+- 운영 콘텐츠 원본은 D1(`/api/*`), `window.VOLT_DATA`는 폴백/시드 + 정적 콘텐츠
 - URL 해시 기반 섹션 라우팅
-- `localStorage` 기반 테마 저장
+- `localStorage` 기반 테마 저장(기본 다크)
 - `IntersectionObserver` 기반 reveal 애니메이션
 - Cloudflare Pages `_headers` 사용
 
