@@ -42,7 +42,10 @@
     const localization = window.VOLT_LOCALIZATION || {};
 
     const PAGE_SIZE = 4;
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide', 'ai'];
+    // Router/Navigation은 js/navigation.js로 분리됨(window.VOLT_NAV). main.js는
+    // 기존 호출처를 그대로 두기 위해 공개 함수를 별칭으로 바인딩한다.
+    const nav = window.VOLT_NAV;
+    const { showSection, parseRouteFromHash, getInitialRoute, setupNavLinks, setupMobileMenu, setMobileMenuState, closeMoreMenu, closeTradeMenu } = nav;
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
@@ -221,7 +224,6 @@
     const SUPPLY_COMMODITY_NAMES = ['Medical Supplies', 'Processed Food'];
     const MINING_COMMODITY_NAMES = ['Beryl', 'Laranite', 'Agricium', 'Titanium', 'Quartz', 'Diamond', 'Gold'];
     const HIGH_VALUE_COMMODITY_NAMES = ['Gold', 'Beryl', 'Laranite', 'Agricium', 'Diamond'];
-    let currentSection = null;
     let revealObserver;
     let activeModal = null;
     let lastModalTrigger = null;
@@ -1237,174 +1239,10 @@
         renderTradeGuide();
     }
 
-    function updateActiveNav(id) {
-        document.querySelectorAll('.nav-links [data-section]').forEach((link) => {
-            link.classList.toggle('nav-active', link.getAttribute('data-section') === id);
-        });
-        document.getElementById('nav-trade-toggle')?.classList.toggle('nav-active', ['trade-planner', 'hub', 'guide'].includes(id));
-        document.getElementById('nav-more-toggle')?.classList.toggle('nav-active', ['timeline', 'leadership', 'streamers', 'gallery', 'policy', 'faq'].includes(id));
-    }
-
-    function showSection(id, push = true, anchorId = null) {
-        trackEvent('section_view', { section: id });
-        const home = document.getElementById('home');
-        if (!home) return;
-        currentSection = id;
-        document.querySelectorAll('.section').forEach((section) => section.classList.remove('active'));
-        if (id === 'home') {
-            home.style.display = 'flex';
-        } else {
-            home.style.display = 'none';
-            activateSection(id);
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        updateActiveNav(id);
-        if (anchorId) scrollToAnchor(anchorId);
-        if (push) updateHistory(id);
-        if (id === 'notices') openNoticeFromQuery();
-    }
-
     function openNoticeFromQuery() {
         const noticeId = new URLSearchParams(window.location.search).get('notice');
         const notice = noticeId ? findAnnouncement(noticeId) : null;
         if (notice) openNoticeModal(notice);
-    }
-
-    function activateSection(id) {
-        const target = document.getElementById(id);
-        if (!target) return;
-        target.classList.add('active');
-        observeNewReveals(target);
-    }
-
-    function updateHistory(id) {
-        const hash = id === 'home' ? '' : `#${id}`;
-        history.pushState({ section: id }, '', hash || window.location.pathname);
-    }
-
-    function parseRouteFromHash() {
-        const hash = window.location.hash.replace('#', '');
-        const policyMatch = hash.match(/^policy-section-(\d+)$/);
-        if (policyMatch) return { section: 'policy', anchorId: hash };
-        return {
-            section: VALID_SECTIONS.includes(hash) ? hash : 'home',
-            anchorId: null
-        };
-    }
-
-    function scrollToAnchor(anchorId) {
-        window.requestAnimationFrame(() => {
-            document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-    }
-
-    function setupNavLinks() {
-        document.querySelectorAll('[data-section]').forEach((link) => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
-                showSection(link.getAttribute('data-section'));
-                closeMoreMenu();
-                closeTradeMenu();
-            });
-        });
-        setupMoreMenu();
-        setupTradeMenu();
-    }
-
-    function setupMoreMenu() {
-        setupDropdownMenu({
-            rootSelector: '.nav-more',
-            toggleId: 'nav-more-toggle',
-            menuId: 'nav-more-menu',
-            bodyClass: 'nav-more-open',
-            closeOther: closeTradeMenu
-        });
-        document.addEventListener('click', (event) => {
-            if (!event.target.closest('.nav-more')) closeMoreMenu();
-        });
-    }
-
-    function setupTradeMenu() {
-        setupDropdownMenu({
-            rootSelector: '.nav-trade',
-            toggleId: 'nav-trade-toggle',
-            menuId: 'nav-trade-menu',
-            bodyClass: 'nav-trade-open',
-            closeOther: closeMoreMenu
-        });
-        document.addEventListener('click', (event) => {
-            if (!event.target.closest('.nav-trade')) closeTradeMenu();
-        });
-    }
-
-    function setupDropdownMenu({ toggleId, menuId, bodyClass, closeOther }) {
-        const toggle = document.getElementById(toggleId);
-        const menu = document.getElementById(menuId);
-        if (!toggle || !menu) return;
-        toggle.addEventListener('click', () => {
-            const expanded = toggle.getAttribute('aria-expanded') === 'true';
-            if (!expanded) closeOther?.();
-            setDropdownState(toggle, menu, bodyClass, !expanded);
-        });
-    }
-
-    function setDropdownState(toggle, menu, bodyClass, isOpen) {
-        toggle.setAttribute('aria-expanded', String(isOpen));
-        menu.classList.toggle('active', isOpen);
-        document.body.classList.toggle(bodyClass, isOpen);
-    }
-
-    function closeMoreMenu() {
-        const toggle = document.getElementById('nav-more-toggle');
-        const menu = document.getElementById('nav-more-menu');
-        if (!toggle || !menu) return;
-        setDropdownState(toggle, menu, 'nav-more-open', false);
-    }
-
-    function closeTradeMenu() {
-        const toggle = document.getElementById('nav-trade-toggle');
-        const menu = document.getElementById('nav-trade-menu');
-        if (!toggle || !menu) return;
-        setDropdownState(toggle, menu, 'nav-trade-open', false);
-    }
-
-    function setupMobileMenu() {
-        const menu = document.getElementById('mobileMenu');
-        const openButton = document.getElementById('hamburger');
-        const closeButtons = menu ? [...menu.querySelectorAll('#mobileMenuClose, [data-mobile-menu-close]')] : [];
-        if (!menu || !openButton || closeButtons.length === 0) return;
-        const open = () => setMobileMenuState(menu, openButton, true);
-        const close = () => setMobileMenuState(menu, openButton, false);
-        openButton.addEventListener('click', open);
-        closeButtons.forEach((button) => button.addEventListener('click', close));
-        menu.addEventListener('click', (event) => {
-            if (event.target === menu) close();
-        });
-        menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
-        document.addEventListener('keydown', (event) => {
-            if (!menu.classList.contains('active')) return;
-            if (event.key === 'Escape') close();
-            if (event.key === 'Tab') trapFocus(menu, event);
-        });
-    }
-
-    function setMobileMenuState(menu, button, isOpen) {
-        if (isOpen) {
-            closeMoreMenu();
-            closeTradeMenu();
-        }
-        menu.classList.toggle('active', isOpen);
-        button.setAttribute('aria-expanded', String(isOpen));
-        document.body.style.overflow = isOpen ? 'hidden' : '';
-        if (isOpen) {
-            menu.dataset.returnFocusId = document.activeElement?.id || '';
-            menu.scrollTop = 0;
-            menu.querySelector('.mobile-menu-scroll')?.scrollTo({ top: 0 });
-            getFocusableElements(menu)[0]?.focus();
-        } else {
-            const returnTarget = menu.dataset.returnFocusId ? document.getElementById(menu.dataset.returnFocusId) : button;
-            returnTarget?.focus();
-        }
     }
 
     function getFocusableElements(container) {
@@ -3619,6 +3457,7 @@
     }
 
     function init() {
+        nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements });
         setupDynamicStyles();
         setupSplash();
         setupRevealObserver();
@@ -3656,17 +3495,6 @@
         loadCmsContent()
             .then(refreshCmsRenderedContent)
             .catch((error) => console.warn('CMS content refresh failed', error));
-    }
-
-    function getInitialRoute() {
-        const navigation = performance.getEntriesByType('navigation')[0];
-        if (navigation?.type === 'reload') {
-            const route = parseRouteFromHash();
-            const homeUrl = window.location.pathname + window.location.search;
-            return { ...route, url: route.section === 'home' ? homeUrl : window.location.href };
-        }
-        const route = parseRouteFromHash();
-        return { ...route, url: window.location.href };
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

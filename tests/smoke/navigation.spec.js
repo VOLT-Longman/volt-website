@@ -18,6 +18,35 @@ test.describe('네비게이션', () => {
         await expect(page.locator('#notices')).toHaveClass(/active/);
     });
 
+    // js/navigation.js 분리 후에도 라우터 고유 동작(딥링크·active nav·뒤로가기)이 유지되는지.
+    test('라우터: 해시 딥링크 진입 + active nav + popstate 복귀', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+
+        // 딥링크로 진입하면 해당 섹션이 활성 + 해당 nav 링크가 강조된다.
+        await expect(page.locator('#ships')).toHaveClass(/active/);
+        await expect(page.locator('.nav-links a[href="#ships"]')).toHaveClass(/nav-active/);
+
+        // 다른 섹션으로 이동 후 뒤로가기(popstate)하면 함선DB로 복귀한다.
+        await page.locator('.nav-links a[href="#notices"]').click();
+        await expect(page.locator('#notices')).toHaveClass(/active/);
+        await page.goBack();
+        await expect(page.locator('#ships')).toHaveClass(/active/);
+    });
+
+    test('모바일 메뉴: 열고 링크 클릭 시 닫힘 + 섹션 전환', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await mockApi(page);
+        await gotoSection(page, '');
+
+        await page.locator('#hamburger').click();
+        await expect(page.locator('#mobileMenu')).toHaveClass(/active/);
+
+        await page.locator('#mobileMenu a[href="#notices"]').click();
+        await expect(page.locator('#mobileMenu')).not.toHaveClass(/active/);
+        await expect(page.locator('#notices')).toHaveClass(/active/);
+    });
+
     test('공지: 목록 렌더 (API 폴백 포함)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#notices');
