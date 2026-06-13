@@ -436,11 +436,31 @@ GitHub Actions(`.github/workflows/smoke.yml`)에서 자동 실행됩니다.
 ```bash
 npm install                      # 최초 1회
 npx playwright install chromium  # 최초 1회 (브라우저)
-npm run check                    # JS 문법/임포트 검증 (CI에서도 자동 실행)
+npm run check                    # 문법 검증 + 링크 검증 + Biome 린트 (CI에서도 자동 실행)
+npm run lint                     # Biome 린트만 단독 실행
+npm run check:links              # 로컬 에셋/앵커 링크 검증만 단독 실행
 npm run test:functions           # 백엔드 Functions 단위 테스트 (CI에서도 자동 실행)
-npx playwright test              # 전체 스모크 실행
+npx playwright test              # 전체 스모크 + 접근성(axe) 실행
 npm run serve                    # 로컬 미리보기 (http://localhost:8787)
 ```
+
+### 품질 자동화
+
+- **린트(Biome)**: `npm run check`에 통합되어 있습니다. 현재 정책은 "회귀 방지망"으로,
+  실제 버그성 규칙은 에러로 막고, 기존 코드의 스타일/미사용 변수 등은 경고로 띄워 가시화만
+  합니다(`biome.json`). 정리하면서 경고를 줄이고 규칙을 에러로 승격해 나갑니다.
+- **포매터**: 현재 저장소는 들여쓰기가 파일별로 섞여 있어(4-space/2-space) 일괄 포맷은
+  큰 위험 diff가 됩니다. 들여쓰기 통일은 별도 후속 작업으로 두고, 지금은 포매터를 끈 상태입니다.
+- **링크 검증**(`scripts/check-links.mjs`): HTML의 로컬 에셋 경로와 페이지 내 앵커(`#id`)를
+  오프라인으로 검사합니다. 외부 URL과 서버 라우트(`/api`, `/auth`)는 동적이라 건너뜁니다.
+- **접근성 래칫**(`tests/smoke/a11y.spec.js`): axe-core로 홈·모바일 메뉴·함선 모달의
+  critical/serious 위반을 검사합니다. 기존에 알려진 위반은 화면별 allowlist로 통과시키되,
+  allowlist에 없는 새 위반이 생기면 실패합니다. allowlist는 갚아야 할 접근성 부채이며
+  아래 항목을 점진적으로 해결한 뒤 제거합니다.
+  - `color-contrast` — 라이트/다크 테마 대비 보정
+  - `aria-dialog-name` — 전역 모달에 접근 가능한 이름(`aria-labelledby`) 부여
+  - `nested-interactive` / `aria-allowed-role` — 함선 카드/모달 인터랙티브 중첩 구조 개선
+  - `heading-order` — 섹션 제목 단계(h2→h3) 정리(참고용 moderate)
 
 테스트는 `tests/smoke/`에 있으며 백엔드 API는 `tests/smoke/helpers.js`에서 모킹합니다.
 기능을 추가하거나 수정하면 해당 흐름의 스모크 시나리오도 함께 추가합니다.

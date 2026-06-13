@@ -4,11 +4,15 @@
   "scripts": {
     "serve": "node scripts/dev-server.js",
     "test": "playwright test",
-    "check": "node scripts/check-syntax.mjs",
+    "lint": "biome lint .",
+    "check:links": "node scripts/check-links.mjs",
+    "check": "node scripts/check-syntax.mjs && node scripts/check-links.mjs && biome lint .",
     "test:functions": "node --test \"tests/functions/**/*.test.mjs\"",
     "cache-version": "node scripts/update-cache-version.js"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
+    "@biomejs/biome": "^2.5.0",
     "@playwright/test": "^1.56.1"
   }
 }
