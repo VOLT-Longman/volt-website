@@ -38,6 +38,12 @@ const FIELD_OPTIONS = {
   'partner-fleets': { region: PARTNER_REGIONS, game: PARTNER_GAMES }
 };
 
+// 업로드 위젯으로 그릴 이미지 URL 필드. 업로드와 URL 직접 입력을 모두 지원한다.
+const IMAGE_FIELDS = {
+  'partner-fleets': ['photoUrl', 'logoUrl'],
+  leadership: ['avatarUrl']
+};
+
 const LABELS = {
   title: '\uc81c\ubaa9',
   content: '\ub0b4\uc6a9',
@@ -269,12 +275,36 @@ function renderCollectionForm(config, item) {
 function renderField(field, item) {
   const value = getItemValue(item, field);
   if (field === 'published' || field === 'pinned') return renderCheckbox(field, item);
+  if (isImageField(field)) return renderImageField(field, value);
   if (getFieldOptions(field)) return renderSelectField(field, value);
   if (field === 'content' || field === 'description' || field === 'duties') {
     return `<label>${LABELS[field]}<textarea name="${field}">${escapeHtml(value)}</textarea></label>`;
   }
   const type = field === 'eventDate' || field === 'date' ? 'date' : field === 'memberCount' || field === 'sortOrder' ? 'number' : 'text';
   return `<label>${LABELS[field]}<input type="${type}" name="${field}" value="${escapeHtml(value)}"></label>`;
+}
+
+function isImageField(field) {
+  return (IMAGE_FIELDS[state.tab] || []).includes(field);
+}
+
+function renderImageField(field, value) {
+  const url = String(value ?? '');
+  return `<div class="image-field" data-image-field="${field}">
+    <span class="image-field-title">${LABELS[field]}</span>
+    <div class="image-field-preview" data-image-preview="${field}">${renderImagePreview(url)}</div>
+    <div class="image-field-controls">
+      <label class="image-upload-button">이미지 업로드<input type="file" accept="image/jpeg,image/png,image/webp" data-image-upload="${field}"></label>
+      <input type="url" name="${field}" value="${escapeHtml(url)}" placeholder="업로드하거나 이미지 URL을 붙여넣으세요" data-image-url="${field}">
+    </div>
+    <span class="image-field-status" data-image-status="${field}" aria-live="polite"></span>
+  </div>`;
+}
+
+function renderImagePreview(url) {
+  return url
+    ? `<img src="${escapeHtml(url)}" alt="이미지 미리보기">`
+    : '<div class="image-placeholder">이미지 없음</div>';
 }
 
 function getFieldOptions(field) {
@@ -558,6 +588,37 @@ function bindEvents() {
   $('#item-list').addEventListener('click', handleListClick);
   document.addEventListener('click', handleDocumentClick);
   document.addEventListener('change', handleDocumentChange);
+  document.addEventListener('input', handleDocumentInput);
+}
+
+function handleDocumentInput(event) {
+  const urlField = event.target?.dataset?.imageUrl;
+  if (!urlField) return;
+  updateImagePreview(urlField, event.target.value.trim());
+}
+
+async function handleImageFieldUpload(input) {
+  const field = input.dataset.imageUpload;
+  const file = input.files?.[0];
+  if (!file) return;
+  const status = document.querySelector(`[data-image-status="${field}"]`);
+  const urlInput = document.querySelector(`[data-image-url="${field}"]`);
+  try {
+    if (status) status.textContent = '업로드 중…';
+    const imageUrl = await uploadFile(file);
+    if (urlInput) urlInput.value = imageUrl;
+    updateImagePreview(field, imageUrl);
+    if (status) status.textContent = '업로드 완료';
+  } catch (error) {
+    if (status) status.textContent = error.message || '업로드에 실패했습니다.';
+  } finally {
+    input.value = '';
+  }
+}
+
+function updateImagePreview(field, url) {
+  const preview = document.querySelector(`[data-image-preview="${field}"]`);
+  if (preview) preview.innerHTML = renderImagePreview(url);
 }
 
 function handleListInput(event) {
@@ -580,6 +641,10 @@ async function handleDocumentClick(event) {
 }
 
 function handleDocumentChange(event) {
+  if (event.target?.dataset?.imageUpload) {
+    handleImageFieldUpload(event.target);
+    return;
+  }
   if (event.target?.id !== 'upload-file') return;
   state.galleryFiles = Array.from(event.target.files || []);
   state.galleryImageUrls = [];
