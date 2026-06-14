@@ -365,7 +365,7 @@
                     <span class="leader-role">${escapeHtml(leader.role)}</span>
                     <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
                     <p class="leader-description leader-summary">${escapeHtml(leader.description)}</p>
-                    ${renderLeaderKeyPoints(leader)}
+                    ${renderLeaderKeyPoints(leader, leader.avatarStyle === 'ceo' ? 3 : 2)}
                     <span class="leader-more" aria-hidden="true">자세히 보기 →</span>
                 </div>
             </button>`).join('');
@@ -373,8 +373,8 @@
     }
 
     // 카드에는 핵심 역량 상위 3개만 요약. 철학·기여·전체 역량 등 상세는 모달로 분리.
-    function renderLeaderKeyPoints(leader) {
-        const items = Array.isArray(leader.competencies) ? leader.competencies.slice(0, 3) : [];
+    function renderLeaderKeyPoints(leader, limit = 3) {
+        const items = Array.isArray(leader.competencies) ? leader.competencies.slice(0, limit) : [];
         if (!items.length) return '';
         return `<div class="leader-keypoints"><strong>핵심 역량</strong><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>`;
     }
@@ -391,8 +391,8 @@
         if (avatarUrl) {
             return `<img class="leader-avatar leader-avatar-image" src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(leader.name || 'Leader')} profile photo" loading="lazy" decoding="async">`;
         }
-        const avatarBg = leader.avatarGradient ? ` data-style-bg="${escapeHtml(leader.avatarGradient)}"` : '';
-        return `<div class="leader-avatar leader-avatar-fallback"${avatarBg} aria-hidden="true">${escapeHtml(getLeaderInitial(leader))}</div>`;
+        // 아바타 배경은 CSS(charcoal + accent)로 통일한다. (브랜드 톤 정리)
+        return `<div class="leader-avatar leader-avatar-fallback" aria-hidden="true">${escapeHtml(getLeaderInitial(leader))}</div>`;
     }
 
     function getLeaderAvatarUrl(leader) {

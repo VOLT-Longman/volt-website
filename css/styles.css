@@ -6608,3 +6608,111 @@ body.nav-trade-open::before {
     .notice-card { padding: 18px 16px; }
     .leader-card { padding: 20px 16px; }
 }
+
+/* ==========================================================================
+   공지/임원진 2차 고도화 (정보 밀도·위계·조직 보드형)
+   ========================================================================== */
+
+/* 상단 여백 축소 + 컨테이너 폭 확장(좌우 검은 여백 감소) — 두 섹션에 한정 */
+#notices .section-header,
+#leadership .section-header {
+    margin-bottom: 40px;
+}
+
+#notices .section-content,
+#leadership .section-content {
+    max-width: 1180px;
+    padding-inline: 24px;
+}
+
+/* --- 공지: 게시판/피드형. 고정만 강조, 일반은 낮고 조밀하게 --- */
+.notice-filters {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.notices-grid {
+    gap: 12px;
+}
+
+.notice-card:not(.notice-card-pinned) {
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.06);
+    padding: 16px 22px;
+}
+
+.notice-card:not(.notice-card-pinned) .notice-title {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.notice-card:not(.notice-card-pinned) .notice-excerpt {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 13px;
+}
+
+.notice-card:not(.notice-card-pinned) .notice-more {
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+.notice-card-pinned {
+    border-left: 3px solid var(--volt-orange);
+}
+
+.notice-card:hover .notice-more {
+    text-decoration: underline;
+}
+
+/* --- 임원진: CEO wide + 임원 2열 compact 보드 --- */
+.leadership-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 1180px;
+    gap: 18px;
+    margin-top: 0;
+}
+
+.leader-card:not(.ceo-card) {
+    padding: 20px;
+    gap: 16px;
+}
+
+.leader-card:not(.ceo-card) .leader-avatar {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    flex-basis: 52px;
+    border-radius: 14px;
+    font-size: 20px;
+}
+
+.leader-card:not(.ceo-card) .leader-info h3 {
+    font-size: 18px;
+}
+
+.leader-card:not(.ceo-card) .leader-summary {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+/* 아바타 브랜드 톤: 임의 파스텔 → charcoal + accent */
+.leader-avatar-fallback {
+    background: linear-gradient(145deg, #242424, #111);
+    border: 1px solid rgba(232, 72, 47, 0.35);
+    color: #fff;
+}
+
+.leader-card.ceo-card .leader-avatar {
+    background: linear-gradient(145deg, #2a2a2a, #141414);
+    border: 1px solid rgba(232, 72, 47, 0.5);
+}
+
+.leader-card:hover .leader-more {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .leadership-grid { grid-template-columns: 1fr; }
+}
