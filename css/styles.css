@@ -6716,3 +6716,101 @@ body.nav-trade-open::before {
 @media (max-width: 768px) {
     .leadership-grid { grid-template-columns: 1fr; }
 }
+
+/* ==========================================================================
+   공지/임원진 3차 정리 (CEO wide 실제 구현 + 공지 강조 1개 + 밀도)
+   ========================================================================== */
+
+#notices .section-header,
+#leadership .section-header { margin-bottom: 32px; }
+
+/* --- 공지: 본문 폭 920, featured 1개만 강조, 나머지는 가벼운 게시판 행 --- */
+.notices-grid,
+.notice-filters { max-width: 920px; }
+
+.notice-card {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.notice-card:not(.is-featured) {
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 18px 24px;
+}
+
+.notice-card:not(.is-featured) .notice-title {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.notice-card:not(.is-featured) .notice-excerpt {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 13px;
+}
+
+.notice-card:not(.is-featured) .notice-more {
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+.notice-card.is-featured {
+    background: rgba(255, 255, 255, 0.055);
+    border-left: 3px solid var(--volt-orange);
+    padding: 24px 28px;
+}
+
+.notice-card.is-featured .notice-title { font-size: 18px; }
+
+.notice-card.is-featured .notice-excerpt {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+/* --- 임원진: CEO wide 실제 3열 그리드 + 임원 compact --- */
+.leadership-grid { max-width: 1080px; }
+
+.leader-card.is-primary {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 88px 1fr minmax(220px, 0.7fr);
+    gap: 24px;
+    align-items: start;
+    padding: 28px;
+    background:
+        linear-gradient(135deg, rgba(232, 72, 47, 0.08), transparent 42%),
+        rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leader-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+
+.leader-card:not(.is-primary) {
+    padding: 22px;
+    gap: 14px;
+}
+
+.leader-card:not(.is-primary) .leader-avatar {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    flex-basis: 44px;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+.leader-card:not(.is-primary) .leader-info h3 { font-size: 17px; }
+
+.leader-card:not(.is-primary) .leader-summary {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+@media (max-width: 768px) {
+    .leader-card.is-primary { grid-template-columns: 1fr; }
+}

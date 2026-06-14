@@ -357,19 +357,32 @@
         const container = document.getElementById('leadership-grid');
         if (!container) return;
         const leaders = getRenderableLeadership();
-        container.innerHTML = leaders.map((leader) => `
-            <button class="${leader.avatarStyle === 'ceo' ? 'leader-card ceo-card' : 'leader-card'} reveal" type="button" data-leader-id="${escapeHtml(String(leader.id || leader.name || ''))}" aria-label="${escapeHtml(leader.name)} 상세 보기">
-                ${renderLeaderAvatar(leader)}
+        container.innerHTML = leaders.map(renderLeaderCard).join('');
+        observeNewReveals(container);
+    }
+
+    // CEO(is-primary)는 전체 폭 3열(아바타 | 정보 | 핵심역량·CTA) 그리드,
+    // 나머지 임원은 compact 카드. 상세는 모달로 분리.
+    function renderLeaderCard(leader) {
+        const isPrimary = leader.avatarStyle === 'ceo';
+        const id = escapeHtml(String(leader.id || leader.name || ''));
+        const info = `
                 <div class="leader-info">
                     <h3>${escapeHtml(leader.name)}</h3>
                     <span class="leader-role">${escapeHtml(leader.role)}</span>
                     <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
                     <p class="leader-description leader-summary">${escapeHtml(leader.description)}</p>
-                    ${renderLeaderKeyPoints(leader, leader.avatarStyle === 'ceo' ? 3 : 2)}
+                    ${isPrimary ? '' : `${renderLeaderKeyPoints(leader, 2)}<span class="leader-more" aria-hidden="true">자세히 보기 →</span>`}
+                </div>`;
+        const aside = isPrimary ? `
+                <div class="leader-aside">
+                    ${renderLeaderKeyPoints(leader, 3)}
                     <span class="leader-more" aria-hidden="true">자세히 보기 →</span>
-                </div>
-            </button>`).join('');
-        observeNewReveals(container);
+                </div>` : '';
+        return `
+            <button class="leader-card${isPrimary ? ' ceo-card is-primary' : ''} reveal" type="button" data-leader-id="${id}" aria-label="${escapeHtml(leader.name)} 상세 보기">
+                ${renderLeaderAvatar(leader)}${info}${aside}
+            </button>`;
     }
 
     // 카드에는 핵심 역량 상위 3개만 요약. 철학·기여·전체 역량 등 상세는 모달로 분리.
@@ -592,8 +605,10 @@
         const colors = { '공지': 'var(--volt-orange)', '중요': '#e53e3e', '업데이트': '#3182ce', '이벤트': '#805ad5', '작전': '#38a169', '시스템': '#319795', '모집': '#d69e2e', '정책': '#e53e3e' };
         const items = getFilteredAnnouncements();
         const visibleItems = items.slice(0, noticeState.visibleCount);
+        // 강조(featured)는 최신 고정 공지 1개만. 나머지 고정은 배지만 유지.
+        const featuredId = (visibleItems.find((item) => item.pinned) || {}).id || null;
         container.innerHTML = visibleItems.map((announcement) => `
-            <button class="notice-card${announcement.pinned ? ' notice-card-pinned' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(announcement.title)} 상세 보기">
+            <button class="notice-card${announcement.id === featuredId ? ' is-featured' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(announcement.title)} 상세 보기">
                 <div class="notice-meta">
                     ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
                     <span class="notice-tag" data-style-bg="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20" data-style-color="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}">${escapeHtml(announcement.tag)}</span>
