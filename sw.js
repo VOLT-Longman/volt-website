@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20260614-01';
+const CACHE_VERSION = '20260614-02';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
 // index.html에서 ?v= 버전 쿼리를 붙여 로드하는 에셋.
@@ -12,6 +12,7 @@ const VERSIONED_ASSETS = [
     '/css/styles.css',
     '/js/theme-init.js',
     '/js/navigation.js',
+    '/js/uex.js',
     '/js/main.js',
     '/js/volt-ai.js',
     '/data/volt-data.js',

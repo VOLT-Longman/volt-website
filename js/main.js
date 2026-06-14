@@ -46,6 +46,8 @@
     // 기존 호출처를 그대로 두기 위해 공개 함수를 별칭으로 바인딩한다.
     const nav = window.VOLT_NAV;
     const { showSection, parseRouteFromHash, getInitialRoute, setupNavLinks, setupMobileMenu, setMobileMenuState, closeMoreMenu, closeTradeMenu } = nav;
+    // UEX 데이터/계산 계층은 js/uex.js로 분리됨(window.VOLT_UEX).
+    const uex = window.VOLT_UEX;
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
@@ -53,11 +55,9 @@
     const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, selectedTags: [] };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
-    const UEX_API_BASE_URL = '/api/uex';
     const UEX_CACHE_TTL_MS = { commodities: 60 * 60 * 1000, prices: 30 * 60 * 1000 };
     let shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
     const shipCompareState = new Set();
-    const uexCache = new Map();
     let currentUexModel = null;
     let currentUexSelection = { buyKey: '', sellKey: '' };
     let availableUexCommodities = [];
@@ -221,9 +221,6 @@
         'Processed Food',
         'Distilled Spirits'
     ];
-    const SUPPLY_COMMODITY_NAMES = ['Medical Supplies', 'Processed Food'];
-    const MINING_COMMODITY_NAMES = ['Beryl', 'Laranite', 'Agricium', 'Titanium', 'Quartz', 'Diamond', 'Gold'];
-    const HIGH_VALUE_COMMODITY_NAMES = ['Gold', 'Beryl', 'Laranite', 'Agricium', 'Diamond'];
     let revealObserver;
     let activeModal = null;
     let lastModalTrigger = null;
@@ -1598,7 +1595,7 @@
         if (!select || !status) return;
         status.textContent = 'UEX 상품 목록을 불러오는 중입니다.';
         try {
-            const commodities = await fetchUexData('commodities', UEX_CACHE_TTL_MS.commodities);
+            const commodities = await uex.fetchUexData('commodities', UEX_CACHE_TTL_MS.commodities);
             const visible = commodities.filter((item) => item.is_visible && item.is_available_live);
             availableUexCommodities = visible;
             select.innerHTML = `<option value="">상품 선택</option>${visible.map((item) => (
@@ -1726,9 +1723,9 @@
         results.innerHTML = '';
         currentUexSelection = { buyKey: '', sellKey: '' };
         try {
-            const prices = await fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices);
+            const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices);
             const selectedCommodity = availableUexCommodities.find((item) => String(item.id) === String(commodityId));
-            const model = buildUexCandidateModel(prices, selectedCommodity);
+            const model = uex.buildUexCandidateModel(prices, selectedCommodity, currentUexSelection);
             currentUexModel = model;
             results.innerHTML = renderUexCandidateCards(model);
             status.textContent = model.lastUpdatedLabel;
@@ -1740,85 +1737,6 @@
         }
     }
 
-    async function fetchUexData(path, ttlMs) {
-        const cacheKey = path;
-        const cached = uexCache.get(cacheKey);
-        if (cached && Date.now() - cached.timestamp < ttlMs) return cached.data;
-        const response = await fetch(`${UEX_API_BASE_URL}/${path}`, { headers: { Accept: 'application/json' } });
-        if (!response.ok) throw new Error(`UEX ${response.status}`);
-        const payload = await response.json();
-        const rows = Array.isArray(payload.data) ? payload.data : [];
-        if ((payload.status && payload.status !== 'ok') || !Array.isArray(payload.data)) throw new Error('Invalid UEX payload');
-        uexCache.set(cacheKey, { data: rows, timestamp: Date.now() });
-        return rows;
-    }
-
-    function buildUexCandidateModel(prices, commodity = null, selectionState = currentUexSelection) {
-        const buyOptions = prepareUexRows(prices, 'price_buy', 'asc');
-        const sellOptions = prepareUexRows(prices, 'price_sell', 'desc');
-        const bestBuy = pickSelectedUexRow(buyOptions, 'buy', selectionState);
-        const bestSell = pickSelectedUexRow(sellOptions, 'sell', selectionState);
-        const cargoTarget = Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0);
-        const usableScu = cargoTarget;
-        const profitPerScu = bestBuy && bestSell ? bestSell.price_sell - bestBuy.price_buy : 0;
-        const purchaseCost = bestBuy ? bestBuy.price_buy * usableScu : 0;
-        const grossRevenue = bestSell ? bestSell.price_sell * usableScu : 0;
-        const estimatedProfit = grossRevenue - purchaseCost;
-        const profitRate = purchaseCost > 0 ? (estimatedProfit / purchaseCost) * 100 : 0;
-        const lastUpdated = prices.length ? Math.max(...prices.map((row) => row.date_modified || 0)) : 0;
-        const commodityName = commodity?.name || prices[0]?.commodity_name || '선택 상품';
-        return {
-            commodityId: commodity?.id || prices[0]?.id_commodity || null,
-            commodity,
-            commodityName,
-            commodityLabel: formatCommodityLabel(commodityName),
-            buyOptions,
-            sellOptions,
-            bestBuy,
-            bestSell,
-            usableScu,
-            profitPerScu,
-            purchaseCost,
-            grossRevenue,
-            estimatedProfit,
-            profitRate,
-            rawPrices: prices,
-            lastUpdated,
-            lastUpdatedLabel: lastUpdated
-                ? `최근 갱신: ${new Date(lastUpdated * 1000).toLocaleString('ko-KR')}`
-                : '최근 갱신 시각을 확인할 수 없습니다.'
-        };
-    }
-
-    function prepareUexRows(prices, field, order) {
-        return prices
-            .filter((row) => Number(row[field]) > 0)
-            .map((row) => ({ ...row, uexKey: getUexRowKey(row, field) }))
-            .sort((left, right) => order === 'asc' ? left[field] - right[field] : right[field] - left[field]);
-    }
-
-    function getUexRowKey(row, field) {
-        return [
-            row.id_terminal,
-            row.id_city,
-            row.id_planet,
-            row.id_space_station,
-            row.terminal_name,
-            row.city_name,
-            row.planet_name,
-            row[field]
-        ].filter((value) => value !== undefined && value !== null && value !== '').join('|');
-    }
-
-    function pickSelectedUexRow(rows, side, selectionState = currentUexSelection) {
-        if (!rows.length) return null;
-        const key = side === 'buy' ? selectionState.buyKey : selectionState.sellKey;
-        const selected = rows.find((row) => row.uexKey === key) || rows[0];
-        if (side === 'buy') selectionState.buyKey = selected.uexKey;
-        if (side === 'sell') selectionState.sellKey = selected.uexKey;
-        return selected;
-    }
-
     function handleUexCandidateClick(event) {
         const option = event.target.closest('[data-uex-side][data-uex-key]');
         if (!option || !currentUexModel) return;
@@ -1826,7 +1744,7 @@
         const key = option.getAttribute('data-uex-key');
         if (side === 'buy') currentUexSelection.buyKey = key;
         if (side === 'sell') currentUexSelection.sellKey = key;
-        currentUexModel = buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity);
+        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection);
         document.getElementById('uex-results').innerHTML = renderUexCandidateCards(currentUexModel);
         renderLogisticsRecommendation();
     }
@@ -1916,8 +1834,12 @@
         results.innerHTML = '';
         try {
             const models = await Promise.all(RECOMMENDED_COMMODITY_CANDIDATES.map(fetchRecommendedCommodityModel));
+            const recommendationContext = {
+                operationType: document.getElementById('trade-operation-type')?.value || 'solo',
+                risk: document.getElementById('trade-risk')?.value || 'low'
+            };
             const ranked = models.filter(Boolean)
-                .map(scoreRecommendedCommodity)
+                .map((model) => uex.scoreRecommendedCommodity(model, recommendationContext))
                 .sort((left, right) => right.score - left.score)
                 .slice(0, 5);
             results.innerHTML = ranked.length ? ranked.map(renderRecommendedCommodityCard).join('') : '<div class="uex-empty">추천 가능한 거래 후보가 없습니다. UEX Corp에서 직접 확인해 주세요.</div>';
@@ -1934,8 +1856,8 @@
         const commodity = findCommodityByName(name);
         if (!commodity) return null;
         try {
-            const prices = await fetchUexData(`commodities/${encodeURIComponent(commodity.id)}/prices`, UEX_CACHE_TTL_MS.prices);
-            const model = buildUexCandidateModel(prices, commodity, { buyKey: '', sellKey: '' });
+            const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodity.id)}/prices`, UEX_CACHE_TTL_MS.prices);
+            const model = uex.buildUexCandidateModel(prices, commodity, { buyKey: '', sellKey: '' });
             if (!model.bestBuy || !model.bestSell || model.profitPerScu <= 0) return null;
             return model;
         } catch (error) {
@@ -1947,38 +1869,6 @@
     function findCommodityByName(name) {
         const normalized = name.toLowerCase();
         return availableUexCommodities.find((item) => String(item.name).toLowerCase() === normalized);
-    }
-
-    function scoreRecommendedCommodity(model) {
-        const operationType = document.getElementById('trade-operation-type')?.value || 'solo';
-        const risk = document.getElementById('trade-risk')?.value || 'low';
-        const ageHours = model.lastUpdated ? Math.max(0, (Date.now() / 1000 - model.lastUpdated) / 3600) : 999;
-        const freshnessBonus = ageHours <= 6 ? 5000 : ageHours <= 24 ? 2500 : 0;
-        const estimatedWeight = operationType === 'bulk' ? model.estimatedProfit / 40 : model.estimatedProfit / 80;
-        let score = model.profitPerScu * 20 + estimatedWeight + freshnessBonus;
-        const isHighValue = HIGH_VALUE_COMMODITY_NAMES.includes(model.commodityName);
-        const isMining = MINING_COMMODITY_NAMES.includes(model.commodityName);
-        const isSupply = SUPPLY_COMMODITY_NAMES.includes(model.commodityName);
-
-        if (operationType === 'highValue' && isHighValue) score += 12000;
-        if (operationType === 'mining' && isMining) score += 9000;
-        if (operationType === 'supply' && isSupply) score += 9000;
-        if (operationType === 'solo' && isHighValue) score -= risk === 'low' ? 3000 : 9000;
-        if (risk === 'high' && !isHighValue) score += 2500;
-        if (!model.bestBuy || !model.bestSell) score -= 30000;
-
-        return {
-            ...model,
-            score,
-            grade: getCommodityRecommendationGrade({ operationType, risk, isHighValue, isSupply, profitPerScu: model.profitPerScu })
-        };
-    }
-
-    function getCommodityRecommendationGrade({ operationType, risk, isHighValue, isSupply, profitPerScu }) {
-        if (operationType === 'supply' && isSupply) return '보급 적합';
-        if (isHighValue && profitPerScu > 0) return risk === 'high' || operationType === 'highValue' ? '고수익' : '주의';
-        if (risk === 'high') return '주의';
-        return '추천';
     }
 
     function renderRecommendedCommodityCard(model) {
@@ -2035,7 +1925,7 @@
 
     function refreshUexModelForPlannerInputs() {
         if (!currentUexModel?.rawPrices) return;
-        currentUexModel = buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity);
+        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection);
         const results = document.getElementById('uex-results');
         if (results) results.innerHTML = renderUexCandidateCards(currentUexModel);
     }
@@ -3458,6 +3348,7 @@
 
     function init() {
         nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements });
+        uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
         setupDynamicStyles();
         setupSplash();
         setupRevealObserver();
