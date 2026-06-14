@@ -1,0 +1,183 @@
+# Phase 1 한글 데이터 반영 매칭 결과
+
+global.ini 추출 한글 데이터를 기존 localization 맵에 연결한 결과입니다. (Phase 1: 데이터만, 표시 렌더링 무변경)
+
+## 무역품 (commodities)
+- 기존 commodity key: 290개 (유지)
+- desc 추가(매칭): **227**건
+- TSV 매칭됐으나 DescriptionKo 없음: 63건
+- 기존 key 중 TSV 미매칭(설명 없음): 0건 → (없음)
+- TSV 신규/미사용(노이즈 제외): 5건 → osionHides, tellurium, valakkarfang, valakkarfang_irradiated, valakkarpearl_irradiated
+- 제외한 접미사 노이즈(_des/_desc/Desc): 15건 → ConstructionMaterialRawDesc, jaclium_des, jaclium_ore_des, lindinium_des, lindinium_ore_des, riccite_des, riccite_ore_des, saldynium_des, saldynium_ore_des, savrilium_des, savrilium_ore_des, stileron_des, stileron_ore_des, torite_des, torite_ore_des
+
+## 함선 (ships)
+- 웹 함선: 247척
+- 한글 alias 매칭/반영: **220**척
+- 미매칭(수동 매핑 후보): **27**척
+  - aurora-mk1-se | Aurora Mk1 SE | RSI
+  - f7c-m-super-hornet-heartseeker-mk-i | F7C-M Super Hornet Heartseeker Mk I | Anvil
+  - mustang-alpha-vindicator | Mustang Alpha Vindicator | CNOU
+  - gladius-pirate-edition | Gladius Pirate Edition | Aegis
+  - carrack-w-c8x | Carrack w/C8X | Anvil
+  - carrack-expedition-w-c8x | Carrack Expedition w/C8X | Anvil
+  - orion | Orion | RSI
+  - genesis | Genesis | Crusader
+  - dragonfly-black | Dragonfly Black | Drake
+  - 600i-explorer | 600i Explorer | Origin
+  - c2-hercules | C2 Hercules | Crusader
+  - m2-hercules | M2 Hercules | Crusader
+  - a2-hercules | A2 Hercules | Crusader
+  - mercury | Mercury | Crusader
+  - valkyrie-liberator-edition | Valkyrie Liberator Edition | Anvil
+  - ranger-rc | Ranger RC | Tumbril
+  - ranger-cv | Ranger CV | Tumbril
+  - nautilus-solstice-edition | Nautilus Solstice Edition | Aegis
+  - c8r-pisces | C8R Pisces | Anvil
+  - ares-inferno | Ares Inferno  | Crusader
+  - ares-ion | Ares Ion | Crusader
+  - argo-mole-carbon-edition | Argo Mole Carbon Edition | ARGO
+  - argo-mole-talus-edition | Argo Mole Talus Edition | ARGO
+  - zeus-mk2-es | Zeus MK2 ES | RSI
+  - zeus-mk2-mr | Zeus MK2 MR | RSI
+  - zeus-mk2-cl | Zeus MK2 CL | RSI
+  - mdc | MDC | Greycat Industrial
+- 제조사 한글 map(manufacturers) 항목: 19개
+  - RSI → RSI
+  - Origin → 오리진 점프웍스
+  - Anvil → 앤빌 에어로스페이스
+  - MISC → MISC
+  - Drake → 드레이크 인터플래네터리
+  - Aegis → 이지스 다이나믹스
+  - Vanduul → 에스페리아
+  - Kruger → 크루거 인터갤럭틱
+  - CNOU → 컨솔리데이티드 아웃랜드
+  - Aopoa → 아포아
+  - Banu → 바누
+  - Esperia → 에스페리아
+  - ARGO → 아르고 아스트로노틱스
+  - Mirai → 미라이
+  - Tumbril → 텀브릴 랜드 시스템
+  - Greycat Industrial → 그레이캣 인더스트리얼
+  - Gatac → 가탁 제조업
+  - Crusader → 크루세이더 인더스트리
+  - Grey's Market → 알려지지 않음
+
+- TSV 변형/스킨(웹 미사용) 행: 115건 (별도 목록, 반영 안 함)
+<details><summary>TSV 미사용 변형 목록</summary>
+
+- AEGS_Avenger_Dead | 애드보카시 어벤저 [Advocacy Avenger]
+- AEGS_Firebird_Collector_Milt | 이지스 세이버 파이어버드 위켈로 워 스페셜 [Aegis Sabre Firebird Wikelo War Special]
+- AEGS_Gladius_Dunlevy | 이지스 글라디우스 던레비 [Aegis Gladius Dunlevy]
+- AEGS_Gladius_PIR | 이지스 글라디우스 파이럿 [Aegis Gladius Pirate]
+- AEGS_Hammerhead_Showdown | 이지스 해머헤드 2949 베스트 인 쇼 에디션 [Aegis Hammerhead 2949 Best In Show Edition]
+- AEGS_Idris | 이지스 이드리스 [Aegis Idris]
+- AEGS_Idris_P_Collector_Military | 이지스 이드리스-P 위켈로 워 스페셜 [Aegis Idris-P Wikelo War Special]
+- AEGS_Reclaimer_Showdown | 이지스 리클레이머 2949 베스트 인 쇼 에디션 [Aegis Reclaimer 2949 Best In Show Edition]
+- AEGS_Reclaimer_Teach | 이지스 리클레이머 티치 스페셜 [Aegis Reclaimer Teach's Special]
+- AEGS_Retaliator_Bomber | 이지스 리탈리에이터 봄버 [Aegis Retaliator Bomber]
+- AEGS_Sabre_Peregrine_Collector_Competition | 이지스 세이버 페레그린 위켈로 스피디 스페셜 [Aegis Sabre Peregrine Wikelo Speedy Special]
+- AEGS_Tiburon | 이지스 티뷰론 [Aegis Tiburon]
+- AGES_Firebird_Collector_Milt | 
+- ANVL_Asgard_Collector_Military | 앤빌 아스가르드 위켈로 워 스페셜 [Anvil Asgard Wikelo War Special]
+- ANVL_C8R_Pisces_Rescue | 앤빌 C8R 파이시스 레스큐 [Anvil C8R Pisces Rescue]
+- ANVL_Hornet_F7A_Mk2_PYAM_Exec | 호넷 F7A Mk II PYAM Exec [Hornet F7A Mk II PYAM Exec]
+- ANVL_Hornet_F7CM_Heartseeker | 앤빌 F7C-M 호넷 하트시커 Mk I [Anvil F7C-M Hornet Heartseeker Mk I]
+- ANVL_Hornet_F7CM_Heartseeker_Mk2 | 앤빌 F7C-M 호넷 하트시커 Mk II [Anvil F7C-M Hornet Heartseeker Mk II]
+- ANVL_Lightning_F8 | 앤빌 F8A 라이트닝 [Anvil F8A Lightning]
+- ANVL_Lightning_F8C_Collector_Military | 앤빌 F8C 라이트닝 위켈로 워 스페셜 [Anvil F8C Lightning Wikelo War Special]
+- ANVL_Lightning_F8C_Collector_Stealth | 앤빌 F8C 라이트닝 위켈로 스니크 스페셜 [Anvil F8C Lightning Wikelo Sneak Special]
+- ANVL_Lightning_F8C_PYAM_Exec | F8C 라이트닝 PYAM Exec [F8C Lightning PYAM Exec]
+- ANVL_Odin | 앤빌 오딘 [Anvil Odin]
+- ANVL_Terrapin_Medic_Collector_Medic | 앤빌 테라핀 메딕 위켈로 세이비어 스페셜 [Anvil Terrapin Medic Wikelo Savior Special]
+- ANVL_Valkyrie_CitizenCon | 앤빌 발키리 리버레이터 [Anvil Valkyrie Liberator]
+- ARGO_ATLS_GEO_IKTI | 아르고 ATLS GEO IKTI [Argo ATLS GEO IKTI]
+- ARGO_ATLS_IKTI | 아르고 ATLS IKTI [Argo ATLS IKTI]
+- ARGO_ATLS_IKTI_Rad | 아르고 ATLS IKTI 라드 [Argo ATLS IKTI Rad]
+- ARGO_Mole_Carbon | 아르고 몰 카본 [Argo MOLE Carbon]
+- ARGO_Mole_Talus | 아르고 몰 탈루스 [Argo MOLE Talus]
+- ARGO_Mole_Teach | 아르고 몰 티치 스페셜 [Argo MOLE Teach's Special]
+- ARGO_MPUV_2951_BIS | 아르고 MPUV 카고 2951 BIS [Argo MPUV Cargo 2951 BIS]
+- ARGO_RAFT_Collector_Indust | 아르고 래프트 위켈로 워크 스페셜 [Argo RAFT Wikelo Work Special]
+- CNOU_Mustang | 
+- CNOU_Mustang_Alpha_CitizenCon18 | 
+- CNOU_Mustang_Alpha_CitizenCon2018 | C.O. 머스탱 시티즌콘 2948 에디션 [C.O. Mustang CitizenCon 2948 Edition]
+- CNOU_Mustang_CitizenCon18 | 
+- CNOU_Nomad_Teach | C.O. 노매드 티치 스페셜 [C.O. Nomad Teach's Special]
+- ComingSoon | 곧 공개 [Coming Soon]
+- CRUS_Intrepid_Collector_Indust | 크루세이더 인트레피드 위켈로 워크 스페셜 [Crusader Intrepid Wikelo Work Special]
+- CRUS_Spirit_C1_Collector_Civilian | 크루세이더 C1 스피릿 위켈로 스페셜 [Crusader C1 Spirit Wikelo Special]
+- CRUS_Star_Runner | 크루세이더 머큐리 스타 러너 [Crusader Mercury Star Runner]
+- CRUS_Star_Runner_2951_BIS | 크루세이더 머큐리 2951 BIS [Crusader Mercury 2951 BIS]
+- CRUS_Starfighter_Inferno | 크루세이더 아레스 스타파이터 인페르노 [Crusader Ares Star Fighter Inferno]
+- CRUS_Starfighter_Inferno_Collector_Military | 크루세이더 아레스 스타파이터 인페르노 위켈로 워 스페셜 [Crusader Ares Star Fighter Inferno Wikelo War Special]
+- CRUS_Starfighter_Ion | 크루세이더 아레스 스타파이터 이온 [Crusader Ares Star Fighter Ion]
+- CRUS_Starfighter_Ion_Collector_Stealth | 크루세이더 아레스 스타파이터 이온 위켈로 스닉 스페셜
+- CRUS_Starlifter_2951_BIS | 크루세이더 C2 허큘리스 2951 BIS [Crusader C2 Hercules 2951 BIS]
+- CRUS_Starlifter_A2 | 크루세이더 A2 허큘리스 스타리프터 [Crusader A2 Hercules Starlifter]
+- CRUS_Starlifter_A2_Collector_Military | 크루세이더 A2 허큘리스 스타리프터 위켈로 워 스페셜 [Crusader A2 Hercules Starlifter Wikelo War Special]
+- CRUS_Starlifter_C2 | 크루세이더 C2 허큘리스 스타리프터 [Crusader C2 Hercules Starlifter]
+- CRUS_Starlifter_M2 | 크루세이더 M2 허큘리스 스타리프터 [Crusader M2 Hercules Starlifter]
+- CRUS_Starliner | 크루세이더 제네시스 스타라이너 [Crusader Genesis Starliner]
+- DRAK_Caterpillar_Pirate | 드레이크 캐터필러 파이럿 [Drake Caterpillar Pirate]
+- DRAK_Caterpillar_PU_Hijacked | KRF 죄수 호송함 [KRF Inmate Transport]
+- DRAK_Caterpillar_ShipShowdown | 드레이크 캐터필러 2949 베스트 인 쇼 에디션 [Drake Caterpillar 2949 Best In Show Edition]
+- DRAK_Command_Module | 드레이크 커맨드 모듈 [Drake Command Module]
+- DRAK_Corsair_PYAM_Exec | 커세어 PYAM Exec [Corsair PYAM Exec]
+- DRAK_Cutlass_Black_PYAM_Exec | 커틀러스 블랙 PYAM Exec [Cutlass Black PYAM Exec]
+- DRAK_Cutlass_Black_ShipShowdown | 드레이크 커틀러스 2949 베스트 인 쇼 에디션 [Drake Cutlass 2949 Best In Show Edition]
+- DRAK_Dragonfly | 드레이크 드래곤플라이 [Drake Dragonfly]
+- DRAK_Dragonfly_Pink | 드레이크 드래곤플라이 스타 키튼 [Drake Dragonfly Star Kitten]
+- DRAK_Golem_Collector_Indust | 드레이크 골렘 위켈로 워크 스페셜 [Drake Golem Wikelo Work Special]
+- DRAK_Golem_Teach | 드레이크 골렘 티치 스페셜 [Drake Golem Teach's Special]
+- DRAK_Herald_Blue | 드레이크 헤럴드 블루 [Drake Herald Blue]
+- DRAK_Herald_Red | 드레이크 헤럴드 레드 [Drake Herald Red]
+- DRAK_Vulture_Teach | 드레이크 벌처 티치 스페셜 [Drake Vulture Teach's Special]
+- EA_GroundRadar | 레이더 접시 [Radar Dish]
+- EA_OrbitalMiningLaser | 궤도 채광 레이저 [Orbital Mining Laser]
+- ESPR_Prowler_Utility_Collector_Indust | 에스페리아 프라울러 유틸리티 위켈로 워크 스페셜 [Esperia Prowler Utility Wikelo Work Special]
+- GAMA_Syulen_PYAM_Exec | 슐렌 PYAM Exec [Syulen PYAM Exec]
+- GRIN_Cydnus | GRIN 채광 봇 [GRIN Mining Bot]
+- Grin_MDC | 그레이캣 MDC [Greycat MDC]
+- KRIG_L21_Wolf_Collector_Military | 크루거 L-21 울프 위켈로 워 스페셜 [Kruger L-21 Wolf Wikelo War Special]
+- KRIG_L21_Wolf_Collector_Stealth | 크루거 L-21 울프 위켈로 스닉 스페셜 [Kruger L-21 Wolf Wikelo Sneak Special]
+- KRIG_L-22_Alpha_Wolf | 
+- KRIG_L22_Alpha_Wolf_Collector_Military | 크루거 L-22 알파 울프 위켈로 워 스페셜 [Kruger L-22 Alpha Wolf Wikelo War Special]
+- MISC_Fortune_Teach | MISC 포춘 티치 스페셜 [MISC Fortune Teach's Special]
+- MISC_Prospector_Collector_Indust | MISC 프로스펙터 위켈로 워크 스페셜 [MISC Prospector Wikelo Work Special]
+- MISC_Starfarer_Dead | 
+- MISC_Starfarer_Teach | MISC 스타페어러 티치 스페셜 [MISC Starfarer Teach's Special]
+- MISC_Starlancer_MAX_Collector_Indust | MISC 스타랜서 MAX 위켈로 워크 스페셜 [MISC Starlancer MAX Wikelo Work Special]
+- MISC_Starlancer_TAC_Collector_Military | MISC 스타랜서 TAC 위켈로 워 스페셜 [MISC Starlancer TAC Wikelo War Special]
+- MISC_Starlite | MISC 스타라이트 [MISC Starlite]
+- MRAI_Guardian_Collector_Military | 미라이 가디언 위켈로 워 스페셜 [Mirai Guardian Wikelo War Special]
+- MRAI_Guardian_MX_Collector_Military | 미라이 가디언 MX 위켈로 워 스페셜 [Mirai Guardian MX Wikelo War Special]
+- ORIG_600i | 오리진 600i [Origin 600i]
+- ORIG_600i_2951_BIS | 오리진 600i 2951 BIS [Origin 600i 2951 BIS]
+- ORIG_600i_Executive | 오리진 600i 이그제큐티브 에디션 [Origin 600i Executive Edition]
+- ORIG_890Jump_Hijacked | 오리진 890 점프 [Origin 890 Jump]
+- probe_comms_1_a | CHCO 아우리스 PDC 모니터 [CHCO Auris PDC Monitor]
+- RSI_Apollo_Triage_Collector_Stealth | RSI 아폴로 트리아지 위켈로 스니크 스페셜 [RSI Apollo Triage Wikelo Sneak Special]
+- RSI_Aurora_Mk2_Cargo_Module | 오로라 Mk II TS 모듈 [Aurora Mk II TS Module]
+- RSI_Aurora_Mk2_Combat_Module | 오로라 Mk II DM 모듈 [Aurora Mk II DM Module]
+- RSI_Aurora_SE | RSI 오로라 Mk I SE [RSI Aurora Mk I SE]
+- RSI_Bengal | RSI 벵갈 캐리어 [RSI Bengal Carrier]
+- RSI_Constellation_Taurus_Collector_Military | RSI 컨스틸레이션 타우러스 위켈로 워 스페셜 [RSI Constellation Taurus Wikelo War Special]
+- RSI_Merlin | 
+- RSI_Meteor_Collector_Military | RSI 미티어 PYAM Exec [RSI Meteor PYAM Exec]
+- RSI_Meteor_Collector_Stealth | RSI 미티어 위켈로 스니크 스페셜 [RSI Meteor Wikelo Sneak Special]
+- RSI_Polaris_Collector_Military | RSI 폴라리스 위켈로 스페셜 [RSI Polaris Wikelo Special]
+- RSI_Scorpius_Collector_Stealth | RSI 스콜피우스 위켈로 스니크 스페셜 [RSI Scorpius Wikelo Sneak Special]
+- RSI_Scorpius_Interdiction | RSI 스콜피우스 안타레스 [RSI Scorpius Antares]
+- RSI_Zeus_CL | RSI 제우스 Mk II CL [RSI Zeus Mk II CL]
+- RSI_Zeus_CL_Collector_Indust | RSI 제우스 Mk II CL 위켈로 워크 스페셜 [RSI Zeus Mk II CL Wikelo Work Special]
+- RSI_Zeus_ES | RSI 제우스 Mk II ES [RSI Zeus Mk II ES]
+- RSI_Zeus_ES_Collector_Indust | RSI 제우스 Mk II ES 위켈로 워크 스페셜 [RSI Zeus Mk II ES Wikelo Work Special]
+- RSI_Zeus_MR | RSI 제우스 Mk II MR [RSI Zeus Mk II MR]
+- VNCL_Blade | 반둘 블레이드 [Vanduul Blade]
+- VNCL_Cleaver | 반둘 클리버 [Vanduul Cleaver]
+- VNCL_Glaive | 반둘 글레이브 [Vanduul Glaive]
+- VNCL_Kingship | 반둘 킹쉽 [Vanduul Kingship]
+- VNCL_Mauler | 반둘 마울러 구축함 [Vanduul Mauler Destroyer]
+- VNCL_Scythe_Dogfight | 
+- VNCL_Stinger | 반둘 스팅어 [Vanduul Stinger]
+</details>

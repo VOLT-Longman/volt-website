@@ -23,6 +23,22 @@ test.describe('함선 DB', () => {
         await expect(modal).not.toHaveClass(/active/);
     });
 
+    // global.ini 한글 데이터(Phase 1): 한글 함선명이 검색 alias로 동작하고
+    // 표시명은 기존 영문 이름이 유지되는지 회귀 가드.
+    test('한글 alias 검색: 한글 함선명으로 필터 + 영문 표시명 유지', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+
+        const cards = page.locator('#ships-grid .ship-card');
+        const totalCount = await cards.count();
+        expect(totalCount).toBeGreaterThan(0);
+
+        await page.locator('#ship-search').fill('어벤저 스토커');
+        await expect.poll(() => cards.count()).toBeLessThan(totalCount);
+        await expect(cards.first()).toContainText(/avenger stalker/i);
+        await expect(cards.first().locator('.ship-name')).toHaveText(/avenger stalker/i);
+    });
+
     test('함선 모달: Tab 포커스 트랩 + 닫을 때 포커스 복귀', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
