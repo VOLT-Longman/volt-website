@@ -14,14 +14,14 @@
 
     let deps = {};
 
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide', 'ai'];
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide', 'ai', 'comms'];
 
     function updateActiveNav(id) {
         document.querySelectorAll('.nav-links [data-section]').forEach((link) => {
             link.classList.toggle('nav-active', link.getAttribute('data-section') === id);
         });
         document.getElementById('nav-trade-toggle')?.classList.toggle('nav-active', ['trade-planner', 'hub', 'guide'].includes(id));
-        document.getElementById('nav-more-toggle')?.classList.toggle('nav-active', ['timeline', 'leadership', 'streamers', 'gallery', 'policy', 'faq'].includes(id));
+        document.getElementById('nav-more-toggle')?.classList.toggle('nav-active', ['timeline', 'leadership', 'streamers', 'gallery', 'policy', 'faq', 'comms'].includes(id));
     }
 
     function showSection(id, push = true, anchorId = null) {
