@@ -357,19 +357,26 @@
         const container = document.getElementById('leadership-grid');
         if (!container) return;
         const leaders = getRenderableLeadership();
-        container.innerHTML = leaders.map((leader) => {
-            const details = renderLeaderDetails(leader);
-            return `<div class="${leader.avatarStyle === 'ceo' ? 'leader-card ceo-card' : 'leader-card'} reveal">
+        container.innerHTML = leaders.map((leader) => `
+            <button class="${leader.avatarStyle === 'ceo' ? 'leader-card ceo-card' : 'leader-card'} reveal" type="button" data-leader-id="${escapeHtml(String(leader.id || leader.name || ''))}" aria-label="${escapeHtml(leader.name)} 상세 보기">
                 ${renderLeaderAvatar(leader)}
                 <div class="leader-info">
                     <h3>${escapeHtml(leader.name)}</h3>
                     <span class="leader-role">${escapeHtml(leader.role)}</span>
                     <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
-                    <p class="leader-description">${escapeHtml(leader.description)}</p>
-                    ${details}
+                    <p class="leader-description leader-summary">${escapeHtml(leader.description)}</p>
+                    ${renderLeaderKeyPoints(leader)}
+                    <span class="leader-more" aria-hidden="true">자세히 보기 →</span>
                 </div>
-            </div>`;
-        }).join('');
+            </button>`).join('');
+        observeNewReveals(container);
+    }
+
+    // 카드에는 핵심 역량 상위 3개만 요약. 철학·기여·전체 역량 등 상세는 모달로 분리.
+    function renderLeaderKeyPoints(leader) {
+        const items = Array.isArray(leader.competencies) ? leader.competencies.slice(0, 3) : [];
+        if (!items.length) return '';
+        return `<div class="leader-keypoints"><strong>핵심 역량</strong><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>`;
     }
 
     function getRenderableLeadership() {
@@ -593,7 +600,8 @@
                     <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
                 </div>
                 <h3 class="notice-title">${escapeHtml(announcement.title)}</h3>
-                <p class="notice-content">${formatMultilineText(announcement.content)}</p>
+                <p class="notice-content notice-excerpt">${formatMultilineText(announcement.content)}</p>
+                <span class="notice-more" aria-hidden="true">자세히 보기 →</span>
             </button>`).join('');
         loadMore.hidden = visibleItems.length >= items.length;
         observeNewReveals(container);
@@ -1326,6 +1334,41 @@
                 <p>${formatMultilineText(announcement.content)}</p>
                 <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">공지 링크 복사</button>
             </div>`);
+    }
+
+    function getLeaderById(id) {
+        return getRenderableLeadership().find((leader) => String(leader.id || leader.name || '') === String(id)) || null;
+    }
+
+    function openLeaderModal(leader) {
+        if (!leader) return;
+        trackEvent('leader_modal_open', { leaderId: leader.id || '' });
+        openModal(`<div class="modal-header">
+                <div>
+                    <h2 class="modal-title">${escapeHtml(leader.name)}</h2>
+                    <p class="leader-role">${escapeHtml(leader.role)}</p>
+                </div>
+                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+            </div>
+            <div class="modal-body leader-modal-body">
+                <div class="leader-modal-top">
+                    ${renderLeaderAvatar(leader)}
+                    <div>
+                        <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
+                        <p class="leader-modal-desc">${escapeHtml(leader.description)}</p>
+                    </div>
+                </div>
+                ${renderLeaderDetails(leader)}
+            </div>`, true);
+    }
+
+    function setupLeadershipControls() {
+        const grid = document.getElementById('leadership-grid');
+        if (!grid) return;
+        grid.addEventListener('click', (event) => {
+            const card = event.target.closest('[data-leader-id]');
+            if (card) openLeaderModal(getLeaderById(card.getAttribute('data-leader-id')));
+        });
     }
 
     function setupShipControls() {
@@ -3373,6 +3416,7 @@
         setupNavLinks();
         setupMobileMenu();
         setupNoticeControls();
+        setupLeadershipControls();
         setupShipControls();
         setupScheduleAccordion();
         setupLogisticsCalculator();
