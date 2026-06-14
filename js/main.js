@@ -690,6 +690,19 @@
         return Array.isArray(aliases) ? aliases : [];
     }
 
+    // Phase 2 표시명 정책: 한글명 우선, 영문명(ship.name) 보조. 한 곳에 모은다.
+    function getShipKoreanName(ship) {
+        return getShipAliases(ship).find((alias) => /[가-힣]/.test(alias)) || '';
+    }
+
+    function getShipDisplayName(ship) {
+        return getShipKoreanName(ship) || ship.name;
+    }
+
+    function getShipSecondaryName(ship) {
+        return getShipKoreanName(ship) ? ship.name : '';
+    }
+
     function formatShipPrice(priceUsd) {
         return Number.isFinite(priceUsd) ? `$${priceUsd.toLocaleString('en-US')}` : '미공개';
     }
@@ -710,10 +723,11 @@
             return;
         }
         container.innerHTML = ships.map((ship) => `
-            <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(ship.name)} 상세 보기">
+            <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(getShipDisplayName(ship))} 상세 보기">
                 <div class="ship-card-header">
                     <div>
-                        <h3 class="ship-name">${escapeHtml(ship.name)}</h3>
+                        <h3 class="ship-name">${escapeHtml(getShipDisplayName(ship))}</h3>
+                        ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
                     <div class="ship-card-actions"><span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(ship.focus)}</span>${renderHangarToggleButton(ship)}</div>
@@ -1008,7 +1022,8 @@
         const tags = getShipTags(ship).slice(0, 3).join(' · ') || ship.focus;
         const selected = document.getElementById('logistics-ship')?.value === ship.id;
         return `<button class="planner-picker-option" type="button" role="option" aria-selected="${selected}" data-planner-ship-id="${escapeHtml(ship.id)}">
-            <strong>${escapeHtml(ship.name)}</strong>
+            <strong>${escapeHtml(getShipDisplayName(ship))}</strong>
+            ${getShipSecondaryName(ship) ? `<span class="planner-option-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
             <span>${escapeHtml(ship.manufacturer)} · ${escapeHtml(ship.size)} · ${escapeHtml(ship.cargo)}</span>
             <small>${escapeHtml(tags)}</small>
         </button>`;
@@ -1021,11 +1036,11 @@
         setPlannerControlValue('logistics-ship', ship.id);
         const input = document.getElementById('logistics-ship-search');
         const cargoInput = document.getElementById('logistics-cargo');
-        if (input) input.value = ship.name;
+        if (input) input.value = getShipDisplayName(ship);
         const shouldUseShipCargo = setCargo || !Number(cargoInput?.value);
         if (shouldUseShipCargo) setPlannerControlValue('logistics-cargo', String(getCargoValue(ship.cargo)));
         renderPlannerShipSummary(ship);
-        announcePickerSelection(`${ship.name} 함선을 선택했습니다.`);
+        announcePickerSelection(`${getShipDisplayName(ship)} 함선을 선택했습니다.`);
         closePicker(input, document.getElementById('logistics-ship-results'));
         savePlannerState();
         renderLogisticsRecommendation();
@@ -1035,7 +1050,8 @@
         const summary = document.getElementById('logistics-ship-summary');
         if (!summary) return;
         summary.hidden = false;
-        summary.innerHTML = `<strong>${escapeHtml(ship.name)}</strong><span>${escapeHtml(ship.manufacturer)} · ${escapeHtml(ship.cargo)} · ${escapeHtml(ship.size)}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small>`;
+        const secondary = getShipSecondaryName(ship);
+        summary.innerHTML = `<strong>${escapeHtml(getShipDisplayName(ship))}</strong>${secondary ? `<span class="planner-summary-en">${escapeHtml(secondary)}</span>` : ''}<span>${escapeHtml(ship.manufacturer)} · ${escapeHtml(ship.cargo)} · ${escapeHtml(ship.size)}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small>`;
     }
 
     function getPlannerShipRecommendation(ship) {
@@ -2531,7 +2547,8 @@
         openModal(`<div class="modal-header">
                 <div>
                     <div class="ship-mfr">${escapeHtml(ship.manufacturer)}</div>
-                    <h2 class="modal-title">${escapeHtml(ship.name)}</h2>
+                    <h2 class="modal-title">${escapeHtml(getShipDisplayName(ship))}</h2>
+                    ${getShipSecondaryName(ship) ? `<p class="modal-subtitle-en">${escapeHtml(getShipSecondaryName(ship))}</p>` : ''}
                 </div>
                 <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
             </div>

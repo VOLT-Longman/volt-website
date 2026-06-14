@@ -53,4 +53,23 @@ test.describe('무역플래너', () => {
 
         await expect(page.locator('#uex-status')).toHaveText(/UEX API 연결이 불안정합니다/);
     });
+
+    // Phase 2: picker도 한글 표시명 정책 적용 + 한글 검색/선택 후 계산 정상.
+    test('함선 picker: 한글명 검색·선택 → 한글 표시 + 결과 렌더', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#trade-planner');
+
+        const search = page.locator('#logistics-ship-search');
+        await search.fill('어벤저 타이탄');
+        const results = page.locator('#logistics-ship-results');
+        await expect(results).toBeVisible();
+        const option = results.locator('[role="option"]').first();
+        await expect(option.locator('strong')).toHaveText(/어벤저 타이탄/);
+
+        await option.click();
+        const summary = page.locator('#logistics-ship-summary');
+        await expect(summary).toBeVisible();
+        await expect(summary).toContainText('어벤저 타이탄');
+        await expect.poll(async () => (await page.locator('#logistics-result').innerText()).trim().length).toBeGreaterThan(0);
+    });
 });
