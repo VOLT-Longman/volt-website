@@ -72,4 +72,18 @@ test.describe('무역플래너', () => {
         await expect(summary).toContainText('어벤저 타이탄');
         await expect.poll(async () => (await page.locator('#logistics-result').innerText()).trim().length).toBeGreaterThan(0);
     });
+
+    test('UEX 상품 검색: 12개 초과 결과도 잘리지 않고 모두 표시(스크롤)', async ({ page }) => {
+        await mockApi(page);
+        const data = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name: `Mineral${i + 1}`, code: `M${i + 1}`, category_name: 'Metal', is_visible: 1, is_available_live: 1 }));
+        await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ json: { status: 'ok', data } }));
+        await gotoSection(page, '#trade-planner');
+
+        await expect(page.locator('#uex-status')).toHaveText(/상품 20종/);
+        const search = page.locator('#uex-commodity-search');
+        await search.click();
+        await search.fill('Mineral');
+        const options = page.locator('#uex-commodity-results [data-commodity-id]');
+        await expect.poll(() => options.count()).toBe(20);
+    });
 });

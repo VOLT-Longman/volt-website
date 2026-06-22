@@ -1695,8 +1695,7 @@
         if (!input || !results) return;
         const normalized = query.trim().toLowerCase();
         const items = availableUexCommodities
-            .filter((item) => !normalized || buildCommoditySearchText(item).includes(normalized))
-            .slice(0, 12);
+            .filter((item) => !normalized || buildCommoditySearchText(item).includes(normalized));
         results.innerHTML = items.length ? items.map(renderCommodityOption).join('') : '<div class="planner-picker-empty">검색 결과가 없습니다. 영문 상품명 또는 코드로 다시 검색해 보세요.</div>';
         results.hidden = false;
         input.setAttribute('aria-expanded', 'true');
