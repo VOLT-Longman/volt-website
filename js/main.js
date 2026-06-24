@@ -48,6 +48,14 @@
     const { showSection, parseRouteFromHash, getInitialRoute, setupNavLinks, setupMobileMenu, setMobileMenuState, closeMoreMenu, closeTradeMenu } = nav;
     // UEX 데이터/계산 계층은 js/uex.js로 분리됨(window.VOLT_UEX).
     const uex = window.VOLT_UEX;
+    // 런타임 i18n(js/i18n.js, window.VOLT_I18N). 동적 콘텐츠는 언어별 필드(_en)를 선택해 렌더한다.
+    const i18n = window.VOLT_I18N;
+    function currentLang() { return i18n && i18n.getLang ? i18n.getLang() : 'ko'; }
+    function tx(item, field) {
+        if (!item) return '';
+        const en = item[`${field}_en`];
+        return currentLang() === 'en' && en ? en : item[field];
+    }
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
@@ -464,8 +472,8 @@
         if (!container || !Array.isArray(data.departments)) return;
         container.innerHTML = data.departments.map((department) => `
             <div class="card about-card reveal">
-                <h3>${escapeHtml(department.name)}</h3>
-                <p>${escapeHtml(department.description)}</p>
+                <h3>${escapeHtml(tx(department, 'name'))}</h3>
+                <p>${escapeHtml(tx(department, 'description'))}</p>
             </div>`).join('');
     }
 
@@ -474,8 +482,8 @@
         if (!container || !Array.isArray(data.coreValues)) return;
         container.innerHTML = data.coreValues.map((value) => `
             <div class="culture-item reveal">
-                <h4>${escapeHtml(value.title)}</h4>
-                <p>${escapeHtml(value.description)}</p>
+                <h4>${escapeHtml(tx(value, 'title'))}</h4>
+                <p>${escapeHtml(tx(value, 'description'))}</p>
             </div>`).join('');
     }
 
@@ -3423,6 +3431,10 @@
     function init() {
         nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements });
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
+        // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
+        if (i18n && i18n.onChange) {
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); });
+        }
         setupDynamicStyles();
         setupSplash();
         setupRevealObserver();

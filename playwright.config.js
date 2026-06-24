@@ -9,6 +9,8 @@ module.exports = defineConfig({
     use: {
         baseURL: 'http://127.0.0.1:8787',
         viewport: { width: 1280, height: 800 },
+        // 기본 한국어 기준으로 테스트(i18n 도입 후에도 기존 동작 보존). i18n 테스트는 컨텍스트별로 locale을 지정한다.
+        locale: 'ko-KR',
         trace: 'retain-on-failure',
     },
     projects: [

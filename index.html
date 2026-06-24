@@ -19,6 +19,9 @@
   <meta name="twitter:description" content="한국 커뮤니티의 Star Citizen 물류·무역 전문 함대">
   <meta name="twitter:image" content="https://www.volt.ceo/assets/images/og-image.png">
   <link rel="canonical" href="https://www.volt.ceo/">
+  <link rel="alternate" hreflang="ko" href="https://www.volt.ceo/?lang=ko">
+  <link rel="alternate" hreflang="en" href="https://www.volt.ceo/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://www.volt.ceo/">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#E8482F">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,8 +30,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260614-08"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260614-08">
+  <script src="js/theme-init.js?v=20260614-09"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260614-09">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -67,7 +70,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20260614-08">
+   <link rel="stylesheet" href="css/noscript.css?v=20260614-09">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -90,38 +93,39 @@
      <span class="nav-logo-text">VOLT</span>
     </a>
     <ul class="nav-links">
-     <li><a href="#about" data-section="about">소개</a></li>
-     <li><a href="#ships" data-section="ships">함선DB</a></li>
+     <li><a href="#about" data-section="about" data-i18n="nav.about">소개</a></li>
+     <li><a href="#ships" data-section="ships" data-i18n="nav.ships">함선DB</a></li>
       <li class="nav-trade">
-       <button class="nav-trade-toggle" id="nav-trade-toggle" type="button" aria-expanded="false" aria-controls="nav-trade-menu">무역</button>
+       <button class="nav-trade-toggle" id="nav-trade-toggle" type="button" aria-expanded="false" aria-controls="nav-trade-menu" data-i18n="nav.trade">무역</button>
        <ul class="nav-trade-menu" id="nav-trade-menu">
-        <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
-        <li><a href="#hub" data-section="hub">무역허브</a></li>
-        <li><a href="#guide" data-section="guide">무역가이드</a></li>
+        <li><a href="#trade-planner" data-section="trade-planner" data-i18n="nav.tradePlanner">무역플래너</a></li>
+        <li><a href="#hub" data-section="hub" data-i18n="nav.tradeHub">무역허브</a></li>
+        <li><a href="#guide" data-section="guide" data-i18n="nav.tradeGuide">무역가이드</a></li>
        </ul>
       </li>
-      <li><a href="#notices" data-section="notices">공지</a></li>
-      <li><a href="#schedule" data-section="schedule">일정</a></li>
+      <li><a href="#notices" data-section="notices" data-i18n="nav.notices">공지</a></li>
+      <li><a href="#schedule" data-section="schedule" data-i18n="nav.schedule">일정</a></li>
       <li><a href="#ai" data-section="ai">VOLT AI <span class="nav-soon-tag">SOON</span></a></li>
       <li class="nav-more">
-       <button class="nav-more-toggle" id="nav-more-toggle" type="button" aria-expanded="false" aria-controls="nav-more-menu">더보기</button>
+       <button class="nav-more-toggle" id="nav-more-toggle" type="button" aria-expanded="false" aria-controls="nav-more-menu" data-i18n="nav.more">더보기</button>
        <ul class="nav-more-menu" id="nav-more-menu">
-        <li><a href="#timeline" data-section="timeline">연혁</a></li>
-        <li><a href="#leadership" data-section="leadership">임원진</a></li>
-        <li><a href="#partner-fleets" data-section="partner-fleets">협력함대</a></li>
-        <li><a href="#streamers" data-section="streamers">스트리머</a></li>
-        <li><a href="#gallery" data-section="gallery">갤러리</a></li>
-        <li><a href="#policy" data-section="policy">정책</a></li>
+        <li><a href="#timeline" data-section="timeline" data-i18n="nav.history">연혁</a></li>
+        <li><a href="#leadership" data-section="leadership" data-i18n="nav.leadership">임원진</a></li>
+        <li><a href="#partner-fleets" data-section="partner-fleets" data-i18n="nav.partners">협력함대</a></li>
+        <li><a href="#streamers" data-section="streamers" data-i18n="nav.streamers">스트리머</a></li>
+        <li><a href="#gallery" data-section="gallery" data-i18n="nav.gallery">갤러리</a></li>
+        <li><a href="#policy" data-section="policy" data-i18n="nav.policy">정책</a></li>
         <li><a href="#faq" data-section="faq">FAQ</a></li>
         <li><a href="#comms" data-section="comms">VOLT Comms</a></li>
         <li class="volt-auth-slot" id="volt-auth-desktop" aria-live="polite">
-         <a class="volt-auth-login" href="/auth/discord/login">Discord 로그인</a>
+         <a class="volt-auth-login" href="/auth/discord/login" data-i18n="nav.discordLogin">Discord 로그인</a>
         </li>
        </ul>
       </li>
-     <li><button id="search-toggle" class="nav-icon-button" aria-label="&#44160;&#49353; &#50676;&#44592;" aria-haspopup="dialog"><svg class="nav-svg-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg></button></li>
-     <li><button id="theme-toggle" aria-label="&#53580;&#47560; &#48320;&#44221;"><svg class="theme-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button></li>
-     <li><a href="#join" data-section="join" class="nav-discord nav-join-cta">가입하기</a></li>
+     <li class="nav-lang"><div class="lang-switch" role="group" aria-label="언어 / Language"><button type="button" class="lang-btn" data-set-lang="ko">KO</button><button type="button" class="lang-btn" data-set-lang="en">EN</button></div></li>
+     <li><button id="search-toggle" class="nav-icon-button" aria-label="&#44160;&#49353; &#50676;&#44592;" data-i18n-aria-label="nav.searchAria" aria-haspopup="dialog"><svg class="nav-svg-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg></button></li>
+     <li><button id="theme-toggle" aria-label="&#53580;&#47560; &#48320;&#44221;" data-i18n-aria-label="nav.themeAria"><svg class="theme-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button></li>
+     <li><a href="#join" data-section="join" class="nav-discord nav-join-cta" data-i18n="nav.join">가입하기</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
      <span></span><span></span><span></span>
@@ -133,39 +137,40 @@
    <div class="mobile-menu-panel">
     <div class="mobile-menu-header">
      <button class="mobile-menu-back" type="button" data-mobile-menu-close aria-label="메뉴 닫기">← 닫기</button>
-     <strong>VOLT 메뉴</strong>
+     <strong data-i18n="nav.menu">VOLT 메뉴</strong>
      <button class="mobile-menu-close" id="mobileMenuClose" type="button" aria-label="메뉴 닫기">×</button>
     </div>
     <nav class="mobile-menu-scroll" aria-label="모바일 사이트 메뉴">
      <ul class="mobile-menu-primary">
-       <li><a href="#about" data-section="about">소개</a></li>
-       <li><a href="#ships" data-section="ships">함선DB</a></li>
-       <li><a href="#notices" data-section="notices">공지</a></li>
-       <li><a href="#schedule" data-section="schedule">일정</a></li>
+       <li><a href="#about" data-section="about" data-i18n="nav.about">소개</a></li>
+       <li><a href="#ships" data-section="ships" data-i18n="nav.ships">함선DB</a></li>
+       <li><a href="#notices" data-section="notices" data-i18n="nav.notices">공지</a></li>
+       <li><a href="#schedule" data-section="schedule" data-i18n="nav.schedule">일정</a></li>
        <li><a href="#ai" data-section="ai">VOLT AI <span class="nav-soon-tag">SOON</span></a></li>
-       <li><a href="#join" data-section="join">가입하기</a></li>
-       <li class="mobile-menu-group-label">무역</li>
-       <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
-       <li><a href="#hub" data-section="hub">무역허브</a></li>
-       <li><a href="#guide" data-section="guide">무역가이드</a></li>
-       <li class="mobile-menu-group-label">더보기</li>
-       <li><a href="#timeline" data-section="timeline">연혁</a></li>
-       <li><a href="#leadership" data-section="leadership">임원진</a></li>
-       <li><a href="#partner-fleets" data-section="partner-fleets">협력함대</a></li>
-       <li><a href="#streamers" data-section="streamers">스트리머</a></li>
-       <li><a href="#gallery" data-section="gallery">갤러리</a></li>
-       <li><a href="#policy" data-section="policy">정책</a></li>
+       <li><a href="#join" data-section="join" data-i18n="nav.join">가입하기</a></li>
+       <li class="mobile-menu-group-label" data-i18n="nav.trade">무역</li>
+       <li><a href="#trade-planner" data-section="trade-planner" data-i18n="nav.tradePlanner">무역플래너</a></li>
+       <li><a href="#hub" data-section="hub" data-i18n="nav.tradeHub">무역허브</a></li>
+       <li><a href="#guide" data-section="guide" data-i18n="nav.tradeGuide">무역가이드</a></li>
+       <li class="mobile-menu-group-label" data-i18n="nav.more">더보기</li>
+       <li><a href="#timeline" data-section="timeline" data-i18n="nav.history">연혁</a></li>
+       <li><a href="#leadership" data-section="leadership" data-i18n="nav.leadership">임원진</a></li>
+       <li><a href="#partner-fleets" data-section="partner-fleets" data-i18n="nav.partners">협력함대</a></li>
+       <li><a href="#streamers" data-section="streamers" data-i18n="nav.streamers">스트리머</a></li>
+       <li><a href="#gallery" data-section="gallery" data-i18n="nav.gallery">갤러리</a></li>
+       <li><a href="#policy" data-section="policy" data-i18n="nav.policy">정책</a></li>
        <li><a href="#faq" data-section="faq">FAQ</a></li>
        <li><a href="#comms" data-section="comms">VOLT Comms</a></li>
       </ul>
      <div class="mobile-menu-actions">
+      <div class="lang-switch lang-switch-mobile" role="group" aria-label="언어 / Language"><button type="button" class="lang-btn" data-set-lang="ko">KO</button><button type="button" class="lang-btn" data-set-lang="en">EN</button></div>
       <div class="volt-auth-mobile" id="volt-auth-mobile" aria-live="polite">
-       <a class="volt-auth-login" href="/auth/discord/login">Discord 로그인</a>
+       <a class="volt-auth-login" href="/auth/discord/login" data-i18n="nav.discordLogin">Discord 로그인</a>
       </div>
-      <button id="mobile-theme-toggle" class="mobile-theme-toggle" type="button" aria-label="테마 변경">라이트 모드로 전환</button>
-      <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-label="검색 열기">검색 열기</button>
-      <a class="mobile-discord-link" href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord 참여</a>
-      <button class="mobile-menu-close-secondary" type="button" data-mobile-menu-close>메뉴 닫기</button>
+      <button id="mobile-theme-toggle" class="mobile-theme-toggle" type="button" aria-label="테마 변경" data-i18n-aria-label="nav.themeAria" data-i18n="nav.themeMobile">라이트 모드로 전환</button>
+      <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-label="검색 열기" data-i18n-aria-label="nav.searchMobile" data-i18n="nav.searchMobile">검색 열기</button>
+      <a class="mobile-discord-link" href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" data-i18n="nav.discordJoin">Discord 참여</a>
+      <button class="mobile-menu-close-secondary" type="button" data-mobile-menu-close data-i18n="nav.menuCloseSecondary">메뉴 닫기</button>
      </div>
     </nav>
    </div>
@@ -174,15 +179,15 @@
   <main id="main-content" tabindex="-1">
   <section class="hero" id="home">
    <div class="hero-content">
-    <img src="assets/images/VOLT_logo.webp" alt="VOLT 함대 로고" class="hero-logo" id="heroLogo" loading="eager" decoding="async">
+    <img src="assets/images/VOLT_logo.webp" alt="VOLT 함대 로고" data-i18n-alt="hero.logoAlt" class="hero-logo" id="heroLogo" loading="eager" decoding="async">
     <div class="hero-logo-fallback" id="heroLogoFallback" aria-hidden="true">V</div>
     <div class="hero-tagline">VOYAGERS OF LOGISTICS &amp; TRADE</div>
     <h1>VOLT</h1>
-    <p class="subtitle">물류와 무역을 위해 여행하는 항해자</p>
-    <p class="description">한국 기반 Star Citizen 물류·무역 전문 함대.<br>안전한 운송, 체계적인 무역, 전문적인 정보 전달을 핵심 가치로 운영됩니다.</p>
+    <p class="subtitle" data-i18n="hero.subtitle">물류와 무역을 위해 여행하는 항해자</p>
+    <p class="description" data-i18n-html="hero.description">한국 기반 Star Citizen 물류·무역 전문 함대.<br>안전한 운송, 체계적인 무역, 전문적인 정보 전달을 핵심 가치로 운영됩니다.</p>
     <div class="hero-buttons">
-     <a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Discord 참여</a>
-     <a href="#about" data-section="about" class="btn btn-secondary">함대 알아보기</a>
+     <a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="hero.btnDiscord">Discord 참여</a>
+     <a href="#about" data-section="about" class="btn btn-secondary" data-i18n="hero.btnAbout">함대 알아보기</a>
     </div>
     <div class="hero-stats">
      <div class="hero-stat"><div class="hero-stat-value">2953</div><div class="hero-stat-label">EST.</div></div>
@@ -196,26 +201,26 @@
   <section class="section about" id="about">
    <div class="section-content">
     <div class="section-header">
-     <h2>VOLT <span class="accent">소개</span></h2>
-     <p>전문성과 신뢰를 기반으로 운영되는 함대</p>
+     <h2 data-i18n-html="about.title">VOLT <span class="accent">소개</span></h2>
+     <p data-i18n="about.subtitle">전문성과 신뢰를 기반으로 운영되는 함대</p>
     </div>
     <div class="about-intro">
-     <h3>VOLT란?</h3>
-     <p>VOLT는 전략적 작전과 자율적 참여를 기반으로 한 한국 커뮤니티 Star Citizen 함대입니다. 물류·무역을 중심으로 전투, 정보, 커뮤니티 운영을 아우르는 통합된 체계적 구조를 갖추고 있으며, 대규모 작전에서도 충돌과 혼란을 최소화하도록 설계되었습니다.</p>
-     <p class="about-intro-secondary">"자율적으로 참여하되, 기준은 명확하다" — VOLT는 강압이 아닌 구조적 리더십을 통해, 구성원들이 예측 가능한 규칙 안에서 안정적으로 협업하는 환경을 추구합니다.</p>
+     <h3 data-i18n="about.introHeading">VOLT란?</h3>
+     <p data-i18n="about.introBody">VOLT는 전략적 작전과 자율적 참여를 기반으로 한 한국 커뮤니티 Star Citizen 함대입니다. 물류·무역을 중심으로 전투, 정보, 커뮤니티 운영을 아우르는 통합된 체계적 구조를 갖추고 있으며, 대규모 작전에서도 충돌과 혼란을 최소화하도록 설계되었습니다.</p>
+     <p class="about-intro-secondary" data-i18n="about.introSecondary">"자율적으로 참여하되, 기준은 명확하다" — VOLT는 강압이 아닌 구조적 리더십을 통해, 구성원들이 예측 가능한 규칙 안에서 안정적으로 협업하는 환경을 추구합니다.</p>
     </div>
     <div class="about-grid" id="about-grid"></div>
     <div class="culture-section">
-     <h3>VOLT의 핵심 가치</h3>
+     <h3 data-i18n="about.cultureHeading">VOLT의 핵심 가치</h3>
      <div class="culture-grid" id="culture-grid"></div>
     </div>
     <div class="about-info">
-     <h3>함대 정보</h3>
+     <h3 data-i18n="about.infoHeading">함대 정보</h3>
      <div class="about-info-grid">
       <div class="info-item"><span class="info-label">FOUNDED</span><span class="info-value">2953.06.18</span></div>
       <div class="info-item"><span class="info-label">PLATFORM</span><span class="info-value">Star Citizen</span></div>
-      <div class="info-item"><span class="info-label">TIMEZONE</span><span class="info-value">아시아 (KST)</span></div>
-      <div class="info-item"><span class="info-label">CORE VALUES</span><span class="info-value">효율 · 조직화 · 확장</span></div>
+      <div class="info-item"><span class="info-label">TIMEZONE</span><span class="info-value" data-i18n="about.infoTimezone">아시아 (KST)</span></div>
+      <div class="info-item"><span class="info-label">CORE VALUES</span><span class="info-value" data-i18n="about.infoCoreValues">효율 · 조직화 · 확장</span></div>
      </div>
     </div>
    </div>
@@ -819,48 +824,48 @@
        <img src="assets/images/VOLT_logo.webp" alt="" loading="lazy" decoding="async">
        <span class="footer-brand-text">VOLT</span>
       </div>
-      <p class="footer-description">Voyagers of Logistics &amp; Trade<br>한국 커뮤니티 Star Citizen 함대</p>
+      <p class="footer-description" data-i18n-html="footer.tagline">Voyagers of Logistics &amp; Trade<br>한국 커뮤니티 Star Citizen 함대</p>
      </div>
      <div class="footer-section">
-      <h4>소개</h4>
+      <h4 data-i18n="footer.about">소개</h4>
       <ul>
-       <li><a href="#about" data-section="about">함대 소개</a></li>
-       <li><a href="#timeline" data-section="timeline">연혁</a></li>
-       <li><a href="#leadership" data-section="leadership">임원진</a></li>
-       <li><a href="#partner-fleets" data-section="partner-fleets">협력함대</a></li>
+       <li><a href="#about" data-section="about" data-i18n="footer.aboutFleet">함대 소개</a></li>
+       <li><a href="#timeline" data-section="timeline" data-i18n="nav.history">연혁</a></li>
+       <li><a href="#leadership" data-section="leadership" data-i18n="nav.leadership">임원진</a></li>
+       <li><a href="#partner-fleets" data-section="partner-fleets" data-i18n="nav.partners">협력함대</a></li>
       </ul>
      </div>
      <div class="footer-section">
-      <h4>콘텐츠</h4>
+      <h4 data-i18n="footer.content">콘텐츠</h4>
       <ul>
-       <li><a href="#notices" data-section="notices">공지</a></li>
-       <li><a href="#schedule" data-section="schedule">일정</a></li>
-       <li><a href="#ships" data-section="ships">함선DB</a></li>
-       <li><a href="#gallery" data-section="gallery">갤러리</a></li>
-       <li><a href="#policy" data-section="policy">정책</a></li>
+       <li><a href="#notices" data-section="notices" data-i18n="nav.notices">공지</a></li>
+       <li><a href="#schedule" data-section="schedule" data-i18n="nav.schedule">일정</a></li>
+       <li><a href="#ships" data-section="ships" data-i18n="nav.ships">함선DB</a></li>
+       <li><a href="#gallery" data-section="gallery" data-i18n="nav.gallery">갤러리</a></li>
+       <li><a href="#policy" data-section="policy" data-i18n="nav.policy">정책</a></li>
        <li><a href="#faq" data-section="faq">FAQ</a></li>
       </ul>
      </div>
      <div class="footer-section">
-      <h4>무역</h4>
+      <h4 data-i18n="nav.trade">무역</h4>
       <ul>
-       <li><a href="#trade-planner" data-section="trade-planner">무역플래너</a></li>
-       <li><a href="#hub" data-section="hub">무역허브</a></li>
-       <li><a href="#guide" data-section="guide">무역가이드</a></li>
+       <li><a href="#trade-planner" data-section="trade-planner" data-i18n="nav.tradePlanner">무역플래너</a></li>
+       <li><a href="#hub" data-section="hub" data-i18n="nav.tradeHub">무역허브</a></li>
+       <li><a href="#guide" data-section="guide" data-i18n="nav.tradeGuide">무역가이드</a></li>
       </ul>
      </div>
      <div class="footer-section">
-      <h4>커뮤니티</h4>
+      <h4 data-i18n="footer.community">커뮤니티</h4>
       <ul>
        <li><a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord</a></li>
-       <li><a href="#streamers" data-section="streamers">스트리머</a></li>
+       <li><a href="#streamers" data-section="streamers" data-i18n="nav.streamers">스트리머</a></li>
        <li><a href="#ai" data-section="ai">VOLT AI</a></li>
        <li><a href="#comms" data-section="comms">VOLT Comms</a></li>
-       <li><a href="#join" data-section="join">가입하기</a></li>
+       <li><a href="#join" data-section="join" data-i18n="nav.join">가입하기</a></li>
       </ul>
      </div>
      <div class="footer-section">
-      <h4>스트리머</h4>
+      <h4 data-i18n="nav.streamers">스트리머</h4>
       <ul id="footer-streamers-list"></ul>
      </div>
      <div class="footer-section">
@@ -872,7 +877,7 @@
      </div>
     </div>
     <div class="footer-bottom">
-     <p>© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED</p>
+     <p><span data-i18n="footer.copyright">© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED</span></p>
     </div>
    </div>
   </footer>
@@ -891,11 +896,12 @@
    </div>
   </div>
 
-<script src="data/volt-data.js?v=20260614-08"></script>
-<script src="data/volt-localization.js?v=20260614-08"></script>
-<script src="js/navigation.js?v=20260614-08"></script>
-<script src="js/uex.js?v=20260614-08"></script>
-<script src="js/main.js?v=20260614-08"></script>
-<script src="js/volt-ai.js?v=20260614-08"></script>
+<script src="data/volt-data.js?v=20260614-09"></script>
+<script src="data/volt-localization.js?v=20260614-09"></script>
+<script src="js/i18n.js?v=20260614-09"></script>
+<script src="js/navigation.js?v=20260614-09"></script>
+<script src="js/uex.js?v=20260614-09"></script>
+<script src="js/main.js?v=20260614-09"></script>
+<script src="js/volt-ai.js?v=20260614-09"></script>
  </body>
 </html>

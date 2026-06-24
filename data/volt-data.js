@@ -261,19 +261,27 @@ const VOLT_DATA = {
     departments: [
         {
             name: "물류 & 무역",
-            description: "안정적인 운송망 구축과 고가치 화물 운송. 시장 분석과 무역 루트 연구를 통해 함대의 경제 기반을 만듭니다."
+            name_en: "Logistics & Trade",
+            description: "안정적인 운송망 구축과 고가치 화물 운송. 시장 분석과 무역 루트 연구를 통해 함대의 경제 기반을 만듭니다.",
+            description_en: "Building reliable supply lines and moving high-value cargo. We study markets and trade routes to fund the fleet's economy."
         },
         {
             name: "전략 자원",
-            description: "바운티 미션 수행을 통한 전략 자원 확보. 함선 부품 및 무장을 확보하여 함대 내부에 공급합니다."
+            name_en: "Strategic Resources",
+            description: "바운티 미션 수행을 통한 전략 자원 확보. 함선 부품 및 무장을 확보하여 함대 내부에 공급합니다.",
+            description_en: "Securing strategic resources through bounty contracts, then sourcing ship components and weaponry for the fleet."
         },
         {
             name: "정보 & 정찰",
-            description: "패치 업데이트, 신규 시스템 분석, 무역 루트 정보 수집. 데이터 기반의 의사결정을 지원합니다."
+            name_en: "Intel & Recon",
+            description: "패치 업데이트, 신규 시스템 분석, 무역 루트 정보 수집. 데이터 기반의 의사결정을 지원합니다.",
+            description_en: "Tracking patch updates, analyzing new systems, and gathering trade-route intel to support data-driven decisions."
         },
         {
             name: "홍보 & 미디어",
-            description: "스트리머 네트워크와 공식 콘텐츠 제작. 함대의 브랜드 가치 관리 및 신규 인원의 체계적인 온보딩을 지원합니다."
+            name_en: "Outreach & Media",
+            description: "스트리머 네트워크와 공식 콘텐츠 제작. 함대의 브랜드 가치 관리 및 신규 인원의 체계적인 온보딩을 지원합니다.",
+            description_en: "Running our streamer network and official content, managing the fleet's brand, and onboarding new members in a structured way."
         }
     ],
 
@@ -281,19 +289,27 @@ const VOLT_DATA = {
     coreValues: [
         {
             title: "자율성 & 책임감",
-            description: "각 구성원에게 자율적인 활동 권리를 부여하되, 책임감 있는 행동을 기대합니다. 참여는 강제하지 않지만, 기준은 명확합니다."
+            title_en: "Autonomy & Accountability",
+            description: "각 구성원에게 자율적인 활동 권리를 부여하되, 책임감 있는 행동을 기대합니다. 참여는 강제하지 않지만, 기준은 명확합니다.",
+            description_en: "Every member is free to take part on their own terms, but is expected to act responsibly. Participation isn't forced — the standards are."
         },
         {
             title: "체계적 운영",
-            description: "문서화, 절차, 역할 분담을 통해 안정적인 임무 수행을 가능하게 합니다. 예측 가능한 규칙으로 혼란을 최소화합니다."
+            title_en: "Systematic Operations",
+            description: "문서화, 절차, 역할 분담을 통해 안정적인 임무 수행을 가능하게 합니다. 예측 가능한 규칙으로 혼란을 최소화합니다.",
+            description_en: "Documentation, processes, and clear roles keep missions stable. Predictable rules keep confusion to a minimum."
         },
         {
             title: "지속적 성장",
-            description: "전략적 계획과 데이터 기반 의사결정을 통해 장기적 성장을 지원합니다. 모든 함대원이 함께 발전하는 환경을 조성합니다."
+            title_en: "Continuous Growth",
+            description: "전략적 계획과 데이터 기반 의사결정을 통해 장기적 성장을 지원합니다. 모든 함대원이 함께 발전하는 환경을 조성합니다.",
+            description_en: "Strategic planning and data-driven decisions drive long-term growth, in an environment where every member advances together."
         },
         {
             title: "친(UEE) 질서 지향",
-            description: "VOLT는 UEE의 법과 질서를 존중하는 조직입니다. 트롤링, 비매너 플레이, 불필요한 외부 분쟁을 지양합니다."
+            title_en: "Pro-Law (UEE) Conduct",
+            description: "VOLT는 UEE의 법과 질서를 존중하는 조직입니다. 트롤링, 비매너 플레이, 불필요한 외부 분쟁을 지양합니다.",
+            description_en: "VOLT respects UEE law and order. We avoid trolling, poor sportsmanship, and unnecessary outside conflict."
         }
     ],
 
