@@ -41,6 +41,29 @@ test.describe('i18n (KO/EN)', () => {
         await ctx.close();
     });
 
+    test('정책 영어화: 비한국어 기본 영어(조항/라벨)', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const page = await load(ctx, '/#policy');
+        await expect(page.locator('#policy-list')).toContainText('Role of the Staff');
+        await expect(page.locator('#policy-list')).toContainText('Last updated:');
+        await expect(page.locator('#policy-list')).not.toContainText('운영진의 역할');
+        await ctx.close();
+    });
+
+    test('FAQ 영어화: 비한국어 기본 영어', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const page = await load(ctx, '/#faq');
+        await expect(page.locator('#faq-list')).toContainText('How do I join the VOLT fleet?');
+        await ctx.close();
+    });
+
+    test('정책/FAQ KO 회귀: 한국어 유지', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'ko-KR' });
+        const page = await load(ctx, '/#policy');
+        await expect(page.locator('#policy-list')).toContainText('운영진의 역할');
+        await ctx.close();
+    });
+
     test('해시 라우팅 + 언어 토글 충돌 없음 + 동적 About 카드 번역', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'ko-KR' });
         const page = await load(ctx, '/#about');

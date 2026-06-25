@@ -386,62 +386,70 @@ const VOLT_DATA = {
         sections: [
             {
                 title: "1조 · 운영진의 역할",
+                title_en: "Article 1 · Role of the Staff",
                 items: [
-                    { num: "1조 1항", text: "조직장, 임원, 관리자를 포함한 모든 운영진은 질서 있고 쾌적한 조직 운영을 위해 본 정책에 위반되는 사항에 대해 사전 통보 없이 채팅·게시글을 삭제·편집할 수 있으며, 운영정책에 따라 활동을 제한할 수 있습니다." },
-                    { num: "1조 2항", text: "운영진은 구성원 간 분쟁에 중립을 원칙으로 하나, 다수의 피해 발생 시 중재 및 부분 개입이 가능합니다." },
-                    { num: "1조 3항", text: "운영정책에 명시되지 않은 사항은 운영진의 판단하에 제재할 수 있습니다." },
-                    { num: "1조 4항", text: "운영진은 원활한 관리를 위해 일부 정책에 적용받지 않을 수 있으나 이를 악용해서는 안 됩니다." },
-                    { num: "1조 5항", text: "사회적으로 문제가 있거나 관계 법령에 위반되는 경우 본 정책에 명시되지 않더라도 재량으로 제재할 수 있습니다." },
-                    { num: "1조 6항", text: "모든 최종 결정은 조직장의 판단에 의해 변경될 수 있습니다." }
+                    { num: "1조 1항", num_en: "Art. 1.1", text: "조직장, 임원, 관리자를 포함한 모든 운영진은 질서 있고 쾌적한 조직 운영을 위해 본 정책에 위반되는 사항에 대해 사전 통보 없이 채팅·게시글을 삭제·편집할 수 있으며, 운영정책에 따라 활동을 제한할 수 있습니다.", text_en: "To keep the community orderly and pleasant, all staff — including the organization head, officers, and managers — may delete or edit chats and posts that violate this policy without prior notice, and may restrict activity in accordance with the operating policy." },
+                    { num: "1조 2항", num_en: "Art. 1.2", text: "운영진은 구성원 간 분쟁에 중립을 원칙으로 하나, 다수의 피해 발생 시 중재 및 부분 개입이 가능합니다.", text_en: "Staff remain neutral in disputes between members as a rule, but may mediate or partially intervene when harm affects many members." },
+                    { num: "1조 3항", num_en: "Art. 1.3", text: "운영정책에 명시되지 않은 사항은 운영진의 판단하에 제재할 수 있습니다.", text_en: "Matters not specified in the operating policy may be sanctioned at the staff's discretion." },
+                    { num: "1조 4항", num_en: "Art. 1.4", text: "운영진은 원활한 관리를 위해 일부 정책에 적용받지 않을 수 있으나 이를 악용해서는 안 됩니다.", text_en: "Staff may be exempt from some policies for smooth administration, but must not abuse this." },
+                    { num: "1조 5항", num_en: "Art. 1.5", text: "사회적으로 문제가 있거나 관계 법령에 위반되는 경우 본 정책에 명시되지 않더라도 재량으로 제재할 수 있습니다.", text_en: "Conduct that is socially problematic or violates applicable law may be sanctioned at our discretion, even if not specified in this policy." },
+                    { num: "1조 6항", num_en: "Art. 1.6", text: "모든 최종 결정은 조직장의 판단에 의해 변경될 수 있습니다.", text_en: "All final decisions may be overridden by the organization head's judgment." }
                 ]
             },
             {
                 title: "2조 · 구성원의 권리와 의무",
+                title_en: "Article 2 · Member Rights & Duties",
                 items: [
-                    { num: "2조 1항", text: "구성원은 조직에서 제공하는 콘텐츠, 행사, 복지에 참여할 권리가 있습니다." },
-                    { num: "2조 2항", text: "사회적 통념에 어긋나는 행동으로 타인에게 손해를 끼친 경우 본인이 책임을 집니다." },
-                    { num: "2조 3항", text: "운영진에게 부당한 대우를 받았다고 판단되는 경우 별도 문의 채널을 통해 이의를 제기할 수 있습니다." },
-                    { num: "2조 4항", text: "계정 보호의 책임은 본인에게 있으며, 도용으로 발생한 위반 행위 또한 본인 책임입니다." },
-                    { num: "2조 5항", text: "시스템 허점·문제 발견 시 운영진에게 통지해야 하며, 악용·유포는 금지됩니다." }
+                    { num: "2조 1항", num_en: "Art. 2.1", text: "구성원은 조직에서 제공하는 콘텐츠, 행사, 복지에 참여할 권리가 있습니다.", text_en: "Members have the right to take part in the content, events, and benefits the organization provides." },
+                    { num: "2조 2항", num_en: "Art. 2.2", text: "사회적 통념에 어긋나는 행동으로 타인에게 손해를 끼친 경우 본인이 책임을 집니다.", text_en: "Members are personally responsible for harm caused to others through conduct that violates common social norms." },
+                    { num: "2조 3항", num_en: "Art. 2.3", text: "운영진에게 부당한 대우를 받았다고 판단되는 경우 별도 문의 채널을 통해 이의를 제기할 수 있습니다.", text_en: "Members who believe they were treated unfairly by staff may raise an objection through the dedicated inquiry channel." },
+                    { num: "2조 4항", num_en: "Art. 2.4", text: "계정 보호의 책임은 본인에게 있으며, 도용으로 발생한 위반 행위 또한 본인 책임입니다.", text_en: "Account security is each member's own responsibility, including any violations that result from account theft." },
+                    { num: "2조 5항", num_en: "Art. 2.5", text: "시스템 허점·문제 발견 시 운영진에게 통지해야 하며, 악용·유포는 금지됩니다.", text_en: "Members must report any system flaws or issues they discover to staff; exploiting or spreading them is prohibited." }
                 ]
             },
             {
                 title: "3조 · 닉네임 규정",
+                title_en: "Article 3 · Nickname Rules",
                 notice: "디스코드 이름은 인게임 핸들 닉네임과 통일해야 합니다. 예시: 롱만(VOLT_Longman)",
+                notice_en: "Your Discord name must match your in-game handle. Example: Longman(VOLT_Longman).",
                 items: [
-                    { num: "금지", text: "운영진을 사칭하거나 오해를 유발하는 닉네임" },
-                    { num: "금지", text: "선정적이거나 비속어가 포함된 닉네임" },
-                    { num: "금지", text: "반사회적이거나 관계 법령에 위반되는 닉네임" },
-                    { num: "금지", text: "공백·특수문자를 남용하여 가독성을 해치는 닉네임" }
+                    { num: "금지", num_en: "Prohibited", text: "운영진을 사칭하거나 오해를 유발하는 닉네임", text_en: "Nicknames that impersonate staff or cause confusion" },
+                    { num: "금지", num_en: "Prohibited", text: "선정적이거나 비속어가 포함된 닉네임", text_en: "Nicknames containing explicit or profane language" },
+                    { num: "금지", num_en: "Prohibited", text: "반사회적이거나 관계 법령에 위반되는 닉네임", text_en: "Antisocial nicknames, or ones that violate applicable law" },
+                    { num: "금지", num_en: "Prohibited", text: "공백·특수문자를 남용하여 가독성을 해치는 닉네임", text_en: "Nicknames that overuse spaces or special characters and hurt readability" }
                 ]
             },
             {
                 title: "4조 · 위반 항목",
+                title_en: "Article 4 · Violations",
                 items: [
-                    { num: "4조 1항", text: "공공질서 및 미풍양속 위반 — 욕설·비속어, 성적 수치심 유발 표현, 신체적 비하 발언, 타인 비방, 정치·종교·성별·지역·인종 비하·옹호." },
-                    { num: "4조 2항", text: "부적절한 콘텐츠 게시 — 음란 이미지·링크, 시스템 허점 및 버그 악용 방법 유포, 비인가 프로그램 자료 게시." },
-                    { num: "4조 3항", text: "도배 및 홍보 — 동일·무의미한 채팅 반복, 무분별한 광고·홍보, aUEC 구걸, 초대코드 요청." },
-                    { num: "4조 4항", text: "분쟁 및 선동 — 유언비어 유포 및 고의적 잘못된 정보 전파(서버 추방 사유), 편 가르기 및 갈등 고조 행위." },
-                    { num: "4조 5항", text: "사칭 및 사기 — 다른 구성원 닉네임 고의 모방, 운영진 사칭, 거래 사기." },
-                    { num: "4조 6항", text: "친목 및 개인정보 — 개인정보 공개, 신규·특정 구성원 배척 행위." },
-                    { num: "4조 7항", text: "인게임 활동 — 트롤링·그리핑 금지, CIG EULA 위반(aUEC 현물 거래 등) 금지." }
+                    { num: "4조 1항", num_en: "Art. 4.1", text: "공공질서 및 미풍양속 위반 — 욕설·비속어, 성적 수치심 유발 표현, 신체적 비하 발언, 타인 비방, 정치·종교·성별·지역·인종 비하·옹호.", text_en: "Public order & decency — profanity, sexually demeaning expressions, body-shaming, slander, or disparagement/advocacy based on politics, religion, gender, region, or race." },
+                    { num: "4조 2항", num_en: "Art. 4.2", text: "부적절한 콘텐츠 게시 — 음란 이미지·링크, 시스템 허점 및 버그 악용 방법 유포, 비인가 프로그램 자료 게시.", text_en: "Inappropriate content — obscene images or links, sharing methods to exploit system flaws and bugs, or posting unauthorized program material." },
+                    { num: "4조 3항", num_en: "Art. 4.3", text: "도배 및 홍보 — 동일·무의미한 채팅 반복, 무분별한 광고·홍보, aUEC 구걸, 초대코드 요청.", text_en: "Spam & promotion — repeating identical or meaningless chat, indiscriminate advertising, begging for aUEC, or requesting invite codes." },
+                    { num: "4조 4항", num_en: "Art. 4.4", text: "분쟁 및 선동 — 유언비어 유포 및 고의적 잘못된 정보 전파(서버 추방 사유), 편 가르기 및 갈등 고조 행위.", text_en: "Conflict & incitement — spreading rumors or deliberately false information (grounds for server removal), and taking sides or escalating conflict." },
+                    { num: "4조 5항", num_en: "Art. 4.5", text: "사칭 및 사기 — 다른 구성원 닉네임 고의 모방, 운영진 사칭, 거래 사기.", text_en: "Impersonation & fraud — deliberately copying another member's nickname, impersonating staff, or trade scams." },
+                    { num: "4조 6항", num_en: "Art. 4.6", text: "친목 및 개인정보 — 개인정보 공개, 신규·특정 구성원 배척 행위.", text_en: "Cliques & privacy — disclosing personal information, or excluding new or specific members." },
+                    { num: "4조 7항", num_en: "Art. 4.7", text: "인게임 활동 — 트롤링·그리핑 금지, CIG EULA 위반(aUEC 현물 거래 등) 금지.", text_en: "In-game conduct — no trolling or griefing, and no violations of the CIG EULA (such as trading aUEC for real money)." }
                 ]
             },
             {
                 title: "5조 · 조직 운영 관련 의무사항",
+                title_en: "Article 5 · Organizational Obligations",
                 items: [
-                    { num: "5조 1항", text: "대표 ORG 설정 — 사전 승낙 없이 VOLT를 대표 ORG로 설정해야 합니다. 1.0 업데이트 이후 모든 콘텐츠 혜택·평판은 대표 조직을 통해 적용됩니다." },
-                    { num: "5조 2항", text: "조직 활동 참여 의무 — 정식오픈 이후 분기 단위로 최소 1회 참가 이력이 없을 시 미활동 인원으로 분류됩니다." },
-                    { num: "5조 3항", text: "미활동 인원 정리 — 비주기적으로 미활동 인원에 대한 무통보 해임·퇴출이 있을 수 있습니다." }
+                    { num: "5조 1항", num_en: "Art. 5.1", text: "대표 ORG 설정 — 사전 승낙 없이 VOLT를 대표 ORG로 설정해야 합니다. 1.0 업데이트 이후 모든 콘텐츠 혜택·평판은 대표 조직을 통해 적용됩니다.", text_en: "Main Org setting — set VOLT as your Main Org (no prior approval needed). After the 1.0 update, all content benefits and reputation are applied through your Main Org." },
+                    { num: "5조 2항", num_en: "Art. 5.2", text: "조직 활동 참여 의무 — 정식오픈 이후 분기 단위로 최소 1회 참가 이력이 없을 시 미활동 인원으로 분류됩니다.", text_en: "Activity requirement — after official launch, members with no participation record for at least one quarter are classified as inactive." },
+                    { num: "5조 3항", num_en: "Art. 5.3", text: "미활동 인원 정리 — 비주기적으로 미활동 인원에 대한 무통보 해임·퇴출이 있을 수 있습니다.", text_en: "Inactive cleanup — inactive members may be dismissed or removed without notice on an irregular basis." }
                 ]
             },
             {
                 title: "6조 · 누적 경고에 따른 제재",
+                title_en: "Article 6 · Penalties for Accumulated Warnings",
                 notice: "경고는 부과일 기준 30일간 유지되며, 운영진 재량에 따라 제재 수위가 조정될 수 있습니다.",
+                notice_en: "Warnings remain in effect for 30 days from the date issued, and penalty levels may be adjusted at the staff's discretion.",
                 items: [
-                    { num: "경고 1회", text: "7일간 채팅 제한" },
-                    { num: "경고 2회", text: "30일간 활동 제한" },
-                    { num: "경고 3회", text: "영구 추방" }
+                    { num: "경고 1회", num_en: "1st Warning", text: "7일간 채팅 제한", text_en: "7-day chat restriction" },
+                    { num: "경고 2회", num_en: "2nd Warning", text: "30일간 활동 제한", text_en: "30-day activity restriction" },
+                    { num: "경고 3회", num_en: "3rd Warning", text: "영구 추방", text_en: "Permanent removal" }
                 ]
             }
         ]
@@ -795,35 +803,51 @@ const VOLT_DATA = {
     faq: [
         {
             q: "VOLT 함대에 가입하려면 어떻게 해야 하나요?",
-            a: "홈페이지 '가입하기' 섹션에서 구글 폼 지원서를 제출하거나, 디스코드 서버에 참여 후 운영진에게 DM을 보내시면 됩니다. 게임 경험과 무관하게 누구나 지원 가능합니다."
+            q_en: "How do I join the VOLT fleet?",
+            a: "홈페이지 '가입하기' 섹션에서 구글 폼 지원서를 제출하거나, 디스코드 서버에 참여 후 운영진에게 DM을 보내시면 됩니다. 게임 경험과 무관하게 누구나 지원 가능합니다.",
+            a_en: "Submit the Google Form application in the 'Join' section of the site, or join our Discord and DM the staff. Anyone can apply, regardless of game experience."
         },
         {
             q: "디스코드 닉네임은 어떻게 설정해야 하나요?",
-            a: "디스코드 닉네임(스타시티즌 핸들네임) 형식으로 설정해야 합니다. 예시: 롱만(VOLT_Longman). 미변경 시 운영진이 임의로 수정할 수 있습니다."
+            q_en: "How should I set my Discord nickname?",
+            a: "디스코드 닉네임(스타시티즌 핸들네임) 형식으로 설정해야 합니다. 예시: 롱만(VOLT_Longman). 미변경 시 운영진이 임의로 수정할 수 있습니다.",
+            a_en: "Use the format Discord nickname (Star Citizen handle). Example: Longman(VOLT_Longman). If left unchanged, staff may adjust it."
         },
         {
             q: "대표 ORG를 VOLT로 설정하는 방법은?",
-            a: "RSI 공식 홈페이지(robertsspaceindustries.com) 로그인 → My RSI → Organizations → VOLT 검색 후 가입 → 내 조직 목록에서 VOLT를 대표 ORG로 설정하시면 됩니다."
+            q_en: "How do I set VOLT as my Main Org?",
+            a: "RSI 공식 홈페이지(robertsspaceindustries.com) 로그인 → My RSI → Organizations → VOLT 검색 후 가입 → 내 조직 목록에서 VOLT를 대표 ORG로 설정하시면 됩니다.",
+            a_en: "On the official RSI site (robertsspaceindustries.com): log in → My RSI → Organizations → search for VOLT and join → then set VOLT as your Main Org in your organization list."
         },
         {
             q: "운영정책 위반 시 어떻게 되나요?",
-            a: "경고 누적에 따라 채팅 제한(1회), 활동 제한(2회), 영구 추방(3회)이 적용됩니다. 경고는 부과일 기준 30일간 유지됩니다. 중대한 위반은 경고 없이 즉시 처리될 수 있습니다."
+            q_en: "What happens if I break the operating policy?",
+            a: "경고 누적에 따라 채팅 제한(1회), 활동 제한(2회), 영구 추방(3회)이 적용됩니다. 경고는 부과일 기준 30일간 유지됩니다. 중대한 위반은 경고 없이 즉시 처리될 수 있습니다.",
+            a_en: "Warnings escalate to a chat restriction (1st), an activity restriction (2nd), and permanent removal (3rd). Warnings stay in effect for 30 days from the date issued. Serious violations may be handled immediately, without warning."
         },
         {
             q: "오래 접속을 못 해도 되나요?",
-            a: "비주기적으로 잠수 인원 조사가 진행됩니다. 응답하지 않으면 외부손님 권한으로 변경될 수 있습니다. 복귀를 원하실 경우 운영진에게 문의하시면 됩니다."
+            q_en: "Is it okay if I can't log in for a while?",
+            a: "비주기적으로 잠수 인원 조사가 진행됩니다. 응답하지 않으면 외부손님 권한으로 변경될 수 있습니다. 복귀를 원하실 경우 운영진에게 문의하시면 됩니다.",
+            a_en: "We review inactive members from time to time. If you don't respond, your role may be changed to guest. If you'd like to return, just reach out to the staff."
         },
         {
             q: "무역허브는 어떻게 이용하나요?",
-            a: "디스코드 내 VOLT-무역허브 채널에서 지정 양식에 맞춰 아이템 거래 또는 임무 모집 글을 게시할 수 있습니다. 모든 거래는 인게임 화폐(aUEC)만 허용됩니다."
+            q_en: "How do I use the Trade Hub?",
+            a: "디스코드 내 VOLT-무역허브 채널에서 지정 양식에 맞춰 아이템 거래 또는 임무 모집 글을 게시할 수 있습니다. 모든 거래는 인게임 화폐(aUEC)만 허용됩니다.",
+            a_en: "In the VOLT Trade Hub channel on Discord, you can post item trades or mission listings using the designated template. All trades are limited to in-game currency (aUEC) only."
         },
         {
             q: "VOLT는 어떤 성향의 함대인가요?",
-            a: "친(UEE) 성향의 질서 지향적 조직입니다. 물류·무역을 중심으로 전투, 탐사, 정보 수집 등 다양한 활동을 아우릅니다. 이유 없는 공격, 트롤링, 비매너 플레이는 지양합니다."
+            q_en: "What kind of fleet is VOLT?",
+            a: "친(UEE) 성향의 질서 지향적 조직입니다. 물류·무역을 중심으로 전투, 탐사, 정보 수집 등 다양한 활동을 아우릅니다. 이유 없는 공격, 트롤링, 비매너 플레이는 지양합니다.",
+            a_en: "A pro-UEE, order-oriented organization. Centered on logistics and trade, we span combat, exploration, intel gathering, and more. We avoid unprovoked attacks, trolling, and poor sportsmanship."
         },
         {
             q: "부서가 있나요?",
-            a: "현재는 별도의 고정 부서 없이 VOLT 함대원으로 통합 운영되고 있습니다. 각자의 플레이 스타일에 맞게 물류·전투·탐사 등 자유롭게 활동하실 수 있습니다."
+            q_en: "Are there departments?",
+            a: "현재는 별도의 고정 부서 없이 VOLT 함대원으로 통합 운영되고 있습니다. 각자의 플레이 스타일에 맞게 물류·전투·탐사 등 자유롭게 활동하실 수 있습니다.",
+            a_en: "Right now we operate as one unified VOLT crew, without fixed departments. You're free to focus on logistics, combat, exploration, and more — whatever fits your play style."
         }
     ],
 

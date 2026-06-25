@@ -76,6 +76,12 @@
             'about.infoHeading': '함대 정보',
             'about.infoTimezone': '아시아 (KST)',
             'about.infoCoreValues': '효율 · 조직화 · 확장',
+            // 정책 / FAQ
+            'policy.title': '함대 <span class="accent">운영정책</span>',
+            'policy.subtitle': '2026년 5월 15일 정식 시행',
+            'policy.lastUpdatedLabel': '최종 업데이트:',
+            'faq.title': '자주 묻는 <span class="accent">질문</span>',
+            'faq.subtitle': 'VOLT 함대 FAQ',
             // 푸터
             'footer.tagline': 'Voyagers of Logistics &amp; Trade<br>한국 커뮤니티 Star Citizen 함대',
             'footer.about': '소개',
@@ -141,6 +147,12 @@
             'about.infoHeading': 'Fleet Info',
             'about.infoTimezone': 'Asia (KST)',
             'about.infoCoreValues': 'Efficiency · Organization · Scale',
+            // Policy / FAQ
+            'policy.title': 'Fleet <span class="accent">Operating Policy</span>',
+            'policy.subtitle': 'In effect since May 15, 2026',
+            'policy.lastUpdatedLabel': 'Last updated:',
+            'faq.title': 'Frequently Asked <span class="accent">Questions</span>',
+            'faq.subtitle': 'VOLT Fleet FAQ',
             // footer
             'footer.tagline': 'Voyagers of Logistics &amp; Trade<br>A Korean-community Star Citizen fleet',
             'footer.about': 'About',

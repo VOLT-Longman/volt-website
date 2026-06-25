@@ -56,6 +56,7 @@
         const en = item[`${field}_en`];
         return currentLang() === 'en' && en ? en : item[field];
     }
+    function i18nT(key, fallback) { return i18n && i18n.t ? i18n.t(key) : (fallback || key); }
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
@@ -889,20 +890,20 @@
     function renderPolicy() {
         const container = document.getElementById('policy-list');
         if (!container || !data.policy || !Array.isArray(data.policy.sections)) return;
-        container.innerHTML = `<div class="policy-updated">최종 업데이트: ${escapeHtml(data.policy.lastUpdated)}</div>
+        container.innerHTML = `<div class="policy-updated">${escapeHtml(i18nT('policy.lastUpdatedLabel', '최종 업데이트:'))} ${escapeHtml(data.policy.lastUpdated)}</div>
             ${data.policy.sections.map((section, index) => renderPolicySection(section, index)).join('')}`;
     }
 
     function renderPolicySection(section, index) {
         const sectionId = `policy-section-${index + 1}`;
-        const notice = section.notice ? `<div class="policy-notice">${escapeHtml(section.notice)}</div>` : '';
+        const notice = section.notice ? `<div class="policy-notice">${escapeHtml(tx(section, 'notice'))}</div>` : '';
         return `<div class="policy-section reveal" id="${sectionId}">
             <div class="policy-section-heading">
-                <h3 class="policy-section-title">${escapeHtml(section.title)}</h3>
-                <button class="policy-anchor-copy" type="button" data-policy-index="${index + 1}" aria-label="${escapeHtml(section.title)} \ub9c1\ud06c \ubcf5\uc0ac"><span class="icon-link" aria-hidden="true"></span></button>
+                <h3 class="policy-section-title">${escapeHtml(tx(section, 'title'))}</h3>
+                <button class="policy-anchor-copy" type="button" data-policy-index="${index + 1}" aria-label="${escapeHtml(tx(section, 'title'))} \ub9c1\ud06c \ubcf5\uc0ac"><span class="icon-link" aria-hidden="true"></span></button>
             </div>
             ${notice}
-            <div class="policy-items">${section.items.map((item) => `<div class="policy-item"><span class="policy-num">${escapeHtml(item.num)}</span><span class="policy-text">${escapeHtml(item.text)}</span></div>`).join('')}</div>
+            <div class="policy-items">${section.items.map((item) => `<div class="policy-item"><span class="policy-num">${escapeHtml(tx(item, 'num'))}</span><span class="policy-text">${escapeHtml(tx(item, 'text'))}</span></div>`).join('')}</div>
         </div>`;
     }
 
@@ -912,11 +913,11 @@
         container.innerHTML = `<div class="faq-accordion">${data.faq.map((item, index) => `
             <div class="faq-item reveal" id="faq-item-${index}">
                 <button class="faq-question" id="faq-q-${index}" aria-expanded="false" aria-controls="faq-ans-${index}">
-                    <span>${escapeHtml(item.q)}</span>
+                    <span>${escapeHtml(tx(item, 'q'))}</span>
                     <span class="faq-icon">+</span>
                 </button>
                 <div class="faq-answer" id="faq-ans-${index}" role="region" aria-labelledby="faq-q-${index}" hidden>
-                    <p>${escapeHtml(item.a)}</p>
+                    <p>${escapeHtml(tx(item, 'a'))}</p>
                 </div>
             </div>`).join('')}</div>`;
     }
@@ -3433,7 +3434,7 @@
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); });
         }
         setupDynamicStyles();
         setupSplash();
