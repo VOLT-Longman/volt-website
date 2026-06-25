@@ -6972,4 +6972,25 @@ body.nav-trade-open::before {
     .cargo-filter-btn,
     .uex-loc-btn,
     .lang-btn { min-height: 36px; }
+
+    /* 무역플래너(Step 2 A안): 밀도·스크롤 부담 축소 — 다열 그리드 → 1열 */
+    .trade-planner-form { grid-template-columns: 1fr; gap: 12px; }
+    .trade-planner-layout { grid-template-columns: 1fr; }
+    .uex-summary-grid { grid-template-columns: 1fr; }       /* 요약 4칸 세로 스택 */
+    .uex-candidate-layout { grid-template-columns: 1fr; }   /* 매수/매도 1열 카드 */
+    .planner-mobile-hint { display: block; }
+}
+
+/* 무역플래너 모바일 안내(데스크톱 숨김) */
+.planner-mobile-hint {
+    display: none;
+    margin: 0 0 16px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--volt-orange);
+    border-radius: var(--radius-sm);
 }

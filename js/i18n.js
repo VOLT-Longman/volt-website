@@ -87,6 +87,8 @@
             'schedule.subtitle': '함대 주요 일정 및 이벤트',
             'timeline.title': '함대 <span class="accent">연혁</span>',
             'timeline.subtitle': 'VOLT가 걸어온 길',
+            // 무역플래너 (부분 i18n)
+            'planner.mobileHint': '무역플래너는 데스크톱에서 더 편하게 이용할 수 있습니다. 모바일에서는 핵심 정보 위주로 표시됩니다.',
             // 푸터
             'footer.tagline': 'Voyagers of Logistics &amp; Trade<br>한국 커뮤니티 Star Citizen 함대',
             'footer.about': '소개',
@@ -163,6 +165,8 @@
             'schedule.subtitle': 'Key fleet dates & events',
             'timeline.title': 'Fleet <span class="accent">History</span>',
             'timeline.subtitle': "VOLT's journey so far",
+            // Trade Planner (partial i18n)
+            'planner.mobileHint': 'The Trade Planner works best on desktop. On mobile, only the key information is shown.',
             // footer
             'footer.tagline': 'Voyagers of Logistics &amp; Trade<br>A Korean-community Star Citizen fleet',
             'footer.about': 'About',
