@@ -1,0 +1,16 @@
+const { chromium } = require('@playwright/test');
+const reveal=(p)=>p.evaluate(()=>document.querySelectorAll('.reveal').forEach(e=>e.classList.add('revealed')));
+(async()=>{const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:1100,height:1200},locale:'ko-KR'});const p=await ctx.newPage();
+await p.route(/\/api\/uex\/commodities$/,r=>r.fulfill({json:{status:'ok',data:[{id:1,name:'Gold',code:'G',category_name:'Metal',is_visible:1,is_available_live:1},{id:2,name:'Beryl',code:'B',category_name:'Metal',is_visible:1,is_available_live:1}]}}));
+await p.route(/\/api\/uex\/commodities\/1\/prices$/,r=>r.fulfill({json:{status:'ok',data:[{terminal_name:'CRU-L1 Station',space_station_name:'CRU-L1',price_buy:100,price_sell:0,date_modified:1700000000,scu_buy:5000},{terminal_name:'Area18 IO',city_name:'Area18',price_buy:0,price_sell:160,date_modified:1700000000,scu_sell:4000}]}}));
+await p.route(/\/api\/uex\/commodities\/2\/prices$/,r=>r.fulfill({json:{status:'ok',data:[{terminal_name:'Shubin Outpost',outpost_name:'Shubin',price_buy:80,price_sell:0,date_modified:1700000000,scu_buy:1200},{terminal_name:'Rayari Outpost',outpost_name:'Rayari',price_buy:0,price_sell:150,date_modified:1700000000,scu_sell:900}]}}));
+await p.goto('http://127.0.0.1:8787/#trade-planner');await p.waitForSelector('#loading-splash',{state:'hidden'});await reveal(p);
+await p.fill('#logistics-cargo','100');await p.waitForSelector('#uex-recommend-refresh:not([disabled])',{timeout:10000});
+await p.locator('.uex-recommend-panel').evaluate(d=>{d.open=true;});
+await p.locator('#uex-recommend-refresh').click();await p.waitForTimeout(500);
+await p.locator('#uex-recommend-results').scrollIntoViewIfNeeded();
+await p.screenshot({path:'/tmp/rec-all.png'});
+await p.locator('[data-uex-loc="ground"]').click();await p.locator('#uex-recommend-refresh').click();await p.waitForTimeout(400);
+await p.locator('#uex-recommend-results').scrollIntoViewIfNeeded();
+await p.screenshot({path:'/tmp/rec-ground.png'});
+await p.close();await ctx.close();await b.close();console.log('saved');})().catch(e=>{console.error(e);process.exit(1);});

@@ -87,6 +87,24 @@ test.describe('i18n (KO/EN)', () => {
         await ctx.close();
     });
 
+    test('무역플래너 위치 필터/추천 기준 EN 표기', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const page = await ctx.newPage();
+        await page.route(/\/api\/uex\/commodities$/, (r) => r.fulfill({ json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] } }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (r) => r.fulfill({ json: { status: 'ok', data: [
+            { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
+            { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 8000 },
+        ] } }));
+        await page.goto('/#trade-planner');
+        await page.waitForSelector('#loading-splash', { state: 'hidden' });
+        await expect(page.locator('[data-uex-loc="auto"]')).toHaveText('Station/City');
+
+        await page.locator('.uex-recommend-panel').evaluate((d) => { d.open = true; });
+        await page.locator('#uex-recommend-refresh').click();
+        await expect(page.locator('#uex-recommend-status')).toHaveText(/Basis: all trade candidates/);
+        await ctx.close();
+    });
+
     test('해시 라우팅 + 언어 토글 충돌 없음 + 동적 About 카드 번역', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'ko-KR' });
         const page = await load(ctx, '/#about');

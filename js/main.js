@@ -1690,7 +1690,15 @@
     }
 
     function getUexLocationLabel(type) {
-        return { station: '스테이션', city: '도시', ground: '지상기지', unclassified: '미분류' }[type] || '미분류';
+        const ko = { station: '스테이션', city: '도시', ground: '지상기지', unclassified: '미분류' }[type] || '미분류';
+        return i18nT(`planner.badge.${type}`, ko);
+    }
+
+    // 추천 무역품 "추천 기준" 문구 — 현재 위치 필터를 그대로 따른다.
+    function recommendBasisText() {
+        const ko = { all: '추천 기준: 전체 거래 후보', auto: '추천 기준: 스테이션/도시 거래 후보', ground: '추천 기준: 지상기지 거래 후보' };
+        const key = currentUexLocationFilter === 'auto' ? 'planner.rec.basisAuto' : currentUexLocationFilter === 'ground' ? 'planner.rec.basisGround' : 'planner.rec.basisAll';
+        return i18nT(key, ko[currentUexLocationFilter] || ko.all);
     }
 
     function renderUexLocBadge(row) {
@@ -1954,8 +1962,15 @@
                 .map((model) => uex.scoreRecommendedCommodity(model, recommendationContext))
                 .sort((left, right) => right.score - left.score)
                 .slice(0, 5);
-            results.innerHTML = ranked.length ? ranked.map(renderRecommendedCommodityCard).join('') : '<div class="uex-empty">추천 가능한 거래 후보가 없습니다. UEX Corp에서 직접 확인해 주세요.</div>';
-            status.textContent = ranked.length ? `추천 후보 ${ranked.length}개를 표시합니다.` : '추천 후보를 찾지 못했습니다.';
+            if (ranked.length) {
+                results.innerHTML = ranked.map(renderRecommendedCommodityCard).join('');
+            } else {
+                const emptyMsg = currentUexLocationFilter !== 'all'
+                    ? i18nT('planner.rec.emptyFiltered', '현재 선택한 위치 조건에서 추천 가능한 무역품이 없습니다. 전체 필터로 변경하거나 다른 상품을 선택해 주세요.')
+                    : i18nT('planner.rec.emptyAll', '추천 가능한 거래 후보가 없습니다. UEX Corp에서 직접 확인해 주세요.');
+                results.innerHTML = `<div class="uex-empty">${escapeHtml(emptyMsg)}</div>`;
+            }
+            status.textContent = recommendBasisText();
         } catch (error) {
             results.innerHTML = '<div class="uex-empty">UEX API 연결이 불안정합니다. UEX Corp에서 직접 확인해 주세요.</div>';
             status.textContent = '추천 무역품 조회에 실패했습니다.';
@@ -1969,7 +1984,7 @@
         if (!commodity) return null;
         try {
             const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodity.id)}/prices`, UEX_CACHE_TTL_MS.prices);
-            const model = uex.buildUexCandidateModel(prices, commodity, { buyKey: '', sellKey: '' });
+            const model = uex.buildUexCandidateModel(prices, commodity, { buyKey: '', sellKey: '' }, currentUexLocationFilter);
             if (!model.bestBuy || !model.bestSell || model.profitPerScu <= 0) return null;
             return model;
         } catch (error) {
@@ -1991,10 +2006,12 @@
                 <span class="uex-recommend-grade">${escapeHtml(model.grade)}</span>
             </div>
             <dl>
+                <div><dt>예상 이율</dt><dd>${escapeHtml(formatPercent(model.profitRate))}</dd></div>
                 <div><dt>SCU당 예상 수익</dt><dd>${escapeHtml(formatCredits(model.profitPerScu))}</dd></div>
                 <div><dt>${escapeHtml(String(projectedScu))} SCU 기준 예상 수익</dt><dd>${escapeHtml(formatCredits(model.estimatedProfit))}</dd></div>
-                <div><dt>매수</dt><dd>${escapeHtml(formatUexLocation(model.bestBuy))}</dd></div>
-                <div><dt>매도</dt><dd>${escapeHtml(formatUexLocation(model.bestSell))}</dd></div>
+                <div><dt>매수</dt><dd>${escapeHtml(formatUexLocation(model.bestBuy))} ${renderUexLocBadge(model.bestBuy)}</dd></div>
+                <div><dt>매도</dt><dd>${escapeHtml(formatUexLocation(model.bestSell))} ${renderUexLocBadge(model.bestSell)}</dd></div>
+                <div><dt>거래 가능 수량</dt><dd>${escapeHtml(formatUexQuantity(model.bestBuy, 'buy') || '-')} / ${escapeHtml(formatUexQuantity(model.bestSell, 'sell') || '-')}</dd></div>
                 <div><dt>최근 갱신</dt><dd>${escapeHtml(model.lastUpdatedLabel.replace('최근 갱신: ', ''))}</dd></div>
             </dl>
             <button class="btn btn-secondary" type="button" data-recommended-commodity-id="${escapeHtml(String(model.commodityId))}">이 상품 선택</button>

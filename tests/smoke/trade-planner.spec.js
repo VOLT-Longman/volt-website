@@ -130,4 +130,68 @@ test.describe('무역플래너', () => {
         await expect(results.getByText('도시', { exact: true })).toHaveCount(0);
         await expect(results.getByText('미분류', { exact: true })).toHaveCount(0);
     });
+
+    test('추천 무역품: 위치 필터 연동 (전체/스테이션·도시/지상기지)', async ({ page }) => {
+        await mockApi(page);
+        await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+            { id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 },
+            { id: 2, name: 'Beryl', code: 'B', category_name: 'Metal', is_visible: 1, is_available_live: 1 },
+        ] } }));
+        // Gold: 스테이션 매수 + 스테이션 매도 (auto 그룹)
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+            { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
+            { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 8000 },
+        ] } }));
+        // Beryl: 지상기지 매수 + 지상기지 매도
+        await page.route(/\/api\/uex\/commodities\/2\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+            { terminal_name: 'Shubin', outpost_name: 'Shubin', price_buy: 80, price_sell: 0, date_modified: 1700000000, scu_buy: 1000 },
+            { terminal_name: 'Rayari', outpost_name: 'Rayari', price_buy: 0, price_sell: 140, date_modified: 1700000000, scu_sell: 900 },
+        ] } }));
+        await gotoSection(page, '#trade-planner');
+        await expect(page.locator('#uex-status')).toHaveText(/상품 2종/);
+        await page.locator('.uex-recommend-panel').evaluate((d) => { d.open = true; });
+        const recResults = page.locator('#uex-recommend-results');
+        const recBtn = page.locator('#uex-recommend-refresh');
+        const recStatus = page.locator('#uex-recommend-status');
+
+        // 전체: Gold + Beryl 모두 추천
+        await recBtn.click();
+        await expect(recResults).toContainText('Gold');
+        await expect(recResults).toContainText('Beryl');
+        await expect(recStatus).toHaveText(/전체 거래 후보/);
+
+        // 스테이션/도시: Gold만 (지상 전용 Beryl 제외)
+        await page.locator('[data-uex-loc="auto"]').click();
+        await recBtn.click();
+        await expect(recResults).toContainText('Gold');
+        await expect(recResults).not.toContainText('Beryl');
+        await expect(recStatus).toHaveText(/스테이션\/도시 거래 후보/);
+
+        // 지상기지: Beryl만 (스테이션 전용 Gold 제외)
+        await page.locator('[data-uex-loc="ground"]').click();
+        await recBtn.click();
+        await expect(recResults).toContainText('Beryl');
+        await expect(recResults).not.toContainText('Gold');
+        await expect(recStatus).toHaveText(/지상기지 거래 후보/);
+    });
+
+    test('추천 무역품: 필터 조건에 후보 없으면 빈 상태(조용한 fallback 없음)', async ({ page }) => {
+        await mockApi(page);
+        await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+            { id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 },
+        ] } }));
+        // Gold는 스테이션 전용 → 지상기지 필터에선 추천 0
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+            { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
+            { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 8000 },
+        ] } }));
+        await gotoSection(page, '#trade-planner');
+        await expect(page.locator('#uex-status')).toHaveText(/상품 1종/);
+        await page.locator('.uex-recommend-panel').evaluate((d) => { d.open = true; });
+
+        await page.locator('[data-uex-loc="ground"]').click();
+        await page.locator('#uex-recommend-refresh').click();
+        await expect(page.locator('#uex-recommend-results')).toContainText('추천 가능한 무역품이 없습니다');
+        await expect(page.locator('#uex-recommend-results')).not.toContainText('Gold');
+    });
 });
