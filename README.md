@@ -343,7 +343,7 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 1. 파일 수정
 2. GitHub main 브랜치에 반영
 3. Cloudflare Pages 자동 배포
-4. https://www.volt.ceo 에서 확인
+4. https://www.volt.ceo 에서 확인 (node scripts/check-deploy-sync.mjs 로 캐시 버전 동기화 자동 점검)
 ```
 
 별도의 빌드 명령어는 없습니다.
@@ -385,13 +385,15 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 □ Discord, 지원서, RSI 링크 정상 연결
 ```
 
-최신 파일 반영 여부는 페이지 소스에서 아래 버전을 확인합니다.
+최신 파일 반영 여부는 라이브 페이지 소스의 `?v=` 캐시 버전이 **저장소 `sw.js`의 `CACHE_VERSION`과 일치**하는지로 확인합니다(특정 버전 숫자를 외우지 않습니다 — 매 배포마다 갱신됨).
 
-```html
-css/styles.css?v=20260613-02
-data/volt-data.js?v=20260613-02
-js/main.js?v=20260613-02
+라이브에 접근 가능한 환경(운영자 PC 등)에서는 아래 한 줄로 자동 점검할 수 있습니다.
+
+```powershell
+node scripts/check-deploy-sync.mjs
 ```
+
+`✅ 동기화 일치`면 라이브가 최신 커밋을 서빙 중입니다. `❌ 불일치`면 배포 미반영/캐시 지연, `⚠️ 확인 불가`면 네트워크나 Cloudflare 봇 챌린지로 라이브를 읽지 못한 상태입니다(브라우저로 직접 소스 확인).
 
 ---
 
