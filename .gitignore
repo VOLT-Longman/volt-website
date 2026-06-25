@@ -13,3 +13,4 @@ playwright-report/
 .vscode/
 .idea/
 *.swp
+.shot.js
