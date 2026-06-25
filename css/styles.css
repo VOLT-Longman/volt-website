@@ -6918,6 +6918,12 @@ body.nav-trade-open::before {
     margin-top: -4px;
 }
 
+/* .uex-loc-filter의 display:flex가 기본 [hidden]을 덮어쓰므로 명시적으로 숨긴다.
+   (상품 조회 전·항성계가 1개 이하면 행 자체를 노출하지 않음) */
+.uex-system-filter[hidden] {
+    display: none;
+}
+
 .uex-system-chips {
     display: flex;
     flex-wrap: wrap;

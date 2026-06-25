@@ -191,6 +191,9 @@ test.describe('무역플래너', () => {
         await gotoSection(page, '#trade-planner');
         await expect(page.locator('#uex-status')).toHaveText(/상품 1종/);
 
+        // 조회 전에는 항성계 필터 행이 숨겨져 있어야 한다(빈 라벨 노출 방지).
+        await expect(page.locator('#uex-system-filter')).toBeHidden();
+
         const search = page.locator('#uex-commodity-search');
         await search.click();
         await search.fill('Gold');
