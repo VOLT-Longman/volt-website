@@ -70,6 +70,7 @@
     let currentUexModel = null;
     let currentUexSelection = { buyKey: '', sellKey: '' };
     let currentUexLocationFilter = 'all'; // 'all' | 'auto'(스테이션·도시) | 'ground'(지상기지)
+    let currentUexSystemFilter = []; // 항성계 이름 배열(빈 배열=전체, 복수 선택)
     let availableUexCommodities = [];
     let searchIndexCache = null;
     let lastSearchTrigger = null;
@@ -1677,6 +1678,23 @@
                 if (select.value) renderUexCommodityCandidates(select.value);
             });
         });
+        const systemChips = document.getElementById('uex-system-chips');
+        if (systemChips) {
+            systemChips.addEventListener('click', (event) => {
+                const chip = event.target.closest('[data-uex-system]');
+                if (!chip) return;
+                const value = chip.getAttribute('data-uex-system');
+                if (value === '') {
+                    currentUexSystemFilter = []; // 전체
+                } else {
+                    const next = new Set(currentUexSystemFilter);
+                    if (next.has(value)) next.delete(value); else next.add(value);
+                    currentUexSystemFilter = Array.from(next);
+                }
+                updateUexSystemChips();
+                if (select.value) renderUexCommodityCandidates(select.value);
+            });
+        }
         updateUexLocFilterButtons();
         loadUexCommodities();
     }
@@ -1689,16 +1707,54 @@
         });
     }
 
+    // 항성계 칩을 현재 상품의 가격 데이터에 실제로 존재하는 항성계로만 렌더한다.
+    // 데이터에 없는 선택은 떨어내(stale 방지) 빈 상태 혼동을 막는다.
+    function renderUexSystemChips(model) {
+        const wrap = document.getElementById('uex-system-filter');
+        const chips = document.getElementById('uex-system-chips');
+        if (!wrap || !chips) return;
+        const systems = Array.isArray(model?.availableSystems) ? model.availableSystems : [];
+        if (systems.length <= 1) {
+            // 항성계가 1개 이하면 필터가 무의미 → 숨기고 선택도 초기화.
+            wrap.hidden = true;
+            chips.innerHTML = '';
+            if (currentUexSystemFilter.length) currentUexSystemFilter = [];
+            return;
+        }
+        currentUexSystemFilter = currentUexSystemFilter.filter((name) => systems.includes(name));
+        wrap.hidden = false;
+        const allActive = currentUexSystemFilter.length === 0;
+        const allLabel = i18nT('planner.sys.all', '전체');
+        chips.innerHTML = [
+            `<button type="button" class="uex-loc-btn uex-system-chip${allActive ? ' uex-loc-active' : ''}" data-uex-system="" aria-pressed="${allActive}">${escapeHtml(allLabel)}</button>`,
+            ...systems.map((name) => {
+                const active = currentUexSystemFilter.includes(name);
+                return `<button type="button" class="uex-loc-btn uex-system-chip${active ? ' uex-loc-active' : ''}" data-uex-system="${escapeHtml(name)}" aria-pressed="${active}">${escapeHtml(name)}</button>`;
+            })
+        ].join('');
+    }
+
+    function updateUexSystemChips() {
+        document.querySelectorAll('#uex-system-chips [data-uex-system]').forEach((chip) => {
+            const value = chip.getAttribute('data-uex-system');
+            const active = value === '' ? currentUexSystemFilter.length === 0 : currentUexSystemFilter.includes(value);
+            chip.classList.toggle('uex-loc-active', active);
+            chip.setAttribute('aria-pressed', String(active));
+        });
+    }
+
     function getUexLocationLabel(type) {
         const ko = { station: '스테이션', city: '도시', ground: '지상기지', unclassified: '미분류' }[type] || '미분류';
         return i18nT(`planner.badge.${type}`, ko);
     }
 
-    // 추천 무역품 "추천 기준" 문구 — 현재 위치 필터를 그대로 따른다.
+    // 추천 무역품 "추천 기준" 문구 — 현재 위치/항성계 필터를 그대로 따른다.
     function recommendBasisText() {
         const ko = { all: '추천 기준: 전체 거래 후보', auto: '추천 기준: 스테이션/도시 거래 후보', ground: '추천 기준: 지상기지 거래 후보' };
         const key = currentUexLocationFilter === 'auto' ? 'planner.rec.basisAuto' : currentUexLocationFilter === 'ground' ? 'planner.rec.basisGround' : 'planner.rec.basisAll';
-        return i18nT(key, ko[currentUexLocationFilter] || ko.all);
+        const base = i18nT(key, ko[currentUexLocationFilter] || ko.all);
+        // 항성계 이름은 고유명사라 KO/EN 동일 — 별도 번역 없이 덧붙인다.
+        return currentUexSystemFilter.length ? `${base} · ${currentUexSystemFilter.join(', ')}` : base;
     }
 
     function renderUexLocBadge(row) {
@@ -1816,6 +1872,9 @@
         renderCommoditySummary(item);
         currentUexModel = null;
         currentUexSelection = { buyKey: '', sellKey: '' };
+        // 직전 상품의 항성계 칩은 stale이므로 조회 전까지 숨긴다.
+        const systemFilterWrap = document.getElementById('uex-system-filter');
+        if (systemFilterWrap) { systemFilterWrap.hidden = true; }
         const uexResults = document.getElementById('uex-results');
         if (uexResults) uexResults.innerHTML = '<div class="uex-empty">상품 선택 후 거래 후보를 조회할 수 있습니다.</div>';
         renderLogisticsRecommendation();
@@ -1841,8 +1900,12 @@
         try {
             const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices);
             const selectedCommodity = availableUexCommodities.find((item) => String(item.id) === String(commodityId));
-            const model = uex.buildUexCandidateModel(prices, selectedCommodity, currentUexSelection, currentUexLocationFilter);
+            // 칩 소스(항성계)는 전체 가격에서 뽑고, 사라진 선택은 떨어낸 뒤 필터를 적용한다.
+            const systems = uex.listStarSystems ? uex.listStarSystems(prices) : [];
+            currentUexSystemFilter = currentUexSystemFilter.filter((name) => systems.includes(name));
+            const model = uex.buildUexCandidateModel(prices, selectedCommodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter);
             currentUexModel = model;
+            renderUexSystemChips(model);
             results.innerHTML = renderUexCandidateCards(model);
             status.textContent = model.lastUpdatedLabel;
             renderLogisticsRecommendation();
@@ -1860,7 +1923,7 @@
         const key = option.getAttribute('data-uex-key');
         if (side === 'buy') currentUexSelection.buyKey = key;
         if (side === 'sell') currentUexSelection.sellKey = key;
-        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter);
+        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter);
         document.getElementById('uex-results').innerHTML = renderUexCandidateCards(currentUexModel);
         renderLogisticsRecommendation();
     }
@@ -1903,9 +1966,9 @@
         const rows = isBuy ? model.buyOptions : model.sellOptions;
         const selectedKey = isBuy ? currentUexSelection.buyKey : currentUexSelection.sellKey;
         const title = isBuy ? '매수 후보' : '매도 후보';
-        const filtered = model.locationFilter && model.locationFilter !== 'all';
+        const filtered = (model.locationFilter && model.locationFilter !== 'all') || (Array.isArray(model.systemFilter) && model.systemFilter.length > 0);
         const empty = filtered
-            ? '선택한 위치 유형에 해당하는 후보가 없습니다.'
+            ? '선택한 필터 조건에 해당하는 후보가 없습니다.'
             : (isBuy ? '현재 UEX 기준 매수 후보가 없습니다.' : '현재 UEX 기준 매도 후보가 없습니다.');
         const summary = isBuy
             ? `선택 화물량 ${model.usableScu.toLocaleString('ko-KR')} SCU 기준 필요 구매 자금: ${formatCredits(model.purchaseCost)}`
@@ -1929,8 +1992,10 @@
         return `<button class="uex-candidate-card${selected}" type="button" data-uex-side="${escapeHtml(side)}" data-uex-key="${escapeHtml(row.uexKey)}" aria-pressed="${selected ? 'true' : 'false'}">
             <div class="uex-candidate-top">
                 <span class="uex-candidate-location">${index + 1}. ${escapeHtml(formatUexLocation(row))}</span>
-                ${renderUexLocBadge(row)}
-                ${selected ? '<span class="uex-candidate-selected">선택됨</span>' : ''}
+                <span class="uex-candidate-tags">
+                    ${renderUexLocBadge(row)}
+                    ${selected ? '<span class="uex-candidate-selected">선택됨</span>' : ''}
+                </span>
             </div>
             <strong class="uex-candidate-price">${escapeHtml(formatCredits(row[field]))} / SCU</strong>
             <div class="uex-candidate-meta">
@@ -1984,7 +2049,7 @@
         if (!commodity) return null;
         try {
             const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodity.id)}/prices`, UEX_CACHE_TTL_MS.prices);
-            const model = uex.buildUexCandidateModel(prices, commodity, { buyKey: '', sellKey: '' }, currentUexLocationFilter);
+            const model = uex.buildUexCandidateModel(prices, commodity, { buyKey: '', sellKey: '' }, currentUexLocationFilter, currentUexSystemFilter);
             if (!model.bestBuy || !model.bestSell || model.profitPerScu <= 0) return null;
             return model;
         } catch (error) {
@@ -2054,7 +2119,7 @@
 
     function refreshUexModelForPlannerInputs() {
         if (!currentUexModel?.rawPrices) return;
-        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter);
+        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter);
         const results = document.getElementById('uex-results');
         if (results) results.innerHTML = renderUexCandidateCards(currentUexModel);
     }
@@ -3481,7 +3546,7 @@
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); if (currentUexModel) renderUexSystemChips(currentUexModel); });
         }
         setupDynamicStyles();
         setupSplash();

@@ -66,10 +66,37 @@
         return false; // 미분류는 auto/ground 어느 필터에도 포함하지 않는다.
     }
 
+    // 항성계(Star System) 분류. UEX commodities_prices의 star_system_name을 그대로 쓴다.
+    function getStarSystem(row) {
+        return (row && row.star_system_name) ? row.star_system_name : '';
+    }
+
+    // 가격 데이터에 실제로 존재하는 항성계 목록(중복 제거·정렬). 칩 UI 소스로 쓴다.
+    function listStarSystems(prices) {
+        const set = new Set();
+        (Array.isArray(prices) ? prices : []).forEach((row) => {
+            const name = getStarSystem(row);
+            if (name) set.add(name);
+        });
+        return Array.from(set).sort((a, b) => a.localeCompare(b));
+    }
+
+    // systems가 비어 있으면(전체) 모두 통과. 지정 시 해당 항성계만, 항성계 미상 행은 제외.
+    function systemMatchesFilter(row, systems) {
+        if (!Array.isArray(systems) || systems.length === 0) return true;
+        const name = getStarSystem(row);
+        return name ? systems.includes(name) : false;
+    }
+
     // selectionState는 호출자(main.js)가 소유한다. 여기서는 인자로만 받아 갱신한다.
     // locationFilter: 'all' | 'auto'(스테이션·도시) | 'ground'(지상기지) — best 선정 입력까지 좁힌다.
-    function buildUexCandidateModel(prices, commodity = null, selectionState = { buyKey: '', sellKey: '' }, locationFilter = 'all') {
-        const scoped = (!locationFilter || locationFilter === 'all') ? prices : prices.filter((row) => locationMatchesFilter(row, locationFilter));
+    // systemFilter: 항성계 이름 배열(빈 배열=전체) — 위치 필터와 AND로 적용한다.
+    function buildUexCandidateModel(prices, commodity = null, selectionState = { buyKey: '', sellKey: '' }, locationFilter = 'all', systemFilter = []) {
+        const noLoc = !locationFilter || locationFilter === 'all';
+        const noSys = !Array.isArray(systemFilter) || systemFilter.length === 0;
+        const scoped = (noLoc && noSys)
+            ? prices
+            : prices.filter((row) => locationMatchesFilter(row, locationFilter) && systemMatchesFilter(row, systemFilter));
         const buyOptions = prepareUexRows(scoped, 'price_buy', 'asc');
         const sellOptions = prepareUexRows(scoped, 'price_sell', 'desc');
         const bestBuy = pickSelectedUexRow(buyOptions, 'buy', selectionState);
@@ -100,6 +127,8 @@
             profitRate,
             rawPrices: prices,
             locationFilter: locationFilter || 'all',
+            systemFilter: Array.isArray(systemFilter) ? systemFilter.slice() : [],
+            availableSystems: listStarSystems(prices),
             lastUpdated,
             lastUpdatedLabel: lastUpdated
                 ? `최근 갱신: ${new Date(lastUpdated * 1000).toLocaleString('ko-KR')}`
@@ -169,5 +198,5 @@
         return '추천';
     }
 
-    window.VOLT_UEX = { init, fetchUexData, buildUexCandidateModel, scoreRecommendedCommodity, getLocationType };
+    window.VOLT_UEX = { init, fetchUexData, buildUexCandidateModel, scoreRecommendedCommodity, getLocationType, getStarSystem, listStarSystems };
 })();

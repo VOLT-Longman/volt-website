@@ -3948,7 +3948,10 @@ body.nav-trade-open::before {
     min-width: 0;
 }
 
+/* 위치 텍스트가 남는 공간을 채워 배지 묶음을 항상 오른쪽에 고정한다.
+   (선택 시 '선택됨' 배지가 붙어도 '스테이션' 배지가 중앙으로 튀지 않게) */
 .uex-candidate-location {
+    flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
     max-width: 100%;
@@ -3957,6 +3960,13 @@ body.nav-trade-open::before {
     line-height: 1.4;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.uex-candidate-tags {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .uex-candidate-selected,
@@ -6901,6 +6911,18 @@ body.nav-trade-open::before {
     background: var(--volt-orange);
     border-color: var(--volt-orange);
     color: #fff;
+}
+
+/* 항성계 필터: 거래 위치 필터 바로 아래에 같은 톤으로 붙인다(복수 선택 칩). */
+.uex-system-filter {
+    margin-top: -4px;
+}
+
+.uex-system-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
 }
 
 .uex-loc-badge {

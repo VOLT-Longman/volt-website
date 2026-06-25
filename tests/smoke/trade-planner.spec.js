@@ -175,6 +175,81 @@ test.describe('무역플래너', () => {
         await expect(recStatus).toHaveText(/지상기지 거래 후보/);
     });
 
+    test('UEX 항성계 필터: 복수 선택으로 거점 좁히기 + 칩 동적 노출', async ({ page }) => {
+        await mockApi(page);
+        await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({
+            json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] },
+        }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({
+            json: { status: 'ok', data: [
+                { terminal_name: 'StantonBuy', space_station_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
+                { terminal_name: 'StantonSell', space_station_name: 'ARC-L1', star_system_name: 'Stanton', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 4000 },
+                { terminal_name: 'PyroBuy', space_station_name: 'Terminus', star_system_name: 'Pyro', price_buy: 90, price_sell: 0, date_modified: 1700000000, scu_buy: 3000 },
+                { terminal_name: 'PyroSell', space_station_name: 'Checkmate', star_system_name: 'Pyro', price_buy: 0, price_sell: 160, date_modified: 1700000000, scu_sell: 2000 },
+            ] },
+        }));
+        await gotoSection(page, '#trade-planner');
+        await expect(page.locator('#uex-status')).toHaveText(/상품 1종/);
+
+        const search = page.locator('#uex-commodity-search');
+        await search.click();
+        await search.fill('Gold');
+        await page.locator('#uex-commodity-results [data-commodity-id="1"]').click();
+        await page.locator('#uex-refresh').click();
+
+        // 항성계 칩이 데이터 기반으로 노출(전체/Pyro/Stanton)
+        await expect(page.locator('#uex-system-filter')).toBeVisible();
+        await expect(page.locator('#uex-system-chips [data-uex-system="Stanton"]')).toBeVisible();
+        await expect(page.locator('#uex-system-chips [data-uex-system="Pyro"]')).toBeVisible();
+
+        const results = page.locator('#uex-results');
+        // 전체: 양쪽 항성계 모두
+        await expect(results).toContainText('StantonBuy');
+        await expect(results).toContainText('PyroBuy');
+
+        // Stanton만: Pyro 거점 제외
+        await page.locator('#uex-system-chips [data-uex-system="Stanton"]').click();
+        await expect(results).toContainText('StantonBuy');
+        await expect(results).toContainText('StantonSell');
+        await expect(results).not.toContainText('PyroBuy');
+        await expect(results).not.toContainText('PyroSell');
+
+        // 복수 선택: Pyro 추가 → 둘 다
+        await page.locator('#uex-system-chips [data-uex-system="Pyro"]').click();
+        await expect(results).toContainText('StantonBuy');
+        await expect(results).toContainText('PyroBuy');
+
+        // 전체로 초기화
+        await page.locator('#uex-system-chips [data-uex-system=""]').click();
+        await expect(page.locator('#uex-system-chips [data-uex-system=""]')).toHaveClass(/uex-loc-active/);
+        await expect(results).toContainText('PyroSell');
+    });
+
+    test('UEX 후보 선택 시 배지 묶음(.uex-candidate-tags)로 그룹화 — 레이아웃 튐 방지', async ({ page }) => {
+        await mockApi(page);
+        await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({
+            json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] },
+        }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({
+            json: { status: 'ok', data: [
+                { terminal_name: 'Port A', space_station_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 100, price_sell: 0, date_modified: 1700000000 },
+                { terminal_name: 'Port B', space_station_name: 'ARC-L1', star_system_name: 'Stanton', price_buy: 0, price_sell: 180, date_modified: 1700000000 },
+            ] },
+        }));
+        await gotoSection(page, '#trade-planner');
+        const search = page.locator('#uex-commodity-search');
+        await search.click();
+        await search.fill('Gold');
+        await page.locator('#uex-commodity-results [data-commodity-id="1"]').click();
+        await page.locator('#uex-refresh').click();
+
+        // 매수 후보 1번 선택 → 같은 카드의 배지 묶음 안에 위치 배지 + '선택됨'이 함께 존재
+        await page.locator('#uex-results [data-uex-side="buy"]').first().click();
+        const selectedCard = page.locator('#uex-results .uex-candidate-card.is-selected').first();
+        await expect(selectedCard.locator('.uex-candidate-tags .uex-loc-badge')).toBeVisible();
+        await expect(selectedCard.locator('.uex-candidate-tags .uex-candidate-selected')).toHaveText('선택됨');
+    });
+
     test('추천 무역품: 필터 조건에 후보 없으면 빈 상태(조용한 fallback 없음)', async ({ page }) => {
         await mockApi(page);
         await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ json: { status: 'ok', data: [

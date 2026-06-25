@@ -92,12 +92,22 @@ test.describe('i18n (KO/EN)', () => {
         const page = await ctx.newPage();
         await page.route(/\/api\/uex\/commodities$/, (r) => r.fulfill({ json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] } }));
         await page.route(/\/api\/uex\/commodities\/1\/prices$/, (r) => r.fulfill({ json: { status: 'ok', data: [
-            { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
-            { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 8000 },
+            { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
+            { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', star_system_name: 'Pyro', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 8000 },
         ] } }));
         await page.goto('/#trade-planner');
         await page.waitForSelector('#loading-splash', { state: 'hidden' });
         await expect(page.locator('[data-uex-loc="auto"]')).toHaveText('Station/City');
+        // 항성계 필터 라벨 EN
+        await expect(page.locator('#uex-system-filter .uex-loc-filter-label')).toHaveText('Star system');
+
+        // 상품 선택 후 항성계 칩이 EN('전체' → All)으로 노출
+        const search = page.locator('#uex-commodity-search');
+        await search.click();
+        await search.fill('Gold');
+        await page.locator('#uex-commodity-results [data-commodity-id="1"]').click();
+        await page.locator('#uex-refresh').click();
+        await expect(page.locator('#uex-system-chips [data-uex-system=""]')).toHaveText('All');
 
         await page.locator('.uex-recommend-panel').evaluate((d) => { d.open = true; });
         await page.locator('#uex-recommend-refresh').click();
