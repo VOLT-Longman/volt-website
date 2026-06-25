@@ -82,6 +82,11 @@
             'policy.lastUpdatedLabel': '최종 업데이트:',
             'faq.title': '자주 묻는 <span class="accent">질문</span>',
             'faq.subtitle': 'VOLT 함대 FAQ',
+            // 일정 / 연혁
+            'schedule.title': '작전 <span class="accent">일정</span>',
+            'schedule.subtitle': '함대 주요 일정 및 이벤트',
+            'timeline.title': '함대 <span class="accent">연혁</span>',
+            'timeline.subtitle': 'VOLT가 걸어온 길',
             // 푸터
             'footer.tagline': 'Voyagers of Logistics &amp; Trade<br>한국 커뮤니티 Star Citizen 함대',
             'footer.about': '소개',
@@ -153,6 +158,11 @@
             'policy.lastUpdatedLabel': 'Last updated:',
             'faq.title': 'Frequently Asked <span class="accent">Questions</span>',
             'faq.subtitle': 'VOLT Fleet FAQ',
+            // Schedule / History
+            'schedule.title': 'Operations <span class="accent">Schedule</span>',
+            'schedule.subtitle': 'Key fleet dates & events',
+            'timeline.title': 'Fleet <span class="accent">History</span>',
+            'timeline.subtitle': "VOLT's journey so far",
             // footer
             'footer.tagline': 'Voyagers of Logistics &amp; Trade<br>A Korean-community Star Citizen fleet',
             'footer.about': 'About',

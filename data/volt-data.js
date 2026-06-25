@@ -208,52 +208,72 @@ const VOLT_DATA = {
         {
             date: "2953.06.18",
             title: "VOLT 함대 창설",
-            description: "한국 커뮤니티 기반 Star Citizen 물류·무역 함대 출범."
+            title_en: "VOLT Fleet Founded",
+            description: "한국 커뮤니티 기반 Star Citizen 물류·무역 함대 출범.",
+            description_en: "Launch of a Korean-community Star Citizen logistics and trade fleet."
         },
         {
             date: "2955.02",
             title: "운영 체계 정비",
-            description: "부서 운영 체계를 정비하고 부서별 정기 활동 도입. 분기별 이벤트 시스템 구축."
+            title_en: "Operations Restructured",
+            description: "부서 운영 체계를 정비하고 부서별 정기 활동 도입. 분기별 이벤트 시스템 구축.",
+            description_en: "Reorganized the departmental operating system, introduced regular departmental activities, and built a quarterly event system."
         },
         {
             date: "2955.02",
             title: "전략자원부 신설 · 전리품 장터 개설",
-            description: "기존 보안부서를 전략자원부로 개편. 함대 내부 경제 시스템인 전리품 장터 운영 시작."
+            title_en: "Strategic Resources Dept. & Loot Market",
+            description: "기존 보안부서를 전략자원부로 개편. 함대 내부 경제 시스템인 전리품 장터 운영 시작.",
+            description_en: "Reorganized the former security department into Strategic Resources, and launched the Loot Market — the fleet's internal economy."
         },
         {
             date: "2955.04",
             title: "디스코드 시스템 전면 개편 · 홍보부 신설",
-            description: "카테고리 및 채널 구조 전면 개편, 역할 체계 재정비. 스트리머 중심의 홍보부 신설."
+            title_en: "Discord Overhaul & Outreach Dept.",
+            description: "카테고리 및 채널 구조 전면 개편, 역할 체계 재정비. 스트리머 중심의 홍보부 신설.",
+            description_en: "Fully reworked the category and channel structure, reorganized the role system, and created a streamer-focused Outreach department."
         },
         {
             date: "2955.06",
             title: "디스코드 서버 부스터 레벨 3 달성",
-            description: "함대원들의 적극적인 참여로 서버 기능 확장."
+            title_en: "Discord Server Boost Level 3",
+            description: "함대원들의 적극적인 참여로 서버 기능 확장.",
+            description_en: "Active member participation unlocked expanded server features."
         },
         {
             date: "2955.08",
             title: "Lazarus Complex 레이드",
-            description: "하반기 첫 공식 단체 작전. Pyro 시스템 기반 중형 협동 콘텐츠 진행."
+            title_en: "Lazarus Complex Raid",
+            description: "하반기 첫 공식 단체 작전. Pyro 시스템 기반 중형 협동 콘텐츠 진행.",
+            description_en: "Our first official group operation of the second half — a mid-size co-op event in the Pyro system."
         },
         {
             date: "2955.11",
             title: "VOLT-무역허브 공식 개설",
-            description: "통합 교역 시스템 구축. 인게임 아이템 거래 및 단기 임무 모집을 지원하는 전용 플랫폼."
+            title_en: "VOLT Trade Hub Launched",
+            description: "통합 교역 시스템 구축. 인게임 아이템 거래 및 단기 임무 모집을 지원하는 전용 플랫폼.",
+            description_en: "Built an integrated trading system — a dedicated platform for in-game item trades and short-term mission listings."
         },
         {
             date: "2956.01",
             title: "VOLT AI 봇 도입",
-            description: "Google Gemini 기반 함선 정보 AI 시스템 오픈. 함대원 전용 정보 분석 도구."
+            title_en: "VOLT AI Bot Introduced",
+            description: "Google Gemini 기반 함선 정보 AI 시스템 오픈. 함대원 전용 정보 분석 도구.",
+            description_en: "Opened a Google Gemini–based ship-info AI system, a members-only analysis tool."
         },
         {
             date: "2956.02",
             title: "VOLT × MJO 합동 교류 작전",
-            description: "외부 함대와의 친선 협력 강화. 향후 정기 연합 작전의 기반 마련."
+            title_en: "VOLT × MJO Joint Operation",
+            description: "외부 함대와의 친선 협력 강화. 향후 정기 연합 작전의 기반 마련.",
+            description_en: "Strengthened friendly cooperation with an outside fleet, laying the groundwork for regular joint operations."
         },
         {
             date: "2956.05",
             title: "함대 홈페이지 리뉴얼",
-            description: "함대 정체성과 방향성을 명확히 보여주기 위한 공식 홈페이지 개편."
+            title_en: "Fleet Website Renewal",
+            description: "함대 정체성과 방향성을 명확히 보여주기 위한 공식 홈페이지 개편.",
+            description_en: "Renewed the official website to clearly present the fleet's identity and direction."
         }
     ],
 
@@ -514,37 +534,57 @@ const VOLT_DATA = {
             id: "cal-001",
             date: "2026.08",
             dateLabel: "2026년 8월 예정",
+            dateLabel_en: "Aug 2026 (planned)",
             title: "TSG 미션 (4.8 업데이트 후)",
+            title_en: "TSG Mission (after 4.8 update)",
             description: "4.8 업데이트 이후 진행 예정. 우주팀(함대 기동·제공권 확보)과 스테이션 진입팀(FPS 교전)으로 나뉘어 수행.",
+            description_en: "Planned after the 4.8 update. Split into a space team (fleet maneuvers, air superiority) and a station-entry team (FPS combat).",
             type: "작전",
-            status: "예정"
+            type_en: "Operation",
+            status: "예정",
+            status_en: "Upcoming"
         },
         {
             id: "cal-002",
             date: "2026.Q3",
             dateLabel: "2026년 3분기",
+            dateLabel_en: "Q3 2026",
             title: "분기 정기 이벤트",
+            title_en: "Quarterly Fleet Event",
             description: "함대원 전원이 참여하는 분기별 공식 이벤트. 세부 일정은 디스코드 공지 채널에서 확인.",
+            description_en: "An official quarterly event for the whole fleet. Check the Discord announcements channel for details.",
             type: "이벤트",
-            status: "예정"
+            type_en: "Event",
+            status: "예정",
+            status_en: "Upcoming"
         },
         {
             id: "cal-003",
             date: "2026.TBD",
             dateLabel: "일정 미정",
+            dateLabel_en: "Date TBD",
             title: "유저 거래소 프로젝트 재개",
+            title_en: "User Marketplace Project Restart",
             description: "버그 수정 및 시장 경쟁력 확보 후 샤타곤 유저 거래소 프로젝트 재개 예정.",
+            description_en: "The Shatagon user-marketplace project will resume after bug fixes and securing market competitiveness.",
             type: "프로젝트",
-            status: "대기"
+            type_en: "Project",
+            status: "대기",
+            status_en: "On hold"
         },
         {
             id: "cal-004",
             date: "2026.TBD",
             dateLabel: "1.0 출시 후",
+            dateLabel_en: "After 1.0 launch",
             title: "세금 제도 도입",
+            title_en: "Tax System Introduction",
             description: "스테이션·전초기지·함대 복지 운영을 위한 세금 제도 도입 예정. 정식오픈 초기 세율 높게 책정 후 안정화 이후 재조정.",
+            description_en: "A tax system is planned to fund stations, outposts, and fleet welfare. Rates will start high at launch and be re-tuned once things stabilize.",
             type: "정책",
-            status: "계획"
+            type_en: "Policy",
+            status: "계획",
+            status_en: "Planned"
         }
     ],
 

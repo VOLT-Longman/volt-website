@@ -463,8 +463,8 @@
         container.innerHTML = data.timeline.map((item) => `
             <div class="timeline-item reveal">
                 <div class="timeline-date">${escapeHtml(item.date)}</div>
-                <div class="timeline-title">${escapeHtml(item.title)}</div>
-                <div class="timeline-desc">${escapeHtml(item.description)}</div>
+                <div class="timeline-title">${escapeHtml(tx(item, 'title'))}</div>
+                <div class="timeline-desc">${escapeHtml(tx(item, 'description'))}</div>
             </div>`).join('');
     }
 
@@ -811,16 +811,16 @@
             const detailId = `schedule-detail-${escapeHtml(eventId)}`;
             return `<div class="schedule-item reveal" data-schedule-event-id="${escapeHtml(eventId)}">
                 <div class="schedule-date-col">
-                    <span class="schedule-date">${escapeHtml(event.dateLabel)}</span>
-                    <span class="schedule-status" data-style-color="${colors[event.status] || '#a0aec0'}">${escapeHtml(event.status)}</span>
+                    <span class="schedule-date">${escapeHtml(tx(event, 'dateLabel'))}</span>
+                    <span class="schedule-status" data-style-color="${colors[event.status] || '#a0aec0'}">${escapeHtml(tx(event, 'status'))}</span>
                 </div>
                 <div class="schedule-body">
-                    <div class="schedule-type-badge">${escapeHtml(event.type)}</div>
+                    <div class="schedule-type-badge">${escapeHtml(tx(event, 'type'))}</div>
                     <button class="schedule-item-toggle" type="button" aria-expanded="false" aria-controls="${detailId}">
-                        ${escapeHtml(event.title)}
+                        ${escapeHtml(tx(event, 'title'))}
                     </button>
                     <div class="schedule-item-detail" id="${detailId}" hidden>
-                        <p>${formatMultilineText(event.description)}</p>
+                        <p>${formatMultilineText(tx(event, 'description'))}</p>
                     </div>
                     ${renderRsvpControls(eventId)}
                 </div>
@@ -3434,7 +3434,7 @@
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); });
         }
         setupDynamicStyles();
         setupSplash();

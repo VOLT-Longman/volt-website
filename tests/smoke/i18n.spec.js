@@ -64,6 +64,29 @@ test.describe('i18n (KO/EN)', () => {
         await ctx.close();
     });
 
+    test('일정 영어화: 비한국어 기본 영어', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const page = await load(ctx, '/#schedule');
+        await expect(page.locator('#schedule-list')).toContainText('Quarterly Fleet Event');
+        await ctx.close();
+    });
+
+    test('연혁 영어화: 비한국어 기본 영어', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const page = await load(ctx, '/#timeline');
+        await expect(page.locator('#timeline-list')).toContainText('VOLT Fleet Founded');
+        await ctx.close();
+    });
+
+    test('일정/연혁 KO 회귀 + 토글 재렌더', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'ko-KR' });
+        const page = await load(ctx, '/#timeline');
+        await expect(page.locator('#timeline-list')).toContainText('VOLT 함대 창설');
+        await page.locator('.nav-lang [data-set-lang="en"]').click();
+        await expect(page.locator('#timeline-list')).toContainText('VOLT Fleet Founded');
+        await ctx.close();
+    });
+
     test('해시 라우팅 + 언어 토글 충돌 없음 + 동적 About 카드 번역', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'ko-KR' });
         const page = await load(ctx, '/#about');
