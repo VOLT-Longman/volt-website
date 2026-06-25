@@ -69,6 +69,7 @@
     const shipCompareState = new Set();
     let currentUexModel = null;
     let currentUexSelection = { buyKey: '', sellKey: '' };
+    let currentUexLocationFilter = 'all'; // 'all' | 'auto'(스테이션·도시) | 'ground'(지상기지)
     let availableUexCommodities = [];
     let searchIndexCache = null;
     let lastSearchTrigger = null;
@@ -1669,7 +1670,32 @@
                 renderUexCommodityCandidates(commodityId);
             });
         }
+        document.querySelectorAll('[data-uex-loc]').forEach((locBtn) => {
+            locBtn.addEventListener('click', () => {
+                currentUexLocationFilter = locBtn.getAttribute('data-uex-loc') || 'all';
+                updateUexLocFilterButtons();
+                if (select.value) renderUexCommodityCandidates(select.value);
+            });
+        });
+        updateUexLocFilterButtons();
         loadUexCommodities();
+    }
+
+    function updateUexLocFilterButtons() {
+        document.querySelectorAll('[data-uex-loc]').forEach((locBtn) => {
+            const active = locBtn.getAttribute('data-uex-loc') === currentUexLocationFilter;
+            locBtn.classList.toggle('uex-loc-active', active);
+            locBtn.setAttribute('aria-pressed', String(active));
+        });
+    }
+
+    function getUexLocationLabel(type) {
+        return { station: '스테이션', city: '도시', ground: '지상기지', unclassified: '미분류' }[type] || '미분류';
+    }
+
+    function renderUexLocBadge(row) {
+        const type = uex.getLocationType ? uex.getLocationType(row) : 'unclassified';
+        return `<span class="uex-loc-badge uex-loc-badge-${type}">${escapeHtml(getUexLocationLabel(type))}</span>`;
     }
 
     async function loadUexCommodities() {
@@ -1807,7 +1833,7 @@
         try {
             const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices);
             const selectedCommodity = availableUexCommodities.find((item) => String(item.id) === String(commodityId));
-            const model = uex.buildUexCandidateModel(prices, selectedCommodity, currentUexSelection);
+            const model = uex.buildUexCandidateModel(prices, selectedCommodity, currentUexSelection, currentUexLocationFilter);
             currentUexModel = model;
             results.innerHTML = renderUexCandidateCards(model);
             status.textContent = model.lastUpdatedLabel;
@@ -1826,7 +1852,7 @@
         const key = option.getAttribute('data-uex-key');
         if (side === 'buy') currentUexSelection.buyKey = key;
         if (side === 'sell') currentUexSelection.sellKey = key;
-        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection);
+        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter);
         document.getElementById('uex-results').innerHTML = renderUexCandidateCards(currentUexModel);
         renderLogisticsRecommendation();
     }
@@ -1869,7 +1895,10 @@
         const rows = isBuy ? model.buyOptions : model.sellOptions;
         const selectedKey = isBuy ? currentUexSelection.buyKey : currentUexSelection.sellKey;
         const title = isBuy ? '매수 후보' : '매도 후보';
-        const empty = isBuy ? '현재 UEX 기준 매수 후보가 없습니다.' : '현재 UEX 기준 매도 후보가 없습니다.';
+        const filtered = model.locationFilter && model.locationFilter !== 'all';
+        const empty = filtered
+            ? '선택한 위치 유형에 해당하는 후보가 없습니다.'
+            : (isBuy ? '현재 UEX 기준 매수 후보가 없습니다.' : '현재 UEX 기준 매도 후보가 없습니다.');
         const summary = isBuy
             ? `선택 화물량 ${model.usableScu.toLocaleString('ko-KR')} SCU 기준 필요 구매 자금: ${formatCredits(model.purchaseCost)}`
             : `선택 화물량 ${model.usableScu.toLocaleString('ko-KR')} SCU 기준 예상 판매 금액: ${formatCredits(model.grossRevenue)}`;
@@ -1892,6 +1921,7 @@
         return `<button class="uex-candidate-card${selected}" type="button" data-uex-side="${escapeHtml(side)}" data-uex-key="${escapeHtml(row.uexKey)}" aria-pressed="${selected ? 'true' : 'false'}">
             <div class="uex-candidate-top">
                 <span class="uex-candidate-location">${index + 1}. ${escapeHtml(formatUexLocation(row))}</span>
+                ${renderUexLocBadge(row)}
                 ${selected ? '<span class="uex-candidate-selected">선택됨</span>' : ''}
             </div>
             <strong class="uex-candidate-price">${escapeHtml(formatCredits(row[field]))} / SCU</strong>
@@ -2007,7 +2037,7 @@
 
     function refreshUexModelForPlannerInputs() {
         if (!currentUexModel?.rawPrices) return;
-        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection);
+        currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter);
         const results = document.getElementById('uex-results');
         if (results) results.innerHTML = renderUexCandidateCards(currentUexModel);
     }

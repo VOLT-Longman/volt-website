@@ -48,10 +48,30 @@
         return rows;
     }
 
+    // 거래 위치 유형 분류. 기준은 "우주 스테이션인가"가 아니라 자동 상하차 가능 여부:
+    //   station(우주 스테이션) + city(랜딩존 도시) = 자동 상하차(auto) 그룹.
+    function getLocationType(row) {
+        if (!row) return 'unclassified';
+        if (row.space_station_name) return 'station';
+        if (row.city_name) return 'city';
+        if (row.outpost_name) return 'ground';
+        return 'unclassified';
+    }
+
+    function locationMatchesFilter(row, filter) {
+        if (!filter || filter === 'all') return true;
+        const type = getLocationType(row);
+        if (filter === 'auto') return type === 'station' || type === 'city';
+        if (filter === 'ground') return type === 'ground';
+        return false; // 미분류는 auto/ground 어느 필터에도 포함하지 않는다.
+    }
+
     // selectionState는 호출자(main.js)가 소유한다. 여기서는 인자로만 받아 갱신한다.
-    function buildUexCandidateModel(prices, commodity = null, selectionState = { buyKey: '', sellKey: '' }) {
-        const buyOptions = prepareUexRows(prices, 'price_buy', 'asc');
-        const sellOptions = prepareUexRows(prices, 'price_sell', 'desc');
+    // locationFilter: 'all' | 'auto'(스테이션·도시) | 'ground'(지상기지) — best 선정 입력까지 좁힌다.
+    function buildUexCandidateModel(prices, commodity = null, selectionState = { buyKey: '', sellKey: '' }, locationFilter = 'all') {
+        const scoped = (!locationFilter || locationFilter === 'all') ? prices : prices.filter((row) => locationMatchesFilter(row, locationFilter));
+        const buyOptions = prepareUexRows(scoped, 'price_buy', 'asc');
+        const sellOptions = prepareUexRows(scoped, 'price_sell', 'desc');
         const bestBuy = pickSelectedUexRow(buyOptions, 'buy', selectionState);
         const bestSell = pickSelectedUexRow(sellOptions, 'sell', selectionState);
         const cargoTarget = Math.max(0, Number(getCargoTarget()) || 0);
@@ -79,6 +99,7 @@
             estimatedProfit,
             profitRate,
             rawPrices: prices,
+            locationFilter: locationFilter || 'all',
             lastUpdated,
             lastUpdatedLabel: lastUpdated
                 ? `최근 갱신: ${new Date(lastUpdated * 1000).toLocaleString('ko-KR')}`
@@ -148,5 +169,5 @@
         return '추천';
     }
 
-    window.VOLT_UEX = { init, fetchUexData, buildUexCandidateModel, scoreRecommendedCommodity };
+    window.VOLT_UEX = { init, fetchUexData, buildUexCandidateModel, scoreRecommendedCommodity, getLocationType };
 })();

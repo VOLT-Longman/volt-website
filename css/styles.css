@@ -6857,3 +6857,80 @@ body.nav-trade-open::before {
     align-self: flex-start;
     margin-bottom: 10px;
 }
+
+/* ==========================================================================
+   UEX 거래 위치 유형 필터 + 배지 (스테이션/도시 vs 지상기지)
+   ========================================================================== */
+
+.uex-loc-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 12px;
+}
+
+.uex-loc-filter-label {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin-right: 2px;
+}
+
+.uex-loc-btn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.uex-loc-btn:hover {
+    border-color: var(--color-border-accent);
+    color: var(--color-text-primary);
+}
+
+.uex-loc-btn.uex-loc-active {
+    background: var(--volt-orange);
+    border-color: var(--volt-orange);
+    color: #fff;
+}
+
+.uex-loc-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.uex-loc-badge-station {
+    color: var(--volt-orange-light);
+    background: rgba(232, 72, 47, 0.12);
+    border-color: rgba(232, 72, 47, 0.3);
+}
+
+.uex-loc-badge-city {
+    color: #63b3ed;
+    background: rgba(99, 179, 237, 0.12);
+    border-color: rgba(99, 179, 237, 0.3);
+}
+
+.uex-loc-badge-ground {
+    color: #68d391;
+    background: rgba(104, 211, 145, 0.12);
+    border-color: rgba(104, 211, 145, 0.3);
+}
+
+.uex-loc-badge-unclassified {
+    color: var(--color-text-tertiary);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-border);
+}

@@ -86,4 +86,48 @@ test.describe('무역플래너', () => {
         const options = page.locator('#uex-commodity-results [data-commodity-id]');
         await expect.poll(() => options.count()).toBe(20);
     });
+
+    test('UEX 거래 위치 필터: 전체 / 스테이션·도시 / 지상기지 분리', async ({ page }) => {
+        await mockApi(page);
+        await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({
+            json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] },
+        }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({
+            json: { status: 'ok', data: [
+                { terminal_name: 'Station A', space_station_name: 'Station A', price_buy: 100, price_sell: 120, date_modified: 1700000000 },
+                { terminal_name: 'City B', city_name: 'Lorville', price_buy: 90, price_sell: 130, date_modified: 1700000000 },
+                { terminal_name: 'Outpost C', outpost_name: 'Outpost C', price_buy: 80, price_sell: 140, date_modified: 1700000000 },
+                { terminal_name: 'Unknown D', price_buy: 70, price_sell: 150, date_modified: 1700000000 },
+            ] },
+        }));
+        await gotoSection(page, '#trade-planner');
+        await expect(page.locator('#uex-status')).toHaveText(/상품 1종/);
+
+        const search = page.locator('#uex-commodity-search');
+        await search.click();
+        await search.fill('Gold');
+        await page.locator('#uex-commodity-results [data-commodity-id="1"]').click();
+        await page.locator('#uex-refresh').click();
+
+        const results = page.locator('#uex-results');
+        // 전체: 4개 타입 배지 모두 노출
+        await expect(results.getByText('스테이션', { exact: true }).first()).toBeVisible();
+        await expect(results.getByText('도시', { exact: true }).first()).toBeVisible();
+        await expect(results.getByText('지상기지', { exact: true }).first()).toBeVisible();
+        await expect(results.getByText('미분류', { exact: true }).first()).toBeVisible();
+
+        // 스테이션/도시 필터: 지상기지·미분류 제외
+        await page.locator('[data-uex-loc="auto"]').click();
+        await expect(results.getByText('스테이션', { exact: true }).first()).toBeVisible();
+        await expect(results.getByText('도시', { exact: true }).first()).toBeVisible();
+        await expect(results.getByText('지상기지', { exact: true })).toHaveCount(0);
+        await expect(results.getByText('미분류', { exact: true })).toHaveCount(0);
+
+        // 지상기지 필터: 지상기지만
+        await page.locator('[data-uex-loc="ground"]').click();
+        await expect(results.getByText('지상기지', { exact: true }).first()).toBeVisible();
+        await expect(results.getByText('스테이션', { exact: true })).toHaveCount(0);
+        await expect(results.getByText('도시', { exact: true })).toHaveCount(0);
+        await expect(results.getByText('미분류', { exact: true })).toHaveCount(0);
+    });
 });
