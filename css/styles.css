@@ -6934,3 +6934,42 @@ body.nav-trade-open::before {
     background: rgba(255, 255, 255, 0.05);
     border-color: var(--color-border);
 }
+
+/* ==========================================================================
+   모바일 공통 폴리시 (Step 1) — 상단 여백·1열·터치 타깃·필터 가로 스크롤
+   데스크톱 무영향(≤768만). 기존 모바일 규칙보다 뒤에 와서 우선 적용.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* 콘텐츠 시작 위치를 위로: 섹션 상하 여백 100px → 56px */
+    .section { padding: 56px 16px; }
+    .section-header { margin-bottom: 28px; }
+
+    /* 필터/탭 칩 줄: 줄바꿈 대신 가로 스크롤(스크롤바 숨김) */
+    .notice-filters,
+    .ship-filters,
+    .ships-cargo-filter,
+    .uex-loc-filter {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+    }
+
+    .notice-filters::-webkit-scrollbar,
+    .ship-filters::-webkit-scrollbar,
+    .ships-cargo-filter::-webkit-scrollbar,
+    .uex-loc-filter::-webkit-scrollbar { display: none; }
+
+    .notice-filters > *,
+    .ship-filters > *,
+    .ships-cargo-filter > *,
+    .uex-loc-filter > * { flex: 0 0 auto; }
+
+    /* 터치 타깃 최소 높이 확보 */
+    .ship-filter-btn,
+    .cargo-filter-btn,
+    .uex-loc-btn,
+    .lang-btn { min-height: 36px; }
+}
