@@ -4255,7 +4255,10 @@ body.nav-trade-open::before {
     #scroll-to-top { bottom: 20px; right: 16px; }
     .search-overlay { padding-top: 72px; }
     .search-header h2 { font-size: 20px; }
-    .ship-modal-grid { grid-template-columns: 1fr; }
+    /* 상세 카드: 2열 유지로 세로 과밀 방지(스펙이 짧아 좁은 화면에서도 가독) */
+    .ship-modal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .ship-modal-actions { flex-direction: column; align-items: stretch; }
+    .ship-modal-actions .btn { width: 100%; justify-content: center; min-height: 44px; }
     .ships-toolbar {
         display: grid;
         grid-template-columns: 1fr 1fr;
