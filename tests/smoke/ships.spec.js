@@ -101,4 +101,30 @@ test.describe('함선 DB', () => {
         await expect(modal).not.toHaveClass(/active/);
         await expect(firstCard).toBeFocused();
     });
+
+    // 영어화: 비한국어 기본 영어 — 헤더/필터 칩/카드/모달 영어 + 영문 검색 동작.
+    test('영어 함선DB: 헤더·필터칩·카드·모달 영어 표기', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const page = await ctx.newPage();
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+
+        // 정적 헤더/필터 라벨 영어
+        await expect(page.locator('#ships .section-header h2')).toContainText('Ship');
+        await expect(page.locator('#ship-search')).toHaveAttribute('placeholder', /Search by ship/);
+        // 역할 태그 칩이 영어(KO 분류 → EN 라벨)
+        await expect(page.locator('#ship-tag-filters')).toContainText('Cargo');
+        await expect(page.locator('#ship-tag-filters')).not.toContainText('화물');
+
+        // Carrack 검색 → 카드 제목 영문 + 모달 영어 역할/설명
+        await page.locator('#ship-search').fill('Carrack');
+        const card = page.locator('#ships-grid .ship-card').first();
+        await expect(card.locator('.ship-name')).toHaveText(/Carrack/);
+        await card.click();
+        const modal = page.locator('#global-modal');
+        await expect(modal).toHaveClass(/active/);
+        // 모달 스펙 라벨 영어(Role/Size/Crew)
+        await expect(modal.locator('.ship-modal-stat span').first()).toHaveText('Role');
+        await ctx.close();
+    });
 });

@@ -30,8 +30,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260614-18"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260614-18">
+  <script src="js/theme-init.js?v=20260614-19"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260614-19">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -70,7 +70,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20260614-18">
+   <link rel="stylesheet" href="css/noscript.css?v=20260614-19">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -349,72 +349,72 @@
   <section class="section" id="ships">
    <div class="section-content">
     <div class="section-header">
-     <h2>함선 <span class="accent">데이터베이스</span></h2>
-     <p>Star Citizen 주요 함선 정보</p>
+     <h2 data-i18n-html="ships.titleHtml">함선 <span class="accent">데이터베이스</span></h2>
+     <p data-i18n="ships.subtitle">Star Citizen 주요 함선 정보</p>
     </div>
     <div class="ships-controls">
      <div class="ships-toolbar">
-      <input type="text" id="ship-search" class="ship-search" placeholder="함선명 또는 제조사 검색...">
-      <select id="ship-manufacturer" class="ship-sort" aria-label="제조사 필터"></select>
-      <select id="ship-sort" class="ship-sort" aria-label="정렬 기준">
-       <option value="name-asc">이름 가나다순</option>
-       <option value="name-desc">이름 역순</option>
-       <option value="size-asc">크기 작은순</option>
-       <option value="size-desc">크기 큰순</option>
-       <option value="crew-asc">승무원 적은순</option>
-       <option value="crew-desc">승무원 많은순</option>
-       <option value="cargo-asc">화물 적은순</option>
-       <option value="cargo-desc">화물 많은순</option>
-       <option value="price-asc">가격 낮은순</option>
-       <option value="price-desc">가격 높은순</option>
+      <input type="text" id="ship-search" class="ship-search" placeholder="함선명 또는 제조사 검색..." data-i18n-placeholder="ships.searchPlaceholder">
+      <select id="ship-manufacturer" class="ship-sort" aria-label="제조사 필터" data-i18n-aria-label="ships.mfr"></select>
+      <select id="ship-sort" class="ship-sort" aria-label="정렬 기준" data-i18n-aria-label="ships.sortAria">
+       <option value="name-asc" data-i18n="ships.sortNameAsc">이름 가나다순</option>
+       <option value="name-desc" data-i18n="ships.sortNameDesc">이름 역순</option>
+       <option value="size-asc" data-i18n="ships.sortSizeAsc">크기 작은순</option>
+       <option value="size-desc" data-i18n="ships.sortSizeDesc">크기 큰순</option>
+       <option value="crew-asc" data-i18n="ships.sortCrewAsc">승무원 적은순</option>
+       <option value="crew-desc" data-i18n="ships.sortCrewDesc">승무원 많은순</option>
+       <option value="cargo-asc" data-i18n="ships.sortCargoAsc">화물 적은순</option>
+       <option value="cargo-desc" data-i18n="ships.sortCargoDesc">화물 많은순</option>
+       <option value="price-asc" data-i18n="ships.sortPriceAsc">가격 낮은순</option>
+       <option value="price-desc" data-i18n="ships.sortPriceDesc">가격 높은순</option>
       </select>
-      <button id="ship-advanced-toggle" class="ship-advanced-toggle" type="button" aria-expanded="false" aria-controls="ship-advanced-panel">상세 필터 <span class="ship-filter-count" id="ship-filter-count" hidden></span></button>
+      <button id="ship-advanced-toggle" class="ship-advanced-toggle" type="button" aria-expanded="false" aria-controls="ship-advanced-panel"><span data-i18n="ships.advanced">상세 필터</span> <span class="ship-filter-count" id="ship-filter-count" hidden></span></button>
      </div>
-     <div class="ship-filters" id="ship-tag-filters" role="group" aria-label="역할 태그 필터 (복수 선택 가능)"></div>
+     <div class="ship-filters" id="ship-tag-filters" role="group" aria-label="역할 태그 필터 (복수 선택 가능)" data-i18n-aria-label="ships.tagFilterAria"></div>
      <div class="ship-advanced-panel" id="ship-advanced-panel" hidden>
       <div class="ship-advanced-row">
-       <span class="ship-advanced-label">최소 화물량</span>
-       <div class="ships-cargo-filter" role="group" aria-label="화물량 필터">
-        <button class="cargo-filter-btn active" type="button" data-cargo-min="0">전체</button>
+       <span class="ship-advanced-label" data-i18n="ships.cargoMin">최소 화물량</span>
+       <div class="ships-cargo-filter" role="group" aria-label="화물량 필터" data-i18n-aria-label="ships.cargoMin">
+        <button class="cargo-filter-btn active" type="button" data-cargo-min="0" data-i18n="ships.cargoAll">전체</button>
         <button class="cargo-filter-btn" type="button" data-cargo-min="100">100 SCU+</button>
         <button class="cargo-filter-btn" type="button" data-cargo-min="500">500 SCU+</button>
         <button class="cargo-filter-btn" type="button" data-cargo-min="1000">1000 SCU+</button>
        </div>
       </div>
       <div class="ship-advanced-row">
-       <span class="ship-advanced-label">목적별 추천</span>
-       <select id="ship-purpose" class="ship-sort" aria-label="목적별 추천">
-        <option value="">선택 안 함</option>
-        <option value="입문">입문</option>
-        <option value="화물">화물</option>
-        <option value="탐사">탐사</option>
-        <option value="인양">인양</option>
-        <option value="채굴">채굴</option>
-        <option value="의료">의료</option>
+       <span class="ship-advanced-label" data-i18n="ships.purposeLabel">목적별 추천</span>
+       <select id="ship-purpose" class="ship-sort" aria-label="목적별 추천" data-i18n-aria-label="ships.purposeLabel">
+        <option value="" data-i18n="ships.purposeNone">선택 안 함</option>
+        <option value="입문" data-i18n="ship.cat.입문">입문</option>
+        <option value="화물" data-i18n="ship.cat.화물">화물</option>
+        <option value="탐사" data-i18n="ship.cat.탐사">탐사</option>
+        <option value="인양" data-i18n="ship.cat.인양">인양</option>
+        <option value="채굴" data-i18n="ship.cat.채굴">채굴</option>
+        <option value="의료" data-i18n="ship.cat.의료">의료</option>
        </select>
       </div>
       <div class="ship-advanced-row">
        <label class="ship-checkbox-label" for="ship-hide-unreleased">
         <input id="ship-hide-unreleased" type="checkbox">
-        <span>미구현 제외</span>
+        <span data-i18n="ships.hideUnreleased">미구현 제외</span>
        </label>
        <label class="ship-checkbox-label" for="ship-hangar-only">
         <input id="ship-hangar-only" type="checkbox">
-        <span>내 격납고만</span>
+        <span data-i18n="ships.hangarOnly">내 격납고만</span>
        </label>
-       <button id="ship-filter-reset" class="ship-filter-reset" type="button">필터 초기화</button>
+       <button id="ship-filter-reset" class="ship-filter-reset" type="button" data-i18n="ships.filterReset">필터 초기화</button>
       </div>
      </div>
     </div>
     <div class="ship-recommendation-summary" id="ship-recommendation-summary" hidden aria-live="polite"></div>
     <div class="ship-compare-bar" id="ship-compare-bar" hidden>
      <div>
-      <strong>비교함</strong>
+      <strong data-i18n="ships.compareBar">비교함</strong>
       <span id="ship-compare-summary">0 / 3척 선택</span>
      </div>
      <div class="ship-compare-actions">
-      <button class="btn btn-secondary" id="ship-compare-clear" type="button">초기화</button>
-      <button class="btn btn-primary" id="ship-compare-open" type="button" disabled>비교 보기</button>
+      <button class="btn btn-secondary" id="ship-compare-clear" type="button" data-i18n="ships.compareClear">초기화</button>
+      <button class="btn btn-primary" id="ship-compare-open" type="button" disabled data-i18n="ships.compareOpen">비교 보기</button>
      </div>
     </div>
     <div class="ships-grid" id="ships-grid"></div>
@@ -907,12 +907,13 @@
    </div>
   </div>
 
-<script src="data/volt-data.js?v=20260614-18"></script>
-<script src="data/volt-localization.js?v=20260614-18"></script>
-<script src="js/i18n.js?v=20260614-18"></script>
-<script src="js/navigation.js?v=20260614-18"></script>
-<script src="js/uex.js?v=20260614-18"></script>
-<script src="js/main.js?v=20260614-18"></script>
-<script src="js/volt-ai.js?v=20260614-18"></script>
+<script src="data/volt-data.js?v=20260614-19"></script>
+<script src="data/volt-localization.js?v=20260614-19"></script>
+<script src="data/ship-en.js?v=20260614-19"></script>
+<script src="js/i18n.js?v=20260614-19"></script>
+<script src="js/navigation.js?v=20260614-19"></script>
+<script src="js/uex.js?v=20260614-19"></script>
+<script src="js/main.js?v=20260614-19"></script>
+<script src="js/volt-ai.js?v=20260614-19"></script>
  </body>
 </html>

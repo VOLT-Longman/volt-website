@@ -15,6 +15,19 @@
         console.error('VOLT_DATA 미로드');
         return;
     }
+    // 함선 영어 데이터(_en) 병합 — tx(ship, field)가 EN을 집어들도록. KO 원본 필드는 필터/색상/검색용으로 유지.
+    if (window.VOLT_SHIP_EN && Array.isArray(data.ships)) {
+        for (const ship of data.ships) {
+            const en = window.VOLT_SHIP_EN[ship.id];
+            if (!en) continue;
+            ship.role_en = en.role;
+            ship.focus_en = en.focus;
+            ship.size_en = en.size;
+            ship.crew_en = en.crew;
+            ship.description_en = en.description;
+            ship.tags_en = Array.isArray(en.tags) ? en.tags : [];
+        }
+    }
     const staticLeadership = Array.isArray(data.leadership) ? data.leadership.slice() : [];
 
     function renderInlineIcon(name, className = 'inline-svg-icon') {
@@ -57,6 +70,14 @@
         return currentLang() === 'en' && en ? en : item[field];
     }
     function i18nT(key, fallback) { return i18n && i18n.t ? i18n.t(key) : (fallback || key); }
+    // 함선 분류(focus/tag) KO→표시 라벨. 필터 키는 KO를 유지하고 표시만 번역한다.
+    function shipCat(catKo) { return i18nT(`ship.cat.${catKo}`, catKo); }
+    // 카드/모달 태그 표시용. EN일 때 tags_en(인덱스 정렬 일치)을 쓰고, 필터는 KO ship.tags를 유지.
+    function shipTagsLocalized(ship) {
+        const ko = Array.isArray(ship.tags) ? ship.tags : [];
+        if (currentLang() === 'en' && Array.isArray(ship.tags_en) && ship.tags_en.length === ko.length) return ship.tags_en;
+        return ko;
+    }
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
@@ -103,27 +124,39 @@
     const SHIP_PURPOSE_COPY = {
         '입문': {
             criterion: '적은 인원으로 운용 가능하고 기본 활동을 익히기 좋은 함선을 우선합니다.',
-            useCase: '첫 구매, 복귀 유저, 1~2인 소규모 활동에 적합합니다.'
+            criterion_en: 'Prioritizes ships that can be operated solo or in small crews and are good for learning the basics.',
+            useCase: '첫 구매, 복귀 유저, 1~2인 소규모 활동에 적합합니다.',
+            useCase_en: 'Great for a first purchase, returning players, and 1–2 person activities.'
         },
         '화물': {
             criterion: 'SCU 적재량과 물류 운용성을 기준으로 추천합니다.',
-            useCase: '상업 운송, 반복 루트, 함대 보급 임무에 적합합니다.'
+            criterion_en: 'Recommended by SCU capacity and logistics usability.',
+            useCase: '상업 운송, 반복 루트, 함대 보급 임무에 적합합니다.',
+            useCase_en: 'Suited to commercial hauling, repeat routes, and fleet resupply.'
         },
         '탐사': {
             criterion: '탐사 또는 장거리 활동 태그를 가진 함선을 중심으로 묶습니다.',
-            useCase: '장거리 항해, 정보 수집, 미지 구역 탐색에 적합합니다.'
+            criterion_en: 'Groups ships tagged for exploration or long-range activity.',
+            useCase: '장거리 항해, 정보 수집, 미지 구역 탐색에 적합합니다.',
+            useCase_en: 'Suited to long-range voyages, intel gathering, and scouting unknown space.'
         },
         '인양': {
             criterion: '인양 역할을 가진 함선을 중심으로 추천합니다.',
-            useCase: '난파선 회수, 자원 수거, 산업 플레이에 적합합니다.'
+            criterion_en: 'Recommends ships with a salvage role.',
+            useCase: '난파선 회수, 자원 수거, 산업 플레이에 적합합니다.',
+            useCase_en: 'Suited to wreck recovery, resource collection, and industrial play.'
         },
         '채굴': {
             criterion: '채굴 또는 정제 관련 함선을 중심으로 추천합니다.',
-            useCase: '광물 채집, 현장 정제, 산업 루프 확장에 적합합니다.'
+            criterion_en: 'Recommends ships related to mining or refining.',
+            useCase: '광물 채집, 현장 정제, 산업 루프 확장에 적합합니다.',
+            useCase_en: 'Suited to ore extraction, on-site refining, and scaling an industrial loop.'
         },
         '의료': {
             criterion: '의료 지원 역할을 가진 함선을 중심으로 추천합니다.',
-            useCase: '구조, 전투 지원, 장거리 원정 보조에 적합합니다.'
+            criterion_en: 'Recommends ships with a medical support role.',
+            useCase: '구조, 전투 지원, 장거리 원정 보조에 적합합니다.',
+            useCase_en: 'Suited to rescue, combat support, and long-range expedition backup.'
         }
     };
     const TRADE_OPERATION_CONFIG = {
@@ -669,7 +702,7 @@
         const select = document.getElementById('ship-manufacturer');
         if (!select) return;
         select.innerHTML = [
-            '<option value="all">제조사 전체</option>',
+            `<option value="all">${escapeHtml(i18nT('ships.mfrAll', '제조사 전체'))}</option>`,
             ...getShipManufacturers().map((manufacturer) => `<option value="${escapeHtml(manufacturer)}">${escapeHtml(manufacturer)}</option>`)
         ].join('');
         select.value = shipState.manufacturer;
@@ -683,10 +716,11 @@
         const allActive = selectedTags.size === 0 ? ' active' : '';
         const buttons = getShipFilterTags().map((tag) => {
             const active = selectedTags.has(tag) ? ' active' : '';
-            return `<button class="ship-filter-btn${active}" type="button" data-ship-tag-filter="${escapeHtml(tag)}" aria-pressed="${selectedTags.has(tag)}">${escapeHtml(tag)}</button>`;
+            // 필터 키(data-ship-tag-filter)는 KO를 유지하고 라벨만 번역한다.
+            return `<button class="ship-filter-btn${active}" type="button" data-ship-tag-filter="${escapeHtml(tag)}" aria-pressed="${selectedTags.has(tag)}">${escapeHtml(shipCat(tag))}</button>`;
         });
         container.innerHTML = [
-            `<button class="ship-filter-btn${allActive}" type="button" data-ship-tag-clear aria-pressed="${selectedTags.size === 0}">전체</button>`,
+            `<button class="ship-filter-btn${allActive}" type="button" data-ship-tag-clear aria-pressed="${selectedTags.size === 0}">${escapeHtml(i18nT('ships.allTags', '전체'))}</button>`,
             ...buttons
         ].join('');
     }
@@ -716,7 +750,12 @@
     }
 
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
-        return [ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd), ...tags, ...getShipAliases(ship)].join(' ').toLowerCase();
+        // KO·EN 양쪽 필드를 모두 색인해 영어로도 검색되게 한다.
+        return [
+            ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd),
+            ship.role_en, ship.focus_en, ship.size_en, ship.description_en, ...(Array.isArray(ship.tags_en) ? ship.tags_en : []),
+            ...tags, ...getShipAliases(ship)
+        ].filter(Boolean).join(' ').toLowerCase();
     }
 
     function getShipAliases(ship) {
@@ -729,16 +768,20 @@
         return getShipAliases(ship).find((alias) => /[가-힣]/.test(alias)) || '';
     }
 
+    // 표시명: EN이면 영문명(ship.name) 우선·한글 보조, KO면 한글명 우선·영문 보조.
     function getShipDisplayName(ship) {
+        if (currentLang() === 'en') return ship.name;
         return getShipKoreanName(ship) || ship.name;
     }
 
     function getShipSecondaryName(ship) {
-        return getShipKoreanName(ship) ? ship.name : '';
+        const ko = getShipKoreanName(ship);
+        if (currentLang() === 'en') return ko || '';
+        return ko ? ship.name : '';
     }
 
     function formatShipPrice(priceUsd) {
-        return Number.isFinite(priceUsd) ? `$${priceUsd.toLocaleString('en-US')}` : '미공개';
+        return Number.isFinite(priceUsd) ? `$${priceUsd.toLocaleString('en-US')}` : i18nT('ships.priceTbd', '미공개');
     }
 
     function getPriceValue(priceUsd) {
@@ -753,28 +796,28 @@
         renderShipTagFilters();
         renderShipPurposeSummary(ships.length);
         if (ships.length === 0) {
-            container.innerHTML = '<div class="ships-empty">검색 결과가 없습니다.</div>';
+            container.innerHTML = `<div class="ships-empty">${escapeHtml(i18nT('ships.empty', '검색 결과가 없습니다.'))}</div>`;
             return;
         }
         container.innerHTML = ships.map((ship) => `
-            <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(getShipDisplayName(ship))} 상세 보기">
+            <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(`${getShipDisplayName(ship)} ${i18nT('ships.viewDetail', '상세 보기')}`)}">
                 <div class="ship-card-header">
                     <div>
                         <h3 class="ship-name">${escapeHtml(getShipDisplayName(ship))}</h3>
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
-                    <div class="ship-card-actions"><span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(ship.focus)}</span>${renderHangarToggleButton(ship)}</div>
+                    <div class="ship-card-actions"><span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>${renderHangarToggleButton(ship)}</div>
                 </div>
-                <p class="ship-desc">${escapeHtml(ship.description)}</p>
+                <p class="ship-desc">${escapeHtml(tx(ship, 'description'))}</p>
                 <div class="ship-stats">
-                    <div class="ship-stat"><span class="ship-stat-label">\ud654\ubb3c</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
-                    <div class="ship-stat"><span class="ship-stat-label">USD 가격</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
+                    <div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.cargo', '\ud654\ubb3c'))}</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
+                    <div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.priceUsd', 'USD 가격'))}</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
                 </div>
-                <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                <div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
                 ${renderShipPlannerButton(ship)}
                 <button class="ship-compare-toggle${shipCompareState.has(ship.id) ? ' active' : ''}" type="button" data-compare-ship-id="${escapeHtml(ship.id)}" aria-pressed="${shipCompareState.has(ship.id)}">
-                    ${shipCompareState.has(ship.id) ? '비교 제거' : '비교 추가'}
+                    ${escapeHtml(shipCompareState.has(ship.id) ? i18nT('ships.compareRemove', '비교 제거') : i18nT('ships.compareAdd', '비교 추가'))}
                 </button>
             </article>`).join('');
         renderShipCompareBar();
@@ -786,21 +829,21 @@
         const summary = document.getElementById('ship-compare-summary');
         const openButton = document.getElementById('ship-compare-open');
         if (!bar || !summary || !openButton) return;
-        summary.textContent = `${shipCompareState.size} / 3척 선택`;
+        summary.textContent = currentLang() === 'en' ? `${shipCompareState.size} / 3 selected` : `${shipCompareState.size} / 3척 선택`;
         bar.hidden = shipCompareState.size === 0;
         openButton.disabled = shipCompareState.size < 2;
     }
 
     function renderShipPlannerButton(ship) {
         if (!isPlannerEligibleShip(ship)) return '';
-        return `<button class="ship-planner-toggle" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">\ubb34\uc5ed \ud50c\ub798\ub108\uc5d0\uc11c \uc0ac\uc6a9</button>`;
+        return `<button class="ship-planner-toggle" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('ships.usePlanner', '\ubb34\uc5ed \ud50c\ub798\ub108\uc5d0\uc11c \uc0ac\uc6a9'))}</button>`;
     }
 
 
     function renderHangarToggleButton(ship, label = false) {
         const owned = isInHangar(ship.id);
-        const title = owned ? '\uaca9\ub0a9\uace0\uc5d0\uc11c \uc81c\uac70' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00';
-        const text = label ? (owned ? '\uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00') : (owned ? '\u2605' : '\u2606');
+        const title = owned ? i18nT('ships.hangarRemove', '\uaca9\ub0a9\uace0\uc5d0\uc11c \uc81c\uac70') : i18nT('ships.hangarAdd', '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00');
+        const text = label ? (owned ? i18nT('ships.hangarOwned', '\uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c') : i18nT('ships.hangarAdd', '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00')) : (owned ? '\u2605' : '\u2606');
         return `<button class="hangar-toggle-btn${owned ? ' owned' : ''}${label ? ' modal-hangar-btn' : ''}" type="button" data-hangar-ship-id="${escapeHtml(ship.id)}" aria-label="${title}" title="${title}">${text}</button>`;
     }
 
@@ -1534,14 +1577,17 @@
             return;
         }
         container.hidden = false;
+        const purposeLabel = shipCat(shipState.purpose);
+        const heading = currentLang() === 'en' ? `${purposeLabel} picks` : `${purposeLabel} 추천`;
+        const countText = currentLang() === 'en' ? `${visibleCount} ships` : `${visibleCount}척`;
         container.innerHTML = `
-            <strong>${escapeHtml(shipState.purpose)} 추천</strong>
-            <p>${escapeHtml(copy.criterion)}</p>
+            <strong>${escapeHtml(heading)}</strong>
+            <p>${escapeHtml(tx(copy, 'criterion'))}</p>
             <div>
-                <span>현재 추천 함선</span>
-                <b>${escapeHtml(String(visibleCount))}척</b>
+                <span>${escapeHtml(i18nT('ships.currentPicks', '현재 추천 함선'))}</span>
+                <b>${escapeHtml(countText)}</b>
             </div>
-            <small>${escapeHtml(copy.useCase)}</small>`;
+            <small>${escapeHtml(tx(copy, 'useCase'))}</small>`;
     }
 
     function setupShipCompareControls() {
@@ -2566,20 +2612,20 @@
 
     function renderShipComparison(ships) {
         const fields = [
-            { label: '\uc81c\uc870\uc0ac', key: 'manufacturer', format: (ship) => ship.manufacturer },
-            { label: '\uc5ed\ud560', key: 'role', format: (ship) => ship.role },
-            { label: '\ubd84\ub958', key: 'focus', format: (ship) => ship.focus },
-            { label: '\ud06c\uae30', key: 'size', format: (ship) => ship.size },
-            { label: '\uc2b9\ubb34\uc6d0', key: 'crew', format: (ship) => ship.crew, rawValue: (ship) => parseLargestNumber(ship.crew), numeric: true, higherIsBetter: true },
-            { label: '\ud654\ubb3c', key: 'cargo', format: (ship) => ship.cargo, rawValue: (ship) => getCargoValue(ship.cargo), numeric: true, higherIsBetter: true },
-            { label: 'USD \uac00\uaca9', key: 'priceUsd', format: (ship) => formatShipPrice(ship.priceUsd), rawValue: (ship) => Number(ship.priceUsd), numeric: true, higherIsBetter: false }
+            { label: i18nT('ships.mfr', '\uc81c\uc870\uc0ac'), key: 'manufacturer', format: (ship) => ship.manufacturer },
+            { label: i18nT('ships.role', '\uc5ed\ud560'), key: 'role', format: (ship) => tx(ship, 'role') },
+            { label: i18nT('ships.focus', '\ubd84\ub958'), key: 'focus', format: (ship) => tx(ship, 'focus') },
+            { label: i18nT('ships.size', '\ud06c\uae30'), key: 'size', format: (ship) => tx(ship, 'size') },
+            { label: i18nT('ships.crew', '\uc2b9\ubb34\uc6d0'), key: 'crew', format: (ship) => tx(ship, 'crew'), rawValue: (ship) => parseLargestNumber(ship.crew), numeric: true, higherIsBetter: true },
+            { label: i18nT('ships.cargo', '\ud654\ubb3c'), key: 'cargo', format: (ship) => ship.cargo, rawValue: (ship) => getCargoValue(ship.cargo), numeric: true, higherIsBetter: true },
+            { label: i18nT('ships.priceUsd', 'USD \uac00\uaca9'), key: 'priceUsd', format: (ship) => formatShipPrice(ship.priceUsd), rawValue: (ship) => Number(ship.priceUsd), numeric: true, higherIsBetter: false }
         ];
         return `<div class="modal-header">
                 <div>
                     <span class="eyebrow">Ship Compare</span>
-                    <h2>\ud568\uc120 \ube44\uad50</h2>
+                    <h2>${escapeHtml(i18nT('ships.compareTitle', '\ud568\uc120 \ube44\uad50'))}</h2>
                 </div>
-                <button class="modal-close" type="button" aria-label="\ubaa8\ub2ec \ub2eb\uae30">\u00d7</button>
+                <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '\ubaa8\ub2ec \ub2eb\uae30'))}">\u00d7</button>
             </div>
             <div class="modal-body">
                 ${renderShipComparisonSummary(ships)}
@@ -2587,7 +2633,7 @@
                     <table class="ship-compare-table">
                         <thead>
                             <tr>
-                                <th scope="col">\ud56d\ubaa9</th>
+                                <th scope="col">${escapeHtml(i18nT('ships.compareField', '\ud56d\ubaa9'))}</th>
                                 ${ships.map((ship) => `<th scope="col">${escapeHtml(ship.name)}</th>`).join('')}
                             </tr>
                         </thead>
@@ -2599,7 +2645,7 @@
                 <div class="ship-compare-tags">
                     ${ships.map((ship) => `<section>
                         <h3>${escapeHtml(ship.name)}</h3>
-                        <div class="ship-tags">${getShipTags(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                        <div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
                         ${renderShipPlannerAction(ship, 'btn btn-secondary ship-compare-use')}
                     </section>`).join('')}
                 </div>
@@ -2612,12 +2658,12 @@
         const largeOpsLeader = getShipByMetric(ships, (ship) => getCargoValue(ship.cargo) + parseLargestNumber(ship.crew) * 10, 'max');
         const smallOpsLeader = getShipByMetric(ships, (ship) => parseSmallestNumber(ship.crew) * 100 - getCargoValue(ship.cargo), 'min');
         return `<section class="ship-compare-summary">
-            <h3>비교 요약</h3>
+            <h3>${escapeHtml(i18nT('ships.compareSummary', '비교 요약'))}</h3>
             <div>
-                ${renderComparisonSummaryItem('최대 화물량', cargoLeader)}
-                ${renderComparisonSummaryItem('최소 인원 운용', crewLeader)}
-                ${renderComparisonSummaryItem('대형 작전', largeOpsLeader)}
-                ${renderComparisonSummaryItem('소규모/입문 운용', smallOpsLeader)}
+                ${renderComparisonSummaryItem(i18nT('ships.maxCargo', '최대 화물량'), cargoLeader)}
+                ${renderComparisonSummaryItem(i18nT('ships.minCrew', '최소 인원 운용'), crewLeader)}
+                ${renderComparisonSummaryItem(i18nT('ships.largeOps', '대형 작전'), largeOpsLeader)}
+                ${renderComparisonSummaryItem(i18nT('ships.smallOps', '소규모/입문 운용'), smallOpsLeader)}
             </div>
             <ul>${ships.map(renderComparisonTagNote).join('')}</ul>
         </section>`;
@@ -2637,10 +2683,10 @@
     function renderComparisonTagNote(ship) {
         const tags = getShipTags(ship);
         const notes = [];
-        if (tags.includes('화물')) notes.push('물류/화물 운송 후보');
-        if (tags.includes('입문')) notes.push('입문자 운용 후보');
-        if (tags.includes('미구현')) notes.push('현재 실사용 주의');
-        if (notes.length === 0) return `<li><strong>${escapeHtml(ship.name)}</strong> · 특화 태그 중심 운용</li>`;
+        if (tags.includes('화물')) notes.push(i18nT('ships.note.cargo', '물류/화물 운송 후보'));
+        if (tags.includes('입문')) notes.push(i18nT('ships.note.starter', '입문자 운용 후보'));
+        if (tags.includes('미구현')) notes.push(i18nT('ships.note.wip', '현재 실사용 주의'));
+        if (notes.length === 0) return `<li><strong>${escapeHtml(ship.name)}</strong> · ${escapeHtml(i18nT('ships.note.specialized', '특화 태그 중심 운용'))}</li>`;
         return `<li><strong>${escapeHtml(ship.name)}</strong> · ${escapeHtml(notes.join(' / '))}</li>`;
     }
 
@@ -2721,23 +2767,23 @@
     function openShipModal(ship) {
         trackEvent('ship_modal_open', { shipId: ship?.id || '', shipName: ship?.name || '' });
         const officialUrl = getShipOfficialUrl(ship);
-        const officialLabel = ship.rsiUrl ? 'RSI 공식 페이지' : 'RSI 함선 매트릭스';
+        const officialLabel = ship.rsiUrl ? i18nT('ships.officialPage', 'RSI 공식 페이지') : i18nT('ships.shipMatrix', 'RSI 함선 매트릭스');
         openModal(`<div class="modal-header">
                 <div>
                     <div class="ship-mfr">${escapeHtml(ship.manufacturer)}</div>
                     <h2 class="modal-title">${escapeHtml(getShipDisplayName(ship))}</h2>
                     ${getShipSecondaryName(ship) ? `<p class="modal-subtitle-en">${escapeHtml(getShipSecondaryName(ship))}</p>` : ''}
                 </div>
-                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+                <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '모달 닫기'))}">×</button>
             </div>
             <div class="modal-body">
-                <p>${escapeHtml(ship.description)}</p>
+                <p>${escapeHtml(tx(ship, 'description'))}</p>
                 <div class="ship-modal-grid">
-                    <div class="ship-modal-stat"><span>역할</span><strong>${escapeHtml(ship.role)}</strong></div>
-                    <div class="ship-modal-stat"><span>크기</span><strong>${escapeHtml(ship.size)}</strong></div>
-                    <div class="ship-modal-stat"><span>승무원</span><strong>${escapeHtml(ship.crew)}</strong></div>
-                    <div class="ship-modal-stat"><span>화물</span><strong>${escapeHtml(ship.cargo)}</strong></div>
-                    <div class="ship-modal-stat"><span>USD \uac00\uaca9</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
+                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.role', '역할'))}</span><strong>${escapeHtml(tx(ship, 'role'))}</strong></div>
+                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.size', '크기'))}</span><strong>${escapeHtml(tx(ship, 'size'))}</strong></div>
+                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.crew', '승무원'))}</span><strong>${escapeHtml(tx(ship, 'crew'))}</strong></div>
+                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.cargo', '화물'))}</span><strong>${escapeHtml(ship.cargo)}</strong></div>
+                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.priceUsd', 'USD \uac00\uaca9'))}</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
                 </div>
                 <div class="ship-modal-actions">
                     <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
@@ -2749,7 +2795,7 @@
 
     function renderShipPlannerAction(ship, className) {
         if (!isPlannerEligibleShip(ship)) return '';
-        return `<button class="${escapeHtml(className)}" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>`;
+        return `<button class="${escapeHtml(className)}" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('ships.usePlanner', '무역 플래너에서 사용'))}</button>`;
     }
 
     function getShipOfficialUrl(ship) {
@@ -3546,7 +3592,7 @@
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); if (currentUexModel) renderUexSystemChips(currentUexModel); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); if (currentUexModel) renderUexSystemChips(currentUexModel); });
         }
         setupDynamicStyles();
         setupSplash();

@@ -3257,7 +3257,18 @@ body.nav-trade-open::before {
 .ship-name { font-size: 18px; font-weight: 700; letter-spacing: var(--tracking-snug); }
 .ship-mfr { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-family); margin-top: 2px; }
 .ship-focus-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px; font-family: var(--font-family); white-space: nowrap; }
-.ship-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+/* 카드 설명은 4줄로 제한(EN RSI 설명은 장문이라 카드 높이가 들쭉날쭉해지는 것 방지). 전문은 모달에서. */
+.ship-desc {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 .ship-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
 .ship-stat { background: var(--color-bg-card); border-radius: 8px; padding: 8px 10px; }
 .ship-stat-label { font-size: 10px; color: var(--color-text-tertiary); font-family: var(--font-family); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 2px; }
