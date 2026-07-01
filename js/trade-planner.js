@@ -1,7 +1,7 @@
 /**
- * VOLT 무역플래너 — 다품목 수익관리 원장(ledger).
+ * VOLT 무역플래너 — 다품목 수익표.
  *
- * UEX에서 선택한 상품·매수/매도 후보와 품목별 수량(SCU)을 원장에 추가해
+ * UEX에서 선택한 상품·매수/매도 후보와 품목별 수량(SCU)을 수익표에 추가해
  * 총매수·총매도·총이윤을 한눈에 관리한다. localStorage에 저장(새로고침 유지).
  * 공용 유틸(포매터·토스트·i18n)은 main.js에서 init(deps)로 주입, UEX 선택 정보는
  * VOLT_UEX_PANEL(전역)에서 읽는다.
@@ -41,7 +41,7 @@
         return `L${Date.now().toString(36)}${Math.floor(Math.random() * 1e4).toString(36)}`;
     }
 
-    // UEX 패널의 현재 선택(상품·매수·매도)과 수량 입력으로 원장 항목을 추가한다.
+    // UEX 패널의 현재 선택(상품·매수·매도)과 수량 입력으로 수익표 항목을 추가한다.
     function addFromUex() {
         const panel = window.VOLT_UEX_PANEL;
         const model = panel && panel.getCurrentModel ? panel.getCurrentModel() : null;
@@ -68,7 +68,7 @@
         save();
         render();
         if (qtyInput) qtyInput.value = '';
-        showToast(i18nT('ledger.added', '원장에 추가했습니다.'));
+        showToast(i18nT('ledger.added', '수익표에 추가했습니다.'));
     }
 
     function removeItem(id) {
@@ -102,7 +102,7 @@
         const actions = document.getElementById('ledger-actions');
         if (!list) return;
         if (!items.length) {
-            list.innerHTML = `<div class="ledger-empty">${escapeHtml(i18nT('ledger.empty', '아직 추가된 무역품이 없습니다.'))}</div>`;
+            list.innerHTML = `<div class="ledger-empty">${escapeHtml(i18nT('ledger.empty', '아직 추가한 상품이 없습니다. 위에서 매수·매도 후보를 선택한 뒤 수익표에 추가하세요.'))}</div>`;
             if (actions) actions.hidden = true;
             return;
         }
@@ -169,10 +169,5 @@
         setup,
         onLanguageChange: render,   // 언어 토글 시 헤더/라벨 재렌더
         onCargoChange,
-        // 구(舊) 인터페이스 호환용 no-op (uex-panel 콜백 등)
-        renderRecommendation: () => {},
-        copyBriefing: () => {},
-        shareBriefing: () => {},
-        getOperationSummary: () => '',
     };
 })();

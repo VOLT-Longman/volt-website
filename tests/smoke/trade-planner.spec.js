@@ -275,7 +275,7 @@ test.describe('무역플래너', () => {
         await expect(page.locator('#uex-recommend-results')).not.toContainText('Gold');
     });
 
-    test('수익 관리 원장: UEX 후보 선택 → 추가 → 합계·이윤 계산 + 삭제', async ({ page }) => {
+    test('수익표: UEX 후보 선택 → 추가 → 합계·이윤 계산 + 삭제', async ({ page }) => {
         await mockApi(page);
         await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ json: { status: 'ok', data: [
             { id: 1, name: 'Medical Supplies', code: 'MED', category_name: 'Medical', is_visible: 1, is_available_live: 1 },
@@ -285,9 +285,9 @@ test.describe('무역플래너', () => {
             { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 180, date_modified: 1700000000, scu_sell: 4000 },
         ] } }));
         await gotoSection(page, '#trade-planner');
-        // 선택 없이 추가 → 에러 안내(빈 원장 유지)
+        // 선택 없이 추가 → 에러 안내(빈 수익표 유지)
         await page.locator('#ledger-add').click();
-        await expect(page.locator('#ledger-list')).toContainText('아직 추가된 무역품이 없습니다');
+        await expect(page.locator('#ledger-list')).toContainText('아직 추가한 상품이 없습니다');
 
         const search = page.locator('#uex-commodity-search');
         await search.click();
@@ -313,6 +313,6 @@ test.describe('무역플래너', () => {
 
         // 삭제 → 빈 상태
         await page.locator('[data-ledger-remove]').first().click();
-        await expect(page.locator('#ledger-list')).toContainText('아직 추가된 무역품이 없습니다');
+        await expect(page.locator('#ledger-list')).toContainText('아직 추가한 상품이 없습니다');
     });
 });

@@ -100,98 +100,11 @@
     let preferencesSaveTimer = null;
     const NOTICE_TAG_COLORS = { '\uACF5\uC9C0': 'var(--volt-orange)', '\uC911\uC694': '#e53e3e', '\uC5C5\uB370\uC774\uD2B8': '#3182ce', '\uC774\uBCA4\uD2B8': '#805ad5', '\uC791\uC804': '#38a169', '\uC2DC\uC2A4\uD15C': '#319795', '\uBAA8\uC9D1': '#d69e2e', '\uC815\uCC45': '#e53e3e' };
 
-    const TRADE_OPERATION_CONFIG = {
-        solo: {
-            label: '단독 저위험 운송',
-            summary: '짧은 루트와 낮은 노출로 손실 가능성을 줄이는 운용입니다.',
-            escortBase: 0,
-            toolSteps: [
-                'UEX Corp에서 매수·매도 위치와 재고 변동 확인',
-                'SC Trade Tools에서 짧은 루트와 시간당 수익 비교',
-                'VOLT 플래너에서 단독 운용 가능 여부 최종 확인'
-            ],
-            checklist: ['출발지와 도착지 혼잡도 확인', '단독 운용 시 우회 루트 확보']
-        },
-        small: {
-            label: '소규모 화물 운송',
-            summary: '적은 인원으로 반복 운송 효율을 확보하는 기본 편성입니다.',
-            escortBase: 0,
-            toolSteps: [
-                'UEX Corp에서 소량 거래 가능한 상품과 재고 확인',
-                'SC Trade Tools에서 회전율이 좋은 루트 비교',
-                'VOLT 플래너에서 적재량 대비 출격 횟수 점검'
-            ],
-            checklist: ['적재·하역 시간을 고려한 회차 계획', '소규모 편성용 집결 채널 확인']
-        },
-        convoy: {
-            label: '호송 운송',
-            summary: '운송과 호위를 분리해 생존성과 안정성을 높이는 편성입니다.',
-            escortBase: 1,
-            toolSteps: [
-                'UEX Corp에서 상품 가격과 판매지 위험도 확인',
-                'SC Trade Tools에서 수익 루트와 우회 루트 함께 비교',
-                'VOLT 플래너에서 호위·지원 인원 배치 확정'
-            ],
-            checklist: ['호위 집결 시각과 교전 규칙 공유', '우회 루트와 랠리 포인트 확인']
-        },
-        bulk: {
-            label: '대량 수송',
-            summary: '적재량과 회전율을 우선해 편대 효율을 극대화하는 운용입니다.',
-            escortBase: 1,
-            toolSteps: [
-                'UEX Corp에서 대량 거래 가능한 재고와 판매처 확인',
-                'SC Trade Tools에서 화물량 기준 총수익과 회전율 비교',
-                'VOLT 플래너에서 다중 출격 또는 추가 함선 필요 여부 판단'
-            ],
-            checklist: ['대량 매입 가능 수량 재확인', '하역 대기와 분산 판매 계획 수립']
-        },
-        highValue: {
-            label: '고가 화물 운송',
-            summary: '수익보다 손실 방지와 정보 통제가 우선인 고위험 편성입니다.',
-            escortBase: 1,
-            toolSteps: [
-                'UEX Corp에서 고가 상품 가격과 공급량 확인',
-                'SC Trade Tools에서 수익 대비 노출 시간이 짧은 루트 비교',
-                'VOLT 플래너에서 호위와 정찰 인원 충족 여부 확인'
-            ],
-            checklist: ['루트 공유 범위 최소화', '정찰 선행과 긴급 이탈 지점 지정']
-        },
-        mining: {
-            label: '채굴/정제 후 운송',
-            summary: '생산 루프와 물류 루프를 이어 손실 없는 반출을 목표로 합니다.',
-            escortBase: 0,
-            toolSteps: [
-                'UEX Corp에서 정제 후 판매처와 상품 수요 확인',
-                'SC Trade Tools에서 최종 판매 루트 수익 비교',
-                'VOLT 플래너에서 운송 함선 적재량과 회차 계획 점검'
-            ],
-            checklist: ['정제 완료 시각 확인', '채굴팀과 반출 시점 동기화']
-        },
-        supply: {
-            label: '작전 보급 운송',
-            summary: '수익보다 정시 도착과 작전 지속성을 우선하는 지원 편성입니다.',
-            escortBase: 1,
-            toolSteps: [
-                'UEX Corp에서 필요한 보급품의 구매 가능 위치 확인',
-                'SC Trade Tools에서 가장 빠른 보급 루트 비교',
-                'VOLT 플래너에서 도착 시각과 지원 인력 배치 확인'
-            ],
-            checklist: ['보급 우선순위와 하역 담당 지정', '작전 지휘부와 도착 시간 공유']
-        }
-    };
-    const TRADE_PRESETS = [
-        { id: 'starter', label: '입문자 단독 무역', operationType: 'solo', risk: 'low', crew: 1, cargo: 64, shipIds: ['hull-a', 'cutlass-black'] },
-        { id: 'small', label: '소규모 화물 운송', operationType: 'small', risk: 'low', crew: 2, cargo: 128, shipIds: ['zeus-mk2-cl', 'freelancer-max'] },
-        { id: 'bulk', label: '대형 수송 작전', operationType: 'bulk', risk: 'medium', crew: 4, cargo: 576, shipIds: ['caterpillar', 'hull-c'] },
-        { id: 'high-value', label: '고가 화물 호송', operationType: 'highValue', risk: 'high', crew: 4, cargo: 174, shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
-        { id: 'mining', label: '채굴/정제 후 운송', operationType: 'mining', risk: 'low', crew: 2, cargo: 64, shipIds: ['starlancer-max', 'hull-a'] },
-        { id: 'supply', label: '작전 보급 운송', operationType: 'supply', risk: 'medium', crew: 3, cargo: 224, shipIds: ['starlancer-max', 'freelancer-max'] }
-    ];
     const RECOMMENDED_TRADE_GROUPS = [
-        { title: '입문/소규모 운송 추천', shipIds: ['hull-a', 'cutlass-black', 'zeus-mk2-cl'] },
-        { title: '대량 수송 추천', shipIds: ['caterpillar', 'hull-c'] },
-        { title: '고가 화물/호송 추천', shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
-        { title: '채굴/정제 후 운송 추천', shipIds: ['starlancer-max', 'hull-a'] }
+        { titleKey: 'planner.tradeShip.starter', fallback: '입문/소규모 운송 추천', shipIds: ['hull-a', 'cutlass-black', 'zeus-mk2-cl'] },
+        { titleKey: 'planner.tradeShip.bulk', fallback: '대량 수송 추천', shipIds: ['caterpillar', 'hull-c'] },
+        { titleKey: 'planner.tradeShip.highValue', fallback: '고가 화물/호송 추천', shipIds: ['constellation-taurus', 'zeus-mk2-cl'] },
+        { titleKey: 'planner.tradeShip.mining', fallback: '채굴/정제 후 운송 추천', shipIds: ['starlancer-max', 'hull-a'] }
     ];
     const localizationLookupCache = new Map();
     const RECOMMENDED_COMMODITY_CANDIDATES = [
@@ -299,11 +212,7 @@
         const state = {
             shipId: document.getElementById('logistics-ship')?.value || '',
             shipSearch: document.getElementById('logistics-ship-search')?.value || '',
-            cargo: document.getElementById('logistics-cargo')?.value || '',
-            opType: document.getElementById('trade-operation-type')?.value || '',
-            crew: document.getElementById('logistics-crew')?.value || '',
-            risk: document.getElementById('trade-risk')?.value || '',
-            travelTime: document.getElementById('planner-travel-time')?.value || ''
+            cargo: document.getElementById('logistics-cargo')?.value || ''
         };
         localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(state));
         schedulePreferenceSave();
@@ -322,10 +231,6 @@
             set('logistics-ship', state.shipId);
             set('logistics-ship-search', state.shipSearch);
             set('logistics-cargo', state.cargo);
-            set('trade-operation-type', state.opType);
-            set('logistics-crew', state.crew);
-            set('trade-risk', state.risk);
-            set('planner-travel-time', state.travelTime);
             syncPlannerSelectedShip(state.shipId);
         } catch (error) {
             console.warn('Invalid planner state', error);
@@ -842,7 +747,6 @@
                 <p>${escapeHtml(tx(guide, 'content'))}</p>
             </div>`).join('');
         renderLogisticsShipOptions();
-        renderTradePresets();
         renderRecommendedTradeShips();
         renderTradeGlossary();
     }
@@ -857,23 +761,13 @@
             : '<div class="guide-glossary-empty">등록된 용어가 없습니다.</div>';
     }
 
-    function renderTradePresets() {
-        const container = document.getElementById('trade-preset-grid');
-        if (!container) return;
-        container.innerHTML = TRADE_PRESETS.map((preset) => `
-            <button class="trade-preset-card" type="button" data-trade-preset-id="${escapeHtml(preset.id)}">
-                <strong>${escapeHtml(preset.label)}</strong>
-                <span>${escapeHtml(VOLT_TRADE_PLANNER.getOperationSummary(preset.operationType))}</span>
-            </button>`).join('');
-    }
-
     function renderRecommendedTradeShips() {
         const container = document.getElementById('recommended-trade-grid');
         if (!container) return;
         container.innerHTML = RECOMMENDED_TRADE_GROUPS.map((group) => {
             const ships = group.shipIds.map((id) => shipById.get(id)).filter((ship) => ship && isPlannerEligibleShip(ship));
             return `<section class="recommended-trade-group">
-                <h4>${escapeHtml(group.title)}</h4>
+                <h4>${escapeHtml(i18nT(group.titleKey, group.fallback))}</h4>
                 <div>${ships.map(renderRecommendedTradeShipCard).join('')}</div>
             </section>`;
         }).join('');
@@ -985,7 +879,6 @@
         announcePickerSelection(`${getShipDisplayName(ship)} 함선을 선택했습니다.`);
         closePicker(input, document.getElementById('logistics-ship-results'));
         savePlannerState();
-        renderLogisticsRecommendation();
     }
 
     function renderPlannerShipSummary(ship) {
@@ -997,9 +890,9 @@
     }
 
     function getPlannerShipRecommendation(ship) {
-        if (getCargoValue(ship.cargo) >= 500) return '대량 수송 / 호송 운송 추천';
-        if (parseLargestNumber(ship.crew) <= 1) return '단독 운송 / 소규모 화물 추천';
-        return '소규모 화물 / 호송 운송 추천';
+        if (getCargoValue(ship.cargo) >= 500) return i18nT('planner.shipRec.bulk', '대량 수송 추천');
+        if (parseLargestNumber(ship.crew) <= 1) return i18nT('planner.shipRec.solo', '단독 운송 / 소규모 화물 추천');
+        return i18nT('planner.shipRec.escort', '소규모 화물 / 호송 운송 추천');
     }
 
     function handlePickerKeyboard(event, results, onSelect) {
@@ -1316,7 +1209,6 @@
         window.requestAnimationFrame(() => {
             if (ship && isPlannerEligibleShip(ship)) {
                 selectPlannerShip(ship.id, true);
-                renderLogisticsRecommendation();
                 savePlannerState();
                 showToast(`${ship.name}\uc744 \ubb34\uc5ed \ud50c\ub798\ub108\uc5d0 \uc801\uc6a9\ud588\uc2b5\ub2c8\ub2e4.`);
             } else {
@@ -1339,20 +1231,6 @@
         restorePlannerState();
     }
 
-    function applyTradePreset(presetId) {
-        const preset = TRADE_PRESETS.find((item) => item.id === presetId);
-        if (!preset) return;
-        setPlannerControlValue('trade-operation-type', preset.operationType);
-        setPlannerControlValue('trade-risk', preset.risk);
-        setPlannerControlValue('logistics-crew', String(preset.crew));
-        setPlannerControlValue('logistics-cargo', String(preset.cargo));
-        const ship = preset.shipIds.map((id) => shipById.get(id)).find((item) => item && isPlannerEligibleShip(item));
-        if (ship) selectPlannerShip(ship.id);
-        savePlannerState();
-        renderLogisticsRecommendation();
-        showToast(`${preset.label} 프리셋을 적용했습니다.`);
-    }
-
     function setPlannerControlValue(id, value) {
         const control = document.getElementById(id);
         if (control) control.value = value;
@@ -1362,17 +1240,12 @@
         setPlannerControlValue('logistics-ship', '');
         setPlannerControlValue('logistics-ship-search', '');
         setPlannerControlValue('logistics-cargo', '0');
-        setPlannerControlValue('logistics-crew', '1');
-        setPlannerControlValue('trade-operation-type', 'convoy');
-        setPlannerControlValue('trade-risk', 'low');
-        setPlannerControlValue('planner-travel-time', '');
         const summary = document.getElementById('logistics-ship-summary');
         if (summary) {
             summary.hidden = true;
             summary.innerHTML = '';
         }
         localStorage.removeItem(PLANNER_STORAGE_KEY);
-        renderLogisticsRecommendation();
         showToast('무역플래너 입력을 초기화했습니다.');
     }
 
@@ -1441,10 +1314,6 @@
 
 
     // 무역플래너 엔진은 js/trade-planner.js로 분리. 기존 호출부 무변경용 위임 shim.
-    function renderLogisticsRecommendation() { return VOLT_TRADE_PLANNER.renderRecommendation(); }
-    function copyTradeBriefing() { return VOLT_TRADE_PLANNER.copyBriefing(); }
-    function shareTradeBriefing() { return VOLT_TRADE_PLANNER.shareBriefing(); }
-
     function parseSmallestNumber(value) {
         const matches = String(value).match(/\d+/g);
         return matches ? Number(matches[0]) : 1;
@@ -1859,8 +1728,6 @@
             const roles = String(element.getAttribute('data-requires-role') || '').split(',').map((role) => role.trim()).filter(Boolean);
             element.hidden = roles.length > 0 && !userHasAnyRole(roles);
         });
-        const shareButton = document.getElementById('trade-briefing-share');
-        if (shareButton) shareButton.disabled = !authState.loggedIn || !document.getElementById('trade-briefing-text')?.value;
     }
 
     function userHasAnyRole(roles) {
@@ -1886,7 +1753,6 @@
         if (!hasPlannerState(localPlanner) && preferences.planner && typeof preferences.planner === 'object') {
             localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(preferences.planner));
             restorePlannerState();
-            renderLogisticsRecommendation();
         }
     }
 
@@ -2189,11 +2055,11 @@
         // UEX 패널(DOM 렌더) 계층 — 공용 포매터·로컬라이즈·피커·상수 주입.
         VOLT_UEX_PANEL.init({
             escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,
-            formatCommodityLabel, getCommodityKoreanName, renderLogisticsRecommendation,
+            formatCommodityLabel, getCommodityKoreanName,
             handlePickerKeyboard, closePicker, announcePickerSelection,
             UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES,
         });
-        // 무역플래너 계산·추천·브리핑 엔진 — 공용 포매터·함선 인덱스·인증·상수 주입.
+        // 무역플래너 수익표 — 공용 포매터·토스트·i18n 주입.
         VOLT_TRADE_PLANNER.init({ escapeHtml, formatCredits, i18nT, showToast });
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         VOLT_SHIPS.init({

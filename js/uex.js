@@ -130,9 +130,7 @@
             systemFilter: Array.isArray(systemFilter) ? systemFilter.slice() : [],
             availableSystems: listStarSystems(prices),
             lastUpdated,
-            lastUpdatedLabel: lastUpdated
-                ? `최근 갱신: ${new Date(lastUpdated * 1000).toLocaleString('ko-KR')}`
-                : '최근 갱신 시각을 확인할 수 없습니다.'
+            lastUpdatedLabel: lastUpdated ? new Date(lastUpdated * 1000).toLocaleString() : ''
         };
     }
 

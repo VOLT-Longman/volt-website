@@ -30,8 +30,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260614-28"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260614-28">
+  <script src="js/theme-init.js?v=20260614-29"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260614-29">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -70,7 +70,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20260614-28">
+   <link rel="stylesheet" href="css/noscript.css?v=20260614-29">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -502,33 +502,33 @@
   <!-- Trade Planner Section -->
   <section class="section" id="trade-planner">
    <div class="section-content">
-    <div class="section-header">
-     <h2>무역 <span class="accent">플래너</span></h2>
-     <p>선택한 함선, 화물량, UEX 거래 후보를 기준으로 필요 자금과 예상 수익을 계산하고 Discord 브리핑을 생성하는 작전 준비 도구입니다.</p>
+     <div class="section-header">
+      <h2 data-i18n-html="planner.titleHtml">무역 <span class="accent">플래너</span></h2>
+      <p data-i18n="planner.subtitle">함선 적재량과 UEX 거래 후보를 바탕으로 여러 상품의 예상 수익을 한눈에 비교하고 저장하는 도구입니다.</p>
     </div>
     <div class="trade-planner">
      <p class="planner-mobile-hint" role="note" data-i18n="planner.mobileHint">무역플래너는 데스크톱에서 더 편하게 이용할 수 있습니다. 모바일에서는 핵심 정보 위주로 표시됩니다.</p>
      <div class="trade-planner-header">
       <div>
-       <h3>VOLT 무역 작전 플래너</h3>
-       <ol class="planner-steps" aria-label="사용 순서">
-        <li><span class="planner-step-num">1</span>함선·작전 조건 입력</li>
-        <li><span class="planner-step-num">2</span>거래 상품 선택</li>
-        <li><span class="planner-step-num">3</span>수익 확인 후 브리핑 공유</li>
-       </ol>
+        <h3 data-i18n="planner.panelTitle">VOLT 무역 수익 플래너</h3>
+        <ol class="planner-steps" aria-label="사용 순서" data-i18n-aria-label="planner.stepsAria">
+         <li><span class="planner-step-num">1</span><span data-i18n="planner.step.shipCargo">함선·화물량 입력</span></li>
+         <li><span class="planner-step-num">2</span><span data-i18n="planner.step.tradeCandidates">거래 상품과 후보 선택</span></li>
+         <li><span class="planner-step-num">3</span><span data-i18n="planner.step.profitTable">수익표에 저장</span></li>
+        </ol>
+       </div>
+       <button class="btn btn-secondary planner-reset-btn" id="planner-reset" type="button" data-i18n="planner.reset">입력 초기화</button>
       </div>
-      <button class="btn btn-secondary planner-reset-btn" id="planner-reset" type="button">입력 초기화</button>
-     </div>
-     <h4 class="planner-step-title"><span class="planner-step-num">1</span>함선과 작전 조건</h4>
+      <h4 class="planner-step-title"><span class="planner-step-num">1</span><span data-i18n="planner.step1Title">함선과 화물량</span></h4>
      <div class="trade-planner-form">
       <div class="planner-picker" id="logistics-ship-picker">
-       <label for="logistics-ship-search">내 함선 검색</label>
-        <input id="logistics-ship-search" type="search" autocomplete="off" placeholder="함선명, 제조사, 역할, 화물량 검색" role="combobox" aria-expanded="false" aria-controls="logistics-ship-results">
+        <label for="logistics-ship-search" data-i18n="planner.shipSearchLabel">내 함선 검색</label>
+         <input id="logistics-ship-search" type="search" autocomplete="off" placeholder="함선명, 제조사, 역할, 화물량 검색" data-i18n-placeholder="planner.shipSearchPlaceholder" role="combobox" aria-expanded="false" aria-controls="logistics-ship-results">
        <select id="logistics-ship" class="visually-hidden-select" tabindex="-1" aria-hidden="true"></select>
        <div class="planner-picker-results" id="logistics-ship-results" role="listbox" hidden></div>
       </div>
       <label>
-       <span>운송 화물량 (SCU)</span>
+       <span data-i18n="planner.cargoLabel">운송 화물량 (SCU)</span>
        <input id="logistics-cargo" type="number" min="0" step="1" value="0">
       </label>
       </div>
@@ -536,21 +536,21 @@
      <div class="uex-live-panel" aria-labelledby="uex-live-title">
       <div class="uex-live-header">
        <div>
-        <h3 id="uex-live-title"><span class="planner-step-num">2</span>UEX 실시간 거래 후보</h3>
-        <p>상품을 검색해 매수·매도 후보와 선택 화물량 기준 예상 수익을 확인합니다.</p>
+         <h3 id="uex-live-title"><span class="planner-step-num">2</span><span data-i18n="planner.uexTitle">UEX 실시간 거래 후보</span></h3>
+         <p data-i18n="planner.uexDescription">상품을 검색해 매수·매도 후보와 선택 화물량 기준 예상 수익을 확인합니다.</p>
        </div>
        <span class="uex-live-badge">Live API</span>
       </div>
       <div class="uex-live-controls">
        <div class="planner-picker">
-        <label for="uex-commodity-search">거래 상품 검색</label>
-        <input id="uex-commodity-search" type="search" autocomplete="off" placeholder="상품명 검색" role="combobox" aria-expanded="false" aria-controls="uex-commodity-results" disabled>
-        <select id="uex-commodity-select" class="visually-hidden-select" tabindex="-1" aria-hidden="true" disabled>
-         <option value="">상품 목록 불러오는 중...</option>
+         <label for="uex-commodity-search" data-i18n="planner.commoditySearchLabel">거래 상품 검색</label>
+         <input id="uex-commodity-search" type="search" autocomplete="off" placeholder="상품명 검색" data-i18n-placeholder="planner.commoditySearchPlaceholder" role="combobox" aria-expanded="false" aria-controls="uex-commodity-results" disabled>
+         <select id="uex-commodity-select" class="visually-hidden-select" tabindex="-1" aria-hidden="true" disabled>
+          <option value="" data-i18n="planner.commodityLoading">상품 목록 불러오는 중...</option>
         </select>
         <div class="planner-picker-results" id="uex-commodity-results" role="listbox" hidden></div>
        </div>
-        <button class="btn btn-secondary" id="uex-refresh" type="button" disabled>거래 후보 조회</button>
+        <button class="btn btn-secondary" id="uex-refresh" type="button" disabled data-i18n="planner.refreshCandidates">거래 후보 조회</button>
        </div>
        <p class="uex-live-status" id="uex-status" aria-live="polite"></p>
        <div class="planner-selection-card" id="uex-commodity-summary" aria-live="polite" hidden></div>
@@ -560,7 +560,7 @@
         <button type="button" class="uex-loc-btn" data-uex-loc="auto" aria-pressed="false" data-i18n="planner.loc.auto">스테이션/도시</button>
         <button type="button" class="uex-loc-btn" data-uex-loc="ground" aria-pressed="false" data-i18n="planner.loc.ground">지상기지</button>
        </div>
-       <div class="uex-loc-filter uex-system-filter" id="uex-system-filter" role="group" aria-label="항성계 필터 (복수 선택 가능)" hidden>
+       <div class="uex-loc-filter uex-system-filter" id="uex-system-filter" role="group" aria-label="항성계 필터 (복수 선택 가능)" data-i18n-aria-label="planner.sys.aria" hidden>
         <span class="uex-loc-filter-label" data-i18n="planner.sys.label">항성계</span>
         <div class="uex-system-chips" id="uex-system-chips"></div>
        </div>
@@ -570,25 +570,25 @@
          <span data-i18n="ledger.qtyLabel">수량 (SCU)</span>
          <input id="ledger-qty" type="number" min="1" step="1" placeholder="예: 100" inputmode="numeric">
         </label>
-        <button class="btn btn-primary" id="ledger-add" type="button" data-i18n="ledger.add">원장에 추가</button>
-        <p class="ledger-add-hint" id="ledger-add-hint" data-i18n="ledger.addHint">UEX에서 매수·매도 후보를 선택한 뒤 수량을 입력하고 추가하세요.</p>
+        <button class="btn btn-primary" id="ledger-add" type="button" data-i18n="ledger.add">수익표에 추가</button>
+        <p class="ledger-add-hint" id="ledger-add-hint" data-i18n="ledger.addHint">매수 후보와 매도 후보를 고르고 수량을 입력하면 수익표에 저장됩니다.</p>
        </div>
        <details class="uex-recommend-panel trade-secondary-block" aria-labelledby="uex-recommend-title">
-        <summary>추천 무역품 보기</summary>
+        <summary data-i18n="planner.rec.summary">추천 무역품 보기</summary>
         <div class="uex-recommend-header">
          <div>
-          <h4 id="uex-recommend-title">추천 무역품</h4>
-         <p>UEX 기준 수익 후보를 참고용으로 표시합니다. 출발 전 가격과 수요를 반드시 재확인하세요.</p>
+          <h4 id="uex-recommend-title" data-i18n="planner.rec.title">추천 무역품</h4>
+         <p data-i18n="planner.rec.description">UEX 기준 수익 후보를 참고용으로 표시합니다. 출발 전 가격과 수요를 반드시 재확인하세요.</p>
         </div>
-        <button class="btn btn-secondary" id="uex-recommend-refresh" type="button" disabled>추천 무역품 조회</button>
+        <button class="btn btn-secondary" id="uex-recommend-refresh" type="button" disabled data-i18n="planner.rec.refresh">추천 무역품 조회</button>
        </div>
-        <p class="uex-recommend-disclaimer">추천 무역품은 UEX 기준 매수·매도 후보와 VOLT 무역플래너 조건을 바탕으로 계산한 참고용 결과입니다. 실제 출발 전에는 재고, 수요, 서버 상태, 루트 위험도를 UEX Corp와 SC Trade Tools에서 다시 확인하세요.</p>
+        <p class="uex-recommend-disclaimer" data-i18n="planner.rec.disclaimer">추천 무역품은 UEX 기준 매수·매도 후보를 바탕으로 계산한 참고용 결과입니다. 실제 출발 전에는 재고, 수요, 서버 상태를 UEX Corp와 SC Trade Tools에서 다시 확인하세요.</p>
         <p class="uex-live-status" id="uex-recommend-status" aria-live="polite"></p>
         <div class="uex-recommend-results" id="uex-recommend-results"></div>
        </details>
      </div>
-     <h4 class="planner-step-title"><span class="planner-step-num">3</span><span data-i18n="ledger.title">수익 관리 원장</span></h4>
-     <p class="ledger-intro" data-i18n="ledger.intro">여러 무역품의 매수·매도·이윤을 한눈에 관리합니다. UEX에서 후보를 선택해 추가하세요.</p>
+     <h4 class="planner-step-title"><span class="planner-step-num">3</span><span data-i18n="ledger.title">수익표</span></h4>
+     <p class="ledger-intro" data-i18n="ledger.intro">여러 무역품의 매수·매도·이윤을 한눈에 비교합니다. UEX에서 후보를 선택해 수익표에 추가하세요.</p>
      <div class="ledger" id="ledger">
       <div class="ledger-list" id="ledger-list"></div>
       <div class="ledger-actions" id="ledger-actions" hidden>
@@ -597,8 +597,8 @@
      </div>
     </div>
     <details class="recommended-trade-ships trade-secondary-block">
-     <summary>추천 함선 보기</summary>
-     <p>아직 사용할 함선이 정해지지 않았다면 추천 함선을 참고하세요.</p>
+     <summary data-i18n="planner.recShips.summary">추천 함선 보기</summary>
+     <p data-i18n="planner.recShips.description">아직 사용할 함선이 정해지지 않았다면 추천 함선을 참고하세요.</p>
      <div class="recommended-trade-grid" id="recommended-trade-grid"></div>
     </details>
     <div class="sr-only" id="planner-picker-live" aria-live="polite"></div>
@@ -875,17 +875,17 @@
    </div>
   </div>
 
-<script src="data/volt-data.js?v=20260614-28"></script>
-<script src="data/volt-localization.js?v=20260614-28"></script>
-<script src="data/ship-en.js?v=20260614-28"></script>
-<script src="js/i18n.js?v=20260614-28"></script>
-<script src="js/navigation.js?v=20260614-28"></script>
-<script src="js/uex.js?v=20260614-28"></script>
-<script src="js/uex-panel.js?v=20260614-28"></script>
-<script src="js/trade-planner.js?v=20260614-28"></script>
-<script src="js/ships.js?v=20260614-28"></script>
-<script src="js/search-modal.js?v=20260614-28"></script>
-<script src="js/main.js?v=20260614-28"></script>
-<script src="js/volt-ai.js?v=20260614-28"></script>
+<script src="data/volt-data.js?v=20260614-29"></script>
+<script src="data/volt-localization.js?v=20260614-29"></script>
+<script src="data/ship-en.js?v=20260614-29"></script>
+<script src="js/i18n.js?v=20260614-29"></script>
+<script src="js/navigation.js?v=20260614-29"></script>
+<script src="js/uex.js?v=20260614-29"></script>
+<script src="js/uex-panel.js?v=20260614-29"></script>
+<script src="js/trade-planner.js?v=20260614-29"></script>
+<script src="js/ships.js?v=20260614-29"></script>
+<script src="js/search-modal.js?v=20260614-29"></script>
+<script src="js/main.js?v=20260614-29"></script>
+<script src="js/volt-ai.js?v=20260614-29"></script>
  </body>
 </html>

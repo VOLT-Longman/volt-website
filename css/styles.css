@@ -3364,7 +3364,6 @@ body.nav-trade-open::before {
     border-radius: var(--radius-md);
     background: var(--color-bg-card);
 }
-.trade-presets,
 .recommended-trade-ships {
     margin: 20px 0 0;
 }
@@ -3401,30 +3400,6 @@ body.nav-trade-open::before {
     margin: 10px 0 16px;
     color: var(--color-text-secondary);
     line-height: 1.7;
-}
-.trade-preset-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-}
-.trade-preset-card {
-    display: grid;
-    gap: 8px;
-    padding: 16px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-card);
-    color: var(--color-text-primary);
-    text-align: left;
-    cursor: pointer;
-}
-.trade-preset-card span {
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-}
-.trade-preset-card:hover {
-    border-color: var(--volt-orange);
-    background: var(--color-bg-card-hover);
 }
 .recommended-trade-grid {
     display: grid;
@@ -3651,70 +3626,6 @@ body.nav-trade-open::before {
     background: #ffffff;
     color: #1d1d1f;
 }
-.trade-planner-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-    align-items: stretch;
-    gap: 20px;
-    margin-top: 24px;
-}
-.trade-planner-side {
-    display: grid;
-    gap: 16px;
-    min-height: 100%;
-}
-.trade-tool-hint,
-.trade-checklist,
-.trade-briefing {
-    padding: 20px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-card-hover);
-}
-.trade-tool-hint h4,
-.trade-checklist h4,
-.trade-briefing h4 {
-    margin-bottom: 12px;
-}
-.trade-tool-hint ol,
-.trade-checklist ul {
-    display: grid;
-    gap: 10px;
-    padding-left: 18px;
-    color: var(--color-text-secondary);
-}
-.trade-briefing {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    margin-top: 0;
-}
-.trade-briefing-header {
-    flex: 0 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-.trade-briefing textarea {
-    flex: 1 1 auto;
-    width: 100%;
-    min-height: 420px;
-    padding: 16px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-card);
-    color: var(--color-text-primary);
-    resize: vertical;
-    overflow: auto;
-}
-
-.trade-briefing button:disabled {
-    cursor: not-allowed;
-    opacity: 0.55;
-}
-
 .uex-live-panel {
     display: grid;
     gap: 18px;
@@ -3820,39 +3731,6 @@ body.nav-trade-open::before {
 .uex-summary-card b {
     color: var(--volt-orange);
     font-size: 13px;
-}
-
-.trade-profit-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-}
-
-.trade-profit-grid div {
-    display: grid;
-    gap: 5px;
-    min-width: 0;
-    padding: 14px;
-    border: 1px solid rgba(232, 72, 47, 0.18);
-    border-radius: var(--radius-sm);
-    background: rgba(232, 72, 47, 0.08);
-}
-
-.trade-profit-grid span {
-    color: var(--color-text-tertiary);
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.trade-profit-grid strong {
-    overflow-wrap: anywhere;
-    color: var(--color-text-primary);
-    font-size: 15px;
-}
-
-.trade-profit-grid b {
-    color: var(--volt-orange);
-    font-size: 12px;
 }
 
 .uex-warning {
@@ -4125,95 +4003,6 @@ body.nav-trade-open::before {
     color: var(--color-text-primary);
     font-weight: 600;
 }
-.logistics-result {
-    margin-top: 24px;
-}
-
-.logistics-empty {
-    padding: 24px;
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-card-hover);
-    color: var(--color-text-secondary);
-}
-.operation-fit {
-    display: grid;
-    gap: 4px;
-    margin-bottom: 18px;
-    padding: 16px;
-    border-radius: var(--radius-sm);
-}
-.operation-fit span {
-    font-weight: 700;
-}
-.operation-fit-good {
-    background: rgba(72, 187, 120, 0.12);
-    color: #68d391;
-}
-.operation-fit-caution {
-    background: rgba(246, 173, 85, 0.12);
-    color: #f6ad55;
-}
-.operation-fit-poor {
-    background: rgba(245, 101, 101, 0.12);
-    color: #fc8181;
-}
-.logistics-result-main p,
-.logistics-result-note {
-    color: var(--color-text-secondary);
-}
-.logistics-result-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin: 18px 0;
-}
-.logistics-result-grid div {
-    padding: 16px;
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-card-hover);
-}
-.logistics-result-grid span {
-    display: block;
-    margin-bottom: 6px;
-    color: var(--color-text-tertiary);
-    font-size: 12px;
-}
-.trade-result-columns {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 18px;
-}
-.trade-detail-card {
-    padding: 18px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-card-hover);
-}
-.trade-detail-card h4 {
-    margin-bottom: 10px;
-}
-.trade-detail-card p,
-.trade-detail-card li {
-    color: var(--color-text-secondary);
-}
-.trade-detail-card ul {
-    display: grid;
-    gap: 6px;
-    padding-left: 18px;
-}
-
-.trade-uex-summary {
-    margin-bottom: 18px;
-    border-color: rgba(232, 72, 47, 0.35);
-    background: linear-gradient(135deg, rgba(232, 72, 47, 0.12), var(--color-bg-card-hover));
-}
-
-.trade-uex-summary strong {
-    color: var(--volt-orange);
-    font-size: 18px;
-}
 .guide-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 16px; }
 .guide-tool-card {
     display: flex; flex-direction: column; gap: 4px;
@@ -4237,19 +4026,10 @@ body.nav-trade-open::before {
     .policy-num { min-width: 80px; }
     .guide-grid { grid-template-columns: 1fr; }
     .guide-tools-grid { grid-template-columns: 1fr 1fr; }
-    .trade-planner-form,
-    .trade-planner-layout,
-    .logistics-result-grid,
-    .trade-result-columns {
+    .trade-planner-form {
         grid-template-columns: 1fr 1fr;
     }
-    .trade-preset-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
     .uex-summary-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .trade-profit-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .uex-candidate-layout {
@@ -4340,12 +4120,8 @@ body.nav-trade-open::before {
     }
 
     .trade-planner-form,
-    .trade-planner-layout,
-    .logistics-result-grid,
-    .trade-result-columns,
     .uex-live-controls,
-    .uex-summary-grid,
-    .trade-profit-grid {
+    .uex-summary-grid {
         grid-template-columns: 1fr;
     }
     .uex-live-panel {
@@ -4354,7 +4130,6 @@ body.nav-trade-open::before {
     .uex-candidate-list {
         max-height: 300px;
     }
-    .trade-preset-grid,
     .recommended-trade-grid {
         grid-template-columns: 1fr;
     }
@@ -4365,18 +4140,6 @@ body.nav-trade-open::before {
     .trade-planner-form input,
     .trade-planner-form select {
         font-size: 16px;
-    }
-    .trade-briefing-header {
-        align-items: stretch;
-        flex-direction: column;
-    }
-    .trade-briefing {
-        min-height: auto;
-    }
-    .trade-briefing textarea {
-        flex: 0 0 auto;
-        min-height: 260px;
-        max-height: 460px;
     }
     .uex-live-header,
     .uex-live-controls,
@@ -4397,15 +4160,8 @@ body.nav-trade-open::before {
     .trade-planner {
         padding: 24px;
     }
-    .trade-planner-form,
-    .trade-planner-layout,
-    .logistics-result-grid,
-    .trade-result-columns {
+    .trade-planner-form {
         grid-template-columns: 1fr;
-    }
-    .trade-briefing-header {
-        align-items: stretch;
-        flex-direction: column;
     }
     .ship-stats { grid-template-columns: 1fr 1fr; }
     .ships-toolbar { align-items: stretch; flex-direction: column; }
@@ -4543,13 +4299,6 @@ body.nav-trade-open::before {
 
 .notice-copy-link {
     justify-self: start;
-}
-
-.operation-fit ul {
-    display: grid;
-    gap: 4px;
-    margin-top: 6px;
-    padding-left: 18px;
 }
 
 .toast {
@@ -4835,10 +4584,6 @@ body.nav-trade-open::before {
     .faq-question {
         padding: 14px 16px;
         font-size: 15px;
-    }
-
-    .trade-planner-layout {
-        flex-direction: column;
     }
 
     .trade-planner-form {
@@ -5790,10 +5535,6 @@ body.nav-trade-open::before {
     margin: 0;
     color: var(--color-text-primary);
     font-weight: 600;
-}
-
-.trade-briefing-header {
-    gap: 8px;
 }
 
 @media (max-width: 768px) {
@@ -6998,9 +6739,8 @@ body.nav-trade-open::before {
     .uex-loc-btn,
     .lang-btn { min-height: 36px; }
 
-    /* 무역플래너(Step 2 A안): 밀도·스크롤 부담 축소 — 다열 그리드 → 1열 */
+    /* 무역플래너: 작은 화면에서는 후보와 수익표를 1열로 정리 */
     .trade-planner-form { grid-template-columns: 1fr; gap: 12px; }
-    .trade-planner-layout { grid-template-columns: 1fr; }
     .uex-summary-grid { grid-template-columns: 1fr; }       /* 요약 4칸 세로 스택 */
     .uex-candidate-layout { grid-template-columns: 1fr; }   /* 매수/매도 1열 카드 */
     .planner-mobile-hint { display: block; }
@@ -7020,21 +6760,27 @@ body.nav-trade-open::before {
     border-radius: var(--radius-sm);
 }
 
-/* ===== 무역플래너 수익관리 원장(ledger) ===== */
+/* ===== 무역플래너 수익표 ===== */
 .ledger-intro { color: var(--color-text-secondary); font-size: 14px; margin: 4px 0 16px; }
+.ledger {
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card-hover);
+}
 .ledger-add-row {
     display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px;
-    margin-top: 16px; padding: 16px; border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm); background: var(--color-bg-card);
+    margin-top: 16px; padding: 16px; border: 1px solid rgba(232, 72, 47, 0.24);
+    border-radius: var(--radius-sm); background: linear-gradient(135deg, rgba(232, 72, 47, 0.08), var(--color-bg-card));
 }
 .ledger-qty-field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--color-text-secondary); }
 .ledger-qty-field input { width: 140px; padding: 10px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text-primary); }
 .ledger-add-hint { flex: 1 1 240px; margin: 0; font-size: 12px; color: var(--color-text-tertiary); }
 .ledger-list { margin-top: 8px; }
-.ledger-empty { padding: 28px 16px; text-align: center; color: var(--color-text-tertiary); border: 1px dashed var(--color-border); border-radius: var(--radius-sm); }
+.ledger-empty { padding: 28px 16px; text-align: center; color: var(--color-text-tertiary); border: 1px dashed var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-card); }
 .ledger-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.ledger-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 720px; }
-.ledger-table th, .ledger-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+.ledger-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; min-width: 720px; }
+.ledger-table th, .ledger-table td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--color-border); vertical-align: top; background: var(--color-bg-card); }
 .ledger-table thead th { color: var(--color-text-tertiary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
 .ledger-table td small { display: block; color: var(--color-text-tertiary); font-size: 11px; margin-top: 2px; }
 .ledger-commodity { font-weight: 700; color: var(--color-text-primary); }
@@ -7042,7 +6788,7 @@ body.nav-trade-open::before {
 .ledger-profit { font-weight: 700; }
 .ledger-profit-pos { color: #38a169; }
 .ledger-profit-neg { color: #e53e3e; }
-.ledger-total-row th, .ledger-total-row td { border-top: 2px solid var(--color-border-accent); border-bottom: none; font-weight: 700; color: var(--color-text-primary); }
+.ledger-total-row th, .ledger-total-row td { border-top: 2px solid var(--color-border-accent); border-bottom: none; font-weight: 700; color: var(--color-text-primary); background: rgba(232, 72, 47, 0.07); }
 .ledger-remove {
     width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--color-border);
     background: transparent; color: var(--color-text-tertiary); cursor: pointer; line-height: 1;
