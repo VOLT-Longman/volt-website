@@ -88,6 +88,19 @@ test.describe('i18n (KO/EN)', () => {
         await ctx.close();
     });
 
+    test('임원진/스트리머/협력함대 영어화: 비한국어 기본 영어(정적 폴백)', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const leadPage = await load(ctx, '/#leadership');
+        await expect(leadPage.locator('#leadership-grid')).toContainText('Fleet Commander');
+        await expect(leadPage.locator('#leadership-grid')).toContainText('Key competencies');
+        const streamPage = await load(ctx, '/#streamers');
+        await expect(streamPage.locator('#streamers-grid')).toContainText('Watch stream');
+        await expect(streamPage.locator('#streamers-grid')).not.toContainText('방송 보기');
+        const partnerPage = await load(ctx, '/#partner-fleets');
+        await expect(partnerPage.locator('#partner-fleets-grid')).toContainText('Joint Operations');
+        await ctx.close();
+    });
+
     test('일정/연혁 KO 회귀 + 토글 재렌더', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'ko-KR' });
         const page = await load(ctx, '/#timeline');

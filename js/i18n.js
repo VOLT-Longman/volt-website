@@ -173,6 +173,15 @@
             'ship.cat.지원': '지원', 'ship.cat.채굴': '채굴', 'ship.cat.탐사': '탐사',
             'ship.cat.화물': '화물', 'ship.cat.모듈형': '모듈형', 'ship.cat.미구현': '미구현',
             'ship.cat.지상': '지상',
+            // 임원진·스트리머·협력함대 UI
+            'leadership.keyCompetencies': '핵심 역량',
+            'leadership.viewDetail': '자세히 보기 →',
+            'leadership.detailAria': '상세 보기',
+            'leadership.duties': '주요 업무',
+            'streamers.watch': '방송 보기',
+            'partner.members': '멤버',
+            'partner.founded': '창설',
+            'partner.website': '웹사이트',
             // 푸터
             'footer.tagline': 'Voyagers of Logistics &amp; Trade<br>한국 커뮤니티 Star Citizen 함대',
             'footer.about': '소개',
@@ -335,6 +344,15 @@
             'ship.cat.지원': 'Support', 'ship.cat.채굴': 'Mining', 'ship.cat.탐사': 'Exploration',
             'ship.cat.화물': 'Cargo', 'ship.cat.모듈형': 'Modular', 'ship.cat.미구현': 'Unimplemented',
             'ship.cat.지상': 'Ground',
+            // Leadership / streamers / partner UI
+            'leadership.keyCompetencies': 'Key competencies',
+            'leadership.viewDetail': 'View details →',
+            'leadership.detailAria': 'View details',
+            'leadership.duties': 'Key duties',
+            'streamers.watch': 'Watch stream',
+            'partner.members': 'members',
+            'partner.founded': 'Founded',
+            'partner.website': 'Website',
             // footer
             'footer.tagline': 'Voyagers of Logistics &amp; Trade<br>A Korean-community Star Citizen fleet',
             'footer.about': 'About',

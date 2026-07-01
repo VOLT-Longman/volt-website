@@ -34,19 +34,25 @@ const VOLT_DATA = {
             id: "ceo",
             name: "롱만",
             role: "CEO · 대표이사 · 함대 사령관",
+            role_en: "CEO · Fleet Commander",
             avatar: "L",
             avatarUrl: "",
             avatarStyle: "ceo", // 특별 스타일
             discord: "@haru801314",
             description: "VOLT의 모든 운영을 총괄하며, 함대의 전략적 방향성과 조직 구조를 설계합니다. 체계적 사고와 구조화 역량을 바탕으로 함대를 기업형 운영 시스템으로 발전시키는 데 핵심적인 역할을 수행합니다.",
+            description_en: "Oversees all of VOLT\u2019s operations and designs the fleet\u2019s strategic direction and structure. With systematic thinking and strong structuring skills, plays a key role in evolving the fleet into a corporate-style operating system.",
             details: [
                 {
                     title: "리더십 철학",
-                    content: "강압적인 접근보다 구조적 리더십을 선호합니다. \"자율적으로 참여하되, 기준은 명확하다\"는 원칙을 통해 구성원들이 예측 가능한 규칙 내에서 안정적으로 협업할 수 있는 시스템을 강조합니다."
+                    title_en: "Leadership Philosophy",
+                    content: "강압적인 접근보다 구조적 리더십을 선호합니다. \"자율적으로 참여하되, 기준은 명확하다\"는 원칙을 통해 구성원들이 예측 가능한 규칙 내에서 안정적으로 협업할 수 있는 시스템을 강조합니다.",
+                    content_en: "Prefers structural leadership over coercion. Through the principle of \"participate voluntarily, but with clear standards,\" emphasizes a system where members collaborate reliably within predictable rules."
                 },
                 {
                     title: "VOLT 기여",
-                    content: "전투, 물류, 전략, 정보, 커뮤니티 영역을 하나의 통합 구조로 설계. 문서화, 절차, 역할 분담 구조를 직접 구축하여 VOLT를 한국에서 가장 체계화된 함대 중 하나로 성장시켰습니다."
+                    title_en: "Contribution to VOLT",
+                    content: "전투, 물류, 전략, 정보, 커뮤니티 영역을 하나의 통합 구조로 설계. 문서화, 절차, 역할 분담 구조를 직접 구축하여 VOLT를 한국에서 가장 체계화된 함대 중 하나로 성장시켰습니다.",
+                    content_en: "Designed combat, logistics, strategy, intel, and community into one integrated structure. Built the documentation, procedures, and role-division firsthand, growing VOLT into one of the most systematized fleets in Korea."
                 }
             ],
             competencies: [
@@ -54,54 +60,72 @@ const VOLT_DATA = {
                 "데이터 기반 전략 수립",
                 "장기 비전 수립 및 지속가능성 관리",
                 "대규모 협력 콘텐츠 기획 및 실행"
+            ],
+            competencies_en: [
+                "Organizational design & systematization",
+                "Data-driven strategy",
+                "Long-term vision & sustainability",
+                "Planning & running large-scale co-op content"
             ]
         },
         {
             id: "coo",
             name: "가스펠",
             role: "COO · 운영총괄이사",
+            role_en: "COO · Head of Operations",
             avatar: "G",
             avatarUrl: "",
             avatarGradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
             discord: "@gospel0927",
             description: "조직 운영 표준을 수립하고 전체 운영 구조를 관리하며, 인력 배치, 관리, 평가를 포함한 인사 시스템을 감독합니다.",
+            description_en: "Establishes operating standards and manages the overall operations structure, overseeing HR systems including staffing, management, and evaluation.",
             duties: "운영 시스템 개선 및 표준 수립 · 인사 관리 및 종합 역할 시스템 정리 · 내부 운영 표준화 및 안정적인 운영 환경 구축",
+            duties_en: "Improving operating systems & setting standards · HR management & consolidating the role system · Standardizing internal operations for a stable environment",
             responsibilities: ["운영 시스템 개선 및 표준 수립 · 인사 관리 및 종합 역할 시스템 정리 · 내부 운영 표준화 및 안정적인 운영 환경 구축"]
         },
         {
             id: "cio",
             name: "탄소",
             role: "CIO · 최고정보책임자",
+            role_en: "CIO · Chief Information Officer",
             avatar: "T",
             avatarUrl: "",
             avatarGradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
             discord: "@carbon_tanso",
             description: "함대의 운송 자원을 감독하고, 물자와 자원 흐름을 분석하며, 게임 내 핵심 정보를 수집하고 분류합니다.",
+            description_en: "Oversees the fleet\u2019s transport resources, analyzes the flow of goods, and collects and classifies key in-game information.",
             duties: "함대 운송 관련 지원 및 운영 시스템 연구 · 무역 루트 최적화 및 위험 분석 · 신규 콘텐츠 및 시스템 정보 브리핑",
+            duties_en: "Research on fleet transport support & operating systems · Trade route optimization & risk analysis · Briefings on new content and systems",
             responsibilities: ["함대 운송 관련 지원 및 운영 시스템 연구 · 무역 루트 최적화 및 위험 분석 · 신규 콘텐츠 및 시스템 정보 브리핑"]
         },
         {
             id: "cso",
             name: "리퍼",
             role: "CSO · 최고전략책임자",
+            role_en: "CSO · Chief Strategy Officer",
             avatar: "R",
             avatarUrl: "",
             avatarGradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
             discord: "@reapers9999",
             description: "전략적 고가 운송 보호 시스템을 감독하고, 함선 무장 구성을 연구 및 표준화하며, 인적 자원 및 전투 부문 지원을 관리합니다.",
+            description_en: "Oversees strategic high-value transport protection, researches and standardizes ship loadouts, and manages personnel and combat-division support.",
             duties: "함대 전략 자원 배분 및 자산 관리 · 상황별 함선 무장 및 역할 최적화 · 전략적 전투 지원 및 임무 브리핑",
+            duties_en: "Strategic resource allocation & asset management · Situational loadout & role optimization · Strategic combat support & mission briefings",
             responsibilities: ["함대 전략 자원 배분 및 자산 관리 · 상황별 함선 무장 및 역할 최적화 · 전략적 전투 지원 및 임무 브리핑"]
         },
         {
             id: "hr",
             name: "아마그란데",
             role: "인사·재무 이사",
+            role_en: "Director of HR & Finance",
             avatar: "A",
             avatarUrl: "",
             avatarGradient: "linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)",
             discord: "@amagrande",
             description: "함대원 모집 및 관리, 인사 시스템과 함대 재무 운영을 총괄합니다. VOLT AI 봇 개발을 통해 함대원의 게임 정보 활용을 지원하고 있습니다.",
+            description_en: "Leads member recruitment and management, HR systems, and fleet finance. Supports members\u2019 use of game information by developing the VOLT AI bot.",
             duties: "신규 함대원 모집 및 온보딩 · 함대 재무 관리 및 자산 운영 · VOLT AI 시스템 개발 및 운영 · 함대원 데이터베이스 관리",
+            duties_en: "New member recruitment & onboarding · Fleet finance & asset management · VOLT AI development & operation · Member database management",
             responsibilities: ["신규 함대원 모집 및 온보딩 · 함대 재무 관리 및 자산 운영 · VOLT AI 시스템 개발 및 운영 · 함대원 데이터베이스 관리"]
         }
     ],
@@ -112,7 +136,9 @@ const VOLT_DATA = {
             id: "rudy",
             name: "루디",
             platform: "치지직",
+            platform_en: "Chzzk",
             description: "토크 중심 방송과 종합게임을 함께 즐기는 스타시티즌 뉴비",
+            description_en: "A Star Citizen newbie who enjoys talk-focused streams alongside a variety of games",
             image: "assets/images/streamers/rudy.webp",
             imagePosition: "center 18%",
             iconBg: "linear-gradient(135deg, #9ae6b4 0%, #38b2ac 100%)",
@@ -120,15 +146,21 @@ const VOLT_DATA = {
             sections: [
                 {
                     title: "대표 스트리머",
-                    content: "스타시티즌 패치나 대규모 함대전 이벤트를 방송과 유튜브에 송출·업로드할 예정입니다."
+                    title_en: "Featured Streamer",
+                    content: "스타시티즌 패치나 대규모 함대전 이벤트를 방송과 유튜브에 송출·업로드할 예정입니다.",
+                    content_en: "Plans to stream and upload Star Citizen patches and large-scale fleet battles on stream and YouTube."
                 },
                 {
                     title: "콘텐츠 특징",
-                    content: "· 스타시티즌은 매우 뉴비\n· 토크 콘텐츠 위주의 방송 스타일\n· 종합게임도 함께 진행"
+                    title_en: "Content Style",
+                    content: "· 스타시티즌은 매우 뉴비\n· 토크 콘텐츠 위주의 방송 스타일\n· 종합게임도 함께 진행",
+                    content_en: "· Very new to Star Citizen\n· Talk-focused streaming style\n· Also plays a variety of games"
                 },
                 {
                     title: "스트리머 특징",
-                    content: "VOLT 함대를 통해 스타시티즌을 함께 즐기고, 아름다운 행성 경관을 관광하거나 다양한 콘텐츠를 즐겨나갈 예정입니다!"
+                    title_en: "About the Streamer",
+                    content: "VOLT 함대를 통해 스타시티즌을 함께 즐기고, 아름다운 행성 경관을 관광하거나 다양한 콘텐츠를 즐겨나갈 예정입니다!",
+                    content_en: "Plans to enjoy Star Citizen together with VOLT \u2014 touring beautiful planetary vistas and exploring all kinds of content!"
                 }
             ]
         },
@@ -136,22 +168,30 @@ const VOLT_DATA = {
             id: "perma",
             name: "페르마",
             platform: "치지직",
+            platform_en: "Chzzk",
             description: "순수함·청순함·순백함의 상징",
+            description_en: "A symbol of purity, innocence, and pure white",
             image: "assets/images/streamers/perma.png",
             iconBg: "linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%)",
             channelUrl: "https://chzzk.naver.com/420728e601f2f4bbcb9cad159f071cec",
             sections: [
                 {
                     title: "대표 스트리머",
-                    content: "볼트함대 공식 대표 스트리머로, 다수의 대형 이벤트를 성공적으로 진행했습니다."
+                    title_en: "Featured Streamer",
+                    content: "볼트함대 공식 대표 스트리머로, 다수의 대형 이벤트를 성공적으로 진행했습니다.",
+                    content_en: "As VOLT\u2019s official featured streamer, has successfully hosted many large events."
                 },
                 {
                     title: "콘텐츠 특징",
-                    content: "· 올바른 질서와 정의 수호\n· 탄탄한 스타시티즌 실력\n· 우주 평화 지키기"
+                    title_en: "Content Style",
+                    content: "· 올바른 질서와 정의 수호\n· 탄탄한 스타시티즌 실력\n· 우주 평화 지키기",
+                    content_en: "· Upholding order and justice\n· Solid Star Citizen skills\n· Keeping the peace in space"
                 },
                 {
                     title: "스트리머 특징",
-                    content: "순백함을 상징하지만 정의를 위해서는 누구보다 단호한 존재. 볼트함대와 함께 많은 유저들에게 즐거움과 활력을 전달할 예정입니다."
+                    title_en: "About the Streamer",
+                    content: "순백함을 상징하지만 정의를 위해서는 누구보다 단호한 존재. 볼트함대와 함께 많은 유저들에게 즐거움과 활력을 전달할 예정입니다.",
+                    content_en: "A symbol of purity, yet more resolute than anyone for justice. Will bring joy and energy to many players alongside VOLT."
                 }
             ]
         },
@@ -159,22 +199,30 @@ const VOLT_DATA = {
             id: "kookbap",
             name: "쿠욱밥",
             platform: "치지직",
+            platform_en: "Chzzk",
             description: "탐험과 전투를 사랑하는 우주 개척자",
+            description_en: "A space pioneer who loves exploration and combat",
             image: "assets/images/streamers/kookbap.png",
             iconBg: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
             channelUrl: "https://chzzk.naver.com/b61999886b91fb3fa362cf17fef0fd31",
             sections: [
                 {
                     title: "활동 분야",
-                    content: "탐험 및 전투 임무 중심으로 우주 곳곳을 누비며 새로운 길을 개척합니다."
+                    title_en: "Focus Areas",
+                    content: "탐험 및 전투 임무 중심으로 우주 곳곳을 누비며 새로운 길을 개척합니다.",
+                    content_en: "Roams across space on exploration and combat missions, pioneering new routes."
                 },
                 {
                     title: "멘토링",
-                    content: "신규 유저들에게 장비, 임무, 초반 루트를 안내하며 함께 성장하는 걸 즐깁니다."
+                    title_en: "Mentoring",
+                    content: "신규 유저들에게 장비, 임무, 초반 루트를 안내하며 함께 성장하는 걸 즐깁니다.",
+                    content_en: "Enjoys guiding new users on gear, missions, and early routes, and growing together."
                 },
                 {
                     title: "특별한 이력",
-                    content: "890 점프의 전설을 가진 조금 기묘한 친구. 함께라면 좋든 나쁘든 항상 사건이 일어나죠!"
+                    title_en: "Notable History",
+                    content: "890 점프의 전설을 가진 조금 기묘한 친구. 함께라면 좋든 나쁘든 항상 사건이 일어나죠!",
+                    content_en: "A quirky friend with the legend of the 890 Jump. With them around, something always happens \u2014 for better or worse!"
                 }
             ]
         }
@@ -189,9 +237,12 @@ const VOLT_DATA = {
             id: "mjo",
             name: "MJO",
             region: "한국",
+            region_en: "Korea",
             game: "Star Citizen",
             focus: "합동 작전",
+            focus_en: "Joint Operations",
             description: "VOLT와 합동 작전 및 교류를 진행하는 협력 함대입니다.",
+            description_en: "A partner fleet that runs joint operations and exchanges with VOLT.",
             memberCount: null,
             discordUrl: "",
             websiteUrl: "",

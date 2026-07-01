@@ -69,6 +69,11 @@
         const en = item[`${field}_en`];
         return currentLang() === 'en' && en ? en : item[field];
     }
+    // 배열 필드용(예: competencies_en). EN이고 배열이 있으면 그걸, 아니면 KO 원본.
+    function txArr(item, field) {
+        const en = item && item[`${field}_en`];
+        return currentLang() === 'en' && Array.isArray(en) ? en : (item && Array.isArray(item[field]) ? item[field] : []);
+    }
     function i18nT(key, fallback) { return i18n && i18n.t ? i18n.t(key) : (fallback || key); }
     // 함선DB UI는 js/ships.js로 분리. 기존 호출부 무변경용 위임 shim.
     function renderShips() { return VOLT_SHIPS.renderShips(); }
@@ -349,27 +354,27 @@
         const info = `
                 <div class="leader-info">
                     <h3>${escapeHtml(leader.name)}</h3>
-                    <span class="leader-role">${escapeHtml(leader.role)}</span>
+                    <span class="leader-role">${escapeHtml(tx(leader, 'role'))}</span>
                     <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
-                    <p class="leader-description leader-summary">${escapeHtml(leader.description)}</p>
-                    ${isPrimary ? '' : `${renderLeaderKeyPoints(leader, 2)}<span class="leader-more" aria-hidden="true">자세히 보기 →</span>`}
+                    <p class="leader-description leader-summary">${escapeHtml(tx(leader, 'description'))}</p>
+                    ${isPrimary ? '' : `${renderLeaderKeyPoints(leader, 2)}<span class="leader-more" aria-hidden="true">${escapeHtml(i18nT('leadership.viewDetail', '자세히 보기 →'))}</span>`}
                 </div>`;
         const aside = isPrimary ? `
                 <div class="leader-aside">
                     ${renderLeaderKeyPoints(leader, 3)}
-                    <span class="leader-more" aria-hidden="true">자세히 보기 →</span>
+                    <span class="leader-more" aria-hidden="true">${escapeHtml(i18nT('leadership.viewDetail', '자세히 보기 →'))}</span>
                 </div>` : '';
         return `
-            <button class="leader-card${isPrimary ? ' ceo-card is-primary' : ''} reveal" type="button" data-leader-id="${id}" aria-label="${escapeHtml(leader.name)} 상세 보기">
+            <button class="leader-card${isPrimary ? ' ceo-card is-primary' : ''} reveal" type="button" data-leader-id="${id}" aria-label="${escapeHtml(`${leader.name} ${i18nT('leadership.detailAria', '상세 보기')}`)}">
                 ${renderLeaderAvatar(leader)}${info}${aside}
             </button>`;
     }
 
     // 카드에는 핵심 역량 상위 3개만 요약. 철학·기여·전체 역량 등 상세는 모달로 분리.
     function renderLeaderKeyPoints(leader, limit = 3) {
-        const items = Array.isArray(leader.competencies) ? leader.competencies.slice(0, limit) : [];
+        const items = txArr(leader, 'competencies').slice(0, limit);
         if (!items.length) return '';
-        return `<div class="leader-keypoints"><strong>핵심 역량</strong><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>`;
+        return `<div class="leader-keypoints"><strong>${escapeHtml(i18nT('leadership.keyCompetencies', '핵심 역량'))}</strong><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>`;
     }
 
     function getRenderableLeadership() {
@@ -398,9 +403,10 @@
 
     function renderLeaderDetails(leader) {
         const details = Array.isArray(leader.details) ? `<div class="leader-details">${leader.details.map((item) => `
-            <div class="leader-details-item"><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.content)}</p></div>`).join('')}</div>` : '';
-        const competencies = Array.isArray(leader.competencies) ? `<div class="leader-competencies"><strong>핵심 역량</strong><ul>${leader.competencies.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>` : '';
-        const duties = leader.duties ? `<div class="leader-duties"><strong>주요 업무</strong> · ${escapeHtml(leader.duties)}</div>` : '';
+            <div class="leader-details-item"><strong>${escapeHtml(tx(item, 'title'))}</strong><p>${escapeHtml(tx(item, 'content'))}</p></div>`).join('')}</div>` : '';
+        const compItems = txArr(leader, 'competencies');
+        const competencies = compItems.length ? `<div class="leader-competencies"><strong>${escapeHtml(i18nT('leadership.keyCompetencies', '핵심 역량'))}</strong><ul>${compItems.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>` : '';
+        const duties = leader.duties ? `<div class="leader-duties"><strong>${escapeHtml(i18nT('leadership.duties', '주요 업무'))}</strong> · ${escapeHtml(tx(leader, 'duties'))}</div>` : '';
         return `${details}${competencies}${duties}`;
     }
 
@@ -415,9 +421,9 @@
             return `<div class="streamer-card reveal">
                 <div class="streamer-icon">${icon}</div>
                 <h3>${escapeHtml(streamer.name)}</h3>
-                <span class="streamer-platform">${escapeHtml(streamer.platform)}</span>
-                <p class="streamer-description">${escapeHtml(streamer.description)}</p>
-                <div class="streamer-details">${streamer.sections.map((section) => `<div class="streamer-sub-section"><h4>${escapeHtml(section.title)}</h4><p>${formatMultilineText(section.content)}</p></div>`).join('')}</div>
+                <span class="streamer-platform">${escapeHtml(tx(streamer, 'platform'))}</span>
+                <p class="streamer-description">${escapeHtml(tx(streamer, 'description'))}</p>
+                <div class="streamer-details">${streamer.sections.map((section) => `<div class="streamer-sub-section"><h4>${escapeHtml(tx(section, 'title'))}</h4><p>${formatMultilineText(tx(section, 'content'))}</p></div>`).join('')}</div>
                 ${renderStreamerLink(streamer)}
             </div>`;
         }).join('');
@@ -425,7 +431,7 @@
 
     function renderStreamerLink(streamer) {
         if (!streamer.channelUrl) return '';
-        return `<a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer" class="streamer-link">방송 보기</a>`;
+        return `<a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer" class="streamer-link">${escapeHtml(i18nT('streamers.watch', '방송 보기'))}</a>`;
     }
 
     function renderTimeline() {
@@ -1123,16 +1129,20 @@
     function renderPartnerFleetCard(fleet) {
         const name = fleet.name || '협력함대';
         const logo = renderPartnerFleetImage(fleet, name);
-        const meta = [fleet.region, fleet.game, fleet.focus].filter(Boolean)
+        const en = currentLang() === 'en';
+        const meta = [tx(fleet, 'region'), fleet.game, tx(fleet, 'focus')].filter(Boolean)
             .map((item) => `<span class="partner-fleet-badge">${escapeHtml(item)}</span>`)
             .join('');
+        const memberText = fleet.memberCount
+            ? (en ? `${Number(fleet.memberCount).toLocaleString('en-US')} ${i18nT('partner.members', 'members')}` : `멤버 ${Number(fleet.memberCount).toLocaleString('ko-KR')}명`)
+            : '';
         const stats = [
-            fleet.memberCount ? `멤버 ${Number(fleet.memberCount).toLocaleString('ko-KR')}명` : '',
-            fleet.established ? `창설 ${fleet.established}` : ''
+            memberText,
+            fleet.established ? `${i18nT('partner.founded', '창설')} ${fleet.established}` : ''
         ].filter(Boolean).map((item) => `<span class="partner-fleet-stat">${escapeHtml(item)}</span>`).join('');
         const links = [
             fleet.discordUrl ? `<a class="partner-fleet-link" href="${escapeHtml(fleet.discordUrl)}" target="_blank" rel="noopener noreferrer">Discord</a>` : '',
-            fleet.websiteUrl ? `<a class="partner-fleet-link" href="${escapeHtml(fleet.websiteUrl)}" target="_blank" rel="noopener noreferrer">웹사이트</a>` : ''
+            fleet.websiteUrl ? `<a class="partner-fleet-link" href="${escapeHtml(fleet.websiteUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(i18nT('partner.website', '웹사이트'))}</a>` : ''
         ].filter(Boolean).join('');
         return `
             <article class="partner-fleet-card reveal">
@@ -1143,7 +1153,7 @@
                         <div class="partner-fleet-meta">${meta}</div>
                     </div>
                 </div>
-                <p class="partner-fleet-description">${escapeHtml(fleet.description || '협력 관계 정보를 준비 중입니다.')}</p>
+                <p class="partner-fleet-description">${escapeHtml(tx(fleet, 'description') || '협력 관계 정보를 준비 중입니다.')}</p>
                 ${stats ? `<div class="partner-fleet-stats">${stats}</div>` : ''}
                 ${links ? `<div class="partner-fleet-actions">${links}</div>` : ''}
             </article>
@@ -1271,16 +1281,16 @@
         openModal(`<div class="modal-header">
                 <div>
                     <h2 class="modal-title">${escapeHtml(leader.name)}</h2>
-                    <p class="leader-role">${escapeHtml(leader.role)}</p>
+                    <p class="leader-role">${escapeHtml(tx(leader, 'role'))}</p>
                 </div>
-                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+                <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '모달 닫기'))}">×</button>
             </div>
             <div class="modal-body leader-modal-body">
                 <div class="leader-modal-top">
                     ${renderLeaderAvatar(leader)}
                     <div>
                         <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
-                        <p class="leader-modal-desc">${escapeHtml(leader.description)}</p>
+                        <p class="leader-modal-desc">${escapeHtml(tx(leader, 'description'))}</p>
                     </div>
                 </div>
                 ${renderLeaderDetails(leader)}
@@ -2239,7 +2249,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); VOLT_UEX_PANEL.onLanguageChange(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); VOLT_UEX_PANEL.onLanguageChange(); });
         }
         setupDynamicStyles();
         setupSplash();
