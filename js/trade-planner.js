@@ -111,28 +111,27 @@
     function renderCargoLimitState(panel, ready, qty) {
         const usage = getCargoUsage();
         const over = ready && qty > 0 && usage.capacity > 0 && qty > usage.remaining;
-        const blocked = ready && (usage.capacity <= 0 || usage.remaining <= 0 || over || usage.isOver);
-        panel.classList.toggle('is-over-capacity', over);
+        const overloaded = over || usage.isOver;
+        const blocked = ready && usage.capacity <= 0;
+        panel.classList.toggle('is-over-capacity', overloaded);
         panel.classList.toggle('is-capacity-blocked', blocked);
-        setText('profit-selection-status', getSelectionStatus(ready, usage.capacity, usage.remaining, over || usage.isOver));
-        updateQuantityLimit(usage.remaining);
-        updateCargoHint(usage.capacity, usage.used, usage.remaining, over || usage.isOver);
+        setText('profit-selection-status', getSelectionStatus(ready, usage.capacity, usage.remaining, overloaded));
+        updateQuantityLimit();
+        updateCargoHint(usage.capacity, usage.used, usage.remaining, overloaded);
         updateAddButtonState(ready, blocked);
     }
 
-    function getSelectionStatus(ready, capacity, remaining, over) {
+    function getSelectionStatus(ready, capacity, _remaining, over) {
         if (!ready) return t('ledger.selectionWaiting', '후보 선택 대기');
         if (capacity <= 0) return t('ledger.selectionCargoMissing', '카고 입력 필요');
-        if (over) return t('ledger.selectionCargoOver', '카고 초과');
-        if (capacity > 0 && remaining <= 0) return t('ledger.selectionCargoFull', '카고 가득 참');
+        if (over) return t('ledger.selectionCargoOver', '과적');
         return t('ledger.selectionReady', '추가 가능');
     }
 
-    function updateQuantityLimit(remaining) {
+    function updateQuantityLimit() {
         const qtyInput = document.getElementById('ledger-qty');
         if (!qtyInput) return;
-        if (remaining > 0) qtyInput.max = String(remaining);
-        else qtyInput.removeAttribute('max');
+        qtyInput.removeAttribute('max');
     }
 
     function updateAddButtonState(ready, blocked) {
@@ -151,7 +150,7 @@
         }
         const key = over ? 'ledger.cargoHintOver' : 'ledger.cargoHint';
         const fallback = over
-            ? '남은 카고 {remaining} SCU를 초과했습니다. 현재 수익표 사용량은 {used} / {capacity} SCU입니다.'
+            ? '과적 상태입니다. 현재 수익표 사용량은 {used} / {capacity} SCU이며, 그래도 추가할 수 있습니다.'
             : '남은 카고 {remaining} / {capacity} SCU · 수익표 사용 {used} SCU';
         hint.textContent = t(key, fallback, {
             capacity: formatCount(capacity),
@@ -201,12 +200,13 @@
             showToast(i18nT('ledger.errQty', '수량(SCU)을 1 이상 입력하세요.'));
             return;
         }
-        const cargoCheck = validateCargoCapacity(qty);
+        const cargoCheck = validateCargoCapacity();
         if (!cargoCheck.ok) {
             showToast(cargoCheck.message);
             renderSelectionSummary();
             return;
         }
+        const overloaded = isCargoOverloaded(qty);
         const fmtLoc = panel.formatLocation || ((row) => (row && row.terminal_name) || '');
         items.push({
             id: makeId(),
@@ -221,26 +221,24 @@
         render();
         if (qtyInput) qtyInput.value = '';
         renderSelectionSummary();
-        showToast(i18nT('ledger.added', '수익표에 추가했습니다.'));
+        const message = overloaded
+            ? i18nT('ledger.addedOverload', '과적 상태로 수익표에 추가했습니다.')
+            : i18nT('ledger.added', '수익표에 추가했습니다.');
+        showToast(message);
     }
 
-    function validateCargoCapacity(qty) {
+    function validateCargoCapacity() {
         const capacity = getCargoCapacity();
-        const used = getUsedCargo();
-        const remaining = Math.max(0, capacity - used);
         if (capacity <= 0) {
             return { ok: false, message: i18nT('ledger.errCargoMissing', '먼저 함선을 선택하거나 운송 화물량(SCU)을 입력하세요.') };
         }
-        if (qty > remaining) {
-            return {
-                ok: false,
-                message: t('ledger.errCargoOver', '남은 카고 {remaining} SCU를 초과했습니다. 수익표에는 이미 {used} SCU가 들어 있습니다.', {
-                    remaining: formatCount(remaining),
-                    used: formatCount(used),
-                }),
-            };
-        }
         return { ok: true };
+    }
+
+    function isCargoOverloaded(additionalQty = 0) {
+        const capacity = getCargoCapacity();
+        if (capacity <= 0) return false;
+        return getUsedCargo() + additionalQty > capacity;
     }
 
     function removeItem(id) {
@@ -292,10 +290,7 @@
             ? `${formatCount(usage.used)} / ${formatCount(usage.capacity)} SCU`
             : `${formatCount(total.qty)} SCU`;
         const cargoDetail = usage.capacity > 0
-            ? t('ledger.cargoSummaryDetail', '최대 {capacity} SCU · 남은 {remaining} SCU', {
-                capacity: formatCount(usage.capacity),
-                remaining: formatCount(usage.remaining),
-            })
+            ? renderCargoSummaryDetail(usage)
             : t('ledger.cargoSummaryNoLimit', '함선 또는 화물량 미지정');
         return `<div class="ledger-total-cards">
             ${renderTotalCard('ledger.summaryBuy', '총 투자금', formatCredits(total.buy))}
@@ -303,6 +298,19 @@
             ${renderTotalCard('ledger.summaryProfit', '예상 이윤', formatCredits(totalProfit), profitClass(totalProfit))}
             ${renderTotalCard('ledger.summaryScu', '총 SCU', cargoValue, usage.isOver ? 'ledger-profit-neg' : '', cargoDetail, usage.isOver ? 'is-over-capacity' : '')}
         </div>`;
+    }
+
+    function renderCargoSummaryDetail(usage) {
+        if (usage.isOver) {
+            return t('ledger.cargoSummaryOver', '최대 {capacity} SCU · 과적 {over} SCU', {
+                capacity: formatCount(usage.capacity),
+                over: formatCount(usage.overBy),
+            });
+        }
+        return t('ledger.cargoSummaryDetail', '최대 {capacity} SCU · 남은 {remaining} SCU', {
+            capacity: formatCount(usage.capacity),
+            remaining: formatCount(usage.remaining),
+        });
     }
 
     function renderTotalCard(key, fallback, value, cls = '', detail = '', cardClass = '') {
@@ -314,7 +322,7 @@
     function renderCargoWarning(totalQty) {
         const usage = getCargoUsage();
         if (!usage.capacity || totalQty <= usage.capacity) return '';
-        const message = t('ledger.cargoOverBanner', '수익표 총량이 현재 카고 한도보다 {over} SCU 많습니다. 항목을 줄이거나 더 큰 함선을 선택하세요.', {
+        const message = t('ledger.cargoOverBanner', '수익표 총량이 현재 카고 한도보다 {over} SCU 많습니다. 과적 상태로 기록됩니다.', {
             over: formatCount(usage.overBy),
         });
         return `<div class="ledger-cargo-warning" role="alert">${escapeHtml(message)}</div>`;

@@ -345,23 +345,30 @@ test.describe('무역플래너', () => {
         await expect(total).toContainText('8,000');
         await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
 
-        // 기존 수익표 사용량까지 포함해 남은 20 SCU를 넘는 추가는 차단
+        // 기존 수익표 사용량까지 포함해 남은 카고를 넘으면 과적으로 표시하되 추가는 허용
         await page.locator('#ledger-qty').fill('30');
-        await expect(page.locator('#profit-selection-status')).toHaveText('카고 초과');
-        await expect(page.locator('#ledger-add')).toBeDisabled();
+        await expect(page.locator('#profit-selection-status')).toHaveText('과적');
+        await expect(page.locator('#ledger-add')).toBeEnabled();
+        await page.locator('#ledger-add').click();
+        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(2);
+        await expect(page.locator('.ledger-cargo-warning')).toContainText('10 SCU');
+        await expect(page.locator('.ledger-total-cards')).toContainText('130 / 120 SCU');
+        await expect(page.locator('.ledger-total-cards')).toContainText('과적 10 SCU');
+
+        // 함선 카고를 줄이면 기존 수익표 총량 기준으로 과적 폭을 다시 계산
         await page.locator('#logistics-cargo').fill('80');
-        await expect(page.locator('.ledger-cargo-warning')).toContainText('20 SCU');
-        await expect(page.locator('.ledger-total-cards')).toContainText('100 / 80 SCU');
-        await expect(page.locator('#ledger-add')).toBeDisabled();
-        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
+        await expect(page.locator('#profit-selection-status')).toHaveText('과적');
+        await expect(page.locator('.ledger-cargo-warning')).toContainText('50 SCU');
+        await expect(page.locator('.ledger-total-cards')).toContainText('130 / 80 SCU');
+        await expect(page.locator('#ledger-add')).toBeEnabled();
 
         // 새로고침 후에도 유지(localStorage)
         await page.reload();
         await page.waitForSelector('#loading-splash', { state: 'hidden' });
-        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
+        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(2);
 
         // 삭제 → 빈 상태
-        await page.locator('[data-ledger-remove]').first().click();
+        await page.locator('#ledger-clear').click();
         await expect(page.locator('#ledger-list')).toContainText('아직 추가한 상품이 없습니다');
     });
 });
