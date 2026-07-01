@@ -360,17 +360,23 @@ const VOLT_DATA = {
         {
             number: 1,
             title: "지원서 제출",
-            description: "구글 폼을 통해 간단한 지원서를 작성합니다. 게임 경험과 무관하게 누구나 환영합니다."
+            title_en: "Submit Application",
+            description: "구글 폼을 통해 간단한 지원서를 작성합니다. 게임 경험과 무관하게 누구나 환영합니다.",
+            description_en: "Fill out a short application via Google Form. Everyone is welcome, regardless of game experience."
         },
         {
             number: 2,
             title: "안내 & 검토",
-            description: "제출 내용을 검토한 후, Discord를 통해 간단한 안내 절차를 진행합니다."
+            title_en: "Guidance & Review",
+            description: "제출 내용을 검토한 후, Discord를 통해 간단한 안내 절차를 진행합니다.",
+            description_en: "After reviewing your submission, we run a brief onboarding via Discord."
         },
         {
             number: 3,
             title: "함대 합류",
-            description: "승인 후 공식 VOLT 함대원이 되어 다양한 활동에 참여하게 됩니다."
+            title_en: "Join the Fleet",
+            description: "승인 후 공식 VOLT 함대원이 되어 다양한 활동에 참여하게 됩니다.",
+            description_en: "Once approved, you become an official VOLT member and join our activities."
         }
     ],
     joinChecklist: [
@@ -896,32 +902,44 @@ const VOLT_DATA = {
         {
             step: 1,
             title: "기본 무역 흐름",
-            content: "저렴한 곳에서 구매 → 비싼 곳에서 판매. Trade Tools(sc-trade.tools, uexcorp.space)로 최적 루트를 미리 확인하세요."
+            title_en: "Basic Trade Flow",
+            content: "저렴한 곳에서 구매 → 비싼 곳에서 판매. Trade Tools(sc-trade.tools, uexcorp.space)로 최적 루트를 미리 확인하세요.",
+            content_en: "Buy low, sell high. Use Trade Tools (sc-trade.tools, uexcorp.space) to plan the optimal route in advance."
         },
         {
             step: 2,
             title: "추천 입문 루트",
-            content: "스탠턴 기준: Microtech ↔ ArcCorp 구간이 초보자에게 안정적입니다. 화물칸 용량에 맞는 고수익 상품을 선택하세요."
+            title_en: "Recommended Starter Route",
+            content: "스탠턴 기준: Microtech ↔ ArcCorp 구간이 초보자에게 안정적입니다. 화물칸 용량에 맞는 고수익 상품을 선택하세요.",
+            content_en: "In Stanton, the Microtech \u2194 ArcCorp leg is stable for beginners. Pick a high-yield commodity that fits your cargo capacity."
         },
         {
             step: 3,
             title: "함선 선택 기준",
-            content: "입문: Cutlass Black(46 SCU) / 중급: Freelancer MAX(122 SCU) / 고급: Hull C(4,608 SCU). 초기엔 소형 화물선으로 루트를 익히는 것을 권장합니다."
+            title_en: "Choosing a Ship",
+            content: "입문: Cutlass Black(46 SCU) / 중급: Freelancer MAX(122 SCU) / 고급: Hull C(4,608 SCU). 초기엔 소형 화물선으로 루트를 익히는 것을 권장합니다.",
+            content_en: "Starter: Cutlass Black (46 SCU) / Mid: Freelancer MAX (122 SCU) / Advanced: Hull C (4,608 SCU). Early on, learn routes with a small freighter."
         },
         {
             step: 4,
             title: "리스크 관리",
-            content: "파이로 시스템은 무법 지대입니다. 고가치 화물 운송 시 호위를 요청하거나 VOLT-무역허브에서 경호 임무를 모집하세요."
+            title_en: "Risk Management",
+            content: "파이로 시스템은 무법 지대입니다. 고가치 화물 운송 시 호위를 요청하거나 VOLT-무역허브에서 경호 임무를 모집하세요.",
+            content_en: "The Pyro system is lawless. When hauling high-value cargo, request an escort or recruit security runs in the VOLT Trade Hub."
         },
         {
             step: 5,
             title: "함대 내부 거래",
-            content: "전리품·부품 판매 시 NPC보다 높은 가격에 함대원에게 판매 가능합니다. VOLT-무역허브 채널을 적극 활용하세요."
+            title_en: "In-Fleet Trading",
+            content: "전리품·부품 판매 시 NPC보다 높은 가격에 함대원에게 판매 가능합니다. VOLT-무역허브 채널을 적극 활용하세요.",
+            content_en: "You can sell loot and parts to fleet members above NPC prices. Make active use of the VOLT Trade Hub channels."
         },
         {
             step: 6,
             title: "버그·규정 주의",
-            content: "화물 복사 버그 등 게임 내 버그 악용은 CIG 제재(최대 계정 정지) 및 함대 제재 대상입니다. 발견 시 운영진에게 제보해 주세요."
+            title_en: "Bugs & Rules",
+            content: "화물 복사 버그 등 게임 내 버그 악용은 CIG 제재(최대 계정 정지) 및 함대 제재 대상입니다. 발견 시 운영진에게 제보해 주세요.",
+            content_en: "Exploiting in-game bugs such as cargo duplication is subject to CIG penalties (up to account suspension) and fleet sanctions. Report any you find to the staff."
         }
     ]
 };

@@ -78,6 +78,16 @@ test.describe('i18n (KO/EN)', () => {
         await ctx.close();
     });
 
+    test('가입 단계/무역가이드 영어화: 비한국어 기본 영어', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const joinPage = await load(ctx, '/#join');
+        await expect(joinPage.locator('#join-steps')).toContainText('Submit Application');
+        await expect(joinPage.locator('#join-steps')).not.toContainText('지원서 제출');
+        const guidePage = await load(ctx, '/#guide');
+        await expect(guidePage.locator('#guide-list')).toContainText('Basic Trade Flow');
+        await ctx.close();
+    });
+
     test('일정/연혁 KO 회귀 + 토글 재렌더', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'ko-KR' });
         const page = await load(ctx, '/#timeline');

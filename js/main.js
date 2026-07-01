@@ -475,8 +475,8 @@
         container.innerHTML = data.joinSteps.map((step) => `
             <div class="join-step reveal">
                 <div class="step-number">${escapeHtml(String(step.number))}</div>
-                <h4>${escapeHtml(step.title)}</h4>
-                <p>${escapeHtml(step.description)}</p>
+                <h4>${escapeHtml(tx(step, 'title'))}</h4>
+                <p>${escapeHtml(tx(step, 'description'))}</p>
             </div>`).join('');
     }
 
@@ -832,8 +832,8 @@
         container.innerHTML = data.tradeGuide.map((guide) => `
             <div class="guide-card reveal">
                 <div class="guide-step-num">${escapeHtml(String(guide.step))}</div>
-                <h3>${escapeHtml(guide.title)}</h3>
-                <p>${escapeHtml(guide.content)}</p>
+                <h3>${escapeHtml(tx(guide, 'title'))}</h3>
+                <p>${escapeHtml(tx(guide, 'content'))}</p>
             </div>`).join('');
         renderLogisticsShipOptions();
         renderTradePresets();
@@ -2239,7 +2239,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); VOLT_UEX_PANEL.onLanguageChange(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); VOLT_UEX_PANEL.onLanguageChange(); });
         }
         setupDynamicStyles();
         setupSplash();
