@@ -3787,9 +3787,9 @@ body.nav-trade-open::before {
     display: grid;
     grid-template-rows: auto auto auto;
     align-content: start;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
-    min-height: 128px;
+    min-height: 164px;
     padding: 16px;
     border: 1px solid var(--color-border);
     border-radius: 14px;
@@ -3797,7 +3797,7 @@ body.nav-trade-open::before {
     color: var(--color-text-primary);
     text-align: left;
     cursor: pointer;
-    overflow: visible;
+    overflow: hidden;
     transition: border-color var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
 }
 
@@ -3813,11 +3813,22 @@ body.nav-trade-open::before {
 
 .uex-candidate-top,
 .uex-candidate-meta {
+    min-width: 0;
+}
+
+.uex-candidate-top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
-    min-width: 0;
+}
+
+.uex-candidate-meta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 8px;
+    margin-top: auto;
 }
 
 /* 위치 텍스트가 남는 공간을 채워 배지 묶음을 항상 오른쪽에 고정한다.
@@ -3843,10 +3854,9 @@ body.nav-trade-open::before {
 
 .uex-candidate-selected,
 .uex-candidate-quantity {
-    flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
-    max-width: 48%;
+    max-width: 100%;
     padding: 4px 8px;
     border-radius: var(--radius-full);
     font-size: 11px;
@@ -3860,6 +3870,7 @@ body.nav-trade-open::before {
 }
 
 .uex-candidate-quantity {
+    justify-self: end;
     border: 1px solid var(--color-border);
     background: rgba(255, 255, 255, 0.08);
     color: var(--color-text-primary);
@@ -3907,8 +3918,8 @@ body.nav-trade-open::before {
 }
 
 .uex-location-list-btn {
-    flex: 0 0 auto;
-    align-self: flex-end;
+    justify-self: start;
+    max-width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: var(--radius-full);
     background: rgba(255, 255, 255, 0.045);
@@ -3919,6 +3930,9 @@ body.nav-trade-open::before {
     font-weight: 800;
     line-height: 1;
     padding: 7px 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
 
@@ -4110,11 +4124,19 @@ body.nav-trade-open::before {
         min-height: auto;
         padding: 14px;
     }
-    .uex-candidate-top,
-    .uex-candidate-meta {
+    .uex-candidate-top {
         flex-direction: column;
         align-items: flex-start;
         gap: 6px;
+    }
+    .uex-candidate-meta {
+        grid-template-columns: 1fr;
+        align-items: start;
+        gap: 8px;
+    }
+    .uex-location-list-btn,
+    .uex-candidate-quantity {
+        justify-self: start;
     }
     .uex-candidate-location {
         overflow: visible;
