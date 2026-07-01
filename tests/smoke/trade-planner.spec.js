@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { mockApi, gotoSection } = require('./helpers');
 
 test.describe('무역플래너', () => {
-    test('함선 선택 → 결과 패널 렌더 (UEX 모킹)', async ({ page }) => {
+    test('함선 선택 → 요약 카드 표시 (재설계: 결과/브리핑 제거)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#trade-planner');
 
@@ -15,8 +15,11 @@ test.describe('무역플래너', () => {
         await results.locator('[role="option"]').first().click();
 
         await expect(page.locator('#logistics-ship-summary')).toBeVisible();
-        await expect.poll(async () => (await page.locator('#logistics-result').innerText()).trim().length).toBeGreaterThan(0);
-        await expect.poll(async () => await page.locator('#trade-briefing-text').inputValue()).not.toBe('');
+        // 재설계로 제거된 요소는 더 이상 없어야 한다.
+        await expect(page.locator('#logistics-result')).toHaveCount(0);
+        await expect(page.locator('#trade-briefing-text')).toHaveCount(0);
+        await expect(page.locator('#trade-operation-type')).toHaveCount(0);
+        await expect(page.locator('#trade-preset-grid')).toHaveCount(0);
     });
 
     // UEX 라이브 패널: main.js 분리(uex/trade-planner) 시 회귀 가드.
@@ -70,7 +73,6 @@ test.describe('무역플래너', () => {
         const summary = page.locator('#logistics-ship-summary');
         await expect(summary).toBeVisible();
         await expect(summary).toContainText('어벤저 타이탄');
-        await expect.poll(async () => (await page.locator('#logistics-result').innerText()).trim().length).toBeGreaterThan(0);
     });
 
     test('UEX 상품 검색: 12개 초과 결과도 잘리지 않고 모두 표시(스크롤)', async ({ page }) => {

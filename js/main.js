@@ -1330,43 +1330,13 @@
 
 
     function setupLogisticsCalculator() {
-        const button = document.getElementById('logistics-calculate');
-        const copyButton = document.getElementById('trade-briefing-copy');
-        const shareButton = document.getElementById('trade-briefing-share');
-        const presets = document.getElementById('trade-preset-grid');
-        const controls = [
-            document.getElementById('trade-operation-type'),
-            document.getElementById('logistics-cargo'),
-            document.getElementById('logistics-ship'),
-            document.getElementById('logistics-crew'),
-            document.getElementById('trade-risk'),
-            document.getElementById('planner-travel-time')
-        ].filter(Boolean);
-        if (!copyButton) return;
-        button?.addEventListener('click', renderLogisticsRecommendation);
-        copyButton.addEventListener('click', copyTradeBriefing);
-        shareButton?.addEventListener('click', shareTradeBriefing);
+        const cargo = document.getElementById('logistics-cargo');
+        if (!cargo) return;
         document.getElementById('planner-reset')?.addEventListener('click', resetPlannerInputs);
-        presets?.addEventListener('click', (event) => {
-            const presetButton = event.target.closest('[data-trade-preset-id]');
-            if (!presetButton) return;
-            applyTradePreset(presetButton.getAttribute('data-trade-preset-id'));
-        });
-        controls.forEach((control) => {
-            control.addEventListener('change', () => {
-                savePlannerState();
-                renderLogisticsRecommendation();
-            });
-            if (control.tagName === 'INPUT') {
-                control.addEventListener('input', () => {
-                    savePlannerState();
-                    renderLogisticsRecommendation();
-                });
-            }
-        });
+        cargo.addEventListener('input', () => { savePlannerState(); VOLT_TRADE_PLANNER.onCargoChange(); });
+        cargo.addEventListener('change', () => { savePlannerState(); VOLT_TRADE_PLANNER.onCargoChange(); });
         setupPlannerShipPicker();
         restorePlannerState();
-        renderLogisticsRecommendation();
     }
 
     function applyTradePreset(presetId) {

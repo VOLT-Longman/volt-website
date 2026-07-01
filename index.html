@@ -30,8 +30,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260614-26"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260614-26">
+  <script src="js/theme-init.js?v=20260614-27"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260614-27">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -70,7 +70,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20260614-26">
+   <link rel="stylesheet" href="css/noscript.css?v=20260614-27">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -531,35 +531,6 @@
        <span>운송 화물량 (SCU)</span>
        <input id="logistics-cargo" type="number" min="0" step="1" value="0">
       </label>
-      <label>
-       <span>작전 유형</span>
-       <select id="trade-operation-type">
-        <option value="solo">단독 저위험 운송</option>
-        <option value="small">소규모 화물 운송</option>
-        <option value="convoy" selected>호송 운송</option>
-        <option value="bulk">대량 수송</option>
-        <option value="highValue">고가 화물 운송</option>
-        <option value="mining">채굴/정제 후 운송</option>
-        <option value="supply">작전 보급 운송</option>
-       </select>
-      </label>
-      <label>
-       <span>참여 인원</span>
-       <input id="logistics-crew" type="number" min="1" step="1" value="1">
-      </label>
-      <label>
-       <span>위험도</span>
-       <select id="trade-risk">
-        <option value="low" selected>낮음</option>
-        <option value="medium">보통</option>
-        <option value="high">높음</option>
-       </select>
-      </label>
-      <label class="planner-field">
-       <span>&#54200;&#46020; &#51060;&#46041; &#49884;&#44036; (&#48516;)</span>
-       <input type="number" id="planner-travel-time" min="1" max="600" placeholder="&#50696;: 15" inputmode="numeric">
-       <small class="planner-field-hint">&#52636;&#48156;&#51648;&#8594;&#47785;&#51201;&#51648; &#54200;&#46020; &#44592;&#51456;</small>
-      </label>
       </div>
      <div class="planner-selection-card" id="logistics-ship-summary" aria-live="polite" hidden></div>
      <div class="uex-live-panel" aria-labelledby="uex-live-title">
@@ -608,26 +579,7 @@
         <div class="uex-recommend-results" id="uex-recommend-results"></div>
        </details>
      </div>
-     <h4 class="planner-step-title"><span class="planner-step-num">3</span>결과 확인 · 브리핑 공유</h4>
-     <div class="trade-planner-layout">
-      <div class="logistics-result" id="logistics-result" aria-live="polite"></div>
-      <div class="trade-planner-side">
-       <div class="trade-briefing">
-        <div class="trade-briefing-header">
-         <h4>Discord 공유용 브리핑</h4>
-         <button class="btn btn-secondary" id="trade-briefing-copy" type="button">브리핑 복사</button>
-         <button class="btn btn-secondary" id="trade-briefing-share" type="button" data-requires-auth disabled>디스코드로 전송</button>
-        </div>
-        <textarea id="trade-briefing-text" readonly></textarea>
-       </div>
-       </div>
-     </div>
     </div>
-    <details class="trade-presets trade-secondary-block">
-     <summary>작전 프리셋 보기</summary>
-     <p>조건 입력이 막힐 때만 프리셋을 참고하세요. 선택 즉시 값이 자동 적용됩니다.</p>
-     <div class="trade-preset-grid" id="trade-preset-grid"></div>
-    </details>
     <details class="recommended-trade-ships trade-secondary-block">
      <summary>추천 함선 보기</summary>
      <p>아직 사용할 함선이 정해지지 않았다면 추천 함선을 참고하세요.</p>
@@ -907,17 +859,17 @@
    </div>
   </div>
 
-<script src="data/volt-data.js?v=20260614-26"></script>
-<script src="data/volt-localization.js?v=20260614-26"></script>
-<script src="data/ship-en.js?v=20260614-26"></script>
-<script src="js/i18n.js?v=20260614-26"></script>
-<script src="js/navigation.js?v=20260614-26"></script>
-<script src="js/uex.js?v=20260614-26"></script>
-<script src="js/uex-panel.js?v=20260614-26"></script>
-<script src="js/trade-planner.js?v=20260614-26"></script>
-<script src="js/ships.js?v=20260614-26"></script>
-<script src="js/search-modal.js?v=20260614-26"></script>
-<script src="js/main.js?v=20260614-26"></script>
-<script src="js/volt-ai.js?v=20260614-26"></script>
+<script src="data/volt-data.js?v=20260614-27"></script>
+<script src="data/volt-localization.js?v=20260614-27"></script>
+<script src="data/ship-en.js?v=20260614-27"></script>
+<script src="js/i18n.js?v=20260614-27"></script>
+<script src="js/navigation.js?v=20260614-27"></script>
+<script src="js/uex.js?v=20260614-27"></script>
+<script src="js/uex-panel.js?v=20260614-27"></script>
+<script src="js/trade-planner.js?v=20260614-27"></script>
+<script src="js/ships.js?v=20260614-27"></script>
+<script src="js/search-modal.js?v=20260614-27"></script>
+<script src="js/main.js?v=20260614-27"></script>
+<script src="js/volt-ai.js?v=20260614-27"></script>
  </body>
 </html>
