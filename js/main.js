@@ -2194,13 +2194,7 @@
             UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES,
         });
         // 무역플래너 계산·추천·브리핑 엔진 — 공용 포매터·함선 인덱스·인증·상수 주입.
-        VOLT_TRADE_PLANNER.init({
-            escapeHtml, formatCredits, formatPercent, showToast, getCargoValue,
-            parseLargestNumber, parseSmallestNumber, getShipTags,
-            getShipById: (id) => shipById.get(id),
-            isLoggedIn: () => authState.loggedIn,
-            TRADE_OPERATION_CONFIG,
-        });
+        VOLT_TRADE_PLANNER.init({ escapeHtml, formatCredits, i18nT, showToast });
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         VOLT_SHIPS.init({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,
@@ -2219,7 +2213,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); VOLT_UEX_PANEL.onLanguageChange(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); });
         }
         setupDynamicStyles();
         setupSplash();
@@ -2232,6 +2226,7 @@
         setupShipControls();
         setupScheduleAccordion();
         setupLogisticsCalculator();
+        VOLT_TRADE_PLANNER.setup();
         VOLT_UEX_PANEL.setup();
         setupGalleryInteractions();
         setupModalControls();

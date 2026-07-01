@@ -274,4 +274,45 @@ test.describe('무역플래너', () => {
         await expect(page.locator('#uex-recommend-results')).toContainText('추천 가능한 무역품이 없습니다');
         await expect(page.locator('#uex-recommend-results')).not.toContainText('Gold');
     });
+
+    test('수익 관리 원장: UEX 후보 선택 → 추가 → 합계·이윤 계산 + 삭제', async ({ page }) => {
+        await mockApi(page);
+        await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+            { id: 1, name: 'Medical Supplies', code: 'MED', category_name: 'Medical', is_visible: 1, is_available_live: 1 },
+        ] } }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+            { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
+            { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 180, date_modified: 1700000000, scu_sell: 4000 },
+        ] } }));
+        await gotoSection(page, '#trade-planner');
+        // 선택 없이 추가 → 에러 안내(빈 원장 유지)
+        await page.locator('#ledger-add').click();
+        await expect(page.locator('#ledger-list')).toContainText('아직 추가된 무역품이 없습니다');
+
+        const search = page.locator('#uex-commodity-search');
+        await search.click();
+        await search.fill('Med');
+        await page.locator('#uex-commodity-results [data-commodity-id="1"]').click();
+        await page.locator('#uex-refresh').click();
+        await page.locator('#uex-results [data-uex-side="buy"]').first().click();
+        await page.locator('#uex-results [data-uex-side="sell"]').first().click();
+        await page.locator('#ledger-qty').fill('100');
+        await page.locator('#ledger-add').click();
+
+        // 매수 10,000 / 매도 18,000 / 이윤 8,000
+        const total = page.locator('.ledger-total-row');
+        await expect(total).toContainText('10,000');
+        await expect(total).toContainText('18,000');
+        await expect(total).toContainText('8,000');
+        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
+
+        // 새로고침 후에도 유지(localStorage)
+        await page.reload();
+        await page.waitForSelector('#loading-splash', { state: 'hidden' });
+        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
+
+        // 삭제 → 빈 상태
+        await page.locator('[data-ledger-remove]').first().click();
+        await expect(page.locator('#ledger-list')).toContainText('아직 추가된 무역품이 없습니다');
+    });
 });
