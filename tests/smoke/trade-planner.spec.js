@@ -55,6 +55,16 @@ test.describe('무역플래너', () => {
         await expect(page.locator('#uex-results')).toContainText('매수 후보');
         await expect(page.locator('#uex-results')).toContainText('매도 후보');
         await expect(page.locator('#uex-results .uex-location-list-btn')).toHaveCount(2);
+        const clippedMetaCount = await page.locator('#uex-results .uex-candidate-card').evaluateAll((cards) => (
+            cards.filter((card) => {
+                const meta = card.querySelector('.uex-candidate-meta');
+                if (!meta || meta.children.length === 0) return false;
+                const cardRect = card.getBoundingClientRect();
+                const metaRect = meta.getBoundingClientRect();
+                return metaRect.top < cardRect.top || metaRect.bottom > cardRect.bottom;
+            }).length
+        ));
+        expect(clippedMetaCount).toBe(0);
 
         await page.locator('#uex-results .uex-location-list-btn').first().click();
         await expect(page.locator('.uex-location-modal')).toBeVisible();
@@ -63,6 +73,8 @@ test.describe('무역플래너', () => {
         await expect(page.locator('.uex-location-modal')).toContainText('매도 가능 품목');
         await expect(page.locator('.uex-location-modal')).toContainText('Beryl');
         await expect(page.locator('.uex-location-modal')).toContainText('Medical Supplies');
+        await page.keyboard.press('Shift+Tab');
+        await expect.poll(() => page.locator('.uex-location-modal').evaluate((modal) => modal.contains(document.activeElement))).toBe(true);
         await page.keyboard.press('Escape');
         await expect(page.locator('.uex-location-modal')).toHaveCount(0);
     });
@@ -267,7 +279,7 @@ test.describe('무역플래너', () => {
         await page.locator('#uex-refresh').click();
 
         // 매수 후보 1번 선택 → 같은 카드의 배지 묶음 안에 위치 배지 + '선택됨'이 함께 존재
-        await page.locator('#uex-results [data-uex-side="buy"]').first().click();
+        await page.locator('#uex-results .uex-candidate-card').first().click({ position: { x: 12, y: 12 } });
         const selectedCard = page.locator('#uex-results .uex-candidate-card.is-selected').first();
         await expect(selectedCard.locator('.uex-candidate-tags .uex-loc-badge')).toBeVisible();
         await expect(selectedCard.locator('.uex-candidate-tags .uex-candidate-selected')).toHaveText('선택됨');
@@ -325,6 +337,8 @@ test.describe('무역플래너', () => {
         // 매수 10,000 / 매도 18,000 / 이윤 8,000
         await expect(page.locator('.ledger-total-cards')).toContainText('예상 이윤');
         await expect(page.locator('.ledger-total-cards')).toContainText('8,000');
+        await expect(page.locator('.ledger-total-cards')).toContainText('100 / 120 SCU');
+        await expect(page.locator('.ledger-total-cards')).toContainText('남은 20 SCU');
         const total = page.locator('.ledger-total-row');
         await expect(total).toContainText('10,000');
         await expect(total).toContainText('18,000');
@@ -334,7 +348,11 @@ test.describe('무역플래너', () => {
         // 기존 수익표 사용량까지 포함해 남은 20 SCU를 넘는 추가는 차단
         await page.locator('#ledger-qty').fill('30');
         await expect(page.locator('#profit-selection-status')).toHaveText('카고 초과');
-        await page.locator('#ledger-add').click();
+        await expect(page.locator('#ledger-add')).toBeDisabled();
+        await page.locator('#logistics-cargo').fill('80');
+        await expect(page.locator('.ledger-cargo-warning')).toContainText('20 SCU');
+        await expect(page.locator('.ledger-total-cards')).toContainText('100 / 80 SCU');
+        await expect(page.locator('#ledger-add')).toBeDisabled();
         await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
 
         // 새로고침 후에도 유지(localStorage)

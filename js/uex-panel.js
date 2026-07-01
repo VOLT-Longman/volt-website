@@ -13,7 +13,7 @@
     // main.js가 주입하는 공용 의존성(이름 동일 → 이동한 코드 무수정).
     let escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,
         formatCommodityLabel, getCommodityKoreanName,
-        handlePickerKeyboard, closePicker, announcePickerSelection,
+        handlePickerKeyboard, closePicker, announcePickerSelection, trapFocus,
         UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES;
 
     // UEX 패널 소유 상태(main.js에서 이동).
@@ -28,7 +28,7 @@
         ({
             escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,
             formatCommodityLabel, getCommodityKoreanName,
-            handlePickerKeyboard, closePicker, announcePickerSelection,
+            handlePickerKeyboard, closePicker, announcePickerSelection, trapFocus,
             UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES,
         } = deps || {});
     }
@@ -36,7 +36,7 @@
     function t(key, fallback, vars = {}) {
         const template = i18nT ? i18nT(key, fallback) : fallback;
         return String(template || '').replace(/\{(\w+)\}/g, (_, name) => (
-            Object.prototype.hasOwnProperty.call(vars, name) ? String(vars[name]) : ''
+            Object.hasOwn(vars, name) ? String(vars[name]) : ''
         ));
     }
 
@@ -380,7 +380,7 @@
             ? t('planner.uex.selected', '선택됨')
             : t(side === 'buy' ? 'planner.uex.selectBuy' : 'planner.uex.selectSell', side === 'buy' ? '매수 선택' : '매도 선택');
         const quantity = formatUexQuantity(row, side);
-        return `<article class="uex-candidate-card${selected}">
+        return `<article class="uex-candidate-card${selected}" data-uex-side="${escapeHtml(side)}" data-uex-key="${escapeHtml(row.uexKey)}">
             <div class="uex-candidate-top">
                 <span class="uex-candidate-location">${index + 1}. ${escapeHtml(formatUexLocation(row))}</span>
                 <span class="uex-candidate-tags">
@@ -505,7 +505,35 @@
     }
 
     function handleLocationModalKeydown(event) {
-        if (event.key === 'Escape' && document.querySelector('.uex-location-modal-backdrop')) closeLocationTradeModal(true);
+        const modal = document.querySelector('.uex-location-modal');
+        if (!modal) return;
+        if (event.key === 'Escape') {
+            closeLocationTradeModal(true);
+            return;
+        }
+        if (event.key === 'Tab') trapLocationModalFocus(modal, event);
+    }
+
+    function trapLocationModalFocus(modal, event) {
+        if (typeof trapFocus === 'function') {
+            trapFocus(modal, event);
+            return;
+        }
+        const focusable = [...modal.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+            .filter((element) => !element.hasAttribute('hidden') && element.offsetParent !== null);
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (!modal.contains(document.activeElement)) {
+            event.preventDefault();
+            first.focus();
+        } else if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
     }
 
     function closeLocationTradeModal(restoreFocus) {

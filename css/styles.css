@@ -3777,7 +3777,7 @@ body.nav-trade-open::before {
     max-height: 520px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 4px 12px 14px 4px;
+    padding: 4px 12px 20px 4px;
     scrollbar-gutter: stable;
 }
 
@@ -3785,19 +3785,19 @@ body.nav-trade-open::before {
     position: relative;
     isolation: isolate;
     display: grid;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
     align-content: start;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
-    min-height: 164px;
-    padding: 16px;
+    min-height: 196px;
+    cursor: pointer;
+    padding: 16px 16px 18px;
     border: 1px solid var(--color-border);
     border-radius: 14px;
     background: var(--color-bg-card);
     color: var(--color-text-primary);
     text-align: left;
-    cursor: pointer;
-    overflow: hidden;
+    overflow: visible;
     transition: border-color var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
 }
 
@@ -3827,8 +3827,10 @@ body.nav-trade-open::before {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
+    align-self: end;
     gap: 8px;
-    margin-top: auto;
+    margin-top: 0;
+    padding-top: 2px;
 }
 
 /* 위치 텍스트가 남는 공간을 채워 배지 묶음을 항상 오른쪽에 고정한다.
@@ -3895,9 +3897,10 @@ body.nav-trade-open::before {
 
 .uex-candidate-select {
     display: grid;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
     min-width: 0;
+    min-height: 0;
     padding: 0;
     border: 0;
     background: transparent;
@@ -6831,6 +6834,23 @@ body.nav-trade-open::before {
     margin-top: 16px; padding: 16px; border: 1px solid rgba(232, 72, 47, 0.24);
     border-radius: var(--radius-sm); background: linear-gradient(135deg, rgba(232, 72, 47, 0.08), var(--color-bg-card));
 }
+
+.ledger-add-row .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: none;
+}
+
+.ledger-cargo-warning {
+    margin-bottom: 12px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 78, 48, 0.42);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 78, 48, 0.12);
+    color: var(--color-text-primary);
+    font-size: 13px;
+    font-weight: 700;
+}
 .ledger-qty-field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--color-text-secondary); }
 .ledger-qty-field input { width: 140px; padding: 10px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text-primary); }
 .ledger-add-hint { flex: 1 1 240px; margin: 0; font-size: 12px; color: var(--color-text-tertiary); }
@@ -7174,12 +7194,25 @@ body.nav-trade-open::before {
     background: rgba(255, 255, 255, 0.035);
 }
 
+.ledger-total-card.is-over-capacity {
+    border-color: rgba(255, 78, 48, 0.52);
+    background: rgba(255, 78, 48, 0.1);
+}
+
 .ledger-total-card strong {
     display: block;
     color: var(--color-text-primary);
     font-size: 16px;
     line-height: 1.25;
     overflow-wrap: anywhere;
+}
+
+.ledger-total-card small {
+    display: block;
+    margin-top: 6px;
+    color: var(--color-text-tertiary);
+    font-size: 11px;
+    line-height: 1.35;
 }
 
 .ledger-mobile-list {

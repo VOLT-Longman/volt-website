@@ -2056,7 +2056,7 @@
         VOLT_UEX_PANEL.init({
             escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,
             formatCommodityLabel, getCommodityKoreanName,
-            handlePickerKeyboard, closePicker, announcePickerSelection,
+            handlePickerKeyboard, closePicker, announcePickerSelection, trapFocus,
             UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES,
         });
         // 무역플래너 수익표 — 공용 포매터·토스트·i18n 주입.

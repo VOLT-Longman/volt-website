@@ -50,7 +50,7 @@
     function t(key, fallback, vars = {}) {
         const template = i18nT ? i18nT(key, fallback) : fallback;
         return String(template || '').replace(/\{(\w+)\}/g, (_, name) => (
-            Object.prototype.hasOwnProperty.call(vars, name) ? String(vars[name]) : ''
+            Object.hasOwn(vars, name) ? String(vars[name]) : ''
         ));
     }
 
@@ -78,6 +78,14 @@
         return Math.max(0, capacity - getUsedCargo());
     }
 
+    function getCargoUsage() {
+        const capacity = getCargoCapacity();
+        const used = getUsedCargo();
+        const remaining = capacity > 0 ? Math.max(0, capacity - used) : 0;
+        const overBy = capacity > 0 ? Math.max(0, used - capacity) : 0;
+        return { capacity, used, remaining, overBy, isOver: overBy > 0 };
+    }
+
     function getPanelModel() {
         const panel = window.VOLT_UEX_PANEL;
         return panel?.getCurrentModel ? panel.getCurrentModel() : null;
@@ -101,16 +109,15 @@
     }
 
     function renderCargoLimitState(panel, ready, qty) {
-        const capacity = getCargoCapacity();
-        const used = getUsedCargo();
-        const remaining = getRemainingCargo();
-        const over = ready && qty > 0 && capacity > 0 && qty > remaining;
-        const blocked = ready && (capacity <= 0 || remaining <= 0 || over);
+        const usage = getCargoUsage();
+        const over = ready && qty > 0 && usage.capacity > 0 && qty > usage.remaining;
+        const blocked = ready && (usage.capacity <= 0 || usage.remaining <= 0 || over || usage.isOver);
         panel.classList.toggle('is-over-capacity', over);
         panel.classList.toggle('is-capacity-blocked', blocked);
-        setText('profit-selection-status', getSelectionStatus(ready, capacity, remaining, over));
-        updateQuantityLimit(remaining);
-        updateCargoHint(capacity, used, remaining, over);
+        setText('profit-selection-status', getSelectionStatus(ready, usage.capacity, usage.remaining, over || usage.isOver));
+        updateQuantityLimit(usage.remaining);
+        updateCargoHint(usage.capacity, usage.used, usage.remaining, over || usage.isOver);
+        updateAddButtonState(ready, blocked);
     }
 
     function getSelectionStatus(ready, capacity, remaining, over) {
@@ -126,6 +133,13 @@
         if (!qtyInput) return;
         if (remaining > 0) qtyInput.max = String(remaining);
         else qtyInput.removeAttribute('max');
+    }
+
+    function updateAddButtonState(ready, blocked) {
+        const button = document.getElementById('ledger-add');
+        if (!button) return;
+        button.disabled = Boolean(ready && blocked);
+        button.setAttribute('aria-disabled', button.disabled ? 'true' : 'false');
     }
 
     function updateCargoHint(capacity, used, remaining, over) {
@@ -268,21 +282,42 @@
             if (actions) actions.hidden = true;
             return;
         }
-        list.innerHTML = `${renderTotalCards(t, totalProfit)}${renderDesktopTable(t, totalProfit)}${renderMobileCards()}`;
+        list.innerHTML = `${renderCargoWarning(t.qty)}${renderTotalCards(t, totalProfit)}${renderDesktopTable(t, totalProfit)}${renderMobileCards()}`;
         if (actions) actions.hidden = false;
     }
 
     function renderTotalCards(total, totalProfit) {
+        const usage = getCargoUsage();
+        const cargoValue = usage.capacity > 0
+            ? `${formatCount(usage.used)} / ${formatCount(usage.capacity)} SCU`
+            : `${formatCount(total.qty)} SCU`;
+        const cargoDetail = usage.capacity > 0
+            ? t('ledger.cargoSummaryDetail', '최대 {capacity} SCU · 남은 {remaining} SCU', {
+                capacity: formatCount(usage.capacity),
+                remaining: formatCount(usage.remaining),
+            })
+            : t('ledger.cargoSummaryNoLimit', '함선 또는 화물량 미지정');
         return `<div class="ledger-total-cards">
             ${renderTotalCard('ledger.summaryBuy', '총 투자금', formatCredits(total.buy))}
             ${renderTotalCard('ledger.summarySell', '예상 매출', formatCredits(total.sell))}
             ${renderTotalCard('ledger.summaryProfit', '예상 이윤', formatCredits(totalProfit), profitClass(totalProfit))}
-            ${renderTotalCard('ledger.summaryScu', '총 SCU', `${formatCount(total.qty)} SCU`)}
+            ${renderTotalCard('ledger.summaryScu', '총 SCU', cargoValue, usage.isOver ? 'ledger-profit-neg' : '', cargoDetail, usage.isOver ? 'is-over-capacity' : '')}
         </div>`;
     }
 
-    function renderTotalCard(key, fallback, value, cls = '') {
-        return `<div class="ledger-total-card"><span>${escapeHtml(i18nT(key, fallback))}</span><strong class="${escapeHtml(cls.trim())}">${escapeHtml(value)}</strong></div>`;
+    function renderTotalCard(key, fallback, value, cls = '', detail = '', cardClass = '') {
+        const detailHtml = detail ? `<small>${escapeHtml(detail)}</small>` : '';
+        const safeCardClass = cardClass ? ` ${escapeHtml(cardClass)}` : '';
+        return `<div class="ledger-total-card${safeCardClass}"><span>${escapeHtml(i18nT(key, fallback))}</span><strong class="${escapeHtml(cls.trim())}">${escapeHtml(value)}</strong>${detailHtml}</div>`;
+    }
+
+    function renderCargoWarning(totalQty) {
+        const usage = getCargoUsage();
+        if (!usage.capacity || totalQty <= usage.capacity) return '';
+        const message = t('ledger.cargoOverBanner', '수익표 총량이 현재 카고 한도보다 {over} SCU 많습니다. 항목을 줄이거나 더 큰 함선을 선택하세요.', {
+            over: formatCount(usage.overBy),
+        });
+        return `<div class="ledger-cargo-warning" role="alert">${escapeHtml(message)}</div>`;
     }
 
     function renderDesktopTable(total, totalProfit) {
@@ -360,6 +395,7 @@
             const remaining = getRemainingCargo();
             qty.value = remaining > 0 ? String(remaining) : '';
         }
+        render();
         renderSelectionSummary();
     }
 
