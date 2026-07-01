@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { mockApi, gotoSection } = require('./helpers');
 
 test.describe('무역플래너', () => {
-    test('함선 선택 → 요약 카드 표시 (재설계: 결과/브리핑 제거)', async ({ page }) => {
+    test('함선 선택 → 요약 카드 표시 (재설계 후 불필요 결과 패널 제거)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#trade-planner');
 
@@ -285,6 +285,8 @@ test.describe('무역플래너', () => {
             { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 180, date_modified: 1700000000, scu_sell: 4000 },
         ] } }));
         await gotoSection(page, '#trade-planner');
+        await expect(page.locator('#profit-selection-status')).toHaveText('후보 선택 대기');
+        await expect(page.locator('.ledger-total-cards')).toContainText('총 투자금');
         // 선택 없이 추가 → 에러 안내(빈 수익표 유지)
         await page.locator('#ledger-add').click();
         await expect(page.locator('#ledger-list')).toContainText('아직 추가한 상품이 없습니다');
@@ -296,10 +298,14 @@ test.describe('무역플래너', () => {
         await page.locator('#uex-refresh').click();
         await page.locator('#uex-results [data-uex-side="buy"]').first().click();
         await page.locator('#uex-results [data-uex-side="sell"]').first().click();
+        await expect(page.locator('#profit-selection-status')).toHaveText('추가 가능');
         await page.locator('#ledger-qty').fill('100');
+        await expect(page.locator('#profit-selected-profit')).toContainText('8,000');
         await page.locator('#ledger-add').click();
 
         // 매수 10,000 / 매도 18,000 / 이윤 8,000
+        await expect(page.locator('.ledger-total-cards')).toContainText('예상 이윤');
+        await expect(page.locator('.ledger-total-cards')).toContainText('8,000');
         const total = page.locator('.ledger-total-row');
         await expect(total).toContainText('10,000');
         await expect(total).toContainText('18,000');

@@ -56,6 +56,12 @@
         return t('planner.uex.updatedFull', '최근 갱신: {time}', { time });
     }
 
+    function refreshProfitSelection() {
+        if (window.VOLT_TRADE_PLANNER?.refreshSelectionSummary) {
+            window.VOLT_TRADE_PLANNER.refreshSelectionSummary();
+        }
+    }
+
     function setupUexLivePanel() {
         const select = document.getElementById('uex-commodity-select');
         const search = document.getElementById('uex-commodity-search');
@@ -249,6 +255,7 @@
         if (systemFilterWrap) { systemFilterWrap.hidden = true; }
         const uexResults = document.getElementById('uex-results');
         if (uexResults) uexResults.innerHTML = `<div class="uex-empty">${escapeHtml(t('planner.uex.selectFirst', '상품 선택 후 거래 후보를 조회할 수 있습니다.'))}</div>`;
+        refreshProfitSelection();
         announcePickerSelection(t('planner.uex.selectedAnnouncement', '{commodity} 상품을 선택했습니다.', { commodity: formatCommodityLabel(item.name) }));
         closePicker(search, document.getElementById('uex-commodity-results'));
     }
@@ -279,9 +286,11 @@
             renderUexSystemChips(model);
             results.innerHTML = renderUexCandidateCards(model);
             status.textContent = formatUexLastUpdated(model);
+            refreshProfitSelection();
         } catch (error) {
             currentUexModel = null;
             status.textContent = t('planner.uex.noResponse', 'UEX API 응답을 받지 못했습니다. UEX Corp에서 직접 확인해 주세요.');
+            refreshProfitSelection();
         }
     }
 
@@ -294,6 +303,7 @@
         if (side === 'sell') currentUexSelection.sellKey = key;
         currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter);
         document.getElementById('uex-results').innerHTML = renderUexCandidateCards(currentUexModel);
+        refreshProfitSelection();
     }
 
     function renderUexCandidateCards(model) {
@@ -355,16 +365,21 @@
 
     function renderUexCandidateOption(row, side, selectedKey, index) {
         const field = side === 'buy' ? 'price_buy' : 'price_sell';
-        const selected = row.uexKey === selectedKey ? ' is-selected' : '';
+        const isSelected = row.uexKey === selectedKey;
+        const selected = isSelected ? ' is-selected' : '';
+        const actionLabel = isSelected
+            ? t('planner.uex.selected', '선택됨')
+            : t(side === 'buy' ? 'planner.uex.selectBuy' : 'planner.uex.selectSell', side === 'buy' ? '매수 선택' : '매도 선택');
         const quantity = formatUexQuantity(row, side);
-        return `<button class="uex-candidate-card${selected}" type="button" data-uex-side="${escapeHtml(side)}" data-uex-key="${escapeHtml(row.uexKey)}" aria-pressed="${selected ? 'true' : 'false'}">
+        return `<button class="uex-candidate-card${selected}" type="button" data-uex-side="${escapeHtml(side)}" data-uex-key="${escapeHtml(row.uexKey)}" aria-pressed="${isSelected ? 'true' : 'false'}">
             <div class="uex-candidate-top">
                 <span class="uex-candidate-location">${index + 1}. ${escapeHtml(formatUexLocation(row))}</span>
                 <span class="uex-candidate-tags">
                     ${renderUexLocBadge(row)}
-                    ${selected ? `<span class="uex-candidate-selected">${escapeHtml(t('planner.uex.selected', '선택됨'))}</span>` : ''}
+                    ${isSelected ? `<span class="uex-candidate-selected">${escapeHtml(t('planner.uex.selected', '선택됨'))}</span>` : ''}
                 </span>
             </div>
+            <span class="uex-candidate-action">${escapeHtml(actionLabel)}</span>
             <strong class="uex-candidate-price">${escapeHtml(formatCredits(row[field]))} / SCU</strong>
             <div class="uex-candidate-meta">
                 <small class="uex-candidate-updated">${escapeHtml(formatUexUpdated(row) || t('planner.uex.updatedUnknown', '갱신 시각 미확인'))}</small>
@@ -480,6 +495,7 @@
         currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter);
         const results = document.getElementById('uex-results');
         if (results) results.innerHTML = renderUexCandidateCards(currentUexModel);
+        refreshProfitSelection();
     }
 
     window.VOLT_UEX_PANEL = {
@@ -489,6 +505,6 @@
         formatLocation: formatUexLocation,
         refreshForPlannerInputs: refreshUexModelForPlannerInputs,
         // 언어 토글 시 항성계 칩 라벨 재번역(모델이 있을 때만).
-        onLanguageChange: () => { if (currentUexModel) renderUexSystemChips(currentUexModel); },
+        onLanguageChange: () => { if (currentUexModel) renderUexSystemChips(currentUexModel); refreshProfitSelection(); },
     };
 })();

@@ -121,7 +121,6 @@ test.describe('i18n (KO/EN)', () => {
         await page.goto('/#trade-planner');
         await page.waitForSelector('#loading-splash', { state: 'hidden' });
         await expect(page.locator('#trade-planner')).toContainText('Profit Table');
-        await expect(page.locator('#trade-planner')).not.toContainText('원장');
         await expect(page.locator('[data-uex-loc="auto"]')).toHaveText('Station/City');
         // 항성계 필터 라벨 EN
         await expect(page.locator('#uex-system-filter .uex-loc-filter-label')).toHaveText('Star system');

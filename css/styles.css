@@ -6801,3 +6801,434 @@ body.nav-trade-open::before {
     .ledger-qty-field input { width: 100%; }
     .ledger-add-row .btn { width: 100%; }
 }
+
+/* ==========================================================================
+   Final UI polish: leadership board + trade profit table
+   ========================================================================== */
+
+#leadership .section-content {
+    max-width: 1160px;
+}
+
+#leadership .section-header {
+    margin-bottom: 36px;
+}
+
+#leadership .leadership-grid {
+    display: grid;
+    grid-template-columns: minmax(360px, 1.08fr) repeat(2, minmax(230px, 1fr));
+    grid-auto-rows: minmax(178px, auto);
+    gap: 16px;
+    max-width: 1120px;
+    margin: 0 auto;
+    align-items: stretch;
+}
+
+#leadership .leader-card {
+    position: relative;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 18px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025)),
+        #101010;
+    box-shadow: none;
+    transform: none;
+    gap: 14px;
+}
+
+#leadership .leader-card:hover {
+    border-color: rgba(232, 72, 47, 0.45);
+    background:
+        linear-gradient(180deg, rgba(232, 72, 47, 0.07), rgba(255, 255, 255, 0.03)),
+        #121212;
+    transform: translateY(-2px);
+}
+
+#leadership .leader-card.is-primary {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    gap: 18px;
+    padding: 26px;
+    min-height: 372px;
+    border-color: rgba(232, 72, 47, 0.28);
+    background:
+        linear-gradient(140deg, rgba(232, 72, 47, 0.14), rgba(232, 72, 47, 0.015) 44%, rgba(255, 255, 255, 0.035)),
+        #111;
+}
+
+#leadership .leader-card.is-primary .leader-avatar {
+    grid-column: 1;
+    width: 76px;
+    height: 76px;
+    min-width: 76px;
+    flex-basis: 76px;
+    border-radius: 16px;
+    font-size: 28px;
+}
+
+#leadership .leader-card.is-primary .leader-info {
+    grid-column: 2;
+    min-width: 0;
+}
+
+#leadership .leader-card.is-primary .leader-info h3 {
+    font-size: 26px;
+    line-height: 1.15;
+}
+
+#leadership .leader-card.is-primary .leader-summary {
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
+    font-size: 15px;
+}
+
+#leadership .leader-card.is-primary .leader-aside {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: grid;
+    gap: 14px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+}
+
+#leadership .leader-card:not(.is-primary) {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    min-height: 178px;
+}
+
+#leadership .leader-card:not(.is-primary) .leader-avatar {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    flex-basis: 48px;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+#leadership .leader-info {
+    min-width: 0;
+}
+
+#leadership .leader-info h3 {
+    margin-bottom: 4px;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+#leadership .leader-role {
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 8px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(232, 72, 47, 0.13);
+    color: var(--volt-orange-light);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+#leadership .leader-contact {
+    display: inline-flex;
+    max-width: 100%;
+    margin: 0 0 12px;
+    padding: 5px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.035);
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+#leadership .leader-summary {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    line-height: 1.62;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+#leadership .leader-keypoints {
+    margin-top: 10px;
+}
+
+#leadership .leader-keypoints li {
+    font-size: 12px;
+}
+
+#leadership .leader-more {
+    margin-top: 12px;
+    font-size: 12px;
+}
+
+.uex-candidate-action {
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
+    padding: 4px 9px;
+    border: 1px solid rgba(232, 72, 47, 0.34);
+    border-radius: var(--radius-full);
+    background: rgba(232, 72, 47, 0.09);
+    color: var(--volt-orange-light);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.uex-candidate-card.is-selected .uex-candidate-action {
+    background: var(--volt-orange);
+    border-color: var(--volt-orange);
+    color: #fff;
+}
+
+.profit-selection-panel {
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(135deg, rgba(232, 72, 47, 0.07), transparent 38%),
+        rgba(255, 255, 255, 0.035);
+}
+
+.profit-selection-panel.is-ready {
+    border-color: rgba(232, 72, 47, 0.38);
+}
+
+.profit-selection-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.profit-selection-header p {
+    margin: 4px 0 0;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+}
+
+.profit-selection-eyebrow {
+    color: var(--volt-orange);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#profit-selection-status {
+    flex: 0 0 auto;
+    padding: 6px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+    line-height: 1;
+}
+
+.profit-selection-panel.is-ready #profit-selection-status {
+    border-color: rgba(56, 161, 105, 0.45);
+    background: rgba(56, 161, 105, 0.12);
+    color: #68d391;
+}
+
+.profit-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.profit-selection-item {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.18);
+}
+
+.profit-selection-item span,
+.ledger-total-card span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--color-text-tertiary);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.profit-selection-item strong {
+    display: block;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.profit-selection-item small {
+    display: block;
+    margin-top: 4px;
+    color: var(--color-text-tertiary);
+    font-size: 11px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.profit-selection-profit {
+    border-color: rgba(232, 72, 47, 0.22);
+    background: rgba(232, 72, 47, 0.055);
+}
+
+.ledger-total-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.ledger-total-card {
+    min-width: 0;
+    padding: 13px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.ledger-total-card strong {
+    display: block;
+    color: var(--color-text-primary);
+    font-size: 16px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.ledger-mobile-list {
+    display: none;
+}
+
+.ledger-mobile-card {
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card);
+}
+
+.ledger-mobile-card > div:first-child {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.ledger-mobile-card strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.ledger-mobile-card dl {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+}
+
+.ledger-mobile-card dl div {
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 8px;
+}
+
+.ledger-mobile-card dt {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+}
+
+.ledger-mobile-card dd {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 1040px) {
+    #leadership .leadership-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #leadership .leader-card.is-primary {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        min-height: auto;
+    }
+
+    .profit-selection-grid,
+    .ledger-total-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 680px) {
+    #leadership .section-content {
+        padding-inline: 0;
+    }
+
+    #leadership .leadership-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    #leadership .leader-card,
+    #leadership .leader-card.is-primary,
+    #leadership .leader-card:not(.is-primary) {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        padding: 18px;
+        min-height: auto;
+    }
+
+    #leadership .leader-card.is-primary .leader-avatar,
+    #leadership .leader-card:not(.is-primary) .leader-avatar {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        flex-basis: 44px;
+        font-size: 18px;
+        grid-column: 1;
+    }
+
+    #leadership .leader-card.is-primary .leader-info {
+        grid-column: 2;
+    }
+
+    #leadership .leader-card.is-primary .leader-aside {
+        grid-column: 1 / -1;
+    }
+
+    .profit-selection-header {
+        flex-direction: column;
+    }
+
+    .profit-selection-grid,
+    .ledger-total-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .ledger-table-wrap {
+        display: none;
+    }
+
+    .ledger-mobile-list {
+        display: grid;
+        gap: 10px;
+    }
+}

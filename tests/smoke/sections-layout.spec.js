@@ -26,6 +26,7 @@ test.describe('공지/임원진 레이아웃', () => {
 
         const cards = page.locator('#leadership-grid .leader-card');
         await expect(cards.first()).toBeVisible();
+        await expect(page.locator('#leadership-grid .leader-card.is-primary')).toHaveCount(1);
         const name = (await cards.first().locator('h3').innerText()).trim();
         // 카드에는 장문 상세(리더십 철학)를 숨긴다.
         await expect(cards.first()).not.toContainText('리더십 철학');

@@ -15,7 +15,6 @@
 
     const UEX_API_BASE_URL = '/api/uex';
     const SUPPLY_COMMODITY_NAMES = ['Medical Supplies', 'Processed Food'];
-    const MINING_COMMODITY_NAMES = ['Beryl', 'Laranite', 'Agricium', 'Titanium', 'Quartz', 'Diamond', 'Gold'];
     const HIGH_VALUE_COMMODITY_NAMES = ['Gold', 'Beryl', 'Laranite', 'Agricium', 'Diamond'];
 
     const uexCache = new Map();
@@ -163,36 +162,28 @@
         return selected;
     }
 
-    // 작전 컨텍스트(operationType, risk)는 DOM에서 읽지 않고 호출자가 넘긴다.
-    function scoreRecommendedCommodity(model, context = {}) {
-        const operationType = context.operationType || 'solo';
-        const risk = context.risk || 'low';
+    function scoreRecommendedCommodity(model) {
         const ageHours = model.lastUpdated ? Math.max(0, (Date.now() / 1000 - model.lastUpdated) / 3600) : 999;
         const freshnessBonus = ageHours <= 6 ? 5000 : ageHours <= 24 ? 2500 : 0;
-        const estimatedWeight = operationType === 'bulk' ? model.estimatedProfit / 40 : model.estimatedProfit / 80;
+        const estimatedWeight = model.estimatedProfit / 80;
         let score = model.profitPerScu * 20 + estimatedWeight + freshnessBonus;
         const isHighValue = HIGH_VALUE_COMMODITY_NAMES.includes(model.commodityName);
-        const isMining = MINING_COMMODITY_NAMES.includes(model.commodityName);
         const isSupply = SUPPLY_COMMODITY_NAMES.includes(model.commodityName);
 
-        if (operationType === 'highValue' && isHighValue) score += 12000;
-        if (operationType === 'mining' && isMining) score += 9000;
-        if (operationType === 'supply' && isSupply) score += 9000;
-        if (operationType === 'solo' && isHighValue) score -= risk === 'low' ? 3000 : 9000;
-        if (risk === 'high' && !isHighValue) score += 2500;
+        if (isSupply) score += 5000;
+        if (isHighValue) score -= 3000;
         if (!model.bestBuy || !model.bestSell) score -= 30000;
 
         return {
             ...model,
             score,
-            grade: getCommodityRecommendationGrade({ operationType, risk, isHighValue, isSupply, profitPerScu: model.profitPerScu })
+            grade: getCommodityRecommendationGrade({ isHighValue, isSupply, profitPerScu: model.profitPerScu })
         };
     }
 
-    function getCommodityRecommendationGrade({ operationType, risk, isHighValue, isSupply, profitPerScu }) {
-        if (operationType === 'supply' && isSupply) return '보급 적합';
-        if (isHighValue && profitPerScu > 0) return risk === 'high' || operationType === 'highValue' ? '고수익' : '주의';
-        if (risk === 'high') return '주의';
+    function getCommodityRecommendationGrade({ isHighValue, isSupply, profitPerScu }) {
+        if (isSupply) return '보급 적합';
+        if (isHighValue && profitPerScu > 0) return '주의';
         return '추천';
     }
 

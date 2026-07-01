@@ -10,6 +10,7 @@
     'use strict';
 
     const STORAGE_KEY = 'volt-trade-ledger';
+    const ID_RANDOM_RANGE = 10000;
 
     let escapeHtml, formatCredits, i18nT, showToast;
     let items = [];
@@ -24,6 +25,7 @@
             const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
             return Array.isArray(raw) ? raw.filter(isValidItem) : [];
         } catch (error) {
+            console.warn('Trade profit table load failed', error);
             return [];
         }
     }
@@ -34,11 +36,80 @@
     }
 
     function save() {
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch (error) { /* quota */ }
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        } catch (error) {
+            console.warn('Trade profit table save failed', error);
+        }
     }
 
     function makeId() {
-        return `L${Date.now().toString(36)}${Math.floor(Math.random() * 1e4).toString(36)}`;
+        return `L${Date.now().toString(36)}${Math.floor(Math.random() * ID_RANDOM_RANGE).toString(36)}`;
+    }
+
+    function t(key, fallback, vars = {}) {
+        const template = i18nT ? i18nT(key, fallback) : fallback;
+        return String(template || '').replace(/\{(\w+)\}/g, (_, name) => (
+            Object.prototype.hasOwnProperty.call(vars, name) ? String(vars[name]) : ''
+        ));
+    }
+
+    function formatCount(value) {
+        return Number(value || 0).toLocaleString();
+    }
+
+    function getQuantityValue() {
+        const qtyInput = document.getElementById('ledger-qty');
+        return Math.floor(Number(qtyInput?.value) || 0);
+    }
+
+    function getPanelModel() {
+        const panel = window.VOLT_UEX_PANEL;
+        return panel?.getCurrentModel ? panel.getCurrentModel() : null;
+    }
+
+    function setText(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    }
+
+    function renderSelectionSummary() {
+        const panel = document.getElementById('profit-selection-panel');
+        if (!panel) return;
+        const model = getPanelModel();
+        const ready = Boolean(model?.bestBuy && model?.bestSell);
+        const qty = getQuantityValue();
+        panel.classList.toggle('is-ready', ready);
+        setText('profit-selection-status', ready ? t('ledger.selectionReady', '추가 가능') : t('ledger.selectionWaiting', '후보 선택 대기'));
+        renderSelectionLocation(model, ready);
+        renderSelectionProfit(model, ready, qty);
+    }
+
+    function renderSelectionLocation(model, ready) {
+        const fmtLoc = window.VOLT_UEX_PANEL?.formatLocation || ((row) => row?.terminal_name || '');
+        const missing = t('ledger.selectionMissing', '후보를 선택하세요');
+        setText('profit-selected-commodity', ready ? model.commodityLabel || model.commodityName || '-' : '-');
+        setText('profit-selected-commodity-detail', ready ? model.commodityName || '' : '');
+        setText('profit-selected-buy', ready ? fmtLoc(model.bestBuy) : missing);
+        setText('profit-selected-buy-detail', ready ? `${formatCredits(Number(model.bestBuy.price_buy) || 0)} / SCU` : '');
+        setText('profit-selected-sell', ready ? fmtLoc(model.bestSell) : missing);
+        setText('profit-selected-sell-detail', ready ? `${formatCredits(Number(model.bestSell.price_sell) || 0)} / SCU` : '');
+    }
+
+    function renderSelectionProfit(model, ready, qty) {
+        const profitEl = document.getElementById('profit-selected-profit');
+        const detailEl = document.getElementById('profit-selected-profit-detail');
+        const perScu = ready ? (Number(model.bestSell.price_sell) || 0) - (Number(model.bestBuy.price_buy) || 0) : 0;
+        const total = ready && qty > 0 ? perScu * qty : 0;
+        if (profitEl) {
+            profitEl.textContent = ready ? formatCredits(qty > 0 ? total : perScu) : '-';
+            profitEl.className = profitClass(total || perScu).trim();
+        }
+        if (detailEl) {
+            detailEl.textContent = ready && qty > 0
+                ? `${t('ledger.selectionQtyHint', '{qty} SCU 기준', { qty: formatCount(qty) })} · ${t('ledger.selectionPerScu', 'SCU당 {amount}', { amount: formatCredits(perScu) })}`
+                : t('ledger.selectionNoQty', '수량을 입력하면 총 이윤이 계산됩니다.');
+        }
     }
 
     // UEX 패널의 현재 선택(상품·매수·매도)과 수량 입력으로 수익표 항목을 추가한다.
@@ -68,6 +139,7 @@
         save();
         render();
         if (qtyInput) qtyInput.value = '';
+        renderSelectionSummary();
         showToast(i18nT('ledger.added', '수익표에 추가했습니다.'));
     }
 
@@ -101,12 +173,31 @@
         const list = document.getElementById('ledger-list');
         const actions = document.getElementById('ledger-actions');
         if (!list) return;
+        const t = totals();
+        const totalProfit = t.sell - t.buy;
         if (!items.length) {
-            list.innerHTML = `<div class="ledger-empty">${escapeHtml(i18nT('ledger.empty', '아직 추가한 상품이 없습니다. 위에서 매수·매도 후보를 선택한 뒤 수익표에 추가하세요.'))}</div>`;
+            list.innerHTML = `${renderTotalCards(t, totalProfit)}<div class="ledger-empty">${escapeHtml(i18nT('ledger.empty', '아직 추가한 상품이 없습니다. 위에서 매수·매도 후보를 선택한 뒤 수익표에 추가하세요.'))}</div>`;
             if (actions) actions.hidden = true;
             return;
         }
-        const t = totals();
+        list.innerHTML = `${renderTotalCards(t, totalProfit)}${renderDesktopTable(t, totalProfit)}${renderMobileCards()}`;
+        if (actions) actions.hidden = false;
+    }
+
+    function renderTotalCards(total, totalProfit) {
+        return `<div class="ledger-total-cards">
+            ${renderTotalCard('ledger.summaryBuy', '총 투자금', formatCredits(total.buy))}
+            ${renderTotalCard('ledger.summarySell', '예상 매출', formatCredits(total.sell))}
+            ${renderTotalCard('ledger.summaryProfit', '예상 이윤', formatCredits(totalProfit), profitClass(totalProfit))}
+            ${renderTotalCard('ledger.summaryScu', '총 SCU', `${formatCount(total.qty)} SCU`)}
+        </div>`;
+    }
+
+    function renderTotalCard(key, fallback, value, cls = '') {
+        return `<div class="ledger-total-card"><span>${escapeHtml(i18nT(key, fallback))}</span><strong class="${escapeHtml(cls.trim())}">${escapeHtml(value)}</strong></div>`;
+    }
+
+    function renderDesktopTable(total, totalProfit) {
         const rows = items.map((it) => {
             const buyTotal = it.buyPrice * it.qty;
             const sellTotal = it.sellPrice * it.qty;
@@ -122,8 +213,7 @@
                 <td><button class="ledger-remove" type="button" data-ledger-remove="${escapeHtml(it.id)}" aria-label="${escapeHtml(i18nT('ledger.col.remove', '삭제'))}">×</button></td>
             </tr>`;
         }).join('');
-        const totalProfit = t.sell - t.buy;
-        list.innerHTML = `<div class="ledger-table-wrap"><table class="ledger-table">
+        return `<div class="ledger-table-wrap"><table class="ledger-table">
             <thead><tr>
                 <th>${escapeHtml(i18nT('ledger.col.commodity', '품목'))}</th>
                 <th>${escapeHtml(i18nT('ledger.col.buy', '구입처'))}</th>
@@ -137,23 +227,40 @@
             <tbody>${rows}</tbody>
             <tfoot><tr class="ledger-total-row">
                 <th colspan="3">${escapeHtml(i18nT('ledger.total', '합계'))}</th>
-                <td class="ledger-num">${escapeHtml(t.qty.toLocaleString())} SCU</td>
-                <td class="ledger-num">${escapeHtml(formatCredits(t.buy))}</td>
-                <td class="ledger-num">${escapeHtml(formatCredits(t.sell))}</td>
+                <td class="ledger-num">${escapeHtml(formatCount(total.qty))} SCU</td>
+                <td class="ledger-num">${escapeHtml(formatCredits(total.buy))}</td>
+                <td class="ledger-num">${escapeHtml(formatCredits(total.sell))}</td>
                 <td class="ledger-num ledger-profit${profitClass(totalProfit)}">${escapeHtml(formatCredits(totalProfit))}</td>
                 <td></td>
             </tr></tfoot>
         </table></div>`;
-        if (actions) actions.hidden = false;
+    }
+
+    function renderMobileCards() {
+        const cards = items.map((it) => {
+            const profit = (it.sellPrice - it.buyPrice) * it.qty;
+            return `<article class="ledger-mobile-card">
+                <div><strong>${escapeHtml(it.commodity)}</strong><button class="ledger-remove" type="button" data-ledger-remove="${escapeHtml(it.id)}" aria-label="${escapeHtml(i18nT('ledger.col.remove', '삭제'))}">×</button></div>
+                <dl>
+                    <div><dt>${escapeHtml(i18nT('ledger.col.buy', '구입처'))}</dt><dd>${escapeHtml(it.buyLoc)} · ${escapeHtml(formatCredits(it.buyPrice))}/SCU</dd></div>
+                    <div><dt>${escapeHtml(i18nT('ledger.col.sell', '판매처'))}</dt><dd>${escapeHtml(it.sellLoc)} · ${escapeHtml(formatCredits(it.sellPrice))}/SCU</dd></div>
+                    <div><dt>${escapeHtml(i18nT('ledger.col.qty', '수량'))}</dt><dd>${escapeHtml(formatCount(it.qty))} SCU</dd></div>
+                    <div><dt>${escapeHtml(i18nT('ledger.col.profit', '이윤'))}</dt><dd class="ledger-profit${profitClass(profit)}">${escapeHtml(formatCredits(profit))}</dd></div>
+                </dl>
+            </article>`;
+        }).join('');
+        return `<div class="ledger-mobile-list">${cards}</div>`;
     }
 
     function setup() {
         document.getElementById('ledger-add')?.addEventListener('click', addFromUex);
         document.getElementById('ledger-clear')?.addEventListener('click', clearAll);
+        document.getElementById('ledger-qty')?.addEventListener('input', renderSelectionSummary);
         document.getElementById('ledger-list')?.addEventListener('click', (event) => {
             const btn = event.target.closest('[data-ledger-remove]');
             if (btn) removeItem(btn.getAttribute('data-ledger-remove'));
         });
+        renderSelectionSummary();
         render();
     }
 
@@ -162,12 +269,19 @@
         const cargo = document.getElementById('logistics-cargo');
         const qty = document.getElementById('ledger-qty');
         if (cargo && qty && !qty.value && Number(cargo.value) > 0) qty.value = String(Math.floor(Number(cargo.value)));
+        renderSelectionSummary();
+    }
+
+    function onLanguageChange() {
+        renderSelectionSummary();
+        render();
     }
 
     window.VOLT_TRADE_PLANNER = {
         init,
         setup,
-        onLanguageChange: render,   // 언어 토글 시 헤더/라벨 재렌더
+        onLanguageChange,
         onCargoChange,
+        refreshSelectionSummary: renderSelectionSummary,
     };
 })();
