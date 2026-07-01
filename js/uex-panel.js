@@ -22,6 +22,7 @@
     let currentUexLocationFilter = 'all';
     let currentUexSystemFilter = [];
     let availableUexCommodities = [];
+    let locationModalTrigger = null;
 
     function init(deps) {
         ({
@@ -84,6 +85,8 @@
         });
         button.addEventListener('click', () => renderUexCommodityCandidates(select.value));
         uexResults?.addEventListener('click', handleUexCandidateClick);
+        document.addEventListener('click', handleLocationModalBackdropClick);
+        document.addEventListener('keydown', handleLocationModalKeydown);
         if (recommendButton) recommendButton.addEventListener('click', renderRecommendedCommodities);
         if (recommendResults) {
             recommendResults.addEventListener('click', (event) => {
@@ -295,6 +298,11 @@
     }
 
     function handleUexCandidateClick(event) {
+        const listButton = event.target.closest('[data-uex-location-list]');
+        if (listButton) {
+            openLocationTradeModal(listButton);
+            return;
+        }
         const option = event.target.closest('[data-uex-side][data-uex-key]');
         if (!option || !currentUexModel) return;
         const side = option.getAttribute('data-uex-side');
@@ -367,11 +375,12 @@
         const field = side === 'buy' ? 'price_buy' : 'price_sell';
         const isSelected = row.uexKey === selectedKey;
         const selected = isSelected ? ' is-selected' : '';
+        const locationRef = getLocationPriceRef(row);
         const actionLabel = isSelected
             ? t('planner.uex.selected', '선택됨')
             : t(side === 'buy' ? 'planner.uex.selectBuy' : 'planner.uex.selectSell', side === 'buy' ? '매수 선택' : '매도 선택');
         const quantity = formatUexQuantity(row, side);
-        return `<button class="uex-candidate-card${selected}" type="button" data-uex-side="${escapeHtml(side)}" data-uex-key="${escapeHtml(row.uexKey)}" aria-pressed="${isSelected ? 'true' : 'false'}">
+        return `<article class="uex-candidate-card${selected}">
             <div class="uex-candidate-top">
                 <span class="uex-candidate-location">${index + 1}. ${escapeHtml(formatUexLocation(row))}</span>
                 <span class="uex-candidate-tags">
@@ -379,13 +388,130 @@
                     ${isSelected ? `<span class="uex-candidate-selected">${escapeHtml(t('planner.uex.selected', '선택됨'))}</span>` : ''}
                 </span>
             </div>
-            <span class="uex-candidate-action">${escapeHtml(actionLabel)}</span>
-            <strong class="uex-candidate-price">${escapeHtml(formatCredits(row[field]))} / SCU</strong>
+            <button class="uex-candidate-select" type="button" data-uex-side="${escapeHtml(side)}" data-uex-key="${escapeHtml(row.uexKey)}" aria-pressed="${isSelected ? 'true' : 'false'}">
+                <span class="uex-candidate-action">${escapeHtml(actionLabel)}</span>
+                <strong class="uex-candidate-price">${escapeHtml(formatCredits(row[field]))} / SCU</strong>
+                <span class="uex-candidate-updated">${escapeHtml(formatUexUpdated(row) || t('planner.uex.updatedUnknown', '갱신 시각 미확인'))}</span>
+            </button>
             <div class="uex-candidate-meta">
-                <small class="uex-candidate-updated">${escapeHtml(formatUexUpdated(row) || t('planner.uex.updatedUnknown', '갱신 시각 미확인'))}</small>
+                ${renderLocationTradeButton(locationRef)}
                 ${quantity ? `<span class="uex-candidate-quantity">${escapeHtml(quantity)}</span>` : ''}
             </div>
-        </button>`;
+        </article>`;
+    }
+
+    function renderLocationTradeButton(locationRef) {
+        if (!locationRef) return '';
+        return `<button class="uex-location-list-btn" type="button" data-uex-location-list data-location-field="${escapeHtml(locationRef.field)}" data-location-id="${escapeHtml(locationRef.id)}" data-location-label="${escapeHtml(locationRef.label)}">${escapeHtml(t('planner.uex.locationList', '무역품 리스트'))}</button>`;
+    }
+
+    function getLocationPriceRef(row) {
+        const candidates = [
+            ['id_terminal', row?.id_terminal],
+            ['id_outpost', row?.id_outpost],
+            ['id_city', row?.id_city],
+            ['id_space_station', row?.id_space_station],
+            ['id_planet', row?.id_planet]
+        ];
+        const match = candidates.find(([, value]) => Number(value) > 0);
+        if (!match) return null;
+        return { field: match[0], id: String(match[1]), label: formatUexLocation(row) };
+    }
+
+    async function openLocationTradeModal(button) {
+        locationModalTrigger = button;
+        const field = button.getAttribute('data-location-field');
+        const id = button.getAttribute('data-location-id');
+        const label = button.getAttribute('data-location-label') || '';
+        if (!field || !id) {
+            showToast(t('planner.uex.locationListError', '거점 무역품 정보를 불러오지 못했습니다.'));
+            return;
+        }
+        renderLocationTradeModal(label, `<div class="uex-location-modal-loading">${escapeHtml(t('planner.uex.locationListLoading', '거점 무역품 정보를 불러오는 중입니다.'))}</div>`);
+        try {
+            const rows = await uex.fetchUexData(`location-prices?field=${encodeURIComponent(field)}&id=${encodeURIComponent(id)}`, UEX_CACHE_TTL_MS.prices);
+            renderLocationTradeModal(label, renderLocationTradeColumns(rows));
+        } catch (error) {
+            console.warn('UEX location trade list failed', error);
+            renderLocationTradeModal(label, `<div class="uex-location-modal-empty">${escapeHtml(t('planner.uex.locationListError', '거점 무역품 정보를 불러오지 못했습니다.'))}</div>`);
+        }
+    }
+
+    function renderLocationTradeModal(locationLabel, bodyHtml) {
+        closeLocationTradeModal(false);
+        const modal = document.createElement('div');
+        modal.className = 'uex-location-modal-backdrop';
+        modal.setAttribute('role', 'presentation');
+        modal.innerHTML = `<section class="uex-location-modal" role="dialog" aria-modal="true" aria-labelledby="uex-location-modal-title">
+            <div class="uex-location-modal-head">
+                <div>
+                    <span>${escapeHtml(t('planner.uex.locationListEyebrow', '거점 거래 정보'))}</span>
+                    <h3 id="uex-location-modal-title">${escapeHtml(locationLabel || t('planner.uex.unselected', '미선택'))}</h3>
+                    <p>${escapeHtml(t('planner.uex.locationListSubtitle', '이 거점에서 가능한 매수·매도 품목을 좌우로 비교합니다.'))}</p>
+                </div>
+                <button class="uex-location-modal-close" type="button" data-uex-location-close aria-label="${escapeHtml(t('planner.uex.locationListClose', '닫기'))}">×</button>
+            </div>
+            <div class="uex-location-modal-body">${bodyHtml}</div>
+        </section>`;
+        document.body.appendChild(modal);
+        document.body.classList.add('uex-location-modal-open');
+        modal.querySelector('[data-uex-location-close]')?.focus();
+    }
+
+    function renderLocationTradeColumns(rows) {
+        const buyRows = sortLocationRows(rows, 'price_buy', 'asc');
+        const sellRows = sortLocationRows(rows, 'price_sell', 'desc');
+        return `<div class="uex-location-trade-columns">
+            ${renderLocationTradeColumn('planner.uex.locationListBuy', '매수 가능 품목', buyRows, 'buy')}
+            ${renderLocationTradeColumn('planner.uex.locationListSell', '매도 가능 품목', sellRows, 'sell')}
+        </div>`;
+    }
+
+    function sortLocationRows(rows, field, order) {
+        return (Array.isArray(rows) ? rows : [])
+            .filter((row) => Number(row[field]) > 0)
+            .sort((left, right) => order === 'asc' ? Number(left[field]) - Number(right[field]) : Number(right[field]) - Number(left[field]));
+    }
+
+    function renderLocationTradeColumn(titleKey, fallback, rows, side) {
+        const items = rows.length
+            ? rows.map((row) => renderLocationTradeItem(row, side)).join('')
+            : `<div class="uex-location-modal-empty">${escapeHtml(t('planner.uex.locationListEmpty', '표시할 품목이 없습니다.'))}</div>`;
+        return `<section class="uex-location-trade-column"><h4>${escapeHtml(t(titleKey, fallback))}</h4><div class="uex-location-trade-list">${items}</div></section>`;
+    }
+
+    function renderLocationTradeItem(row, side) {
+        const priceField = side === 'buy' ? 'price_buy' : 'price_sell';
+        const commodity = formatLocationCommodityName(row);
+        return `<article class="uex-location-trade-item">
+            <div><strong>${escapeHtml(commodity)}</strong><span>${escapeHtml(formatCredits(Number(row[priceField]) || 0))} / SCU</span></div>
+            <p>${escapeHtml(formatUexQuantity(row, side) || t('planner.uex.locationListQtyUnknown', '수량 미확인'))}</p>
+            <small>${escapeHtml(formatUexUpdated(row) || t('planner.uex.updatedUnknown', '갱신 시각 미확인'))}</small>
+        </article>`;
+    }
+
+    function formatLocationCommodityName(row) {
+        const rawName = row?.commodity_name || row?.name_commodity || '';
+        if (rawName) return formatCommodityLabel(rawName);
+        const commodity = availableUexCommodities.find((item) => String(item.id) === String(row?.id_commodity));
+        return commodity ? formatCommodityLabel(commodity.name) : t('planner.uex.unknownCommodity', '이름 미확인 품목');
+    }
+
+    function handleLocationModalBackdropClick(event) {
+        if (!(event.target instanceof Element)) return;
+        if (event.target.matches('.uex-location-modal-backdrop') || event.target.closest('[data-uex-location-close]')) {
+            closeLocationTradeModal(true);
+        }
+    }
+
+    function handleLocationModalKeydown(event) {
+        if (event.key === 'Escape' && document.querySelector('.uex-location-modal-backdrop')) closeLocationTradeModal(true);
+    }
+
+    function closeLocationTradeModal(restoreFocus) {
+        document.querySelector('.uex-location-modal-backdrop')?.remove();
+        document.body.classList.remove('uex-location-modal-open');
+        if (restoreFocus && locationModalTrigger) locationModalTrigger.focus();
     }
 
     async function renderRecommendedCommodities() {

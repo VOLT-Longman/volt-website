@@ -31,8 +31,15 @@ test.describe('무역플래너', () => {
         }));
         await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({
             json: { status: 'ok', data: [
-                { terminal_name: 'Port A', price_buy: 100, price_sell: 0, date_modified: 1700000000 },
-                { terminal_name: 'Port B', price_buy: 0, price_sell: 180, date_modified: 1700000000 },
+                { id_terminal: 101, terminal_name: 'Port A', id_commodity: 1, commodity_name: 'Gold', price_buy: 100, price_sell: 0, date_modified: 1700000000 },
+                { id_terminal: 102, terminal_name: 'Port B', id_commodity: 1, commodity_name: 'Gold', price_buy: 0, price_sell: 180, date_modified: 1700000000 },
+            ] },
+        }));
+        await page.route(/\/api\/uex\/location-prices\?field=id_terminal&id=101$/, (route) => route.fulfill({
+            json: { status: 'ok', data: [
+                { id_terminal: 101, terminal_name: 'Port A', id_commodity: 1, commodity_name: 'Gold', price_buy: 100, price_sell: 0, scu_buy: 5000, date_modified: 1700000000 },
+                { id_terminal: 101, terminal_name: 'Port A', id_commodity: 2, commodity_name: 'Beryl', price_buy: 240, price_sell: 0, scu_buy: 1200, date_modified: 1700000000 },
+                { id_terminal: 101, terminal_name: 'Port A', id_commodity: 3, commodity_name: 'Medical Supplies', price_buy: 0, price_sell: 410, scu_sell: 800, date_modified: 1700000000 },
             ] },
         }));
         await gotoSection(page, '#trade-planner');
@@ -47,6 +54,17 @@ test.describe('무역플래너', () => {
         await page.locator('#uex-refresh').click();
         await expect(page.locator('#uex-results')).toContainText('매수 후보');
         await expect(page.locator('#uex-results')).toContainText('매도 후보');
+        await expect(page.locator('#uex-results .uex-location-list-btn')).toHaveCount(2);
+
+        await page.locator('#uex-results .uex-location-list-btn').first().click();
+        await expect(page.locator('.uex-location-modal')).toBeVisible();
+        await expect(page.locator('.uex-location-modal')).toContainText('Port A');
+        await expect(page.locator('.uex-location-modal')).toContainText('매수 가능 품목');
+        await expect(page.locator('.uex-location-modal')).toContainText('매도 가능 품목');
+        await expect(page.locator('.uex-location-modal')).toContainText('Beryl');
+        await expect(page.locator('.uex-location-modal')).toContainText('Medical Supplies');
+        await page.keyboard.press('Escape');
+        await expect(page.locator('.uex-location-modal')).toHaveCount(0);
     });
 
     test('UEX 패널: API 실패 시 멈춤 대신 안내 노출', async ({ page }) => {
@@ -285,6 +303,7 @@ test.describe('무역플래너', () => {
             { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 180, date_modified: 1700000000, scu_sell: 4000 },
         ] } }));
         await gotoSection(page, '#trade-planner');
+        await page.locator('#logistics-cargo').fill('120');
         await expect(page.locator('#profit-selection-status')).toHaveText('후보 선택 대기');
         await expect(page.locator('.ledger-total-cards')).toContainText('총 투자금');
         // 선택 없이 추가 → 에러 안내(빈 수익표 유지)
@@ -310,6 +329,12 @@ test.describe('무역플래너', () => {
         await expect(total).toContainText('10,000');
         await expect(total).toContainText('18,000');
         await expect(total).toContainText('8,000');
+        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
+
+        // 기존 수익표 사용량까지 포함해 남은 20 SCU를 넘는 추가는 차단
+        await page.locator('#ledger-qty').fill('30');
+        await expect(page.locator('#profit-selection-status')).toHaveText('카고 초과');
+        await page.locator('#ledger-add').click();
         await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
 
         // 새로고침 후에도 유지(localStorage)

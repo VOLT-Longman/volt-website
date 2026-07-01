@@ -63,6 +63,21 @@
         return Math.floor(Number(qtyInput?.value) || 0);
     }
 
+    function getCargoCapacity() {
+        const cargoInput = document.getElementById('logistics-cargo');
+        return Math.floor(Math.max(0, Number(cargoInput?.value) || 0));
+    }
+
+    function getUsedCargo() {
+        return totals().qty;
+    }
+
+    function getRemainingCargo() {
+        const capacity = getCargoCapacity();
+        if (capacity <= 0) return 0;
+        return Math.max(0, capacity - getUsedCargo());
+    }
+
     function getPanelModel() {
         const panel = window.VOLT_UEX_PANEL;
         return panel?.getCurrentModel ? panel.getCurrentModel() : null;
@@ -80,9 +95,55 @@
         const ready = Boolean(model?.bestBuy && model?.bestSell);
         const qty = getQuantityValue();
         panel.classList.toggle('is-ready', ready);
-        setText('profit-selection-status', ready ? t('ledger.selectionReady', '추가 가능') : t('ledger.selectionWaiting', '후보 선택 대기'));
+        renderCargoLimitState(panel, ready, qty);
         renderSelectionLocation(model, ready);
         renderSelectionProfit(model, ready, qty);
+    }
+
+    function renderCargoLimitState(panel, ready, qty) {
+        const capacity = getCargoCapacity();
+        const used = getUsedCargo();
+        const remaining = getRemainingCargo();
+        const over = ready && qty > 0 && capacity > 0 && qty > remaining;
+        const blocked = ready && (capacity <= 0 || remaining <= 0 || over);
+        panel.classList.toggle('is-over-capacity', over);
+        panel.classList.toggle('is-capacity-blocked', blocked);
+        setText('profit-selection-status', getSelectionStatus(ready, capacity, remaining, over));
+        updateQuantityLimit(remaining);
+        updateCargoHint(capacity, used, remaining, over);
+    }
+
+    function getSelectionStatus(ready, capacity, remaining, over) {
+        if (!ready) return t('ledger.selectionWaiting', '후보 선택 대기');
+        if (capacity <= 0) return t('ledger.selectionCargoMissing', '카고 입력 필요');
+        if (over) return t('ledger.selectionCargoOver', '카고 초과');
+        if (capacity > 0 && remaining <= 0) return t('ledger.selectionCargoFull', '카고 가득 참');
+        return t('ledger.selectionReady', '추가 가능');
+    }
+
+    function updateQuantityLimit(remaining) {
+        const qtyInput = document.getElementById('ledger-qty');
+        if (!qtyInput) return;
+        if (remaining > 0) qtyInput.max = String(remaining);
+        else qtyInput.removeAttribute('max');
+    }
+
+    function updateCargoHint(capacity, used, remaining, over) {
+        const hint = document.getElementById('ledger-add-hint');
+        if (!hint) return;
+        if (capacity <= 0) {
+            hint.textContent = t('ledger.cargoHintNoShip', '함선을 선택하거나 운송 화물량을 입력하면 최대 카고 기준으로 추가 수량을 제한합니다.');
+            return;
+        }
+        const key = over ? 'ledger.cargoHintOver' : 'ledger.cargoHint';
+        const fallback = over
+            ? '남은 카고 {remaining} SCU를 초과했습니다. 현재 수익표 사용량은 {used} / {capacity} SCU입니다.'
+            : '남은 카고 {remaining} / {capacity} SCU · 수익표 사용 {used} SCU';
+        hint.textContent = t(key, fallback, {
+            capacity: formatCount(capacity),
+            used: formatCount(used),
+            remaining: formatCount(remaining),
+        });
     }
 
     function renderSelectionLocation(model, ready) {
@@ -126,6 +187,12 @@
             showToast(i18nT('ledger.errQty', '수량(SCU)을 1 이상 입력하세요.'));
             return;
         }
+        const cargoCheck = validateCargoCapacity(qty);
+        if (!cargoCheck.ok) {
+            showToast(cargoCheck.message);
+            renderSelectionSummary();
+            return;
+        }
         const fmtLoc = panel.formatLocation || ((row) => (row && row.terminal_name) || '');
         items.push({
             id: makeId(),
@@ -143,10 +210,30 @@
         showToast(i18nT('ledger.added', '수익표에 추가했습니다.'));
     }
 
+    function validateCargoCapacity(qty) {
+        const capacity = getCargoCapacity();
+        const used = getUsedCargo();
+        const remaining = Math.max(0, capacity - used);
+        if (capacity <= 0) {
+            return { ok: false, message: i18nT('ledger.errCargoMissing', '먼저 함선을 선택하거나 운송 화물량(SCU)을 입력하세요.') };
+        }
+        if (qty > remaining) {
+            return {
+                ok: false,
+                message: t('ledger.errCargoOver', '남은 카고 {remaining} SCU를 초과했습니다. 수익표에는 이미 {used} SCU가 들어 있습니다.', {
+                    remaining: formatCount(remaining),
+                    used: formatCount(used),
+                }),
+            };
+        }
+        return { ok: true };
+    }
+
     function removeItem(id) {
         items = items.filter((it) => it.id !== id);
         save();
         render();
+        renderSelectionSummary();
     }
 
     function clearAll() {
@@ -154,6 +241,7 @@
         items = [];
         save();
         render();
+        renderSelectionSummary();
     }
 
     function totals() {
@@ -268,7 +356,10 @@
     function onCargoChange() {
         const cargo = document.getElementById('logistics-cargo');
         const qty = document.getElementById('ledger-qty');
-        if (cargo && qty && !qty.value && Number(cargo.value) > 0) qty.value = String(Math.floor(Number(cargo.value)));
+        if (cargo && qty && !qty.value && Number(cargo.value) > 0) {
+            const remaining = getRemainingCargo();
+            qty.value = remaining > 0 ? String(remaining) : '';
+        }
         renderSelectionSummary();
     }
 
