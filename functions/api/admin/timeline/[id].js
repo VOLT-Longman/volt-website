@@ -1,6 +1,6 @@
 import { requireAdmin } from '../../../_shared/auth.js';
 import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
-import { mapTimelineEntry, timelineInput } from '../../../_shared/cms.js';
+import { mapTimelineEntry, timelineInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
 
 export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
@@ -14,9 +14,11 @@ async function updateItem(request, env, id) {
   const db = requireDb(env);
   const existing = await db.prepare('SELECT * FROM timeline_entries WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
+  const body = (await readJson(request)) || {};
+  if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
   let item;
   try {
-    item = timelineInput({ ...((await readJson(request)) || {}), id }, existing);
+    item = timelineInput({ ...body, id }, existing);
   } catch (err) {
     return error(err.message || 'Invalid input', 422);
   }

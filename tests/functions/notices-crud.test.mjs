@@ -29,7 +29,7 @@ test('공지 API: GET → 행을 공개 형태로 매핑', async () => {
     assert.equal(response.status, 200);
     const { items } = await response.json();
     assert.deepEqual(items[0], {
-        id: 'n1', title: '제목', content: '내용', tag: '공지', pinned: true, published: true, date: '2026-06-10'
+        id: 'n1', title: '제목', content: '내용', tag: '공지', pinned: true, published: true, date: '2026-06-10', updatedAt: ''
     });
 });
 

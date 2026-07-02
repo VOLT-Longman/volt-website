@@ -1,6 +1,6 @@
 import { requireAdmin } from '../../../_shared/auth.js';
 import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
-import { mapShipOverride, shipOverrideInput } from '../../../_shared/cms.js';
+import { CONFLICT_MESSAGE, hasUpdateConflict, mapShipOverride, shipOverrideInput } from '../../../_shared/cms.js';
 import { ensureShipOverridesTable } from '../../../_shared/ships.js';
 
 export async function onRequest({ request, env, params }) {
@@ -21,11 +21,15 @@ async function getItem(env, shipId) {
 
 async function saveItem(request, env, shipId) {
   if (!shipId) return error('Missing ship id', 422);
+  const body = (await readJson(request)) || {};
   let item;
-  try { item = shipOverrideInput(shipId, (await readJson(request)) || {}); }
+  try { item = shipOverrideInput(shipId, body); }
   catch (err) { return error(err.message || 'Invalid input', 422); }
   const db = requireDb(env);
   await ensureShipOverridesTable(db);
+  // 낙관적 잠금: 기존 override의 updated_at과 비교(신규면 빈 문자열 기준).
+  const existing = await db.prepare('SELECT updated_at FROM ship_overrides WHERE ship_id = ?').bind(shipId).first();
+  if (hasUpdateConflict(body, existing || {})) return error(CONFLICT_MESSAGE, 409);
   await db.prepare(`INSERT INTO ship_overrides (id, ship_id, name, manufacturer, role, focus, size, crew, cargo, price_usd, implemented, planner_eligible, tags, description, updated_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(ship_id) DO UPDATE SET name = excluded.name, manufacturer = excluded.manufacturer, role = excluded.role, focus = excluded.focus, size = excluded.size, crew = excluded.crew, cargo = excluded.cargo, price_usd = excluded.price_usd, implemented = excluded.implemented, planner_eligible = excluded.planner_eligible, tags = excluded.tags, description = excluded.description, updated_at = excluded.updated_at`)

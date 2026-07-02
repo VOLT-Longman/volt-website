@@ -1,4 +1,5 @@
 const state = {
+  dirty: false,
   tab: 'notices',
   items: [],
   editing: null,
@@ -102,7 +103,11 @@ async function api(path, options = {}) {
     ...options
   });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || '\uc694\uccad\uc5d0 \uc2e4\ud328\ud588\uc2b5\ub2c8\ub2e4.');
+  if (!response.ok) {
+    const err = new Error(data.error || (response.status >= 500 ? '서버 오류가 발생했습니다. 잠시 후 다시 시도하세요.' : '요청에 실패했습니다.'));
+    err.status = response.status;
+    throw err;
+  }
   return data;
 }
 
@@ -135,7 +140,13 @@ async function logout() {
   await checkSession();
 }
 
+function confirmDiscard() {
+  if (!state.dirty) return true;
+  return confirm('저장하지 않은 변경 사항이 있습니다. 이동하면 사라집니다. 계속할까요?');
+}
+
 function setTab(tab) {
+  if (!confirmDiscard()) return;
   state.tab = tab;
   state.editing = null;
   state.galleryImageUrls = [];
@@ -198,7 +209,14 @@ function matchShipQuery(item) {
 function renderList() {
   const list = $('#item-list');
   if (state.tab === 'ships') {
-    list.innerHTML = renderShipSearch() + renderShipList();
+    // 검색 input을 다시 그리면 타이핑 중 포커스·한글 IME 조합이 끊긴다(커서 풀림 버그).
+    // input이 이미 있으면 결과 영역만 교체해 포커스를 보존한다.
+    const results = document.getElementById('ship-admin-results');
+    if (results && document.getElementById('ship-admin-search')) {
+      results.innerHTML = renderShipList();
+      return;
+    }
+    list.innerHTML = `${renderShipSearch()}<div id="ship-admin-results">${renderShipList()}</div>`;
     return;
   }
   list.innerHTML = state.items.length
@@ -252,6 +270,7 @@ function renderShipList() {
 
 function renderForm(item) {
   state.editing = item;
+  state.dirty = false;
   if (state.tab === 'gallery' && !item) {
     state.galleryImageUrls = [];
     state.galleryFiles = [];
@@ -400,6 +419,13 @@ function getShipTagOptions(extraTags = []) {
   return [...tags].sort((left, right) => left.localeCompare(right, 'ko'));
 }
 
+// 낙관적 잠금: 수정 시작 시점의 updatedAt을 서버에 에코해 동시 저장 충돌(409)을 감지한다.
+function getExpectedUpdatedAt() {
+  if (!state.editing) return undefined;
+  if (state.tab === 'ships') return state.editing.override?.updatedAt ?? '';
+  return state.editing.updatedAt ?? '';
+}
+
 function getFormPayload() {
   if (state.tab === 'ships') return getShipPayload();
   const payload = {};
@@ -457,8 +483,16 @@ function validatePayload(payload) {
   }
 }
 
+function setSaveBusy(busy) {
+  const button = document.querySelector('button[type="submit"][form="cms-form"]');
+  if (!button) return;
+  button.disabled = busy;
+  button.textContent = busy ? '저장 중…' : '저장';
+}
+
 async function saveItem(event) {
   event.preventDefault();
+  setSaveBusy(true);
   try {
     if (state.tab === 'gallery' && state.galleryFiles.length) {
       await saveGalleryWithUploads();
@@ -466,6 +500,8 @@ async function saveItem(event) {
     }
     const payload = getFormPayload();
     validatePayload(payload);
+    const expectedUpdatedAt = getExpectedUpdatedAt();
+    if (expectedUpdatedAt !== undefined) payload.expectedUpdatedAt = expectedUpdatedAt;
     const previousEditingId = state.editing?.id;
     const result = await savePayload(payload);
     if (state.tab === 'ships') state.shipOverridesLoaded = false;
@@ -476,8 +512,16 @@ async function saveItem(event) {
       if (saved) renderForm(saved);
     }
     $('#form-message').textContent = '\uc800\uc7a5\ud588\uc2b5\ub2c8\ub2e4.';
+    state.dirty = false;
   } catch (error) {
-    showFormError(error);
+    if (error.status === 409) {
+      // 동시 저장 충돌: 작성 내용은 폼에 그대로 유지된다. 안내만 표시.
+      $('#form-message').textContent = error.message;
+    } else {
+      showFormError(error);
+    }
+  } finally {
+    setSaveBusy(false);
   }
 }
 
@@ -577,8 +621,9 @@ function showFormError(error) {
 function bindEvents() {
   $('#login-form').addEventListener('submit', login);
   $('#logout-button').addEventListener('click', logout);
-  $('#new-button').addEventListener('click', () => renderForm(null));
-  $('#cancel-button').addEventListener('click', () => renderForm(null));
+  $('#new-button').addEventListener('click', () => { if (confirmDiscard()) renderForm(null); });
+  $('#cancel-button').addEventListener('click', () => { if (confirmDiscard()) renderForm(null); });
+  $('#cms-form').addEventListener('input', () => { state.dirty = true; });
   $('#delete-button').addEventListener('click', deleteItem);
   $('#cms-form').addEventListener('submit', saveItem);
   document.querySelectorAll('[data-tab]').forEach((button) => {
@@ -626,13 +671,15 @@ function handleListInput(event) {
   state.shipQuery = event.target.value.trim().toLowerCase();
   clearTimeout(shipSearchTimer);
   shipSearchTimer = setTimeout(() => {
-    loadItems().catch(showFormError);
+    // 검색 중에는 편집 중인 폼을 유지한다(clearForm=false).
+    loadItems(false).catch(showFormError);
   }, SHIP_SEARCH_DELAY_MS);
 }
 
 function handleListClick(event) {
   const button = event.target.closest('[data-id]');
   if (!button) return;
+  if (!confirmDiscard()) return;
   renderForm(state.items.find((item) => item.id === button.dataset.id));
 }
 

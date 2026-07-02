@@ -1,7 +1,18 @@
 import { createId, limitText, nowIso, sanitizeText, toBooleanInt } from './http.js';
 
+// 낙관적 잠금: 클라이언트가 수정 시작 시점의 updatedAt(expectedUpdatedAt)을 보내면
+// 현재 행의 updated_at과 비교한다. 다르면 다른 관리자가 먼저 저장한 것 → 409.
+// expectedUpdatedAt 미제공(구버전 클라이언트/스크립트)은 기존 동작(last-write-wins) 유지.
+export const CONFLICT_MESSAGE = '다른 관리자가 먼저 저장했습니다. 목록을 새로고침해 최신 내용을 확인한 뒤 다시 수정해 주세요.';
+
+export function hasUpdateConflict(body, existing) {
+  const expected = body?.expectedUpdatedAt;
+  if (expected === undefined || expected === null) return false;
+  return String(expected) !== String(existing?.updated_at ?? '');
+}
+
 export function mapNotice(row) {
-  return { id: row.id, title: row.title, content: row.content, tag: row.tag || '공지', pinned: Boolean(row.pinned), published: Boolean(row.published), date: row.date || row.created_at || '' };
+  return { id: row.id, title: row.title, content: row.content, tag: row.tag || '공지', pinned: Boolean(row.pinned), published: Boolean(row.published), date: row.date || row.created_at || '', updatedAt: row.updated_at || '' };
 }
 
 export function noticeInput(body, existing = {}) {
@@ -20,7 +31,7 @@ export function noticeInput(body, existing = {}) {
 }
 
 export function mapEvent(row) {
-  return { id: row.id, title: row.title, description: row.description || '', type: row.type || '작전', status: row.status || '예정', dateLabel: row.date_label || row.event_date || '', eventDate: row.event_date || '', published: Boolean(row.published) };
+  return { id: row.id, title: row.title, description: row.description || '', type: row.type || '작전', status: row.status || '예정', dateLabel: row.date_label || row.event_date || '', eventDate: row.event_date || '', published: Boolean(row.published), updatedAt: row.updated_at || '' };
 }
 
 export function eventInput(body, existing = {}) {
@@ -41,7 +52,7 @@ export function eventInput(body, existing = {}) {
 }
 
 export function mapGallery(row) {
-  return { id: row.id, title: row.title, description: row.description || '', category: row.category || '기타', src: row.image_url, thumb: row.thumb_url || row.image_url, date: row.date || '', sortOrder: Number(row.sort_order || 0), published: Boolean(row.published) };
+  return { id: row.id, title: row.title, description: row.description || '', category: row.category || '기타', src: row.image_url, thumb: row.thumb_url || row.image_url, date: row.date || '', sortOrder: Number(row.sort_order || 0), published: Boolean(row.published), updatedAt: row.updated_at || '' };
 }
 
 export function galleryInput(body, existing = {}) {
@@ -125,7 +136,8 @@ export function mapLeader(row) {
     details: Array.isArray(extras.details) ? extras.details : undefined,
     competencies: Array.isArray(extras.competencies) ? extras.competencies : undefined,
     sortOrder: Number(row.sort_order || 0),
-    published: row.published === null || row.published === undefined ? true : Boolean(row.published)
+    published: row.published === null || row.published === undefined ? true : Boolean(row.published),
+    updatedAt: row.updated_at || ''
   };
 }
 
@@ -159,7 +171,8 @@ export function mapTimelineEntry(row) {
     title: row.title,
     description: row.description || '',
     sortOrder: Number(row.sort_order || 0),
-    published: Boolean(row.published)
+    published: Boolean(row.published),
+    updatedAt: row.updated_at || ''
   };
 }
 
