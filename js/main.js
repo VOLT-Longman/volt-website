@@ -15,8 +15,12 @@
         console.error('VOLT_DATA 미로드');
         return;
     }
-    // 함선 영어 데이터(_en) 병합 — tx(ship, field)가 EN을 집어들도록. KO 원본 필드는 필터/색상/검색용으로 유지.
-    if (window.VOLT_SHIP_EN && Array.isArray(data.ships)) {
+    // 함선 영어 데이터(_en)는 EN 모드에서만 필요 → 지연 로드(KO 초기 로드에서 103KB 제외).
+    // tx(ship, field)가 EN을 집어들도록 병합. KO 원본 필드는 필터/색상/검색용으로 유지.
+    let shipEnState = 'idle';
+    let shipEnPromise = null;
+    function mergeShipEn() {
+        if (!window.VOLT_SHIP_EN || !Array.isArray(data.ships)) return;
         for (const ship of data.ships) {
             const en = window.VOLT_SHIP_EN[ship.id];
             if (!en) continue;
@@ -27,6 +31,28 @@
             ship.description_en = en.description;
             ship.tags_en = Array.isArray(en.tags) ? en.tags : [];
         }
+    }
+    // ship-en.js를 필요 시 1회만 동적 로드 후 병합. 로드 실패는 조용히 KO 폴백(경고 로그).
+    function ensureShipEn() {
+        if (shipEnState === 'loaded') return Promise.resolve();
+        if (shipEnState === 'loading') return shipEnPromise;
+        shipEnState = 'loading';
+        shipEnPromise = new Promise((resolve) => {
+            if (window.VOLT_SHIP_EN) { mergeShipEn(); shipEnState = 'loaded'; return resolve(); }
+            const script = document.createElement('script');
+            const mainSrc = document.querySelector('script[src*="js/main.js"]')?.getAttribute('src') || '';
+            const version = (mainSrc.match(/\?v=([\w.-]+)/) || [])[1];
+            script.src = `data/ship-en.js${version ? `?v=${version}` : ''}`;
+            script.onload = () => { mergeShipEn(); shipEnState = 'loaded'; resolve(); };
+            script.onerror = () => { shipEnState = 'idle'; console.warn('ship-en 로드 실패 — 영어 함선 정보 폴백(KO)'); resolve(); };
+            document.head.appendChild(script);
+        });
+        return shipEnPromise;
+    }
+    // EN일 때만 ship-en 로드 후 함선 UI를 다시 렌더한다.
+    function ensureShipEnForEn() {
+        if (currentLang() !== 'en') return;
+        ensureShipEn().then(() => { renderShipManufacturers(); renderShips(); });
     }
     const staticLeadership = Array.isArray(data.leadership) ? data.leadership.slice() : [];
 
@@ -2079,12 +2105,13 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();
         setupRevealObserver();
         renderAll();
+        ensureShipEnForEn();
         setupNavLinks();
         setupMobileMenu();
         setupNoticeControls();
