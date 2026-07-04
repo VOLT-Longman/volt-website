@@ -5598,11 +5598,86 @@ body.nav-trade-open::before {
     font-weight: 600;
 }
 
+.mypage-profile {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 14px;
+    margin: 0;
+}
+
+.mypage-profile dt {
+    color: var(--color-text-tertiary);
+}
+
+.mypage-profile dd {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.mypage-empty {
+    display: grid;
+    gap: 4px;
+    color: var(--color-text-secondary);
+}
+
+.mypage-empty strong {
+    color: var(--color-text-primary);
+}
+
+.mypage-empty p,
+.mypage-empty-note {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+}
+
+.mypage-ship-name {
+    overflow-wrap: anywhere;
+}
+
+.mypage-ship-remove {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border-radius: 8px;
+    line-height: 1;
+    font-weight: 600;
+    text-align: center;
+    color: var(--color-text-tertiary);
+}
+
+.mypage-ship-remove:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-hover, rgba(127, 127, 127, 0.14));
+}
+
+.mypage-error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--color-text-secondary);
+}
+
+.mypage-retry {
+    flex: 0 0 auto;
+    font-weight: 600;
+    color: var(--color-accent, var(--color-text-primary));
+}
+
 @media (max-width: 768px) {
     .schedule-rsvp-actions,
     .mypage-list li {
         align-items: stretch;
         flex-direction: column;
+    }
+
+    .mypage-error {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 

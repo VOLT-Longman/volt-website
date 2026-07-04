@@ -1815,53 +1815,43 @@
         if (!response.ok) throw new Error(`PREF ${response.status}`);
     }
 
-    async function loadMyRsvps() {
-        const list = document.getElementById('mypage-rsvp-list');
-        if (!list || !authState.loggedIn) return;
-        try {
-            const response = await fetch('/api/me/rsvps', { credentials: 'same-origin', headers: { Accept: 'application/json' } });
-            if (!response.ok) throw new Error(`MYRSVP ${response.status}`);
-            const payload = await response.json();
-            const items = payload.items || [];
-            list.innerHTML = items.length ? items.map((item) => `<li><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.status)} · ${escapeHtml(item.dateLabel || '일정 미정')}</span></li>`).join('') : '<li>참가 상태를 남긴 일정이 없습니다.</li>';
-        } catch (error) {
-            console.warn('My RSVP load failed', error);
-            list.innerHTML = '<li>참가 일정 정보를 불러오지 못했습니다.</li>';
-        }
-    }
-
+    // 마이페이지 렌더는 js/mypage.js(VOLT_MYPAGE)로 위임한다. main.js는 인증/선호도
+    // 상태에서 렌더용 state만 조립해 넘긴다(HTML 문자열 조립은 모듈이 담당).
     function renderMyPage() {
-        const container = document.getElementById('mypage-content');
-        if (!container) return;
-        if (!authState.loggedIn) {
-            container.innerHTML = '<div class="mypage-card"><h3>로그인이 필요합니다</h3><p>Discord 로그인 후 참가 일정, 격납고, 무역플래너 설정을 확인할 수 있습니다.</p><a class="btn btn-primary" href="/auth/discord/login">Discord 로그인</a></div>';
-            return;
-        }
+        if (!window.VOLT_MYPAGE) return;
+        VOLT_MYPAGE.renderMyPage(buildMyPageState());
+    }
+
+    function buildMyPageState() {
+        if (!authState.loggedIn) return { loggedIn: false };
         const user = authState.user || {};
-        const favoriteShips = getHangar().map((shipId) => shipById.get(shipId)).filter(Boolean);
+        const hangarShips = getHangar()
+            .map((shipId) => shipById.get(shipId))
+            .filter(Boolean)
+            .map((ship) => ({ id: ship.id, name: getShipDisplayName(ship), cargo: ship.cargo || '0 SCU' }));
         const planner = getPlannerStateFromStorage();
-        container.innerHTML = `<div class="mypage-grid">
-            <article class="mypage-card"><h3>프로필</h3><p>${escapeHtml(getAuthDisplayName(user))}</p><small>${escapeHtml(getAuthRoleLabel(user))}</small></article>
-            <article class="mypage-card"><h3>격납고</h3>${renderMyPageShips(favoriteShips)}</article>
-            <article class="mypage-card"><h3>무역플래너 저장값</h3>${renderMyPagePlanner(planner)}</article>
-            <article class="mypage-card"><h3>참가 일정</h3><ul class="mypage-list" id="mypage-rsvp-list"><li>불러오는 중입니다.</li></ul></article>
-        </div>`;
-        loadMyRsvps();
+        const plannerShip = planner.shipId ? shipById.get(planner.shipId) : null;
+        return {
+            loggedIn: true,
+            profile: {
+                displayName: getAuthDisplayName(user),
+                roleLabel: getAuthRoleLabel(user),
+                isMember: isFleetMember(user),
+            },
+            hangarShips,
+            planner: {
+                hasValue: hasPlannerState(planner),
+                shipName: plannerShip ? getShipDisplayName(plannerShip) : (planner.shipSearch || ''),
+                cargo: planner.cargo || '0',
+                crew: planner.crew || '1',
+            },
+        };
     }
 
-    function renderMyPageShips(ships) {
-        if (!ships.length) return '<p>격납고에 추가한 함선이 없습니다.</p>';
-        return `<ul class="mypage-list">${ships.slice(0, 12).map((ship) => `<li><button type="button" data-ship-id="${escapeHtml(ship.id)}">${escapeHtml(ship.name)}</button><span>${escapeHtml(ship.cargo || '0 SCU')}</span></li>`).join('')}</ul>`;
-    }
-
-    function renderMyPagePlanner(planner) {
-        if (!hasPlannerState(planner)) return '<p>저장된 무역플래너 설정이 없습니다.</p>';
-        const ship = planner.shipId ? shipById.get(planner.shipId) : null;
-        return `<dl class="mypage-planner">
-            <dt>함선</dt><dd>${escapeHtml(ship?.name || planner.shipSearch || '미선택')}</dd>
-            <dt>화물량</dt><dd>${escapeHtml(planner.cargo || '0')} SCU</dd>
-            <dt>인원</dt><dd>${escapeHtml(planner.crew || '1')}명</dd>
-        </dl>`;
+    // 손님(guest) 외 역할이 하나라도 있으면 정식 멤버로 본다.
+    function isFleetMember(user) {
+        const roles = Array.isArray(user.roles) ? user.roles : [];
+        return roles.some((role) => role && role !== '손님');
     }
     function setupTheme() {
         const buttons = ['theme-toggle', 'mobile-theme-toggle']
@@ -2103,9 +2093,15 @@
             getShipById: (id) => shipById.get(id),
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         });
+        // 마이페이지 렌더 계층 — 공용 유틸·격납고 제거/함선 상세 콜백 주입.
+        VOLT_MYPAGE.init({
+            i18nT, escapeHtml, trackEvent,
+            openShipById: (id) => { const ship = shipById.get(id); if (ship) openShipModal(ship); },
+            removeFromHangar: (id) => { if (isInHangar(id)) toggleHangar(id); },
+        });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();
