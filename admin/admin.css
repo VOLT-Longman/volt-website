@@ -17,3 +17,21 @@
 
 /* 저장/충돌 안내 메시지 강조 — 저장 결과를 놓치지 않도록 */
 #form-message:not(:empty){display:block;margin-top:12px;padding:10px 14px;border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:10px;background:var(--panel-2);color:var(--text);font-weight:700}
+/* 공지 폼 그룹(KO/EN 분리)·미리보기 */
+.admin-fieldset{margin:0 0 16px;padding:16px 18px;border:1px solid var(--border);border-radius:18px;background:var(--panel-2)}
+.admin-fieldset legend{padding:0 8px;color:var(--orange);font-weight:900;font-size:13px;letter-spacing:.02em}
+.admin-fieldset label{margin:12px 0}
+.admin-field-hint{margin:0 0 8px;color:var(--muted);font-size:13px;font-weight:600;line-height:1.5}
+.notice-preview-group{background:#101012}
+.notice-preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.notice-preview-col{display:grid;gap:8px;min-width:0}
+.notice-preview-lang{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.notice-preview-fallback{padding:2px 8px;border:1px solid var(--border);border-radius:999px;background:var(--panel);color:var(--orange);font-size:11px;font-weight:800;text-transform:none;letter-spacing:0}
+.notice-preview-card{display:grid;gap:8px;padding:14px;border:1px solid var(--border);border-radius:16px;background:var(--panel)}
+.notice-preview-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px}
+.notice-preview-pin{padding:2px 8px;border-radius:999px;background:var(--orange);color:#fff;font-weight:800}
+.notice-preview-tag{padding:2px 8px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-weight:800}
+.notice-preview-date{color:var(--muted)}
+.notice-preview-title{color:var(--text);font-size:15px;overflow-wrap:anywhere}
+.notice-preview-excerpt{margin:0;color:var(--muted);font-size:13px;line-height:1.55;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:860px){.notice-preview-grid{grid-template-columns:1fr}}

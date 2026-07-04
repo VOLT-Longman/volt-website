@@ -286,12 +286,106 @@ function renderForm(item) {
     ? renderShipForm(item)
     : renderCollectionForm(config, item);
   $('#form-message').textContent = '';
+  if (state.tab === 'notices') updateNoticePreview();
   renderList();
 }
 
 function renderCollectionForm(config, item) {
+  if (state.tab === 'notices') return renderNoticeForm(item);
   const fields = config.fields.map((field) => renderField(field, item)).join('');
   return state.tab === 'gallery' ? renderGalleryUpload(item) + fields : fields;
+}
+
+// 공지 폼: 기본 정보 / 한국어(필수) / 영어(선택) 그룹으로 나누고 저장 전 미리보기를 제공한다.
+// 입력 name은 기존과 동일(getFormPayload/서버 계약 무변경). EN 필드는 명시적 label·aria로 연결한다.
+const NOTICE_EN_HINT_ID = 'notice-en-hint';
+function renderNoticeForm(item) {
+  const group = (legend, fields, hint) => `<fieldset class="admin-fieldset">
+      <legend>${escapeHtml(legend)}</legend>
+      ${hint || ''}
+      ${fields.map((field) => renderField(field, item)).join('')}
+    </fieldset>`;
+  const enHint = `<p class="admin-field-hint" id="${NOTICE_EN_HINT_ID}">비워두면 한국어 공지가 그대로 표시됩니다. (선택 입력)</p>`;
+  return [
+    group('기본 정보', ['date', 'pinned', 'published']),
+    group('한국어 공지 (필수)', ['title', 'content', 'tag']),
+    `<fieldset class="admin-fieldset">
+      <legend>영어 공지 (선택 입력)</legend>
+      ${enHint}
+      ${renderNoticeEnFields(item)}
+    </fieldset>`,
+    renderNoticePreview(),
+  ].join('');
+}
+
+// EN 입력 필드: 명시적 id·label·aria-describedby로 안내 문구와 연결(접근성).
+function renderNoticeEnFields(item) {
+  const val = (field) => escapeHtml(getItemValue(item, field) || '');
+  const desc = `aria-describedby="${NOTICE_EN_HINT_ID}"`;
+  return `<label for="notice-title-en">${LABELS.titleEn}
+      <input type="text" id="notice-title-en" name="titleEn" value="${val('titleEn')}" ${desc}></label>
+    <label for="notice-content-en">${LABELS.contentEn}
+      <textarea id="notice-content-en" name="contentEn" ${desc}>${val('contentEn')}</textarea></label>
+    <label for="notice-tag-en">${LABELS.tagEn}
+      <input type="text" id="notice-tag-en" name="tagEn" value="${val('tagEn')}" ${desc}></label>`;
+}
+
+function renderNoticePreview() {
+  return `<fieldset class="admin-fieldset notice-preview-group">
+      <legend>미리보기</legend>
+      <p class="admin-field-hint">저장 전 공지 카드가 어떻게 보일지 확인합니다.</p>
+      <div class="notice-preview-grid">
+        <div class="notice-preview-col">
+          <span class="notice-preview-lang">한국어</span>
+          <div class="notice-preview-card" id="notice-preview-ko" aria-live="polite"></div>
+        </div>
+        <div class="notice-preview-col">
+          <span class="notice-preview-lang">English <span class="notice-preview-fallback" id="notice-preview-en-fallback" hidden>한국어 fallback</span></span>
+          <div class="notice-preview-card" id="notice-preview-en" aria-live="polite"></div>
+        </div>
+      </div>
+    </fieldset>`;
+}
+
+// 폼 입력값으로 KO/EN 미리보기 카드를 즉시 갱신한다. EN이 비면 KO fallback + 상태 배지.
+function updateNoticePreview() {
+  if (state.tab !== 'notices') return;
+  const form = $('#cms-form');
+  const koCard = $('#notice-preview-ko');
+  const enCard = $('#notice-preview-en');
+  if (!form || !koCard || !enCard) return;
+  const val = (name) => (form.elements[name]?.value || '').trim();
+  const pinned = Boolean(form.elements.pinned?.checked);
+  const date = val('date');
+  const title = val('title');
+  const content = val('content');
+  const tag = val('tag') || '공지';
+  const titleEn = val('titleEn');
+  const contentEn = val('contentEn');
+  const tagEn = val('tagEn');
+  koCard.innerHTML = noticePreviewCard({ title, content, tag, date, pinned });
+  enCard.innerHTML = noticePreviewCard({
+    title: titleEn || title, content: contentEn || content, tag: tagEn || tag, date, pinned
+  });
+  const fallback = $('#notice-preview-en-fallback');
+  // 세 EN 필드가 모두 채워졌을 때만 fallback 배지를 숨긴다(하나라도 비면 KO fallback 사용).
+  if (fallback) fallback.hidden = Boolean(titleEn && contentEn && tagEn);
+}
+
+function noticePreviewCard({ title, content, tag, date, pinned }) {
+  const excerpt = content ? content.slice(0, 120) : '(본문을 입력하세요)';
+  const dateHtml = date ? `<span class="notice-preview-date">${escapeHtml(formatPreviewDate(date))}</span>` : '';
+  return `<div class="notice-preview-meta">
+      ${pinned ? '<span class="notice-preview-pin">고정</span>' : ''}
+      <span class="notice-preview-tag">${escapeHtml(tag)}</span>
+      ${dateHtml}
+    </div>
+    <strong class="notice-preview-title">${escapeHtml(title || '(제목을 입력하세요)')}</strong>
+    <p class="notice-preview-excerpt">${escapeHtml(excerpt)}</p>`;
+}
+
+function formatPreviewDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value.replace(/-/g, '.') : value;
 }
 
 function renderField(field, item) {
@@ -476,6 +570,9 @@ function getShipPayload() {
 }
 
 function validatePayload(payload) {
+  // 공지 KO 필수(서버 정책과 동일). EN은 선택 — 여기서 필수화하지 않는다.
+  if (state.tab === 'notices' && !payload.title) throw new Error('한국어 제목은 필수입니다.');
+  if (state.tab === 'notices' && !payload.content) throw new Error('한국어 본문은 필수입니다.');
   if (state.tab === 'leadership' && !payload.name) throw new Error('이름은 필수입니다.');
   if (state.tab === 'timeline' && !payload.title) throw new Error('제목은 필수입니다.');
   if (state.tab === 'timeline' && !payload.dateLabel) throw new Error('표시 날짜는 필수입니다.');
@@ -626,7 +723,7 @@ function bindEvents() {
   $('#logout-button').addEventListener('click', logout);
   $('#new-button').addEventListener('click', () => { if (confirmDiscard()) renderForm(null); });
   $('#cancel-button').addEventListener('click', () => { if (confirmDiscard()) renderForm(null); });
-  $('#cms-form').addEventListener('input', () => { state.dirty = true; });
+  $('#cms-form').addEventListener('input', () => { state.dirty = true; updateNoticePreview(); });
   $('#delete-button').addEventListener('click', deleteItem);
   $('#cms-form').addEventListener('submit', saveItem);
   document.querySelectorAll('[data-tab]').forEach((button) => {
@@ -637,6 +734,12 @@ function bindEvents() {
   document.addEventListener('click', handleDocumentClick);
   document.addEventListener('change', handleDocumentChange);
   document.addEventListener('input', handleDocumentInput);
+  // 저장하지 않은 변경이 있으면 새로고침/창 닫기 시 브라우저 기본 경고를 띄운다.
+  window.addEventListener('beforeunload', (event) => {
+    if (!state.dirty) return;
+    event.preventDefault();
+    event.returnValue = '';
+  });
 }
 
 function handleDocumentInput(event) {

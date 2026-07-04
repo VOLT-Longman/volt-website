@@ -85,3 +85,84 @@ test.describe('관리자 CMS', () => {
         await expect(page.locator('#cms-form [name="title"]')).toHaveValue('작성 중인 내용');
     });
 });
+
+// P2-1: 공지 폼 KO/EN 그룹 분리 + 미리보기 + validation 회귀 가드.
+test.describe('관리자 공지 UX (P2-1)', () => {
+    test('공지 폼: KO/EN 그룹 + 안내 + 미리보기 표시', async ({ page }) => {
+        await mockAdminApi(page);
+        await page.goto('/admin/');
+        await expect(page.locator('#dashboard')).toBeVisible();
+        await page.locator('#new-button').click();
+
+        const form = page.locator('#cms-form');
+        await expect(form.locator('legend', { hasText: '한국어 공지' })).toBeVisible();
+        await expect(form.locator('legend', { hasText: '영어 공지' })).toBeVisible();
+        await expect(form.locator('#notice-en-hint')).toContainText('비워두면 한국어');
+        // EN 입력이 안내와 aria로 연결됨
+        await expect(page.locator('#notice-title-en')).toHaveAttribute('aria-describedby', 'notice-en-hint');
+        await expect(form.locator('legend', { hasText: '미리보기' })).toBeVisible();
+        await expect(page.locator('#notice-preview-ko')).toBeVisible();
+        await expect(page.locator('#notice-preview-en')).toBeVisible();
+    });
+
+    test('미리보기: 라이브 갱신 + EN 비면 fallback 배지, 채우면 숨김', async ({ page }) => {
+        await mockAdminApi(page);
+        await page.goto('/admin/');
+        await page.locator('#new-button').click();
+
+        await page.locator('#cms-form [name="title"]').fill('한글 제목');
+        await page.locator('#cms-form [name="content"]').fill('한글 본문');
+        await expect(page.locator('#notice-preview-ko')).toContainText('한글 제목');
+        // EN 비어 있음 → EN 미리보기가 KO fallback + 배지 표시
+        await expect(page.locator('#notice-preview-en')).toContainText('한글 제목');
+        await expect(page.locator('#notice-preview-en-fallback')).toBeVisible();
+
+        await page.locator('#notice-title-en').fill('EN Title');
+        await page.locator('#notice-content-en').fill('EN body');
+        await page.locator('#notice-tag-en').fill('Notice');
+        await expect(page.locator('#notice-preview-en')).toContainText('EN Title');
+        await expect(page.locator('#notice-preview-en-fallback')).toBeHidden();
+    });
+
+    test('validation: KO 제목 누락 시 명확한 메시지', async ({ page }) => {
+        await mockAdminApi(page);
+        await page.goto('/admin/');
+        await page.locator('#new-button').click();
+        await page.locator('#cms-form [name="content"]').fill('본문만');
+        await page.locator('button[type="submit"][form="cms-form"]').click();
+        await expect(page.locator('#form-message')).toContainText('한국어 제목은 필수');
+    });
+
+    test('EN 비워도 저장 성공 + 저장 후 dirty 초기화', async ({ page }) => {
+        await mockAdminApi(page);
+        await page.goto('/admin/');
+        await page.locator('#new-button').click();
+        await page.locator('#cms-form [name="title"]').fill('제목만');
+        await page.locator('#cms-form [name="content"]').fill('본문만');
+        await page.locator('button[type="submit"][form="cms-form"]').click();
+        await expect(page.locator('#form-message')).toContainText('저장');
+
+        // dirty가 초기화되어 탭 이동 시 확인 대화상자 없이 전환된다.
+        await page.locator('[data-tab="events"]').click();
+        await expect(page.locator('[data-tab="events"]')).toHaveClass(/active/);
+    });
+
+    test('수정 화면: 기존 EN 값이 폼에 로드됨', async ({ page }) => {
+        const withEn = [{
+            id: 'n2', title: '한글', content: '본문', tag: '공지',
+            titleEn: 'English T', contentEn: 'English B', tagEn: 'Notice',
+            pinned: false, published: true, date: '2026-07-01', updatedAt: 'x',
+        }];
+        await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
+        await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: withEn } }));
+        await page.route('**/api/admin/ships', (route) => route.fulfill({ json: { items: [] } }));
+        await page.goto('/admin/');
+        await expect(page.locator('#dashboard')).toBeVisible();
+
+        await page.locator('[data-id="n2"]').click();
+        await expect(page.locator('#notice-title-en')).toHaveValue('English T');
+        await expect(page.locator('#notice-content-en')).toHaveValue('English B');
+        await expect(page.locator('#notice-tag-en')).toHaveValue('Notice');
+        await expect(page.locator('#cms-form [name="title"]')).toHaveValue('한글');
+    });
+});
