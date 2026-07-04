@@ -26,6 +26,8 @@
 
     function showSection(id, push = true, anchorId = null) {
         deps.trackEvent?.('section_view', { section: id });
+        // 지연 렌더 섹션(예: 함선DB·갤러리)은 첫 진입 시 main.js가 콘텐츠를 채운다.
+        deps.onSectionShow?.(id);
         const home = document.getElementById('home');
         if (!home) return;
         document.querySelectorAll('.section').forEach((section) => section.classList.remove('active'));

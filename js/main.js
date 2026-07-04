@@ -52,7 +52,8 @@
     // EN일 때만 ship-en 로드 후 함선 UI를 다시 렌더한다.
     function ensureShipEnForEn() {
         if (currentLang() !== 'en') return;
-        ensureShipEn().then(() => { renderShipManufacturers(); renderShips(); });
+        // EN 함선 데이터는 항상 병합하되, 함선DB가 이미 표시된 경우에만 다시 렌더한다.
+        ensureShipEn().then(() => { if (renderedLazySections.has('ships')) renderShipsSection(); });
     }
     const staticLeadership = Array.isArray(data.leadership) ? data.leadership.slice() : [];
 
@@ -1115,18 +1116,38 @@
         renderPartnerFleets();
         renderHubFeatures();
         renderStreamers();
-        renderGallery();
         renderJoinSteps();
         renderJoinChecklist();
         renderFooterStreamers();
         renderNoticeFilters();
         renderAnnouncements();
-        renderShipManufacturers();
-        renderShips();
         renderSchedule();
         renderPolicy();
         renderFaq();
         renderTradeGuide();
+        // 함선DB(247척 그리드)·갤러리는 무거워 시작 시 렌더하지 않고, 해당 섹션에
+        // 첫 진입할 때 renderSectionOnShow에서 채운다. 이미 표시된 뒤에는 refresh만.
+    }
+
+    // 지연 렌더 대상 섹션. 첫 진입 시 렌더하고, 이후 CMS 로드/언어 변경 때만 갱신한다.
+    function renderShipsSection() {
+        renderShipManufacturers();
+        renderShips();
+    }
+    const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery };
+    const renderedLazySections = new Set();
+
+    // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.
+    function renderSectionOnShow(id) {
+        const render = LAZY_SECTIONS[id];
+        if (!render || renderedLazySections.has(id)) return;
+        renderedLazySections.add(id);
+        render();
+    }
+
+    // 데이터가 바뀐 뒤(CMS 로드·언어 변경) 이미 표시된 지연 섹션만 다시 렌더한다.
+    function refreshRenderedLazySections() {
+        renderedLazySections.forEach((id) => LAZY_SECTIONS[id]?.());
     }
 
     function openNoticeFromQuery() {
@@ -2003,6 +2024,8 @@
 
     function refreshCmsRenderedContent() {
         renderAll();
+        // CMS 데이터(함선 오버라이드·갤러리)가 반영되도록 이미 표시된 지연 섹션은 다시 렌더.
+        refreshRenderedLazySections();
         setupFaqAccordion();
         applyRoleGates();
         renderMyPage();
@@ -2034,7 +2057,7 @@
     }
 
     function init() {
-        nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements });
+        nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements, onSectionShow: renderSectionOnShow });
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
         // UEX 패널(DOM 렌더) 계층 — 공용 포매터·로컬라이즈·피커·상수 주입.
         VOLT_UEX_PANEL.init({
@@ -2071,7 +2094,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); VOLT_AUTH_UI.onLanguageChange(); applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); refreshRenderedLazySections(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); VOLT_AUTH_UI.onLanguageChange(); applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();
