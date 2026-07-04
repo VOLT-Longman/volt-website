@@ -3743,6 +3743,66 @@ body.nav-trade-open::before {
     font-weight: 700;
 }
 
+.uex-loading {
+    padding: 16px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card-hover);
+    color: var(--color-text-secondary);
+}
+
+.uex-error {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+    padding: 16px;
+    border: 1px solid rgba(232, 72, 47, 0.4);
+    border-radius: var(--radius-sm);
+    background: rgba(232, 72, 47, 0.08);
+}
+
+.uex-error p {
+    margin: 0;
+    color: var(--color-text-primary);
+}
+
+.uex-error-retry {
+    min-height: 36px;
+    padding: 8px 16px;
+    border: 1px solid var(--volt-orange);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--volt-orange);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.uex-error-retry:hover {
+    background: rgba(232, 72, 47, 0.12);
+}
+
+.uex-stale {
+    display: grid;
+    gap: 4px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 184, 77, 0.35);
+    background: rgba(255, 184, 77, 0.12);
+    color: var(--color-warning);
+    font-weight: 600;
+}
+
+.uex-stale small {
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+}
+
+.uex-stale-danger {
+    border-color: rgba(232, 72, 47, 0.4);
+    background: rgba(232, 72, 47, 0.1);
+    color: var(--volt-orange);
+}
+
 .uex-candidate-layout {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -7570,6 +7630,12 @@ body.nav-trade-open::before {
     .ledger-mobile-list {
         display: grid;
         gap: 10px;
+    }
+
+    /* 모바일 터치 타깃 최소 36px 확보. */
+    .ledger-mobile-card .ledger-remove {
+        width: 36px;
+        height: 36px;
     }
 
     .uex-location-modal-backdrop {

@@ -207,10 +207,12 @@
             if (recommendButton) recommendButton.disabled = false;
             status.textContent = t('planner.uex.loadedCommodities', '상품 {count}종을 불러왔습니다.', { count: visible.length });
         } catch (error) {
+            const errorType = uex.uexErrorType ? uex.uexErrorType(error) : 'network';
+            console.warn('UEX commodity load failed', errorType, error);
             select.innerHTML = `<option value="">${escapeHtml(t('planner.uex.loadFailedOption', '상품 목록을 불러오지 못했습니다'))}</option>`;
             const recommendButton = document.getElementById('uex-recommend-refresh');
             if (recommendButton) recommendButton.disabled = true;
-            status.textContent = t('planner.uex.apiUnstable', 'UEX API 연결이 불안정합니다. UEX Corp에서 직접 확인해 주세요.');
+            status.textContent = uexErrorMessage(errorType);
         }
     }
 
@@ -271,12 +273,40 @@
         summary.innerHTML = `<strong>${escapeHtml(item.name)}</strong>${meta ? `<span>${escapeHtml(meta)}</span>` : ''}<small>${escapeHtml(t('planner.uex.ready', '후보 조회 준비 완료'))}</small>`;
     }
 
+    // 실패 종류(timeout/network/invalid)별 사용자 문구.
+    function uexErrorMessage(errorType) {
+        if (errorType === 'timeout') return t('planner.uex.errorTimeout', 'UEX 응답이 지연되고 있습니다. 잠시 후 다시 조회해 주세요.');
+        if (errorType === 'invalid') return t('planner.uex.errorInvalid', 'UEX 응답 형식이 올바르지 않습니다. 잠시 후 다시 조회해 주세요.');
+        return t('planner.uex.errorNetwork', 'UEX 연결에 실패했습니다. 네트워크 상태를 확인하고 다시 조회해 주세요.');
+    }
+
+    // 조용한 빈 화면 대신 명확한 error state + 재시도 버튼을 노출한다.
+    function renderUexErrorState(errorType) {
+        return `<div class="uex-error" role="alert">
+            <p>${escapeHtml(uexErrorMessage(errorType))}</p>
+            <button type="button" class="uex-error-retry" data-uex-retry>${escapeHtml(t('planner.uex.errorRetry', '다시 조회'))}</button>
+        </div>`;
+    }
+
+    // date_modified 기준 오래된 데이터면 stale 경고 배너를 만든다(사용 자체는 막지 않는다).
+    function renderUexStaleBanner(model) {
+        const level = uex.getStaleLevel ? uex.getStaleLevel(model.lastUpdated) : 'unknown';
+        if (level !== 'warning' && level !== 'danger') return '';
+        const lastLabel = model.lastUpdated
+            ? t('planner.uex.lastSuccessAt', '마지막 갱신: {time}', { time: formatUexLastUpdated(model, 'time') })
+            : '';
+        return `<div class="uex-stale uex-stale-${level}" role="status">
+            <span>${escapeHtml(t('planner.uex.staleWarning', '표시된 가격은 최신이 아닐 수 있습니다. 출발 전 UEX Corp에서 재확인하세요.'))}</span>
+            ${lastLabel ? `<small>${escapeHtml(lastLabel)}</small>` : ''}
+        </div>`;
+    }
+
     async function renderUexCommodityCandidates(commodityId) {
         const status = document.getElementById('uex-status');
         const results = document.getElementById('uex-results');
         if (!commodityId || !status || !results) return;
         status.textContent = t('planner.uex.loadingCandidates', '거래 후보를 조회하는 중입니다...');
-        results.innerHTML = '';
+        results.innerHTML = `<div class="uex-loading">${escapeHtml(t('planner.uex.loadingCandidates', '거래 후보를 조회하는 중입니다...'))}</div>`;
         currentUexSelection = { buyKey: '', sellKey: '' };
         try {
             const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices);
@@ -292,12 +322,21 @@
             refreshProfitSelection();
         } catch (error) {
             currentUexModel = null;
-            status.textContent = t('planner.uex.noResponse', 'UEX API 응답을 받지 못했습니다. UEX Corp에서 직접 확인해 주세요.');
+            const errorType = uex.uexErrorType ? uex.uexErrorType(error) : 'network';
+            console.warn('UEX candidate load failed', errorType, error);
+            results.innerHTML = renderUexErrorState(errorType);
+            status.textContent = uexErrorMessage(errorType);
             refreshProfitSelection();
         }
     }
 
     function handleUexCandidateClick(event) {
+        const retryButton = event.target.closest('[data-uex-retry]');
+        if (retryButton) {
+            const select = document.getElementById('uex-commodity-select');
+            if (select && select.value) renderUexCommodityCandidates(select.value);
+            return;
+        }
         const listButton = event.target.closest('[data-uex-location-list]');
         if (listButton) {
             openLocationTradeModal(listButton);
@@ -315,11 +354,13 @@
     }
 
     function renderUexCandidateCards(model) {
-        if (!model.buyOptions.length && !model.sellOptions.length) return `<div class="uex-empty">${escapeHtml(t('planner.uex.emptyCandidates', '현재 표시할 매수·매도 후보가 없습니다.'))}</div>`;
+        const stale = renderUexStaleBanner(model);
+        if (!model.buyOptions.length && !model.sellOptions.length) return `${stale}<div class="uex-empty">${escapeHtml(t('planner.uex.emptyCandidates', '현재 표시할 매수·매도 후보가 없습니다.'))}</div>`;
         const warning = model.bestBuy && model.bestSell && model.profitPerScu <= 0
             ? `<p class="uex-warning">${escapeHtml(t('planner.uex.lossWarning', '현재 선택 조합은 수익이 없거나 손실이 발생할 수 있습니다.'))}</p>`
             : '';
         return `
+            ${stale}
             ${renderUexSummaryGrid(model)}
             ${warning}
             <div class="uex-candidate-layout">

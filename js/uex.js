@@ -14,6 +14,8 @@
     let deps = {};
 
     const UEX_API_BASE_URL = '/api/uex';
+    // UEX API 요청이 무한 대기하지 않도록 하는 기본 타임아웃(ms). AbortController로 강제 취소한다.
+    const UEX_REQUEST_TIMEOUT_MS = 10000;
     const SUPPLY_COMMODITY_NAMES = ['Medical Supplies', 'Processed Food'];
     const HIGH_VALUE_COMMODITY_NAMES = ['Gold', 'Beryl', 'Laranite', 'Agricium', 'Diamond'];
 
@@ -34,15 +36,67 @@
         return typeof deps.formatCommodityLabel === 'function' ? deps.formatCommodityLabel(name) : name;
     }
 
-    async function fetchUexData(path, ttlMs) {
+    // 데이터 최신성 임계값. date_modified 기준으로 stale 여부를 판정한다.
+    const UEX_STALE_WARNING_MS = 15 * 60 * 1000;
+    const UEX_STALE_DANGER_MS = 60 * 60 * 1000;
+
+    // 실패 종류(timeout/network/invalid)를 uexType으로 실어 보내 패널이 상태별 문구를 고르게 한다.
+    function createUexError(type, message) {
+        const error = new Error(message);
+        error.uexType = type;
+        return error;
+    }
+
+    // 캐치한 에러에서 실패 종류를 뽑는다. 분류 못하면 network로 본다.
+    function uexErrorType(error) {
+        return (error && error.uexType) || 'network';
+    }
+
+    // date_modified(unix seconds) 기준 최신성 등급: fresh / warning / danger / unknown.
+    function getStaleLevel(lastUpdatedSec) {
+        if (!lastUpdatedSec) return 'unknown';
+        const ageMs = Date.now() - Number(lastUpdatedSec) * 1000;
+        if (!Number.isFinite(ageMs) || ageMs < 0) return 'fresh';
+        if (ageMs >= UEX_STALE_DANGER_MS) return 'danger';
+        if (ageMs >= UEX_STALE_WARNING_MS) return 'warning';
+        return 'fresh';
+    }
+
+    // fetchUexData(path, ttlMs, options)
+    //   options.timeoutMs: 요청 타임아웃(기본 UEX_REQUEST_TIMEOUT_MS). UEX API에만 적용한다.
+    // 캐시 TTL은 그대로 유지하고, 신선한 캐시가 있으면 네트워크를 타지 않는다.
+    async function fetchUexData(path, ttlMs, options = {}) {
         const cacheKey = path;
         const cached = uexCache.get(cacheKey);
         if (cached && Date.now() - cached.timestamp < ttlMs) return cached.data;
-        const response = await fetch(`${UEX_API_BASE_URL}/${path}`, { headers: { Accept: 'application/json' } });
-        if (!response.ok) throw new Error(`UEX ${response.status}`);
-        const payload = await response.json();
-        const rows = Array.isArray(payload.data) ? payload.data : [];
-        if ((payload.status && payload.status !== 'ok') || !Array.isArray(payload.data)) throw new Error('Invalid UEX payload');
+
+        const timeoutMs = Number.isFinite(options.timeoutMs) ? options.timeoutMs : UEX_REQUEST_TIMEOUT_MS;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+        let response;
+        try {
+            response = await fetch(`${UEX_API_BASE_URL}/${path}`, {
+                headers: { Accept: 'application/json' },
+                signal: controller.signal,
+            });
+        } catch (error) {
+            if (error && error.name === 'AbortError') throw createUexError('timeout', `UEX timeout: ${path}`);
+            throw createUexError('network', `UEX network error: ${path}`);
+        } finally {
+            clearTimeout(timer);
+        }
+        if (!response.ok) throw createUexError('network', `UEX ${response.status}`);
+
+        let payload;
+        try {
+            payload = await response.json();
+        } catch (_error) {
+            throw createUexError('invalid', `UEX JSON parse failed: ${path}`);
+        }
+        if ((payload.status && payload.status !== 'ok') || !Array.isArray(payload.data)) {
+            throw createUexError('invalid', 'Invalid UEX payload');
+        }
+        const rows = payload.data;
         uexCache.set(cacheKey, { data: rows, timestamp: Date.now() });
         return rows;
     }
@@ -187,5 +241,5 @@
         return '추천';
     }
 
-    window.VOLT_UEX = { init, fetchUexData, buildUexCandidateModel, scoreRecommendedCommodity, getLocationType, getStarSystem, listStarSystems };
+    window.VOLT_UEX = { init, fetchUexData, buildUexCandidateModel, scoreRecommendedCommodity, getLocationType, getStarSystem, listStarSystems, uexErrorType, getStaleLevel };
 })();

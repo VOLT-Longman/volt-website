@@ -10,34 +10,75 @@
     'use strict';
 
     const STORAGE_KEY = 'volt-trade-ledger';
+    // 저장 스키마 버전. 레거시(배열) 저장값은 v0으로 보고 자동 변환한다.
+    const STORAGE_VERSION = 1;
     const ID_RANDOM_RANGE = 10000;
+    // 비정상적으로 큰 수량 방어 상한(정수 SCU 기준).
+    const MAX_LEDGER_QTY = 1000000;
 
     let escapeHtml, formatCredits, i18nT, showToast;
     let items = [];
 
     function init(deps) {
         ({ escapeHtml, formatCredits, i18nT, showToast } = deps || {});
-        items = load();
+        const loaded = load();
+        items = loaded.items;
+        // 마이그레이션했거나 잘못된 item을 걸러냈으면 versioned 형태로 다시 저장한다.
+        if (loaded.changed) save();
     }
 
+    // 저장값을 읽어 { items, changed }를 반환한다.
+    //   - 깨진 JSON: 조용히 초기화(콘솔 warning) 후 빈 목록.
+    //   - 레거시 배열(v0): items로 승격.
+    //   - versioned object(v1): items 사용.
+    //   - 알 수 없는 형태: 초기화.
     function load() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return { items: [], changed: false };
+        let parsed;
         try {
-            const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-            return Array.isArray(raw) ? raw.filter(isValidItem) : [];
+            parsed = JSON.parse(raw);
         } catch (error) {
-            console.warn('Trade profit table load failed', error);
-            return [];
+            console.warn('Trade profit table storage corrupted, resetting', error);
+            try { localStorage.removeItem(STORAGE_KEY); } catch (_e) { /* localStorage 비활성 무시 */ }
+            return { items: [], changed: false };
         }
+        const alreadyVersioned = parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+            && parsed.version === STORAGE_VERSION && Array.isArray(parsed.items);
+        const rawItems = extractStoredItems(parsed);
+        const cleaned = rawItems.filter(isValidItem).map(normalizeItem);
+        // 저장 형태가 최신이 아니거나 잘못된 item을 떨어냈으면 재저장이 필요하다.
+        const changed = !alreadyVersioned || cleaned.length !== rawItems.length;
+        return { items: cleaned, changed };
+    }
+
+    function extractStoredItems(parsed) {
+        if (Array.isArray(parsed)) return parsed; // v0 레거시
+        if (parsed && typeof parsed === 'object' && Array.isArray(parsed.items)) return parsed.items; // v1+
+        console.warn('Trade profit table storage has unknown shape, resetting');
+        return [];
     }
 
     function isValidItem(it) {
-        return it && typeof it === 'object' && Number.isFinite(it.qty)
-            && Number.isFinite(it.buyPrice) && Number.isFinite(it.sellPrice);
+        return it && typeof it === 'object'
+            && Number.isFinite(Number(it.qty)) && Math.floor(Number(it.qty)) >= 1
+            && Number.isFinite(Number(it.buyPrice)) && Number(it.buyPrice) >= 0
+            && Number.isFinite(Number(it.sellPrice)) && Number(it.sellPrice) >= 0;
+    }
+
+    // 저장 전/후 item 값을 안전한 형태로 정규화(정수 SCU·상한·숫자 강제).
+    function normalizeItem(it) {
+        return {
+            ...it,
+            qty: Math.min(MAX_LEDGER_QTY, Math.max(1, Math.floor(Number(it.qty)))),
+            buyPrice: Number(it.buyPrice),
+            sellPrice: Number(it.sellPrice),
+        };
     }
 
     function save() {
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: STORAGE_VERSION, items }));
         } catch (error) {
             console.warn('Trade profit table save failed', error);
         }
@@ -194,12 +235,17 @@
             showToast(i18nT('ledger.errNoModel', '먼저 UEX에서 상품과 매수·매도 후보를 선택하세요.'));
             return;
         }
-        const qtyInput = document.getElementById('ledger-qty');
-        const qty = Math.floor(Number(qtyInput && qtyInput.value) || 0);
-        if (qty <= 0) {
-            showToast(i18nT('ledger.errQty', '수량(SCU)을 1 이상 입력하세요.'));
+        if (!hasValidPrices(model)) {
+            showToast(i18nT('ledger.errPrice', '유효한 매수·매도 가격이 없어 추가할 수 없습니다.'));
             return;
         }
+        const qtyInput = document.getElementById('ledger-qty');
+        const qtyCheck = parseLedgerQty(qtyInput && qtyInput.value);
+        if (!qtyCheck.ok) {
+            showToast(qtyErrorMessage(qtyCheck.reason));
+            return;
+        }
+        const qty = qtyCheck.qty;
         const cargoCheck = validateCargoCapacity();
         if (!cargoCheck.ok) {
             showToast(cargoCheck.message);
@@ -239,6 +285,30 @@
         const capacity = getCargoCapacity();
         if (capacity <= 0) return false;
         return getUsedCargo() + additionalQty > capacity;
+    }
+
+    // 수량 입력 방어: 빈 값/0/음수/NaN/Infinity 차단, 소수는 floor(정수 SCU), 상한 초과 차단.
+    function parseLedgerQty(rawValue) {
+        const num = Number(rawValue);
+        if (!Number.isFinite(num)) return { ok: false, reason: 'invalid' };
+        const qty = Math.floor(num);
+        if (qty < 1) return { ok: false, reason: 'tooSmall' };
+        if (qty > MAX_LEDGER_QTY) return { ok: false, reason: 'tooLarge' };
+        return { ok: true, qty };
+    }
+
+    function qtyErrorMessage(reason) {
+        if (reason === 'tooLarge') {
+            return t('ledger.errQtyTooLarge', '수량이 너무 큽니다. {max} SCU 이하로 입력하세요.', { max: formatCount(MAX_LEDGER_QTY) });
+        }
+        return i18nT('ledger.errQty', '수량(SCU)을 1 이상 입력하세요.');
+    }
+
+    // 가격 방어: 매수·매도 가격이 유한한 0 이상 값이어야 추가 허용(NaN/Infinity/음수 차단).
+    function hasValidPrices(model) {
+        const buy = Number(model?.bestBuy?.price_buy);
+        const sell = Number(model?.bestSell?.price_sell);
+        return Number.isFinite(buy) && buy >= 0 && Number.isFinite(sell) && sell >= 0;
     }
 
     function removeItem(id) {

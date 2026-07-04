@@ -84,7 +84,7 @@ test.describe('무역플래너', () => {
         await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ status: 503, json: { error: 'fail' } }));
         await gotoSection(page, '#trade-planner');
 
-        await expect(page.locator('#uex-status')).toHaveText(/UEX API 연결이 불안정합니다/);
+        await expect(page.locator('#uex-status')).toHaveText(/UEX 연결에 실패했습니다/);
     });
 
     // Phase 2: picker도 한글 표시명 정책 적용 + 한글 검색/선택 후 계산 정상.
@@ -370,5 +370,197 @@ test.describe('무역플래너', () => {
         // 삭제 → 빈 상태
         await page.locator('#ledger-clear').click();
         await expect(page.locator('#ledger-list')).toContainText('아직 추가한 상품이 없습니다');
+    });
+});
+
+// ---------------------------------------------------------------------------
+// P1-2 안정화: UEX 실패/stale · 수익표 저장 스키마 · 입력 방어 · 모바일 UX
+// ---------------------------------------------------------------------------
+const GOLD_COMMODITY = { id: 1, name: 'Gold', code: 'GOLD', category_name: 'Metal', is_visible: 1, is_available_live: 1 };
+
+function priceRows(dateModified) {
+    return [
+        { terminal_name: 'Port A', space_station_name: 'Port A', price_buy: 100, price_sell: 0, date_modified: dateModified, scu_buy: 5000 },
+        { terminal_name: 'Port B', space_station_name: 'Port B', price_buy: 0, price_sell: 180, date_modified: dateModified, scu_sell: 4000 },
+    ];
+}
+
+async function routeCommodities(page) {
+    await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ json: { status: 'ok', data: [GOLD_COMMODITY] } }));
+}
+
+async function selectGold(page) {
+    const search = page.locator('#uex-commodity-search');
+    await search.click();
+    await search.fill('Gold');
+    await page.locator('#uex-commodity-results [data-commodity-id="1"]').click();
+}
+
+test.describe('무역플래너 안정화 (P1-2)', () => {
+    test('UEX timeout: 응답 지연 시 타임아웃 안내 + 페이지 유지', async ({ page }) => {
+        test.setTimeout(25000);
+        await mockApi(page);
+        await routeCommodities(page);
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, async (route) => {
+            await new Promise((resolve) => setTimeout(resolve, 11000));
+            try { await route.fulfill({ json: { status: 'ok', data: [] } }); } catch (_e) { /* 이미 abort됨 */ }
+        });
+        await gotoSection(page, '#trade-planner');
+        await selectGold(page);
+        await page.locator('#uex-refresh').click();
+
+        await expect(page.locator('#uex-results .uex-error')).toContainText('UEX 응답이 지연', { timeout: 15000 });
+        await expect(page.locator('#uex-results [data-uex-retry]')).toBeVisible();
+        // 페이지 전체는 살아 있어야 한다.
+        await expect(page.locator('#trade-planner')).toHaveClass(/active/);
+    });
+
+    test('UEX invalid response: data=null → error state', async ({ page }) => {
+        await mockApi(page);
+        await routeCommodities(page);
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: null } }));
+        await gotoSection(page, '#trade-planner');
+        await selectGold(page);
+        await page.locator('#uex-refresh').click();
+
+        await expect(page.locator('#uex-results .uex-error')).toContainText('UEX 응답 형식이 올바르지 않습니다');
+        await expect(page.locator('#uex-results [data-uex-retry]')).toBeVisible();
+    });
+
+    test('UEX stale: 오래된 date_modified → stale 경고 표시', async ({ page }) => {
+        await mockApi(page);
+        await routeCommodities(page);
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(1700000000) } }));
+        await gotoSection(page, '#trade-planner');
+        await selectGold(page);
+        await page.locator('#uex-refresh').click();
+
+        await expect(page.locator('#uex-results')).toContainText('매수 후보');
+        await expect(page.locator('#uex-results .uex-stale')).toBeVisible();
+        await expect(page.locator('#uex-results .uex-stale')).toContainText('최신이 아닐 수 있습니다');
+    });
+
+    test('UEX fresh: 최신 date_modified → stale 경고 없음', async ({ page }) => {
+        await mockApi(page);
+        await routeCommodities(page);
+        const now = Math.floor(Date.now() / 1000);
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
+        await gotoSection(page, '#trade-planner');
+        await selectGold(page);
+        await page.locator('#uex-refresh').click();
+
+        await expect(page.locator('#uex-results')).toContainText('매수 후보');
+        await expect(page.locator('#uex-results .uex-stale')).toHaveCount(0);
+    });
+
+    test('localStorage 마이그레이션: 레거시 배열 → versioned object', async ({ page }) => {
+        await mockApi(page);
+        await page.addInitScript(() => {
+            localStorage.setItem('volt-trade-ledger', JSON.stringify([
+                { id: 'L1', commodity: 'Gold', buyLoc: 'Port A', buyPrice: 100, sellLoc: 'Port B', sellPrice: 180, qty: 5 },
+            ]));
+        });
+        await gotoSection(page, '#trade-planner');
+
+        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
+        await expect(page.locator('#ledger-list')).toContainText('Gold');
+        const parsed = await page.evaluate(() => JSON.parse(localStorage.getItem('volt-trade-ledger')));
+        expect(parsed.version).toBe(1);
+        expect(Array.isArray(parsed.items)).toBe(true);
+        expect(parsed.items).toHaveLength(1);
+    });
+
+    test('localStorage 손상: 깨진 JSON → 자동 초기화', async ({ page }) => {
+        await mockApi(page);
+        await page.addInitScript(() => {
+            localStorage.setItem('volt-trade-ledger', '{ broken json ');
+        });
+        await gotoSection(page, '#trade-planner');
+
+        await expect(page.locator('#ledger-list')).toContainText('아직 추가한 상품이 없습니다');
+        const stored = await page.evaluate(() => localStorage.getItem('volt-trade-ledger'));
+        expect(stored).toBeNull();
+    });
+
+    test('수량 방어: 0/음수/과대 수량 추가 불가', async ({ page }) => {
+        await mockApi(page);
+        await routeCommodities(page);
+        const now = Math.floor(Date.now() / 1000);
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
+        await gotoSection(page, '#trade-planner');
+        await page.locator('#logistics-cargo').fill('1000');
+        await selectGold(page);
+        await page.locator('#uex-refresh').click();
+        await expect(page.locator('#uex-results')).toContainText('매수 후보');
+
+        for (const bad of ['0', '-5']) {
+            await page.locator('#ledger-qty').fill(bad);
+            await page.locator('#ledger-add').click();
+            await expect(page.locator('#toast')).toContainText('1 이상');
+            await expect(page.locator('.ledger-table tbody tr')).toHaveCount(0);
+        }
+        await page.locator('#ledger-qty').fill('2000000');
+        await page.locator('#ledger-add').click();
+        await expect(page.locator('#toast')).toContainText('너무 큽니다');
+        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(0);
+
+        // 소수는 floor 처리되어 정수 SCU로 추가된다.
+        await page.locator('#ledger-qty').fill('12.9');
+        await page.locator('#ledger-add').click();
+        await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
+        await expect(page.locator('.ledger-table tbody tr').first()).toContainText('12 SCU');
+    });
+
+    test('EN 문구: UEX error/stale 영어 표기', async ({ browser }) => {
+        const ctx = await browser.newContext({ locale: 'en-US' });
+        const page = await ctx.newPage();
+        await mockApi(page);
+        await routeCommodities(page);
+        // invalid response → English error state
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: null } }));
+        await gotoSection(page, '#trade-planner');
+        await selectGold(page);
+        await page.locator('#uex-refresh').click();
+        await expect(page.locator('#uex-results .uex-error')).toContainText('unexpected response');
+        await expect(page.locator('#uex-results [data-uex-retry]')).toContainText('Try again');
+
+        // stale → English warning
+        await page.unroute(/\/api\/uex\/commodities\/1\/prices$/);
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(1700000000) } }));
+        await page.locator('#uex-refresh').click();
+        await expect(page.locator('#uex-results .uex-stale')).toContainText('out of date');
+        await ctx.close();
+    });
+
+    test('모바일 390px: 수익표 추가·카드 표시·삭제 + overflow 없음', async ({ browser }) => {
+        const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, locale: 'ko-KR' });
+        const page = await ctx.newPage();
+        await mockApi(page);
+        await routeCommodities(page);
+        const now = Math.floor(Date.now() / 1000);
+        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
+        await gotoSection(page, '#trade-planner');
+        await page.locator('#logistics-cargo').fill('1000');
+        await selectGold(page);
+        await page.locator('#uex-refresh').click();
+        await expect(page.locator('#uex-results')).toContainText('매수 후보');
+
+        await page.locator('#ledger-qty').fill('50');
+        await page.locator('#ledger-add').click();
+
+        await expect(page.locator('.ledger-mobile-list')).toBeVisible();
+        await expect(page.locator('.ledger-mobile-card')).toHaveCount(1);
+        await expect(page.locator('.ledger-table-wrap')).toBeHidden();
+
+        const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
+        expect(noOverflow).toBe(true);
+
+        const removeBox = await page.locator('.ledger-mobile-card .ledger-remove').boundingBox();
+        expect(removeBox.height).toBeGreaterThanOrEqual(36);
+        expect(removeBox.width).toBeGreaterThanOrEqual(36);
+
+        await page.locator('.ledger-mobile-card .ledger-remove').click();
+        await expect(page.locator('#ledger-list')).toContainText('아직 추가한 상품이 없습니다');
+        await ctx.close();
     });
 });
