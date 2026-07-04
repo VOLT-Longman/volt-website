@@ -1609,7 +1609,7 @@
         if (!desktop && !mobile) return;
 
         notifyAuthErrorFromQuery();
-        renderAuthLoading(desktop, mobile);
+        VOLT_AUTH_UI.render({ status: 'loading' });
 
         fetch('/auth/me', {
             method: 'GET',
@@ -1624,7 +1624,7 @@
             .then((payload) => {
                 if (payload && payload.logged_in && payload.user) {
                     authState = normalizeAuthState(payload.user);
-                    renderAuthLoggedIn(payload.user, desktop, mobile);
+                    renderAuthUi();
                     applyRoleGates();
                     loadUserPreferences().catch((error) => {
                         console.warn('Preference load failed', error);
@@ -1632,13 +1632,13 @@
                         renderMyPage();
                     });
                 } else {
-                    setLoggedOutState(desktop, mobile);
+                    setLoggedOutState();
                 }
             })
             .catch(() => {
                 authState = { loggedIn: false, user: null, roles: [] };
                 userPreferencesLoaded = false;
-                renderAuthError(desktop, mobile);
+                VOLT_AUTH_UI.render({ status: 'error' });
                 applyRoleGates();
                 renderMyPage();
             });
@@ -1648,57 +1648,45 @@
         return { loggedIn: true, user, roles: Array.isArray(user.roles) ? user.roles : [] };
     }
 
-    function setLoggedOutState(desktop, mobile) {
+    function setLoggedOutState() {
         authState = { loggedIn: false, user: null, roles: [] };
         userPreferencesLoaded = false;
-        renderAuthLoggedOut(desktop, mobile);
+        VOLT_AUTH_UI.render({ status: 'loggedOut' });
         applyRoleGates();
         renderMyPage();
+    }
+
+    // 현재 authState를 auth-ui 렌더 state로 변환해 헤더/모바일 auth UI를 갱신한다.
+    // (문자열 렌더는 js/auth-ui.js 담당, 여기서는 표시값만 계산한다.)
+    function renderAuthUi() {
+        if (!authState.loggedIn) {
+            VOLT_AUTH_UI.render({ status: 'loggedOut' });
+            return;
+        }
+        const user = authState.user || {};
+        VOLT_AUTH_UI.render({
+            status: 'loggedIn',
+            displayName: getAuthDisplayName(user),
+            roleLabel: getAuthRoleLabel(user),
+            avatarUrl: typeof user.avatar_url === 'string' ? user.avatar_url : ''
+        });
     }
 
     function notifyAuthErrorFromQuery() {
         const params = new URLSearchParams(window.location.search);
         if (params.get('auth') !== 'error') return;
-        showToast('Discord 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+        showToast(i18nT('auth.authError', 'Discord 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.'));
         const url = new URL(window.location.href);
         url.searchParams.delete('auth');
         history.replaceState(history.state, '', url.toString());
     }
 
-    function renderAuthLoading(desktop, mobile) {
-        const html = '<span class="volt-auth-loading">인증 확인 중</span>';
-        if (desktop) desktop.innerHTML = html;
-        if (mobile) mobile.innerHTML = html;
-    }
-
-    function renderAuthLoggedOut(desktop, mobile) {
-        const html = '<a class="volt-auth-login" href="/auth/discord/login">Discord 로그인</a>';
-        if (desktop) desktop.innerHTML = html;
-        if (mobile) mobile.innerHTML = html;
-    }
-
-    function renderAuthError(desktop, mobile) {
-        const html = '<a class="volt-auth-login volt-auth-warning" href="/auth/discord/login">인증 재시도</a>';
-        if (desktop) desktop.innerHTML = html;
-        if (mobile) mobile.innerHTML = html;
-    }
-
-    function renderAuthLoggedIn(user, desktop, mobile) {
-        const displayName = getAuthDisplayName(user);
-        const roleLabel = getAuthRoleLabel(user);
-        const avatarUrl = typeof user.avatar_url === 'string' ? user.avatar_url : '';
-        const desktopHtml = buildAuthDesktopHtml({ displayName, roleLabel, avatarUrl });
-        const mobileHtml = buildAuthMobileHtml({ displayName, roleLabel, avatarUrl });
-
-        if (desktop) desktop.innerHTML = desktopHtml;
-        if (mobile) mobile.innerHTML = mobileHtml;
-    }
-
     function getAuthDisplayName(user) {
-        return user.display_name || user.username || 'VOLT 사용자';
+        return user.display_name || user.username || i18nT('auth.defaultName', 'VOLT 사용자');
     }
 
     function getAuthRoleLabel(user) {
+        // VOLT 내부 역할명은 고유명사라 언어와 무관하게 그대로 노출한다.
         const roles = Array.isArray(user.roles) ? user.roles : [];
         if (roles.includes('대표이사')) return '대표이사';
         if (roles.includes('감찰')) return '감찰';
@@ -1707,46 +1695,9 @@
         if (roles.includes('홍보부')) return '홍보부';
         if (roles.includes('VOLT 함대원')) return 'VOLT 함대원';
         if (roles.includes('손님')) return '손님';
-        return roles[0] || '인증 사용자';
+        // 알 수 없는 역할이 없을 때의 일반 fallback만 언어별로 표시한다.
+        return roles[0] || i18nT('auth.member', '인증 사용자');
     }
-
-    function buildAuthDesktopHtml({ displayName, roleLabel, avatarUrl }) {
-        const avatar = avatarUrl
-            ? `<img class="volt-auth-avatar" src="${escapeHtml(avatarUrl)}" alt="" loading="lazy" decoding="async">`
-            : `<span class="volt-auth-avatar volt-auth-avatar-fallback">${escapeHtml(getAuthInitial(displayName))}</span>`;
-
-        return `<div class="volt-auth-user">
-            ${avatar}
-            <span class="volt-auth-user-text">
-                <strong>${escapeHtml(displayName)}</strong>
-                <small>${escapeHtml(roleLabel)}</small>
-            </span>
-            <a class="volt-auth-logout" href="/auth/logout">로그아웃</a>
-        </div>`;
-    }
-
-    function buildAuthMobileHtml({ displayName, roleLabel, avatarUrl }) {
-        const avatar = avatarUrl
-            ? `<img class="volt-auth-avatar" src="${escapeHtml(avatarUrl)}" alt="" loading="lazy" decoding="async">`
-            : `<span class="volt-auth-avatar volt-auth-avatar-fallback">${escapeHtml(getAuthInitial(displayName))}</span>`;
-
-        return `<div class="volt-auth-mobile-card">
-            <div class="volt-auth-mobile-user">
-                ${avatar}
-                <span>
-                    <strong>${escapeHtml(displayName)}</strong>
-                    <small>${escapeHtml(roleLabel)}</small>
-                </span>
-            </div>
-            <a class="volt-auth-logout" href="/auth/logout">로그아웃</a>
-        </div>`;
-    }
-
-    function getAuthInitial(value) {
-        const text = String(value || '').trim();
-        return text ? text.charAt(0).toUpperCase() : 'V';
-    }
-
 
     function applyRoleGates() {
         document.querySelectorAll('[data-requires-auth]').forEach((element) => {
@@ -2099,6 +2050,8 @@
             getShipById: (id) => shipById.get(id),
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         });
+        // 헤더 인증 UI 렌더 계층 — i18n·escapeHtml 주입(상태 계산은 main.js).
+        VOLT_AUTH_UI.init({ t: i18nT, escapeHtml });
         // 마이페이지 렌더 계층 — 공용 유틸·격납고 제거/함선 상세 콜백 주입.
         VOLT_MYPAGE.init({
             i18nT, escapeHtml, trackEvent,
@@ -2107,7 +2060,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); VOLT_AUTH_UI.onLanguageChange(); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();
