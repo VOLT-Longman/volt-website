@@ -101,6 +101,12 @@
         return currentLang() === 'en' && Array.isArray(en) ? en : (item && Array.isArray(item[field]) ? item[field] : []);
     }
     function i18nT(key, fallback) { return i18n && i18n.t ? i18n.t(key) : (fallback || key); }
+    // 공지 CMS 다국어: EN 모드이고 `${field}En` 값이 있으면 사용, 없으면 KO fallback.
+    function noticeField(announcement, field) {
+        if (!announcement) return '';
+        const en = announcement[`${field}En`];
+        return currentLang() === 'en' && en ? en : (announcement[field] || '');
+    }
     // 함선DB UI는 js/ships.js로 분리. 기존 호출부 무변경용 위임 shim.
     function renderShips() { return VOLT_SHIPS.renderShips(); }
     function renderShipManufacturers() { return VOLT_SHIPS.renderShipManufacturers(); }
@@ -525,15 +531,15 @@
         // 강조(featured)는 최신 고정 공지 1개만. 나머지 고정은 배지만 유지.
         const featuredId = (visibleItems.find((item) => item.pinned) || {}).id || null;
         container.innerHTML = visibleItems.map((announcement) => `
-            <button class="notice-card${announcement.id === featuredId ? ' is-featured' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(announcement.title)} 상세 보기">
+            <button class="notice-card${announcement.id === featuredId ? ' is-featured' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(noticeField(announcement, 'title'))} ${escapeHtml(i18nT('notices.detailAria', '상세 보기'))}">
                 <div class="notice-meta">
-                    ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
-                    <span class="notice-tag" data-style-bg="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20" data-style-color="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}">${escapeHtml(announcement.tag)}</span>
+                    ${announcement.pinned ? `<span class="notice-pin">${escapeHtml(i18nT('notices.pinned', '고정'))}</span>` : ''}
+                    <span class="notice-tag" data-style-bg="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20" data-style-color="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}">${escapeHtml(noticeField(announcement, 'tag'))}</span>
                     <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
                 </div>
-                <h3 class="notice-title">${escapeHtml(announcement.title)}</h3>
-                <p class="notice-content notice-excerpt">${formatMultilineText(announcement.content)}</p>
-                <span class="notice-more" aria-hidden="true">자세히 보기 →</span>
+                <h3 class="notice-title">${escapeHtml(noticeField(announcement, 'title'))}</h3>
+                <p class="notice-content notice-excerpt">${formatMultilineText(noticeField(announcement, 'content'))}</p>
+                <span class="notice-more" aria-hidden="true">${escapeHtml(i18nT('notices.readMore', '자세히 보기 →'))}</span>
             </button>`).join('');
         loadMore.hidden = visibleItems.length >= items.length;
         observeNewReveals(container);
@@ -1175,18 +1181,18 @@
     function openNoticeModal(announcement) {
         openModal(`<div class="modal-header">
                 <div>
-                    ${announcement.pinned ? '<span class="notice-pin">고정</span>' : ''}
-                    <h2 class="modal-title">${escapeHtml(announcement.title)}</h2>
+                    ${announcement.pinned ? `<span class="notice-pin">${escapeHtml(i18nT('notices.pinned', '고정'))}</span>` : ''}
+                    <h2 class="modal-title">${escapeHtml(noticeField(announcement, 'title'))}</h2>
                 </div>
-                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+                <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('notices.modalClose', '모달 닫기'))}">×</button>
             </div>
             <div class="modal-body notice-modal-body">
                 <div class="notice-meta">
-                    <span class="notice-tag">${escapeHtml(announcement.tag)}</span>
+                    <span class="notice-tag">${escapeHtml(noticeField(announcement, 'tag'))}</span>
                     <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
                 </div>
-                <p>${formatMultilineText(announcement.content)}</p>
-                <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">공지 링크 복사</button>
+                <p>${formatMultilineText(noticeField(announcement, 'content'))}</p>
+                <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">${escapeHtml(i18nT('notices.copyLink', '공지 링크 복사'))}</button>
             </div>`);
     }
 
@@ -2101,7 +2107,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();

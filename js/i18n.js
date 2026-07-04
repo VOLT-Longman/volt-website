@@ -87,6 +87,12 @@
             'schedule.subtitle': '함대 주요 일정 및 이벤트',
             'timeline.title': '함대 <span class="accent">연혁</span>',
             'timeline.subtitle': 'VOLT가 걸어온 길',
+            // 공지(카드/모달 크롬)
+            'notices.detailAria': '상세 보기',
+            'notices.pinned': '고정',
+            'notices.readMore': '자세히 보기 →',
+            'notices.modalClose': '모달 닫기',
+            'notices.copyLink': '공지 링크 복사',
             // 무역플래너
             'planner.titleHtml': '무역 <span class="accent">플래너</span>',
             'planner.subtitle': '함선 적재량과 UEX 거래 후보를 바탕으로 여러 상품의 예상 수익을 한눈에 비교하고 저장하는 도구입니다.',
@@ -445,6 +451,12 @@
             'schedule.subtitle': 'Key fleet dates & events',
             'timeline.title': 'Fleet <span class="accent">History</span>',
             'timeline.subtitle': "VOLT's journey so far",
+            // notices (card/modal chrome)
+            'notices.detailAria': 'View details',
+            'notices.pinned': 'Pinned',
+            'notices.readMore': 'Read more →',
+            'notices.modalClose': 'Close modal',
+            'notices.copyLink': 'Copy notice link',
             // Trade Planner
             'planner.titleHtml': 'Trade <span class="accent">Planner</span>',
             'planner.subtitle': 'Compare and save expected profits across multiple commodities using your ship cargo capacity and UEX trade candidates.',

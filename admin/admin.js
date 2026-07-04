@@ -23,7 +23,7 @@ const SHIP_SEARCH_DELAY_MS = 200;
 let shipSearchTimer = null;
 
 const CONFIG = {
-  notices: { title: '\uacf5\uc9c0', endpoint: '/api/admin/notices', fields: ['title', 'content', 'tag', 'date', 'pinned', 'published'] },
+  notices: { title: '\uacf5\uc9c0', endpoint: '/api/admin/notices', fields: ['title', 'content', 'tag', 'titleEn', 'contentEn', 'tagEn', 'date', 'pinned', 'published'] },
   events: { title: '\uc77c\uc815', endpoint: '/api/admin/events', fields: ['title', 'description', 'type', 'status', 'dateLabel', 'eventDate', 'published'] },
   gallery: { title: '\uac24\ub7ec\ub9ac', endpoint: '/api/admin/gallery', fields: ['title', 'description', 'category', 'date', 'published'] },
   'partner-fleets': { title: '협력함대', endpoint: '/api/admin/partner-fleets', fields: ['name', 'region', 'game', 'focus', 'description', 'memberCount', 'discordUrl', 'websiteUrl', 'photoUrl', 'logoUrl', 'established', 'sortOrder', 'published'] },
@@ -49,6 +49,9 @@ const LABELS = {
   title: '\uc81c\ubaa9',
   content: '\ub0b4\uc6a9',
   tag: '\ud0dc\uadf8',
+  titleEn: '\uc601\uc5b4 \uc81c\ubaa9 (EN)',
+  contentEn: '\uc601\uc5b4 \ubcf8\ubb38 (EN)',
+  tagEn: '\uc601\uc5b4 \ud0dc\uadf8 (EN)',
   date: '\ub0a0\uc9dc',
   pinned: '\uace0\uc815',
   published: '\uac8c\uc2dc',
@@ -296,7 +299,7 @@ function renderField(field, item) {
   if (field === 'published' || field === 'pinned') return renderCheckbox(field, item);
   if (isImageField(field)) return renderImageField(field, value);
   if (getFieldOptions(field)) return renderSelectField(field, value);
-  if (field === 'content' || field === 'description' || field === 'duties') {
+  if (field === 'content' || field === 'contentEn' || field === 'description' || field === 'duties') {
     return `<label>${LABELS[field]}<textarea name="${field}">${escapeHtml(value)}</textarea></label>`;
   }
   const type = field === 'eventDate' || field === 'date' ? 'date' : field === 'memberCount' || field === 'sortOrder' ? 'number' : 'text';

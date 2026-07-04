@@ -12,7 +12,20 @@ export function hasUpdateConflict(body, existing) {
 }
 
 export function mapNotice(row) {
-  return { id: row.id, title: row.title, content: row.content, tag: row.tag || '공지', pinned: Boolean(row.pinned), published: Boolean(row.published), date: row.date || row.created_at || '', updatedAt: row.updated_at || '' };
+  return {
+    id: row.id,
+    title: row.title,
+    content: row.content,
+    tag: row.tag || '공지',
+    // EN 다국어 필드(비어 있으면 프론트가 KO로 fallback). 없으면 빈 문자열.
+    titleEn: row.title_en || '',
+    contentEn: row.content_en || '',
+    tagEn: row.tag_en || '',
+    pinned: Boolean(row.pinned),
+    published: Boolean(row.published),
+    date: row.date || row.created_at || '',
+    updatedAt: row.updated_at || ''
+  };
 }
 
 export function noticeInput(body, existing = {}) {
@@ -22,12 +35,24 @@ export function noticeInput(body, existing = {}) {
     title: limitText(body.title, 200),
     content: limitText(body.content, 20000),
     tag: limitText(body.tag, 20, '공지'),
+    // EN 필드는 optional. 빈 값/미제공은 null로 통일, 문자열 아니면 명확히 거부.
+    title_en: localizedTextInput(body.titleEn ?? body.title_en, 200),
+    content_en: localizedTextInput(body.contentEn ?? body.content_en, 20000),
+    tag_en: localizedTextInput(body.tagEn ?? body.tag_en, 20),
     pinned: toBooleanInt(body.pinned),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     date: limitText(body.date, 40, timestamp.slice(0, 10)),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
   };
+}
+
+// optional 다국어 텍스트: 미제공/빈 값 → null, 문자열 아니면 throw(잘못된 타입), 길이 초과 throw.
+function localizedTextInput(value, maxLength) {
+  if (value === undefined || value === null) return null;
+  if (typeof value !== 'string') throw new Error('Invalid localized field type');
+  const text = limitText(value, maxLength);
+  return text ? text : null;
 }
 
 export function mapEvent(row) {
