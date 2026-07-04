@@ -368,7 +368,7 @@
         } else if (shipCompareState.size < 3) {
             shipCompareState.add(shipId);
         } else {
-            showToast('함선 비교는 최대 3척까지 가능합니다.');
+            showToast(i18nT('ships.compareMax', '함선 비교는 최대 3척까지 가능합니다.'));
         }
         renderShips();
     }

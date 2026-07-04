@@ -12,14 +12,18 @@
     let lastSearchTrigger = null;
 
     // main.js 주입 의존성(이름 동일 → 이동 코드 무수정).
-    let data, localization, escapeHtml, trackEvent, getShipAliases, getShipById,
+    let data, localization, escapeHtml, i18nT, trackEvent, getShipAliases, getShipById,
         resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState;
 
     function init(deps) {
         ({
-            data, localization, escapeHtml, trackEvent, getShipAliases, getShipById,
+            data, localization, escapeHtml, i18nT, trackEvent, getShipAliases, getShipById,
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         } = deps || {});
+    }
+
+    function t(key, fallback) {
+        return i18nT ? i18nT(key, fallback) : (fallback || key);
     }
 
     function invalidateSearchCache() {
@@ -70,19 +74,19 @@
     function buildSearchIndex() {
         if (searchIndexCache) return searchIndexCache;
         const result = [
-            ...data.announcements.map((item) => makeSearchItem('공지', 'notices', item.title, item.content)),
-            ...data.ships.map((item) => makeSearchItem('함선', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description} ${getShipAliases(item).join(' ')}`, item.id)),
-            ...data.faq.map((item) => makeSearchItem('FAQ', 'faq', item.q, item.a)),
-            ...data.timeline.map((item) => makeSearchItem('연혁', 'timeline', item.title, item.description)),
-            ...data.leadership.map((item) => makeSearchItem('임원진', 'leadership', item.name, `${item.role} ${item.description}`)),
-            ...(Array.isArray(data.partnerFleets) ? data.partnerFleets.map((item) => makeSearchItem('협력함대', 'partner-fleets', item.name, `${item.region || ''} ${item.game || ''} ${item.focus || ''} ${item.description || ''}`)) : []),
-            ...data.departments.map((item) => makeSearchItem('소개', 'about', item.name, item.description)),
-            ...data.coreValues.map((item) => makeSearchItem('가치', 'about', item.title, item.description)),
-            ...data.calendar.map((item) => makeSearchItem('일정', 'schedule', item.title, item.description)),
-            ...data.tradeGuide.map((item) => makeSearchItem('가이드', 'guide', item.title, item.content)),
-            ...data.joinSteps.map((item) => makeSearchItem('가입', 'join', item.title, item.description)),
-            ...data.gallery.map((item) => makeSearchItem('갤러리', 'gallery', item.title, item.description)),
-            ...data.policy.sections.map((item) => makeSearchItem('정책', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' '))),
+            ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', item.title, item.content)),
+            ...data.ships.map((item) => makeSearchItem('search.type.ships', 'ships', item.name, `${item.manufacturer} ${item.role} ${item.description} ${getShipAliases(item).join(' ')}`, item.id)),
+            ...data.faq.map((item) => makeSearchItem('search.type.faq', 'faq', item.q, item.a)),
+            ...data.timeline.map((item) => makeSearchItem('search.type.timeline', 'timeline', item.title, item.description)),
+            ...data.leadership.map((item) => makeSearchItem('search.type.leadership', 'leadership', item.name, `${item.role} ${item.description}`)),
+            ...(Array.isArray(data.partnerFleets) ? data.partnerFleets.map((item) => makeSearchItem('search.type.partnerFleets', 'partner-fleets', item.name, `${item.region || ''} ${item.game || ''} ${item.focus || ''} ${item.description || ''}`)) : []),
+            ...data.departments.map((item) => makeSearchItem('search.type.about', 'about', item.name, item.description)),
+            ...data.coreValues.map((item) => makeSearchItem('search.type.values', 'about', item.title, item.description)),
+            ...data.calendar.map((item) => makeSearchItem('search.type.schedule', 'schedule', item.title, item.description)),
+            ...data.tradeGuide.map((item) => makeSearchItem('search.type.guide', 'guide', item.title, item.content)),
+            ...data.joinSteps.map((item) => makeSearchItem('search.type.join', 'join', item.title, item.description)),
+            ...data.gallery.map((item) => makeSearchItem('search.type.gallery', 'gallery', item.title, item.description)),
+            ...data.policy.sections.map((item) => makeSearchItem('search.type.policy', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' '))),
             ...getLocalizationSearchItems()
         ];
         searchIndexCache = result;
@@ -92,16 +96,16 @@
     function getLocalizationSearchItems() {
         const commodities = Object.entries(localization.commodities || {}).map(([name, value]) => {
             const label = typeof value === 'string' ? value : [value.ko, value.desc].filter(Boolean).join(' ');
-            return makeSearchItem('무역품', 'trade-planner', name, label);
+            return makeSearchItem('search.type.commodity', 'trade-planner', name, label);
         });
-        const locations = Object.entries(localization.locations || {}).map(([name, value]) => makeSearchItem('위치', 'trade-planner', name, String(value)));
-        const terminals = Object.entries(localization.terminals || {}).map(([name, value]) => makeSearchItem('터미널', 'trade-planner', name, String(value)));
-        const glossary = Object.entries(localization.glossary || {}).map(([term, label]) => makeSearchItem('용어', 'guide', term, String(label)));
+        const locations = Object.entries(localization.locations || {}).map(([name, value]) => makeSearchItem('search.type.location', 'trade-planner', name, String(value)));
+        const terminals = Object.entries(localization.terminals || {}).map(([name, value]) => makeSearchItem('search.type.terminal', 'trade-planner', name, String(value)));
+        const glossary = Object.entries(localization.glossary || {}).map(([term, label]) => makeSearchItem('search.type.glossary', 'guide', term, String(label)));
         return [...commodities, ...locations, ...terminals, ...glossary];
     }
 
-    function makeSearchItem(type, section, title, body, itemId = '') {
-        return { type, section, title, body, itemId, haystack: `${title} ${body}`.toLowerCase() };
+    function makeSearchItem(typeKey, section, title, body, itemId = '') {
+        return { typeKey, section, title, body, itemId, haystack: `${title} ${body}`.toLowerCase() };
     }
 
     function renderSearchResults(query) {
@@ -110,12 +114,12 @@
         const normalized = query.trim().toLowerCase();
         const results = buildSearchIndex().filter((item) => !normalized || item.haystack.includes(normalized)).slice(0, 12);
         if (results.length === 0) {
-            container.innerHTML = '<div class="search-empty">검색 결과가 없습니다.</div>';
+            container.innerHTML = `<div class="search-empty">${escapeHtml(t('search.empty', '검색 결과가 없습니다.'))}</div>`;
             return;
         }
         container.innerHTML = results.map((item) => `
             <button class="search-result" type="button" data-search-section="${escapeHtml(item.section)}" data-search-item-id="${escapeHtml(item.itemId)}">
-                <span class="search-result-type">${escapeHtml(item.type)}</span>
+                <span class="search-result-type">${escapeHtml(t(item.typeKey, item.typeKey))}</span>
                 <span class="search-result-title">${escapeHtml(item.title)}</span>
                 <span class="search-result-summary">${escapeHtml(item.body)}</span>
             </button>`).join('');

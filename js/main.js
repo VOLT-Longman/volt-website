@@ -428,8 +428,8 @@
         if (!container || !Array.isArray(data.joinChecklist)) return;
         container.innerHTML = `
             <div class="join-checklist-heading">
-                <h3>가입 전 확인</h3>
-                <p>지원 전에 가장 많이 궁금해하는 내용을 먼저 정리했습니다.</p>
+                <h3>${escapeHtml(i18nT('faq.preTitle', '가입 전 확인'))}</h3>
+                <p>${escapeHtml(i18nT('faq.preBody', '지원 전에 가장 많이 궁금해하는 내용을 먼저 정리했습니다.'))}</p>
             </div>
             <div class="join-checklist-grid">
                 ${data.joinChecklist.map((item) => `
@@ -459,7 +459,7 @@
             return;
         }
         container.innerHTML = data.gallery.map((item) => `
-            <button class="gallery-item reveal" type="button" data-gallery-id="${escapeHtml(item.id)}" aria-label="${escapeHtml(item.title)} 크게 보기">
+            <button class="gallery-item reveal" type="button" data-gallery-id="${escapeHtml(item.id)}" aria-label="${escapeHtml(item.title)} ${escapeHtml(i18nT('gallery.viewLarger', '크게 보기'))}">
                 <img src="${escapeHtml(item.thumb || item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
                 <span class="gallery-item-overlay">
                     <span class="gallery-item-title">${escapeHtml(item.title)}</span>
@@ -478,7 +478,7 @@
         const container = document.getElementById('notice-filters');
         if (!container) return;
         const buttons = ['all', ...getNoticeTags()].map((tag) => {
-            const label = tag === 'all' ? '전체' : tag;
+            const label = tag === 'all' ? i18nT('notices.filterAll', '전체') : tag;
             const active = tag === noticeState.tag ? ' active' : '';
             return `<button class="notice-filter-btn${active}" type="button" data-tag="${escapeHtml(tag)}">${escapeHtml(label)}</button>`;
         });
@@ -680,12 +680,19 @@
         return String(event.id || event.title || '').trim().replace(/\s+/g, '-');
     }
 
+    // RSVP 원본 상태값(참가/대기/불참)은 API 계약이라 유지하고, 표시만 언어별로 바꾼다.
+    const RSVP_STATUS_KEYS = { 참가: 'mypage.rsvpStatusGoing', 대기: 'mypage.rsvpStatusMaybe', 불참: 'mypage.rsvpStatusNo' };
+    function rsvpStatusLabel(status) {
+        const key = RSVP_STATUS_KEYS[status];
+        return key ? i18nT(key, status) : status;
+    }
+
     function renderRsvpControls(eventId) {
         return `<div class="schedule-rsvp" data-rsvp-event-id="${escapeHtml(eventId)}">
-            <div class="schedule-rsvp-actions" aria-label="일정 참가 상태 선택">
-                ${RSVP_STATUSES.map((status) => `<button class="schedule-rsvp-btn" type="button" data-requires-auth data-rsvp-status="${escapeHtml(status)}">${escapeHtml(status)}</button>`).join('')}
+            <div class="schedule-rsvp-actions" aria-label="${escapeHtml(i18nT('schedule.rsvpAria', '일정 참가 상태 선택'))}">
+                ${RSVP_STATUSES.map((status) => `<button class="schedule-rsvp-btn" type="button" data-requires-auth data-rsvp-status="${escapeHtml(status)}">${escapeHtml(rsvpStatusLabel(status))}</button>`).join('')}
             </div>
-            <div class="schedule-rsvp-summary" data-rsvp-summary>로그인하면 참가 상태를 남길 수 있습니다.</div>
+            <div class="schedule-rsvp-summary" data-rsvp-summary>${escapeHtml(i18nT('schedule.rsvpLoginHint', '로그인하면 참가 상태를 남길 수 있습니다.'))}</div>
         </div>`;
     }
 
@@ -708,13 +715,15 @@
     function renderRsvpSummary(control, payload) {
         const summary = control.querySelector('[data-rsvp-summary]');
         const counts = payload?.counts || {};
-        const parts = RSVP_STATUSES.map((status) => `${status} ${Number(counts[status] || 0)}명`);
+        const parts = RSVP_STATUSES.map((status) => i18nT('schedule.rsvpCount', '{status} {count}명')
+            .replace('{status}', rsvpStatusLabel(status))
+            .replace('{count}', String(Number(counts[status] || 0))));
         if (summary) summary.textContent = parts.join(' · ');
     }
 
     async function saveEventRsvp(eventId, status) {
         if (!authState.loggedIn) {
-            showToast('Discord 로그인 후 참가 상태를 남길 수 있습니다.');
+            showToast(i18nT('schedule.rsvpLoginToast', 'Discord 로그인 후 참가 상태를 남길 수 있습니다.'));
             return;
         }
         const response = await fetch(`/api/events/${encodeURIComponent(eventId)}/rsvp`, {
@@ -790,7 +799,7 @@
         const entries = Object.entries(glossary).slice(0, 20);
         container.innerHTML = entries.length
             ? entries.map(([term, label]) => `<div class="guide-glossary-item"><strong>${escapeHtml(term)}</strong><span>${escapeHtml(label)}</span></div>`).join('')
-            : '<div class="guide-glossary-empty">등록된 용어가 없습니다.</div>';
+            : `<div class="guide-glossary-empty">${escapeHtml(i18nT('guide.glossaryEmpty', '등록된 용어가 없습니다.'))}</div>`;
     }
 
     function renderRecommendedTradeShips() {
@@ -810,8 +819,8 @@
             <strong>${escapeHtml(ship.name)}</strong>
             <span>${escapeHtml(ship.cargo)} · ${escapeHtml(ship.role)}</span>
             <div>
-                <button class="btn btn-secondary" type="button" data-open-ship-id="${escapeHtml(ship.id)}">함선 상세</button>
-                <button class="btn btn-primary" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">무역 플래너에서 사용</button>
+                <button class="btn btn-secondary" type="button" data-open-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('tradeHub.shipDetail', '함선 상세'))}</button>
+                <button class="btn btn-primary" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('tradeHub.useInPlanner', '무역 플래너에서 사용'))}</button>
             </div>
         </article>`;
     }
@@ -825,7 +834,7 @@
     function renderLogisticsShipOptions() {
         const select = document.getElementById('logistics-ship');
         if (!select) return;
-        select.innerHTML = `<option value="">보유 함선 선택</option>${getLogisticsShips().map((ship) => (
+        select.innerHTML = `<option value="">${escapeHtml(i18nT('planner.shipSelectDefault', '보유 함선 선택'))}</option>${getLogisticsShips().map((ship) => (
             `<option value="${escapeHtml(ship.id)}">${escapeHtml(ship.name)} · ${escapeHtml(ship.cargo)}</option>`
         )).join('')}`;
     }
@@ -875,7 +884,7 @@
         const results = document.getElementById('logistics-ship-results');
         if (!input || !results) return;
         const ships = filterPlannerShips(query).slice(0, 12);
-        results.innerHTML = ships.length ? ships.map(renderPlannerShipOption).join('') : '<div class="planner-picker-empty">검색 결과가 없습니다. 함선명, 제조사, 역할 또는 화물량으로 다시 검색해 보세요.</div>';
+        results.innerHTML = ships.length ? ships.map(renderPlannerShipOption).join('') : `<div class="planner-picker-empty">${escapeHtml(i18nT('planner.shipPickerEmpty', '검색 결과가 없습니다. 함선명, 제조사, 역할 또는 화물량으로 다시 검색해 보세요.'))}</div>`;
         results.hidden = false;
         input.setAttribute('aria-expanded', 'true');
     }
@@ -908,7 +917,7 @@
         const shouldUseShipCargo = setCargo || !Number(cargoInput?.value);
         if (shouldUseShipCargo) setPlannerControlValue('logistics-cargo', String(getCargoValue(ship.cargo)));
         renderPlannerShipSummary(ship);
-        announcePickerSelection(`${getShipDisplayName(ship)} 함선을 선택했습니다.`);
+        announcePickerSelection(i18nT('planner.shipSelectedAnnounce', '{name} 함선을 선택했습니다.').replace('{name}', getShipDisplayName(ship)));
         closePicker(input, document.getElementById('logistics-ship-results'));
         savePlannerState();
     }
@@ -1040,7 +1049,7 @@
             ? data.partnerFleets.filter((fleet) => fleet.published !== false)
             : [];
         if (!fleets.length) {
-            container.innerHTML = '<div class="partner-fleets-empty">등록된 협력함대가 없습니다.</div>';
+            container.innerHTML = `<div class="partner-fleets-empty">${escapeHtml(i18nT('partner.empty', '등록된 협력함대가 없습니다.'))}</div>`;
             return;
         }
         container.innerHTML = fleets
@@ -1052,7 +1061,7 @@
     }
 
     function renderPartnerFleetCard(fleet) {
-        const name = fleet.name || '협력함대';
+        const name = fleet.name || i18nT('partner.fallbackName', '협력함대');
         const logo = renderPartnerFleetImage(fleet, name);
         const en = currentLang() === 'en';
         const meta = [tx(fleet, 'region'), fleet.game, tx(fleet, 'focus')].filter(Boolean)
@@ -1278,7 +1287,7 @@
             summary.innerHTML = '';
         }
         localStorage.removeItem(PLANNER_STORAGE_KEY);
-        showToast('무역플래너 입력을 초기화했습니다.');
+        showToast(i18nT('planner.resetToast', '무역플래너 입력을 초기화했습니다.'));
     }
 
     function syncPlannerSelectedShip(shipId) {
@@ -1421,7 +1430,7 @@
                     <div class="ship-mfr">${escapeHtml(item.date)}</div>
                     <h2 class="modal-title gallery-modal-title">${escapeHtml(item.title)}</h2>
                 </div>
-                <button class="modal-close" type="button" aria-label="모달 닫기">×</button>
+                <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('common.modalClose', '모달 닫기'))}">×</button>
             </div>
             <div class="gallery-modal-image-wrap">
                 <img class="gallery-lightbox-image gallery-modal-image" src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
@@ -1443,9 +1452,9 @@
         url.hash = 'notices';
         try {
             await navigator.clipboard.writeText(url.toString());
-            showToast('공지 링크를 복사했습니다.');
+            showToast(i18nT('notices.copyOk', '공지 링크를 복사했습니다.'));
         } catch (error) {
-            showToast('공지 링크 복사에 실패했습니다.');
+            showToast(i18nT('notices.copyFail', '공지 링크 복사에 실패했습니다.'));
         }
     }
 
@@ -1467,12 +1476,12 @@
             if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(value);
             else copyTextFallback(value);
             showCopyFeedback(button);
-            showToast('정책 링크를 복사했습니다.');
+            showToast(i18nT('policy.copyOk', '정책 링크를 복사했습니다.'));
         } catch (error) {
             try {
                 copyTextFallback(value);
                 showCopyFeedback(button);
-                showToast('정책 링크를 복사했습니다.');
+                showToast(i18nT('policy.copyOk', '정책 링크를 복사했습니다.'));
             } catch (fallbackError) {
                 console.error('정책 링크 복사 실패', fallbackError || error);
             }
@@ -1525,7 +1534,7 @@
                 const status = rsvpButton.getAttribute('data-rsvp-status');
                 if (eventId && status) saveEventRsvp(eventId, status).catch((error) => {
                     console.warn('RSVP save failed', error);
-                    showToast('참가 상태 저장에 실패했습니다.');
+                    showToast(i18nT('schedule.rsvpSaveFail', '참가 상태 저장에 실패했습니다.'));
                 });
                 return;
             }
@@ -1834,7 +1843,9 @@
         const normalizedTheme = theme === 'light' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', normalizedTheme);
 
-        const nextThemeLabel = normalizedTheme === 'light' ? '다크 모드로 전환' : '라이트 모드로 전환';
+        const nextThemeLabel = normalizedTheme === 'light'
+            ? i18nT('theme.toDark', '다크 모드로 전환')
+            : i18nT('theme.toLight', '라이트 모드로 전환');
         const icon = renderInlineIcon(normalizedTheme === 'light' ? 'moon' : 'sun', 'theme-icon');
 
         const button = document.getElementById('theme-toggle');
@@ -1956,7 +1967,7 @@
             deferredInstallPrompt = null;
             localStorage.setItem('volt-pwa-install-dismissed', 'true');
             document.getElementById('pwa-install-prompt')?.remove();
-            showToast('VOLT 앱 설치가 완료되었습니다.');
+            showToast(i18nT('pwa.installed', 'VOLT 앱 설치가 완료되었습니다.'));
         });
     }
 
@@ -1968,11 +1979,11 @@
         prompt.setAttribute('role', 'status');
         prompt.innerHTML = `
             <div>
-                <strong>VOLT 앱 설치</strong>
-                <span>홈 화면에서 빠르게 함선DB와 무역플래너를 열 수 있습니다.</span>
+                <strong>${escapeHtml(i18nT('pwa.title', 'VOLT 앱 설치'))}</strong>
+                <span>${escapeHtml(i18nT('pwa.body', '홈 화면에서 빠르게 함선DB와 무역플래너를 열 수 있습니다.'))}</span>
             </div>
-            <button class="btn btn-primary" type="button" data-pwa-install>설치</button>
-            <button class="btn btn-secondary" type="button" data-pwa-dismiss aria-label="설치 안내 닫기">닫기</button>`;
+            <button class="btn btn-primary" type="button" data-pwa-install>${escapeHtml(i18nT('pwa.install', '설치'))}</button>
+            <button class="btn btn-secondary" type="button" data-pwa-dismiss aria-label="${escapeHtml(i18nT('pwa.dismissAria', '설치 안내 닫기'))}">${escapeHtml(i18nT('pwa.dismiss', '닫기'))}</button>`;
         prompt.addEventListener('click', handlePwaPromptClick);
         document.body.appendChild(prompt);
     }
@@ -2046,7 +2057,7 @@
         });
         // 전역 검색 모달 — 데이터·내비게이션·함선 헬퍼 주입.
         VOLT_SEARCH.init({
-            data, localization, escapeHtml, trackEvent, getShipAliases,
+            data, localization, escapeHtml, i18nT, trackEvent, getShipAliases,
             getShipById: (id) => shipById.get(id),
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         });
@@ -2060,7 +2071,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); VOLT_AUTH_UI.onLanguageChange(); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderShipManufacturers(); renderShips(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); VOLT_AUTH_UI.onLanguageChange(); applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();

@@ -637,12 +637,19 @@
         return availableUexCommodities.find((item) => String(item.name).toLowerCase() === normalized);
     }
 
+    // 추천 등급(pure 계층이 준 KO 원문)을 표시용으로 언어별 매핑한다.
+    const REC_GRADE_KEYS = { '보급 적합': 'planner.rec.gradeSupply', 주의: 'planner.rec.gradeCaution', 추천: 'planner.rec.gradeRecommended' };
+    function gradeLabel(grade) {
+        const key = REC_GRADE_KEYS[grade];
+        return key ? t(key, grade) : grade;
+    }
+
     function renderRecommendedCommodityCard(model) {
         const projectedScu = model.usableScu;
         return `<article class="uex-recommend-card">
             <div>
                 <strong>${escapeHtml(model.commodityLabel)}</strong>
-                <span class="uex-recommend-grade">${escapeHtml(model.grade)}</span>
+                <span class="uex-recommend-grade">${escapeHtml(gradeLabel(model.grade))}</span>
             </div>
             <dl>
                 <div><dt>${escapeHtml(t('planner.rec.rate', '예상 이율'))}</dt><dd>${escapeHtml(formatPercent(model.profitRate))}</dd></div>
