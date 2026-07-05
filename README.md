@@ -469,6 +469,9 @@ npm run serve                    # 로컬 미리보기 (http://localhost:8787)
   큰 위험 diff가 됩니다. 들여쓰기 통일은 별도 후속 작업으로 두고, 지금은 포매터를 끈 상태입니다.
 - **링크 검증**(`scripts/check-links.mjs`): HTML의 로컬 에셋 경로와 페이지 내 앵커(`#id`)를
   오프라인으로 검사합니다. 외부 URL과 서버 라우트(`/api`, `/auth`)는 동적이라 건너뜁니다.
+- **innerHTML 래칫**(`scripts/check-inner-html.mjs`): XSS 위험 싱크(innerHTML 등) 사용 수가
+  파일별 베이스라인을 넘으면 실패합니다. 새 렌더링 코드는 textContent/createElement를 우선하고,
+  싱크 사용을 줄이면 베이스라인도 함께 내려 래칫을 조입니다.
 - **접근성 래칫**(`tests/smoke/a11y.spec.js`): axe-core로 홈·모바일 메뉴·함선 모달의
   critical/serious 위반을 검사합니다. 기존에 알려진 위반은 화면별 allowlist로 통과시키되,
   allowlist에 없는 새 위반이 생기면 실패합니다. allowlist는 갚아야 할 접근성 부채이며
