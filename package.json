@@ -6,7 +6,7 @@
     "test": "playwright test",
     "lint": "biome lint .",
     "check:links": "node scripts/check-links.mjs",
-    "check": "node scripts/check-syntax.mjs && node scripts/check-links.mjs && biome lint .",
+    "check": "node scripts/check-syntax.mjs && node scripts/check-links.mjs && node scripts/check-migrations.mjs && biome lint .",
     "test:functions": "node --test \"tests/functions/**/*.test.mjs\"",
     "cache-version": "node scripts/update-cache-version.js"
   },

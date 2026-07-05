@@ -53,6 +53,7 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
 | `0006_leadership_timeline.sql` | 임원진·연혁 테이블 + 시드 | `CREATE IF NOT EXISTS` + `INSERT OR IGNORE` | ✅ |
 | `0007_people_partner_images.sql` | avatar_url · photo_url 컬럼 | `ALTER TABLE ADD COLUMN` | ❌ |
 | `0008_notice_i18n.sql` | 공지 EN 컬럼(title/content/tag_en) | `ALTER TABLE ADD COLUMN` | ❌ |
+| `0009_schema_migrations.sql` | 마이그레이션 적용 추적 테이블 + 0001~0009 백필 | `CREATE IF NOT EXISTS` + `INSERT OR IGNORE` | ✅ |
 
 > **핵심:** `ALTER TABLE ADD COLUMN`(0007·0008)은 **재실행하면 `duplicate column name` 오류로 실패**한다.
 > 이미 적용한 마이그레이션은 다시 실행하지 않는다. `CREATE IF NOT EXISTS`/`INSERT OR IGNORE`류는 재실행해도 무해하다.
@@ -72,11 +73,25 @@ npx wrangler d1 execute <DB_NAME> --remote --file=migrations/0008_notice_i18n.sq
 npx wrangler d1 execute <DB_NAME> --remote --command "PRAGMA table_info(notices);"
 ```
 
-**적용 상태 추적(권장):** 자동 추적 테이블이 없으므로, 아래 중 하나로 "어디까지 적용했는지"를 남긴다.
-- 간단: 이 문서나 배포 노트에 "마지막 적용 = `0008`" 한 줄 기록.
-- 견고(후속 제안): 최초 1회 `CREATE TABLE IF NOT EXISTS schema_migrations (id TEXT PRIMARY KEY, applied_at TEXT);`를
-  만들고, 마이그레이션 적용마다 `INSERT INTO schema_migrations VALUES ('0008', datetime('now'));`를 함께 실행.
-  (이번 런북은 문서만 다루므로 추적 테이블 마이그레이션은 추가하지 않았다 — 도입 시 `0009`로 별도 커밋.)
+**적용 상태 추적 (`schema_migrations` 테이블 — 0009 이후 도입):**
+
+`0009_schema_migrations.sql`을 적용하면 D1 안에 적용 상태가 기록된다. 최초 1회 0009를 적용하면
+0001~0009가 백필된다. **0009 이후의 모든 마이그레이션은 SQL 끝에서 자신의 id를 기록**한다.
+
+```bash
+# 지금까지 적용된 마이그레이션 조회
+npx wrangler d1 execute <DB_NAME> --remote --command \
+  "SELECT id, applied_at FROM schema_migrations ORDER BY id;"
+```
+
+```sql
+-- 새 마이그레이션(예: 0010) SQL 맨 끝에 반드시 자기등록 한 줄을 넣는다.
+INSERT OR IGNORE INTO schema_migrations (id, applied_at) VALUES ('0010', datetime('now'));
+```
+
+이 자기등록 규약은 `scripts/check-migrations.mjs`가 `npm run check`에서 강제한다
+(0009 이후 파일이 자기 id를 기록하지 않으면 빌드 실패). `schema_migrations`에 이미 있는 id는
+"적용됨"이므로, `ALTER ADD COLUMN`류(0007·0008)를 다시 실행하는 사고를 조회 한 번으로 예방한다.
 
 ---
 
