@@ -1,5 +1,6 @@
 import { requireMember } from '../../_shared/rbac.js';
 import { error, json, readJson, limitText } from '../../_shared/http.js';
+import { checkRateLimit } from '../../_shared/rate-limit.js';
 
 const RATE_LIMIT_SECONDS = 30;
 
@@ -9,22 +10,13 @@ function getWebhookUrl(env) {
   return url;
 }
 
-function getRateLimitKv(env) {
-  if (!env.RATE_LIMIT_KV) throw new Error('Server misconfigured: RATE_LIMIT_KV');
-  return env.RATE_LIMIT_KV;
-}
-
-function rateLimitKey(userSub) {
-  return `briefing_share:${userSub}`;
-}
-
 export async function onRequestPost({ request, env }) {
   const session = await requireMember(request, env);
   if (session instanceof Response) return session;
 
-  const kv = getRateLimitKv(env);
-  const key = rateLimitKey(session.sub);
-  if (await kv.get(key)) return error('Too many requests', 429);
+  // 웹훅 성공 후에만 소비(commit)해 실패한 시도가 쿨다운을 태우지 않게 한다.
+  const gate = await checkRateLimit(env, `briefing_share:${session.sub}`, { limit: 1, windowSeconds: RATE_LIMIT_SECONDS });
+  if (gate.limited) return error('Too many requests', 429);
 
   const body = (await readJson(request)) || {};
   let text;
@@ -45,6 +37,6 @@ export async function onRequestPost({ request, env }) {
   });
   if (!response.ok) return error('Discord webhook failed', 502);
 
-  await kv.put(key, '1', { expirationTtl: RATE_LIMIT_SECONDS });
+  await gate.commit();
   return json({ ok: true });
 }

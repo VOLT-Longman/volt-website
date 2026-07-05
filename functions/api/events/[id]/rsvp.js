@@ -1,7 +1,10 @@
 import { requireMember } from '../../../_shared/rbac.js';
 import { error, json, methodNotAllowed, readJson, requireDb, nowIso, createId, limitText } from '../../../_shared/http.js';
+import { enforceRateLimit } from '../../../_shared/rate-limit.js';
 
 const VALID_STATUSES = ['참가', '대기', '불참'];
+// 정상 사용(참가↔불참 몇 번 전환)에는 걸리지 않고, 자동화된 남용만 막는 수준.
+const RSVP_RATE_LIMIT = { limit: 10, windowSeconds: 60 };
 
 export async function onRequest({ request, env, params }) {
   if (request.method === 'GET') return listRsvps(request, env, params.id);
@@ -29,6 +32,8 @@ async function listRsvps(request, env, eventId) {
 async function saveRsvp(request, env, eventId) {
   const session = await requireMember(request, env);
   if (session instanceof Response) return session;
+  const limited = await enforceRateLimit(env, `rsvp:${session.sub}`, RSVP_RATE_LIMIT);
+  if (limited) return limited;
   const db = requireDb(env);
   const missingEvent = await requireExistingEvent(db, eventId);
   if (missingEvent) return missingEvent;

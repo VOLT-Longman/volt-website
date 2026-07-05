@@ -1,5 +1,9 @@
 import { requireMember } from '../../_shared/rbac.js';
 import { error, json, methodNotAllowed, readJson, requireDb, nowIso } from '../../_shared/http.js';
+import { enforceRateLimit } from '../../_shared/rate-limit.js';
+
+// 프런트는 800ms 디바운스로 저장하므로 정상 사용은 분당 몇 회 수준이다.
+const PREFERENCES_RATE_LIMIT = { limit: 30, windowSeconds: 60 };
 
 const MAX_JSON_LENGTH = 24000;
 const MAX_PLANNER_FIELD_LENGTH = 160;
@@ -21,6 +25,8 @@ async function getPreferences(request, env) {
 async function savePreferences(request, env) {
   const session = await requireMember(request, env);
   if (session instanceof Response) return session;
+  const limited = await enforceRateLimit(env, `preferences:${session.sub}`, PREFERENCES_RATE_LIMIT);
+  if (limited) return limited;
   const body = (await readJson(request)) || {};
   let favoritesJson; let plannerJson;
   try {
