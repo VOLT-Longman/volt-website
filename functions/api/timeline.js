@@ -11,7 +11,8 @@ const TIMELINE_QUERY = `
 export async function onRequestGet({ env }) {
   try {
     const result = await requireDb(env).prepare(TIMELINE_QUERY).all();
-    return json({ items: (result.results || []).map(mapTimelineEntry) }, { cacheControl: 'public, max-age=3600' });
+    // CMS에서 수시 편집하는 콘텐츠이므로 공지/일정과 동일하게 60초 캐시 (편집 반영 지연 최소화)
+    return json({ items: (result.results || []).map(mapTimelineEntry) }, { cacheControl: 'public, max-age=60' });
   } catch (error) {
     console.warn('Timeline API fallback:', error);
     return json({ items: [], warning: 'Timeline API unavailable' }, { cacheControl: 'no-store' });

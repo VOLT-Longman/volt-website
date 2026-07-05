@@ -236,3 +236,13 @@ test('timelineInput: date/dateLabel 별칭 허용 + 길이 제한', () => {
     assert.equal(timelineInput({ title: 't', dateLabel: '2955.09' }).date_label, '2955.09');
     assert.throws(() => timelineInput({ title: 'x'.repeat(201), dateLabel: 'd' }));
 });
+
+test('공개 CMS API 캐시: 편집 반영 지연 방지를 위해 max-age=60 유지', async () => {
+    const { onRequestGet: partnerFleetsPublic } = await import('../../functions/api/partner-fleets.js');
+    const env = { ...TEST_ENV, DB: createMockDb(() => []) };
+    for (const handler of [leadershipPublic, timelinePublic, partnerFleetsPublic]) {
+        const response = await handler({ env });
+        assert.equal(response.status, 200);
+        assert.equal(response.headers.get('Cache-Control'), 'public, max-age=60');
+    }
+});
