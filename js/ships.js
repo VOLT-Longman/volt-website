@@ -504,8 +504,10 @@
         return `<div class="ship-modal-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`;
     }
     function shipModalDescription(ship, live) {
-        // EN 모드: Erkul 정제 설명 우선, 없으면 기존 EN → KO 폴백. KO 모드: 기존 KO 유지(A-6 정책).
+        // A-9 정책: EN 모드 = Erkul 정제 설명 우선, KO 모드 = Erkul 기반 한국어 번역 우선.
+        // 둘 다 없으면 기존 volt-data 설명(legacy)으로 폴백한다.
         if (currentLang() === 'en' && live?.descriptions?.en) return live.descriptions.en;
+        if (currentLang() !== 'en' && live?.descriptions?.ko) return live.descriptions.ko;
         return tx(ship, 'description');
     }
     function renderShipLiveSummary(live, market) {

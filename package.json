@@ -15,7 +15,8 @@
     "shipdb:erkul:market": "node scripts/erkul/normalize-erkul-market.mjs",
     "shipdb:erkul:match": "node scripts/erkul/match-erkul-to-volt.mjs",
     "shipdb:erkul:build-live": "node scripts/erkul/build-ship-live-data.mjs",
-    "shipdb:erkul:apply": "node scripts/erkul/apply-erkul-live-data.mjs"
+    "shipdb:erkul:apply": "node scripts/erkul/apply-erkul-live-data.mjs",
+    "shipdb:erkul:translate-descriptions": "node scripts/erkul/apply-ship-description-ko.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",

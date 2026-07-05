@@ -115,13 +115,16 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await ctx.close();
     });
 
-    test('KO 모드: 기존 KO 설명 유지 (Erkul EN 미사용)', async ({ page }) => {
+    test('KO 모드: Erkul 기반 한국어 번역 설명 우선 (A-9 정책)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
         const modal = await openShipModalByName(page, 'Asgard');
 
         const desc = modal.locator('.modal-body > p').first();
-        await expect(desc).toContainText('중형급 수송선');
+        // Erkul EN의 한국어 번역본이 기존 VOLT 설명("중형급 수송선...")을 대체한다
+        await expect(desc).toContainText('Anvil Aerospace');
+        await expect(desc).toContainText(/[가-힣]/);
+        await expect(desc).not.toContainText('중형급 수송선');
         await expect(desc).not.toContainText('As the battles of today');
     });
 
