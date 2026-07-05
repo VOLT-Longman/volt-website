@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "notes": "Manual Erkul localName/ref to VOLT ship id mappings. Do not add guessed mappings.",
+  "mappings": {},
+  "candidates": [
+    {
+      "erkulLocalName": "rsi_aurora_mr",
+      "reason": "Shop inventory references hull not present in Erkul live ships list",
+      "hintVoltId": "aurora-mr",
+      "hintBasis": "VOLT 함선DB에 동명 구형 Aurora 존재 — 확정 매핑은 운영자 결정 필요"
+    },
+    {
+      "erkulLocalName": "rsi_aurora_lx",
+      "reason": "Shop inventory references hull not present in Erkul live ships list",
+      "hintVoltId": "aurora-lx",
+      "hintBasis": "VOLT 함선DB에 동명 구형 Aurora 존재 — 확정 매핑은 운영자 결정 필요"
+    },
+    {
+      "erkulLocalName": "rsi_aurora_ln",
+      "reason": "Shop inventory references hull not present in Erkul live ships list",
+      "hintVoltId": "aurora-ln",
+      "hintBasis": "VOLT 함선DB에 동명 구형 Aurora 존재 — 확정 매핑은 운영자 결정 필요"
+    },
+    {
+      "erkulLocalName": "rsi_aurora_es",
+      "reason": "Shop inventory references hull not present in Erkul live ships list",
+      "hintVoltId": "aurora-es",
+      "hintBasis": "VOLT 함선DB에 동명 구형 Aurora 존재 — 확정 매핑은 운영자 결정 필요"
+    },
+    {
+      "erkulLocalName": "rsi_aurora_cl",
+      "reason": "Shop inventory references hull not present in Erkul live ships list",
+      "hintVoltId": "aurora-cl",
+      "hintBasis": "VOLT 함선DB에 동명 구형 Aurora 존재 — 확정 매핑은 운영자 결정 필요"
+    },
+    {
+      "erkulLocalName": "aegs_hammerhead",
+      "reason": "Shop inventory references hull not present in Erkul live ships list (live ships has aegs_hammerhead_gs only)",
+      "hintVoltId": "hammerhead",
+      "hintBasis": "Erkul ships 목록의 aegs_hammerhead_gs와 동일 선체 여부 운영자 확인 필요"
+    }
+  ]
+}

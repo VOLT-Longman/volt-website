@@ -1,0 +1,2480 @@
+{
+  "generatedAt": "2026-07-05T12:02:20.586Z",
+  "voltShipCount": 247,
+  "voltMatchPoolCount": 240,
+  "voltVariantCount": 7,
+  "erkulShipCount": 219,
+  "marketShipCount": 173,
+  "matchedCount": 210,
+  "matchRate": "87.5% (matched/voltMatchPool)",
+  "methodCounts": {
+    "name": 210
+  },
+  "matched": [
+    {
+      "voltId": "aurora-es",
+      "voltName": "Aurora ES",
+      "erkulLocalName": "rsi_aurora_gs_es",
+      "erkulName": "Aurora Mk I ES",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "aurora-lx",
+      "voltName": "Aurora LX",
+      "erkulLocalName": "rsi_aurora_gs_lx",
+      "erkulName": "Aurora Mk I  LX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "aurora-mr",
+      "voltName": "Aurora MR",
+      "erkulLocalName": "rsi_aurora_gs_mr",
+      "erkulName": "Aurora Mk I MR",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "aurora-cl",
+      "voltName": "Aurora CL",
+      "erkulLocalName": "rsi_aurora_gs_cl",
+      "erkulName": "Aurora Mk I CL",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "aurora-ln",
+      "voltName": "Aurora LN",
+      "erkulLocalName": "rsi_aurora_gs_ln",
+      "erkulName": "Aurora Mk I LN",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "aurora-mk1-se",
+      "voltName": "Aurora Mk1 SE",
+      "erkulLocalName": "rsi_aurora_gs_se",
+      "erkulName": "Aurora Mk I SE",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "300i",
+      "voltName": "300i",
+      "erkulLocalName": "orig_300i",
+      "erkulName": "300i",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "315p",
+      "voltName": "315p",
+      "erkulLocalName": "orig_315p",
+      "erkulName": "315p",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "325a",
+      "voltName": "325a",
+      "erkulLocalName": "orig_325a",
+      "erkulName": "325a",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "350r",
+      "voltName": "350r",
+      "erkulLocalName": "orig_350r",
+      "erkulName": "350r",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-hornet-mk-i",
+      "voltName": "F7C Hornet Mk I",
+      "erkulLocalName": "anvl_hornet_f7c",
+      "erkulName": "F7C Hornet Mk I",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-hornet-wildfire-mk-i",
+      "voltName": "F7C Hornet Wildfire Mk I",
+      "erkulLocalName": "anvl_hornet_f7c_wildfire",
+      "erkulName": "F7C Hornet Wildfire Mk I",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7a-hornet-mk-i",
+      "voltName": "F7A Hornet Mk I",
+      "erkulLocalName": "anvl_hornet_f7a_mk1",
+      "erkulName": "F7A Hornet Mk I",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-s-hornet-ghost-mk-i",
+      "voltName": "F7C-S Hornet Ghost Mk I",
+      "erkulLocalName": "anvl_hornet_f7cs",
+      "erkulName": "F7C-S Hornet Ghost Mk I",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-r-hornet-tracker-mk-i",
+      "voltName": "F7C-R Hornet Tracker Mk I",
+      "erkulLocalName": "anvl_hornet_f7cr",
+      "erkulName": "F7C-R Hornet Tracker Mk I",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-m-super-hornet-mk-i",
+      "voltName": "F7C-M Super Hornet Mk I",
+      "erkulLocalName": "anvl_hornet_f7cm",
+      "erkulName": "F7C-M Super Hornet Mk I",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-m-super-hornet-heartseeker-mk-i",
+      "voltName": "F7C-M Super Hornet Heartseeker Mk I",
+      "erkulLocalName": "anvl_hornet_f7cm_heartseeker",
+      "erkulName": "F7C-M Hornet Heartseeker Mk I",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "constellation-aquila",
+      "voltName": "Constellation Aquila",
+      "erkulLocalName": "rsi_constellation_aquila",
+      "erkulName": "Constellation Aquila",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "constellation-andromeda",
+      "voltName": "Constellation Andromeda",
+      "erkulLocalName": "rsi_constellation_andromeda",
+      "erkulName": "Constellation Andromeda",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "constellation-taurus",
+      "voltName": "Constellation Taurus",
+      "erkulLocalName": "rsi_constellation_taurus",
+      "erkulName": "Constellation Taurus",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "constellation-phoenix",
+      "voltName": "Constellation Phoenix",
+      "erkulLocalName": "rsi_constellation_phoenix",
+      "erkulName": "Constellation Phoenix",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "constellation-phoenix-emerald",
+      "voltName": "Constellation Phoenix Emerald",
+      "erkulLocalName": "rsi_constellation_phoenix_emerald",
+      "erkulName": "Constellation Phoenix Emerald",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "freelancer",
+      "voltName": "Freelancer",
+      "erkulLocalName": "misc_freelancer",
+      "erkulName": "Freelancer",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "freelancer-dur",
+      "voltName": "Freelancer DUR",
+      "erkulLocalName": "misc_freelancer_dur",
+      "erkulName": "Freelancer DUR",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "freelancer-max",
+      "voltName": "Freelancer MAX",
+      "erkulLocalName": "misc_freelancer_max",
+      "erkulName": "Freelancer MAX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "freelancer-mis",
+      "voltName": "Freelancer MIS",
+      "erkulLocalName": "misc_freelancer_mis",
+      "erkulName": "Freelancer MIS",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "cutlass-black",
+      "voltName": "Cutlass Black",
+      "erkulLocalName": "drak_cutlass_black",
+      "erkulName": "Cutlass Black",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "cutlass-red",
+      "voltName": "Cutlass Red",
+      "erkulLocalName": "drak_cutlass_red",
+      "erkulName": "Cutlass Red",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "cutlass-blue",
+      "voltName": "Cutlass Blue",
+      "erkulLocalName": "drak_cutlass_blue",
+      "erkulName": "Cutlass Blue",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "cutlass-steel",
+      "voltName": "Cutlass Steel",
+      "erkulLocalName": "drak_cutlass_steel",
+      "erkulName": "Cutlass Steel",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "avenger-stalker",
+      "voltName": "Avenger Stalker",
+      "erkulLocalName": "aegs_avenger_stalker",
+      "erkulName": "Avenger Stalker",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "avenger-titan-renegade",
+      "voltName": "Avenger Titan Renegade",
+      "erkulLocalName": "aegs_avenger_titan_renegade",
+      "erkulName": "Avenger Titan Renegade",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "avenger-warlock",
+      "voltName": "Avenger Warlock",
+      "erkulLocalName": "aegs_avenger_warlock",
+      "erkulName": "Avenger Warlock",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "avenger-titan",
+      "voltName": "Avenger Titan",
+      "erkulLocalName": "aegs_avenger_titan",
+      "erkulName": "Avenger Titan",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "gladiator",
+      "voltName": "Gladiator",
+      "erkulLocalName": "anvl_gladiator",
+      "erkulName": "Gladiator",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "m50",
+      "voltName": "M50",
+      "erkulLocalName": "orig_m50",
+      "erkulName": "M50 Interceptor",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "starfarer",
+      "voltName": "Starfarer",
+      "erkulLocalName": "misc_starfarer",
+      "erkulName": "Starfarer",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "starfarer-gemini",
+      "voltName": "Starfarer Gemini",
+      "erkulLocalName": "misc_starfarer_gemini",
+      "erkulName": "Starfarer Gemini",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "caterpillar",
+      "voltName": "Caterpillar",
+      "erkulLocalName": "drak_caterpillar",
+      "erkulName": "Caterpillar",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "retaliator",
+      "voltName": "Retaliator",
+      "erkulLocalName": "aegs_retaliator",
+      "erkulName": "Retaliator",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "scythe",
+      "voltName": "Scythe",
+      "erkulLocalName": "vncl_scythe",
+      "erkulName": "Scythe",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "idris-m",
+      "voltName": "Idris-M",
+      "erkulLocalName": "aegs_idris_m",
+      "erkulName": "Idris M",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "idris-p",
+      "voltName": "Idris-P",
+      "erkulLocalName": "aegs_idris_p",
+      "erkulName": "Idris P",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "p-52-merlin",
+      "voltName": "P-52 Merlin",
+      "erkulLocalName": "krig_p52_merlin",
+      "erkulName": "P-52 Merlin",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mustang-alpha",
+      "voltName": "Mustang Alpha",
+      "erkulLocalName": "cnou_mustang_alpha",
+      "erkulName": "Mustang Alpha",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "mustang-beta",
+      "voltName": "Mustang Beta",
+      "erkulLocalName": "cnou_mustang_beta",
+      "erkulName": "Mustang Beta",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mustang-gamma",
+      "voltName": "Mustang Gamma",
+      "erkulLocalName": "cnou_mustang_gamma",
+      "erkulName": "Mustang Gamma",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "mustang-delta",
+      "voltName": "Mustang Delta",
+      "erkulLocalName": "cnou_mustang_delta",
+      "erkulName": "Mustang Delta",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mustang-omega",
+      "voltName": "Mustang Omega",
+      "erkulLocalName": "cnou_mustang_omega",
+      "erkulName": "Mustang Omega",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "redeemer",
+      "voltName": "Redeemer",
+      "erkulLocalName": "aegs_redeemer",
+      "erkulName": "Redeemer",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "gladius",
+      "voltName": "Gladius",
+      "erkulLocalName": "aegs_gladius",
+      "erkulName": "Gladius",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "gladius-valiant",
+      "voltName": "Gladius Valiant",
+      "erkulLocalName": "aegs_gladius_valiant",
+      "erkulName": "Gladius Valiant",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "gladius-pirate-edition",
+      "voltName": "Gladius Pirate Edition",
+      "erkulLocalName": "aegs_gladius_pir",
+      "erkulName": "Gladius Pirate",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "khartu-al",
+      "voltName": "Khartu-Al",
+      "erkulLocalName": "xian_scout",
+      "erkulName": "Khartu-al",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "890-jump",
+      "voltName": "890 Jump",
+      "erkulLocalName": "orig_890jump",
+      "erkulName": "890 Jump",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "carrack",
+      "voltName": "Carrack",
+      "erkulLocalName": "anvl_carrack",
+      "erkulName": "Carrack",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "carrack-expedition",
+      "voltName": "Carrack Expedition",
+      "erkulLocalName": "anvl_carrack_expedition",
+      "erkulName": "Carrack Expedition",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "herald",
+      "voltName": "Herald",
+      "erkulLocalName": "drak_herald",
+      "erkulName": "Herald",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "hull-c",
+      "voltName": "Hull C",
+      "erkulLocalName": "misc_hull_c",
+      "erkulName": "Hull C",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "hull-a",
+      "voltName": "Hull A",
+      "erkulLocalName": "misc_hull_a",
+      "erkulName": "Hull A",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "hull-b",
+      "voltName": "Hull B",
+      "erkulLocalName": "misc_hull_b",
+      "erkulName": "Hull B",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "reclaimer",
+      "voltName": "Reclaimer",
+      "erkulLocalName": "aegs_reclaimer",
+      "erkulName": "Reclaimer",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "vanguard-warden",
+      "voltName": "Vanguard Warden",
+      "erkulLocalName": "aegs_vanguard",
+      "erkulName": "Vanguard Warden",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "vanguard-harbinger",
+      "voltName": "Vanguard Harbinger",
+      "erkulLocalName": "aegs_vanguard_harbinger",
+      "erkulName": "Vanguard Harbinger",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "vanguard-sentinel",
+      "voltName": "Vanguard Sentinel",
+      "erkulLocalName": "aegs_vanguard_sentinel",
+      "erkulName": "Vanguard Sentinel",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "vanguard-hoplite",
+      "voltName": "Vanguard Hoplite",
+      "erkulLocalName": "aegs_vanguard_hoplite",
+      "erkulName": "Vanguard Hoplite",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "reliant-kore",
+      "voltName": "Reliant Kore",
+      "erkulLocalName": "misc_reliant",
+      "erkulName": "Reliant Kore",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "reliant-mako",
+      "voltName": "Reliant Mako",
+      "erkulLocalName": "misc_reliant_mako",
+      "erkulName": "Reliant Mako",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "reliant-sen",
+      "voltName": "Reliant Sen",
+      "erkulLocalName": "misc_reliant_sen",
+      "erkulName": "Reliant Sen",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "reliant-tana",
+      "voltName": "Reliant Tana",
+      "erkulLocalName": "misc_reliant_tana",
+      "erkulName": "Reliant Tana",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "glaive",
+      "voltName": "Glaive",
+      "erkulLocalName": "vncl_glaive",
+      "erkulName": "Glaive",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "sabre",
+      "voltName": "Sabre",
+      "erkulLocalName": "aegs_sabre",
+      "erkulName": "Sabre",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "sabre-comet",
+      "voltName": "Sabre Comet",
+      "erkulLocalName": "aegs_sabre_comet",
+      "erkulName": "Sabre Comet",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "sabre-raven",
+      "voltName": "Sabre Raven",
+      "erkulLocalName": "aegs_sabre_raven",
+      "erkulName": "Sabre Raven",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "sabre-firebird",
+      "voltName": "Sabre Firebird",
+      "erkulLocalName": "aegs_sabre_firebird",
+      "erkulName": "Sabre Firebird",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "sabre-peregrine",
+      "voltName": "Sabre Peregrine",
+      "erkulLocalName": "aegs_sabre_peregrine",
+      "erkulName": "Sabre Peregrine",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "p-72-archimedes",
+      "voltName": "P-72 Archimedes",
+      "erkulLocalName": "krig_p72_archimedes",
+      "erkulName": "P-72 Archimedes",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "p-72-archimedes-emerald",
+      "voltName": "P-72 Archimedes Emerald",
+      "erkulLocalName": "krig_p72_archimedes_emerald",
+      "erkulName": "P-72 Archimedes Emerald",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "blade",
+      "voltName": "Blade",
+      "erkulLocalName": "vncl_blade",
+      "erkulName": "Blade",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "prospector",
+      "voltName": "Prospector",
+      "erkulLocalName": "misc_prospector",
+      "erkulName": "Prospector",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "buccaneer",
+      "voltName": "Buccaneer",
+      "erkulLocalName": "drak_buccaneer",
+      "erkulName": "Buccaneer",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "dragonfly-yellowjacket",
+      "voltName": "Dragonfly Yellowjacket",
+      "erkulLocalName": "drak_dragonfly_yellow",
+      "erkulName": "Dragonfly Yellowjacket",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "dragonfly-black",
+      "voltName": "Dragonfly Black",
+      "erkulLocalName": "drak_dragonfly",
+      "erkulName": "Dragonfly",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "mpuv-personnel",
+      "voltName": "MPUV Personnel",
+      "erkulLocalName": "argo_mpuv_transport",
+      "erkulName": "MPUV Personnel",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mpuv-cargo",
+      "voltName": "MPUV Cargo",
+      "erkulLocalName": "argo_mpuv",
+      "erkulName": "MPUV Cargo",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mpuv-tractor",
+      "voltName": "MPUV Tractor",
+      "erkulLocalName": "argo_mpuv_1t",
+      "erkulName": "MPUV Tractor",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "terrapin",
+      "voltName": "Terrapin",
+      "erkulLocalName": "anvl_terrapin",
+      "erkulName": "Terrapin",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "terrapin-medic",
+      "voltName": "Terrapin Medic",
+      "erkulLocalName": "anvl_terrapin_medic",
+      "erkulName": "Terrapin Medic",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "polaris",
+      "voltName": "Polaris",
+      "erkulLocalName": "rsi_polaris",
+      "erkulName": "Polaris",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "prowler",
+      "voltName": "Prowler",
+      "erkulLocalName": "espr_prowler",
+      "erkulName": "Prowler",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "prowler-utility",
+      "voltName": "Prowler Utility",
+      "erkulLocalName": "espr_prowler_utility",
+      "erkulName": "Prowler Utility",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "85x",
+      "voltName": "85X",
+      "erkulLocalName": "orig_85x",
+      "erkulName": "85X Limited",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "razor",
+      "voltName": "Razor",
+      "erkulLocalName": "misc_razor",
+      "erkulName": "Razor",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "razor-ex",
+      "voltName": "Razor EX",
+      "erkulLocalName": "misc_razor_ex",
+      "erkulName": "Razor EX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "razor-lx",
+      "voltName": "Razor LX",
+      "erkulLocalName": "misc_razor_lx",
+      "erkulName": "Razor LX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "hurricane",
+      "voltName": "Hurricane",
+      "erkulLocalName": "anvl_hurricane",
+      "erkulName": "Hurricane",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "defender",
+      "voltName": "Defender",
+      "erkulLocalName": "banu_defender",
+      "erkulName": "Defender",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "eclipse",
+      "voltName": "Eclipse",
+      "erkulLocalName": "aegs_eclipse",
+      "erkulName": "Eclipse",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "nox",
+      "voltName": "Nox",
+      "erkulLocalName": "xian_nox",
+      "erkulName": "Nox",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "nox-kue",
+      "voltName": "Nox Kue",
+      "erkulLocalName": "xian_nox_kue",
+      "erkulName": "Nox Kue",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "cyclone",
+      "voltName": "Cyclone",
+      "erkulLocalName": "tmbl_cyclone",
+      "erkulName": "Cyclone",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "cyclone-tr",
+      "voltName": "Cyclone TR",
+      "erkulLocalName": "tmbl_cyclone_tr",
+      "erkulName": "Cyclone TR",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "cyclone-rc",
+      "voltName": "Cyclone RC",
+      "erkulLocalName": "tmbl_cyclone_rc",
+      "erkulName": "Cyclone RC",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "cyclone-rn",
+      "voltName": "Cyclone RN",
+      "erkulLocalName": "tmbl_cyclone_rn",
+      "erkulName": "Cyclone RN",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "cyclone-aa",
+      "voltName": "Cyclone AA",
+      "erkulLocalName": "tmbl_cyclone_aa",
+      "erkulName": "Cyclone AA",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "cyclone-mt",
+      "voltName": "Cyclone MT",
+      "erkulLocalName": "tmbl_cyclone_mt",
+      "erkulName": "Cyclone MT",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "ursa",
+      "voltName": "Ursa",
+      "erkulLocalName": "rsi_ursa_rover",
+      "erkulName": "Ursa",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "ursa-fortuna",
+      "voltName": "Ursa Fortuna",
+      "erkulLocalName": "rsi_ursa_rover_emerald",
+      "erkulName": "Ursa Fortuna",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "lynx",
+      "voltName": "Lynx ",
+      "erkulLocalName": "rsi_lynx",
+      "erkulName": "Lynx",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "ursa-medivac",
+      "voltName": "Ursa Medivac",
+      "erkulLocalName": "rsi_ursa_medivac",
+      "erkulName": "Ursa Medivac",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "600i-touring",
+      "voltName": "600i Touring",
+      "erkulLocalName": "orig_600i_touring",
+      "erkulName": "600i Touring",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "600i-explorer",
+      "voltName": "600i Explorer",
+      "erkulLocalName": "orig_600i",
+      "erkulName": "600i",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "x1",
+      "voltName": "X1",
+      "erkulLocalName": "orig_x1",
+      "erkulName": "X1",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "x1-velocity",
+      "voltName": "X1 Velocity",
+      "erkulLocalName": "orig_x1_velocity",
+      "erkulName": "X1 Velocity",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "x1-force",
+      "voltName": "X1 Force",
+      "erkulLocalName": "orig_x1_force",
+      "erkulName": "X1 Force",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "hawk",
+      "voltName": "Hawk",
+      "erkulLocalName": "anvl_hawk",
+      "erkulName": "Hawk",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "hammerhead",
+      "voltName": "Hammerhead",
+      "erkulLocalName": "aegs_hammerhead_gs",
+      "erkulName": "Hammerhead",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "nova",
+      "voltName": "Nova",
+      "erkulLocalName": "tmbl_nova",
+      "erkulName": "Nova",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "100i",
+      "voltName": "100i",
+      "erkulLocalName": "orig_100i",
+      "erkulName": "100i",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "125a",
+      "voltName": "125a",
+      "erkulLocalName": "orig_125a",
+      "erkulName": "125a",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "135c",
+      "voltName": "135c",
+      "erkulLocalName": "orig_135c",
+      "erkulName": "135c",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "c2-hercules",
+      "voltName": "C2 Hercules",
+      "erkulLocalName": "crus_starlifter_c2",
+      "erkulName": "C2 Hercules Starlifter",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "m2-hercules",
+      "voltName": "M2 Hercules",
+      "erkulLocalName": "crus_starlifter_m2",
+      "erkulName": "M2 Hercules Starlifter",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "a2-hercules",
+      "voltName": "A2 Hercules",
+      "erkulLocalName": "crus_starlifter_a2",
+      "erkulName": "A2 Hercules Starlifter",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "vulture",
+      "voltName": "Vulture",
+      "erkulLocalName": "drak_vulture",
+      "erkulName": "Vulture",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "apollo-triage",
+      "voltName": "Apollo Triage",
+      "erkulLocalName": "rsi_apollo_triage",
+      "erkulName": "Apollo Triage",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "apollo-medivac",
+      "voltName": "Apollo Medivac",
+      "erkulLocalName": "rsi_apollo_medivac",
+      "erkulName": "Apollo Medivac",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "mercury",
+      "voltName": "Mercury",
+      "erkulLocalName": "crus_star_runner",
+      "erkulName": "Mercury Star Runner",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "valkyrie",
+      "voltName": "Valkyrie",
+      "erkulLocalName": "anvl_valkyrie",
+      "erkulName": "Valkyrie",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "arrow",
+      "voltName": "Arrow",
+      "erkulLocalName": "anvl_arrow",
+      "erkulName": "Arrow",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "san-tok-y-i",
+      "voltName": "San'tok.yāi",
+      "erkulLocalName": "xnaa_santokyai",
+      "erkulName": "San'tok.yāi",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "srv",
+      "voltName": "SRV",
+      "erkulLocalName": "argo_srv",
+      "erkulName": "SRV",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "corsair",
+      "voltName": "Corsair",
+      "erkulLocalName": "drak_corsair",
+      "erkulName": "Corsair",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "ballista",
+      "voltName": "Ballista ",
+      "erkulLocalName": "anvl_ballista",
+      "erkulName": "Ballista",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "anvil-ballista-snowblind",
+      "voltName": "Anvil Ballista Snowblind",
+      "erkulLocalName": "anvl_ballista_snowblind",
+      "erkulName": "Ballista Snowblind",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "anvil-ballista-dunestalker",
+      "voltName": "Anvil Ballista Dunestalker",
+      "erkulLocalName": "anvl_ballista_dunestalker",
+      "erkulName": "Ballista Dunestalker",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mantis",
+      "voltName": "Mantis",
+      "erkulLocalName": "rsi_mantis",
+      "erkulName": "Mantis",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "c8-pisces",
+      "voltName": "C8 Pisces",
+      "erkulLocalName": "anvl_c8_pisces",
+      "erkulName": "C8 Pisces",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "c8x-pisces-expedition",
+      "voltName": "C8X Pisces Expedition ",
+      "erkulLocalName": "anvl_c8x_pisces_expedition",
+      "erkulName": "C8X Pisces Expedition",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "c8r-pisces",
+      "voltName": "C8R Pisces",
+      "erkulLocalName": "anvl_c8r_pisces",
+      "erkulName": "C8R Pisces Rescue",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "ares-inferno",
+      "voltName": "Ares Inferno ",
+      "erkulLocalName": "crus_starfighter_inferno",
+      "erkulName": "Ares Star Fighter Inferno",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "ares-ion",
+      "voltName": "Ares Ion",
+      "erkulLocalName": "crus_starfighter_ion",
+      "erkulName": "Ares Star Fighter Ion",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mole",
+      "voltName": "MOLE",
+      "erkulLocalName": "argo_mole",
+      "erkulName": "MOLE",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "talon",
+      "voltName": "Talon",
+      "erkulLocalName": "espr_talon",
+      "erkulName": "Talon",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "talon-shrike",
+      "voltName": "Talon Shrike",
+      "erkulLocalName": "espr_talon_shrike",
+      "erkulName": "Talon Shrike",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "roc-ds",
+      "voltName": "ROC-DS",
+      "erkulLocalName": "grin_roc_ds",
+      "erkulName": "ROC-DS",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "roc",
+      "voltName": "ROC",
+      "erkulLocalName": "grin_roc",
+      "erkulName": "ROC",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "ptv",
+      "voltName": "PTV",
+      "erkulLocalName": "grin_ptv",
+      "erkulName": "PTV",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "nomad",
+      "voltName": "Nomad",
+      "erkulLocalName": "cnou_nomad",
+      "erkulName": "Nomad",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "perseus",
+      "voltName": "Perseus",
+      "erkulLocalName": "rsi_perseus",
+      "erkulName": "Perseus",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "scorpius",
+      "voltName": "Scorpius",
+      "erkulLocalName": "rsi_scorpius",
+      "erkulName": "Scorpius",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "scorpius-antares",
+      "voltName": "Scorpius Antares",
+      "erkulLocalName": "rsi_scorpius_antares",
+      "erkulName": "Scorpius Antares",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "railen",
+      "voltName": "Railen",
+      "erkulLocalName": "gama_railen",
+      "erkulName": "Railen",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "400i",
+      "voltName": "400i",
+      "erkulLocalName": "orig_400i",
+      "erkulName": "400i",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "raft",
+      "voltName": "RAFT",
+      "erkulLocalName": "argo_raft",
+      "erkulName": "RAFT",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "spartan",
+      "voltName": "Spartan",
+      "erkulLocalName": "anvl_spartan",
+      "erkulName": "Spartan",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "hoverquad",
+      "voltName": "HoverQuad",
+      "erkulLocalName": "cnou_hoverquad",
+      "erkulName": "HoverQuad",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mule",
+      "voltName": "Mule",
+      "erkulLocalName": "drak_mule",
+      "erkulName": "Mule",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "centurion",
+      "voltName": "Centurion",
+      "erkulLocalName": "anvl_centurion",
+      "erkulName": "Centurion",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "c1-spirit",
+      "voltName": "C1 Spirit",
+      "erkulLocalName": "crus_spirit_c1",
+      "erkulName": "C1 Spirit",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "a1-spirit",
+      "voltName": "A1 Spirit ",
+      "erkulLocalName": "crus_spirit_a1",
+      "erkulName": "A1 Spirit",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "stv",
+      "voltName": "STV",
+      "erkulLocalName": "grin_stv",
+      "erkulName": "STV",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "cutter",
+      "voltName": "Cutter",
+      "erkulLocalName": "drak_cutter",
+      "erkulName": "Cutter",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "cutter-scout",
+      "voltName": "Cutter Scout",
+      "erkulLocalName": "drak_cutter_scout",
+      "erkulName": "Cutter Scout",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "cutter-rambler",
+      "voltName": "Cutter Rambler",
+      "erkulLocalName": "drak_cutter_rambler",
+      "erkulName": "Cutter Rambler",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "fury",
+      "voltName": "Fury",
+      "erkulLocalName": "misc_fury",
+      "erkulName": "Fury",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "fury-mx",
+      "voltName": "Fury MX",
+      "erkulLocalName": "misc_fury_miru",
+      "erkulName": "Fury MX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "fury-lx",
+      "voltName": "Fury LX",
+      "erkulLocalName": "misc_fury_lx",
+      "erkulName": "Fury LX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "storm",
+      "voltName": "Storm",
+      "erkulLocalName": "tmbl_storm",
+      "erkulName": "Storm",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "storm-aa",
+      "voltName": "Storm AA",
+      "erkulLocalName": "tmbl_storm_aa",
+      "erkulName": "Storm AA",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "zeus-mk2-es",
+      "voltName": "Zeus MK2 ES",
+      "erkulLocalName": "rsi_zeus_es",
+      "erkulName": "Zeus Mk II ES",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "zeus-mk2-cl",
+      "voltName": "Zeus MK2 CL",
+      "erkulLocalName": "rsi_zeus_cl",
+      "erkulName": "Zeus Mk II CL",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f8c-lightning",
+      "voltName": "F8C Lightning",
+      "erkulLocalName": "anvl_lightning_f8c",
+      "erkulName": "F8C Lightning",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "syulen",
+      "voltName": "Syulen",
+      "erkulLocalName": "gama_syulen",
+      "erkulName": "Syulen",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7a-hornet-mk-ii",
+      "voltName": "F7A Hornet Mk II",
+      "erkulLocalName": "anvl_hornet_f7a_mk2",
+      "erkulName": "F7A Hornet Mk II",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-hornet-mk-ii",
+      "voltName": "F7C Hornet Mk II",
+      "erkulLocalName": "anvl_hornet_f7c_mk2",
+      "erkulName": "F7C Hornet Mk II",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-r-hornet-tracker-mk-ii",
+      "voltName": "F7C-R Hornet Tracker Mk II",
+      "erkulLocalName": "anvl_hornet_f7cr_mk2",
+      "erkulName": "F7C-R Hornet Tracker Mk II",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-s-hornet-ghost-mk-ii",
+      "voltName": "F7C-S Hornet Ghost Mk II",
+      "erkulLocalName": "anvl_hornet_f7cs_mk2",
+      "erkulName": "F7C-S Hornet Ghost Mk II",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "f7c-m-super-hornet-mk-ii",
+      "voltName": "F7C-M Super Hornet Mk II ",
+      "erkulLocalName": "anvl_hornet_f7cm_mk2",
+      "erkulName": "F7C-M Super Hornet Mk II",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "pulse",
+      "voltName": "Pulse",
+      "erkulLocalName": "mrai_pulse",
+      "erkulName": "Pulse",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "pulse-lx",
+      "voltName": "Pulse LX",
+      "erkulLocalName": "mrai_pulse_lx",
+      "erkulName": "Pulse LX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "ironclad",
+      "voltName": "Ironclad",
+      "erkulLocalName": "drak_ironclad",
+      "erkulName": "Ironclad",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "ironclad-assault",
+      "voltName": "Ironclad Assault",
+      "erkulLocalName": "drak_ironclad_assault",
+      "erkulName": "Ironclad Assault",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "starlancer-max",
+      "voltName": "Starlancer MAX",
+      "erkulLocalName": "misc_starlancer_max",
+      "erkulName": "Starlancer MAX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "starlancer-tac",
+      "voltName": "Starlancer TAC",
+      "erkulLocalName": "misc_starlancer_tac",
+      "erkulName": "Starlancer TAC",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "intrepid",
+      "voltName": "Intrepid",
+      "erkulLocalName": "crus_intrepid",
+      "erkulName": "Intrepid",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "csv-sm",
+      "voltName": "CSV-SM",
+      "erkulLocalName": "argo_csv_cargo",
+      "erkulName": "CSV-SM",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "paladin",
+      "voltName": "Paladin",
+      "erkulLocalName": "anvl_paladin",
+      "erkulName": "Paladin",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "guardian",
+      "voltName": "Guardian",
+      "erkulLocalName": "mrai_guardian",
+      "erkulName": "Guardian",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "guardian-qi",
+      "voltName": "Guardian QI",
+      "erkulLocalName": "mrai_guardian_qi",
+      "erkulName": "Guardian QI",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "guardian-mx",
+      "voltName": "Guardian MX",
+      "erkulLocalName": "mrai_guardian_mx",
+      "erkulName": "Guardian MX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "fortune",
+      "voltName": "Fortune",
+      "erkulLocalName": "misc_fortune",
+      "erkulName": "Fortune",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "golem",
+      "voltName": "Golem",
+      "erkulLocalName": "drak_golem",
+      "erkulName": "Golem",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "golem-ox",
+      "voltName": "Golem OX",
+      "erkulLocalName": "drak_golem_ox",
+      "erkulName": "Golem OX",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mtc",
+      "voltName": "MTC",
+      "erkulLocalName": "grin_mtc",
+      "erkulName": "MTC",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "asgard",
+      "voltName": "Asgard",
+      "erkulLocalName": "anvl_asgard",
+      "erkulName": "Asgard",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "meteor",
+      "voltName": "Meteor",
+      "erkulLocalName": "rsi_meteor",
+      "erkulName": "Meteor",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "l-21-wolf",
+      "voltName": "L-21 Wolf",
+      "erkulLocalName": "krig_l21_wolf",
+      "erkulName": "L-21 Wolf",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "l-22-alpha-wolf",
+      "voltName": "L-22 Alpha Wolf",
+      "erkulLocalName": "krig_l22_alphawolf",
+      "erkulName": "L-22 Alpha Wolf",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "stinger",
+      "voltName": "Stinger",
+      "erkulLocalName": "vncl_stinger",
+      "erkulName": "Stinger",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "shiv",
+      "voltName": "Shiv",
+      "erkulLocalName": "glsn_shiv",
+      "erkulName": "Shiv",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "mdc",
+      "voltName": "MDC",
+      "erkulLocalName": "grin_mdc",
+      "erkulName": "MDC",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": false
+    },
+    {
+      "voltId": "salvation",
+      "voltName": "Salvation",
+      "erkulLocalName": "rsi_salvation",
+      "erkulName": "Salvation",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "clipper",
+      "voltName": "Clipper",
+      "erkulLocalName": "drak_clipper",
+      "erkulName": "Clipper",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "hermes",
+      "voltName": "Hermes",
+      "erkulLocalName": "rsi_hermes",
+      "erkulName": "Hermes",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": true,
+      "hasRentals": true
+    },
+    {
+      "voltId": "moth",
+      "voltName": "MOTH",
+      "erkulLocalName": "argo_moth",
+      "erkulName": "MOTH",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "aurora-mk2",
+      "voltName": "Aurora MK2",
+      "erkulLocalName": "rsi_aurora_mk2",
+      "erkulName": "Aurora Mk II",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "utv",
+      "voltName": "UTV",
+      "erkulLocalName": "grin_utv",
+      "erkulName": "UTV",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "m80",
+      "voltName": "M80",
+      "erkulLocalName": "orig_m80",
+      "erkulName": "M80",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    },
+    {
+      "voltId": "pitbull",
+      "voltName": "Pitbull",
+      "erkulLocalName": "drak_pitbull",
+      "erkulName": "Pitbull",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
+    }
+  ],
+  "unmatchedVolt": [
+    {
+      "voltId": "merchantman",
+      "voltName": "Merchantman",
+      "manufacturer": "Banu",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "hull-d",
+      "voltName": "Hull D",
+      "manufacturer": "MISC",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "hull-e",
+      "voltName": "Hull E",
+      "manufacturer": "MISC",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "orion",
+      "voltName": "Orion",
+      "manufacturer": "RSI",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "javelin",
+      "voltName": "Javelin",
+      "manufacturer": "Aegis",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "genesis",
+      "voltName": "Genesis",
+      "manufacturer": "Crusader",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "endeavor",
+      "voltName": "Endeavor",
+      "manufacturer": "MISC",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "crucible",
+      "voltName": "Crucible",
+      "manufacturer": "Anvil",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "pioneer",
+      "voltName": "Pioneer",
+      "manufacturer": "CNOU",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "vulcan",
+      "voltName": "Vulcan",
+      "manufacturer": "Aegis",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "kraken",
+      "voltName": "Kraken",
+      "manufacturer": "Drake",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "kraken-privateer",
+      "voltName": "Kraken Privateer",
+      "manufacturer": "Drake",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "ranger-rc",
+      "voltName": "Ranger RC",
+      "manufacturer": "Tumbril",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "ranger-tr",
+      "voltName": "Ranger TR",
+      "manufacturer": "Tumbril",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "ranger-cv",
+      "voltName": "Ranger CV",
+      "manufacturer": "Tumbril",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "nautilus",
+      "voltName": "Nautilus ",
+      "manufacturer": "Aegis",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "nautilus-solstice-edition",
+      "voltName": "Nautilus Solstice Edition",
+      "manufacturer": "Aegis",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "g12",
+      "voltName": "G12",
+      "manufacturer": "Origin",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "g12r",
+      "voltName": "G12r",
+      "manufacturer": "Origin",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "g12a",
+      "voltName": "G12a",
+      "manufacturer": "Origin",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "liberator",
+      "voltName": "Liberator",
+      "manufacturer": "Anvil",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "odyssey",
+      "voltName": "Odyssey",
+      "manufacturer": "MISC",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "expanse",
+      "voltName": "Expanse",
+      "manufacturer": "MISC",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "legionnaire",
+      "voltName": "Legionnaire",
+      "manufacturer": "Anvil",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "e1-spirit",
+      "voltName": "E1 Spirit",
+      "manufacturer": "Crusader",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "galaxy",
+      "voltName": "Galaxy",
+      "manufacturer": "RSI",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "zeus-mk2-mr",
+      "voltName": "Zeus MK2 MR",
+      "manufacturer": "RSI",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "arrastra",
+      "voltName": "Arrastra",
+      "manufacturer": "RSI",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "atls",
+      "voltName": "ATLS",
+      "manufacturer": "ARGO",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    },
+    {
+      "voltId": "atls-geo",
+      "voltName": "ATLS GEO",
+      "manufacturer": "ARGO",
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "erkulName": null
+    }
+  ],
+  "unmatchedErkul": [
+    {
+      "localName": "drak_command_module",
+      "name": "Command Module",
+      "manufacturer": "Drake Interplanetary"
+    },
+    {
+      "localName": "aegs_tiburon",
+      "name": "Tiburon",
+      "manufacturer": "Aegis Dynamics"
+    },
+    {
+      "localName": "anvl_hornet_f7cm_mk2_heartseeker",
+      "name": "F7C-M Hornet Heartseeker Mk II",
+      "manufacturer": "Anvil Aerospace"
+    },
+    {
+      "localName": "anvl_lightning_f8",
+      "name": "F8A Lightning",
+      "manufacturer": "Anvil Aerospace"
+    },
+    {
+      "localName": "drak_caterpillar_pirate",
+      "name": "Caterpillar Pirate",
+      "manufacturer": "Drake Interplanetary"
+    },
+    {
+      "localName": "drak_dragonfly_pink",
+      "name": "Dragonfly Star Kitten",
+      "manufacturer": "Drake Interplanetary"
+    },
+    {
+      "localName": "gama_tyilui",
+      "name": "Tyilui",
+      "manufacturer": "Gatac Manufacture"
+    },
+    {
+      "localName": "misc_starlite",
+      "name": "Starlite",
+      "manufacturer": "Musashi Industrial & Starflight Concern"
+    },
+    {
+      "localName": "orig_600i_executive_edition",
+      "name": "600i Executive Edition",
+      "manufacturer": "Origin Jumpworks"
+    }
+  ],
+  "manualRequired": [],
+  "marketOnlyUnmatched": [
+    {
+      "erkulLocalName": "rsi_aurora_mr",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "inManualCandidates": true
+    },
+    {
+      "erkulLocalName": "rsi_aurora_ln",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "inManualCandidates": true
+    },
+    {
+      "erkulLocalName": "rsi_aurora_es",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "inManualCandidates": true
+    },
+    {
+      "erkulLocalName": "rsi_aurora_cl",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "inManualCandidates": true
+    },
+    {
+      "erkulLocalName": "aegs_hammerhead",
+      "rows": 1,
+      "sampleShop": "New Deal@Lorville",
+      "inManualCandidates": true
+    },
+    {
+      "erkulLocalName": "rsi_aurora_lx",
+      "rows": 1,
+      "sampleShop": "New Deal@Lorville",
+      "inManualCandidates": true
+    }
+  ],
+  "voltVariants": [
+    {
+      "voltId": "mustang-alpha-vindicator",
+      "canonicalId": "mustang-alpha"
+    },
+    {
+      "voltId": "carrack-w-c8x",
+      "canonicalId": "carrack"
+    },
+    {
+      "voltId": "carrack-expedition-w-c8x",
+      "canonicalId": "carrack-expedition"
+    },
+    {
+      "voltId": "valkyrie-liberator-edition",
+      "canonicalId": "valkyrie"
+    },
+    {
+      "voltId": "argo-mole-carbon-edition",
+      "canonicalId": "mole"
+    },
+    {
+      "voltId": "argo-mole-talus-edition",
+      "canonicalId": "mole"
+    },
+    {
+      "voltId": "f8c-lightning-executive-edition",
+      "canonicalId": "f8c-lightning"
+    }
+  ],
+  "conflicts": [],
+  "summary": {
+    "matchedWithStats": 210,
+    "matchedWithPurchase": 173,
+    "matchedWithRentals": 41,
+    "matchedWithoutMarket": 37
+  }
+}
