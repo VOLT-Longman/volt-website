@@ -11,7 +11,8 @@
     "cache-version": "node scripts/update-cache-version.js",
     "shipdb:erkul:fetch": "node scripts/erkul/fetch-erkul-live.mjs",
     "shipdb:erkul:inspect": "node scripts/erkul/inspect-erkul-ship.mjs asgard",
-    "shipdb:erkul:normalize": "node scripts/erkul/normalize-erkul-ships.mjs"
+    "shipdb:erkul:normalize": "node scripts/erkul/normalize-erkul-ships.mjs",
+    "shipdb:erkul:market": "node scripts/erkul/normalize-erkul-market.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",

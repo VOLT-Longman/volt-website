@@ -1,0 +1,4158 @@
+{
+  "source": "erkul-live",
+  "syncedAt": "2026-07-05T12:02:20.586Z",
+  "ships": {
+    "anvl_ballista": {
+      "localName": "anvl_ballista",
+      "ref": "a04a1503-ac5c-4520-bc22-4b1a1a198eff",
+      "name": "Ballista",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1481760,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1481760,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_centurion": {
+      "localName": "anvl_centurion",
+      "ref": "27515ffd-04df-413f-8533-34612d906c7d",
+      "name": "Centurion",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1164240,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1164240,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_spartan": {
+      "localName": "anvl_spartan",
+      "ref": "9c26b25a-9285-4074-94d1-163db2aa8cbb",
+      "name": "Spartan",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 846720,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 846720,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "grin_ptv": {
+      "localName": "grin_ptv",
+      "ref": "41ff82e7-ce4e-4dbc-ad7c-7ef52fbe569c",
+      "name": "PTV",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 28350,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "grin_stv": {
+      "localName": "grin_stv",
+      "ref": "d4662193-10ab-4912-8ca4-d64ead0e6f3b",
+      "name": "STV",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 75600,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 75600,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 75600,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 75600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "orig_890jump": {
+      "localName": "orig_890jump",
+      "ref": "50ddaf5e-a8e3-42fe-a1d3-7267f39b39b0",
+      "name": "890 Jump",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 65356200,
+          "available": 2,
+          "unavailable": 3
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 62088392,
+          "available": 3,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_m50": {
+      "localName": "orig_m50",
+      "ref": "1b57cdac-693b-410b-8343-68fa194c94ae",
+      "name": "M50 Interceptor",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1499400,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1499400,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": 1499400,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": []
+    },
+    "vncl_blade": {
+      "localName": "vncl_blade",
+      "ref": "0d4c5000-ffdb-41f5-9de1-d64252dfef21",
+      "name": "Blade",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 7796250,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "xian_nox": {
+      "localName": "xian_nox",
+      "ref": "daddeefa-fef0-4146-b630-a33d6e8904d3",
+      "name": "Nox",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 722925,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "xian_scout": {
+      "localName": "xian_scout",
+      "ref": "8f61dc58-74ca-4dc6-aa95-c3105f10bba4",
+      "name": "Khartu-al",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 7229250,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_600i": {
+      "localName": "orig_600i",
+      "ref": "f8ac4c26-8f4d-4cb3-9be2-7d867a95a877",
+      "name": "600i",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 27231750,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": 27231750,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": []
+    },
+    "orig_600i_touring": {
+      "localName": "orig_600i_touring",
+      "ref": "11b660a2-c77c-490b-9e85-ee70400c5cf8",
+      "name": "600i Touring",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 24938550,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_400i": {
+      "localName": "orig_400i",
+      "ref": "718f4435-628b-4436-bb80-bf9cfef9a945",
+      "name": "400i",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 8840066,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 8398063,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_300i": {
+      "localName": "orig_300i",
+      "ref": "ce937681-caa2-4cfa-ab80-f5bf2a5b9a6c",
+      "name": "300i",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1375920,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": 1375920,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": []
+    },
+    "orig_315p": {
+      "localName": "orig_315p",
+      "ref": "dc537d66-2abb-43aa-9d37-4e963fc6e9e2",
+      "name": "315p",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1490580,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_325a": {
+      "localName": "orig_325a",
+      "ref": "039a2768-1aff-4969-b2a4-ed8aeb21dae1",
+      "name": "325a",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1852200,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Regal Luxury Rentals@New Babbage (rental)"
+      ]
+    },
+    "orig_350r": {
+      "localName": "orig_350r",
+      "ref": "316c6601-b405-4a3a-abac-394c655718f8",
+      "name": "350r",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 3748500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_135c": {
+      "localName": "orig_135c",
+      "ref": "2f231daa-95e5-4cb2-a32e-4db8f29a30d6",
+      "name": "135c",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1490580,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_100i": {
+      "localName": "orig_100i",
+      "ref": "6135a874-4cb1-4f49-9f29-5781e5991f2b",
+      "name": "100i",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1146600,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1146600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Regal Luxury Rentals@New Babbage (rental)"
+      ]
+    },
+    "espr_talon": {
+      "localName": "espr_talon",
+      "ref": "41a84db8-062b-4359-ad16-611ad540fbdb",
+      "name": "Talon",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 3260250,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "espr_talon_shrike": {
+      "localName": "espr_talon_shrike",
+      "ref": "2000c8d9-f151-4148-babe-6d9e413e2114",
+      "name": "Talon Shrike",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 3260250,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "espr_prowler": {
+      "localName": "espr_prowler",
+      "ref": "087b2253-2fc7-4fae-9f9d-97f64b7c43db",
+      "name": "Prowler",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 18711000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "cnou_mustang_delta": {
+      "localName": "cnou_mustang_delta",
+      "ref": "f8c8fe5c-1aa3-41d7-86b0-6bb54b249541",
+      "name": "Mustang Delta",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1228500,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "cnou_mustang_gamma": {
+      "localName": "cnou_mustang_gamma",
+      "ref": "968249b2-ca7c-4b41-8f58-730673fefc8c",
+      "name": "Mustang Gamma",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1178100,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Regal Luxury Rentals@New Babbage (rental)"
+      ]
+    },
+    "anvl_hornet_f7c": {
+      "localName": "anvl_hornet_f7c",
+      "ref": "933ca746-3c36-470f-8245-a247a3776455",
+      "name": "F7C Hornet Mk I",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 2910600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_hornet_f7c_wildfire": {
+      "localName": "anvl_hornet_f7c_wildfire",
+      "ref": "0af2064a-c02d-4801-a434-09d802ba6573",
+      "name": "F7C Hornet Wildfire Mk I",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 4630500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_hornet_f7cm": {
+      "localName": "anvl_hornet_f7cm",
+      "ref": "4f83f89d-480b-4d1b-867a-13772742d828",
+      "name": "F7C-M Super Hornet Mk I",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 4762800,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_hornet_f7cr": {
+      "localName": "anvl_hornet_f7cr",
+      "ref": "95b11c76-31ea-4bf3-9894-fb29caecb927",
+      "name": "F7C-R Hornet Tracker Mk I",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 3210480,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_hornet_f7cs": {
+      "localName": "anvl_hornet_f7cs",
+      "ref": "63b90c8d-459c-4a27-8cf6-db706ffc49ae",
+      "name": "F7C-S Hornet Ghost Mk I",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 3307500,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_razor_lx": {
+      "localName": "misc_razor_lx",
+      "ref": "203cb135-4f12-4a23-bd53-30910134bac8",
+      "name": "Razor LX",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1927800,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1927800,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_razor_ex": {
+      "localName": "misc_razor_ex",
+      "ref": "b17ef3ab-9518-40fd-803f-c2468175ccf6",
+      "name": "Razor EX",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1757700,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1669815,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_arrow": {
+      "localName": "anvl_arrow",
+      "ref": "eaeb562d-d4ac-43bd-a843-e8a6d69fad82",
+      "name": "Arrow",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1984500,
+          "available": 4,
+          "unavailable": null
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 1984500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_carrack": {
+      "localName": "anvl_carrack",
+      "ref": "f6d606c9-b324-4efa-814f-15a59047a6a5",
+      "name": "Carrack",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 34398000,
+          "available": 2,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_gladiator": {
+      "localName": "anvl_gladiator",
+      "ref": "f3f7b2e8-1e11-4649-82c6-3106ec966655",
+      "name": "Gladiator",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 4365900,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_hurricane": {
+      "localName": "anvl_hurricane",
+      "ref": "3a586d52-4829-4504-8e3a-4ee300bb40cc",
+      "name": "Hurricane",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 5556600,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_hawk": {
+      "localName": "anvl_hawk",
+      "ref": "c0f1d217-388c-453a-b6c1-3cb5c2cfc4d8",
+      "name": "Hawk",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 2646000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_c8_pisces": {
+      "localName": "anvl_c8_pisces",
+      "ref": "20d5f617-147a-4530-a753-a7afd1875fd1",
+      "name": "C8 Pisces",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 745290,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)"
+      ]
+    },
+    "anvl_c8r_pisces": {
+      "localName": "anvl_c8r_pisces",
+      "ref": "1bed9058-e284-4c0f-b561-6ba57ab4f99d",
+      "name": "C8R Pisces Rescue",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 555660,
+          "available": 3,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)"
+      ]
+    },
+    "anvl_c8x_pisces_expedition": {
+      "localName": "anvl_c8x_pisces_expedition",
+      "ref": "831fdcfc-337a-4350-967d-e693d19efeee",
+      "name": "C8X Pisces Expedition",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 515970,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_valkyrie": {
+      "localName": "anvl_valkyrie",
+      "ref": "881e3879-a186-44da-8b47-1d8f0a846438",
+      "name": "Valkyrie",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 19845000,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_terrapin": {
+      "localName": "anvl_terrapin",
+      "ref": "0920e187-515d-466a-9c6a-a7dde9d2b1bc",
+      "name": "Terrapin",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 5433120,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 5433120,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "crus_starlifter_c2": {
+      "localName": "crus_starlifter_c2",
+      "ref": "7533ff77-836c-4bd2-9171-487d9c63863c",
+      "name": "C2 Hercules Starlifter",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 18900000,
+          "available": 3,
+          "unavailable": null
+        },
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 18900000,
+          "available": 7,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "cnou_hoverquad": {
+      "localName": "cnou_hoverquad",
+      "ref": "16ff4365-ac34-4b09-a132-d52d51f688d4",
+      "name": "HoverQuad",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 56700,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 56700,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "banu_defender": {
+      "localName": "banu_defender",
+      "ref": "081236f5-9549-4a60-9123-6ae21f0cd261",
+      "name": "Defender",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 6237000,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Regal Luxury Rentals@New Babbage (rental)"
+      ]
+    },
+    "krig_p72_archimedes": {
+      "localName": "krig_p72_archimedes",
+      "ref": "70580bce-2347-4e96-9260-dee6394f483d",
+      "name": "P-72 Archimedes",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 449820,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "krig_p52_merlin": {
+      "localName": "krig_p52_merlin",
+      "ref": "a5a8e4e5-939c-4f7b-ab48-5f7db556d5a4",
+      "name": "P-52 Merlin",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 283500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "xnaa_santokyai": {
+      "localName": "xnaa_santokyai",
+      "ref": "9634b4d6-9f5a-4ad2-8574-431c15e3bc5d",
+      "name": "San'tok.yāi",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 9355500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_fury": {
+      "localName": "misc_fury",
+      "ref": "96b11061-68ce-4896-9424-fc8804a410ae",
+      "name": "Fury",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 727650,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 691268,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_fury_lx": {
+      "localName": "misc_fury_lx",
+      "ref": "83a450d1-e6b1-437e-9aee-18316ed34c29",
+      "name": "Fury LX",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 824670,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_x1": {
+      "localName": "orig_x1",
+      "ref": "829d0525-e67e-4e57-9f52-b4e572a4f73d",
+      "name": "X1",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 105840,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_x1_force": {
+      "localName": "orig_x1_force",
+      "ref": "b416dbbf-53f2-489e-a9dc-456286aa6c70",
+      "name": "X1 Force",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 132300,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 132300,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "orig_x1_velocity": {
+      "localName": "orig_x1_velocity",
+      "ref": "58e25524-8bd3-450f-8442-7b58fdfc8a50",
+      "name": "X1 Velocity",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 119070,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "gama_syulen": {
+      "localName": "gama_syulen",
+      "ref": "11ebc47d-4763-4faa-9020-171cf6c2651f",
+      "name": "Syulen",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 2778300,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "mrai_pulse": {
+      "localName": "mrai_pulse",
+      "ref": "48415834-ac12-4c28-ad01-7c210f30c2da",
+      "name": "Pulse",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 185220,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 175959,
+          "available": 1,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_starlancer_max": {
+      "localName": "misc_starlancer_max",
+      "ref": "ff873dda-2b79-4fa3-b3ce-535b8adff5e2",
+      "name": "Starlancer MAX",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 8820000,
+          "available": 2,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 8820000,
+          "available": 3,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_terrapin_medic": {
+      "localName": "anvl_terrapin_medic",
+      "ref": "35f6ad71-01c6-4762-a18b-99c7fdde9760",
+      "name": "Terrapin Medic",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 5704770,
+          "available": 6,
+          "unavailable": 8
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "argo_csv_cargo": {
+      "localName": "argo_csv_cargo",
+      "ref": "e8efe30c-5a1e-4ca2-a956-424b352f80c2",
+      "name": "CSV-SM",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 378000,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 378000,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 378000,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 378000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "crus_intrepid": {
+      "localName": "crus_intrepid",
+      "ref": "16aa514f-12ac-43a4-b51d-44447252186e",
+      "name": "Intrepid",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 1234800,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1173060,
+          "available": null,
+          "unavailable": 8
+        },
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 1234800,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "mrai_guardian": {
+      "localName": "mrai_guardian",
+      "ref": "30e0f7ac-26fc-4d31-a231-af625511e37e",
+      "name": "Guardian",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 6615000,
+          "available": 1,
+          "unavailable": 2
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 6615000,
+          "available": null,
+          "unavailable": 5
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_asgard": {
+      "localName": "anvl_asgard",
+      "ref": "8ffde65b-ee9b-4a50-b386-3111175736b2",
+      "name": "Asgard",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 17860500,
+          "available": 3,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "mrai_guardian_mx": {
+      "localName": "mrai_guardian_mx",
+      "ref": "aaa0cdcd-907c-4533-b3fc-181ede06076d",
+      "name": "Guardian MX",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 7408800,
+          "available": 3,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 7038360,
+          "available": 4,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_starlancer_tac": {
+      "localName": "misc_starlancer_tac",
+      "ref": "14b8caeb-d5e1-4816-9537-86ef19afada8",
+      "name": "Starlancer TAC",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 13381200,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 13381200,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "espr_prowler_utility": {
+      "localName": "espr_prowler_utility",
+      "ref": "528fdddc-c97f-4ae8-a00e-11a59fc3662d",
+      "name": "Prowler Utility",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 16839000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)"
+      ]
+    },
+    "krig_l21_wolf": {
+      "localName": "krig_l21_wolf",
+      "ref": "1b201ef2-b4dd-46c2-978e-47a13e0a7f81",
+      "name": "L-21 Wolf",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 2381400,
+          "available": 2,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_paladin": {
+      "localName": "anvl_paladin",
+      "ref": "b617902a-6cab-457b-9eb8-494274f659b8",
+      "name": "Paladin",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 15876000,
+          "available": 8,
+          "unavailable": 24
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_perseus": {
+      "localName": "rsi_perseus",
+      "ref": "40a1f83b-3623-49e6-8168-ab8223998aa2",
+      "name": "Perseus",
+      "purchase": [
+        {
+          "shop": "Astro Armada",
+          "location": "Area18",
+          "price": 39690000,
+          "available": 5,
+          "unavailable": 3
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_mule": {
+      "localName": "drak_mule",
+      "ref": "fb484074-f33f-4977-a052-2937e8508acc",
+      "name": "Mule",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 68040,
+          "available": 2,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "grin_roc": {
+      "localName": "grin_roc",
+      "ref": "62e33393-5d68-4191-aba5-3b81ce4f3bf9",
+      "name": "ROC",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 98753,
+          "available": 3,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Refinery Rentals",
+          "location": null,
+          "price": 103950,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Refinery Rentals",
+          "location": null,
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "CRU L1",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Refinery Rentals@? (rental)",
+        "price=0: Vantage Rentals@CRU L1 (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "grin_roc_ds": {
+      "localName": "grin_roc_ds",
+      "ref": "14d6ba03-86ad-47f8-b940-e8a82d2d52b6",
+      "name": "ROC-DS",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 141750,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_ursa_rover": {
+      "localName": "rsi_ursa_rover",
+      "ref": "8c375d7e-0e44-42e8-b84b-c8d6b2e1256c",
+      "name": "Ursa",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 113400,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Regal Luxury Rentals@New Babbage (rental)",
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)"
+      ]
+    },
+    "tmbl_cyclone": {
+      "localName": "tmbl_cyclone",
+      "ref": "8dbb42e4-e127-4153-9694-2845142c3e51",
+      "name": "Cyclone",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 103950,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 103950,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 103950,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 103950,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": 110170,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": 110170,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "tmbl_cyclone_tr": {
+      "localName": "tmbl_cyclone_tr",
+      "ref": "f80914cf-643e-4b7e-b715-eaf9aa572954",
+      "name": "Cyclone TR",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 122850,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "tmbl_cyclone_rn": {
+      "localName": "tmbl_cyclone_rn",
+      "ref": "b389839d-fdf9-4c41-850a-4e7461250304",
+      "name": "Cyclone RN",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 122850,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "tmbl_cyclone_rc": {
+      "localName": "tmbl_cyclone_rc",
+      "ref": "064951d7-3dd0-49c2-8b88-d2d7f809633e",
+      "name": "Cyclone RC",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 122850,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "tmbl_cyclone_mt": {
+      "localName": "tmbl_cyclone_mt",
+      "ref": "bda93768-c01f-40b4-a92e-f31876cd33d0",
+      "name": "Cyclone MT",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 141750,
+          "available": null,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "tmbl_cyclone_aa": {
+      "localName": "tmbl_cyclone_aa",
+      "ref": "0194943d-1164-4b5f-a85e-79ebc0ebe621",
+      "name": "Cyclone AA",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 151200,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "tmbl_nova": {
+      "localName": "tmbl_nova",
+      "ref": "b8a352bb-74a8-415b-9e08-77f684ac91b8",
+      "name": "Nova",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 907200,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 907200,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 907200,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 907200,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_gladius": {
+      "localName": "aegs_gladius",
+      "ref": "b6b59889-7226-458e-a6b0-1c9392128a3c",
+      "name": "Gladius",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2381400,
+          "available": 5,
+          "unavailable": 2
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 2381400,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_gladius_valiant": {
+      "localName": "aegs_gladius_valiant",
+      "ref": "d6cb3db3-b1e0-47a5-8c62-a64285dbb675",
+      "name": "Gladius Valiant",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2910600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_reclaimer": {
+      "localName": "aegs_reclaimer",
+      "ref": "f05b74b2-06cf-44d0-8607-c09487359384",
+      "name": "Reclaimer",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 30164400,
+          "available": 3,
+          "unavailable": null
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 33339600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_redeemer": {
+      "localName": "aegs_redeemer",
+      "ref": "9a25d006-5706-4c70-9ac6-df795688fe09",
+      "name": "Redeemer",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 9803430,
+          "available": null,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_retaliator": {
+      "localName": "aegs_retaliator",
+      "ref": "93e1a434-f4fa-43ee-a40c-71bcae5073bc",
+      "name": "Retaliator",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 7938000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_sabre": {
+      "localName": "aegs_sabre",
+      "ref": "17276ad3-7636-40b8-969a-877a2b439b37",
+      "name": "Sabre",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 4273290,
+          "available": 4,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_sabre_comet": {
+      "localName": "aegs_sabre_comet",
+      "ref": "9e4b2b2b-1b5a-4d53-84a2-fe6ed1e43172",
+      "name": "Sabre Comet",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 4895100,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_eclipse": {
+      "localName": "aegs_eclipse",
+      "ref": "c9b3ef78-9c47-4052-bf70-ecf32c55c001",
+      "name": "Eclipse",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 7541100,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_cutter": {
+      "localName": "drak_cutter",
+      "ref": "3ea9bcd8-1ddd-4714-a537-7b2675e8c2d2",
+      "name": "Cutter",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 625040,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 635040,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Baijini Point",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Seraphim",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Everus Harbor",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)",
+        "price=0: Cargo Office Rentals@Baijini Point (rental)",
+        "price=0: Cargo Office Rentals@Seraphim (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)",
+        "price=0: Traveler Rentals@Everus Harbor (rental)"
+      ]
+    },
+    "orig_85x": {
+      "localName": "orig_85x",
+      "ref": "9dc9c257-c413-416a-ab9b-06fbadf18d1e",
+      "name": "85X Limited",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 573300,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_mantis": {
+      "localName": "rsi_mantis",
+      "ref": "43f4f9c3-70ad-4549-8a10-0045afbbda10",
+      "name": "Mantis",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 3402000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_avenger_stalker": {
+      "localName": "aegs_avenger_stalker",
+      "ref": "97648869-5fa5-42da-b804-4d9314289539",
+      "name": "Avenger Stalker",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1587600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_avenger_titan": {
+      "localName": "aegs_avenger_titan",
+      "ref": "0079c5d5-1678-4f8c-85ba-18ca8f642af6",
+      "name": "Avenger Titan",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1358280,
+          "available": null,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": 1358280,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": 1358280,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": null,
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Cargo Office Rentals@? (rental)"
+      ]
+    },
+    "aegs_avenger_titan_renegade": {
+      "localName": "aegs_avenger_titan_renegade",
+      "ref": "d9bc09ce-4c74-4f72-892e-a833c094f4e6",
+      "name": "Avenger Titan Renegade",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1852200,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_avenger_warlock": {
+      "localName": "aegs_avenger_warlock",
+      "ref": "9474f571-8467-4d83-b1fe-f64103d363f4",
+      "name": "Avenger Warlock",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2249100,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_vanguard": {
+      "localName": "aegs_vanguard",
+      "ref": "a8208d11-32d4-4a4a-82c4-fd7f498b2ae6",
+      "name": "Vanguard Warden",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 7354900,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_vanguard_harbinger": {
+      "localName": "aegs_vanguard_harbinger",
+      "ref": "34295443-da9b-4e6c-9335-69d5f3b29a88",
+      "name": "Vanguard Harbinger",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 8200400,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_vanguard_sentinel": {
+      "localName": "aegs_vanguard_sentinel",
+      "ref": "8aa6a16e-6c06-4db8-ac6d-165f97bf2565",
+      "name": "Vanguard Sentinel",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 7776700,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_vanguard_hoplite": {
+      "localName": "aegs_vanguard_hoplite",
+      "ref": "f80d39f3-50fc-4fca-ada1-76de4c237e3f",
+      "name": "Vanguard Hoplite",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 6645250,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_caterpillar": {
+      "localName": "drak_caterpillar",
+      "ref": "dc39ca6b-1d76-4db5-9346-356f49954978",
+      "name": "Caterpillar",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 11850300,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_starfarer_gemini": {
+      "localName": "misc_starfarer_gemini",
+      "ref": "c989caf2-84a5-4c01-b99e-5fc9f8d0ce8e",
+      "name": "Starfarer Gemini",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 14244300,
+          "available": null,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_starfarer": {
+      "localName": "misc_starfarer",
+      "ref": "13a02a6d-7d67-4d22-8530-d4d2c8443f66",
+      "name": "Starfarer",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 12568500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_constellation_taurus": {
+      "localName": "rsi_constellation_taurus",
+      "ref": "d1c3fa10-b2d9-421e-8301-97dbf4d0c115",
+      "name": "Constellation Taurus",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 7641648,
+          "available": 5,
+          "unavailable": 3
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 8043840,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": null,
+          "available": 5,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Regal Luxury Rentals@New Babbage (rental)"
+      ]
+    },
+    "rsi_constellation_phoenix": {
+      "localName": "rsi_constellation_phoenix",
+      "ref": "ecadf2b2-a404-4776-9289-04af91538d76",
+      "name": "Constellation Phoenix",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 14817600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_constellation_aquila": {
+      "localName": "rsi_constellation_aquila",
+      "ref": "e7b40f5c-4099-4aa6-b226-b5b08bd68413",
+      "name": "Constellation Aquila",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 12186720,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_constellation_andromeda": {
+      "localName": "rsi_constellation_andromeda",
+      "ref": "d95fb013-60d5-43ac-ab2d-daa082f45411",
+      "name": "Constellation Andromeda",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 9652608,
+          "available": 4,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": 10160640,
+          "available": 3,
+          "unavailable": null
+        }
+      ],
+      "anomalies": []
+    },
+    "misc_freelancer_mis": {
+      "localName": "misc_freelancer_mis",
+      "ref": "4b6700e5-38bd-4d8d-9281-ef82996b135f",
+      "name": "Freelancer MIS",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 4961250,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_freelancer_max": {
+      "localName": "misc_freelancer_max",
+      "ref": "6c6e9731-3d70-4f1b-84c2-9dbf3c1f97c7",
+      "name": "Freelancer MAX",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 4252500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Baijini Point",
+          "price": null,
+          "available": null,
+          "unavailable": 1
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Seraphim",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Everus Harbor",
+          "price": null,
+          "available": 1,
+          "unavailable": 1
+        }
+      ],
+      "anomalies": [
+        "price=0: Cargo Office Rentals@Baijini Point (rental)",
+        "price=0: Cargo Office Rentals@Seraphim (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)",
+        "price=0: Traveler Rentals@Everus Harbor (rental)"
+      ]
+    },
+    "misc_freelancer_dur": {
+      "localName": "misc_freelancer_dur",
+      "ref": "34821163-e32e-42bf-99df-8f42ba66ef34",
+      "name": "Freelancer DUR",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 3316950,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_freelancer": {
+      "localName": "misc_freelancer",
+      "ref": "b4791030-9d64-4f98-85cb-ca106f868c5e",
+      "name": "Freelancer",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 3118500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Cargo Office Rentals",
+          "location": null,
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Cargo Office Rentals@? (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "orig_125a": {
+      "localName": "orig_125a",
+      "ref": "e7eeba8d-b108-48a1-a332-d9edbab2b9c1",
+      "name": "125a",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1587600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_buccaneer": {
+      "localName": "drak_buccaneer",
+      "ref": "efec4d48-77ab-4cba-9add-a3d96c5be8d8",
+      "name": "Buccaneer",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1580040,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 1663200,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 1663200,
+          "available": null,
+          "unavailable": 1
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 1663200,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "cnou_mustang_alpha": {
+      "localName": "cnou_mustang_alpha",
+      "ref": "a852bb00-e395-468f-9adc-78b3df9c82f6",
+      "name": "Mustang Alpha",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 642600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": 655200,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": 655200,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "cnou_mustang_beta": {
+      "localName": "cnou_mustang_beta",
+      "ref": "973bc147-4422-48a6-99c8-6ff0ead25bdf",
+      "name": "Mustang Beta",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 655200,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_corsair": {
+      "localName": "drak_corsair",
+      "ref": "e1afb014-fe71-4da9-89ae-c30fcf9c0782",
+      "name": "Corsair",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 6224400,
+          "available": 9,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": 3,
+          "unavailable": 1
+        }
+      ],
+      "anomalies": [
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "misc_prospector": {
+      "localName": "misc_prospector",
+      "ref": "f68ee841-88d1-46f3-a1e2-5dc71d9d5d97",
+      "name": "Prospector",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2783025,
+          "available": 6,
+          "unavailable": 1
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 2929500,
+          "available": 1,
+          "unavailable": 1
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 2929500,
+          "available": null,
+          "unavailable": 1
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 2929500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Refinery Rentals",
+          "location": null,
+          "price": 2929500,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Refinery Rentals",
+          "location": null,
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Baijini Point",
+          "price": null,
+          "available": 2,
+          "unavailable": 1
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Seraphim",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "CRU L1",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Everus Harbor",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "ARC L1",
+          "price": null,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "ARC L4",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "HUR L1",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Refinery Rentals@? (rental)",
+        "price=0: Cargo Office Rentals@Baijini Point (rental)",
+        "price=0: Cargo Office Rentals@Seraphim (rental)",
+        "price=0: Vantage Rentals@CRU L1 (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)",
+        "price=0: Traveler Rentals@Everus Harbor (rental)",
+        "price=0: Vantage Rentals@ARC L1 (rental)",
+        "price=0: Vantage Rentals@ARC L4 (rental)",
+        "price=0: Vantage Rentals@HUR L1 (rental)"
+      ]
+    },
+    "misc_razor": {
+      "localName": "misc_razor",
+      "ref": "cec2111b-4c71-4968-8035-634de6561cf3",
+      "name": "Razor",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1863540,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "argo_mpuv": {
+      "localName": "argo_mpuv",
+      "ref": "e19fc6c3-f5fa-4623-9a17-b00a29b71500",
+      "name": "MPUV Cargo",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 330750,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "argo_mpuv_transport": {
+      "localName": "argo_mpuv_transport",
+      "ref": "e17ccf62-f2d2-4c4e-a132-a3000d40fbde",
+      "name": "MPUV Personnel",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 378000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_herald": {
+      "localName": "drak_herald",
+      "ref": "36726a9f-7e14-4942-bc4f-1a398b5bef6a",
+      "name": "Herald",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1285200,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_dragonfly": {
+      "localName": "drak_dragonfly",
+      "ref": "37659ff0-a803-4a4f-97ff-ad59822061ed",
+      "name": "Dragonfly",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 342720,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 342720,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 342720,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 342720,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": 342720,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": 342720,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "misc_hull_a": {
+      "localName": "misc_hull_a",
+      "ref": "6ec72f64-2002-481c-b7c9-b132476ba6aa",
+      "name": "Hull A",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1615950,
+          "available": 3,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Baijini Point",
+          "price": null,
+          "available": 1,
+          "unavailable": 1
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Seraphim",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Everus Harbor",
+          "price": null,
+          "available": 3,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Cargo Office Rentals@Baijini Point (rental)",
+        "price=0: Cargo Office Rentals@Seraphim (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)",
+        "price=0: Traveler Rentals@Everus Harbor (rental)"
+      ]
+    },
+    "argo_raft": {
+      "localName": "argo_raft",
+      "ref": "cf9aa91e-15bf-435c-a22d-f2cadc4485ce",
+      "name": "RAFT",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 3366563,
+          "available": 7,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": 7,
+          "unavailable": 1
+        }
+      ],
+      "anomalies": [
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "drak_cutlass_black": {
+      "localName": "drak_cutlass_black",
+      "ref": "b58f7735-9454-4a0a-b724-2bc8d61961d7",
+      "name": "Cutlass Black",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2010960,
+          "available": 8,
+          "unavailable": 3
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Refinery Rentals",
+          "location": null,
+          "price": 2116800,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": null,
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Refinery Rentals",
+          "location": null,
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Seraphim",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "CRU L1",
+          "price": null,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Everus Harbor",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Cargo Office Rentals@? (rental)",
+        "price=0: Refinery Rentals@? (rental)",
+        "price=0: Cargo Office Rentals@Seraphim (rental)",
+        "price=0: Vantage Rentals@CRU L1 (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)",
+        "price=0: Traveler Rentals@Everus Harbor (rental)"
+      ]
+    },
+    "drak_cutlass_blue": {
+      "localName": "drak_cutlass_blue",
+      "ref": "13c3f610-7bbd-4464-bd36-d716de49a125",
+      "name": "Cutlass Blue",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 3704400,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_cutlass_red": {
+      "localName": "drak_cutlass_red",
+      "ref": "7780e93d-1cc3-43b4-9b32-9923af19775a",
+      "name": "Cutlass Red",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2714796,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 2857680,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 2857680,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 2857680,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "drak_cutlass_steel": {
+      "localName": "drak_cutlass_steel",
+      "ref": "384d7e27-daec-4554-a8e9-6920a10a86c1",
+      "name": "Cutlass Steel",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 3997350,
+          "available": null,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "crus_starlifter_m2": {
+      "localName": "crus_starlifter_m2",
+      "ref": "5cf39b3b-41d8-45c1-8ef2-d4678c7a7b85",
+      "name": "M2 Hercules Starlifter",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 29484000,
+          "available": null,
+          "unavailable": 1
+        },
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 29484000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "argo_mole": {
+      "localName": "argo_mole",
+      "ref": "ecdfd0df-6c5f-4183-a24b-9e1546e00a4e",
+      "name": "MOLE",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 8483738,
+          "available": 3,
+          "unavailable": null
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 9376763,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Baijini Point",
+          "price": null,
+          "available": 2,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Seraphim",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "CRU L1",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": 2,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Everus Harbor",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "HUR L1",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Cargo Office Rentals@Baijini Point (rental)",
+        "price=0: Cargo Office Rentals@Seraphim (rental)",
+        "price=0: Vantage Rentals@CRU L1 (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)",
+        "price=0: Traveler Rentals@Everus Harbor (rental)",
+        "price=0: Vantage Rentals@HUR L1 (rental)"
+      ]
+    },
+    "cnou_nomad": {
+      "localName": "cnou_nomad",
+      "ref": "34506e83-b7b8-4804-a7bb-f31f11bb9214",
+      "name": "Nomad",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1512000,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Baijini Point",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Seraphim",
+          "price": null,
+          "available": null,
+          "unavailable": 1
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Everus Harbor",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)",
+        "price=0: Cargo Office Rentals@Baijini Point (rental)",
+        "price=0: Cargo Office Rentals@Seraphim (rental)",
+        "price=0: Traveler Rentals@Everus Harbor (rental)"
+      ]
+    },
+    "rsi_scorpius": {
+      "localName": "rsi_scorpius",
+      "ref": "edc1421b-59ee-4233-b292-abc2c3ea0a1a",
+      "name": "Scorpius",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 5443200,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_reliant": {
+      "localName": "misc_reliant",
+      "ref": "3c9af040-d919-4afc-b768-45821a5b913c",
+      "name": "Reliant Kore",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1719900,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "misc_reliant_tana": {
+      "localName": "misc_reliant_tana",
+      "ref": "c2956880-b82a-42d0-962b-eb736dac1536",
+      "name": "Reliant Tana",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1984500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_reliant_sen": {
+      "localName": "misc_reliant_sen",
+      "ref": "e32d125f-a3f8-4bc7-b0e6-cb7edf22b7ac",
+      "name": "Reliant Sen",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2249100,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_reliant_mako": {
+      "localName": "misc_reliant_mako",
+      "ref": "c6cfa4d9-e794-4bb6-8da9-54cb779ea109",
+      "name": "Reliant Mako",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2513700,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_cutter_scout": {
+      "localName": "drak_cutter_scout",
+      "ref": "887cd720-7337-44ae-9708-828ccf808649",
+      "name": "Cutter Scout",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 705600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_vulture": {
+      "localName": "drak_vulture",
+      "ref": "34077e67-5e2c-4903-a17c-2d0e163751c7",
+      "name": "Vulture",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 2513700,
+          "available": 5,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Checkmate",
+          "price": 2646000,
+          "available": 2,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 2646000,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 2646000,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_fury_miru": {
+      "localName": "misc_fury_miru",
+      "ref": "469d850e-b86b-47fc-9ee2-df81d775ccc8",
+      "name": "Fury MX",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 727650,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "misc_hull_c": {
+      "localName": "misc_hull_c",
+      "ref": "c4ceff45-d851-44b1-921b-bfef93a6cd6a",
+      "name": "Hull C",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 15710625,
+          "available": 7,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_scorpius_antares": {
+      "localName": "rsi_scorpius_antares",
+      "ref": "2f88be37-7825-4fe1-afae-2ca9d2b01114",
+      "name": "Scorpius Antares",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 5216400,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_cutter_rambler": {
+      "localName": "drak_cutter_rambler",
+      "ref": "93b13680-9aa6-4c21-b998-e4f8880f7c12",
+      "name": "Cutter Rambler",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 740880,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "argo_srv": {
+      "localName": "argo_srv",
+      "ref": "1810d1a7-61e3-4d95-bafb-0f11758c7683",
+      "name": "SRV",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 3770550,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 3969000,
+          "available": null,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "tmbl_storm": {
+      "localName": "tmbl_storm",
+      "ref": "515269d2-fea4-473f-b416-5f6677a54b55",
+      "name": "Storm",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 453600,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "tmbl_storm_aa": {
+      "localName": "tmbl_storm_aa",
+      "ref": "8bbcd2cd-1e4b-4b0b-a65c-385bb2a02c32",
+      "name": "Storm AA",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 476280,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_ursa_medivac": {
+      "localName": "rsi_ursa_medivac",
+      "ref": "ebf015be-7bf9-44e9-ad9c-b5c65f00c530",
+      "name": "Ursa Medivac",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 118503,
+          "available": 6,
+          "unavailable": null
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 124740,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "argo_mpuv_1t": {
+      "localName": "argo_mpuv_1t",
+      "ref": "674e0a52-4469-4b55-ba0d-6aecc44d1728",
+      "name": "MPUV Tractor",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 395010,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Baijini Point",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Cargo Office Rentals",
+          "location": "Seraphim",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Everus Harbor",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Cargo Office Rentals@Baijini Point (rental)",
+        "price=0: Cargo Office Rentals@Seraphim (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)",
+        "price=0: Traveler Rentals@Everus Harbor (rental)"
+      ]
+    },
+    "aegs_sabre_firebird": {
+      "localName": "aegs_sabre_firebird",
+      "ref": "b9bc6679-81ad-472b-8b98-866c72fe6a89",
+      "name": "Sabre Firebird",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 5874120,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "aegs_sabre_peregrine": {
+      "localName": "aegs_sabre_peregrine",
+      "ref": "ac7ec306-b272-432e-8284-491da614419c",
+      "name": "Sabre Peregrine",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 4048380,
+          "available": 1,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_hornet_f7c_mk2": {
+      "localName": "anvl_hornet_f7c_mk2",
+      "ref": "fb231ba1-dba1-4c9f-823a-746c772ae92f",
+      "name": "F7C Hornet Mk II",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 4895100,
+          "available": 2,
+          "unavailable": 4
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_zeus_cl": {
+      "localName": "rsi_zeus_cl",
+      "ref": "02fe3279-3598-4ce6-96dc-0bc5cb90dfdc",
+      "name": "Zeus Mk II CL",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 6463800,
+          "available": 8,
+          "unavailable": 3
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_zeus_es": {
+      "localName": "rsi_zeus_es",
+      "ref": "e4770804-b43a-4c2d-a4e4-fedd410e50fb",
+      "name": "Zeus Mk II ES",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 4201470,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_lynx": {
+      "localName": "rsi_lynx",
+      "ref": "4c034eef-329c-4336-850e-49bfb1f06a15",
+      "name": "Lynx",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 129276,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "mrai_pulse_lx": {
+      "localName": "mrai_pulse_lx",
+      "ref": "d1f27f85-90db-4b5d-8ac2-09a9e9ee1315",
+      "name": "Pulse LX",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 201096,
+          "available": null,
+          "unavailable": 4
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_golem": {
+      "localName": "drak_golem",
+      "ref": "b616b3ad-123c-40f2-80bd-b8f4109633aa",
+      "name": "Golem",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1005480,
+          "available": 1,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 1058400,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "MIC L1",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "HUR L1",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)",
+        "price=0: Vantage Rentals@MIC L1 (rental)",
+        "price=0: Vantage Rentals@HUR L1 (rental)"
+      ]
+    },
+    "misc_fortune": {
+      "localName": "misc_fortune",
+      "ref": "3d371fd4-50e2-4b5e-859f-1086e905c946",
+      "name": "Fortune",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 1890000,
+          "available": 2,
+          "unavailable": 1
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 1984500,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "HUR L1",
+          "price": null,
+          "available": null,
+          "unavailable": 1
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Vantage Rentals@HUR L1 (rental)"
+      ]
+    },
+    "anvl_hornet_f7cs_mk2": {
+      "localName": "anvl_hornet_f7cs_mk2",
+      "ref": "6fa37a02-3d65-448c-a989-02d42d9574dc",
+      "name": "F7C-S Hornet Ghost Mk II",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 5115370,
+          "available": 2,
+          "unavailable": 2
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "anvl_hornet_f7cr_mk2": {
+      "localName": "anvl_hornet_f7cr_mk2",
+      "ref": "3fbff8f5-90f0-4c97-93f2-62d180aa8736",
+      "name": "F7C-R Hornet Tracker Mk II",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 5139850,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_meteor": {
+      "localName": "rsi_meteor",
+      "ref": "3155e6fd-e1c8-4c15-9bd1-f8e3c2c7174f",
+      "name": "Meteor",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 4309200,
+          "available": 3,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "grin_mtc": {
+      "localName": "grin_mtc",
+      "ref": "91c9418e-6240-4fb1-a18a-1e22ebfb7747",
+      "name": "MTC",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 75600,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Ruin Station",
+          "price": 75600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_apollo_triage": {
+      "localName": "rsi_apollo_triage",
+      "ref": "478bfc10-9577-ac19-262a-d40a93c3fcb2",
+      "name": "Apollo Triage",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 7541100,
+          "available": null,
+          "unavailable": 25
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 7541100,
+          "available": 5,
+          "unavailable": 4
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Orison (rental)"
+      ]
+    },
+    "aegs_hammerhead_gs": {
+      "localName": "aegs_hammerhead_gs",
+      "ref": "395f30ae-f930-4929-b881-d711fde7e70f",
+      "name": "Hammerhead",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 34466568,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "drak_clipper": {
+      "localName": "drak_clipper",
+      "ref": "c03e7aef-6411-4e85-9c10-e89862884433",
+      "name": "Clipper",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 3619728,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Buy-&-Fly",
+          "location": "Orbituary",
+          "price": 3810240,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)"
+      ]
+    },
+    "grin_mdc": {
+      "localName": "grin_mdc",
+      "ref": "3e911bb5-1a94-4501-bd63-560557f1b492",
+      "name": "MDC",
+      "purchase": [
+        {
+          "shop": "New Deal",
+          "location": "Lorville",
+          "price": 127575,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_hermes": {
+      "localName": "rsi_hermes",
+      "ref": "4ed10b1c-df4f-4ab0-430e-b5b9f33b0f94",
+      "name": "Hermes",
+      "purchase": [
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 7110180,
+          "available": 2,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals",
+          "location": "Lorville",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Regal Luxury Rentals@New Babbage (rental)",
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)",
+        "price=0: Vantage Rentals@Lorville (rental)"
+      ]
+    },
+    "rsi_salvation": {
+      "localName": "rsi_salvation",
+      "ref": "83318d44-b6c1-42d8-bcd1-284318718b42",
+      "name": "Salvation",
+      "purchase": [
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 1185030,
+          "available": null,
+          "unavailable": 2
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals",
+          "location": "New Babbage",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Baijini Point",
+          "price": null,
+          "available": null,
+          "unavailable": 1
+        }
+      ],
+      "anomalies": [
+        "price=0: Regal Luxury Rentals@New Babbage (rental)",
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)",
+        "price=0: Traveler Rentals@Baijini Point (rental)"
+      ]
+    },
+    "crus_spirit_c1": {
+      "localName": "crus_spirit_c1",
+      "ref": "9611b8ed-cc96-4b5c-aa1e-baefe7d5bb1c",
+      "name": "C1 Spirit",
+      "purchase": [
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 3118500,
+          "available": 8,
+          "unavailable": 1
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Area18",
+          "price": null,
+          "available": 3,
+          "unavailable": 3
+        },
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": 3,
+          "unavailable": 1
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Area18 (rental)",
+        "price=0: Traveler Rentals@Orison (rental)"
+      ]
+    },
+    "rsi_apollo_medivac": {
+      "localName": "rsi_apollo_medivac",
+      "ref": "4559fbe2-55ab-a5a8-4e77-75106cb96ab7",
+      "name": "Apollo Medivac",
+      "purchase": [
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 8295210,
+          "available": 8,
+          "unavailable": 7
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals",
+          "location": "Orison",
+          "price": null,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "anomalies": [
+        "price=0: Traveler Rentals@Orison (rental)"
+      ]
+    },
+    "crus_starfighter_ion": {
+      "localName": "crus_starfighter_ion",
+      "ref": "30aab266-9131-4a07-808b-61c868cb404f",
+      "name": "Ares Star Fighter Ion",
+      "purchase": [
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 4725000,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "crus_starfighter_inferno": {
+      "localName": "crus_starfighter_inferno",
+      "ref": "04571d49-0680-4b84-bdb1-dbebeb22c898",
+      "name": "Ares Star Fighter Inferno",
+      "purchase": [
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 4725000,
+          "available": 3,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "crus_starlifter_a2": {
+      "localName": "crus_starlifter_a2",
+      "ref": "3bee9f2d-4494-4560-b9f8-463bc90695cb",
+      "name": "A2 Hercules Starlifter",
+      "purchase": [
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 44296876,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 37800200,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "crus_star_runner": {
+      "localName": "crus_star_runner",
+      "ref": "c8e10f09-38a0-4730-9dd3-eb0a510c9e43",
+      "name": "Mercury Star Runner",
+      "purchase": [
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 12285000,
+          "available": 1,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "crus_spirit_a1": {
+      "localName": "crus_spirit_a1",
+      "ref": "c0b86c69-55ac-4af3-a722-d46282813e91",
+      "name": "A1 Spirit",
+      "purchase": [
+        {
+          "shop": "Crusader Showroom",
+          "location": "Orison",
+          "price": 4961250,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_aurora_gs_es": {
+      "localName": "rsi_aurora_gs_es",
+      "ref": "d8987dc2-340d-4312-8d4f-aee7e7fac823",
+      "name": "Aurora Mk I ES",
+      "purchase": [
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 423360,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "rsi_aurora_gs_cl": {
+      "localName": "rsi_aurora_gs_cl",
+      "ref": "c984fac2-06c0-4776-8f93-07ebd2c26ad3",
+      "name": "Aurora Mk I CL",
+      "purchase": [
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 1020600,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "glsn_shiv": {
+      "localName": "glsn_shiv",
+      "ref": "3a7bfe4f-7a6c-4818-aba8-0f1019c3a647",
+      "name": "Shiv",
+      "purchase": [
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 5556600,
+          "available": 7,
+          "unavailable": 16
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    },
+    "vncl_stinger": {
+      "localName": "vncl_stinger",
+      "ref": "f7b8addd-9253-495c-a278-bdaa236e6cbc",
+      "name": "Stinger",
+      "purchase": [
+        {
+          "shop": "Teach's",
+          "location": "Levski",
+          "price": 8930250,
+          "available": 5,
+          "unavailable": 12
+        }
+      ],
+      "rentals": [],
+      "anomalies": []
+    }
+  }
+}

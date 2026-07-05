@@ -1,0 +1,4202 @@
+{
+  "source": "erkul-live",
+  "syncedAt": "2026-07-05T12:02:20.586Z",
+  "shopsCount": 112,
+  "inventoryRows": 3471,
+  "shipMarketRows": 346,
+  "shipsWithPurchase": 173,
+  "shipsWithRentals": 41,
+  "shipsWithoutMarket": [
+    "aegs_gladius_pir",
+    "aegs_idris_m",
+    "aegs_idris_p",
+    "aegs_sabre_raven",
+    "aegs_tiburon",
+    "anvl_ballista_dunestalker",
+    "anvl_ballista_snowblind",
+    "anvl_carrack_expedition",
+    "anvl_hornet_f7a_mk1",
+    "anvl_hornet_f7a_mk2",
+    "anvl_hornet_f7cm_heartseeker",
+    "anvl_hornet_f7cm_mk2",
+    "anvl_hornet_f7cm_mk2_heartseeker",
+    "anvl_lightning_f8",
+    "anvl_lightning_f8c",
+    "argo_moth",
+    "cnou_mustang_omega",
+    "drak_caterpillar_pirate",
+    "drak_command_module",
+    "drak_dragonfly_pink",
+    "drak_dragonfly_yellow",
+    "drak_golem_ox",
+    "drak_ironclad",
+    "drak_ironclad_assault",
+    "drak_pitbull",
+    "gama_railen",
+    "gama_tyilui",
+    "grin_utv",
+    "krig_l22_alphawolf",
+    "krig_p72_archimedes_emerald",
+    "misc_hull_b",
+    "misc_starlite",
+    "mrai_guardian_qi",
+    "orig_600i_executive_edition",
+    "orig_m80",
+    "rsi_aurora_gs_ln",
+    "rsi_aurora_gs_lx",
+    "rsi_aurora_gs_mr",
+    "rsi_aurora_gs_se",
+    "rsi_aurora_mk2",
+    "rsi_constellation_phoenix_emerald",
+    "rsi_polaris",
+    "rsi_ursa_rover_emerald",
+    "vncl_glaive",
+    "vncl_scythe",
+    "xian_nox_kue"
+  ],
+  "zeroPriceRows": [
+    {
+      "shop": "Regal Luxury Rentals",
+      "location": "New Babbage",
+      "localName": "banu_defender",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Regal Luxury Rentals",
+      "location": "New Babbage",
+      "localName": "cnou_mustang_gamma",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Regal Luxury Rentals",
+      "location": "New Babbage",
+      "localName": "orig_325a",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Regal Luxury Rentals",
+      "location": "New Babbage",
+      "localName": "orig_100i",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Regal Luxury Rentals",
+      "location": "New Babbage",
+      "localName": "rsi_constellation_taurus",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Regal Luxury Rentals",
+      "location": "New Babbage",
+      "localName": "rsi_ursa_rover",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Regal Luxury Rentals",
+      "location": "New Babbage",
+      "localName": "rsi_hermes",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Regal Luxury Rentals",
+      "location": "New Babbage",
+      "localName": "rsi_salvation",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "anvl_c8_pisces",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "anvl_c8r_pisces",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "cnou_nomad",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "crus_spirit_c1",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "drak_cutter",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "grin_stv",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "rsi_ursa_rover",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "rsi_salvation",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "drak_clipper",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "drak_golem",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "espr_prowler_utility",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "misc_fortune",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Area18",
+      "localName": "rsi_hermes",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "anvl_c8_pisces",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "anvl_c8r_pisces",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "cnou_nomad",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "crus_spirit_c1",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "drak_cutter",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "grin_stv",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "rsi_ursa_rover",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "rsi_salvation",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "rsi_hermes",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "rsi_apollo_medivac",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "rsi_apollo_triage",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "drak_golem",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "drak_clipper",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Orison",
+      "localName": "espr_prowler_utility",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": null,
+      "localName": "misc_freelancer",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": null,
+      "localName": "aegs_avenger_titan",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": null,
+      "localName": "drak_cutlass_black",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Refinery Rentals",
+      "location": null,
+      "localName": "grin_roc",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Refinery Rentals",
+      "location": null,
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Refinery Rentals",
+      "location": null,
+      "localName": "drak_cutlass_black",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Baijini Point",
+      "localName": "misc_freelancer_max",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Baijini Point",
+      "localName": "argo_mole",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Baijini Point",
+      "localName": "cnou_nomad",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Baijini Point",
+      "localName": "argo_mpuv_1t",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Baijini Point",
+      "localName": "drak_cutter",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Baijini Point",
+      "localName": "misc_hull_a",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Baijini Point",
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Seraphim",
+      "localName": "argo_mole",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Seraphim",
+      "localName": "argo_mpuv_1t",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Seraphim",
+      "localName": "cnou_nomad",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Seraphim",
+      "localName": "drak_cutlass_black",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Seraphim",
+      "localName": "drak_cutter",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Seraphim",
+      "localName": "misc_freelancer_max",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Seraphim",
+      "localName": "misc_hull_a",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Cargo Office Rentals",
+      "location": "Seraphim",
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "CRU L1",
+      "localName": "argo_mole",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "CRU L1",
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "CRU L1",
+      "localName": "drak_cutlass_black",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "CRU L1",
+      "localName": "grin_roc",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "argo_mole",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "argo_raft",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "argo_mpuv_1t",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "cnou_mustang_alpha",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "drak_dragonfly",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "drak_cutlass_red",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "drak_corsair",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "drak_cutter",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "drak_buccaneer",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "drak_cutlass_black",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "grin_roc",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "grin_stv",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "misc_freelancer",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "misc_freelancer_max",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "misc_hull_a",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "misc_reliant",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "tmbl_cyclone",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "Lorville",
+      "localName": "rsi_hermes",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Everus Harbor",
+      "localName": "argo_mole",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Everus Harbor",
+      "localName": "argo_mpuv_1t",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Everus Harbor",
+      "localName": "cnou_nomad",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Everus Harbor",
+      "localName": "drak_cutlass_black",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Everus Harbor",
+      "localName": "drak_cutter",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Everus Harbor",
+      "localName": "misc_freelancer_max",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Everus Harbor",
+      "localName": "misc_hull_a",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Everus Harbor",
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "ARC L1",
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "MIC L1",
+      "localName": "drak_golem",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "ARC L4",
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "HUR L1",
+      "localName": "misc_fortune",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "HUR L1",
+      "localName": "drak_golem",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "HUR L1",
+      "localName": "misc_prospector",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Vantage Rentals",
+      "location": "HUR L1",
+      "localName": "argo_mole",
+      "price": 0,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Baijini Point",
+      "localName": "rsi_salvation",
+      "price": 0,
+      "rental": true
+    }
+  ],
+  "unmatchedInventoryRows": [
+    {
+      "localName": "nozzle_fuelgiver_misc_nozzlefast",
+      "rows": 34,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 11250
+    },
+    {
+      "localName": "fuelpod_misc_fast",
+      "rows": 33,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 52500
+    },
+    {
+      "localName": "nozzle_fuelgiver_misc_nozzlestandard",
+      "rows": 33,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 16650
+    },
+    {
+      "localName": "fuelpod_misc_standard",
+      "rows": 31,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 78600
+    },
+    {
+      "localName": "klwe_laserrepeater_s3",
+      "rows": 25,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 36308
+    },
+    {
+      "localName": "jokr_distortioncannon_s1",
+      "rows": 25,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 18750
+    },
+    {
+      "localName": "mount_gimbal_s3",
+      "rows": 22,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 3470
+    },
+    {
+      "localName": "mount_gimbal_s4",
+      "rows": 22,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 6445
+    },
+    {
+      "localName": "mount_gimbal_s5",
+      "rows": 22,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 11650
+    },
+    {
+      "localName": "mount_gimbal_s6",
+      "rows": 22,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 21565
+    },
+    {
+      "localName": "mrck_s04_behr_dual_s03",
+      "rows": 21,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 13045
+    },
+    {
+      "localName": "mount_gimbal_s2",
+      "rows": 21,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1983
+    },
+    {
+      "localName": "mount_gimbal_s1",
+      "rows": 21,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 992
+    },
+    {
+      "localName": "powr_acom_s02_starburn_scitem",
+      "rows": 21,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 242000
+    },
+    {
+      "localName": "cool_tydt_s01_heatsafe_scitem",
+      "rows": 21,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 22241
+    },
+    {
+      "localName": "mrck_s03_behr_quad_s01",
+      "rows": 20,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 3479
+    },
+    {
+      "localName": "mrck_s05_behr_octo_s02",
+      "rows": 20,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 14493
+    },
+    {
+      "localName": "mrck_s05_behr_quad_s03",
+      "rows": 20,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 21741
+    },
+    {
+      "localName": "mrck_s06_behr_dual_s05",
+      "rows": 20,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 81527
+    },
+    {
+      "localName": "mrck_s03_behr_single_s03",
+      "rows": 19,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 7827
+    },
+    {
+      "localName": "mrck_s05_behr_single_s05",
+      "rows": 19,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 48913
+    },
+    {
+      "localName": "gats_ballisticgatling_s2",
+      "rows": 19,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 12494
+    },
+    {
+      "localName": "qdrv_raco_s01_drift_scitem",
+      "rows": 19,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 80850
+    },
+    {
+      "localName": "mrck_s03_behr_dual_s02",
+      "rows": 18,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 5218
+    },
+    {
+      "localName": "mrck_s04_behr_octo_s01",
+      "rows": 18,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 5796
+    },
+    {
+      "localName": "mrck_s06_behr_quad_s04",
+      "rows": 18,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 54350
+    },
+    {
+      "localName": "mrck_s06_behr_single_s06",
+      "rows": 18,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 122285
+    },
+    {
+      "localName": "drak_buccaneer_dual_s2",
+      "rows": 18,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 7000
+    },
+    {
+      "localName": "jokr_distortioncannon_s2",
+      "rows": 18,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 42190
+    },
+    {
+      "localName": "cargo_shipmining_pod_mole",
+      "rows": 18,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 14500
+    },
+    {
+      "localName": "mrck_s04_behr_single_s04",
+      "rows": 17,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 19565
+    },
+    {
+      "localName": "anvl_hornet_f7c_nose_turret",
+      "rows": 17,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 4750
+    },
+    {
+      "localName": "shld_seco_s00_pin_scitem",
+      "rows": 17,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 8100
+    },
+    {
+      "localName": "salvage_modifier_scraper_medium",
+      "rows": 17,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 21250
+    },
+    {
+      "localName": "mining_laser_shin_klein_s1",
+      "rows": 17,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 10150
+    },
+    {
+      "localName": "cargo_mining_pod",
+      "rows": 17,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 10000
+    },
+    {
+      "localName": "shld_basl_s01_steward_scitem",
+      "rows": 17,
+      "sampleShop": "Platinum Bay@HUR L2",
+      "samplePrice": 17100
+    },
+    {
+      "localName": "fuelpod_misc_secure",
+      "rows": 17,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 115200
+    },
+    {
+      "localName": "mining_modules_active_lifeline",
+      "rows": 17,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 800
+    },
+    {
+      "localName": "mining_modules_active_rime",
+      "rows": 17,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 1100
+    },
+    {
+      "localName": "mining_modules_active_stampede",
+      "rows": 17,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 1400
+    },
+    {
+      "localName": "mining_modules_active_torpid",
+      "rows": 17,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 1950
+    },
+    {
+      "localName": "nozzle_fuelgiver_misc_nozzlesecure",
+      "rows": 17,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 20500
+    },
+    {
+      "localName": "mrck_s01_behr_single_s01",
+      "rows": 16,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1250
+    },
+    {
+      "localName": "mrck_s02_behr_dual_s01",
+      "rows": 16,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 2089
+    },
+    {
+      "localName": "mrck_s02_behr_single_s02",
+      "rows": 16,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 3130
+    },
+    {
+      "localName": "mrck_s04_behr_quad_s02",
+      "rows": 16,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 8697
+    },
+    {
+      "localName": "mrck_s06_behr_octo_s03",
+      "rows": 16,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 36233
+    },
+    {
+      "localName": "amrs_lasercannon_s3",
+      "rows": 16,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 78262
+    },
+    {
+      "localName": "behr_ballisticrepeater_s3",
+      "rows": 16,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 37566
+    },
+    {
+      "localName": "mining_modules_passive_focus_mk1",
+      "rows": 16,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 4000
+    },
+    {
+      "localName": "mining_modules_passive_vaux_mk1",
+      "rows": 16,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 2000
+    },
+    {
+      "localName": "grin_tractorbeam_s1",
+      "rows": 16,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 4600
+    },
+    {
+      "localName": "wep_tractorbeam_s2_military_1",
+      "rows": 16,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 12200
+    },
+    {
+      "localName": "mrck_s05_behr_dual_s04",
+      "rows": 15,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 32609
+    },
+    {
+      "localName": "behr_lasercannon_s1",
+      "rows": 15,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 15461
+    },
+    {
+      "localName": "behr_lasercannon_s2",
+      "rows": 15,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 34786
+    },
+    {
+      "localName": "amrs_scattergun_s3",
+      "rows": 15,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 60115
+    },
+    {
+      "localName": "salvage_modifier_scraper_small",
+      "rows": 15,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 750
+    },
+    {
+      "localName": "mining_laser_grin_lancet_s1",
+      "rows": 15,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 23500
+    },
+    {
+      "localName": "wep_tractorbeam_s1_utility_1",
+      "rows": 15,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 4600
+    },
+    {
+      "localName": "wep_tractorbeam_s1_utility_2",
+      "rows": 15,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 4600
+    },
+    {
+      "localName": "grin_tractorbeam_s2",
+      "rows": 15,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 12200
+    },
+    {
+      "localName": "wep_tractorbeam_s2_utility_1",
+      "rows": 15,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 12200
+    },
+    {
+      "localName": "kron_lasercannon_s3",
+      "rows": 15,
+      "sampleShop": "Ship Weapons Shop@HUR L5",
+      "samplePrice": 79100
+    },
+    {
+      "localName": "misl_s03_em_fski_thunderbolt",
+      "rows": 14,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 9704
+    },
+    {
+      "localName": "powr_lplt_s00_durajet_scitem",
+      "rows": 14,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 9900
+    },
+    {
+      "localName": "mining_laser_thcn_impact_s2",
+      "rows": 14,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 57750
+    },
+    {
+      "localName": "qdrv_rsi_s01_eos_scitem",
+      "rows": 14,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 24933
+    },
+    {
+      "localName": "qdrv_just_s02_huracan_scitem",
+      "rows": 14,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 226800
+    },
+    {
+      "localName": "mining_modules_passive_vaux_mk2",
+      "rows": 14,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 6000
+    },
+    {
+      "localName": "mining_modules_passive_xtr_mk2",
+      "rows": 14,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 6000
+    },
+    {
+      "localName": "mining_laser_shin_hofstede_s2",
+      "rows": 14,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 22750
+    },
+    {
+      "localName": "mining_laser_shin_klein_s2",
+      "rows": 14,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 10150
+    },
+    {
+      "localName": "mining_modules_active_forel",
+      "rows": 14,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 1950
+    },
+    {
+      "localName": "wep_tractorbeam_s1_military_1",
+      "rows": 14,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 4600
+    },
+    {
+      "localName": "amrs_lasercannon_s2",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 34786
+    },
+    {
+      "localName": "amrs_lasercannon_s6",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 891466
+    },
+    {
+      "localName": "behr_lasercannon_s4",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 176093
+    },
+    {
+      "localName": "behr_lasercannon_s5",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 396209
+    },
+    {
+      "localName": "krig_lasercannon_s3",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 90653
+    },
+    {
+      "localName": "klwe_laserrepeater_s2",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 16138
+    },
+    {
+      "localName": "misl_s01_em_thcn_taskforce",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 3256
+    },
+    {
+      "localName": "misl_s04_ir_behr_pathfinder",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 15581
+    },
+    {
+      "localName": "misl_s09_cs_taln_argos",
+      "rows": 13,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 392546
+    },
+    {
+      "localName": "klwe_laserrepeater_s4",
+      "rows": 13,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 81694
+    },
+    {
+      "localName": "hrst_laserrepeater_s3",
+      "rows": 13,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 51851
+    },
+    {
+      "localName": "hrst_laserrepeater_s4",
+      "rows": 13,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 116665
+    },
+    {
+      "localName": "cool_jspn_s00_cryostarsl_scitem",
+      "rows": 13,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 5400
+    },
+    {
+      "localName": "jdrv_tars_s01_explorer_scitem",
+      "rows": 13,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 4320
+    },
+    {
+      "localName": "shld_basl_s00_castra_scitem",
+      "rows": 13,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 12643
+    },
+    {
+      "localName": "mining_laser_thcn_helix_s1",
+      "rows": 13,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 58000
+    },
+    {
+      "localName": "mining_modules_passive_xtr_mk1",
+      "rows": 13,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 2000
+    },
+    {
+      "localName": "cool_lplt_s01_arcticstorm_scitem",
+      "rows": 13,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 8640
+    },
+    {
+      "localName": "qdrv_just_s01_colossus_scitem",
+      "rows": 13,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 113400
+    },
+    {
+      "localName": "powr_just_s00_defiant_scitem",
+      "rows": 13,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 59400
+    },
+    {
+      "localName": "qdrv_acas_s02_sunfire_scitem",
+      "rows": 13,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 89775
+    },
+    {
+      "localName": "mining_modules_passive_fltr_mk3",
+      "rows": 13,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 60000
+    },
+    {
+      "localName": "mining_modules_passive_focus_mk2",
+      "rows": 13,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 12000
+    },
+    {
+      "localName": "wep_tractorbeam_s2_utility_2",
+      "rows": 13,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 12200
+    },
+    {
+      "localName": "behr_ballisticcannon_vng_s2",
+      "rows": 12,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 26720
+    },
+    {
+      "localName": "asad_distortionrepeater_s1",
+      "rows": 12,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 12940
+    },
+    {
+      "localName": "bmbrck_s03_behr_single_s03",
+      "rows": 12,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 30922
+    },
+    {
+      "localName": "hrst_laserrepeater_s1",
+      "rows": 12,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 10241
+    },
+    {
+      "localName": "cool_tydt_s02_icebox_scitem",
+      "rows": 12,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 123200
+    },
+    {
+      "localName": "anvl_fixed_mount_hornet_ball_s4",
+      "rows": 12,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 14500
+    },
+    {
+      "localName": "mining_laser_thcn_helix_s2",
+      "rows": 12,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 108000
+    },
+    {
+      "localName": "shld_basl_s02_aspis_scitem",
+      "rows": 12,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 45685
+    },
+    {
+      "localName": "shld_asas_s02_shroud_scitem",
+      "rows": 12,
+      "sampleShop": "Platinum Bay@CRU L5",
+      "samplePrice": 59400
+    },
+    {
+      "localName": "mining_modules_passive_fltr_mk1",
+      "rows": 12,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 6000
+    },
+    {
+      "localName": "mining_modules_passive_torrent_mk2",
+      "rows": 12,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 12000
+    },
+    {
+      "localName": "mining_modules_passive_torrent_mk3",
+      "rows": 12,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 40000
+    },
+    {
+      "localName": "shld_asas_s01_shimmer_scitem",
+      "rows": 12,
+      "sampleShop": "Good As New@Checkmate",
+      "samplePrice": 63000
+    },
+    {
+      "localName": "misl_s01_ir_behr_marksman",
+      "rows": 11,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 2672
+    },
+    {
+      "localName": "hrst_laserscattergun_s1",
+      "rows": 11,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 13657
+    },
+    {
+      "localName": "cool_jspn_s01_cryostar_scitem",
+      "rows": 11,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 10800
+    },
+    {
+      "localName": "mining_laser_grin_lancet_s2",
+      "rows": 11,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 94000
+    },
+    {
+      "localName": "mining_modules_passive_xtr_mk3",
+      "rows": 11,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 20000
+    },
+    {
+      "localName": "cool_jspn_s00_winterstarsl_scitem",
+      "rows": 11,
+      "sampleShop": "Platinum Bay@Port Tressler",
+      "samplePrice": 3600
+    },
+    {
+      "localName": "cool_tydt_s02_heatsink_scitem",
+      "rows": 11,
+      "sampleShop": "Platinum Bay@Port Tressler",
+      "samplePrice": 123200
+    },
+    {
+      "localName": "misl_s04_ir_vncl_dragon",
+      "rows": 11,
+      "sampleShop": "Ship Weapons Shop@ARC L3",
+      "samplePrice": 15745
+    },
+    {
+      "localName": "shld_behr_s02_7ma_scitem",
+      "rows": 10,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 120000
+    },
+    {
+      "localName": "cool_lplt_s02_fullfrost_scitem",
+      "rows": 10,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 21600
+    },
+    {
+      "localName": "powr_lplt_s01_ionburst_scitem",
+      "rows": 10,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 29700
+    },
+    {
+      "localName": "shld_seco_s03_armor_scitem",
+      "rows": 10,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 81000
+    },
+    {
+      "localName": "mining_modules_passive_fltr_mk2",
+      "rows": 10,
+      "sampleShop": "Refinery Stores@ARC L2",
+      "samplePrice": 18000
+    },
+    {
+      "localName": "mining_modules_passive_focus_mk3",
+      "rows": 10,
+      "sampleShop": "Refinery Stores@HUR L2",
+      "samplePrice": 40000
+    },
+    {
+      "localName": "misl_s02_ir_vncl_bullet",
+      "rows": 10,
+      "sampleShop": "Ship Weapons Shop@ARC L3",
+      "samplePrice": 4860
+    },
+    {
+      "localName": "jdrv_tars_s02_excelsior_scitem",
+      "rows": 9,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 8640
+    },
+    {
+      "localName": "cool_acom_s01_quickcool_scitem",
+      "rows": 9,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 12600
+    },
+    {
+      "localName": "powr_tydt_s01_soniclite_scitem",
+      "rows": 9,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 55893
+    },
+    {
+      "localName": "powr_lplt_s01_zapjet_scitem",
+      "rows": 9,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 19800
+    },
+    {
+      "localName": "mining_laser_shin_hofstede_s1",
+      "rows": 9,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 12750
+    },
+    {
+      "localName": "mining_modules_passive_vaux_mk3",
+      "rows": 9,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 20000
+    },
+    {
+      "localName": "shld_basl_s03_ward_scitem",
+      "rows": 9,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 68400
+    },
+    {
+      "localName": "shld_basl_s02_rampart_scitem",
+      "rows": 9,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 396000
+    },
+    {
+      "localName": "powr_acom_s01_sunflare_scitem",
+      "rows": 9,
+      "sampleShop": "Platinum Bay@HUR L2",
+      "samplePrice": 60500
+    },
+    {
+      "localName": "misl_s03_cs_fski_arrester",
+      "rows": 8,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 9704
+    },
+    {
+      "localName": "misl_s04_em_taln_raptor",
+      "rows": 8,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 20773
+    },
+    {
+      "localName": "anvl_hornet_f7c_mk2_nose_turret",
+      "rows": 8,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 20250
+    },
+    {
+      "localName": "powr_sasu_s02_lotus_scitem",
+      "rows": 8,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 176000
+    },
+    {
+      "localName": "qdrv_raco_s01_zephyr_scitem",
+      "rows": 8,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 161700
+    },
+    {
+      "localName": "qdrv_raco_s02_bolt_scitem",
+      "rows": 8,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 323400
+    },
+    {
+      "localName": "cool_wcpr_s02_aufeis_scitem",
+      "rows": 8,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 70400
+    },
+    {
+      "localName": "jdrv_tars_s03_exodus_scitem",
+      "rows": 8,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 17280
+    },
+    {
+      "localName": "mining_modules_passive_torrent_mk1",
+      "rows": 8,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 4000
+    },
+    {
+      "localName": "powr_sasu_s01_lightblossom_scitem",
+      "rows": 8,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 30360
+    },
+    {
+      "localName": "qdrv_acas_s01_lightfire_scitem",
+      "rows": 8,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 35910
+    },
+    {
+      "localName": "shld_seco_s03_haven_scitem",
+      "rows": 8,
+      "sampleShop": "Platinum Bay@HUR L2",
+      "samplePrice": 54000
+    },
+    {
+      "localName": "mining_modules_active_brandt",
+      "rows": 8,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 2250
+    },
+    {
+      "localName": "mining_modules_active_optimum",
+      "rows": 8,
+      "sampleShop": "Refinery Stores@ARC L1",
+      "samplePrice": 3000
+    },
+    {
+      "localName": "amrs_lasercannon_s4",
+      "rows": 7,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 176093
+    },
+    {
+      "localName": "behr_distortioncannon_vng_s2",
+      "rows": 7,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 40080
+    },
+    {
+      "localName": "gats_ballisticgatling_s1",
+      "rows": 7,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 5555
+    },
+    {
+      "localName": "turret_pdc_behr_m",
+      "rows": 7,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 29760
+    },
+    {
+      "localName": "powr_acom_s01_lumacore_scitem",
+      "rows": 7,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 242000
+    },
+    {
+      "localName": "powr_acom_s02_solarflare_scitem",
+      "rows": 7,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 121000
+    },
+    {
+      "localName": "cool_wcpr_s01_gelid_scitem",
+      "rows": 7,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 35200
+    },
+    {
+      "localName": "mining_laser_thcn_impact_s1",
+      "rows": 7,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 57750
+    },
+    {
+      "localName": "mining_laser_thcn_helix_s0",
+      "rows": 7,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 8500
+    },
+    {
+      "localName": "cool_acom_s01_iceplunge_scitem",
+      "rows": 7,
+      "sampleShop": "Platinum Bay@HUR L2",
+      "samplePrice": 22000
+    },
+    {
+      "localName": "cool_wcpr_s02_graupel_scitem",
+      "rows": 7,
+      "sampleShop": "Platinum Bay@HUR L2",
+      "samplePrice": 17280
+    },
+    {
+      "localName": "amrs_lasercannon_s1",
+      "rows": 6,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 15461
+    },
+    {
+      "localName": "misl_s05_ir_taln_valkyrie",
+      "rows": 6,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 28345
+    },
+    {
+      "localName": "rsi_scorpius_scitem_remote_missile_turret",
+      "rows": 6,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 45090
+    },
+    {
+      "localName": "salvage_modifier_scraper_large",
+      "rows": 6,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 31150
+    },
+    {
+      "localName": "powr_lplt_s02_ionsurge_scitem",
+      "rows": 6,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 88000
+    },
+    {
+      "localName": "salvage_modifier_tractor_small",
+      "rows": 6,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 11150
+    },
+    {
+      "localName": "mining_laser_grin_arbor_s1",
+      "rows": 6,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 363
+    },
+    {
+      "localName": "qdrv_rsi_s01_hyperion_scitem",
+      "rows": 6,
+      "sampleShop": "Platinum Bay@HUR L2",
+      "samplePrice": 29925
+    },
+    {
+      "localName": "apar_ballisticgatling_s4",
+      "rows": 6,
+      "sampleShop": "Ship Weapons Shop@HUR L3",
+      "samplePrice": 56955
+    },
+    {
+      "localName": "amrs_lasercannon_s5",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 380430
+    },
+    {
+      "localName": "behr_ballisticcannon_s4",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 135265
+    },
+    {
+      "localName": "behr_lasercannon_s3",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 78262
+    },
+    {
+      "localName": "gats_ballisticcannon_s2",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 31244
+    },
+    {
+      "localName": "behr_ballisticrepeater_s2",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 16695
+    },
+    {
+      "localName": "behr_distortionrepeater_vng_s2",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 24045
+    },
+    {
+      "localName": "behr_laserrepeater_vng_s2",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 20040
+    },
+    {
+      "localName": "misl_s03_ir_vncl_chaos",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 8750
+    },
+    {
+      "localName": "bomb_s03_fski_thunderball",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 10500
+    },
+    {
+      "localName": "turret_pdc_behr_a",
+      "rows": 5,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 45760
+    },
+    {
+      "localName": "jokr_distortioncannon_s3",
+      "rows": 5,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 94920
+    },
+    {
+      "localName": "kron_lasercannon_s2",
+      "rows": 5,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 35155
+    },
+    {
+      "localName": "apar_ballisticscattergun_s1",
+      "rows": 5,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 10000
+    },
+    {
+      "localName": "powr_acom_s01_starheart_scitem",
+      "rows": 5,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 121000
+    },
+    {
+      "localName": "shld_behr_s01_7sa_scitem",
+      "rows": 5,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 60000
+    },
+    {
+      "localName": "misl_s02_ir_novp_rattler",
+      "rows": 5,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 284
+    },
+    {
+      "localName": "mining_laser_grin_arbor_s2",
+      "rows": 5,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 1450
+    },
+    {
+      "localName": "mining_modules_passive_rieger_mk1",
+      "rows": 5,
+      "sampleShop": "Refinery Stores@HUR L2",
+      "samplePrice": 6000
+    },
+    {
+      "localName": "behr_lasercannon_s6",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 855965
+    },
+    {
+      "localName": "gats_ballisticcannon_s3",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 70293
+    },
+    {
+      "localName": "kbar_ballisticcannon_s2",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 27287
+    },
+    {
+      "localName": "gats_ballisticgatling_s3",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 28116
+    },
+    {
+      "localName": "asad_distortionrepeater_s2",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 29110
+    },
+    {
+      "localName": "behr_ballisticrepeater_s1",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 7125
+    },
+    {
+      "localName": "behr_ballisticrepeater_vng_s2",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 16030
+    },
+    {
+      "localName": "misl_s04_cs_taln_assailant",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 15745
+    },
+    {
+      "localName": "misl_s05_cs_taln_stalker",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 37396
+    },
+    {
+      "localName": "misl_s05_em_taln_scimitar",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 28345
+    },
+    {
+      "localName": "misl_s07_ir_taln_hellion",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 91835
+    },
+    {
+      "localName": "misl_s09_em_taln_seeker",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 297540
+    },
+    {
+      "localName": "misl_s09_ir_taln_typhoon",
+      "rows": 4,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 392546
+    },
+    {
+      "localName": "klwe_massdriver_s2",
+      "rows": 4,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 25819
+    },
+    {
+      "localName": "paint_arrow_invictus_camo",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 48500
+    },
+    {
+      "localName": "paint_arrow_invictus_green_grey",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 48000
+    },
+    {
+      "localName": "paint_arrow_invictus_metallic_grey",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 49500
+    },
+    {
+      "localName": "paint_arrow_invictus_tan_green",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 48000
+    },
+    {
+      "localName": "paint_aurora_invictus_green_gold",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 23500
+    },
+    {
+      "localName": "paint_aurora_invictus_light_dark_grey",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 25000
+    },
+    {
+      "localName": "paint_avenger_invictus_camo",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 46500
+    },
+    {
+      "localName": "paint_avenger_invictus_olive_green",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 45000
+    },
+    {
+      "localName": "shld_behr_s01_6sa_scitem",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 21375
+    },
+    {
+      "localName": "shld_behr_s02_6ma_scitem",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 42750
+    },
+    {
+      "localName": "shld_behr_s03_7ca_scitem",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 240000
+    },
+    {
+      "localName": "qdrv_acas_s01_foxfire_scitem",
+      "rows": 4,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 44885
+    },
+    {
+      "localName": "cool_wcpr_s00_fridan_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 4932
+    },
+    {
+      "localName": "cool_lplt_s01_blastchill_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 6121
+    },
+    {
+      "localName": "cool_lplt_s03_frostburn_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 29377
+    },
+    {
+      "localName": "shld_basl_s01_bulwark_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 25285
+    },
+    {
+      "localName": "shld_behr_s01_5sa_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 15623
+    },
+    {
+      "localName": "shld_basl_s03_stronghold_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 101138
+    },
+    {
+      "localName": "misl_s02_cs_fski_tempest",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 5391
+    },
+    {
+      "localName": "misl_s02_ir_fski_ignite",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 5391
+    },
+    {
+      "localName": "qdrv_just_s01_goliath_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 48196
+    },
+    {
+      "localName": "qdrv_arcc_s01_burst_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 29925
+    },
+    {
+      "localName": "rsi_aurora_mr",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 680400
+    },
+    {
+      "localName": "rsi_aurora_ln",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 907200
+    },
+    {
+      "localName": "rsi_aurora_es",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 423360
+    },
+    {
+      "localName": "rsi_aurora_cl",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 1020600
+    },
+    {
+      "localName": "shld_basl_s02_armada_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 34200
+    },
+    {
+      "localName": "shld_seco_s02_rpel_scitem",
+      "rows": 4,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 27000
+    },
+    {
+      "localName": "shld_seco_s02_bloc_scitem",
+      "rows": 4,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 40500
+    },
+    {
+      "localName": "shld_seco_s01_hex_scitem",
+      "rows": 4,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 20250
+    },
+    {
+      "localName": "behr_ballisticgatling_s4",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 54105
+    },
+    {
+      "localName": "klwe_laserrepeater_s1",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 7175
+    },
+    {
+      "localName": "misl_s01_em_behr_pioneer",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 2672
+    },
+    {
+      "localName": "misl_s02_cs_thcn_strikeforce",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 5858
+    },
+    {
+      "localName": "misl_s02_em_taln_dominator",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 350
+    },
+    {
+      "localName": "misl_s05_em_taln_reaper",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1875
+    },
+    {
+      "localName": "anvl_hornet_f7c_ball_turret",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 32500
+    },
+    {
+      "localName": "anvl_hornet_f7a_ball_turret",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 32500
+    },
+    {
+      "localName": "behr_nova_ballisticgatling_s5",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 121740
+    },
+    {
+      "localName": "anvl_hornet_f7cm_mk2_ball_turret",
+      "rows": 3,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 115330
+    },
+    {
+      "localName": "kbar_ballisticcannon_s1",
+      "rows": 3,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 12129
+    },
+    {
+      "localName": "klwe_massdriver_s1",
+      "rows": 3,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 11476
+    },
+    {
+      "localName": "cool_wcpr_s00_kelvid_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 5400
+    },
+    {
+      "localName": "cool_wcpr_s00_tepilo_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 7200
+    },
+    {
+      "localName": "cool_tydt_s01_vaporblock_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 61600
+    },
+    {
+      "localName": "cool_jspn_s03_cryostarxl_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 64000
+    },
+    {
+      "localName": "paint_retaliator_invictus_camo",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 206000
+    },
+    {
+      "localName": "paint_retaliator_invictus_grey",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 205500
+    },
+    {
+      "localName": "powr_tydt_s01_deltamax_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 169400
+    },
+    {
+      "localName": "powr_sasu_s01_whiterose_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 50600
+    },
+    {
+      "localName": "powr_sasu_s01_magnabloom_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 37950
+    },
+    {
+      "localName": "powr_sasu_s03_tigerlilly_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 202400
+    },
+    {
+      "localName": "powr_sasu_s03_celestial_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 151800
+    },
+    {
+      "localName": "qdrv_tars_s01_voyage_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 28350
+    },
+    {
+      "localName": "qdrv_tars_s03_ranger_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 113400
+    },
+    {
+      "localName": "qdrv_rsi_s02_hemera_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 168000
+    },
+    {
+      "localName": "cool_acom_s01_zerorush_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 18900
+    },
+    {
+      "localName": "cool_wcpr_s02_taiga_scitem",
+      "rows": 3,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 21600
+    },
+    {
+      "localName": "cool_just_s01_hydrocel_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 9120
+    },
+    {
+      "localName": "cool_just_s02_coolcore_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 21890
+    },
+    {
+      "localName": "cool_lplt_s02_coldsnap_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 17280
+    },
+    {
+      "localName": "powr_lplt_s00_radix_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 10099
+    },
+    {
+      "localName": "powr_lplt_s01_powerbolt_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 20197
+    },
+    {
+      "localName": "powr_just_s01_roughneck_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 21319
+    },
+    {
+      "localName": "powr_just_s01_fortitude_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 25581
+    },
+    {
+      "localName": "powr_sasu_s02_daybreak_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 60720
+    },
+    {
+      "localName": "powr_just_s03_ginzel_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 102328
+    },
+    {
+      "localName": "shld_seco_s01_web_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 16872
+    },
+    {
+      "localName": "shld_behr_s02_5ma_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 30000
+    },
+    {
+      "localName": "shld_seco_s02_stop_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 33744
+    },
+    {
+      "localName": "shld_behr_s03_5ca_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 62489
+    },
+    {
+      "localName": "apar_ballisticgatling_s6",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 300284
+    },
+    {
+      "localName": "qdrv_tars_s01_expedition_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 22680
+    },
+    {
+      "localName": "qdrv_just_s02_bolon_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 57455
+    },
+    {
+      "localName": "qdrv_arcc_s02_torrent_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 47880
+    },
+    {
+      "localName": "qdrv_arcc_s03_impulse_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 119700
+    },
+    {
+      "localName": "cool_jspn_s00_froststarsl_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 5241
+    },
+    {
+      "localName": "cool_just_s01_thermax_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 10970
+    },
+    {
+      "localName": "cool_just_s02_hydrojet_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 18282
+    },
+    {
+      "localName": "cool_just_s03_thermalcore_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 43875
+    },
+    {
+      "localName": "powr_lplt_s03_ionsurgepro_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 118800
+    },
+    {
+      "localName": "shld_seco_s01_ink_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 13500
+    },
+    {
+      "localName": "shld_yorm_s02_bamoty_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 47250
+    },
+    {
+      "localName": "shld_basl_s03_barbican_scitem",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 102600
+    },
+    {
+      "localName": "misl_s01_cs_fski_spark",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 201
+    },
+    {
+      "localName": "misl_s01_ir_vncl_arrow",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 240
+    },
+    {
+      "localName": "mining_laser_shin_hofstede_s0",
+      "rows": 3,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 5750
+    },
+    {
+      "localName": "shld_basl_s02_citadel_scitem",
+      "rows": 3,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 51300
+    },
+    {
+      "localName": "cool_just_s01_ecoflow_scitem",
+      "rows": 3,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 13680
+    },
+    {
+      "localName": "shld_basl_s01_guardian_scitem",
+      "rows": 3,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 25650
+    },
+    {
+      "localName": "gats_ballisticcannon_s1",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 13886
+    },
+    {
+      "localName": "kbar_ballisticcannon_s3",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 61400
+    },
+    {
+      "localName": "behr_ballisticgatling_s5",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 121735
+    },
+    {
+      "localName": "behr_ballisticgatling_s6",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 273910
+    },
+    {
+      "localName": "krig_ballisticgatling_s2",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 12896
+    },
+    {
+      "localName": "klwe_laserrepeater_s5",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 183809
+    },
+    {
+      "localName": "klwe_laserrepeater_s6",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 413569
+    },
+    {
+      "localName": "misl_s10_ir_behr_torpedo",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 30785
+    },
+    {
+      "localName": "misl_s12_ir_taln_calamity",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1735245
+    },
+    {
+      "localName": "misl_s12_em_taln_calamity",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1735245
+    },
+    {
+      "localName": "misl_s12_cs_taln_calamity",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1735245
+    },
+    {
+      "localName": "misl_s10_em_behr_executor",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 30785
+    },
+    {
+      "localName": "misl_s12_cs_behr_executor",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1648485
+    },
+    {
+      "localName": "misl_s10_cs_behr_executor",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 30785
+    },
+    {
+      "localName": "anvl_hornet_f7cm_mk2_ball_turret_bespoke",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 115330
+    },
+    {
+      "localName": "gmisl_s01_em_behr_pioneer",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1285
+    },
+    {
+      "localName": "gmisl_s01_em_thcn_taskforce",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 1285
+    },
+    {
+      "localName": "gmisl_s02_em_taln_dominator",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 2430
+    },
+    {
+      "localName": "gmisl_s05_em_taln_reaper",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 14170
+    },
+    {
+      "localName": "gmisl_s05_em_taln_scimitar",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 14170
+    },
+    {
+      "localName": "misl_s10_em_taln_vanquisher",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 30785
+    },
+    {
+      "localName": "misl_s10_ir_taln_vanquisher",
+      "rows": 2,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 30785
+    },
+    {
+      "localName": "apar_massdriver_s2",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 33750
+    },
+    {
+      "localName": "espr_ballisticcannon_s3",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 56955
+    },
+    {
+      "localName": "espr_ballisticcannon_s4",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 128145
+    },
+    {
+      "localName": "espr_ballisticcannon_s5",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 288325
+    },
+    {
+      "localName": "espr_ballisticcannon_s6",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 648730
+    },
+    {
+      "localName": "espr_lasercannon_s3",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 71190
+    },
+    {
+      "localName": "espr_lasercannon_s4",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 160180
+    },
+    {
+      "localName": "espr_lasercannon_s6",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 810915
+    },
+    {
+      "localName": "klwe_massdriver_s3",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 58094
+    },
+    {
+      "localName": "krig_ballisticgatling_s3",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 29012
+    },
+    {
+      "localName": "bomb_s05_fski",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 34010
+    },
+    {
+      "localName": "cool_jspn_s02_cryostarex_scitem",
+      "rows": 2,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 21600
+    },
+    {
+      "localName": "paint_constellation_invictus_dark_green",
+      "rows": 2,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 180000
+    },
+    {
+      "localName": "shld_asas_s01_cloak_scitem",
+      "rows": 2,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 29700
+    },
+    {
+      "localName": "apar_ballisticscattergun_s2",
+      "rows": 2,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 22500
+    },
+    {
+      "localName": "apar_ballisticscattergun_s3",
+      "rows": 2,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 50625
+    },
+    {
+      "localName": "gmnt_misc_s03_pl01",
+      "rows": 2,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 20000
+    },
+    {
+      "localName": "misc_reliant_wing_dual_turret",
+      "rows": 2,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 7000
+    },
+    {
+      "localName": "qdrv_tars_s02_sojourn_scitem",
+      "rows": 2,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 56700
+    },
+    {
+      "localName": "cool_jspn_s01_froststar_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 11511
+    },
+    {
+      "localName": "cool_jspn_s01_winterstar_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 7200
+    },
+    {
+      "localName": "cool_wcpr_s01_berian_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 8640
+    },
+    {
+      "localName": "cool_jspn_s02_froststarex_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 23021
+    },
+    {
+      "localName": "cool_just_s02_snowpack_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 172800
+    },
+    {
+      "localName": "cool_just_s03_chillmax_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 345600
+    },
+    {
+      "localName": "cool_just_s03_hydropulse_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 36480
+    },
+    {
+      "localName": "paint_valkyrie_invictus_camo",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 222500
+    },
+    {
+      "localName": "paint_valkyrie_invictus_light_grey",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 225000
+    },
+    {
+      "localName": "paint_valkyrie_invictus_sage",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 219000
+    },
+    {
+      "localName": "powr_just_s00_steadfast_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 15050
+    },
+    {
+      "localName": "powr_just_s01_endurance_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 118800
+    },
+    {
+      "localName": "powr_just_s01_breton_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 237600
+    },
+    {
+      "localName": "powr_tydt_s02_cirrus_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 169400
+    },
+    {
+      "localName": "powr_just_s02_trommel_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 42637
+    },
+    {
+      "localName": "powr_lplt_s03_sparkjetpro_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 79200
+    },
+    {
+      "localName": "powr_just_s03_durango_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 950400
+    },
+    {
+      "localName": "qdrv_arcc_s01_rush_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 23940
+    },
+    {
+      "localName": "qdrv_rsi_s02_khaos_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 47880
+    },
+    {
+      "localName": "qdrv_arcc_s02_flash_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 59850
+    },
+    {
+      "localName": "qdrv_arcc_s02_cascade_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 39900
+    },
+    {
+      "localName": "qdrv_just_s03_vesta_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 95760
+    },
+    {
+      "localName": "qdrv_just_s03_kama_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 97674
+    },
+    {
+      "localName": "qdrv_arcc_s03_fissure_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 95760
+    },
+    {
+      "localName": "cool_lplt_s03_frostbite_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 43200
+    },
+    {
+      "localName": "powr_sasu_s03_newdawn_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 121440
+    },
+    {
+      "localName": "powr_lplt_s03_fullforcepro_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 95257
+    },
+    {
+      "localName": "shld_yorm_s01_falco_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 28821
+    },
+    {
+      "localName": "shld_yorm_s01_targa_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 34585
+    },
+    {
+      "localName": "shld_basl_s03_parapet_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 792000
+    },
+    {
+      "localName": "misl_s03_ir_novp_viper",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 8390
+    },
+    {
+      "localName": "qdrv_acas_s02_sparkfire_scitem",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 71820
+    },
+    {
+      "localName": "mining_laser_grin_arbor_s0",
+      "rows": 2,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 5150
+    },
+    {
+      "localName": "powr_lplt_s02_sparkjet_scitem",
+      "rows": 2,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 39600
+    },
+    {
+      "localName": "powr_just_s02_sedulity_scitem",
+      "rows": 2,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 75240
+    },
+    {
+      "localName": "shld_seco_s03_guard_scitem",
+      "rows": 2,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 64800
+    },
+    {
+      "localName": "qdrv_just_s02_yaluk_scitem",
+      "rows": 2,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 47880
+    },
+    {
+      "localName": "cool_just_s01_ultraflow_scitem",
+      "rows": 2,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 86400
+    },
+    {
+      "localName": "cool_just_s03_iceflush_scitem",
+      "rows": 2,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 54720
+    },
+    {
+      "localName": "powr_just_s02_genoa_scitem",
+      "rows": 2,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 475200
+    },
+    {
+      "localName": "shld_basl_s01_palisade_scitem",
+      "rows": 2,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 198000
+    },
+    {
+      "localName": "qdrv_just_s03_agni_scitem",
+      "rows": 2,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 453600
+    },
+    {
+      "localName": "aegs_retaliator_module_front_bomber",
+      "rows": 2,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 1800000
+    },
+    {
+      "localName": "cool_jspn_s03_froststarxl_scitem",
+      "rows": 2,
+      "sampleShop": "Platinum Bay@CRU L4",
+      "samplePrice": 34560
+    },
+    {
+      "localName": "qdrv_just_s01_vulcan_scitem",
+      "rows": 2,
+      "sampleShop": "Platinum Bay@CRU L4",
+      "samplePrice": 23940
+    },
+    {
+      "localName": "qdrv_tars_s03_wanderer_scitem",
+      "rows": 2,
+      "sampleShop": "Platinum Bay@CRU L5",
+      "samplePrice": 90720
+    },
+    {
+      "localName": "qdrv_rsi_s03_metis_scitem",
+      "rows": 2,
+      "sampleShop": "Platinum Bay@HUR L3",
+      "samplePrice": 95760
+    },
+    {
+      "localName": "cargo_shipmining_pod_golem",
+      "rows": 2,
+      "sampleShop": "Refinery Stores@CRU L1",
+      "samplePrice": 25500
+    },
+    {
+      "localName": "cargo_groundvehiclemining_pod_roc",
+      "rows": 2,
+      "sampleShop": "Tammany & Sons@Lorville",
+      "samplePrice": 5000
+    },
+    {
+      "localName": "mining_modules_passive_rieger_mk2",
+      "rows": 2,
+      "sampleShop": "Refinery Stores@Orbituary",
+      "samplePrice": 18000
+    },
+    {
+      "localName": "behr_laserrepeater_pdc_s1",
+      "rows": 2,
+      "sampleShop": "Ship Weapons Shop@MIC L2",
+      "samplePrice": 15700
+    },
+    {
+      "localName": "banu_energyrepeater_s2",
+      "rows": 1,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 16.138
+    },
+    {
+      "localName": "gmisl_s02_cs_fski_tempest",
+      "rows": 1,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 2185
+    },
+    {
+      "localName": "gmisl_s02_ir_fski_ignite",
+      "rows": 1,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 2185
+    },
+    {
+      "localName": "bmbrck_s03_anvl_gladiator",
+      "rows": 1,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 2932
+    },
+    {
+      "localName": "bmbrck_s05_anvl_gladiator",
+      "rows": 1,
+      "sampleShop": "CenterMass@Area18",
+      "samplePrice": 18310
+    },
+    {
+      "localName": "espr_ballisticcannon_s1",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 11250
+    },
+    {
+      "localName": "espr_ballisticcannon_s2",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 25315
+    },
+    {
+      "localName": "espr_lasercannon_s1",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 14065
+    },
+    {
+      "localName": "espr_lasercannon_s2",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 31640
+    },
+    {
+      "localName": "espr_lasercannon_s5",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 360405
+    },
+    {
+      "localName": "asad_distortionrepeater_s3",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 65495
+    },
+    {
+      "localName": "misl_s10_cs_taln_vanquisher",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 30785
+    },
+    {
+      "localName": "misl_s10_ir_behr_executor",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 30785
+    },
+    {
+      "localName": "misl_s12_ir_behr_executor",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 94285
+    },
+    {
+      "localName": "misl_s12_em_behr_executor",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 94285
+    },
+    {
+      "localName": "behr_ballisticgatling_hornet_bespoke",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 115330
+    },
+    {
+      "localName": "bmbrck_s05_aegs_eclipse",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 19325
+    },
+    {
+      "localName": "bmbrck_s03_aegs_eclipse",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 3094
+    },
+    {
+      "localName": "bmbrck_s10_aegs_eclipse",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 1887132
+    },
+    {
+      "localName": "bmbrck_s03_aegs_retaliator_front",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 3094
+    },
+    {
+      "localName": "bmbrck_s03_aegs_retaliator_rear",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 3094
+    },
+    {
+      "localName": "bmbrck_s05_aegs_retaliator_front",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 19325
+    },
+    {
+      "localName": "bmbrck_s05_aegs_retaliator_rear",
+      "rows": 1,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 19325
+    },
+    {
+      "localName": "hrst_laserrepeater_s2",
+      "rows": 1,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 23047
+    },
+    {
+      "localName": "hrst_laserrepeater_s5",
+      "rows": 1,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 262495
+    },
+    {
+      "localName": "hrst_laserrepeater_s6",
+      "rows": 1,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 621700
+    },
+    {
+      "localName": "hrst_laserscattergun_s2",
+      "rows": 1,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 30728
+    },
+    {
+      "localName": "hrst_laserscattergun_s3",
+      "rows": 1,
+      "sampleShop": "HD Showcase@Lorville",
+      "samplePrice": 69137
+    },
+    {
+      "localName": "shld_asas_s02_obscura_scitem",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 126000
+    },
+    {
+      "localName": "behr_lasercannon_vng_s2",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 33400
+    },
+    {
+      "localName": "controller_flight_anvl_arrow_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_anvl_arrow_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_anvl_pisces_c8r_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_anvl_pisces_c8x_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_anvl_pisces_c8x_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_anvl_pisces_c8r_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_anvl_pisces_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_anvl_pisces_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_rsi_scorpius_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_rsi_scorpius_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_rsi_scorpius_antares_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_rsi_scorpius_antares_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_anvl_asgard_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Cousin Crows@Orison",
+      "samplePrice": 1406250
+    },
+    {
+      "localName": "paint_freelancer_invictus_black",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 85000
+    },
+    {
+      "localName": "paint_freelancer_invictus_camo",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 86500
+    },
+    {
+      "localName": "paint_starfarer_invictus_black",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 332500
+    },
+    {
+      "localName": "paint_starfarer_invictus_camo",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 325000
+    },
+    {
+      "localName": "paint_starfarer_invictus_light_grey",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 336000
+    },
+    {
+      "localName": "powr_just_s00_jennet_scitem",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 12540
+    },
+    {
+      "localName": "powr_lplt_s02_fullforce_scitem",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 47520
+    },
+    {
+      "localName": "powr_just_s02_diligence_scitem",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 60190
+    },
+    {
+      "localName": "kron_lasercannon_s1",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 15625
+    },
+    {
+      "localName": "qdrv_arcc_s01_flood_scitem",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 19950
+    },
+    {
+      "localName": "qdrv_tars_s02_odyssey_scitem",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 45360
+    },
+    {
+      "localName": "qdrv_arcc_s03_echo_scitem",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 79800
+    },
+    {
+      "localName": "controller_flight_argo_mpuv_transport",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_argo_mpuv_transport_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_argo_mpuv_1t_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_argo_mpuv_1t_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_argo_mpuv_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "controller_flight_argo_mpuv_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 98000
+    },
+    {
+      "localName": "gmisl_s01_cs_fski_spark",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 1215
+    },
+    {
+      "localName": "gmisl_s05_cs_taln_stalker",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 14170
+    },
+    {
+      "localName": "gmisl_s05_ir_taln_valkyrie",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 14170
+    },
+    {
+      "localName": "gmisl_s07_ir_taln_hellion",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 49915
+    },
+    {
+      "localName": "aegs_hammerhead",
+      "rows": 1,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 45560100
+    },
+    {
+      "localName": "rsi_aurora_lx",
+      "rows": 1,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 687960
+    },
+    {
+      "localName": "shld_yorm_s02_trenta_scitem",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 56700
+    },
+    {
+      "localName": "qdrv_rsi_s02_aither_scitem",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 59850
+    },
+    {
+      "localName": "controller_flight_glsn_shiv_blade_spd",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 625000
+    },
+    {
+      "localName": "controller_flight_glsn_shiv_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Dumper's Depot@Grim HEX",
+      "samplePrice": 625000
+    },
+    {
+      "localName": "qdrv_tars_s02_quest_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@CRU L1",
+      "samplePrice": 37800
+    },
+    {
+      "localName": "cool_lplt_s01_flashfreeze_scitem",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 10800
+    },
+    {
+      "localName": "aegs_retaliator_module_front_cargo",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 475000
+    },
+    {
+      "localName": "aegs_retaliator_module_rear_cargo",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 450000
+    },
+    {
+      "localName": "aegs_retaliator_module_rear_bomber",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 800000
+    },
+    {
+      "localName": "controller_flight_aegs_gladius_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_aegs_gladius_blade_spd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_aegs_avenger_titan_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_aegs_avenger_titan_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_aegs_avenger_stalker_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_aegs_avenger_stalker_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_aegs_avenger_warlock_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_aegs_avenger_warlock_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 248000
+    },
+    {
+      "localName": "controller_flight_aegs_hammerhead_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 3904000
+    },
+    {
+      "localName": "controller_flight_aegs_redeemer_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 1561000
+    },
+    {
+      "localName": "controller_flight_aegs_redeemer_flight_blade_hnd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 1561000
+    },
+    {
+      "localName": "controller_flight_aegs_hammerhead_flight_blade_spd",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 3904000
+    },
+    {
+      "localName": "radr_gnrp_s03_idris_temp",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 134400
+    },
+    {
+      "localName": "radr_chco_s02_fullspec",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 192000
+    },
+    {
+      "localName": "radr_wlop_s03_lephari",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 32640
+    },
+    {
+      "localName": "radr_wlop_s01_abetti",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 35200
+    },
+    {
+      "localName": "radr_bltr_s01_prophet",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 112000
+    },
+    {
+      "localName": "radr_wlop_s02_agrippa",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 70400
+    },
+    {
+      "localName": "radr_grno_s00_agure",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 8400
+    },
+    {
+      "localName": "radr_wlop_s03_anysta",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 54400
+    },
+    {
+      "localName": "radr_wlop_s01_backlund",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 17600
+    },
+    {
+      "localName": "radr_wlop_s02_battani",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 20400
+    },
+    {
+      "localName": "radr_chco_s03_broudspec",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 192000
+    },
+    {
+      "localName": "radr_chco_s00_broadspecgo",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 6480
+    },
+    {
+      "localName": "radr_chco_s04_broadspecmax",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 103680
+    },
+    {
+      "localName": "radr_wlop_s01_capstan",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 8160
+    },
+    {
+      "localName": "radr_wlop_s03_capsulo",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 40800
+    },
+    {
+      "localName": "radr_bltr_s02_cassandra",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 224000
+    },
+    {
+      "localName": "radr_wlop_s02_chernykh",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 16320
+    },
+    {
+      "localName": "radr_wlop_s00_denning",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 4080
+    },
+    {
+      "localName": "radr_grnp_s03_devoue",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 352000
+    },
+    {
+      "localName": "radr_grnp_s01_ecouter",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 20160
+    },
+    {
+      "localName": "radr_grnp_s02_epier",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 40320
+    },
+    {
+      "localName": "radr_wlop_s00_fabian",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 6800
+    },
+    {
+      "localName": "radr_wlop_s02_fawad",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 13600
+    },
+    {
+      "localName": "radr_grnp_s03_fidele",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 67200
+    },
+    {
+      "localName": "radr_wlop_s01_fleming",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 6800
+    },
+    {
+      "localName": "radr_chco_s00_fullspecgo",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 8640
+    },
+    {
+      "localName": "radr_chco_s03_fullspecmax",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 384000
+    },
+    {
+      "localName": "radr_bltr_s01_hunter",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 20520
+    },
+    {
+      "localName": "radr_chco_s02_observer",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 17280
+    },
+    {
+      "localName": "radr_chco_s00_observergo",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 4320
+    },
+    {
+      "localName": "radr_chco_s01_observerlite",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 8640
+    },
+    {
+      "localName": "radr_chco_s03_observermax",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 34560
+    },
+    {
+      "localName": "radr_bltr_s01_pelerous",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 112000
+    },
+    {
+      "localName": "radr_bltr_s02_predator",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 112000
+    },
+    {
+      "localName": "radr_grnp_s00_prevenir",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 10080
+    },
+    {
+      "localName": "radr_grnp_s03_resolu",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 80640
+    },
+    {
+      "localName": "radr_grnp_s02_savoir",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 33600
+    },
+    {
+      "localName": "radr_grnp_s00_sens",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 12600
+    },
+    {
+      "localName": "radr_nave_s01_snsr5",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 12000
+    },
+    {
+      "localName": "radr_nave_s02_snsr5x",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 24000
+    },
+    {
+      "localName": "radr_nave_s01_snsr6",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 14400
+    },
+    {
+      "localName": "radr_nave_s02_sns_r6x",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 28800
+    },
+    {
+      "localName": "radr_nave_s01_snsr7",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 44000
+    },
+    {
+      "localName": "radr_nave_s02_snsr7x",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 88000
+    },
+    {
+      "localName": "radr_wlop_s03_socoria",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 27200
+    },
+    {
+      "localName": "radr_bltr_s02_spyglass",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 32830
+    },
+    {
+      "localName": "radr_chco_s02_surveyor",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 20730
+    },
+    {
+      "localName": "radr_chco_s00_surveyorgo",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 5185
+    },
+    {
+      "localName": "radr_chco_s01_surveyorlite",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 10370
+    },
+    {
+      "localName": "radr_chco_s03_surveyormax",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 41470
+    },
+    {
+      "localName": "radr_grnp_s01_tige",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 88000
+    },
+    {
+      "localName": "radr_grnp_s00_v6026",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 88000
+    },
+    {
+      "localName": "radr_grnp_s01_v80111",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 176000
+    },
+    {
+      "localName": "radr_grnp_s02_vb80112",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 352000
+    },
+    {
+      "localName": "radr_grnp_s03_v880",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 704000
+    },
+    {
+      "localName": "radr_grnp_s02_vigilance",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 176000
+    },
+    {
+      "localName": "radr_wlop_s00_vogel",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 5100
+    },
+    {
+      "localName": "radr_grnp_s01_voir",
+      "rows": 1,
+      "sampleShop": "Omega Pro@New Babbage",
+      "samplePrice": 16800
+    },
+    {
+      "localName": "qdrv_rsi_s03_erebos_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@ARC L1",
+      "samplePrice": 336000
+    },
+    {
+      "localName": "cool_jspn_s03_winterstarxl_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@CRU L4",
+      "samplePrice": 28800
+    },
+    {
+      "localName": "powr_lplt_s00_ionwave_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@CRU L4",
+      "samplePrice": 14850
+    },
+    {
+      "localName": "qdrv_rsi_s03_tyche_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@CRU L4",
+      "samplePrice": 119700
+    },
+    {
+      "localName": "cool_wcpr_s01_endo_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@HUR L3",
+      "samplePrice": 10800
+    },
+    {
+      "localName": "cool_lplt_s03_coldsurge_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@HUR L3",
+      "samplePrice": 16000
+    },
+    {
+      "localName": "qdrv_tars_s01_wayfare_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@Baijini Point",
+      "samplePrice": 10500
+    },
+    {
+      "localName": "cool_lplt_s02_whiteout_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@HUR L5",
+      "samplePrice": 14400
+    },
+    {
+      "localName": "qdrv_rsi_s01_atlas_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@HUR L5",
+      "samplePrice": 84000
+    },
+    {
+      "localName": "qdrv_tars_s03_drifter_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@HUR L5",
+      "samplePrice": 75600
+    },
+    {
+      "localName": "cool_acom_s02_icedive_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@Port Tressler",
+      "samplePrice": 44000
+    },
+    {
+      "localName": "cool_acom_s02_rapidcool_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@Port Tressler",
+      "samplePrice": 25200
+    },
+    {
+      "localName": "cool_jspn_s02_winterstarex_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@Port Tressler",
+      "samplePrice": 14400
+    },
+    {
+      "localName": "qdrv_raco_s02_nova_scitem",
+      "rows": 1,
+      "sampleShop": "Platinum Bay@Port Tressler",
+      "samplePrice": 99790
+    },
+    {
+      "localName": "bomb_s10_fski_colossus",
+      "rows": 1,
+      "sampleShop": "Crusader Showroom@Orison",
+      "samplePrice": 83125
+    },
+    {
+      "localName": "rsi_apollo_module_left_tier_1",
+      "rows": 1,
+      "sampleShop": "Teach's@Levski",
+      "samplePrice": 2000000
+    },
+    {
+      "localName": "rsi_apollo_module_right_tier_2",
+      "rows": 1,
+      "sampleShop": "Teach's@Levski",
+      "samplePrice": 1000000
+    },
+    {
+      "localName": "rsi_apollo_module_left_tier_2",
+      "rows": 1,
+      "sampleShop": "Teach's@Levski",
+      "samplePrice": 1000000
+    },
+    {
+      "localName": "rsi_apollo_module_left_tier_3",
+      "rows": 1,
+      "sampleShop": "Teach's@Levski",
+      "samplePrice": 500000
+    },
+    {
+      "localName": "rsi_apollo_module_right_tier_1",
+      "rows": 1,
+      "sampleShop": "Teach's@Levski",
+      "samplePrice": 2000000
+    },
+    {
+      "localName": "rsi_apollo_module_right_tier_3",
+      "rows": 1,
+      "sampleShop": "Teach's@Levski",
+      "samplePrice": 500000
+    },
+    {
+      "localName": "mining_modules_passive_rieger_mk3",
+      "rows": 1,
+      "sampleShop": "Refinery Stores@Levski",
+      "samplePrice": 57000
+    },
+    {
+      "localName": "mining_modules_active_surge",
+      "rows": 1,
+      "sampleShop": "Refinery Stores@Levski",
+      "samplePrice": 1400
+    },
+    {
+      "localName": "mxox_neutroncannon_s1",
+      "rows": 1,
+      "sampleShop": "Teach's Item Shop@Levski",
+      "samplePrice": 17970
+    },
+    {
+      "localName": "mxox_neutroncannon_s2",
+      "rows": 1,
+      "sampleShop": "Teach's Item Shop@Levski",
+      "samplePrice": 40430
+    },
+    {
+      "localName": "mxox_neutroncannon_s3",
+      "rows": 1,
+      "sampleShop": "Teach's Item Shop@Levski",
+      "samplePrice": 90970
+    },
+    {
+      "localName": "controller_flight_drak_corsair_blade_spd",
+      "rows": 1,
+      "sampleShop": "Teach's Item Shop@Levski",
+      "samplePrice": 1484380
+    }
+  ],
+  "unmatchedShipLikeRows": [
+    {
+      "localName": "rsi_aurora_mr",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 680400
+    },
+    {
+      "localName": "rsi_aurora_ln",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 907200
+    },
+    {
+      "localName": "rsi_aurora_es",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 423360
+    },
+    {
+      "localName": "rsi_aurora_cl",
+      "rows": 4,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 1020600
+    },
+    {
+      "localName": "aegs_hammerhead",
+      "rows": 1,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 45560100
+    },
+    {
+      "localName": "rsi_aurora_lx",
+      "rows": 1,
+      "sampleShop": "New Deal@Lorville",
+      "samplePrice": 687960
+    }
+  ],
+  "duplicateRows": [],
+  "emptyInventoryShops": [
+    {
+      "shop": "Cargo Office Rentals",
+      "location": null,
+      "rental": true
+    },
+    {
+      "shop": "Traveler Rentals",
+      "location": "Lorville",
+      "rental": true
+    },
+    {
+      "shop": "Astro Armada",
+      "location": "ARC L1",
+      "rental": false
+    }
+  ],
+  "topPurchaseLocations": [
+    {
+      "location": "Lorville",
+      "rows": 113
+    },
+    {
+      "location": "Area18",
+      "rows": 66
+    },
+    {
+      "location": "Levski",
+      "rows": 19
+    },
+    {
+      "location": "Ruin Station",
+      "rows": 11
+    },
+    {
+      "location": "Orison",
+      "rows": 9
+    },
+    {
+      "location": "Checkmate",
+      "rows": 9
+    },
+    {
+      "location": "Orbituary",
+      "rows": 9
+    }
+  ],
+  "topRentalLocations": [
+    {
+      "location": "Lorville",
+      "rows": 19
+    },
+    {
+      "location": "Orison",
+      "rows": 18
+    },
+    {
+      "location": "Area18",
+      "rows": 17
+    },
+    {
+      "location": "New Babbage",
+      "rows": 12
+    },
+    {
+      "location": "Baijini Point",
+      "rows": 8
+    },
+    {
+      "location": "Seraphim",
+      "rows": 8
+    },
+    {
+      "location": "Everus Harbor",
+      "rows": 8
+    },
+    {
+      "location": "CRU L1",
+      "rows": 4
+    },
+    {
+      "location": "HUR L1",
+      "rows": 4
+    },
+    {
+      "location": "ARC L1",
+      "rows": 1
+    }
+  ]
+}
