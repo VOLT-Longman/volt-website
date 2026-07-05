@@ -401,7 +401,9 @@ FAQ는 전체 검색에도 자동 포함됩니다.
 
 최신 파일 반영 여부는 라이브 페이지 소스의 `?v=` 캐시 버전이 **저장소 `sw.js`의 `CACHE_VERSION`과 일치**하는지로 확인합니다(특정 버전 숫자를 외우지 않습니다 — 매 배포마다 갱신됨).
 
-라이브에 접근 가능한 환경(운영자 PC 등)에서는 아래 한 줄로 자동 점검할 수 있습니다.
+`main` 반영 시 GitHub Actions(`.github/workflows/deploy-verify.yml`)가 이 점검을 자동 실행합니다.
+불일치만 실패로 표시하고, Cloudflare 봇 챌린지로 확인 불가한 경우는 경고로 남깁니다 — 그 경우
+라이브에 접근 가능한 환경(운영자 PC 등)에서 아래 한 줄로 직접 점검합니다.
 
 ```powershell
 node scripts/check-deploy-sync.mjs

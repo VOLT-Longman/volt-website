@@ -1,0 +1,55 @@
+# 배포 후 검증: main 반영 후 라이브(volt.ceo)가 새 캐시 버전을 서빙하는지 자동 확인한다.
+#
+# check-deploy-sync.mjs 종료 코드 규약:
+#   0 = 동기화 일치(성공) / 1 = 불일치(실패) / 2 = 확인 불가(네트워크·봇 챌린지)
+#
+# Cloudflare 봇 챌린지가 GitHub 러너를 막을 수 있으므로 "확인 불가(2)"는
+# 실패가 아닌 경고(neutral)로 처리한다 — 그 경우 운영자 PC에서
+# `node scripts/check-deploy-sync.mjs`로 직접 확인한다.
+# "불일치(1)"만 실패로 표시해 배포 미반영을 놓치지 않게 한다.
+
+name: Deploy Verify
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Cloudflare Pages 빌드가 끝날 시간을 준 뒤, 간격을 두고 최대 6회 확인한다.
+      - name: Wait for Pages deploy and verify cache version
+        run: |
+          sleep 60
+          for attempt in 1 2 3 4 5 6; do
+            echo "::group::시도 ${attempt}/6"
+            set +e
+            node scripts/check-deploy-sync.mjs
+            code=$?
+            set -e
+            echo "::endgroup::"
+
+            if [ "$code" -eq 0 ]; then
+              echo "✅ 라이브가 최신 캐시 버전을 서빙 중입니다."
+              exit 0
+            fi
+            if [ "$code" -eq 2 ]; then
+              echo "::warning::라이브 확인 불가(봇 챌린지/네트워크). 운영자 PC에서 node scripts/check-deploy-sync.mjs 로 확인하세요."
+              exit 0
+            fi
+            # code 1(불일치): 배포 전파 중일 수 있으므로 재시도
+            if [ "$attempt" -lt 6 ]; then
+              echo "아직 불일치 — 40초 후 재시도"
+              sleep 40
+            fi
+          done
+          echo "::error::배포 후에도 라이브 캐시 버전이 저장소와 불일치합니다. Cloudflare Pages 배포 상태를 확인하세요."
+          exit 1
