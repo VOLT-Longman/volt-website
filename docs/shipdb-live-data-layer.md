@@ -89,8 +89,12 @@ window.VOLT_SHIP_MARKET = {
    - apply는 **매칭을 새로 하지 않는다**. 현재 레이어에 존재하는 210개 voltId key만 갱신하며,
      신규 후보/market-only/미매칭은 적용에서 제외된다(신규 함선 추가는 별도 마일스톤).
    - Erkul live에서 사라진 함선은 삭제하지 않고 기존 값을 유지한다(경고 출력).
-3. **검증·배포** — `git diff` 확인 → `npm run check && npm test` → 커밋/푸시.
+3. **KO 번역 재적용 (필수)** — apply가 entry를 재생성하므로 `descriptions.ko`가 빠진다.
+   `npm run shipdb:erkul:translate-descriptions`를 반드시 실행한다 (또는 `npm run shipdb:erkul:post-apply`).
+   번역 정책·stale 처리: [shipdb-description-translation.md](shipdb-description-translation.md)
+4. **검증·배포** — `git diff` 확인 → `npm run check && npm test` → 커밋/푸시.
    A-6 스모크의 Asgard 대표값(HP·최저가)이 동기화로 바뀌면 기준값도 함께 갱신한다.
 
+전체 운영 절차·체크리스트·롤백은 **[OPERATIONS_RUNBOOK.md 7-1절](OPERATIONS_RUNBOOK.md)** 이 기준 문서다.
 공용 로직은 [functions/_shared/erkul-sync.js](../functions/_shared/erkul-sync.js)에 있고
 preview API와 apply 스크립트가 같은 코드를 사용하므로 hash가 서로 호환된다.

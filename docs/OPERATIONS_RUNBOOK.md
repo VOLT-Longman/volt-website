@@ -173,6 +173,79 @@ node scripts/build-ship-en.mjs          # volt-data 변경 시 data/ship-en.js(E
 
 ---
 
+## 7-1. ShipDB 2.0 — Erkul Live 동기화 런북
+
+함선 상세 스펙/구매처 레이어(`data/ship-live-stats.js`, `data/ship-market.js`)를 Erkul live 데이터로
+갱신하는 절차. 배경 문서: [shipdb-live-data-layer.md](./shipdb-live-data-layer.md)(레이어 구조·Safe Apply),
+[shipdb-description-translation.md](./shipdb-description-translation.md)(KO 번역 정책).
+
+### 동기화 절차 (순서 고정)
+
+```bash
+# 1. Admin CMS 함선DB 탭에서 [Erkul Live 동기화 미리보기] 실행
+#    previewHash 확인 (읽기 전용 — 파일/DB를 쓰지 않는다)
+
+# 2. 로컬 dry-run (파일 무변경, 변경 요약 + hash 출력)
+npm run shipdb:erkul:apply
+
+# 3. previewHash 일치 시 적용 (기존 210개 matched key만 갱신)
+npm run shipdb:erkul:apply -- --confirm-preview-hash <previewHash>
+
+# 4. ★ KO 설명 번역 재적용 — 생략 금지 ★
+npm run shipdb:erkul:translate-descriptions
+
+# 5. 캐시 버전 갱신 (data/*.js가 실제로 바뀐 경우에만)
+npm run cache-version -- YYYYMMDD-NN
+
+# 6. 검증
+npm run check
+npm run test:functions
+npm test
+```
+
+> **4번은 필수다.** Safe Apply(A-8)는 live stats entry를 재생성하므로 `descriptions.ko`가 빠진 상태가 된다.
+> A-9 번역 테이블(`data/external/erkul/ship-descriptions-ko.json`)을 재적용하지 않으면
+> KO 모드 설명이 legacy fallback 또는 null로 노출된다.
+> 4+검증을 한 번에: `npm run shipdb:erkul:post-apply`
+> (단, 3번 `--confirm-preview-hash`는 **의도적으로 수동 단계** — hash 확인을 자동화하지 않는다.)
+
+### 동기화 원칙 (요약)
+
+- Admin preview는 **읽기 전용**이다. 파일/DB를 절대 쓰지 않는다.
+- Safe Apply는 **기존 210개 matched key만** 갱신한다. 재매칭하지 않는다.
+- **자동 추가 금지 대상**: Erkul-only 신규 함선 9척, market-only 선체 6종(구형 Aurora 5 + Hammerhead),
+  unreleased VOLT 30척. 신규 함선 추가는 별도 마일스톤이다.
+- `sourceEnHash` 불일치(=번역 후 Erkul 원문 변경) 번역은 **stale로 분류되어 적용되지 않는다.**
+  stale 함선은 KO 모드에서 기존 VOLT 설명으로 폴백되며, 해당 함선만
+  `ship-descriptions-ko.json`의 번역과 `sourceEnHash`를 갱신한 뒤 재적용한다. stale 번역을 임의로 계속 쓰지 않는다.
+- Erkul에 없는 설명을 임의 생성하지 않는다. Admin에 [바로 적용] 버튼을 추가하지 않는다.
+- `volt-data.js`에 live stats/market/description을 직접 merge하지 않는다.
+
+### 동기화 후 검증 체크리스트
+
+- [ ] `git diff`에서 변경이 `data/ship-live-stats.js`, `data/ship-market.js`,
+      `data/external/erkul/live-data-build-report.json`, `description-translation-report.json`에 한정되는가
+- [ ] **`data/volt-data.js` diff 0인가 — 변경됐다면 실패로 간주하고 원인 확인**
+- [ ] `description-translation-report.json`의 `staleTranslation`/`missingKoTranslation`이 비어 있는가 (있으면 번역 갱신)
+- [ ] `npm run check` / `npm run test:functions` / `npm test` 전부 통과하는가
+- [ ] A-6 스모크의 Asgard 대표값(HP·최저가 exact assertion)이 가격/스펙 변경으로 깨졌다면 기대값을 함께 갱신했는가
+- [ ] 사이트에서 함선 모달 표본 확인 (Asgard KO/EN 설명, 구매처 가격)
+
+### 롤백 절차
+
+```bash
+# 아직 커밋 전이면 — 동기화 산출물만 원복
+git restore data/ship-live-stats.js data/ship-market.js data/external/erkul/live-data-build-report.json data/external/erkul/description-translation-report.json
+
+# 이미 커밋 후면 — 동기화 커밋을 통째로 되돌림
+git revert <sync-commit-sha>
+```
+
+운영 배포 후 문제 발생 시 이전 정상 커밋으로 revert하고 재배포한다(코드 롤백은 5-3절과 동일한 원리 —
+데이터 레이어는 정적 파일이므로 revert+재배포로 완전히 복원된다).
+
+---
+
 ## 8. 장애 대응 요약
 
 - **공개 API(D1) 장애:** 공개 사이트는 `data/volt-data.js`의 동일 키를 폴백/시드로 사용해 계속 동작한다.

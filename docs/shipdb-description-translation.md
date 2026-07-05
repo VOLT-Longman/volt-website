@@ -3,6 +3,10 @@
 KO 모드의 함선 설명을 기존 VOLT 큐레이션 설명 대신 **Erkul live 영어 설명의 한국어 번역본**으로 교체했다.
 `volt-data.js`의 기존 설명은 삭제하지 않고 legacy fallback으로 유지된다.
 
+> 전체 동기화 운영 절차(preview → apply → 번역 재적용 → 검증 → 롤백)는
+> [OPERATIONS_RUNBOOK.md 7-1절](OPERATIONS_RUNBOOK.md) 참조. 레이어 구조는
+> [shipdb-live-data-layer.md](shipdb-live-data-layer.md) 참조.
+
 ## 설명 표시 우선순위 (A-9 이후)
 
 | 모드 | 1순위 | 2순위 (fallback) |
