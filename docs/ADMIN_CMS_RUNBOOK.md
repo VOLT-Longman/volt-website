@@ -29,6 +29,10 @@ npx wrangler d1 execute <DB이름> --remote --file=migrations/0006_leadership_ti
 `0006_leadership_timeline.sql`에는 현재 임원진 5명(아마그란데 인사·재무 이사 반영)과
 연혁 10건이 시드로 포함되어 있어 적용 즉시 관리자에서 편집할 수 있습니다.
 
+> 전체 마이그레이션 대장(0001–0008)·멱등성·적용 순서·**백업/롤백 절차**는
+> [`OPERATIONS_RUNBOOK.md`](./OPERATIONS_RUNBOOK.md)를 참조하세요.
+> 특히 `ALTER TABLE ADD COLUMN`(0007·0008)은 **재실행 시 실패**하므로 이미 적용한 파일은 다시 실행하지 않습니다.
+
 ## 배포 환경변수
 
 - `DB`: D1 binding
