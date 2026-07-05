@@ -126,10 +126,10 @@
             return;
         }
         container.innerHTML = ships.map((ship) => `
-            <article class="ship-card reveal" tabindex="0" role="button" data-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(`${getShipDisplayName(ship)} ${i18nT('ships.viewDetail', '상세 보기')}`)}">
+            <article class="ship-card reveal" data-ship-id="${escapeHtml(ship.id)}">
                 <div class="ship-card-header">
                     <div>
-                        <h3 class="ship-name">${escapeHtml(getShipDisplayName(ship))}</h3>
+                        <h3 class="ship-name"><button type="button" class="ship-name-btn" data-open-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(`${getShipDisplayName(ship)} ${i18nT('ships.viewDetail', '상세 보기')}`)}">${escapeHtml(getShipDisplayName(ship))}</button></h3>
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
@@ -187,10 +187,9 @@
         manufacturer.addEventListener('change', () => { shipState.manufacturer = manufacturer.value; renderShips(); });
         hideUnreleased.addEventListener('change', () => { shipState.hideUnreleased = hideUnreleased.checked; syncShipControls(); renderShips(); });
         sort.addEventListener('change', () => { shipState.sort = sort.value; renderShips(); });
+        // 카드 본문 클릭은 그리드 위임으로 처리. 키보드 접근은 카드 내 함선명 버튼(.ship-name-btn,
+        // data-open-ship-id → handleShipPlannerActions)이 담당한다 — a11y: 카드 자체는 인터랙티브 role 없음.
         grid.addEventListener('click', openShipFromEvent);
-        grid.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') openShipFromEvent(event);
-        });
         purpose.addEventListener('change', () => applyShipPurpose(purpose.value));
         cargoButtons.forEach((button) => {
             button.addEventListener('click', () => {
@@ -350,7 +349,8 @@
         toggle?.classList.toggle('has-active', activeCount > 0);
     }
     function openShipFromEvent(event) {
-        if (event.target.closest('[data-compare-ship-id], [data-use-planner-ship-id], [data-hangar-ship-id]')) return;
+        // 함선명 버튼(data-open-ship-id)은 문서 레벨 핸들러가 처리하므로 이중 오픈 방지를 위해 제외
+        if (event.target.closest('[data-compare-ship-id], [data-use-planner-ship-id], [data-hangar-ship-id], [data-open-ship-id]')) return;
         const card = event.target.closest('[data-ship-id]');
         if (!card) return;
         event.preventDefault();

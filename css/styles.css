@@ -297,7 +297,8 @@ body.nav-trade-open::before {
 
 .nav-discord,
 .nav-join-cta {
-    background: var(--volt-orange);
+    /* a11y: 14px 흰 글자 + 브랜드 오렌지(3.88:1) → 다크 오렌지(5.39:1)로 대비 확보 */
+    background: var(--volt-orange-dark);
     color: #fff !important;
     padding: 6px 16px;
     border-radius: var(--radius-full);
@@ -1767,9 +1768,9 @@ body.nav-trade-open::before {
 
 .notice-filter-btn.active,
 .notice-filter-btn:hover {
-    border-color: var(--volt-orange);
+    border-color: var(--volt-orange-dark);
     color: #fff;
-    background: var(--volt-orange);
+    background: var(--volt-orange-dark); /* a11y 대비 */
 }
 
 .notice-actions {
@@ -2634,6 +2635,25 @@ body.nav-trade-open::before {
     letter-spacing: var(--tracking-snug);
 }
 
+/* a11y: 카드 자체 대신 함선명이 실제 버튼 — h3 시각 스타일을 그대로 상속 */
+.ship-name-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.ship-name-btn:focus-visible {
+    outline: 2px solid var(--volt-orange-light);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
 .ship-manufacturer {
     font-size: 13px;
     color: var(--color-text-tertiary);
@@ -3012,7 +3032,7 @@ body.nav-trade-open::before {
     font-weight: 700;
     padding: 3px 10px;
     border-radius: 4px;
-    background: var(--volt-orange);
+    background: var(--volt-orange-dark); /* a11y 대비 */
     color: #fff;
     font-family: var(--font-family);
 }
@@ -3039,7 +3059,7 @@ body.nav-trade-open::before {
     .ship-filter-btn:hover { border-color: var(--volt-orange); color: var(--volt-orange); }
     .ship-filter-btn.active:hover { color: #fff; }
 }
-.ship-filter-btn.active { background: var(--volt-orange); border-color: var(--volt-orange); color: #fff; }
+.ship-filter-btn.active { background: var(--volt-orange-dark); border-color: var(--volt-orange-dark); color: #fff; } /* a11y 대비 */
 .ship-search {
     width: 100%; max-width: 420px; padding: 10px 18px;
     background: var(--color-bg-card); border: 1px solid var(--color-border);
@@ -6791,7 +6811,7 @@ body.nav-trade-open::before {
 }
 
 .lang-btn.lang-active {
-    background: var(--volt-orange);
+    background: var(--volt-orange-dark); /* a11y 대비 */
     color: #fff;
 }
 

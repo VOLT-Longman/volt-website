@@ -80,8 +80,9 @@ test.describe('함선 DB', () => {
         await mockApi(page);
         await gotoSection(page, '#ships');
 
-        const firstCard = page.locator('#ships-grid .ship-card').first();
-        await firstCard.click();
+        // a11y 구조: 카드는 비인터랙티브, 함선명 버튼(.ship-name-btn)이 키보드 진입점
+        const firstCardButton = page.locator('#ships-grid .ship-card .ship-name-btn').first();
+        await firstCardButton.click();
         const modal = page.locator('#global-modal');
         await expect(modal).toHaveClass(/active/);
 
@@ -96,10 +97,10 @@ test.describe('함선 DB', () => {
         await page.keyboard.press('Shift+Tab');
         expect(await page.evaluate(() => document.getElementById('global-modal').contains(document.activeElement))).toBe(true);
 
-        // 닫으면 트리거(카드)로 포커스 복귀
+        // 닫으면 트리거(함선명 버튼)로 포커스 복귀
         await page.keyboard.press('Escape');
         await expect(modal).not.toHaveClass(/active/);
-        await expect(firstCard).toBeFocused();
+        await expect(firstCardButton).toBeFocused();
     });
 
     // 영어화: 비한국어 기본 영어 — 헤더/필터 칩/카드/모달 영어 + 영문 검색 동작.
