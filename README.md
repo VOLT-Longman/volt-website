@@ -22,6 +22,20 @@
 
 ---
 
+## 문서 색인
+
+| 문서 | 내용 |
+|---|---|
+| [`docs/OPERATIONS_RUNBOOK.md`](docs/OPERATIONS_RUNBOOK.md) | 배포 파이프라인 · D1 마이그레이션 대장/적용/롤백 · 운영 체크리스트 |
+| [`docs/ADMIN_CMS_RUNBOOK.md`](docs/ADMIN_CMS_RUNBOOK.md) | 관리자 CMS 사용법 · 환경변수 · Discord OAuth · 콘텐츠 입력 기준 |
+| [`docs/ship-data-pipeline.md`](docs/ship-data-pipeline.md) | 함선 데이터 소스(RSI Ship Matrix)·가격·EN 생성 파이프라인 |
+| [`docs/LOCALIZATION_USAGE.md`](docs/LOCALIZATION_USAGE.md) | i18n(KO/EN) 사용 규칙 |
+| [`docs/QA.md`](docs/QA.md) · [`docs/playwright-qa-scenarios.md`](docs/playwright-qa-scenarios.md) | QA 시나리오 |
+| [`docs/RELEASE_NOTES.md`](docs/RELEASE_NOTES.md) | 마일스톤 릴리스 요약 |
+| [`docs/BACKLOG.md`](docs/BACKLOG.md) | 마감 후 이관한 잔여 품질 부채 |
+
+---
+
 ## 현재 상태
 
 | 항목 | 내용 |
