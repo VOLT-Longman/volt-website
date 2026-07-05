@@ -14,3 +14,7 @@ playwright-report/
 .idea/
 *.swp
 .shot.js
+
+# Erkul 전체 raw (35MB+) — 커밋하지 않음. 재현: npm run shipdb:erkul:fetch
+data/external/erkul/ships.raw.json
+data/external/erkul/shop.raw.json

@@ -1,0 +1,259 @@
+{
+  "source": "erkul-live",
+  "endpoint": "https://server.erkul.games/live/ships",
+  "localName": "anvl_asgard",
+  "name": "Asgard",
+  "ref": "8ffde65b-ee9b-4a50-b386-3111175736b2",
+  "inspectedAt": "2026-07-05T12:05:52.796Z",
+  "fields": {
+    "manufacturer": {
+      "erkulPath": "manufacturerData.data.name",
+      "value": "Anvil Aerospace",
+      "userSample": "Anvil Aerospace",
+      "status": "일치"
+    },
+    "role": {
+      "erkulPath": "vehicle.role",
+      "value": "Dropship",
+      "userSample": "Dropship",
+      "status": "일치"
+    },
+    "career": {
+      "erkulPath": "vehicle.career",
+      "value": "Combat",
+      "userSample": "Combat",
+      "status": "일치"
+    },
+    "size": {
+      "erkulPath": "size",
+      "value": 4,
+      "userSample": "S4",
+      "status": "일치(표기 변환)",
+      "notes": "Erkul은 숫자(4), 사용자 샘플은 표기형(S4)"
+    },
+    "crewSize": {
+      "erkulPath": "vehicle.crewSize",
+      "value": 1,
+      "userSample": 1,
+      "status": "일치"
+    },
+    "scmSpeed": {
+      "erkulPath": "ifcs.scmSpeed",
+      "value": 203,
+      "userSample": 203,
+      "status": "일치"
+    },
+    "scmBoostForward": {
+      "erkulPath": "ifcs.boostSpeedForward",
+      "value": 425,
+      "userSample": 425,
+      "status": "일치"
+    },
+    "scmBoostBackward": {
+      "erkulPath": "ifcs.boostSpeedBackward",
+      "value": 240,
+      "userSample": 240,
+      "status": "일치"
+    },
+    "navMaxSpeed": {
+      "erkulPath": "ifcs.maxSpeed",
+      "value": 1075,
+      "userSample": 1075,
+      "status": "일치"
+    },
+    "pitch": {
+      "erkulPath": "ifcs.angularVelocity.x",
+      "value": 32.5,
+      "userSample": 33,
+      "status": "일치(반올림)",
+      "notes": "Erkul UI는 반올림 표시 (32.5 → 33)"
+    },
+    "yaw": {
+      "erkulPath": "ifcs.angularVelocity.z",
+      "value": 27.5,
+      "userSample": 28,
+      "status": "일치(반올림)",
+      "notes": "Erkul UI는 반올림 표시 (27.5 → 28)"
+    },
+    "roll": {
+      "erkulPath": "ifcs.angularVelocity.y",
+      "value": 95,
+      "userSample": 95,
+      "status": "일치"
+    },
+    "boostedPitch": {
+      "erkulPath": "not found",
+      "value": "not found",
+      "userSample": null,
+      "status": "not found",
+      "notes": "raw에 없음 — Erkul 클라이언트 계산값(afterburner 배율)"
+    },
+    "boostedYaw": {
+      "erkulPath": "not found",
+      "value": "not found",
+      "userSample": null,
+      "status": "not found",
+      "notes": "raw에 없음 — Erkul 클라이언트 계산값"
+    },
+    "boostedRoll": {
+      "erkulPath": "not found",
+      "value": "not found",
+      "userSample": null,
+      "status": "not found",
+      "notes": "raw에 없음 — Erkul 클라이언트 계산값"
+    },
+    "currentPitch": {
+      "erkulPath": "not found",
+      "value": "not found",
+      "userSample": null,
+      "status": "not found",
+      "notes": "raw에 없음 — 로드아웃 반영 계산값"
+    },
+    "currentYaw": {
+      "erkulPath": "not found",
+      "value": "not found",
+      "userSample": null,
+      "status": "not found",
+      "notes": "raw에 없음 — 로드아웃 반영 계산값"
+    },
+    "currentRoll": {
+      "erkulPath": "not found",
+      "value": "not found",
+      "userSample": null,
+      "status": "not found",
+      "notes": "raw에 없음 — 로드아웃 반영 계산값"
+    },
+    "decoy": {
+      "erkulPath": "sum(items.countermeasures[shortName='Decoy'].data.ammoContainer.maxAmmoCount)",
+      "value": 192,
+      "userSample": null,
+      "status": "user sample 없음",
+      "notes": "런처 4기 × 48발 합산"
+    },
+    "noise": {
+      "erkulPath": "sum(items.countermeasures[shortName='Noise'].data.ammoContainer.maxAmmoCount)",
+      "value": 20,
+      "userSample": null,
+      "status": "user sample 없음",
+      "notes": "런처 4기 × 5발 합산"
+    },
+    "hp": {
+      "erkulPath": "hull.totalHp",
+      "value": 77000,
+      "userSample": 77000,
+      "status": "일치"
+    },
+    "cargoScu": {
+      "erkulPath": "cargo",
+      "value": 180,
+      "userSample": 180,
+      "status": "일치"
+    },
+    "dimensions.length": {
+      "erkulPath": "vehicle.size.y",
+      "value": 48,
+      "userSample": 48,
+      "status": "일치",
+      "notes": "CryEngine 축 관례 해석(y=전방). A-2에서 다함선 교차검증 필요"
+    },
+    "dimensions.beam": {
+      "erkulPath": "vehicle.size.x",
+      "value": 38,
+      "userSample": 38,
+      "status": "일치",
+      "notes": "CryEngine 축 관례 해석(x=측면). A-2에서 다함선 교차검증 필요"
+    },
+    "dimensions.height": {
+      "erkulPath": "vehicle.size.z",
+      "value": 12,
+      "userSample": 12,
+      "status": "일치",
+      "notes": "CryEngine 축 관례 해석(z=상하). A-2에서 다함선 교차검증 필요"
+    },
+    "massKg": {
+      "erkulPath": "hull.mass",
+      "value": 610246.06,
+      "userSample": 610246,
+      "status": "일치(반올림)"
+    },
+    "hydrogenCapacityScu": {
+      "erkulPath": "fuelCapacity",
+      "value": 97.5,
+      "userSample": 97.5,
+      "status": "일치"
+    },
+    "quantumFuelCapacityScu": {
+      "erkulPath": "qtFuelCapacity",
+      "value": 1.85,
+      "userSample": 1.85,
+      "status": "일치"
+    },
+    "expeditionFee": {
+      "erkulPath": "insurance.baseExpeditingFee",
+      "value": 9430,
+      "userSample": 9430,
+      "status": "일치"
+    },
+    "claimTime": {
+      "erkulPath": "insurance.baseWaitTimeMinutes",
+      "value": "00:17:00",
+      "userSample": "00:17:00",
+      "status": "일치",
+      "notes": "분 단위 원본(17)을 HH:MM:SS로 변환"
+    },
+    "expediteTime": {
+      "erkulPath": "insurance.mandatoryWaitTimeMinutes",
+      "value": "00:04:15",
+      "userSample": "00:04:15",
+      "status": "일치",
+      "notes": "분 단위 원본(4.25)을 HH:MM:SS로 변환"
+    },
+    "damageReduction.physical": {
+      "erkulPath": "armor.data.armor.damageMultiplier.damagePhysical",
+      "value": 0.7,
+      "userSample": null,
+      "status": "user sample 없음",
+      "notes": "배율 원본(0.7)=피해 30% 감소"
+    },
+    "damageReduction.energy": {
+      "erkulPath": "armor.data.armor.damageMultiplier.damageEnergy",
+      "value": 0.5,
+      "userSample": null,
+      "status": "user sample 없음",
+      "notes": "배율 원본(0.5)=피해 50% 감소"
+    },
+    "damageReduction.distortion": {
+      "erkulPath": "armor.data.armor.damageMultiplier.damageDistortion",
+      "value": 1,
+      "userSample": null,
+      "status": "user sample 없음",
+      "notes": "배율 원본(1)=감소 없음"
+    },
+    "damageReduction.fuse": {
+      "erkulPath": "vehicle.fusePenetrationDamageMultiplier",
+      "value": 0.7,
+      "userSample": null,
+      "status": "user sample 없음"
+    },
+    "damageReduction.component": {
+      "erkulPath": "vehicle.componentPenetrationDamageMultiplier",
+      "value": 0.5,
+      "userSample": null,
+      "status": "user sample 없음"
+    },
+    "descriptionEn": {
+      "erkulPath": "description",
+      "value": "Manufacturer: Anvil Aerospace\\nFocus: Drop Ship\\n \\nAs the battles of today continue to grow in scale and complexity, Anvil Aerospace understands the impact a single vehicle can have on the outcome. Enter the Asgard. The next generation in ground vehicle transport, the Anvil Asgard features a quick-load ramp, a sizeable hold to securely store your assault vehicle of choice, and hefty array of armaments to ensure access to even the most combat-heavy of drop sites.",
+      "userSample": null,
+      "status": "user sample 없음",
+      "notes": "영어 설명 존재. Manufacturer/Focus 헤더 라인 포함"
+    },
+    "descriptionKo": {
+      "erkulPath": "not found",
+      "value": "not found",
+      "userSample": null,
+      "status": "not found",
+      "notes": "Erkul 페이로드 전체에 한국어 없음 — 별도 원천 필요 (global.ini 등)"
+    }
+  }
+}
