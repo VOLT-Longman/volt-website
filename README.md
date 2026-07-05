@@ -48,7 +48,7 @@
 | 인증 | Discord OAuth 소셜 로그인 + 관리자 RBAC |
 | 배포 | Cloudflare Pages (프런트 + Functions 동시) |
 | 기본 브랜치 | `main` |
-| 최신 에셋 버전 | `20260613-02` |
+| 에셋 버전 | `sw.js`의 `CACHE_VERSION`이 단일 진실원본 (매 배포마다 갱신) |
 | 분석 | Cloudflare Web Analytics 자동 설치 사용 |
 | 보안 헤더 | `_headers`에서 관리 |
 
@@ -436,7 +436,7 @@ node scripts/update-cache-version.js YYYYMMDD-NN
 
 ### JS/CSS 비대화 방지
 
-`js/main.js`(약 190KB)는 더 이상 키우지 않습니다.
+`js/main.js`(약 100KB — 기능 분리로 축소 중)는 더 이상 키우지 않습니다.
 
 - **신규 기능 JS는 별도 파일**로 추가합니다: `js/<feature>.js` (예: `js/volt-ai.js`)
 - `index.html`에서 `js/main.js` 뒤에 `?v=` 버전 쿼리와 함께 로드합니다
