@@ -110,7 +110,6 @@
 
     const localization = window.VOLT_LOCALIZATION || {};
 
-    const PAGE_SIZE = 4;
     // Router/Navigation은 js/navigation.js로 분리됨(window.VOLT_NAV). main.js는
     // 기존 호출처를 그대로 두기 위해 공개 함수를 별칭으로 바인딩한다.
     const nav = window.VOLT_NAV;
@@ -131,12 +130,12 @@
         return currentLang() === 'en' && Array.isArray(en) ? en : (item && Array.isArray(item[field]) ? item[field] : []);
     }
     function i18nT(key, fallback) { return i18n && i18n.t ? i18n.t(key) : (fallback || key); }
-    // 공지 CMS 다국어: EN 모드이고 `${field}En` 값이 있으면 사용, 없으면 KO fallback.
-    function noticeField(announcement, field) {
-        if (!announcement) return '';
-        const en = announcement[`${field}En`];
-        return currentLang() === 'en' && en ? en : (announcement[field] || '');
-    }
+    // 공지 UI는 js/notices.js로 분리(window.VOLT_NOTICES). 호출부 무변경용 위임 shim.
+    function renderNoticeFilters() { return VOLT_NOTICES.renderNoticeFilters(); }
+    function renderAnnouncements() { return VOLT_NOTICES.renderAnnouncements(); }
+    function setupNoticeControls() { return VOLT_NOTICES.setupNoticeControls(); }
+    function openNoticeFromQuery() { return VOLT_NOTICES.openNoticeFromQuery(); }
+    function copyNoticeLink(id) { return VOLT_NOTICES.copyNoticeLink(id); }
     // 함선DB UI는 js/ships.js로 분리. 기존 호출부 무변경용 위임 shim.
     function renderShips() { return VOLT_SHIPS.renderShips(); }
     function renderShipManufacturers() { return VOLT_SHIPS.renderShipManufacturers(); }
@@ -149,7 +148,6 @@
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
-    const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
     const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, selectedTags: [] };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
@@ -160,7 +158,6 @@
     let userPreferencesLoaded = false;
     let liveMemberCount = null;
     let preferencesSaveTimer = null;
-    const NOTICE_TAG_COLORS = { '\uACF5\uC9C0': 'var(--volt-orange)', '\uC911\uC694': '#e53e3e', '\uC5C5\uB370\uC774\uD2B8': '#3182ce', '\uC774\uBCA4\uD2B8': '#805ad5', '\uC791\uC804': '#38a169', '\uC2DC\uC2A4\uD15C': '#319795', '\uBAA8\uC9D1': '#d69e2e', '\uC815\uCC45': '#e53e3e' };
 
     const RECOMMENDED_TRADE_GROUPS = [
         { titleKey: 'planner.tradeShip.starter', fallback: '입문/소규모 운송 추천', shipIds: ['hull-a', 'cutlass-black', 'zeus-mk2-cl'] },
@@ -496,82 +493,6 @@
                     <span class="gallery-item-meta">${escapeHtml(item.date)}</span>
                 </span>
             </button>`).join('');
-        observeNewReveals(container);
-    }
-
-    function getNoticeTags() {
-        if (!Array.isArray(data.announcements)) return [];
-        return [...new Set(data.announcements.map((announcement) => announcement.tag))];
-    }
-
-    function renderNoticeFilters() {
-        const container = document.getElementById('notice-filters');
-        if (!container) return;
-        const buttons = ['all', ...getNoticeTags()].map((tag) => {
-            const label = tag === 'all' ? i18nT('notices.filterAll', '전체') : tag;
-            const active = tag === noticeState.tag ? ' active' : '';
-            return `<button class="notice-filter-btn${active}" type="button" data-tag="${escapeHtml(tag)}">${escapeHtml(label)}</button>`;
-        });
-        container.innerHTML = buttons.join('');
-    }
-
-    function getFilteredAnnouncements() {
-        if (!Array.isArray(data.announcements)) return [];
-        return [...data.announcements]
-            .filter((announcement) => noticeState.tag === 'all' || announcement.tag === noticeState.tag)
-            .sort(compareAnnouncements);
-    }
-
-    function compareAnnouncements(left, right) {
-        if (Boolean(left.pinned) !== Boolean(right.pinned)) return left.pinned ? -1 : 1;
-        const leftTime = getDateSortTime(left.date);
-        const rightTime = getDateSortTime(right.date);
-        if (leftTime !== rightTime) return rightTime - leftTime;
-        return String(right.date || '').localeCompare(String(left.date || ''));
-    }
-
-    function getDateSortTime(value) {
-        const raw = String(value || '').trim().replace(/\./g, '-');
-        const time = Date.parse(raw);
-        return Number.isNaN(time) ? 0 : time;
-    }
-
-    function formatDisplayDate(value) {
-        const raw = String(value || '').trim();
-        if (!raw) return '';
-        if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw.replace(/-/g, '.');
-        const time = Date.parse(raw);
-        if (!Number.isNaN(time) && raw.includes('T')) {
-            return new Date(time).toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            }).replace(/\.\s/g, '.').replace(/\.$/, '');
-        }
-        return raw;
-    }
-
-    function renderAnnouncements() {
-        const container = document.getElementById('notices-list');
-        const loadMore = document.getElementById('notice-load-more');
-        if (!container || !loadMore) return;
-        const colors = { '공지': 'var(--volt-orange)', '중요': '#e53e3e', '업데이트': '#3182ce', '이벤트': '#805ad5', '작전': '#38a169', '시스템': '#319795', '모집': '#d69e2e', '정책': '#e53e3e' };
-        const items = getFilteredAnnouncements();
-        const visibleItems = items.slice(0, noticeState.visibleCount);
-        // 강조(featured)는 최신 고정 공지 1개만. 나머지 고정은 배지만 유지.
-        const featuredId = (visibleItems.find((item) => item.pinned) || {}).id || null;
-        container.innerHTML = visibleItems.map((announcement) => `
-            <button class="notice-card${announcement.id === featuredId ? ' is-featured' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(noticeField(announcement, 'title'))} ${escapeHtml(i18nT('notices.detailAria', '상세 보기'))}">
-                <div class="notice-meta">
-                    ${announcement.pinned ? `<span class="notice-pin">${escapeHtml(i18nT('notices.pinned', '고정'))}</span>` : ''}
-                    <span class="notice-tag" data-style-bg="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20" data-style-color="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}">${escapeHtml(noticeField(announcement, 'tag'))}</span>
-                    <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
-                </div>
-                <h3 class="notice-title">${escapeHtml(noticeField(announcement, 'title'))}</h3>
-                <p class="notice-content notice-excerpt">${formatMultilineText(noticeField(announcement, 'content'))}</p>
-                <span class="notice-more" aria-hidden="true">${escapeHtml(i18nT('notices.readMore', '자세히 보기 →'))}</span>
-            </button>`).join('');
-        loadMore.hidden = visibleItems.length >= items.length;
         observeNewReveals(container);
     }
 
@@ -1181,12 +1102,6 @@
         renderedLazySections.forEach((id) => LAZY_SECTIONS[id]?.());
     }
 
-    function openNoticeFromQuery() {
-        const noticeId = new URLSearchParams(window.location.search).get('notice');
-        const notice = noticeId ? findAnnouncement(noticeId) : null;
-        if (notice) openNoticeModal(notice);
-    }
-
     function getFocusableElements(container) {
         const selector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
         return [...container.querySelectorAll(selector)]
@@ -1208,53 +1123,6 @@
             event.preventDefault();
             first.focus();
         }
-    }
-
-    function setupNoticeControls() {
-        const filters = document.getElementById('notice-filters');
-        const loadMore = document.getElementById('notice-load-more');
-        const list = document.getElementById('notices-list');
-        if (!filters || !loadMore || !list) return;
-        filters.addEventListener('click', (event) => {
-            const button = event.target.closest('[data-tag]');
-            if (!button) return;
-            noticeState.tag = button.getAttribute('data-tag');
-            noticeState.visibleCount = PAGE_SIZE;
-            renderNoticeFilters();
-            renderAnnouncements();
-        });
-        loadMore.addEventListener('click', () => {
-            noticeState.visibleCount += PAGE_SIZE;
-            renderAnnouncements();
-        });
-        list.addEventListener('click', (event) => {
-            const card = event.target.closest('[data-notice-id]');
-            if (!card) return;
-            const notice = findAnnouncement(card.getAttribute('data-notice-id'));
-            if (notice) openNoticeModal(notice);
-        });
-    }
-
-    function findAnnouncement(id) {
-        return (data.announcements || []).find((announcement) => announcement.id === id);
-    }
-
-    function openNoticeModal(announcement) {
-        openModal(`<div class="modal-header">
-                <div>
-                    ${announcement.pinned ? `<span class="notice-pin">${escapeHtml(i18nT('notices.pinned', '고정'))}</span>` : ''}
-                    <h2 class="modal-title">${escapeHtml(noticeField(announcement, 'title'))}</h2>
-                </div>
-                <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('notices.modalClose', '모달 닫기'))}">×</button>
-            </div>
-            <div class="modal-body notice-modal-body">
-                <div class="notice-meta">
-                    <span class="notice-tag">${escapeHtml(noticeField(announcement, 'tag'))}</span>
-                    <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
-                </div>
-                <p>${formatMultilineText(noticeField(announcement, 'content'))}</p>
-                <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">${escapeHtml(i18nT('notices.copyLink', '공지 링크 복사'))}</button>
-            </div>`);
     }
 
     function getLeaderById(id) {
@@ -1511,18 +1379,6 @@
             const noticeCopyButton = event.target.closest('[data-copy-notice-id]');
             if (noticeCopyButton) copyNoticeLink(noticeCopyButton.getAttribute('data-copy-notice-id'));
         });
-    }
-
-    async function copyNoticeLink(id) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('notice', id);
-        url.hash = 'notices';
-        try {
-            await navigator.clipboard.writeText(url.toString());
-            showToast(i18nT('notices.copyOk', '공지 링크를 복사했습니다.'));
-        } catch (error) {
-            showToast(i18nT('notices.copyFail', '공지 링크 복사에 실패했습니다.'));
-        }
     }
 
     function setupPolicyAnchors() {
@@ -2114,6 +1970,12 @@
         });
         // 무역플래너 수익표 — 공용 포매터·토스트·i18n 주입.
         VOLT_TRADE_PLANNER.init({ escapeHtml, formatCredits, i18nT, showToast });
+        // 공지 UI 계층 — 데이터 접근·공용 유틸 주입(announcements는 CMS 로드로 재할당되므로 getter).
+        VOLT_NOTICES.init({
+            getAnnouncements: () => data.announcements,
+            escapeHtml, i18nT, currentLang, formatMultilineText,
+            observeNewReveals, openModal, showToast,
+        });
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         VOLT_SHIPS.init({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,

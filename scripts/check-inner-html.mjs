@@ -23,7 +23,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 // 파일별 허용 상한. 새 파일은 기본 0 — HTML 싱크 없이 작성한다.
 const BASELINE = {
-  'js/main.js': 32,
+  // 공지 렌더 2곳이 main.js → notices.js로 이동 (총합 32 유지, 신규 싱크 아님)
+  'js/main.js': 30,
+  'js/notices.js': 2,
   'js/uex-panel.js': 17,
   'admin/admin.js': 9,
   'js/ships.js': 6,
