@@ -13,7 +13,7 @@ test.describe('홈', () => {
         expect(errors).toEqual([]);
     });
 
-    test('멤버수: 디스코드 API 값으로 교체(정적 49+에서 갱신)', async ({ page }) => {
+    test('멤버수: 디스코드 API 값으로 교체(정적 100+에서 갱신)', async ({ page }) => {
         await mockApi(page); // discord-stats: memberCount 1234 → 10단위 내림 "1,230+"
         await gotoSection(page, '');
 

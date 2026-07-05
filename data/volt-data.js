@@ -10,7 +10,7 @@
  */
 
 const VOLT_DATA = {
-    memberCount: 49,
+    memberCount: 100,
     // ===== 함대 기본 정보 =====
     fleet: {
         name: "VOLT",
@@ -21,7 +21,7 @@ const VOLT_DATA = {
         platform: "Star Citizen",
         timezone: "아시아 (KST)",
         coreValues: "효율 · 조직화 · 확장",
-        memberCount: 49,
+        memberCount: 100,
         region: "KR",
         discordUrl: "https://discord.gg/voltstarcitizen",
         applicationFormUrl: "https://forms.gle/2X3jLNATNj3fneQq8",
