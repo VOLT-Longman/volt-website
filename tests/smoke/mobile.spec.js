@@ -32,9 +32,9 @@ test.describe('모바일 공통 폴리시 (390px)', () => {
         expect(await tagFilters.evaluate((el) => getComputedStyle(el).flexWrap)).toBe('nowrap');
         expect(['auto', 'scroll']).toContain(await tagFilters.evaluate((el) => getComputedStyle(el).overflowX));
 
-        // 상세 모달 열기
+        // 상세 모달 열기 (A-6 Live 요약도 같은 grid 클래스를 쓰므로 기본 스펙 그리드는 first로 지정)
         await page.locator('.ship-card').first().click();
-        const modal = page.locator('.ship-modal-grid');
+        const modal = page.locator('.ship-modal-grid').first();
         await expect(modal).toBeVisible();
 
         // 스펙 그리드는 좁은 화면에서도 2열(세로 과밀 방지)

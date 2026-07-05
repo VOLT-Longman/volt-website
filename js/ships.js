@@ -481,10 +481,147 @@
             ${displays}
         </tr>`;
     }
+    // ===== ShipDB 2.0 Live 레이어 (A-6) =====
+    // data/ship-live-stats.js·ship-market.js는 A-4 matched 210척만 담는 표시 전용 레이어.
+    // 레이어에 없는 함선(미출시/변형)은 아래 렌더러들이 빈 문자열을 반환해 기존 모달 그대로 표시된다.
+    function getShipLiveStats(ship) { return (window.VOLT_SHIP_LIVE_STATS || {})[ship.id] || null; }
+    function getShipLiveMarket(ship) { return (window.VOLT_SHIP_MARKET || {})[ship.id] || null; }
+    function fmtInt(value) { return typeof value === 'number' && Number.isFinite(value) ? Math.round(value).toLocaleString('en-US') : null; }
+    function fmtAuec(value) { const n = fmtInt(value); return n === null ? null : `${n} aUEC`; }
+    function fmtSpeed(value) { return typeof value === 'number' ? `${value} m/s` : null; }
+    function fmtDegSec(value) { return typeof value === 'number' ? `${value} °/s` : null; }
+    function fmtScu(value) { return typeof value === 'number' ? `${value} SCU` : null; }
+    // 배율 원본(1=감소 없음) → "n%" 감소 표기. A-2 damageReduction 정책.
+    function fmtReduction(value) { return typeof value === 'number' ? `${Math.round((1 - value) * 100)}%` : null; }
+    function fmtMinutesHms(minutes) {
+        if (typeof minutes !== 'number' || !Number.isFinite(minutes)) return null;
+        const total = Math.round(minutes * 60);
+        const pad = (n) => String(n).padStart(2, '0');
+        return `${pad(Math.floor(total / 3600))}:${pad(Math.floor((total % 3600) / 60))}:${pad(total % 60)}`;
+    }
+    function liveStatItem(label, value) {
+        if (value === null || value === undefined || value === '') return '';
+        return `<div class="ship-modal-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`;
+    }
+    function shipModalDescription(ship, live) {
+        // EN 모드: Erkul 정제 설명 우선, 없으면 기존 EN → KO 폴백. KO 모드: 기존 KO 유지(A-6 정책).
+        if (currentLang() === 'en' && live?.descriptions?.en) return live.descriptions.en;
+        return tx(ship, 'description');
+    }
+    function renderShipLiveSummary(live, market) {
+        if (!live) return '';
+        const purchase = market ? market.purchase : [];
+        const lowest = purchase.length ? Math.min(...purchase.map((row) => row.price).filter((p) => typeof p === 'number')) : null;
+        const items = [
+            liveStatItem(i18nT('ships.live.size', '크기'), live.size),
+            liveStatItem(i18nT('ships.live.crew', '승무원'), live.crewSize),
+            liveStatItem(i18nT('ships.live.cargo', '화물'), fmtScu(live.cargoScu)),
+            liveStatItem(i18nT('ships.live.hp', 'HP'), fmtInt(live.hp)),
+            liveStatItem(i18nT('ships.live.scm', 'SCM 속도'), fmtSpeed(live.speeds?.scm)),
+            liveStatItem(i18nT('ships.live.nav', 'NAV 최고 속도'), fmtSpeed(live.speeds?.navMax)),
+            liveStatItem(i18nT('ships.live.lowestPrice', '최저 구매가'), Number.isFinite(lowest) ? fmtAuec(lowest) : null),
+            liveStatItem(i18nT('ships.live.purchaseCount', '구매처 수'), purchase.length || null)
+        ].join('');
+        if (!items) return '';
+        const synced = String(live.syncedAt || '').slice(0, 10);
+        return `<section class="ship-live-summary">
+                <div class="ship-live-heading">
+                    <h3>${escapeHtml(i18nT('ships.live.title', 'Live 상세 정보'))}</h3>
+                    <span class="ship-live-meta">${escapeHtml(i18nT('ships.live.source', 'Erkul live'))}${synced ? ` · ${escapeHtml(synced)}` : ''}</span>
+                </div>
+                <div class="ship-modal-grid ship-live-grid">${items}</div>
+            </section>`;
+    }
+    function renderMarketRow(row, isRental) {
+        const parts = [
+            `<strong class="ship-market-shop">${escapeHtml(row.shop || '?')}</strong>`,
+            row.location ? `<span>${escapeHtml(row.location)}</span>` : '',
+            `<span class="ship-market-price">${escapeHtml(typeof row.price === 'number' ? fmtAuec(row.price) : i18nT('ships.live.priceUnknown', '가격 미표기'))}</span>`,
+            typeof row.available === 'number' ? `<span class="ship-market-stock">${escapeHtml(`${i18nT('ships.live.stockAvailable', '재고')} ${row.available}`)}</span>` : '',
+            typeof row.unavailable === 'number' ? `<span class="ship-market-stock is-out">${escapeHtml(`${i18nT('ships.live.stockUnavailable', '미가용')} ${row.unavailable}`)}</span>` : ''
+        ].filter(Boolean).join('<span class="ship-market-sep" aria-hidden="true">·</span>');
+        return `<li class="ship-market-row${isRental ? ' is-rental' : ''}">${parts}</li>`;
+    }
+    function renderShipMarketPanel(live, market) {
+        if (!live && !market) return '';
+        const purchase = market ? [...market.purchase].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity)) : [];
+        const rentals = market ? market.rentals : [];
+        let body;
+        if (!purchase.length && !rentals.length) {
+            body = `<p class="ship-market-empty">${escapeHtml(i18nT('ships.live.noMarket', '확인된 인게임 구매처 없음'))}</p>`;
+        } else {
+            const purchaseBlock = purchase.length
+                ? `<h4>${escapeHtml(i18nT('ships.live.purchase', '구매'))}</h4><ul class="ship-market-list">${purchase.map((row) => renderMarketRow(row, false)).join('')}</ul>`
+                : '';
+            const rentalBlock = rentals.length
+                ? `<h4>${escapeHtml(i18nT('ships.live.rental', '렌탈'))}</h4><ul class="ship-market-list">${rentals.map((row) => renderMarketRow(row, true)).join('')}</ul>`
+                : '';
+            body = purchaseBlock + rentalBlock;
+        }
+        return `<section class="ship-market-panel">
+                <h3>${escapeHtml(i18nT('ships.live.marketTitle', '인게임 구매처'))}</h3>
+                ${body}
+            </section>`;
+    }
+    function liveDetailGroup(title, rows) {
+        const items = rows
+            .filter(([, value]) => value !== null && value !== undefined && value !== '')
+            .map(([label, value]) => `<div class="ship-live-detail-row"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`)
+            .join('');
+        if (!items) return '';
+        return `<div class="ship-live-detail-group"><h4>${escapeHtml(title)}</h4>${items}</div>`;
+    }
+    function renderShipLiveDetails(live) {
+        if (!live) return '';
+        const dims = live.dimensions || {};
+        const dimText = [dims.length, dims.beam, dims.height].every((v) => typeof v === 'number')
+            ? `${dims.length} × ${dims.beam} × ${dims.height} m`
+            : null;
+        const groups = [
+            liveDetailGroup(i18nT('ships.live.speeds', '속도'), [
+                ['SCM', fmtSpeed(live.speeds?.scm)],
+                [i18nT('ships.live.scmBoostFwd', 'SCM 부스트(전진)'), fmtSpeed(live.speeds?.scmBoostForward)],
+                [i18nT('ships.live.scmBoostBack', 'SCM 부스트(후진)'), fmtSpeed(live.speeds?.scmBoostBackward)],
+                ['NAV', fmtSpeed(live.speeds?.navMax)]
+            ]),
+            liveDetailGroup(i18nT('ships.live.rotation', '회전'), [
+                ['Pitch', fmtDegSec(live.rotation?.pitch)],
+                ['Yaw', fmtDegSec(live.rotation?.yaw)],
+                ['Roll', fmtDegSec(live.rotation?.roll)]
+            ]),
+            liveDetailGroup(i18nT('ships.live.fuel', '연료'), [
+                [i18nT('ships.live.fuelHydrogen', '수소 연료'), fmtScu(live.fuel?.hydrogenScu)],
+                [i18nT('ships.live.fuelQuantum', '퀀텀 연료'), fmtScu(live.fuel?.quantumScu)]
+            ]),
+            liveDetailGroup(i18nT('ships.live.insurance', '보험'), [
+                [i18nT('ships.live.claimTime', '클레임 시간'), fmtMinutesHms(live.insurance?.claimTime)],
+                [i18nT('ships.live.expediteTime', '신속 처리 시간'), fmtMinutesHms(live.insurance?.expediteTime)],
+                [i18nT('ships.live.expeditionFee', '신속 처리 비용'), fmtAuec(live.insurance?.expeditionFee)]
+            ]),
+            liveDetailGroup(i18nT('ships.live.dimensions', '크기/질량'), [
+                [i18nT('ships.live.dimensionsLbh', '길이 × 폭 × 높이'), dimText],
+                [i18nT('ships.live.mass', '질량'), fmtInt(live.massKg) ? `${fmtInt(live.massKg)} kg` : null]
+            ]),
+            liveDetailGroup(i18nT('ships.live.damageReduction', '피해 감소'), [
+                [i18nT('ships.live.drPhysical', '물리'), fmtReduction(live.damageReduction?.physical)],
+                [i18nT('ships.live.drEnergy', '에너지'), fmtReduction(live.damageReduction?.energy)],
+                [i18nT('ships.live.drDistortion', '왜곡'), fmtReduction(live.damageReduction?.distortion)],
+                [i18nT('ships.live.drFuse', '퓨즈 관통'), fmtReduction(live.damageReduction?.fuse)],
+                [i18nT('ships.live.drComponent', '부품 관통'), fmtReduction(live.damageReduction?.component)]
+            ])
+        ].join('');
+        if (!groups) return '';
+        return `<details class="ship-live-details">
+                <summary>${escapeHtml(i18nT('ships.live.details', '상세 스펙'))}</summary>
+                <div class="ship-live-detail-groups">${groups}</div>
+            </details>`;
+    }
     function openShipModal(ship) {
         trackEvent('ship_modal_open', { shipId: ship?.id || '', shipName: ship?.name || '' });
         const officialUrl = getShipOfficialUrl(ship);
         const officialLabel = ship.rsiUrl ? i18nT('ships.officialPage', 'RSI 공식 페이지') : i18nT('ships.shipMatrix', 'RSI 함선 매트릭스');
+        const liveStats = getShipLiveStats(ship);
+        const liveMarket = getShipLiveMarket(ship);
         openModal(`<div class="modal-header">
                 <div>
                     <div class="ship-mfr">${escapeHtml(ship.manufacturer)}</div>
@@ -494,7 +631,7 @@
                 <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '모달 닫기'))}">×</button>
             </div>
             <div class="modal-body">
-                <p>${escapeHtml(tx(ship, 'description'))}</p>
+                <p>${escapeHtml(shipModalDescription(ship, liveStats))}</p>
                 <div class="ship-modal-grid">
                     <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.role', '역할'))}</span><strong>${escapeHtml(tx(ship, 'role'))}</strong></div>
                     <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.size', '크기'))}</span><strong>${escapeHtml(tx(ship, 'size'))}</strong></div>
@@ -502,6 +639,9 @@
                     <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.cargo', '화물'))}</span><strong>${escapeHtml(ship.cargo)}</strong></div>
                     <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.priceUsd', 'USD \uac00\uaca9'))}</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
                 </div>
+                ${renderShipLiveSummary(liveStats, liveMarket)}
+                ${renderShipMarketPanel(liveStats, liveMarket)}
+                ${renderShipLiveDetails(liveStats)}
                 <div class="ship-modal-actions">
                     <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
                     ${renderShipPlannerAction(ship, 'btn btn-secondary ship-modal-link')}

@@ -1841,6 +1841,14 @@ body.nav-trade-open::before {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
     overflow: hidden;
     animation: modalIn 0.2s ease;
+    /* A-6: Live 섹션 추가로 콘텐츠가 뷰포트보다 길어질 수 있음 — 헤더 고정 + 본문 내부 스크롤 */
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - 44px);
+}
+
+.modal-card .modal-body {
+    overflow-y: auto;
 }
 
 .modal-card-wide {
@@ -7646,5 +7654,172 @@ body.nav-trade-open::before {
 
     .uex-location-trade-columns {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ===== ShipDB 2.0 Live 레이어 (A-6) — 함선 모달 내부 전용 ===== */
+.ship-live-summary {
+    margin: 20px 0 0;
+}
+
+.ship-live-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ship-live-heading h3 {
+    font-size: 15px;
+    margin: 0;
+}
+
+.ship-live-meta {
+    color: var(--color-text-tertiary);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.ship-live-summary .ship-live-grid {
+    margin: 12px 0 0;
+}
+
+.ship-market-panel {
+    margin: 20px 0 0;
+}
+
+.ship-market-panel h3 {
+    font-size: 15px;
+    margin: 0 0 10px;
+}
+
+.ship-market-panel h4 {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin: 12px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.ship-market-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ship-market-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.ship-market-shop {
+    font-weight: 600;
+}
+
+.ship-market-sep {
+    color: var(--color-text-tertiary);
+}
+
+.ship-market-price {
+    color: var(--volt-orange-light);
+    font-variant-numeric: tabular-nums;
+}
+
+.ship-market-stock {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+}
+
+.ship-market-stock.is-out {
+    opacity: 0.8;
+}
+
+.ship-market-empty {
+    color: var(--color-text-tertiary);
+    font-size: 13px;
+    margin: 0;
+}
+
+.ship-live-details {
+    margin: 20px 0 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.ship-live-details summary {
+    cursor: pointer;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    list-style: none;
+}
+
+.ship-live-details summary::before {
+    content: '▸';
+    margin-right: 8px;
+    color: var(--color-text-tertiary);
+    transition: transform 0.15s ease;
+}
+
+.ship-live-details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.ship-live-details summary::-webkit-details-marker {
+    display: none;
+}
+
+.ship-live-detail-groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    padding: 4px 0 12px;
+}
+
+.ship-live-detail-group h4 {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin: 0 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.ship-live-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+    padding: 3px 0;
+}
+
+.ship-live-detail-row span {
+    color: var(--color-text-tertiary);
+}
+
+.ship-live-detail-row strong {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+@media (max-width: 640px) {
+    .ship-live-detail-groups {
+        grid-template-columns: 1fr;
+    }
+
+    .ship-market-row {
+        font-size: 12px;
     }
 }
