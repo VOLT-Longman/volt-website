@@ -158,7 +158,87 @@ function setTab(tab) {
   document.querySelectorAll('[data-tab]').forEach((button) => {
     button.classList.toggle('active', button.dataset.tab === tab);
   });
+  // Erkul 동기화 미리보기는 함선DB 탭 전용
+  const syncCard = $('#erkul-sync-card');
+  if (syncCard) syncCard.hidden = tab !== 'ships';
   loadItems().catch(showFormError);
+}
+
+// ===== Erkul Live 동기화 미리보기 (A-7, 읽기 전용 — apply는 A-8) =====
+// innerHTML 래칫 준수: 렌더는 전부 createElement/textContent로만 한다.
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+function renderErkulSyncSummary(container, summary) {
+  const cards = [
+    ['변경 항목', summary.statsChanged + summary.marketChanged + (summary.descriptionsChanged || 0)],
+    ['신규 후보', summary.newErkulCandidates],
+    ['미매칭', summary.unmatchedVolt ?? '-'],
+    ['가격 변경', summary.priceChanges],
+    ['구매처 변경', summary.purchaseLocationChanges]
+  ];
+  const grid = el('div', 'sync-summary-grid');
+  for (const [label, value] of cards) {
+    const card = el('div', 'sync-summary-item');
+    card.append(el('span', null, label), el('strong', null, String(value)));
+    grid.append(card);
+  }
+  container.append(grid);
+  container.append(el('p', 'sync-meta', `Erkul ships ${summary.erkulShips} · shops ${summary.erkulShops} · 매칭 ${summary.matched} · 렌탈 변경 ${summary.rentalChanges}`));
+}
+
+function renderErkulSyncRows(container, title, rows, formatRow, cap = 20) {
+  if (!rows.length) return;
+  const section = el('section', 'sync-rows');
+  section.append(el('h3', null, `${title} (${rows.length}건)`));
+  const list = el('ul');
+  for (const row of rows.slice(0, cap)) list.append(el('li', null, formatRow(row)));
+  if (rows.length > cap) list.append(el('li', 'sync-more', `... 외 ${rows.length - cap}건`));
+  section.append(list);
+  container.append(section);
+}
+
+function renderErkulSyncResult(data) {
+  const container = $('#erkul-sync-result');
+  container.replaceChildren();
+  renderErkulSyncSummary(container, data.summary);
+  renderErkulSyncRows(container, '스펙 변경', data.changes.stats,
+    (row) => `${row.voltId} · ${row.field}: ${row.current ?? '없음'} → ${row.incoming ?? '없음'}`);
+  renderErkulSyncRows(container, '가격/구매처 변경', data.changes.market,
+    (row) => `${row.voltId} · ${row.type} · ${row.shop ?? ''}${row.location ? ` @ ${row.location}` : ''}: ${row.current ?? '없음'} → ${row.incoming ?? '없음'}`);
+  renderErkulSyncRows(container, '설명(EN) 변경', data.changes.descriptions,
+    (row) => `${row.voltId} · descriptions.en 변경됨`);
+  renderErkulSyncRows(container, '신규 후보 (자동 추가 안 함)', data.changes.newCandidates,
+    (row) => `${row.localName} · ${row.name ?? '?'} (${row.manufacturer ?? '?'})`);
+  renderErkulSyncRows(container, 'shop 전용 미매칭 선체', data.changes.marketOnly,
+    (row) => row.localName);
+  if (data.warnings.length) {
+    renderErkulSyncRows(container, '경고', data.warnings, (w) => String(w), 10);
+  }
+  if (!data.changes.stats.length && !data.changes.market.length && !data.changes.descriptions.length) {
+    container.append(el('p', 'sync-meta', '현재 데이터 레이어와 Erkul live가 일치합니다. 변경 사항이 없습니다.'));
+  }
+}
+
+async function runErkulSyncPreview() {
+  const button = $('#erkul-sync-preview-button');
+  const container = $('#erkul-sync-result');
+  button.disabled = true;
+  button.textContent = '불러오는 중…';
+  container.replaceChildren(el('p', 'sync-meta', 'Erkul live 데이터를 가져와 비교하는 중입니다…'));
+  try {
+    const data = await api('/api/admin/ships/erkul-sync/preview');
+    renderErkulSyncResult(data);
+  } catch (error) {
+    container.replaceChildren(el('p', 'sync-error', `미리보기 실패: ${error.message}`));
+  } finally {
+    button.disabled = false;
+    button.textContent = '미리보기 실행';
+  }
 }
 
 async function loadItems(clearForm = true) {
@@ -721,6 +801,7 @@ function showFormError(error) {
 function bindEvents() {
   $('#login-form').addEventListener('submit', login);
   $('#logout-button').addEventListener('click', logout);
+  $('#erkul-sync-preview-button')?.addEventListener('click', runErkulSyncPreview);
   $('#new-button').addEventListener('click', () => { if (confirmDiscard()) renderForm(null); });
   $('#cancel-button').addEventListener('click', () => { if (confirmDiscard()) renderForm(null); });
   $('#cms-form').addEventListener('input', () => { state.dirty = true; updateNoticePreview(); });

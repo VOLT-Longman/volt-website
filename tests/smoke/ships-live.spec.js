@@ -2,7 +2,9 @@ const { test, expect } = require('@playwright/test');
 const { mockApi, gotoSection } = require('./helpers');
 
 // ShipDB 2.0 A-6: Erkul live 스펙/구매처 레이어(data/ship-live-stats.js, ship-market.js) 모달 표시.
-// 검증값은 A-1~A-5에서 확정한 Erkul live 스냅샷(2026-07-05) 기준.
+// 기대값 전략(A-7): Erkul 동기화로 가격/수치가 바뀔 수 있으므로, exact 값 검증은
+// Asgard 대표값(HP·최저가) 1곳만 회귀 기준으로 유지하고 나머지는 표시 형식/정렬/존재 중심으로 검증한다.
+// Asgard 대표값이 동기화로 바뀌면 이 파일의 기준값도 함께 갱신한다.
 async function openShipModalByName(page, query) {
     await page.locator('#ship-search').fill(query);
     const card = page.locator('#ships-grid .ship-card').first();
@@ -39,8 +41,9 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         const row = market.locator('.ship-market-row').first();
         await expect(row).toContainText('Astro Armada');
         await expect(row).toContainText('Area18');
-        await expect(row).toContainText('17,860,500 aUEC');
-        await expect(row).toContainText('재고 3');
+        // 가격/재고는 동기화로 바뀔 수 있어 형식만 검증
+        await expect(row).toContainText(/[\d,]+ aUEC/);
+        await expect(row).toContainText(/재고 \d+/);
     });
 
     test('100i 모달: 구매 2곳 + 렌탈 가격 미표기', async ({ page }) => {
@@ -62,10 +65,16 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         const modal = await openShipModalByName(page, '890');
 
         const rows = modal.locator('.ship-market-panel .ship-market-row');
-        await expect(rows).toHaveCount(2);
-        // 가격 오름차순: New Deal(62,088,392)이 Astro Armada(65,356,200)보다 먼저.
-        await expect(rows.nth(0)).toContainText('62,088,392 aUEC');
-        await expect(rows.nth(1)).toContainText('65,356,200 aUEC');
+        const count = await rows.count();
+        expect(count).toBeGreaterThanOrEqual(2);
+        // 가격은 exact 값 대신 형식 + 오름차순 정렬만 검증 (동기화 내성)
+        const prices = [];
+        for (let i = 0; i < count; i += 1) {
+            const text = await rows.nth(i).locator('.ship-market-price').textContent();
+            expect(text).toMatch(/[\d,]+ aUEC/);
+            prices.push(Number(text.replace(/[^\d]/g, '')));
+        }
+        expect([...prices].sort((a, b) => a - b)).toEqual(prices);
     });
 
     test('구매처 없는 matched 함선: noMarket 폴백 표시', async ({ page }) => {
@@ -87,9 +96,10 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(details.locator('.ship-live-detail-groups')).not.toBeVisible();
         await details.locator('summary').click();
         await expect(details.locator('.ship-live-detail-groups')).toBeVisible();
-        await expect(details).toContainText('00:17:00');
-        await expect(details).toContainText('425 m/s');
-        await expect(details).toContainText('95 °/s');
+        // 보험/속도/회전 값은 동기화로 바뀔 수 있어 표시 형식만 검증
+        await expect(details).toContainText(/\d{2}:\d{2}:\d{2}/);
+        await expect(details).toContainText(/\d+ m\/s/);
+        await expect(details).toContainText(/[\d.]+ °\/s/);
     });
 
     test('EN 모드: Erkul 정제 설명 우선 표시', async ({ browser }) => {
