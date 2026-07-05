@@ -1,106 +1,18 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-07-05T12:02:20.586Z",
+  "syncedAt": "2026-07-05T15:17:06.209Z",
+  "appliedAt": "2026-07-05T15:17:06.209Z",
+  "appliedBy": "shipdb:erkul:apply (safe apply)",
+  "previewHash": "96a261d40f41cd005a4e3bc390ddbc3ace0ad3d0ec89581b5db389130d1aacf7",
   "matchedInput": 210,
   "liveStatsEntries": 210,
   "marketEntries": 210,
-  "entriesWithPurchase": 173,
-  "entriesWithRentals": 41,
-  "entriesWithoutMarket": 37,
-  "excluded": {
-    "unmatchedVolt": [
-      "merchantman",
-      "hull-d",
-      "hull-e",
-      "orion",
-      "javelin",
-      "genesis",
-      "endeavor",
-      "crucible",
-      "pioneer",
-      "vulcan",
-      "kraken",
-      "kraken-privateer",
-      "ranger-rc",
-      "ranger-tr",
-      "ranger-cv",
-      "nautilus",
-      "nautilus-solstice-edition",
-      "g12",
-      "g12r",
-      "g12a",
-      "liberator",
-      "odyssey",
-      "expanse",
-      "legionnaire",
-      "e1-spirit",
-      "galaxy",
-      "zeus-mk2-mr",
-      "arrastra",
-      "atls",
-      "atls-geo"
-    ],
-    "unmatchedErkul": [
-      "drak_command_module",
-      "aegs_tiburon",
-      "anvl_hornet_f7cm_mk2_heartseeker",
-      "anvl_lightning_f8",
-      "drak_caterpillar_pirate",
-      "drak_dragonfly_pink",
-      "gama_tyilui",
-      "misc_starlite",
-      "orig_600i_executive_edition"
-    ],
-    "marketOnlyUnmatched": [
-      "rsi_aurora_mr",
-      "rsi_aurora_ln",
-      "rsi_aurora_es",
-      "rsi_aurora_cl",
-      "aegs_hammerhead",
-      "rsi_aurora_lx"
-    ],
-    "voltVariants": [
-      "mustang-alpha-vindicator",
-      "carrack-w-c8x",
-      "carrack-expedition-w-c8x",
-      "valkyrie-liberator-edition",
-      "argo-mole-carbon-edition",
-      "argo-mole-talus-edition",
-      "f8c-lightning-executive-edition"
-    ]
+  "entriesWithPurchase": 176,
+  "entriesWithRentals": 45,
+  "entriesWithoutMarket": 34,
+  "skipped": {
+    "newCandidates": 9,
+    "marketOnly": 558
   },
-  "validations": [
-    {
-      "label": "live stats key 수 = matched 수",
-      "ok": true,
-      "detail": "210/210"
-    },
-    {
-      "label": "market key 수 = matched 수",
-      "ok": true,
-      "detail": "210/210"
-    },
-    {
-      "label": "모든 key가 A-4 matched VOLT id",
-      "ok": true
-    },
-    {
-      "label": "모든 stats entry에 source/syncedAt/erkulLocalName 존재",
-      "ok": true
-    },
-    {
-      "label": "모든 market entry에 source/syncedAt/erkulLocalName 존재",
-      "ok": true
-    },
-    {
-      "label": "Erkul-only 9척 미포함",
-      "ok": true,
-      "detail": "drak_command_module,aegs_tiburon,anvl_hornet_f7cm_mk2_heartseeker,anvl_lightning_f8,drak_caterpillar_pirate,drak_dragonfly_pink,gama_tyilui,misc_starlite,orig_600i_executive_edition"
-    },
-    {
-      "label": "market-only unmatched 6종 미포함",
-      "ok": true,
-      "detail": "rsi_aurora_mr,rsi_aurora_ln,rsi_aurora_es,rsi_aurora_cl,aegs_hammerhead,rsi_aurora_lx"
-    }
-  ]
+  "warnings": []
 }

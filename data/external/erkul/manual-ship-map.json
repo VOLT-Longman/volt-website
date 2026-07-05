@@ -1,7 +1,40 @@
 {
-  "version": 1,
+  "version": 2,
   "notes": "Manual Erkul localName/ref to VOLT ship id mappings. Do not add guessed mappings.",
   "mappings": {},
+  "marketOnlyMappings": {
+    "rsi_aurora_es": {
+      "voltId": "aurora-es",
+      "evidence": "VOLT aurora-es는 rsi_aurora_gs_es(Aurora Mk I ES, stats 보유)에 매칭됨. shop localName은 리워크 전 구형 엔티티(rsi_aurora_es)로 변형 코드(es)가 1:1 일치. _gs 리워크 네이밍 패턴이 Aurora 5종+Hammerhead 6/6에서 일관됨. ref 불일치는 Erkul shop이 구 엔티티 UUID를 참조하기 때문.",
+      "verifiedAt": "2026-07-06"
+    },
+    "rsi_aurora_lx": {
+      "voltId": "aurora-lx",
+      "evidence": "rsi_aurora_gs_lx(Aurora Mk I LX)와 동일 선체 — 변형 코드(lx) 1:1, _gs 리워크 패턴 일관.",
+      "verifiedAt": "2026-07-06"
+    },
+    "rsi_aurora_mr": {
+      "voltId": "aurora-mr",
+      "evidence": "rsi_aurora_gs_mr(Aurora Mk I MR)와 동일 선체 — 변형 코드(mr) 1:1, _gs 리워크 패턴 일관.",
+      "verifiedAt": "2026-07-06"
+    },
+    "rsi_aurora_cl": {
+      "voltId": "aurora-cl",
+      "evidence": "rsi_aurora_gs_cl(Aurora Mk I CL)와 동일 선체 — 변형 코드(cl) 1:1, _gs 리워크 패턴 일관.",
+      "verifiedAt": "2026-07-06"
+    },
+    "rsi_aurora_ln": {
+      "voltId": "aurora-ln",
+      "evidence": "rsi_aurora_gs_ln(Aurora Mk I LN)와 동일 선체 — 변형 코드(ln) 1:1, _gs 리워크 패턴 일관.",
+      "verifiedAt": "2026-07-06"
+    },
+    "aegs_hammerhead": {
+      "voltId": "hammerhead",
+      "evidence": "VOLT hammerhead는 aegs_hammerhead_gs(Hammerhead, stats 보유)에 매칭됨. Hammerhead 선체는 단일 종이며 shop localName은 _gs 리워크 전 구형 엔티티. Aurora와 동일한 네이밍 패턴.",
+      "verifiedAt": "2026-07-06"
+    }
+  },
+  "marketOnlyMappingsNotes": "shop 전용 구형 localName → 기존 VOLT id. stats는 기존 live stats(리워크 선체) 기준 유지, market(구매처/렌탈)만 이 매핑으로 보강한다. 자동 추정 매핑 금지 — evidence와 함께 수동 검증된 항목만 추가.",
   "candidates": [
     {
       "erkulLocalName": "rsi_aurora_mr",

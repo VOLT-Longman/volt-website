@@ -8,7 +8,8 @@ import {
     parseDataLayerJs,
     buildSyncPreview,
     buildNextLayers,
-    computePreviewHash
+    computePreviewHash,
+    normalizeMarketOnlyMappings
 } from '../../functions/_shared/erkul-sync.js';
 
 // ShipDB 2.0 Safe Apply (A-8).
@@ -66,9 +67,20 @@ async function main() {
         throw new Error(`Erkul shop 응답 비정상 (records: ${erkulShopsRaw?.length})`);
     }
 
-    const nextLayers = buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw });
+    // 검증·승격된 market-only 매핑 (manual-ship-map.json) — market 행만 보강, stats 불변
+    let marketOnlyMappings = {};
+    try {
+        marketOnlyMappings = normalizeMarketOnlyMappings(JSON.parse(await readFile(resolve(ROOT, 'data/external/erkul/manual-ship-map.json'), 'utf8')));
+    } catch {
+        // 파일이 없으면 매핑 없이 진행
+    }
+    if (Object.keys(marketOnlyMappings).length) {
+        console.log(`market-only 매핑 ${Object.keys(marketOnlyMappings).length}건 적용: ${Object.entries(marketOnlyMappings).map(([k, v]) => `${k}→${v}`).join(', ')}`);
+    }
+
+    const nextLayers = buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, marketOnlyMappings });
     const previewHash = await computePreviewHash(nextLayers);
-    const preview = buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, matchBaseline: null });
+    const preview = buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, matchBaseline: null, marketOnlyMappings });
 
     const statsKeys = Object.keys(nextLayers.nextStats).length;
     const marketKeys = Object.keys(nextLayers.nextMarket).length;

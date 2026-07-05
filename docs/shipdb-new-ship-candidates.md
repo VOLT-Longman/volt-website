@@ -4,7 +4,7 @@
 재현: `npm run shipdb:erkul:classify-candidates` (입력: A-4 match report + A-2/A-3 normalized)
 
 - 데이터 기준: Erkul live 2026-07-05T12:02:20.586Z
-- 요약: **제외 1** · **추가 후보 3** · **보류 5** · **수동매핑 후보 6** · 유지(VOLT-only unreleased) 30
+- 요약: **제외 1** · **보류 8** · **수동매핑 승격 완료 6** · 유지(VOLT-only unreleased) 30
 
 ## 분류 정책
 
@@ -14,22 +14,17 @@
 - 수동매핑 후보: market-only(stats 없음)는 자동 추가 금지 — 수동 매핑 후보로만
 - 유지: VOLT-only unreleased 30척은 유지/폴백 (조치 없음)
 
-## 추가 후보 (3)
+## 보류 (8)
 
 | localName | 이름 | stats | 인게임 구매처 | 근거 |
 |---|---|---|---|---|
-| `aegs_tiburon` | Tiburon | ✅ (hp 187,200) | 없음 | 신규 정식 독립 선체(Aegis 헤비 건쉽, 기본형). Erkul stats 완비. 인게임 판매는 아직 없음(pledge 획득). |
-| `gama_tyilui` | Tyilui | ✅ (hp 70,460) | 없음 | 신규 정식 독립 선체(Gatac 캐리어, 기본형). Erkul stats 완비. 인게임 판매는 아직 없음. |
-| `misc_starlite` | Starlite | ✅ (hp 68,250) | 없음 | 신규 정식 독립 선체(MISC 경급유선, 기본형). Erkul stats 완비. 인게임 판매는 아직 없음. |
-
-## 보류 (5)
-
-| localName | 이름 | stats | 인게임 구매처 | 근거 |
-|---|---|---|---|---|
+| `aegs_tiburon` | Tiburon | ✅ (hp 187,200) | 없음 | 신규 정식 독립 선체(Aegis 헤비 건쉽) + stats 완비이나 인게임 구매처 없음(pledge 전용) — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토. |
 | `anvl_hornet_f7cm_mk2_heartseeker` | F7C-M Hornet Heartseeker Mk II | ✅ (hp 15,250) | 없음 | F7C-M Mk II의 Heartseeker 에디션 — 기본형 계열이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가. |
 | `anvl_lightning_f8` | F8A Lightning | ✅ (hp 40,200) | 없음 | F8A(군용 사양)는 일반 획득 경로가 없고, 민수형 F8C Lightning은 이미 VOLT DB에 존재(f8c-lightning). 별도 등재 가치 판단 필요. |
 | `drak_caterpillar_pirate` | Caterpillar Pirate | ✅ (hp 91,500) | 없음 | Caterpillar의 Pirate 에디션 — 기본형(caterpillar)이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가. |
 | `drak_dragonfly_pink` | Dragonfly Star Kitten | ✅ (hp 1,570) | 없음 | Dragonfly의 Star Kitten 스킨 변형 — 기본형이 이미 DB에 존재. 스킨류는 별도 가치가 있을 때만 추가. |
+| `gama_tyilui` | Tyilui | ✅ (hp 70,460) | 없음 | 신규 정식 독립 선체(Gatac 캐리어) + stats 완비이나 인게임 구매처 없음 — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토. |
+| `misc_starlite` | Starlite | ✅ (hp 68,250) | 없음 | 신규 정식 독립 선체(MISC 경급유선) + stats 완비이나 인게임 구매처 없음 — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토. |
 | `orig_600i_executive_edition` | 600i Executive Edition | ✅ (hp 197,250) | 없음 | 600i의 Executive 에디션 — 기본형(600i)이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가. |
 
 ## 제외 (1)
@@ -38,16 +33,16 @@
 |---|---|---|---|---|
 | `drak_command_module` | Command Module | ✅ (hp 6,700) | 없음 | 함선이 아님 — Caterpillar 커맨드 모듈(선체 부속). VOLT 함선DB 등재 대상 아님. |
 
-## 수동매핑 후보 (6)
+## 수동매핑 승격 완료 (6)
 
 | localName | 이름 | stats | 인게임 구매처 | 근거 |
 |---|---|---|---|---|
-| `rsi_aurora_mr` | → VOLT `aurora-mr` 후보 | ❌ 없음 | shop 4행 | Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. 기존 VOLT id "aurora-mr"와의 수동 매핑만 검토 (확정은 운영자). |
-| `rsi_aurora_ln` | → VOLT `aurora-ln` 후보 | ❌ 없음 | shop 4행 | Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. 기존 VOLT id "aurora-ln"와의 수동 매핑만 검토 (확정은 운영자). |
-| `rsi_aurora_es` | → VOLT `aurora-es` 후보 | ❌ 없음 | shop 4행 | Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. 기존 VOLT id "aurora-es"와의 수동 매핑만 검토 (확정은 운영자). |
-| `rsi_aurora_cl` | → VOLT `aurora-cl` 후보 | ❌ 없음 | shop 4행 | Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. 기존 VOLT id "aurora-cl"와의 수동 매핑만 검토 (확정은 운영자). |
-| `aegs_hammerhead` | → VOLT `hammerhead` 후보 | ❌ 없음 | shop 1행 | Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. 기존 VOLT id "hammerhead"와의 수동 매핑만 검토 (확정은 운영자). |
-| `rsi_aurora_lx` | → VOLT `aurora-lx` 후보 | ❌ 없음 | shop 1행 | Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. 기존 VOLT id "aurora-lx"와의 수동 매핑만 검토 (확정은 운영자). |
+| `rsi_aurora_mr` | → VOLT `aurora-mr` 후보 | ❌ 없음 | shop 4행 | 검증 후 marketOnlyMappings로 승격됨 → VOLT "aurora-mr". rsi_aurora_gs_mr(Aurora Mk I MR)와 동일 선체 — 변형 코드(mr) 1:1, _gs 리워크 패턴 일관. |
+| `rsi_aurora_ln` | → VOLT `aurora-ln` 후보 | ❌ 없음 | shop 4행 | 검증 후 marketOnlyMappings로 승격됨 → VOLT "aurora-ln". rsi_aurora_gs_ln(Aurora Mk I LN)와 동일 선체 — 변형 코드(ln) 1:1, _gs 리워크 패턴 일관. |
+| `rsi_aurora_es` | → VOLT `aurora-es` 후보 | ❌ 없음 | shop 4행 | 검증 후 marketOnlyMappings로 승격됨 → VOLT "aurora-es". VOLT aurora-es는 rsi_aurora_gs_es(Aurora Mk I ES, stats 보유)에 매칭됨. shop localName은 리워크 전 구형 엔티티(rsi_aurora_es)로 변형 코드(es)가 1:1 일치. _gs 리워크 네이밍 패턴이 Aurora 5종+Hammerhead 6/6에서 일관됨. ref 불일치는 Erkul shop이 구 엔티티 UUID를 참조하기 때문. |
+| `rsi_aurora_cl` | → VOLT `aurora-cl` 후보 | ❌ 없음 | shop 4행 | 검증 후 marketOnlyMappings로 승격됨 → VOLT "aurora-cl". rsi_aurora_gs_cl(Aurora Mk I CL)와 동일 선체 — 변형 코드(cl) 1:1, _gs 리워크 패턴 일관. |
+| `aegs_hammerhead` | → VOLT `hammerhead` 후보 | ❌ 없음 | shop 1행 | 검증 후 marketOnlyMappings로 승격됨 → VOLT "hammerhead". VOLT hammerhead는 aegs_hammerhead_gs(Hammerhead, stats 보유)에 매칭됨. Hammerhead 선체는 단일 종이며 shop localName은 _gs 리워크 전 구형 엔티티. Aurora와 동일한 네이밍 패턴. |
+| `rsi_aurora_lx` | → VOLT `aurora-lx` 후보 | ❌ 없음 | shop 1행 | 검증 후 marketOnlyMappings로 승격됨 → VOLT "aurora-lx". rsi_aurora_gs_lx(Aurora Mk I LX)와 동일 선체 — 변형 코드(lx) 1:1, _gs 리워크 패턴 일관. |
 
 ## 유지 — VOLT-only unreleased (30척)
 

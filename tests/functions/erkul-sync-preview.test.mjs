@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { onRequest as previewHandler } from '../../functions/api/admin/ships/erkul-sync/preview.js';
-import { parseDataLayerJs, buildSyncPreview, buildNextLayers, computePreviewHash, normalizeErkulShip } from '../../functions/_shared/erkul-sync.js';
+import { parseDataLayerJs, buildSyncPreview, buildNextLayers, computePreviewHash, normalizeErkulShip, normalizeMarketOnlyMappings } from '../../functions/_shared/erkul-sync.js';
 import { TEST_ENV, adminCookie } from './helpers.mjs';
 
 // Erkul sync preview는 읽기 전용이다: ASSETS에서 현재 레이어를 읽고,
@@ -263,6 +263,44 @@ test('buildNextLayers: 현재 key만 갱신 + 신규/사라진 함선 처리 (A-
     const gone = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: [], erkulShopsRaw: [] });
     assert.equal(gone.nextStats.asgard.hp, layers.stats.asgard.hp);
     assert.ok(gone.warnings.some((w) => w.includes('anvl_asgard')));
+});
+
+test('marketOnlyMappings: 구형 localName의 market 행을 기존 voltId에 병합 (stats 불변)', () => {
+    const { ships, shops } = fixtureFleet();
+    const layers = currentLayersFromFixture();
+    // 구형 localName(anvl_asgard_old)으로만 판매되는 상점 추가 — ships 목록에는 없음
+    const shopsWithLegacy = [...shops, {
+        calculatorType: 'shop',
+        data: {
+            name: 'Legacy Dealer', location: 'Lorville', rental: false,
+            inventory: [{ localName: 'anvl_asgard_old', price: 999000, ref: 'ref-old', available: 1 }]
+        }
+    }];
+    const mappings = normalizeMarketOnlyMappings({
+        marketOnlyMappings: { anvl_asgard_old: { voltId: 'asgard', evidence: 'test' } }
+    });
+    assert.deepEqual(mappings, { anvl_asgard_old: 'asgard' });
+
+    const next = buildNextLayers({
+        currentStats: layers.stats, currentMarket: layers.market,
+        erkulShipsRaw: ships, erkulShopsRaw: shopsWithLegacy, marketOnlyMappings: mappings
+    });
+    const marketEntry = next.nextMarket.asgard;
+    const mappedRow = marketEntry.purchase.find((r) => r.mappedFrom === 'anvl_asgard_old');
+    assert.ok(mappedRow, '매핑된 구매 행이 병합되어야 함');
+    assert.equal(mappedRow.shop, 'Legacy Dealer');
+    assert.equal(mappedRow.price, 999000);
+    // 기존 구매처(Astro Armada)도 유지
+    assert.ok(marketEntry.purchase.some((r) => r.shop === 'Astro Armada'));
+    // stats는 매핑의 영향을 받지 않는다
+    assert.equal(next.nextStats.asgard.hp, layers.stats.asgard.hp);
+    // 매핑 유무는 previewHash에 반영된다 (preview와 apply 대상 일치 보장)
+    // 매핑 없이 만들면 병합 행이 없다
+    const withoutMapping = buildNextLayers({
+        currentStats: layers.stats, currentMarket: layers.market,
+        erkulShipsRaw: ships, erkulShopsRaw: shopsWithLegacy
+    });
+    assert.ok(!withoutMapping.nextMarket.asgard.purchase.some((r) => r.mappedFrom));
 });
 
 test('parseDataLayerJs: window 할당 형식 파싱 + 비정상 입력 거부', () => {

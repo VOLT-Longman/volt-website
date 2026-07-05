@@ -8,7 +8,8 @@ import {
   parseDataLayerJs,
   buildSyncPreview,
   buildNextLayers,
-  computePreviewHash
+  computePreviewHash,
+  normalizeMarketOnlyMappings
 } from '../../../../_shared/erkul-sync.js';
 
 // Erkul live 동기화 미리보기 (읽기 전용).
@@ -37,6 +38,7 @@ export async function onRequest({ request, env }) {
   let currentStats;
   let currentMarket;
   let matchBaseline = null;
+  let marketOnlyMappings = {};
   try {
     currentStats = parseDataLayerJs(await fetchAsset('/data/ship-live-stats.js'), 'VOLT_SHIP_LIVE_STATS');
     currentMarket = parseDataLayerJs(await fetchAsset('/data/ship-market.js'), 'VOLT_SHIP_MARKET');
@@ -46,6 +48,9 @@ export async function onRequest({ request, env }) {
       const matchReport = JSON.parse(matchReportText);
       matchBaseline = { unmatchedVolt: matchReport.unmatchedVolt ?? [] };
     }
+    // 검증·승격된 market-only 매핑 (없어도 동작)
+    const manualMapText = await fetchAsset('/data/external/erkul/manual-ship-map.json', { optional: true });
+    if (manualMapText) marketOnlyMappings = normalizeMarketOnlyMappings(JSON.parse(manualMapText));
   } catch (cause) {
     return error(`현재 데이터 레이어를 읽지 못했습니다: ${cause.message}`, 500);
   }
@@ -70,9 +75,9 @@ export async function onRequest({ request, env }) {
     return error(`Erkul shop 응답이 비정상입니다 (records: ${Array.isArray(erkulShopsRaw) ? erkulShopsRaw.length : typeof erkulShopsRaw})`, 502);
   }
 
-  const preview = buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, matchBaseline });
+  const preview = buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, matchBaseline, marketOnlyMappings });
   // Safe Apply(A-8)용 hash: 로컬 스크립트가 같은 조건으로 재계산해 일치할 때만 파일을 쓴다.
-  const nextLayers = buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw });
+  const nextLayers = buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, marketOnlyMappings });
   preview.previewHash = await computePreviewHash(nextLayers);
   preview.apply = {
     method: 'local-script',

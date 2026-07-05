@@ -77,6 +77,18 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         expect([...prices].sort((a, b) => a - b)).toEqual(prices);
     });
 
+    test('수동매핑 market 보강: Aurora ES 모달에 New Deal 구매처 표시', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        const modal = await openShipModalByName(page, 'Aurora ES');
+
+        // marketOnlyMappings로 구형 rsi_aurora_es의 상점 행이 병합됨 (stats는 현 선체 기준 유지)
+        const market = modal.locator('.ship-market-panel');
+        await expect(market).toContainText('New Deal');
+        await expect(market.locator('.ship-market-row.is-rental').first()).toBeVisible();
+        await expect(modal.locator('.ship-live-summary')).toBeVisible();
+    });
+
     test('구매처 없는 matched 함선: noMarket 폴백 표시', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');

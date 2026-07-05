@@ -262,10 +262,60 @@ export function diffShipMarket(voltId, name, currentEntry, incomingMarket) {
   return rows;
 }
 
+// ===== market-only 수동 매핑 =====
+// manual-ship-map.json의 marketOnlyMappings: shop 전용 구형 localName → 기존 VOLT id.
+// stats는 건드리지 않고 market(구매처/렌탈)만 보강한다. 값은 {voltId, evidence} 객체 또는 문자열 허용.
+export function normalizeMarketOnlyMappings(manualMap) {
+  const result = {};
+  for (const [localName, value] of Object.entries(manualMap?.marketOnlyMappings ?? {})) {
+    const voltId = typeof value === 'string' ? value : value?.voltId;
+    if (voltId) result[localName] = voltId;
+  }
+  return result;
+}
+
+// voltId에 매핑된 shop 전용 localName들의 market 행을 기본 행에 병합한다 (mappedFrom으로 출처 표기).
+// 같은 shop@location 행이 기본(현 선체) 데이터에 이미 있으면 병합하지 않는다 —
+// Erkul shop이 구/신 엔티티를 이중 등재한 모순 데이터일 수 있으므로 현 선체 값을 우선하고 anomaly로만 기록.
+function mergeMappedMarketRows(baseEntry, voltId, marketByLocal, marketOnlyMappings) {
+  const merged = {
+    purchase: [...(baseEntry?.purchase ?? [])],
+    rentals: [...(baseEntry?.rentals ?? [])],
+    anomalies: [...(baseEntry?.anomalies ?? [])]
+  };
+  const rowKey = (row) => `${row.shop}|${row.location}`;
+  const purchaseKeys = new Set(merged.purchase.map(rowKey));
+  const rentalKeys = new Set(merged.rentals.map(rowKey));
+  for (const [localName, mappedVoltId] of Object.entries(marketOnlyMappings ?? {})) {
+    if (mappedVoltId !== voltId) continue;
+    const extra = marketByLocal.get(localName);
+    if (!extra) continue;
+    for (const row of extra.purchase) {
+      if (purchaseKeys.has(rowKey(row))) {
+        merged.anomalies.push(`mapped purchase 충돌로 미병합: ${row.shop}@${row.location ?? '?'} price=${row.price} [mapped: ${localName}] — 현 선체 행 우선`);
+        continue;
+      }
+      purchaseKeys.add(rowKey(row));
+      merged.purchase.push({ ...row, mappedFrom: localName });
+    }
+    for (const row of extra.rentals) {
+      if (rentalKeys.has(rowKey(row))) {
+        merged.anomalies.push(`mapped rental 충돌로 미병합: ${row.shop}@${row.location ?? '?'} [mapped: ${localName}]`);
+        continue;
+      }
+      rentalKeys.add(rowKey(row));
+      merged.rentals.push({ ...row, mappedFrom: localName });
+    }
+    merged.anomalies.push(...extra.anomalies.map((a) => `${a} [mapped: ${localName}]`));
+  }
+  return merged;
+}
+
 // ===== Safe Apply (A-8) =====
 // 원칙: apply는 매칭을 새로 하지 않는다. 현재 레이어에 존재하는 voltId key만,
 // 각 entry의 erkulLocalName 기준으로 최신 Erkul 데이터로 갱신한다.
 // 신규 후보/market-only/미매칭은 적용 대상에서 제외한다.
+// (예외: marketOnlyMappings로 검증·승격된 shop 전용 localName의 market 행은 해당 voltId에 병합)
 
 function buildLiveStatsEntry(voltId, currentEntry, incoming) {
   return {
@@ -299,7 +349,7 @@ function buildLiveStatsEntry(voltId, currentEntry, incoming) {
 }
 
 // 현재 레이어 key(210개)만 최신 Erkul 데이터로 갱신한 "다음 레이어"를 만든다. 파일 쓰기 없음.
-export function buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw }) {
+export function buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, marketOnlyMappings }) {
   const incomingByLocal = new Map();
   for (const record of erkulShipsRaw) {
     const normalized = normalizeErkulShip(record);
@@ -328,16 +378,16 @@ export function buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, er
       continue;
     }
     nextStats[voltId] = buildLiveStatsEntry(voltId, entry, incoming);
-    const incomingMarket = market.byLocal.get(entry.erkulLocalName);
+    const incomingMarket = mergeMappedMarketRows(market.byLocal.get(entry.erkulLocalName), voltId, market.byLocal, marketOnlyMappings);
     nextMarket[voltId] = {
       source: 'erkul-live',
       sourceVersion: 'live',
       syncedAt: null,
       erkulLocalName: entry.erkulLocalName,
       erkulRef: incoming.ref ?? entry.erkulRef ?? null,
-      purchase: incomingMarket?.purchase ?? [],
-      rentals: incomingMarket?.rentals ?? [],
-      anomalies: incomingMarket?.anomalies ?? []
+      purchase: incomingMarket.purchase,
+      rentals: incomingMarket.rentals,
+      anomalies: incomingMarket.anomalies
     };
   }
 
@@ -358,7 +408,7 @@ export async function computePreviewHash(nextLayers) {
 }
 
 // 현재 레이어 + Erkul 최신 데이터 → preview diff. 파일 쓰기 없음.
-export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, matchBaseline }) {
+export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, matchBaseline, marketOnlyMappings }) {
   const incomingByLocal = new Map();
   for (const record of erkulShipsRaw) {
     const normalized = normalizeErkulShip(record);
@@ -385,7 +435,8 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
       descriptionChanges.push({ voltId, name: incoming.name, field: 'descriptions.en', current: entry.descriptions?.en ?? null, incoming: incoming.descriptionEn });
     }
     const currentMarketEntry = currentMarket[voltId] ?? { purchase: [], rentals: [] };
-    marketChanges.push(...diffShipMarket(voltId, incoming.name, currentMarketEntry, market.byLocal.get(localName)));
+    const incomingMarket = mergeMappedMarketRows(market.byLocal.get(localName), voltId, market.byLocal, marketOnlyMappings);
+    marketChanges.push(...diffShipMarket(voltId, incoming.name, currentMarketEntry, incomingMarket));
   }
 
   // 신규 후보: Erkul live에는 있으나 현재 레이어(=A-4 matched)에 없는 함선. 자동 추가하지 않는다.
@@ -398,6 +449,8 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
   const vehiclePrefix = /^(aegs|anvl|orig|misc|drak|rsi|crus|cnou|argo|mrai|banu|xian|xnaa|espr|grin|krig|tmbl|vncl|gama|mira|aopo)_/;
   const marketOnly = [...market.byLocal.keys()]
     .filter((localName) => !incomingByLocal.has(localName) && vehiclePrefix.test(localName) && !componentLike.test(localName))
+    // 검증·승격된 매핑은 더 이상 "미매칭"이 아니다
+    .filter((localName) => !(marketOnlyMappings && marketOnlyMappings[localName]))
     .map((localName) => ({ localName }));
 
   const distinct = (rows) => new Set(rows.map((r) => r.voltId)).size;

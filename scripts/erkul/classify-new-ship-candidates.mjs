@@ -23,17 +23,19 @@ const REPORT_MD_PATH = resolve(ROOT, 'docs/shipdb-new-ship-candidates.md');
 
 // Erkul-only 9척의 명시적 분류. 자동 패턴 매칭 대신 함선별 근거를 기록한다 (추정 분류 금지).
 const ERKUL_ONLY_CLASSIFICATION = {
+    // 2026-07-06 리뷰어 결정: ShipDB 가치 기준은 "인게임 구매/운용 정보 중심" —
+    // 인게임 구매처 없는 pledge 전용 선체는 정식 기본형이어도 보류. 인게임 판매 시작 시 재검토.
     aegs_tiburon: {
-        verdict: '추가 후보',
-        reason: '신규 정식 독립 선체(Aegis 헤비 건쉽, 기본형). Erkul stats 완비. 인게임 판매는 아직 없음(pledge 획득).'
+        verdict: '보류',
+        reason: '신규 정식 독립 선체(Aegis 헤비 건쉽) + stats 완비이나 인게임 구매처 없음(pledge 전용) — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토.'
     },
     gama_tyilui: {
-        verdict: '추가 후보',
-        reason: '신규 정식 독립 선체(Gatac 캐리어, 기본형). Erkul stats 완비. 인게임 판매는 아직 없음.'
+        verdict: '보류',
+        reason: '신규 정식 독립 선체(Gatac 캐리어) + stats 완비이나 인게임 구매처 없음 — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토.'
     },
     misc_starlite: {
-        verdict: '추가 후보',
-        reason: '신규 정식 독립 선체(MISC 경급유선, 기본형). Erkul stats 완비. 인게임 판매는 아직 없음.'
+        verdict: '보류',
+        reason: '신규 정식 독립 선체(MISC 경급유선) + stats 완비이나 인게임 구매처 없음 — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토.'
     },
     anvl_lightning_f8: {
         verdict: '보류',
@@ -97,13 +99,16 @@ async function main() {
 
     for (const u of matchReport.marketOnlyUnmatched) {
         const candidate = (manualMap.candidates ?? []).find((c) => c.erkulLocalName === u.erkulLocalName);
+        const promoted = manualMap.marketOnlyMappings?.[u.erkulLocalName];
         rows.push({
             localName: u.erkulLocalName,
             name: null,
             manufacturer: null,
             group: 'market-only',
-            verdict: '수동매핑 후보',
-            reason: `Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. ${candidate?.hintVoltId ? `기존 VOLT id "${candidate.hintVoltId}"와의 수동 매핑만 검토 (확정은 운영자).` : '수동 매핑 대상 검토 필요.'}`,
+            verdict: promoted ? '수동매핑 승격 완료' : '수동매핑 후보',
+            reason: promoted
+                ? `검증 후 marketOnlyMappings로 승격됨 → VOLT "${promoted.voltId ?? promoted}". ${typeof promoted === 'object' && promoted.evidence ? promoted.evidence : ''}`
+                : `Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. ${candidate?.hintVoltId ? `기존 VOLT id "${candidate.hintVoltId}"와의 수동 매핑만 검토 (확정은 운영자).` : '수동 매핑 대상 검토 필요.'}`,
             hasStats: false,
             role: null,
             hp: null,
@@ -146,7 +151,7 @@ async function main() {
 }
 
 function renderMarkdown(report) {
-    const groups = ['추가 후보', '보류', '제외', '수동매핑 후보'];
+    const groups = ['추가 후보', '보류', '제외', '수동매핑 승격 완료', '수동매핑 후보'];
     const lines = [
         '# ShipDB 신규 함선 후보 분류표',
         '',
