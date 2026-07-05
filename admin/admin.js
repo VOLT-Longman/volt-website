@@ -222,6 +222,34 @@ function renderErkulSyncResult(data) {
   if (!data.changes.stats.length && !data.changes.market.length && !data.changes.descriptions.length) {
     container.append(el('p', 'sync-meta', '현재 데이터 레이어와 Erkul live가 일치합니다. 변경 사항이 없습니다.'));
   }
+  renderErkulApplyGuide(container, data);
+}
+
+// Safe Apply(A-8): 운영 API는 파일을 쓰지 않는다 — 로컬 스크립트 명령을 hash와 함께 안내만 한다.
+// [바로 적용] 버튼은 만들지 않는다 (정적 파일 레이어 + Git 커밋/배포 이력 유지 원칙).
+function renderErkulApplyGuide(container, data) {
+  if (!data.previewHash) return;
+  const section = el('section', 'sync-apply-guide');
+  section.append(el('h3', null, 'Safe Apply'));
+  section.append(el('p', 'sync-meta', 'Safe Apply는 로컬 스크립트로 실행됩니다. 적용 후 git 커밋/배포로 반영하세요.'));
+  const hashLine = el('p', 'sync-hash');
+  hashLine.append(el('span', null, '현재 previewHash: '), el('code', null, data.previewHash));
+  section.append(hashLine);
+  const command = data.apply?.command || `npm run shipdb:erkul:apply -- --confirm-preview-hash ${data.previewHash}`;
+  section.append(el('code', 'sync-command', command));
+  const copyButton = el('button', 'secondary sync-copy-button', '적용 명령 복사');
+  copyButton.type = 'button';
+  copyButton.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(command);
+      copyButton.textContent = '복사됨';
+    } catch (_error) {
+      copyButton.textContent = '복사 실패 — 직접 선택해 복사하세요';
+    }
+    setTimeout(() => { copyButton.textContent = '적용 명령 복사'; }, 2000);
+  });
+  section.append(copyButton);
+  container.append(section);
 }
 
 async function runErkulSyncPreview() {

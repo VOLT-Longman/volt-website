@@ -25,7 +25,13 @@ const PREVIEW_RESPONSE = {
         unmatched: [],
         marketOnly: [{ localName: 'rsi_aurora_mr' }]
     },
-    warnings: []
+    warnings: [],
+    previewHash: 'abc123def4567890abc123def4567890abc123def4567890abc123def4567890',
+    apply: {
+        method: 'local-script',
+        command: 'npm run shipdb:erkul:apply -- --confirm-preview-hash abc123def4567890abc123def4567890abc123def4567890abc123def4567890',
+        note: '정적 파일 레이어는 운영 API에서 쓰지 않는다.'
+    }
 };
 
 async function mockAdmin(page, { previewStatus = 200, previewBody = PREVIEW_RESPONSE, delayMs = 0 } = {}) {
@@ -80,6 +86,29 @@ test.describe('Admin Erkul 동기화 미리보기', () => {
         await expect(result).toContainText('F8A Lightning');
         await expect(result).toContainText('rsi_aurora_mr');
         await expect(page.locator('#erkul-sync-preview-button')).toHaveText('미리보기 실행');
+    });
+
+    test('Safe Apply 안내: hash 표시 + 명령 복사 버튼 + 바로 적용 없음 (A-8)', async ({ page, context }) => {
+        await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+        await mockAdmin(page);
+        await page.goto('/admin/');
+        await page.locator('[data-tab="ships"]').click();
+        await page.locator('#erkul-sync-preview-button').click();
+
+        const guide = page.locator('.sync-apply-guide');
+        await expect(guide).toBeVisible();
+        await expect(guide).toContainText('Safe Apply는 로컬 스크립트로 실행됩니다');
+        await expect(guide).toContainText('현재 previewHash');
+        await expect(guide.locator('.sync-command')).toContainText('npm run shipdb:erkul:apply -- --confirm-preview-hash');
+        // 바로 적용 버튼 금지 — 복사 버튼만 존재
+        await expect(guide.locator('button')).toHaveCount(1);
+        await expect(guide.locator('button')).toHaveText('적용 명령 복사');
+        await expect(page.locator('#erkul-sync-card button', { hasText: /바로 적용|즉시 적용|apply now/i })).toHaveCount(0);
+
+        await guide.locator('.sync-copy-button').click();
+        await expect(guide.locator('.sync-copy-button')).toHaveText('복사됨');
+        const clipboard = await page.evaluate(() => navigator.clipboard.readText());
+        expect(clipboard).toContain('npm run shipdb:erkul:apply -- --confirm-preview-hash abc123def');
     });
 
     test('실패(502) → 명확한 에러 표시 + 버튼 복구', async ({ page }) => {

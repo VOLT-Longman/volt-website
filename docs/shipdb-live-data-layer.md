@@ -72,8 +72,25 @@ window.VOLT_SHIP_MARKET = {
 3. 값이 없으면(미매칭 37척 등) 기존 volt-data 표시로 폴백. 렌탈 `price: null`은 "가격 미표기"로 표시.
 4. dimensions는 Erkul bounding-box 파생값이므로 표기 시 출처 라벨(`erkul-bounds-derived`) 권장.
 
-## A-7 Admin sync (예정)
+## Erkul 동기화 운영 (A-7 preview + A-8 Safe Apply)
 
-Admin CMS의 Erkul sync는 이 레이어 파일들을 재생성하는 파이프라인
-(fetch → normalize → market → match → build-live)을 실행하고 preview/승인 후 반영하는 형태로 구현한다.
-이 레이어가 sync의 갱신 단위다.
+이 레이어가 동기화의 갱신 단위다. 운영 흐름:
+
+1. **Preview (Admin, 읽기 전용)** — Admin CMS 함선DB 탭 → [미리보기 실행].
+   `GET /api/admin/ships/erkul-sync/preview`가 Erkul live를 가져와 현재 배포된 레이어와의 diff를
+   보여준다. 파일/DB를 절대 쓰지 않으며, 응답에 `previewHash`(적용될 다음 레이어의 sha256)가 포함된다.
+2. **Safe Apply (로컬 스크립트)** — 운영 API는 정적 파일을 쓸 수 없고 Git 이력도 남겨야 하므로,
+   적용은 로컬에서 한다. Admin 패널의 [적용 명령 복사]로 명령을 복사해 실행:
+   ```bash
+   npm run shipdb:erkul:apply                                    # dry-run (파일 무변경)
+   npm run shipdb:erkul:apply -- --confirm-preview-hash <hash>   # hash 일치 시에만 파일 재생성
+   ```
+   - hash가 재계산 값과 다르면(=preview 이후 Erkul 데이터 변경) exit 1로 거부된다.
+   - apply는 **매칭을 새로 하지 않는다**. 현재 레이어에 존재하는 210개 voltId key만 갱신하며,
+     신규 후보/market-only/미매칭은 적용에서 제외된다(신규 함선 추가는 별도 마일스톤).
+   - Erkul live에서 사라진 함선은 삭제하지 않고 기존 값을 유지한다(경고 출력).
+3. **검증·배포** — `git diff` 확인 → `npm run check && npm test` → 커밋/푸시.
+   A-6 스모크의 Asgard 대표값(HP·최저가)이 동기화로 바뀌면 기준값도 함께 갱신한다.
+
+공용 로직은 [functions/_shared/erkul-sync.js](../functions/_shared/erkul-sync.js)에 있고
+preview API와 apply 스크립트가 같은 코드를 사용하므로 hash가 서로 호환된다.

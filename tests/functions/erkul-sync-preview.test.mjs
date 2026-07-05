@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { onRequest as previewHandler } from '../../functions/api/admin/ships/erkul-sync/preview.js';
-import { parseDataLayerJs, buildSyncPreview, normalizeErkulShip } from '../../functions/_shared/erkul-sync.js';
+import { parseDataLayerJs, buildSyncPreview, buildNextLayers, computePreviewHash, normalizeErkulShip } from '../../functions/_shared/erkul-sync.js';
 import { TEST_ENV, adminCookie } from './helpers.mjs';
 
 // Erkul sync preview는 읽기 전용이다: ASSETS에서 현재 레이어를 읽고,
@@ -212,6 +212,57 @@ test('Erkul fetch 실패(403) → 502 + 명확한 에러', async () => {
     } finally {
         restore();
     }
+});
+
+test('previewHash: 응답 포함 + sha256 형식 + 같은 데이터 → 같은 hash (A-8)', async () => {
+    const { ships, shops } = fixtureFleet();
+    const restore = mockErkulFetch({ ships, shops });
+    try {
+        const layers = currentLayersFromFixture();
+        const first = await (await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: mockAssets(layers) } })).json();
+        const second = await (await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: mockAssets(layers) } })).json();
+        assert.match(first.previewHash, /^[0-9a-f]{64}$/);
+        assert.equal(first.previewHash, second.previewHash, '같은 데이터면 hash가 안정적이어야 함');
+        assert.match(first.apply.command, /npm run shipdb:erkul:apply -- --confirm-preview-hash [0-9a-f]{64}/);
+        assert.equal(first.apply.method, 'local-script');
+    } finally {
+        restore();
+    }
+});
+
+test('previewHash: 데이터가 다르면 hash도 달라짐 + 실패 응답에는 hash 없음 (A-8)', async () => {
+    const { ships, shops } = fixtureFleet();
+    const layers = currentLayersFromFixture();
+    const base = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: ships, erkulShopsRaw: shops });
+    const changedShips = ships.map((s) => (s.localName === 'anvl_asgard' ? { ...s, data: { ...s.data, cargo: 999 } } : s));
+    const changed = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: changedShips, erkulShopsRaw: shops });
+    assert.notEqual(await computePreviewHash(base), await computePreviewHash(changed));
+
+    const restore = mockErkulFetch({ ships, shops, failShips: true });
+    try {
+        const response = await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: mockAssets(layers) } });
+        assert.equal(response.status, 502);
+        const body = await response.json();
+        assert.equal(body.previewHash, undefined, '실패 응답에는 previewHash가 없어야 함');
+    } finally {
+        restore();
+    }
+});
+
+test('buildNextLayers: 현재 key만 갱신 + 신규/사라진 함선 처리 (A-8 Safe Apply 핵심)', () => {
+    const { ships, shops } = fixtureFleet();
+    const layers = currentLayersFromFixture();
+    const next = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: ships, erkulShopsRaw: shops });
+    // 기존 key 집합 유지: anvl_newship 등 신규 후보는 유입되지 않는다
+    assert.deepEqual(Object.keys(next.nextStats), Object.keys(layers.stats));
+    assert.deepEqual(Object.keys(next.nextMarket), Object.keys(layers.market));
+    assert.ok(next.skipped.newCandidates >= 1);
+    // syncedAt은 null 고정 (hash 안정성) — 쓰기 시점에 주입
+    assert.equal(next.nextStats.asgard.syncedAt, null);
+    // Erkul에서 사라진 경우 기존 값 유지 + 경고
+    const gone = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: [], erkulShopsRaw: [] });
+    assert.equal(gone.nextStats.asgard.hp, layers.stats.asgard.hp);
+    assert.ok(gone.warnings.some((w) => w.includes('anvl_asgard')));
 });
 
 test('parseDataLayerJs: window 할당 형식 파싱 + 비정상 입력 거부', () => {

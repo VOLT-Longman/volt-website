@@ -6,7 +6,9 @@ import {
   ErkulFetchError,
   fetchErkulJson,
   parseDataLayerJs,
-  buildSyncPreview
+  buildSyncPreview,
+  buildNextLayers,
+  computePreviewHash
 } from '../../../../_shared/erkul-sync.js';
 
 // Erkul live 동기화 미리보기 (읽기 전용).
@@ -69,5 +71,13 @@ export async function onRequest({ request, env }) {
   }
 
   const preview = buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, matchBaseline });
+  // Safe Apply(A-8)용 hash: 로컬 스크립트가 같은 조건으로 재계산해 일치할 때만 파일을 쓴다.
+  const nextLayers = buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw });
+  preview.previewHash = await computePreviewHash(nextLayers);
+  preview.apply = {
+    method: 'local-script',
+    command: `npm run shipdb:erkul:apply -- --confirm-preview-hash ${preview.previewHash}`,
+    note: '정적 파일 레이어는 운영 API에서 쓰지 않는다. 로컬에서 위 명령으로 적용 후 git 커밋/배포한다.'
+  };
   return json(preview);
 }

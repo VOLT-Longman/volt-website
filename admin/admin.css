@@ -118,3 +118,42 @@
   color: #ff8d7a;
   font-size: 13px;
 }
+
+/* Safe Apply 안내 (A-8) */
+.sync-apply-guide {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.sync-apply-guide h3 {
+  font-size: 13px;
+  margin: 0 0 6px;
+}
+
+.sync-hash {
+  font-size: 12px;
+  margin: 6px 0;
+  overflow-wrap: anywhere;
+}
+
+.sync-hash code,
+.sync-command {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 2px 6px;
+}
+
+.sync-command {
+  display: block;
+  padding: 10px 12px;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.sync-copy-button {
+  padding: 8px 14px;
+  font-size: 13px;
+}

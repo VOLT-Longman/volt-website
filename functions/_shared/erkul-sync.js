@@ -75,7 +75,14 @@ function cleanDescription(raw) {
   return body || null;
 }
 
-// Erkul raw 함선 레코드 → data/ship-live-stats.js entry와 같은 모양(diff 대상 필드만).
+function sumCountermeasureAmmo(d, shortName) {
+  const launchers = (d.items?.countermeasures ?? []).filter((cm) => cm?.data?.shortName === shortName);
+  if (launchers.length === 0) return null;
+  return launchers.reduce((sum, cm) => sum + (cm.data?.ammoContainer?.maxAmmoCount ?? 0), 0);
+}
+
+// Erkul raw 함선 레코드 → data/ship-live-stats.js entry와 같은 모양(전체 필드).
+// scripts/erkul/build-ship-live-data.mjs 출력과 필드/순서가 일치해야 previewHash가 안정적이다.
 export function normalizeErkulShip(record) {
   const d = record?.data ?? {};
   const size = d.vehicle?.size;
@@ -95,12 +102,29 @@ export function normalizeErkulShip(record) {
       scmBoostBackward: toNull(d.ifcs?.boostSpeedBackward),
       navMax: toNull(d.ifcs?.maxSpeed)
     },
+    rotation: {
+      pitch: toNull(d.ifcs?.angularVelocity?.x),
+      yaw: toNull(d.ifcs?.angularVelocity?.z),
+      roll: toNull(d.ifcs?.angularVelocity?.y),
+      // raw에 없는 Erkul 클라이언트 계산값 — A-2 결정대로 null 유지
+      boostedPitch: null,
+      boostedYaw: null,
+      boostedRoll: null,
+      currentPitch: null,
+      currentYaw: null,
+      currentRoll: null
+    },
+    countermeasures: {
+      decoy: sumCountermeasureAmmo(d, 'Decoy'),
+      noise: sumCountermeasureAmmo(d, 'Noise')
+    },
     hp: toNull(d.hull?.totalHp),
     cargoScu: toNull(d.cargo),
     dimensions: {
       length: hasXY ? Math.max(size.x, size.y) : null,
       beam: hasXY ? Math.min(size.x, size.y) : null,
-      height: toNull(size?.z)
+      height: toNull(size?.z),
+      sizeRaw: size ? { x: toNull(size.x), y: toNull(size.y), z: toNull(size.z) } : null
     },
     massKg: toNull(d.hull?.mass),
     fuel: {
@@ -119,18 +143,25 @@ export function normalizeErkulShip(record) {
       fuse: toNull(d.vehicle?.fusePenetrationDamageMultiplier),
       component: toNull(d.vehicle?.componentPenetrationDamageMultiplier)
     },
+    descriptionEnRaw: toNull(d.description),
     descriptionEn: cleanDescription(d.description)
   };
 }
 
 const RENTAL_NAME_PATTERN = /rentals?\b|\brent\b/i;
 
-// Erkul shop raw → localName 기준 {purchase, rentals}. A-3 normalize-erkul-market.mjs와 동일 규칙:
-// rental 판정은 data.rental boolean 우선, price<=0 구매행 제외, shop+location+price 중복 dedupe.
+// Erkul shop raw → localName 기준 {purchase, rentals, anomalies}.
+// scripts/erkul/normalize-erkul-market.mjs(A-3)와 규칙·행 순서·anomaly 문구가 일치해야
+// Safe Apply 결과가 기존 레이어와 바이트 수준에서 호환된다(정렬은 표시층에서 한다).
 export function normalizeErkulMarket(rawShops) {
   const byLocal = new Map();
   const seen = new Set();
   let inventoryRows = 0;
+  const ensure = (localName) => {
+    const entry = byLocal.get(localName) ?? { purchase: [], rentals: [], anomalies: [] };
+    byLocal.set(localName, entry);
+    return entry;
+  };
   for (const shopRecord of rawShops) {
     const shop = shopRecord?.data ?? {};
     const shopName = toNull(shop.name);
@@ -139,11 +170,14 @@ export function normalizeErkulMarket(rawShops) {
     for (const row of Array.isArray(shop.inventory) ? shop.inventory : []) {
       inventoryRows += 1;
       if (!row?.localName) continue;
-      const key = `${shopName}|${location}|${row.localName}|${row.price}|${isRental ? 'r' : 'p'}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      const entry = byLocal.get(row.localName) ?? { purchase: [], rentals: [] };
+      const key = `${shopName}|${location}|${row.localName}|${row.price}|${isRental ? 'rental' : 'purchase'}`;
       const priceValid = typeof row.price === 'number' && row.price > 0;
+      if (seen.has(key)) {
+        ensure(row.localName).anomalies.push(`duplicate row: ${shopName}@${location ?? '?'} price=${row.price}`);
+        continue;
+      }
+      seen.add(key);
+      const entry = ensure(row.localName);
       const item = {
         shop: shopName,
         location,
@@ -151,14 +185,13 @@ export function normalizeErkulMarket(rawShops) {
         available: toNull(row.available),
         unavailable: toNull(row.unavailable)
       };
+      if (!priceValid) {
+        entry.anomalies.push(`price=${row.price ?? 'missing'}: ${shopName}@${location ?? '?'} (${isRental ? 'rental' : 'purchase'})`);
+        if (!isRental) continue; // price=0 구매행 제외 (A-3 규칙)
+      }
       if (isRental) entry.rentals.push(item);
-      else if (priceValid) entry.purchase.push(item);
-      else continue; // price=0 구매행은 preview 대상에서도 제외 (A-3 규칙)
-      byLocal.set(row.localName, entry);
+      else entry.purchase.push(item);
     }
-  }
-  for (const entry of byLocal.values()) {
-    entry.purchase.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
   }
   return { byLocal, inventoryRows, shopsCount: rawShops.length };
 }
@@ -227,6 +260,101 @@ export function diffShipMarket(voltId, name, currentEntry, incomingMarket) {
     if (!incomingRentals.has(key)) rows.push({ voltId, name, type: 'rental-removed', shop: cur.shop, location: cur.location, current: cur.price, incoming: null });
   }
   return rows;
+}
+
+// ===== Safe Apply (A-8) =====
+// 원칙: apply는 매칭을 새로 하지 않는다. 현재 레이어에 존재하는 voltId key만,
+// 각 entry의 erkulLocalName 기준으로 최신 Erkul 데이터로 갱신한다.
+// 신규 후보/market-only/미매칭은 적용 대상에서 제외한다.
+
+function buildLiveStatsEntry(voltId, currentEntry, incoming) {
+  return {
+    source: 'erkul-live',
+    sourceVersion: 'live',
+    syncedAt: null, // hash 안정성을 위해 null — 파일 쓰기 시점에 주입
+    erkulLocalName: currentEntry.erkulLocalName,
+    erkulRef: incoming.ref ?? currentEntry.erkulRef ?? null,
+    manufacturer: incoming.manufacturer,
+    role: incoming.role,
+    career: incoming.career,
+    size: incoming.size,
+    crewSize: incoming.crewSize,
+    speeds: incoming.speeds,
+    rotation: incoming.rotation,
+    countermeasures: incoming.countermeasures,
+    hp: incoming.hp,
+    cargoScu: incoming.cargoScu,
+    dimensions: incoming.dimensions,
+    massKg: incoming.massKg,
+    fuel: incoming.fuel,
+    insurance: incoming.insurance,
+    damageReduction: incoming.damageReduction,
+    descriptions: {
+      source: incoming.descriptionEnRaw ? 'erkul-live' : null,
+      enRaw: incoming.descriptionEnRaw,
+      en: incoming.descriptionEn,
+      ko: null // KO 자동 번역 금지 — 원천 확보(A-9) 전까지 null 유지
+    }
+  };
+}
+
+// 현재 레이어 key(210개)만 최신 Erkul 데이터로 갱신한 "다음 레이어"를 만든다. 파일 쓰기 없음.
+export function buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw }) {
+  const incomingByLocal = new Map();
+  for (const record of erkulShipsRaw) {
+    const normalized = normalizeErkulShip(record);
+    if (normalized.localName) incomingByLocal.set(normalized.localName, normalized);
+  }
+  const market = normalizeErkulMarket(erkulShopsRaw);
+
+  const nextStats = {};
+  const nextMarket = {};
+  const warnings = [];
+  const matchedLocalNames = new Set();
+
+  for (const voltId of Object.keys(currentStats).sort()) {
+    const entry = currentStats[voltId];
+    matchedLocalNames.add(entry.erkulLocalName);
+    const incoming = incomingByLocal.get(entry.erkulLocalName);
+    if (!incoming) {
+      // Erkul live에서 사라진 함선은 삭제하지 않고 기존 데이터를 유지한다 (syncedAt만 리셋하지 않음).
+      warnings.push(`Erkul live에 없는 함선이라 기존 값 유지: ${entry.erkulLocalName} (volt: ${voltId})`);
+      nextStats[voltId] = { ...entry };
+      nextMarket[voltId] = currentMarket[voltId] ?? {
+        source: 'erkul-live', sourceVersion: 'live', syncedAt: null,
+        erkulLocalName: entry.erkulLocalName, erkulRef: entry.erkulRef ?? null,
+        purchase: [], rentals: [], anomalies: []
+      };
+      continue;
+    }
+    nextStats[voltId] = buildLiveStatsEntry(voltId, entry, incoming);
+    const incomingMarket = market.byLocal.get(entry.erkulLocalName);
+    nextMarket[voltId] = {
+      source: 'erkul-live',
+      sourceVersion: 'live',
+      syncedAt: null,
+      erkulLocalName: entry.erkulLocalName,
+      erkulRef: incoming.ref ?? entry.erkulRef ?? null,
+      purchase: incomingMarket?.purchase ?? [],
+      rentals: incomingMarket?.rentals ?? [],
+      anomalies: incomingMarket?.anomalies ?? []
+    };
+  }
+
+  const skipped = {
+    newCandidates: [...incomingByLocal.keys()].filter((localName) => !matchedLocalNames.has(localName)).length,
+    marketOnly: [...market.byLocal.keys()].filter((localName) => !incomingByLocal.has(localName)).length
+  };
+
+  return { nextStats, nextMarket, warnings, skipped };
+}
+
+// previewHash: apply가 만들 "다음 레이어" 자체를 해시한다 (syncedAt 제외 — buildNextLayers가 null로 고정).
+// 사용자가 preview에서 본 대상과 apply 시점의 대상이 다르면 hash가 달라져 반영이 거부된다.
+export async function computePreviewHash(nextLayers) {
+  const text = JSON.stringify({ stats: nextLayers.nextStats, market: nextLayers.nextMarket });
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 // 현재 레이어 + Erkul 최신 데이터 → preview diff. 파일 쓰기 없음.
