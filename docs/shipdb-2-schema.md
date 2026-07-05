@@ -44,10 +44,12 @@ ship.externalStats = {
     pitch: null,             // ifcs.angularVelocity.x
     yaw: null,               // ifcs.angularVelocity.z
     roll: null,              // ifcs.angularVelocity.y
-    boostedPitch: null,      // raw에 없음 — Erkul 클라이언트 계산값 (A-2에서 계산식 재현 여부 결정)
+    // boosted/current 6종: raw에 없는 Erkul 클라이언트 계산값 (A-2 결정: 계산식 역추적 전까지 null 유지.
+    // 계산식이 확인되면 externalStats가 아닌 별도 derivedStats로 추가한다. 첫 반영에서 계산식 생성 금지)
+    boostedPitch: null,
     boostedYaw: null,
     boostedRoll: null,
-    currentPitch: null,      // raw에 없음 — 로드아웃 반영 계산값
+    currentPitch: null,
     currentYaw: null,
     currentRoll: null
   },
@@ -61,9 +63,10 @@ ship.externalStats = {
   cargoScu: null,            // cargo
 
   dimensions: {
-    length: null,            // vehicle.size.y (축 해석 — A-2 교차검증 필요)
-    beam: null,              // vehicle.size.x
-    height: null             // vehicle.size.z
+    length: null,            // max(vehicle.size.x, .y) — A-2 검증: 고정축 해석 불가(함선마다 다름)
+    beam: null,              // min(vehicle.size.x, .y)
+    height: null,            // vehicle.size.z
+    sizeRaw: null            // { x, y, z } 원본 축 보존 (휴리스틱 파생을 되돌릴 수 있게)
   },
 
   massKg: null,              // hull.mass
@@ -95,8 +98,9 @@ ship.externalStats = {
 ship.descriptions = {
   source: null,      // "erkul-live" | "global-ini" | "volt-curated" 등
   syncedAt: null,
-  ko: null,          // 교체 후 한국어 설명
-  en: null,          // Erkul data.description (영어 설명 존재 확인됨)
+  enRaw: null,       // Erkul data.description 원문 (Manufacturer:/Focus: 헤더 라인 포함, 리터럴 \n 줄바꿈)
+  en: null,          // 헤더 제거 후 정제본 (A-2 결정: 원문/정제본 분리 저장)
+  ko: null,          // 교체 후 한국어 설명 — 자동 번역은 별도 정책 승인 전까지 금지
   legacyKo: null,    // 교체 전 기존 VOLT 큐레이션 백업 (필수)
   legacyEn: null     // 교체 전 기존 ship-en.js 백업 (필수)
 };
@@ -125,12 +129,16 @@ ship.market = {
 ## 데이터 파일 정책
 
 - `data/external/erkul/ships.raw.json` (35MB), `shop.raw.json` — **커밋하지 않는다** (.gitignore).
-  재현은 `npm run shipdb:erkul:fetch`로 한다.
+  재현은 `npm run shipdb:erkul:fetch`로 한다. 향후 snapshot history가 필요하면
+  압축 아티팩트/릴리스/별도 storage로 분리한다.
 - `data/external/erkul/asgard.raw.json`, `asgard-field-sample.json`, `fetch-meta.json` — 커밋 대상.
-- 필드별 실제 Erkul path와 검증 결과는 [erkul-field-map.md](erkul-field-map.md) 참조.
+- `data/external/erkul/ships-normalized.json` (219척, ~500KB), `coverage-report.json` — A-2 산출물, 커밋 대상.
+  재현은 `npm run shipdb:erkul:normalize`.
+- 필드별 실제 Erkul path와 검증 결과는 [erkul-field-map.md](erkul-field-map.md),
+  필드별 채움률은 [erkul-coverage-report.md](erkul-coverage-report.md) 참조.
 
 ## 다음 단계
 
-- A-2: 전체 함선 상세 스펙 normalize (dimensions 축 해석 교차검증 포함)
+- ~~A-2: 전체 함선 상세 스펙 normalize~~ (완료 — dimensions 축 교차검증 포함)
 - A-3: shop/purchase market normalize (rentals 구조 확정)
 - A-4: VOLT 함선DB 매칭 (localName ↔ volt-data.js 함선 매핑 테이블)

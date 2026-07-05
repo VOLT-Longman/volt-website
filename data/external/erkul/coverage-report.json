@@ -1,0 +1,505 @@
+{
+  "source": "erkul-live",
+  "syncedAt": "2026-07-05T12:02:20.586Z",
+  "shipCount": 219,
+  "fields": [
+    {
+      "field": "externalStats.manufacturer",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.role",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.career",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.size",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.crewSize",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.speeds.scm",
+      "class": "raw",
+      "filled": 192,
+      "total": 219,
+      "coverage": "87.7%",
+      "missingSample": [
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo",
+        "drak_mule",
+        "grin_mdc",
+        "grin_mtc",
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.speeds.scmBoostForward",
+      "class": "raw",
+      "filled": 192,
+      "total": 219,
+      "coverage": "87.7%",
+      "missingSample": [
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo",
+        "drak_mule",
+        "grin_mdc",
+        "grin_mtc",
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.speeds.scmBoostBackward",
+      "class": "raw",
+      "filled": 192,
+      "total": 219,
+      "coverage": "87.7%",
+      "missingSample": [
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo",
+        "drak_mule",
+        "grin_mdc",
+        "grin_mtc",
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.speeds.navMax",
+      "class": "raw",
+      "filled": 192,
+      "total": 219,
+      "coverage": "87.7%",
+      "missingSample": [
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo",
+        "drak_mule",
+        "grin_mdc",
+        "grin_mtc",
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.pitch",
+      "class": "raw",
+      "filled": 192,
+      "total": 219,
+      "coverage": "87.7%",
+      "missingSample": [
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo",
+        "drak_mule",
+        "grin_mdc",
+        "grin_mtc",
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.yaw",
+      "class": "raw",
+      "filled": 192,
+      "total": 219,
+      "coverage": "87.7%",
+      "missingSample": [
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo",
+        "drak_mule",
+        "grin_mdc",
+        "grin_mtc",
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.roll",
+      "class": "raw",
+      "filled": 192,
+      "total": 219,
+      "coverage": "87.7%",
+      "missingSample": [
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo",
+        "drak_mule",
+        "grin_mdc",
+        "grin_mtc",
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.boostedPitch",
+      "class": "derived-only / unavailable in raw",
+      "filled": 0,
+      "total": 219,
+      "coverage": "0.0%",
+      "missingSample": [
+        "drak_command_module",
+        "aegs_avenger_stalker",
+        "aegs_avenger_titan",
+        "aegs_avenger_titan_renegade",
+        "aegs_avenger_warlock",
+        "aegs_eclipse",
+        "aegs_gladius",
+        "aegs_gladius_pir",
+        "aegs_gladius_valiant",
+        "aegs_hammerhead_gs"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.boostedYaw",
+      "class": "derived-only / unavailable in raw",
+      "filled": 0,
+      "total": 219,
+      "coverage": "0.0%",
+      "missingSample": [
+        "drak_command_module",
+        "aegs_avenger_stalker",
+        "aegs_avenger_titan",
+        "aegs_avenger_titan_renegade",
+        "aegs_avenger_warlock",
+        "aegs_eclipse",
+        "aegs_gladius",
+        "aegs_gladius_pir",
+        "aegs_gladius_valiant",
+        "aegs_hammerhead_gs"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.boostedRoll",
+      "class": "derived-only / unavailable in raw",
+      "filled": 0,
+      "total": 219,
+      "coverage": "0.0%",
+      "missingSample": [
+        "drak_command_module",
+        "aegs_avenger_stalker",
+        "aegs_avenger_titan",
+        "aegs_avenger_titan_renegade",
+        "aegs_avenger_warlock",
+        "aegs_eclipse",
+        "aegs_gladius",
+        "aegs_gladius_pir",
+        "aegs_gladius_valiant",
+        "aegs_hammerhead_gs"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.currentPitch",
+      "class": "derived-only / unavailable in raw",
+      "filled": 0,
+      "total": 219,
+      "coverage": "0.0%",
+      "missingSample": [
+        "drak_command_module",
+        "aegs_avenger_stalker",
+        "aegs_avenger_titan",
+        "aegs_avenger_titan_renegade",
+        "aegs_avenger_warlock",
+        "aegs_eclipse",
+        "aegs_gladius",
+        "aegs_gladius_pir",
+        "aegs_gladius_valiant",
+        "aegs_hammerhead_gs"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.currentYaw",
+      "class": "derived-only / unavailable in raw",
+      "filled": 0,
+      "total": 219,
+      "coverage": "0.0%",
+      "missingSample": [
+        "drak_command_module",
+        "aegs_avenger_stalker",
+        "aegs_avenger_titan",
+        "aegs_avenger_titan_renegade",
+        "aegs_avenger_warlock",
+        "aegs_eclipse",
+        "aegs_gladius",
+        "aegs_gladius_pir",
+        "aegs_gladius_valiant",
+        "aegs_hammerhead_gs"
+      ]
+    },
+    {
+      "field": "externalStats.rotation.currentRoll",
+      "class": "derived-only / unavailable in raw",
+      "filled": 0,
+      "total": 219,
+      "coverage": "0.0%",
+      "missingSample": [
+        "drak_command_module",
+        "aegs_avenger_stalker",
+        "aegs_avenger_titan",
+        "aegs_avenger_titan_renegade",
+        "aegs_avenger_warlock",
+        "aegs_eclipse",
+        "aegs_gladius",
+        "aegs_gladius_pir",
+        "aegs_gladius_valiant",
+        "aegs_hammerhead_gs"
+      ]
+    },
+    {
+      "field": "externalStats.countermeasures.decoy",
+      "class": "raw",
+      "filled": 193,
+      "total": 219,
+      "coverage": "88.1%",
+      "missingSample": [
+        "argo_mpuv",
+        "argo_mpuv_transport",
+        "mrai_pulse",
+        "mrai_pulse_lx",
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo"
+      ]
+    },
+    {
+      "field": "externalStats.countermeasures.noise",
+      "class": "raw",
+      "filled": 193,
+      "total": 219,
+      "coverage": "88.1%",
+      "missingSample": [
+        "argo_mpuv",
+        "argo_mpuv_transport",
+        "mrai_pulse",
+        "mrai_pulse_lx",
+        "anvl_ballista",
+        "anvl_ballista_dunestalker",
+        "anvl_ballista_snowblind",
+        "anvl_centurion",
+        "anvl_spartan",
+        "argo_csv_cargo"
+      ]
+    },
+    {
+      "field": "externalStats.hp",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.cargoScu",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.dimensions.length",
+      "class": "heuristic (max of size.x,y)",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.dimensions.beam",
+      "class": "heuristic (min of size.x,y)",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.dimensions.height",
+      "class": "raw (size.z)",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.massKg",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.fuel.hydrogenScu",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.fuel.quantumScu",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.insurance.expeditionFee",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.insurance.claimTime",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.insurance.expediteTime",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.damageReduction.physical",
+      "class": "raw",
+      "filled": 218,
+      "total": 219,
+      "coverage": "99.5%",
+      "missingSample": [
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.damageReduction.energy",
+      "class": "raw",
+      "filled": 218,
+      "total": 219,
+      "coverage": "99.5%",
+      "missingSample": [
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.damageReduction.distortion",
+      "class": "raw",
+      "filled": 218,
+      "total": 219,
+      "coverage": "99.5%",
+      "missingSample": [
+        "grin_ptv"
+      ]
+    },
+    {
+      "field": "externalStats.damageReduction.fuse",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "externalStats.damageReduction.component",
+      "class": "raw",
+      "filled": 219,
+      "total": 219,
+      "coverage": "100.0%",
+      "missingSample": []
+    },
+    {
+      "field": "descriptions.enRaw",
+      "class": "raw",
+      "filled": 218,
+      "total": 219,
+      "coverage": "99.5%",
+      "missingSample": [
+        "drak_command_module"
+      ]
+    },
+    {
+      "field": "descriptions.en",
+      "class": "heuristic (헤더 제거 정제)",
+      "filled": 218,
+      "total": 219,
+      "coverage": "99.5%",
+      "missingSample": [
+        "drak_command_module"
+      ]
+    },
+    {
+      "field": "descriptions.ko",
+      "class": "unavailable (Erkul에 원천 없음)",
+      "filled": 0,
+      "total": 219,
+      "coverage": "0.0%",
+      "missingSample": [
+        "drak_command_module",
+        "aegs_avenger_stalker",
+        "aegs_avenger_titan",
+        "aegs_avenger_titan_renegade",
+        "aegs_avenger_warlock",
+        "aegs_eclipse",
+        "aegs_gladius",
+        "aegs_gladius_pir",
+        "aegs_gladius_valiant",
+        "aegs_hammerhead_gs"
+      ]
+    }
+  ]
+}

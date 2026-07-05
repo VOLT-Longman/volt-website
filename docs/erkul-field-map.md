@@ -43,9 +43,9 @@ vehicle, ifcs, hull, armor, items, loadout, manufacturerData, crossSection, heal
 | noise | `sum(items.countermeasures[shortName='Noise'].data.ammoContainer.maxAmmoCount)` | ✅ | `20` | — | user sample 없음 | 런처 4기 × 5발 |
 | hp | `hull.totalHp` | ✅ | `77000` | `77000` | 일치 | `health.hp`(=1)와 혼동 금지 |
 | cargoScu | `cargo` | ✅ | `180` | `180` | 일치 | |
-| dimensions.length | `vehicle.size.y` | ✅ | `48` | `48` | 일치 | 축 해석(y=전방)은 A-2에서 다함선 교차검증 |
-| dimensions.beam | `vehicle.size.x` | ✅ | `38` | `38` | 일치 | 〃 (x=측면) |
-| dimensions.height | `vehicle.size.z` | ✅ | `12` | `12` | 일치 | 〃 (z=상하) |
+| dimensions.length | `max(vehicle.size.x, vehicle.size.y)` | ✅ | `48` | `48` | 일치 | A-2 교차검증 결과 고정축 해석 불가 → max/min 휴리스틱 (아래 주의사항) |
+| dimensions.beam | `min(vehicle.size.x, vehicle.size.y)` | ✅ | `38` | `38` | 일치 | 〃 |
+| dimensions.height | `vehicle.size.z` | ✅ | `12` | `12` | 일치 | z=상하 축은 일관됨 |
 | massKg | `hull.mass` | ✅ | `610246.06` | `610246` | 일치(반올림) | |
 | hydrogenCapacityScu | `fuelCapacity` | ✅ | `97.5` | `97.5` | 일치 | |
 | quantumFuelCapacityScu | `qtFuelCapacity` | ✅ | `1.85` | `1.85` | 일치 | |
@@ -70,8 +70,11 @@ vehicle, ifcs, hull, armor, items, loadout, manufacturerData, crossSection, heal
 ## 주의사항
 
 - `angularVelocity` 축: **x=pitch, y=roll, z=yaw** (yaw/roll이 직관과 반대이므로 normalize 시 주의)
-- `vehicle.size` 축: x=beam, y=length, z=height 는 CryEngine 축 관례에 따른 해석이다.
-  Asgard 1척 기준으로는 사용자 샘플과 일치했으나, A-2에서 길이≠폭인 함선 다수로 교차검증한다.
+- `vehicle.size` 축 (A-2 교차검증 완료): x/y 중 어느 쪽이 길이인지는 **함선 모델마다 다르다**.
+  Asgard는 y=길이(48), Carrack은 x=길이(126). 고정축 해석은 기각하고
+  `length=max(x,y)`, `beam=min(x,y)` 휴리스틱 + `sizeRaw` 원본 보존으로 처리한다.
+  상세: [erkul-coverage-report.md](erkul-coverage-report.md)
+- Erkul description의 줄바꿈은 리터럴 `\n` 2문자(백슬래시+n)다. 실제 개행 문자가 아니므로 파싱 시 주의.
 - `health.hp`(=1)는 함선 HP가 아니다. HP는 `hull.totalHp`.
 - `damageReduction`은 배율 원본(1=감소 없음)을 저장하고, %표시는 표시층에서 `1-값`으로 변환한다.
 - shop 구매처는 `shop` 엔드포인트의 `data.inventory[]`(localName, price, ref)에서 매칭한다 (A-3).
