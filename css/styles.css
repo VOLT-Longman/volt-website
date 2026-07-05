@@ -1569,16 +1569,7 @@ body.nav-trade-open::before {
     font-size: 11px;
 }
 
-.gallery-empty {
-    grid-column: 1 / -1;
-    padding: 36px;
-    border: 1px dashed var(--color-border-accent);
-    border-radius: var(--radius-sm);
-    color: var(--color-text-tertiary);
-    text-align: center;
-    font-family: var(--font-family);
-    background: rgba(232, 72, 47, 0.05);
-}
+/* .gallery-empty 정의는 아래 한 곳(공통 컴포넌트)으로 통합됨 — P2-4 CSS 정리. */
 
 .gallery-notice {
     text-align: center;
@@ -4312,17 +4303,7 @@ body.nav-trade-open::before {
     }
 }
 
-.gallery-empty {
-    display: grid;
-    gap: 8px;
-    justify-items: center;
-    padding: 56px 24px;
-    color: var(--color-text-secondary);
-    text-align: center;
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-bg-card);
-}
+/* .gallery-empty 정의는 아래 한 곳(공통 컴포넌트)으로 통합됨 — P2-4 CSS 정리. */
 
 .gallery-empty-title {
     color: var(--color-text-primary);
@@ -4585,6 +4566,8 @@ body.nav-trade-open::before {
     color: var(--volt-orange);
 }
 
+/* .gallery-empty — 3곳(구 1571/4314/4587)에 흩어져 last-wins로 덮이던 정의를
+   최종 계산값 그대로 한 블록에 통합. font-family만 구 1571에서 유일하게 기여. */
 .gallery-empty {
     display: grid;
     grid-column: 1 / -1;
@@ -4593,6 +4576,7 @@ body.nav-trade-open::before {
     padding: 64px 24px;
     color: var(--color-text-secondary);
     text-align: center;
+    font-family: var(--font-family);
     border: 1px dashed var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-bg-card);
