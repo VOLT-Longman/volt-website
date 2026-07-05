@@ -1,6 +1,41 @@
 # VOLT 웹사이트 릴리스 노트
 
 배포는 main 브랜치 → Cloudflare Pages 자동 반영이며, 버전 경계는 커밋 단위다.
+
+## 마일스톤: ShipDB 2.0 + 품질 마감 (2026-07)
+
+기준 회귀망: **Playwright 166 통과 · Functions 80 통과 · `npm run check` 통과** · 캐시 `20260705-10`.
+
+### ShipDB 2.0 (A-1 ~ A-10)
+- **Erkul live 데이터 파이프라인**: 필드 추적(`7a35b64`) → 219척 스펙 normalize(`fb2bbbc`) →
+  구매처/렌탈 market normalize(`f623e6d`) → VOLT DB 매칭 210척/충돌 0(`4967fb9`) →
+  런타임 데이터 레이어 `data/ship-live-stats.js`·`ship-market.js` 생성(`2a15d38`).
+- **함선 모달 Live 표시**(`8f35ac3`): 요약(크기/승무원/화물/HP/속도/최저가) + 인게임 구매처/렌탈 + 접힘 상세 스펙.
+  이 과정에서 `.modal-card` max-height/내부 스크롤 결함 수정.
+- **Erkul sync workflow**: Admin 읽기 전용 preview(`fc7d6e0`) + previewHash 검증 로컬 Safe Apply(`da58a03`).
+  apply는 재매칭 없이 기존 210 key만 갱신. 운영 절차는 `OPERATIONS_RUNBOOK.md` 7-1절, 리허설 검증 완료(`eee6fef`).
+- **Korean translated descriptions**(`41063c9`): KO 모드 함선 설명을 Erkul EN의 한국어 번역본(210척)으로 교체.
+  기존 VOLT 설명은 legacy fallback, `sourceEnHash`로 stale 감지. 자동 번역기 미사용.
+- **lazy-loaded ship live data**(`fb330fe`): 레이어 2종(~500KB)을 함선DB 첫 진입 시 지연 로드(ship-en 패턴).
+- **신규 함선 분류/수동매핑**(`e156c5d`, `18311ec`): Erkul-only 9척 보류·모듈 1건 제외,
+  구형 Aurora 5종+Hammerhead는 근거 기록 후 `marketOnlyMappings` 승격(market만 보강, stats 불변).
+
+### 품질 마감 (Final Sweep)
+- **a11y allowlist cleared**(`ebdf271`): critical/serious 부채 전량 상환 — 소형 텍스트 대비(오렌지→다크 오렌지 5.39:1),
+  함선 카드 nested-interactive 구조 개선(함선명이 실제 버튼). 래칫 allowlist 전부 빈 배열.
+- **CSS cascade 정리**(`4290c7e`): 완전 피복(dead) 블록 38건 제거, 중복 selector 155→129.
+  computed style 전량 비교(58키 동일)로 검증 + 회귀 가드 2종 추가.
+- **notices 모듈 분리**(`8af04fb`): 공지 필터/카드/모달/링크복사를 `js/notices.js`(`VOLT_NOTICES`)로 분리,
+  main.js 2192→2054줄.
+- **CSP 최종 문서화**(`bfe2a4d`): 실행형 인라인 패턴 전수 검색 0건, `docs/SECURITY_CSP.md` 신설.
+
+### known remaining issues
+- 신규 함선 보류 8척(Tiburon/Tyilui/Starlite + 에디션류) — 인게임 판매 시작 시 재검토.
+- Hammerhead 구/신 엔티티 가격 모순은 anomaly로 기록(현 선체 값 우선).
+- 상세 잔여 부채는 `BACKLOG.md` 참조.
+
+---
+
 아래는 **다국어(EN)·안정화·모듈화·성능·보안·운영** 마일스톤의 요약이다.
 
 ## 마일스톤: EN 완성도 + 운영 안정화 (P1 ~ P3)

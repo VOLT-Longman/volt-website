@@ -29,6 +29,10 @@
 | [`docs/OPERATIONS_RUNBOOK.md`](docs/OPERATIONS_RUNBOOK.md) | 배포 파이프라인 · D1 마이그레이션 대장/적용/롤백 · 운영 체크리스트 |
 | [`docs/ADMIN_CMS_RUNBOOK.md`](docs/ADMIN_CMS_RUNBOOK.md) | 관리자 CMS 사용법 · 환경변수 · Discord OAuth · 콘텐츠 입력 기준 |
 | [`docs/ship-data-pipeline.md`](docs/ship-data-pipeline.md) | 함선 데이터 소스(RSI Ship Matrix)·가격·EN 생성 파이프라인 |
+| [`docs/shipdb-live-data-layer.md`](docs/shipdb-live-data-layer.md) | ShipDB 2.0 라이브 데이터 레이어(Erkul stats/market) 구조·Safe Apply |
+| [`docs/shipdb-description-translation.md`](docs/shipdb-description-translation.md) | 함선 설명 KO 번역 정책·stale 처리 |
+| [`docs/shipdb-new-ship-candidates.md`](docs/shipdb-new-ship-candidates.md) | 신규 함선 후보 분류표(보류/제외/수동매핑) |
+| [`docs/SECURITY_CSP.md`](docs/SECURITY_CSP.md) | CSP 최종 태세·전수 검색 결과·예외·검증법 |
 | [`docs/LOCALIZATION_USAGE.md`](docs/LOCALIZATION_USAGE.md) | i18n(KO/EN) 사용 규칙 |
 | [`docs/QA.md`](docs/QA.md) · [`docs/playwright-qa-scenarios.md`](docs/playwright-qa-scenarios.md) | QA 시나리오 |
 | [`docs/RELEASE_NOTES.md`](docs/RELEASE_NOTES.md) | 마일스톤 릴리스 요약 |
