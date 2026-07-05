@@ -35,6 +35,26 @@ test.describe('lazy init (무거운 섹션 지연 렌더)', () => {
         await expect(page.locator('#ships-grid .ship-card').first()).toBeVisible();
     });
 
+    // ShipDB 2.0 live 레이어(~500KB)도 ship-en.js처럼 함선DB 진입 전까지 로드하지 않는다.
+    test('live 레이어 lazy: home 로드 시 미로드 → #ships 진입 시 로드 + 모달 표시', async ({ page }) => {
+        const liveRequests = [];
+        page.on('request', (request) => {
+            if (/ship-live-stats\.js|ship-market\.js/.test(request.url())) liveRequests.push(request.url());
+        });
+        await mockApi(page);
+        await gotoSection(page, '');
+        expect(liveRequests).toHaveLength(0);
+
+        await page.locator('.nav-links a[href="#ships"]').click();
+        await expect(page.locator('#ships-grid .ship-card').first()).toBeVisible();
+        await expect.poll(() => liveRequests.length).toBe(2);
+
+        // 로드 완료 후 모달에서 live 섹션이 정상 표시된다
+        await page.locator('#ship-search').fill('Asgard');
+        await page.locator('#ships-grid .ship-card').first().click();
+        await expect(page.locator('#global-modal .ship-live-summary')).toBeVisible();
+    });
+
     test('언어 토글: #ships 미방문 시에도 오류 없음, 방문 후 재렌더', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'ko-KR' });
         const page = await ctx.newPage();

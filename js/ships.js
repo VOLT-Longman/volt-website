@@ -14,7 +14,7 @@
         getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips,
         isPlannerEligibleShip, useShipInPlanner, isInHangar, toggleHangar,
         observeNewReveals, openModal, showToast, trackEvent, shipState, getShipById,
-        RSI_SHIP_MATRIX_URL;
+        RSI_SHIP_MATRIX_URL, ensureShipLiveData;
 
     function init(deps) {
         ({
@@ -23,7 +23,7 @@
             getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips,
             isPlannerEligibleShip, useShipInPlanner, isInHangar, toggleHangar,
             observeNewReveals, openModal, showToast, trackEvent, shipState, getShipById,
-            RSI_SHIP_MATRIX_URL,
+            RSI_SHIP_MATRIX_URL, ensureShipLiveData,
         } = deps || {});
     }
 
@@ -618,12 +618,23 @@
                 <div class="ship-live-detail-groups">${groups}</div>
             </details>`;
     }
-    function openShipModal(ship) {
-        trackEvent('ship_modal_open', { shipId: ship?.id || '', shipName: ship?.name || '' });
+    let liveRefreshShipId = null;
+    function openShipModal(ship, isLiveRefresh = false) {
+        if (!isLiveRefresh) trackEvent('ship_modal_open', { shipId: ship?.id || '', shipName: ship?.name || '' });
         const officialUrl = getShipOfficialUrl(ship);
         const officialLabel = ship.rsiUrl ? i18nT('ships.officialPage', 'RSI 공식 페이지') : i18nT('ships.shipMatrix', 'RSI 함선 매트릭스');
         const liveStats = getShipLiveStats(ship);
         const liveMarket = getShipLiveMarket(ship);
+        // live 레이어 지연 로드 레이스: 아직 로드 전이면 로드 후 같은 함선 모달이 열려 있을 때만 다시 렌더한다.
+        if (!liveStats && !liveMarket && typeof ensureShipLiveData === 'function') {
+            liveRefreshShipId = ship.id;
+            ensureShipLiveData().then(() => {
+                if (liveRefreshShipId !== ship.id) return;
+                if (!getShipLiveStats(ship) && !getShipLiveMarket(ship)) return; // 로드 실패 또는 레이어에 없는 함선(미출시)
+                const modalRoot = document.getElementById('global-modal');
+                if (modalRoot?.classList.contains('active')) openShipModal(ship, true);
+            });
+        }
         openModal(`<div class="modal-header">
                 <div>
                     <div class="ship-mfr">${escapeHtml(ship.manufacturer)}</div>

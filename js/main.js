@@ -55,6 +55,35 @@
         // EN 함선 데이터는 항상 병합하되, 함선DB가 이미 표시된 경우에만 다시 렌더한다.
         ensureShipEn().then(() => { if (renderedLazySections.has('ships')) renderShipsSection(); });
     }
+    // ShipDB 2.0 live 레이어(스펙/구매처, 합계 ~500KB)는 함선DB 첫 진입 전까지 로드하지 않는다.
+    // ship-en.js와 같은 지연 로드 패턴. 로드 실패 시 모달은 live 섹션 없이 기존 정보로 폴백한다.
+    let shipLiveState = 'idle';
+    let shipLivePromise = null;
+    function ensureShipLiveData() {
+        if (shipLiveState === 'loaded') return Promise.resolve();
+        if (shipLiveState === 'loading') return shipLivePromise;
+        shipLiveState = 'loading';
+        shipLivePromise = new Promise((resolve) => {
+            if (window.VOLT_SHIP_LIVE_STATS && window.VOLT_SHIP_MARKET) { shipLiveState = 'loaded'; return resolve(); }
+            const mainSrc = document.querySelector('script[src*="js/main.js"]')?.getAttribute('src') || '';
+            const version = (mainSrc.match(/\?v=([\w.-]+)/) || [])[1];
+            let remaining = 2;
+            const done = () => {
+                remaining -= 1;
+                if (remaining > 0) return;
+                shipLiveState = window.VOLT_SHIP_LIVE_STATS && window.VOLT_SHIP_MARKET ? 'loaded' : 'idle';
+                resolve();
+            };
+            for (const file of ['data/ship-live-stats.js', 'data/ship-market.js']) {
+                const script = document.createElement('script');
+                script.src = `${file}${version ? `?v=${version}` : ''}`;
+                script.onload = done;
+                script.onerror = () => { console.warn(`${file} 로드 실패 — 함선 모달 live 정보 폴백`); done(); };
+                document.head.appendChild(script);
+            }
+        });
+        return shipLivePromise;
+    }
     const staticLeadership = Array.isArray(data.leadership) ? data.leadership.slice() : [];
 
     function renderInlineIcon(name, className = 'inline-svg-icon') {
@@ -1133,6 +1162,8 @@
     function renderShipsSection() {
         renderShipManufacturers();
         renderShips();
+        // live 레이어는 여기서 로드를 시작한다 (모달이 그 전에 열리면 ships.js가 로드 후 재렌더).
+        ensureShipLiveData();
     }
     const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery };
     const renderedLazySections = new Set();
@@ -2092,6 +2123,7 @@
             observeNewReveals, openModal, showToast, trackEvent, shipState,
             getShipById: (id) => shipById.get(id),
             RSI_SHIP_MATRIX_URL,
+            ensureShipLiveData,
         });
         // 전역 검색 모달 — 데이터·내비게이션·함선 헬퍼 주입.
         VOLT_SEARCH.init({

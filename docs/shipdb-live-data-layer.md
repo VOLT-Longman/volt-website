@@ -64,12 +64,13 @@ window.VOLT_SHIP_MARKET = {
 - 실제 설명 교체(A-6/A-7) 시 기존 설명을 `legacyKo`/`legacyEn`으로 백업한 뒤 진행한다.
 - 한국어 자동 번역은 별도 정책 승인 전까지 금지.
 
-## A-6 UI 연결 방법 (예정)
+## UI 연결 (A-6 + lazy-load)
 
-1. `index.html`에 `<script src="data/ship-live-stats.js">`, `<script src="data/ship-market.js">` 추가
-   (캐시 버전 쿼리는 `scripts/update-cache-version.js` 규칙을 따름).
+1. 두 레이어 파일은 초기 로드 최적화를 위해 **함선DB 첫 진입 시 지연 로드**된다
+   (`js/main.js`의 `ensureShipLiveData` — `ship-en.js`와 같은 패턴, sw.js 프리캐시에는 포함).
+   로드 전에 모달이 열리면 로드 완료 후 같은 함선 모달만 자동 재렌더된다.
 2. 함선 모달에서 `window.VOLT_SHIP_LIVE_STATS[ship.id]` / `window.VOLT_SHIP_MARKET[ship.id]` lookup.
-3. 값이 없으면(미매칭 37척 등) 기존 volt-data 표시로 폴백. 렌탈 `price: null`은 "가격 미표기"로 표시.
+3. 값이 없으면(미매칭/미출시) 기존 volt-data 표시로 폴백. 렌탈 `price: null`은 "가격 미표기"로 표시.
 4. dimensions는 Erkul bounding-box 파생값이므로 표기 시 출처 라벨(`erkul-bounds-derived`) 권장.
 
 ## Erkul 동기화 운영 (A-7 preview + A-8 Safe Apply)
