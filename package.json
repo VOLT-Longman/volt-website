@@ -17,7 +17,8 @@
     "shipdb:erkul:build-live": "node scripts/erkul/build-ship-live-data.mjs",
     "shipdb:erkul:apply": "node scripts/erkul/apply-erkul-live-data.mjs",
     "shipdb:erkul:translate-descriptions": "node scripts/erkul/apply-ship-description-ko.mjs",
-    "shipdb:erkul:post-apply": "npm run shipdb:erkul:translate-descriptions && npm run check"
+    "shipdb:erkul:post-apply": "npm run shipdb:erkul:translate-descriptions && npm run check",
+    "shipdb:erkul:classify-candidates": "node scripts/erkul/classify-new-ship-candidates.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
