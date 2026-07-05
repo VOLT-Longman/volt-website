@@ -187,6 +187,8 @@ node scripts/build-ship-en.mjs          # volt-data 변경 시 data/ship-en.js(E
 
 # 2. 로컬 dry-run (파일 무변경, 변경 요약 + hash 출력)
 npm run shipdb:erkul:apply
+#    ⚠ 변경 요약이 전부 0이면(스펙/가격/구매처/렌탈/설명 0) 여기서 종료한다.
+#      apply해도 syncedAt 타임스탬프만 바뀌므로 커밋/배포할 가치가 없다.
 
 # 3. previewHash 일치 시 적용 (기존 210개 matched key만 갱신)
 npm run shipdb:erkul:apply -- --confirm-preview-hash <previewHash>
@@ -220,6 +222,15 @@ npm test
   `ship-descriptions-ko.json`의 번역과 `sourceEnHash`를 갱신한 뒤 재적용한다. stale 번역을 임의로 계속 쓰지 않는다.
 - Erkul에 없는 설명을 임의 생성하지 않는다. Admin에 [바로 적용] 버튼을 추가하지 않는다.
 - `volt-data.js`에 live stats/market/description을 직접 merge하지 않는다.
+
+### 운영 참고 (2026-07-06 리허설에서 확인)
+
+- 전체 루프(dry-run → hash apply → translate → 게이트 → 롤백)는 리허설로 검증됨.
+- `node scripts/check-deploy-sync.mjs`와 preview API의 curl 확인은 **Cloudflare 봇 챌린지(403)로 CLI에서 막힌다.**
+  라이브 확인은 운영자 브라우저에서 한다 (Admin preview 실행 자체가 배포 확인을 겸함).
+  preview API의 비인증 차단은 Functions 테스트(401)로 보장된다.
+- 변경 0 동기화를 apply한 경우에도 diff는 syncedAt 계열 타임스탬프뿐이며,
+  커밋 전이라면 롤백 절차의 `git restore`로 깨끗하게 원복된다.
 
 ### 동기화 후 검증 체크리스트
 
