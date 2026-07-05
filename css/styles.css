@@ -4756,6 +4756,12 @@ body.nav-trade-open::before {
 }
 
 .hangar-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* 터치 타깃 최소 36px 확보(P3-2). 글리프 크기는 font-size로 유지. */
+    min-width: 36px;
+    min-height: 36px;
     background: none;
     border: none;
     font-size: 1.1rem;
@@ -5682,9 +5688,13 @@ body.nav-trade-open::before {
 }
 
 .mypage-ship-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex: 0 0 auto;
-    width: 26px;
-    height: 26px;
+    /* 터치 타깃 최소 36px 확보(P3-2). */
+    width: 36px;
+    height: 36px;
     padding: 0;
     border-radius: 8px;
     line-height: 1;

@@ -44,6 +44,25 @@ test.describe('접근성(axe) 래칫', () => {
         await gotoSection(page, '#ships');
         await page.locator('#ships-grid .ship-card').first().click();
         await expect(page.locator('#global-modal')).toHaveClass(/active/);
-        await assertNoNewViolations(page, ['aria-dialog-name', 'color-contrast', 'nested-interactive']);
+        // aria-dialog-name 부채 해소: 전역 모달에 aria-labelledby(제목) 부여(P3-2).
+        await assertNoNewViolations(page, ['color-contrast', 'nested-interactive']);
+        await expect(page.locator('#global-modal .modal-card')).toHaveAttribute('aria-labelledby', /.+/);
+    });
+
+    test('공지 모달: 새 critical/serious 위반 없음 + dialog 이름', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#notices');
+        await page.locator('#notices-list .notice-card').first().click();
+        await expect(page.locator('#global-modal')).toHaveClass(/active/);
+        await expect(page.locator('#global-modal .modal-card')).toHaveAttribute('aria-labelledby', /.+/);
+        await assertNoNewViolations(page, ['color-contrast', 'nested-interactive']);
+    });
+
+    test('전역 검색 오버레이: 새 critical/serious 위반 없음', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '');
+        await page.locator('#search-toggle').click();
+        await expect(page.locator('#search-overlay')).toHaveClass(/active/);
+        await assertNoNewViolations(page, ['color-contrast']);
     });
 });

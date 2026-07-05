@@ -388,6 +388,7 @@
             'mypage.retry': '다시 시도',
             // 공용 UI 스윕(P2-5): 토스트·모달·빈상태·RSVP·PWA·테마·검색 등
             'common.modalClose': '모달 닫기',
+            'common.dialog': '대화 상자',
             'gallery.viewLarger': '크게 보기',
             'notices.filterAll': '전체',
             'notices.copyOk': '공지 링크를 복사했습니다.',
@@ -816,6 +817,7 @@
             'mypage.retry': 'Retry',
             // shared UI sweep (P2-5): toasts, modal, empty/error, RSVP, PWA, theme, search
             'common.modalClose': 'Close modal',
+            'common.dialog': 'Dialog',
             'gallery.viewLarger': 'View larger',
             'notices.filterAll': 'All',
             'notices.copyOk': 'Notice link copied.',

@@ -21,16 +21,30 @@ test.describe('CSS 회귀 (P2-4)', () => {
         expect(styles.justifyItems).toBe('center');
     });
 
-    for (const section of ['trade-planner', 'ships', 'notices', 'leadership', 'gallery']) {
-        test(`모바일 390px: #${section} 가로 overflow 없음`, async ({ browser }) => {
-            const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
-            const page = await ctx.newPage();
-            await mockApi(page);
-            await gotoSection(page, `#${section}`);
-            await page.waitForTimeout(150);
-            const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
-            expect(noOverflow, `#${section} 가로 스크롤 발생`).toBe(true);
-            await ctx.close();
-        });
+    // P3-2: 여러 모바일/태블릿 폭 + EN 모드(긴 문장)에서 가로 overflow 회귀 가드.
+    for (const width of [390, 430, 768]) {
+        for (const section of ['trade-planner', 'ships', 'notices', 'leadership', 'gallery', 'mypage']) {
+            test(`${width}px EN: #${section} 가로 overflow 없음`, async ({ browser }) => {
+                const ctx = await browser.newContext({ viewport: { width, height: 900 }, locale: 'en-US' });
+                const page = await ctx.newPage();
+                await mockApi(page, { loggedIn: true });
+                await gotoSection(page, `#${section}`);
+                await page.waitForTimeout(150);
+                const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
+                expect(noOverflow, `#${section} @${width}px 가로 스크롤 발생`).toBe(true);
+                await ctx.close();
+            });
+        }
     }
+
+    test('터치 타깃: 함선 격납고 토글 버튼 ≥36px', async ({ browser }) => {
+        const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+        const page = await ctx.newPage();
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        const box = await page.locator('#ships-grid .hangar-toggle-btn').first().boundingBox();
+        expect(box.width).toBeGreaterThanOrEqual(36);
+        expect(box.height).toBeGreaterThanOrEqual(36);
+        await ctx.close();
+    });
 });

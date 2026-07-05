@@ -1427,7 +1427,22 @@
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
         activeModal = modal.querySelector('.modal-card') || modal;
+        // 접근성: dialog에 접근 가능한 이름 부여. 제목이 있으면 aria-labelledby로 연결,
+        // 없으면 일반 aria-label로 폴백(axe aria-dialog-name 위반 제거).
+        labelModalDialog(activeModal);
         activeModal.querySelector('.modal-close')?.focus();
+    }
+
+    function labelModalDialog(dialog) {
+        const title = dialog.querySelector('.modal-title, .modal-header h2, h2, h3');
+        if (title && title.textContent.trim()) {
+            if (!title.id) title.id = 'global-modal-title';
+            dialog.setAttribute('aria-labelledby', title.id);
+            dialog.removeAttribute('aria-label');
+        } else {
+            dialog.setAttribute('aria-label', i18nT('common.dialog', '대화 상자'));
+            dialog.removeAttribute('aria-labelledby');
+        }
     }
 
     function closeModal() {
