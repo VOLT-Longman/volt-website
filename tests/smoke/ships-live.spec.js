@@ -140,6 +140,24 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(desc).not.toContainText('As the battles of today');
     });
 
+    test('카드/모달 설명 통합: 외부 카드 .ship-desc도 Erkul 번역으로 일치(A-9)', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await page.locator('#ship-search').fill('Asgard');
+        const card = page.locator('#ships-grid .ship-card').first();
+        await expect(card).toBeVisible();
+        // live 로드 후 재렌더로 카드 설명이 Erkul 번역으로 갱신된다(기존 legacy 설명 대체).
+        await expect.poll(() => card.locator('.ship-desc').textContent(), { timeout: 10000 })
+            .toContain('Anvil Aerospace');
+        await expect(card.locator('.ship-desc')).not.toContainText('중형급 수송선');
+        // 카드(외부) 설명과 모달(내부) 설명이 동일해야 한다.
+        const cardDesc = (await card.locator('.ship-desc').textContent())?.trim();
+        await card.click();
+        await expect(page.locator('#global-modal')).toHaveClass(/active/);
+        const modalDesc = (await page.locator('#global-modal .modal-body > p').first().textContent())?.trim();
+        expect(modalDesc).toBe(cardDesc);
+    });
+
     test('레이어 없는 함선(미출시): Live 섹션 없이 기존 모달 정상 + 콘솔 에러 없음', async ({ page }) => {
         const errors = [];
         page.on('pageerror', (error) => errors.push(String(error)));

@@ -135,7 +135,7 @@
                     </div>
                     <div class="ship-card-actions"><span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>${renderHangarToggleButton(ship)}</div>
                 </div>
-                <p class="ship-desc">${escapeHtml(tx(ship, 'description'))}</p>
+                <p class="ship-desc">${escapeHtml(shipDisplayDescription(ship))}</p>
                 <div class="ship-stats">
                     <div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.cargo', '\ud654\ubb3c'))}</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
                     <div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.priceUsd', 'USD 가격'))}</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
@@ -519,6 +519,12 @@
         if (currentLang() === 'en' && live?.descriptions?.en) return live.descriptions.en;
         if (currentLang() !== 'en' && live?.descriptions?.ko) return live.descriptions.ko;
         return tx(ship, 'description');
+    }
+    // 카드(외부)·모달(내부) 설명을 하나로 통합. live 레이어가 로드돼 있으면 Erkul 번역 설명,
+    // 아직 로드 전이거나 미매칭 함선이면 기존 volt-data 설명으로 폴백한다.
+    // (live는 지연 로드되므로 renderShipsSection이 로드 완료 후 한 번 더 렌더해 카드 설명을 갱신한다.)
+    function shipDisplayDescription(ship) {
+        return shipModalDescription(ship, getShipLiveStats(ship));
     }
     function renderShipLiveSummary(live, market) {
         if (!live) return '';

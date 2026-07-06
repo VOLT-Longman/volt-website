@@ -1102,9 +1102,10 @@
         renderShipManufacturers();
         renderShips();
         // live 레이어는 여기서 로드를 시작한다 (모달이 그 전에 열리면 ships.js가 로드 후 재렌더).
-        // 인게임 구매/렌탈 필터가 켜져 있으면 market 로드 완료 후 한 번 더 렌더해 필터를 반영한다.
+        // 로드 완료 후 한 번 더 렌더한다: 카드 설명(Erkul 번역 통합)과 인게임 구매/렌탈 필터가
+        // live/market 데이터에 의존하므로 로드 전 렌더된 카드를 최신값으로 갱신한다.
         ensureShipLiveData().then(() => {
-            if (shipState.marketOnly && renderedLazySections.has('ships')) renderShips();
+            if (renderedLazySections.has('ships')) renderShips();
         });
     }
     const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery };
