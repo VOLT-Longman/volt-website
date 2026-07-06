@@ -618,6 +618,20 @@
                 <div class="ship-live-detail-groups">${groups}</div>
             </details>`;
     }
+    // 모달 상단 기본 스펙 그리드. Erkul live 레이어가 있으면 크기/승무원/화물은
+    // renderShipLiveSummary(Erkul 기준)로 단일화하고 여기서는 중복 표기하지 않는다.
+    // live가 없는 함선(미출시/변형)만 legacy volt-data 값으로 전부 폴백한다.
+    function renderShipBaseGrid(ship, live) {
+        const stat = (label, value) => `<div class="ship-modal-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`;
+        const items = [stat(i18nT('ships.role', '역할'), tx(ship, 'role'))];
+        if (!live) {
+            items.push(stat(i18nT('ships.size', '크기'), tx(ship, 'size')));
+            items.push(stat(i18nT('ships.crew', '승무원'), tx(ship, 'crew')));
+            items.push(stat(i18nT('ships.cargo', '화물'), ship.cargo));
+        }
+        items.push(stat(i18nT('ships.priceUsd', 'USD 가격'), formatShipPrice(ship.priceUsd)));
+        return `<div class="ship-modal-grid">${items.join('')}</div>`;
+    }
     let liveRefreshShipId = null;
     function openShipModal(ship, isLiveRefresh = false) {
         if (!isLiveRefresh) trackEvent('ship_modal_open', { shipId: ship?.id || '', shipName: ship?.name || '' });
@@ -645,13 +659,7 @@
             </div>
             <div class="modal-body">
                 <p>${escapeHtml(shipModalDescription(ship, liveStats))}</p>
-                <div class="ship-modal-grid">
-                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.role', '역할'))}</span><strong>${escapeHtml(tx(ship, 'role'))}</strong></div>
-                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.size', '크기'))}</span><strong>${escapeHtml(tx(ship, 'size'))}</strong></div>
-                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.crew', '승무원'))}</span><strong>${escapeHtml(tx(ship, 'crew'))}</strong></div>
-                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.cargo', '화물'))}</span><strong>${escapeHtml(ship.cargo)}</strong></div>
-                    <div class="ship-modal-stat"><span>${escapeHtml(i18nT('ships.priceUsd', 'USD \uac00\uaca9'))}</span><strong>${escapeHtml(formatShipPrice(ship.priceUsd))}</strong></div>
-                </div>
+                ${renderShipBaseGrid(ship, liveStats)}
                 ${renderShipLiveSummary(liveStats, liveMarket)}
                 ${renderShipMarketPanel(liveStats, liveMarket)}
                 ${renderShipLiveDetails(liveStats)}
