@@ -570,7 +570,9 @@
     }
 
     // Phase 2 표시명 정책: 한글명 우선, 영문명(ship.name) 보조. 한 곳에 모은다.
+    // CMS 한글명 오버라이드(ship.nameKo)가 있으면 정적 별칭보다 우선한다.
     function getShipKoreanName(ship) {
+        if (ship.nameKo && /[가-힣]/.test(ship.nameKo)) return ship.nameKo;
         return getShipAliases(ship).find((alias) => /[가-힣]/.test(alias)) || '';
     }
 
@@ -955,7 +957,10 @@
     function applyShipOverrides(overrides) {
         if (!Array.isArray(overrides) || !Array.isArray(data.ships)) return;
         const overrideById = new Map(overrides.map((item) => [item.shipId || item.id, item]));
-        data.ships = data.ships.map((ship) => mergeShipOverride(ship, overrideById.get(ship.id)));
+        // CMS hidden=true 함선은 공개 목록·검색·플래너에서 완전히 제외(소프트 삭제).
+        data.ships = data.ships
+            .map((ship) => mergeShipOverride(ship, overrideById.get(ship.id)))
+            .filter((ship) => ship.hidden !== true);
         rebuildShipIndex();
     }
 

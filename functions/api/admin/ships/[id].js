@@ -30,10 +30,10 @@ async function saveItem(request, env, shipId) {
   // 낙관적 잠금: 기존 override의 updated_at과 비교(신규면 빈 문자열 기준).
   const existing = await db.prepare('SELECT updated_at FROM ship_overrides WHERE ship_id = ?').bind(shipId).first();
   if (hasUpdateConflict(body, existing || {})) return error(CONFLICT_MESSAGE, 409);
-  await db.prepare(`INSERT INTO ship_overrides (id, ship_id, name, manufacturer, role, focus, size, crew, cargo, price_usd, implemented, planner_eligible, tags, description, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ON CONFLICT(ship_id) DO UPDATE SET name = excluded.name, manufacturer = excluded.manufacturer, role = excluded.role, focus = excluded.focus, size = excluded.size, crew = excluded.crew, cargo = excluded.cargo, price_usd = excluded.price_usd, implemented = excluded.implemented, planner_eligible = excluded.planner_eligible, tags = excluded.tags, description = excluded.description, updated_at = excluded.updated_at`)
-    .bind(`ship-${item.ship_id}`, item.ship_id, item.name, item.manufacturer, item.role, item.focus, item.size, item.crew, item.cargo, item.price_usd, item.implemented, item.planner_eligible, item.tags, item.description, item.updated_at).run();
+  await db.prepare(`INSERT INTO ship_overrides (id, ship_id, name, name_ko, manufacturer, role, focus, size, crew, cargo, price_usd, implemented, planner_eligible, tags, description, hidden, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(ship_id) DO UPDATE SET name = excluded.name, name_ko = excluded.name_ko, manufacturer = excluded.manufacturer, role = excluded.role, focus = excluded.focus, size = excluded.size, crew = excluded.crew, cargo = excluded.cargo, price_usd = excluded.price_usd, implemented = excluded.implemented, planner_eligible = excluded.planner_eligible, tags = excluded.tags, description = excluded.description, hidden = excluded.hidden, updated_at = excluded.updated_at`)
+    .bind(`ship-${item.ship_id}`, item.ship_id, item.name, item.name_ko, item.manufacturer, item.role, item.focus, item.size, item.crew, item.cargo, item.price_usd, item.implemented, item.planner_eligible, item.tags, item.description, item.hidden, item.updated_at).run();
   return json({ item: mapShipOverride(item) });
 }
 

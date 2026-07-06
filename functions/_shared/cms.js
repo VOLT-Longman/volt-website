@@ -230,6 +230,7 @@ export function mapShipOverride(row) {
     id: row.ship_id,
     shipId: row.ship_id,
     name: row.name,
+    nameKo: row.name_ko,
     manufacturer: row.manufacturer,
     role: row.role,
     focus: row.focus,
@@ -241,6 +242,7 @@ export function mapShipOverride(row) {
     plannerEligible: row.planner_eligible === null || row.planner_eligible === undefined ? null : Boolean(row.planner_eligible),
     tags: parseTags(row.tags),
     description: row.description,
+    hidden: row.hidden === null || row.hidden === undefined ? null : Boolean(row.hidden),
     updatedAt: row.updated_at
   };
 }
@@ -249,6 +251,7 @@ export function shipOverrideInput(shipId, body) {
   return {
     ship_id: limitText(shipId, 120),
     name: nullableText(body.name, 200),
+    name_ko: nullableText(body.nameKo ?? body.name_ko, 200),
     manufacturer: nullableText(body.manufacturer, 120),
     role: nullableText(body.role, 120),
     focus: nullableText(body.focus, 80),
@@ -260,6 +263,7 @@ export function shipOverrideInput(shipId, body) {
     planner_eligible: nullableBooleanInt(body.plannerEligible ?? body.planner_eligible),
     tags: normalizeTagsInput(body.tags),
     description: nullableText(body.description, 20000),
+    hidden: nullableBooleanInt(body.hidden),
     updated_at: nowIso()
   };
 }

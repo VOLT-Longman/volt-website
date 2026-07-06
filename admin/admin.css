@@ -157,3 +157,34 @@
   padding: 8px 14px;
   font-size: 13px;
 }
+
+.ship-hidden-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0;
+  color: var(--text);
+  font-weight: 800;
+}
+.ship-hidden-toggle input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--danger);
+}
+.ship-form-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.ship-hidden-badge {
+  display: inline-block;
+  margin-top: 6px;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+}

@@ -79,6 +79,8 @@ const LABELS = {
   plannerEligible: '\ubb34\uc5ed\ud50c\ub798\ub108 \ub178\ucd9c',
   tags: '\ud0dc\uadf8',
   name: '\uc774\ub984',
+  shipNameEn: '\uc601\ubb38 \ud568\uc120\uba85 (EN)',
+  shipNameKo: '\ud55c\uae00 \ud568\uc120\uba85 (KO)',
   region: '\uc9c0\uc5ed',
   game: '\uac8c\uc784',
   discord: 'Discord',
@@ -375,7 +377,7 @@ function renderShipList() {
   if (!state.items.length) return '<p class="admin-message">\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4.</p>';
   return state.items.map((item) => {
     const ship = item.merged;
-    return `<button class="item-button ship-admin-item${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(ship.name)}</strong><span>${escapeHtml(ship.manufacturer || '')} - ${escapeHtml(ship.focus || ship.role || '')} - ${escapeHtml(ship.cargo || '0 SCU')}</span><small>${item.override ? '\uc218\uc815\uac12 \uc801\uc6a9\ub428' : '\uc6d0\ubcf8'}</small></button>`;
+    return `<button class="item-button ship-admin-item${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(ship.name)}</strong><span>${escapeHtml(ship.manufacturer || '')} - ${escapeHtml(ship.focus || ship.role || '')} - ${escapeHtml(ship.cargo || '0 SCU')}</span><small>${item.override ? '\uc218\uc815\uac12 \uc801\uc6a9\ub428' : '\uc6d0\ubcf8'}</small>${item.override?.hidden === true ? '<span class="ship-hidden-badge">숨김</span>' : ''}</button>`;
   }).join('');
 }
 
@@ -577,9 +579,33 @@ function renderGalleryUpload(item) {
 }
 
 function renderShipForm(item) {
-  if (!item) return '<p class="admin-message">\uc67c\ucabd \ubaa9\ub85d\uc5d0\uc11c \uc218\uc815\ud560 \ud568\uc120\uc744 \uc120\ud0dd\ud558\uc138\uc694.</p>';
+  if (!item) return renderShipFormEmpty();
   const ship = item.merged;
-  return `<div class="ship-readonly"><strong>${escapeHtml(ship.name)}</strong><span>ID: ${escapeHtml(ship.id)}</span></div>${SHIP_EDIT_FIELDS.map((field) => renderShipField(field, item)).join('')}<button type="button" class="secondary" id="reset-ship-button">\uc6d0\ubcf8\uc73c\ub85c \ub418\ub3cc\ub9ac\uae30</button>`;
+  const override = item.override || {};
+  const base = item.base || {};
+  const baseKo = getBaseShipKoreanName(base);
+  const hidden = override.hidden === true;
+  const nameFields = `<label>${LABELS.shipNameKo}<input name="nameKo" value="${escapeHtml(override.nameKo ?? '')}" placeholder="${escapeHtml(baseKo)}"></label>`
+    + `<label>${LABELS.shipNameEn}<input name="name" value="${escapeHtml(override.name ?? '')}" placeholder="${escapeHtml(base.name ?? '')}"></label>`;
+  const specFields = SHIP_EDIT_FIELDS.map((field) => renderShipField(field, item)).join('');
+  const hiddenToggle = `<label class="ship-hidden-toggle"><input type="checkbox" name="hidden" ${hidden ? 'checked' : ''}> 사이트에서 숨김(삭제 상태)</label>`;
+  const buttons = '<div class="ship-form-buttons">'
+    + '<button type="button" class="secondary" id="reset-ship-button">원본으로 되돌리기</button>'
+    + `<button type="button" class="danger" id="hide-ship-button">${hidden ? '숨김 해제' : '삭제(사이트에서 숨김)'}</button>`
+    + '</div>';
+  return `<div class="ship-readonly"><strong>${escapeHtml(ship.name)}</strong><span>ID: ${escapeHtml(ship.id)}</span></div>`
+    + nameFields + specFields + hiddenToggle + buttons;
+}
+
+function renderShipFormEmpty() {
+  return '<p class="admin-message">왼쪽 목록에서 수정할 함선을 선택하세요.</p>';
+}
+
+// 정적 volt-localization 별칭에서 현재 한글명(placeholder용)을 찾는다.
+function getBaseShipKoreanName(base) {
+  const aliases = window.VOLT_LOCALIZATION?.ships?.[base?.name];
+  if (!Array.isArray(aliases)) return '';
+  return aliases.find((alias) => /[가-힣]/.test(alias)) || '';
 }
 
 function renderShipField(field, item) {
@@ -662,6 +688,9 @@ function applyGalleryPayloadDefaults(payload) {
 function getShipPayload() {
   const form = $('#cms-form');
   const payload = {};
+  payload.name = (form.elements.name?.value || '').trim() || null;
+  payload.nameKo = (form.elements.nameKo?.value || '').trim() || null;
+  payload.hidden = Boolean(form.elements.hidden?.checked);
   SHIP_EDIT_FIELDS.forEach((field) => {
     if (field === 'tags') {
       payload[field] = [...form.querySelectorAll('input[name="tags"]:checked')].map((input) => input.value);
@@ -900,6 +929,20 @@ function handleListClick(event) {
 
 async function handleDocumentClick(event) {
   if (event.target?.id === 'reset-ship-button') resetShipOverride().catch(showFormError);
+  if (event.target?.id === 'hide-ship-button') toggleShipHidden().catch(showFormError);
+}
+
+// 함선 숨김/해제: hidden 체크박스를 뒤집고 저장을 트리거한다(단일 소스 = 체크박스).
+async function toggleShipHidden() {
+  const box = $('#cms-form')?.elements?.hidden;
+  if (!box) return;
+  const willHide = !box.checked;
+  const message = willHide
+    ? '이 함선을 사이트에서 숨길까요? 목록·검색·무역플래너에서 제외됩니다.'
+    : '이 함선의 숨김을 해제할까요?';
+  if (!confirm(message)) return;
+  box.checked = willHide;
+  document.querySelector('button[type="submit"][form="cms-form"]')?.click();
 }
 
 function handleDocumentChange(event) {
