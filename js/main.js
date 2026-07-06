@@ -148,7 +148,7 @@
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const RSVP_STATUSES = ['참가', '대기', '불참'];
-    const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, selectedTags: [] };
+    const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [] };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const UEX_CACHE_TTL_MS = { commodities: 60 * 60 * 1000, prices: 30 * 60 * 1000 };
@@ -548,7 +548,20 @@
             const hangar = getHangar();
             ships = ships.filter((ship) => hangar.includes(ship.id));
         }
+        // 인게임 구매/렌탈 가능 함선만. market 레이어(지연 로드)가 아직 없으면 적용을 보류하고
+        // 로드 완료 후 재렌더에서 필터링한다(전체 표시 유지 → 빈 화면 깜빡임 방지).
+        if (shipState.marketOnly && window.VOLT_SHIP_MARKET) {
+            ships = ships.filter((ship) => shipHasInGameMarket(ship));
+        }
         return ships;
+    }
+
+    // Erkul market 레이어에 구매처 또는 렌탈 행이 하나라도 있으면 인게임에서 획득 가능.
+    function shipHasInGameMarket(ship) {
+        const market = (window.VOLT_SHIP_MARKET || {})[ship.id];
+        if (!market) return false;
+        return (Array.isArray(market.purchase) && market.purchase.length > 0)
+            || (Array.isArray(market.rentals) && market.rentals.length > 0);
     }
 
     function getShipTags(ship) {
@@ -1089,7 +1102,10 @@
         renderShipManufacturers();
         renderShips();
         // live 레이어는 여기서 로드를 시작한다 (모달이 그 전에 열리면 ships.js가 로드 후 재렌더).
-        ensureShipLiveData();
+        // 인게임 구매/렌탈 필터가 켜져 있으면 market 로드 완료 후 한 번 더 렌더해 필터를 반영한다.
+        ensureShipLiveData().then(() => {
+            if (shipState.marketOnly && renderedLazySections.has('ships')) renderShips();
+        });
     }
     const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery };
     const renderedLazySections = new Set();

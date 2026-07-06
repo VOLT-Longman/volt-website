@@ -203,6 +203,12 @@
             syncShipControls();
             renderShips();
         });
+        const marketOnly = document.getElementById('ship-market-only');
+        marketOnly?.addEventListener('change', () => {
+            shipState.marketOnly = marketOnly.checked;
+            syncShipControls();
+            renderShips();
+        });
         advancedToggle?.addEventListener('click', () => {
             const expanded = advancedToggle.getAttribute('aria-expanded') === 'true';
             advancedToggle.setAttribute('aria-expanded', String(!expanded));
@@ -312,6 +318,7 @@
         shipState.purpose = '';
         shipState.cargoMin = 0;
         shipState.hangarOnly = false;
+        shipState.marketOnly = false;
         shipState.selectedTags = [];
         syncShipControls();
         renderShips();
@@ -320,7 +327,8 @@
         return (shipState.cargoMin > 0 ? 1 : 0)
             + (shipState.purpose ? 1 : 0)
             + (shipState.hideUnreleased ? 1 : 0)
-            + (shipState.hangarOnly ? 1 : 0);
+            + (shipState.hangarOnly ? 1 : 0)
+            + (shipState.marketOnly ? 1 : 0);
     }
     function syncShipControls() {
         const search = document.getElementById('ship-search');
@@ -335,6 +343,8 @@
         if (sort) sort.value = shipState.sort;
         if (purpose) purpose.value = shipState.purpose;
         if (hangarOnly) hangarOnly.checked = shipState.hangarOnly;
+        const marketOnly = document.getElementById('ship-market-only');
+        if (marketOnly) marketOnly.checked = shipState.marketOnly;
         document.querySelectorAll('.cargo-filter-btn').forEach((button) => {
             const isActive = Number(button.dataset.cargoMin) === shipState.cargoMin;
             button.classList.toggle('active', isActive);
