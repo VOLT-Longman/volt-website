@@ -449,7 +449,7 @@
         container.innerHTML = data.joinSteps.map((step) => `
             <div class="join-step reveal">
                 <div class="step-number">${escapeHtml(String(step.number))}</div>
-                <h4>${escapeHtml(tx(step, 'title'))}</h4>
+                <h3>${escapeHtml(tx(step, 'title'))}</h3>
                 <p>${escapeHtml(tx(step, 'description'))}</p>
             </div>`).join('');
     }

@@ -65,4 +65,18 @@ test.describe('접근성(axe) 래칫', () => {
         await expect(page.locator('#search-overlay')).toHaveClass(/active/);
         await assertNoNewViolations(page, []);
     });
+
+    // C-5: 문서 구조(moderate) 래칫 — 상환 완료 상태를 고정한다.
+    // h1은 sr-only 사이트 제목으로 상시 존재, 푸터는 h2 그룹, 렌더러 h4 단계 건너뜀 제거.
+    for (const hash of ['', '#ships', '#schedule', '#join', '#trade-planner']) {
+        test(`문서 구조: heading-order/h1 위반 없음 (${hash || 'home'})`, async ({ page }) => {
+            await mockApi(page);
+            await gotoSection(page, hash);
+            const results = await new AxeBuilder({ page })
+                .withRules(['heading-order', 'page-has-heading-one', 'empty-heading'])
+                .analyze();
+            const summary = results.violations.flatMap((v) => v.nodes.map((n) => `${v.id}: ${n.target.join(' ')}`));
+            expect(summary, `문서 구조 위반:\n${summary.join('\n')}`).toEqual([]);
+        });
+    }
 });

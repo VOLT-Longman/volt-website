@@ -1981,7 +1981,7 @@ body.nav-trade-open::before {
     box-shadow: 0 4px 20px rgba(232, 72, 47, 0.3);
 }
 
-.join-step h4 {
+.join-step h3 {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 10px;
@@ -2090,7 +2090,7 @@ body.nav-trade-open::before {
     }
 }
 
-.footer-section h4 {
+.footer-section h2 {
     font-family: var(--font-family);
     font-size: 12px;
     font-weight: 600;
