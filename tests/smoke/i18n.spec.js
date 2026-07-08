@@ -23,7 +23,8 @@ test.describe('i18n (KO/EN)', () => {
         const page = await load(ctx);
         await expect(page.locator('html')).toHaveAttribute('lang', 'en');
         await expect(page.locator('.nav-links a[href="#about"]')).toHaveText('About');
-        await expect(page.locator('.hero .btn-primary')).toHaveText('Join our Discord');
+        // 랜딩 CTA(D-①)에도 같은 버튼이 있어 first로 한정 — 히어로/랜딩 둘 다 hero.btnDiscord 키 공유
+        await expect(page.locator('.hero .btn-primary').first()).toHaveText('Join our Discord');
         await ctx.close();
     });
 
