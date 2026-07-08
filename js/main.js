@@ -15,12 +15,8 @@
         console.error('VOLT_DATA 미로드');
         return;
     }
-    // 랜딩 강화 레이어(js/landing.js)는 선택적이다. 캐시 skew·네트워크·보안 규칙으로
-    // landing.js가 로드되지 않아도 핵심 사이트(스플래시 제거·섹션 렌더)가 죽지 않도록
-    // no-op 폴백으로 감싼다. (과거: VOLT_LANDING 미정의 시 init이 throw → 스플래시가 화면을 덮어 백지)
-    const VOLT_LANDING = window.VOLT_LANDING || {
-        init() {}, setup() {}, render() {}, renderCounts() {}, renderNoticeTeaser() {}, startHeroEntrance() {},
-    };
+    // 랜딩 강화 레이어(js/landing.js)는 선택적이다. 호출부가 window.VOLT_LANDING?.() 옵셔널
+    // 체이닝으로 접근하므로 로드 실패(캐시 skew·네트워크·보안 규칙) 시에도 핵심 사이트가 죽지 않는다.
     if (!window.VOLT_LANDING) console.warn('VOLT_LANDING 미로드 — 랜딩 강화 레이어 없이 계속 진행');
     // 함선 영어 데이터(_en)는 EN 모드에서만 필요 → 지연 로드(KO 초기 로드에서 103KB 제외).
     // tx(ship, field)가 EN을 집어들도록 병합. KO 원본 필드는 필터/색상/검색용으로 유지.
