@@ -135,7 +135,7 @@
     // 공지 UI는 js/notices.js로 분리(window.VOLT_NOTICES). 호출부 무변경용 위임 shim.
     function renderNoticeFilters() { return VOLT_NOTICES.renderNoticeFilters(); }
     // 공지 재렌더 훅(초기/CMS 로드/언어 변경)이 전부 이 shim을 지나므로 랜딩 티저도 함께 갱신한다.
-    function renderAnnouncements() { VOLT_LANDING.render(); return VOLT_NOTICES.renderAnnouncements(); }
+    function renderAnnouncements() { window.VOLT_LANDING?.render?.(); return VOLT_NOTICES.renderAnnouncements(); }
     function setupNoticeControls() { return VOLT_NOTICES.setupNoticeControls(); }
     function openNoticeFromQuery() { return VOLT_NOTICES.openNoticeFromQuery(); }
     function copyNoticeLink(id) { return VOLT_NOTICES.copyNoticeLink(id); }
@@ -930,7 +930,7 @@
         const element = document.querySelector('.hero-stat[data-type="members"] .hero-stat-value');
         if (!element) return;
         // 랜딩 하이라이트 카드의 멤버 수치도 함께 갱신 (히어로 표기를 원본으로 재사용)
-        window.requestAnimationFrame(() => VOLT_LANDING.renderCounts());
+        window.requestAnimationFrame(() => window.VOLT_LANDING?.renderCounts?.());
         // 라이브 디스코드 멤버수가 있으면 항상 우선(정적값으로 덮어쓰지 않는다).
         const liveLabel = formatApproximateMemberCount(liveMemberCount);
         if (liveLabel) {
@@ -1458,7 +1458,7 @@
         window.setTimeout(() => {
             splash.classList.add('splash-hide');
             // 스플래시가 걷히는 순간 히어로 스태거 진입 모션 시작 (D-②)
-            VOLT_LANDING.startHeroEntrance();
+            window.VOLT_LANDING?.startHeroEntrance?.();
             window.setTimeout(() => { splash.style.display = 'none'; }, 600);
         }, 1200);
     }
@@ -1913,13 +1913,14 @@
             applyRoleGates, renderMyPage,
         });
         // 랜딩 하이라이트 계층 — 공지 티저·동적 수치·스타필드/리빌 주입.
-        VOLT_LANDING.init({
+        // 랜딩(장식 계층)은 로드 실패해도 사이트가 동작해야 한다 — 옵셔널 참조 (라이브 블랭크 사고 예방)
+        window.VOLT_LANDING?.init?.({
             getAnnouncements: () => data.announcements,
             getShipsCount: () => (Array.isArray(data.ships) ? data.ships.length : null),
             getMemberLabel: () => document.querySelector('.hero-stat[data-type="members"] .hero-stat-value')?.textContent || null,
             currentLang, i18nT, observeNewReveals,
         });
-        VOLT_LANDING.setup();
+        window.VOLT_LANDING?.setup?.();
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         VOLT_SHIPS.init({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,

@@ -63,6 +63,8 @@ test.describe('접근성(axe) 래칫', () => {
         await gotoSection(page, '');
         await page.locator('#search-toggle').click();
         await expect(page.locator('#search-overlay')).toHaveClass(/active/);
+        // fadeIn(0.2s) 중에 axe가 스캔하면 opacity가 곱해진 색으로 대비를 오판한다 — 정착 대기
+        await page.waitForTimeout(400);
         await assertNoNewViolations(page, []);
     });
 
