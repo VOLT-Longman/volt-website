@@ -138,6 +138,9 @@
     function setupNoticeControls() { return VOLT_NOTICES.setupNoticeControls(); }
     function openNoticeFromQuery() { return VOLT_NOTICES.openNoticeFromQuery(); }
     function copyNoticeLink(id) { return VOLT_NOTICES.copyNoticeLink(id); }
+    // 일정/RSVP UI는 js/schedule.js로 분리(window.VOLT_SCHEDULE). 호출부 무변경용 위임 shim.
+    function renderSchedule() { return VOLT_SCHEDULE.renderSchedule(); }
+    function setupScheduleAccordion() { return VOLT_SCHEDULE.setupScheduleAccordion(); }
     // 함선DB UI는 js/ships.js로 분리. 기존 호출부 무변경용 위임 shim.
     function renderShips() { return VOLT_SHIPS.renderShips(); }
     function renderShipManufacturers() { return VOLT_SHIPS.renderShipManufacturers(); }
@@ -149,7 +152,6 @@
     function invalidateSearchCache() { return VOLT_SEARCH.invalidateCache(); }
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
-    const RSVP_STATUSES = ['참가', '대기', '불참'];
     const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [] };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
@@ -633,100 +635,6 @@
 
 
 
-
-    function renderSchedule() {
-        const container = document.getElementById('schedule-list');
-        if (!container || !Array.isArray(data.calendar)) return;
-        const colors = { '\uC608\uC815': 'var(--volt-orange)', '\uC9C4\uD589\uC911': '#38a169', '\uC644\uB8CC': '#718096', '\uCDE8\uC18C': '#e53e3e', '\uC5F0\uAE30': '#d69e2e', '\uB300\uAE30': '#a0aec0', '\uACC4\uD68D': '#63b3ed' };
-        container.innerHTML = data.calendar.map((event) => {
-            const eventId = getEventId(event);
-            const detailId = `schedule-detail-${escapeHtml(eventId)}`;
-            return `<div class="schedule-item reveal" data-schedule-event-id="${escapeHtml(eventId)}">
-                <div class="schedule-date-col">
-                    <span class="schedule-date">${escapeHtml(tx(event, 'dateLabel'))}</span>
-                    <span class="schedule-status" data-style-color="${colors[event.status] || '#a0aec0'}">${escapeHtml(tx(event, 'status'))}</span>
-                </div>
-                <div class="schedule-body">
-                    <div class="schedule-type-badge">${escapeHtml(tx(event, 'type'))}</div>
-                    <button class="schedule-item-toggle" type="button" aria-expanded="false" aria-controls="${detailId}">
-                        ${escapeHtml(tx(event, 'title'))}
-                    </button>
-                    <div class="schedule-item-detail" id="${detailId}" hidden>
-                        <p>${formatMultilineText(tx(event, 'description'))}</p>
-                    </div>
-                    ${renderRsvpControls(eventId)}
-                </div>
-            </div>`;
-        }).join('');
-        window.requestAnimationFrame(loadScheduleRsvps);
-    }
-
-    function getEventId(event) {
-        return String(event.id || event.title || '').trim().replace(/\s+/g, '-');
-    }
-
-    // RSVP 원본 상태값(참가/대기/불참)은 API 계약이라 유지하고, 표시만 언어별로 바꾼다.
-    const RSVP_STATUS_KEYS = { 참가: 'mypage.rsvpStatusGoing', 대기: 'mypage.rsvpStatusMaybe', 불참: 'mypage.rsvpStatusNo' };
-    function rsvpStatusLabel(status) {
-        const key = RSVP_STATUS_KEYS[status];
-        return key ? i18nT(key, status) : status;
-    }
-
-    function renderRsvpControls(eventId) {
-        return `<div class="schedule-rsvp" data-rsvp-event-id="${escapeHtml(eventId)}">
-            <div class="schedule-rsvp-actions" aria-label="${escapeHtml(i18nT('schedule.rsvpAria', '일정 참가 상태 선택'))}">
-                ${RSVP_STATUSES.map((status) => `<button class="schedule-rsvp-btn" type="button" data-requires-auth data-rsvp-status="${escapeHtml(status)}">${escapeHtml(rsvpStatusLabel(status))}</button>`).join('')}
-            </div>
-            <div class="schedule-rsvp-summary" data-rsvp-summary>${escapeHtml(i18nT('schedule.rsvpLoginHint', '로그인하면 참가 상태를 남길 수 있습니다.'))}</div>
-        </div>`;
-    }
-
-    async function loadScheduleRsvps() {
-        const controls = Array.from(document.querySelectorAll('[data-rsvp-event-id]'));
-        await Promise.all(controls.map(async (control) => {
-            const eventId = control.getAttribute('data-rsvp-event-id');
-            if (!eventId) return;
-            try {
-                const response = await fetch(`/api/events/${encodeURIComponent(eventId)}/rsvp`, { headers: { Accept: 'application/json' } });
-                if (!response.ok) throw new Error(`RSVP ${response.status}`);
-                renderRsvpSummary(control, await response.json());
-            } catch (error) {
-                console.warn('RSVP load failed', error);
-            }
-        }));
-        applyRoleGates();
-    }
-
-    function renderRsvpSummary(control, payload) {
-        const summary = control.querySelector('[data-rsvp-summary]');
-        const counts = payload?.counts || {};
-        const parts = RSVP_STATUSES.map((status) => i18nT('schedule.rsvpCount', '{status} {count}명')
-            .replace('{status}', rsvpStatusLabel(status))
-            .replace('{count}', String(Number(counts[status] || 0))));
-        if (summary) summary.textContent = parts.join(' · ');
-    }
-
-    async function saveEventRsvp(eventId, status) {
-        if (!authState.loggedIn) {
-            showToast(i18nT('schedule.rsvpLoginToast', 'Discord 로그인 후 참가 상태를 남길 수 있습니다.'));
-            return;
-        }
-        const response = await fetch(`/api/events/${encodeURIComponent(eventId)}/rsvp`, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ status })
-        });
-        if (!response.ok) throw new Error(`RSVP ${response.status}`);
-        const control = document.querySelector(`[data-rsvp-event-id="${CSS.escape(eventId)}"]`);
-        if (control) {
-            renderRsvpSummary(control, await response.json());
-            control.querySelectorAll('[data-rsvp-status]').forEach((button) => {
-                button.classList.toggle('is-selected', button.getAttribute('data-rsvp-status') === status);
-            });
-        }
-        renderMyPage();
-    }
 
     function renderPolicy() {
         const container = document.getElementById('policy-list');
@@ -1487,31 +1395,6 @@
         showToast.timer = window.setTimeout(() => toast.classList.remove('visible'), 2200);
     }
 
-    function setupScheduleAccordion() {
-        const container = document.getElementById('schedule-list');
-        if (!container) return;
-        container.addEventListener('click', (event) => {
-            const rsvpButton = event.target.closest('[data-rsvp-status]');
-            if (rsvpButton) {
-                const control = rsvpButton.closest('[data-rsvp-event-id]');
-                const eventId = control?.getAttribute('data-rsvp-event-id');
-                const status = rsvpButton.getAttribute('data-rsvp-status');
-                if (eventId && status) saveEventRsvp(eventId, status).catch((error) => {
-                    console.warn('RSVP save failed', error);
-                    showToast(i18nT('schedule.rsvpSaveFail', '참가 상태 저장에 실패했습니다.'));
-                });
-                return;
-            }
-            const button = event.target.closest('.schedule-item-toggle');
-            if (!button) return;
-            const detail = document.getElementById(button.getAttribute('aria-controls'));
-            if (!detail) return;
-            const isExpanded = button.getAttribute('aria-expanded') === 'true';
-            button.setAttribute('aria-expanded', String(!isExpanded));
-            detail.hidden = isExpanded;
-        });
-    }
-
     function setupFaqAccordion() {
         const container = document.getElementById('faq-list');
         if (!container) return;
@@ -2016,6 +1899,13 @@
             getAnnouncements: () => data.announcements,
             escapeHtml, i18nT, currentLang, formatMultilineText,
             observeNewReveals, openModal, showToast,
+        });
+        // 일정/RSVP UI 계층 — 데이터·인증 상태·공용 유틸 주입.
+        VOLT_SCHEDULE.init({
+            getCalendar: () => data.calendar,
+            escapeHtml, tx, i18nT, formatMultilineText, showToast,
+            isLoggedIn: () => authState.loggedIn,
+            applyRoleGates, renderMyPage,
         });
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         VOLT_SHIPS.init({
