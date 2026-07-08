@@ -7892,3 +7892,8 @@ body.nav-trade-open::before {
         transform: translateY(14px);
     }
 }
+
+/* 틸트 중에는 transform 전환 지연을 빼서 커서를 즉각 따라오게 (D-③) */
+.landing-card.is-tilting {
+    transition-property: border-color, background, box-shadow;
+}

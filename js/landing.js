@@ -150,11 +150,90 @@
         document.getElementById('home')?.classList.add('hero-enter');
     }
 
+    // ===== 마이크로 인터랙션 (D-③) =====
+    const fineMotionOk = () => !prefersReducedMotion() && window.matchMedia('(pointer: fine)').matches;
+
+    // 스탯 카운트업: 뷰포트 진입 시 1회, "1,230+" 같은 콤마/접미사 표기 유지
+    function setupCountup() {
+        const targets = document.querySelectorAll('[data-countup]');
+        if (!targets.length || !('IntersectionObserver' in window)) return;
+        const animate = (element) => {
+            const raw = element.textContent.trim();
+            const match = raw.match(/^([\d,]+)(.*)$/);
+            if (!match) return;
+            const finalValue = Number(match[1].replace(/,/g, ''));
+            const suffix = match[2] || '';
+            const useComma = match[1].includes(',');
+            if (!Number.isFinite(finalValue) || finalValue <= 0) return;
+            if (prefersReducedMotion()) return; // 즉시 최종값 유지
+            const start = performance.now();
+            const DURATION = 900;
+            let lastWritten = raw;
+            (function tick(now) {
+                // 외부 갱신 감지(예: 라이브 멤버 수) → 카운트업 중단하고 외부 값을 존중한다
+                if (element.textContent !== lastWritten) return;
+                const progress = Math.min(1, (now - start) / DURATION);
+                const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+                const value = Math.round(finalValue * eased);
+                lastWritten = (useComma ? value.toLocaleString('en-US') : String(value)) + suffix;
+                element.textContent = lastWritten;
+                if (progress < 1) window.requestAnimationFrame(tick);
+            })(start);
+        };
+        const seen = new WeakSet();
+        const observer = new IntersectionObserver((entries) => {
+            for (const entry of entries) {
+                if (!entry.isIntersecting || seen.has(entry.target)) continue;
+                seen.add(entry.target);
+                observer.unobserve(entry.target);
+                animate(entry.target);
+            }
+        }, { threshold: 0.4 });
+        targets.forEach((element) => observer.observe(element));
+    }
+
+    // 카드 틸트: 커서 위치 따라 미세 기울임(최대 4도). 터치/모션 최소화 환경에선 비활성.
+    function setupTilt() {
+        if (!fineMotionOk()) return;
+        document.querySelectorAll('[data-tilt]').forEach((card) => {
+            card.addEventListener('pointermove', (event) => {
+                const rect = card.getBoundingClientRect();
+                const rx = ((event.clientY - rect.top) / rect.height - 0.5) * -4;
+                const ry = ((event.clientX - rect.left) / rect.width - 0.5) * 4;
+                card.classList.add('is-tilting');
+                card.style.transform = `perspective(800px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-2px)`;
+            });
+            card.addEventListener('pointerleave', () => {
+                card.classList.remove('is-tilting');
+                card.style.transform = '';
+            });
+        });
+    }
+
+    // 마그네틱 CTA: 히어로/랜딩 주요 버튼이 커서 쪽으로 살짝(최대 3px) 끌림
+    function setupMagnetic() {
+        if (!fineMotionOk()) return;
+        document.querySelectorAll('#home .hero-buttons .btn').forEach((button) => {
+            button.addEventListener('pointermove', (event) => {
+                const rect = button.getBoundingClientRect();
+                const dx = ((event.clientX - rect.left) / rect.width - 0.5) * 6;
+                const dy = ((event.clientY - rect.top) / rect.height - 0.5) * 4;
+                button.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+            });
+            button.addEventListener('pointerleave', () => {
+                button.style.transform = '';
+            });
+        });
+    }
+
     function setup() {
         initStarfield();
         // 랜딩 정적 블록에 기존 스크롤 리빌 적용
         const highlights = document.getElementById('home-highlights');
         if (highlights && observeNewReveals) observeNewReveals(highlights);
+        setupCountup();
+        setupTilt();
+        setupMagnetic();
     }
 
     window.VOLT_LANDING = {
