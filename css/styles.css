@@ -7856,3 +7856,39 @@ body.nav-trade-open::before {
     .landing-notice-title { white-space: normal; }
     .hero-scroll-hint { display: none; }
 }
+
+/* ===== 스타필드 + 히어로 진입 모션 (D-②) ===== */
+.hero-starfield {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 라이트 테마에선 별이 노이즈로 보여 숨긴다 (히어로 배경이 밝음) */
+[data-theme="light"] .hero-starfield { display: none; }
+
+/* 진입 모션: 초기 상태는 keyframe from(backwards)에만 두어,
+   reduced-motion(전역 룰이 animation 비활성)에서는 즉시 최종 상태로 보인다. */
+.hero-enter .hero-content > * {
+    animation: heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.hero-enter .hero-content > :nth-child(2) { animation-delay: 0.06s; }
+.hero-enter .hero-content > :nth-child(3) { animation-delay: 0.12s; }
+.hero-enter .hero-content > :nth-child(4) { animation-delay: 0.18s; }
+.hero-enter .hero-content > :nth-child(5) { animation-delay: 0.24s; }
+.hero-enter .hero-content > :nth-child(6) { animation-delay: 0.30s; }
+.hero-enter .hero-content > :nth-child(7) { animation-delay: 0.36s; }
+.hero-enter .hero-content > :nth-child(8) { animation-delay: 0.44s; }
+.hero-enter .hero-content > :nth-child(9) { animation-delay: 0.54s; }
+
+@keyframes heroRise {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+}

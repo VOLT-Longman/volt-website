@@ -9,12 +9,16 @@
     'use strict';
 
     // main.js가 주입하는 의존성
-    let getAnnouncements, getShipsCount, getMemberLabel, currentLang, i18nT;
+    let getAnnouncements, getShipsCount, getMemberLabel, currentLang, i18nT, observeNewReveals;
 
     function init(deps) {
         ({
-            getAnnouncements, getShipsCount, getMemberLabel, currentLang, i18nT,
+            getAnnouncements, getShipsCount, getMemberLabel, currentLang, i18nT, observeNewReveals,
         } = deps || {});
+    }
+
+    function prefersReducedMotion() {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
 
     function el(tag, className, text) {
@@ -70,10 +74,95 @@
         renderCounts();
     }
 
+    // ===== 스타필드 (D-②) =====
+    // 히어로 첫 화면(100vh)에만 그리는 캔버스 별 배경 + 마우스 시차.
+    // 가드: reduced-motion=정적 1회, 탭 백그라운드/홈 비활성 시 프레임 스킵, 모바일 별 수 축소.
+    const pointer = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
+    function initStarfield() {
+        const canvas = document.getElementById('hero-starfield');
+        if (!canvas || typeof canvas.getContext !== 'function') return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        const isMobile = window.matchMedia('(max-width: 860px)').matches;
+        const COUNT = isMobile ? 55 : 120;
+        let stars = [];
+
+        function resize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = Math.max(1, canvas.clientWidth * dpr);
+            canvas.height = Math.max(1, canvas.clientHeight * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        function seed() {
+            stars = Array.from({ length: COUNT }, () => ({
+                x: Math.random(),
+                y: Math.random(),
+                depth: 0.35 + Math.random() * 0.65, // 깊이 — 시차·밝기·크기에 공통 적용
+                r: 0.4 + Math.random() * 1.1,
+                tw: Math.random() * Math.PI * 2
+            }));
+        }
+
+        function draw(t) {
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+            if (!w || !h) return;
+            ctx.clearRect(0, 0, w, h);
+            pointer.x += (pointer.tx - pointer.x) * 0.04;
+            pointer.y += (pointer.ty - pointer.y) * 0.04;
+            for (const s of stars) {
+                const px = (pointer.x - 0.5) * 18 * s.depth;
+                const py = (pointer.y - 0.5) * 12 * s.depth;
+                const y = (s.y * h + t * 0.004 * s.depth) % h; // 초저속 하강 드리프트
+                const alpha = 0.22 + 0.42 * s.depth + Math.sin(t * 0.001 + s.tw) * 0.12;
+                ctx.globalAlpha = Math.max(0.08, Math.min(0.75, alpha));
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(s.x * w - px, y - py, s.r * s.depth, 0, 6.2832);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        resize();
+        seed();
+        window.addEventListener('resize', resize, { passive: true });
+
+        if (prefersReducedMotion()) {
+            draw(0); // 모션 없이 정적 별만
+            return;
+        }
+        document.addEventListener('pointermove', (event) => {
+            pointer.tx = event.clientX / window.innerWidth;
+            pointer.ty = event.clientY / window.innerHeight;
+        }, { passive: true });
+        (function frame(t) {
+            window.requestAnimationFrame(frame);
+            // 홈 섹션 비활성(display:none → offsetParent null) 또는 백그라운드 탭이면 그리지 않음
+            if (document.hidden || !canvas.offsetParent) return;
+            draw(t);
+        })(0);
+    }
+
+    // 히어로 진입 모션 — 스플래시가 걷히는 시점에 main.js가 호출한다.
+    function startHeroEntrance() {
+        document.getElementById('home')?.classList.add('hero-enter');
+    }
+
+    function setup() {
+        initStarfield();
+        // 랜딩 정적 블록에 기존 스크롤 리빌 적용
+        const highlights = document.getElementById('home-highlights');
+        if (highlights && observeNewReveals) observeNewReveals(highlights);
+    }
+
     window.VOLT_LANDING = {
         init,
+        setup,
         render,
         renderNoticeTeaser,
         renderCounts,
+        startHeroEntrance,
     };
 })();

@@ -22,6 +22,8 @@ const FREEZE_CSS = `
     }
     .reveal { opacity: 1 !important; transform: none !important; }
     html { scroll-behavior: auto !important; }
+    /* 스타필드(D-②)는 프레임마다 달라 기준 이미지에서 제외 */
+    .hero-starfield { display: none !important; }
 `;
 
 async function stabilize(page) {

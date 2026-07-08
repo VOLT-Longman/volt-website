@@ -1457,6 +1457,8 @@
         if (!splash) return;
         window.setTimeout(() => {
             splash.classList.add('splash-hide');
+            // 스플래시가 걷히는 순간 히어로 스태거 진입 모션 시작 (D-②)
+            VOLT_LANDING.startHeroEntrance();
             window.setTimeout(() => { splash.style.display = 'none'; }, 600);
         }, 1200);
     }
@@ -1910,13 +1912,14 @@
             isLoggedIn: () => authState.loggedIn,
             applyRoleGates, renderMyPage,
         });
-        // 랜딩 하이라이트 계층 — 공지 티저·동적 수치 주입.
+        // 랜딩 하이라이트 계층 — 공지 티저·동적 수치·스타필드/리빌 주입.
         VOLT_LANDING.init({
             getAnnouncements: () => data.announcements,
             getShipsCount: () => (Array.isArray(data.ships) ? data.ships.length : null),
             getMemberLabel: () => document.querySelector('.hero-stat[data-type="members"] .hero-stat-value')?.textContent || null,
-            currentLang, i18nT,
+            currentLang, i18nT, observeNewReveals,
         });
+        VOLT_LANDING.setup();
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         VOLT_SHIPS.init({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,
