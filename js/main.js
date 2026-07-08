@@ -72,6 +72,8 @@
                 remaining -= 1;
                 if (remaining > 0) return;
                 shipLiveState = window.VOLT_SHIP_LIVE_STATS && window.VOLT_SHIP_MARKET ? 'loaded' : 'idle';
+                // 검색 색인에 Erkul 번역 설명이 포함되도록 전역 검색 캐시를 무효화한다 (C-1).
+                if (shipLiveState === 'loaded') invalidateSearchCache();
                 resolve();
             };
             for (const file of ['data/ship-live-stats.js', 'data/ship-market.js']) {
@@ -553,6 +555,13 @@
         if (shipState.marketOnly && window.VOLT_SHIP_MARKET) {
             ships = ships.filter((ship) => shipHasInGameMarket(ship));
         }
+        // 검색어가 있으면 이름/별칭 일치 함선을 설명(번역 포함)만 일치한 함선보다 앞에 둔다 (C-1).
+        // 예: "Carrack" 검색 시 설명에 Carrack이 언급된 C8 Pisces가 Carrack 본체를 밀어내지 않게.
+        if (query) {
+            const nameHit = (ship) => [ship.name, getShipDisplayName(ship), ...getShipAliases(ship)]
+                .filter(Boolean).join(' ').toLowerCase().includes(query);
+            ships = [...ships.filter(nameHit), ...ships.filter((ship) => !nameHit(ship))];
+        }
         return ships;
     }
 
@@ -570,11 +579,21 @@
 
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
         // KO·EN 양쪽 필드를 모두 색인해 영어로도 검색되게 한다.
+        // 화면에 표시되는 Erkul 번역 설명(live 레이어)도 색인한다 — 표시 문구로 검색이 잡히도록.
+        // live는 지연 로드이므로 로드 전에는 legacy 설명만 색인된다(로드 완료 시 검색 캐시 무효화).
         return [
             ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd),
             ship.role_en, ship.focus_en, ship.size_en, ship.description_en, ...(Array.isArray(ship.tags_en) ? ship.tags_en : []),
+            ...getShipLiveDescriptions(ship),
             ...tags, ...getShipAliases(ship)
         ].filter(Boolean).join(' ').toLowerCase();
+    }
+
+    // live 레이어의 번역/영문 설명 (없으면 빈 배열 — 미로드/미매칭 함선)
+    function getShipLiveDescriptions(ship) {
+        const live = (window.VOLT_SHIP_LIVE_STATS || {})[ship.id];
+        if (!live || !live.descriptions) return [];
+        return [live.descriptions.ko, live.descriptions.en].filter(Boolean);
     }
 
     function getShipAliases(ship) {
