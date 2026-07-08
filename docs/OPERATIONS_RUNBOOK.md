@@ -187,8 +187,9 @@ node scripts/build-ship-en.mjs          # volt-data 변경 시 data/ship-en.js(E
 
 # 2. 로컬 dry-run (파일 무변경, 변경 요약 + hash 출력)
 npm run shipdb:erkul:apply
-#    ⚠ 변경 요약이 전부 0이면(스펙/가격/구매처/렌탈/설명 0) 여기서 종료한다.
+#    ⚠ 변경 요약이 전부 0이면(스펙/가격/구매처/렌탈/재고/설명 0) 여기서 종료한다.
 #      apply해도 syncedAt 타임스탬프만 바뀌므로 커밋/배포할 가치가 없다.
+#      (재고 항목 포함 — 2026-07-06 첫 정기 동기화에서 재고만 바뀐 케이스 확인됨)
 
 # 3. previewHash 일치 시 적용 (기존 210개 matched key만 갱신)
 npm run shipdb:erkul:apply -- --confirm-preview-hash <previewHash>
@@ -222,6 +223,13 @@ npm test
   `ship-descriptions-ko.json`의 번역과 `sourceEnHash`를 갱신한 뒤 재적용한다. stale 번역을 임의로 계속 쓰지 않는다.
 - Erkul에 없는 설명을 임의 생성하지 않는다. Admin에 [바로 적용] 버튼을 추가하지 않는다.
 - `volt-data.js`에 live stats/market/description을 직접 merge하지 않는다.
+
+### 동기화 주기 정책 (2026-07-06 확정)
+
+- **정기: 격주 1회 수동 실행** (자동화하지 않는다 — hash 확인·diff 검토가 수동 안전장치).
+- **비정기: Star Citizen 게임 패치 직후 +1회** (가격/스펙/판매처 변동 가능성이 가장 큰 시점).
+- 실행 기록은 동기화 커밋 자체가 겸한다 (`data: sync Erkul ship live data (YYYY-MM-DD)` 커밋명 권장).
+- Asgard 대표값(A-6 스모크의 HP·최저가)이 바뀌면 기대값을 같은 커밋에서 갱신한다.
 
 ### 운영 참고 (2026-07-06 리허설에서 확인)
 

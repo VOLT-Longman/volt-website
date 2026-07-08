@@ -457,6 +457,7 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
   const priceRows = marketChanges.filter((r) => r.type === 'price');
   const locationRows = marketChanges.filter((r) => r.type === 'purchase-added' || r.type === 'purchase-removed');
   const rentalRows = marketChanges.filter((r) => r.type.startsWith('rental'));
+  const stockRows = marketChanges.filter((r) => r.type === 'stock');
 
   const CAP = 200;
   const cap = (rows, label) => {
@@ -480,7 +481,8 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
       marketOnlyUnmatched: marketOnly.length,
       priceChanges: priceRows.length,
       purchaseLocationChanges: locationRows.length,
-      rentalChanges: rentalRows.length
+      rentalChanges: rentalRows.length,
+      stockChanges: stockRows.length
     },
     changes: {
       stats: cap(statsChanges, 'stats'),

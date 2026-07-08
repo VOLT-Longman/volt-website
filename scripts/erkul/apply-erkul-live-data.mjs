@@ -86,7 +86,7 @@ async function main() {
     const marketKeys = Object.keys(nextLayers.nextMarket).length;
     console.log(`\n=== Safe Apply ${args.dryRun ? 'DRY-RUN' : 'CONFIRM'} ===`);
     console.log(`갱신 대상 key: stats ${statsKeys} / market ${marketKeys} (현재 레이어 key만 — 재매칭 없음)`);
-    console.log(`변경 요약: stats ${preview.summary.statsChanged}척 / 가격 ${preview.summary.priceChanges}건 / 구매처 ${preview.summary.purchaseLocationChanges}건 / 렌탈 ${preview.summary.rentalChanges}건 / 설명 ${preview.summary.descriptionsChanged}척`);
+    console.log(`변경 요약: stats ${preview.summary.statsChanged}척 / 가격 ${preview.summary.priceChanges}건 / 구매처 ${preview.summary.purchaseLocationChanges}건 / 렌탈 ${preview.summary.rentalChanges}건 / 재고 ${preview.summary.stockChanges}건 / 설명 ${preview.summary.descriptionsChanged}척`);
     console.log(`적용 제외: 신규 후보 ${preview.summary.newErkulCandidates} / market-only ${preview.summary.marketOnlyUnmatched}`);
     for (const warning of nextLayers.warnings) console.log(`경고: ${warning}`);
     console.log(`previewHash: ${previewHash}`);
