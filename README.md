@@ -37,6 +37,7 @@
 | [`docs/QA.md`](docs/QA.md) · [`docs/playwright-qa-scenarios.md`](docs/playwright-qa-scenarios.md) | QA 시나리오 |
 | [`docs/RELEASE_NOTES.md`](docs/RELEASE_NOTES.md) | 마일스톤 릴리스 요약 |
 | [`docs/BACKLOG.md`](docs/BACKLOG.md) | 마감 후 이관한 잔여 품질 부채 |
+| [`docs/MILESTONE_C.md`](docs/MILESTONE_C.md) | 다음 마일스톤(운영 정착·정합성) 계획 |
 
 ---
 
