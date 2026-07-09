@@ -3,6 +3,23 @@ const { mockApi, gotoSection } = require('./helpers');
 
 // D-①~③ 인터랙티브 랜딩: 하이라이트 카드/공지 티저/동적 수치/카운트업/모션 가드.
 test.describe('인터랙티브 랜딩 (D)', () => {
+    test('하이라이트: 스크롤 진입 시 실제로 보임 (computed opacity 1)', async ({ page }) => {
+        // 회귀 가드: reveal 관찰자 등록 타이밍이 어긋나면 랜딩 블록이 opacity 0으로 영구히 숨는다.
+        // Playwright toBeVisible()은 opacity를 검사하지 않으므로 computed 값을 직접 단언한다.
+        await mockApi(page);
+        await gotoSection(page, '');
+        await page.locator('#home-highlights').scrollIntoViewIfNeeded();
+        await expect.poll(async () => page.evaluate(() => {
+            const card = document.querySelector('.landing-card');
+            return card ? getComputedStyle(card).opacity : null;
+        }), { timeout: 5000 }).toBe('1');
+        await expect.poll(async () => page.evaluate(() => {
+            const cta = document.querySelector('.landing-cta');
+            cta?.scrollIntoView();
+            return cta ? getComputedStyle(cta).opacity : null;
+        }), { timeout: 5000 }).toBe('1');
+    });
+
     test('하이라이트: 카드 3개 + 동적 수치(함선/멤버) 채움', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');

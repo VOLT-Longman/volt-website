@@ -1930,7 +1930,6 @@
             getMemberLabel: () => document.querySelector('.hero-stat[data-type="members"] .hero-stat-value')?.textContent || null,
             currentLang, i18nT, observeNewReveals,
         });
-        window.VOLT_LANDING?.setup?.();
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         window.VOLT_SHIPS?.init?.({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,
@@ -1963,6 +1962,9 @@
         setupDynamicStyles();
         setupSplash();
         setupRevealObserver();
+        // 랜딩 setup은 반드시 revealObserver 생성 이후 — 그 전엔 observeNewReveals가
+        // 조용히 무시되어 랜딩 블록이 opacity 0으로 영구히 숨는다 (라이브 사고 원인).
+        window.VOLT_LANDING?.setup?.();
         renderAll();
         ensureShipEnForEn();
         setupNavLinks();
