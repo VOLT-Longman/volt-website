@@ -163,6 +163,7 @@ function setTab(tab) {
   // Erkul 동기화 미리보기는 함선DB 탭 전용
   const syncCard = $('#erkul-sync-card');
   if (syncCard) syncCard.hidden = tab !== 'ships';
+  if (tab === 'ships') loadErkulSyncStatus();
   loadItems().catch(showFormError);
 }
 
@@ -173,6 +174,102 @@ function el(tag, className, text) {
   if (className) node.className = className;
   if (text !== undefined) node.textContent = text;
   return node;
+}
+
+// ===== 동기화 상태 패널 (E-1, 읽기 전용) =====
+// 현재 배포된 데이터 레이어(정적 파일)를 텍스트로 읽어 syncedAt/규모/anomaly만 파싱한다.
+// 파일 쓰기·API 변경 없음 — 운영자가 preview 실행 전에 "지금 동기화가 필요한가"를 판단하는 용도.
+const SYNC_CADENCE_DAYS = 14; // 런북 7-1절: 격주 + 게임 패치 직후
+
+let erkulStatusCache = null;
+
+function syncBadge(text, tone) {
+  return el('span', `sync-badge sync-badge-${tone}`, text);
+}
+
+function syncedAtAgeDays(iso) {
+  if (!iso) return null;
+  const time = new Date(iso).getTime();
+  if (Number.isNaN(time)) return null;
+  return Math.floor((Date.now() - time) / 86400000);
+}
+
+function formatSyncedAt(iso) {
+  if (!iso) return '알 수 없음';
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  const kst = date.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', dateStyle: 'medium', timeStyle: 'short' });
+  const days = syncedAtAgeDays(iso);
+  return `${kst} KST${days === null ? '' : ` (${days === 0 ? '오늘' : `${days}일 전`})`}`;
+}
+
+function renderErkulSyncStatus(container, status) {
+  container.replaceChildren();
+  const line = el('p', 'sync-status-line');
+  line.append(el('span', null, '마지막 동기화: '), el('strong', null, formatSyncedAt(status.statsSyncedAt)));
+  container.append(line);
+  const badges = el('div', 'sync-badges');
+  badges.append(syncBadge(`레이어 ${status.shipCount}척`, 'info'));
+  badges.append(status.anomalyShips > 0
+    ? syncBadge(`anomaly ${status.anomalyShips}척 — 가격 모순 기록 있음`, 'warn')
+    : syncBadge('anomaly 없음', 'ok'));
+  const days = syncedAtAgeDays(status.statsSyncedAt);
+  if (days !== null && days >= SYNC_CADENCE_DAYS) {
+    badges.append(syncBadge(`${days}일 경과 — 격주 주기 초과, 동기화 권장`, 'warn'));
+  }
+  if (status.marketSyncedAt && status.statsSyncedAt && status.marketSyncedAt !== status.statsSyncedAt) {
+    badges.append(syncBadge('stats/market 동기화 시점 불일치 — 재적용 필요', 'danger'));
+  }
+  container.append(badges);
+}
+
+async function loadErkulSyncStatus() {
+  const container = $('#erkul-sync-status');
+  if (!container) return;
+  if (erkulStatusCache) {
+    renderErkulSyncStatus(container, erkulStatusCache);
+    return;
+  }
+  container.replaceChildren(el('p', 'sync-meta', '데이터 레이어 상태 확인 중…'));
+  try {
+    const fetchText = async (path) => {
+      const response = await fetch(path, { cache: 'no-cache' });
+      if (!response.ok) throw new Error(`${path} HTTP ${response.status}`);
+      return response.text();
+    };
+    const [statsText, marketText] = await Promise.all([
+      fetchText('/data/ship-live-stats.js'),
+      fetchText('/data/ship-market.js')
+    ]);
+    erkulStatusCache = {
+      statsSyncedAt: statsText.match(/"syncedAt":"([^"]+)"/)?.[1] ?? null,
+      marketSyncedAt: marketText.match(/"syncedAt":"([^"]+)"/)?.[1] ?? null,
+      // 엔트리 수 = erkulLocalName 필드 수 (레이어 스키마상 함선당 1회)
+      shipCount: (statsText.match(/"erkulLocalName"/g) || []).length,
+      // 비어 있지 않은 anomalies 배열을 가진 함선 수
+      anomalyShips: (marketText.match(/"anomalies":\["/g) || []).length
+    };
+    renderErkulSyncStatus(container, erkulStatusCache);
+  } catch (error) {
+    container.replaceChildren(el('p', 'sync-error', `레이어 상태 확인 실패: ${error.message}`));
+  }
+}
+
+// preview summary를 운영자 판단용 배지로 요약한다 (E-1). 런북 규칙: 변경 0이면 종료.
+function renderErkulPreviewBadges(container, data) {
+  const summary = data.summary;
+  const badges = el('div', 'sync-badges');
+  const changed = summary.statsChanged + summary.marketChanged + (summary.descriptionsChanged || 0);
+  if (changed === 0) {
+    badges.append(syncBadge('변경 없음 — 적용 불필요 (런북: 변경 0이면 종료)', 'ok'));
+  } else {
+    if (summary.statsChanged) badges.append(syncBadge(`스펙 변경 ${summary.statsChanged}척`, 'info'));
+    if (summary.marketChanged) badges.append(syncBadge(`시장 변경 ${summary.marketChanged}척`, 'info'));
+    if (summary.descriptionsChanged) badges.append(syncBadge(`설명(EN) 변경 ${summary.descriptionsChanged}척 — 적용 후 번역 갱신 필수`, 'warn'));
+  }
+  if (summary.newErkulCandidates > 0) badges.append(syncBadge(`신규 후보 ${summary.newErkulCandidates}척 (자동 추가 안 함)`, 'warn'));
+  if (data.warnings?.length) badges.append(syncBadge(`경고 ${data.warnings.length}건`, 'danger'));
+  container.append(badges);
 }
 
 function renderErkulSyncSummary(container, summary) {
@@ -207,6 +304,7 @@ function renderErkulSyncRows(container, title, rows, formatRow, cap = 20) {
 function renderErkulSyncResult(data) {
   const container = $('#erkul-sync-result');
   container.replaceChildren();
+  renderErkulPreviewBadges(container, data);
   renderErkulSyncSummary(container, data.summary);
   renderErkulSyncRows(container, '스펙 변경', data.changes.stats,
     (row) => `${row.voltId} · ${row.field}: ${row.current ?? '없음'} → ${row.incoming ?? '없음'}`);

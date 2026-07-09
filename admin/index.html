@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VOLT 관리자 CMS</title>
-  <link rel="stylesheet" href="admin.css?v=20260709-06">
+  <link rel="stylesheet" href="admin.css?v=20260709-07">
 </head>
 <body>
   <main class="admin-shell">
@@ -39,6 +39,8 @@
           <h2>Erkul Live 동기화 미리보기</h2>
           <button type="button" id="erkul-sync-preview-button">미리보기 실행</button>
         </div>
+        <!-- E-1: 현재 배포된 데이터 레이어 상태 (읽기 전용 — 탭 진입 시 자동 표시) -->
+        <div class="admin-sync-status" id="erkul-sync-status" role="status"></div>
         <p class="admin-sync-note">실제 데이터는 변경되지 않습니다.</p>
         <div class="admin-sync-result" id="erkul-sync-result" role="status" aria-live="polite"></div>
       </section>
@@ -63,8 +65,8 @@
     </section>
   </main>
 
-  <script src="../data/volt-data.js?v=20260709-06"></script>
-  <script src="../data/volt-localization.js?v=20260709-06"></script>
-  <script src="admin.js?v=20260709-06"></script>
+  <script src="../data/volt-data.js?v=20260709-07"></script>
+  <script src="../data/volt-localization.js?v=20260709-07"></script>
+  <script src="admin.js?v=20260709-07"></script>
 </body>
 </html>

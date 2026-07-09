@@ -45,6 +45,25 @@ async function mockAdmin(page, { previewStatus = 200, previewBody = PREVIEW_RESP
     });
 }
 
+// E-1 상태 패널용: 데이터 레이어 정적 파일을 결정적 내용으로 모킹한다.
+async function mockLayerFiles(page, {
+    statsSyncedAt = '2026-06-01T00:00:00.000Z',
+    marketSyncedAt = '2026-06-01T00:00:00.000Z',
+    failStats = false
+} = {}) {
+    await page.route('**/data/ship-live-stats.js', (route) => {
+        if (failStats) return route.fulfill({ status: 500, body: 'error' });
+        return route.fulfill({
+            contentType: 'application/javascript',
+            body: `window.VOLT_SHIP_LIVE_STATS = {"a":{"source":"erkul-live","syncedAt":"${statsSyncedAt}","erkulLocalName":"x"},"b":{"source":"erkul-live","syncedAt":"${statsSyncedAt}","erkulLocalName":"y"}};`
+        });
+    });
+    await page.route('**/data/ship-market.js', (route) => route.fulfill({
+        contentType: 'application/javascript',
+        body: `window.VOLT_SHIP_MARKET = {"a":{"syncedAt":"${marketSyncedAt}","purchase":[],"anomalies":["가격 모순 기록"]},"b":{"syncedAt":"${marketSyncedAt}","purchase":[],"anomalies":[]}};`
+    }));
+}
+
 test.describe('Admin Erkul 동기화 미리보기', () => {
     test('함선DB 탭에서만 버튼 표시 + 적용 버튼 없음', async ({ page }) => {
         await mockAdmin(page);
@@ -109,6 +128,77 @@ test.describe('Admin Erkul 동기화 미리보기', () => {
         await expect(guide.locator('.sync-copy-button')).toHaveText('복사됨');
         const clipboard = await page.evaluate(() => navigator.clipboard.readText());
         expect(clipboard).toContain('npm run shipdb:erkul:apply -- --confirm-preview-hash abc123def');
+    });
+
+    test('E-1 상태 패널: 탭 진입 시 syncedAt·척수·anomaly·주기 초과 배지 표시', async ({ page }) => {
+        await mockAdmin(page);
+        await mockLayerFiles(page); // 2026-06-01 동기화 → 격주(14일) 초과 상태
+        await page.goto('/admin/');
+        await page.locator('[data-tab="ships"]').click();
+
+        const status = page.locator('#erkul-sync-status');
+        await expect(status).toContainText('마지막 동기화');
+        await expect(status).toContainText('2026'); // KST 표기 날짜
+        await expect(status.locator('.sync-badge-info')).toHaveText('레이어 2척');
+        await expect(status.locator('.sync-badge-warn').filter({ hasText: 'anomaly' })).toContainText('anomaly 1척');
+        await expect(status.locator('.sync-badge-warn').filter({ hasText: '격주' })).toContainText('격주 주기 초과');
+        // stats/market 동기화 시점이 같으면 불일치 배지 없음
+        await expect(status.locator('.sync-badge-danger')).toHaveCount(0);
+    });
+
+    test('E-1 상태 패널: stats/market 시점 불일치 → danger 배지', async ({ page }) => {
+        await mockAdmin(page);
+        await mockLayerFiles(page, { marketSyncedAt: '2026-06-15T00:00:00.000Z' });
+        await page.goto('/admin/');
+        await page.locator('[data-tab="ships"]').click();
+        await expect(page.locator('#erkul-sync-status .sync-badge-danger')).toContainText('불일치');
+    });
+
+    test('E-1 상태 패널: 레이어 로드 실패 → 에러 표시하되 preview는 정상 동작', async ({ page }) => {
+        await mockAdmin(page);
+        await mockLayerFiles(page, { failStats: true });
+        await page.goto('/admin/');
+        await page.locator('[data-tab="ships"]').click();
+        await expect(page.locator('#erkul-sync-status .sync-error')).toContainText('레이어 상태 확인 실패');
+        // 상태 패널 실패가 preview 기능을 막지 않는다
+        await page.locator('#erkul-sync-preview-button').click();
+        await expect(page.locator('#erkul-sync-result')).toContainText('신규 후보');
+    });
+
+    test('E-1 preview 배지: 변경 있음 → 스펙/시장/신규 후보 구분 표시', async ({ page }) => {
+        await mockAdmin(page);
+        await mockLayerFiles(page);
+        await page.goto('/admin/');
+        await page.locator('[data-tab="ships"]').click();
+        await page.locator('#erkul-sync-preview-button').click();
+
+        const badges = page.locator('#erkul-sync-result .sync-badges');
+        await expect(badges).toContainText('스펙 변경 2척');
+        await expect(badges).toContainText('시장 변경 1척');
+        await expect(badges).toContainText('신규 후보 9척');
+        await expect(badges).not.toContainText('변경 없음');
+    });
+
+    test('E-1 preview 배지: 변경 없음 → "적용 불필요" 단일 판단 배지', async ({ page }) => {
+        const noChange = {
+            ...PREVIEW_RESPONSE,
+            summary: {
+                ...PREVIEW_RESPONSE.summary,
+                statsChanged: 0, marketChanged: 0, descriptionsChanged: 0,
+                newErkulCandidates: 0, priceChanges: 0, purchaseLocationChanges: 0
+            },
+            changes: { ...PREVIEW_RESPONSE.changes, stats: [], market: [], descriptions: [], newCandidates: [], marketOnly: [] }
+        };
+        await mockAdmin(page, { previewBody: noChange });
+        await mockLayerFiles(page);
+        await page.goto('/admin/');
+        await page.locator('[data-tab="ships"]').click();
+        await page.locator('#erkul-sync-preview-button').click();
+
+        const badges = page.locator('#erkul-sync-result .sync-badges');
+        await expect(badges.locator('.sync-badge-ok')).toContainText('변경 없음 — 적용 불필요');
+        await expect(badges.locator('.sync-badge-warn')).toHaveCount(0);
+        await expect(page.locator('#erkul-sync-result')).toContainText('현재 데이터 레이어와 Erkul live가 일치합니다');
     });
 
     test('실패(502) → 명확한 에러 표시 + 버튼 복구', async ({ page }) => {
