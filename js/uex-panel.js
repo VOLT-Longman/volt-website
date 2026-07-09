@@ -8,7 +8,10 @@
 (function () {
     'use strict';
 
-    const uex = window.VOLT_UEX;
+    // uex.js가 로드 실패해도 이 패널이 죽지 않도록 빈 객체 폴백. 미존재 메서드 호출은
+    // 기존 try/catch·null-모델 가드가 "네트워크 실패"와 동일하게 처리해 에러 UI로 흡수한다.
+    const uex = window.VOLT_UEX || {};
+    if (!window.VOLT_UEX) console.warn('VOLT_UEX 미로드 — UEX 패널이 로드 실패 UI로 폴백합니다');
 
     // main.js가 주입하는 공용 의존성(이름 동일 → 이동한 코드 무수정).
     let escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,

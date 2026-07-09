@@ -13,6 +13,10 @@
     const data = window.VOLT_DATA;
     if (!data) {
         console.error('VOLT_DATA 미로드');
+        // 콘텐츠 원본이 없으면 렌더할 것이 없어 여기서 중단하지만, 최소한 스플래시가
+        // 무한 로딩으로 남지 않게 걷어 "복구 불가 상태"를 화면으로 알 수 있게 한다.
+        const splash = document.getElementById('loading-splash');
+        if (splash) splash.style.display = 'none';
         return;
     }
     // 랜딩 강화 레이어(js/landing.js)는 선택적이다. 호출부가 window.VOLT_LANDING?.() 옵셔널
@@ -117,10 +121,18 @@
 
     // Router/Navigation은 js/navigation.js로 분리됨(window.VOLT_NAV). main.js는
     // 기존 호출처를 그대로 두기 위해 공개 함수를 별칭으로 바인딩한다.
-    const nav = window.VOLT_NAV;
+    // navigation.js가 로드 실패해도(캐시 skew·네트워크·보안 규칙) init() 전체가 죽지 않도록
+    // no-op 폴백을 둔다 — 이 구조분해 대입 자체가 이전엔 최우선 단일 실패점이었다(D-1).
+    const nav = window.VOLT_NAV || {
+        showSection() {}, parseRouteFromHash() { return { section: 'home', anchorId: null }; },
+        getInitialRoute() { return { section: 'home', anchorId: null, url: window.location.href }; },
+        setupNavLinks() {}, setupMobileMenu() {}, setMobileMenuState() {}, closeMoreMenu() {}, closeTradeMenu() {}, init() {},
+    };
+    if (!window.VOLT_NAV) console.warn('VOLT_NAV 미로드 — 내비게이션 없이 계속 진행(섹션 전환 불가)');
     const { showSection, parseRouteFromHash, getInitialRoute, setupNavLinks, setupMobileMenu, setMobileMenuState, closeMoreMenu, closeTradeMenu } = nav;
     // UEX 데이터/계산 계층은 js/uex.js로 분리됨(window.VOLT_UEX).
-    const uex = window.VOLT_UEX;
+    const uex = window.VOLT_UEX || { init() {} };
+    if (!window.VOLT_UEX) console.warn('VOLT_UEX 미로드 — 무역 계산 기능 없이 계속 진행');
     // 런타임 i18n(js/i18n.js, window.VOLT_I18N). 동적 콘텐츠는 언어별 필드(_en)를 선택해 렌더한다.
     const i18n = window.VOLT_I18N;
     function currentLang() { return i18n && i18n.getLang ? i18n.getLang() : 'ko'; }
@@ -136,24 +148,24 @@
     }
     function i18nT(key, fallback) { return i18n && i18n.t ? i18n.t(key) : (fallback || key); }
     // 공지 UI는 js/notices.js로 분리(window.VOLT_NOTICES). 호출부 무변경용 위임 shim.
-    function renderNoticeFilters() { return VOLT_NOTICES.renderNoticeFilters(); }
+    function renderNoticeFilters() { return window.VOLT_NOTICES?.renderNoticeFilters?.(); }
     // 공지 재렌더 훅(초기/CMS 로드/언어 변경)이 전부 이 shim을 지나므로 랜딩 티저도 함께 갱신한다.
-    function renderAnnouncements() { window.VOLT_LANDING?.render?.(); return VOLT_NOTICES.renderAnnouncements(); }
-    function setupNoticeControls() { return VOLT_NOTICES.setupNoticeControls(); }
-    function openNoticeFromQuery() { return VOLT_NOTICES.openNoticeFromQuery(); }
-    function copyNoticeLink(id) { return VOLT_NOTICES.copyNoticeLink(id); }
+    function renderAnnouncements() { window.VOLT_LANDING?.render?.(); return window.VOLT_NOTICES?.renderAnnouncements?.(); }
+    function setupNoticeControls() { return window.VOLT_NOTICES?.setupNoticeControls?.(); }
+    function openNoticeFromQuery() { return window.VOLT_NOTICES?.openNoticeFromQuery?.(); }
+    function copyNoticeLink(id) { return window.VOLT_NOTICES?.copyNoticeLink?.(id); }
     // 일정/RSVP UI는 js/schedule.js로 분리(window.VOLT_SCHEDULE). 호출부 무변경용 위임 shim.
-    function renderSchedule() { return VOLT_SCHEDULE.renderSchedule(); }
-    function setupScheduleAccordion() { return VOLT_SCHEDULE.setupScheduleAccordion(); }
+    function renderSchedule() { return window.VOLT_SCHEDULE?.renderSchedule?.(); }
+    function setupScheduleAccordion() { return window.VOLT_SCHEDULE?.setupScheduleAccordion?.(); }
     // 함선DB UI는 js/ships.js로 분리. 기존 호출부 무변경용 위임 shim.
-    function renderShips() { return VOLT_SHIPS.renderShips(); }
-    function renderShipManufacturers() { return VOLT_SHIPS.renderShipManufacturers(); }
-    function setupShipControls() { return VOLT_SHIPS.setupShipControls(); }
-    function resetShipState() { return VOLT_SHIPS.resetShipState(); }
-    function openShipModal(ship) { return VOLT_SHIPS.openShipModal(ship); }
+    function renderShips() { return window.VOLT_SHIPS?.renderShips?.(); }
+    function renderShipManufacturers() { return window.VOLT_SHIPS?.renderShipManufacturers?.(); }
+    function setupShipControls() { return window.VOLT_SHIPS?.setupShipControls?.(); }
+    function resetShipState() { return window.VOLT_SHIPS?.resetShipState?.(); }
+    function openShipModal(ship) { return window.VOLT_SHIPS?.openShipModal?.(ship); }
     // 전역 검색 모달은 js/search-modal.js로 분리. 호출부 무변경용 위임 shim.
-    function setupSearch() { return VOLT_SEARCH.setup(); }
-    function invalidateSearchCache() { return VOLT_SEARCH.invalidateCache(); }
+    function setupSearch() { return window.VOLT_SEARCH?.setup?.(); }
+    function invalidateSearchCache() { return window.VOLT_SEARCH?.invalidateCache?.(); }
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [] };
@@ -1141,8 +1153,8 @@
         const cargo = document.getElementById('logistics-cargo');
         if (!cargo) return;
         document.getElementById('planner-reset')?.addEventListener('click', resetPlannerInputs);
-        cargo.addEventListener('input', () => { savePlannerState(); VOLT_TRADE_PLANNER.onCargoChange(); });
-        cargo.addEventListener('change', () => { savePlannerState(); VOLT_TRADE_PLANNER.onCargoChange(); });
+        cargo.addEventListener('input', () => { savePlannerState(); window.VOLT_TRADE_PLANNER?.onCargoChange?.(); });
+        cargo.addEventListener('change', () => { savePlannerState(); window.VOLT_TRADE_PLANNER?.onCargoChange?.(); });
         setupPlannerShipPicker();
         restorePlannerState();
     }
@@ -1473,7 +1485,7 @@
         if (!desktop && !mobile) return;
 
         notifyAuthErrorFromQuery();
-        VOLT_AUTH_UI.render({ status: 'loading' });
+        window.VOLT_AUTH_UI?.render?.({ status: 'loading' });
 
         fetch('/auth/me', {
             method: 'GET',
@@ -1502,7 +1514,7 @@
             .catch(() => {
                 authState = { loggedIn: false, user: null, roles: [] };
                 userPreferencesLoaded = false;
-                VOLT_AUTH_UI.render({ status: 'error' });
+                window.VOLT_AUTH_UI?.render?.({ status: 'error' });
                 applyRoleGates();
                 renderMyPage();
             });
@@ -1515,7 +1527,7 @@
     function setLoggedOutState() {
         authState = { loggedIn: false, user: null, roles: [] };
         userPreferencesLoaded = false;
-        VOLT_AUTH_UI.render({ status: 'loggedOut' });
+        window.VOLT_AUTH_UI?.render?.({ status: 'loggedOut' });
         applyRoleGates();
         renderMyPage();
     }
@@ -1524,11 +1536,11 @@
     // (문자열 렌더는 js/auth-ui.js 담당, 여기서는 표시값만 계산한다.)
     function renderAuthUi() {
         if (!authState.loggedIn) {
-            VOLT_AUTH_UI.render({ status: 'loggedOut' });
+            window.VOLT_AUTH_UI?.render?.({ status: 'loggedOut' });
             return;
         }
         const user = authState.user || {};
-        VOLT_AUTH_UI.render({
+        window.VOLT_AUTH_UI?.render?.({
             status: 'loggedIn',
             displayName: getAuthDisplayName(user),
             roleLabel: getAuthRoleLabel(user),
@@ -1640,7 +1652,7 @@
     // 상태에서 렌더용 state만 조립해 넘긴다(HTML 문자열 조립은 모듈이 담당).
     function renderMyPage() {
         if (!window.VOLT_MYPAGE) return;
-        VOLT_MYPAGE.renderMyPage(buildMyPageState());
+        window.VOLT_MYPAGE?.renderMyPage?.(buildMyPageState());
     }
 
     function buildMyPageState() {
@@ -1890,26 +1902,27 @@
         }).observe(document.body, { childList: true, subtree: true });
     }
 
-    function init() {
+    function initInner() {
         nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements, onSectionShow: renderSectionOnShow });
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
+        // nav/uex는 위에서 이미 폴백 stub 처리(D-1) — 항상 안전하게 호출 가능.
         // UEX 패널(DOM 렌더) 계층 — 공용 포매터·로컬라이즈·피커·상수 주입.
-        VOLT_UEX_PANEL.init({
+        window.VOLT_UEX_PANEL?.init?.({
             escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,
             formatCommodityLabel, getCommodityKoreanName,
             handlePickerKeyboard, closePicker, announcePickerSelection, trapFocus,
             UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES,
         });
         // 무역플래너 수익표 — 공용 포매터·토스트·i18n 주입.
-        VOLT_TRADE_PLANNER.init({ escapeHtml, formatCredits, i18nT, showToast });
+        window.VOLT_TRADE_PLANNER?.init?.({ escapeHtml, formatCredits, i18nT, showToast });
         // 공지 UI 계층 — 데이터 접근·공용 유틸 주입(announcements는 CMS 로드로 재할당되므로 getter).
-        VOLT_NOTICES.init({
+        window.VOLT_NOTICES?.init?.({
             getAnnouncements: () => data.announcements,
             escapeHtml, i18nT, currentLang, formatMultilineText,
             observeNewReveals, openModal, showToast,
         });
         // 일정/RSVP UI 계층 — 데이터·인증 상태·공용 유틸 주입.
-        VOLT_SCHEDULE.init({
+        window.VOLT_SCHEDULE?.init?.({
             getCalendar: () => data.calendar,
             escapeHtml, tx, i18nT, formatMultilineText, showToast,
             isLoggedIn: () => authState.loggedIn,
@@ -1925,7 +1938,7 @@
         });
         window.VOLT_LANDING?.setup?.();
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
-        VOLT_SHIPS.init({
+        window.VOLT_SHIPS?.init?.({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,
             parseLargestNumber, parseSmallestNumber, getShipDisplayName, getShipSecondaryName,
             getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips,
@@ -1936,22 +1949,22 @@
             ensureShipLiveData,
         });
         // 전역 검색 모달 — 데이터·내비게이션·함선 헬퍼 주입.
-        VOLT_SEARCH.init({
+        window.VOLT_SEARCH?.init?.({
             data, localization, escapeHtml, i18nT, trackEvent, getShipAliases,
             getShipById: (id) => shipById.get(id),
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         });
         // 헤더 인증 UI 렌더 계층 — i18n·escapeHtml 주입(상태 계산은 main.js).
-        VOLT_AUTH_UI.init({ t: i18nT, escapeHtml });
+        window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml });
         // 마이페이지 렌더 계층 — 공용 유틸·격납고 제거/함선 상세 콜백 주입.
-        VOLT_MYPAGE.init({
+        window.VOLT_MYPAGE?.init?.({
             i18nT, escapeHtml, trackEvent,
             openShipById: (id) => { const ship = shipById.get(id); if (ship) openShipModal(ship); },
             removeFromHangar: (id) => { if (isInHangar(id)) toggleHangar(id); },
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); refreshRenderedLazySections(); VOLT_UEX_PANEL.onLanguageChange(); VOLT_TRADE_PLANNER.onLanguageChange(); VOLT_MYPAGE.onLanguageChange(); VOLT_AUTH_UI.onLanguageChange(); applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();
@@ -1965,8 +1978,8 @@
         setupShipControls();
         setupScheduleAccordion();
         setupLogisticsCalculator();
-        VOLT_TRADE_PLANNER.setup();
-        VOLT_UEX_PANEL.setup();
+        window.VOLT_TRADE_PLANNER?.setup?.();
+        window.VOLT_UEX_PANEL?.setup?.();
         setupGalleryInteractions();
         setupModalControls();
         setupPolicyAnchors();
@@ -1993,6 +2006,22 @@
         loadCmsContent()
             .then(refreshCmsRenderedContent)
             .catch((error) => console.warn('CMS content refresh failed', error));
+    }
+
+    // D-1 방어 2단계(defense-in-depth): 개별 모듈 호출은 이미 옵셔널 체이닝으로 보호되지만,
+    // 예상 밖의 예외(타이핑 실수·데이터 형태 불일치 등)가 나면 initInner()가 중간에 멈출 수 있다.
+    // 그 경우에도 로딩 스플래시만은 반드시 걷어 "영구 백지"를 만들지 않는다.
+    function forceHideSplash() {
+        const splash = document.getElementById('loading-splash');
+        if (splash) splash.style.display = 'none';
+    }
+    function init() {
+        try {
+            initInner();
+        } catch (err) {
+            console.error('init() 실패 — 스플래시만 해제하고 계속 진행', err);
+            forceHideSplash();
+        }
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
