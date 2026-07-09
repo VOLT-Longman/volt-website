@@ -1,9 +1,9 @@
-# 마일스톤 D — 회복탄력성 & 권한 정합 (D-2 대기, 나머지 완료)
+# 마일스톤 D — 회복탄력성 & 권한 정합 (완료)
 
-> **2026-07-09.** D-1 `ddb4154` · D-3 `5ea36c0` · D-4 `4242d5f` · D-5 `2d5c574` · D-6 `c4502b4`.
-> **D-2(관리자 권한 모델 A/B 결정)만 운영자 판단 대기** — 시스템이 보안 관련 단독 결정을 차단해 미반영.
+> **2026-07-09 마감.** D-1 `ddb4154` · D-2 `0d4a711`(1인 운영 확인, B안: 미사용 RBAC 코드 삭제) ·
+> D-3 `5ea36c0` · D-4 `4242d5f` · D-5 `2d5c574` · D-6 `c4502b4`.
 
-기준 커밋: **`c4502b4`** (2026-07-09, 캐시 `20260709-02`). 게이트: `npm run check` ✅ · Functions **95/95** · Playwright **197/205**(8건은 마일스톤 C 시각회귀 baseline 이슈, 별도 트랙).
+기준 커밋: **`0d4a711`** (2026-07-09, 캐시 `20260709-02`). 게이트: `npm run check` ✅ · Functions **95/95** · Playwright **197/205**(8건은 마일스톤 C 시각회귀 baseline 이슈, 별도 트랙).
 
 ## 배경
 
@@ -32,21 +32,19 @@
 
 ---
 
-## D-2. 관리자 권한 모델 정합 (P1, **대기 — 운영자 결정 필요**)
+## D-2. 관리자 권한 모델 정합 (P1, 완료 `0d4a711` — B안)
 
 **문제**: `functions/_shared/rbac.js`에 컬렉션별 Discord 역할 제한(`requireAdminCollectionAccess`, 공지/갤러리→홍보부,
 일정→HR전략실 등)이 구현돼 있으나, **실제 admin CRUD 라우트 전부가 평범한 `requireAdmin`만 쓴다** — rbac.js의
 세분화 로직은 어디서도 호출되지 않는 dead code. 현재는 공유 관리자 비밀번호 하나만 있으면 모든 컬렉션에 쓰기 가능.
 
-**시도 이력**: 이 세션에서 B안(미사용 코드 삭제)으로 진행하려 했으나, 자동 실행 안전장치가 "보안 관련 A/B 결정을
-에이전트가 단독으로 내렸다"는 이유로 차단 — 타당한 판단이라 되돌리고 사용자 결정으로 남김.
+**경과**: 이 세션에서 B안으로 진행하려 했으나 자동 실행 안전장치가 "보안 관련 A/B 결정을 에이전트가 단독으로
+내렸다"는 이유로 1차 차단 — 되돌리고 사용자 결정으로 남김. **1인 운영 확인**(사용자, 2026-07-09) 후 B안으로 재진행·반영.
 
-**선택지**:
-- **A**: 각 admin 라우트에서 `requireAdmin` → `requireAdminCollectionAccess(request, env, '<collection>')`로 교체(약 14개 파일, 기계적 치환). 실제로 컬렉션별 권한을 분리 운영할 계획이 있을 때.
-- **B**: 1인 운영 체제라 컬렉션별 역할 분리가 불필요하면 `rbac.js`의 미사용 함수(`requireAdminCollectionAccess`, `requireAdminOrRole`, `requireRole`, `getAdminRoles`, `isAdminRole`, `hasAnyRole`) 및 관련 상수 제거. `requireUser`/`isMember`/`requireMember`(실제 사용 중)는 유지.
-
-**완료 기준**: A라면 컬렉션별 권한 스모크/함수 테스트 추가. B라면 미사용 코드 삭제 + 게이트 통과.
-권장 커밋명: `security: enforce per-collection admin RBAC` (A) / `chore: remove unused RBAC scaffolding` (B)
+**반영 내용**: `rbac.js`에서 미사용 함수(`requireAdminCollectionAccess`, `requireAdminOrRole`, `requireRole`,
+`getAdminRoles`, `isAdminRole`, `hasAnyRole`) 및 관련 상수(`DEFAULT_ADMIN_ROLES`, `COLLECTION_ROLE_RULES`) 삭제.
+실사용 중인 `requireUser`/`isMember`/`requireMember`(me/preferences.js, me/rsvps.js, briefing/share.js,
+events/[id]/rsvp.js)는 유지. 동작 변화 없음(admin 라우트는 원래도 `requireAdmin`만 사용).
 
 ## D-3. notices 테이블 런타임 DDL 비대칭 (P1, 완료 `5ea36c0`)
 
@@ -102,4 +100,4 @@ DB-실패 폴백 패턴이 있는데 유일하게 무테스트)과 `admin/ships`
 
 ## 남은 일
 
-**D-2만 운영자 결정 대기.** A(권한 분리 실제 시행) vs B(미사용 코드 삭제) 중 선택하면 즉시 반영 가능.
+D-1~D-6 전부 반영 완료. 잔여 항목은 `docs/BACKLOG.md`로 이관.

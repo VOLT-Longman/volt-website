@@ -38,7 +38,7 @@
 | [`docs/RELEASE_NOTES.md`](docs/RELEASE_NOTES.md) | 마일스톤 릴리스 요약 |
 | [`docs/BACKLOG.md`](docs/BACKLOG.md) | 마감 후 이관한 잔여 품질 부채 |
 | [`docs/MILESTONE_C.md`](docs/MILESTONE_C.md) | 마일스톤 C(운영 정착·정합성) — 완료 |
-| [`docs/MILESTONE_D.md`](docs/MILESTONE_D.md) | 다음 마일스톤(회복탄력성·권한 정합) 계획 |
+| [`docs/MILESTONE_D.md`](docs/MILESTONE_D.md) | 마일스톤 D(회복탄력성·권한 정합) — 완료 |
 
 ---
 
