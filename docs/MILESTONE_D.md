@@ -1,6 +1,9 @@
-# 마일스톤 D — 회복탄력성 & 권한 정합 (계획)
+# 마일스톤 D — 회복탄력성 & 권한 정합 (D-2 대기, 나머지 완료)
 
-기준 커밋: **`5e8dc58`** (2026-07-08, 캐시 `20260708-06`). 현재 게이트: `npm run check` ✅ · Functions **85/85** · Playwright **187/195**(8건은 마일스톤 C 시각회귀 baseline 이슈, 별도 트랙).
+> **2026-07-09.** D-1 `ddb4154` · D-3 `5ea36c0` · D-4 `4242d5f` · D-5 `2d5c574` · D-6 `c4502b4`.
+> **D-2(관리자 권한 모델 A/B 결정)만 운영자 판단 대기** — 시스템이 보안 관련 단독 결정을 차단해 미반영.
+
+기준 커밋: **`c4502b4`** (2026-07-09, 캐시 `20260709-02`). 게이트: `npm run check` ✅ · Functions **95/95** · Playwright **197/205**(8건은 마일스톤 C 시각회귀 baseline 이슈, 별도 트랙).
 
 ## 배경
 
@@ -10,94 +13,77 @@
 
 ---
 
-## D-1. 전역 모듈 미로드 방어 — 전체 사이트 백지화 재발 방지 (P0, 최우선)
+## D-1. 전역 모듈 미로드 방어 — 전체 사이트 백지화 재발 방지 (P0, 완료 `ddb4154`)
 
-**문제**: `js/main.js`의 `init()`이 `VOLT_LANDING`에만 옵셔널 체이닝(`?.`)을 적용했고, 나머지는 전부 무방비 호출이다.
-아래 스크립트 중 **하나라도** 네트워크/캐시 skew/보안 규칙으로 로드 실패하면 `init()`이 그 지점에서 throw →
-`setupSplash()`(스플래시 제거)가 호출 전이라 화면이 백지로 남는다. `landing.js` 사고와 동일한 증상이 10곳에서 재발 가능:
+**문제**: `js/main.js`의 `init()`이 `VOLT_LANDING`에만 옵셔널 체이닝(`?.`)을 적용했고, 나머지는 전부 무방비 호출이었다.
+`navigation.js` · `uex.js` · `uex-panel.js` · `trade-planner.js` · `notices.js` · `schedule.js` · `ships.js` ·
+`search-modal.js` · `auth-ui.js` · `mypage.js` 중 하나라도 로드 실패하면 `init()`이 그 지점에서 throw →
+스플래시가 화면을 덮어 백지로 남았다.
 
-`navigation.js` · `uex.js` · `uex-panel.js` · `trade-planner.js` · `notices.js` · `schedule.js` · `ships.js` · `search-modal.js` · `auth-ui.js` · `mypage.js`
+**반영 내용**:
+1. `nav`/`uex` 모듈 참조부(구조분해 포함, 가장 취약한 단일 실패점이었던 `js/main.js:120`)를 no-op 폴백 stub으로 방어.
+2. 모든 `VOLT_X.init(...)`/`.render()`/`.setup()` 호출부(shim 함수 13개 + 산재 호출 20여 곳)를 `window.VOLT_X?.method?.()`로 전환.
+3. **추가 발견**: `js/uex-panel.js`도 자체적으로 `const uex = window.VOLT_UEX;` 하드 의존이 있어 동일 버그(빈 객체 폴백으로 수정, 기존 try/catch·null-모델 가드가 흡수).
+4. `js/main.js` `VOLT_DATA` 자체 미로드 시에도 스플래시 강제 제거.
+5. `init()` 전체를 try/catch로 감싼 2차 방어선(`initInner`/`init` 분리) — 예상 밖 예외 대비.
 
-가장 취약한 지점은 `js/main.js:121` — `const { showSection, ... } = nav;`가 **모듈 로드 시점**(함수 밖)에서
-`window.VOLT_NAV`를 구조분해하므로, `navigation.js`가 실패하면 `init()` 호출부에 가드를 걸어도 이 한 줄에서
-먼저 죽는다.
-
-**작업**:
-1. `js/main.js` 상단 모듈 참조부(구조분해 포함)를 `VOLT_LANDING` 폴백과 동일 패턴으로 방어.
-2. 모든 `VOLT_X.init(...)`/`.render()`/`.setup()` 호출부를 `window.VOLT_X?.method?.()`로 전환(약 15개 호출부, `renderNoticeFilters`/`renderAnnouncements`/`renderSchedule`/`renderShips`/`setupSearch`/`setupAuthStatus` 등 상시 호출 shim 포함).
-3. **`setupSplash()`를 모듈 초기화 블록보다 먼저 실행**(또는 초기화 블록 전체를 try/catch로 감싸) — 어떤 모듈이 실패해도 스플래시 제거는 항상 보장.
-4. 회귀 가드: 기존 `landing-resilience.spec.js` 패턴을 각 모듈에 대해 반복(최소 3~4개 대표 모듈: `navigation.js`, `ships.js`, `auth-ui.js` 차단 시 백지 없음 확인).
-
-**완료 기준**: 위 10개 스크립트 중 임의 1개를 차단해도 스플래시 제거 + 홈 콘텐츠 렌더 + 콘솔 치명 에러 0. 전량 스모크 통과.
-권장 커밋명: `fix: guard all optional module calls against script-load failure`
+**검증**: 10개 스크립트 각각 개별 차단한 실제 브라우저 테스트 전부 splash=none·home/nav 렌더·콘솔 에러 0 확인.
+회귀 스모크 `tests/smoke/module-load-resilience.spec.js`(10케이스) + 기존 `landing-resilience.spec.js` 전부 통과.
 
 ---
 
-## D-2. 관리자 권한 모델 정합 (P1)
+## D-2. 관리자 권한 모델 정합 (P1, **대기 — 운영자 결정 필요**)
 
 **문제**: `functions/_shared/rbac.js`에 컬렉션별 Discord 역할 제한(`requireAdminCollectionAccess`, 공지/갤러리→홍보부,
-일정→HR전략실 등)이 구현돼 있으나, **실제 admin CRUD 라우트(공지·일정·갤러리·협력함대·임원진·연혁·함선DB) 전부가
-평범한 `requireAdmin`만 쓴다** — rbac.js의 세분화 로직은 어디서도 호출되지 않는 dead code. 현재는 공유 관리자
-비밀번호 하나만 있으면 모든 컬렉션에 쓰기 가능 — 의도된 최소권한 모델이 실질적으로 미적용.
+일정→HR전략실 등)이 구현돼 있으나, **실제 admin CRUD 라우트 전부가 평범한 `requireAdmin`만 쓴다** — rbac.js의
+세분화 로직은 어디서도 호출되지 않는 dead code. 현재는 공유 관리자 비밀번호 하나만 있으면 모든 컬렉션에 쓰기 가능.
 
-**작업**: 둘 중 하나를 결정해 진행.
-- **A**: 각 admin 라우트에서 `requireAdmin` → `requireAdminCollectionAccess(request, env, '<collection>')`로 교체(약 14개 파일, 기계적 치환).
-- **B**: 1인 운영 체제에서 컬렉션별 역할 분리가 불필요하다면 `rbac.js`의 미사용 함수(`requireAdminCollectionAccess`, `requireAdminOrRole`, `requireRole`) 제거.
+**시도 이력**: 이 세션에서 B안(미사용 코드 삭제)으로 진행하려 했으나, 자동 실행 안전장치가 "보안 관련 A/B 결정을
+에이전트가 단독으로 내렸다"는 이유로 차단 — 타당한 판단이라 되돌리고 사용자 결정으로 남김.
+
+**선택지**:
+- **A**: 각 admin 라우트에서 `requireAdmin` → `requireAdminCollectionAccess(request, env, '<collection>')`로 교체(약 14개 파일, 기계적 치환). 실제로 컬렉션별 권한을 분리 운영할 계획이 있을 때.
+- **B**: 1인 운영 체제라 컬렉션별 역할 분리가 불필요하면 `rbac.js`의 미사용 함수(`requireAdminCollectionAccess`, `requireAdminOrRole`, `requireRole`, `getAdminRoles`, `isAdminRole`, `hasAnyRole`) 및 관련 상수 제거. `requireUser`/`isMember`/`requireMember`(실제 사용 중)는 유지.
 
 **완료 기준**: A라면 컬렉션별 권한 스모크/함수 테스트 추가. B라면 미사용 코드 삭제 + 게이트 통과.
 권장 커밋명: `security: enforce per-collection admin RBAC` (A) / `chore: remove unused RBAC scaffolding` (B)
 
-## D-3. notices 테이블 런타임 DDL 비대칭 (P1)
+## D-3. notices 테이블 런타임 DDL 비대칭 (P1, 완료 `5ea36c0`)
 
 **문제**: `ship_overrides`(0010)·`leadership_members`/`partner_fleets`(0007)는 마이그레이션 미적용 D1에서도
-`tableHasColumn`/ALTER 보강으로 우아하게 폴백하지만, **`notices`(0008의 `title_en/content_en/tag_en`)는
-아무 방어 없이 무조건 해당 컬럼을 INSERT/UPDATE**한다(`functions/api/admin/notices/index.js:21`,
-`[id].js:21`). 0008 미적용 D1에서 공지 작성/수정 시 `no such column` 500 에러 발생 — BACKLOG의 "D1 마이그레이션
-정합 확인"이 아직 운영자 미확인 상태라 실제 위험.
+런타임 방어로 폴백하지만, **`notices`(0008의 `title_en/content_en/tag_en`)는 무조건 해당 컬럼을 INSERT/UPDATE**해
+0008 미적용 D1에서 공지 작성/수정이 500으로 실패할 위험이 있었다.
 
-**작업**: leadership/partner-fleets와 동일하게 `tableHasColumn(db, 'notices', 'title_en')` 가드 후 컬럼 유무에 따라
-INSERT/UPDATE 분기, 또는 `ships.js`의 ALTER-and-ignore-duplicate 패턴을 notices에도 적용.
+**반영 내용**: `functions/_shared/notices.js`에 `ensureNoticesEnColumns` 추가 — `ships.js`의
+ALTER-and-ignore-duplicate 패턴 재사용(isolate당 1회). admin notices POST/PUT에서 INSERT/UPDATE 전에 호출.
+함수 테스트 3건(ALTER 시도+중복 무시, 0008 미적용 시 201, isolate 재사용 시 재시도 없이 200).
 
-**완료 기준**: 0008 미적용을 모의한 함수 테스트(컬럼 없는 mock DB)에서 notices 작성이 500 대신 정상/명확한 폴백.
-권장 커밋명: `fix: add runtime DDL resilience for notices EN columns`
+## D-4. 로그인 락아웃 경합 + 코드 중복 정리 (P2, 완료 `4242d5f`)
 
-## D-4. 로그인 락아웃 경합 + 코드 중복 정리 (P2)
+**반영 내용**: `login.js`의 인라인 read-then-write 카운터를 공유 `_shared/rate-limit.js`의 `checkRateLimit`
+(검사 후 성공 시에만 소비 패턴)으로 교체. 외부 동작(5회 시도 후 429, 15분 잠금, IP별 분리, 성공 시 초기화) 불변 —
+기존 함수 테스트 6개 전부 통과(내부 KV 저장 형태만 갱신). 완전한 원자적 잠금은 KV 구조상 근본 해결 안 됨을
+코드 주석으로 기록(Durable Objects급 필요, 관리자 비밀번호는 보조 인증 계층이라 현재는 낮은 우선순위로 판단).
 
-**문제**: `functions/api/admin/login.js`가 `RATE_LIMIT_KV`를 직접 다루는 인라인 read-then-write 카운터를 쓰는데,
-KV는 최종 일관성이라 병렬 로그인 시도가 잠금 임계값(5회)을 우회할 수 있다. 이미 있는 공용 `_shared/rate-limit.js`도
-동일한 read-then-write 구조라 완전한 원자성은 KV로는 근본 해결이 안 됨(Durable Objects급 자원 필요) — **의견**:
-관리자 비밀번호는 보조 인증 계층이라 지금 수준에서 실무적 리스크는 낮음. 다만 로직 중복은 정리 가치 있음.
+## D-5. 테스트 커버리지 공백 메우기 (P2, 완료 `2d5c574`)
 
-**작업**: `login.js`의 인라인 카운터를 공용 `enforceRateLimit`/`checkRateLimit`으로 교체(중복 제거, 동작 동일).
-완전 원자적 락아웃이 필요하면 별도 결정 사항으로 분리(Durable Object 도입은 대규모 변경).
+**반영 내용**: 우선순위 최고였던 공개 `/api/ship-overrides` GET(leadership/timeline과 동일한 try/catch
+DB-실패 폴백 패턴이 있는데 유일하게 무테스트)과 `admin/ships` 목록(GET, `[id].js` PUT만 테스트됨)에 함수 테스트
+6건 추가(정상 매핑·DB 예외 폴백·hidden 노출·401·정렬·405).
 
-**완료 기준**: login.js가 `_shared/rate-limit.js`를 재사용, 기존 로그인/락아웃 테스트 전부 통과.
-권장 커밋명: `refactor: consolidate login lockout onto shared rate-limit module`
+**남은 공백**(우선순위 낮음, 향후 후보): `admin/events`·`admin/gallery` CRUD, `admin/timeline/[id].js`,
+`admin/logout.js`·`admin/session.js`, 공개 `events.js`·`gallery.js`·`partner-fleets.js`, `me/rsvps.js`,
+`uex/commodities*`.
 
-## D-5. 테스트 커버리지 공백 메우기 (P2)
+## D-6. 부수 발견 묶음 (P2, 완료 `c4502b4`)
 
-함수 레벨(`tests/functions/*.test.mjs`) 테스트가 없는 항목 — 스모크(Playwright)만으로 커버되거나 완전 무커버:
+- `useShipInPlanner()` 토스트 2건 + `handleHangarToggle()` 라벨 재적용의 `i18nT` 미사용 하드코딩 한국어 → 수정(EN 모드 번역 정상화).
+- `getCommodityDescription()` 죽은 코드 삭제.
+- `sort_order`가 bare `Number()`라 비수치 입력이 NaN으로 조용히 D1에 바인딩될 수 있던 문제 → `finiteNumberOr` 헬퍼로 통일(gallery/partner-fleets/leadership/timeline 4곳), 비수치 입력 시 명확히 422.
+- `migrations/0011`: `event_rsvps.user_sub` 단독 조회용 인덱스 추가(기존 `idx_rsvp_event`는 event_id가 선두라 미적용).
 
-- `admin/events`, `admin/gallery` index+[id] — CRUD 전체 무커버
-- `admin/ships/index.js`(목록/생성) — `[id].js` PUT만 테스트됨
-- `admin/timeline/[id].js`, `admin/logout.js`, `admin/session.js`
-- 공개 GET: `events.js`, `gallery.js`, `partner-fleets.js`, **`ship-overrides.js`**(leadership/timeline과 동일한
-  try/catch 폴백 패턴이 있는데 유일하게 무테스트 — 우선순위 최고), `me/rsvps.js`, `uex/commodities*`
-
-**완료 기준**: 위 중 최소 `ship-overrides.js`(공개 GET, DB 실패 폴백 경로 포함) + `admin/ships/index.js` 우선 추가.
-권장 커밋명: `test: cover ship-overrides public GET + admin ships list`
-
-## D-6. 부수 발견 (묶어서 처리 권장, P2)
-
-- `js/main.js:1129,1131` — `useShipInPlanner()` 토스트 2건이 `i18nT` 미사용 하드코딩 한국어(EN 모드 미번역).
-- `js/main.js:121` 구조분해 외에도, `js/ships.js` `handleHangarToggle`의 토글 후 라벨 재적용이 `i18nT` 미사용.
-- `js/schedule.js:51` — 언어 토글마다 모든 이벤트 카드 RSVP를 재조회(불필요한 네트워크, 오류는 아님).
-- `js/main.js:1185` `getCommodityDescription()` 죽은 코드(미사용) — 삭제 또는 연결.
-- `functions/_shared/cms.js` `sort_order`가 `nullableNumber()`(finite 체크) 대신 무검증 `Number()` — `NaN` 바인딩 가능.
-- `functions/api/me/rsvps.js` — `event_rsvps.user_sub` 단독 조회에 쓸 인덱스 없음(현재는 `UNIQUE(event_id,user_sub)` 뿐). `CREATE INDEX idx_rsvp_user ON event_rsvps (user_sub)` 추가.
-- `scripts/check-migrations.mjs`가 마이그레이션 vs 런타임 ensure-table DDL 정합은 검사하지 않음(D-3류 버그를 CI가 못 잡는 이유) — 향후 체크 항목 후보로 기록.
-
-**완료 기준**: 항목별 최소 스모크/함수 테스트 1개, 게이트 통과. 한 커밋으로 묶어도 무방(각 변경 독립적·저위험).
+**보류**(낮은 가치 대비 회귀 위험, 손대지 않음): `js/schedule.js`의 언어 토글마다 RSVP 재조회(버그 아님, 낭비性 최적화).
+**기록만**(문서화, 구현 안 함): `scripts/check-migrations.mjs`가 마이그레이션 vs 런타임 ensure-table DDL 정합은 검사하지 않음(D-3류 버그를 CI가 못 잡는 근본 이유) — 향후 체크 항목 후보.
 
 ---
 
@@ -109,14 +95,11 @@ KV는 최종 일관성이라 병렬 로그인 시도가 잠금 임계값(5회)�
 - 메모리 누수 없음(리스너는 초기화 1회 바인딩 또는 위임 패턴).
 - SQL 인젝션 없음(전부 parameterized bind). 낙관적 잠금(`expectedUpdatedAt`/409)은 공지·일정·갤러리·임원진·협력함대·연혁·함선 전부 일관 적용.
 - 업로드 엔드포인트: 매직바이트 검증·크기 제한·경로 순회 불가·충돌 안전 키.
-- Erkul sync: read-only, 타임아웃·응답 검증·cap 있음. 동기화 주기(격주 수동)는 런북에 문서화, 현재 최신(1일 이내).
+- Erkul sync: read-only, 타임아웃·응답 검증·cap 있음. 동기화 주기(격주 수동)는 런북에 문서화, 현재 최신.
 - 데이터 필드명(camelCase↔snake_case) 매핑: ship_overrides 전 구간(API↔DB↔프런트) 정합 확인, 드롭되는 필드 없음.
 - npm 런타임 의존성 0개, `npm audit` 0 vulnerabilities.
-- CSP: Stage A-3(script-src unsafe-inline 제거)·Stage B(style-src 'self') **이미 완료 상태** — `CLAUDE.md`의 "진행 중" 표기가 stale(별도로 갱신 권장, D 범위 밖).
+- CSP: Stage A-3(script-src unsafe-inline 제거)·Stage B(style-src 'self') 이미 완료 상태(CLAUDE.md 표기 정정 완료).
 
-## 우선순위 제안
+## 남은 일
 
-1. **D-1** (P0) — 사고 재발 방지, 즉시.
-2. **D-3** (P1) — notices는 이미 프로덕션에서 매일 쓰는 기능이라 D1 정합 미확인 상태면 지금도 잠재 위험.
-3. **D-2** (P1) — 권한 모델 결정(A/B) 필요, 코드 자체는 작음.
-4. D-4, D-5, D-6 (P2) — 여유 있을 때 묶어서.
+**D-2만 운영자 결정 대기.** A(권한 분리 실제 시행) vs B(미사용 코드 삭제) 중 선택하면 즉시 반영 가능.
