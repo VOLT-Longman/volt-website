@@ -618,19 +618,6 @@ body.nav-trade-open::before {
     animation: fadeInUp 1s ease 0.1s backwards;
 }
 
-.hero h1 {
-    font-size: 72px;
-    font-weight: 700;
-    letter-spacing: var(--tracking-tight);
-    margin-bottom: 12px;
-    line-height: 1.05;
-    animation: fadeInUp 1s ease 0.2s backwards;
-    background: linear-gradient(180deg, #ffffff 0%, #b8b8bd 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
 .hero .subtitle {
     font-size: 24px;
     font-weight: 400;
@@ -1067,13 +1054,6 @@ body.nav-trade-open::before {
     background: var(--color-bg-primary);
 }
 
-.leadership-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
-    margin-top: 56px;
-}
-
 .leader-card {
     background: rgba(255, 255, 255, 0.02);
     border-radius: var(--radius-md);
@@ -1082,6 +1062,14 @@ body.nav-trade-open::before {
     border: 1px solid var(--color-border);
     display: flex;
     gap: 20px;
+    align-items: flex-start;
+
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    padding: 24px;
     align-items: flex-start;
 }
 
@@ -1100,15 +1088,6 @@ body.nav-trade-open::before {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: 1px solid var(--color-border);
     overflow: hidden;
-}
-
-.leader-avatar-fallback {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
 }
 
 .leader-avatar-image {
@@ -1180,16 +1159,6 @@ body.nav-trade-open::before {
     max-width: 100%;
     background: linear-gradient(135deg, rgba(232, 72, 47, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
     border: 1px solid var(--color-border-accent);
-}
-
-.leader-card.ceo-card .leader-avatar {
-    background: linear-gradient(135deg, var(--volt-orange) 0%, var(--volt-orange-dark) 100%);
-    width: 88px;
-    height: 88px;
-    min-width: 88px;
-    flex-basis: 88px;
-    font-size: 36px;
-    box-shadow: none;
 }
 
 .leader-card.ceo-card .leader-info h3 {
@@ -1317,17 +1286,6 @@ body.nav-trade-open::before {
     font-weight: 700;
     font-size: 18px;
     line-height: 1;
-}
-
-.hub-notice {
-    margin-top: 32px;
-    padding: 20px 24px;
-    background: rgba(232, 72, 47, 0.05);
-    border-left: 3px solid var(--volt-orange);
-    border-radius: 4px;
-    font-size: 13px;
-    color: var(--color-text-secondary);
-    line-height: 1.7;
 }
 
 /* ==========================================================================
@@ -1479,13 +1437,6 @@ body.nav-trade-open::before {
     background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
 }
 
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
-    margin-top: 56px;
-}
-
 .gallery-item {
     aspect-ratio: 16/9;
     background: rgba(255, 255, 255, 0.03);
@@ -1501,6 +1452,9 @@ body.nav-trade-open::before {
     will-change: transform;
     position: relative;
     cursor: pointer;
+
+    aspect-ratio: 16 / 9;
+    border-radius: 18px;
 }
 
 .gallery-item:hover {
@@ -1509,25 +1463,12 @@ body.nav-trade-open::before {
     border-color: var(--color-border-accent);
 }
 
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 .gallery-item-overlay {
     position: absolute;
     inset: auto 0 0;
     padding: 18px;
     background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.88) 100%);
     text-align: left;
-}
-
-.gallery-item-title {
-    display: block;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
 }
 
 .gallery-item-meta {
@@ -1776,12 +1717,6 @@ body.nav-trade-open::before {
 .ship-sort option {
     background: #1d1d1f;
     color: #f5f5f7;
-}
-
-.ship-card {
-    cursor: pointer;
-    content-visibility: auto;
-    contain-intrinsic-size: 340px;
 }
 
 .modal-backdrop {
@@ -2338,20 +2273,6 @@ body.nav-trade-open::before {
 /* ==========================================================================
    THEME TOGGLE BUTTON
    ========================================================================== */
-#theme-toggle {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    width: 34px;
-    height: 34px;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.2s ease, background 0.2s ease;
-    flex-shrink: 0;
-}
 
 /* ==========================================================================
    LOADING SPLASH
@@ -2388,15 +2309,6 @@ body.nav-trade-open::before {
 /* ==========================================================================
    POLICY SECTION
    ========================================================================== */
-.policy-section {
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: 36px 40px;
-    margin-bottom: 24px;
-    position: relative;
-    overflow: hidden;
-}
 
 .policy-section::before {
     content: '';
@@ -2441,14 +2353,11 @@ body.nav-trade-open::before {
     margin-top: 2px;
 }
 
-.ships-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-    margin-top: 8px;
-}
-
 .ship-card {
+    cursor: pointer;
+    content-visibility: auto;
+    contain-intrinsic-size: 340px;
+
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
@@ -2523,21 +2432,6 @@ body.nav-trade-open::before {
     font-family: var(--font-family);
 }
 
-.ship-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    border-top: 1px solid var(--color-border);
-    padding-top: 16px;
-}
-
-.ship-stat {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
 .ship-stat span {
     font-size: 11px;
     color: var(--color-text-tertiary);
@@ -2551,14 +2445,6 @@ body.nav-trade-open::before {
     font-weight: 600;
 }
 
-.ships-empty {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 60px;
-    color: var(--color-text-tertiary);
-    font-family: var(--font-family);
-}
-
 /* ==========================================================================
    FAQ SECTION
    ========================================================================== */
@@ -2570,18 +2456,6 @@ body.nav-trade-open::before {
 /* ==========================================================================
    SCHEDULE SECTION
    ========================================================================== */
-.schedule-list {
-    max-width: 860px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.schedule-item:hover {
-    border-color: var(--color-border-accent);
-    transform: translateX(4px);
-}
 
 .schedule-meta {
     display: flex;
@@ -2781,7 +2655,6 @@ body.nav-trade-open::before {
     animation: splashLoad 1.2s ease forwards;
 }
 
-
 /* ?? ?ㅽ겕濡??곷떒 ?대룞 踰꾪듉 ?? */
 #scroll-to-top {
     position: fixed; bottom: 32px; right: 24px; z-index: 900;
@@ -2798,13 +2671,6 @@ body.nav-trade-open::before {
 #scroll-to-top:hover { background: var(--volt-orange-light); transform: translateY(-2px); }
 
 /* ?? ?뚮쭏 ?좉? 踰꾪듉 ?? */
-#theme-toggle {
-    background: none; border: 1px solid var(--color-border);
-    border-radius: var(--radius-full); padding: 4px 10px;
-    font-size: 16px; cursor: pointer; color: var(--color-text-primary);
-    transition: border-color 0.2s, background 0.2s;
-    line-height: 1;
-}
 
 /* ?? ?쒖꽦 nav + ?뱀뀡 ?꾪솚 ?? */
 .nav-links a.nav-active { color: var(--volt-orange); }
@@ -2823,11 +2689,7 @@ body.nav-trade-open::before {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr));
     gap: 24px; margin-top: 56px;
 }
-.notice-card {
-    background: var(--color-bg-card); border: 1px solid var(--color-border);
-    border-radius: var(--radius-md); padding: 28px 28px 24px;
-    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast); position: relative; overflow: hidden;
-}
+
 .notice-card:hover { background: var(--color-bg-card-hover); transform: translateY(-3px); border-color: var(--color-border-accent); }
 .notice-card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0;
@@ -2835,7 +2697,7 @@ body.nav-trade-open::before {
 }
 .notice-card:hover::before { transform: scaleX(1); }
 .notice-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-.notice-card-pinned { border-color: var(--color-border-accent); }
+
 .notice-pin {
     font-size: 11px;
     font-weight: 700;
@@ -2876,11 +2738,11 @@ body.nav-trade-open::before {
     font-size: 14px; font-family: inherit; transition: border-color 0.2s;
 }
 .ship-search:focus { border-color: var(--volt-orange); }
+
 .ship-checkbox-label {
     color: var(--color-text-tertiary);
     font-size: 13px;
-}
-.ship-checkbox-label {
+
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -2890,8 +2752,19 @@ body.nav-trade-open::before {
     accent-color: var(--volt-orange);
 }
 .ship-search::placeholder { color: var(--color-text-tertiary); }
-.ships-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 20px; }
-.ships-empty { text-align: center; color: var(--color-text-tertiary); padding: 60px 0; font-family: var(--font-family); font-size: 14px; }
+.ships-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 8px;
+ display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 20px; }
+.ships-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-family);
+ text-align: center; color: var(--color-text-tertiary); padding: 60px 0; font-family: var(--font-family); font-size: 14px; }
 .ship-card:hover { background: var(--color-bg-card-hover); transform: translateY(-3px); border-color: var(--color-border-accent); }
 .ship-compare-toggle {
     width: 100%;
@@ -3079,8 +2952,19 @@ body.nav-trade-open::before {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.ship-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.ship-stat { background: var(--color-bg-card); border-radius: 8px; padding: 8px 10px; }
+.ship-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 16px;
+ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.ship-stat {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+ background: var(--color-bg-card); border-radius: 8px; padding: 8px 10px; }
 .ship-stat-label { font-size: 10px; color: var(--color-text-tertiary); font-family: var(--font-family); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 2px; }
 .ship-stat-value { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
 .ship-tags { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -3095,13 +2979,22 @@ body.nav-trade-open::before {
 }
 
 /* ?? ?묒쟾 ?쇱젙 ?? */
-.schedule-list { display: flex; flex-direction: column; gap: 16px; margin-top: 56px; }
+.schedule-list {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+ display: flex; flex-direction: column; gap: 16px; margin-top: 56px; }
 .schedule-item {
     display: flex; gap: 32px; align-items: flex-start;
     background: var(--color-bg-card); border: 1px solid var(--color-border);
     border-radius: var(--radius-md); padding: 28px; transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
-.schedule-item:hover { background: var(--color-bg-card-hover); border-color: var(--color-border-accent); }
+.schedule-item:hover {
+    border-color: var(--color-border-accent);
+    transform: translateX(4px);
+ background: var(--color-bg-card-hover); border-color: var(--color-border-accent); }
 .schedule-date-col { min-width: 140px; display: flex; flex-direction: column; gap: 6px; }
 .schedule-date { font-family: var(--font-family); font-size: 13px; color: var(--volt-orange); font-weight: 600; }
 .schedule-body { flex: 1; }
@@ -3121,6 +3014,14 @@ body.nav-trade-open::before {
     border-radius: 8px; display: inline-block;
 }
 .policy-section {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 36px 40px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+
     background: var(--color-bg-card); border: 1px solid var(--color-border);
     border-radius: var(--radius-md); padding: 36px 40px; margin-bottom: 20px;
     border-left: 4px solid var(--volt-orange);
@@ -3337,13 +3238,7 @@ body.nav-trade-open::before {
 
 /* hidden 속성이 display:grid에 덮여 빈 박스로 보이던 문제 수정 */
 .planner-selection-card[hidden] { display: none; }
-.trade-planner-form {
-    display: grid;
-    grid-template-columns: minmax(220px, 1.3fr) minmax(120px, 0.7fr) minmax(160px, 1fr) minmax(110px, 0.7fr) minmax(110px, 0.7fr) auto;
-    gap: 14px;
-    align-items: end;
-    margin-top: 24px;
-}
+
 .trade-planner-form label {
     display: grid;
     gap: 8px;
@@ -3943,12 +3838,7 @@ body.nav-trade-open::before {
     font-weight: 600;
 }
 .guide-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 16px; }
-.guide-tool-card {
-    display: flex; flex-direction: column; gap: 4px;
-    padding: 20px; background: var(--color-bg-card); border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border); text-decoration: none;
-    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-}
+
 .guide-tool-card:hover { border-color: var(--volt-orange); background: var(--volt-orange-glow); }
 .guide-tool-name { font-size: 14px; font-weight: 700; color: var(--color-text-primary); }
 .guide-tool-desc { font-size: 12px; color: var(--color-text-tertiary); }
@@ -3956,7 +3846,7 @@ body.nav-trade-open::before {
 /* ?? 諛섏쓳???? */
 @media (max-width: 768px) {
     .notices-grid { grid-template-columns: 1fr; }
-    .ship-search { max-width: 100%; }
+    
     .schedule-item { flex-direction: column; gap: 16px; }
     .schedule-date-col { min-width: auto; flex-direction: row; align-items: center; gap: 12px; }
     .policy-section { padding: 24px 20px; }
@@ -3971,18 +3861,9 @@ body.nav-trade-open::before {
     .ship-modal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
     .ship-modal-actions { flex-direction: column; align-items: stretch; }
     .ship-modal-actions .btn { width: 100%; justify-content: center; min-height: 44px; }
-    .ships-toolbar {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        align-items: end;
-    }
-    .ship-search {
-        grid-column: 1 / -1;
-    }
-    .ship-compare-bar {
-        align-items: stretch;
-        flex-direction: column;
-    }
+    
+    
+    
     .ship-compare-actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -4100,10 +3981,10 @@ body.nav-trade-open::before {
         grid-template-columns: 1fr;
     }
     .ship-stats { grid-template-columns: 1fr 1fr; }
-    .ships-toolbar { align-items: stretch; flex-direction: column; }
+    
     .ship-sort,
     .ship-search { max-width: 100%; width: 100%; }
-    .ships-toolbar { grid-template-columns: 1fr; }
+    
     .ship-search,
     .ship-checkbox-label { grid-column: auto; }
 }
@@ -4241,25 +4122,31 @@ body.nav-trade-open::before {
     transform: translate(-50%, 0);
 }
 
-
-
-
 /* Gallery final sizing pass */
 .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 56px;
+
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 18px;
 }
 
-.gallery-item {
-    aspect-ratio: 16 / 9;
-    border-radius: 18px;
-}
-
 .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
     object-fit: cover;
 }
 
 .gallery-item-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+
     display: -webkit-box;
     overflow: hidden;
     font-size: 15px;
@@ -4478,11 +4365,17 @@ body.nav-trade-open::before {
 @media (max-width: 768px) {
     /* Responsive maintenance: ships */
     .ships-toolbar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: end;
+    
         flex-direction: column;
         gap: 8px;
     }
 
-    .ship-search {
+    .ship-search { max-width: 100%; 
+        grid-column: 1 / -1;
+    
         width: 100%;
     }
 
@@ -4491,6 +4384,9 @@ body.nav-trade-open::before {
     }
 
     .ship-compare-bar {
+        align-items: stretch;
+        flex-direction: column;
+    
         flex-direction: column;
         gap: 8px;
     }
@@ -4507,7 +4403,7 @@ body.nav-trade-open::before {
 }
 
 @media (max-width: 480px) {
-    .ships-toolbar {
+    .ships-toolbar { align-items: stretch; flex-direction: column;  grid-template-columns: 1fr; 
         gap: 6px;
     }
 
@@ -4521,7 +4417,6 @@ body.nav-trade-open::before {
     align-items: center;
     gap: 8px;
 }
-
 
 .compare-winner {
     background: rgba(232, 72, 47, 0.15);
@@ -4616,13 +4511,6 @@ body.nav-trade-open::before {
     color: var(--volt-orange);
 }
 
-.planner-field-hint {
-    display: block;
-    margin-top: 2px;
-    font-size: 0.72rem;
-    color: var(--color-text-secondary);
-}
-
 #result-hourly .result-value {
     color: var(--volt-orange);
     font-size: 1.1rem;
@@ -4647,6 +4535,25 @@ body.nav-trade-open::before {
 }
 
 #theme-toggle {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
+
+    background: none; border: 1px solid var(--color-border);
+    border-radius: var(--radius-full); padding: 4px 10px;
+    font-size: 16px; cursor: pointer; color: var(--color-text-primary);
+    transition: border-color 0.2s, background 0.2s;
+    line-height: 1;
+
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -4753,6 +4660,11 @@ body.nav-trade-open::before {
 }
 
 .guide-tool-card {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 20px; background: var(--color-bg-card); border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border); text-decoration: none;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -4796,6 +4708,15 @@ body.nav-trade-open::before {
 }
 
 .hub-notice {
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: rgba(232, 72, 47, 0.05);
+    border-left: 3px solid var(--volt-orange);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -4834,12 +4755,21 @@ body.nav-trade-open::before {
     transform: translateY(-3px);
 }
 
-
-
 /* ==========================================================================
    Apple-style typography refinement
    ========================================================================== */
 .hero h1 {
+    font-size: 72px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: 12px;
+    line-height: 1.05;
+    animation: fadeInUp 1s ease 0.2s backwards;
+    background: linear-gradient(180deg, #ffffff 0%, #b8b8bd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
     font-size: var(--text-display);
     font-weight: 700;
     line-height: 1.06;
@@ -4922,14 +4852,12 @@ body.nav-trade-open::before {
     font-feature-settings: "tnum" 1, "kern" 1;
 }
 
-
 /* Nav active state: text color only, no underline artifact. */
 .nav-links a.nav-active::after,
 .nav-more-toggle.nav-active::after,
 .nav-trade-toggle.nav-active::after {
     display: none;
 }
-
 
 /* PWA install prompt */
 .pwa-install-prompt {
@@ -4974,9 +4902,6 @@ body.nav-trade-open::before {
         flex-wrap: wrap;
     }
 }
-
-
-
 
 /* JavaScript disabled fallback */
 .noscript-fallback section {
@@ -5034,14 +4959,23 @@ body.nav-trade-open::before {
     stroke-linejoin: round;
 }
 
-
-
 /* 20260531-03: trade planner alignment and partner fleets */
 .trade-planner-form {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.3fr) minmax(120px, 0.7fr) minmax(160px, 1fr) minmax(110px, 0.7fr) minmax(110px, 0.7fr) auto;
+    gap: 14px;
+    align-items: end;
+    margin-top: 24px;
+
     align-items: start;
 }
 
 .planner-field-hint {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.72rem;
+    color: var(--color-text-secondary);
+
     line-height: 1.25;
 }
 
@@ -5337,8 +5271,6 @@ body.nav-trade-open::before {
         display: none;
     }
 }
-
-
 
 /* Member features: RSVP, auth gates, My Page */
 .is-auth-locked {
@@ -6221,26 +6153,12 @@ body.nav-trade-open::before {
     margin: 8px auto 0;
 }
 
-.notice-card {
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    font: inherit;
-    color: inherit;
-    display: block;
-    padding: 22px 24px;
-}
-
 .notice-excerpt {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-}
-
-.notice-card-pinned {
-    background: var(--color-bg-card-hover);
 }
 
 .notice-card-pinned .notice-title {
@@ -6261,24 +6179,6 @@ body.nav-trade-open::before {
 }
 
 /* 임원진: auto-fit 균형 그리드 + 콘텐츠 기반 높이(align-items:start) */
-.leadership-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    align-items: start;
-    gap: 20px;
-    max-width: 1120px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.leader-card {
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    font: inherit;
-    color: inherit;
-    padding: 24px;
-    align-items: flex-start;
-}
 
 .leader-summary {
     display: -webkit-box;
@@ -6402,7 +6302,9 @@ body.nav-trade-open::before {
     font-size: 12px;
 }
 
-.notice-card-pinned {
+.notice-card-pinned { border-color: var(--color-border-accent); 
+    background: var(--color-bg-card-hover);
+
     border-left: 3px solid var(--volt-orange);
 }
 
@@ -6411,12 +6313,6 @@ body.nav-trade-open::before {
 }
 
 /* --- 임원진: CEO wide + 임원 2열 compact 보드 --- */
-.leadership-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 1180px;
-    gap: 18px;
-    margin-top: 0;
-}
 
 .leader-card:not(.ceo-card) {
     padding: 20px;
@@ -6443,12 +6339,27 @@ body.nav-trade-open::before {
 
 /* 아바타 브랜드 톤: 임의 파스텔 → charcoal + accent */
 .leader-avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+
     background: linear-gradient(145deg, #242424, #111);
     border: 1px solid rgba(232, 72, 47, 0.35);
     color: #fff;
 }
 
 .leader-card.ceo-card .leader-avatar {
+    background: linear-gradient(135deg, var(--volt-orange) 0%, var(--volt-orange-dark) 100%);
+    width: 88px;
+    height: 88px;
+    min-width: 88px;
+    flex-basis: 88px;
+    font-size: 36px;
+    box-shadow: none;
+
     background: linear-gradient(145deg, #2a2a2a, #141414);
     border: 1px solid rgba(232, 72, 47, 0.5);
 }
@@ -6473,6 +6384,18 @@ body.nav-trade-open::before {
 .notice-filters { max-width: 920px; }
 
 .notice-card {
+    background: var(--color-bg-card); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); padding: 28px 28px 24px;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast); position: relative; overflow: hidden;
+
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    display: block;
+    padding: 22px 24px;
+
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -6512,7 +6435,24 @@ body.nav-trade-open::before {
 }
 
 /* --- 임원진: CEO wide 실제 3열 그리드 + 임원 compact --- */
-.leadership-grid { max-width: 1080px; }
+.leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 56px;
+
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: start;
+    gap: 20px;
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 1180px;
+    gap: 18px;
+    margin-top: 0;
+ max-width: 1080px; }
 
 .leader-card.is-primary {
     grid-column: 1 / -1;
