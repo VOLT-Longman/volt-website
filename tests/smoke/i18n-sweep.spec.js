@@ -43,14 +43,24 @@ test.describe('i18n 스윕 (동적 UI 문구)', () => {
         await ctx.close();
     });
 
-    test('테마 토글 aria-label: 언어 토글 후 EN 재렌더', async ({ browser }) => {
+    test('언어 전환 토글: KO/EN active 상태 갱신 (F-2)', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'ko-KR' });
         const page = await ctx.newPage();
         await mockApi(page);
         await gotoSection(page, '');
-        await expect(page.locator('#theme-toggle')).toHaveAttribute('aria-label', /모드로 전환/);
-        await page.locator('.nav-lang [data-set-lang="en"]').click();
-        await expect(page.locator('#theme-toggle')).toHaveAttribute('aria-label', /Switch to (dark|light) mode/);
+
+        const ko = page.locator('.nav-lang [data-set-lang="ko"]');
+        const en = page.locator('.nav-lang [data-set-lang="en"]');
+
+        await expect(ko).toHaveClass(/lang-active/);
+        await expect(ko).toHaveAttribute('aria-pressed', 'true');
+        await expect(en).toHaveAttribute('aria-pressed', 'false');
+
+        await en.click();
+
+        await expect(en).toHaveClass(/lang-active/);
+        await expect(en).toHaveAttribute('aria-pressed', 'true');
+        await expect(ko).toHaveAttribute('aria-pressed', 'false');
         await ctx.close();
     });
 

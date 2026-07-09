@@ -475,39 +475,6 @@ body.nav-trade-open::before {
     font-weight: 700;
 }
 
-.mobile-theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 10px 18px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    background: transparent;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    font: inherit;
-    font-size: 18px;
-    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
-}
-
-.mobile-theme-toggle:hover {
-    border-color: var(--volt-orange);
-    color: var(--volt-orange);
-    background: var(--volt-orange-glow);
-}
-
-.mobile-theme-toggle .theme-icon {
-    display: block;
-    width: 18px;
-    height: 18px;
-    flex: 0 0 auto;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
 
 /* ==========================================================================
    3. Layout - Hero Section (?섏젙???덉씠?꾩썐)
@@ -2556,114 +2523,10 @@ body.nav-trade-open::before {
    ========================================================================== */
 
 /* ?? ?쇱씠???뚮쭏 ?? */
-[data-theme="light"] {
-    --color-bg-primary: #f5f5f7;
-    --color-bg-secondary: #ffffff;
-    --color-bg-card: rgba(0,0,0,0.04);
-    --color-bg-card-hover: rgba(0,0,0,0.07);
-    --color-text-primary: #1d1d1f;
-    --color-text-secondary: #3a3a3c;
-    --color-text-tertiary: #56565c;
-    --color-border: rgba(0,0,0,0.16);
-    --color-border-accent: rgba(232,72,47,0.45);
-    --color-border-hover: rgba(0,0,0,0.3);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
-    --shadow-card: 0 1px 4px rgba(0,0,0,0.06);
-    --shadow-xl: 0 16px 48px rgba(0,0,0,0.16);
-    --color-bg-elevated: rgba(0,0,0,0.04);
-}
 
-[data-theme="light"] body { background: var(--color-bg-primary); }
-[data-theme="light"] .nav { background: rgba(245,245,247,0.9); }
-[data-theme="light"] .nav.scrolled { background: rgba(245,245,247,0.98); }
-[data-theme="light"] .hero { background: radial-gradient(ellipse at top, rgba(232,72,47,0.08) 0%, transparent 60%), linear-gradient(180deg,#f5f5f7 0%,#ffffff 100%); }
-[data-theme="light"] .timeline-section { background: linear-gradient(180deg,#f5f5f7 0%,#ffffff 100%); }
-[data-theme="light"] .about,
-[data-theme="light"] .leadership,
-[data-theme="light"] .streamers,
-[data-theme="light"] .join,
-[data-theme="light"] .footer { background: #ffffff; }
-[data-theme="light"] #notices,
-[data-theme="light"] #ships,
-[data-theme="light"] #schedule,
-[data-theme="light"] #policy,
-[data-theme="light"] #faq,
-[data-theme="light"] #guide { background: var(--color-bg-primary); }
-[data-theme="light"] .hub,
-[data-theme="light"] .gallery { background: linear-gradient(180deg,#f5f5f7 0%,#ffffff 100%); }
-[data-theme="light"] .mobile-menu { background: rgba(245,245,247,0.72); }
-[data-theme="light"] .mobile-menu-panel { background: #ffffff; }
-[data-theme="light"] .mobile-menu a { color: var(--color-text-primary); }
-[data-theme="light"] .streamer-sub-section { background: rgba(0,0,0,0.06); }
-[data-theme="light"] .ship-sort {
-    color-scheme: light;
-}
-[data-theme="light"] .ship-sort option {
-    background: #ffffff;
-    color: #1d1d1f;
-}
 
 /* 라이트 테마 시인성/완성도 보강
-   - 다크 전용으로 하드코딩된 흰색 그라데이션/틴트를 라이트 대응 값으로 교체 */
-[data-theme="light"] .hero h1 {
-    /* 다크용 흰색 그라데이션 텍스트가 밝은 배경에서 사라지는 문제 보정 */
-    background: linear-gradient(180deg, #1d1d1f 0%, #6e6e73 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-}
-[data-theme="light"] .hero::after {
-    background-image:
-        linear-gradient(rgba(0,0,0,0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.045) 1px, transparent 1px);
-}
-[data-theme="light"] .nav,
-[data-theme="light"] .nav.scrolled {
-    border-bottom-color: rgba(0,0,0,0.08);
-}
 
-[data-theme="light"] .btn-secondary {
-    background: #ffffff;
-    border-color: rgba(0,0,0,0.24);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-}
-[data-theme="light"] .btn-secondary:hover {
-    background: #ffffff;
-    border-color: var(--volt-orange);
-    color: var(--volt-orange);
-}
-
-[data-theme="light"] .hub-content,
-[data-theme="light"] .join-cta,
-[data-theme="light"] .leader-card,
-[data-theme="light"] .join-step {
-    background: #ffffff;
-    border-color: #e3e3e6;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-[data-theme="light"] .leader-card:hover,
-[data-theme="light"] .join-step:hover {
-    background: #ffffff;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-}
-[data-theme="light"] .leader-card.ceo-card {
-    background: linear-gradient(135deg, rgba(232,72,47,0.06) 0%, #ffffff 100%);
-}
-[data-theme="light"] .leader-contact {
-    background: rgba(0,0,0,0.04);
-}
-
-[data-theme="light"] .gallery-item {
-    background: rgba(0,0,0,0.05);
-    color: rgba(0,0,0,0.25);
-}
-[data-theme="light"] .gallery-item:hover {
-    background: rgba(0,0,0,0.08);
-}
-
-[data-theme="light"] .schedule-type,
-[data-theme="light"] .status-done {
-    background: rgba(0,0,0,0.07);
-}
 
 /* ?? 濡쒕뵫 ?ㅽ뵆?섏떆 ?? */
 #loading-splash.splash-hide { opacity: 0; pointer-events: none; }
@@ -2962,8 +2825,6 @@ body.nav-trade-open::before {
     border-color: var(--volt-orange);
     color: var(--volt-orange);
 }
-[data-theme="light"] .ship-advanced-panel { background: #ffffff; border-color: #e3e3e6; }
-[data-theme="light"] .ship-advanced-toggle { background: #ffffff; }
 .ship-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
 .ship-mfr { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-family); margin-top: 2px; }
 .ship-focus-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px; font-family: var(--font-family); white-space: nowrap; }
@@ -3347,10 +3208,6 @@ body.nav-trade-open::before {
     padding: 12px;
 }
 
-[data-theme="light"] .planner-picker-results {
-    background: #ffffff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.04);
-}
 .planner-selection-card {
     display: grid;
     gap: 4px;
@@ -3370,10 +3227,6 @@ body.nav-trade-open::before {
     color: #f5f5f7;
 }
 
-[data-theme="light"] .trade-planner-form select option {
-    background: #ffffff;
-    color: #1d1d1f;
-}
 .uex-live-panel {
     display: grid;
     gap: 18px;
@@ -3437,10 +3290,6 @@ body.nav-trade-open::before {
     color: #f5f5f7;
 }
 
-[data-theme="light"] .uex-live-controls select option {
-    background: #ffffff;
-    color: #1d1d1f;
-}
 
 .uex-live-results {
     display: grid;
@@ -3763,19 +3612,6 @@ body.nav-trade-open::before {
     font-style: normal;
 }
 
-[data-theme="light"] .uex-candidate-card {
-    background: #ffffff;
-}
-
-[data-theme="light"] .uex-candidate-card:hover,
-[data-theme="light"] .uex-candidate-card.is-selected {
-    background: rgba(232, 72, 47, 0.08);
-}
-
-[data-theme="light"] .uex-candidate-quantity {
-    background: rgba(232, 72, 47, 0.06);
-    color: var(--color-text-secondary);
-}
 
 .uex-recommend-panel {
     display: grid;
@@ -4324,49 +4160,8 @@ body.nav-trade-open::before {
 .skip-nav:focus {
     transform: translateY(0);
 }
-[data-theme="light"] .modal-content {
-    background: #ffffff;
-    color: var(--color-text-primary);
-    border: 1px solid #e0e0e0;
-}
 
-[data-theme="light"] .ship-card {
-    background: #ffffff;
-    border-color: #e3e3e6;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
 
-[data-theme="light"] .ship-card:hover {
-    background: #ffffff;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-}
-
-[data-theme="light"] .faq-item {
-    background: #ffffff;
-    border-color: #e3e3e6;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-
-[data-theme="light"] .faq-answer {
-    color: var(--color-text-secondary);
-}
-
-[data-theme="light"] .notice-card {
-    background: #ffffff;
-    border-color: #e3e3e6;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-
-[data-theme="light"] .notice-card:hover {
-    background: #ffffff;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-}
-
-[data-theme="light"] .schedule-item {
-    background: #ffffff;
-    border-color: #e3e3e6;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
 .schedule-item-toggle {
     display: block;
     width: 100%;
@@ -4565,52 +4360,8 @@ body.nav-trade-open::before {
     letter-spacing: -0.01em;
 }
 
-#theme-toggle {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    width: 34px;
-    height: 34px;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.2s ease, background 0.2s ease;
-    flex-shrink: 0;
-
-    background: none; border: 1px solid var(--color-border);
-    border-radius: var(--radius-full); padding: 4px 10px;
-    font-size: 16px; cursor: pointer; color: var(--color-text-primary);
-    transition: border-color 0.2s, background 0.2s;
-    line-height: 1;
-
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    min-width: 36px;
-    height: 36px;
-    min-height: 36px;
-    padding: 0;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    background: var(--color-bg-secondary);
-    color: var(--color-text-primary);
-    line-height: 1;
-    cursor: pointer;
-    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
-}
-
-#theme-toggle:hover {
-    background: var(--color-bg-card-hover);
-    border-color: var(--volt-orange);
-    color: var(--volt-orange);
-}
 
 .nav-svg-icon,
-.theme-icon,
 .copy-feedback-icon,
 .inline-svg-icon {
     display: block;
@@ -4623,13 +4374,6 @@ body.nav-trade-open::before {
     flex: 0 0 auto;
 }
 
-.theme-icon {
-    transition: transform var(--transition-fast), color var(--transition-fast);
-}
-
-#theme-toggle:hover .theme-icon {
-    transform: rotate(12deg);
-}
 
 .icon-search {
     display: inline-block;
@@ -4952,43 +4696,7 @@ body.nav-trade-open::before {
 }
 
 /* Header utility icon normalization: keeps search/theme icons centered. */
-.nav-links > li:has(#search-toggle),
-.nav-links > li:has(#theme-toggle) {
-    display: inline-flex;
-    align-items: center;
-}
 
-.nav-links #search-toggle.nav-icon-button,
-.nav-links #theme-toggle {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    min-height: 42px;
-    padding: 0;
-    border-radius: 50%;
-    line-height: 1;
-    overflow: hidden;
-}
-
-.nav-links #search-toggle.nav-icon-button svg,
-.nav-links #theme-toggle svg,
-.nav-links .nav-svg-icon,
-.nav-links .theme-icon {
-    display: block;
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    flex: 0 0 auto;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
 
 /* 20260531-03: trade planner alignment and partner fleets */
 .trade-planner-form {
@@ -6539,38 +6247,67 @@ body.nav-trade-open::before {
     align-items: center;
 }
 
+/* 프리미엄 세그먼트 토글 (F-2): 다크 글래스 필 + 오렌지 active */
 .lang-switch {
+    position: relative;
     display: inline-flex;
-    border: 1px solid var(--color-border);
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: var(--radius-full);
-    overflow: hidden;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+        rgba(10, 10, 12, 0.72);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 10px 24px rgba(0, 0, 0, 0.24);
 }
 
 .lang-btn {
+    min-width: 38px;
+    height: 30px;
+    padding: 0 11px;
+    border: 0;
+    border-radius: var(--radius-full);
     background: transparent;
-    border: none;
     color: var(--color-text-tertiary);
     font-family: inherit;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
+    line-height: 1;
     letter-spacing: 0.04em;
-    padding: 5px 11px;
     cursor: pointer;
-    transition: background var(--transition-fast), color var(--transition-fast);
+    transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
 .lang-btn.lang-active {
     background: var(--volt-orange-dark); /* a11y 대비 */
     color: #fff;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+        0 8px 18px rgba(232, 72, 47, 0.26);
 }
 
 .lang-btn:not(.lang-active):hover {
     color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.lang-btn:focus-visible {
+    outline: 2px solid var(--volt-orange-light);
+    outline-offset: 3px;
 }
 
 .lang-switch-mobile {
-    align-self: flex-start;
+    width: 100%;
+    justify-content: center;
     margin-bottom: 10px;
+}
+
+.lang-switch-mobile .lang-btn {
+    flex: 1;
+    height: 38px;
 }
 
 /* ==========================================================================
@@ -7686,9 +7423,6 @@ body.nav-trade-open::before {
 
 .landing-card:hover::after { opacity: 1; }
 
-[data-theme="light"] .landing-card::after {
-    background: radial-gradient(240px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(232, 72, 47, 0.07), transparent 65%);
-}
 
 .landing-card:hover {
     background: var(--color-bg-card-hover);
@@ -7834,11 +7568,6 @@ body.nav-trade-open::before {
 
 .landing-cta .hero-buttons { justify-content: center; }
 
-[data-theme="light"] .landing-cta {
-    background:
-        radial-gradient(ellipse at 50% 0%, rgba(232, 72, 47, 0.07) 0%, transparent 65%),
-        var(--color-bg-card);
-}
 
 @media (max-width: 860px) {
     .landing { padding: 72px 18px 84px; }
@@ -7861,7 +7590,6 @@ body.nav-trade-open::before {
 }
 
 /* 라이트 테마에선 별이 노이즈로 보여 숨긴다 (히어로 배경이 밝음) */
-[data-theme="light"] .hero-starfield { display: none; }
 
 /* 진입 모션: 초기 상태는 keyframe from(backwards)에만 두어,
    reduced-motion(전역 룰이 animation 비활성)에서는 즉시 최종 상태로 보인다. */

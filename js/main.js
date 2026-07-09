@@ -97,9 +97,7 @@
 
     function renderInlineIcon(name, className = 'inline-svg-icon') {
         const icons = {
-            check: '<path d="m5 12 4 4 10-10"></path>',
-            moon: '<path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 7 7 0 1 0 20 15.5Z"></path>',
-            sun: '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>'
+            check: '<path d="m5 12 4 4 10-10"></path>'
         };
         return `<svg class="${className}" aria-hidden="true" viewBox="0 0 24 24" fill="none">${icons[name] || ''}</svg>`;
     }
@@ -1680,50 +1678,7 @@
         const roles = Array.isArray(user.roles) ? user.roles : [];
         return roles.some((role) => role && role !== '손님');
     }
-    function setupTheme() {
-        const buttons = ['theme-toggle', 'mobile-theme-toggle']
-            .map((id) => document.getElementById(id))
-            .filter(Boolean);
-        if (!buttons.length) return;
-        applyTheme(getPreferredTheme());
-        buttons.forEach((button) => button.addEventListener('click', () => {
-            const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            applyTheme(next);
-            localStorage.setItem('volt-theme', next);
-        }));
-    }
-
-    function getPreferredTheme() {
-        const storedTheme = localStorage.getItem('volt-theme');
-        if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
-        // 저장된 선택이 없으면 시스템 설정과 무관하게 다크 모드가 기본.
-        return 'dark';
-    }
-
-    function applyTheme(theme) {
-        const normalizedTheme = theme === 'light' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', normalizedTheme);
-
-        const nextThemeLabel = normalizedTheme === 'light'
-            ? i18nT('theme.toDark', '다크 모드로 전환')
-            : i18nT('theme.toLight', '라이트 모드로 전환');
-        const icon = renderInlineIcon(normalizedTheme === 'light' ? 'moon' : 'sun', 'theme-icon');
-
-        const button = document.getElementById('theme-toggle');
-        if (button) {
-            button.setAttribute('data-current-theme', normalizedTheme);
-            button.setAttribute('aria-label', nextThemeLabel);
-            button.setAttribute('title', nextThemeLabel);
-            button.innerHTML = icon;
-        }
-
-        const mobileButton = document.getElementById('mobile-theme-toggle');
-        if (mobileButton) {
-            mobileButton.setAttribute('data-current-theme', normalizedTheme);
-            mobileButton.setAttribute('aria-label', nextThemeLabel);
-            mobileButton.innerHTML = `${icon}<span>${nextThemeLabel}</span>`;
-        }
-    }
+    // 테마 시스템 제거 (F-2): VOLT는 다크 전용 — js/theme-init.js가 data-theme="dark"를 고정한다.
 
     function injectStructuredData() {
         injectFaqStructuredData();
@@ -1958,7 +1913,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();
@@ -1985,7 +1940,6 @@
         setupGlobalKeyboardShortcuts();
         setupScrollEffect();
         setupScrollTop();
-        setupTheme();
         setupAuthStatus();
         setupPwaInstallPrompt();
         registerServiceWorker();

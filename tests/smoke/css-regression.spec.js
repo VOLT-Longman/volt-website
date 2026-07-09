@@ -53,7 +53,7 @@ test.describe('CSS 회귀 (P2-4)', () => {
     const CASCADE_GUARDS = [
         { hash: '', selector: '#scroll-to-top', props: { width: '44px', height: '44px', position: 'fixed', zIndex: '900' } },
         { hash: '', selector: '.splash-bar', props: { width: '200px', height: '2px' } },
-        { hash: '', selector: '#theme-toggle', props: { width: '42px', height: '42px' } },
+        { hash: '', selector: '.nav-lang .lang-switch', props: { display: 'flex', borderRadius: '980px' } },
         { hash: '', selector: '.hub-description', props: { fontSize: '16px', lineHeight: '28.8px' } },
         { hash: '#ships', selector: '.ship-search', props: { maxWidth: '420px', fontSize: '14px' } },
         { hash: '#ships', selector: '.ships-controls', props: { display: 'flex', flexDirection: 'column', marginBottom: '40px' } },

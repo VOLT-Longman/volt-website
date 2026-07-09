@@ -21,40 +21,25 @@ test.describe('홈', () => {
         await expect(counter).toHaveText('1,230+');
     });
 
-    test('테마 기본값: 시스템이 라이트여도 다크로 시작', async ({ page }) => {
+    test('테마는 항상 다크로 고정된다 (F-2: 라이트 제거)', async ({ page }) => {
+        // 과거 사용자의 light 저장값이 남아 있어도 무시하고 흔적을 지운다
+        await page.addInitScript(() => localStorage.setItem('volt-theme', 'light'));
         await page.emulateMedia({ colorScheme: 'light' });
         await mockApi(page);
         await gotoSection(page, '');
 
         await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+        expect(await page.evaluate(() => localStorage.getItem('volt-theme'))).toBeNull();
     });
 
-    test('모바일 테마 토글: 메뉴에서 light/dark 전환 + 저장', async ({ page }) => {
+    test('라이트 테마 토글은 노출되지 않는다 (F-2)', async ({ page }) => {
         await page.setViewportSize({ width: 390, height: 844 });
         await mockApi(page);
         await gotoSection(page, '');
 
+        await expect(page.locator('#theme-toggle')).toHaveCount(0);
         await page.locator('#hamburger').click();
-        const toggle = page.locator('#mobile-theme-toggle');
-        await expect(toggle).toBeVisible();
-
-        await toggle.click();
-        await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-        expect(await page.evaluate(() => localStorage.getItem('volt-theme'))).toBe('light');
-    });
-
-    test('테마 토글: light/dark 전환 + 저장', async ({ page }) => {
-        await mockApi(page);
-        await gotoSection(page, '');
-
-        const initialTheme = await page.locator('html').getAttribute('data-theme');
-        await page.locator('#theme-toggle').click();
-
-        const toggledTheme = initialTheme === 'light' ? 'dark' : 'light';
-        await expect(page.locator('html')).toHaveAttribute('data-theme', toggledTheme);
-        expect(await page.evaluate(() => localStorage.getItem('volt-theme'))).toBe(toggledTheme);
-
-        await page.reload();
-        await expect(page.locator('html')).toHaveAttribute('data-theme', toggledTheme);
+        await expect(page.locator('#mobileMenu')).toBeVisible();
+        await expect(page.locator('#mobile-theme-toggle')).toHaveCount(0);
     });
 });
