@@ -1138,9 +1138,9 @@
             if (ship && isPlannerEligibleShip(ship)) {
                 selectPlannerShip(ship.id, true);
                 savePlannerState();
-                showToast(`${ship.name}\uc744 \ubb34\uc5ed \ud50c\ub798\ub108\uc5d0 \uc801\uc6a9\ud588\uc2b5\ub2c8\ub2e4.`);
+                showToast(i18nT('planner.shipAppliedToast', '{name}\uc744 \ubb34\uc5ed \ud50c\ub798\ub108\uc5d0 \uc801\uc6a9\ud588\uc2b5\ub2c8\ub2e4.').replace('{name}', getShipDisplayName(ship)));
             } else {
-                showToast('\uc774 \ud568\uc120\uc740 \ubb34\uc5ed \ud50c\ub798\ub108 \uc120\ud0dd \ub300\uc0c1\uc774 \uc544\ub2d9\ub2c8\ub2e4.');
+                showToast(i18nT('planner.shipNotEligibleToast', '\uc774 \ud568\uc120\uc740 \ubb34\uc5ed \ud50c\ub798\ub108 \uc120\ud0dd \ub300\uc0c1\uc774 \uc544\ub2d9\ub2c8\ub2e4.'));
             }
         });
     }
@@ -1193,12 +1193,6 @@
         if (typeof localized === 'string') return localized;
         return '';
     }
-
-    function getCommodityDescription(name) {
-        const localized = getLocalizationValue(name, 'commodities');
-        return localized && typeof localized === 'object' ? localized.desc || '' : '';
-    }
-
 
     function getLocalizationValue(rawName, category) {
         if (!rawName || !localization[category]) return '';

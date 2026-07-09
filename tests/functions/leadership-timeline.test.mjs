@@ -237,6 +237,15 @@ test('timelineInput: date/dateLabel 별칭 허용 + 길이 제한', () => {
     assert.throws(() => timelineInput({ title: 'x'.repeat(201), dateLabel: 'd' }));
 });
 
+// D-6: sort_order가 bare Number()라 비수치 입력이 NaN으로 조용히 D1에 바인딩될 수 있었다.
+// leaderInput/timelineInput/partnerFleetInput/galleryInput 전부 동일 헬퍼(finiteNumberOr)를 쓴다.
+test('sortOrder: 비수치 입력은 throw(422로 이어짐), 미제공은 0, 유효값은 그대로', () => {
+    assert.throws(() => leaderInput({ name: '롱만', sortOrder: 'abc' }));
+    assert.throws(() => timelineInput({ title: 't', dateLabel: 'd', sortOrder: 'NaN' }));
+    assert.equal(leaderInput({ name: '롱만' }).sort_order, 0);
+    assert.equal(leaderInput({ name: '롱만', sortOrder: 7 }).sort_order, 7);
+});
+
 test('공개 CMS API 캐시: 편집 반영 지연 방지를 위해 max-age=60 유지', async () => {
     const { onRequestGet: partnerFleetsPublic } = await import('../../functions/api/partner-fleets.js');
     const env = { ...TEST_ENV, DB: createMockDb(() => []) };

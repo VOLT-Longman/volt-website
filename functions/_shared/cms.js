@@ -90,7 +90,7 @@ export function galleryInput(body, existing = {}) {
     image_url: nullableHttpUrl(body.imageUrl || body.image_url || body.src),
     thumb_url: nullableHttpUrl(body.thumbUrl || body.thumb_url || body.thumb || body.imageUrl || body.image_url || body.src),
     date: limitText(body.date, 40, timestamp.slice(0, 10)),
-    sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
+    sort_order: finiteNumberOr(body.sortOrder ?? body.sort_order, 0),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
@@ -136,7 +136,7 @@ export function partnerFleetInput(body, existing = {}) {
     photo_url: nullableHttpUrl(body.photoUrl || body.photo_url || body.imageUrl || body.image_url || body.logoUrl || body.logo_url),
     logo_url: nullableHttpUrl(body.logoUrl || body.logo_url),
     established: limitText(body.established, 80),
-    sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
+    sort_order: finiteNumberOr(body.sortOrder ?? body.sort_order, 0),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
@@ -181,7 +181,7 @@ export function leaderInput(body, existing = {}) {
     avatar_style: limitText(body.avatarStyle || body.avatar_style, 20),
     // 상세 항목(details/competencies)은 관리자 UI 미노출 — 기존 값을 보존한다.
     extras: existing.extras ?? null,
-    sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
+    sort_order: finiteNumberOr(body.sortOrder ?? body.sort_order, 0),
     published: publishedInput(body, existing),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
@@ -208,7 +208,7 @@ export function timelineInput(body, existing = {}) {
     date_label: limitText(body.dateLabel || body.date_label || body.date, 40),
     title: limitText(body.title, 200),
     description: limitText(body.description, 4000),
-    sort_order: Number(body.sortOrder ?? body.sort_order ?? 0),
+    sort_order: finiteNumberOr(body.sortOrder ?? body.sort_order, 0),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
@@ -294,6 +294,15 @@ function normalizeTagsInput(value) {
 
 function nullableNumber(value) {
   if (value === null || value === undefined || value === '') return null;
+  const number = Number(value);
+  if (!Number.isFinite(number)) throw new Error('Invalid number');
+  return number;
+}
+
+// D-6: sort_order는 bare Number()라 비수치 입력이 NaN으로 조용히 D1에 바인딩될 수 있었다.
+// 값이 있으면 finite 검증 후 사용, 없으면 fallback(기존 관례상 0).
+function finiteNumberOr(value, fallback) {
+  if (value === null || value === undefined || value === '') return fallback;
   const number = Number(value);
   if (!Number.isFinite(number)) throw new Error('Invalid number');
   return number;

@@ -266,8 +266,8 @@
         document.querySelectorAll(`[data-hangar-ship-id="${CSS.escape(shipId)}"]`).forEach((item) => {
             item.classList.toggle('owned', owned);
             const label = item.classList.contains('modal-hangar-btn');
-            item.textContent = label ? (owned ? '\uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00') : (owned ? '\u2605' : '\u2606');
-            const title = owned ? '\uaca9\ub0a9\uace0\uc5d0\uc11c \uc81c\uac70' : '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00';
+            item.textContent = label ? (owned ? i18nT('ships.hangarOwned', '\uaca9\ub0a9\uace0\uc5d0 \uc788\uc74c') : i18nT('ships.hangarAdd', '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00')) : (owned ? '\u2605' : '\u2606');
+            const title = owned ? i18nT('ships.hangarRemove', '\uaca9\ub0a9\uace0\uc5d0\uc11c \uc81c\uac70') : i18nT('ships.hangarAdd', '\uaca9\ub0a9\uace0\uc5d0 \ucd94\uac00');
             item.setAttribute('aria-label', title);
             item.setAttribute('title', title);
         });
