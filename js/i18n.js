@@ -77,9 +77,7 @@
             'hero.btnJoin': '가입하기',
             'hero.consoleAria': '함대 운영 현황',
             'hero.consoleShipsSuffix': '척 동기화',
-            'hero.consoleMarket': 'Erkul + UEX 연동',
             'hero.consoleEventFallback': '작전 대기',
-            'hero.consoleSchedule': '작전 일정 보기 →',
             // 랜딩 하이라이트 (D-①)
             'landing.scrollHint': '아래로 스크롤',
             'landing.title': 'VOLT가 <span class="accent">제공하는 것</span>',
@@ -576,9 +574,7 @@
             'hero.btnJoin': 'Join VOLT',
             'hero.consoleAria': 'Fleet operations status',
             'hero.consoleShipsSuffix': ' ships synced',
-            'hero.consoleMarket': 'Erkul + UEX linked',
             'hero.consoleEventFallback': 'Standing by',
-            'hero.consoleSchedule': 'View operations →',
             // Landing highlights (D-①)
             'landing.scrollHint': 'Scroll down',
             'landing.title': 'What VOLT <span class="accent">offers</span>',

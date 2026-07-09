@@ -30,8 +30,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260710-02"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260710-02">
+  <script src="js/theme-init.js?v=20260710-03"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260710-03">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -70,7 +70,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20260710-02">
+   <link rel="stylesheet" href="css/noscript.css?v=20260710-03">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -178,7 +178,7 @@
   <main id="main-content" tabindex="-1">
   <section class="hero" id="home">
    <canvas class="hero-starfield" id="hero-starfield" aria-hidden="true"></canvas>
-   <!-- Mission Control 히어로 (F): 브랜드/CTA + 우측 운영 콘솔, 배경은 스타맵 루트 -->
+   <!-- Mission Control 히어로 (F-3, C안): 중앙 포스터 + 하단 상태바 한 덩어리, 배경은 스타맵 루트 -->
    <div class="hero-layout">
     <div class="hero-content">
      <img src="assets/images/VOLT_logo.webp" alt="VOLT 함대 로고" data-i18n-alt="hero.logoAlt" class="hero-logo" id="heroLogo" loading="eager" decoding="async">
@@ -190,26 +190,18 @@
      <div class="hero-buttons">
       <a href="#ships" data-section="ships" class="btn btn-primary" data-i18n="hero.btnShips">함선DB 보기</a>
       <a href="#trade-planner" data-section="trade-planner" class="btn btn-secondary" data-i18n="hero.btnPlanner">무역플래너</a>
-      <a href="#join" data-section="join" class="btn btn-secondary" data-i18n="hero.btnJoin">가입하기</a>
+      <a href="#join" data-section="join" class="btn btn-ghost" data-i18n="hero.btnJoin">가입하기</a>
      </div>
-     <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-value" data-countup>2953</div><div class="hero-stat-label">EST.</div></div>
-      <div class="hero-stat" data-type="members"><div class="hero-stat-value" data-stat="members" data-countup>100+</div><div class="hero-stat-label">MEMBERS</div></div>
-      <div class="hero-stat"><div class="hero-stat-value">KST</div><div class="hero-stat-label">TIMEZONE</div></div>
-      <div class="hero-stat"><div class="hero-stat-value">KR</div><div class="hero-stat-label">REGION</div></div>
+     <!-- Mission Control 상태바: 우측 카드를 히어로 하단으로 흡수 (F-3).
+          기존 2953/KST/KR 장식 스탯은 제거 — 운영 데이터 + 라이브 멤버수만 남긴다. -->
+     <div class="hero-statusbar" role="group" aria-label="함대 운영 현황" data-i18n-aria-label="hero.consoleAria">
+      <div class="statusbar-item"><span class="statusbar-label">SHIPDB LIVE</span><span class="statusbar-value" data-console="ships"><strong data-countup>210</strong><span data-i18n="hero.consoleShipsSuffix">척 동기화</span></span></div>
+      <div class="statusbar-item"><span class="statusbar-label">FLEET OPS</span><span class="statusbar-value" data-console="event" data-i18n="hero.consoleEventFallback">작전 대기</span></div>
+      <div class="statusbar-item"><span class="statusbar-label">MEMBERS</span><span class="statusbar-value" data-stat="members">100+</span></div>
+      <div class="statusbar-item"><span class="statusbar-label">LAST SYNC</span><span class="statusbar-value" data-console="sync">—</span></div>
      </div>
      <a class="hero-scroll-hint" href="#home-highlights" aria-label="아래로 스크롤" data-i18n-aria-label="landing.scrollHint"><span class="hero-scroll-chevron" aria-hidden="true"></span></a>
     </div>
-    <aside class="hero-console" aria-label="함대 운영 현황" data-i18n-aria-label="hero.consoleAria">
-     <div class="hero-console-head"><span class="console-dot" aria-hidden="true"></span><span>MISSION CONTROL</span></div>
-     <ul class="hero-console-list">
-      <li><span class="console-label">SHIPDB LIVE</span><span class="console-value" data-console="ships"><strong>210</strong><span data-i18n="hero.consoleShipsSuffix">척 동기화</span></span></li>
-      <li><span class="console-label">MARKET DATA</span><span class="console-value" data-i18n="hero.consoleMarket">Erkul + UEX 연동</span></li>
-      <li><span class="console-label">FLEET OPS</span><span class="console-value" data-console="event" data-i18n="hero.consoleEventFallback">작전 대기</span></li>
-      <li><span class="console-label">LAST SYNC</span><span class="console-value" data-console="sync">—</span></li>
-     </ul>
-     <a class="hero-console-link" href="#schedule" data-section="schedule" data-i18n="hero.consoleSchedule">작전 일정 보기 →</a>
-    </aside>
    </div>
 
    <!-- 랜딩 하이라이트: 사이트 핵심 기능 진입점 (홈 전용, 기존 섹션 무변경) -->
@@ -970,22 +962,22 @@
    </div>
   </div>
 
-<script src="data/volt-data.js?v=20260710-02"></script>
+<script src="data/volt-data.js?v=20260710-03"></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20260710-02"></script>
-<script src="js/i18n.js?v=20260710-02"></script>
-<script src="js/navigation.js?v=20260710-02"></script>
-<script src="js/notices.js?v=20260710-02"></script>
-<script src="js/schedule.js?v=20260710-02"></script>
-<script src="js/landing.js?v=20260710-02"></script>
-<script src="js/uex.js?v=20260710-02"></script>
-<script src="js/uex-panel.js?v=20260710-02"></script>
-<script src="js/trade-planner.js?v=20260710-02"></script>
-<script src="js/ships.js?v=20260710-02"></script>
-<script src="js/search-modal.js?v=20260710-02"></script>
-<script src="js/auth-ui.js?v=20260710-02"></script>
-<script src="js/mypage.js?v=20260710-02"></script>
-<script src="js/main.js?v=20260710-02"></script>
-<script src="js/volt-ai.js?v=20260710-02"></script>
+<script src="data/volt-localization.js?v=20260710-03"></script>
+<script src="js/i18n.js?v=20260710-03"></script>
+<script src="js/navigation.js?v=20260710-03"></script>
+<script src="js/notices.js?v=20260710-03"></script>
+<script src="js/schedule.js?v=20260710-03"></script>
+<script src="js/landing.js?v=20260710-03"></script>
+<script src="js/uex.js?v=20260710-03"></script>
+<script src="js/uex-panel.js?v=20260710-03"></script>
+<script src="js/trade-planner.js?v=20260710-03"></script>
+<script src="js/ships.js?v=20260710-03"></script>
+<script src="js/search-modal.js?v=20260710-03"></script>
+<script src="js/auth-ui.js?v=20260710-03"></script>
+<script src="js/mypage.js?v=20260710-03"></script>
+<script src="js/main.js?v=20260710-03"></script>
+<script src="js/volt-ai.js?v=20260710-03"></script>
  </body>
 </html>

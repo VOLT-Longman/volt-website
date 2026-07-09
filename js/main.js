@@ -940,7 +940,7 @@
     }
 
     function renderMemberCount() {
-        const element = document.querySelector('.hero-stat[data-type="members"] .hero-stat-value');
+        const element = document.querySelector('#home [data-stat="members"]');
         if (!element) return;
         // 랜딩 하이라이트 카드의 멤버 수치도 함께 갱신 (히어로 표기를 원본으로 재사용)
         window.requestAnimationFrame(() => window.VOLT_LANDING?.renderCounts?.());
@@ -1882,7 +1882,7 @@
         window.VOLT_LANDING?.init?.({
             getAnnouncements: () => data.announcements,
             getShipsCount: () => (Array.isArray(data.ships) ? data.ships.length : null),
-            getMemberLabel: () => document.querySelector('.hero-stat[data-type="members"] .hero-stat-value')?.textContent || null,
+            getMemberLabel: () => document.querySelector('#home [data-stat="members"]')?.textContent || null,
             getCalendar: () => data.calendar,
             currentLang, i18nT, observeNewReveals,
         });

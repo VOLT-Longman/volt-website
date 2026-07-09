@@ -39,11 +39,15 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await expect(page.locator('.landing-notices-more')).toHaveAttribute('href', '#notices');
     });
 
-    test('카운트업: EST 스탯이 최종값 2953에 도달', async ({ page }) => {
+    test('카운트업: 상태바 SHIPDB 수치가 최종값에 도달', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
-        // 카운트업(0.9s) 완료 후 최종값 — 중간값이 아니라 정확히 2953이어야 함
-        await expect(page.locator('.hero-stat-value[data-countup]').first()).toHaveText('2953', { timeout: 5000 });
+        // 카운트업(0.9s) + Range 메타 갱신이 끝난 뒤 최종값이 안정적으로 유지되어야 함
+        await page.waitForTimeout(1400);
+        await expect(page.locator('[data-console="ships"] strong')).toHaveText(/^\d{2,3}$/);
+        const value = await page.locator('[data-console="ships"] strong').textContent();
+        await page.waitForTimeout(300);
+        await expect(page.locator('[data-console="ships"] strong')).toHaveText(value); // 정지 상태 확인
     });
 
     test('카드 라우팅: 함선DB 카드 클릭 → #ships 섹션 전환', async ({ page }) => {
@@ -62,8 +66,8 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await mockApi(page);
         await gotoSection(page, '');
         // 모션 비활성 환경에서도 콘텐츠가 온전히 보인다 (keyframe backwards 패턴 검증)
-        await expect(page.locator('.hero-stats')).toBeVisible();
-        await expect(page.locator('.hero-stat-value[data-countup]').first()).toHaveText('2953');
+        await expect(page.locator('.hero-statusbar')).toBeVisible();
+        await expect(page.locator('[data-console="ships"] strong')).toHaveText(/^\d{2,3}$/);
         await expect(page.locator('.landing-card').first()).toBeVisible();
         expect(errors).toEqual([]);
         await ctx.close();
@@ -103,19 +107,22 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         }), { timeout: 3000 }).toBe('1|none');
     });
 
-    test('F 미션 컨트롤: 콘솔 4행 + 라이브 레이어 실데이터(동기화 척수·날짜) 채움', async ({ page }) => {
+    test('F-3 미션 컨트롤 상태바: 4칸 + 라이브 레이어 실데이터(동기화 척수·날짜) 채움', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
-        const console_ = page.locator('.hero-console');
-        await expect(console_).toBeVisible();
-        await expect(console_).toContainText('MISSION CONTROL');
-        await expect(console_.locator('.hero-console-list li')).toHaveCount(4);
+        const bar = page.locator('.hero-statusbar');
+        await expect(bar).toBeVisible();
+        await expect(bar.locator('.statusbar-item')).toHaveCount(4);
         // SHIPDB LIVE: 라이브 레이어 헤더의 matched 척수로 갱신 (Range fetch)
-        await expect(console_.locator('[data-console="ships"] strong')).toHaveText(/^\d{2,3}$/, { timeout: 5000 });
+        await expect(bar.locator('[data-console="ships"] strong')).toHaveText(/^\d{2,3}$/, { timeout: 5000 });
         // LAST SYNC: syncedAt 날짜 (YYYY.MM.DD)
-        await expect(console_.locator('[data-console="sync"]')).toHaveText(/^\d{4}\.\d{2}\.\d{2}$/, { timeout: 5000 });
+        await expect(bar.locator('[data-console="sync"]')).toHaveText(/^\d{4}\.\d{2}\.\d{2}$/, { timeout: 5000 });
         // FLEET OPS: 일정 데이터가 있으면 제목, 없으면 fallback — 비어 있지만 않으면 됨
-        await expect(console_.locator('[data-console="event"]')).not.toHaveText('');
+        await expect(bar.locator('[data-console="event"]')).not.toHaveText('');
+        // MEMBERS: 라이브 디스코드 수치로 갱신 (mockApi 1234 → 1,230+)
+        await expect(bar.locator('[data-stat="members"]')).toHaveText('1,230+');
+        // 우측 floating 콘솔 카드는 더 이상 없다 (C안 통합)
+        await expect(page.locator('.hero-console')).toHaveCount(0);
     });
 
     test('F 미션 컨트롤: 히어로 CTA가 함선DB/무역플래너/가입으로 라우팅', async ({ page }) => {

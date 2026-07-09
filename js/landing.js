@@ -147,7 +147,8 @@
             const a = point(STAR_SYSTEMS[ai]);
             const b = point(STAR_SYSTEMS[bi]);
             const c = routeControl(STAR_SYSTEMS[ai], STAR_SYSTEMS[bi], w, h);
-            ctx.strokeStyle = 'rgba(232, 72, 47, 0.14)';
+            // 배경은 조연 (F-3): 중앙 텍스트/CTA보다 먼저 눈에 들어오지 않게 저채도 유지
+            ctx.strokeStyle = 'rgba(232, 72, 47, 0.08)';
             ctx.lineWidth = 1;
             ctx.setLineDash([3, 9]);
             ctx.lineDashOffset = -(t * 0.008 + i * 12);
@@ -161,30 +162,30 @@
             const inv = 1 - s;
             const dotX = inv * inv * a.x + 2 * inv * s * (c.x - px) + s * s * b.x;
             const dotY = inv * inv * a.y + 2 * inv * s * (c.y - py) + s * s * b.y;
-            ctx.globalAlpha = 0.55;
+            ctx.globalAlpha = 0.35;
             ctx.fillStyle = '#ff8d70';
             ctx.beginPath();
-            ctx.arc(dotX, dotY, 1.6, 0, 6.2832);
+            ctx.arc(dotX, dotY, 1.4, 0, 6.2832);
             ctx.fill();
             ctx.globalAlpha = 1;
         }
         // 항성계 노드 + 라벨
-        ctx.font = '600 10px ui-monospace, Consolas, monospace';
+        ctx.font = '600 9px ui-monospace, Consolas, monospace';
         for (let i = 0; i < STAR_SYSTEMS.length; i++) {
             const node = point(STAR_SYSTEMS[i]);
-            const pulse = 0.5 + Math.sin(t * 0.0012 + i * 1.7) * 0.2;
+            const pulse = 0.3 + Math.sin(t * 0.0012 + i * 1.7) * 0.12;
             ctx.globalAlpha = pulse;
             ctx.fillStyle = '#e8482f';
             ctx.beginPath();
-            ctx.arc(node.x, node.y, 2.2, 0, 6.2832);
+            ctx.arc(node.x, node.y, 2, 0, 6.2832);
             ctx.fill();
-            ctx.globalAlpha = 0.35;
+            ctx.globalAlpha = 0.2;
             ctx.strokeStyle = '#e8482f';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.arc(node.x, node.y, 6 + pulse * 3, 0, 6.2832);
             ctx.stroke();
-            ctx.globalAlpha = 0.34;
+            ctx.globalAlpha = 0.2;
             ctx.fillStyle = '#ffffff';
             ctx.fillText(STAR_SYSTEMS[i].label, node.x + 11, node.y + 3);
             ctx.globalAlpha = 1;
