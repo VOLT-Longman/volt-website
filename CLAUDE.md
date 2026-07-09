@@ -48,4 +48,4 @@
 - 구조: Cloudflare Pages 풀스택(정적 프런트 + `functions/` Pages Functions + D1/KV/R2 + Discord OAuth). README 참조.
 - main에 직접 푸시하는 워크플로(사용자 지시). 푸시 전 `npm run check`(문법+링크+Biome 린트)와 `npx playwright test`(스모크+a11y+CSP) 통과 필수.
 - 캐시 버전: `node scripts/update-cache-version.js YYYYMMDD-NN`로 일괄 갱신.
-- 진행 중 작업: CSP Stage A(Report-Only 관측) → A-3(enforce에서 script-src `unsafe-inline` 제거) → Stage B(style-src 리팩터).
+- CSP: Stage A→A-3(script-src unsafe-inline 제거)·Stage B(style-src 'self') 완료(`docs/SECURITY_CSP.md` 참조). 진행 중 작업은 `docs/MILESTONE_D.md` 기준.
