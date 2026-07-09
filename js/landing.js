@@ -193,15 +193,20 @@
     }
 
     // 카드 틸트: 커서 위치 따라 미세 기울임(최대 4도). 터치/모션 최소화 환경에선 비활성.
+    // 같은 좌표로 스포트라이트 글로우 위치(--spot-*)도 갱신한다 (D-⑦).
     function setupTilt() {
         if (!fineMotionOk()) return;
         document.querySelectorAll('[data-tilt]').forEach((card) => {
             card.addEventListener('pointermove', (event) => {
                 const rect = card.getBoundingClientRect();
-                const rx = ((event.clientY - rect.top) / rect.height - 0.5) * -4;
-                const ry = ((event.clientX - rect.left) / rect.width - 0.5) * 4;
+                const px = (event.clientX - rect.left) / rect.width;
+                const py = (event.clientY - rect.top) / rect.height;
+                const rx = (py - 0.5) * -4;
+                const ry = (px - 0.5) * 4;
                 card.classList.add('is-tilting');
                 card.style.transform = `perspective(800px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-2px)`;
+                card.style.setProperty('--spot-x', `${(px * 100).toFixed(1)}%`);
+                card.style.setProperty('--spot-y', `${(py * 100).toFixed(1)}%`);
             });
             card.addEventListener('pointerleave', () => {
                 card.classList.remove('is-tilting');
@@ -226,6 +231,31 @@
         });
     }
 
+    // 히어로 스크롤 패럴랙스 (D-⑦): 스크롤에 따라 히어로 콘텐츠가 배경보다 살짝 느리게
+    // 밀리며 옅어지고, 스타필드는 더 느리게 흘러 깊이감을 만든다.
+    // 가드: reduced-motion 비활성, 홈 섹션 숨김(offsetParent null) 시 생략, y=0이면 인라인 제거.
+    function setupHeroParallax() {
+        if (prefersReducedMotion()) return;
+        const content = document.querySelector('#home .hero-content');
+        const canvas = document.getElementById('hero-starfield');
+        if (!content) return;
+        let ticking = false;
+        function apply() {
+            ticking = false;
+            if (!content.offsetParent) return;
+            const y = Math.min(window.scrollY, window.innerHeight);
+            const progress = Math.min(1, y / (window.innerHeight * 0.72));
+            content.style.transform = y ? `translateY(${(y * 0.18).toFixed(1)}px)` : '';
+            content.style.opacity = y ? (1 - progress * 0.85).toFixed(3) : '';
+            if (canvas) canvas.style.transform = y ? `translateY(${(y * 0.3).toFixed(1)}px)` : '';
+        }
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(apply);
+        }, { passive: true });
+    }
+
     function setup() {
         initStarfield();
         // 랜딩 정적 블록에 기존 스크롤 리빌 적용
@@ -234,6 +264,7 @@
         setupCountup();
         setupTilt();
         setupMagnetic();
+        setupHeroParallax();
     }
 
     window.VOLT_LANDING = {

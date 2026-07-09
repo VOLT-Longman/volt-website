@@ -2112,8 +2112,12 @@ body.nav-trade-open::before {
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
+        /* delay가 남으면 backwards fill 애니메이션(heroRise/landingRise)이
+           딜레이 동안 from 상태(불투명 0)로 잠깐 사라진다 — delay도 함께 제거 */
+        animation-delay: 0s !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
         scroll-behavior: auto !important;
     }
 }
@@ -3998,8 +4002,12 @@ body.nav-trade-open::before {
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
+        /* delay가 남으면 backwards fill 애니메이션(heroRise/landingRise)이
+           딜레이 동안 from 상태(불투명 0)로 잠깐 사라진다 — delay도 함께 제거 */
+        animation-delay: 0s !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
         scroll-behavior: auto !important;
     }
     .reveal {
@@ -7626,6 +7634,8 @@ body.nav-trade-open::before {
 }
 
 .landing-card {
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -7637,6 +7647,24 @@ body.nav-trade-open::before {
     color: inherit;
     transition: border-color var(--transition-fast), background var(--transition-fast), transform 0.25s ease, box-shadow 0.25s ease;
     will-change: transform;
+}
+
+/* 스포트라이트: 커서 위치(--spot-*)를 따라오는 은은한 글로우 (D-⑦) */
+.landing-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(240px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(232, 72, 47, 0.12), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.landing-card:hover::after { opacity: 1; }
+
+[data-theme="light"] .landing-card::after {
+    background: radial-gradient(240px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(232, 72, 47, 0.07), transparent 65%);
 }
 
 .landing-card:hover {
@@ -7723,12 +7751,13 @@ body.nav-trade-open::before {
     border: 1px solid transparent;
     text-decoration: none;
     color: inherit;
-    transition: border-color var(--transition-fast), background var(--transition-fast);
+    transition: border-color var(--transition-fast), background var(--transition-fast), transform 0.25s ease;
 }
 
 .landing-notice-row:hover {
     background: var(--color-bg-card-hover);
     border-color: var(--color-border);
+    transform: translateX(4px);
 }
 
 .landing-notice-meta {
@@ -7836,4 +7865,31 @@ body.nav-trade-open::before {
 /* 틸트 중에는 transform 전환 지연을 빼서 커서를 즉각 따라오게 (D-③) */
 .landing-card.is-tilting {
     transition-property: border-color, background, box-shadow;
+}
+
+/* ===== 인터랙션 보강 (D-⑦) ===== */
+/* 리빌 스태거: transition 대신 animation을 쓰는 이유 —
+   .landing-card 자체 transition에 opacity가 없어 리빌 시 페이드 없이 즉시 나타났고,
+   transition-delay로 스태거를 주면 이후 호버 전환까지 지연된다.
+   animation은 리빌 1회만 재생되고 호버 transition과 간섭하지 않는다. */
+.landing-grid .landing-card.revealed {
+    animation: landingRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.landing-grid .landing-card.revealed:nth-child(2) { animation-delay: 0.1s; }
+.landing-grid .landing-card.revealed:nth-child(3) { animation-delay: 0.2s; }
+
+/* 공지 티저 행도 부모 리빌 시 순차 등장 */
+.landing-notices.revealed .landing-notice-row {
+    animation: landingRise 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.landing-notices.revealed .landing-notice-row:nth-child(2) { animation-delay: 0.08s; }
+.landing-notices.revealed .landing-notice-row:nth-child(3) { animation-delay: 0.16s; }
+
+@keyframes landingRise {
+    from {
+        opacity: 0;
+        transform: translateY(26px);
+    }
 }

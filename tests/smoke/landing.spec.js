@@ -69,6 +69,24 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await ctx.close();
     });
 
+    test('패럴랙스(D-⑦): 스크롤 후 최상단 복귀 시 히어로 원상 복구', async ({ page }) => {
+        // 히어로 콘텐츠는 스크롤에 따라 옅어지지만, y=0으로 돌아오면 인라인 스타일이
+        // 제거되어 완전히 복구되어야 한다 (잔존 opacity로 히어로가 흐려지는 회귀 방지).
+        await mockApi(page);
+        await gotoSection(page, '');
+        await page.evaluate(() => window.scrollTo(0, 600));
+        await expect.poll(async () => page.evaluate(() => {
+            const content = document.querySelector('#home .hero-content');
+            return Number(getComputedStyle(content).opacity);
+        }), { timeout: 3000 }).toBeLessThan(1);
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await expect.poll(async () => page.evaluate(() => {
+            const content = document.querySelector('#home .hero-content');
+            const style = getComputedStyle(content);
+            return `${style.opacity}|${style.transform}`;
+        }), { timeout: 3000 }).toBe('1|none');
+    });
+
     test('모바일 390px: 랜딩 가로 overflow 없음', async ({ browser }) => {
         const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
         const page = await ctx.newPage();
