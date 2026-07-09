@@ -559,16 +559,35 @@ body.nav-trade-open::before {
     -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
 }
 
+/* Mission Control 레이아웃 (F): 브랜드 블록 + 우측 운영 콘솔.
+   첫 화면은 히어로 전용 (D-⑧) — 히어로 패딩(100+80px)을 뺀 뷰포트 높이를 확보해
+   랜딩 하이라이트가 첫 뷰포트에 미리 보이지 않게 한다. */
+.hero-layout {
+    width: 100%;
+    max-width: 1280px;
+    min-height: calc(100vh - 180px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    align-items: center;
+    gap: 36px;
+    position: relative;
+    z-index: 1;
+}
+
+@media (min-width: 1200px) {
+    .hero-layout {
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 48px;
+    }
+}
+
 .hero-content {
     width: 100%;
     max-width: 980px;
     text-align: center;
     position: relative;
     z-index: 1;
-    /* 첫 화면은 히어로 전용 (D-⑧): 히어로 패딩(100+80px)을 뺀 뷰포트 높이를
-       확보해 랜딩 하이라이트가 첫 뷰포트에 미리 보이지 않게 한다 */
-    min-height: calc(100vh - 180px);
-    justify-content: center;
     /* 肄섑뀗痢??대? ?뺣젹 - flexbox濡??쇨???媛꾧꺽 愿由?*/
     display: flex;
     flex-direction: column;
@@ -7896,4 +7915,112 @@ body.nav-trade-open::before {
         opacity: 0;
         transform: translateY(26px);
     }
+}
+
+/* ===== Mission Control 콘솔 (F) — 히어로 우측 운영 현황 패널 ===== */
+.hero-console {
+    width: 100%;
+    max-width: 340px;
+    padding: 20px 22px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(180deg, rgba(232, 72, 47, 0.05) 0%, transparent 40%),
+        var(--color-bg-card);
+    text-align: left;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.hero-console-head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    color: var(--volt-orange-light);
+}
+
+.console-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--volt-orange);
+    box-shadow: 0 0 8px rgba(232, 72, 47, 0.8);
+    animation: consolePulse 2.2s ease-in-out infinite;
+}
+
+@keyframes consolePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+}
+
+.hero-console-list {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0 2px;
+}
+
+.hero-console-list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--color-border);
+}
+
+.hero-console-list li:last-child { border-bottom: 0; }
+
+.console-label {
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+}
+
+.console-value {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-align: right;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.console-value strong {
+    color: var(--volt-orange-light);
+    font-weight: 800;
+}
+
+.hero-console-link {
+    display: block;
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color var(--transition-fast);
+}
+
+.hero-console-link:hover { color: var(--volt-orange-light); }
+
+/* 진입 모션: 콘솔은 히어로 텍스트 다음에 떠오른다 */
+.hero-enter .hero-console {
+    animation: heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: 0.5s;
+}
+
+@media (max-width: 1199px) {
+    /* 단일 컬럼: 콘솔은 브랜드 블록 아래 컴팩트 표시 */
+    .hero-console { max-width: 420px; }
 }

@@ -73,6 +73,15 @@
             'hero.description': '한국 기반 Star Citizen 물류·무역 전문 함대.<br>안전한 운송, 체계적인 무역, 전문적인 정보 전달을 핵심 가치로 운영됩니다.',
             'hero.btnDiscord': 'Discord 참여',
             'hero.btnAbout': '함대 알아보기',
+            // Mission Control 히어로 (F)
+            'hero.btnShips': '함선DB 보기',
+            'hero.btnPlanner': '무역플래너',
+            'hero.btnJoin': '가입하기',
+            'hero.consoleAria': '함대 운영 현황',
+            'hero.consoleShipsSuffix': '척 동기화',
+            'hero.consoleMarket': 'Erkul + UEX 연동',
+            'hero.consoleEventFallback': '작전 대기',
+            'hero.consoleSchedule': '작전 일정 보기 →',
             // 랜딩 하이라이트 (D-①)
             'landing.scrollHint': '아래로 스크롤',
             'landing.title': 'VOLT가 <span class="accent">제공하는 것</span>',
@@ -567,6 +576,15 @@
             'hero.description': 'A Korea-based Star Citizen fleet specializing in logistics and trade.<br>We operate on the core values of secure transport, systematic trading, and reliable intel sharing.',
             'hero.btnDiscord': 'Join our Discord',
             'hero.btnAbout': 'About the fleet',
+            // Mission Control hero (F)
+            'hero.btnShips': 'Browse Ship DB',
+            'hero.btnPlanner': 'Trade Planner',
+            'hero.btnJoin': 'Join VOLT',
+            'hero.consoleAria': 'Fleet operations status',
+            'hero.consoleShipsSuffix': ' ships synced',
+            'hero.consoleMarket': 'Erkul + UEX linked',
+            'hero.consoleEventFallback': 'Standing by',
+            'hero.consoleSchedule': 'View operations →',
             // Landing highlights (D-①)
             'landing.scrollHint': 'Scroll down',
             'landing.title': 'What VOLT <span class="accent">offers</span>',

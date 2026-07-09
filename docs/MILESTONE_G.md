@@ -1,4 +1,4 @@
-# 마일스톤 F — SEO·공유 품질 (초안, PM 승인 대기)
+# 마일스톤 G — SEO·공유 품질 (초안, PM 승인 대기)
 
 기준선: `v1.0-quality` (`35d582a`, 2026-07-09). 목표: 기능이 아니라 **검색 유입·공유 첫인상·외부 노출력**.
 
@@ -15,11 +15,11 @@
 
 | # | 항목 | 현황 | 개선 |
 |---|---|---|---|
-| F-1 | 섹션별 document.title | 해시 전환 시 타이틀 불변 (i18n 전역 1개만) | `함선DB — VOLT` 식 섹션 타이틀 + i18n. 공유/북마크/분석 가독성 |
-| F-2 | FAQPage 구조화 데이터 | 없음 (FAQ 콘텐츠는 volt-data에 존재) | FAQ 렌더 시 `application/ld+json` 동적 삽입 (Googlebot은 JS 렌더 후 수집) |
-| F-3 | SearchAction 실효성 | `?search={term}` 템플릿 선언만 — 쿼리 파라미터 처리 코드 확인 필요 | `?search=` 진입 시 검색 오버레이 자동 실행 연결 (미동작 시) |
-| F-4 | 메타 마감 | `og:site_name` 없음, EN 공유 메타 없음 | `og:site_name`, `og:locale:alternate`(en_US) 추가 |
-| F-5 | 문서형 콘텐츠 노출 | 무역가이드/FAQ가 해시 뒤 → 검색엔진에 개별 노출 불가 | **옵션(PM 결정)**: 핵심 가이드 1~2편을 실경로 정적 페이지(`/guide/…`)로 발행 + sitemap 등재. 이 스택(정적 HTML)에서 저비용·고효율 |
+| G-1 | 섹션별 document.title | 해시 전환 시 타이틀 불변 (i18n 전역 1개만) | `함선DB — VOLT` 식 섹션 타이틀 + i18n. 공유/북마크/분석 가독성 |
+| G-2 | FAQPage 구조화 데이터 | 없음 (FAQ 콘텐츠는 volt-data에 존재) | FAQ 렌더 시 `application/ld+json` 동적 삽입 (Googlebot은 JS 렌더 후 수집) |
+| G-3 | SearchAction 실효성 | `?search={term}` 템플릿 선언만 — 쿼리 파라미터 처리 코드 확인 필요 | `?search=` 진입 시 검색 오버레이 자동 실행 연결 (미동작 시) |
+| G-4 | 메타 마감 | `og:site_name` 없음, EN 공유 메타 없음 | `og:site_name`, `og:locale:alternate`(en_US) 추가 |
+| G-5 | 문서형 콘텐츠 노출 | 무역가이드/FAQ가 해시 뒤 → 검색엔진에 개별 노출 불가 | **옵션(PM 결정)**: 핵심 가이드 1~2편을 실경로 정적 페이지(`/guide/…`)로 발행 + sitemap 등재. 이 스택(정적 HTML)에서 저비용·고효율 |
 
 ## 범위 제외 (사유 명시)
 
@@ -32,7 +32,7 @@
 
 - 기존 전 게이트 유지 (check / Functions / Playwright / 스크린샷 회귀).
 - JSON-LD 동적 삽입은 실행 스크립트가 아니므로 CSP(script-src 'self') 무영향 — 단 삽입 방식은 `document.createElement('script')` + `textContent`로 innerHTML 래칫 준수.
-- F-5 진행 시 신규 정적 페이지도 a11y 스모크에 포함.
+- G-5 진행 시 신규 정적 페이지도 a11y 스모크에 포함.
 
 ## 운영자 항목 (코드 외)
 
@@ -42,5 +42,5 @@
 
 ## 완료 기준
 
-- F-1~F-4: 각 항목 스모크 테스트 동반, 게이트 그린.
-- F-5(승인 시): 신규 페이지가 sitemap에 등재되고 Lighthouse SEO 95+ 유지.
+- G-1~G-4: 각 항목 스모크 테스트 동반, 게이트 그린.
+- G-5(승인 시): 신규 페이지가 sitemap에 등재되고 Lighthouse SEO 95+ 유지.

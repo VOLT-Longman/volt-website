@@ -1928,6 +1928,7 @@
             getAnnouncements: () => data.announcements,
             getShipsCount: () => (Array.isArray(data.ships) ? data.ships.length : null),
             getMemberLabel: () => document.querySelector('.hero-stat[data-type="members"] .hero-stat-value')?.textContent || null,
+            getCalendar: () => data.calendar,
             currentLang, i18nT, observeNewReveals,
         });
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).

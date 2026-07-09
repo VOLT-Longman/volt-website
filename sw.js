@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20260709-07';
+const CACHE_VERSION = '20260710-01';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
 // index.html에서 ?v= 버전 쿼리를 붙여 로드하는 에셋.
@@ -67,6 +67,9 @@ self.addEventListener('fetch', (event) => {
 
     if (request.method !== 'GET' || url.origin !== self.location.origin) return;
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/')) return;
+    // Range 부분 요청(미션 컨트롤 콘솔의 레이어 헤더 조회)은 SW 우회 —
+    // Cache API는 206을 저장하지 못하고, cache-first가 응답을 고정하면 syncedAt이 낡는다.
+    if (request.headers.get('range')) return;
 
     const isHTML = request.headers.get('accept')?.includes('text/html');
 

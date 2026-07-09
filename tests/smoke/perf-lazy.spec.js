@@ -39,7 +39,10 @@ test.describe('lazy init (무거운 섹션 지연 렌더)', () => {
     test('live 레이어 lazy: home 로드 시 미로드 → #ships 진입 시 로드 + 모달 표시', async ({ page }) => {
         const liveRequests = [];
         page.on('request', (request) => {
-            if (/ship-live-stats\.js|ship-market\.js/.test(request.url())) liveRequests.push(request.url());
+            if (!/ship-live-stats\.js|ship-market\.js/.test(request.url())) return;
+            // 미션 컨트롤 콘솔(F)의 헤더 Range 조회(~400B)는 전체 레이어 로드가 아니다
+            if (request.headers().range) return;
+            liveRequests.push(request.url());
         });
         await mockApi(page);
         await gotoSection(page, '');

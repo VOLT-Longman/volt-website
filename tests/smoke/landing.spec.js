@@ -92,15 +92,40 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await gotoSection(page, '');
         await page.evaluate(() => window.scrollTo(0, 600));
         await expect.poll(async () => page.evaluate(() => {
-            const content = document.querySelector('#home .hero-content');
+            const content = document.querySelector('#home .hero-layout');
             return Number(getComputedStyle(content).opacity);
         }), { timeout: 3000 }).toBeLessThan(1);
         await page.evaluate(() => window.scrollTo(0, 0));
         await expect.poll(async () => page.evaluate(() => {
-            const content = document.querySelector('#home .hero-content');
+            const content = document.querySelector('#home .hero-layout');
             const style = getComputedStyle(content);
             return `${style.opacity}|${style.transform}`;
         }), { timeout: 3000 }).toBe('1|none');
+    });
+
+    test('F 미션 컨트롤: 콘솔 4행 + 라이브 레이어 실데이터(동기화 척수·날짜) 채움', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '');
+        const console_ = page.locator('.hero-console');
+        await expect(console_).toBeVisible();
+        await expect(console_).toContainText('MISSION CONTROL');
+        await expect(console_.locator('.hero-console-list li')).toHaveCount(4);
+        // SHIPDB LIVE: 라이브 레이어 헤더의 matched 척수로 갱신 (Range fetch)
+        await expect(console_.locator('[data-console="ships"] strong')).toHaveText(/^\d{2,3}$/, { timeout: 5000 });
+        // LAST SYNC: syncedAt 날짜 (YYYY.MM.DD)
+        await expect(console_.locator('[data-console="sync"]')).toHaveText(/^\d{4}\.\d{2}\.\d{2}$/, { timeout: 5000 });
+        // FLEET OPS: 일정 데이터가 있으면 제목, 없으면 fallback — 비어 있지만 않으면 됨
+        await expect(console_.locator('[data-console="event"]')).not.toHaveText('');
+    });
+
+    test('F 미션 컨트롤: 히어로 CTA가 함선DB/무역플래너/가입으로 라우팅', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '');
+        const buttons = page.locator('#home .hero-content .hero-buttons .btn');
+        await expect(buttons).toHaveCount(3);
+        await buttons.first().click();
+        await expect(page.locator('#ships')).toHaveClass(/active/);
+        await expect(page.locator('#ships-grid .ship-card').first()).toBeVisible();
     });
 
     test('모바일 390px: 랜딩 가로 overflow 없음', async ({ browser }) => {
