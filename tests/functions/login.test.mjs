@@ -23,7 +23,10 @@ test('로그인: 잘못된 비밀번호 → 401 + 실패 카운트 기록', asyn
     const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
     const response = await onRequestPost({ request: loginRequest('nope'), env });
     assert.equal(response.status, 401);
-    assert.deepEqual(await kv.get('login_fail:203.0.113.1', { type: 'json' }), { count: 1, locked: false });
+    // D-4: 공유 rate-limit 모듈 저장 형태({count, resetAt}) — locked 여부는 count>=limit로 매 요청 계산.
+    const stored = await kv.get('login_fail:203.0.113.1', { type: 'json' });
+    assert.equal(stored.count, 1);
+    assert.equal(typeof stored.resetAt, 'number');
 });
 
 test('로그인: 5회 실패 시 잠금 → 이후 올바른 비밀번호도 429', async () => {
@@ -34,7 +37,8 @@ test('로그인: 5회 실패 시 잠금 → 이후 올바른 비밀번호도 429
         const response = await onRequestPost({ request: loginRequest('nope'), env });
         assert.equal(response.status, 401);
     }
-    assert.deepEqual(await kv.get('login_fail:203.0.113.1', { type: 'json' }), { count: 5, locked: true });
+    const stored = await kv.get('login_fail:203.0.113.1', { type: 'json' });
+    assert.equal(stored.count, 5);
 
     const locked = await onRequestPost({ request: loginRequest('correct-password'), env });
     assert.equal(locked.status, 429);
