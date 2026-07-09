@@ -1,6 +1,7 @@
 import { requireAdmin } from '../../../_shared/auth.js';
 import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
 import { mapNotice, noticeInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
+import { ensureNoticesEnColumns } from '../../../_shared/notices.js';
 
 export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
@@ -12,6 +13,7 @@ export async function onRequest({ request, env, params }) {
 
 async function updateItem(request, env, id) {
   const db = requireDb(env);
+  await ensureNoticesEnColumns(db);
   const existing = await db.prepare('SELECT * FROM notices WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
   const body = (await readJson(request)) || {};
