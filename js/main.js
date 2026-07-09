@@ -1962,8 +1962,8 @@
         setupDynamicStyles();
         setupSplash();
         setupRevealObserver();
-        // 랜딩 setup은 반드시 revealObserver 생성 이후 — 그 전엔 observeNewReveals가
-        // 조용히 무시되어 랜딩 블록이 opacity 0으로 영구히 숨는다 (라이브 사고 원인).
+        // 랜딩 리빌은 D-⑧부터 landing.js 전용 관찰자가 담당한다 (뷰포트 하단 20%
+        // 진입 시 등장). 전역 revealObserver 의존이 없어져 순서 제약도 사라졌다.
         window.VOLT_LANDING?.setup?.();
         renderAll();
         ensureShipEnForEn();

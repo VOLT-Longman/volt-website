@@ -69,6 +69,22 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await ctx.close();
     });
 
+    test('D-⑧: 큰 화면에서도 로드 직후엔 하이라이트가 미리 밝혀지지 않음', async ({ browser }) => {
+        // 회귀 가드: 히어로 min-height 미확보 + 전역 관찰자(1픽셀 노출 리빌) 조합에서는
+        // 큰 모니터에서 하이라이트가 첫 뷰포트에 걸쳐 로드 즉시 밝혀져 등장 모션이 사라진다.
+        const ctx = await browser.newContext({ viewport: { width: 1280, height: 2000 } });
+        const page = await ctx.newPage();
+        await mockApi(page);
+        await gotoSection(page, '');
+        await page.waitForTimeout(400); // 관찰자 초기 콜백이 돌 시간을 주고도 숨겨져 있어야 함
+        const before = await page.evaluate(() => getComputedStyle(document.querySelector('.landing-card')).opacity);
+        expect(Number(before)).toBeLessThan(1);
+        // 스크롤로 진입하면 등장한다
+        await page.locator('#home-highlights').scrollIntoViewIfNeeded();
+        await expect.poll(async () => page.evaluate(() => getComputedStyle(document.querySelector('.landing-card')).opacity), { timeout: 5000 }).toBe('1');
+        await ctx.close();
+    });
+
     test('패럴랙스(D-⑦): 스크롤 후 최상단 복귀 시 히어로 원상 복구', async ({ page }) => {
         // 히어로 콘텐츠는 스크롤에 따라 옅어지지만, y=0으로 돌아오면 인라인 스타일이
         // 제거되어 완전히 복구되어야 한다 (잔존 opacity로 히어로가 흐려지는 회귀 방지).

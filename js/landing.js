@@ -8,12 +8,12 @@
 (function () {
     'use strict';
 
-    // main.js가 주입하는 의존성
-    let getAnnouncements, getShipsCount, getMemberLabel, currentLang, i18nT, observeNewReveals;
+    // main.js가 주입하는 의존성 (랜딩 리빌은 D-⑧부터 전용 관찰자를 쓴다)
+    let getAnnouncements, getShipsCount, getMemberLabel, currentLang, i18nT;
 
     function init(deps) {
         ({
-            getAnnouncements, getShipsCount, getMemberLabel, currentLang, i18nT, observeNewReveals,
+            getAnnouncements, getShipsCount, getMemberLabel, currentLang, i18nT,
         } = deps || {});
     }
 
@@ -256,11 +256,32 @@
         }, { passive: true });
     }
 
+    // 랜딩 리빌 전용 관찰자 (D-⑧): 전역 관찰자는 요소가 1픽셀만 걸쳐도 즉시 리빌해
+    // 큰 화면에선 로드 직후 하이라이트가 미리 밝혀진다. 여기서는 요소가 뷰포트 하단
+    // 20% 위로 올라와야 리빌 — 스크롤/아래 버튼으로 진입해야 등장 모션이 보인다.
+    function setupLandingReveals() {
+        const highlights = document.getElementById('home-highlights');
+        if (!highlights) return;
+        const targets = highlights.querySelectorAll('.reveal:not(.revealed)');
+        if (!targets.length) return;
+        // 관찰자 미지원 환경은 즉시 전부 표시 (영구 숨김 방지)
+        if (!('IntersectionObserver' in window)) {
+            targets.forEach((target) => { target.classList.add('revealed'); });
+            return;
+        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            });
+        }, { rootMargin: '0px 0px -20% 0px' });
+        targets.forEach((target) => { observer.observe(target); });
+    }
+
     function setup() {
         initStarfield();
-        // 랜딩 정적 블록에 기존 스크롤 리빌 적용
-        const highlights = document.getElementById('home-highlights');
-        if (highlights && observeNewReveals) observeNewReveals(highlights);
+        setupLandingReveals();
         setupCountup();
         setupTilt();
         setupMagnetic();

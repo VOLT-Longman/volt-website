@@ -565,6 +565,10 @@ body.nav-trade-open::before {
     text-align: center;
     position: relative;
     z-index: 1;
+    /* 첫 화면은 히어로 전용 (D-⑧): 히어로 패딩(100+80px)을 뺀 뷰포트 높이를
+       확보해 랜딩 하이라이트가 첫 뷰포트에 미리 보이지 않게 한다 */
+    min-height: calc(100vh - 180px);
+    justify-content: center;
     /* 肄섑뀗痢??대? ?뺣젹 - flexbox濡??쇨???媛꾧꺽 愿由?*/
     display: flex;
     flex-direction: column;
