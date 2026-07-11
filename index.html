@@ -30,8 +30,8 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <script src="js/theme-init.js?v=20260711-01"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20260711-01">
+  <script src="js/theme-init.js?v=20260711-02"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260711-02">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -70,7 +70,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20260711-01">
+   <link rel="stylesheet" href="css/noscript.css?v=20260711-02">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -178,14 +178,15 @@
   <main id="main-content" tabindex="-1">
   <section class="hero" id="home">
    <canvas class="hero-starfield" id="hero-starfield" aria-hidden="true"></canvas>
-   <!-- 비대칭 Mission Layout (F-4, B안): 좌 브랜드/CTA + 우 운영 상태 패널, 배경 스타맵은 조연 -->
    <div class="hero-layout">
     <div class="hero-content">
      <div class="hero-copy">
-      <img src="assets/images/VOLT_logo.webp" alt="VOLT 함대 로고" data-i18n-alt="hero.logoAlt" class="hero-logo" id="heroLogo" loading="eager" decoding="async">
-      <div class="hero-logo-fallback" id="heroLogoFallback" aria-hidden="true">V</div>
-      <div class="hero-tagline">VOYAGERS OF LOGISTICS &amp; TRADE</div>
-      <h1>VOLT</h1>
+      <div class="hero-identity">
+       <img src="assets/images/VOLT_logo.webp" alt="VOLT 함대 로고" data-i18n-alt="hero.logoAlt" class="hero-logo" id="heroLogo" loading="eager" decoding="async">
+       <div class="hero-logo-fallback" id="heroLogoFallback" aria-hidden="true">V</div>
+       <div class="hero-tagline"><span class="hero-live-dot" aria-hidden="true"></span>VOYAGERS OF LOGISTICS &amp; TRADE</div>
+      </div>
+      <h1><span>MOVE</span> THE VERSE.</h1>
       <p class="subtitle" data-i18n="hero.subtitle">물류와 무역을 위해 여행하는 항해자</p>
       <p class="description" data-i18n-html="hero.description">한국 기반 Star Citizen 물류·무역 전문 함대.<br>안전한 운송, 체계적인 무역, 전문적인 정보 전달을 핵심 가치로 운영됩니다.</p>
       <div class="hero-buttons">
@@ -193,9 +194,24 @@
        <a href="#trade-planner" data-section="trade-planner" class="btn btn-secondary" data-i18n="hero.btnPlanner">무역플래너</a>
        <a href="#join" data-section="join" class="btn btn-tertiary" data-i18n="hero.btnJoin">가입하기</a>
       </div>
+      <dl class="hero-proof" aria-label="VOLT 핵심 지표">
+       <div><dt>FOUNDED</dt><dd>2023</dd></div>
+       <div><dt>REGION</dt><dd>KR / ASIA</dd></div>
+       <div><dt>FOCUS</dt><dd>LOGISTICS</dd></div>
+      </dl>
      </div>
      <aside class="hero-status-panel" aria-label="함대 운영 현황" data-i18n-aria-label="hero.consoleAria">
-      <div class="status-panel-head"><span class="status-dot" aria-hidden="true"></span><span>OPERATION STATUS</span></div>
+      <div class="status-panel-head"><span>COMMAND DECK<span class="sr-only"> — OPERATION STATUS</span></span><span class="status-online"><span class="status-dot" aria-hidden="true"></span>ONLINE</span></div>
+      <div class="hero-route-map" aria-hidden="true">
+       <span class="route-orbit route-orbit-one"></span>
+       <span class="route-orbit route-orbit-two"></span>
+       <span class="route-line"></span>
+       <span class="route-node route-node-origin"></span>
+       <span class="route-node route-node-mid"></span>
+       <span class="route-node route-node-target"></span>
+       <span class="route-label route-label-origin">STANTON</span>
+       <span class="route-label route-label-target">PYRO</span>
+      </div>
       <ul class="status-panel-list">
        <li><span class="status-label">SHIPDB LIVE</span><span class="status-value" data-console="ships"><strong data-countup>210</strong><span data-i18n="hero.consoleShipsSuffix">척 동기화</span></span></li>
        <li><span class="status-label">MARKET DATA</span><span class="status-value" data-i18n="hero.consoleMarket">Erkul + UEX 연동</span></li>
@@ -208,46 +224,57 @@
     <a class="hero-scroll-hint" href="#home-highlights" aria-label="아래로 스크롤" data-i18n-aria-label="landing.scrollHint"><span class="hero-scroll-chevron" aria-hidden="true"></span></a>
    </div>
 
-   <!-- 랜딩 하이라이트: 사이트 핵심 기능 진입점 (홈 전용, 기존 섹션 무변경) -->
    <div class="landing" id="home-highlights">
     <div class="landing-inner">
      <div class="landing-header reveal">
-      <h2 data-i18n-html="landing.title">VOLT가 <span class="accent">제공하는 것</span></h2>
-      <p data-i18n="landing.subtitle">데이터로 운영되는 함대 — 필요한 정보가 항상 최신입니다.</p>
+      <span class="landing-kicker">01 / FLEET SYSTEMS</span>
+      <div>
+       <h2 data-i18n-html="landing.title">VOLT가 <span class="accent">제공하는 것</span></h2>
+       <p data-i18n="landing.subtitle">데이터로 운영되는 함대 — 필요한 정보가 항상 최신입니다.</p>
+      </div>
      </div>
      <div class="landing-grid">
       <a class="landing-card reveal" href="#ships" data-tilt>
+       <span class="landing-card-index">01</span>
        <span class="landing-card-eyebrow" data-i18n="landing.ships.eyebrow">SHIP DATABASE</span>
        <h3 data-i18n="landing.ships.title">함선 데이터베이스</h3>
        <p data-i18n="landing.ships.desc">Erkul 실시간 스펙·인게임 구매처·한국어 설명까지. 모든 함선 정보를 한 곳에서.</p>
        <span class="landing-card-metric"><strong data-landing-count="ships" data-countup>240</strong><span data-i18n="landing.ships.metric">척 수록</span></span>
+       <span class="landing-card-arrow" aria-hidden="true">↗</span>
       </a>
       <a class="landing-card reveal" href="#trade-planner" data-tilt>
+       <span class="landing-card-index">02</span>
        <span class="landing-card-eyebrow" data-i18n="landing.trade.eyebrow">TRADE PLANNER</span>
        <h3 data-i18n="landing.trade.title">무역 플래너</h3>
        <p data-i18n="landing.trade.desc">UEX 실시간 시세 기반 수익 계산과 루트 추천. 화물 적재부터 수익표까지.</p>
        <span class="landing-card-metric"><strong data-i18n="landing.trade.metricValue">실시간</strong><span data-i18n="landing.trade.metric">UEX 시세 연동</span></span>
+       <span class="landing-card-arrow" aria-hidden="true">↗</span>
       </a>
       <a class="landing-card reveal" href="#join" data-tilt>
+       <span class="landing-card-index">03</span>
        <span class="landing-card-eyebrow" data-i18n="landing.community.eyebrow">COMMUNITY</span>
        <h3 data-i18n="landing.community.title">함께하는 함대</h3>
        <p data-i18n="landing.community.desc">체계적인 운영과 명확한 기준. 입문자부터 베테랑까지 예측 가능한 협업.</p>
        <span class="landing-card-metric"><strong data-landing-count="members" data-countup>100+</strong><span data-i18n="landing.community.metric">명의 멤버</span></span>
+       <span class="landing-card-arrow" aria-hidden="true">↗</span>
       </a>
      </div>
-     <div class="landing-notices reveal">
-      <div class="landing-notices-head">
-       <h2 data-i18n="landing.noticesTitle">최신 소식</h2>
-       <a href="#notices" class="landing-notices-more" data-i18n="landing.viewAll">전체 보기 →</a>
+     <div class="landing-briefing reveal">
+      <div class="landing-notices">
+       <div class="landing-notices-head">
+        <div><span class="landing-kicker">02 / INTEL FEED</span><h2 data-i18n="landing.noticesTitle">최신 소식</h2></div>
+        <a href="#notices" class="landing-notices-more" data-i18n="landing.viewAll">전체 보기 →</a>
+       </div>
+       <div class="landing-notices-list" id="landing-notices-list"></div>
       </div>
-      <div class="landing-notices-list" id="landing-notices-list"></div>
-     </div>
-     <div class="landing-cta reveal">
-      <h2 data-i18n="landing.ctaTitle">항해를 함께할 준비가 되셨나요?</h2>
-      <p data-i18n="landing.ctaBody">Discord에서 함대원들과 인사하고, 첫 운송부터 함께하세요.</p>
-      <div class="hero-buttons">
-       <a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="hero.btnDiscord">Discord 참여</a>
-       <a href="#join" data-section="join" class="btn btn-secondary" data-i18n="landing.ctaJoin">가입 절차 보기</a>
+      <div class="landing-cta">
+       <span class="landing-kicker">OPEN RECRUITMENT</span>
+       <h2 data-i18n="landing.ctaTitle">항해를 함께할 준비가 되셨나요?</h2>
+       <p data-i18n="landing.ctaBody">Discord에서 함대원들과 인사하고, 첫 운송부터 함께하세요.</p>
+       <div class="hero-buttons">
+        <a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="hero.btnDiscord">Discord 참여</a>
+        <a href="#join" data-section="join" class="btn btn-secondary" data-i18n="landing.ctaJoin">가입 절차 보기</a>
+       </div>
       </div>
      </div>
     </div>
@@ -966,22 +993,22 @@
    </div>
   </div>
 
-<script src="data/volt-data.js?v=20260711-01"></script>
+<script src="data/volt-data.js?v=20260711-02"></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20260711-01"></script>
-<script src="js/i18n.js?v=20260711-01"></script>
-<script src="js/navigation.js?v=20260711-01"></script>
-<script src="js/notices.js?v=20260711-01"></script>
-<script src="js/schedule.js?v=20260711-01"></script>
-<script src="js/landing.js?v=20260711-01"></script>
-<script src="js/uex.js?v=20260711-01"></script>
-<script src="js/uex-panel.js?v=20260711-01"></script>
-<script src="js/trade-planner.js?v=20260711-01"></script>
-<script src="js/ships.js?v=20260711-01"></script>
-<script src="js/search-modal.js?v=20260711-01"></script>
-<script src="js/auth-ui.js?v=20260711-01"></script>
-<script src="js/mypage.js?v=20260711-01"></script>
-<script src="js/main.js?v=20260711-01"></script>
-<script src="js/volt-ai.js?v=20260711-01"></script>
+<script src="data/volt-localization.js?v=20260711-02"></script>
+<script src="js/i18n.js?v=20260711-02"></script>
+<script src="js/navigation.js?v=20260711-02"></script>
+<script src="js/notices.js?v=20260711-02"></script>
+<script src="js/schedule.js?v=20260711-02"></script>
+<script src="js/landing.js?v=20260711-02"></script>
+<script src="js/uex.js?v=20260711-02"></script>
+<script src="js/uex-panel.js?v=20260711-02"></script>
+<script src="js/trade-planner.js?v=20260711-02"></script>
+<script src="js/ships.js?v=20260711-02"></script>
+<script src="js/search-modal.js?v=20260711-02"></script>
+<script src="js/auth-ui.js?v=20260711-02"></script>
+<script src="js/mypage.js?v=20260711-02"></script>
+<script src="js/main.js?v=20260711-02"></script>
+<script src="js/volt-ai.js?v=20260711-02"></script>
  </body>
 </html>
