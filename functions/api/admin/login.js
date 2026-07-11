@@ -9,6 +9,12 @@ import { checkRateLimit } from '../../_shared/rate-limit.js';
 // (Durable Objects급 자원이 필요). 관리자 비밀번호는 보조 인증 계층이라 현재로선 실무적 위험 낮음.
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_SECONDS = 60 * 15;
+// G2: IP당 잠금만으로는 IP 순환(분산) 무차별 대입을 막지 못한다 — IP와 무관한
+// 전역 실패 카운터를 병행한다. 1인 운영 특성상 정상 실패는 극소수라 20/15분이면
+// 운영자 오탈자와 공격을 충분히 구분한다. (성공해도 전역 카운터는 리셋하지 않음 —
+// 공격 중 운영자 로그인 성공이 공격자의 카운터를 지워주면 안 된다.)
+const GLOBAL_MAX_ATTEMPTS = 20;
+const GLOBAL_FAIL_KEY = 'login_fail:__global__';
 
 function getClientIp(request) {
   return request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -26,14 +32,16 @@ async function clearFailures(env, ip) {
 export async function onRequestPost({ request, env }) {
   const ip = getClientIp(request);
   const gate = await checkRateLimit(env, failKey(ip), { limit: MAX_ATTEMPTS, windowSeconds: LOCKOUT_SECONDS });
+  const globalGate = await checkRateLimit(env, GLOBAL_FAIL_KEY, { limit: GLOBAL_MAX_ATTEMPTS, windowSeconds: LOCKOUT_SECONDS });
 
-  if (gate.limited) {
+  if (gate.limited || globalGate.limited) {
     return error('너무 많은 시도입니다. 15분 후 다시 시도하세요.', 429);
   }
 
   const body = await readJson(request);
   if (!(await validateLoginToken(body?.password || body?.token, env))) {
     await gate.commit();
+    await globalGate.commit();
     return error('Invalid credentials', 401);
   }
 

@@ -63,6 +63,31 @@ test('로그인: 성공 시 실패 카운트 초기화', async () => {
     assert.equal(await kv.get('login_fail:203.0.113.1'), null);
 });
 
+test('로그인: 전역 20회 실패 시 IP를 바꿔도 429 (G2 분산 대입 방어)', async () => {
+    const kv = createMockKV();
+    const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
+    // 서로 다른 IP로 20회 실패 → IP별 잠금(5회)에는 안 걸리지만 전역 카운터가 참
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+        const response = await onRequestPost({ request: loginRequest('nope', `198.51.100.${attempt}`), env });
+        assert.equal(response.status, 401);
+    }
+    const stored = await kv.get('login_fail:__global__', { type: 'json' });
+    assert.equal(stored.count, 20);
+    // 새 IP + 올바른 비밀번호여도 전역 잠금이 우선
+    const locked = await onRequestPost({ request: loginRequest('correct-password', '203.0.113.99'), env });
+    assert.equal(locked.status, 429);
+});
+
+test('로그인: 성공해도 전역 실패 카운터는 리셋되지 않음 (공격자 카운터 보존)', async () => {
+    const kv = createMockKV();
+    const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
+    await onRequestPost({ request: loginRequest('nope', '198.51.100.1'), env });
+    const success = await onRequestPost({ request: loginRequest('correct-password', '203.0.113.1'), env });
+    assert.equal(success.status, 200);
+    const stored = await kv.get('login_fail:__global__', { type: 'json' });
+    assert.equal(stored.count, 1); // 성공이 전역 카운터를 지우지 않는다
+});
+
 test('로그인: 본문이 JSON이 아니어도 500이 아닌 401', async () => {
     const env = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV() };
     const request = new Request('https://volt.ceo/api/admin/login', { method: 'POST', body: 'not-json' });
