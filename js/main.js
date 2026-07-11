@@ -227,9 +227,6 @@
     }
 
     async function hydrateMemberCount() {
-        const target = document.querySelector('[data-stat="members"]');
-        if (!target) return;
-
         try {
             const response = await fetch('/api/discord-stats', { headers: { Accept: 'application/json' } });
             if (!response.ok) throw new Error(`Discord stats API failed: ${response.status}`);
@@ -939,19 +936,12 @@
         return null;
     }
 
+    function getMemberLabel() {
+        return formatApproximateMemberCount(liveMemberCount) || `${getMemberCount() ?? '?'}+`;
+    }
+
     function renderMemberCount() {
-        const element = document.querySelector('#home [data-stat="members"]');
-        if (!element) return;
-        // 랜딩 하이라이트 카드의 멤버 수치도 함께 갱신 (히어로 표기를 원본으로 재사용)
         window.requestAnimationFrame(() => window.VOLT_LANDING?.renderCounts?.());
-        // 라이브 디스코드 멤버수가 있으면 항상 우선(정적값으로 덮어쓰지 않는다).
-        const liveLabel = formatApproximateMemberCount(liveMemberCount);
-        if (liveLabel) {
-            element.textContent = liveLabel;
-            return;
-        }
-        const memberCount = getMemberCount();
-        element.textContent = `${memberCount ?? '?'}+`;
     }
 
     function renderPartnerFleets() {
@@ -1882,9 +1872,8 @@
         window.VOLT_LANDING?.init?.({
             getAnnouncements: () => data.announcements,
             getShipsCount: () => (Array.isArray(data.ships) ? data.ships.length : null),
-            getMemberLabel: () => document.querySelector('#home [data-stat="members"]')?.textContent || null,
-            getCalendar: () => data.calendar,
-            currentLang, i18nT, observeNewReveals,
+            getMemberLabel,
+            currentLang, observeNewReveals,
         });
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         window.VOLT_SHIPS?.init?.({

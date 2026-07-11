@@ -9,11 +9,11 @@
     'use strict';
 
     // main.js가 주입하는 의존성 (랜딩 리빌은 D-⑧부터 전용 관찰자를 쓴다)
-    let getAnnouncements, getShipsCount, getMemberLabel, getCalendar, currentLang, i18nT;
+    let getAnnouncements, getShipsCount, getMemberLabel, currentLang;
 
     function init(deps) {
         ({
-            getAnnouncements, getShipsCount, getMemberLabel, getCalendar, currentLang, i18nT,
+            getAnnouncements, getShipsCount, getMemberLabel, currentLang,
         } = deps || {});
     }
 
@@ -66,48 +66,13 @@
         const ships = document.querySelector('[data-landing-count="ships"]');
         if (ships && typeof getShipsCount() === 'number') ships.textContent = String(getShipsCount());
         const members = document.querySelector('[data-landing-count="members"]');
-        if (members && getMemberLabel()) members.textContent = getMemberLabel();
-    }
-
-    // ===== Mission Control 콘솔 (F) =====
-    // FLEET OPS 행: 다가오는 작전(상태 '예정' 우선, 없으면 첫 일정) 제목 표시
-    function renderConsoleEvent() {
-        const target = document.querySelector('[data-console="event"]');
-        const events = typeof getCalendar === 'function' ? getCalendar() : null;
-        if (!target || !Array.isArray(events) || events.length === 0) return;
-        const next = events.find((event) => String(event.status || '') === '예정') || events[0];
-        if (!next || !next.title) return;
-        target.removeAttribute('data-i18n'); // 실데이터가 채워지면 fallback 번역 대상에서 제외
-        target.textContent = next.title;
-    }
-
-    // SHIPDB LIVE / LAST SYNC 행: 라이브 레이어 파일 헤더만 Range로 읽어 파싱한다.
-    // (전체 파일은 ~250KB — 헤더 주석에 syncedAt과 matched 척수가 기록되어 있다.)
-    // 콘솔은 장식 계층 — 실패 시 정적 기본값을 유지하고 조용히 넘어간다.
-    async function loadConsoleSyncMeta() {
-        const shipsTarget = document.querySelector('[data-console="ships"] strong');
-        const syncTarget = document.querySelector('[data-console="sync"]');
-        if (!shipsTarget && !syncTarget) return;
-        try {
-            const response = await fetch('data/ship-live-stats.js', {
-                headers: { Range: 'bytes=0-400' },
-                cache: 'no-cache'
-            });
-            if (!response.ok) return; // 206(부분) 또는 200(전체) 모두 ok
-            const text = (await response.text()).slice(0, 2000);
-            const synced = text.match(/syncedAt: ([0-9TZ:.\-]+)/)?.[1];
-            const matched = text.match(/matched (\d+)척/)?.[1];
-            if (matched && shipsTarget) shipsTarget.textContent = matched;
-            if (synced && syncTarget) syncTarget.textContent = synced.slice(0, 10).replace(/-/g, '.');
-        } catch (_error) {
-            /* 오프라인/차단 등 — 기본값 유지 */
-        }
+        const memberLabel = getMemberLabel();
+        if (members && memberLabel) members.textContent = memberLabel;
     }
 
     function render() {
         renderNoticeTeaser();
         renderCounts();
-        renderConsoleEvent();
     }
 
     // ===== 스타필드 + 스타맵 루트 (D-②, F) =====
@@ -403,7 +368,6 @@
         setupTilt();
         setupMagnetic();
         setupHeroParallax();
-        loadConsoleSyncMeta();
     }
 
     window.VOLT_LANDING = {

@@ -678,95 +678,6 @@ body.nav-trade-open::before {
     animation: fadeInUp 1s ease 0.8s backwards;
 }
 
-/* Operation Status 패널 (F-4, B안) — 히어로 우측 컬럼, HUD 오버레이 톤 */
-.hero-status-panel {
-    width: 100%;
-    max-width: 400px;
-    padding: 24px 24px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: var(--radius-md);
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
-        rgba(16, 15, 16, 0.56);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.07),
-        0 24px 60px rgba(0, 0, 0, 0.26);
-    text-align: left;
-    animation: fadeInUp 1s ease 1s backwards;
-}
-
-.status-panel-head {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--color-border);
-    font-family: ui-monospace, Consolas, monospace;
-    font-size: 11.5px;
-    font-weight: 800;
-    letter-spacing: 0.22em;
-    color: var(--volt-orange-light);
-}
-
-.status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--volt-orange);
-    box-shadow: 0 0 7px rgba(232, 72, 47, 0.7);
-    animation: statusPulse 2.2s ease-in-out infinite;
-}
-
-@keyframes statusPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-}
-
-.status-panel-list {
-    list-style: none;
-    margin: 0;
-    padding: 2px 0;
-}
-
-.status-panel-list li {
-    display: grid;
-    grid-template-columns: minmax(92px, 0.72fr) minmax(0, 1fr);
-    align-items: baseline;
-    gap: 18px;
-    padding: 12px 0;
-    border-bottom: 1px dashed var(--color-border);
-}
-
-.status-panel-list li:last-child { border-bottom: 0; }
-
-.status-label {
-    font-family: ui-monospace, Consolas, monospace;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: var(--color-text-tertiary);
-    flex-shrink: 0;
-}
-
-.status-value {
-    min-width: 0;
-    font-size: 14.5px;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    text-align: right;
-    white-space: normal;
-    overflow: hidden;
-    overflow-wrap: anywhere;
-    font-variant-numeric: tabular-nums;
-}
-
-.status-value strong {
-    color: var(--volt-orange-light);
-    font-weight: 800;
-}
-
 /* ==========================================================================
    3. Layout - Buttons (?ъ궗??媛?ν븳 而댄룷?뚰듃)
    ========================================================================== */
@@ -7712,12 +7623,6 @@ body.nav-trade-open::before {
 .hero-enter .hero-copy > :nth-child(6) { animation-delay: 0.30s; }
 .hero-enter .hero-copy > :nth-child(7) { animation-delay: 0.36s; }
 
-/* 운영 패널은 브랜드 텍스트가 자리 잡은 뒤 떠오른다 */
-.hero-enter .hero-status-panel {
-    animation: heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-    animation-delay: 0.42s;
-}
-
 @keyframes heroRise {
     from {
         opacity: 0;
@@ -7758,7 +7663,7 @@ body.nav-trade-open::before {
 }
 
 /* ==========================================================================
-   Landing page: Command Deck
+   Landing page: VOLT
    ========================================================================== */
 
 .hero {
@@ -7768,7 +7673,7 @@ body.nav-trade-open::before {
     background:
         linear-gradient(90deg, rgba(232, 72, 47, 0.07) 1px, transparent 1px),
         linear-gradient(rgba(232, 72, 47, 0.055) 1px, transparent 1px),
-        radial-gradient(circle at 78% 24%, rgba(232, 72, 47, 0.15), transparent 26%),
+        radial-gradient(circle at 50% 24%, rgba(232, 72, 47, 0.15), transparent 26%),
         radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.055), transparent 22%),
         #070707;
     background-size: 96px 96px, 96px 96px, auto, auto, auto;
@@ -7782,15 +7687,16 @@ body.nav-trade-open::before {
 }
 
 .hero::after {
-    inset: auto -12vw 10% auto;
-    width: min(62vw, 880px);
-    height: min(62vw, 880px);
+    inset: auto 50% 8% auto;
+    width: min(68vw, 980px);
+    height: min(68vw, 980px);
     border: 1px solid rgba(232, 72, 47, 0.08);
     border-radius: 50%;
     background: none;
     mask-image: none;
     -webkit-mask-image: none;
     box-shadow: 0 0 0 80px rgba(232, 72, 47, 0.018), 0 0 0 160px rgba(232, 72, 47, 0.012);
+    transform: translateX(50%);
 }
 
 .hero-layout {
@@ -7806,19 +7712,23 @@ body.nav-trade-open::before {
 
 .hero-content {
     max-width: 1240px;
-    align-items: stretch;
-    gap: clamp(48px, 7vw, 104px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    text-align: center;
 }
 
 .hero-copy {
-    max-width: 720px;
-    align-items: flex-start;
-    text-align: left;
+    max-width: 760px;
+    align-items: center;
+    text-align: center;
 }
 
 .hero-identity {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 20px;
     min-height: 52px;
     margin-bottom: 34px;
@@ -7886,15 +7796,15 @@ body.nav-trade-open::before {
 
 .hero .description {
     max-width: 600px;
-    margin: 0 0 30px;
+    margin: 0 auto 30px;
     color: #9b9897;
     font-size: 15px;
     line-height: 1.75;
 }
 
 .hero-copy .hero-buttons {
-    justify-content: flex-start;
-    margin-bottom: 42px;
+    justify-content: center;
+    margin-bottom: 36px;
 }
 
 .hero-copy .btn {
@@ -7908,7 +7818,7 @@ body.nav-trade-open::before {
 .hero-proof {
     display: flex;
     width: 100%;
-    max-width: 560px;
+    max-width: 620px;
     margin: 0;
     padding: 18px 0 0;
     border-top: 1px solid rgba(255, 255, 255, 0.11);
@@ -7921,7 +7831,7 @@ body.nav-trade-open::before {
 }
 
 .hero-proof div:first-child {
-    padding-left: 0;
+    padding-left: 20px;
     border-left: 0;
 }
 
@@ -7942,151 +7852,13 @@ body.nav-trade-open::before {
     letter-spacing: 0.04em;
 }
 
-.hero-status-panel {
-    position: relative;
-    max-width: 430px;
-    padding: 0;
-    overflow: hidden;
-    border: 1px solid rgba(232, 72, 47, 0.28);
-    border-radius: 2px;
-    background: rgba(10, 9, 9, 0.84);
-    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.5), inset 0 0 80px rgba(232, 72, 47, 0.025);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-}
-
-.hero-status-panel::before,
-.hero-status-panel::after {
-    content: '';
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    pointer-events: none;
-}
-
-.hero-status-panel::before {
-    top: -1px;
-    left: -1px;
-    border-top: 2px solid var(--volt-orange);
-    border-left: 2px solid var(--volt-orange);
-}
-
-.hero-status-panel::after {
-    right: -1px;
-    bottom: -1px;
-    border-right: 2px solid var(--volt-orange);
-    border-bottom: 2px solid var(--volt-orange);
-}
-
-.status-panel-head {
-    justify-content: space-between;
-    padding: 16px 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-}
-
-.status-online {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    color: #8f8d8d;
-    font-size: 9px;
-}
-
-.hero-route-map {
-    position: relative;
-    height: 202px;
-    overflow: hidden;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-    background:
-        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-        radial-gradient(circle at 50% 50%, rgba(232, 72, 47, 0.08), transparent 54%);
-    background-size: 28px 28px, 28px 28px, auto;
-}
-
-.route-orbit {
-    position: absolute;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 50%;
-}
-
-.route-orbit-one {
-    width: 150px;
-    height: 150px;
-    top: 24px;
-    right: 54px;
-}
-
-.route-orbit-two {
-    width: 86px;
-    height: 86px;
-    top: 56px;
-    right: 86px;
-}
-
-.route-line {
-    position: absolute;
-    width: 225px;
-    height: 1px;
-    top: 103px;
-    left: 80px;
-    background: linear-gradient(90deg, transparent, var(--volt-orange) 18%, var(--volt-orange) 82%, transparent);
-    transform: rotate(-18deg);
-    transform-origin: center;
-    box-shadow: 0 0 10px rgba(232, 72, 47, 0.55);
-}
-
-.route-node {
-    position: absolute;
-    z-index: 1;
-    width: 8px;
-    height: 8px;
-    border: 2px solid #080808;
-    border-radius: 50%;
-    background: var(--volt-orange);
-    box-shadow: 0 0 0 1px var(--volt-orange), 0 0 15px rgba(232, 72, 47, 0.8);
-}
-
-.route-node-origin { top: 130px; left: 88px; }
-.route-node-mid { top: 96px; left: 191px; }
-.route-node-target { top: 62px; right: 107px; }
-
-.route-label {
-    position: absolute;
-    color: #817f7e;
-    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-    font-size: 8px;
-    letter-spacing: 0.15em;
-}
-
-.route-label-origin { top: 146px; left: 64px; }
-.route-label-target { top: 42px; right: 87px; }
-
-.status-panel-list {
-    padding: 8px 18px 10px;
-}
-
-.status-panel-list li {
-    grid-template-columns: minmax(100px, 0.7fr) minmax(0, 1fr);
-    padding: 10px 0;
-    border-bottom-style: solid;
-}
-
-.status-label {
-    font-size: 9px;
-}
-
-.status-value {
-    font-size: 12.5px;
-}
-
 .hero-scroll-hint {
     position: absolute;
-    right: 0;
+    left: 50%;
+    right: auto;
     bottom: 16px;
     margin: 0;
+    transform: translateX(-50%);
 }
 
 .landing {
@@ -8403,16 +8175,6 @@ body.nav-trade-open::before {
 .landing-briefing.revealed .landing-notice-row:nth-child(2) { animation-delay: 0.08s; }
 .landing-briefing.revealed .landing-notice-row:nth-child(3) { animation-delay: 0.16s; }
 
-@media (min-width: 980px) {
-    .hero-content {
-        display: grid;
-        grid-template-columns: minmax(520px, 1fr) minmax(360px, 430px);
-        align-items: center;
-        justify-content: center;
-        text-align: left;
-    }
-}
-
 @media (max-width: 979px) {
     .hero-layout {
         min-height: auto;
@@ -8421,10 +8183,6 @@ body.nav-trade-open::before {
 
     .hero-content {
         max-width: 720px;
-    }
-
-    .hero-status-panel {
-        max-width: none;
     }
 
     .landing-grid {
@@ -8520,28 +8278,6 @@ body.nav-trade-open::before {
     .hero-proof dd {
         font-size: 10px;
     }
-
-    .hero-route-map {
-        height: 170px;
-    }
-
-    .route-orbit-one {
-        top: 9px;
-    }
-
-    .route-orbit-two {
-        top: 41px;
-    }
-
-    .route-line {
-        top: 88px;
-    }
-
-    .route-node-origin { top: 115px; }
-    .route-node-mid { top: 81px; }
-    .route-node-target { top: 47px; }
-    .route-label-origin { top: 131px; }
-    .route-label-target { top: 27px; }
 
     .landing {
         margin: 0 -18px;

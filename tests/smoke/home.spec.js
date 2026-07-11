@@ -17,7 +17,7 @@ test.describe('홈', () => {
         await mockApi(page); // discord-stats: memberCount 1234 → 10단위 내림 "1,230+"
         await gotoSection(page, '');
 
-        const counter = page.locator('[data-stat="members"]');
+        const counter = page.locator('[data-landing-count="members"]');
         await expect(counter).toHaveText('1,230+');
     });
 

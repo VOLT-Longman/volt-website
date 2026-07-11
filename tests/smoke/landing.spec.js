@@ -39,15 +39,15 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await expect(page.locator('.landing-notices-more')).toHaveAttribute('href', '#notices');
     });
 
-    test('카운트업: 상태바 SHIPDB 수치가 최종값에 도달', async ({ page }) => {
+    test('카운트업: 랜딩 SHIPDB 수치가 최종값에 도달', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
-        // 카운트업(0.9s) + Range 메타 갱신이 끝난 뒤 최종값이 안정적으로 유지되어야 함
-        await page.waitForTimeout(1400);
-        await expect(page.locator('[data-console="ships"] strong')).toHaveText(/^\d{2,3}$/);
-        const value = await page.locator('[data-console="ships"] strong').textContent();
+        await page.waitForTimeout(1100);
+        const ships = page.locator('[data-landing-count="ships"]');
+        await expect(ships).toHaveText(/^\d{2,3}$/);
+        const value = await ships.textContent();
         await page.waitForTimeout(300);
-        await expect(page.locator('[data-console="ships"] strong')).toHaveText(value); // 정지 상태 확인
+        await expect(ships).toHaveText(value);
     });
 
     test('카드 라우팅: 함선DB 카드 클릭 → #ships 섹션 전환', async ({ page }) => {
@@ -66,8 +66,7 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await mockApi(page);
         await gotoSection(page, '');
         // 모션 비활성 환경에서도 콘텐츠가 온전히 보인다 (keyframe backwards 패턴 검증)
-        await expect(page.locator('.hero-status-panel')).toBeVisible();
-        await expect(page.locator('[data-console="ships"] strong')).toHaveText(/^\d{2,3}$/);
+        await expect(page.locator('.hero-copy')).toBeVisible();
         await expect(page.locator('.landing-card').first()).toBeVisible();
         expect(errors).toEqual([]);
         await ctx.close();
@@ -107,24 +106,15 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         }), { timeout: 3000 }).toBe('1|none');
     });
 
-    test('F-4 Operation Status 패널: 5행 + 라이브 레이어 실데이터(동기화 척수·날짜) 채움', async ({ page }) => {
+    test('중앙 히어로: 커맨드덱 없이 핵심 문구를 중앙에 배치', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
-        const panel = page.locator('.hero-status-panel');
-        await expect(panel).toBeVisible();
-        await expect(panel).toContainText('OPERATION STATUS');
-        await expect(panel.locator('.status-panel-list li')).toHaveCount(5);
-        // SHIPDB LIVE: 라이브 레이어 헤더의 matched 척수로 갱신 (Range fetch)
-        await expect(panel.locator('[data-console="ships"] strong')).toHaveText(/^\d{2,3}$/, { timeout: 5000 });
-        // LAST SYNC: syncedAt 날짜 (YYYY.MM.DD)
-        await expect(panel.locator('[data-console="sync"]')).toHaveText(/^\d{4}\.\d{2}\.\d{2}$/, { timeout: 5000 });
-        // FLEET OPS: 일정 데이터가 있으면 제목, 없으면 fallback — 비어 있지만 않으면 됨
-        await expect(panel.locator('[data-console="event"]')).not.toHaveText('');
-        // MEMBERS: 라이브 디스코드 수치로 갱신 (mockApi 1234 → 1,230+)
-        await expect(panel.locator('[data-stat="members"]')).toHaveText('1,230+');
+        await expect(page.locator('.hero-status-panel')).toHaveCount(0);
+        await expect(page.getByText('COMMAND DECK')).toHaveCount(0);
+        await expect(page.locator('.hero-copy')).toHaveCSS('text-align', 'center');
     });
 
-    test('F 미션 컨트롤: 히어로 CTA가 함선DB/무역플래너/가입으로 라우팅', async ({ page }) => {
+    test('히어로 CTA가 함선DB·무역플래너·가입으로 라우팅', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
         const buttons = page.locator('#home .hero-content .hero-buttons .btn');
