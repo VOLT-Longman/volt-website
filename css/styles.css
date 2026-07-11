@@ -7775,7 +7775,7 @@ body.nav-trade-open::before {
     margin: 0 0 18px;
     font-size: clamp(62px, 8vw, 116px);
     font-weight: 900;
-    line-height: 0.84;
+    line-height: 0.92;
     letter-spacing: -0.075em;
     color: #f3f0ee;
     text-transform: uppercase;
