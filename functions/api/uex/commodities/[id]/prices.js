@@ -5,7 +5,9 @@ const CACHE_TTL_SECONDS = 30 * 60;
 
 export async function onRequestGet(context) {
   const commodityId = context.params.id;
-  if (!commodityId) return error('Missing commodity id', 400);
+  // 숫자 id만 허용 — 임의 문자열로 캐시 키를 무한 생성해 UEX 업스트림을
+  // 반복 호출(cache-bust)하는 남용을 차단한다 (location-prices.js와 동일 규약).
+  if (!commodityId || !/^\d+$/.test(commodityId)) return error('Invalid commodity id', 400);
   return proxyUexPrices(context, commodityId);
 }
 

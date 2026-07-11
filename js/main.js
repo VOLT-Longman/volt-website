@@ -495,8 +495,8 @@
         if (!Array.isArray(data.gallery) || data.gallery.length === 0) {
             container.innerHTML = `
                 <div class="gallery-empty">
-                    <p class="gallery-empty-title">&#xac24;&#xb7ec;&#xb9ac; &#xc900;&#xbe44; &#xc911;</p>
-                    <p class="gallery-empty-desc">&#xace7; &#xd65c;&#xb3d9; &#xc0ac;&#xc9c4;&#xc774; &#xc5c5;&#xb85c;&#xb4dc;&#xb420; &#xc608;&#xc815;&#xc785;&#xb2c8;&#xb2e4;.</p>
+                    <p class="gallery-empty-title">${escapeHtml(i18nT('gallery.emptyTitle', '갤러리 준비 중'))}</p>
+                    <p class="gallery-empty-desc">${escapeHtml(i18nT('gallery.emptyDesc', '곧 활동 사진이 업로드될 예정입니다.'))}</p>
                 </div>`;
             return;
         }
@@ -989,7 +989,7 @@
                         <div class="partner-fleet-meta">${meta}</div>
                     </div>
                 </div>
-                <p class="partner-fleet-description">${escapeHtml(tx(fleet, 'description') || '협력 관계 정보를 준비 중입니다.')}</p>
+                <p class="partner-fleet-description">${escapeHtml(tx(fleet, 'description') || i18nT('partners.emptyDesc', '협력 관계 정보를 준비 중입니다.'))}</p>
                 ${stats ? `<div class="partner-fleet-stats">${stats}</div>` : ''}
                 ${links ? `<div class="partner-fleet-actions">${links}</div>` : ''}
             </article>
@@ -1902,7 +1902,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();

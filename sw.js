@@ -27,9 +27,9 @@ const VERSIONED_ASSETS = [
     '/js/volt-ai.js',
     '/data/volt-data.js',
     '/data/volt-localization.js',
-    '/data/ship-en.js',
-    '/data/ship-live-stats.js',
-    '/data/ship-market.js',
+    // ship-en/ship-live-stats/ship-market(~616KB)는 함선DB 진입 시 지연 로드가 설계 —
+    // install 프리캐시에 넣으면 lazy-load 최적화를 SW가 무효화하므로 제외한다.
+    // 첫 사용 시 fetch 핸들러의 cache-first가 런타임 캐시에 채운다 (G1).
 ];
 
 const STATIC_ASSETS = [
