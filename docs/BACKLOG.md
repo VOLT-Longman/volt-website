@@ -19,9 +19,9 @@
     검증했다: 렌더된 실제 요소의 **computed style 전 속성 비교(29개 selector 그룹, hover 포함)
     0건 불일치**. 병합 위치(마지막 vs 첫 발생)에 따라 다른 selector(`.reveal` 등)와의 상대 순서가
     바뀌어 cascade 결과가 달라지는 사례를 실측으로 2건(`.leader-card`, `.gallery-item`) 발견해
-    첫 발생 위치로 조정 — **기계적 "마지막 위치로 병합"은 안전하지 않을 수 있음**을 확인. 부수 발견:
-    `.notice-card-pinned`·`.planner-field-hint`는 실제로 어디서도 매치되지 않는 죽은 selector(병합
-    자체는 무해, 별도 정리 후보).
+    첫 발생 위치로 조정 — **기계적 "마지막 위치로 병합"은 안전하지 않을 수 있음**을 확인. 부수 발견이던
+    `.notice-card-pinned`·`.planner-field-hint` 죽은 selector는 G0(2026-07-10)에서 제거 완료
+    (`.notice-card:not(.notice-card-pinned)` 그룹은 살아있는 규칙이라 유지 — 특이성 변화 방지).
   - **남은 100건은 성격이 다르다**: 대부분 콤마로 여러 selector가 본문을 공유하는 패턴
     (`.about-intro, .culture-section, .about-info, .join-cta, .hub-content { 공통 스타일 }` 후
     `.culture-section, .about-info { 추가 스타일 }` 식). 이건 정상적인 CSS 공용 베이스+오버라이드
@@ -58,8 +58,8 @@ innerHTML 래칫 베이스라인은 이동분만큼 함께 옮긴다(총합 불�
 
 ## 운영 후속
 
-- **운영 D1에 0008·0009 적용 확인** — 코드/문서는 반영됐으나 실제 D1 적용은 운영자 1회 작업.
-  `SELECT id, applied_at FROM schema_migrations ORDER BY id;`로 확인(런북 4절).
+- **운영 D1에 0008~0011 적용 확인** — 코드/문서는 반영됐으나 실제 D1 적용은 운영자 1회 작업.
+  `SELECT id, applied_at FROM schema_migrations ORDER BY id;`로 확인(런북 4절). (0010 함선 hidden·0011 RSVP 인덱스 포함)
 - **배포 후 실측** — Lighthouse/RUM로 lazy init 개선폭을 운영 환경에서 재확인(현재 계측은 로컬 chromium 기준).
 - **Admin에서 Erkul preview 1회 실행** — 운영 리허설에서 유일하게 생략된 단계(관리자 로그인 필요).
   preview→hash 복사→로컬 apply 흐름을 운영자가 확인하면 리허설 100% 완결.

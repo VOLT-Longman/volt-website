@@ -4,7 +4,8 @@ VOLT 함선 DB는 두 층으로 관리합니다.
 
 1. **공식 원본 데이터**
    - 출처: RSI Ship Matrix API
-   - 저장 위치: `data/rsi-ship-matrix-index.json`
+   - 저장 위치: `data/rsi-ship-matrix-index.json` — **빌드 타임 소스 전용, 저장소 미포함(gitignore, ~5MB)**.
+     없으면 아래 동기화 명령으로 재생성한다. 브라우저에는 서빙되지 않는다.
    - 용도: 제조사, 공식 명칭, 승무원, 화물, 크기, 구현 상태, 공식 상세 URL 같은 기준값
 
 2. **VOLT 편집 데이터**

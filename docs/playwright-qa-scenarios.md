@@ -32,7 +32,7 @@
 2. Clicking a question toggles only the selected answer.
 3. Policy copy-link action shows toast feedback.
 
-## Theme and navigation
-1. Toggle dark/light theme and confirm persistence after reload.
+## Navigation and accessibility
+1. Confirm the site is locked to dark theme (no theme toggle rendered; `data-theme="dark"`).
 2. Open/close mobile menu and confirm focus remains trapped while open.
 3. Confirm visible focus styles for nav, buttons, inputs, and selects.

@@ -67,7 +67,7 @@
 |---|---|
 | 섹션형 홈페이지 | 메뉴 선택 시 같은 페이지 안에서 섹션 전환 |
 | URL 해시 라우팅 | `#about`, `#ships`, `#policy-section-1` 같은 직접 링크 지원 |
-| 다크 / 라이트 테마 | 테마 전환 및 `localStorage` 저장 |
+| 다크 전용 테마 | 브랜드 톤 고정 (F-2에서 라이트 테마 제거) |
 | 반응형 내비게이션 | 데스크톱 메뉴와 모바일 햄버거 메뉴 지원 |
 | 전역 검색 | 공지, 함선, FAQ, 연혁, 정책 등 사이트 전체 검색 |
 | 공지사항 | 태그 필터, 최신순 정렬, 더 보기 지원 |
@@ -124,8 +124,19 @@ volt-website/
 ├── css/
 │   └── styles.css              디자인, 테마, 반응형, 접근성 스타일
 ├── js/
-│   ├── theme-init.js           초기 테마 적용(렌더 전 실행, 기본 다크)
-│   ├── main.js                 렌더링, 검색, 모달, 메뉴, 테마, 플래너, 인증 등 핵심 기능
+│   ├── theme-init.js           다크 테마 고정(렌더 전 실행)
+│   ├── main.js                 오케스트레이터: 섹션 렌더, 모달, CMS fetch, 모듈 init(deps) 주입
+│   ├── i18n.js                 KO/EN 번역 테이블·언어 전환
+│   ├── navigation.js           내비게이션/해시 라우팅
+│   ├── search-modal.js         전역 검색 오버레이
+│   ├── notices.js              공지 렌더러 (VOLT_NOTICES)
+│   ├── schedule.js             일정/RSVP 렌더러 (VOLT_SCHEDULE)
+│   ├── ships.js                함선DB UI 계층 (VOLT_SHIPS)
+│   ├── landing.js              랜딩 히어로·스타맵·운영 패널 (VOLT_LANDING)
+│   ├── trade-planner.js        무역플래너 (VOLT_TRADE_PLANNER)
+│   ├── uex.js / uex-panel.js   UEX 시세 연동·거래 후보 패널
+│   ├── mypage.js               마이페이지 (VOLT_MYPAGE)
+│   ├── auth-ui.js              로그인/로그아웃 헤더 UI (VOLT_AUTH_UI)
 │   └── volt-ai.js              VOLT AI 페이지 기능
 ├── data/
 │   ├── volt-data.js            CMS 폴백/시드 + 정적 콘텐츠(함대 정보, 함선 기본값, FAQ, 정책, 스트리머 등)
@@ -445,7 +456,7 @@ node scripts/update-cache-version.js YYYYMMDD-NN
 
 ### JS/CSS 비대화 방지
 
-`js/main.js`(약 100KB — 기능 분리로 축소 중)는 더 이상 키우지 않습니다.
+`js/main.js`(약 2,000줄 — 기능 분리로 축소 중)는 더 이상 키우지 않습니다.
 
 - **신규 기능 JS는 별도 파일**로 추가합니다: `js/<feature>.js` (예: `js/volt-ai.js`)
 - `index.html`에서 `js/main.js` 뒤에 `?v=` 버전 쿼리와 함께 로드합니다
