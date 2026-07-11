@@ -23,6 +23,7 @@ const VERSIONED_ASSETS = [
     '/js/search-modal.js',
     '/js/auth-ui.js',
     '/js/mypage.js',
+    '/js/leadership.js',
     '/js/main.js',
     '/js/volt-ai.js',
     '/data/volt-data.js',

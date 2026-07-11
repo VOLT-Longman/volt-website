@@ -131,6 +131,7 @@ volt-website/
 │   ├── search-modal.js         전역 검색 오버레이
 │   ├── notices.js              공지 렌더러 (VOLT_NOTICES)
 │   ├── schedule.js             일정/RSVP 렌더러 (VOLT_SCHEDULE)
+│   ├── leadership.js           임원진 카드·상세 모달 (VOLT_LEADERSHIP)
 │   ├── ships.js                함선DB UI 계층 (VOLT_SHIPS)
 │   ├── landing.js              랜딩 히어로·스타맵·운영 패널 (VOLT_LANDING)
 │   ├── trade-planner.js        무역플래너 (VOLT_TRADE_PLANNER)

@@ -317,77 +317,8 @@
         container.querySelectorAll('.reveal:not(.revealed)').forEach((element) => revealObserver.observe(element));
     }
 
-    function renderLeaders() {
-        const container = document.getElementById('leadership-grid');
-        if (!container) return;
-        const leaders = getRenderableLeadership();
-        container.innerHTML = leaders.map(renderLeaderCard).join('');
-        observeNewReveals(container);
-    }
-
-    // CEO(is-primary)는 전체 폭 3열(아바타 | 정보 | 핵심역량·CTA) 그리드,
-    // 나머지 임원은 compact 카드. 상세는 모달로 분리.
-    function renderLeaderCard(leader) {
-        const isPrimary = leader.avatarStyle === 'ceo';
-        const id = escapeHtml(String(leader.id || leader.name || ''));
-        const info = `
-                <div class="leader-info">
-                    <h3>${escapeHtml(leader.name)}</h3>
-                    <span class="leader-role">${escapeHtml(tx(leader, 'role'))}</span>
-                    <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
-                    <p class="leader-description leader-summary">${escapeHtml(tx(leader, 'description'))}</p>
-                    ${isPrimary ? '' : `${renderLeaderKeyPoints(leader, 2)}<span class="leader-more" aria-hidden="true">${escapeHtml(i18nT('leadership.viewDetail', '자세히 보기 →'))}</span>`}
-                </div>`;
-        const aside = isPrimary ? `
-                <div class="leader-aside">
-                    ${renderLeaderKeyPoints(leader, 3)}
-                    <span class="leader-more" aria-hidden="true">${escapeHtml(i18nT('leadership.viewDetail', '자세히 보기 →'))}</span>
-                </div>` : '';
-        return `
-            <button class="leader-card${isPrimary ? ' ceo-card is-primary' : ''} reveal" type="button" data-leader-id="${id}" aria-label="${escapeHtml(`${leader.name} ${i18nT('leadership.detailAria', '상세 보기')}`)}">
-                ${renderLeaderAvatar(leader)}${info}${aside}
-            </button>`;
-    }
-
-    // 카드에는 핵심 역량 상위 3개만 요약. 철학·기여·전체 역량 등 상세는 모달로 분리.
-    function renderLeaderKeyPoints(leader, limit = 3) {
-        const items = txArr(leader, 'competencies').slice(0, limit);
-        if (!items.length) return '';
-        return `<div class="leader-keypoints"><strong>${escapeHtml(i18nT('leadership.keyCompetencies', '핵심 역량'))}</strong><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>`;
-    }
-
-    function getRenderableLeadership() {
-        const leaders = Array.isArray(data.leadership)
-            ? data.leadership.filter((leader) => leader && leader.published !== false)
-            : [];
-        return leaders.length ? leaders : staticLeadership;
-    }
-
-    function renderLeaderAvatar(leader) {
-        const avatarUrl = getLeaderAvatarUrl(leader);
-        if (avatarUrl) {
-            return `<img class="leader-avatar leader-avatar-image" src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(leader.name || 'Leader')} profile photo" loading="lazy" decoding="async">`;
-        }
-        // 아바타 배경은 CSS(charcoal + accent)로 통일한다. (브랜드 톤 정리)
-        return `<div class="leader-avatar leader-avatar-fallback" aria-hidden="true">${escapeHtml(getLeaderInitial(leader))}</div>`;
-    }
-
-    function getLeaderAvatarUrl(leader) {
-        return leader.avatarUrl || leader.photoUrl || leader.imageUrl || '';
-    }
-
-    function getLeaderInitial(leader) {
-        return leader.avatar || (leader.name || '?').charAt(0).toUpperCase();
-    }
-
-    function renderLeaderDetails(leader) {
-        const details = Array.isArray(leader.details) ? `<div class="leader-details">${leader.details.map((item) => `
-            <div class="leader-details-item"><strong>${escapeHtml(tx(item, 'title'))}</strong><p>${escapeHtml(tx(item, 'content'))}</p></div>`).join('')}</div>` : '';
-        const compItems = txArr(leader, 'competencies');
-        const competencies = compItems.length ? `<div class="leader-competencies"><strong>${escapeHtml(i18nT('leadership.keyCompetencies', '핵심 역량'))}</strong><ul>${compItems.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>` : '';
-        const duties = leader.duties ? `<div class="leader-duties"><strong>${escapeHtml(i18nT('leadership.duties', '주요 업무'))}</strong> · ${escapeHtml(tx(leader, 'duties'))}</div>` : '';
-        return `${details}${competencies}${duties}`;
-    }
+    // 임원진 UI는 js/leadership.js로 분리(window.VOLT_LEADERSHIP). 호출부 무변경용 위임 shim.
+    function renderLeaders() { return window.VOLT_LEADERSHIP?.renderLeaders?.(); }
 
     function renderStreamers() {
         const container = document.getElementById('streamers-grid');
@@ -449,8 +380,8 @@
         if (!container || !data.hub || !Array.isArray(data.hub.features)) return;
         container.innerHTML = data.hub.features.map((feature) => `
             <div class="hub-feature reveal">
-                <h4>${escapeHtml(feature.title)}</h4>
-                <ul>${feature.items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+                <h4>${escapeHtml(tx(feature, 'title'))}</h4>
+                <ul>${txArr(feature, 'items').map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
             </div>`).join('');
     }
 
@@ -476,8 +407,8 @@
             <div class="join-checklist-grid">
                 ${data.joinChecklist.map((item) => `
                     <article class="join-checklist-card reveal">
-                        <h4>${escapeHtml(item.title)}</h4>
-                        <p>${escapeHtml(item.description)}</p>
+                        <h4>${escapeHtml(tx(item, 'title'))}</h4>
+                        <p>${escapeHtml(tx(item, 'description'))}</p>
                     </article>`).join('')}
             </div>`;
     }
@@ -1080,40 +1011,7 @@
         }
     }
 
-    function getLeaderById(id) {
-        return getRenderableLeadership().find((leader) => String(leader.id || leader.name || '') === String(id)) || null;
-    }
-
-    function openLeaderModal(leader) {
-        if (!leader) return;
-        trackEvent('leader_modal_open', { leaderId: leader.id || '' });
-        openModal(`<div class="modal-header">
-                <div>
-                    <h2 class="modal-title">${escapeHtml(leader.name)}</h2>
-                    <p class="leader-role">${escapeHtml(tx(leader, 'role'))}</p>
-                </div>
-                <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '모달 닫기'))}">×</button>
-            </div>
-            <div class="modal-body leader-modal-body">
-                <div class="leader-modal-top">
-                    ${renderLeaderAvatar(leader)}
-                    <div>
-                        <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
-                        <p class="leader-modal-desc">${escapeHtml(tx(leader, 'description'))}</p>
-                    </div>
-                </div>
-                ${renderLeaderDetails(leader)}
-            </div>`, true);
-    }
-
-    function setupLeadershipControls() {
-        const grid = document.getElementById('leadership-grid');
-        if (!grid) return;
-        grid.addEventListener('click', (event) => {
-            const card = event.target.closest('[data-leader-id]');
-            if (card) openLeaderModal(getLeaderById(card.getAttribute('data-leader-id')));
-        });
-    }
+    function setupLeadershipControls() { return window.VOLT_LEADERSHIP?.setup?.(); }
 
 
 
@@ -1867,6 +1765,12 @@
             isLoggedIn: () => authState.loggedIn,
             applyRoleGates, renderMyPage,
         });
+        // 임원진 UI 계층 — 데이터 접근(CMS 우선 + 정적 폴백)·공용 유틸 주입 (G4).
+        window.VOLT_LEADERSHIP?.init?.({
+            escapeHtml, tx, txArr, i18nT, observeNewReveals, openModal, trackEvent,
+            getLeadership: () => data.leadership,
+            getStaticLeadership: () => staticLeadership,
+        });
         // 랜딩 하이라이트 계층 — 공지 티저·동적 수치·스타필드/리빌 주입.
         // 랜딩(장식 계층)은 로드 실패해도 사이트가 동작해야 한다 — 옵셔널 참조 (라이브 블랭크 사고 예방)
         window.VOLT_LANDING?.init?.({
@@ -1902,7 +1806,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); ensureShipEnForEn(); });
+            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();

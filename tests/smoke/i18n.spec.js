@@ -85,6 +85,8 @@ test.describe('i18n (KO/EN)', () => {
         const joinPage = await load(ctx, '/#join');
         await expect(joinPage.locator('#join-steps')).toContainText('Submit Application');
         await expect(joinPage.locator('#join-steps')).not.toContainText('지원서 제출');
+        // G4: 가입 체크리스트도 데이터 _en으로 영어 렌더
+        await expect(joinPage.locator('#join-checklist')).toContainText('Newcomers Welcome');
         const guidePage = await load(ctx, '/#guide');
         await expect(guidePage.locator('#guide-list')).toContainText('Basic Trade Flow');
         await ctx.close();

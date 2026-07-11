@@ -392,15 +392,21 @@ const VOLT_DATA = {
         features: [
             {
                 title: "아이템 거래",
-                items: ["무기, 장비, 방어구", "모듈, 부품", "희귀 전리품", "수집 아이템", "판매 / 교환 / 나눔"]
+                title_en: "Item Trading",
+                items: ["무기, 장비, 방어구", "모듈, 부품", "희귀 전리품", "수집 아이템", "판매 / 교환 / 나눔"],
+                items_en: ["Weapons, gear, armor", "Modules & components", "Rare loot", "Collectibles", "Sell / trade / give away"]
             },
             {
                 title: "단기 임무 모집",
-                items: ["운송 보조", "경호 임무", "채굴 동행", "레이드 지원", "기타 임시 인력 수요"]
+                title_en: "Short-term Contracts",
+                items: ["운송 보조", "경호 임무", "채굴 동행", "레이드 지원", "기타 임시 인력 수요"],
+                items_en: ["Hauling support", "Escort duty", "Mining companions", "Raid backup", "Other temporary crew needs"]
             },
             {
                 title: "운영 방식",
-                items: ["디스코드 채널 기반", "지정 양식 준수", "운영진 중재 가능", "인게임 화폐(aUEC)만 허용"]
+                title_en: "How It Works",
+                items: ["디스코드 채널 기반", "지정 양식 준수", "운영진 중재 가능", "인게임 화폐(aUEC)만 허용"],
+                items_en: ["Runs on Discord channels", "Uses designated post formats", "Staff mediation available", "In-game currency (aUEC) only"]
             }
         ],
         notice: "모든 거래는 인게임 화폐(aUEC)만 허용되며, 현금·계좌이체·실물 등 현금성 거래는 전면 금지됩니다. 시세 교란, 허위 매물, 분쟁 유발 행위 또한 금지되며, 반복 위반 시 이용 제한 조치가 적용됩니다."
@@ -433,27 +439,39 @@ const VOLT_DATA = {
     joinChecklist: [
         {
             title: "뉴비도 환영",
-            description: "Star Citizen 경험이 적어도 괜찮습니다. 필요한 기본 안내를 함께 제공합니다."
+            title_en: "Newcomers Welcome",
+            description: "Star Citizen 경험이 적어도 괜찮습니다. 필요한 기본 안내를 함께 제공합니다.",
+            description_en: "Little Star Citizen experience is fine. We provide the basics to get you started."
         },
         {
             title: "활동 강제 없음",
-            description: "상시 의무 활동보다 자율 참여를 우선합니다. 가능한 때에 함께하면 됩니다."
+            title_en: "No Mandatory Activity",
+            description: "상시 의무 활동보다 자율 참여를 우선합니다. 가능한 때에 함께하면 됩니다.",
+            description_en: "Voluntary participation comes first. Join whenever your schedule allows."
         },
         {
             title: "Discord 선참여 가능",
-            description: "지원 전 Discord에 먼저 들어와 분위기와 공지를 확인할 수 있습니다."
+            title_en: "Join Discord First",
+            description: "지원 전 Discord에 먼저 들어와 분위기와 공지를 확인할 수 있습니다.",
+            description_en: "Feel free to join our Discord before applying to check the vibe and announcements."
         },
         {
             title: "다양한 플레이 허용",
-            description: "물류·무역 중심이지만 전투, 탐사, 정보 수집 등 다양한 활동을 함께합니다."
+            title_en: "All Playstyles Welcome",
+            description: "물류·무역 중심이지만 전투, 탐사, 정보 수집 등 다양한 활동을 함께합니다.",
+            description_en: "Logistics and trade are our core, but we also run combat, exploration, and intel ops."
         },
         {
             title: "대표 ORG 안내",
-            description: "가입 후 대표 ORG 설정 방법을 안내하며, 필요한 절차를 차근히 도와드립니다."
+            title_en: "Main-ORG Guidance",
+            description: "가입 후 대표 ORG 설정 방법을 안내하며, 필요한 절차를 차근히 도와드립니다.",
+            description_en: "After joining, we walk you through setting VOLT as your main ORG step by step."
         },
         {
             title: "닉네임 기준 명확",
-            description: "디코닉(핸들네임) 형식만 맞추면 운영진과 함대원이 서로를 쉽게 찾을 수 있습니다."
+            title_en: "Clear Nickname Rules",
+            description: "디코닉(핸들네임) 형식만 맞추면 운영진과 함대원이 서로를 쉽게 찾을 수 있습니다.",
+            description_en: "Match the Discord-nick (handle) format so staff and members can find each other easily."
         }
     ],
 
