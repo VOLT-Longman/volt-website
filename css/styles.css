@@ -488,9 +488,9 @@ body.nav-trade-open::before {
     align-items: center;
     justify-content: center;
     /* ?듭떖 ?섏젙: ?꾩そ ?⑤뵫??nav ?믪씠留뚰겮留?二쇨퀬, 肄섑뀗痢좊뒗 ?먯뿰?ㅻ읇寃?以묒븰 ?뺣젹 */
-    padding: 100px 22px 80px;
+    padding: 96px 28px 72px;
     background:
-        radial-gradient(ellipse at top, rgba(232, 72, 47, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at top, rgba(232, 72, 47, 0.09) 0%, transparent 58%),
         linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
     position: relative;
     overflow: hidden;
@@ -531,13 +531,13 @@ body.nav-trade-open::before {
    랜딩 하이라이트가 첫 뷰포트에 미리 보이지 않게 한다. */
 .hero-layout {
     width: 100%;
-    max-width: 1280px;
-    min-height: calc(100vh - 180px);
+    max-width: 1200px;
+    min-height: calc(100svh - 168px);
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
     align-items: center;
-    gap: 36px;
+    gap: 30px;
     position: relative;
     z-index: 1;
 }
@@ -547,17 +547,19 @@ body.nav-trade-open::before {
 .hero-layout::before {
     content: '';
     position: absolute;
-    inset: -12% -18%;
+    inset: -14% -10%;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(ellipse 62% 58% at 46% 46%, rgba(5, 4, 4, 0.5) 0%, transparent 70%);
+    background:
+        radial-gradient(ellipse 56% 52% at 40% 50%, rgba(6, 5, 5, 0.74) 0%, transparent 72%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.18), transparent 48%, rgba(0, 0, 0, 0.20));
 }
 
 /* 비대칭 Mission Layout (F-4, B안): 기본(모바일) 1열 중앙 정렬,
    데스크톱(≥1200px)은 좌 브랜드 + 우 운영 패널의 2컬럼 grid */
 .hero-content {
     width: 100%;
-    max-width: 1180px;
+    max-width: 1120px;
     text-align: center;
     position: relative;
     z-index: 1;
@@ -571,15 +573,17 @@ body.nav-trade-open::before {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 640px;
     min-width: 0;
 }
 
 @media (min-width: 1200px) {
     .hero-content {
         display: grid;
-        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.75fr);
+        grid-template-columns: minmax(440px, 0.95fr) minmax(360px, 400px);
         align-items: center;
-        gap: 72px;
+        justify-content: center;
+        gap: clamp(44px, 5vw, 72px);
         text-align: left;
     }
 
@@ -600,11 +604,11 @@ body.nav-trade-open::before {
 
 /* ?듭떖 ?섏젙: 濡쒓퀬 ?ш린? 留덉쭊 議곗젙 */
 .hero-logo {
-    width: 200px;
+    width: clamp(180px, 16vw, 230px);
     height: auto;
     /* 濡쒓퀬 ?먯껜 ?щ갚 蹂댁젙 (?대?吏 ?꾩븘???щ갚???뚯닔 留덉쭊?쇰줈 ?곸뇙) */
-    margin-top: -20px;
-    margin-bottom: -10px;
+    margin-top: -18px;
+    margin-bottom: -4px;
     animation: fadeInUp 1s ease;
     filter: drop-shadow(0 4px 20px rgba(232, 72, 47, 0.18));
 }
@@ -646,7 +650,7 @@ body.nav-trade-open::before {
 }
 
 .hero .subtitle {
-    font-size: 24px;
+    font-size: clamp(22px, 2.1vw, 28px);
     font-weight: 400;
     color: var(--color-text-secondary);
     margin-bottom: 20px;
@@ -655,7 +659,7 @@ body.nav-trade-open::before {
 }
 
 .hero .description {
-    font-size: 17px;
+    font-size: clamp(16px, 1.25vw, 18px);
     font-weight: 400;
     color: var(--color-text-secondary);
     margin-bottom: 32px;
@@ -668,7 +672,7 @@ body.nav-trade-open::before {
 
 .hero-buttons {
     display: flex;
-    gap: 16px;
+    gap: 14px;
     justify-content: center;
     flex-wrap: wrap;
     animation: fadeInUp 1s ease 0.8s backwards;
@@ -678,13 +682,17 @@ body.nav-trade-open::before {
 .hero-status-panel {
     width: 100%;
     max-width: 400px;
-    padding: 20px 22px 10px;
+    padding: 24px 24px 14px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: var(--radius-md);
-    background: rgba(18, 18, 20, 0.44);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+        rgba(16, 15, 16, 0.56);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 24px 60px rgba(0, 0, 0, 0.26);
     text-align: left;
     animation: fadeInUp 1s ease 1s backwards;
 }
@@ -723,11 +731,11 @@ body.nav-trade-open::before {
 }
 
 .status-panel-list li {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(92px, 0.72fr) minmax(0, 1fr);
     align-items: baseline;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 11px 0;
+    gap: 18px;
+    padding: 12px 0;
     border-bottom: 1px dashed var(--color-border);
 }
 
@@ -744,13 +752,13 @@ body.nav-trade-open::before {
 
 .status-value {
     min-width: 0;
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 700;
     color: var(--color-text-primary);
     text-align: right;
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: anywhere;
     font-variant-numeric: tabular-nums;
 }
 

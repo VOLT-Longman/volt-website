@@ -55,6 +55,9 @@ test.describe('접근성(axe) 래칫', () => {
         await page.locator('#notices-list .notice-card').first().click();
         await expect(page.locator('#global-modal')).toHaveClass(/active/);
         await expect(page.locator('#global-modal .modal-card')).toHaveAttribute('aria-labelledby', /.+/);
+        // Modal fade-in temporarily blends foreground/background colors, which can
+        // create false color-contrast failures before the final state settles.
+        await page.waitForTimeout(400);
         await assertNoNewViolations(page, []);
     });
 
