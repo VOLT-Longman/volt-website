@@ -1,11 +1,29 @@
 {
-  "generatedAt": "2026-07-08T12:33:47.705Z",
+  "generatedAt": "2026-07-12T02:56:27.088Z",
   "koSource": "translated-from-erkul-en",
-  "totalEntries": 210,
-  "withEnglishDescription": 210,
+  "totalEntries": 218,
+  "withEnglishDescription": 218,
   "translatedKo": 210,
   "missingEnglishDescription": [],
-  "missingKoTranslation": [],
+  "missingKoTranslation": [
+    "600i-executive-edition",
+    "caterpillar-pirate",
+    "dragonfly-star-kitten",
+    "f7c-m-hornet-heartseeker-mk-ii",
+    "f8a-lightning",
+    "starlite",
+    "tiburon",
+    "tyilui"
+  ],
   "staleTranslation": [],
-  "unchangedLegacyFallback": []
+  "unchangedLegacyFallback": [
+    "600i-executive-edition",
+    "caterpillar-pirate",
+    "dragonfly-star-kitten",
+    "f7c-m-hornet-heartseeker-mk-ii",
+    "f8a-lightning",
+    "starlite",
+    "tiburon",
+    "tyilui"
+  ]
 }

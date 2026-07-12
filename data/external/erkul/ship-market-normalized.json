@@ -1,6 +1,6 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-07-05T12:02:20.586Z",
+  "syncedAt": "2026-07-12T02:50:30.125Z",
   "ships": {
     "anvl_ballista": {
       "localName": "anvl_ballista",
@@ -2155,8 +2155,8 @@
           "shop": "New Deal",
           "location": "Lorville",
           "price": 7641648,
-          "available": 5,
-          "unavailable": 3
+          "available": 6,
+          "unavailable": 4
         },
         {
           "shop": "Teach's",
@@ -2688,7 +2688,7 @@
           "location": "Lorville",
           "price": 342720,
           "available": null,
-          "unavailable": null
+          "unavailable": 1
         },
         {
           "shop": "Buy-&-Fly",
@@ -3747,7 +3747,7 @@
           "location": "Lorville",
           "price": 7541100,
           "available": null,
-          "unavailable": 25
+          "unavailable": 26
         },
         {
           "shop": "Teach's",

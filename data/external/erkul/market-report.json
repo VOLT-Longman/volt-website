@@ -1,6 +1,6 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-07-05T12:02:20.586Z",
+  "syncedAt": "2026-07-12T02:50:30.125Z",
   "shopsCount": 112,
   "inventoryRows": 3471,
   "shipMarketRows": 346,
@@ -1125,6 +1125,12 @@
       "samplePrice": 9900
     },
     {
+      "localName": "mining_laser_thcn_helix_s1",
+      "rows": 14,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 58000
+    },
+    {
       "localName": "mining_laser_thcn_impact_s2",
       "rows": 14,
       "sampleShop": "Dumper's Depot@Area18",
@@ -1269,12 +1275,6 @@
       "samplePrice": 12643
     },
     {
-      "localName": "mining_laser_thcn_helix_s1",
-      "rows": 13,
-      "sampleShop": "Dumper's Depot@Area18",
-      "samplePrice": 58000
-    },
-    {
       "localName": "mining_modules_passive_xtr_mk1",
       "rows": 13,
       "sampleShop": "Dumper's Depot@Area18",
@@ -1365,6 +1365,12 @@
       "samplePrice": 108000
     },
     {
+      "localName": "mining_modules_passive_xtr_mk3",
+      "rows": 12,
+      "sampleShop": "Dumper's Depot@Area18",
+      "samplePrice": 20000
+    },
+    {
       "localName": "shld_basl_s02_aspis_scitem",
       "rows": 12,
       "sampleShop": "Dumper's Depot@Grim HEX",
@@ -1423,12 +1429,6 @@
       "rows": 11,
       "sampleShop": "Dumper's Depot@Area18",
       "samplePrice": 94000
-    },
-    {
-      "localName": "mining_modules_passive_xtr_mk3",
-      "rows": 11,
-      "sampleShop": "Dumper's Depot@Area18",
-      "samplePrice": 20000
     },
     {
       "localName": "cool_jspn_s00_winterstarsl_scitem",
@@ -2175,12 +2175,6 @@
       "samplePrice": 121740
     },
     {
-      "localName": "anvl_hornet_f7cm_mk2_ball_turret",
-      "rows": 3,
-      "sampleShop": "CenterMass@Area18",
-      "samplePrice": 115330
-    },
-    {
       "localName": "kbar_ballisticcannon_s1",
       "rows": 3,
       "sampleShop": "CenterMass@New Babbage",
@@ -2679,6 +2673,12 @@
       "samplePrice": 34010
     },
     {
+      "localName": "anvl_hornet_f7cm_mk2_ball_turret",
+      "rows": 2,
+      "sampleShop": "CenterMass@New Babbage",
+      "samplePrice": 115330
+    },
+    {
       "localName": "cool_jspn_s02_cryostarex_scitem",
       "rows": 2,
       "sampleShop": "Cousin Crows@Orison",
@@ -3139,12 +3139,6 @@
       "rows": 1,
       "sampleShop": "CenterMass@New Babbage",
       "samplePrice": 3094
-    },
-    {
-      "localName": "bmbrck_s10_aegs_eclipse",
-      "rows": 1,
-      "sampleShop": "CenterMass@New Babbage",
-      "samplePrice": 1887132
     },
     {
       "localName": "bmbrck_s03_aegs_retaliator_front",

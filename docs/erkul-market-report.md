@@ -2,7 +2,7 @@
 
 `ship-market-normalized.json` 산출 결과 요약. 재현: `npm run shipdb:erkul:market`
 
-- 원천: Erkul live shop (fetch: 2026-07-05T12:02:20.586Z)
+- 원천: Erkul live shop (fetch: 2026-07-12T02:50:30.125Z)
 - 상점 112개 / inventory 3471행 / 함선 매칭 346행
 - 구매처 확인 함선: **173척** / 렌탈처 확인 함선: **41척**
 - 판매처 없는 함선: 46척 (인게임 비판매 — 픽업 전용/이벤트/컨셉 판매 함선 포함)
@@ -17,7 +17,7 @@
 
 ## unmatched inventory
 
-- 미매칭 distinct localName: 558종 — 대부분 무기/터렛/모듈 (함선 아님)
+- 미매칭 distinct localName: 557종 — 대부분 무기/터렛/모듈 (함선 아님)
 - 이 중 **함선 선체로 보이는 미매칭 6종** (추정 매칭 금지 원칙에 따라 조인하지 않고 기록만):
 
   - `rsi_aurora_mr` (4행, 예: New Deal@Lorville) — Erkul live/ships 목록에 없음. A-4 별칭 테이블 후보

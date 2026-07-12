@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-05T12:02:20.586Z",
+  "generatedAt": "2026-07-12T02:50:30.125Z",
   "policy": {
     "add": "정식 독립 선체(기본형) + Erkul stats 존재만 추가 후보",
     "hold": "Pirate/Executive/스킨류 에디션은 기본형과 별도 가치가 있을 때만 (운영자 판단)",
@@ -9,7 +9,6 @@
   },
   "summary": {
     "제외": 1,
-    "보류": 8,
     "수동매핑 승격 완료": 6
   },
   "voltOnlyUnreleased": {
@@ -59,110 +58,6 @@
       "hasStats": true,
       "role": "Transport",
       "hp": 6700,
-      "purchaseCount": 0,
-      "rentalCount": 0
-    },
-    {
-      "localName": "aegs_tiburon",
-      "name": "Tiburon",
-      "manufacturer": "Aegis Dynamics",
-      "group": "erkul-only",
-      "verdict": "보류",
-      "reason": "신규 정식 독립 선체(Aegis 헤비 건쉽) + stats 완비이나 인게임 구매처 없음(pledge 전용) — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토.",
-      "hasStats": true,
-      "role": "Heavy Gunship",
-      "hp": 187200,
-      "purchaseCount": 0,
-      "rentalCount": 0
-    },
-    {
-      "localName": "anvl_hornet_f7cm_mk2_heartseeker",
-      "name": "F7C-M Hornet Heartseeker Mk II",
-      "manufacturer": "Anvil Aerospace",
-      "group": "erkul-only",
-      "verdict": "보류",
-      "reason": "F7C-M Mk II의 Heartseeker 에디션 — 기본형 계열이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가.",
-      "hasStats": true,
-      "role": "Medium Fighter",
-      "hp": 15250,
-      "purchaseCount": 0,
-      "rentalCount": 0
-    },
-    {
-      "localName": "anvl_lightning_f8",
-      "name": "F8A Lightning",
-      "manufacturer": "Anvil Aerospace",
-      "group": "erkul-only",
-      "verdict": "보류",
-      "reason": "F8A(군용 사양)는 일반 획득 경로가 없고, 민수형 F8C Lightning은 이미 VOLT DB에 존재(f8c-lightning). 별도 등재 가치 판단 필요.",
-      "hasStats": true,
-      "role": "Heavy Fighter",
-      "hp": 40200,
-      "purchaseCount": 0,
-      "rentalCount": 0
-    },
-    {
-      "localName": "drak_caterpillar_pirate",
-      "name": "Caterpillar Pirate",
-      "manufacturer": "Drake Interplanetary",
-      "group": "erkul-only",
-      "verdict": "보류",
-      "reason": "Caterpillar의 Pirate 에디션 — 기본형(caterpillar)이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가.",
-      "hasStats": true,
-      "role": "Medium Freight",
-      "hp": 91500,
-      "purchaseCount": 0,
-      "rentalCount": 0
-    },
-    {
-      "localName": "drak_dragonfly_pink",
-      "name": "Dragonfly Star Kitten",
-      "manufacturer": "Drake Interplanetary",
-      "group": "erkul-only",
-      "verdict": "보류",
-      "reason": "Dragonfly의 Star Kitten 스킨 변형 — 기본형이 이미 DB에 존재. 스킨류는 별도 가치가 있을 때만 추가.",
-      "hasStats": true,
-      "role": "Racing",
-      "hp": 1570,
-      "purchaseCount": 0,
-      "rentalCount": 0
-    },
-    {
-      "localName": "gama_tyilui",
-      "name": "Tyilui",
-      "manufacturer": "Gatac Manufacture",
-      "group": "erkul-only",
-      "verdict": "보류",
-      "reason": "신규 정식 독립 선체(Gatac 캐리어) + stats 완비이나 인게임 구매처 없음 — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토.",
-      "hasStats": true,
-      "role": "Carrier",
-      "hp": 70460,
-      "purchaseCount": 0,
-      "rentalCount": 0
-    },
-    {
-      "localName": "misc_starlite",
-      "name": "Starlite",
-      "manufacturer": "Musashi Industrial & Starflight Concern",
-      "group": "erkul-only",
-      "verdict": "보류",
-      "reason": "신규 정식 독립 선체(MISC 경급유선) + stats 완비이나 인게임 구매처 없음 — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토.",
-      "hasStats": true,
-      "role": "Light Refueling",
-      "hp": 68250,
-      "purchaseCount": 0,
-      "rentalCount": 0
-    },
-    {
-      "localName": "orig_600i_executive_edition",
-      "name": "600i Executive Edition",
-      "manufacturer": "Origin Jumpworks",
-      "group": "erkul-only",
-      "verdict": "보류",
-      "reason": "600i의 Executive 에디션 — 기본형(600i)이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가.",
-      "hasStats": true,
-      "role": "Expedition",
-      "hp": 197250,
       "purchaseCount": 0,
       "rentalCount": 0
     },

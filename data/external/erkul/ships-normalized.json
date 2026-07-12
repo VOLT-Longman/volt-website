@@ -1,7 +1,7 @@
 {
   "source": "erkul-live",
   "sourceVersion": "live",
-  "syncedAt": "2026-07-05T12:02:20.586Z",
+  "syncedAt": "2026-07-12T02:50:30.125Z",
   "shipCount": 219,
   "ships": [
     {
@@ -11,7 +11,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Transport",
         "career": "Transport",
@@ -82,7 +82,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Interceptor",
         "career": "Combat",
@@ -153,7 +153,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -224,7 +224,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -295,7 +295,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Interdiction",
         "career": "Combat",
@@ -366,7 +366,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Stealth Bomber",
         "career": "Combat",
@@ -437,7 +437,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Fighter",
         "career": "Combat",
@@ -508,7 +508,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Fighter",
         "career": "Combat",
@@ -579,7 +579,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Fighter",
         "career": "Combat",
@@ -650,7 +650,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Gunship",
         "career": "Combat",
@@ -721,7 +721,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Frigate",
         "career": "Combat",
@@ -792,7 +792,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Frigate",
         "career": "Combat",
@@ -863,7 +863,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Salvage",
         "career": "Industrial",
@@ -934,7 +934,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Gunship",
         "career": "Combat",
@@ -1005,7 +1005,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Modular",
         "career": "Combat",
@@ -1076,7 +1076,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -1147,7 +1147,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -1218,7 +1218,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -1289,7 +1289,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Racing",
         "career": "Competition",
@@ -1360,7 +1360,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Interdiction",
         "career": "Combat",
@@ -1431,7 +1431,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Gunship",
         "career": "Combat",
@@ -1502,7 +1502,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Fighter / Bomber",
         "career": "Combat",
@@ -1573,7 +1573,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Dropship",
         "career": "Combat",
@@ -1644,7 +1644,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Fighter / Bomber",
         "career": "Combat",
@@ -1715,7 +1715,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -1786,7 +1786,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Light Fighter",
         "career": "Combat",
@@ -1857,7 +1857,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Dropship",
         "career": "Combat",
@@ -1928,7 +1928,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -1999,7 +1999,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medical",
         "career": "Support",
@@ -2070,7 +2070,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -2141,7 +2141,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Expedition",
         "career": "Exploration",
@@ -2212,7 +2212,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Expedition",
         "career": "Exploration",
@@ -2283,7 +2283,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2354,7 +2354,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2425,7 +2425,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2496,7 +2496,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2567,7 +2567,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2638,7 +2638,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2709,7 +2709,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2780,7 +2780,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2851,7 +2851,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2922,7 +2922,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -2993,7 +2993,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Combat",
@@ -3064,7 +3064,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -3135,7 +3135,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -3206,7 +3206,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -3277,7 +3277,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -3348,7 +3348,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Bomber",
         "career": "Combat",
@@ -3419,7 +3419,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Light Fighter",
         "career": "Combat",
@@ -3490,7 +3490,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -3561,7 +3561,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Gunship",
         "career": "Gunship",
@@ -3632,7 +3632,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Support",
@@ -3703,7 +3703,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medical",
         "career": "Support",
@@ -3774,7 +3774,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Dropship",
         "career": "Combat",
@@ -3845,7 +3845,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aopoa",
         "role": "Light Fighter",
         "career": "Combat",
@@ -3916,7 +3916,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aopoa",
         "role": "Racing",
         "career": "Competition",
@@ -3987,7 +3987,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aopoa",
         "role": "Racing",
         "career": "Competition",
@@ -4058,7 +4058,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Aopoa",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -4129,7 +4129,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Argo Astronautics",
         "role": "Medium Mining",
         "career": "Industrial",
@@ -4200,7 +4200,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Argo Astronautics",
         "role": "Medium Salvage",
         "career": "Industrial",
@@ -4271,7 +4271,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Argo Astronautics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -4342,7 +4342,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Argo Astronautics",
         "role": "Passenger",
         "career": "Transporter",
@@ -4413,7 +4413,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Argo Astronautics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -4484,7 +4484,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Argo Astronautics",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -4555,7 +4555,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Argo Astronautics",
         "role": "Recovery",
         "career": "Support",
@@ -4626,7 +4626,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Banu",
         "role": "Light Fighter",
         "career": "Combat",
@@ -4697,7 +4697,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Consolidated Outland",
         "role": "Passenger",
         "career": "Exploration",
@@ -4768,7 +4768,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Consolidated Outland",
         "role": "Starter / Light Freight",
         "career": "Multi-Role",
@@ -4839,7 +4839,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Consolidated Outland",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -4910,7 +4910,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Consolidated Outland",
         "role": "Light Fighter",
         "career": "Combat",
@@ -4981,7 +4981,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Consolidated Outland",
         "role": "Racing",
         "career": "Competition",
@@ -5052,7 +5052,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Consolidated Outland",
         "role": "Racing",
         "career": "Competition",
@@ -5123,7 +5123,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Consolidated Outland",
         "role": "Starter / Light Freight",
         "career": "Transporter",
@@ -5194,7 +5194,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Bomber",
         "career": "Combat",
@@ -5265,7 +5265,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Heavy Bomber",
         "career": "Combat",
@@ -5336,7 +5336,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -5407,7 +5407,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -5478,7 +5478,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Light Freight",
         "career": "Transporter",
@@ -5549,7 +5549,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -5620,7 +5620,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Starter / Light Freight",
         "career": "Starter",
@@ -5691,7 +5691,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -5762,7 +5762,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Crusader Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -5833,7 +5833,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Fighter",
         "career": "Combat",
@@ -5904,7 +5904,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -5975,7 +5975,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -6046,7 +6046,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Generalist",
         "career": "Exploration",
@@ -6117,7 +6117,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Expedition",
         "career": "Exploration",
@@ -6188,7 +6188,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Freight / Medium Fighter",
         "career": "Multi-Role",
@@ -6259,7 +6259,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Interdiction",
         "career": "Combat",
@@ -6330,7 +6330,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Medical",
         "career": "Support",
@@ -6401,7 +6401,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Dropship",
         "career": "Combat",
@@ -6472,7 +6472,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Starter / Pathfinder",
         "career": "Exploration",
@@ -6543,7 +6543,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Expedition",
         "career": "Exploration",
@@ -6614,7 +6614,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -6685,7 +6685,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Racing",
         "career": "Competition",
@@ -6756,7 +6756,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Racing",
         "career": "Competition",
@@ -6827,7 +6827,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Racing",
         "career": "Competition",
@@ -6898,7 +6898,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Starter / Light Mining",
         "career": "Industrial",
@@ -6969,7 +6969,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Freight",
         "career": "Industrial",
@@ -7040,7 +7040,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Medium Data",
         "career": "Transporter",
@@ -7111,7 +7111,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Heavy Freight",
         "career": "Transporter",
@@ -7182,7 +7182,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Heavy Dropship",
         "career": "Combat",
@@ -7253,7 +7253,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Snub Fighter",
         "career": "Snub Fighter",
@@ -7324,7 +7324,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Salvage",
         "career": "Industrial",
@@ -7395,7 +7395,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Esperia",
         "role": "Light Fighter",
         "career": "Combat",
@@ -7466,7 +7466,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Esperia",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -7537,7 +7537,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Esperia",
         "role": "Dropship",
         "career": "Combat",
@@ -7608,7 +7608,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Esperia",
         "role": "Light Freight",
         "career": "Transporter",
@@ -7679,7 +7679,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Esperia",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -7750,7 +7750,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Esperia",
         "role": "Light Fighter",
         "career": "Combat",
@@ -7821,7 +7821,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Esperia",
         "role": "Light Fighter",
         "career": "Combat",
@@ -7892,7 +7892,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Gatac Manufacture",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -7963,7 +7963,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Gatac Manufacture",
         "role": "Starter / Pathfinder",
         "career": "Multi-Role",
@@ -8034,7 +8034,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Gatac Manufacture",
         "role": "Carrier",
         "career": "Combat",
@@ -8105,7 +8105,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Grey's Market",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -8176,7 +8176,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Light Fighter",
         "career": "Combat",
@@ -8247,7 +8247,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Light Fighter",
         "career": "Combat",
@@ -8318,7 +8318,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Snub Fighter",
         "career": "Combat",
@@ -8389,7 +8389,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Racing",
         "career": "Competition",
@@ -8460,7 +8460,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Racing",
         "career": "Competition",
@@ -8531,7 +8531,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Snub Fighter",
         "career": "Combat",
@@ -8602,7 +8602,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Racing",
         "career": "Competition",
@@ -8673,7 +8673,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Snub Fighter",
         "career": "Combat",
@@ -8744,7 +8744,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -8815,7 +8815,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -8886,7 +8886,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Interdiction",
         "career": "Combat",
@@ -8957,7 +8957,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Pathfinder",
         "career": "Combat",
@@ -9028,7 +9028,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Racing",
         "career": "Combat",
@@ -9099,7 +9099,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Racing",
         "career": "Competition",
@@ -9170,7 +9170,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -9241,7 +9241,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Mirai",
         "role": "Racing",
         "career": "Competition",
@@ -9312,7 +9312,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Salvage",
         "career": "Industrial",
@@ -9383,7 +9383,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Freight",
         "career": "Transporter",
@@ -9454,7 +9454,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Expedition",
         "career": "Exploration",
@@ -9525,7 +9525,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -9596,7 +9596,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Gunship",
         "career": "Combat",
@@ -9667,7 +9667,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Freight",
         "career": "Transporter",
@@ -9738,7 +9738,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -9809,7 +9809,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Heavy Freight",
         "career": "Transporter",
@@ -9880,7 +9880,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Mining",
         "career": "Industrial",
@@ -9951,7 +9951,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Starter / Light Freight",
         "career": "Transporter",
@@ -10022,7 +10022,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Reporting",
         "career": "Support",
@@ -10093,7 +10093,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Science",
         "career": "Industrial",
@@ -10164,7 +10164,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Fighter",
         "career": "Combat",
@@ -10235,7 +10235,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Heavy Refueling",
         "career": "Support",
@@ -10306,7 +10306,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Heavy Refueling",
         "career": "Support",
@@ -10377,7 +10377,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -10448,7 +10448,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Gunship",
         "career": "Combat",
@@ -10519,7 +10519,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Refueling",
         "career": "Support",
@@ -10590,7 +10590,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Starter / Pathfinder",
         "career": "Exploration",
@@ -10661,7 +10661,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Light Fighter",
         "career": "Combat",
@@ -10732,7 +10732,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Light Freight",
         "career": "Transporter",
@@ -10803,7 +10803,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Luxury Touring",
         "career": "Exploration",
@@ -10874,7 +10874,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -10945,7 +10945,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Interceptor",
         "career": "Combat",
@@ -11016,7 +11016,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Racing",
         "career": "Competition",
@@ -11087,7 +11087,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Expedition",
         "career": "Exploration",
@@ -11158,7 +11158,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Expedition",
         "career": "Exploration",
@@ -11229,7 +11229,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Expedition",
         "career": "Exploration",
@@ -11300,7 +11300,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Luxury Touring",
         "career": "Exploration",
@@ -11371,7 +11371,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Touring",
         "career": "Exploration",
@@ -11442,7 +11442,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Luxury Touring",
         "career": "Exploration",
@@ -11513,7 +11513,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Racing",
         "career": "Competition",
@@ -11584,7 +11584,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -11655,7 +11655,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Passenger",
         "career": "Exploration",
@@ -11726,7 +11726,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Passenger",
         "career": "Combat",
@@ -11797,7 +11797,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Racing",
         "career": "Competition",
@@ -11868,7 +11868,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medical",
         "career": "Support",
@@ -11939,7 +11939,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medical",
         "career": "Support",
@@ -12010,7 +12010,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -12081,7 +12081,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Light Freight",
         "career": "Transporter",
@@ -12152,7 +12152,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Starter / Pathfinder",
         "career": "Multi-Role",
@@ -12223,7 +12223,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Light Fighter",
         "career": "Combat",
@@ -12294,7 +12294,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Light Fighter",
         "career": "Combat",
@@ -12365,7 +12365,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Light Fighter",
         "career": "Combat",
@@ -12436,7 +12436,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Starter / Light Fighter",
         "career": "Multi-Role",
@@ -12507,7 +12507,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Freight / Gun Ship",
         "career": "Multi-Role",
@@ -12578,7 +12578,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Expedition",
         "career": "Exploration",
@@ -12649,7 +12649,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Luxury Touring",
         "career": "Exploration",
@@ -12720,7 +12720,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Luxury Touring",
         "career": "Exploration",
@@ -12791,7 +12791,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -12862,7 +12862,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -12933,7 +12933,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Interdiction",
         "career": "Combat",
@@ -13004,7 +13004,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -13075,7 +13075,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Heavy Gunship",
         "career": "Combat",
@@ -13146,7 +13146,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Corvette",
         "career": "Combat",
@@ -13217,7 +13217,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Starter / Light Salvage",
         "career": "Industrial",
@@ -13288,7 +13288,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -13359,7 +13359,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -13430,7 +13430,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -13501,7 +13501,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Expedition",
         "career": "Exploration",
@@ -13572,7 +13572,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Vanduul",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -13643,7 +13643,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Anti-Air",
         "career": "Combat",
@@ -13714,7 +13714,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Anti-Air",
         "career": "Combat",
@@ -13785,7 +13785,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Anti-Air",
         "career": "Combat",
@@ -13856,7 +13856,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Anti-Air",
         "career": "Combat",
@@ -13927,7 +13927,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Passenger",
         "career": "Combat",
@@ -13998,7 +13998,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Argo Astronautics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -14069,7 +14069,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Freight",
         "career": "Transporter",
@@ -14140,7 +14140,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Greycat Industrial",
         "role": "Anti-Air",
         "career": "Ground",
@@ -14211,7 +14211,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Greycat Industrial",
         "role": "Passenger",
         "career": "Ground",
@@ -14282,7 +14282,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Greycat Industrial",
         "role": "Passenger",
         "career": "Transporter",
@@ -14353,7 +14353,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Greycat Industrial",
         "role": "Light Mining",
         "career": "Industrial",
@@ -14424,7 +14424,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Greycat Industrial",
         "role": "Light Mining",
         "career": "Industrial",
@@ -14495,7 +14495,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Greycat Industrial",
         "role": "Passenger",
         "career": "Transporter",
@@ -14566,7 +14566,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Greycat Industrial",
         "role": "Passenger",
         "career": "Transporter",
@@ -14637,7 +14637,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Luxury Touring",
         "career": "Transporter",
@@ -14708,7 +14708,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -14779,7 +14779,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -14850,7 +14850,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medical",
         "career": "Support",
@@ -14921,7 +14921,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Passenger",
         "career": "Combat",
@@ -14992,7 +14992,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Anti-Air",
         "career": "Combat",
@@ -15063,7 +15063,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Anti-Air",
         "career": "Combat",
@@ -15134,7 +15134,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Racing",
         "career": "Competition",
@@ -15205,7 +15205,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -15276,7 +15276,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Anti-Vehicle",
         "career": "Combat",
@@ -15347,7 +15347,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Heavy Tank",
         "career": "Combat",
@@ -15418,7 +15418,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Light Tank",
         "career": "Combat",
@@ -15489,7 +15489,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-05T12:02:20.586Z",
+        "syncedAt": "2026-07-12T02:50:30.125Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Light Tank",
         "career": "Combat",

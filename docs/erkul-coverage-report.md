@@ -3,7 +3,7 @@
 `ships-normalized.json` 기준 필드별 채움률. 재현: `npm run shipdb:erkul:normalize`
 
 - 원천: Erkul live (`https://server.erkul.games/live/ships`)
-- fetch 시각: 2026-07-05T12:02:20.586Z
+- fetch 시각: 2026-07-12T02:50:30.125Z
 - 대상: 219척 (지상 차량 포함 전체 레코드)
 
 분류 기준:

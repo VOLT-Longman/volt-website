@@ -6,11 +6,15 @@
 //
 // 사용법: node scripts/build-ship-en.mjs   (volt-data 변경 시 재생성)
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const RSI_SOURCE_PATH = path.join(root, 'data', 'rsi-ship-matrix-index.json');
+const ERKUL_SHIPS_PATH = path.join(root, 'data', 'external', 'erkul', 'ships-normalized.json');
+const SHIP_EN_PATH = path.join(root, 'data', 'ship-en.js');
+const SHIP_EN_PREFIX = 'window.VOLT_SHIP_EN = ';
 
 const FOCUS_EN = {
   '기함': 'Flagship', '다목적': 'Multi-role', '레이싱': 'Racing', '방송': 'Broadcast',
@@ -80,6 +84,19 @@ function normName(name) {
   return (name || '').replace(/\s+/g, ' ').trim();
 }
 
+function readExistingShipEn() {
+  const source = readFileSync(SHIP_EN_PATH, 'utf8');
+  const start = source.indexOf(SHIP_EN_PREFIX);
+  const end = source.lastIndexOf(';');
+  if (start < 0 || end < start) throw new Error('ship-en.js 파싱 실패');
+  return JSON.parse(source.slice(start + SHIP_EN_PREFIX.length, end));
+}
+
+function readDescriptionMap(pathname, mapper) {
+  if (!existsSync(pathname)) return new Map();
+  return new Map(mapper(JSON.parse(readFileSync(pathname, 'utf8'))));
+}
+
 function main() {
   const dataText = readFileSync(path.join(root, 'data', 'volt-data.js'), 'utf8');
   const start = dataText.indexOf('ships: [');
@@ -89,9 +106,9 @@ function main() {
   const arrText = `${dataText.slice(arrStart, closeIdx)}]`;
   const ships = JSON.parse(arrText);
 
-  const rsi = JSON.parse(readFileSync(path.join(root, 'data', 'rsi-ship-matrix-index.json'), 'utf8').replace(/^﻿/, '')).data;
-  const rsiByName = new Map();
-  for (const r of rsi) rsiByName.set(normName(r.name), r.description || '');
+  const existingEn = readExistingShipEn();
+  const rsiByName = readDescriptionMap(RSI_SOURCE_PATH, (source) => source.data.map((ship) => [normName(ship.name), ship.description || '']));
+  const erkulByName = readDescriptionMap(ERKUL_SHIPS_PATH, (source) => source.ships.map((ship) => [normName(ship.name), ship.descriptions?.en || '']));
 
   const out = {};
   const missingDesc = [];
@@ -99,6 +116,9 @@ function main() {
     const desc = DESCRIPTION_OVERRIDES[ship.id]
       || rsiByName.get(normName(ship.erkulName))
       || rsiByName.get(normName(ship.name))
+      || erkulByName.get(normName(ship.erkulName))
+      || erkulByName.get(normName(ship.name))
+      || existingEn[ship.id]?.description
       || '';
     if (!desc) missingDesc.push(`${ship.id} (${ship.name})`);
     out[ship.id] = {
@@ -116,9 +136,9 @@ function main() {
   }
 
   const header = '// 자동 생성 파일 — 직접 수정하지 마세요. `node scripts/build-ship-en.mjs`로 재생성.\n'
-    + '// 함선DB 영어 데이터(역할/포커스/크기/승무원/설명/태그). description은 RSI 공식 영어.\n';
+    + '// 함선DB 영어 데이터(역할/포커스/크기/승무원/설명/태그). description은 RSI 공식 영어 또는 Erkul live fallback.\n';
   const body = `window.VOLT_SHIP_EN = ${JSON.stringify(out, null, 0)};\n`;
-  writeFileSync(path.join(root, 'data', 'ship-en.js'), header + body, 'utf8');
+  writeFileSync(SHIP_EN_PATH, header + body, 'utf8');
   console.log(`생성 완료: data/ship-en.js (${Object.keys(out).length}척)`);
 }
 

@@ -3,8 +3,8 @@
 신규 함선 추가 트랙 1단계 — **분류만 하고 DB에는 반영하지 않는다.**
 재현: `npm run shipdb:erkul:classify-candidates` (입력: A-4 match report + A-2/A-3 normalized)
 
-- 데이터 기준: Erkul live 2026-07-05T12:02:20.586Z
-- 요약: **제외 1** · **보류 8** · **수동매핑 승격 완료 6** · 유지(VOLT-only unreleased) 30
+- 데이터 기준: Erkul live 2026-07-12T02:50:30.125Z
+- 요약: **제외 1** · **수동매핑 승격 완료 6** · 유지(VOLT-only unreleased) 30
 
 ## 분류 정책
 
@@ -13,19 +13,6 @@
 - 제외: 함선이 아닌 항목
 - 수동매핑 후보: market-only(stats 없음)는 자동 추가 금지 — 수동 매핑 후보로만
 - 유지: VOLT-only unreleased 30척은 유지/폴백 (조치 없음)
-
-## 보류 (8)
-
-| localName | 이름 | stats | 인게임 구매처 | 근거 |
-|---|---|---|---|---|
-| `aegs_tiburon` | Tiburon | ✅ (hp 187,200) | 없음 | 신규 정식 독립 선체(Aegis 헤비 건쉽) + stats 완비이나 인게임 구매처 없음(pledge 전용) — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토. |
-| `anvl_hornet_f7cm_mk2_heartseeker` | F7C-M Hornet Heartseeker Mk II | ✅ (hp 15,250) | 없음 | F7C-M Mk II의 Heartseeker 에디션 — 기본형 계열이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가. |
-| `anvl_lightning_f8` | F8A Lightning | ✅ (hp 40,200) | 없음 | F8A(군용 사양)는 일반 획득 경로가 없고, 민수형 F8C Lightning은 이미 VOLT DB에 존재(f8c-lightning). 별도 등재 가치 판단 필요. |
-| `drak_caterpillar_pirate` | Caterpillar Pirate | ✅ (hp 91,500) | 없음 | Caterpillar의 Pirate 에디션 — 기본형(caterpillar)이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가. |
-| `drak_dragonfly_pink` | Dragonfly Star Kitten | ✅ (hp 1,570) | 없음 | Dragonfly의 Star Kitten 스킨 변형 — 기본형이 이미 DB에 존재. 스킨류는 별도 가치가 있을 때만 추가. |
-| `gama_tyilui` | Tyilui | ✅ (hp 70,460) | 없음 | 신규 정식 독립 선체(Gatac 캐리어) + stats 완비이나 인게임 구매처 없음 — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토. |
-| `misc_starlite` | Starlite | ✅ (hp 68,250) | 없음 | 신규 정식 독립 선체(MISC 경급유선) + stats 완비이나 인게임 구매처 없음 — 2026-07-06 결정으로 보류. 인게임 판매 시작 시 재검토. |
-| `orig_600i_executive_edition` | 600i Executive Edition | ✅ (hp 197,250) | 없음 | 600i의 Executive 에디션 — 기본형(600i)이 이미 DB에 존재. 에디션류는 별도 가치가 있을 때만 추가. |
 
 ## 제외 (1)
 
