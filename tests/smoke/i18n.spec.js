@@ -23,8 +23,8 @@ test.describe('i18n (KO/EN)', () => {
         const page = await load(ctx);
         await expect(page.locator('html')).toHaveAttribute('lang', 'en');
         await expect(page.locator('.nav-links a[href="#about"]')).toHaveText('About');
-        // 미션 컨트롤(F)부터 히어로 1순위 CTA는 함선DB — Discord 버튼은 랜딩 CTA에서 확인
-        await expect(page.locator('.hero .btn-primary').first()).toHaveText('Browse Ship DB');
+        // 히어로의 1순위 CTA는 가입 전환이며, Discord 버튼은 랜딩 CTA에서 확인한다.
+        await expect(page.locator('.hero .btn-primary').first()).toHaveText('Join VOLT');
         await expect(page.locator('.landing-cta .btn-primary')).toHaveText('Join our Discord');
         await ctx.close();
     });

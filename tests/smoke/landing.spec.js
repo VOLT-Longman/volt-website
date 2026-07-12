@@ -119,6 +119,9 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await gotoSection(page, '');
         const buttons = page.locator('#home .hero-content .hero-buttons .btn');
         await expect(buttons).toHaveCount(3);
+        await expect(buttons.nth(0)).toHaveClass(/btn-secondary/);
+        await expect(buttons.nth(1)).toHaveClass(/btn-secondary/);
+        await expect(buttons.nth(2)).toHaveClass(/btn-primary/);
         await buttons.first().click();
         await expect(page.locator('#ships')).toHaveClass(/active/);
         await expect(page.locator('#ships-grid .ship-card').first()).toBeVisible();

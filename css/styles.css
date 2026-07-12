@@ -720,20 +720,6 @@ body.nav-trade-open::before {
     transform: translateY(-2px);
 }
 
-/* 3순위 CTA (F-4): 얇은 outline — 버튼 체계는 유지하되 Secondary보다 낮은 무게 */
-.btn-tertiary {
-    background: transparent;
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-}
-
-.btn-tertiary:hover {
-    color: var(--color-text-primary);
-    border-color: var(--color-border-accent);
-    background: var(--color-bg-card-hover);
-    transform: translateY(-2px);
-}
-
 .btn:focus-visible {
     outline: 2px solid var(--volt-orange);
     outline-offset: 4px;
@@ -7634,8 +7620,10 @@ body.nav-trade-open::before {
    ========================================================================== */
 
 .hero {
+    --hero-inline-padding: clamp(32px, 4vw, 64px);
+    --hero-bottom-padding: clamp(44px, 5vw, 64px);
     min-height: 100vh;
-    padding: 94px 28px 0;
+    padding: 94px var(--hero-inline-padding) var(--hero-bottom-padding);
     justify-content: flex-start;
     background:
         linear-gradient(90deg, rgba(232, 72, 47, 0.07) 1px, transparent 1px),
@@ -7668,9 +7656,9 @@ body.nav-trade-open::before {
 
 .hero-layout {
     max-width: 1320px;
-    min-height: calc(100svh - 94px);
+    min-height: calc(100svh - 94px - var(--hero-bottom-padding));
     align-content: center;
-    padding: 42px 0 36px;
+    padding: 42px 0 44px;
 }
 
 .hero-layout::before {
@@ -8207,7 +8195,9 @@ body.nav-trade-open::before {
     }
 
     .hero {
-        padding: 82px 18px 0;
+        --hero-inline-padding: 24px;
+        --hero-bottom-padding: 40px;
+        padding: 82px var(--hero-inline-padding) var(--hero-bottom-padding);
         background-size: 64px 64px, 64px 64px, auto, auto, auto;
     }
 
