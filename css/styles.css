@@ -7620,8 +7620,8 @@ body.nav-trade-open::before {
    ========================================================================== */
 
 .hero {
-    --hero-inline-padding: clamp(32px, 4vw, 64px);
-    --hero-bottom-padding: clamp(44px, 5vw, 64px);
+    --hero-inline-padding: clamp(40px, 5vw, 88px);
+    --hero-bottom-padding: clamp(88px, 7vw, 112px);
     min-height: 100vh;
     padding: 94px var(--hero-inline-padding) var(--hero-bottom-padding);
     justify-content: flex-start;
@@ -7658,7 +7658,7 @@ body.nav-trade-open::before {
     max-width: 1320px;
     min-height: calc(100svh - 94px - var(--hero-bottom-padding));
     align-content: center;
-    padding: 42px 0 44px;
+    padding: 42px 0 56px;
 }
 
 .hero-layout::before {
@@ -7775,7 +7775,7 @@ body.nav-trade-open::before {
     width: 100%;
     max-width: 620px;
     margin: 0;
-    padding: 18px 0 0;
+    padding: 20px 0 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.11);
 }
 
@@ -7797,6 +7797,7 @@ body.nav-trade-open::before {
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.18em;
+    line-height: 1.35;
 }
 
 .hero-proof dd {
@@ -7805,6 +7806,7 @@ body.nav-trade-open::before {
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.04em;
+    line-height: 1.35;
 }
 
 .hero-scroll-hint {
@@ -8195,8 +8197,8 @@ body.nav-trade-open::before {
     }
 
     .hero {
-        --hero-inline-padding: 24px;
-        --hero-bottom-padding: 40px;
+        --hero-inline-padding: 28px;
+        --hero-bottom-padding: 64px;
         padding: 82px var(--hero-inline-padding) var(--hero-bottom-padding);
         background-size: 64px 64px, 64px 64px, auto, auto, auto;
     }
