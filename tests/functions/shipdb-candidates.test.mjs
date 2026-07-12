@@ -49,3 +49,10 @@ test('ShipDB: 승인된 Erkul 선체 8종은 전체 데이터 레이어에 포�
     }
     assert.equal(ships.some((ship) => ship.name === 'Command Module'), false);
 });
+
+test('ShipDB: Aurora ES는 수동 매핑된 New Deal 구매처와 렌탈 정보를 유지', async () => {
+    const { market } = await readShipData();
+    const auroraEs = market['aurora-es'];
+    assert.ok(auroraEs.purchase.some((row) => row.shop === 'New Deal' && row.mappedFrom === 'rsi_aurora_es'));
+    assert.ok(auroraEs.rentals.some((row) => row.mappedFrom === 'rsi_aurora_es'));
+});

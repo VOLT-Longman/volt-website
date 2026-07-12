@@ -277,7 +277,7 @@ export function normalizeMarketOnlyMappings(manualMap) {
 // voltId에 매핑된 shop 전용 localName들의 market 행을 기본 행에 병합한다 (mappedFrom으로 출처 표기).
 // 같은 shop@location 행이 기본(현 선체) 데이터에 이미 있으면 병합하지 않는다 —
 // Erkul shop이 구/신 엔티티를 이중 등재한 모순 데이터일 수 있으므로 현 선체 값을 우선하고 anomaly로만 기록.
-function mergeMappedMarketRows(baseEntry, voltId, marketByLocal, marketOnlyMappings) {
+export function mergeMappedMarketRows(baseEntry, voltId, marketByLocal, marketOnlyMappings) {
   const merged = {
     purchase: [...(baseEntry?.purchase ?? [])],
     rentals: [...(baseEntry?.rentals ?? [])],

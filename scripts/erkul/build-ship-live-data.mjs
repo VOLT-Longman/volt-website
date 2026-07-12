@@ -1,11 +1,14 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import { mergeMappedMarketRows, normalizeErkulMarket, normalizeMarketOnlyMappings } from '../../functions/_shared/erkul-sync.js';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const SHIPS_NORMALIZED_PATH = resolve(ROOT, 'data/external/erkul/ships-normalized.json');
 const MARKET_PATH = resolve(ROOT, 'data/external/erkul/ship-market-normalized.json');
+const SHOP_RAW_PATH = resolve(ROOT, 'data/external/erkul/shop.raw.json');
 const MATCH_REPORT_PATH = resolve(ROOT, 'data/external/erkul/ship-match-report.json');
+const MANUAL_MAP_PATH = resolve(ROOT, 'data/external/erkul/manual-ship-map.json');
 const LIVE_STATS_PATH = resolve(ROOT, 'data/ship-live-stats.js');
 const SHIP_MARKET_PATH = resolve(ROOT, 'data/ship-market.js');
 const BUILD_REPORT_PATH = resolve(ROOT, 'data/external/erkul/live-data-build-report.json');
@@ -15,9 +18,15 @@ const toSizeLabel = (n) => (typeof n === 'number' ? `S${n}` : null);
 async function main() {
     const erkul = JSON.parse(await readFile(SHIPS_NORMALIZED_PATH, 'utf8'));
     const market = JSON.parse(await readFile(MARKET_PATH, 'utf8'));
+    const shopRaw = JSON.parse(await readFile(SHOP_RAW_PATH, 'utf8'));
     const matchReport = JSON.parse(await readFile(MATCH_REPORT_PATH, 'utf8'));
+    const manualMap = JSON.parse(await readFile(MANUAL_MAP_PATH, 'utf8'));
 
     const erkulByLocal = new Map(erkul.ships.map((s) => [s.localName, s]));
+    // A-3 정규화 파일에는 live ships 목록에 없는 구형 선체가 빠진다.
+    // 수동 검증된 market-only 매핑을 보존하려면 원본 상점 인벤토리 전체를 사용해야 한다.
+    const marketByLocal = normalizeErkulMarket(shopRaw).byLocal;
+    const marketOnlyMappings = normalizeMarketOnlyMappings(manualMap);
     // 포함 대상은 A-4 matched만. unmatched VOLT/Erkul-only/market-only/manual candidates는 제외한다.
     const matched = [...matchReport.matched].sort((a, b) => a.voltId.localeCompare(b.voltId));
 
@@ -65,16 +74,16 @@ async function main() {
             }
         };
 
-        const m = market.ships?.[ship.localName];
+        const m = mergeMappedMarketRows(marketByLocal.get(ship.localName), row.voltId, marketByLocal, marketOnlyMappings);
         shipMarket[row.voltId] = {
             source: 'erkul-live',
             sourceVersion: 'live',
             syncedAt: market.syncedAt,
             erkulLocalName: ship.localName,
             erkulRef: ship.ref,
-            purchase: m?.purchase ?? [],
-            rentals: m?.rentals ?? [],
-            anomalies: m?.anomalies ?? []
+            purchase: m.purchase,
+            rentals: m.rentals,
+            anomalies: m.anomalies
         };
     }
 

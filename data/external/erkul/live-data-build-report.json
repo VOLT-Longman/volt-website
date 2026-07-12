@@ -4,9 +4,9 @@
   "matchedInput": 218,
   "liveStatsEntries": 218,
   "marketEntries": 218,
-  "entriesWithPurchase": 173,
-  "entriesWithRentals": 41,
-  "entriesWithoutMarket": 45,
+  "entriesWithPurchase": 176,
+  "entriesWithRentals": 45,
+  "entriesWithoutMarket": 42,
   "excluded": {
     "unmatchedVolt": [
       "merchantman",
