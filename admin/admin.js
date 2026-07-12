@@ -210,9 +210,14 @@ function renderErkulSyncStatus(container, status) {
   container.append(line);
   const badges = el('div', 'sync-badges');
   badges.append(syncBadge(`레이어 ${status.shipCount}척`, 'info'));
-  badges.append(status.anomalyShips > 0
-    ? syncBadge(`anomaly ${status.anomalyShips}척 — 가격 모순 기록 있음`, 'warn')
-    : syncBadge('anomaly 없음', 'ok'));
+  // anomaly는 성격이 둘로 갈린다 — 실제 가격 충돌(운영 판단 필요)과
+  // 렌탈가 미제공 기록(Erkul 원천이 렌탈가를 0으로 보냄 — A-3 정책상 기록만, 무해).
+  badges.append(status.conflictShips > 0
+    ? syncBadge(`가격 충돌 anomaly ${status.conflictShips}척 — 확인 필요`, 'warn')
+    : syncBadge('가격 충돌 없음', 'ok'));
+  if (status.rentalGapShips > 0) {
+    badges.append(syncBadge(`렌탈가 미제공 기록 ${status.rentalGapShips}척 (Erkul 원천, 무해)`, 'info'));
+  }
   const days = syncedAtAgeDays(status.statsSyncedAt);
   if (days !== null && days >= SYNC_CADENCE_DAYS) {
     badges.append(syncBadge(`${days}일 경과 — 격주 주기 초과, 동기화 권장`, 'warn'));
@@ -221,6 +226,28 @@ function renderErkulSyncStatus(container, status) {
     badges.append(syncBadge('stats/market 동기화 시점 불일치 — 재적용 필요', 'danger'));
   }
   container.append(badges);
+}
+
+// market 레이어의 anomaly를 성격별로 분류한다 (E-1 배지 세분화).
+// - rentalGapShips: 모든 anomaly가 'price=0:'(렌탈가 미제공 기록)뿐인 함선 — 무해
+// - conflictShips: 그 외 기록(매핑 가격 충돌 등)이 하나라도 있는 함선 — 운영 확인 대상
+// 파싱 실패 시 0으로 두고 조용히 넘어간다 — 상태 패널은 보조 정보다.
+function classifyMarketAnomalies(marketText) {
+  const result = { rentalGapShips: 0, conflictShips: 0 };
+  try {
+    const jsonText = marketText.match(/=\s*(\{[\s\S]*\});?\s*$/)?.[1];
+    if (!jsonText) return result;
+    const market = JSON.parse(jsonText);
+    for (const entry of Object.values(market)) {
+      const anomalies = Array.isArray(entry?.anomalies) ? entry.anomalies : [];
+      if (!anomalies.length) continue;
+      if (anomalies.some((item) => !String(item).startsWith('price=0:'))) result.conflictShips += 1;
+      else result.rentalGapShips += 1;
+    }
+  } catch (_error) {
+    /* JSON 파싱 실패 — 분류 없이 0 유지 */
+  }
+  return result;
 }
 
 async function loadErkulSyncStatus() {
@@ -246,8 +273,7 @@ async function loadErkulSyncStatus() {
       marketSyncedAt: marketText.match(/"syncedAt":"([^"]+)"/)?.[1] ?? null,
       // 엔트리 수 = erkulLocalName 필드 수 (레이어 스키마상 함선당 1회)
       shipCount: (statsText.match(/"erkulLocalName"/g) || []).length,
-      // 비어 있지 않은 anomalies 배열을 가진 함선 수
-      anomalyShips: (marketText.match(/"anomalies":\["/g) || []).length
+      ...classifyMarketAnomalies(marketText)
     };
     renderErkulSyncStatus(container, erkulStatusCache);
   } catch (error) {

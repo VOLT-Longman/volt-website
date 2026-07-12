@@ -58,9 +58,10 @@ async function mockLayerFiles(page, {
             body: `window.VOLT_SHIP_LIVE_STATS = {"a":{"source":"erkul-live","syncedAt":"${statsSyncedAt}","erkulLocalName":"x"},"b":{"source":"erkul-live","syncedAt":"${statsSyncedAt}","erkulLocalName":"y"}};`
         });
     });
+    // a = 실제 가격 충돌(warn 대상), b = 렌탈가 미제공 기록(price=0: — info 대상)
     await page.route('**/data/ship-market.js', (route) => route.fulfill({
         contentType: 'application/javascript',
-        body: `window.VOLT_SHIP_MARKET = {"a":{"syncedAt":"${marketSyncedAt}","purchase":[],"anomalies":["가격 모순 기록"]},"b":{"syncedAt":"${marketSyncedAt}","purchase":[],"anomalies":[]}};`
+        body: `window.VOLT_SHIP_MARKET = {"a":{"syncedAt":"${marketSyncedAt}","purchase":[],"anomalies":["mapped purchase 충돌로 미병합: New Deal@Lorville"]},"b":{"syncedAt":"${marketSyncedAt}","purchase":[],"anomalies":["price=0: Vantage Rentals@Lorville"]}};`
     }));
 }
 
@@ -139,11 +140,29 @@ test.describe('Admin Erkul 동기화 미리보기', () => {
         const status = page.locator('#erkul-sync-status');
         await expect(status).toContainText('마지막 동기화');
         await expect(status).toContainText('2026'); // KST 표기 날짜
-        await expect(status.locator('.sync-badge-info')).toHaveText('레이어 2척');
-        await expect(status.locator('.sync-badge-warn').filter({ hasText: 'anomaly' })).toContainText('anomaly 1척');
+        await expect(status.locator('.sync-badge-info').filter({ hasText: '레이어' })).toHaveText('레이어 2척');
+        // anomaly 세분화: 실제 가격 충돌은 warn, 렌탈가 미제공(price=0:)은 info로 구분
+        await expect(status.locator('.sync-badge-warn').filter({ hasText: '가격 충돌' })).toContainText('가격 충돌 anomaly 1척');
+        await expect(status.locator('.sync-badge-info').filter({ hasText: '렌탈가' })).toContainText('렌탈가 미제공 기록 1척');
         await expect(status.locator('.sync-badge-warn').filter({ hasText: '격주' })).toContainText('격주 주기 초과');
         // stats/market 동기화 시점이 같으면 불일치 배지 없음
         await expect(status.locator('.sync-badge-danger')).toHaveCount(0);
+    });
+
+    test('E-1 상태 패널: 렌탈가 미제공만 있으면 충돌 배지는 ok', async ({ page }) => {
+        await mockAdmin(page);
+        await mockLayerFiles(page);
+        // 충돌 없이 렌탈 기록만 있는 레이어로 덮어쓴다 (나중 등록 우선)
+        await page.route('**/data/ship-market.js', (route) => route.fulfill({
+            contentType: 'application/javascript',
+            body: 'window.VOLT_SHIP_MARKET = {"a":{"syncedAt":"2026-06-01T00:00:00.000Z","purchase":[],"anomalies":["price=0: Traveler Rentals@Orison"]},"b":{"syncedAt":"2026-06-01T00:00:00.000Z","purchase":[],"anomalies":[]}};'
+        }));
+        await page.goto('/admin/');
+        await page.locator('[data-tab="ships"]').click();
+
+        const status = page.locator('#erkul-sync-status');
+        await expect(status.locator('.sync-badge-ok')).toContainText('가격 충돌 없음');
+        await expect(status.locator('.sync-badge-info').filter({ hasText: '렌탈가' })).toContainText('렌탈가 미제공 기록 1척');
     });
 
     test('E-1 상태 패널: stats/market 시점 불일치 → danger 배지', async ({ page }) => {
