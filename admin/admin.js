@@ -743,8 +743,12 @@ function getSelectedShipTags(item) {
 
 function getShipTagOptions(extraTags = []) {
   const tags = new Set(extraTags.filter(Boolean));
-  (window.VOLT_DATA?.ships || []).forEach((ship) => normalizeTags(ship.tags).forEach((tag) => tags.add(tag)));
-  state.shipOverrides.forEach((override) => normalizeTags(override.tags).forEach((tag) => tags.add(tag)));
+  for (const ship of window.VOLT_DATA?.ships || []) {
+    for (const tag of normalizeTags(ship.tags)) tags.add(tag);
+  }
+  for (const override of state.shipOverrides) {
+    for (const tag of normalizeTags(override.tags)) tags.add(tag);
+  }
   return [...tags].sort((left, right) => left.localeCompare(right, 'ko'));
 }
 

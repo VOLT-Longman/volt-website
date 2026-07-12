@@ -2,14 +2,15 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { onRequestGet } from '../../functions/api/uex/location-prices.js';
 
-function createProxyContext(url, payload) {
+function createProxyContext(url, payload, fetchImpl) {
     const originalFetch = globalThis.fetch;
     const originalCaches = globalThis.caches;
     const waitUntilPromises = [];
     let fetchedUrl = '';
 
-    globalThis.fetch = async (requestUrl) => {
+    globalThis.fetch = async (requestUrl, init) => {
         fetchedUrl = String(requestUrl);
+        if (fetchImpl) return fetchImpl(requestUrl, init);
         return new Response(JSON.stringify(payload), {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
@@ -62,4 +63,20 @@ test('UEX location-prices: 잘못된 필드와 id는 거부', async () => {
 
     assert.equal(badField.status, 400);
     assert.equal(badId.status, 400);
+});
+
+test('UEX location-prices: 업스트림 네트워크 실패는 503으로 변환', async () => {
+    const harness = createProxyContext('https://volt.test/api/uex/location-prices?field=id_terminal&id=101', null, async () => {
+        throw new Error('network unavailable');
+    });
+
+    try {
+        const response = await onRequestGet(harness.context);
+        const body = await response.json();
+
+        assert.equal(response.status, 503);
+        assert.equal(body.error, 'UEX API request failed');
+    } finally {
+        await harness.restore();
+    }
 });

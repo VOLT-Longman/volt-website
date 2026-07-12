@@ -76,7 +76,7 @@ test('RSVP: 정상 등록 — user_sub는 세션에서만 결정(IDOR 방지) + 
     const body = await response.json();
     assert.equal(body.counts['참가'], 1);
     assert.equal(body.items[0].displayName, '테스터');
-    assert.equal(Object.prototype.hasOwnProperty.call(body.items[0], 'user_sub'), false, '응답에 user_sub 미노출');
+    assert.equal(Object.hasOwn(body.items[0], 'user_sub'), false, '응답에 user_sub 미노출');
 });
 
 test('RSVP: 허용되지 않은 메서드 → 405', async () => {

@@ -9,13 +9,21 @@ import { TEST_ENV, adminCookie, createMockDb, jsonRequest } from './helpers.mjs'
 // D-3: notices.title_en/content_en/tag_en(0008)이 미적용된 D1에서도 admin 공지 작성/수정이
 // "no such column" 500으로 죽지 않아야 한다(leadership/partner-fleets와 동일한 런타임 방어 필요).
 // ensureNoticesEnColumns는 ships.js의 ensureShipOverridesTable과 동일하게 ALTER를 시도하고
-// 이미 컬럼이 있으면(= "duplicate column" 에러) 조용히 무시한다.
+// 이미 컬럼이 있으면(= "duplicate column" 에러)만 조용히 무시한다.
 //
 // 주의: isolate당 1회만 실행되도록 모듈 스코프 플래그로 캐시하므로(운영 목적 — 매 요청 ALTER는
 // D1 쓰기 락 경합의 원인), 이 파일 안의 테스트는 실행 순서에 의도적으로 의존한다(node:test 기본
 // 순차 실행). 뒤 테스트일수록 "이미 ensure된 isolate" 상태를 검증한다.
 
-test('ensureNoticesEnColumns: ALTER 3회 시도, 중복 컬럼 에러는 무시', async () => {
+test('ensureNoticesEnColumns: 중복 컬럼 외 DDL 실패는 전파', async () => {
+    const db = createMockDb((sql) => {
+        if (sql.startsWith('ALTER TABLE notices ADD COLUMN')) throw new Error('D1 unavailable');
+        return [];
+    });
+    await assert.rejects(ensureNoticesEnColumns(db), /D1 unavailable/);
+});
+
+test('ensureNoticesEnColumns: ALTER 3회 시도, 중복 컬럼 에러만 무시', async () => {
     const db = createMockDb((sql) => {
         if (sql.startsWith('ALTER TABLE notices ADD COLUMN')) {
             throw new Error('duplicate column name: title_en'); // 0008 이미 적용된 상태 시뮬레이션

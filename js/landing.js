@@ -254,7 +254,7 @@
                 // 외부 갱신 감지(예: 라이브 멤버 수) → 카운트업 중단하고 외부 값을 존중한다
                 if (element.textContent !== lastWritten) return;
                 const progress = Math.min(1, (now - start) / DURATION);
-                const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+                const eased = 1 - (1 - progress) ** 3; // easeOutCubic
                 const value = Math.round(finalValue * eased);
                 lastWritten = (useComma ? value.toLocaleString('en-US') : String(value)) + suffix;
                 element.textContent = lastWritten;
@@ -270,7 +270,7 @@
                 animate(entry.target);
             }
         }, { threshold: 0.4 });
-        targets.forEach((element) => observer.observe(element));
+        targets.forEach((element) => { observer.observe(element); });
     }
 
     // 카드 틸트: 커서 위치 따라 미세 기울임(최대 4도). 터치/모션 최소화 환경에선 비활성.

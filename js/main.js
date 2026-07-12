@@ -314,7 +314,7 @@
 
     function observeNewReveals(container) {
         if (!revealObserver || !container) return;
-        container.querySelectorAll('.reveal:not(.revealed)').forEach((element) => revealObserver.observe(element));
+        container.querySelectorAll('.reveal:not(.revealed)').forEach((element) => { revealObserver.observe(element); });
     }
 
     // 임원진 UI는 js/leadership.js로 분리(window.VOLT_LEADERSHIP). 호출부 무변경용 위임 shim.
@@ -985,7 +985,7 @@
 
     // 데이터가 바뀐 뒤(CMS 로드·언어 변경) 이미 표시된 지연 섹션만 다시 렌더한다.
     function refreshRenderedLazySections() {
-        renderedLazySections.forEach((id) => LAZY_SECTIONS[id]?.());
+        renderedLazySections.forEach((id) => { LAZY_SECTIONS[id]?.(); });
     }
 
     function getFocusableElements(container) {

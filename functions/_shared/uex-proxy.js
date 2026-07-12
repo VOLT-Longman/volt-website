@@ -1,6 +1,34 @@
 import { json, error } from './http.js';
 
 const DEFAULT_UEX_API_BASE_URL = 'https://api.uexcorp.space/2.0';
+const UEX_REQUEST_TIMEOUT_MS = 10_000;
+
+function getUpstreamUrl(env, upstreamPathWithQuery) {
+  const baseUrl = (env.UEX_API_BASE_URL || DEFAULT_UEX_API_BASE_URL).replace(/\/+$/, '');
+  return `${baseUrl}/${upstreamPathWithQuery}`;
+}
+
+async function fetchUex(url) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), UEX_REQUEST_TIMEOUT_MS);
+  try {
+    return { response: await fetch(url, { headers: { Accept: 'application/json' }, signal: controller.signal }) };
+  } catch (caught) {
+    const message = caught?.name === 'AbortError' ? 'UEX API request timed out' : 'UEX API request failed';
+    return { error: message };
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+async function readUexPayload(response) {
+  try {
+    const payload = await response.json();
+    return payload.status === 'ok' && Array.isArray(payload.data) ? payload : null;
+  } catch (_error) {
+    return null;
+  }
+}
 
 // UEX 프록시 공용 로직 (G2): cache.match → upstream fetch → payload 검증 → cache.put.
 // commodities / location-prices / commodities/[id]/prices 세 엔드포인트가 공유한다 —
@@ -12,12 +40,13 @@ export async function proxyUexJson({ request, env, waitUntil }, upstreamPathWith
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
 
-  const baseUrl = env.UEX_API_BASE_URL || DEFAULT_UEX_API_BASE_URL;
-  const upstream = await fetch(`${baseUrl}/${upstreamPathWithQuery}`, { headers: { Accept: 'application/json' } });
+  const upstreamResult = await fetchUex(getUpstreamUrl(env, upstreamPathWithQuery));
+  if (upstreamResult.error) return error(upstreamResult.error, 503);
+  const { response: upstream } = upstreamResult;
   if (!upstream.ok) return error('UEX API request failed', 503);
 
-  const payload = await upstream.json();
-  if (payload.status !== 'ok' || !Array.isArray(payload.data)) return error('Invalid UEX API payload', 502);
+  const payload = await readUexPayload(upstream);
+  if (!payload) return error('Invalid UEX API payload', 502);
 
   const response = json({ status: 'ok', data: payload.data, meta: { source: 'uex', cached: false, ttlSeconds, fetchedAt: new Date().toISOString() } }, {
     cacheControl: `public, max-age=${ttlSeconds}`

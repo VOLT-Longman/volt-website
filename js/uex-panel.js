@@ -613,7 +613,7 @@
                 results.innerHTML = `<div class="uex-empty">${escapeHtml(emptyMsg)}</div>`;
             }
             status.textContent = recommendBasisText();
-        } catch (error) {
+        } catch (_error) {
             results.innerHTML = `<div class="uex-empty">${escapeHtml(t('planner.uex.apiUnstable', 'UEX API 연결이 불안정합니다. UEX Corp에서 직접 확인해 주세요.'))}</div>`;
             status.textContent = t('planner.rec.failed', '추천 무역품 조회에 실패했습니다.');
         } finally {

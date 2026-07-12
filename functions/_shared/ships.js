@@ -33,7 +33,11 @@ export async function ensureShipOverridesTable(db) {
 async function addColumnIfMissing(db, columnDef) {
   try {
     await db.prepare(`ALTER TABLE ship_overrides ADD COLUMN ${columnDef}`).run();
-  } catch (_error) {
-    // duplicate column name → 이미 존재. 정상 경로.
+  } catch (caught) {
+    if (!isDuplicateColumnError(caught)) throw caught;
   }
+}
+
+function isDuplicateColumnError(error) {
+  return error instanceof Error && /duplicate column name/i.test(error.message);
 }

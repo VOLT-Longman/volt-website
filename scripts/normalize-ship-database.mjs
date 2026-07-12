@@ -79,7 +79,7 @@ function getCategories(officialShip, fallbackFocus) {
     return [...new Set(matches.length ? matches : ['다목적'])];
 }
 
-function getTags(ship, officialShip, categories) {
+function getTags(officialShip, categories) {
     const [primary, ...secondary] = categories;
     const tags = new Set(secondary);
     if (officialShip?.production_status === 'in-concept') tags.add('미구현');
@@ -107,7 +107,7 @@ function normalizeShip(ship, officialShip, priceMap) {
         ...ship,
         focus: categories[0],
         description: tidyDescription(ship.description),
-        tags: getTags(ship, officialShip, categories),
+        tags: getTags(officialShip, categories),
         priceUsd: getPriceUsd(ship, priceMap)
     };
 }

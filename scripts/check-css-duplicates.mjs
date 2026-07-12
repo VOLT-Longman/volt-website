@@ -23,7 +23,7 @@ const noComments = raw.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, '
 // 간단 토크나이저: 브레이스 깊이를 추적하며 selector 블록을 수집한다.
 const selectors = new Map(); // key: `${context} :: ${selector}` → [lineNumbers]
 let depth = 0;
-let contextStack = []; // @media 등 at-rule 조건
+const contextStack = []; // @media 등 at-rule 조건
 let buffer = '';
 let line = 1;
 let bufferStartLine = 1;

@@ -12,7 +12,7 @@ const API_BASE = 'https://discord.com/api/v10';
 
 function redirectToHome(cookies = []) {
   const headers = new Headers({ Location: '/', 'Cache-Control': 'no-store' });
-  cookies.forEach((cookie) => headers.append('Set-Cookie', cookie));
+  cookies.forEach((cookie) => { headers.append('Set-Cookie', cookie); });
   return new Response(null, { status: 302, headers });
 }
 

@@ -30,7 +30,7 @@
         deps.onSectionShow?.(id);
         const home = document.getElementById('home');
         if (!home) return;
-        document.querySelectorAll('.section').forEach((section) => section.classList.remove('active'));
+        document.querySelectorAll('.section').forEach((section) => { section.classList.remove('active'); });
         if (id === 'home') {
             home.style.display = 'flex';
         } else {
@@ -161,11 +161,11 @@
         const open = () => setMobileMenuState(menu, openButton, true);
         const close = () => setMobileMenuState(menu, openButton, false);
         openButton.addEventListener('click', open);
-        closeButtons.forEach((button) => button.addEventListener('click', close));
+        closeButtons.forEach((button) => { button.addEventListener('click', close); });
         menu.addEventListener('click', (event) => {
             if (event.target === menu) close();
         });
-        menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
+        menu.querySelectorAll('a').forEach((link) => { link.addEventListener('click', close); });
         document.addEventListener('keydown', (event) => {
             if (!menu.classList.contains('active')) return;
             if (event.key === 'Escape') close();

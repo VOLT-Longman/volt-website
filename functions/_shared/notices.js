@@ -16,7 +16,11 @@ export async function ensureNoticesEnColumns(db) {
 async function addColumnIfMissing(db, columnName) {
   try {
     await db.prepare(`ALTER TABLE notices ADD COLUMN ${columnName} TEXT`).run();
-  } catch (_error) {
-    // duplicate column name → 이미 존재(0008 적용 완료). 정상 경로.
+  } catch (caught) {
+    if (!isDuplicateColumnError(caught)) throw caught;
   }
+}
+
+function isDuplicateColumnError(error) {
+  return error instanceof Error && /duplicate column name/i.test(error.message);
 }

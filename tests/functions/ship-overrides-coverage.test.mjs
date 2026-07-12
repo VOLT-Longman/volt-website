@@ -3,10 +3,19 @@ import assert from 'node:assert/strict';
 
 import { onRequestGet as shipOverridesPublic } from '../../functions/api/ship-overrides.js';
 import { onRequest as shipsAdmin } from '../../functions/api/admin/ships/index.js';
+import { ensureShipOverridesTable } from '../../functions/_shared/ships.js';
 import { TEST_ENV, adminCookie, createMockDb, jsonRequest } from './helpers.mjs';
 
 // D-5: 커버리지 공백 메우기 — 공개 ship-overrides GET(leadership/timeline과 동일한
 // try/catch DB-실패 폴백 패턴이 있는데 유일하게 무테스트였음)과 admin/ships 목록(GET)을 검증한다.
+
+test('ship override 스키마: 중복 컬럼 외 DDL 실패는 전파', async () => {
+    const db = createMockDb((sql) => {
+        if (sql.startsWith('CREATE TABLE')) throw new Error('D1 unavailable');
+        return [];
+    });
+    await assert.rejects(ensureShipOverridesTable(db), /D1 unavailable/);
+});
 
 test('공개 ship-overrides GET: 정상 조회 → items 매핑 + public 캐시 헤더', async () => {
     const rows = [{

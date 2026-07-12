@@ -9,15 +9,15 @@
       "scripts/**/*.{js,mjs}",
       "tests/**/*.{js,mjs}",
       "sw.js",
-      "!**/node_modules/**",
-      "!**/test-results/**",
+      "!**/node_modules",
+      "!**/test-results",
       "!data/*.json"
     ]
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "style": {
         "useTemplate": "off",
         "useNodejsImportProtocol": "off"

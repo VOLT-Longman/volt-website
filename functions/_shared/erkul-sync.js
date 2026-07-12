@@ -317,7 +317,7 @@ function mergeMappedMarketRows(baseEntry, voltId, marketByLocal, marketOnlyMappi
 // 신규 후보/market-only/미매칭은 적용 대상에서 제외한다.
 // (예외: marketOnlyMappings로 검증·승격된 shop 전용 localName의 market 행은 해당 voltId에 병합)
 
-function buildLiveStatsEntry(voltId, currentEntry, incoming) {
+function buildLiveStatsEntry(currentEntry, incoming) {
   return {
     source: 'erkul-live',
     sourceVersion: 'live',
@@ -377,7 +377,7 @@ export function buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, er
       };
       continue;
     }
-    nextStats[voltId] = buildLiveStatsEntry(voltId, entry, incoming);
+    nextStats[voltId] = buildLiveStatsEntry(entry, incoming);
     const incomingMarket = mergeMappedMarketRows(market.byLocal.get(entry.erkulLocalName), voltId, market.byLocal, marketOnlyMappings);
     nextMarket[voltId] = {
       source: 'erkul-live',

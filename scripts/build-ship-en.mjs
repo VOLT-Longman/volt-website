@@ -72,7 +72,7 @@ function normalizeCrew(crew) {
 }
 
 function mapOrThrow(dict, value, label, shipId) {
-  if (Object.prototype.hasOwnProperty.call(dict, value)) return dict[value];
+  if (Object.hasOwn(dict, value)) return dict[value];
   throw new Error(`[${shipId}] ${label} 사전 누락: ${JSON.stringify(value)} — build-ship-en.mjs 사전에 추가 필요`);
 }
 

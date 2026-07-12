@@ -25,8 +25,16 @@ async function listRsvps(request, env, eventId) {
   if (missingEvent) return missingEvent;
   const result = await db.prepare('SELECT * FROM event_rsvps WHERE event_id = ? ORDER BY updated_at DESC').bind(eventId).all();
   const items = result.results || [];
-  const counts = VALID_STATUSES.reduce((acc, status) => ({ ...acc, [status]: items.filter((item) => item.status === status).length }), {});
+  const counts = countRsvps(items);
   return json({ items: items.map(mapRsvp), counts });
+}
+
+function countRsvps(items) {
+  const counts = Object.fromEntries(VALID_STATUSES.map((status) => [status, 0]));
+  for (const item of items) {
+    if (Object.hasOwn(counts, item.status)) counts[item.status] += 1;
+  }
+  return counts;
 }
 
 async function saveRsvp(request, env, eventId) {
