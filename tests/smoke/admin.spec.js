@@ -8,9 +8,9 @@ const NOTICES = [
     { id: 'n1', title: '첫 공지', content: '내용1', tag: '공지', pinned: false, published: true, date: '2026-06-10', updatedAt: '2026-06-20T10:00:00.000Z' },
 ];
 
-async function mockAdminApi(page, { conflictOnPut = false } = {}) {
+async function mockAdminApi(page, { conflictOnPut = false, notices = NOTICES } = {}) {
     await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
-    await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: NOTICES } }));
+    await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: notices } }));
     await page.route('**/api/admin/notices/n1', (route) => {
         if (route.request().method() !== 'PUT') return route.fulfill({ json: { ok: true } });
         if (conflictOnPut) {
@@ -20,6 +20,21 @@ async function mockAdminApi(page, { conflictOnPut = false } = {}) {
     });
     await page.route('**/api/admin/ships', (route) => route.fulfill({ json: { items: [] } }));
 }
+
+test('admin notices list always shows latest notices first', async ({ page }) => {
+    const notices = [
+        { id: 'pinned-old', title: 'Pinned old', content: 'old', tag: 'notice', pinned: true, published: true, date: '2026.05.15', updatedAt: '2026-05-15T10:00:00.000Z' },
+        { id: 'same-day', title: 'Same day', content: 'same', tag: 'notice', pinned: false, published: true, date: '2026-07-10', updatedAt: '2026-07-10T09:00:00.000Z' },
+        { id: 'latest', title: 'Latest', content: 'latest', tag: 'notice', pinned: false, published: true, date: '2026-07-11', updatedAt: '2026-07-11T09:00:00.000Z' },
+    ];
+    await mockAdminApi(page, { notices });
+    await page.goto('/admin/');
+
+    await expect(page.locator('#list-title')).toHaveText('\uacf5\uc9c0 \ubaa9\ub85d · \ucd5c\uc2e0\uc21c');
+    await expect(page.locator('#item-list [data-id]').nth(0)).toHaveAttribute('data-id', 'latest');
+    await expect(page.locator('#item-list [data-id]').nth(1)).toHaveAttribute('data-id', 'same-day');
+    await expect(page.locator('[data-id="pinned-old"]')).toContainText('\uace0\uc815');
+});
 
 test.describe('관리자 CMS', () => {
     test('함선 검색: 연속 타이핑에도 검색 입력 포커스 유지(커서 풀림 회귀)', async ({ page }) => {

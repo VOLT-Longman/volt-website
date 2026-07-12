@@ -6,6 +6,16 @@ import { onRequest as onRequestId } from '../../functions/api/admin/notices/[id]
 import { noticeInput } from '../../functions/_shared/cms.js';
 import { TEST_ENV, adminCookie, createMockDb, jsonRequest } from './helpers.mjs';
 
+test('admin notices API uses normalized latest-date ordering', async () => {
+    const env = { ...TEST_ENV, DB: createMockDb(() => []) };
+    const request = jsonRequest('https://volt.ceo/api/admin/notices', { method: 'GET', cookie: await adminCookie() });
+    const response = await onRequest({ request, env });
+    assert.equal(response.status, 200);
+    const query = env.DB.calls.find((call) => call.op === 'all')?.sql || '';
+    assert.match(query, /ORDER BY date\(replace\(date, '\.', '-'\)\) DESC, updated_at DESC, created_at DESC/);
+    assert.doesNotMatch(query, /ORDER BY pinned DESC/);
+});
+
 test('공지 API: 비인증 GET/POST → 401, DB 접근 없음', async () => {
     const db = createMockDb(() => []);
     const env = { ...TEST_ENV, DB: db };

@@ -397,11 +397,31 @@ async function runErkulSyncPreview() {
 
 async function loadItems(clearForm = true) {
   const config = CONFIG[state.tab];
-  $('#list-title').textContent = `${config.title} \ubaa9\ub85d`;
+  $('#list-title').textContent = `${config.title} \ubaa9\ub85d${state.tab === 'notices' ? ' · \ucd5c\uc2e0\uc21c' : ''}`;
   $('#form-title').textContent = `${config.title} \uc791\uc131`;
-  state.items = state.tab === 'ships' ? await loadShipItems() : (await api(config.endpoint)).items || [];
+  const items = state.tab === 'ships' ? await loadShipItems() : (await api(config.endpoint)).items || [];
+  state.items = sortItemsForTab(items);
   renderList();
   if (clearForm) renderForm(null);
+}
+
+function sortItemsForTab(items) {
+  if (state.tab !== 'notices') return items;
+  return [...items].sort(compareNoticesByLatest);
+}
+
+function compareNoticesByLatest(left, right) {
+  for (const field of ['date', 'updatedAt']) {
+    const difference = getNoticeSortTime(right[field]) - getNoticeSortTime(left[field]);
+    if (difference !== 0) return difference;
+  }
+  return String(right.id || '').localeCompare(String(left.id || ''));
+}
+
+function getNoticeSortTime(value) {
+  const normalized = String(value || '').trim().replace(/\./g, '-');
+  const time = Date.parse(normalized);
+  return Number.isNaN(time) ? 0 : time;
 }
 
 async function loadShipItems() {
@@ -465,7 +485,8 @@ function renderStandardListItem(item) {
   if (state.tab === 'gallery') return renderGalleryListItem(item);
   if (state.tab === 'partner-fleets') return renderPartnerFleetListItem(item);
   if (state.tab === 'leadership') return renderLeaderListItem(item);
-  const meta = [item.date || item.dateLabel || item.type || '', item.published === false ? '\ucd08\uc548' : '\uac8c\uc2dc']
+  const pin = state.tab === 'notices' && item.pinned ? '\uace0\uc815' : '';
+  const meta = [item.date || item.dateLabel || item.type || '', pin, item.published === false ? '\ucd08\uc548' : '\uac8c\uc2dc']
     .filter(Boolean)
     .join(' - ');
   return `<button class="item-button${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(meta)}</span></button>`;

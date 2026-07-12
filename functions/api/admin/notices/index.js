@@ -12,7 +12,9 @@ export async function onRequest({ request, env }) {
 }
 
 async function listItems(env) {
-  const result = await requireDb(env).prepare('SELECT * FROM notices ORDER BY pinned DESC, date DESC, created_at DESC').all();
+  const result = await requireDb(env)
+    .prepare("SELECT * FROM notices ORDER BY date(replace(date, '.', '-')) DESC, updated_at DESC, created_at DESC")
+    .all();
   return json({ items: (result.results || []).map(mapNotice) });
 }
 
