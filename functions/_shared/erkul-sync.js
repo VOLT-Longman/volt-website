@@ -317,6 +317,25 @@ function mergeMappedMarketRows(baseEntry, voltId, marketByLocal, marketOnlyMappi
 // 신규 후보/market-only/미매칭은 적용 대상에서 제외한다.
 // (예외: marketOnlyMappings로 검증·승격된 shop 전용 localName의 market 행은 해당 voltId에 병합)
 
+function buildDescriptions(currentEntry, incoming) {
+  const current = currentEntry.descriptions ?? {};
+  const englishUnchanged = current.en === incoming.descriptionEn;
+  const preservedTranslation = englishUnchanged
+    ? {
+        ko: current.ko ?? null,
+        ...(current.koSource ? { koSource: current.koSource } : {}),
+        ...(current.translatedAt ? { translatedAt: current.translatedAt } : {})
+      }
+    : { ko: null };
+
+  return {
+    source: incoming.descriptionEnRaw ? 'erkul-live' : null,
+    enRaw: incoming.descriptionEnRaw,
+    en: incoming.descriptionEn,
+    ...preservedTranslation
+  };
+}
+
 function buildLiveStatsEntry(currentEntry, incoming) {
   return {
     source: 'erkul-live',
@@ -339,12 +358,7 @@ function buildLiveStatsEntry(currentEntry, incoming) {
     fuel: incoming.fuel,
     insurance: incoming.insurance,
     damageReduction: incoming.damageReduction,
-    descriptions: {
-      source: incoming.descriptionEnRaw ? 'erkul-live' : null,
-      enRaw: incoming.descriptionEnRaw,
-      en: incoming.descriptionEn,
-      ko: null // KO 자동 번역 금지 — 원천 확보(A-9) 전까지 null 유지
-    }
+    descriptions: buildDescriptions(currentEntry, incoming)
   };
 }
 

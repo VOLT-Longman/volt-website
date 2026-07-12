@@ -265,6 +265,37 @@ test('buildNextLayers: 현재 key만 갱신 + 신규/사라진 함선 처리 (A-
     assert.ok(gone.warnings.some((w) => w.includes('anvl_asgard')));
 });
 
+test('buildNextLayers: 영문 설명이 같으면 기존 한국어 번역을 보존하고, 바뀌면 무효화', () => {
+    const { ships, shops } = fixtureFleet();
+    const layers = currentLayersFromFixture();
+    layers.stats.asgard.descriptions = {
+        source: 'erkul-live',
+        enRaw: 'raw description',
+        en: normalizeErkulShip(ERKUL_SHIP_FIXTURE).descriptionEn,
+        ko: '아스가드 한국어 설명',
+        koSource: 'translated-from-erkul-en',
+        translatedAt: '2026-07-08T12:33:47.705Z'
+    };
+
+    const unchanged = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: ships, erkulShopsRaw: shops });
+    assert.deepEqual(unchanged.nextStats.asgard.descriptions, {
+        source: 'erkul-live',
+        enRaw: normalizeErkulShip(ERKUL_SHIP_FIXTURE).descriptionEnRaw,
+        en: normalizeErkulShip(ERKUL_SHIP_FIXTURE).descriptionEn,
+        ko: '아스가드 한국어 설명',
+        koSource: 'translated-from-erkul-en',
+        translatedAt: '2026-07-08T12:33:47.705Z'
+    });
+
+    const changedShips = ships.map((ship) => (ship.localName === 'anvl_asgard'
+        ? { ...ship, data: { ...ship.data, description: 'Manufacturer: Anvil Aerospace\\nFocus: Drop Ship\\n \\nUpdated body text.' } }
+        : ship));
+    const changed = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: changedShips, erkulShopsRaw: shops });
+    assert.equal(changed.nextStats.asgard.descriptions.ko, null);
+    assert.equal('koSource' in changed.nextStats.asgard.descriptions, false);
+    assert.equal('translatedAt' in changed.nextStats.asgard.descriptions, false);
+});
+
 test('marketOnlyMappings: 구형 localName의 market 행을 기존 voltId에 병합 (stats 불변)', () => {
     const { ships, shops } = fixtureFleet();
     const layers = currentLayersFromFixture();
