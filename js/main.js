@@ -145,6 +145,18 @@
         return currentLang() === 'en' && Array.isArray(en) ? en : (item && Array.isArray(item[field]) ? item[field] : []);
     }
     function i18nT(key, fallback) { return i18n && i18n.t ? i18n.t(key) : (fallback || key); }
+    const SECTION_TITLE_KEYS = Object.freeze({
+        about: 'nav.about', timeline: 'nav.history', leadership: 'nav.leadership', 'partner-fleets': 'nav.partners',
+        hub: 'nav.tradeHub', streamers: 'nav.streamers', gallery: 'nav.gallery', join: 'nav.join', mypage: 'mypage.title',
+        notices: 'nav.notices', ships: 'nav.ships', 'trade-planner': 'nav.tradePlanner', schedule: 'nav.schedule',
+        policy: 'nav.policy', faq: 'nav.faq', guide: 'nav.tradeGuide', ai: 'VOLT AI', comms: 'nav.comms',
+    });
+    function updateDocumentTitle(section) {
+        const baseTitle = i18nT('meta.title', 'VOLT - Voyagers of Logistics and Trade');
+        const sectionKey = SECTION_TITLE_KEYS[section];
+        const sectionTitle = sectionKey ? i18nT(sectionKey, sectionKey) : '';
+        document.title = sectionTitle ? `${sectionTitle} | ${baseTitle}` : baseTitle;
+    }
     // 공지 UI는 js/notices.js로 분리(window.VOLT_NOTICES). 호출부 무변경용 위임 shim.
     function renderNoticeFilters() { return window.VOLT_NOTICES?.renderNoticeFilters?.(); }
     // 공지 재렌더 훅(초기/CMS 로드/언어 변경)이 전부 이 shim을 지나므로 랜딩 티저도 함께 갱신한다.
@@ -164,6 +176,13 @@
     // 전역 검색 모달은 js/search-modal.js로 분리. 호출부 무변경용 위임 shim.
     function setupSearch() { return window.VOLT_SEARCH?.setup?.(); }
     function invalidateSearchCache() { return window.VOLT_SEARCH?.invalidateCache?.(); }
+    // 정적 섹션 렌더러는 js/site-content.js에 분리한다. 기존 호출부 호환용 shim.
+    function renderTimeline() { return window.VOLT_SITE_CONTENT?.renderTimeline?.(); }
+    function renderHubFeatures() { return window.VOLT_SITE_CONTENT?.renderHubFeatures?.(); }
+    function renderJoinSteps() { return window.VOLT_SITE_CONTENT?.renderJoinSteps?.(); }
+    function renderPolicy() { return window.VOLT_SITE_CONTENT?.renderPolicy?.(); }
+    function renderFaq() { return window.VOLT_SITE_CONTENT?.renderFaq?.(); }
+    function renderTradeGuide() { return window.VOLT_SITE_CONTENT?.renderTradeGuide?.(); }
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
     const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [] };
@@ -344,17 +363,6 @@
         return `<a href="${escapeHtml(streamer.channelUrl)}" target="_blank" rel="noopener noreferrer" class="streamer-link">${escapeHtml(i18nT('streamers.watch', '방송 보기'))}</a>`;
     }
 
-    function renderTimeline() {
-        const container = document.getElementById('timeline-list');
-        if (!container || !Array.isArray(data.timeline)) return;
-        container.innerHTML = data.timeline.map((item) => `
-            <div class="timeline-item reveal">
-                <div class="timeline-date">${escapeHtml(item.date)}</div>
-                <div class="timeline-title">${escapeHtml(tx(item, 'title'))}</div>
-                <div class="timeline-desc">${escapeHtml(tx(item, 'description'))}</div>
-            </div>`).join('');
-    }
-
     function renderDepartments() {
         const container = document.getElementById('about-grid');
         if (!container || !Array.isArray(data.departments)) return;
@@ -372,27 +380,6 @@
             <div class="culture-item reveal">
                 <h4>${escapeHtml(tx(value, 'title'))}</h4>
                 <p>${escapeHtml(tx(value, 'description'))}</p>
-            </div>`).join('');
-    }
-
-    function renderHubFeatures() {
-        const container = document.getElementById('hub-features');
-        if (!container || !data.hub || !Array.isArray(data.hub.features)) return;
-        container.innerHTML = data.hub.features.map((feature) => `
-            <div class="hub-feature reveal">
-                <h4>${escapeHtml(tx(feature, 'title'))}</h4>
-                <ul>${txArr(feature, 'items').map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
-            </div>`).join('');
-    }
-
-    function renderJoinSteps() {
-        const container = document.getElementById('join-steps');
-        if (!container || !Array.isArray(data.joinSteps)) return;
-        container.innerHTML = data.joinSteps.map((step) => `
-            <div class="join-step reveal">
-                <div class="step-number">${escapeHtml(String(step.number))}</div>
-                <h3>${escapeHtml(tx(step, 'title'))}</h3>
-                <p>${escapeHtml(tx(step, 'description'))}</p>
             </div>`).join('');
     }
 
@@ -577,55 +564,6 @@
 
 
 
-
-    function renderPolicy() {
-        const container = document.getElementById('policy-list');
-        if (!container || !data.policy || !Array.isArray(data.policy.sections)) return;
-        container.innerHTML = `<div class="policy-updated">${escapeHtml(i18nT('policy.lastUpdatedLabel', '최종 업데이트:'))} ${escapeHtml(data.policy.lastUpdated)}</div>
-            ${data.policy.sections.map((section, index) => renderPolicySection(section, index)).join('')}`;
-    }
-
-    function renderPolicySection(section, index) {
-        const sectionId = `policy-section-${index + 1}`;
-        const notice = section.notice ? `<div class="policy-notice">${escapeHtml(tx(section, 'notice'))}</div>` : '';
-        return `<div class="policy-section reveal" id="${sectionId}">
-            <div class="policy-section-heading">
-                <h3 class="policy-section-title">${escapeHtml(tx(section, 'title'))}</h3>
-                <button class="policy-anchor-copy" type="button" data-policy-index="${index + 1}" aria-label="${escapeHtml(tx(section, 'title'))} \ub9c1\ud06c \ubcf5\uc0ac"><span class="icon-link" aria-hidden="true"></span></button>
-            </div>
-            ${notice}
-            <div class="policy-items">${section.items.map((item) => `<div class="policy-item"><span class="policy-num">${escapeHtml(tx(item, 'num'))}</span><span class="policy-text">${escapeHtml(tx(item, 'text'))}</span></div>`).join('')}</div>
-        </div>`;
-    }
-
-    function renderFaq() {
-        const container = document.getElementById('faq-list');
-        if (!container || !Array.isArray(data.faq)) return;
-        container.innerHTML = `<div class="faq-accordion">${data.faq.map((item, index) => `
-            <div class="faq-item reveal" id="faq-item-${index}">
-                <button class="faq-question" id="faq-q-${index}" aria-expanded="false" aria-controls="faq-ans-${index}">
-                    <span>${escapeHtml(tx(item, 'q'))}</span>
-                    <span class="faq-icon">+</span>
-                </button>
-                <div class="faq-answer" id="faq-ans-${index}" role="region" aria-labelledby="faq-q-${index}" hidden>
-                    <p>${escapeHtml(tx(item, 'a'))}</p>
-                </div>
-            </div>`).join('')}</div>`;
-    }
-
-    function renderTradeGuide() {
-        const container = document.getElementById('guide-list');
-        if (!container || !Array.isArray(data.tradeGuide)) return;
-        container.innerHTML = data.tradeGuide.map((guide) => `
-            <div class="guide-card reveal">
-                <div class="guide-step-num">${escapeHtml(String(guide.step))}</div>
-                <h3>${escapeHtml(tx(guide, 'title'))}</h3>
-                <p>${escapeHtml(tx(guide, 'content'))}</p>
-            </div>`).join('');
-        renderLogisticsShipOptions();
-        renderRecommendedTradeShips();
-        renderTradeGlossary();
-    }
 
     function renderTradeGlossary() {
         const container = document.getElementById('guide-glossary');
@@ -1740,7 +1678,7 @@
     }
 
     function initInner() {
-        nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements, onSectionShow: renderSectionOnShow });
+        nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements, onSectionShow: renderSectionOnShow, updateDocumentTitle });
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
         // nav/uex는 위에서 이미 폴백 stub 처리(D-1) — 항상 안전하게 호출 가능.
         // UEX 패널(DOM 렌더) 계층 — 공용 포매터·로컬라이즈·피커·상수 주입.
@@ -1779,6 +1717,18 @@
             getMemberLabel,
             currentLang, observeNewReveals,
         });
+        window.VOLT_SITE_CONTENT?.init?.({
+            getData: () => data,
+            escapeHtml,
+            tx,
+            txArr,
+            i18nT,
+            renderTradeSupport: () => {
+                renderLogisticsShipOptions();
+                renderRecommendedTradeShips();
+                renderTradeGlossary();
+            },
+        });
         // 함선DB UI 계층 — 데이터 접근·공용 유틸 주입(shipById는 재할당되므로 getter).
         window.VOLT_SHIPS?.init?.({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,
@@ -1806,7 +1756,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); ensureShipEnForEn(); });
+            i18n.onChange(() => { updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); ensureShipEnForEn(); });
         }
         setupDynamicStyles();
         setupSplash();

@@ -163,6 +163,7 @@
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
         const isMobile = window.matchMedia('(max-width: 860px)').matches;
+        const shouldAnimate = !prefersReducedMotion() && window.matchMedia('(pointer: fine)').matches;
         const COUNT = isMobile ? 55 : 120;
         let stars = [];
 
@@ -171,6 +172,7 @@
             canvas.width = Math.max(1, canvas.clientWidth * dpr);
             canvas.height = Math.max(1, canvas.clientHeight * dpr);
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            if (!shouldAnimate && stars.length > 0) draw(0);
         }
 
         function seed() {
@@ -210,7 +212,7 @@
         seed();
         window.addEventListener('resize', resize, { passive: true });
 
-        if (prefersReducedMotion()) {
+        if (!shouldAnimate) {
             draw(0); // 모션 없이 정적 별만
             return;
         }

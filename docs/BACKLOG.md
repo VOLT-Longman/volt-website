@@ -29,11 +29,12 @@
     개별 검토가 필요하면 케이스별로 판단.
   - 파일 분리(`css/sections/*`)는 원한다면 다음 단계.
 
-## 데이터 레벨 i18n (UI 아님)
+## 데이터 레벨 i18n — 완료 확인 (2026-07-13)
 
-- **함선 속성 값 EN화** — role/cargo/size 등 함선 데이터 값은 여전히 KO. `data/volt-data.js` + `data/ship-en.js`에
-  대응 `_en` 필드/사전 보강 필요(빌드 `build-ship-en.mjs` 사전 확장). 검색 결과 본문도 동일.
-- **공지 RSVP status 등 백엔드 값** — 프론트 매핑으로 표시 로컬라이즈는 끝났으나, 원천 데이터 스키마는 KO 유지.
+- **함선 속성 값 EN화**: `data/ship-en.js`와 `mergeShipEn()`이 role/focus/size/crew/description/tags를
+  `_en` 필드로 주입하며, 함선 UI와 검색은 이를 사용한다. cargo는 언어 비의존적인 `SCU` 값이다.
+- **공지 RSVP status**: API 계약값(참가/대기/불참)은 유지하되, `schedule.js`·`mypage.js`가 i18n 키로 표시한다.
+  원천 스키마를 영어로 바꾸는 것은 호환성 이득이 없어 작업 대상으로 남기지 않는다.
 
 ## 성능 (Stage B — 보류)
 
@@ -43,18 +44,19 @@
 
 ## ShipDB 2.0 후속
 
-- **신규 함선 보류 8척** — Tiburon/Tyilui/Starlite(정식 선체이나 인게임 구매처 없음) + F8A/에디션 4종.
-  재검토 트리거: Erkul sync preview에서 해당 함선 구매처 발생 시. 분류표: `docs/shipdb-new-ship-candidates.md`.
+- **신규 함선 후보 분류 완료** — Command Module 1건은 비함선으로 제외했고, Aurora/Hammerhead 6건은
+  `marketOnlyMappings`에 승격됐다. 미출시 VOLT 전용 30척은 live 레이어 없이 기존 데이터로 폴백한다.
+  새 Erkul preview에 미분류 항목이 나올 때만 `docs/shipdb-new-ship-candidates.md` 기준으로 재분류한다.
 - **Hammerhead 가격 모순 anomaly** — Erkul shop이 구(45.56M)/신(34.47M) 엔티티를 이중 등재.
   현 선체 값 우선 표시 중(`ship-market.js`의 hammerhead anomalies 참조). 인게임 실가격 확인 후 정리.
 - **A-6 스모크 Asgard 대표값** — HP·최저가 exact assertion은 의도된 회귀 기준. 동기화로 값이 바뀌면
   기대값도 함께 갱신한다(런북 7-1절 체크리스트).
 
-## main.js 잔여 모듈화 (1985줄 — notices `8af04fb` · schedule `680ff3d` 분리 완료)
+## main.js 잔여 모듈화 — 완료 (2026-07-13)
 
-남은 렌더 책임(독립성 순): 임원진/연혁 → FAQ/가이드/정책 → CMS fetch client 공통화.
-notices와 동일한 패턴(`window.VOLT_*` + `init(deps)` + 호출부 무변경 shim)으로 하나씩 분리한다.
-innerHTML 래칫 베이스라인은 이동분만큼 함께 옮긴다(총합 불변).
+임원진은 `js/leadership.js`, 연혁·FAQ·정책·무역가이드·가입 단계·무역허브 피처는
+`js/site-content.js`로 분리했다. main.js는 호출부 호환 shim과 앱 상태 조립만 담당하며 1,629줄이다.
+innerHTML 래칫은 이동한 6개 렌더 지점만 `site-content.js` 베이스라인으로 기록해 총량을 유지한다.
 
 ## 운영 후속
 
@@ -67,6 +69,5 @@ innerHTML 래칫 베이스라인은 이동분만큼 함께 옮긴다(총합 불�
 ## 우선순위 제안 (마일스톤 C 마감 후, 2026-07-08)
 
 1. (완료, 2026-07-09) CSS 중복 solo-rule 29건 병합 — 남은 100건은 콤마 그룹 공유 패턴이라 자동 병합 대상 아님.
-2. (낮음) main.js 잔여 모듈화 — 임원진/연혁부터.
-3. (대기) 신규 함선 보류 8척 — 트리거 미발동 확인(2026-07-08 라이브 점검, 판매처 0).
-4. (선택) 함선 데이터 값 EN화.
+2. (대기) 신규 함선 보류 8척 — 트리거 미발동 확인(2026-07-08 라이브 점검, 판매처 0).
+3. (선택) 함선 데이터 값 EN화.

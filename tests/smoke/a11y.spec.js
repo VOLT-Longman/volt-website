@@ -71,6 +71,11 @@ test.describe('접근성(axe) 래칫', () => {
         await assertNoNewViolations(page, []);
     });
 
+    test('정적 무역 가이드: 새 critical/serious 위반 없음', async ({ page }) => {
+        await page.goto('/guide/');
+        await assertNoNewViolations(page, []);
+    });
+
     // C-5: 문서 구조(moderate) 래칫 — 상환 완료 상태를 고정한다.
     // h1은 sr-only 사이트 제목으로 상시 존재, 푸터는 h2 그룹, 렌더러 h4 단계 건너뜀 제거.
     for (const hash of ['', '#ships', '#schedule', '#join', '#trade-planner']) {

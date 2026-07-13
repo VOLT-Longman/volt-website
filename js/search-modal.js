@@ -48,6 +48,15 @@
         closeButton.addEventListener('click', () => closeSearch(overlay, input));
         overlay.addEventListener('click', (event) => { if (event.target === overlay) closeSearch(overlay, input); });
         input.addEventListener('input', () => renderSearchResults(input.value));
+        openSearchFromQuery(overlay, input);
+    }
+
+    function openSearchFromQuery(overlay, input) {
+        const query = new URLSearchParams(window.location.search).get('search')?.trim();
+        if (!query) return;
+        openSearch(overlay, input);
+        input.value = query;
+        renderSearchResults(query);
     }
 
     function openSearch(overlay, input, trigger = document.activeElement) {

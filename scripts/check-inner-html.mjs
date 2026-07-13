@@ -24,10 +24,11 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // 파일별 허용 상한. 새 파일은 기본 0 — HTML 싱크 없이 작성한다.
 const BASELINE = {
   // 공지 2곳 → notices.js, 일정 1곳 → schedule.js, 임원진 1곳 → leadership.js로 이동 (총합 불변, 신규 싱크 아님)
-  'js/main.js': 26,
+  'js/main.js': 20,
   'js/notices.js': 2,
   'js/schedule.js': 1,
   'js/leadership.js': 1,
+  'js/site-content.js': 6,
   'js/uex-panel.js': 17,
   'admin/admin.js': 9,
   'js/ships.js': 6,

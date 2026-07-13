@@ -39,6 +39,7 @@
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         updateActiveNav(id);
+        deps.updateDocumentTitle?.(id);
         if (anchorId) scrollToAnchor(anchorId);
         if (push) updateHistory(id);
         if (id === 'notices') deps.openNoticeFromQuery?.();

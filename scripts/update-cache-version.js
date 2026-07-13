@@ -8,7 +8,7 @@ if (!/^20\d{6}-\d{2}$/.test(version || '')) {
 }
 
 const root = path.resolve(__dirname, '..');
-const htmlFiles = ['index.html', 'admin/index.html'];
+const htmlFiles = ['index.html', 'admin/index.html', 'guide/index.html'];
 const problems = [];
 
 for (const relativePath of htmlFiles) {
@@ -18,12 +18,12 @@ for (const relativePath of htmlFiles) {
   fs.writeFileSync(filePath, content, 'utf8');
 
   // 신규 파일이 버전 쿼리 없이 추가되면 캐시 갱신에서 빠지므로 실패 처리한다.
-  const references = content.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?]+\.(?:js|css))(\?[^"]*)?"/g);
+  const references = content.matchAll(/(?:src|href)="((?:\.\.\/)*(?:js|css|data)\/[^"?]+\.(?:js|css))(\?[^"]*)?"/g);
   for (const [, assetPath, query] of references) {
     if (!query || !query.startsWith('?v=')) {
       problems.push(`${relativePath}: ${assetPath} 참조에 ?v= 버전 쿼리가 없습니다.`);
     }
-    if (!fs.existsSync(path.join(root, ...assetPath.split('/')))) {
+    if (!fs.existsSync(path.resolve(path.dirname(filePath), assetPath))) {
       problems.push(`${relativePath}: ${assetPath} 파일이 존재하지 않습니다.`);
     }
   }
