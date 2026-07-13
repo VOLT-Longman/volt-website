@@ -48,6 +48,21 @@ test.describe('CSS 회귀 (P2-4)', () => {
         await ctx.close();
     });
 
+    test('홈 히어로 제목: 글리프 하단이 잘리지 않는 line-height를 유지한다', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '');
+        const titleMetrics = await page.locator('#home.hero h1').evaluate((element) => {
+            const style = getComputedStyle(element);
+            return {
+                fontSize: Number.parseFloat(style.fontSize),
+                lineHeight: Number.parseFloat(style.lineHeight),
+                paddingBottom: Number.parseFloat(style.paddingBottom),
+            };
+        });
+        expect(titleMetrics.lineHeight).toBeGreaterThanOrEqual(titleMetrics.fontSize);
+        expect(titleMetrics.paddingBottom).toBeGreaterThan(0);
+    });
+
     test('터치 타깃: 함선 격납고 토글 버튼 ≥36px', async ({ browser }) => {
         const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
         const page = await ctx.newPage();

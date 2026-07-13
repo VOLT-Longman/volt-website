@@ -7730,7 +7730,10 @@ body.nav-trade-open::before {
     margin: 0 0 18px;
     font-size: clamp(62px, 8vw, 116px);
     font-weight: 900;
-    line-height: 0.92;
+    /* 0.92는 글리프 하단 여유가 없는 폰트에서 마침표와 획의 밑부분을 잘라낸다. */
+    line-height: 1;
+    /* 마침표처럼 기준선 아래로 시각적 무게가 내려가는 글리프의 안전 여백. */
+    padding-bottom: 0.06em;
     letter-spacing: -0.075em;
     color: #f3f0ee;
     text-transform: uppercase;
