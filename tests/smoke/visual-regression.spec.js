@@ -42,9 +42,8 @@ const SCREENS = [
 ];
 
 test.describe('스크린샷 회귀 (C-4)', () => {
-    // 기준 이미지는 운영자 PC(win32/chromium)에서 생성·관리한다.
-    // Linux CI 러너에는 해당 플랫폼 기준 이미지가 없어 전부 실패하므로 CI에서는 건너뛴다.
-    test.skip(Boolean(process.env.CI), '기준 이미지는 win32 로컬 전용 — CI 러너에는 없음');
+    // 권위 기준은 CI(ubuntu)의 `-linux.png` — 갱신은 visual-baseline 워크플로(수동 dispatch)로만 (M0).
+    // 로컬 win32 기준은 개발 참고용이며, 세션 간 서브픽셀 차이는 회귀로 취급하지 않는다 (WORK_STATUS 참조).
 
     for (const screen of SCREENS) {
         test(`데스크톱: ${screen.name}`, async ({ page }) => {
