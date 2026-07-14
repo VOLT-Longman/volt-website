@@ -1,0 +1,10 @@
+VOLT Orbit Display
+Version 1.000
+
+Copyright 2026 VOLT Fleet.
+
+This original Latin display typeface is created for the VOLT website. It may
+be used, modified, and redistributed only with VOLT Fleet's permission.
+
+The typeface deliberately contains a Latin display subset. Korean text is not
+included and must use the website's Korean fallback font stack.

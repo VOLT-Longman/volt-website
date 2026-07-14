@@ -9,6 +9,7 @@ if (!/^20\d{6}-\d{2}$/.test(version || '')) {
 
 const root = path.resolve(__dirname, '..');
 const htmlFiles = ['index.html', 'admin/index.html', 'guide/index.html'];
+const fontCssFiles = ['css/styles.css', 'admin/admin.css'];
 const problems = [];
 
 for (const relativePath of htmlFiles) {
@@ -27,6 +28,24 @@ for (const relativePath of htmlFiles) {
       problems.push(`${relativePath}: ${assetPath} 파일이 존재하지 않습니다.`);
     }
   }
+}
+
+for (const relativePath of fontCssFiles) {
+  const filePath = path.join(root, relativePath);
+  let content = fs.readFileSync(filePath, 'utf8');
+  const fontUrl = 'VOLT-Orbit-Display.woff2';
+  if (!content.includes(fontUrl)) {
+    problems.push(`${relativePath}: ${fontUrl} 참조가 없습니다.`);
+    continue;
+  }
+  const escapedFontUrl = fontUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const fontVersionPattern = new RegExp(`${escapedFontUrl}\\?v=[\\w.-]+`);
+  if (!fontVersionPattern.test(content)) {
+    problems.push(`${relativePath}: ${fontUrl} 참조에 ?v= 버전 쿼리가 없습니다.`);
+    continue;
+  }
+  content = content.replace(new RegExp(fontVersionPattern.source, 'g'), `${fontUrl}?v=${version}`);
+  fs.writeFileSync(filePath, content, 'utf8');
 }
 
 const swPath = path.join(root, 'sw.js');

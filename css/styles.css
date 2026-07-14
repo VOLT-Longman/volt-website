@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "VOLT Orbit Display";
+    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260714-01") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0020-003F, U+0041-005A, U+0061-007A;
+}
+
 /**
  * VOLT Fleet Stylesheet
  * =====================
@@ -52,6 +61,7 @@
 
     /* Typography */
     --font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-display: "VOLT Orbit Display", var(--font-family);
     --font-mono: "SF Mono", "Menlo", "Consolas", "Courier New", monospace;
     --text-eyebrow: 0.8125rem;
     --text-body: 1.0625rem;
@@ -7737,6 +7747,27 @@ body.nav-trade-open::before {
     letter-spacing: -0.075em;
     color: #f3f0ee;
     text-transform: uppercase;
+}
+
+/* VOLT Orbit is a Latin display subset. Korean glyphs fall through to the
+   readable body stack, while English headings, numbers, and controls carry
+   the fleet's own visual language. */
+h1,
+h2,
+h3,
+.nav-logo span,
+.nav-links a,
+.mobile-menu-nav a,
+.btn,
+.doc-tag,
+.hero-tagline,
+.hero-proof dt,
+.hero-proof dd,
+.landing-kicker,
+.landing-card-index,
+.static-guide-brand span,
+.static-guide-eyebrow {
+    font-family: var(--font-display);
 }
 
 .hero h1 span {
