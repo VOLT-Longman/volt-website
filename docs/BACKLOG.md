@@ -28,6 +28,15 @@
     관행에 가까워 억지로 분리 병합하면 오히려 가독성이 떨어질 수 있다. **자동 병합 대상 아님** —
     개별 검토가 필요하면 케이스별로 판단.
   - 파일 분리(`css/sections/*`)는 원한다면 다음 단계.
+  - **146건 분류 (M0, 2026-07-14)** — 랜딩 재설계·폰트·admin 작업으로 100→146 재상승분 포함 전수 재분류.
+    자동 일괄 병합 금지 원칙 유지, 성격별 판정:
+    - **반응형 오버라이드(유지)** — base+`@media` 동일 selector 재정의. 다수(발생 단위 188). 정상 관행.
+    - **콤마 그룹 공유(의도적, 유지)** — 공용 베이스+오버라이드 패턴(발생 단위 77). 기존 판정 유지.
+    - **동일 컨텍스트 solo 중복(안전 병합 후보) 15건** — 전부 랜딩 재설계가 남긴 landing 계열 이중 정의:
+      `.hero::before/::after`, `.hero-layout::before`, `.landing-header h2/p`, `.landing-card:hover`,
+      `.landing-card-eyebrow/h3/p`, `.landing-card-metric(+strong)`, `.landing-notices-head h2`,
+      `.landing-notice-row:hover`, `.landing-cta h2/p`. 병합 시 G0 규약(전 선언 파일 순서 보존 +
+      computed style 전 속성 비교) 필수 — 랜딩 소유 세션이 처리 권장(WORK_STATUS 소유 기준 참조).
 
 ## 데이터 레벨 i18n — 완료 확인 (2026-07-13)
 

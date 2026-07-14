@@ -39,8 +39,9 @@
 | [`docs/BACKLOG.md`](docs/BACKLOG.md) | 마감 후 이관한 잔여 품질 부채 |
 | [`docs/MILESTONE_C.md`](docs/MILESTONE_C.md) | 마일스톤 C(운영 정착·정합성) — 완료 |
 | [`docs/MILESTONE_D.md`](docs/MILESTONE_D.md) | 마일스톤 D(회복탄력성·권한 정합) — 완료 |
-| [`docs/MILESTONE_G.md`](docs/MILESTONE_G.md) | 마일스톤 G(SEO·공유 품질) — 초안, PM 승인 대기 |
-| [`docs/MILESTONE_H.md`](docs/MILESTONE_H.md) | 마일스톤 H(모바일 환경·코드 최적화) — 계획, 착수 전 |
+| [`docs/MILESTONE_G.md`](docs/MILESTONE_G.md) | 마일스톤 G(SEO·공유 품질) — 완료 |
+| [`docs/MILESTONE_H.md`](docs/MILESTONE_H.md) | 마일스톤 H(모바일 환경·코드 최적화) — 완료 |
+| [`docs/WORK_STATUS.md`](docs/WORK_STATUS.md) | 세션 간 작업 상태·소유 기준·운영자 대기 항목 |
 
 ---
 

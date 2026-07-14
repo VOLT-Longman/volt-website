@@ -1,0 +1,45 @@
+name: Visual Baseline
+
+# 시각 회귀의 권위 기준(linux) 이미지를 재생성해 main에 커밋한다 (M0).
+# "승인된 변경일 때만 갱신" 원칙 — 자동 트리거 없이 수동 dispatch 전용.
+# 로컬 win32 기준은 개발 참고용이며 권위 기준이 아니다 (docs/WORK_STATUS.md).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-baselines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Regenerate linux baselines
+        env:
+          # 과거 visual 스펙의 CI skip 가드를 우회해 기준을 생성한다 (skip 제거 후에도 무해)
+          CI: ''
+        run: npx playwright test visual-regression --update-snapshots
+
+      - name: Commit baselines
+        run: |
+          git config user.name "volt-visual-baseline"
+          git config user.email "actions@users.noreply.github.com"
+          git add tests/smoke/visual-regression.spec.js-snapshots/*-linux.png
+          if git diff --cached --quiet; then
+            echo "baseline unchanged — nothing to commit"
+            exit 0
+          fi
+          git commit -m "test: refresh linux visual baselines (visual-baseline workflow)"
+          git push

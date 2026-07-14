@@ -56,8 +56,10 @@ test.describe('접근성(axe) 래칫', () => {
         await expect(page.locator('#global-modal')).toHaveClass(/active/);
         await expect(page.locator('#global-modal .modal-card')).toHaveAttribute('aria-labelledby', /.+/);
         // Modal fade-in temporarily blends foreground/background colors, which can
-        // create false color-contrast failures before the final state settles.
-        await page.waitForTimeout(400);
+        // create false color-contrast failures — wait for the final opacity state (M0).
+        await expect.poll(async () => page.evaluate(
+            () => getComputedStyle(document.querySelector('#global-modal .modal-card')).opacity
+        ), { timeout: 3000 }).toBe('1');
         await assertNoNewViolations(page, []);
     });
 
@@ -66,8 +68,10 @@ test.describe('접근성(axe) 래칫', () => {
         await gotoSection(page, '');
         await page.locator('#search-toggle').click();
         await expect(page.locator('#search-overlay')).toHaveClass(/active/);
-        // fadeIn(0.2s) 중에 axe가 스캔하면 opacity가 곱해진 색으로 대비를 오판한다 — 정착 대기
-        await page.waitForTimeout(400);
+        // fadeIn(0.2s) 중에 axe가 스캔하면 opacity가 곱해진 색으로 대비를 오판한다 — 최종 opacity 대기 (M0)
+        await expect.poll(async () => page.evaluate(
+            () => getComputedStyle(document.querySelector('#search-overlay')).opacity
+        ), { timeout: 3000 }).toBe('1');
         await assertNoNewViolations(page, []);
     });
 

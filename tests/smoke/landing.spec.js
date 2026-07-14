@@ -42,12 +42,17 @@ test.describe('인터랙티브 랜딩 (D)', () => {
     test('카운트업: 랜딩 SHIPDB 수치가 최종값에 도달', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
-        await page.waitForTimeout(1100);
-        const ships = page.locator('[data-landing-count="ships"]');
-        await expect(ships).toHaveText(/^\d{2,3}$/);
-        const value = await ships.textContent();
-        await page.waitForTimeout(300);
-        await expect(ships).toHaveText(value);
+        // 카운트업 완료 = 같은 값이 연속 2회(250ms 간격) 관측될 때 — 하드 대기 대신 조건 대기 (M0)
+        await page.waitForFunction(() => {
+            const element = document.querySelector('[data-landing-count="ships"]');
+            if (!element) return false;
+            const value = element.textContent;
+            if (!/^\d{2,3}$/.test(value)) { window.__countupPrev = null; return false; }
+            if (window.__countupPrev === value) return true;
+            window.__countupPrev = value;
+            return false;
+        }, { polling: 250, timeout: 8000 });
+        await expect(page.locator('[data-landing-count="ships"]')).toHaveText(/^\d{2,3}$/);
     });
 
     test('카드 라우팅: 함선DB 카드 클릭 → #ships 섹션 전환', async ({ page }) => {
@@ -133,9 +138,10 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         const page = await ctx.newPage();
         await mockApi(page);
         await gotoSection(page, '');
-        await page.waitForTimeout(400);
-        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-        expect(overflow).toBeLessThanOrEqual(1);
+        // 레이아웃 안정화를 하드 대기 대신 조건 대기로 (M0)
+        await expect.poll(async () => page.evaluate(
+            () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+        ), { timeout: 3000 }).toBeLessThanOrEqual(1);
         await ctx.close();
     });
 });
