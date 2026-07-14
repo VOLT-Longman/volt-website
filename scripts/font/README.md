@@ -1,9 +1,9 @@
 # VOLT Orbit Display
 
 `VOLT Orbit Display` is an original, geometric Latin display face for VOLT's
-headings, controls, numeric readouts, and English labels. It is not a Korean
-body-text font: Korean glyphs intentionally resolve to the site's readable
-Korean fallback stack.
+hero-system numeric readouts. It is not a Korean body-text or headline font:
+Korean glyphs intentionally resolve to the site's readable Korean fallback
+stack.
 
 The repository ships the generated `.woff2` and `.ttf` files so production
 never needs a font build dependency. The generator uses FontTools only when a

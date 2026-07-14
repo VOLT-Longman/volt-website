@@ -1,6 +1,6 @@
 @font-face {
     font-family: "VOLT Orbit Display";
-    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260714-01") format("woff2");
+    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260714-02") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -7749,24 +7749,10 @@ body.nav-trade-open::before {
     text-transform: uppercase;
 }
 
-/* VOLT Orbit is a Latin display subset. Korean glyphs fall through to the
-   readable body stack, while English headings, numbers, and controls carry
-   the fleet's own visual language. */
-h1,
-h2,
-h3,
-.nav-logo span,
-.nav-links a,
-.mobile-menu-nav a,
-.btn,
-.doc-tag,
-.hero-tagline,
-.hero-proof dt,
-.hero-proof dd,
-.landing-kicker,
-.landing-card-index,
-.static-guide-brand span,
-.static-guide-eyebrow {
+/* VOLT Orbit은 시스템 수치를 위한 보조 서체다. 제목·메뉴·본문은 기존 서체를
+   유지해 로고 및 한글 본문과의 균형을 지킨다. */
+#home.hero .hero-proof dt,
+#home.hero .hero-proof dd {
     font-family: var(--font-display);
 }
 

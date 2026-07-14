@@ -42,7 +42,7 @@ RIGHT = 504
 TOP = 760
 MIDDLE = 380
 BASELINE = 0
-STROKE = 82
+STROKE = 104
 
 
 def beam(x1: int, y1: int, x2: int, y2: int, width: int = STROKE) -> tuple:
@@ -67,8 +67,8 @@ SEGMENTS = {
     "n_diag": beam(LEFT, TOP, RIGHT, BASELINE),
     "k_top": beam(LEFT, MIDDLE, RIGHT, TOP),
     "k_bottom": beam(LEFT, MIDDLE, RIGHT, BASELINE),
-    "m_left": beam(LEFT, TOP, CENTER - 85, MIDDLE),
-    "m_right": beam(CENTER - 85, MIDDLE, RIGHT, TOP),
+    "m_left": beam(LEFT, TOP, CENTER, MIDDLE),
+    "m_right": beam(CENTER, MIDDLE, RIGHT, TOP),
     "d_top": beam(LEFT, TOP, RIGHT - 86, TOP),
     "d_upper": beam(RIGHT - 86, TOP, RIGHT, TOP - 86),
     "d_right": beam(RIGHT, TOP - 86, RIGHT, BASELINE + 86),
@@ -254,9 +254,9 @@ def build_font(output_dir: Path) -> tuple[Path, Path]:
         "familyName": FAMILY_NAME,
         "styleName": "Regular",
         "fullName": FAMILY_NAME,
-        "uniqueFontIdentifier": f"{FAMILY_NAME}; Version 1.000",
+        "uniqueFontIdentifier": f"{FAMILY_NAME}; Version 2.000",
         "psName": "VOLTOrbitDisplay-Regular",
-        "version": "Version 1.000",
+        "version": "Version 2.000",
     })
     builder.setupOS2(
         sTypoAscender=ASCENDER,
