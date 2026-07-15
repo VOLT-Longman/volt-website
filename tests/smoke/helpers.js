@@ -19,6 +19,11 @@ async function mockApi(page, { loggedIn = false } = {}) {
     await page.route('**/api/discord-stats', (route) => route.fulfill({ json: { memberCount: 1234 } }));
     await page.route('**/api/me/**', (route) => route.fulfill({ json: { items: [] } }));
     await page.route(/\/api\/events\/[^/]+\/rsvp$/, (route) => route.fulfill({ json: { going: false, count: 0 } }));
+    // VOLT AI 상태 조회(M1) — 기본 비활성. AI 테스트는 나중 등록 라우트로 덮어쓴다.
+    await page.route('**/api/ai/chat', (route) => {
+        if (route.request().method() === 'GET') return route.fulfill({ json: { enabled: false, memberOnly: true, dailyLimit: 0 } });
+        return route.fulfill({ status: 503, json: { error: 'VOLT AI가 비활성화되어 있습니다.' } });
+    });
 }
 
 function trackConsoleErrors(page) {

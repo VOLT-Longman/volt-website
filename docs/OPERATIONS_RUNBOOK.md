@@ -265,6 +265,38 @@ git revert <sync-commit-sha>
 
 ---
 
+## 7-2. VOLT AI 운영 (M1 — 도구 기반 어시스턴트)
+
+구조: `#ai 화면 → /api/ai/chat`(단일 관문) → 인증(Discord 멤버)·분당/일일/비용 한도 →
+결정론 도구(함선 추천·비교 / UEX 시세 / 일정·공지) → 모델 어댑터(문장화 전용) → 답변+출처+기준 시각.
+수치는 도구만 생성하고, 대화 원문은 저장하지 않는다(사용량·오류·도구 종류만 KV 익명 집계).
+
+### 활성화 절차 (운영자 1회)
+
+1. Cloudflare Pages 대시보드 → 프로젝트 → Settings → Functions → **AI 바인딩 추가** (변수명 `AI`).
+2. 환경변수 설정 후 재배포:
+
+| 변수 | 기본값 | 의미 |
+|---|---|---|
+| `VOLT_AI_ENABLED` | (없음=비활성) | `true`일 때만 동작 — **최종 킬 스위치** |
+| `VOLT_AI_MODEL` | `@cf/meta/llama-3.1-8b-instruct` | Workers AI 모델 id (어댑터 교체 가능) |
+| `VOLT_AI_DAILY_REQUEST_LIMIT` | 200 | 전 멤버 합산 일일 요청 상한 |
+| `VOLT_AI_MAX_INPUT_CHARS` | 500 | 입력 길이 상한 |
+| `VOLT_AI_MAX_OUTPUT_TOKENS` | 400 | 문장화 출력 토큰 상한 |
+| `VOLT_AI_COST_CAP` | 3000 | 일 비용 하드캡(₩) — 초과 시 자동 429 |
+| `VOLT_AI_COST_CAP_MONTHLY` | 30000 | 월 비용 하드캡(₩) |
+| `VOLT_AI_EST_COST_PER_REQ_KRW` | 3 | 요청당 보수적 비용 추정치(근사) |
+
+3. 바인딩 없이 `VOLT_AI_ENABLED=true`만 켜도 동작한다 — 모델 문장화 대신
+   **도구 결과 템플릿 응답**으로 폴백(수치·출처 동일). 모델 품질 문제 시 이 상태로 강등 운영 가능.
+
+### 운영 규칙
+
+- 비용 집계는 KV 근사치다(최종 일관성) — 실제 하드캡의 최종 방어는 `VOLT_AI_ENABLED` 제거.
+- 사용량 확인: KV `ai_usage:d:YYYYMMDD` / `ai_usage:m:YYYYMM` (count·cost), `ai_stats:tool:*`(도구별), `ai_stats:err:*`(오류).
+- UEX가 불가하면 AI는 시세 추천을 만들지 않고 "데이터 불가"를 명시한다 — 정상 동작이다.
+- 프롬프트 주입 방어: 함선/의도는 서버 화이트리스트 재대조로만 확정, 모델 출력은 표시 전용(도구 실행 권한 없음).
+
 ## 8. 장애 대응 요약
 
 - **공개 API(D1) 장애:** 공개 사이트는 `data/volt-data.js`의 동일 키를 폴백/시드로 사용해 계속 동작한다.
