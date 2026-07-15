@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "VOLT Orbit Display";
+    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260715-02") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0020-003F, U+0041-005A, U+0061-007A;
+}
+
 /**
  * VOLT Fleet Stylesheet
  * =====================
@@ -45,13 +54,25 @@
     --spacing-xl: 48px;
     --spacing-2xl: 60px;
 
-    /* Border Radius */
-    --radius-sm: 12px;
-    --radius-md: 20px;
+    /* Border Radius — Liquid Glass(I-1)에 맞춘 콘센트릭 라운딩 */
+    --radius-sm: 14px;
+    --radius-md: 22px;
     --radius-full: 980px;
+
+    /* ===== Liquid Glass 토큰 (I-1) — 애플 리퀴드 글래스 재해석 =====
+       블러(backdrop-filter)는 고정 크롬·오버레이 표면에만 쓰고, 카드류는
+       무블러 "글래스 톤"(레이어드 배경 + 스펙큘러 인셋)만 적용해 성능을 지킨다. */
+    --glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 55%, rgba(255, 255, 255, 0.035) 100%);
+    --glass-bg-deep: rgba(18, 16, 15, 0.58);
+    --glass-border: rgba(255, 255, 255, 0.13);
+    --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.10), inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+    --glass-shadow: 0 22px 54px rgba(0, 0, 0, 0.45);
+    --glass-blur: 22px;
 
     /* Typography */
     --font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    /* 브랜드 디스플레이 서체 (I-1, Orbit v3) — 라틴 전용, 한글은 위 스택으로 폴백 */
+    --font-display: "VOLT Orbit Display", var(--font-family);
     --font-mono: "SF Mono", "Menlo", "Consolas", "Courier New", monospace;
     --text-eyebrow: 0.8125rem;
     --text-body: 1.0625rem;
@@ -72,7 +93,7 @@
     --transition-fast: 0.2s ease;
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
     /* 카드/플로팅 요소용 보조 토큰 (협력함대·임원진 카드 등에서 참조) */
-    --radius-lg: 24px;
+    --radius-lg: 30px;
     --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.22);
     --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5);
     --color-bg-elevated: rgba(255, 255, 255, 0.06);
@@ -5421,6 +5442,134 @@ body.nav-trade-open::before {
     font-size: 13.5px;
     line-height: 1.6;
     color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   Liquid Glass 재해석 (I-1) — 표면 오버라이드 레이어
+   구조(HTML)는 그대로 두고 표면 재질만 재정의한다. 원칙:
+   · 블러는 고정 크롬/오버레이(nav·검색·모달·모바일 메뉴·토스트·AI 패널)에만
+   · 카드류(함선 247장 포함)는 무블러 글래스 톤 — GPU 비용 0에 가깝게
+   · 다크 전용 사이트 기준 — 텍스트 대비는 a11y 게이트가 검증
+   ========================================================================== */
+
+/* — 전용 서체 적용 확대 (Orbit Display v3: 라틴 전용, 한글은 자동 폴백) — */
+.hero h1,
+.hero h1,
+.nav-logo-text,
+.hero-tagline,
+.doc-tag,
+.nav-soon-tag,
+.landing-card-eyebrow,
+.volt-ai-status-badge,
+.volt-ai-chat-badge,
+.hero-proof dt,
+.hero-proof dd {
+    font-family: var(--font-display);
+}
+
+/* — 글래스 톤 (무블러): 카드 표면 공통 재질 — */
+.landing-card,
+.notice-card,
+.schedule-item,
+.guide-card,
+.hub-feature,
+.join-checklist-card,
+.leader-card,
+.gallery-item,
+.ship-card,
+.volt-ai-source-card,
+.faq-item {
+    background-image: var(--glass-bg);
+    box-shadow: var(--glass-inset);
+}
+
+.landing-card:hover,
+.notice-card:hover,
+.ship-card:hover,
+.leader-card:hover {
+    box-shadow: var(--glass-inset), 0 18px 44px rgba(0, 0, 0, 0.38);
+    border-color: var(--glass-border);
+}
+
+/* — 버튼: 글래스 필 + 스펙큘러 상단 하이라이트 — */
+.btn-secondary,
+.btn-tertiary {
+    background-image: var(--glass-bg);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    border-color: var(--glass-border);
+}
+
+.btn-primary {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 6px 20px rgba(232, 72, 47, 0.35);
+}
+
+/* — 글래스 크롬 (블러): 고정/오버레이 표면 — */
+.nav {
+    background: rgba(8, 7, 7, 0.55);
+    backdrop-filter: saturate(170%) blur(var(--glass-blur));
+    -webkit-backdrop-filter: saturate(170%) blur(var(--glass-blur));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.nav.scrolled {
+    background: rgba(8, 7, 7, 0.72);
+    border-bottom-color: rgba(255, 255, 255, 0.10);
+}
+
+.search-panel,
+.modal-card,
+.mobile-menu-panel {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015) 60%),
+        var(--glass-bg-deep);
+    backdrop-filter: saturate(160%) blur(var(--glass-blur));
+    -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-inset), var(--glass-shadow);
+}
+
+.toast {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+        rgba(14, 13, 12, 0.72);
+    backdrop-filter: saturate(160%) blur(16px);
+    -webkit-backdrop-filter: saturate(160%) blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-inset), 0 14px 36px rgba(0, 0, 0, 0.4);
+}
+
+.lang-switch {
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+}
+
+.volt-ai-chat-panel {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01) 55%),
+        rgba(16, 14, 13, 0.42);
+    backdrop-filter: saturate(150%) blur(18px);
+    -webkit-backdrop-filter: saturate(150%) blur(18px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-inset), var(--glass-shadow);
+}
+
+/* — 성능·접근성 가드 — */
+@media (max-width: 860px) {
+    /* 모바일 GPU 비용 절감: 블러 반경 축소 (H-1 정신 유지) */
+    .nav, .search-panel, .modal-card, .mobile-menu-panel, .volt-ai-chat-panel {
+        backdrop-filter: saturate(150%) blur(14px);
+        -webkit-backdrop-filter: saturate(150%) blur(14px);
+    }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .nav, .nav.scrolled { background: rgba(8, 7, 7, 0.97); backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .search-panel, .modal-card, .mobile-menu-panel, .toast, .lang-switch, .volt-ai-chat-panel {
+        background: #121010;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
 }
 
 .volt-ai-login-link {
