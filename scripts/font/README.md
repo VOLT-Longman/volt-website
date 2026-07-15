@@ -5,11 +5,11 @@ use clipped terminals and generous counters rather than a generic sci-fi or
 seven-segment treatment, so the fleet identity stays legible at headline and
 cockpit-metric sizes.
 
-It is deliberately a Latin identity layer. Korean glyphs resolve to the
+It is deliberately a Latin identity experiment. Korean glyphs resolve to the
 site's readable Korean fallback stack; it must never replace Korean body copy.
-Use it for the English hero lockup, operational values, short labels and
-numerals. Keep long navigation, Korean headings and paragraphs in the product
-text family.
+It is not loaded by the live website while its visual language is refined.
+Keep hero titles, navigation, metrics, Korean headings and paragraphs in the
+product text family until a reviewed production release explicitly adopts it.
 
 The repository ships the generated `.woff2` and `.ttf` files so production
 never needs a font build dependency. The generator uses FontTools only when a

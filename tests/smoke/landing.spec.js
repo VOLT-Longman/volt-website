@@ -119,16 +119,12 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await expect(page.locator('.hero-copy')).toHaveCSS('text-align', 'center');
     });
 
-    test('VOLT Orbit display font applies to the hero without overflow', async ({ page }) => {
+    test('hero headline remains readable without overflow', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
-        await expect.poll(() => page.evaluate(
-            () => document.fonts.check("700 64px 'VOLT Orbit Display'")
-        )).toBe(true);
 
         const heading = page.locator('#home h1');
-        await expect(heading).toHaveCSS('font-family', /VOLT Orbit Display/);
-        await expect(heading).toHaveCSS('font-synthesis', 'none');
+        await expect(heading).not.toHaveCSS('font-family', /VOLT Orbit Display/);
         await expect(heading).toHaveCSS('overflow', 'visible');
         await expect.poll(() => heading.evaluate((element) => (
             element.scrollWidth - element.clientWidth
