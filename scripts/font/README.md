@@ -1,25 +1,26 @@
 # VOLT Orbit Display
 
 `VOLT Orbit Display` is VOLT's original Latin display face. Its V3 outlines
-use clipped terminals and generous counters rather than a generic sci-fi or
-seven-segment treatment, so the fleet identity stays legible at headline and
-cockpit-metric sizes.
+use rounded terminals and generous counters so the fleet identity stays
+legible without leaning on a generic sci-fi or seven-segment treatment.
 
-It is deliberately a Latin identity experiment. Korean glyphs resolve to the
-site's readable Korean fallback stack; it must never replace Korean body copy.
-It is not loaded by the live website while its visual language is refined.
-Keep hero titles, navigation, metrics, Korean headings and paragraphs in the
-product text family until a reviewed production release explicitly adopts it.
+It is a static **SemiBold** Latin subset. Korean, lowercase Latin, navigation,
+badges, metrics, and all body copy must use the product system stack. The live
+site uses Orbit only for the English hero title and tagline; CSS limits the
+font to its actual uppercase, numeral, and punctuation coverage.
 
-The repository ships the generated `.woff2` and `.ttf` files so production
-never needs a font build dependency. The generator uses FontTools only when a
-designer changes the outlines.
+The Node generator is the single source of truth. Generated `.woff2` and
+`.ttf` files are committed so production has no font build dependency. Do not
+hand-edit either binary.
 
 ```powershell
-$env:VOLT_FONTTOOLS_PATH = 'C:\path\to\fonttools'
-& C:\path\to\python.exe scripts\font\generate_volt_orbit.py
+npm run font:build
+npm run font:check
 ```
 
+`font:check` validates the generated sfnt/WOFF2 headers, OpenType metadata,
+and the exact glyphs needed by the live hero copy. Browser smoke tests confirm
+that the WOFF2 file loads and no hero glyph is clipped.
+
 The design is VOLT-owned. Do not replace it with an externally licensed font
-without recording that font's license and attribution. The generator verifies
-the subset, cap-height metadata and a 100KB webfont budget on every build.
+without recording that font's license and attribution.

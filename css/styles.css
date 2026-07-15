@@ -1,10 +1,10 @@
 @font-face {
     font-family: "VOLT Orbit Display";
-    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260716-01") format("woff2");
-    font-weight: 700;
+    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260716-02") format("woff2");
+    font-weight: 600;
     font-style: normal;
     font-display: swap;
-    unicode-range: U+0020-003F, U+0041-005A, U+0061-007A;
+    unicode-range: U+0020, U+0025, U+002B-002F, U+0030-0039, U+003A, U+0041-005A, U+00B7, U+2192;
 }
 
 /**
@@ -5452,11 +5452,6 @@ body.nav-trade-open::before {
    · 다크 전용 사이트 기준 — 텍스트 대비는 a11y 게이트가 검증
    ========================================================================== */
 
-/* — Orbit v3는 영문 히어로 잠금에만 사용한다. 작은 UI는 제품 기본 서체를 유지한다. — */
-.hero h1 {
-    font-family: var(--font-display);
-}
-
 /* — 글래스 톤 (무블러): 카드 표면 공통 재질 — */
 .landing-card,
 .notice-card,
@@ -7931,7 +7926,8 @@ body.nav-trade-open::before {
     background: none;
     font-family: var(--font-display);
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 600;
+    font-synthesis: none;
     letter-spacing: 0.2em;
     color: #8f8d8d;
 }
@@ -7947,9 +7943,11 @@ body.nav-trade-open::before {
 .hero h1 {
     max-width: 720px;
     margin: 0 0 18px;
-    /* font-family는 I-1 브랜드 서체 그룹(--font-display)이 담당 — 격리 잔재 제거 */
+    /* Orbit은 단일 SemiBold 파일이다. 합성 굵기로 윤곽을 왜곡하지 않는다. */
+    font-family: var(--font-display);
     font-size: clamp(62px, 8vw, 116px);
-    font-weight: 900;
+    font-weight: 600;
+    font-synthesis: none;
     line-height: 1;
     padding-bottom: 0.06em;
     letter-spacing: -0.075em;

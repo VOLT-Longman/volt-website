@@ -7,6 +7,8 @@
 	--border: #303036;
 	--orange: #e8482f;
 	--danger: #ef4444;
+	--font-sans: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--font-mono: "SF Mono", "Menlo", Consolas, "Courier New", monospace;
 }
 * {
 	box-sizing: border-box;
@@ -16,7 +18,7 @@ body {
 	min-height: 100vh;
 	background: var(--bg);
 	color: var(--text);
-	font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, -apple-system, sans-serif;
+	font-family: var(--font-sans);
 }
 button,
 input,
@@ -793,7 +795,7 @@ select {
 
 .sync-hash code,
 .sync-command {
-	font-family: ui-monospace, Consolas, monospace;
+	font-family: var(--font-mono);
 	font-size: 12px;
 	background: rgba(255, 255, 255, 0.05);
 	border-radius: 8px;

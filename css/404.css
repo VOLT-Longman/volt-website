@@ -1,8 +1,8 @@
 /* 404 페이지 전용 스타일. 인라인 <style> 제거(CSP style-src 강화)를 위해 분리. */
 :root {
   --volt-orange: #E8482F;
-  --font: -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif;
-  --mono: "SF Mono", "Menlo", monospace;
+  --font: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "SF Mono", "Menlo", Consolas, "Courier New", monospace;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {

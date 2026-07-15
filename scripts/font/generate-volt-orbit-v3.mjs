@@ -29,6 +29,7 @@ const DESCENDER = -200;
 const STROKE = 92;          // 기본 획 두께
 const SIDE = 60;            // 기본 사이드베어링
 const DEG = Math.PI / 180;
+const FONT_VERSION = '3.001';
 
 // ===== 아웃라인 프리미티브 =====
 // 점: { x, y, on } — TTF 쿼드라틱. 원호는 45° 이하 세그먼트로 근사(오차 < 0.2유닛).
@@ -350,7 +351,7 @@ function buildTables(order, encoded) {
   // head
   const head = Buffer.alloc(54);
   head.writeUInt32BE(0x00010000, 0);           // version
-  head.writeUInt32BE(0x00030000, 4);           // fontRevision 3.0
+  head.writeUInt32BE(0x00030042, 4);           // fontRevision 3.001 (16.16 fixed)
   head.writeUInt32BE(0, 8);                    // checkSumAdjustment (후기입)
   head.writeUInt32BE(0x5F0F3CF5, 12);          // magic
   head.writeUInt16BE(0b0000000000001011, 16);  // flags
@@ -390,7 +391,7 @@ function buildTables(order, encoded) {
   os2.writeUInt16BE(5, 6);                     // usWidthClass
   os2.writeUInt16BE(0, 8);
   Buffer.from('VOLT').copy(os2, 58);           // achVendID
-  os2.writeUInt16BE(0b0000000011000000, 62);   // fsSelection: REGULAR|USE_TYPO_METRICS
+  os2.writeUInt16BE(0b0000000010000000, 62);   // fsSelection: USE_TYPO_METRICS
   const codes = mapping.map(([c]) => c);
   os2.writeUInt16BE(Math.min(...codes), 64);
   os2.writeUInt16BE(Math.max(...codes) > 0xFFFF ? 0xFFFF : Math.max(...codes), 66);
@@ -402,8 +403,8 @@ function buildTables(order, encoded) {
 
   // name / post
   const nameStrings = [
-    [1, 'VOLT Orbit Display'], [2, 'Regular'], [3, 'VOLT Orbit Display v3.000'],
-    [4, 'VOLT Orbit Display'], [5, 'Version 3.000'], [6, 'VOLTOrbitDisplay-Regular'],
+    [1, 'VOLT Orbit Display'], [2, 'SemiBold'], [3, `VOLT Orbit Display v${FONT_VERSION}`],
+    [4, 'VOLT Orbit Display'], [5, `Version ${FONT_VERSION}`], [6, 'VOLTOrbitDisplay-SemiBold'],
     [0, 'Copyright 2026 VOLT Fleet.']
   ].sort((a, b) => a[0] - b[0]);
   const nameRecords = []; const nameData = [];
