@@ -119,14 +119,12 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await expect(page.locator('.hero-copy')).toHaveCSS('text-align', 'center');
     });
 
-    test('hero headline: Orbit v3 적용 상태에서 클리핑/overflow 없음', async ({ page }) => {
-        // 이전 세션이 v2.x 클리핑 때문에 격리했던 우려를 계약으로 흡수한다 —
-        // I-1(v3)은 히어로에 적용하되, 글리프가 잘리거나 넘치면 이 테스트가 잡는다.
+    test('hero headline: 제품 기본 서체에서 클리핑/overflow 없음', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
 
         const heading = page.locator('#home h1');
-        await expect(heading).toHaveCSS('font-family', /VOLT Orbit Display/);
+        await expect(heading).not.toHaveCSS('font-family', /VOLT Orbit Display/);
         await expect(heading).toHaveCSS('overflow', 'visible');
         await expect.poll(() => heading.evaluate((element) => (
             element.scrollWidth - element.clientWidth
