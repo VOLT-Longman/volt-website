@@ -2,6 +2,21 @@
 
 배포는 main 브랜치 → Cloudflare Pages 자동 반영이며, 버전 경계는 커밋 단위다.
 
+## I-1 — 브랜드 디자인 리프레시: Orbit v3 + Liquid Glass (2026-07-15)
+
+기준 커밋 `cb26912`(+linux 기준 `7a55955`) · 캐시 `20260715-02` · 게이트: check 0 · Playwright 243/243
+
+- **VOLT Orbit Display v3** — 의존성 없는 Node 생성기(`scripts/font/generate-volt-orbit-v3.mjs`)로
+  TTF+WOFF2(3.4KB)를 직접 인코딩. 라운드 캡 스트로크·진원 보울 기반 애플 계열 지오메트리,
+  글리프 48종. 적용 범위를 브랜드 표면 전반(h1·nav 로고·태그라인·eyebrow·배지·지표)으로 확대 —
+  한글은 시스템 스택 폴백. 이전의 "미완성 폰트 격리" 결정은 v3로 대체(클리핑 우려는
+  h1 overflow 스모크 계약으로 흡수).
+- **Liquid Glass UI** — 구조 무변경 표면 재해석: 글래스 토큰(`--glass-*`) + 콘센트릭 라운딩
+  (14/22/30), 블러는 고정 크롬/오버레이 7종에만, 카드류는 무블러 글래스 톤. 모바일 블러 축소,
+  `prefers-reduced-transparency` 솔리드 폴백.
+- 부산물: WOFF2 널 변환 인코딩 지식(transformLength는 버전 3에서 기록 금지 — OTS 거부),
+  M1/M1.1(VOLT AI 도구 기반 어시스턴트 + 정확성 보수)은 WORK_STATUS 참조.
+
 ## v1.0-quality — 품질 기준선 (2026-07-09)
 
 **태그 `v1.0-quality`** · 기준 커밋 `e501866` (E-1 Admin 동기화 상태 패널 포함) · 캐시 `20260709-07`
