@@ -7822,7 +7822,7 @@ body.nav-trade-open::before {
     font-size: clamp(58px, 7.1vw, 108px);
     font-weight: 700;
     font-synthesis: none;
-    line-height: 0.9;
+    line-height: 1;
     padding: 0.08em 0.04em 0.15em;
     letter-spacing: -0.045em;
     color: #f3f0ee;
