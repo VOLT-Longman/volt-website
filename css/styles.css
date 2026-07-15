@@ -7957,7 +7957,7 @@ body.nav-trade-open::before {
 .hero h1 {
     max-width: 720px;
     margin: 0 0 18px;
-    font-family: var(--font-family);
+    /* font-family는 I-1 브랜드 서체 그룹(--font-display)이 담당 — 격리 잔재 제거 */
     font-size: clamp(62px, 8vw, 116px);
     font-weight: 900;
     line-height: 1;
