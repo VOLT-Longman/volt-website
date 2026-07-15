@@ -1,6 +1,6 @@
 @font-face {
     font-family: "VOLT Orbit Display";
-    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260715-02") format("woff2");
+    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260716-01") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -5452,18 +5452,8 @@ body.nav-trade-open::before {
    · 다크 전용 사이트 기준 — 텍스트 대비는 a11y 게이트가 검증
    ========================================================================== */
 
-/* — 전용 서체 적용 확대 (Orbit Display v3: 라틴 전용, 한글은 자동 폴백) — */
-.hero h1,
-.hero h1,
-.nav-logo-text,
-.hero-tagline,
-.doc-tag,
-.nav-soon-tag,
-.landing-card-eyebrow,
-.volt-ai-status-badge,
-.volt-ai-chat-badge,
-.hero-proof dt,
-.hero-proof dd {
+/* — Orbit v3는 영문 히어로 잠금에만 사용한다. 작은 UI는 제품 기본 서체를 유지한다. — */
+.hero h1 {
     font-family: var(--font-display);
 }
 
@@ -7939,7 +7929,7 @@ body.nav-trade-open::before {
     padding: 0;
     border: 0;
     background: none;
-    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-family: var(--font-display);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.2em;

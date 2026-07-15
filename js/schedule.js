@@ -71,11 +71,16 @@
 
     async function loadScheduleRsvps() {
         const controls = Array.from(document.querySelectorAll('[data-rsvp-event-id]'));
+        if (!isLoggedIn()) {
+            applyRoleGates();
+            return;
+        }
         await Promise.all(controls.map(async (control) => {
             const eventId = control.getAttribute('data-rsvp-event-id');
             if (!eventId) return;
             try {
                 const response = await fetch(`/api/events/${encodeURIComponent(eventId)}/rsvp`, { headers: { Accept: 'application/json' } });
+                if (response.status === 401) return;
                 if (!response.ok) throw new Error(`RSVP ${response.status}`);
                 renderRsvpSummary(control, await response.json());
             } catch (error) {

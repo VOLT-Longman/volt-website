@@ -31,6 +31,19 @@ test.describe('상호작용 흐름 (G3)', () => {
         await expect(button).toHaveClass(/is-auth-locked/);
     });
 
+    test('RSVP 비로그인: 보호된 집계 API를 요청하지 않는다', async ({ page }) => {
+        let rsvpRequestCount = 0;
+        await mockApi(page); // loggedIn: false
+        await page.route(/\/api\/events\/[^/]+\/rsvp$/, (route) => {
+            rsvpRequestCount += 1;
+            return route.fulfill({ status: 401, json: { error: 'Unauthorized' } });
+        });
+        await gotoSection(page, '#schedule');
+        await expect(page.locator('[data-rsvp-status="참가"]').first()).toBeDisabled();
+        await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+        expect(rsvpRequestCount).toBe(0);
+    });
+
     test('갤러리 라이트박스: 항목 클릭 → 모달 이미지 → Escape 닫기', async ({ page }) => {
         await mockApi(page);
         await page.route(/\/api\/gallery$/, (route) => route.fulfill({
