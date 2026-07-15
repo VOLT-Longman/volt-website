@@ -117,6 +117,7 @@
 volt-website/
 ├── index.html                  메인 페이지와 섹션 구조
 ├── 404.html                    잘못된 주소 접근 시 표시되는 페이지
+├── guide/index.html            SEO용 독립 무역 가이드 정적 페이지(별도 static-guide-* 스타일)
 ├── README.md                   프로젝트 운영 문서
 ├── _headers                    Cloudflare Pages 보안/캐시 헤더
 ├── manifest.json               PWA manifest
@@ -134,6 +135,7 @@ volt-website/
 │   ├── notices.js              공지 렌더러 (VOLT_NOTICES)
 │   ├── schedule.js             일정/RSVP 렌더러 (VOLT_SCHEDULE)
 │   ├── leadership.js           임원진 카드·상세 모달 (VOLT_LEADERSHIP)
+│   ├── site-content.js         연혁·FAQ·정책·무역가이드·가입단계·무역허브 피처 렌더러
 │   ├── ships.js                함선DB UI 계층 (VOLT_SHIPS)
 │   ├── landing.js              랜딩 히어로·스타맵·운영 패널 (VOLT_LANDING)
 │   ├── trade-planner.js        무역플래너 (VOLT_TRADE_PLANNER)
@@ -155,8 +157,7 @@ volt-website/
 ├── tests/                      smoke(Playwright) + functions(Node 테스트)
 └── assets/
     └── images/
-        ├── VOLT_logo.png       기본 로고
-        ├── VOLT_logo.webp      웹 최적화 로고
+        ├── VOLT_logo.webp      기본 로고(웹 최적화)
         ├── og-image.png        공유 미리보기 이미지
         ├── icons/              PWA 아이콘
         ├── streamers/          스트리머 이미지

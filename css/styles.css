@@ -218,6 +218,7 @@ body {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    position: relative;
 }
 
 .nav-more-toggle:hover,
@@ -755,24 +756,6 @@ body.nav-trade-open::before {
 @keyframes sectionFadeIn {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
-}
-
-.nav-links a.nav-active::after,
-.nav-more-toggle.nav-active::after,
-.nav-trade-toggle.nav-active::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--volt-orange);
-    border-radius: 1px;
-}
-
-.nav-more-toggle,
-.nav-trade-toggle {
-    position: relative;
 }
 
 .section-content {
@@ -1667,6 +1650,9 @@ body.nav-trade-open::before {
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 24px;
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .notice-filter-btn {
@@ -2345,12 +2331,16 @@ body.nav-trade-open::before {
 .policy-num {
     font-family: var(--font-family);
     font-size: 11px;
+    font-weight: 700;
     color: var(--volt-orange);
     background: rgba(232, 72, 47, 0.1);
     border-radius: 4px;
     padding: 2px 6px;
     flex-shrink: 0;
     margin-top: 2px;
+    min-width: 90px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }
 
 .ship-card {
@@ -2570,21 +2560,10 @@ body.nav-trade-open::before {
 
 /* ?? ?쒖꽦 nav + ?뱀뀡 ?꾪솚 ?? */
 .nav-links a.nav-active { color: var(--volt-orange); }
-.nav-links a.nav-active::after {
-    content: ''; position: absolute;
-    bottom: -4px; left: 0; right: 0;
-    height: 2px; background: var(--volt-orange); border-radius: 1px;
-}
 .section.active { display: block; animation: sectionFadeIn 0.4s ease; }
 
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
 .reveal.revealed { opacity: 1; transform: translateY(0); }
-
-/* ?? 怨듭??ы빆 ?? */
-.notices-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr));
-    gap: 24px; margin-top: 56px;
-}
 
 .notice-card:hover { background: var(--color-bg-card-hover); transform: translateY(-3px); border-color: var(--color-border-accent); }
 .notice-card::before {
@@ -2927,11 +2906,6 @@ body.nav-trade-open::before {
 }
 .policy-items { display: flex; flex-direction: column; gap: 12px; }
 .policy-item { display: flex; gap: 16px; align-items: flex-start; }
-.policy-num {
-    font-family: var(--font-family); font-size: 11px; font-weight: 700;
-    color: var(--volt-orange); min-width: 90px; padding-top: 2px;
-    text-transform: uppercase; letter-spacing: 0.02em;
-}
 .policy-text { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; }
 
 /* ?? FAQ ?꾩퐫?붿뼵 ?? */
@@ -6075,8 +6049,8 @@ body.nav-trade-open::before {
 .notices-grid {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    max-width: 860px;
+    gap: 12px;
+    max-width: 920px;
     margin: 8px auto 0;
 }
 
@@ -6188,16 +6162,6 @@ body.nav-trade-open::before {
 }
 
 /* --- 공지: 게시판/피드형. 고정만 강조, 일반은 낮고 조밀하게 --- */
-.notice-filters {
-    max-width: 860px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.notices-grid {
-    gap: 12px;
-}
-
 .notice-card:not(.notice-card-pinned) {
     background: rgba(255, 255, 255, 0.045);
     border-color: rgba(255, 255, 255, 0.06);
@@ -6292,9 +6256,6 @@ body.nav-trade-open::before {
 #leadership .section-header { margin-bottom: 32px; }
 
 /* --- 공지: 본문 폭 920, featured 1개만 강조, 나머지는 가벼운 게시판 행 --- */
-.notices-grid,
-.notice-filters { max-width: 920px; }
-
 .notice-card {
     background: var(--color-bg-card); border: 1px solid var(--color-border);
     border-radius: var(--radius-md); padding: 28px 28px 24px;
