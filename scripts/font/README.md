@@ -1,9 +1,15 @@
 # VOLT Orbit Display
 
-`VOLT Orbit Display` is an original, geometric Latin display face for VOLT's
-hero-system numeric readouts. It is not a Korean body-text or headline font:
-Korean glyphs intentionally resolve to the site's readable Korean fallback
-stack.
+`VOLT Orbit Display` is VOLT's original Latin display face. Its V3 outlines
+use clipped terminals and generous counters rather than a generic sci-fi or
+seven-segment treatment, so the fleet identity stays legible at headline and
+cockpit-metric sizes.
+
+It is deliberately a Latin identity layer. Korean glyphs resolve to the
+site's readable Korean fallback stack; it must never replace Korean body copy.
+Use it for the English hero lockup, operational values, short labels and
+numerals. Keep long navigation, Korean headings and paragraphs in the product
+text family.
 
 The repository ships the generated `.woff2` and `.ttf` files so production
 never needs a font build dependency. The generator uses FontTools only when a
@@ -15,4 +21,5 @@ $env:VOLT_FONTTOOLS_PATH = 'C:\path\to\fonttools'
 ```
 
 The design is VOLT-owned. Do not replace it with an externally licensed font
-without recording that font's license and attribution.
+without recording that font's license and attribution. The generator verifies
+the subset, cap-height metadata and a 100KB webfont budget on every build.

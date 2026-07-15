@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Build the original VOLT Orbit Display Latin webfont.
+"""Build VOLT Orbit Display, the fleet's original Latin display face.
 
-The font intentionally covers Latin UI/display text, numerals and common ASCII
-punctuation. Korean copy falls back to the site's Korean text family.
+V3 replaces the early seven-segment experiment with a restrained navigational
+display face: wide counters, clipped terminals and a clear reading rhythm at
+both hero and cockpit-metric sizes. Korean is intentionally delegated to the
+site's Korean text stack; this file only owns the Latin identity layer.
 """
 
 from __future__ import annotations
@@ -29,140 +31,209 @@ except ModuleNotFoundError as error:
 
 
 FAMILY_NAME = "VOLT Orbit Display"
-COPYRIGHT = "Copyright 2026 VOLT Fleet."
+COPYRIGHT = "Copyright 2026 VOLT Fleet. All rights reserved."
+VERSION = "Version 3.000"
 UNITS_PER_EM = 1000
-ASCENDER = 800
-DESCENDER = -200
-ADVANCE = 570
-SPACE_ADVANCE = 220
-PUNCTUATION_ADVANCE = 300
-LEFT = 66
-CENTER = 285
-RIGHT = 504
-TOP = 760
-MIDDLE = 380
+ASCENDER = 810
+DESCENDER = -210
+CAP_HEIGHT = 720
+X_HEIGHT = 520
+DEFAULT_ADVANCE = 590
+NARROW_ADVANCE = 350
+WIDE_ADVANCE = 710
+SPACE_ADVANCE = 250
+PUNCTUATION_ADVANCE = 270
+LEFT = 70
+CENTER = 295
+RIGHT = 520
+TOP = CAP_HEIGHT
+MIDDLE = 360
 BASELINE = 0
-STROKE = 104
+STROKE = 84
+TERMINAL_CUT = 28
 
 
-def beam(x1: int, y1: int, x2: int, y2: int, width: int = STROKE) -> tuple:
-    return ("beam", x1, y1, x2, y2, width)
+def beam(
+    x1: int,
+    y1: int,
+    x2: int,
+    y2: int,
+    width: int = STROKE,
+    cut: int = TERMINAL_CUT,
+) -> tuple:
+    return ("beam", x1, y1, x2, y2, width, cut)
 
 
-SEGMENTS = {
-    "top": beam(LEFT, TOP, RIGHT, TOP),
-    "middle": beam(LEFT, MIDDLE, RIGHT, MIDDLE),
-    "bottom": beam(LEFT, BASELINE, RIGHT, BASELINE),
-    "left": beam(LEFT, BASELINE, LEFT, TOP),
-    "right": beam(RIGHT, BASELINE, RIGHT, TOP),
-    "upper_left": beam(LEFT, MIDDLE, LEFT, TOP),
-    "upper_right": beam(RIGHT, MIDDLE, RIGHT, TOP),
-    "lower_left": beam(LEFT, BASELINE, LEFT, MIDDLE),
-    "lower_right": beam(RIGHT, BASELINE, RIGHT, MIDDLE),
-    "center": beam(CENTER, BASELINE, CENTER, TOP),
-    "diag_up_left": beam(LEFT, BASELINE, CENTER, TOP),
-    "diag_up_right": beam(CENTER, TOP, RIGHT, BASELINE),
-    "diag_down_left": beam(LEFT, TOP, CENTER, BASELINE),
-    "diag_down_right": beam(RIGHT, TOP, CENTER, BASELINE),
-    "n_diag": beam(LEFT, TOP, RIGHT, BASELINE),
-    "k_top": beam(LEFT, MIDDLE, RIGHT, TOP),
-    "k_bottom": beam(LEFT, MIDDLE, RIGHT, BASELINE),
-    "m_left": beam(LEFT, TOP, CENTER, MIDDLE),
-    "m_right": beam(CENTER, MIDDLE, RIGHT, TOP),
-    "d_top": beam(LEFT, TOP, RIGHT - 86, TOP),
-    "d_upper": beam(RIGHT - 86, TOP, RIGHT, TOP - 86),
-    "d_right": beam(RIGHT, TOP - 86, RIGHT, BASELINE + 86),
-    "d_lower": beam(RIGHT, BASELINE + 86, RIGHT - 86, BASELINE),
-    "d_bottom": beam(RIGHT - 86, BASELINE, LEFT, BASELINE),
-    "j_top": beam(LEFT + 150, TOP, RIGHT, TOP),
-    "j_bottom": beam(LEFT + 132, BASELINE, RIGHT, BASELINE),
-    "j_left": beam(LEFT + 132, BASELINE, LEFT + 132, MIDDLE - 70),
-    "short_vertical": beam(CENTER, MIDDLE - 10, CENTER, BASELINE + 120),
-}
+def dot(center_x: int, center_y: int, radius: int) -> tuple:
+    return ("dot", center_x, center_y, radius)
 
 
-LETTER_SEGMENTS = {
-    "A": ("diag_up_left", "diag_up_right", "middle"),
-    "B": ("left", "top", "middle", "bottom", "upper_right", "lower_right"),
-    "C": ("top", "upper_left", "lower_left", "bottom"),
-    "D": ("left", "d_top", "d_upper", "d_right", "d_lower", "d_bottom"),
-    "E": ("left", "top", "middle", "bottom"),
-    "F": ("left", "top", "middle"),
-    "G": ("top", "upper_left", "lower_left", "bottom", "middle", "lower_right"),
-    "H": ("left", "right", "middle"),
-    "I": ("top", "center", "bottom"),
-    "J": ("j_top", "right", "j_bottom", "j_left"),
-    "K": ("left", "k_top", "k_bottom"),
-    "L": ("left", "bottom"),
-    "M": ("left", "right", "m_left", "m_right"),
-    "N": ("left", "right", "n_diag"),
-    "O": ("top", "right", "bottom", "left"),
-    "P": ("left", "top", "middle", "upper_right"),
-    "Q": ("top", "right", "bottom", "left", "k_bottom"),
-    "R": ("left", "top", "middle", "upper_right", "k_bottom"),
-    "S": ("top", "upper_left", "middle", "lower_right", "bottom"),
-    "T": ("top", "center"),
-    "U": ("left", "right", "bottom"),
-    "V": ("diag_down_left", "diag_down_right"),
-    "W": ("diag_down_left", "m_left", "m_right", "diag_down_right"),
-    "X": ("diag_down_left", "diag_down_right"),
-    "Y": ("diag_down_left", "diag_down_right", "short_vertical"),
-    "Z": ("top", "n_diag", "bottom"),
-}
+def compose(*parts: tuple) -> list[tuple]:
+    return list(parts)
 
 
-DIGIT_SEGMENTS = {
-    "0": ("top", "right", "bottom", "left"),
-    "1": ("center", "bottom"),
-    "2": ("top", "upper_right", "middle", "lower_left", "bottom"),
-    "3": ("top", "upper_right", "middle", "lower_right", "bottom"),
-    "4": ("upper_left", "upper_right", "middle", "lower_right"),
-    "5": ("top", "upper_left", "middle", "lower_right", "bottom"),
-    "6": ("top", "upper_left", "middle", "lower_left", "lower_right", "bottom"),
-    "7": ("top", "upper_right", "lower_right"),
-    "8": ("top", "right", "bottom", "left", "middle"),
-    "9": ("top", "upper_left", "upper_right", "middle", "lower_right", "bottom"),
-}
+def horizontal(
+    y: int,
+    start: int = LEFT,
+    end: int = RIGHT,
+    width: int = STROKE,
+    cut: int = TERMINAL_CUT,
+) -> tuple:
+    return beam(start, y, end, y, width, cut)
 
 
-def compose(*names: str) -> list[tuple]:
-    return [SEGMENTS[name] for name in names]
+def vertical(
+    x: int,
+    start: int = BASELINE,
+    end: int = TOP,
+    width: int = STROKE,
+    cut: int = TERMINAL_CUT,
+) -> tuple:
+    return beam(x, start, x, end, width, cut)
+
+
+def octagon_parts() -> list[tuple]:
+    corner = 92
+    return compose(
+        horizontal(TOP, LEFT + corner, RIGHT - corner),
+        beam(RIGHT - corner, TOP, RIGHT, TOP - corner),
+        vertical(RIGHT, BASELINE + corner, TOP - corner),
+        beam(RIGHT, BASELINE + corner, RIGHT - corner, BASELINE),
+        horizontal(BASELINE, LEFT + corner, RIGHT - corner),
+        beam(LEFT + corner, BASELINE, LEFT, BASELINE + corner),
+        vertical(LEFT, BASELINE + corner, TOP - corner),
+        beam(LEFT, TOP - corner, LEFT + corner, TOP),
+    )
+
+
+def rounded_bowl(top: int, bottom: int) -> list[tuple]:
+    right_x = RIGHT
+    shoulder = 82
+    return compose(
+        horizontal(top, LEFT, right_x - shoulder),
+        beam(right_x - shoulder, top, right_x, top - shoulder),
+        vertical(right_x, bottom + shoulder, top - shoulder),
+        beam(right_x, bottom + shoulder, right_x - shoulder, bottom),
+        horizontal(bottom, LEFT, right_x - shoulder),
+    )
 
 
 def special_parts() -> dict[str, list[tuple]]:
     return {
         " ": [],
-        ".": [("dot", CENTER, 50, 42, 42)],
-        ",": [("dot", CENTER, 58, 42, 42), beam(CENTER, 25, CENTER - 62, -105, 58)],
-        ":": [("dot", CENTER, 535, 37, 37), ("dot", CENTER, 60, 37, 37)],
-        ";": [("dot", CENTER, 535, 37, 37), ("dot", CENTER, 58, 37, 37), beam(CENTER, 30, CENTER - 52, -95, 52)],
-        "-": compose("middle"),
-        "_": [beam(LEFT, -82, RIGHT, -82)],
-        "/": [beam(LEFT, BASELINE, RIGHT, TOP)],
-        "\\": [beam(LEFT, TOP, RIGHT, BASELINE)],
-        "+": [beam(LEFT, MIDDLE, RIGHT, MIDDLE), beam(CENTER, 150, CENTER, 610)],
-        "=": [beam(LEFT, 515, RIGHT, 515), beam(LEFT, 245, RIGHT, 245)],
-        "!": [beam(CENTER, 175, CENTER, TOP), ("dot", CENTER, 50, 38, 38)],
-        "?": compose("top", "upper_right", "middle") + [beam(CENTER, MIDDLE, CENTER, 205), ("dot", CENTER, 50, 38, 38)],
-        "%": [("dot", LEFT + 74, TOP - 92, 57, 57), ("dot", RIGHT - 74, 94, 57, 57), beam(LEFT + 30, 0, RIGHT - 30, TOP, 58)],
-        "&": compose("upper_left", "top", "middle", "lower_left", "lower_right", "bottom") + [beam(LEFT + 55, MIDDLE, RIGHT, 0, 58)],
-        "@": compose("top", "right", "bottom", "left", "middle") + [beam(CENTER, MIDDLE, RIGHT, MIDDLE), beam(CENTER, MIDDLE, CENTER, 100)],
-        "#": [beam(LEFT + 110, 0, LEFT + 110, TOP, 54), beam(RIGHT - 110, 0, RIGHT - 110, TOP, 54), beam(LEFT, 515, RIGHT, 515, 54), beam(LEFT, 245, RIGHT, 245, 54)],
-        "$": compose("top", "upper_left", "middle", "lower_right", "bottom") + [beam(CENTER, -90, CENTER, TOP + 90, 52)],
-        "*": [beam(LEFT + 50, 145, RIGHT - 50, TOP - 145, 54), beam(LEFT + 50, TOP - 145, RIGHT - 50, 145, 54), beam(CENTER, 80, CENTER, TOP - 80, 54)],
-        "'": [beam(CENTER, TOP, CENTER - 52, TOP - 160, 52)],
-        '"': [beam(CENTER - 102, TOP, CENTER - 152, TOP - 160, 52), beam(CENTER + 102, TOP, CENTER + 52, TOP - 160, 52)],
-        "(": [beam(RIGHT - 80, TOP, LEFT + 116, MIDDLE, 58), beam(LEFT + 116, MIDDLE, RIGHT - 80, BASELINE, 58)],
-        ")": [beam(LEFT + 80, TOP, RIGHT - 116, MIDDLE, 58), beam(RIGHT - 116, MIDDLE, LEFT + 80, BASELINE, 58)],
-        "[": [beam(LEFT + 65, BASELINE, LEFT + 65, TOP), beam(LEFT + 65, TOP, RIGHT - 120, TOP), beam(LEFT + 65, BASELINE, RIGHT - 120, BASELINE)],
-        "]": [beam(RIGHT - 65, BASELINE, RIGHT - 65, TOP), beam(LEFT + 120, TOP, RIGHT - 65, TOP), beam(LEFT + 120, BASELINE, RIGHT - 65, BASELINE)],
-        "<": [beam(RIGHT, TOP, LEFT, MIDDLE, 64), beam(LEFT, MIDDLE, RIGHT, BASELINE, 64)],
-        ">": [beam(LEFT, TOP, RIGHT, MIDDLE, 64), beam(RIGHT, MIDDLE, LEFT, BASELINE, 64)],
-        "|": [beam(CENTER, -80, CENTER, TOP + 80, 54)],
-        "^": [beam(LEFT + 50, TOP - 260, CENTER, TOP, 54), beam(CENTER, TOP, RIGHT - 50, TOP - 260, 54)],
-        "~": [beam(LEFT, MIDDLE, CENTER - 30, MIDDLE + 90, 48), beam(CENTER - 30, MIDDLE + 90, RIGHT, MIDDLE, 48)],
-        "`": [beam(CENTER - 25, TOP, CENTER + 28, TOP - 160, 52)],
+        ".": [dot(CENTER, 52, 35)],
+        ",": [dot(CENTER, 62, 33), beam(CENTER + 10, 32, CENTER - 42, -96, 48, 14)],
+        ":": [dot(CENTER, 520, 31), dot(CENTER, 58, 31)],
+        ";": [dot(CENTER, 520, 31), dot(CENTER, 62, 31), beam(CENTER + 8, 35, CENTER - 42, -92, 46, 12)],
+        "-": [horizontal(MIDDLE, LEFT + 70, RIGHT - 70)],
+        "_": [horizontal(-72)],
+        "/": [beam(LEFT + 24, BASELINE, RIGHT - 24, TOP, 62, 20)],
+        "\\": [beam(LEFT + 24, TOP, RIGHT - 24, BASELINE, 62, 20)],
+        "+": [horizontal(MIDDLE, LEFT + 60, RIGHT - 60), vertical(CENTER, 150, 570)],
+        "=": [horizontal(500, LEFT + 56, RIGHT - 56), horizontal(220, LEFT + 56, RIGHT - 56)],
+        "!": [vertical(CENTER, 170, TOP), dot(CENTER, 52, 32)],
+        "?": compose(
+            horizontal(TOP, LEFT + 42, RIGHT - 82),
+            beam(RIGHT - 82, TOP, RIGHT, TOP - 88),
+            beam(RIGHT, TOP - 88, CENTER, MIDDLE),
+            vertical(CENTER, 220, MIDDLE),
+            dot(CENTER, 52, 32),
+        ),
+        "%": [
+            dot(LEFT + 94, TOP - 96, 48),
+            dot(RIGHT - 94, 98, 48),
+            beam(LEFT + 36, BASELINE + 16, RIGHT - 36, TOP - 16, 54, 18),
+        ],
+        "&": compose(
+            beam(LEFT + 44, TOP - 82, CENTER, TOP),
+            beam(LEFT, TOP - 178, LEFT + 44, TOP - 82),
+            beam(LEFT, TOP - 178, LEFT + 130, MIDDLE),
+            beam(LEFT + 130, MIDDLE, LEFT, BASELINE + 158),
+            beam(LEFT, BASELINE + 158, LEFT + 96, BASELINE),
+            beam(LEFT + 96, BASELINE, RIGHT - 30, BASELINE),
+            beam(CENTER - 20, MIDDLE + 36, RIGHT, BASELINE),
+            beam(CENTER + 66, MIDDLE + 158, RIGHT, TOP - 24),
+        ),
+        "@": compose(*octagon_parts(), horizontal(MIDDLE, CENTER, RIGHT - 78), vertical(CENTER, 142, MIDDLE)),
+        "#": [
+            vertical(LEFT + 118, -20, TOP + 20, 48, 14),
+            vertical(RIGHT - 118, -20, TOP + 20, 48, 14),
+            horizontal(502, LEFT, RIGHT, 48, 14),
+            horizontal(220, LEFT, RIGHT, 48, 14),
+        ],
+        "$": compose(
+            horizontal(TOP - 18, LEFT + 70, RIGHT - 48),
+            beam(LEFT + 70, TOP - 18, LEFT, MIDDLE + 74),
+            horizontal(MIDDLE, LEFT + 28, RIGHT - 28),
+            beam(RIGHT - 28, MIDDLE, RIGHT, BASELINE + 78),
+            horizontal(BASELINE + 18, LEFT + 52, RIGHT - 68),
+            vertical(CENTER, -82, TOP + 82, 46, 14),
+        ),
+        "*": [
+            beam(LEFT + 84, 190, RIGHT - 84, TOP - 190, 48, 14),
+            beam(LEFT + 84, TOP - 190, RIGHT - 84, 190, 48, 14),
+            vertical(CENTER, 112, TOP - 112, 48, 14),
+        ],
+        "'": [beam(CENTER + 12, TOP, CENTER - 42, TOP - 166, 46, 14)],
+        '"': [
+            beam(CENTER - 84, TOP, CENTER - 132, TOP - 166, 46, 14),
+            beam(CENTER + 88, TOP, CENTER + 40, TOP - 166, 46, 14),
+        ],
+        "(": [beam(RIGHT - 82, TOP, LEFT + 102, MIDDLE, 56, 18), beam(LEFT + 102, MIDDLE, RIGHT - 82, BASELINE, 56, 18)],
+        ")": [beam(LEFT + 82, TOP, RIGHT - 102, MIDDLE, 56, 18), beam(RIGHT - 102, MIDDLE, LEFT + 82, BASELINE, 56, 18)],
+        "[": [vertical(LEFT + 68), horizontal(TOP, LEFT + 68, RIGHT - 118), horizontal(BASELINE, LEFT + 68, RIGHT - 118)],
+        "]": [vertical(RIGHT - 68), horizontal(TOP, LEFT + 118, RIGHT - 68), horizontal(BASELINE, LEFT + 118, RIGHT - 68)],
+        "<": [beam(RIGHT - 18, TOP - 42, LEFT + 32, MIDDLE, 58, 18), beam(LEFT + 32, MIDDLE, RIGHT - 18, BASELINE + 42, 58, 18)],
+        ">": [beam(LEFT + 18, TOP - 42, RIGHT - 32, MIDDLE, 58, 18), beam(RIGHT - 32, MIDDLE, LEFT + 18, BASELINE + 42, 58, 18)],
+        "|": [vertical(CENTER, -80, TOP + 80, 48, 14)],
+        "^": [beam(LEFT + 64, TOP - 250, CENTER, TOP, 48, 14), beam(CENTER, TOP, RIGHT - 64, TOP - 250, 48, 14)],
+        "~": [beam(LEFT + 20, MIDDLE, CENTER - 20, MIDDLE + 86, 42, 12), beam(CENTER - 20, MIDDLE + 86, RIGHT - 20, MIDDLE, 42, 12)],
+        "`": [beam(CENTER - 18, TOP, CENTER + 34, TOP - 166, 46, 14)],
     }
+
+
+LETTER_PARTS = {
+    "A": compose(beam(LEFT, BASELINE, CENTER, TOP), beam(CENTER, TOP, RIGHT, BASELINE), horizontal(MIDDLE - 8, LEFT + 115, RIGHT - 115)),
+    "B": compose(vertical(LEFT), *rounded_bowl(TOP, MIDDLE), *rounded_bowl(MIDDLE, BASELINE)),
+    "C": compose(horizontal(TOP, LEFT + 86, RIGHT), beam(LEFT + 86, TOP, LEFT, TOP - 86), vertical(LEFT, BASELINE + 86, TOP - 86), beam(LEFT, BASELINE + 86, LEFT + 86, BASELINE), horizontal(BASELINE, LEFT + 86, RIGHT)),
+    "D": compose(vertical(LEFT), *rounded_bowl(TOP, BASELINE)),
+    "E": compose(vertical(LEFT), horizontal(TOP), horizontal(MIDDLE, LEFT, RIGHT - 72), horizontal(BASELINE)),
+    "F": compose(vertical(LEFT), horizontal(TOP), horizontal(MIDDLE, LEFT, RIGHT - 72)),
+    "G": compose(horizontal(TOP, LEFT + 86, RIGHT), beam(LEFT + 86, TOP, LEFT, TOP - 86), vertical(LEFT, BASELINE + 86, TOP - 86), beam(LEFT, BASELINE + 86, LEFT + 86, BASELINE), horizontal(BASELINE, LEFT + 86, RIGHT), horizontal(MIDDLE, CENTER, RIGHT), vertical(RIGHT, BASELINE + 58, MIDDLE)),
+    "H": compose(vertical(LEFT), vertical(RIGHT), horizontal(MIDDLE)),
+    "I": compose(horizontal(TOP, LEFT + 70, RIGHT - 70), vertical(CENTER), horizontal(BASELINE, LEFT + 70, RIGHT - 70)),
+    "J": compose(horizontal(TOP, LEFT + 150, RIGHT), vertical(RIGHT, BASELINE + 126, TOP), beam(RIGHT, BASELINE + 126, RIGHT - 88, BASELINE), horizontal(BASELINE, LEFT + 100, RIGHT - 88), beam(LEFT + 100, BASELINE, LEFT, BASELINE + 96)),
+    "K": compose(vertical(LEFT), beam(LEFT + 18, MIDDLE, RIGHT, TOP), beam(LEFT + 18, MIDDLE, RIGHT, BASELINE)),
+    "L": compose(vertical(LEFT), horizontal(BASELINE)),
+    "M": compose(vertical(LEFT), vertical(RIGHT + 150), beam(LEFT, TOP, CENTER + 75, MIDDLE - 32), beam(RIGHT + 150, TOP, CENTER + 75, MIDDLE - 32)),
+    "N": compose(vertical(LEFT), vertical(RIGHT), beam(LEFT, TOP, RIGHT, BASELINE)),
+    "O": compose(*octagon_parts()),
+    "P": compose(vertical(LEFT), *rounded_bowl(TOP, MIDDLE)),
+    "Q": compose(*octagon_parts(), beam(CENTER + 60, MIDDLE - 40, RIGHT + 62, BASELINE - 54)),
+    "R": compose(vertical(LEFT), *rounded_bowl(TOP, MIDDLE), beam(CENTER - 16, MIDDLE, RIGHT, BASELINE)),
+    "S": compose(horizontal(TOP, LEFT + 62, RIGHT - 18), beam(LEFT + 62, TOP, LEFT, MIDDLE + 76), horizontal(MIDDLE, LEFT + 16, RIGHT - 20), beam(RIGHT - 20, MIDDLE, RIGHT, BASELINE + 78), horizontal(BASELINE, LEFT + 22, RIGHT - 62)),
+    "T": compose(horizontal(TOP), vertical(CENTER)),
+    "U": compose(vertical(LEFT, BASELINE + 108, TOP), vertical(RIGHT, BASELINE + 108, TOP), beam(LEFT, BASELINE + 108, CENTER, BASELINE), beam(CENTER, BASELINE, RIGHT, BASELINE + 108)),
+    "V": compose(beam(LEFT, TOP, CENTER, BASELINE), beam(CENTER, BASELINE, RIGHT, TOP)),
+    "W": compose(beam(LEFT, TOP, LEFT + 150, BASELINE), beam(LEFT + 150, BASELINE, CENTER + 30, MIDDLE - 10), beam(CENTER + 30, MIDDLE - 10, RIGHT, BASELINE), beam(RIGHT, BASELINE, RIGHT + 150, TOP)),
+    "X": compose(beam(LEFT, TOP, RIGHT, BASELINE), beam(LEFT, BASELINE, RIGHT, TOP)),
+    "Y": compose(beam(LEFT, TOP, CENTER, MIDDLE), beam(RIGHT, TOP, CENTER, MIDDLE), vertical(CENTER, BASELINE, MIDDLE)),
+    "Z": compose(horizontal(TOP), beam(RIGHT, TOP, LEFT, BASELINE), horizontal(BASELINE)),
+}
+
+
+DIGIT_PARTS = {
+    "0": compose(*octagon_parts(), beam(LEFT + 106, BASELINE + 90, RIGHT - 106, TOP - 90, 46, 14)),
+    "1": compose(beam(LEFT + 80, TOP - 104, CENTER, TOP), vertical(CENTER), horizontal(BASELINE, LEFT + 74, RIGHT - 42)),
+    "2": compose(horizontal(TOP, LEFT + 58, RIGHT - 74), beam(RIGHT - 74, TOP, RIGHT, TOP - 84), beam(RIGHT, TOP - 84, LEFT, BASELINE), horizontal(BASELINE)),
+    "3": compose(horizontal(TOP, LEFT + 44, RIGHT - 72), beam(RIGHT - 72, TOP, RIGHT, TOP - 88), vertical(RIGHT, BASELINE + 82, TOP - 88), beam(RIGHT, BASELINE + 82, RIGHT - 72, BASELINE), horizontal(MIDDLE, LEFT + 122, RIGHT - 10), horizontal(BASELINE, LEFT + 44, RIGHT - 72)),
+    "4": compose(beam(LEFT, TOP, LEFT, MIDDLE), beam(LEFT, MIDDLE, RIGHT, MIDDLE), vertical(RIGHT)),
+    "5": compose(horizontal(TOP), vertical(LEFT, MIDDLE, TOP), horizontal(MIDDLE), vertical(RIGHT, BASELINE + 76, MIDDLE), beam(RIGHT, BASELINE + 76, RIGHT - 72, BASELINE), horizontal(BASELINE, LEFT + 38, RIGHT - 72)),
+    "6": compose(horizontal(TOP, LEFT + 62, RIGHT - 34), beam(LEFT + 62, TOP, LEFT, MIDDLE + 74), vertical(LEFT, BASELINE + 76, MIDDLE + 74), horizontal(MIDDLE), vertical(RIGHT, BASELINE + 76, MIDDLE), beam(RIGHT, BASELINE + 76, RIGHT - 72, BASELINE), horizontal(BASELINE, LEFT + 42, RIGHT - 72)),
+    "7": compose(horizontal(TOP), beam(RIGHT, TOP, CENTER, BASELINE)),
+    "8": compose(*octagon_parts(), horizontal(MIDDLE)),
+    "9": compose(horizontal(TOP, LEFT + 62, RIGHT - 34), beam(LEFT + 62, TOP, LEFT, TOP - 74), vertical(LEFT, MIDDLE, TOP - 74), horizontal(MIDDLE), vertical(RIGHT, BASELINE + 76, MIDDLE), beam(RIGHT, BASELINE + 76, RIGHT - 72, BASELINE), horizontal(BASELINE, LEFT + 42, RIGHT - 72)),
+}
 
 
 def add_polygon(pen: TTGlyphPen, points: list[tuple[float, float]]) -> None:
@@ -173,18 +244,49 @@ def add_polygon(pen: TTGlyphPen, points: list[tuple[float, float]]) -> None:
 
 
 def add_beam(pen: TTGlyphPen, values: tuple) -> None:
-    _, x1, y1, x2, y2, width = values
+    _, x1, y1, x2, y2, width, cut = values
     distance = math.hypot(x2 - x1, y2 - y1)
-    offset_x = -(y2 - y1) * width / (2 * distance)
-    offset_y = (x2 - x1) * width / (2 * distance)
-    add_polygon(pen, [(x1 + offset_x, y1 + offset_y), (x2 + offset_x, y2 + offset_y), (x2 - offset_x, y2 - offset_y), (x1 - offset_x, y1 - offset_y)])
+    if distance == 0:
+        raise ValueError("VOLT Orbit cannot build a zero-length beam.")
+    terminal = min(cut, distance / 4, width / 2)
+    half = width / 2
+    unit_x = (x2 - x1) / distance
+    unit_y = (y2 - y1) / distance
+    normal_x = -unit_y
+    normal_y = unit_x
+    local_points = [
+        (terminal, half),
+        (distance - terminal, half),
+        (distance, half - terminal),
+        (distance, -half + terminal),
+        (distance - terminal, -half),
+        (terminal, -half),
+        (0, -half + terminal),
+        (0, half - terminal),
+    ]
+    points = [
+        (x1 + unit_x * along + normal_x * across, y1 + unit_y * along + normal_y * across)
+        for along, across in local_points
+    ]
+    add_polygon(pen, points)
 
 
 def add_dot(pen: TTGlyphPen, values: tuple) -> None:
-    _, center_x, center_y, radius_x, radius_y = values
-    cut_x = radius_x * 0.42
-    cut_y = radius_y * 0.42
-    add_polygon(pen, [(center_x - radius_x + cut_x, center_y + radius_y), (center_x + radius_x - cut_x, center_y + radius_y), (center_x + radius_x, center_y + radius_y - cut_y), (center_x + radius_x, center_y - radius_y + cut_y), (center_x + radius_x - cut_x, center_y - radius_y), (center_x - radius_x + cut_x, center_y - radius_y), (center_x - radius_x, center_y - radius_y + cut_y), (center_x - radius_x, center_y + radius_y - cut_y)])
+    _, center_x, center_y, radius = values
+    cut = radius * 0.42
+    add_polygon(
+        pen,
+        [
+            (center_x - radius + cut, center_y + radius),
+            (center_x + radius - cut, center_y + radius),
+            (center_x + radius, center_y + radius - cut),
+            (center_x + radius, center_y - radius + cut),
+            (center_x + radius - cut, center_y - radius),
+            (center_x - radius + cut, center_y - radius),
+            (center_x - radius, center_y - radius + cut),
+            (center_x - radius, center_y + radius - cut),
+        ],
+    )
 
 
 def glyph_from_parts(parts: list[tuple]):
@@ -201,10 +303,10 @@ def glyph_from_parts(parts: list[tuple]):
 
 def char_parts(character: str, punctuation: dict[str, list[tuple]]) -> list[tuple]:
     upper_character = character.upper()
-    if upper_character in LETTER_SEGMENTS:
-        return compose(*LETTER_SEGMENTS[upper_character])
-    if character in DIGIT_SEGMENTS:
-        return compose(*DIGIT_SEGMENTS[character])
+    if upper_character in LETTER_PARTS:
+        return LETTER_PARTS[upper_character]
+    if character in DIGIT_PARTS:
+        return DIGIT_PARTS[character]
     return punctuation.get(character, [])
 
 
@@ -213,11 +315,16 @@ def glyph_name(character: str) -> str:
 
 
 def advance_width(character: str) -> int:
+    upper_character = character.upper()
     if character == " ":
         return SPACE_ADVANCE
     if character in ".,;:'\"!|`":
         return PUNCTUATION_ADVANCE
-    return ADVANCE
+    if upper_character in {"I", "J"} or character == "1":
+        return NARROW_ADVANCE
+    if upper_character in {"M", "W"}:
+        return WIDE_ADVANCE
+    return DEFAULT_ADVANCE
 
 
 def supported_characters(punctuation: dict[str, list[tuple]]) -> list[str]:
@@ -228,8 +335,16 @@ def supported_characters(punctuation: dict[str, list[tuple]]) -> list[str]:
 
 def build_glyphs(characters: list[str], punctuation: dict[str, list[tuple]]) -> tuple[list[str], dict, dict, dict]:
     glyph_order = [".notdef", ".null", "nonmarkingreturn"]
-    glyphs = {".notdef": glyph_from_parts(compose("top", "right", "bottom", "left")), ".null": glyph_from_parts([]), "nonmarkingreturn": glyph_from_parts([])}
-    metrics = {".notdef": (ADVANCE, 0), ".null": (0, 0), "nonmarkingreturn": (0, 0)}
+    glyphs = {
+        ".notdef": glyph_from_parts(octagon_parts()),
+        ".null": glyph_from_parts([]),
+        "nonmarkingreturn": glyph_from_parts([]),
+    }
+    metrics = {
+        ".notdef": (DEFAULT_ADVANCE, 0),
+        ".null": (0, 0),
+        "nonmarkingreturn": (0, 0),
+    }
     cmap = {}
     for character in characters:
         name = glyph_name(character)
@@ -242,27 +357,33 @@ def build_glyphs(characters: list[str], punctuation: dict[str, list[tuple]]) -> 
 
 def build_font(output_dir: Path) -> tuple[Path, Path]:
     punctuation = special_parts()
-    glyph_order, glyphs, metrics, cmap = build_glyphs(supported_characters(punctuation), punctuation)
+    characters = supported_characters(punctuation)
+    glyph_order, glyphs, metrics, cmap = build_glyphs(characters, punctuation)
     builder = FontBuilder(UNITS_PER_EM, isTTF=True)
     builder.setupGlyphOrder(glyph_order)
     builder.setupCharacterMap(cmap)
     builder.setupGlyf(glyphs)
     builder.setupHorizontalMetrics(metrics)
     builder.setupHorizontalHeader(ascent=ASCENDER, descent=DESCENDER)
-    builder.setupNameTable({
-        "copyright": COPYRIGHT,
-        "familyName": FAMILY_NAME,
-        "styleName": "Regular",
-        "fullName": FAMILY_NAME,
-        "uniqueFontIdentifier": f"{FAMILY_NAME}; Version 2.000",
-        "psName": "VOLTOrbitDisplay-Regular",
-        "version": "Version 2.000",
-    })
+    builder.setupNameTable(
+        {
+            "copyright": COPYRIGHT,
+            "familyName": FAMILY_NAME,
+            "styleName": "Regular",
+            "fullName": FAMILY_NAME,
+            "uniqueFontIdentifier": f"{FAMILY_NAME}; {VERSION}",
+            "psName": "VOLTOrbitDisplay-Regular",
+            "version": VERSION,
+        }
+    )
     builder.setupOS2(
         sTypoAscender=ASCENDER,
         sTypoDescender=DESCENDER,
+        sTypoLineGap=0,
         usWinAscent=ASCENDER,
         usWinDescent=abs(DESCENDER),
+        sxHeight=X_HEIGHT,
+        sCapHeight=CAP_HEIGHT,
         usWeightClass=700,
     )
     builder.setupPost()
@@ -285,6 +406,8 @@ def verify_font(path: Path, characters: list[str]) -> None:
         raise RuntimeError(f"Missing VOLT Orbit glyphs: {''.join(missing)}")
     if path.stat().st_size > 100_000:
         raise RuntimeError(f"VOLT Orbit webfont exceeds 100KB: {path.stat().st_size} bytes")
+    if font["OS/2"].sCapHeight != CAP_HEIGHT:
+        raise RuntimeError("VOLT Orbit cap height metadata is out of sync.")
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -297,8 +420,9 @@ def main() -> None:
     arguments = parse_arguments()
     root = Path(__file__).resolve().parents[2]
     output_dir = (root / arguments.output).resolve()
+    punctuation = special_parts()
+    characters = supported_characters(punctuation)
     ttf_path, woff2_path = build_font(output_dir)
-    characters = supported_characters(special_parts())
     verify_font(ttf_path, characters)
     verify_font(woff2_path, characters)
     print(f"Built {ttf_path.relative_to(root)} and {woff2_path.relative_to(root)}")
