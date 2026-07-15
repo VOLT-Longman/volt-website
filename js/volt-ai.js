@@ -113,6 +113,13 @@
                 return;
             }
             if (bubble) bubble.textContent = result.data.answer || '';
+            // 모델 보조 설명(M1.1) — 확정 답변과 시각적으로 분리, 참고용임을 명시
+            if (result.data.aiNote && bubble) {
+                const note = el('div', 'volt-ai-note');
+                note.append(el('span', 'volt-ai-note-label', 'AI 해설 · 참고용'));
+                note.append(el('p', 'volt-ai-note-text', result.data.aiNote));
+                bubble.append(note);
+            }
             appendSources(pending, result.data.sources, result.data.freshness);
         } catch (_error) {
             const bubble = pending?.querySelector('.volt-ai-message-bubble');

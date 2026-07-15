@@ -177,15 +177,28 @@ export async function toolMarketInfo(env, request, query) {
     return { data: { status: 'unavailable', commodity: commodity.name }, sources: [{ label: 'UEX Corp API', url: '#trade-planner' }], freshness: { label: 'UEX 시세', at: null, status: 'unavailable' } };
   }
   const locationName = (row) => row.terminal_name || row.space_station_name || row.city_name || row.outpost_name || '알 수 없음';
-  const buys = prices.data.filter((row) => Number(row.price_buy) > 0)
+  // 무역플래너와 동일한 date_modified 기준 stale 판정(M1.1) — 위험 임계(60분)를 넘거나
+  // 갱신 시각이 없는 행은 안내에서 제외한다. 오래된 시세를 최신처럼 답하지 않는다.
+  const STALE_CUTOFF_MS = 60 * 60 * 1000;
+  const now = Date.now();
+  const isFresh = (row) => Number(row.date_modified) > 0 && (now - Number(row.date_modified) * 1000) < STALE_CUTOFF_MS;
+  const freshRows = prices.data.filter(isFresh);
+  const buys = freshRows.filter((row) => Number(row.price_buy) > 0)
     .sort((a, b) => a.price_buy - b.price_buy).slice(0, 3)
     .map((row) => ({ location: locationName(row), system: row.star_system_name || '', price: row.price_buy }));
-  const sells = prices.data.filter((row) => Number(row.price_sell) > 0)
+  const sells = freshRows.filter((row) => Number(row.price_sell) > 0)
     .sort((a, b) => b.price_sell - a.price_sell).slice(0, 3)
     .map((row) => ({ location: locationName(row), system: row.star_system_name || '', price: row.price_sell }));
+  if (!buys.length && !sells.length) {
+    return {
+      data: { status: 'stale', commodity: commodity.name },
+      sources: [{ label: 'UEX Corp 시세 (VOLT 프록시 캐시)', detail: '60분 이내 갱신 시세 없음', url: '#trade-planner' }],
+      freshness: { label: 'UEX 시세', at: prices.meta?.fetchedAt ?? null, status: 'stale' }
+    };
+  }
   return {
     data: { status: 'ok', commodity: commodity.name, buys, sells },
-    sources: [{ label: 'UEX Corp 시세 (VOLT 프록시 캐시)', detail: `조회 ${prices.meta?.fetchedAt ?? '알 수 없음'}`, url: '#trade-planner' }],
+    sources: [{ label: 'UEX Corp 시세 (VOLT 프록시 캐시)', detail: `조회 ${prices.meta?.fetchedAt ?? '알 수 없음'} · 60분 이내 갱신 행만 표시`, url: '#trade-planner' }],
     freshness: { label: 'UEX 시세', at: prices.meta?.fetchedAt ?? null, ttlSeconds: prices.meta?.ttlSeconds ?? null }
   };
 }
@@ -193,9 +206,17 @@ export async function toolMarketInfo(env, request, query) {
 export async function toolUpcomingEvents(env) {
   try {
     const result = await requireDb(env).prepare(
-      "SELECT title, date_label, event_date, status FROM events WHERE published = 1 ORDER BY NULLIF(event_date, '') DESC, created_at DESC LIMIT 5"
+      "SELECT title, date_label, event_date, status FROM events WHERE published = 1 ORDER BY created_at DESC LIMIT 20"
     ).all();
-    const items = (result.results || []).map((row) => ({ title: row.title, dateLabel: row.date_label || row.event_date || '', status: row.status || '' }));
+    // "다가오는 일정" = 오늘 이후를 가까운 순으로(M1.1). 날짜 없는 일정(dateLabel만)은 뒤에 붙인다.
+    // 필터·정렬을 JS에서 수행해 모의 DB로도 계약을 검증할 수 있게 한다.
+    const today = new Date().toISOString().slice(0, 10);
+    const rows = result.results || [];
+    const dated = rows.filter((row) => row.event_date && row.event_date >= today)
+      .sort((a, b) => String(a.event_date).localeCompare(String(b.event_date)));
+    const dateless = rows.filter((row) => !row.event_date);
+    const items = [...dated, ...dateless].slice(0, 5)
+      .map((row) => ({ title: row.title, dateLabel: row.date_label || row.event_date || '', status: row.status || '' }));
     return { data: { status: 'ok', events: items }, sources: [{ label: 'VOLT 일정 (CMS)', url: '#schedule' }], freshness: { label: '일정', at: new Date().toISOString() } };
   } catch (_error) {
     return { data: { status: 'unavailable' }, sources: [{ label: 'VOLT 일정 (CMS)', url: '#schedule' }], freshness: { label: '일정', at: null, status: 'unavailable' } };

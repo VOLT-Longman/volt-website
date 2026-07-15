@@ -181,9 +181,10 @@ test('AI 시세: UEX 정상 → 매수/매도 + 조회 시각, KO 상품명 매�
             return Response.json({ status: 'ok', data: [{ id: 1, name: 'Gold', code: 'GOLD' }], meta: { fetchedAt: '2026-07-14T10:00:00.000Z' } });
         }
         if (path === '/api/uex/commodities/1/prices') {
+            const fresh = Math.floor(Date.now() / 1000) - 300; // 5분 전 갱신 — stale 컷(60분) 이내
             return Response.json({ status: 'ok', data: [
-                { terminal_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 5800, price_sell: 0 },
-                { terminal_name: 'ARC-L1', star_system_name: 'Stanton', price_buy: 0, price_sell: 6400 }
+                { terminal_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 5800, price_sell: 0, date_modified: fresh },
+                { terminal_name: 'ARC-L1', star_system_name: 'Stanton', price_buy: 0, price_sell: 6400, date_modified: fresh }
             ], meta: { fetchedAt: '2026-07-14T10:00:00.000Z', ttlSeconds: 1800 } });
         }
         return new Response('unexpected', { status: 500 });
@@ -229,20 +230,89 @@ test('AI 주입 방어: 지시 무시 요구 → 도구 경로 밖으로 나가�
     assert.ok(!body.answer.toLowerCase().includes('admin_password'));
 });
 
-test('AI 모델 사용: 어댑터가 문장화를 담당하고 도구 데이터가 주입된다', async () => {
+test('AI 모델 사용(M1.1): 확정 답변은 템플릿, 모델 문장은 aiNote로 분리', async () => {
     const calls = [];
     const env = baseEnv({
-        AI: { run: async (model, payload) => { calls.push({ model, payload }); return { response: '모델이 정리한 답변입니다.' }; } }
+        AI: { run: async (model, payload) => { calls.push({ model, payload }); return { response: '화물 운송에 적합한 대형 함선이 우선 추천됐습니다.' }; } }
     });
     const cookie = await memberCookie(MEMBER);
     const { context, settle } = makeContext(env, chatRequest('화물 100 SCU 이상 함선 추천', cookie));
     const response = await onRequestPost(context);
     await settle();
     const body = await response.json();
-    assert.equal(body.answer, '모델이 정리한 답변입니다.');
-    assert.equal(calls.length, 1); // 결정론 라우터가 잡았으므로 문장화 1콜만
+    assert.match(body.answer, /asgard/);       // answer는 항상 서버 확정(도구 템플릿)
+    assert.match(body.answer, /220/);
+    assert.equal(body.aiNote, '화물 운송에 적합한 대형 함선이 우선 추천됐습니다.');
+    assert.equal(calls.length, 1);
     assert.match(calls[0].payload.messages[1].content, /TOOL_DATA/);
     assert.match(calls[0].payload.messages[0].content, /무시한다/); // 주입 방어 시스템 프롬프트
-    // 출처는 모델과 무관하게 도구가 만든 것 그대로
     assert.match(body.sources[0].label, /Erkul/);
+});
+
+test('AI aiNote 검증(M1.1): 도구에 없는 수치를 말하면 노트 폐기 + 확정 답변 유지', async () => {
+    const env = baseEnv({
+        AI: { run: async () => ({ response: '이 함선의 실제 가격은 99,999,999 aUEC로 알려져 있습니다.' }) }
+    });
+    const cookie = await memberCookie(MEMBER);
+    const { context, settle } = makeContext(env, chatRequest('화물 100 SCU 이상 함선 추천', cookie));
+    const response = await onRequestPost(context);
+    await settle();
+    const body = await response.json();
+    assert.equal(body.aiNote, null);            // 환각 수치 → 서버가 폐기
+    assert.match(body.answer, /asgard/);        // 확정 답변은 그대로
+    assert.ok(!body.answer.includes('99,999,999'));
+});
+
+test('AI 시세 stale(M1.1): 60분 초과 행만 있으면 가격을 만들지 않고 stale 명시', async (t) => {
+    const env = baseEnv();
+    const cookie = await memberCookie(MEMBER);
+    const originalFetch = globalThis.fetch;
+    t.after(() => { globalThis.fetch = originalFetch; });
+    const staleTs = Math.floor(Date.now() / 1000) - 2 * 60 * 60; // 2시간 전
+    globalThis.fetch = async (url) => {
+        const path = new URL(url).pathname;
+        if (path === '/api/uex/commodities') {
+            return Response.json({ status: 'ok', data: [{ id: 1, name: 'Gold', code: 'GOLD' }], meta: { fetchedAt: '2026-07-14T10:00:00.000Z' } });
+        }
+        if (path === '/api/uex/commodities/1/prices') {
+            return Response.json({ status: 'ok', data: [
+                { terminal_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 5800, price_sell: 0, date_modified: staleTs }
+            ], meta: { fetchedAt: '2026-07-14T10:00:00.000Z', ttlSeconds: 1800 } });
+        }
+        return new Response('unexpected', { status: 500 });
+    };
+    const { context, settle } = makeContext(env, chatRequest('금 시세', cookie));
+    const response = await onRequestPost(context);
+    await settle();
+    const body = await response.json();
+    assert.equal(body.freshness.status, 'stale');
+    assert.match(body.answer, /60분 이내 갱신 시세가 없어/);
+    assert.ok(!body.answer.includes('5,800'), 'stale 가격을 답변에 싣지 않는다');
+});
+
+test('AI 일정(M1.1): 오늘 이후만 가까운 순, 날짜 없는 일정은 후순위', async () => {
+    const futureNear = new Date(Date.now() + 2 * 86400000).toISOString().slice(0, 10);
+    const futureFar = new Date(Date.now() + 20 * 86400000).toISOString().slice(0, 10);
+    const past = '2020-01-01';
+    const env = baseEnv({
+        DB: createMockDb((sql) => {
+            if (sql.includes('FROM events')) return [
+                { title: '지난 작전', date_label: past, event_date: past, status: '완료' },
+                { title: '먼 작전', date_label: futureFar, event_date: futureFar, status: '예정' },
+                { title: '가까운 작전', date_label: futureNear, event_date: futureNear, status: '예정' },
+                { title: '날짜 미정 작전', date_label: '시즌 중 예정', event_date: '', status: '계획' }
+            ];
+            if (sql.includes('FROM notices')) return [];
+            return [];
+        })
+    });
+    const cookie = await memberCookie(MEMBER);
+    const { context, settle } = makeContext(env, chatRequest('다가오는 일정 알려줘', cookie));
+    const response = await onRequestPost(context);
+    await settle();
+    const body = await response.json();
+    const titles = body.answer;
+    assert.ok(!titles.includes('지난 작전'), '과거 일정 제외');
+    assert.ok(titles.indexOf('가까운 작전') < titles.indexOf('먼 작전'), '가까운 순 정렬');
+    assert.ok(titles.indexOf('먼 작전') < titles.indexOf('날짜 미정 작전'), '날짜 없는 일정은 후순위');
 });

@@ -283,8 +283,8 @@ git revert <sync-commit-sha>
 | `VOLT_AI_DAILY_REQUEST_LIMIT` | 200 | 전 멤버 합산 일일 요청 상한 |
 | `VOLT_AI_MAX_INPUT_CHARS` | 500 | 입력 길이 상한 |
 | `VOLT_AI_MAX_OUTPUT_TOKENS` | 400 | 문장화 출력 토큰 상한 |
-| `VOLT_AI_COST_CAP` | 3000 | 일 비용 하드캡(₩) — 초과 시 자동 429 |
-| `VOLT_AI_COST_CAP_MONTHLY` | 30000 | 월 비용 하드캡(₩) |
+| `VOLT_AI_COST_CAP` | 3000 | 일 예산 보호 장치(₩, 근사 집계) — 초과 시 자동 429 |
+| `VOLT_AI_COST_CAP_MONTHLY` | 30000 | 월 예산 보호 장치(₩, 근사 집계) |
 | `VOLT_AI_EST_COST_PER_REQ_KRW` | 3 | 요청당 보수적 비용 추정치(근사) |
 
 3. 바인딩 없이 `VOLT_AI_ENABLED=true`만 켜도 동작한다 — 모델 문장화 대신
@@ -292,7 +292,13 @@ git revert <sync-commit-sha>
 
 ### 운영 규칙
 
-- 비용 집계는 KV 근사치다(최종 일관성) — 실제 하드캡의 최종 방어는 `VOLT_AI_ENABLED` 제거.
+- 비용 상한은 **예산 보호 장치**다: KV 최종 일관성 특성상 동시 요청에서 근사 집계이며,
+  확정적 차단이 아니다. 실비는 Cloudflare 대시보드로 병행 확인하고, 최종 방어는 `VOLT_AI_ENABLED` 제거.
+- 일일 카운터는 **UTC 자정(한국시간 오전 9시)**에 초기화된다.
+- 모델 문장(aiNote)은 보조 설명 전용 — 도구 데이터에 없는 수치(2자리 이상 숫자열)가 포함되면
+  서버가 폐기한다. 한글 단위 표기("구백만") 같은 우회는 완전 차단이 불가한 알려진 한계다.
+- UEX 시세는 `date_modified` 기준 **60분 이내 갱신 행만** 안내한다(무역플래너 danger 임계와 동일).
+  전부 오래됐으면 시세를 만들지 않고 stale 상태를 명시한다.
 - 사용량 확인: KV `ai_usage:d:YYYYMMDD` / `ai_usage:m:YYYYMM` (count·cost), `ai_stats:tool:*`(도구별), `ai_stats:err:*`(오류).
 - UEX가 불가하면 AI는 시세 추천을 만들지 않고 "데이터 불가"를 명시한다 — 정상 동작이다.
 - 프롬프트 주입 방어: 함선/의도는 서버 화이트리스트 재대조로만 확정, 모델 출력은 표시 전용(도구 실행 권한 없음).

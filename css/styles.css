@@ -1,6 +1,6 @@
 @font-face {
     font-family: "VOLT Orbit Display";
-    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260714-03") format("woff2");
+    src: url("../assets/fonts/VOLT-Orbit-Display.woff2?v=20260715-01") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -5406,6 +5406,32 @@ body.nav-trade-open::before {
 }
 
 .volt-ai-freshness.is-unavailable { color: #fca5a5; }
+
+/* 모델 보조 설명 (M1.1) — 확정 답변과 구분되는 참고 블록 */
+.volt-ai-note {
+    margin-top: 10px;
+    padding: 9px 12px;
+    border-left: 2px solid var(--color-border-accent);
+    background: rgba(232, 72, 47, 0.05);
+    border-radius: 0 10px 10px 0;
+}
+
+.volt-ai-note-label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+}
+
+.volt-ai-note-text {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
 
 .volt-ai-login-link {
     display: inline-block;

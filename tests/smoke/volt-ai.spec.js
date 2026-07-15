@@ -17,6 +17,7 @@ const CHAT_RESPONSE = {
     ok: true,
     intent: 'recommend',
     answer: '화물 조건에 맞는 함선은 asgard(220 SCU)입니다.',
+    aiNote: '대형 수송 위주로 추천됐고, 소수 인원 운용이라면 승무원 수를 함께 확인하세요.',
     sources: [{ label: 'VOLT ShipDB — Erkul live 데이터 레이어', detail: '동기화 2026-07-08T12:00:00.000Z', url: '#ships' }],
     freshness: { label: 'ShipDB 동기화', at: '2026-07-08T12:00:00.000Z' },
     usage: { dayCount: 1, dayLimit: 200 }
@@ -62,6 +63,9 @@ test.describe('VOLT AI (M1)', () => {
         const log = page.locator('#volt-ai-messages');
         await expect(log).toContainText('화물 100 SCU 이상 함선 추천');
         await expect(log).toContainText('asgard(220 SCU)');
+        // M1.1: 모델 보조 설명은 확정 답변과 분리된 참고 블록으로 표시
+        await expect(log.locator('.volt-ai-note .volt-ai-note-label')).toContainText('AI 해설');
+        await expect(log.locator('.volt-ai-note-text')).toContainText('승무원 수를 함께 확인');
         await expect(log.locator('.volt-ai-source-card')).toContainText('Erkul live');
         await expect(log.locator('.volt-ai-freshness')).toContainText('ShipDB 동기화');
     });
