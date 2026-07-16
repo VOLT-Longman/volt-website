@@ -486,23 +486,16 @@ body.nav-trade-open::before {
     font-weight: 700;
 }
 
-
 /* ==========================================================================
    3. Layout - Hero Section (?섏젙???덉씠?꾩썐)
    ========================================================================== */
 
 .hero {
     width: 100%;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     /* ?듭떖 ?섏젙: ?꾩そ ?⑤뵫??nav ?믪씠留뚰겮留?二쇨퀬, 肄섑뀗痢좊뒗 ?먯뿰?ㅻ읇寃?以묒븰 ?뺣젹 */
-    padding: 96px 28px 72px;
-    background:
-        radial-gradient(ellipse at top, rgba(232, 72, 47, 0.09) 0%, transparent 58%),
-        linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
     position: relative;
     overflow: hidden;
 }
@@ -533,8 +526,6 @@ body.nav-trade-open::before {
         linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
-    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
 }
 
 /* Mission Control 레이아웃 (F): 브랜드 블록 + 우측 운영 콘솔.
@@ -542,8 +533,6 @@ body.nav-trade-open::before {
    랜딩 하이라이트가 첫 뷰포트에 미리 보이지 않게 한다. */
 .hero-layout {
     width: 100%;
-    max-width: 1200px;
-    min-height: calc(100svh - 168px);
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
@@ -570,21 +559,13 @@ body.nav-trade-open::before {
    데스크톱(≥1200px)은 좌 브랜드 + 우 운영 패널의 2컬럼 grid */
 .hero-content {
     width: 100%;
-    max-width: 1120px;
-    text-align: center;
     position: relative;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
 }
 
 .hero-copy {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    max-width: 640px;
     min-width: 0;
 }
 
@@ -615,25 +596,19 @@ body.nav-trade-open::before {
 
 /* ?듭떖 ?섏젙: 濡쒓퀬 ?ш린? 留덉쭊 議곗젙 */
 .hero-logo {
-    width: clamp(180px, 16vw, 230px);
     height: auto;
     /* 濡쒓퀬 ?먯껜 ?щ갚 蹂댁젙 (?대?吏 ?꾩븘???щ갚???뚯닔 留덉쭊?쇰줈 ?곸뇙) */
     margin-top: -18px;
     margin-bottom: -4px;
     animation: fadeInUp 1s ease;
-    filter: drop-shadow(0 4px 20px rgba(232, 72, 47, 0.18));
 }
 
 .hero-logo-fallback {
-    width: 160px;
-    height: 160px;
-    margin: 0 auto 24px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--volt-orange) 0%, var(--volt-orange-dark) 100%);
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 64px;
     font-weight: 700;
     color: #fff;
     letter-spacing: var(--tracking-tight);
@@ -645,37 +620,19 @@ body.nav-trade-open::before {
 }
 
 .hero-tagline {
-    display: inline-block;
-    font-family: var(--font-family);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    color: var(--volt-orange);
     text-transform: uppercase;
     margin-bottom: 16px;
-    padding: 6px 16px;
-    border: 1px solid var(--color-border-accent);
     border-radius: 4px;
-    background: rgba(232, 72, 47, 0.05);
     animation: fadeInUp 1s ease 0.1s backwards;
 }
 
 .hero .subtitle {
-    font-size: clamp(22px, 2.1vw, 28px);
-    font-weight: 400;
-    color: var(--color-text-secondary);
-    margin-bottom: 20px;
-    letter-spacing: var(--tracking-snug);
     animation: fadeInUp 1s ease 0.4s backwards;
 }
 
 .hero .description {
-    font-size: clamp(16px, 1.25vw, 18px);
     font-weight: 400;
-    color: var(--color-text-secondary);
     margin-bottom: 32px;
-    line-height: 1.6;
-    max-width: 680px;
     margin-left: auto;
     margin-right: auto;
     animation: fadeInUp 1s ease 0.6s backwards;
@@ -2520,9 +2477,7 @@ body.nav-trade-open::before {
 
 /* ?? ?쇱씠???뚮쭏 ?? */
 
-
 /* 라이트 테마 시인성/완성도 보강
-
 
 /* ?? 濡쒕뵫 ?ㅽ뵆?섏떆 ?? */
 #loading-splash.splash-hide { opacity: 0; pointer-events: none; }
@@ -3270,7 +3225,6 @@ body.nav-trade-open::before {
     color: #f5f5f7;
 }
 
-
 .uex-live-results {
     display: grid;
     gap: 12px;
@@ -3591,7 +3545,6 @@ body.nav-trade-open::before {
     color: inherit;
     font-style: normal;
 }
-
 
 .uex-recommend-panel {
     display: grid;
@@ -4141,7 +4094,6 @@ body.nav-trade-open::before {
     transform: translateY(0);
 }
 
-
 .schedule-item-toggle {
     display: block;
     width: 100%;
@@ -4340,7 +4292,6 @@ body.nav-trade-open::before {
     letter-spacing: -0.01em;
 }
 
-
 .nav-svg-icon,
 .copy-feedback-icon,
 .inline-svg-icon {
@@ -4353,7 +4304,6 @@ body.nav-trade-open::before {
     stroke-linejoin: round;
     flex: 0 0 auto;
 }
-
 
 .icon-search {
     display: inline-block;
@@ -4514,21 +4464,13 @@ body.nav-trade-open::before {
    Apple-style typography refinement
    ========================================================================== */
 .hero h1 {
-    font-size: 72px;
-    font-weight: 700;
-    letter-spacing: var(--tracking-tight);
     margin-bottom: 12px;
-    line-height: 1.05;
     animation: fadeInUp 1s ease 0.2s backwards;
     background: linear-gradient(180deg, #ffffff 0%, #b8b8bd 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 
-    font-size: var(--text-display);
-    font-weight: 700;
-    line-height: 1.06;
-    letter-spacing: var(--tracking-tight);
 }
 
 .join-content h2,
@@ -4649,9 +4591,6 @@ body.nav-trade-open::before {
 
 @media (max-width: 640px) {
     .pwa-install-prompt {
-        left: 16px;
-        right: 16px;
-        bottom: 16px;
         flex-wrap: wrap;
     }
 }
@@ -4674,7 +4613,6 @@ body.nav-trade-open::before {
 }
 
 /* Header utility icon normalization: keeps search/theme icons centered. */
-
 
 /* 20260531-03: trade planner alignment and partner fleets */
 .trade-planner-form {
@@ -7468,7 +7406,6 @@ body.nav-trade-open::before {
 
 /* ===== 랜딩 하이라이트 (D-①) — 홈 전용, 기존 히어로 톤 계승 ===== */
 .hero-scroll-hint {
-    margin: 34px auto 0;
     width: 40px;
     height: 40px;
     display: flex;
@@ -7496,37 +7433,21 @@ body.nav-trade-open::before {
 
 .landing {
     width: 100%;
-    padding: 96px 22px 110px;
     position: relative;
 }
 
 .landing-inner {
-    max-width: 1080px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 88px;
-}
-
-.landing-header {
-    text-align: center;
 }
 
 .landing-header h2 {
-    font-size: var(--text-h2);
-    letter-spacing: var(--tracking-snug);
     margin-bottom: 12px;
-}
-
-.landing-header p {
-    color: var(--color-text-secondary);
-    font-size: 17px;
 }
 
 .landing-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
 }
 
 .landing-card {
@@ -7534,11 +7455,6 @@ body.nav-trade-open::before {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 30px 28px;
-    border-radius: var(--radius-md);
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
     text-decoration: none;
     color: inherit;
     transition: border-color var(--transition-fast), background var(--transition-fast), transform 0.25s ease, box-shadow 0.25s ease;
@@ -7559,28 +7475,12 @@ body.nav-trade-open::before {
 
 .landing-card:hover::after { opacity: 1; }
 
-
-.landing-card:hover {
-    background: var(--color-bg-card-hover);
-    border-color: var(--color-border-accent);
-    box-shadow: 0 18px 44px rgba(232, 72, 47, 0.10);
-}
-
 .landing-card-eyebrow {
-    font-size: 11px;
     font-weight: 800;
-    letter-spacing: 0.14em;
     color: var(--volt-orange-light);
 }
 
-.landing-card h3 {
-    font-size: 20px;
-    letter-spacing: var(--tracking-snug);
-}
-
 .landing-card p {
-    color: var(--color-text-secondary);
-    font-size: 14px;
     line-height: 1.65;
     flex: 1;
 }
@@ -7589,13 +7489,10 @@ body.nav-trade-open::before {
     display: flex;
     align-items: baseline;
     gap: 7px;
-    margin-top: 10px;
-    padding-top: 16px;
     border-top: 1px solid var(--color-border);
 }
 
 .landing-card-metric strong {
-    font-size: 26px;
     font-weight: 800;
     color: var(--color-text-primary);
     font-variant-numeric: tabular-nums;
@@ -7608,15 +7505,8 @@ body.nav-trade-open::before {
 
 .landing-notices-head {
     display: flex;
-    align-items: baseline;
     justify-content: space-between;
     gap: 14px;
-    margin-bottom: 18px;
-}
-
-.landing-notices-head h2 {
-    font-size: 22px;
-    letter-spacing: var(--tracking-snug);
 }
 
 .landing-notices-more {
@@ -7637,20 +7527,9 @@ body.nav-trade-open::before {
 .landing-notice-row {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 15px 20px;
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-card);
-    border: 1px solid transparent;
     text-decoration: none;
     color: inherit;
     transition: border-color var(--transition-fast), background var(--transition-fast), transform 0.25s ease;
-}
-
-.landing-notice-row:hover {
-    background: var(--color-bg-card-hover);
-    border-color: var(--color-border);
-    transform: translateX(4px);
 }
 
 .landing-notice-meta {
@@ -7658,7 +7537,6 @@ body.nav-trade-open::before {
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
-    width: 132px;
 }
 
 .landing-notice-tag {
@@ -7681,29 +7559,11 @@ body.nav-trade-open::before {
     text-overflow: ellipsis;
 }
 
-.landing-cta {
-    text-align: center;
-    padding: 56px 28px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background:
-        radial-gradient(ellipse at 50% 0%, rgba(232, 72, 47, 0.10) 0%, transparent 65%),
-        var(--color-bg-card);
-}
-
 .landing-cta h2 {
-    font-size: 26px;
-    letter-spacing: var(--tracking-snug);
     margin-bottom: 10px;
 }
 
-.landing-cta p {
-    color: var(--color-text-secondary);
-    margin-bottom: 26px;
-}
-
 .landing-cta .hero-buttons { justify-content: center; }
-
 
 @media (max-width: 860px) {
     .landing { padding: 72px 18px 84px; }
@@ -8725,5 +8585,4 @@ body.nav-trade-open::before {
         padding: 24px;
     }
 }
-
 
