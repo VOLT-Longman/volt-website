@@ -50,15 +50,19 @@
     --radius-md: 22px;
     --radius-full: 980px;
 
-    /* ===== Liquid Glass 토큰 (I-1) — 애플 리퀴드 글래스 재해석 =====
+    /* ===== Liquid Glass 토큰 (I-1, I-1.6 재조정) — 애플 리퀴드 글래스 재해석 =====
        블러(backdrop-filter)는 고정 크롬·오버레이 표면에만 쓰고, 카드류는
-       무블러 "글래스 톤"(레이어드 배경 + 스펙큘러 인셋)만 적용해 성능을 지킨다. */
-    --glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 55%, rgba(255, 255, 255, 0.035) 100%);
-    --glass-bg-deep: rgba(18, 16, 15, 0.58);
-    --glass-border: rgba(255, 255, 255, 0.13);
-    --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.10), inset 0 -1px 0 rgba(0, 0, 0, 0.22);
-    --glass-shadow: 0 22px 54px rgba(0, 0, 0, 0.45);
-    --glass-blur: 22px;
+       무블러 "글래스 톤"(레이어드 배경 + 스펙큘러 인셋)만 적용해 성능을 지킨다.
+       I-1.6: 베벨(위 밝은선+아래 어두운선의 "볼록 버튼" 인셋)과 과한 배경 불투명도가
+       투명감을 죽이고 구형 Windows Aero 느낌을 냈다는 피드백으로 재조정 —
+       인셋은 상단 하이라이트 1개만 남기고, 배경 알파를 전반적으로 낮춰 뒤 콘텐츠가
+       실제로 비치게 하며, 블러/새추레이션을 키워 가독성을 보완한다. */
+    --glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.014) 60%, rgba(255, 255, 255, 0.024) 100%);
+    --glass-bg-deep: rgba(20, 18, 17, 0.38);
+    --glass-border: rgba(255, 255, 255, 0.10);
+    --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.075);
+    --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.30);
+    --glass-blur: 28px;
 
     /* Typography */
     --font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -5402,7 +5406,9 @@ body.nav-trade-open::before {
 .uex-candidate-card:hover,
 .partner-fleet-card:hover,
 .comms-card:hover {
-    box-shadow: var(--glass-inset), 0 18px 44px rgba(0, 0, 0, 0.38);
+    /* I-1.6: 아래로 떨어지는 하드 드롭섀도 대신 카드 주변을 감싸는 부드러운 앰비언트 글로우 —
+       "그림자를 드리우는 불투명 패널"보다 "은은하게 빛나는 유리"에 가깝게 */
+    box-shadow: var(--glass-inset), 0 0 0 1px rgba(255, 255, 255, 0.04), 0 14px 38px rgba(0, 0, 0, 0.26);
     border-color: var(--glass-border);
 }
 
@@ -5418,17 +5424,17 @@ body.nav-trade-open::before {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 6px 20px rgba(232, 72, 47, 0.35);
 }
 
-/* — 글래스 크롬 (블러): 고정/오버레이 표면 — */
+/* — 글래스 크롬 (블러): 고정/오버레이 표면 —
+   I-1.6: 배경 알파를 낮추고(뒤 콘텐츠가 비치도록) 블러/새추레이션을 키워 보완했다. */
 .nav {
-    background: rgba(8, 7, 7, 0.55);
-    backdrop-filter: saturate(170%) blur(var(--glass-blur));
-    -webkit-backdrop-filter: saturate(170%) blur(var(--glass-blur));
+    background: rgba(8, 7, 7, 0.36);
+    backdrop-filter: saturate(180%) blur(var(--glass-blur));
+    -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur));
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .nav.scrolled {
-    background: rgba(8, 7, 7, 0.72);
+    background: rgba(8, 7, 7, 0.52);
     border-bottom-color: rgba(255, 255, 255, 0.10);
 }
 
@@ -5438,10 +5444,10 @@ body.nav-trade-open::before {
 .nav-more-menu,
 .nav-trade-menu {
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015) 60%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012) 60%),
         var(--glass-bg-deep);
-    backdrop-filter: saturate(160%) blur(var(--glass-blur));
-    -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur));
+    backdrop-filter: saturate(170%) blur(var(--glass-blur));
+    -webkit-backdrop-filter: saturate(170%) blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-inset), var(--glass-shadow);
 }
@@ -5449,25 +5455,25 @@ body.nav-trade-open::before {
 .toast,
 .pwa-install-prompt {
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
-        rgba(14, 13, 12, 0.72);
-    backdrop-filter: saturate(160%) blur(16px);
-    -webkit-backdrop-filter: saturate(160%) blur(16px);
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
+        rgba(14, 13, 12, 0.44);
+    backdrop-filter: saturate(170%) blur(24px);
+    -webkit-backdrop-filter: saturate(170%) blur(24px);
     border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-inset), 0 14px 36px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--glass-inset), 0 14px 36px rgba(0, 0, 0, 0.28);
 }
 
 .lang-switch {
-    backdrop-filter: saturate(160%) blur(14px);
-    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    backdrop-filter: saturate(170%) blur(20px);
+    -webkit-backdrop-filter: saturate(170%) blur(20px);
 }
 
 .volt-ai-chat-panel {
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01) 55%),
-        rgba(16, 14, 13, 0.42);
-    backdrop-filter: saturate(150%) blur(18px);
-    -webkit-backdrop-filter: saturate(150%) blur(18px);
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.008) 55%),
+        rgba(16, 14, 13, 0.34);
+    backdrop-filter: saturate(160%) blur(24px);
+    -webkit-backdrop-filter: saturate(160%) blur(24px);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-inset), var(--glass-shadow);
 }
