@@ -70,6 +70,35 @@ PM의 대체 결정을 기다린다.
 - **회귀 계약 전환**: 스모크 테스트는 Orbit 로드가 아니라 전용 폰트가 히어로에 남지 않고, 기본 서체에서
   클리핑 없이 렌더되는지를 검증한다.
 
+## 이번 반영으로 완료 (I-1.8 border-radius 하드코딩 전수 감사·토큰화, 2026-07-16)
+
+- **배경**: I-1.7에서 히어로 버튼 `2px` 하드코딩을 발견한 뒤 "같은 유형의 드리프트가 더 있는지"
+  질문을 받아 `border-radius`가 `var(--radius-*)` 토큰을 쓰지 않는 전체 선언(~90건)을 grep으로
+  추출해 개별 검토했다.
+- **분류 기준**: 원(`50%`), `inherit`, 비대칭 복합값, 아바타/썸네일/채팅 말풍선/엣지케이스 페이지처럼
+  크기에 비례한 의도적 변형은 버그가 아니라고 판단해 제외(`.leader-avatar` 18px, 갤러리/스트리머
+  썸네일 18px, `.volt-ai-message-bubble` 18px, CEO 아바타 16px, `.noscript-fallback section` 24px,
+  `.icon-link::before/::after` 2px 등).
+- **정확 일치 토큰화(시각 변화 없음, 12건)**: `border-radius: 14px` → `var(--radius-sm)`,
+  `22px` → `var(--radius-md)`, `999px` → `var(--radius-full)` — `.mobile-menu a`·
+  `.uex-candidate-card`·`.partner-fleet-card`·`.partner-fleet-logo`·리더 아바타 서브셀렉터·
+  `.volt-ai-input`·필 버튼/배지류 등.
+- **오버라이드 드리프트 버그 4건 발견·수정**: I-1.4에서 무블러 글래스 카드 계열로 문서화됐지만
+  실제로는 형제 셀렉터(`--radius-md`, 22px)와 다른 값을 쓰고 있던 것들.
+  - `#leadership .leader-card`(18px) — 베이스 `.leader-card`는 이미 `var(--radius-md)`인데 ID
+    스코프 규칙이 더 높은 specificity로 구형 값을 덮어쓰고 있었다.
+  - `.ship-advanced-panel`(18px), `.mypage-card`(20px) — 둘 다 카드 계열 문서상 22px 기준인데 미조율.
+  - `.cargo-filter-btn`(20px→`var(--radius-full)`) — `.notice-filter-btn`/`.ship-filter-btn`/
+    `.uex-loc-btn`과 완전히 동일한 "투명 베이스 + 주황 active/hover" 패턴의 칩인데 I-1.4 글래스
+    톤·스펙큘러 하이라이트 확장 때 함께 추가되지 못하고 누락돼 있었다 — 이번에 글래스 톤 그룹
+    (`background-image: var(--glass-bg)`)과 스펙큘러 셀렉터(`SHEEN_SELECTOR`, `.is-sheening` CSS
+    규칙) 양쪽 모두에 형제 칩과 동일하게 추가해 완전히 통일했다.
+  - 반대로 `.uex-candidate-card`/`.partner-fleet-card`(14px, `--radius-sm`)는 `.ship-card`(22px)보다
+    작고 밀집된 그리드 타일이라 더 작은 반경 티어를 쓰는 것이 콘센트릭 언어상 의도적 비례로 판단해
+    값 자체는 바꾸지 않고 토큰만 입혔다.
+- **검증**: check ✅ (문법/링크/마이그레이션/innerHTML 베이스라인/biome lint 전부 통과).
+- **캐시 버전**: `20260716-08`.
+
 ## 이번 반영으로 완료 (I-1.7 히어로 CTA 곡률 불일치 수정, 2026-07-16)
 
 - **문제**: 랜딩 히어로의 "함선DB 보기"·"무역플래너"·"가입하기" 버튼이 `border-radius: 2px`(거의

@@ -321,7 +321,7 @@
     // 터치/모션 최소화 환경에서는 setupTilt/setupMagnetic과 동일하게 완전히 비활성화.
     function setupGlassSheen() {
         if (!fineMotionOk()) return;
-        const SHEEN_SELECTOR = '.notice-filter-btn, .ship-filter-btn, .uex-loc-btn, ' +
+        const SHEEN_SELECTOR = '.notice-filter-btn, .ship-filter-btn, .uex-loc-btn, .cargo-filter-btn, ' +
             '.ship-search, .global-search-input, .trade-planner-form input, ' +
             '.trade-planner-form select, .planner-picker input, .volt-ai-input, ' +
             '.ledger-qty-field input';
