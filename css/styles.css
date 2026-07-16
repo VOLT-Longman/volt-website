@@ -7850,7 +7850,6 @@ body.nav-trade-open::before {
 .hero-copy .btn {
     min-width: 136px;
     padding: 13px 22px;
-    border-radius: 2px;
     text-align: center;
     font-size: 14px;
 }
@@ -8004,7 +8003,7 @@ body.nav-trade-open::before {
     gap: 1px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.11);
-    border-radius: 2px;
+    border-radius: var(--radius-md);
     background: rgba(255, 255, 255, 0.11);
 }
 
@@ -8125,7 +8124,7 @@ body.nav-trade-open::before {
     margin-top: 0;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.11);
-    border-radius: 2px;
+    border-radius: var(--radius-md);
     background: rgba(255, 255, 255, 0.11);
 }
 
@@ -8206,7 +8205,6 @@ body.nav-trade-open::before {
 
 .landing-cta .btn {
     padding: 12px 18px;
-    border-radius: 2px;
     font-size: 13px;
 }
 
@@ -8258,7 +8256,7 @@ body.nav-trade-open::before {
         grid-template-columns: minmax(0, 1fr) auto auto;
         gap: 8px;
         padding: 10px 12px;
-        border-radius: 2px;
+        border-radius: 20px;
     }
 
     .pwa-install-prompt > div {
@@ -8277,7 +8275,6 @@ body.nav-trade-open::before {
         width: auto;
         min-width: 0;
         padding: 9px 12px;
-        border-radius: 2px;
         font-size: 12px;
     }
 
