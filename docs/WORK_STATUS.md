@@ -70,6 +70,22 @@ PM의 대체 결정을 기다린다.
 - **회귀 계약 전환**: 스모크 테스트는 Orbit 로드가 아니라 전용 폰트가 히어로에 남지 않고, 기본 서체에서
   클리핑 없이 렌더되는지를 검증한다.
 
+## 이번 반영으로 완료 (I-1.5 리퀴드 스펙큘러 하이라이트, 2026-07-16)
+
+- **포인터 추종 반사광**: I-1.4가 커버한 필터 칩 3종·입력 7종에 `js/landing.js`
+  `setupGlassSheen()`(신규)으로 포인터 위치 기반 `radial-gradient` 스펙큘러 하이라이트 추가.
+  `--sheen-x`/`--sheen-y` CSS 커스텀 프로퍼티를 `pointermove`로 갱신하고 `.is-sheening` 클래스로
+  토글 — `background-image` 2번째 레이어로 `--glass-bg` 위에 얹는다.
+  기존 `setupTilt`/`setupMagnetic`과 동일한 `fineMotionOk()` 게이트(coarse pointer·
+  reduced-motion 완전 비활성) 재사용.
+- **위임(delegation) 방식**: notices.js/ships.js/uex-panel.js가 언어 전환·데이터 갱신 때마다 다시
+  렌더하는 요소이므로, 개별 리스너 대신 `document`에 단일 `pointermove` 리스너를 걸고
+  `closest()`로 매칭 — 재렌더된 요소도 별도 재바인딩 없이 자동 커버.
+  칩/active 상태는 `background` shorthand가 우선해 하이라이트가 자동으로 가려짐(추가 처리 불필요).
+- **검증**: `tests/smoke/landing.spec.js`에 2건 추가(fine pointer hover 시 `--sheen-x` 갱신·이탈 시
+  해제, coarse pointer에서 `.is-sheening` 전무 확인). check ✅ · functions 120/120 ✅ ·
+  Playwright 246/246. 스크린샷 크롭으로 육안 확인(칩·입력 모두 커서 위치 따라 하이라이트 이동).
+
 ## 이번 반영으로 완료 (I-1.4 Liquid Glass 표면 커버리지 확장, 2026-07-16)
 
 - **카드/패널 25종 추가**: I-1이 커버한 11개 카드류(landing/notice/schedule/guide/hub/join-checklist/

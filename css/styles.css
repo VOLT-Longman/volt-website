@@ -5472,6 +5472,25 @@ body.nav-trade-open::before {
     box-shadow: var(--glass-inset), var(--glass-shadow);
 }
 
+/* — 리퀴드 스펙큘러 하이라이트 (I-1.4 B): 포인터 위치를 따라가는 유리 반사광.
+   JS(landing.js setupGlassSheen)가 hover 중인 요소에 .is-sheening을 붙이고
+   --sheen-x/y를 갱신한다 — pointer:fine + 모션 허용 환경에서만 클래스가 붙으므로
+   별도 미디어 쿼리 가드 불필요(터치/reduced-motion에선 JS가 아예 리스너를 안 켠다). */
+.notice-filter-btn.is-sheening,
+.ship-filter-btn.is-sheening,
+.uex-loc-btn.is-sheening,
+.ship-search.is-sheening,
+.global-search-input.is-sheening,
+.trade-planner-form input.is-sheening,
+.trade-planner-form select.is-sheening,
+.planner-picker input.is-sheening,
+.volt-ai-input.is-sheening,
+.ledger-qty-field input.is-sheening {
+    background-image:
+        radial-gradient(150px circle at var(--sheen-x, 50%) var(--sheen-y, 50%), rgba(255, 255, 255, 0.30), transparent 68%),
+        var(--glass-bg);
+}
+
 /* — 성능·접근성 가드 — */
 @media (max-width: 860px) {
     /* 모바일 GPU 비용 절감: 블러 반경 축소 (H-1 정신 유지) */

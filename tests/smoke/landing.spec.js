@@ -156,4 +156,33 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         ), { timeout: 3000 }).toBeLessThanOrEqual(1);
         await ctx.close();
     });
+
+    // I-1.4 B: 리퀴드 글래스 스펙큘러 하이라이트 — 포인터 위치를 따라가는 반사광.
+    // fine pointer에서만 동작(setupTilt/setupMagnetic과 동일 게이트), 커서를 벗어나면 해제된다.
+    test('글래스 스펙큘러 하이라이트: fine pointer에서 hover 중 --sheen 갱신, 벗어나면 해제', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        const chip = page.locator('.ship-filter-btn').nth(1); // index 0은 "전체"(active) — 비활성 칩으로 검증
+        const box = await chip.boundingBox();
+        await page.mouse.move(box.x + 5, box.y + box.height / 2);
+        await expect.poll(() => chip.evaluate((el) => el.classList.contains('is-sheening'))).toBe(true);
+        const leftX = await chip.evaluate((el) => getComputedStyle(el).getPropertyValue('--sheen-x'));
+
+        await page.mouse.move(box.x + box.width - 5, box.y + box.height / 2);
+        await expect.poll(() => chip.evaluate((el) => getComputedStyle(el).getPropertyValue('--sheen-x'))).not.toBe(leftX);
+
+        await page.mouse.move(10, 10);
+        await expect.poll(() => chip.evaluate((el) => el.classList.contains('is-sheening'))).toBe(false);
+    });
+
+    test('글래스 스펙큘러 하이라이트: touch 기기(coarse pointer)에서는 절대 비활성화', async ({ browser }) => {
+        const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+        const page = await ctx.newPage();
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await page.waitForTimeout(300);
+        const anySheening = await page.evaluate(() => document.querySelectorAll('.is-sheening').length);
+        expect(anySheening).toBe(0);
+        await ctx.close();
+    });
 });

@@ -314,6 +314,35 @@
         });
     }
 
+    // 리퀴드 글래스 스펙큘러 하이라이트 (I-1.4 B): 포인터 위치를 따라 유리 표면 반사광이
+    // 움직인다. 필터 칩·입력 필드는 notices.js/ships.js/uex-panel.js 등 다른 모듈이
+    // 언어 전환·데이터 갱신 때마다 다시 렌더하므로, 개별 리스너 대신 문서 전체에 위임
+    // (delegation)해 새로 렌더된 요소도 별도 재바인딩 없이 자동으로 커버한다.
+    // 터치/모션 최소화 환경에서는 setupTilt/setupMagnetic과 동일하게 완전히 비활성화.
+    function setupGlassSheen() {
+        if (!fineMotionOk()) return;
+        const SHEEN_SELECTOR = '.notice-filter-btn, .ship-filter-btn, .uex-loc-btn, ' +
+            '.ship-search, .global-search-input, .trade-planner-form input, ' +
+            '.trade-planner-form select, .planner-picker input, .volt-ai-input, ' +
+            '.ledger-qty-field input';
+        let current = null;
+        document.addEventListener('pointermove', (event) => {
+            const el = event.target.closest(SHEEN_SELECTOR);
+            if (el !== current) {
+                if (current) current.classList.remove('is-sheening');
+                current = el;
+                if (el) el.classList.add('is-sheening');
+            }
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            if (!rect.width || !rect.height) return;
+            const px = ((event.clientX - rect.left) / rect.width) * 100;
+            const py = ((event.clientY - rect.top) / rect.height) * 100;
+            el.style.setProperty('--sheen-x', `${px.toFixed(1)}%`);
+            el.style.setProperty('--sheen-y', `${py.toFixed(1)}%`);
+        }, { passive: true });
+    }
+
     // 히어로 스크롤 패럴랙스 (D-⑦): 스크롤에 따라 히어로 콘텐츠가 배경보다 살짝 느리게
     // 밀리며 옅어지고, 스타필드는 더 느리게 흘러 깊이감을 만든다.
     // 가드: reduced-motion 비활성, 홈 섹션 숨김(offsetParent null) 시 생략, y=0이면 인라인 제거.
@@ -369,6 +398,7 @@
         setupCountup();
         setupTilt();
         setupMagnetic();
+        setupGlassSheen();
         setupHeroParallax();
     }
 
