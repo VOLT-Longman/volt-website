@@ -5364,7 +5364,31 @@ body.nav-trade-open::before {
 .gallery-item,
 .ship-card,
 .volt-ai-source-card,
-.faq-item {
+.faq-item,
+.card,
+.culture-item,
+.streamer-card,
+.ship-compare-bar,
+.ship-advanced-panel,
+.uex-live-panel,
+.uex-candidate-card,
+.uex-recommend-card,
+.guide-tool-card,
+.partner-fleet-card,
+.mypage-card,
+.comms-card,
+.ledger-mobile-card,
+.static-guide-card,
+.notice-filter-btn,
+.ship-filter-btn,
+.uex-loc-btn,
+.ship-search,
+.global-search-input,
+.trade-planner-form input,
+.trade-planner-form select,
+.planner-picker input,
+.volt-ai-input,
+.ledger-qty-field input {
     background-image: var(--glass-bg);
     box-shadow: var(--glass-inset);
 }
@@ -5372,7 +5396,12 @@ body.nav-trade-open::before {
 .landing-card:hover,
 .notice-card:hover,
 .ship-card:hover,
-.leader-card:hover {
+.leader-card:hover,
+.card:hover,
+.streamer-card:hover,
+.uex-candidate-card:hover,
+.partner-fleet-card:hover,
+.comms-card:hover {
     box-shadow: var(--glass-inset), 0 18px 44px rgba(0, 0, 0, 0.38);
     border-color: var(--glass-border);
 }
@@ -5405,7 +5434,9 @@ body.nav-trade-open::before {
 
 .search-panel,
 .modal-card,
-.mobile-menu-panel {
+.mobile-menu-panel,
+.nav-more-menu,
+.nav-trade-menu {
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015) 60%),
         var(--glass-bg-deep);
@@ -5415,7 +5446,8 @@ body.nav-trade-open::before {
     box-shadow: var(--glass-inset), var(--glass-shadow);
 }
 
-.toast {
+.toast,
+.pwa-install-prompt {
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
         rgba(14, 13, 12, 0.72);
@@ -5443,7 +5475,8 @@ body.nav-trade-open::before {
 /* — 성능·접근성 가드 — */
 @media (max-width: 860px) {
     /* 모바일 GPU 비용 절감: 블러 반경 축소 (H-1 정신 유지) */
-    .nav, .search-panel, .modal-card, .mobile-menu-panel, .volt-ai-chat-panel {
+    .nav, .search-panel, .modal-card, .mobile-menu-panel, .volt-ai-chat-panel,
+    .nav-more-menu, .nav-trade-menu, .toast, .pwa-install-prompt {
         backdrop-filter: saturate(150%) blur(14px);
         -webkit-backdrop-filter: saturate(150%) blur(14px);
     }
@@ -5451,7 +5484,8 @@ body.nav-trade-open::before {
 
 @media (prefers-reduced-transparency: reduce) {
     .nav, .nav.scrolled { background: rgba(8, 7, 7, 0.97); backdrop-filter: none; -webkit-backdrop-filter: none; }
-    .search-panel, .modal-card, .mobile-menu-panel, .toast, .lang-switch, .volt-ai-chat-panel {
+    .search-panel, .modal-card, .mobile-menu-panel, .toast, .lang-switch, .volt-ai-chat-panel,
+    .nav-more-menu, .nav-trade-menu, .pwa-install-prompt {
         background: #121010;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;

@@ -70,6 +70,27 @@ PM의 대체 결정을 기다린다.
 - **회귀 계약 전환**: 스모크 테스트는 Orbit 로드가 아니라 전용 폰트가 히어로에 남지 않고, 기본 서체에서
   클리핑 없이 렌더되는지를 검증한다.
 
+## 이번 반영으로 완료 (I-1.4 Liquid Glass 표면 커버리지 확장, 2026-07-16)
+
+- **카드/패널 25종 추가**: I-1이 커버한 11개 카드류(landing/notice/schedule/guide/hub/join-checklist/
+  leader/gallery/ship/volt-ai-source/faq)에 `.card`·`.culture-item`·`.streamer-card`·
+  `.ship-compare-bar`·`.ship-advanced-panel`·`.uex-live-panel`·`.uex-candidate-card`·
+  `.uex-recommend-card`·`.guide-tool-card`·`.partner-fleet-card`·`.mypage-card`·`.comms-card`·
+  `.ledger-mobile-card`·`.static-guide-card`를 무블러 글래스 톤(기존 `--glass-bg`/`--glass-inset`
+  토큰 재사용)으로 확장 — 새 토큰 추가 없이 기존 레이어링 기법(개별 selector의 `background`
+  위에 후속 규칙으로 `background-image` 얹기) 그대로 적용해 회귀 위험을 최소화했다.
+- **필터 칩·입력 필드**: `.notice-filter-btn`·`.ship-filter-btn`·`.uex-loc-btn`(비활성 상태만 —
+  active/hover는 기존 실색 강조 유지, specificity로 자동 보존)과 `.ship-search`·
+  `.global-search-input`·`.trade-planner-form input/select`·`.planner-picker input`·
+  `.volt-ai-input`·`.ledger-qty-field input`에 동일 글래스 톤 적용 — 카드와 입력 표면이
+  시각적으로 통일됨.
+- **오버레이 2종 승격**: `.nav-more-menu`/`.nav-trade-menu`(드롭다운)·`.pwa-install-prompt`(플로팅
+  설치 안내)를 무블러 톤에서 기존 블러 크롬 그룹(`.search-panel`/`.modal-card`류, `.toast`류)으로
+  이동 — 모바일 블러 축소 미디어쿼리·`prefers-reduced-transparency` 폴백 목록에도 동반 추가.
+- **검증**: check ✅ · functions 120/120 ✅ · Playwright 244/244(시각회귀 포함, linux 기준 스냅샷 대비
+  `maxDiffPixels` 임계 이내 — 카드 표면 변화가 미묘해 골든 계약을 깨지 않음). 화면별 스크린샷
+  수동 검토(홈/함선DB/공지/일정/무역플래너/임원진)로 과도함 없이 자연스러운 확장인지 확인.
+
 ## 이전 반영으로 완료 (M1 + M1.1, 2026-07-15)
 
 - **M1.1 정확성 보수 (활성화 전 필수)**: ① 답변을 서버 확정(도구 템플릿)으로 고정하고 모델 문장은
