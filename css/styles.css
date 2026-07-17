@@ -518,6 +518,12 @@ body.nav-trade-open::before {
     pointer-events: none;
 }
 
+.footer-fan-disclaimer {
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--color-text-tertiary);
+}
+
 /* Mission Control 레이아웃 (F): 브랜드 블록 + 우측 운영 콘솔.
    첫 화면은 히어로 전용 (D-⑧) — 히어로 패딩(100+80px)을 뺀 뷰포트 높이를 확보해
    랜딩 하이라이트가 첫 뷰포트에 미리 보이지 않게 한다. */
@@ -7459,18 +7465,62 @@ body.nav-trade-open::before {
     .hero-scroll-hint { display: none; }
 }
 
-/* ===== 스타필드 + 히어로 진입 모션 (D-②) ===== */
-.hero-starfield {
+/* ===== 시네마틱 히어로 배경 (J-1) + 히어로 진입 모션 (D-②) =====
+   함대 이미지 크로스페이드. 슬라이드는 landing.js setupHeroCine()이 생성.
+   켄 번즈(.kb)는 fine pointer + 모션 허용에서만 — 터치/reduced-motion은
+   정적/크로스페이드만 (H-1 정신: 체감 없는 상시 GPU 비용 금지). */
+.hero-cine {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
+    overflow: hidden;
     pointer-events: none;
     z-index: 0;
 }
 
-/* 라이트 테마에선 별이 노이즈로 보여 숨긴다 (히어로 배경이 밝음) */
+.hero-cine-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.8s ease;
+}
+
+.hero-cine-slide.is-active {
+    opacity: 1;
+}
+
+.hero-cine.kb .hero-cine-slide.is-active {
+    animation: heroKenBurns 22s ease-out forwards;
+}
+
+.hero-cine.kb .hero-cine-slide.is-active.kb-alt {
+    animation-name: heroKenBurnsAlt;
+}
+
+@keyframes heroKenBurns {
+    from { transform: scale(1) translate3d(0, 0, 0); }
+    to { transform: scale(1.08) translate3d(1.2%, -0.8%, 0); }
+}
+
+@keyframes heroKenBurnsAlt {
+    from { transform: scale(1.08) translate3d(-1%, 0.6%, 0); }
+    to { transform: scale(1) translate3d(0, 0, 0); }
+}
+
+/* 가독 스크림 — 이미지 위·텍스트 아래. 중앙 타이포 대비 확보 + 하단 자연 페이드 */
+.hero-cine::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 40%, rgba(7, 7, 7, 0.38) 0%, rgba(7, 7, 7, 0.52) 58%, rgba(7, 7, 7, 0.72) 100%),
+        linear-gradient(180deg, rgba(7, 7, 7, 0.42) 0%, transparent 30%, transparent 62%, #070707 100%);
+}
 
 /* 진입 모션: 초기 상태는 keyframe from(backwards)에만 두어,
    reduced-motion(전역 룰이 animation 비활성)에서는 즉시 최종 상태로 보인다. */

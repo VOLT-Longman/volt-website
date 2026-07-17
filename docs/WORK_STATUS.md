@@ -34,6 +34,26 @@ PM의 대체 결정을 기다린다.
 |---|---|---|---|
 | 없음 | — | — | 새 작업 시작 시 이 행을 실제 작업 선언으로 교체 |
 
+## 이번 반영으로 완료 (J-1 시네마틱 히어로 배경, 2026-07-18)
+
+- **랜딩 소유 기준 관련 선언**: 히어로 **구조**(중앙 "MOVE THE VERSE." + hero-proof)는 확정안
+  그대로 유지, **배경 레이어만** 스타필드 캔버스 → 함대 이미지 시네마틱으로 대체했다 — PM 직접
+  지시(A안 채택: 풀블리드 이미지 + 켄 번즈). 스타필드/스타맵(D-②·F)의 캔버스·JS·성능 테스트는
+  대체 완료로 제거.
+- **소재**: PM이 지정한 RSI 공식 Hercules Starlifter 렌더 5장(starcitizen.tools 미러에서 원본
+  확보, 2장은 7680×4320) → chromium 캔버스 인코더(`scratchpad` 1회성 스크립트)로
+  `assets/images/landing/hero-01~05(.webp/-m.webp)` 생성. 데스크톱 1920w 합계 ~509KB /
+  모바일 960w 합계 ~166KB. © Cloud Imperium Games — 푸터에 KO/EN 팬 콘텐츠 면책 문구 추가
+  (`footer.fanDisclaimer`).
+- **동작 계약(H-1 정신 유지)**: 첫 장만 `<link rel=preload>`(뷰포트별 media 분기), 나머지 4장은
+  유휴 시점(requestIdleCallback) 지연 생성. 크로스페이드 9초 주기, 켄 번즈 22초(.kb)는
+  fine pointer + 모션 허용에서만. reduced-motion=첫 장 정적 1장, 백그라운드 탭·홈 비활성
+  (offsetParent null)에서는 전환 스킵. 가독 스크림(radial+linear)은 `.hero-cine::after`.
+- **테스트**: landing-performance.spec을 스타필드 draw 카운트 → 시네마틱 계약 3건(마우스=kb+
+  computed opacity 1, 터치=kb 없음+-m.webp, reduced-motion=1장 정적)으로 교체.
+  visual-regression 프리즈 CSS 대상 `.hero-starfield`→`.hero-cine`.
+- 캐시 버전 `20260718-02`. linux 시각 기준은 push 후 visual-baseline dispatch.
+
 ## 이번 반영으로 완료 (I-2 Liquid Glass 제거 + 추천무역품 버튼 정렬, 2026-07-18)
 
 - **PM 대체 결정 — Liquid Glass 표면 처리 전면 제거**: 라이브 적용 후 PM이 직접 확인한 결과

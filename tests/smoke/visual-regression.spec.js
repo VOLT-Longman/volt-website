@@ -22,8 +22,8 @@ const FREEZE_CSS = `
     }
     .reveal { opacity: 1 !important; transform: none !important; }
     html { scroll-behavior: auto !important; }
-    /* 스타필드(D-②)는 프레임마다 달라 기준 이미지에서 제외 */
-    .hero-starfield { display: none !important; }
+    /* 시네마틱 히어로(J-1)는 크로스페이드/켄 번즈로 프레임마다 달라 기준 이미지에서 제외 */
+    .hero-cine { display: none !important; }
 `;
 
 async function stabilize(page) {

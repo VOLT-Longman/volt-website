@@ -514,7 +514,8 @@
             'footer.aboutFleet': '함대 소개',
             'footer.content': '콘텐츠',
             'footer.community': '커뮤니티',
-            'footer.copyright': '© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED'
+            'footer.copyright': '© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED',
+            'footer.fanDisclaimer': 'Star Citizen® 이미지 © Cloud Imperium Games. 본 사이트는 CIG와 무관한 비공식 팬 사이트입니다.'
         },
         en: {
             'lang.toggleAria': 'Change language (Korean/English)',
@@ -1011,7 +1012,8 @@
             'footer.aboutFleet': 'About the fleet',
             'footer.content': 'Content',
             'footer.community': 'Community',
-            'footer.copyright': '© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED'
+            'footer.copyright': '© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED',
+            'footer.fanDisclaimer': 'Star Citizen® imagery © Cloud Imperium Games. This is an unofficial fan site, not affiliated with CIG.'
         }
     };
 
