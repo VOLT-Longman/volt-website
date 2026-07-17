@@ -1,8 +1,8 @@
 {
   "source": "erkul-live",
   "sourceVersion": "live",
-  "syncedAt": "2026-07-12T02:50:30.125Z",
-  "shipCount": 219,
+  "syncedAt": "2026-07-17T15:11:08.433Z",
+  "shipCount": 220,
   "ships": [
     {
       "localName": "drak_command_module",
@@ -11,7 +11,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Transport",
         "career": "Transport",
@@ -35,8 +35,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 6700,
         "cargoScu": 0,
@@ -82,7 +82,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Interceptor",
         "career": "Combat",
@@ -106,8 +106,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 11900,
         "cargoScu": 0,
@@ -153,7 +153,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -177,8 +177,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 11900,
         "cargoScu": 8,
@@ -224,7 +224,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -248,8 +248,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 11900,
         "cargoScu": 8,
@@ -295,7 +295,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Interdiction",
         "career": "Combat",
@@ -319,8 +319,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 11900,
         "cargoScu": 0,
@@ -366,7 +366,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Stealth Bomber",
         "career": "Combat",
@@ -390,8 +390,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 27044,
         "cargoScu": 0,
@@ -437,7 +437,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Fighter",
         "career": "Combat",
@@ -461,8 +461,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 6110,
         "cargoScu": 0,
@@ -508,7 +508,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Fighter",
         "career": "Combat",
@@ -532,8 +532,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 6110,
         "cargoScu": 0,
@@ -579,7 +579,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Light Fighter",
         "career": "Combat",
@@ -603,8 +603,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 6110,
         "cargoScu": 0,
@@ -650,7 +650,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Gunship",
         "career": "Combat",
@@ -674,8 +674,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 50,
-          "noise": 24
+          "decoy": null,
+          "noise": null
         },
         "hp": 403400,
         "cargoScu": 0,
@@ -721,12 +721,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Frigate",
         "career": "Combat",
         "size": 6,
-        "crewSize": 1,
+        "crewSize": 28,
         "speeds": {
           "scm": 110,
           "scmBoostForward": 220,
@@ -734,9 +734,9 @@
           "navMax": 850
         },
         "rotation": {
-          "pitch": 7,
-          "yaw": 7,
-          "roll": 12,
+          "pitch": 6,
+          "yaw": 6,
+          "roll": 11,
           "boostedPitch": null,
           "boostedYaw": null,
           "boostedRoll": null,
@@ -745,8 +745,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 1200,
-          "noise": 600
+          "decoy": null,
+          "noise": null
         },
         "hp": 15515000,
         "cargoScu": 1326,
@@ -792,12 +792,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Frigate",
         "career": "Combat",
         "size": 6,
-        "crewSize": 1,
+        "crewSize": 28,
         "speeds": {
           "scm": 110,
           "scmBoostForward": 220,
@@ -805,9 +805,9 @@
           "navMax": 850
         },
         "rotation": {
-          "pitch": 7,
-          "yaw": 7,
-          "roll": 12,
+          "pitch": 6,
+          "yaw": 6,
+          "roll": 11,
           "boostedPitch": null,
           "boostedYaw": null,
           "boostedRoll": null,
@@ -816,8 +816,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 1200,
-          "noise": 600
+          "decoy": null,
+          "noise": null
         },
         "hp": 15515000,
         "cargoScu": 1374,
@@ -863,12 +863,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Salvage",
         "career": "Industrial",
         "size": 6,
-        "crewSize": 1,
+        "crewSize": 5,
         "speeds": {
           "scm": 110,
           "scmBoostForward": 290,
@@ -887,8 +887,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 123002,
         "cargoScu": 420,
@@ -934,7 +934,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Gunship",
         "career": "Combat",
@@ -958,8 +958,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 66700,
         "cargoScu": 2,
@@ -1005,12 +1005,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Modular",
         "career": "Combat",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 7,
         "speeds": {
           "scm": 205,
           "scmBoostForward": 400,
@@ -1029,8 +1029,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 138981,
         "cargoScu": 0,
@@ -1076,7 +1076,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -1100,8 +1100,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 23013,
         "cargoScu": 0,
@@ -1147,7 +1147,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -1171,8 +1171,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 23013,
         "cargoScu": 0,
@@ -1218,7 +1218,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -1242,8 +1242,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15510,
         "cargoScu": 0,
@@ -1289,7 +1289,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Racing",
         "career": "Competition",
@@ -1313,8 +1313,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 13550,
         "cargoScu": 0,
@@ -1360,7 +1360,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Interdiction",
         "career": "Combat",
@@ -1384,8 +1384,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 12516,
         "cargoScu": 0,
@@ -1431,7 +1431,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Gunship",
         "career": "Combat",
@@ -1455,8 +1455,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 50,
-          "noise": 24
+          "decoy": null,
+          "noise": null
         },
         "hp": 187200,
         "cargoScu": 0,
@@ -1502,12 +1502,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Fighter / Bomber",
         "career": "Combat",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 212,
           "scmBoostForward": 462,
@@ -1526,8 +1526,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 42800,
         "cargoScu": 0,
@@ -1573,12 +1573,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Dropship",
         "career": "Combat",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 209,
           "scmBoostForward": 435,
@@ -1597,8 +1597,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 57800,
         "cargoScu": 0,
@@ -1644,12 +1644,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Fighter / Bomber",
         "career": "Combat",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 217,
           "scmBoostForward": 462,
@@ -1668,8 +1668,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 48140,
         "cargoScu": 0,
@@ -1715,12 +1715,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aegis Dynamics",
         "role": "Heavy Fighter",
         "career": "Combat",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 210,
           "scmBoostForward": 458,
@@ -1739,8 +1739,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 42800,
         "cargoScu": 0,
@@ -1786,7 +1786,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Light Fighter",
         "career": "Combat",
@@ -1810,10 +1810,10 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
-        "hp": 8580,
+        "hp": 7130,
         "cargoScu": 0,
         "dimensions": {
           "length": 17.25,
@@ -1857,12 +1857,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Dropship",
         "career": "Combat",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 203,
           "scmBoostForward": 425,
@@ -1881,8 +1881,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 192,
-          "noise": 20
+          "decoy": null,
+          "noise": null
         },
         "hp": 77000,
         "cargoScu": 180,
@@ -1928,7 +1928,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -1952,8 +1952,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 6250,
         "cargoScu": 4,
@@ -1999,7 +1999,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medical",
         "career": "Support",
@@ -2023,8 +2023,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 6250,
         "cargoScu": 0,
@@ -2070,7 +2070,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -2094,8 +2094,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 6250,
         "cargoScu": 4,
@@ -2141,7 +2141,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Expedition",
         "career": "Exploration",
@@ -2165,8 +2165,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 88000,
         "cargoScu": 456,
@@ -2175,8 +2175,8 @@
           "beam": 74,
           "height": 30,
           "sizeRaw": {
-            "x": 126,
-            "y": 74,
+            "x": 74,
+            "y": 126,
             "z": 30
           }
         },
@@ -2212,7 +2212,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Expedition",
         "career": "Exploration",
@@ -2236,8 +2236,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 88000,
         "cargoScu": 456,
@@ -2246,8 +2246,8 @@
           "beam": 74,
           "height": 30,
           "sizeRaw": {
-            "x": 126,
-            "y": 74,
+            "x": 74,
+            "y": 126,
             "z": 30
           }
         },
@@ -2283,7 +2283,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2307,8 +2307,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 16758,
         "cargoScu": 0,
@@ -2354,7 +2354,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2378,8 +2378,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 13453,
         "cargoScu": 0,
@@ -2425,7 +2425,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2449,8 +2449,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15550,
         "cargoScu": 0,
@@ -2496,7 +2496,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2520,8 +2520,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 13153,
         "cargoScu": 0,
@@ -2567,7 +2567,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2591,8 +2591,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15550,
         "cargoScu": 0,
@@ -2638,12 +2638,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
         "size": 2,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 219,
           "scmBoostForward": 477,
@@ -2662,8 +2662,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15450,
         "cargoScu": 0,
@@ -2709,7 +2709,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2733,8 +2733,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 15250,
         "cargoScu": 0,
@@ -2780,12 +2780,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
         "size": 2,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 219,
           "scmBoostForward": 477,
@@ -2804,8 +2804,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15450,
         "cargoScu": 0,
@@ -2851,7 +2851,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -2875,8 +2875,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 15250,
         "cargoScu": 0,
@@ -2922,7 +2922,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -2946,8 +2946,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15550,
         "cargoScu": 0,
@@ -2993,7 +2993,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Combat",
@@ -3017,8 +3017,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 13153,
         "cargoScu": 0,
@@ -3064,7 +3064,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -3088,8 +3088,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15350,
         "cargoScu": 0,
@@ -3135,7 +3135,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -3159,8 +3159,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 12953,
         "cargoScu": 0,
@@ -3206,7 +3206,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -3230,8 +3230,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 40200,
         "cargoScu": 0,
@@ -3277,7 +3277,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -3301,8 +3301,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 40200,
         "cargoScu": 0,
@@ -3348,12 +3348,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Bomber",
         "career": "Combat",
         "size": 2,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 210,
           "scmBoostForward": 480,
@@ -3372,8 +3372,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 34800,
         "cargoScu": 0,
@@ -3419,7 +3419,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Light Fighter",
         "career": "Combat",
@@ -3443,19 +3443,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 16600,
         "cargoScu": 0,
         "dimensions": {
-          "length": 0,
-          "beam": 0,
-          "height": 0,
+          "length": 23,
+          "beam": 17,
+          "height": 8,
           "sizeRaw": {
-            "x": 0,
-            "y": 0,
-            "z": 0
+            "x": 17,
+            "y": 23,
+            "z": 8
           }
         },
         "massKg": 64166,
@@ -3490,12 +3490,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Heavy Fighter",
         "career": "Combat",
         "size": 2,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 214,
           "scmBoostForward": 480,
@@ -3514,19 +3514,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 18226,
         "cargoScu": 0,
         "dimensions": {
-          "length": 0,
-          "beam": 0,
-          "height": 0,
+          "length": 24,
+          "beam": 18.5,
+          "height": 6.5,
           "sizeRaw": {
-            "x": 0,
-            "y": 0,
-            "z": 0
+            "x": 18.5,
+            "y": 24,
+            "z": 6.5
           }
         },
         "massKg": 86745,
@@ -3561,7 +3561,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Gunship",
         "career": "Gunship",
@@ -3585,19 +3585,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 149819,
         "cargoScu": 4,
         "dimensions": {
-          "length": 0,
-          "beam": 0,
-          "height": 0,
+          "length": 53.5,
+          "beam": 38,
+          "height": 15.5,
           "sizeRaw": {
-            "x": 0,
-            "y": 0,
-            "z": 0
+            "x": 38,
+            "y": 53.5,
+            "z": 15.5
           }
         },
         "massKg": 500000,
@@ -3632,7 +3632,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Pathfinder",
         "career": "Support",
@@ -3656,8 +3656,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 173201,
         "cargoScu": 0,
@@ -3703,7 +3703,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Medical",
         "career": "Support",
@@ -3727,8 +3727,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 173201,
         "cargoScu": 0,
@@ -3774,12 +3774,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Dropship",
         "career": "Combat",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 5,
         "speeds": {
           "scm": 207,
           "scmBoostForward": 431,
@@ -3798,8 +3798,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 90053,
         "cargoScu": 90,
@@ -3845,7 +3845,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aopoa",
         "role": "Light Fighter",
         "career": "Combat",
@@ -3869,8 +3869,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 14100,
         "cargoScu": 0,
@@ -3916,7 +3916,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aopoa",
         "role": "Racing",
         "career": "Competition",
@@ -3940,8 +3940,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 5,
-          "noise": 1
+          "decoy": null,
+          "noise": null
         },
         "hp": 2231,
         "cargoScu": 0,
@@ -3987,7 +3987,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aopoa",
         "role": "Racing",
         "career": "Competition",
@@ -4011,8 +4011,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 5,
-          "noise": 1
+          "decoy": null,
+          "noise": null
         },
         "hp": 2231,
         "cargoScu": 0,
@@ -4058,7 +4058,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Aopoa",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -4082,8 +4082,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 10975.880000000001,
         "cargoScu": 0,
@@ -4129,12 +4129,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Argo Astronautics",
         "role": "Medium Mining",
         "career": "Industrial",
         "size": 3,
-        "crewSize": 5,
+        "crewSize": 4,
         "speeds": {
           "scm": 140,
           "scmBoostForward": 340,
@@ -4153,8 +4153,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 130000,
         "cargoScu": 96,
@@ -4200,12 +4200,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Argo Astronautics",
         "role": "Medium Salvage",
         "career": "Industrial",
         "size": 3,
-        "crewSize": 3,
+        "crewSize": 4,
         "speeds": {
           "scm": 140,
           "scmBoostForward": 340,
@@ -4224,8 +4224,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 130000,
         "cargoScu": 0,
@@ -4271,7 +4271,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Argo Astronautics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -4342,7 +4342,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Argo Astronautics",
         "role": "Passenger",
         "career": "Transporter",
@@ -4413,7 +4413,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Argo Astronautics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -4437,8 +4437,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 6380,
         "cargoScu": 16,
@@ -4484,7 +4484,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Argo Astronautics",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -4508,8 +4508,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 115700,
         "cargoScu": 192,
@@ -4555,7 +4555,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Argo Astronautics",
         "role": "Recovery",
         "career": "Support",
@@ -4579,8 +4579,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 34500,
         "cargoScu": 12,
@@ -4626,12 +4626,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Banu",
         "role": "Light Fighter",
         "career": "Combat",
         "size": 2,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 222,
           "scmBoostForward": 480,
@@ -4650,8 +4650,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 13800,
         "cargoScu": 0,
@@ -4697,7 +4697,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Consolidated Outland",
         "role": "Passenger",
         "career": "Exploration",
@@ -4721,8 +4721,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 12,
-          "noise": 4
+          "decoy": null,
+          "noise": null
         },
         "hp": 3300,
         "cargoScu": 0,
@@ -4756,8 +4756,8 @@
       },
       "descriptions": {
         "source": "erkul-live",
-        "enRaw": "Designed as a companion ground vehicle for the Nomad, the HoverQuad's sleek angular frame utilizes four gravlev pads for maximum maneuverability, making it the perfect transport across all kinds of surfaces.",
-        "en": "Designed as a companion ground vehicle for the Nomad, the HoverQuad's sleek angular frame utilizes four gravlev pads for maximum maneuverability, making it the perfect transport across all kinds of surfaces.",
+        "enRaw": "Designed as a companion ground vehicle for the Nomad, the HoverQuad's sleek angular frame utilizes four grav-lev pads for maximum maneuverability, making it the perfect transport across all kinds of surfaces.",
+        "en": "Designed as a companion ground vehicle for the Nomad, the HoverQuad's sleek angular frame utilizes four grav-lev pads for maximum maneuverability, making it the perfect transport across all kinds of surfaces.",
         "ko": null
       }
     },
@@ -4768,7 +4768,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Consolidated Outland",
         "role": "Starter / Light Freight",
         "career": "Multi-Role",
@@ -4792,8 +4792,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 10080,
         "cargoScu": 4,
@@ -4839,7 +4839,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Consolidated Outland",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -4863,8 +4863,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 10080,
         "cargoScu": 0,
@@ -4910,7 +4910,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Consolidated Outland",
         "role": "Light Fighter",
         "career": "Combat",
@@ -4934,8 +4934,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 10080,
         "cargoScu": 0,
@@ -4981,7 +4981,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Consolidated Outland",
         "role": "Racing",
         "career": "Competition",
@@ -5005,8 +5005,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 8580,
         "cargoScu": 0,
@@ -5052,7 +5052,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Consolidated Outland",
         "role": "Racing",
         "career": "Competition",
@@ -5076,8 +5076,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 8580,
         "cargoScu": 0,
@@ -5123,7 +5123,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Consolidated Outland",
         "role": "Starter / Light Freight",
         "career": "Transporter",
@@ -5147,8 +5147,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 9800,
         "cargoScu": 24,
@@ -5194,7 +5194,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Bomber",
         "career": "Combat",
@@ -5218,8 +5218,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 67600,
         "cargoScu": 0,
@@ -5265,7 +5265,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Heavy Bomber",
         "career": "Combat",
@@ -5289,8 +5289,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 50,
-          "noise": 40
+          "decoy": null,
+          "noise": null
         },
         "hp": 112530,
         "cargoScu": 216,
@@ -5336,7 +5336,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -5360,8 +5360,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 38600,
         "cargoScu": 0,
@@ -5407,7 +5407,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -5431,8 +5431,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 38600,
         "cargoScu": 0,
@@ -5478,7 +5478,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Light Freight",
         "career": "Transporter",
@@ -5502,8 +5502,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 67600,
         "cargoScu": 64,
@@ -5549,7 +5549,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -5573,8 +5573,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 50,
-          "noise": 40
+          "decoy": null,
+          "noise": null
         },
         "hp": 78400,
         "cargoScu": 696,
@@ -5620,7 +5620,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Starter / Light Freight",
         "career": "Starter",
@@ -5644,8 +5644,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15350,
         "cargoScu": 0,
@@ -5691,7 +5691,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -5715,8 +5715,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 50,
-          "noise": 40
+          "decoy": null,
+          "noise": null
         },
         "hp": 101820,
         "cargoScu": 522,
@@ -5762,12 +5762,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Crusader Industries",
         "role": "Medium Freight",
         "career": "Transporter",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 3,
         "speeds": {
           "scm": 217,
           "scmBoostForward": 510,
@@ -5786,8 +5786,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 41400,
         "cargoScu": 114,
@@ -5833,7 +5833,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Fighter",
         "career": "Combat",
@@ -5857,10 +5857,10 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
-        "hp": 9480,
+        "hp": 7980,
         "cargoScu": 0,
         "dimensions": {
           "length": 16.75,
@@ -5904,12 +5904,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Medium Freight",
         "career": "Transporter",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 130,
           "scmBoostForward": 300,
@@ -5928,8 +5928,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 91500,
         "cargoScu": 576,
@@ -5975,12 +5975,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Medium Freight",
         "career": "Transporter",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 130,
           "scmBoostForward": 300,
@@ -5999,8 +5999,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 91500,
         "cargoScu": 576,
@@ -6046,7 +6046,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Generalist",
         "career": "Exploration",
@@ -6070,8 +6070,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 26350,
         "cargoScu": 12,
@@ -6117,7 +6117,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Expedition",
         "career": "Exploration",
@@ -6141,8 +6141,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 91000,
         "cargoScu": 72,
@@ -6188,7 +6188,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Freight / Medium Fighter",
         "career": "Multi-Role",
@@ -6212,8 +6212,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 29760,
         "cargoScu": 46,
@@ -6259,7 +6259,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Interdiction",
         "career": "Combat",
@@ -6283,8 +6283,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 35770,
         "cargoScu": 12,
@@ -6330,7 +6330,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Medical",
         "career": "Support",
@@ -6354,8 +6354,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 34520,
         "cargoScu": 12,
@@ -6401,7 +6401,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Dropship",
         "career": "Combat",
@@ -6425,8 +6425,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 35560,
         "cargoScu": 0,
@@ -6472,7 +6472,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Starter / Pathfinder",
         "career": "Exploration",
@@ -6496,8 +6496,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 17100,
         "cargoScu": 4,
@@ -6543,7 +6543,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Expedition",
         "career": "Exploration",
@@ -6567,8 +6567,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 17100,
         "cargoScu": 2,
@@ -6614,7 +6614,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -6638,8 +6638,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 17500,
         "cargoScu": 2,
@@ -6685,7 +6685,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Racing",
         "career": "Competition",
@@ -6709,8 +6709,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 5,
-          "noise": 1
+          "decoy": null,
+          "noise": null
         },
         "hp": 1570,
         "cargoScu": 0,
@@ -6750,84 +6750,13 @@
       }
     },
     {
-      "localName": "drak_dragonfly_pink",
-      "name": "Dragonfly Star Kitten",
-      "ref": "d868dfb9-5bcd-4f7b-a40a-3aa5bbf7d705",
-      "externalStats": {
-        "source": "erkul-live",
-        "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
-        "manufacturer": "Drake Interplanetary",
-        "role": "Racing",
-        "career": "Competition",
-        "size": 1,
-        "crewSize": 1,
-        "speeds": {
-          "scm": 190,
-          "scmBoostForward": 270,
-          "scmBoostBackward": 120,
-          "navMax": 523
-        },
-        "rotation": {
-          "pitch": 70,
-          "yaw": 70,
-          "roll": 130,
-          "boostedPitch": null,
-          "boostedYaw": null,
-          "boostedRoll": null,
-          "currentPitch": null,
-          "currentYaw": null,
-          "currentRoll": null
-        },
-        "countermeasures": {
-          "decoy": 5,
-          "noise": 1
-        },
-        "hp": 1570,
-        "cargoScu": 0,
-        "dimensions": {
-          "length": 7,
-          "beam": 2.5,
-          "height": 2,
-          "sizeRaw": {
-            "x": 2.5,
-            "y": 7,
-            "z": 2
-          }
-        },
-        "massKg": 5600,
-        "fuel": {
-          "hydrogenScu": 1.5,
-          "quantumScu": 0
-        },
-        "insurance": {
-          "expeditionFee": 55,
-          "claimTime": 0.10125,
-          "expediteTime": 0
-        },
-        "damageReduction": {
-          "physical": 0.75,
-          "energy": 0.6,
-          "distortion": 1,
-          "fuse": 0,
-          "component": 0.4
-        }
-      },
-      "descriptions": {
-        "source": "erkul-live",
-        "enRaw": "The Drake Dragonfly is the perfect snub ship for anyone looking to live on the edge. With nothing separating the pilot from the dangers of space, the Dragonfly is as much an adventure as a ship! Dual-mode conversion allows the Dragonfly to operate on the ground or in space, and a rear-facing second seat means you can even take a passenger! This model features a custom paintjob of Genady Kuzo's beloved Star Kitten character.",
-        "en": "The Drake Dragonfly is the perfect snub ship for anyone looking to live on the edge. With nothing separating the pilot from the dangers of space, the Dragonfly is as much an adventure as a ship! Dual-mode conversion allows the Dragonfly to operate on the ground or in space, and a rear-facing second seat means you can even take a passenger! This model features a custom paintjob of Genady Kuzo's beloved Star Kitten character.",
-        "ko": null
-      }
-    },
-    {
       "localName": "drak_dragonfly_yellow",
       "name": "Dragonfly Yellowjacket",
       "ref": "533b9b62-33eb-4b34-95eb-d43fe3e020ff",
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Racing",
         "career": "Competition",
@@ -6851,8 +6780,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 5,
-          "noise": 1
+          "decoy": null,
+          "noise": null
         },
         "hp": 1570,
         "cargoScu": 0,
@@ -6892,13 +6821,84 @@
       }
     },
     {
+      "localName": "drak_dragonfly_pink",
+      "name": "Dragonfly Star Kitten",
+      "ref": "d868dfb9-5bcd-4f7b-a40a-3aa5bbf7d705",
+      "externalStats": {
+        "source": "erkul-live",
+        "sourceVersion": "live",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
+        "manufacturer": "Drake Interplanetary",
+        "role": "Racing",
+        "career": "Competition",
+        "size": 1,
+        "crewSize": 1,
+        "speeds": {
+          "scm": 190,
+          "scmBoostForward": 270,
+          "scmBoostBackward": 120,
+          "navMax": 523
+        },
+        "rotation": {
+          "pitch": 70,
+          "yaw": 70,
+          "roll": 130,
+          "boostedPitch": null,
+          "boostedYaw": null,
+          "boostedRoll": null,
+          "currentPitch": null,
+          "currentYaw": null,
+          "currentRoll": null
+        },
+        "countermeasures": {
+          "decoy": null,
+          "noise": null
+        },
+        "hp": 1570,
+        "cargoScu": 0,
+        "dimensions": {
+          "length": 7,
+          "beam": 2.5,
+          "height": 2,
+          "sizeRaw": {
+            "x": 2.5,
+            "y": 7,
+            "z": 2
+          }
+        },
+        "massKg": 5600,
+        "fuel": {
+          "hydrogenScu": 1.5,
+          "quantumScu": 0
+        },
+        "insurance": {
+          "expeditionFee": 55,
+          "claimTime": 0.10125,
+          "expediteTime": 0
+        },
+        "damageReduction": {
+          "physical": 0.75,
+          "energy": 0.6,
+          "distortion": 1,
+          "fuse": 0,
+          "component": 0.4
+        }
+      },
+      "descriptions": {
+        "source": "erkul-live",
+        "enRaw": "The Drake Dragonfly is the perfect snub ship for anyone looking to live on the edge. With nothing separating the pilot from the dangers of space, the Dragonfly is as much an adventure as a ship! Dual-mode conversion allows the Dragonfly to operate on the ground or in space, and a rear-facing second seat means you can even take a passenger! This model features a custom paintjob of Genady Kuzo's beloved Star Kitten character.",
+        "en": "The Drake Dragonfly is the perfect snub ship for anyone looking to live on the edge. With nothing separating the pilot from the dangers of space, the Dragonfly is as much an adventure as a ship! Dual-mode conversion allows the Dragonfly to operate on the ground or in space, and a rear-facing second seat means you can even take a passenger! This model features a custom paintjob of Genady Kuzo's beloved Star Kitten character.",
+        "ko": null
+      }
+    },
+    {
       "localName": "drak_golem",
       "name": "Golem",
       "ref": "b616b3ad-123c-40f2-80bd-b8f4109633aa",
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Starter / Light Mining",
         "career": "Industrial",
@@ -6922,8 +6922,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 17300,
         "cargoScu": 32,
@@ -6969,7 +6969,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Freight",
         "career": "Industrial",
@@ -6993,8 +6993,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 20700,
         "cargoScu": 64,
@@ -7040,7 +7040,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Medium Data",
         "career": "Transporter",
@@ -7064,8 +7064,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 6420,
         "cargoScu": 0,
@@ -7111,7 +7111,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Heavy Freight",
         "career": "Transporter",
@@ -7135,19 +7135,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 60,
-          "noise": 30
+          "decoy": null,
+          "noise": null
         },
         "hp": 258000,
         "cargoScu": 2200,
         "dimensions": {
-          "length": 39.5,
-          "beam": 13.4,
-          "height": 111.5,
+          "length": 117,
+          "beam": 50,
+          "height": 25,
           "sizeRaw": {
-            "x": 39.5,
-            "y": 13.4,
-            "z": 111.5
+            "x": 50,
+            "y": 117,
+            "z": 25
           }
         },
         "massKg": 720000,
@@ -7182,7 +7182,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Heavy Dropship",
         "career": "Combat",
@@ -7206,19 +7206,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 60,
-          "noise": 30
+          "decoy": null,
+          "noise": null
         },
         "hp": 278000,
         "cargoScu": 1440,
         "dimensions": {
-          "length": 39.5,
-          "beam": 13.4,
-          "height": 111.5,
+          "length": 117,
+          "beam": 50,
+          "height": 25,
           "sizeRaw": {
-            "x": 39.5,
-            "y": 13.4,
-            "z": 111.5
+            "x": 50,
+            "y": 117,
+            "z": 25
           }
         },
         "massKg": 720000,
@@ -7253,7 +7253,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Snub Fighter",
         "career": "Snub Fighter",
@@ -7277,8 +7277,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 24,
-          "noise": 8
+          "decoy": null,
+          "noise": null
         },
         "hp": 1950,
         "cargoScu": 0,
@@ -7324,7 +7324,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Salvage",
         "career": "Industrial",
@@ -7348,8 +7348,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 43700,
         "cargoScu": 12,
@@ -7395,7 +7395,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Esperia",
         "role": "Light Fighter",
         "career": "Combat",
@@ -7419,8 +7419,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 7950,
         "cargoScu": 0,
@@ -7466,7 +7466,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Esperia",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -7490,8 +7490,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 10962,
         "cargoScu": 0,
@@ -7537,12 +7537,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Esperia",
         "role": "Dropship",
         "career": "Combat",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 212,
           "scmBoostForward": 450,
@@ -7561,8 +7561,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 76900,
         "cargoScu": 0,
@@ -7608,12 +7608,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Esperia",
         "role": "Light Freight",
         "career": "Transporter",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 208,
           "scmBoostForward": 437,
@@ -7632,8 +7632,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 69300,
         "cargoScu": 32,
@@ -7679,7 +7679,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Esperia",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -7703,8 +7703,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 47114,
         "cargoScu": 0,
@@ -7750,7 +7750,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Esperia",
         "role": "Light Fighter",
         "career": "Combat",
@@ -7774,8 +7774,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 24930,
         "cargoScu": 0,
@@ -7821,7 +7821,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Esperia",
         "role": "Light Fighter",
         "career": "Combat",
@@ -7845,8 +7845,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 24930,
         "cargoScu": 0,
@@ -7892,7 +7892,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Gatac Manufacture",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -7916,8 +7916,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 62168,
         "cargoScu": 640,
@@ -7963,7 +7963,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Gatac Manufacture",
         "role": "Starter / Pathfinder",
         "career": "Multi-Role",
@@ -7987,19 +7987,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 11740,
         "cargoScu": 0,
         "dimensions": {
-          "length": 0,
-          "beam": 0,
-          "height": 0,
+          "length": 28,
+          "beam": 25,
+          "height": 16,
           "sizeRaw": {
-            "x": 0,
-            "y": 0,
-            "z": 0
+            "x": 28,
+            "y": 25,
+            "z": 16
           }
         },
         "massKg": 77877,
@@ -8034,10 +8034,10 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Gatac Manufacture",
-        "role": "Carrier",
-        "career": "Combat",
+        "role": "Snub Carrier",
+        "career": "Transporter",
         "size": 5,
         "crewSize": 4,
         "speeds": {
@@ -8058,8 +8058,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 70460,
         "cargoScu": 96,
@@ -8099,13 +8099,84 @@
       }
     },
     {
+      "localName": "glsn_basher",
+      "name": "Basher",
+      "ref": "0e11d3df-88cc-4e4a-8ba0-c2e6943a2802",
+      "externalStats": {
+        "source": "erkul-live",
+        "sourceVersion": "live",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
+        "manufacturer": "Grey's Market",
+        "role": "Light Fighter",
+        "career": "Combat",
+        "size": 2,
+        "crewSize": 1,
+        "speeds": {
+          "scm": 220,
+          "scmBoostForward": 500,
+          "scmBoostBackward": 24,
+          "navMax": 1180
+        },
+        "rotation": {
+          "pitch": 67,
+          "yaw": 50,
+          "roll": 205,
+          "boostedPitch": null,
+          "boostedYaw": null,
+          "boostedRoll": null,
+          "currentPitch": null,
+          "currentYaw": null,
+          "currentRoll": null
+        },
+        "countermeasures": {
+          "decoy": null,
+          "noise": null
+        },
+        "hp": 5194,
+        "cargoScu": 0,
+        "dimensions": {
+          "length": 13.7,
+          "beam": 11.3,
+          "height": 4.5,
+          "sizeRaw": {
+            "x": 11.3,
+            "y": 13.7,
+            "z": 4.5
+          }
+        },
+        "massKg": 16527,
+        "fuel": {
+          "hydrogenScu": 4,
+          "quantumScu": 1.3
+        },
+        "insurance": {
+          "expeditionFee": 2500,
+          "claimTime": 5.5,
+          "expediteTime": 1.5
+        },
+        "damageReduction": {
+          "physical": 0.75,
+          "energy": 0.6,
+          "distortion": 1,
+          "fuse": 0.7,
+          "component": 0.4
+        }
+      },
+      "descriptions": {
+        "source": "erkul-live",
+        "enRaw": "Manufacturer: Unknown\\nFocus: Interceptor\\nA testament to making something out of nothing, the Basher comes together to form a beast to be reckoned with. The long development of this ship, due to Greycat's trial-and-error approach to mixing ship parts until they figured out the best combinations, goes to show the work put in to elevate this machine from the scraps it was built from.",
+        "en": "A testament to making something out of nothing, the Basher comes together to form a beast to be reckoned with. The long development of this ship, due to Greycat's trial-and-error approach to mixing ship parts until they figured out the best combinations, goes to show the work put in to elevate this machine from the scraps it was built from.",
+        "ko": null
+      }
+    },
+    {
       "localName": "glsn_shiv",
       "name": "Shiv",
       "ref": "3a7bfe4f-7a6c-4818-aba8-0f1019c3a647",
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Grey's Market",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -8129,8 +8200,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 34300,
         "cargoScu": 32,
@@ -8176,7 +8247,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Light Fighter",
         "career": "Combat",
@@ -8200,19 +8271,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 8523,
         "cargoScu": 0,
         "dimensions": {
-          "length": 12,
-          "beam": 5.25,
-          "height": 3,
+          "length": 21.5,
+          "beam": 10.5,
+          "height": 4.2,
           "sizeRaw": {
-            "x": 5.25,
-            "y": 12,
-            "z": 3
+            "x": 10.5,
+            "y": 21.5,
+            "z": 4.2
           }
         },
         "massKg": 23350,
@@ -8247,7 +8318,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Light Fighter",
         "career": "Combat",
@@ -8271,19 +8342,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 7722,
         "cargoScu": 0,
         "dimensions": {
-          "length": 12,
-          "beam": 5.25,
-          "height": 3,
+          "length": 21.5,
+          "beam": 10.5,
+          "height": 4.2,
           "sizeRaw": {
-            "x": 5.25,
-            "y": 12,
-            "z": 3
+            "x": 10.5,
+            "y": 21.5,
+            "z": 4.2
           }
         },
         "massKg": 23350,
@@ -8318,7 +8389,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Snub Fighter",
         "career": "Combat",
@@ -8342,19 +8413,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 24,
-          "noise": 2
+          "decoy": null,
+          "noise": null
         },
         "hp": 2430,
         "cargoScu": 0,
         "dimensions": {
           "length": 12,
-          "beam": 5.25,
-          "height": 3,
+          "beam": 7.75,
+          "height": 3.25,
           "sizeRaw": {
-            "x": 5.25,
+            "x": 7.75,
             "y": 12,
-            "z": 3
+            "z": 3.25
           }
         },
         "massKg": 7599,
@@ -8389,7 +8460,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Racing",
         "career": "Competition",
@@ -8413,19 +8484,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 24,
-          "noise": 2
+          "decoy": null,
+          "noise": null
         },
         "hp": 1680,
         "cargoScu": 0,
         "dimensions": {
           "length": 12,
-          "beam": 5.25,
-          "height": 3,
+          "beam": 7.75,
+          "height": 3.25,
           "sizeRaw": {
-            "x": 5.25,
+            "x": 7.75,
             "y": 12,
-            "z": 3
+            "z": 3.25
           }
         },
         "massKg": 7599,
@@ -8460,7 +8531,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Kruger Intergalactic",
         "role": "Racing",
         "career": "Competition",
@@ -8484,19 +8555,19 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 24,
-          "noise": 2
+          "decoy": null,
+          "noise": null
         },
         "hp": 1680,
         "cargoScu": 0,
         "dimensions": {
           "length": 12,
-          "beam": 5.25,
-          "height": 3,
+          "beam": 7.75,
+          "height": 3.25,
           "sizeRaw": {
-            "x": 5.25,
+            "x": 7.75,
             "y": 12,
-            "z": 3
+            "z": 3.25
           }
         },
         "massKg": 7599,
@@ -8531,7 +8602,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Snub Fighter",
         "career": "Combat",
@@ -8555,8 +8626,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5830,
         "cargoScu": 0,
@@ -8602,7 +8673,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Racing",
         "career": "Competition",
@@ -8626,8 +8697,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 2160,
         "cargoScu": 0,
@@ -8673,7 +8744,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Snub Fighter",
         "career": "Combat",
@@ -8697,8 +8768,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5830,
         "cargoScu": 0,
@@ -8744,7 +8815,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -8768,8 +8839,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 69200,
         "cargoScu": 0,
@@ -8815,7 +8886,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -8839,8 +8910,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 89300,
         "cargoScu": 0,
@@ -8886,7 +8957,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Interdiction",
         "career": "Combat",
@@ -8910,8 +8981,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 69100,
         "cargoScu": 0,
@@ -8957,7 +9028,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Pathfinder",
         "career": "Combat",
@@ -9028,7 +9099,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Racing",
         "career": "Combat",
@@ -9099,7 +9170,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Racing",
         "career": "Competition",
@@ -9123,8 +9194,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 20,
-          "noise": 2
+          "decoy": null,
+          "noise": null
         },
         "hp": 7200,
         "cargoScu": 0,
@@ -9170,7 +9241,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Stealth Fighter",
         "career": "Combat",
@@ -9194,8 +9265,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 20,
-          "noise": 2
+          "decoy": null,
+          "noise": null
         },
         "hp": 7100,
         "cargoScu": 0,
@@ -9241,7 +9312,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Mirai",
         "role": "Racing",
         "career": "Competition",
@@ -9265,8 +9336,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 20,
-          "noise": 2
+          "decoy": null,
+          "noise": null
         },
         "hp": 2100,
         "cargoScu": 0,
@@ -9312,7 +9383,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Salvage",
         "career": "Industrial",
@@ -9336,8 +9407,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 59500,
         "cargoScu": 16,
@@ -9383,12 +9454,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Freight",
         "career": "Transporter",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 197,
           "scmBoostForward": 400,
@@ -9407,8 +9478,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 34900,
         "cargoScu": 66,
@@ -9454,12 +9525,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Expedition",
         "career": "Exploration",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 200,
           "scmBoostForward": 403,
@@ -9478,10 +9549,10 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
-        "hp": 26200,
+        "hp": 36100,
         "cargoScu": 36,
         "dimensions": {
           "length": 38,
@@ -9525,12 +9596,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Medium Freight",
         "career": "Transporter",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 195,
           "scmBoostForward": 395,
@@ -9549,10 +9620,10 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
-        "hp": 25000,
+        "hp": 35650,
         "cargoScu": 120,
         "dimensions": {
           "length": 38,
@@ -9596,12 +9667,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Gunship",
         "career": "Combat",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 204,
           "scmBoostForward": 410,
@@ -9620,10 +9691,10 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
-        "hp": 25000,
+        "hp": 37900,
         "cargoScu": 36,
         "dimensions": {
           "length": 38,
@@ -9667,7 +9738,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Freight",
         "career": "Transporter",
@@ -9691,8 +9762,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 91400,
         "cargoScu": 64,
@@ -9738,7 +9809,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -9762,8 +9833,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 72789,
         "cargoScu": 512,
@@ -9809,12 +9880,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Heavy Freight",
         "career": "Transporter",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 110,
           "scmBoostForward": 290,
@@ -9833,8 +9904,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 100,
-          "noise": 60
+          "decoy": null,
+          "noise": null
         },
         "hp": 323500,
         "cargoScu": 4608,
@@ -9880,7 +9951,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Mining",
         "career": "Industrial",
@@ -9904,8 +9975,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 33400,
         "cargoScu": 32,
@@ -9951,12 +10022,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Starter / Light Freight",
         "career": "Transporter",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 218,
           "scmBoostForward": 480,
@@ -9975,8 +10046,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15460,
         "cargoScu": 6,
@@ -10022,12 +10093,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Reporting",
         "career": "Support",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 220,
           "scmBoostForward": 480,
@@ -10046,8 +10117,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15460,
         "cargoScu": 0,
@@ -10093,12 +10164,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Science",
         "career": "Industrial",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 220,
           "scmBoostForward": 480,
@@ -10117,8 +10188,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 15460,
         "cargoScu": 0,
@@ -10164,12 +10235,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Fighter",
         "career": "Combat",
         "size": 3,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 222,
           "scmBoostForward": 480,
@@ -10188,8 +10259,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 14860,
         "cargoScu": 1,
@@ -10235,12 +10306,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Heavy Refueling",
         "career": "Support",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 8,
         "speeds": {
           "scm": 106,
           "scmBoostForward": 295,
@@ -10259,8 +10330,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 50,
-          "noise": 20
+          "decoy": null,
+          "noise": null
         },
         "hp": 75800,
         "cargoScu": 291,
@@ -10306,7 +10377,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Heavy Refueling",
         "career": "Support",
@@ -10330,8 +10401,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 50,
-          "noise": 20
+          "decoy": null,
+          "noise": null
         },
         "hp": 78800,
         "cargoScu": 291,
@@ -10377,12 +10448,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Medium Freight",
         "career": "Transporter",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 160,
           "scmBoostForward": 325,
@@ -10401,8 +10472,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 100,
-          "noise": 60
+          "decoy": null,
+          "noise": null
         },
         "hp": 84200,
         "cargoScu": 224,
@@ -10448,12 +10519,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Gunship",
         "career": "Combat",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 8,
         "speeds": {
           "scm": 150,
           "scmBoostForward": 315,
@@ -10472,8 +10543,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 100,
-          "noise": 60
+          "decoy": null,
+          "noise": null
         },
         "hp": 116600,
         "cargoScu": 96,
@@ -10519,7 +10590,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Musashi Industrial & Starflight Concern",
         "role": "Light Refueling",
         "career": "Support",
@@ -10543,8 +10614,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 68250,
         "cargoScu": 0,
@@ -10590,7 +10661,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Starter / Pathfinder",
         "career": "Exploration",
@@ -10614,8 +10685,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 4550,
         "cargoScu": 2,
@@ -10661,7 +10732,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Light Fighter",
         "career": "Combat",
@@ -10685,8 +10756,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 4550,
         "cargoScu": 2,
@@ -10732,7 +10803,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Light Freight",
         "career": "Transporter",
@@ -10756,8 +10827,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 4550,
         "cargoScu": 6,
@@ -10803,7 +10874,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Luxury Touring",
         "career": "Exploration",
@@ -10827,8 +10898,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 8700,
         "cargoScu": 8,
@@ -10874,7 +10945,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -10898,8 +10969,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 9100,
         "cargoScu": 12,
@@ -10945,7 +11016,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Interceptor",
         "career": "Combat",
@@ -10969,8 +11040,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 9300,
         "cargoScu": 4,
@@ -11016,7 +11087,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Racing",
         "career": "Competition",
@@ -11040,8 +11111,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 2400,
         "cargoScu": 4,
@@ -11087,7 +11158,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Expedition",
         "career": "Exploration",
@@ -11111,8 +11182,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 81500,
         "cargoScu": 42,
@@ -11158,12 +11229,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Expedition",
         "career": "Exploration",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 5,
         "speeds": {
           "scm": 165,
           "scmBoostForward": 325,
@@ -11182,8 +11253,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 197250,
         "cargoScu": 44,
@@ -11229,12 +11300,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Expedition",
         "career": "Exploration",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 5,
         "speeds": {
           "scm": 165,
           "scmBoostForward": 325,
@@ -11253,8 +11324,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 197250,
         "cargoScu": 44,
@@ -11300,12 +11371,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Luxury Touring",
         "career": "Exploration",
         "size": 5,
-        "crewSize": 1,
+        "crewSize": 5,
         "speeds": {
           "scm": 165,
           "scmBoostForward": 325,
@@ -11324,8 +11395,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 197250,
         "cargoScu": 20,
@@ -11371,12 +11442,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Touring",
         "career": "Exploration",
         "size": 1,
-        "crewSize": 1,
+        "crewSize": 2,
         "speeds": {
           "scm": 235,
           "scmBoostForward": 560,
@@ -11395,8 +11466,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 2100,
         "cargoScu": 0,
@@ -11442,12 +11513,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Luxury Touring",
         "career": "Exploration",
         "size": 6,
-        "crewSize": 1,
+        "crewSize": 8,
         "speeds": {
           "scm": 110,
           "scmBoostForward": 280,
@@ -11466,8 +11537,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 153200,
         "cargoScu": 388,
@@ -11513,7 +11584,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Racing",
         "career": "Competition",
@@ -11537,8 +11608,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 24,
-          "noise": 2
+          "decoy": null,
+          "noise": null
         },
         "hp": 2281,
         "cargoScu": 0,
@@ -11584,7 +11655,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -11608,8 +11679,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 17000,
         "cargoScu": 0,
@@ -11655,7 +11726,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Passenger",
         "career": "Exploration",
@@ -11679,8 +11750,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 12,
-          "noise": 4
+          "decoy": null,
+          "noise": null
         },
         "hp": 2820,
         "cargoScu": 0,
@@ -11726,7 +11797,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Passenger",
         "career": "Combat",
@@ -11750,8 +11821,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 12,
-          "noise": 4
+          "decoy": null,
+          "noise": null
         },
         "hp": 2820,
         "cargoScu": 0,
@@ -11797,7 +11868,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Origin Jumpworks",
         "role": "Racing",
         "career": "Competition",
@@ -11821,8 +11892,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 12,
-          "noise": 4
+          "decoy": null,
+          "noise": null
         },
         "hp": 2820,
         "cargoScu": 0,
@@ -11868,7 +11939,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medical",
         "career": "Support",
@@ -11892,8 +11963,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 116700,
         "cargoScu": 32,
@@ -11939,7 +12010,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medical",
         "career": "Support",
@@ -11963,8 +12034,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 113700,
         "cargoScu": 32,
@@ -12010,7 +12081,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -12034,8 +12105,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5950,
         "cargoScu": 3,
@@ -12081,7 +12152,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Light Freight",
         "career": "Transporter",
@@ -12105,8 +12176,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5950,
         "cargoScu": 6,
@@ -12152,7 +12223,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Starter / Pathfinder",
         "career": "Multi-Role",
@@ -12176,8 +12247,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5950,
         "cargoScu": 3,
@@ -12223,7 +12294,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Light Fighter",
         "career": "Combat",
@@ -12247,8 +12318,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5950,
         "cargoScu": 3,
@@ -12294,7 +12365,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Light Fighter",
         "career": "Combat",
@@ -12318,8 +12389,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5950,
         "cargoScu": 3,
@@ -12365,7 +12436,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Light Fighter",
         "career": "Combat",
@@ -12389,8 +12460,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5950,
         "cargoScu": 3,
@@ -12436,7 +12507,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Starter / Light Fighter",
         "career": "Multi-Role",
@@ -12460,8 +12531,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 19417,
         "cargoScu": 2,
@@ -12507,12 +12578,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Freight / Gun Ship",
         "career": "Multi-Role",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 190,
           "scmBoostForward": 390,
@@ -12531,8 +12602,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 180644,
         "cargoScu": 96,
@@ -12578,12 +12649,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Expedition",
         "career": "Exploration",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 180,
           "scmBoostForward": 380,
@@ -12602,8 +12673,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 180644,
         "cargoScu": 96,
@@ -12649,12 +12720,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Luxury Touring",
         "career": "Exploration",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 185,
           "scmBoostForward": 385,
@@ -12673,8 +12744,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 161145,
         "cargoScu": 96,
@@ -12720,12 +12791,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Luxury Touring",
         "career": "Exploration",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 185,
           "scmBoostForward": 385,
@@ -12744,8 +12815,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 161145,
         "cargoScu": 96,
@@ -12791,12 +12862,12 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Freight",
         "career": "Transporter",
         "size": 4,
-        "crewSize": 1,
+        "crewSize": 4,
         "speeds": {
           "scm": 180,
           "scmBoostForward": 380,
@@ -12815,8 +12886,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 140040,
         "cargoScu": 174,
@@ -12862,7 +12933,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -12886,8 +12957,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 118700,
         "cargoScu": 288,
@@ -12933,7 +13004,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Interdiction",
         "career": "Combat",
@@ -12957,8 +13028,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 32500,
         "cargoScu": 0,
@@ -13004,7 +13075,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -13028,8 +13099,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 30150,
         "cargoScu": 0,
@@ -13075,7 +13146,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Heavy Gunship",
         "career": "Combat",
@@ -13099,8 +13170,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 50,
-          "noise": 20
+          "decoy": null,
+          "noise": null
         },
         "hp": 389204,
         "cargoScu": 96,
@@ -13146,7 +13217,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Corvette",
         "career": "Combat",
@@ -13170,8 +13241,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 120,
-          "noise": 30
+          "decoy": null,
+          "noise": null
         },
         "hp": 3947100,
         "cargoScu": 576,
@@ -13217,7 +13288,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Starter / Light Salvage",
         "career": "Industrial",
@@ -13241,8 +13312,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 5503,
         "cargoScu": 0,
@@ -13251,8 +13322,8 @@
           "beam": 8.5,
           "height": 4,
           "sizeRaw": {
-            "x": 14.5,
-            "y": 8.5,
+            "x": 8.5,
+            "y": 14.5,
             "z": 4
           }
         },
@@ -13288,7 +13359,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -13312,8 +13383,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 43660,
         "cargoScu": 0,
@@ -13359,7 +13430,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Heavy Fighter",
         "career": "Combat",
@@ -13383,8 +13454,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 43660,
         "cargoScu": 0,
@@ -13430,7 +13501,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medium Freight",
         "career": "Transporter",
@@ -13454,8 +13525,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 32000,
         "cargoScu": 128,
@@ -13501,7 +13572,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Expedition",
         "career": "Exploration",
@@ -13525,8 +13596,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 32000,
         "cargoScu": 32,
@@ -13572,7 +13643,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Vanduul",
         "role": "Medium Fighter",
         "career": "Combat",
@@ -13596,8 +13667,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 48,
-          "noise": 5
+          "decoy": null,
+          "noise": null
         },
         "hp": 11701,
         "cargoScu": 0,
@@ -13643,7 +13714,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Anti-Air",
         "career": "Combat",
@@ -13714,7 +13785,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Anti-Air",
         "career": "Combat",
@@ -13785,7 +13856,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Anti-Air",
         "career": "Combat",
@@ -13856,7 +13927,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Anti-Air",
         "career": "Combat",
@@ -13927,7 +13998,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Anvil Aerospace",
         "role": "Passenger",
         "career": "Combat",
@@ -13998,7 +14069,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Argo Astronautics",
         "role": "Light Freight",
         "career": "Transporter",
@@ -14069,7 +14140,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Drake Interplanetary",
         "role": "Light Freight",
         "career": "Transporter",
@@ -14140,7 +14211,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Greycat Industrial",
         "role": "Anti-Air",
         "career": "Ground",
@@ -14205,84 +14276,13 @@
       }
     },
     {
-      "localName": "grin_mtc",
-      "name": "MTC",
-      "ref": "91c9418e-6240-4fb1-a18a-1e22ebfb7747",
-      "externalStats": {
-        "source": "erkul-live",
-        "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
-        "manufacturer": "Greycat Industrial",
-        "role": "Passenger",
-        "career": "Ground",
-        "size": 1,
-        "crewSize": 1,
-        "speeds": {
-          "scm": null,
-          "scmBoostForward": null,
-          "scmBoostBackward": null,
-          "navMax": null
-        },
-        "rotation": {
-          "pitch": null,
-          "yaw": null,
-          "roll": null,
-          "boostedPitch": null,
-          "boostedYaw": null,
-          "boostedRoll": null,
-          "currentPitch": null,
-          "currentYaw": null,
-          "currentRoll": null
-        },
-        "countermeasures": {
-          "decoy": null,
-          "noise": null
-        },
-        "hp": 16990,
-        "cargoScu": 0,
-        "dimensions": {
-          "length": 8.75,
-          "beam": 6,
-          "height": 5,
-          "sizeRaw": {
-            "x": 8.75,
-            "y": 6,
-            "z": 5
-          }
-        },
-        "massKg": 53700,
-        "fuel": {
-          "hydrogenScu": 23.625,
-          "quantumScu": 0
-        },
-        "insurance": {
-          "expeditionFee": 540,
-          "claimTime": 2.17,
-          "expediteTime": 0.54
-        },
-        "damageReduction": {
-          "physical": 0.6,
-          "energy": 0.4,
-          "distortion": 1,
-          "fuse": 2.727273,
-          "component": 1
-        }
-      },
-      "descriptions": {
-        "source": "erkul-live",
-        "enRaw": "As an expert in industrial operations, Greycat understands that jobsite security is a vital part of any successful business venture. Not only that, but to be fully effective, you need to be able to get your security personnel and their equipment to wherever they’re needed most. That’s why the MTC Mobile Tactical Center is such an important addition to your next venture. Nimble enough to access the difficult terrain encountered at remote operations and equipped with enough suit lockers, weapon racks, and storage to tackle a wide host of issues, the Greycat MTC could make all the difference when it comes to turning a potential problem into potential profit.",
-        "en": "As an expert in industrial operations, Greycat understands that jobsite security is a vital part of any successful business venture. Not only that, but to be fully effective, you need to be able to get your security personnel and their equipment to wherever they’re needed most. That’s why the MTC Mobile Tactical Center is such an important addition to your next venture. Nimble enough to access the difficult terrain encountered at remote operations and equipped with enough suit lockers, weapon racks, and storage to tackle a wide host of issues, the Greycat MTC could make all the difference when it comes to turning a potential problem into potential profit.",
-        "ko": null
-      }
-    },
-    {
       "localName": "grin_ptv",
       "name": "PTV",
       "ref": "41ff82e7-ce4e-4dbc-ad7c-7ef52fbe569c",
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Greycat Industrial",
         "role": "Passenger",
         "career": "Transporter",
@@ -14347,13 +14347,84 @@
       }
     },
     {
+      "localName": "grin_mtc",
+      "name": "MTC",
+      "ref": "91c9418e-6240-4fb1-a18a-1e22ebfb7747",
+      "externalStats": {
+        "source": "erkul-live",
+        "sourceVersion": "live",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
+        "manufacturer": "Greycat Industrial",
+        "role": "Passenger",
+        "career": "Ground",
+        "size": 1,
+        "crewSize": 1,
+        "speeds": {
+          "scm": null,
+          "scmBoostForward": null,
+          "scmBoostBackward": null,
+          "navMax": null
+        },
+        "rotation": {
+          "pitch": null,
+          "yaw": null,
+          "roll": null,
+          "boostedPitch": null,
+          "boostedYaw": null,
+          "boostedRoll": null,
+          "currentPitch": null,
+          "currentYaw": null,
+          "currentRoll": null
+        },
+        "countermeasures": {
+          "decoy": null,
+          "noise": null
+        },
+        "hp": 16990,
+        "cargoScu": 0,
+        "dimensions": {
+          "length": 8.75,
+          "beam": 6,
+          "height": 5,
+          "sizeRaw": {
+            "x": 8.75,
+            "y": 6,
+            "z": 5
+          }
+        },
+        "massKg": 53700,
+        "fuel": {
+          "hydrogenScu": 23.625,
+          "quantumScu": 0
+        },
+        "insurance": {
+          "expeditionFee": 540,
+          "claimTime": 2.17,
+          "expediteTime": 0.54
+        },
+        "damageReduction": {
+          "physical": 0.6,
+          "energy": 0.4,
+          "distortion": 1,
+          "fuse": 2.727273,
+          "component": 1
+        }
+      },
+      "descriptions": {
+        "source": "erkul-live",
+        "enRaw": "As an expert in industrial operations, Greycat understands that jobsite security is a vital part of any successful business venture. Not only that, but to be fully effective, you need to be able to get your security personnel and their equipment to wherever they’re needed most. That’s why the MTC Mobile Tactical Center is such an important addition to your next venture. Nimble enough to access the difficult terrain encountered at remote operations and equipped with enough suit lockers, weapon racks, and storage to tackle a wide host of issues, the Greycat MTC could make all the difference when it comes to turning a potential problem into potential profit.",
+        "en": "As an expert in industrial operations, Greycat understands that jobsite security is a vital part of any successful business venture. Not only that, but to be fully effective, you need to be able to get your security personnel and their equipment to wherever they’re needed most. That’s why the MTC Mobile Tactical Center is such an important addition to your next venture. Nimble enough to access the difficult terrain encountered at remote operations and equipped with enough suit lockers, weapon racks, and storage to tackle a wide host of issues, the Greycat MTC could make all the difference when it comes to turning a potential problem into potential profit.",
+        "ko": null
+      }
+    },
+    {
       "localName": "grin_roc",
       "name": "ROC",
       "ref": "62e33393-5d68-4191-aba5-3b81ce4f3bf9",
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Greycat Industrial",
         "role": "Light Mining",
         "career": "Industrial",
@@ -14424,7 +14495,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Greycat Industrial",
         "role": "Light Mining",
         "career": "Industrial",
@@ -14495,7 +14566,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Greycat Industrial",
         "role": "Passenger",
         "career": "Transporter",
@@ -14566,7 +14637,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Greycat Industrial",
         "role": "Passenger",
         "career": "Transporter",
@@ -14637,7 +14708,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Luxury Touring",
         "career": "Transporter",
@@ -14708,7 +14779,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -14779,7 +14850,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -14850,7 +14921,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Roberts Space Industries",
         "role": "Medical",
         "career": "Support",
@@ -14921,7 +14992,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Passenger",
         "career": "Combat",
@@ -14992,7 +15063,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Anti-Air",
         "career": "Combat",
@@ -15016,8 +15087,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 6910,
         "cargoScu": 0,
@@ -15063,7 +15134,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Anti-Air",
         "career": "Combat",
@@ -15087,8 +15158,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 25,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 6910,
         "cargoScu": 0,
@@ -15134,7 +15205,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Racing",
         "career": "Competition",
@@ -15205,7 +15276,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Pathfinder",
         "career": "Exploration",
@@ -15276,7 +15347,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Anti-Vehicle",
         "career": "Combat",
@@ -15347,7 +15418,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Heavy Tank",
         "career": "Combat",
@@ -15371,8 +15442,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 110000,
         "cargoScu": 0,
@@ -15418,7 +15489,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Light Tank",
         "career": "Combat",
@@ -15442,8 +15513,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 89000,
         "cargoScu": 0,
@@ -15489,7 +15560,7 @@
       "externalStats": {
         "source": "erkul-live",
         "sourceVersion": "live",
-        "syncedAt": "2026-07-12T02:50:30.125Z",
+        "syncedAt": "2026-07-17T15:11:08.433Z",
         "manufacturer": "Tumbril Land Systems",
         "role": "Light Tank",
         "career": "Combat",
@@ -15513,8 +15584,8 @@
           "currentRoll": null
         },
         "countermeasures": {
-          "decoy": 96,
-          "noise": 10
+          "decoy": null,
+          "noise": null
         },
         "hp": 89000,
         "cargoScu": 0,

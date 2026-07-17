@@ -4,14 +4,14 @@
 
 ## 요약
 
-- VOLT ships: **255** (매칭 풀 248, 에디션/번들 변형 7는 canonicalId로 원본에 귀결)
-- Erkul ships: **219** / market 보유 함선: 173
-- matched: **218** — 매칭률 **87.9% (matched/voltMatchPool)**
+- VOLT ships: **256** (매칭 풀 249, 에디션/번들 변형 7는 canonicalId로 원본에 귀결)
+- Erkul ships: **220** / market 보유 함선: 173
+- matched: **219** — 매칭률 **88.0% (matched/voltMatchPool)**
 - unmatched VOLT: 30 / unmatched Erkul: 1 / conflicts: 0
 
 ## method별 매칭
 
-- name: 218
+- name: 219
 
 매칭 우선순위: manual → localName(exact) → name(exact, VOLT 보관 erkulName 우선) → manufacturer+normalized name.
 fuzzy/Levenshtein/한글명/variant 추정 매칭은 사용하지 않는다.
@@ -20,8 +20,8 @@ fuzzy/Levenshtein/한글명/variant 추정 매칭은 사용하지 않는다.
 
 - 구매처 있는 매칭 함선: **173**
 - 렌탈처 있는 매칭 함선: 41
-- 시장 정보 없는 매칭 함선: 45 (인게임 비판매)
-- 스펙 보유 매칭 함선: 218
+- 시장 정보 없는 매칭 함선: 46 (인게임 비판매)
+- 스펙 보유 매칭 함선: 219
 
 ## VOLT-only (Erkul live에 없음)
 

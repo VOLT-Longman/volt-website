@@ -1,12 +1,12 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-07-12T02:50:30.125Z",
-  "matchedInput": 218,
-  "liveStatsEntries": 218,
-  "marketEntries": 218,
+  "syncedAt": "2026-07-17T15:11:08.433Z",
+  "matchedInput": 219,
+  "liveStatsEntries": 219,
+  "marketEntries": 219,
   "entriesWithPurchase": 176,
   "entriesWithRentals": 45,
-  "entriesWithoutMarket": 42,
+  "entriesWithoutMarket": 43,
   "excluded": {
     "unmatchedVolt": [
       "merchantman",
@@ -65,12 +65,12 @@
     {
       "label": "live stats key 수 = matched 수",
       "ok": true,
-      "detail": "218/218"
+      "detail": "219/219"
     },
     {
       "label": "market key 수 = matched 수",
       "ok": true,
-      "detail": "218/218"
+      "detail": "219/219"
     },
     {
       "label": "모든 key가 A-4 matched VOLT id",
@@ -85,7 +85,7 @@
       "ok": true
     },
     {
-      "label": "Erkul-only 9척 미포함",
+      "label": "Erkul-only 1척 미포함",
       "ok": true,
       "detail": "drak_command_module"
     },

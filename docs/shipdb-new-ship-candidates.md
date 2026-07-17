@@ -3,7 +3,7 @@
 신규 함선 추가 트랙 1단계 — **분류만 하고 DB에는 반영하지 않는다.**
 재현: `npm run shipdb:erkul:classify-candidates` (입력: A-4 match report + A-2/A-3 normalized)
 
-- 데이터 기준: Erkul live 2026-07-12T02:50:30.125Z
+- 데이터 기준: Erkul live 2026-07-17T15:11:08.433Z
 - 요약: **제외 1** · **수동매핑 승격 완료 6** · 유지(VOLT-only unreleased) 30
 
 ## 분류 정책

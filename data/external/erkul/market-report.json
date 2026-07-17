@@ -1,8 +1,8 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-07-12T02:50:30.125Z",
+  "syncedAt": "2026-07-17T15:11:08.433Z",
   "shopsCount": 112,
-  "inventoryRows": 3471,
+  "inventoryRows": 3472,
   "shipMarketRows": 346,
   "shipsWithPurchase": 173,
   "shipsWithRentals": 41,
@@ -34,6 +34,7 @@
     "drak_pitbull",
     "gama_railen",
     "gama_tyilui",
+    "glsn_basher",
     "grin_utv",
     "krig_l22_alphawolf",
     "krig_p72_archimedes_emerald",
@@ -1116,7 +1117,7 @@
       "localName": "misl_s03_em_fski_thunderbolt",
       "rows": 14,
       "sampleShop": "CenterMass@Area18",
-      "samplePrice": 9704
+      "samplePrice": 678
     },
     {
       "localName": "powr_lplt_s00_durajet_scitem",
@@ -1902,7 +1903,7 @@
       "localName": "misl_s04_cs_taln_assailant",
       "rows": 4,
       "sampleShop": "CenterMass@Area18",
-      "samplePrice": 15745
+      "samplePrice": 1070
     },
     {
       "localName": "misl_s05_cs_taln_stalker",
@@ -2475,6 +2476,12 @@
       "samplePrice": 25650
     },
     {
+      "localName": "cargo_shipmining_pod_golem",
+      "rows": 3,
+      "sampleShop": "Refinery Stores@CRU L1",
+      "samplePrice": 25500
+    },
+    {
       "localName": "gats_ballisticcannon_s1",
       "rows": 2,
       "sampleShop": "CenterMass@Area18",
@@ -3007,12 +3014,6 @@
       "rows": 2,
       "sampleShop": "Platinum Bay@HUR L3",
       "samplePrice": 95760
-    },
-    {
-      "localName": "cargo_shipmining_pod_golem",
-      "rows": 2,
-      "sampleShop": "Refinery Stores@CRU L1",
-      "samplePrice": 25500
     },
     {
       "localName": "cargo_groundvehiclemining_pod_roc",

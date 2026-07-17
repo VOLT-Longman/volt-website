@@ -1,6 +1,6 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-07-12T02:50:30.125Z",
+  "syncedAt": "2026-07-17T15:11:08.433Z",
   "ships": {
     "anvl_ballista": {
       "localName": "anvl_ballista",
@@ -2686,7 +2686,7 @@
         {
           "shop": "New Deal",
           "location": "Lorville",
-          "price": 342720,
+          "price": 325584,
           "available": null,
           "unavailable": 1
         },

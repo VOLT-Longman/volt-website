@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-07-12T02:50:30.125Z",
-  "voltShipCount": 255,
-  "voltMatchPoolCount": 248,
+  "generatedAt": "2026-07-17T15:11:08.433Z",
+  "voltShipCount": 256,
+  "voltMatchPoolCount": 249,
   "voltVariantCount": 7,
-  "erkulShipCount": 219,
+  "erkulShipCount": 220,
   "marketShipCount": 173,
-  "matchedCount": 218,
-  "matchRate": "87.9% (matched/voltMatchPool)",
+  "matchedCount": 219,
+  "matchRate": "88.0% (matched/voltMatchPool)",
   "methodCounts": {
-    "name": 218
+    "name": 219
   },
   "matched": [
     {
@@ -2190,6 +2190,16 @@
       "hasStats": true,
       "hasPurchase": false,
       "hasRentals": false
+    },
+    {
+      "voltId": "basher",
+      "voltName": "Basher",
+      "erkulLocalName": "glsn_basher",
+      "erkulName": "Basher",
+      "method": "name",
+      "hasStats": true,
+      "hasPurchase": false,
+      "hasRentals": false
     }
   ],
   "unmatchedVolt": [
@@ -2512,9 +2522,9 @@
   ],
   "conflicts": [],
   "summary": {
-    "matchedWithStats": 218,
+    "matchedWithStats": 219,
     "matchedWithPurchase": 173,
     "matchedWithRentals": 41,
-    "matchedWithoutMarket": 45
+    "matchedWithoutMarket": 46
   }
 }

@@ -4,10 +4,10 @@
     "ships": "https://server.erkul.games/live/ships",
     "shop": "https://server.erkul.games/shop"
   },
-  "fetchedAt": "2026-07-12T02:50:30.125Z",
-  "shipCount": 219,
+  "fetchedAt": "2026-07-17T15:11:08.433Z",
+  "shipCount": 220,
   "shopCount": 112,
-  "shipsBytes": 18006408,
-  "shopBytes": 385863,
+  "shipsBytes": 5021181,
+  "shopBytes": 386011,
   "note": "ships.raw.json / shop.raw.json은 용량 문제로 git에 커밋하지 않는다 (.gitignore 참조). 커밋 대상은 asgard.raw.json / asgard-field-sample.json / fetch-meta.json."
 }

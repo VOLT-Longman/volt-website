@@ -2,10 +2,10 @@
 
 `ship-market-normalized.json` 산출 결과 요약. 재현: `npm run shipdb:erkul:market`
 
-- 원천: Erkul live shop (fetch: 2026-07-12T02:50:30.125Z)
-- 상점 112개 / inventory 3471행 / 함선 매칭 346행
+- 원천: Erkul live shop (fetch: 2026-07-17T15:11:08.433Z)
+- 상점 112개 / inventory 3472행 / 함선 매칭 346행
 - 구매처 확인 함선: **173척** / 렌탈처 확인 함선: **41척**
-- 판매처 없는 함선: 46척 (인게임 비판매 — 픽업 전용/이벤트/컨셉 판매 함선 포함)
+- 판매처 없는 함선: 47척 (인게임 비판매 — 픽업 전용/이벤트/컨셉 판매 함선 포함)
 
 ## 분류 규칙 적용 결과
 
@@ -29,7 +29,7 @@
 
 ## 판매처 없는 함선 목록
 
-`aegs_gladius_pir`, `aegs_idris_m`, `aegs_idris_p`, `aegs_sabre_raven`, `aegs_tiburon`, `anvl_ballista_dunestalker`, `anvl_ballista_snowblind`, `anvl_carrack_expedition`, `anvl_hornet_f7a_mk1`, `anvl_hornet_f7a_mk2`, `anvl_hornet_f7cm_heartseeker`, `anvl_hornet_f7cm_mk2`, `anvl_hornet_f7cm_mk2_heartseeker`, `anvl_lightning_f8`, `anvl_lightning_f8c`, `argo_moth`, `cnou_mustang_omega`, `drak_caterpillar_pirate`, `drak_command_module`, `drak_dragonfly_pink`, `drak_dragonfly_yellow`, `drak_golem_ox`, `drak_ironclad`, `drak_ironclad_assault`, `drak_pitbull`, `gama_railen`, `gama_tyilui`, `grin_utv`, `krig_l22_alphawolf`, `krig_p72_archimedes_emerald`, `misc_hull_b`, `misc_starlite`, `mrai_guardian_qi`, `orig_600i_executive_edition`, `orig_m80`, `rsi_aurora_gs_ln`, `rsi_aurora_gs_lx`, `rsi_aurora_gs_mr`, `rsi_aurora_gs_se`, `rsi_aurora_mk2`, `rsi_constellation_phoenix_emerald`, `rsi_polaris`, `rsi_ursa_rover_emerald`, `vncl_glaive`, `vncl_scythe`, `xian_nox_kue`
+`aegs_gladius_pir`, `aegs_idris_m`, `aegs_idris_p`, `aegs_sabre_raven`, `aegs_tiburon`, `anvl_ballista_dunestalker`, `anvl_ballista_snowblind`, `anvl_carrack_expedition`, `anvl_hornet_f7a_mk1`, `anvl_hornet_f7a_mk2`, `anvl_hornet_f7cm_heartseeker`, `anvl_hornet_f7cm_mk2`, `anvl_hornet_f7cm_mk2_heartseeker`, `anvl_lightning_f8`, `anvl_lightning_f8c`, `argo_moth`, `cnou_mustang_omega`, `drak_caterpillar_pirate`, `drak_command_module`, `drak_dragonfly_pink`, `drak_dragonfly_yellow`, `drak_golem_ox`, `drak_ironclad`, `drak_ironclad_assault`, `drak_pitbull`, `gama_railen`, `gama_tyilui`, `glsn_basher`, `grin_utv`, `krig_l22_alphawolf`, `krig_p72_archimedes_emerald`, `misc_hull_b`, `misc_starlite`, `mrai_guardian_qi`, `orig_600i_executive_edition`, `orig_m80`, `rsi_aurora_gs_ln`, `rsi_aurora_gs_lx`, `rsi_aurora_gs_mr`, `rsi_aurora_gs_se`, `rsi_aurora_mk2`, `rsi_constellation_phoenix_emerald`, `rsi_polaris`, `rsi_ursa_rover_emerald`, `vncl_glaive`, `vncl_scythe`, `xian_nox_kue`
 
 ## top 구매 location
 

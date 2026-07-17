@@ -11,7 +11,8 @@ const APPROVED_CANDIDATE_IDS = [
     'dragonfly-star-kitten',
     'tyilui',
     'starlite',
-    '600i-executive-edition'
+    '600i-executive-edition',
+    'basher'
 ];
 
 function parseWindowData(source, variableName) {
@@ -37,7 +38,7 @@ async function readShipData() {
     };
 }
 
-test('ShipDB: 승인된 Erkul 선체 8종은 전체 데이터 레이어에 포함', async () => {
+test('ShipDB: 승인된 Erkul 선체 9종은 전체 데이터 레이어에 포함', async () => {
     const { ships, stats, market, english } = await readShipData();
     for (const id of APPROVED_CANDIDATE_IDS) {
         const ship = ships.find((item) => item.id === id);

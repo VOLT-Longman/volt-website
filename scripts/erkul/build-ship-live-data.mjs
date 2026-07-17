@@ -105,9 +105,9 @@ async function main() {
 
     const includedLocalNames = new Set(Object.values(liveStats).map((e) => e.erkulLocalName));
     const erkulOnly = matchReport.unmatchedErkul.map((s) => s.localName);
-    assert('Erkul-only 9척 미포함', erkulOnly.every((n) => !includedLocalNames.has(n)), erkulOnly.join(','));
+    assert(`Erkul-only ${erkulOnly.length}척 미포함`, erkulOnly.every((n) => !includedLocalNames.has(n)), erkulOnly.join(','));
     const marketOnly = matchReport.marketOnlyUnmatched.map((s) => s.erkulLocalName);
-    assert('market-only unmatched 6종 미포함', marketOnly.every((n) => !includedLocalNames.has(n)), marketOnly.join(','));
+    assert(`market-only unmatched ${marketOnly.length}종 미포함`, marketOnly.every((n) => !includedLocalNames.has(n)), marketOnly.join(','));
 
     if (buildErrors.length > 0) {
         for (const err of buildErrors) console.error(err);
