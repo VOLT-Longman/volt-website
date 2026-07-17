@@ -32,6 +32,8 @@
 | [`docs/shipdb-live-data-layer.md`](docs/shipdb-live-data-layer.md) | ShipDB 2.0 라이브 데이터 레이어(Erkul stats/market) 구조·Safe Apply |
 | [`docs/shipdb-description-translation.md`](docs/shipdb-description-translation.md) | 함선 설명 KO 번역 정책·stale 처리 |
 | [`docs/shipdb-new-ship-candidates.md`](docs/shipdb-new-ship-candidates.md) | 신규 함선 후보 분류표(보류/제외/수동매핑) |
+| [`docs/shipdb-erkul-rewrite-audit.md`](docs/shipdb-erkul-rewrite-audit.md) | ShipDB Erkul 재작성 v2 — 현행 필드 전수 감사(승인 기록) + PM 9개 결정 |
+| [`docs/shipdb-erkul-rewrite-plan.md`](docs/shipdb-erkul-rewrite-plan.md) | ShipDB Erkul 재작성 v2 — 0~3단계 실행 계획(미착수, 승인 대기) |
 | [`docs/SECURITY_CSP.md`](docs/SECURITY_CSP.md) | CSP 최종 태세·전수 검색 결과·예외·검증법 |
 | [`docs/LOCALIZATION_USAGE.md`](docs/LOCALIZATION_USAGE.md) | i18n(KO/EN) 사용 규칙 |
 | [`docs/QA.md`](docs/QA.md) · [`docs/playwright-qa-scenarios.md`](docs/playwright-qa-scenarios.md) | QA 시나리오 |

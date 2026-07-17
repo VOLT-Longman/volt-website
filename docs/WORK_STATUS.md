@@ -1,5 +1,13 @@
 # 작업 상태 — 2026-07-14
 
+## 진행 — ShipDB Erkul 재작성 v2 (감사·계획 완료, 실행 미착수) (2026-07-18)
+
+- **상태**: 2단계(전수 감사)·계획 문서화 완료. **초기화·삭제 실행은 PM 3.4 승인 게이트 전까지 금지.**
+- **문서**: [`shipdb-erkul-rewrite-audit.md`](shipdb-erkul-rewrite-audit.md)(감사표+PM 9개 결정, 승인 기록) / [`shipdb-erkul-rewrite-plan.md`](shipdb-erkul-rewrite-plan.md)(0~3단계 실행 계획).
+- **PM 결정 요약**: Erkul=유일 사실 기준, ship.id 유지, 3계층 분리. crew→live 통일(수기값은 리포트만), priceUsd→모델 제거(자산 보존), erkulName/erkulStatus→삭제 안 하고 operational 격리, anomalies→admin 리포트만, VOLT 편집분류(focus/role/tags)→초기 전환본 제거, live 없는 37척→공개 제외(에디션 별칭·미출시 아카이브).
+- **실행 순서**: 0단계 착수 게이트(전체 재grep·기준선 스냅샷·브랜치·파이프라인 인벤토리) → 1 병렬 생성 → 2 소비처 이관 → 3 비교·승인·교체. 삭제는 3.5에서만.
+- **소유 선언**: 데이터·백엔드 영역(`data/`, `functions/`, `scripts/erkul/`, `migrations/`). 착수 시 아래 경로 잠금 행을 실제 선언으로 교체.
+
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)
 
 - **PM 대체 결정**: J-1의 다중 장면 시네마틱 배경을 단일 물류 장면으로 축소했다. 랜딩 구조와 중앙 히어로 소유권은 유지한다.
