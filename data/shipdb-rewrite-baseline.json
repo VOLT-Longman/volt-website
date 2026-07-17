@@ -1,0 +1,7544 @@
+{
+  "schema": "shipdb-rewrite-baseline/v1",
+  "note": "0단계 0.2 기준선. 3.1 전후 비교의 old 축. capture-baseline.mjs로 재현.",
+  "capturedFromCommit": "c31f3ed287748c600403fbc522e0e28d53a62e63",
+  "fileHashes": {
+    "data/volt-data.js": {
+      "sha256": "43bce984c69ad1ece7cce30ebd3124677c93169ec95e136b80d5c2fad9ab0528",
+      "bytes": 149207
+    },
+    "data/ship-en.js": {
+      "sha256": "edf39e9323131d3d35ec634181b5b8adeb486490eed8e9e74ccf864ef4abf3cb",
+      "bytes": 111235
+    },
+    "data/ship-live-stats.js": {
+      "sha256": "8ce12db16c4f9e6df85d4ac4a58421b04bbc4a9512d36e4155734d6950cec394",
+      "bytes": 401602
+    },
+    "data/ship-market.js": {
+      "sha256": "71cbce20d53aefae76a1651981661244384af1cdd2a5d670accc23a705bb2aea",
+      "bytes": 89588
+    },
+    "data/volt-localization.js": {
+      "sha256": "48a9b08a7c0fb61d0834d23c9f7a26dd317320ead91d5c60a2f65ee5982d4360",
+      "bytes": 65636
+    },
+    "data/external/erkul/ship-descriptions-ko.json": {
+      "sha256": "e3ea49e59cec04816e75b5f19edab6026579e191e4c63c9d2755b545eb6fb1ff",
+      "bytes": 51166
+    },
+    "data/ship-prices-usd.json": {
+      "sha256": "212d2490cc5aaf186680153b96fbf166100f7429e6eefb3234ecb730fe0a2675",
+      "bytes": 6905
+    }
+  },
+  "counts": {
+    "ships": 256,
+    "shipsWithLive": 219,
+    "shipsWithoutLive": 37,
+    "liveStats": 219,
+    "market": 219,
+    "shipEn": 256,
+    "koTranslations": 211,
+    "koNonNull": 211,
+    "priceEntries": 250,
+    "localizationShips": 227,
+    "erkulStatus": {
+      "matched": 218,
+      "duplicate": 7,
+      "unreleased": 31
+    }
+  },
+  "idList": [
+    {
+      "id": "100i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "125a",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "135c",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "300i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "315p",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "325a",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "350r",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "400i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "600i-executive-edition",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "600i-explorer",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "600i-touring",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "85x",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "890-jump",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "a1-spirit",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "a2-hercules",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "anvil-ballista-dunestalker",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "anvil-ballista-snowblind",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "apollo-medivac",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "apollo-triage",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ares-inferno",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ares-ion",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "argo-mole-carbon-edition",
+      "hasLive": false,
+      "erkulStatus": "duplicate",
+      "implemented": true,
+      "canonicalId": "mole"
+    },
+    {
+      "id": "argo-mole-talus-edition",
+      "hasLive": false,
+      "erkulStatus": "duplicate",
+      "implemented": true,
+      "canonicalId": "mole"
+    },
+    {
+      "id": "arrastra",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "arrow",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "asgard",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "atls",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "atls-geo",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "aurora-cl",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "aurora-es",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "aurora-ln",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "aurora-lx",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "aurora-mk1-se",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "aurora-mk2",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "aurora-mr",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "avenger-stalker",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "avenger-titan",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "avenger-titan-renegade",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "avenger-warlock",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ballista",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "basher",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "blade",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "buccaneer",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "c1-spirit",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "c2-hercules",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "c8-pisces",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "c8r-pisces",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "c8x-pisces-expedition",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "carrack",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "carrack-expedition",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "carrack-expedition-w-c8x",
+      "hasLive": false,
+      "erkulStatus": "duplicate",
+      "implemented": true,
+      "canonicalId": "carrack-expedition"
+    },
+    {
+      "id": "carrack-w-c8x",
+      "hasLive": false,
+      "erkulStatus": "duplicate",
+      "implemented": true,
+      "canonicalId": "carrack"
+    },
+    {
+      "id": "caterpillar",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "caterpillar-pirate",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "centurion",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "clipper",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "constellation-andromeda",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "constellation-aquila",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "constellation-phoenix",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "constellation-phoenix-emerald",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "constellation-taurus",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "corsair",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "crucible",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "csv-sm",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cutlass-black",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cutlass-blue",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cutlass-red",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cutlass-steel",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cutter",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cutter-rambler",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cutter-scout",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cyclone",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cyclone-aa",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cyclone-mt",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cyclone-rc",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cyclone-rn",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "cyclone-tr",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "defender",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "dragonfly-black",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "dragonfly-star-kitten",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "dragonfly-yellowjacket",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "e1-spirit",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "eclipse",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "endeavor",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "expanse",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "f7a-hornet-mk-i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7a-hornet-mk-ii",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-hornet-mk-i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-hornet-mk-ii",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-hornet-wildfire-mk-i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-m-hornet-heartseeker-mk-ii",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-m-super-hornet-heartseeker-mk-i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-m-super-hornet-mk-i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-m-super-hornet-mk-ii",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-r-hornet-tracker-mk-i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-r-hornet-tracker-mk-ii",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-s-hornet-ghost-mk-i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f7c-s-hornet-ghost-mk-ii",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f8a-lightning",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f8c-lightning",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "f8c-lightning-executive-edition",
+      "hasLive": false,
+      "erkulStatus": "duplicate",
+      "implemented": true,
+      "canonicalId": "f8c-lightning"
+    },
+    {
+      "id": "fortune",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "freelancer",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "freelancer-dur",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "freelancer-max",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "freelancer-mis",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "fury",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "fury-lx",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "fury-mx",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "g12",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "g12a",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "g12r",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "galaxy",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "genesis",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "gladiator",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "gladius",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "gladius-pirate-edition",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "gladius-valiant",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "glaive",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "golem",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "golem-ox",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "guardian",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "guardian-mx",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "guardian-qi",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "hammerhead",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "hawk",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "herald",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "hermes",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "hoverquad",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "hull-a",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "hull-b",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "hull-c",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "hull-d",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "hull-e",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "hurricane",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "idris-m",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "idris-p",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "intrepid",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ironclad",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ironclad-assault",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "javelin",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "khartu-al",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "kraken",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "kraken-privateer",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "l-21-wolf",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "l-22-alpha-wolf",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "legionnaire",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "liberator",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "lynx",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "m2-hercules",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "m50",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "m80",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mantis",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mdc",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "merchantman",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "mercury",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "meteor",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mole",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "moth",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mpuv-cargo",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mpuv-personnel",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mpuv-tractor",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mtc",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mule",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mustang-alpha",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mustang-alpha-vindicator",
+      "hasLive": false,
+      "erkulStatus": "duplicate",
+      "implemented": true,
+      "canonicalId": "mustang-alpha"
+    },
+    {
+      "id": "mustang-beta",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mustang-delta",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mustang-gamma",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "mustang-omega",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "nautilus",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "nautilus-solstice-edition",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "nomad",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "nova",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "nox",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "nox-kue",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "odyssey",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "orion",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "p-52-merlin",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "p-72-archimedes",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "p-72-archimedes-emerald",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "paladin",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "perseus",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "pioneer",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "pitbull",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "polaris",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "prospector",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "prowler",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "prowler-utility",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ptv",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "pulse",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "pulse-lx",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "raft",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "railen",
+      "hasLive": true,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "ranger-cv",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "ranger-rc",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "ranger-tr",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "razor",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "razor-ex",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "razor-lx",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "reclaimer",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "redeemer",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "reliant-kore",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "reliant-mako",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "reliant-sen",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "reliant-tana",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "retaliator",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "roc",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "roc-ds",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "sabre",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "sabre-comet",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "sabre-firebird",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "sabre-peregrine",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "sabre-raven",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "salvation",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "san-tok-y-i",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "scorpius",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "scorpius-antares",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "scythe",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "shiv",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "spartan",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "srv",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "starfarer",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "starfarer-gemini",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "starlancer-max",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "starlancer-tac",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "starlite",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "stinger",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "storm",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "storm-aa",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "stv",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "syulen",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "talon",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "talon-shrike",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "terrapin",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "terrapin-medic",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "tiburon",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "tyilui",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ursa",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ursa-fortuna",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "ursa-medivac",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "utv",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "valkyrie",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "valkyrie-liberator-edition",
+      "hasLive": false,
+      "erkulStatus": "duplicate",
+      "implemented": true,
+      "canonicalId": "valkyrie"
+    },
+    {
+      "id": "vanguard-harbinger",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "vanguard-hoplite",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "vanguard-sentinel",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "vanguard-warden",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "vulcan",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    },
+    {
+      "id": "vulture",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "x1",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "x1-force",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "x1-velocity",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "zeus-mk2-cl",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "zeus-mk2-es",
+      "hasLive": true,
+      "erkulStatus": "matched",
+      "implemented": true,
+      "canonicalId": null
+    },
+    {
+      "id": "zeus-mk2-mr",
+      "hasLive": false,
+      "erkulStatus": "unreleased",
+      "implemented": false,
+      "canonicalId": null
+    }
+  ],
+  "publicFields": [
+    {
+      "id": "100i",
+      "name": "100i",
+      "koName": "오리진 100i",
+      "manufacturer": "Origin",
+      "role": "투어링",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "2 SCU",
+      "liveCargoScu": 2,
+      "priceUsd": 50,
+      "tags": [
+        "수송",
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "995b9cdf7bd45059",
+      "koDescHash": "317acef1cbf16b9c",
+      "rowHash": "ddeeddf2cadb6a37"
+    },
+    {
+      "id": "125a",
+      "name": "125a",
+      "koName": "오리진 125a",
+      "manufacturer": "Origin",
+      "role": "전투함",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "2 SCU",
+      "liveCargoScu": 2,
+      "priceUsd": 60,
+      "tags": [
+        "전투",
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "253c571cd2b87783",
+      "koDescHash": "e1324a46d4ec998f",
+      "rowHash": "886e8c501a7660a5"
+    },
+    {
+      "id": "135c",
+      "name": "135c",
+      "koName": "오리진 135c",
+      "manufacturer": "Origin",
+      "role": "화물선",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "6 SCU",
+      "liveCargoScu": 6,
+      "priceUsd": 65,
+      "tags": [
+        "화물",
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4cdbbb4a0fea0bf2",
+      "koDescHash": "e55db7d62176ff25",
+      "rowHash": "a412f12b80cc8ad7"
+    },
+    {
+      "id": "300i",
+      "name": "300i",
+      "koName": "오리진 300i",
+      "manufacturer": "Origin",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "8 SCU",
+      "liveCargoScu": 8,
+      "priceUsd": 60,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "995b9cdf7bd45059",
+      "koDescHash": "c5cd0957a8dfbaf1",
+      "rowHash": "ae16601534c4cbde"
+    },
+    {
+      "id": "315p",
+      "name": "315p",
+      "koName": "오리진 315p",
+      "manufacturer": "Origin",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "12 SCU",
+      "liveCargoScu": 12,
+      "priceUsd": 65,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4d7752a495eee481",
+      "koDescHash": "b9bad312a961b2f4",
+      "rowHash": "f90773123df96a99"
+    },
+    {
+      "id": "325a",
+      "name": "325a",
+      "koName": "오리진 325a",
+      "manufacturer": "Origin",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "4 SCU",
+      "liveCargoScu": 4,
+      "priceUsd": 70,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "253c571cd2b87783",
+      "koDescHash": "73add98d2df70bed",
+      "rowHash": "3c9689eee169647e"
+    },
+    {
+      "id": "350r",
+      "name": "350r",
+      "koName": "오리진 350r",
+      "manufacturer": "Origin",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "4 SCU",
+      "liveCargoScu": 4,
+      "priceUsd": 125,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "abb8f4e24f19ba5f",
+      "koDescHash": "eaabcdb88e7e6b36",
+      "rowHash": "655ed21505921117"
+    },
+    {
+      "id": "400i",
+      "name": "400i",
+      "koName": "오리진 400i",
+      "manufacturer": "Origin",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "대형",
+      "crew": "1-3명",
+      "liveCrewSize": 3,
+      "cargo": "42 SCU",
+      "liveCargoScu": 42,
+      "priceUsd": 250,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f0b12450211dfa59",
+      "koDescHash": "d86a3565cb821426",
+      "rowHash": "28dbd8a990958310"
+    },
+    {
+      "id": "600i-executive-edition",
+      "name": "600i Executive Edition",
+      "koName": null,
+      "manufacturer": "Origin",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "대형",
+      "crew": "1명",
+      "liveCrewSize": 5,
+      "cargo": "44 SCU",
+      "liveCargoScu": 44,
+      "priceUsd": 475,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "5e01caf56869ee6e",
+      "koDescHash": null,
+      "rowHash": "b3531925537b579a"
+    },
+    {
+      "id": "600i-explorer",
+      "name": "600i Explorer",
+      "koName": null,
+      "manufacturer": "Origin",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "대형",
+      "crew": "2-5명",
+      "liveCrewSize": 5,
+      "cargo": "44 SCU",
+      "liveCargoScu": 44,
+      "priceUsd": null,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a7800f9c8792d630",
+      "koDescHash": "3cbc56a5b2e542e6",
+      "rowHash": "f6aa8306e994fbd0"
+    },
+    {
+      "id": "600i-touring",
+      "name": "600i Touring",
+      "koName": "오리진 600i 투어링",
+      "manufacturer": "Origin",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "대형",
+      "crew": "3-5명",
+      "liveCrewSize": 5,
+      "cargo": "20 SCU",
+      "liveCargoScu": 20,
+      "priceUsd": 435,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f0b12450211dfa59",
+      "koDescHash": "3cbc56a5b2e542e6",
+      "rowHash": "001d108cb8d2aede"
+    },
+    {
+      "id": "85x",
+      "name": "85X",
+      "koName": "오리진 85X 리미티드",
+      "manufacturer": "Origin",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "초소형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "ccbe65e151cc7730",
+      "koDescHash": "3a6028c58dc02387",
+      "rowHash": "8ef626b5e7def466"
+    },
+    {
+      "id": "890-jump",
+      "name": "890 Jump",
+      "koName": "오리진 890 점프",
+      "manufacturer": "Origin",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "캐피탈",
+      "crew": "3-8명",
+      "liveCrewSize": 8,
+      "cargo": "388 SCU",
+      "liveCargoScu": 388,
+      "priceUsd": 950,
+      "tags": [
+        "기함"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "41f605c13a7bab38",
+      "koDescHash": "d7a35329b179fb4a",
+      "rowHash": "2d689402ca29ecd6"
+    },
+    {
+      "id": "a1-spirit",
+      "name": "A1 Spirit ",
+      "koName": "크루세이더 A1 스피릿",
+      "manufacturer": "Crusader",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 200,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "ae20d77db90349de",
+      "koDescHash": "fd47a74d61248911",
+      "rowHash": "3c0e547056c02283"
+    },
+    {
+      "id": "a2-hercules",
+      "name": "A2 Hercules",
+      "koName": "A2 허큘리스",
+      "manufacturer": "Crusader",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "대형",
+      "crew": "1-6명",
+      "liveCrewSize": 8,
+      "cargo": "216 SCU",
+      "liveCargoScu": 216,
+      "priceUsd": 750,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "87abc6481763dbcd",
+      "koDescHash": "64f30f87249b39b8",
+      "rowHash": "19f4cb3ce091f120"
+    },
+    {
+      "id": "anvil-ballista-dunestalker",
+      "name": "Anvil Ballista Dunestalker",
+      "koName": "앤빌 발리스타 듄스토커",
+      "manufacturer": "Anvil",
+      "role": "다목적함",
+      "focus": "다목적",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "146ec010373c79ae",
+      "koDescHash": "bb2f2acbfbfeb0d1",
+      "rowHash": "d4cefc26eae0e457"
+    },
+    {
+      "id": "anvil-ballista-snowblind",
+      "name": "Anvil Ballista Snowblind",
+      "koName": "앤빌 발리스타 스노우블라인드",
+      "manufacturer": "Anvil",
+      "role": "다목적함",
+      "focus": "다목적",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "146ec010373c79ae",
+      "koDescHash": "c943d666f84608d0",
+      "rowHash": "2ad044a46a955ee7"
+    },
+    {
+      "id": "apollo-medivac",
+      "name": "Apollo Medivac",
+      "koName": "RSI 아폴로 메디백",
+      "manufacturer": "RSI",
+      "role": "의료선",
+      "focus": "의료",
+      "size": "대형",
+      "crew": "1~2명",
+      "liveCrewSize": 2,
+      "cargo": "32 SCU",
+      "liveCargoScu": 32,
+      "priceUsd": 290,
+      "tags": [
+        "의료"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "50d6e09c430ca43a",
+      "koDescHash": "0b7762e96a0ec308",
+      "rowHash": "0c884978e87074fd"
+    },
+    {
+      "id": "apollo-triage",
+      "name": "Apollo Triage",
+      "koName": "RSI 아폴로 트리아지",
+      "manufacturer": "RSI",
+      "role": "의료선",
+      "focus": "의료",
+      "size": "대형",
+      "crew": "1~2명",
+      "liveCrewSize": 2,
+      "cargo": "32 SCU",
+      "liveCargoScu": 32,
+      "priceUsd": 260,
+      "tags": [
+        "의료"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "bbcd7e9db1cb6577",
+      "koDescHash": "a3b46704deb3775f",
+      "rowHash": "50bd27ecb8808738"
+    },
+    {
+      "id": "ares-inferno",
+      "name": "Ares Inferno ",
+      "koName": null,
+      "manufacturer": "Crusader",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "null-1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 250,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "ae20d77db90349de",
+      "koDescHash": "2f1938bb3b57d482",
+      "rowHash": "17409165e960af44"
+    },
+    {
+      "id": "ares-ion",
+      "name": "Ares Ion",
+      "koName": null,
+      "manufacturer": "Crusader",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "null-1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 250,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "07d2f3487537b492",
+      "koDescHash": "1990766b2d46228a",
+      "rowHash": "59edd5898f5d6066"
+    },
+    {
+      "id": "argo-mole-carbon-edition",
+      "name": "Argo Mole Carbon Edition",
+      "koName": null,
+      "manufacturer": "ARGO",
+      "role": "채굴선",
+      "focus": "채굴",
+      "size": "중형",
+      "crew": "1-4명",
+      "liveCrewSize": null,
+      "cargo": "96 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "채굴"
+      ],
+      "implemented": true,
+      "erkulStatus": "duplicate",
+      "descHash": "14167fd99efebc8e",
+      "koDescHash": null,
+      "rowHash": "947c5e06b0c62dd0"
+    },
+    {
+      "id": "argo-mole-talus-edition",
+      "name": "Argo Mole Talus Edition",
+      "koName": null,
+      "manufacturer": "ARGO",
+      "role": "채굴선",
+      "focus": "채굴",
+      "size": "중형",
+      "crew": "1-4명",
+      "liveCrewSize": null,
+      "cargo": "96 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "채굴"
+      ],
+      "implemented": true,
+      "erkulStatus": "duplicate",
+      "descHash": "14167fd99efebc8e",
+      "koDescHash": null,
+      "rowHash": "ca62afa6bd2ec1a5"
+    },
+    {
+      "id": "arrastra",
+      "name": "Arrastra",
+      "koName": "RSI 아라스트라",
+      "manufacturer": "RSI",
+      "role": "채굴/정제",
+      "focus": "채굴",
+      "size": "대형",
+      "crew": "1~2명(미구현)",
+      "liveCrewSize": null,
+      "cargo": "64 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "정제",
+        "미구현",
+        "채굴"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "cd71ee8e59aab9ee",
+      "koDescHash": null,
+      "rowHash": "54e2a73e79c0e259"
+    },
+    {
+      "id": "arrow",
+      "name": "Arrow",
+      "koName": "앤빌 애로우",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "null-1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 75,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "1907764cdb6d8370",
+      "rowHash": "e0d8364bde0db389"
+    },
+    {
+      "id": "asgard",
+      "name": "Asgard",
+      "koName": "앤빌 아스가르드",
+      "manufacturer": "Anvil",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "중형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "180 SCU",
+      "liveCargoScu": 180,
+      "priceUsd": 350,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "28c32f50ed5f8ab5",
+      "koDescHash": "3a571d3642160560",
+      "rowHash": "61772181437762a9"
+    },
+    {
+      "id": "atls",
+      "name": "ATLS",
+      "koName": "아르고 ATLS",
+      "manufacturer": "ARGO",
+      "role": "다목적함",
+      "focus": "다목적",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": 40,
+      "tags": [
+        "지상",
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "7e009a4435e92a8f",
+      "koDescHash": null,
+      "rowHash": "0ea4bf5c44ed6d3a"
+    },
+    {
+      "id": "atls-geo",
+      "name": "ATLS GEO",
+      "koName": "아르고 ATLS GEO",
+      "manufacturer": "ARGO",
+      "role": "다목적함",
+      "focus": "다목적",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": null,
+      "cargo": "0.01 SCU",
+      "liveCargoScu": null,
+      "priceUsd": 45,
+      "tags": [
+        "지상",
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "7e009a4435e92a8f",
+      "koDescHash": null,
+      "rowHash": "8861e9082cf5385b"
+    },
+    {
+      "id": "aurora-cl",
+      "name": "Aurora CL",
+      "koName": "RSI 오로라 Mk I CL",
+      "manufacturer": "RSI",
+      "role": "경 화물선",
+      "focus": "화물",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "6 SCU",
+      "liveCargoScu": 6,
+      "priceUsd": null,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f6007bb52dc3eff4",
+      "koDescHash": "64493aeb10333573",
+      "rowHash": "8a130ae79ca69628"
+    },
+    {
+      "id": "aurora-es",
+      "name": "Aurora ES",
+      "koName": "RSI 오로라 Mk I ES",
+      "manufacturer": "RSI",
+      "role": "입문/탐사선",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "3 SCU",
+      "liveCargoScu": 3,
+      "priceUsd": 20,
+      "tags": [
+        "탐사",
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "892b0d33340ed27c",
+      "koDescHash": "ce9f33dee951df6d",
+      "rowHash": "6218499ce70bf86a"
+    },
+    {
+      "id": "aurora-ln",
+      "name": "Aurora LN",
+      "koName": "RSI 오로라 Mk I LN",
+      "manufacturer": "RSI",
+      "role": "경 전투기",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "3 SCU",
+      "liveCargoScu": 3,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "bfbfa4d9698e30d7",
+      "koDescHash": "e84862b9500eeacd",
+      "rowHash": "47289d52eb655135"
+    },
+    {
+      "id": "aurora-lx",
+      "name": "Aurora LX",
+      "koName": "RSI 오로라 Mk I LX",
+      "manufacturer": "RSI",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "3 SCU",
+      "liveCargoScu": 3,
+      "priceUsd": null,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "892b0d33340ed27c",
+      "koDescHash": "8a0bdcb90cbd643a",
+      "rowHash": "263aaaa382c53a5d"
+    },
+    {
+      "id": "aurora-mk1-se",
+      "name": "Aurora Mk1 SE",
+      "koName": null,
+      "manufacturer": "RSI",
+      "role": "경 전투기",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "3 SCU",
+      "liveCargoScu": 3,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "bfbfa4d9698e30d7",
+      "koDescHash": "c4a90e26bab1b1b7",
+      "rowHash": "32f2c501c70a5316"
+    },
+    {
+      "id": "aurora-mk2",
+      "name": "Aurora MK2",
+      "koName": "RSI 오로라 Mk II",
+      "manufacturer": "RSI",
+      "role": "입문/경 전투기",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "2 SCU",
+      "liveCargoScu": 2,
+      "priceUsd": 45,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8ceb81a5902a4723",
+      "koDescHash": "1413ab1b0c433860",
+      "rowHash": "65ac95edd5539984"
+    },
+    {
+      "id": "aurora-mr",
+      "name": "Aurora MR",
+      "koName": "RSI 오로라 Mk I MR",
+      "manufacturer": "RSI",
+      "role": "경 전투기",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "3 SCU",
+      "liveCargoScu": 3,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "bfbfa4d9698e30d7",
+      "koDescHash": "fdf5dd25e1cebba3",
+      "rowHash": "262323b86fb58545"
+    },
+    {
+      "id": "avenger-stalker",
+      "name": "Avenger Stalker",
+      "koName": "이지스 어벤저 스토커",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 60,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4ef36f61cd869a7c",
+      "koDescHash": "8da422725758362c",
+      "rowHash": "0815206ae56cc0e2"
+    },
+    {
+      "id": "avenger-titan",
+      "name": "Avenger Titan",
+      "koName": "이지스 어벤저 타이탄",
+      "manufacturer": "Aegis",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "8 SCU",
+      "liveCargoScu": 8,
+      "priceUsd": 60,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4302ff540866b59d",
+      "koDescHash": "81b0fbe11956a1b1",
+      "rowHash": "0c75c0e096271d66"
+    },
+    {
+      "id": "avenger-titan-renegade",
+      "name": "Avenger Titan Renegade",
+      "koName": "이지스 어벤저 타이탄 레니게이드",
+      "manufacturer": "Aegis",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "8 SCU",
+      "liveCargoScu": 8,
+      "priceUsd": 75,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4302ff540866b59d",
+      "koDescHash": "350a9f0cc7f13c5d",
+      "rowHash": "a75d822fee10bfd5"
+    },
+    {
+      "id": "avenger-warlock",
+      "name": "Avenger Warlock",
+      "koName": "이지스 어벤저 워록",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 85,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4ef36f61cd869a7c",
+      "koDescHash": "fdf39078398061b2",
+      "rowHash": "c7901f9da1eb9151"
+    },
+    {
+      "id": "ballista",
+      "name": "Ballista ",
+      "koName": "앤빌 발리스타",
+      "manufacturer": "Anvil",
+      "role": "다목적함",
+      "focus": "다목적",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 140,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "146ec010373c79ae",
+      "koDescHash": "4a03684609084c66",
+      "rowHash": "6f4a5f7e89026728"
+    },
+    {
+      "id": "basher",
+      "name": "Basher",
+      "koName": null,
+      "manufacturer": "Grey's Market",
+      "role": "경 전투기",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 100,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f81b23fa48d5b7d0",
+      "koDescHash": "dc6f0ba456fe79bf",
+      "rowHash": "2771ae9c2a5fbd96"
+    },
+    {
+      "id": "blade",
+      "name": "Blade",
+      "koName": "에스페리아 블레이드",
+      "manufacturer": "Esperia",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 275,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "161076e9b82b3f02",
+      "koDescHash": "1ce3224dea6cfe82",
+      "rowHash": "2c323867a0d598a8"
+    },
+    {
+      "id": "buccaneer",
+      "name": "Buccaneer",
+      "koName": "드레이크 버캐니어",
+      "manufacturer": "Drake",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 110,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f9485b359c5f441e",
+      "koDescHash": "3fb5a40660585a7a",
+      "rowHash": "eb045996b1c805d6"
+    },
+    {
+      "id": "c1-spirit",
+      "name": "C1 Spirit",
+      "koName": "크루세이더 C1 스피릿",
+      "manufacturer": "Crusader",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "64 SCU",
+      "liveCargoScu": 64,
+      "priceUsd": 125,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3852b07d00df4463",
+      "koDescHash": "a3077680e4bdc4c5",
+      "rowHash": "e5fc9ee0639092c1"
+    },
+    {
+      "id": "c2-hercules",
+      "name": "C2 Hercules",
+      "koName": "C2 허큘리스",
+      "manufacturer": "Crusader",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "대형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "696 SCU",
+      "liveCargoScu": 696,
+      "priceUsd": 400,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "e8ee98fab17420a3",
+      "koDescHash": "e8fe97b6da704da4",
+      "rowHash": "f206448360682d3a"
+    },
+    {
+      "id": "c8-pisces",
+      "name": "C8 Pisces",
+      "koName": "앤빌 C8 파이시스",
+      "manufacturer": "Anvil",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1-3명",
+      "liveCrewSize": 1,
+      "cargo": "4 SCU",
+      "liveCargoScu": 4,
+      "priceUsd": null,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8af04170aaccb0ac",
+      "koDescHash": "f4b8fd2e37bc8643",
+      "rowHash": "79549adc31bd4283"
+    },
+    {
+      "id": "c8r-pisces",
+      "name": "C8R Pisces",
+      "koName": null,
+      "manufacturer": "Anvil",
+      "role": "의료선",
+      "focus": "의료",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 65,
+      "tags": [
+        "의료"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c6320a65d5d93938",
+      "koDescHash": "ea2ea74c755a8321",
+      "rowHash": "d62a202050258d28"
+    },
+    {
+      "id": "c8x-pisces-expedition",
+      "name": "C8X Pisces Expedition ",
+      "koName": "앤빌 C8X 파이시스 익스페디션",
+      "manufacturer": "Anvil",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1-3명",
+      "liveCrewSize": 1,
+      "cargo": "4 SCU",
+      "liveCargoScu": 4,
+      "priceUsd": 45,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8af04170aaccb0ac",
+      "koDescHash": "f1d8e46d768dbfae",
+      "rowHash": "316a51bd8b4f5aaa"
+    },
+    {
+      "id": "carrack",
+      "name": "Carrack",
+      "koName": "캐럭",
+      "manufacturer": "Anvil",
+      "role": "탐사",
+      "focus": "탐사",
+      "size": "대형",
+      "crew": "6명",
+      "liveCrewSize": 6,
+      "cargo": "456 SCU",
+      "liveCargoScu": 456,
+      "priceUsd": 600,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c42a295270a4537a",
+      "koDescHash": "35be40bcb6af8303",
+      "rowHash": "5ba83756b31bc53a"
+    },
+    {
+      "id": "carrack-expedition",
+      "name": "Carrack Expedition",
+      "koName": "앤빌 캐럭 익스페디션",
+      "manufacturer": "Anvil",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "대형",
+      "crew": "4-6명",
+      "liveCrewSize": 6,
+      "cargo": "456 SCU",
+      "liveCargoScu": 456,
+      "priceUsd": 625,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3887cce87f1b47dc",
+      "koDescHash": "87b99e5a04202a83",
+      "rowHash": "0f5d058ccd2bd89b"
+    },
+    {
+      "id": "carrack-expedition-w-c8x",
+      "name": "Carrack Expedition w/C8X",
+      "koName": null,
+      "manufacturer": "Anvil",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "대형",
+      "crew": "4-6명",
+      "liveCrewSize": null,
+      "cargo": "456 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "duplicate",
+      "descHash": "3887cce87f1b47dc",
+      "koDescHash": null,
+      "rowHash": "fddcde5e26927601"
+    },
+    {
+      "id": "carrack-w-c8x",
+      "name": "Carrack w/C8X",
+      "koName": null,
+      "manufacturer": "Anvil",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "대형",
+      "crew": "4-6명",
+      "liveCrewSize": null,
+      "cargo": "456 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "duplicate",
+      "descHash": "3887cce87f1b47dc",
+      "koDescHash": null,
+      "rowHash": "8a2351afc821870c"
+    },
+    {
+      "id": "caterpillar",
+      "name": "Caterpillar",
+      "koName": "캐터필러",
+      "manufacturer": "Drake",
+      "role": "중형 화물",
+      "focus": "화물",
+      "size": "대형",
+      "crew": "5명",
+      "liveCrewSize": 4,
+      "cargo": "576 SCU",
+      "liveCargoScu": 576,
+      "priceUsd": 330,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "dc547b72bcb9ea8e",
+      "koDescHash": "f76a2536e81f57c0",
+      "rowHash": "b3ea79690f01ce08"
+    },
+    {
+      "id": "caterpillar-pirate",
+      "name": "Caterpillar Pirate",
+      "koName": null,
+      "manufacturer": "Drake",
+      "role": "대형 화물선",
+      "focus": "화물",
+      "size": "대형",
+      "crew": "1명",
+      "liveCrewSize": 4,
+      "cargo": "576 SCU",
+      "liveCargoScu": 576,
+      "priceUsd": 330,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2b657df2757bcdbf",
+      "koDescHash": null,
+      "rowHash": "bda747c68f4614ae"
+    },
+    {
+      "id": "centurion",
+      "name": "Centurion",
+      "koName": "앤빌 센츄리온",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 110,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2bdf54f06f5dc743",
+      "koDescHash": "4bee38d506392213",
+      "rowHash": "7aeda048985acf06"
+    },
+    {
+      "id": "clipper",
+      "name": "Clipper",
+      "koName": "드레이크 클리퍼",
+      "manufacturer": "Drake",
+      "role": "다목적함",
+      "focus": "다목적",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "12 SCU",
+      "liveCargoScu": 12,
+      "priceUsd": 150,
+      "tags": [
+        "다목적"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c6ed9ee4441297e0",
+      "koDescHash": "70b30bdf363d5d05",
+      "rowHash": "d3be3b41edb85f11"
+    },
+    {
+      "id": "constellation-andromeda",
+      "name": "Constellation Andromeda",
+      "koName": "컨스텔레이션 안드로메다",
+      "manufacturer": "RSI",
+      "role": "중형 화물/건쉽",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "2-4명",
+      "liveCrewSize": 4,
+      "cargo": "96 SCU",
+      "liveCargoScu": 96,
+      "priceUsd": 240,
+      "tags": [
+        "전투",
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8cc93dc9f13f279a",
+      "koDescHash": "b2e729722da9095c",
+      "rowHash": "443f1f9f5a02dbc4"
+    },
+    {
+      "id": "constellation-aquila",
+      "name": "Constellation Aquila",
+      "koName": "컨스텔레이션 아퀼라",
+      "manufacturer": "RSI",
+      "role": "탐사",
+      "focus": "탐사",
+      "size": "중형",
+      "crew": "2-4명",
+      "liveCrewSize": 4,
+      "cargo": "96 SCU",
+      "liveCargoScu": 96,
+      "priceUsd": 315,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3f00c00970085629",
+      "koDescHash": "542771924520f50f",
+      "rowHash": "43d080e6eaa5dc1b"
+    },
+    {
+      "id": "constellation-phoenix",
+      "name": "Constellation Phoenix",
+      "koName": "RSI 컨스틸레이션 피닉스",
+      "manufacturer": "RSI",
+      "role": "럭셔리 투어링",
+      "focus": "수송",
+      "size": "중형",
+      "crew": "2-4명",
+      "liveCrewSize": 4,
+      "cargo": "96 SCU",
+      "liveCargoScu": 96,
+      "priceUsd": 350,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "d270e62b01ab4fe7",
+      "koDescHash": "38f7d3159d934ac5",
+      "rowHash": "7aee4f3da4d50d98"
+    },
+    {
+      "id": "constellation-phoenix-emerald",
+      "name": "Constellation Phoenix Emerald",
+      "koName": "RSI 컨스틸레이션 피닉스 에메랄드",
+      "manufacturer": "RSI",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "대형",
+      "crew": "3-4명",
+      "liveCrewSize": 4,
+      "cargo": "96 SCU",
+      "liveCargoScu": 96,
+      "priceUsd": 350,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9c09a0a3ab86fa52",
+      "koDescHash": "51b031d2d68f4819",
+      "rowHash": "0d1b07f54f7ddf86"
+    },
+    {
+      "id": "constellation-taurus",
+      "name": "Constellation Taurus",
+      "koName": "컨스텔레이션 토러스",
+      "manufacturer": "RSI",
+      "role": "중형 화물",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "2-4명",
+      "liveCrewSize": 4,
+      "cargo": "174 SCU",
+      "liveCargoScu": 174,
+      "priceUsd": 200,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8cc93dc9f13f279a",
+      "koDescHash": "05d7b20ced6fbc0b",
+      "rowHash": "516cb52388584adb"
+    },
+    {
+      "id": "corsair",
+      "name": "Corsair",
+      "koName": "드레이크 커세어",
+      "manufacturer": "Drake",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "대형",
+      "crew": "1-4명",
+      "liveCrewSize": 4,
+      "cargo": "72 SCU",
+      "liveCargoScu": 72,
+      "priceUsd": 250,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2ef2f6c5fd119b8f",
+      "koDescHash": "450bcfc10418cefc",
+      "rowHash": "4acae4f468bbd2bf"
+    },
+    {
+      "id": "crucible",
+      "name": "Crucible",
+      "koName": "앤빌 크루시블",
+      "manufacturer": "Anvil",
+      "role": "지원선",
+      "focus": "지원",
+      "size": "대형",
+      "crew": "3-8명",
+      "liveCrewSize": null,
+      "cargo": "240 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "6de40f4feba6e8bc",
+      "koDescHash": null,
+      "rowHash": "bf3b36917717e5ab"
+    },
+    {
+      "id": "csv-sm",
+      "name": "CSV-SM",
+      "koName": "아르고 CSV-SM",
+      "manufacturer": "ARGO",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "4 SCU",
+      "liveCargoScu": 4,
+      "priceUsd": 45,
+      "tags": [
+        "지상",
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f10e990ccc8be843",
+      "koDescHash": "9924d291fbf24fbc",
+      "rowHash": "47d1aaac5b786aeb"
+    },
+    {
+      "id": "cutlass-black",
+      "name": "Cutlass Black",
+      "koName": "커틀라스 블랙",
+      "manufacturer": "Drake",
+      "role": "다목적",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "1-2명",
+      "liveCrewSize": 3,
+      "cargo": "46 SCU",
+      "liveCargoScu": 46,
+      "priceUsd": 110,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "12946a120f9d9bea",
+      "koDescHash": "459a1a8a1e7de7f9",
+      "rowHash": "ab82b10ea5fb2be7"
+    },
+    {
+      "id": "cutlass-blue",
+      "name": "Cutlass Blue",
+      "koName": "드레이크 커틀러스 블루",
+      "manufacturer": "Drake",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "2-3명",
+      "liveCrewSize": 3,
+      "cargo": "12 SCU",
+      "liveCargoScu": 12,
+      "priceUsd": 175,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "632c53eb233120e3",
+      "koDescHash": "008feb7a581e838d",
+      "rowHash": "563feae04605addd"
+    },
+    {
+      "id": "cutlass-red",
+      "name": "Cutlass Red",
+      "koName": "드레이크 커틀러스 레드",
+      "manufacturer": "Drake",
+      "role": "의료선",
+      "focus": "의료",
+      "size": "중형",
+      "crew": "2명",
+      "liveCrewSize": 2,
+      "cargo": "12 SCU",
+      "liveCargoScu": 12,
+      "priceUsd": 135,
+      "tags": [
+        "의료"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "945a733b14a483b2",
+      "koDescHash": "9d1afc4f6bd6d6f1",
+      "rowHash": "b99f5d59abbb5930"
+    },
+    {
+      "id": "cutlass-steel",
+      "name": "Cutlass Steel",
+      "koName": "드레이크 커틀러스 스틸",
+      "manufacturer": "Drake",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "중형",
+      "crew": "1-3명",
+      "liveCrewSize": 3,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 235,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "95a9740e17e94080",
+      "koDescHash": "eab52d05b1c4552a",
+      "rowHash": "988c75e5e37e344f"
+    },
+    {
+      "id": "cutter",
+      "name": "Cutter",
+      "koName": "드레이크 커터",
+      "manufacturer": "Drake",
+      "role": "화물선",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "4 SCU",
+      "liveCargoScu": 4,
+      "priceUsd": 45,
+      "tags": [
+        "화물",
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2e63c0f83376152f",
+      "koDescHash": "d808639b4bb43744",
+      "rowHash": "9cfbc3501ff858c8"
+    },
+    {
+      "id": "cutter-rambler",
+      "name": "Cutter Rambler",
+      "koName": "드레이크 커터 램블러",
+      "manufacturer": "Drake",
+      "role": "탐사선",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "2 SCU",
+      "liveCargoScu": 2,
+      "priceUsd": 50,
+      "tags": [
+        "탐사",
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "98e4a40209aeb17d",
+      "koDescHash": "e975d644087a5985",
+      "rowHash": "b7aee3cf88c753a4"
+    },
+    {
+      "id": "cutter-scout",
+      "name": "Cutter Scout",
+      "koName": "드레이크 커터 스카웃",
+      "manufacturer": "Drake",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "2 SCU",
+      "liveCargoScu": 2,
+      "priceUsd": 50,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "98e4a40209aeb17d",
+      "koDescHash": "7c62fc2d338ada7e",
+      "rowHash": "d13848e261dc1f47"
+    },
+    {
+      "id": "cyclone",
+      "name": "Cyclone",
+      "koName": "텀브릴 사이클론",
+      "manufacturer": "Tumbril",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "지상",
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "1448210cb29cfddf",
+      "koDescHash": "a7bc82dc9fd14dc1",
+      "rowHash": "9d15d23c37e5c25a"
+    },
+    {
+      "id": "cyclone-aa",
+      "name": "Cyclone AA",
+      "koName": "텀브릴 사이클론 AA",
+      "manufacturer": "Tumbril",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 80,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9332ae2c3479b078",
+      "koDescHash": "b38aa9900d7402fb",
+      "rowHash": "ecb13ab445212e6a"
+    },
+    {
+      "id": "cyclone-mt",
+      "name": "Cyclone MT",
+      "koName": "텀브릴 사이클론 MT",
+      "manufacturer": "Tumbril",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1-3명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 75,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9332ae2c3479b078",
+      "koDescHash": "214d597cb3006769",
+      "rowHash": "88c4fa0b33fe20bd"
+    },
+    {
+      "id": "cyclone-rc",
+      "name": "Cyclone RC",
+      "koName": "텀브릴 사이클론 RC",
+      "manufacturer": "Tumbril",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 65,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "fbf8d63507a52043",
+      "koDescHash": "50eb08b45d45b0e6",
+      "rowHash": "d13d47ebe87bd458"
+    },
+    {
+      "id": "cyclone-rn",
+      "name": "Cyclone RN",
+      "koName": "텀브릴 사이클론 RN",
+      "manufacturer": "Tumbril",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 65,
+      "tags": [
+        "지상",
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "1448210cb29cfddf",
+      "koDescHash": "50de384e8245f46e",
+      "rowHash": "f784e87ae9749294"
+    },
+    {
+      "id": "cyclone-tr",
+      "name": "Cyclone TR",
+      "koName": "텀브릴 사이클론 TR",
+      "manufacturer": "Tumbril",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1-3명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 65,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9332ae2c3479b078",
+      "koDescHash": "bac5b27e61c0976b",
+      "rowHash": "f86a5ce99e0cd0bc"
+    },
+    {
+      "id": "defender",
+      "name": "Defender",
+      "koName": "바누 디펜더",
+      "manufacturer": "Banu",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 220,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "eb20ed5212c6c34b",
+      "koDescHash": "e33a696d7122c774",
+      "rowHash": "c9e3607eeb72fae3"
+    },
+    {
+      "id": "dragonfly-black",
+      "name": "Dragonfly Black",
+      "koName": null,
+      "manufacturer": "Drake",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "62633d6f99bccb16",
+      "koDescHash": "98db2556c65e1e8e",
+      "rowHash": "317a1839c16f839f"
+    },
+    {
+      "id": "dragonfly-star-kitten",
+      "name": "Dragonfly Star Kitten",
+      "koName": null,
+      "manufacturer": "Drake",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 40,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "e89f0d2245c13c3d",
+      "koDescHash": null,
+      "rowHash": "40792fbcee8c8541"
+    },
+    {
+      "id": "dragonfly-yellowjacket",
+      "name": "Dragonfly Yellowjacket",
+      "koName": "드레이크 드래곤플라이 옐로우재킷",
+      "manufacturer": "Drake",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 40,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "62633d6f99bccb16",
+      "koDescHash": "97ddedcc1b30ab2b",
+      "rowHash": "3cd986f92a2afa74"
+    },
+    {
+      "id": "e1-spirit",
+      "name": "E1 Spirit",
+      "koName": "크루세이더 E1 스피릿",
+      "manufacturer": "Crusader",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "중형",
+      "crew": "1-2명",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "cfbebbdb0fa57cbf",
+      "koDescHash": null,
+      "rowHash": "8d9293ed46ec283f"
+    },
+    {
+      "id": "eclipse",
+      "name": "Eclipse",
+      "koName": "이지스 이클립스",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 300,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "68182c50cd5a7c2d",
+      "koDescHash": "dec4080baf4d6ea9",
+      "rowHash": "7cfec31e68510d7a"
+    },
+    {
+      "id": "endeavor",
+      "name": "Endeavor",
+      "koName": "MISC 엔데버",
+      "manufacturer": "MISC",
+      "role": "대형 과학선",
+      "focus": "연구",
+      "size": "캐피탈",
+      "crew": "2-4명(변경 예정)",
+      "liveCrewSize": null,
+      "cargo": "500 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "기함"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "927d69ac47195960",
+      "koDescHash": null,
+      "rowHash": "8f479beddff2c38f"
+    },
+    {
+      "id": "expanse",
+      "name": "Expanse",
+      "koName": "MISC 익스팬스",
+      "manufacturer": "MISC",
+      "role": "소형 정제",
+      "focus": "정제",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": null,
+      "cargo": "64 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "3bec641469a40f66",
+      "koDescHash": null,
+      "rowHash": "c9f356750f04304c"
+    },
+    {
+      "id": "f7a-hornet-mk-i",
+      "name": "F7A Hornet Mk I",
+      "koName": "앤빌 F7A 호넷 Mk I",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "7bc1779bba3b7384",
+      "rowHash": "7911486fb0fe66a8"
+    },
+    {
+      "id": "f7a-hornet-mk-ii",
+      "name": "F7A Hornet Mk II",
+      "koName": "앤빌 F7A 호넷 Mk II",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "1eb76922baaf04a9",
+      "rowHash": "89b252f2213f8388"
+    },
+    {
+      "id": "f7c-hornet-mk-i",
+      "name": "F7C Hornet Mk I",
+      "koName": "앤빌 F7C 호넷 Mk I",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 125,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "78fb1034068112af",
+      "rowHash": "bb31cbe16b77beae"
+    },
+    {
+      "id": "f7c-hornet-mk-ii",
+      "name": "F7C Hornet Mk II",
+      "koName": "앤빌 F7C 호넷 Mk II",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 175,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "9fcf11455afd1508",
+      "rowHash": "077759b695ae93a6"
+    },
+    {
+      "id": "f7c-hornet-wildfire-mk-i",
+      "name": "F7C Hornet Wildfire Mk I",
+      "koName": "앤빌 F7C 호넷 와일드파이어 Mk I",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 175,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "9778eba9a990d72e",
+      "rowHash": "57334fa8a68a59b1"
+    },
+    {
+      "id": "f7c-m-hornet-heartseeker-mk-ii",
+      "name": "F7C-M Hornet Heartseeker Mk II",
+      "koName": null,
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 200,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2b3f6894c36b3612",
+      "koDescHash": null,
+      "rowHash": "c43ec035ebe936c1"
+    },
+    {
+      "id": "f7c-m-super-hornet-heartseeker-mk-i",
+      "name": "F7C-M Super Hornet Heartseeker Mk I",
+      "koName": null,
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "a48059d20983e3ae",
+      "rowHash": "e79984ec77429ee9"
+    },
+    {
+      "id": "f7c-m-super-hornet-mk-i",
+      "name": "F7C-M Super Hornet Mk I",
+      "koName": "앤빌 F7C-M 슈퍼 호넷 Mk I",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 180,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "69668587bc118034",
+      "rowHash": "f27f03041f18097f"
+    },
+    {
+      "id": "f7c-m-super-hornet-mk-ii",
+      "name": "F7C-M Super Hornet Mk II ",
+      "koName": "앤빌 F7C-M 슈퍼 호넷 Mk II",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 240,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "e6d6505b4d663055",
+      "rowHash": "7fe508e153354822"
+    },
+    {
+      "id": "f7c-r-hornet-tracker-mk-i",
+      "name": "F7C-R Hornet Tracker Mk I",
+      "koName": "앤빌 F7C-R 호넷 트래커 Mk I",
+      "manufacturer": "Anvil",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 150,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8af04170aaccb0ac",
+      "koDescHash": "010198f5d12b21b9",
+      "rowHash": "e4519f54f1130539"
+    },
+    {
+      "id": "f7c-r-hornet-tracker-mk-ii",
+      "name": "F7C-R Hornet Tracker Mk II",
+      "koName": "앤빌 F7C-R 호넷 트래커 Mk II",
+      "manufacturer": "Anvil",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 185,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8af04170aaccb0ac",
+      "koDescHash": "d2b5fc868194ac93",
+      "rowHash": "f59188e199dd2c0d"
+    },
+    {
+      "id": "f7c-s-hornet-ghost-mk-i",
+      "name": "F7C-S Hornet Ghost Mk I",
+      "koName": "앤빌 F7C-S 호넷 고스트 Mk I",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 140,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "367ccd31f8fcfb0b",
+      "rowHash": "78ba0223d910b31c"
+    },
+    {
+      "id": "f7c-s-hornet-ghost-mk-ii",
+      "name": "F7C-S Hornet Ghost Mk II",
+      "koName": "앤빌 F7C-S 호넷 고스트 Mk II",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 185,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "d142cf3de1004225",
+      "rowHash": "e7aa6b685ae9d5a9"
+    },
+    {
+      "id": "f8a-lightning",
+      "name": "F8A Lightning",
+      "koName": null,
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a6caf5a154772102",
+      "koDescHash": null,
+      "rowHash": "3fd7b37c5b4c4800"
+    },
+    {
+      "id": "f8c-lightning",
+      "name": "F8C Lightning",
+      "koName": "앤빌 F8C 라이트닝",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "d23b38a4cb20ff52",
+      "rowHash": "956613441c799dd1"
+    },
+    {
+      "id": "f8c-lightning-executive-edition",
+      "name": "F8C Lightning Executive Edition",
+      "koName": "앤빌 F8C 라이트닝 이그제큐티브 에디션",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "duplicate",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": null,
+      "rowHash": "4458c57f4cc2c666"
+    },
+    {
+      "id": "fortune",
+      "name": "Fortune",
+      "koName": "MISC 포춘",
+      "manufacturer": "MISC",
+      "role": "소형 인양",
+      "focus": "인양",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "16 SCU",
+      "liveCargoScu": 16,
+      "priceUsd": 175,
+      "tags": [
+        "인양"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "61a7632eaecac075",
+      "koDescHash": "ca3c7135e8096dd0",
+      "rowHash": "95de1f34e43dce7f"
+    },
+    {
+      "id": "freelancer",
+      "name": "Freelancer",
+      "koName": "MISC 프리랜서",
+      "manufacturer": "MISC",
+      "role": "중형 화물",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 4,
+      "cargo": "66 SCU",
+      "liveCargoScu": 66,
+      "priceUsd": 110,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "417dd17cfc6079ae",
+      "koDescHash": "91ef152766fe55a9",
+      "rowHash": "62c3f81191d80dc8"
+    },
+    {
+      "id": "freelancer-dur",
+      "name": "Freelancer DUR",
+      "koName": "MISC 프리랜서 DUR",
+      "manufacturer": "MISC",
+      "role": "탐사",
+      "focus": "탐사",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 4,
+      "cargo": "36 SCU",
+      "liveCargoScu": 36,
+      "priceUsd": 135,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "fa92595b25336654",
+      "koDescHash": "5d717c1c7e655905",
+      "rowHash": "08447e96baea1c13"
+    },
+    {
+      "id": "freelancer-max",
+      "name": "Freelancer MAX",
+      "koName": "프리랜서 맥스",
+      "manufacturer": "MISC",
+      "role": "중형 화물",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "2명",
+      "liveCrewSize": 4,
+      "cargo": "120 SCU",
+      "liveCargoScu": 120,
+      "priceUsd": 150,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "98014456adbf3ed0",
+      "koDescHash": "b5338a127b3df520",
+      "rowHash": "66a3ab5c4ee796d6"
+    },
+    {
+      "id": "freelancer-mis",
+      "name": "Freelancer MIS",
+      "koName": "MISC 프리랜서 MIS",
+      "manufacturer": "MISC",
+      "role": "건쉽",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 4,
+      "cargo": "36 SCU",
+      "liveCargoScu": 36,
+      "priceUsd": 175,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "02300d663f4fe5cb",
+      "koDescHash": "cf623595ab3e1274",
+      "rowHash": "09d68faad56d5b60"
+    },
+    {
+      "id": "fury",
+      "name": "Fury",
+      "koName": "미라이 퓨리",
+      "manufacturer": "Mirai",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3c1c8bcc90d6bef0",
+      "koDescHash": "705fbf8cb24c6b03",
+      "rowHash": "d24da82c3ef9355c"
+    },
+    {
+      "id": "fury-lx",
+      "name": "Fury LX",
+      "koName": "미라이 퓨리 LX",
+      "manufacturer": "Mirai",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c51ab834daa13cae",
+      "koDescHash": "db7cca56bb152d67",
+      "rowHash": "7245bcca0ac344a7"
+    },
+    {
+      "id": "fury-mx",
+      "name": "Fury MX",
+      "koName": "미라이 퓨리 MX",
+      "manufacturer": "Mirai",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3c1c8bcc90d6bef0",
+      "koDescHash": "93f7c0d5f026c753",
+      "rowHash": "5378a8e79d158d65"
+    },
+    {
+      "id": "g12",
+      "name": "G12",
+      "koName": "오리진 G12",
+      "manufacturer": "Origin",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "지상",
+      "crew": "정보 없음",
+      "liveCrewSize": null,
+      "cargo": "2 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "지상"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "155d80a02ebe639f",
+      "koDescHash": null,
+      "rowHash": "347ce645dd70f721"
+    },
+    {
+      "id": "g12a",
+      "name": "G12a",
+      "koName": "오리진 G12a",
+      "manufacturer": "Origin",
+      "role": "다목적함",
+      "focus": "다목적",
+      "size": "지상",
+      "crew": "정보 없음",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "지상"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "be72bc9498609d74",
+      "koDescHash": null,
+      "rowHash": "54d10b295f756841"
+    },
+    {
+      "id": "g12r",
+      "name": "G12r",
+      "koName": "오리진 G12r",
+      "manufacturer": "Origin",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "지상",
+      "crew": "정보 없음",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "지상"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "1a5f7e0ad7971b77",
+      "koDescHash": null,
+      "rowHash": "d5599269eb8cf59a"
+    },
+    {
+      "id": "galaxy",
+      "name": "Galaxy",
+      "koName": "RSI 갤럭시",
+      "manufacturer": "RSI",
+      "role": "중형 화물/모듈함",
+      "focus": "다목적",
+      "size": "대형",
+      "crew": "2-4명(변경 예정)",
+      "liveCrewSize": null,
+      "cargo": "64 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "모듈형"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "601e7c34f430182a",
+      "koDescHash": null,
+      "rowHash": "6821dc8eb156ee05"
+    },
+    {
+      "id": "genesis",
+      "name": "Genesis",
+      "koName": null,
+      "manufacturer": "Crusader",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "대형",
+      "crew": "2-8명",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "f760081bcd6ec587",
+      "koDescHash": null,
+      "rowHash": "6e603d17ca30a66c"
+    },
+    {
+      "id": "gladiator",
+      "name": "Gladiator",
+      "koName": "앤빌 글래디에이터",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 165,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "15cc7fe79a8bc213",
+      "rowHash": "efacbc37bd8e7250"
+    },
+    {
+      "id": "gladius",
+      "name": "Gladius",
+      "koName": "이지스 글라디우스",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 90,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4ef36f61cd869a7c",
+      "koDescHash": "40d197c29c341845",
+      "rowHash": "f124afe166a0adc0"
+    },
+    {
+      "id": "gladius-pirate-edition",
+      "name": "Gladius Pirate Edition",
+      "koName": null,
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4ef36f61cd869a7c",
+      "koDescHash": "2702fed9a5edcfb3",
+      "rowHash": "18324ae2e29882c5"
+    },
+    {
+      "id": "gladius-valiant",
+      "name": "Gladius Valiant",
+      "koName": "이지스 글라디우스 발리언트",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 110,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4ef36f61cd869a7c",
+      "koDescHash": "bde2bea006ce459b",
+      "rowHash": "8e1eed286b8bccc4"
+    },
+    {
+      "id": "glaive",
+      "name": "Glaive",
+      "koName": "에스페리아 글레이브",
+      "manufacturer": "Esperia",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 350,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "58412c9b797792f3",
+      "koDescHash": "a449043e4d2737cd",
+      "rowHash": "3965f0d6f64261f2"
+    },
+    {
+      "id": "golem",
+      "name": "Golem",
+      "koName": "드레이크 골렘",
+      "manufacturer": "Drake",
+      "role": "채굴선",
+      "focus": "채굴",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "32 SCU",
+      "liveCargoScu": 32,
+      "priceUsd": 60,
+      "tags": [
+        "채굴"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "963adba425c9e178",
+      "koDescHash": "be44c1e4dd50fc51",
+      "rowHash": "1d2f60773892f1fb"
+    },
+    {
+      "id": "golem-ox",
+      "name": "Golem OX",
+      "koName": "드레이크 골렘 옥스",
+      "manufacturer": "Drake",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "64 SCU",
+      "liveCargoScu": 64,
+      "priceUsd": 90,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2e63c0f83376152f",
+      "koDescHash": "d44ff26188e354cc",
+      "rowHash": "8def5bb5c395b45f"
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian",
+      "koName": "미라이 가디언",
+      "manufacturer": "Mirai",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 250,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "44f17bcb77664051",
+      "koDescHash": "8ceb7bbbbb6dba49",
+      "rowHash": "a705381ec99d7d00"
+    },
+    {
+      "id": "guardian-mx",
+      "name": "Guardian MX",
+      "koName": "미라이 가디언 MX",
+      "manufacturer": "Mirai",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 290,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "44f17bcb77664051",
+      "koDescHash": "d66d823d2e01604b",
+      "rowHash": "ecae61a00e1be3db"
+    },
+    {
+      "id": "guardian-qi",
+      "name": "Guardian QI",
+      "koName": "미라이 가디언 QI",
+      "manufacturer": "Mirai",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 260,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "44f17bcb77664051",
+      "koDescHash": "5db8a346ffcff3a8",
+      "rowHash": "ef7d49152b0d1a02"
+    },
+    {
+      "id": "hammerhead",
+      "name": "Hammerhead",
+      "koName": "이지스 해머헤드",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "대형",
+      "crew": "9명",
+      "liveCrewSize": 8,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 725,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "fedb414fa8fedb0b",
+      "koDescHash": "3875656de0be31fa",
+      "rowHash": "67070df9917bfb27"
+    },
+    {
+      "id": "hawk",
+      "name": "Hawk",
+      "koName": "앤빌 호크",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 100,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "76505c3bf802baad",
+      "rowHash": "d5b902545b98c3a8"
+    },
+    {
+      "id": "herald",
+      "name": "Herald",
+      "koName": "드레이크 헤럴드",
+      "manufacturer": "Drake",
+      "role": "다목적함",
+      "focus": "다목적",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 85,
+      "tags": [
+        "다목적"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c6ed9ee4441297e0",
+      "koDescHash": "e7b566ba91337175",
+      "rowHash": "bd0d93ad31f46c8a"
+    },
+    {
+      "id": "hermes",
+      "name": "Hermes",
+      "koName": "RSI 허미즈",
+      "manufacturer": "RSI",
+      "role": "중형 화물",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "2-4명",
+      "liveCrewSize": 2,
+      "cargo": "288 SCU",
+      "liveCargoScu": 288,
+      "priceUsd": 220,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "7736d9fde89eb2da",
+      "koDescHash": "2152ecf9c2b0f19d",
+      "rowHash": "5cc172dec689447a"
+    },
+    {
+      "id": "hoverquad",
+      "name": "HoverQuad",
+      "koName": "C.O. 호버쿼드",
+      "manufacturer": "CNOU",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 30,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "97946aa58fec2378",
+      "koDescHash": "5cef54e45bdc2c11",
+      "rowHash": "876dd23cb0b668a8"
+    },
+    {
+      "id": "hull-a",
+      "name": "Hull A",
+      "koName": "헐 A",
+      "manufacturer": "MISC",
+      "role": "소형 화물",
+      "focus": "화물",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "64 SCU",
+      "liveCargoScu": 64,
+      "priceUsd": 100,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "956395fd2631d4e3",
+      "koDescHash": "1e745b623e38e5cf",
+      "rowHash": "55e4e1952e2ef1b1"
+    },
+    {
+      "id": "hull-b",
+      "name": "Hull B",
+      "koName": "헐 B",
+      "manufacturer": "MISC",
+      "role": "중형 화물",
+      "focus": "화물",
+      "size": "대형",
+      "crew": "2명",
+      "liveCrewSize": 2,
+      "cargo": "512 SCU",
+      "liveCargoScu": 512,
+      "priceUsd": 280,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "b3de9008d07b8c6c",
+      "koDescHash": "138f98dad0d338d5",
+      "rowHash": "daee983741680edc"
+    },
+    {
+      "id": "hull-c",
+      "name": "Hull C",
+      "koName": "헐 C",
+      "manufacturer": "MISC",
+      "role": "대형 화물",
+      "focus": "화물",
+      "size": "대형",
+      "crew": "2-4명",
+      "liveCrewSize": 4,
+      "cargo": "4,608 SCU",
+      "liveCargoScu": 4608,
+      "priceUsd": 500,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "ff434ac23935dabe",
+      "koDescHash": "b59816f597c77835",
+      "rowHash": "2e6667bece6da3fe"
+    },
+    {
+      "id": "hull-d",
+      "name": "Hull D",
+      "koName": "MISC 헐 D",
+      "manufacturer": "MISC",
+      "role": "초대형 화물",
+      "focus": "화물",
+      "size": "캐피탈",
+      "crew": "2-4명(변경 예정)",
+      "liveCrewSize": null,
+      "cargo": "6,912 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "기함",
+        "화물"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "f1a1635fc1baaa98",
+      "koDescHash": null,
+      "rowHash": "606c3e94f654eacd"
+    },
+    {
+      "id": "hull-e",
+      "name": "Hull E",
+      "koName": "MISC 헐 E",
+      "manufacturer": "MISC",
+      "role": "초대형 화물",
+      "focus": "화물",
+      "size": "캐피탈",
+      "crew": "2-4명(변경 예정)",
+      "liveCrewSize": null,
+      "cargo": "12,288 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "기함",
+        "화물"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "036326f1e6e11bd5",
+      "koDescHash": null,
+      "rowHash": "5b437ec8d0e09f83"
+    },
+    {
+      "id": "hurricane",
+      "name": "Hurricane",
+      "koName": "앤빌 허리케인",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 210,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a13ca97a11db804a",
+      "koDescHash": "afea087f8668ead5",
+      "rowHash": "83f3a47c9cecde19"
+    },
+    {
+      "id": "idris-m",
+      "name": "Idris-M",
+      "koName": "이지스 이드리스-M",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "캐피탈",
+      "crew": "8-28명",
+      "liveCrewSize": 28,
+      "cargo": "1,326 SCU",
+      "liveCargoScu": 1326,
+      "priceUsd": 1000,
+      "tags": [
+        "기함",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3221c668c5205e3d",
+      "koDescHash": "181e09c66d609d0d",
+      "rowHash": "cac2538347671025"
+    },
+    {
+      "id": "idris-p",
+      "name": "Idris-P",
+      "koName": "이지스 이드리스-P",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "캐피탈",
+      "crew": "8-28명",
+      "liveCrewSize": 28,
+      "cargo": "1,374 SCU",
+      "liveCargoScu": 1374,
+      "priceUsd": 1900,
+      "tags": [
+        "기함",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3221c668c5205e3d",
+      "koDescHash": "c0966648a11ce179",
+      "rowHash": "2f80e4cb600c7e45"
+    },
+    {
+      "id": "intrepid",
+      "name": "Intrepid",
+      "koName": "크루세이더 인트레피드",
+      "manufacturer": "Crusader",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 65,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "d21f7a7e438e1145",
+      "koDescHash": "08501a9175933e40",
+      "rowHash": "94087037815d8642"
+    },
+    {
+      "id": "ironclad",
+      "name": "Ironclad",
+      "koName": "아이언클래드",
+      "manufacturer": "Drake",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "대형",
+      "crew": "1-7명",
+      "liveCrewSize": 7,
+      "cargo": "2,200 SCU",
+      "liveCargoScu": 2200,
+      "priceUsd": 600,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c6840ffa25d949a5",
+      "koDescHash": "47d87a51223d22d9",
+      "rowHash": "18903e4310e6dbd8"
+    },
+    {
+      "id": "ironclad-assault",
+      "name": "Ironclad Assault",
+      "koName": "아이언클래드 어썰트",
+      "manufacturer": "Drake",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "대형",
+      "crew": "1-9명",
+      "liveCrewSize": 7,
+      "cargo": "1,440 SCU",
+      "liveCargoScu": 1440,
+      "priceUsd": 650,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "d74c911415281b64",
+      "koDescHash": "efc61c4c2100efe5",
+      "rowHash": "c1501554f0da4fe2"
+    },
+    {
+      "id": "javelin",
+      "name": "Javelin",
+      "koName": "이지스 재블린",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "캐피탈",
+      "crew": "12-65명",
+      "liveCrewSize": null,
+      "cargo": "5400 SCU",
+      "liveCargoScu": null,
+      "priceUsd": 3000,
+      "tags": [
+        "미구현",
+        "기함",
+        "전투"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "f96c083b91e143bf",
+      "koDescHash": null,
+      "rowHash": "00b9f49bdbc4de6f"
+    },
+    {
+      "id": "khartu-al",
+      "name": "Khartu-Al",
+      "koName": "아포아 카투-알",
+      "manufacturer": "Aopoa",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 175,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "019e9a9beee86ab7",
+      "koDescHash": "3b68542e19c5bec1",
+      "rowHash": "9e9e1f8e36a4eaf3"
+    },
+    {
+      "id": "kraken",
+      "name": "Kraken",
+      "koName": "드레이크 크라켄",
+      "manufacturer": "Drake",
+      "role": "항모",
+      "focus": "다목적",
+      "size": "캐피탈",
+      "crew": "null-10명",
+      "liveCrewSize": null,
+      "cargo": "3792 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "기함",
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "2462313392ac88d8",
+      "koDescHash": null,
+      "rowHash": "bc37d66ce74833f6"
+    },
+    {
+      "id": "kraken-privateer",
+      "name": "Kraken Privateer",
+      "koName": "드레이크 크라켄 프라이버티어",
+      "manufacturer": "Drake",
+      "role": "항모",
+      "focus": "다목적",
+      "size": "캐피탈",
+      "crew": "null-10명",
+      "liveCrewSize": null,
+      "cargo": "768 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "기함",
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "2462313392ac88d8",
+      "koDescHash": null,
+      "rowHash": "a578506b2b6c36f4"
+    },
+    {
+      "id": "l-21-wolf",
+      "name": "L-21 Wolf",
+      "koName": "크루거 L-21 울프",
+      "manufacturer": "Kruger",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 100,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "64f461d0e4888427",
+      "koDescHash": "d96bd04626aa0493",
+      "rowHash": "a545341e9a6c0481"
+    },
+    {
+      "id": "l-22-alpha-wolf",
+      "name": "L-22 Alpha Wolf",
+      "koName": "크루거 L-22 알파 울프",
+      "manufacturer": "Kruger",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 120,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "64f461d0e4888427",
+      "koDescHash": "268c70c5f1efbe30",
+      "rowHash": "be7011ad2a143cd9"
+    },
+    {
+      "id": "legionnaire",
+      "name": "Legionnaire",
+      "koName": "앤빌 리저네어",
+      "manufacturer": "Anvil",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "4bf0f5ae9b4871f2",
+      "koDescHash": null,
+      "rowHash": "85daeca5e682bd5c"
+    },
+    {
+      "id": "liberator",
+      "name": "Liberator",
+      "koName": "앤빌 리버레이터",
+      "manufacturer": "Anvil",
+      "role": "항모",
+      "focus": "기함",
+      "size": "대형",
+      "crew": "1-2명",
+      "liveCrewSize": null,
+      "cargo": "400 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "ac9a7f49c9cf8d21",
+      "koDescHash": null,
+      "rowHash": "7d0e990cdcf3963d"
+    },
+    {
+      "id": "lynx",
+      "name": "Lynx ",
+      "koName": "RSI 링스",
+      "manufacturer": "RSI",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 60,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f760d55cc05cc835",
+      "koDescHash": "37f3ec79ba1daf48",
+      "rowHash": "d207a860442fbfe5"
+    },
+    {
+      "id": "m2-hercules",
+      "name": "M2 Hercules",
+      "koName": "M2 허큘리스",
+      "manufacturer": "Crusader",
+      "role": "수송선",
+      "focus": "다목적",
+      "size": "대형",
+      "crew": "1-3명",
+      "liveCrewSize": 3,
+      "cargo": "522 SCU",
+      "liveCargoScu": 522,
+      "priceUsd": 520,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f219b05b0f32657d",
+      "koDescHash": "557143340556bd4b",
+      "rowHash": "3c9dffe3804e3285"
+    },
+    {
+      "id": "m50",
+      "name": "M50",
+      "koName": "오리진 M50 인터셉터",
+      "manufacturer": "Origin",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "abb8f4e24f19ba5f",
+      "koDescHash": "c4cf3d9a9041951e",
+      "rowHash": "b77835f2564f179d"
+    },
+    {
+      "id": "m80",
+      "name": "M80",
+      "koName": "오리진 M80",
+      "manufacturer": "Origin",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 100,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "253c571cd2b87783",
+      "koDescHash": "4dd87419bb5bf043",
+      "rowHash": "678ccefa018b341c"
+    },
+    {
+      "id": "mantis",
+      "name": "Mantis",
+      "koName": "RSI 맨티스",
+      "manufacturer": "RSI",
+      "role": "퀀텀 차단",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 150,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "069c9f6915d27f6d",
+      "koDescHash": "73aa1e0890d64e4d",
+      "rowHash": "e166d56d64fe1f7d"
+    },
+    {
+      "id": "mdc",
+      "name": "MDC",
+      "koName": null,
+      "manufacturer": "Greycat Industrial",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 50,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "b66b6a1c178d12cf",
+      "koDescHash": "bec49929d489b842",
+      "rowHash": "4943bb516e17da49"
+    },
+    {
+      "id": "merchantman",
+      "name": "Merchantman",
+      "koName": "바누 머천트맨",
+      "manufacturer": "Banu",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "대형",
+      "crew": "4-8명",
+      "liveCrewSize": null,
+      "cargo": "2880 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "화물"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "007bcc2c395225bd",
+      "koDescHash": null,
+      "rowHash": "e813818ade41d61a"
+    },
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "koName": null,
+      "manufacturer": "Crusader",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "2-3명",
+      "liveCrewSize": 3,
+      "cargo": "114 SCU",
+      "liveCargoScu": 114,
+      "priceUsd": null,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3852b07d00df4463",
+      "koDescHash": "d38e53754d3628dc",
+      "rowHash": "7bb9e5594de96a4a"
+    },
+    {
+      "id": "meteor",
+      "name": "Meteor",
+      "koName": "RSI 미티어",
+      "manufacturer": "RSI",
+      "role": "중형 전투기",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 260,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f4503c0a982cdbc5",
+      "koDescHash": "1209dd024710ae36",
+      "rowHash": "5bac66921aa5613b"
+    },
+    {
+      "id": "mole",
+      "name": "MOLE",
+      "koName": "아르고 몰",
+      "manufacturer": "ARGO",
+      "role": "채굴선",
+      "focus": "채굴",
+      "size": "중형",
+      "crew": "1-4명",
+      "liveCrewSize": 4,
+      "cargo": "96 SCU",
+      "liveCargoScu": 96,
+      "priceUsd": 315,
+      "tags": [
+        "채굴"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "14167fd99efebc8e",
+      "koDescHash": "88f33abba505a12c",
+      "rowHash": "f264a93fabd6188a"
+    },
+    {
+      "id": "moth",
+      "name": "MOTH",
+      "koName": "아르고 모스",
+      "manufacturer": "ARGO",
+      "role": "인양선",
+      "focus": "인양",
+      "size": "중형",
+      "crew": "1-4명",
+      "liveCrewSize": 4,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 315,
+      "tags": [
+        "인양"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8934b9fc7a96b5e2",
+      "koDescHash": "29a4a8daf0618a70",
+      "rowHash": "4b99015fb8af398b"
+    },
+    {
+      "id": "mpuv-cargo",
+      "name": "MPUV Cargo",
+      "koName": "아르고 MPUV 카고",
+      "manufacturer": "ARGO",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "2 SCU",
+      "liveCargoScu": 2,
+      "priceUsd": 35,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "00edf5622c51b683",
+      "koDescHash": "630d97daec8bae12",
+      "rowHash": "7f11e25364b58630"
+    },
+    {
+      "id": "mpuv-personnel",
+      "name": "MPUV Personnel",
+      "koName": "아르고 MPUV 퍼스널",
+      "manufacturer": "ARGO",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 40,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a575bd69ed6fea0b",
+      "koDescHash": "fa4f56e041b5f347",
+      "rowHash": "0d41da6683589fff"
+    },
+    {
+      "id": "mpuv-tractor",
+      "name": "MPUV Tractor",
+      "koName": "아르고 MPUV 트랙터",
+      "manufacturer": "ARGO",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "16 SCU",
+      "liveCargoScu": 16,
+      "priceUsd": 40,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "00edf5622c51b683",
+      "koDescHash": "866da670538260f5",
+      "rowHash": "aa0fc390da13ac9a"
+    },
+    {
+      "id": "mtc",
+      "name": "MTC",
+      "koName": "그레이캣 MTC",
+      "manufacturer": "Greycat Industrial",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 50,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "b66b6a1c178d12cf",
+      "koDescHash": "688e8079b35d3807",
+      "rowHash": "0e257609501ed03b"
+    },
+    {
+      "id": "mule",
+      "name": "Mule",
+      "koName": "드레이크 뮬",
+      "manufacturer": "Drake",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "1 SCU",
+      "liveCargoScu": 1,
+      "priceUsd": 45,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "0171238c622e174e",
+      "koDescHash": "87b88764e6c8b566",
+      "rowHash": "99c1275419ce49af"
+    },
+    {
+      "id": "mustang-alpha",
+      "name": "Mustang Alpha",
+      "koName": "C.O. 머스탱 알파",
+      "manufacturer": "CNOU",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "4 SCU",
+      "liveCargoScu": 4,
+      "priceUsd": 30,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "e4b6cd6138c6102f",
+      "koDescHash": "0ca3dd03875f8145",
+      "rowHash": "b952c25fbafed008"
+    },
+    {
+      "id": "mustang-alpha-vindicator",
+      "name": "Mustang Alpha Vindicator",
+      "koName": null,
+      "manufacturer": "CNOU",
+      "role": "화물선",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": null,
+      "cargo": "4 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "화물",
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "duplicate",
+      "descHash": "e4b6cd6138c6102f",
+      "koDescHash": null,
+      "rowHash": "90fb08cbc0688d8a"
+    },
+    {
+      "id": "mustang-beta",
+      "name": "Mustang Beta",
+      "koName": "C.O. 머스탱 베타",
+      "manufacturer": "CNOU",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 40,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "1cad67d424c4a6a5",
+      "koDescHash": "30074b23463af211",
+      "rowHash": "e196d71426b36b24"
+    },
+    {
+      "id": "mustang-delta",
+      "name": "Mustang Delta",
+      "koName": "C.O. 머스탱 델타",
+      "manufacturer": "CNOU",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 65,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "85022db70beb9f34",
+      "koDescHash": "44e31a609ef9246b",
+      "rowHash": "369f7fdcd280d7e5"
+    },
+    {
+      "id": "mustang-gamma",
+      "name": "Mustang Gamma",
+      "koName": "C.O. 머스탱 감마",
+      "manufacturer": "CNOU",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c01c9657cb7c98ff",
+      "koDescHash": "a96c239f7b4c2d4f",
+      "rowHash": "bf199686894a7293"
+    },
+    {
+      "id": "mustang-omega",
+      "name": "Mustang Omega",
+      "koName": "C.O. 머스탱 오메가",
+      "manufacturer": "CNOU",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c01c9657cb7c98ff",
+      "koDescHash": "f067c0e989c3db26",
+      "rowHash": "15c990e44012acfd"
+    },
+    {
+      "id": "nautilus",
+      "name": "Nautilus ",
+      "koName": "이지스 노틸러스",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "대형",
+      "crew": "4-8명",
+      "liveCrewSize": null,
+      "cargo": "64 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "전투"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "7ee51c10f58a48a9",
+      "koDescHash": null,
+      "rowHash": "9df27c36df55b2ad"
+    },
+    {
+      "id": "nautilus-solstice-edition",
+      "name": "Nautilus Solstice Edition",
+      "koName": null,
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "대형",
+      "crew": "4-8명",
+      "liveCrewSize": null,
+      "cargo": "64 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "전투"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "7ee51c10f58a48a9",
+      "koDescHash": null,
+      "rowHash": "a84007c09e88812b"
+    },
+    {
+      "id": "nomad",
+      "name": "Nomad",
+      "koName": "C.O. 노매드",
+      "manufacturer": "CNOU",
+      "role": "입문선",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "24 SCU",
+      "liveCargoScu": 24,
+      "priceUsd": 80,
+      "tags": [
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a75b0fe81c6bfcc0",
+      "koDescHash": "1add6a1db039e263",
+      "rowHash": "9ec8568d06653da8"
+    },
+    {
+      "id": "nova",
+      "name": "Nova",
+      "koName": "텀브릴 노바",
+      "manufacturer": "Tumbril",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1-3명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 120,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9332ae2c3479b078",
+      "koDescHash": "6d42b5c75ce19e40",
+      "rowHash": "54bd3b9454e03520"
+    },
+    {
+      "id": "nox",
+      "name": "Nox",
+      "koName": "아포아 녹스",
+      "manufacturer": "Aopoa",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 45,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "b99b15c810d6d900",
+      "koDescHash": "08dc046d950e47fc",
+      "rowHash": "84c3d403c1f5628a"
+    },
+    {
+      "id": "nox-kue",
+      "name": "Nox Kue",
+      "koName": "아포아 녹스 쿠에",
+      "manufacturer": "Aopoa",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 45,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "b99b15c810d6d900",
+      "koDescHash": "e28e469659b2f51c",
+      "rowHash": "95ba5feca8540cd5"
+    },
+    {
+      "id": "odyssey",
+      "name": "Odyssey",
+      "koName": "MISC 오디세이",
+      "manufacturer": "MISC",
+      "role": "탐사",
+      "focus": "탐사",
+      "size": "캐피탈",
+      "crew": "1명(변경 예정)",
+      "liveCrewSize": null,
+      "cargo": "252 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "탐사"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "ef420bc3894904ab",
+      "koDescHash": null,
+      "rowHash": "ea55c442faf9dc94"
+    },
+    {
+      "id": "orion",
+      "name": "Orion",
+      "koName": null,
+      "manufacturer": "RSI",
+      "role": "대형 채굴",
+      "focus": "채굴",
+      "size": "캐피탈",
+      "crew": "2-4명(변경 예정)",
+      "liveCrewSize": null,
+      "cargo": "384 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "기함",
+        "채굴"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "ad899f116f827e0a",
+      "koDescHash": null,
+      "rowHash": "3811feb261d0d73a"
+    },
+    {
+      "id": "p-52-merlin",
+      "name": "P-52 Merlin",
+      "koName": "크루거 P-52 멀린",
+      "manufacturer": "Kruger",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 25,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "5dd15424c5b04bef",
+      "koDescHash": "d9855143b884f350",
+      "rowHash": "62b354395e77d46b"
+    },
+    {
+      "id": "p-72-archimedes",
+      "name": "P-72 Archimedes",
+      "koName": "크루거 P-72 아르키메데스",
+      "manufacturer": "Kruger",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 35,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a049e5823301bc21",
+      "koDescHash": "c9093dc368dc6fbb",
+      "rowHash": "5f3a25a438039061"
+    },
+    {
+      "id": "p-72-archimedes-emerald",
+      "name": "P-72 Archimedes Emerald",
+      "koName": "크루거 P-72 아르키메데스 에메랄드",
+      "manufacturer": "Kruger",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 40,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a049e5823301bc21",
+      "koDescHash": "0863e4dd95108d43",
+      "rowHash": "e0355680b3859129"
+    },
+    {
+      "id": "paladin",
+      "name": "Paladin",
+      "koName": "앤빌 팔라딘",
+      "manufacturer": "Anvil",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1-4명",
+      "liveCrewSize": 4,
+      "cargo": "4 SCU",
+      "liveCargoScu": 4,
+      "priceUsd": 350,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "401e38385be17763",
+      "koDescHash": "b2fe6e449c173e57",
+      "rowHash": "92135457a0d26d6e"
+    },
+    {
+      "id": "perseus",
+      "name": "Perseus",
+      "koName": "RSI 페르세우스",
+      "manufacturer": "RSI",
+      "role": "대형 건쉽",
+      "focus": "전투",
+      "size": "대형",
+      "crew": "6명",
+      "liveCrewSize": 6,
+      "cargo": "96 SCU",
+      "liveCargoScu": 96,
+      "priceUsd": 800,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "3e19539c2ed6e851",
+      "koDescHash": "3e2d97d22f1cc2d9",
+      "rowHash": "606b5df252fa83d1"
+    },
+    {
+      "id": "pioneer",
+      "name": "Pioneer",
+      "koName": "C.O. 파이오니어",
+      "manufacturer": "CNOU",
+      "role": "지원선",
+      "focus": "지원",
+      "size": "캐피탈",
+      "crew": "4-8명",
+      "liveCrewSize": null,
+      "cargo": "1000 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "기함"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "7be6485e58f308fc",
+      "koDescHash": null,
+      "rowHash": "62fce966c5197bfa"
+    },
+    {
+      "id": "pitbull",
+      "name": "Pitbull",
+      "koName": "드레이크 핏불",
+      "manufacturer": "Drake",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "03abf511d09ceccf",
+      "koDescHash": "4f4a7416f6adbad3",
+      "rowHash": "aac0a4c493f52840"
+    },
+    {
+      "id": "polaris",
+      "name": "Polaris",
+      "koName": "폴라리스",
+      "manufacturer": "RSI",
+      "role": "코르벳",
+      "focus": "전투",
+      "size": "대형",
+      "crew": "14명",
+      "liveCrewSize": 12,
+      "cargo": "576 SCU",
+      "liveCargoScu": 576,
+      "priceUsd": 975,
+      "tags": [
+        "기함",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8699338b0f5cc5cc",
+      "koDescHash": "5af3323b6edc31b3",
+      "rowHash": "e3373ef898ed6377"
+    },
+    {
+      "id": "prospector",
+      "name": "Prospector",
+      "koName": "프로스펙터",
+      "manufacturer": "MISC",
+      "role": "채굴",
+      "focus": "채굴",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "32 SCU",
+      "liveCargoScu": 32,
+      "priceUsd": 155,
+      "tags": [
+        "채굴"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "232f91036a320413",
+      "koDescHash": "fbcafed1530b61cd",
+      "rowHash": "e3cbdc3fb5d3bd6f"
+    },
+    {
+      "id": "prowler",
+      "name": "Prowler",
+      "koName": "에스페리아 프라울러",
+      "manufacturer": "Esperia",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "중형",
+      "crew": "2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 440,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "cf203d28a0051683",
+      "koDescHash": "069f57334af87bc1",
+      "rowHash": "aff6c6b3f36757a9"
+    },
+    {
+      "id": "prowler-utility",
+      "name": "Prowler Utility",
+      "koName": "에스페리아 프라울러 유틸리티",
+      "manufacturer": "Esperia",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "32 SCU",
+      "liveCargoScu": 32,
+      "priceUsd": 300,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2b2e6605da7f9999",
+      "koDescHash": "91ebf180b2c89cd0",
+      "rowHash": "5304efb1fc12c8aa"
+    },
+    {
+      "id": "ptv",
+      "name": "PTV",
+      "koName": "그레이캣 PTV",
+      "manufacturer": "Greycat Industrial",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c9d1c034b65f6f4d",
+      "koDescHash": "628a485cde238ab9",
+      "rowHash": "02747df3cfa227cd"
+    },
+    {
+      "id": "pulse",
+      "name": "Pulse",
+      "koName": "미라이 펄스",
+      "manufacturer": "Mirai",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 30,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "283269e3f0c75597",
+      "koDescHash": "055d68f8ab4e9823",
+      "rowHash": "d95c27ff52a9853a"
+    },
+    {
+      "id": "pulse-lx",
+      "name": "Pulse LX",
+      "koName": "미라이 펄스 LX",
+      "manufacturer": "Mirai",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 30,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "388217571a832a22",
+      "koDescHash": "bf47b0d682c5fc30",
+      "rowHash": "6907d04cee887e15"
+    },
+    {
+      "id": "raft",
+      "name": "RAFT",
+      "koName": "아르고 래프트",
+      "manufacturer": "ARGO",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "192 SCU",
+      "liveCargoScu": 192,
+      "priceUsd": 190,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a4548c0410ce0c1c",
+      "koDescHash": "b7360fd289fa71ac",
+      "rowHash": "cd9d12cd3ad25bd9"
+    },
+    {
+      "id": "railen",
+      "name": "Railen",
+      "koName": "가탁 레일렌",
+      "manufacturer": "Gatac",
+      "role": "화물선",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "null-4명",
+      "liveCrewSize": 4,
+      "cargo": "640 SCU",
+      "liveCargoScu": 640,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "화물"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "b2c3e832015ffd3c",
+      "koDescHash": "449cf4ee7ec9e04d",
+      "rowHash": "04256c19b38ad798"
+    },
+    {
+      "id": "ranger-cv",
+      "name": "Ranger CV",
+      "koName": null,
+      "manufacturer": "Tumbril",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "지상"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "dd4b5384e5c10194",
+      "koDescHash": null,
+      "rowHash": "faa6500bbfee1c6c"
+    },
+    {
+      "id": "ranger-rc",
+      "name": "Ranger RC",
+      "koName": null,
+      "manufacturer": "Tumbril",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "지상"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "c13e995818a18663",
+      "koDescHash": null,
+      "rowHash": "624b4ec324313449"
+    },
+    {
+      "id": "ranger-tr",
+      "name": "Ranger TR",
+      "koName": "텀브릴 레인저 TR",
+      "manufacturer": "Tumbril",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": null,
+      "cargo": "0 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "지상",
+        "전투"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "77647aae83bc1e89",
+      "koDescHash": null,
+      "rowHash": "42fef4f1652fb5dd"
+    },
+    {
+      "id": "razor",
+      "name": "Razor",
+      "koName": "미라이 레이저",
+      "manufacturer": "Mirai",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 145,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "e7ad11f03f0f674a",
+      "koDescHash": "b41348b11519c777",
+      "rowHash": "b66de3e62b47c2b8"
+    },
+    {
+      "id": "razor-ex",
+      "name": "Razor EX",
+      "koName": "미라이 레이저 EX",
+      "manufacturer": "Mirai",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 155,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "44f17bcb77664051",
+      "koDescHash": "2bb6197a2c4a753e",
+      "rowHash": "a9f101857f2acf45"
+    },
+    {
+      "id": "razor-lx",
+      "name": "Razor LX",
+      "koName": "미라이 레이저 LX",
+      "manufacturer": "Mirai",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 150,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "87a116f22a0b99e0",
+      "koDescHash": "3c614e9377ef58a4",
+      "rowHash": "f695a2593682a249"
+    },
+    {
+      "id": "reclaimer",
+      "name": "Reclaimer",
+      "koName": "리클레이머",
+      "manufacturer": "Aegis",
+      "role": "구난·인양",
+      "focus": "인양",
+      "size": "대형",
+      "crew": "5명",
+      "liveCrewSize": 5,
+      "cargo": "420 SCU",
+      "liveCargoScu": 420,
+      "priceUsd": 400,
+      "tags": [
+        "인양"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f45ee02fc04e10ee",
+      "koDescHash": "6782cb5401c65297",
+      "rowHash": "7761b864f5917b67"
+    },
+    {
+      "id": "redeemer",
+      "name": "Redeemer",
+      "koName": "이지스 리디머",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "3-4명",
+      "liveCrewSize": 4,
+      "cargo": "2 SCU",
+      "liveCargoScu": 2,
+      "priceUsd": 330,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "68182c50cd5a7c2d",
+      "koDescHash": "dc920c82add2fddd",
+      "rowHash": "c350007c8261e18c"
+    },
+    {
+      "id": "reliant-kore",
+      "name": "Reliant Kore",
+      "koName": "MISC 릴라이언트 코레",
+      "manufacturer": "MISC",
+      "role": "입문/소형 화물",
+      "focus": "입문",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 2,
+      "cargo": "6 SCU",
+      "liveCargoScu": 6,
+      "priceUsd": 65,
+      "tags": [
+        "화물",
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9ecd7523fc5e538f",
+      "koDescHash": "3245d8f60b147513",
+      "rowHash": "a312343d11f4f2f1"
+    },
+    {
+      "id": "reliant-mako",
+      "name": "Reliant Mako",
+      "koName": "MISC 릴라이언트 마코",
+      "manufacturer": "MISC",
+      "role": "방송/중계",
+      "focus": "방송",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 95,
+      "tags": [
+        "지원"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8225b6fc71599af5",
+      "koDescHash": "b6633667f44acad6",
+      "rowHash": "7a8d400134bc08fd"
+    },
+    {
+      "id": "reliant-sen",
+      "name": "Reliant Sen",
+      "koName": "MISC 릴라이언트 센",
+      "manufacturer": "MISC",
+      "role": "소형 과학/연구",
+      "focus": "연구",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 85,
+      "tags": [
+        "지원"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8d6742c4d4408a58",
+      "koDescHash": "251619d76e82aefd",
+      "rowHash": "d98a9c60a1cd3539"
+    },
+    {
+      "id": "reliant-tana",
+      "name": "Reliant Tana",
+      "koName": "MISC 릴라이언트 타나",
+      "manufacturer": "MISC",
+      "role": "경 전투기",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 2,
+      "cargo": "1 SCU",
+      "liveCargoScu": 1,
+      "priceUsd": 75,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "bad3b8ee83ed4ea7",
+      "koDescHash": "81fdc1e9d36c8f8d",
+      "rowHash": "9c5e69d716ba70f3"
+    },
+    {
+      "id": "retaliator",
+      "name": "Retaliator",
+      "koName": "이지스 리탈리에이터",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "다목적",
+      "size": "대형",
+      "crew": "4-7명",
+      "liveCrewSize": 7,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 275,
+      "tags": [
+        "전투",
+        "모듈형"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2f8d089371e0b6e0",
+      "koDescHash": "31b552875ac51afb",
+      "rowHash": "3d8c82a1cc030bd3"
+    },
+    {
+      "id": "roc",
+      "name": "ROC",
+      "koName": "그레이캣 ROC",
+      "manufacturer": "Greycat Industrial",
+      "role": "채굴선",
+      "focus": "채굴",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "지상",
+        "채굴"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "b96ec7bbac4e11bf",
+      "koDescHash": "3fb718efdffe538e",
+      "rowHash": "436dace12f49895e"
+    },
+    {
+      "id": "roc-ds",
+      "name": "ROC-DS",
+      "koName": "그레이캣 ROC-DS",
+      "manufacturer": "Greycat Industrial",
+      "role": "채굴선",
+      "focus": "채굴",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 75,
+      "tags": [
+        "지상",
+        "채굴"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "b96ec7bbac4e11bf",
+      "koDescHash": "583876d4bdd0ddd1",
+      "rowHash": "c7424607c3275eaa"
+    },
+    {
+      "id": "sabre",
+      "name": "Sabre",
+      "koName": "이지스 세이버",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 175,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4ef36f61cd869a7c",
+      "koDescHash": "1cb7d0c1609aad46",
+      "rowHash": "cf6215979d882cad"
+    },
+    {
+      "id": "sabre-comet",
+      "name": "Sabre Comet",
+      "koName": "이지스 세이버 코멧",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 185,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4ef36f61cd869a7c",
+      "koDescHash": "4c33e09a7a950c79",
+      "rowHash": "0dcc9d8bb061a497"
+    },
+    {
+      "id": "sabre-firebird",
+      "name": "Sabre Firebird",
+      "koName": "이지스 세이버 파이어버드",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 185,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "68182c50cd5a7c2d",
+      "koDescHash": "970ed55f9d15868b",
+      "rowHash": "4bc9b9a4e89c19fe"
+    },
+    {
+      "id": "sabre-peregrine",
+      "name": "Sabre Peregrine",
+      "koName": "이지스 세이버 페레그린",
+      "manufacturer": "Aegis",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 185,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "81d4db6e906ccd56",
+      "koDescHash": "dac37f22eaf88fe3",
+      "rowHash": "ac17dec5d5b0b56c"
+    },
+    {
+      "id": "sabre-raven",
+      "name": "Sabre Raven",
+      "koName": "이지스 세이버 레이븐",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4ef36f61cd869a7c",
+      "koDescHash": "bb4de11c932b8789",
+      "rowHash": "ec6ba00c0595d29f"
+    },
+    {
+      "id": "salvation",
+      "name": "Salvation",
+      "koName": "RSI 샐베이션",
+      "manufacturer": "RSI",
+      "role": "소형 인양/입문",
+      "focus": "인양",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 60,
+      "tags": [
+        "인양"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "64b0ab729966790a",
+      "koDescHash": "227a11ceeb310494",
+      "rowHash": "ba89507cf35aeb33"
+    },
+    {
+      "id": "san-tok-y-i",
+      "name": "San'tok.yāi",
+      "koName": "아포아 산'톡.야이",
+      "manufacturer": "Aopoa",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 240,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "68c9041268f6f53d",
+      "koDescHash": "49d250e076ef30a6",
+      "rowHash": "a1c75b4006e1c8a5"
+    },
+    {
+      "id": "scorpius",
+      "name": "Scorpius",
+      "koName": "RSI 스콜피우스",
+      "manufacturer": "RSI",
+      "role": "중 전투기",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1~2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 240,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "dc0fc23723e3cc76",
+      "koDescHash": "c1467abeaeadfff9",
+      "rowHash": "6c8b271068714a52"
+    },
+    {
+      "id": "scorpius-antares",
+      "name": "Scorpius Antares",
+      "koName": "RSI 스콜피우스 안타레스",
+      "manufacturer": "RSI",
+      "role": "중 전투기/EMP/퀀텀 댐퍼",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1~2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 230,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "d3dbd15c581e94e4",
+      "koDescHash": "17216a5aebd0d7a0",
+      "rowHash": "2937e6dd6caa53a3"
+    },
+    {
+      "id": "scythe",
+      "name": "Scythe",
+      "koName": "반둘 사이드",
+      "manufacturer": "Vanduul",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9fc7427aa1b53c33",
+      "koDescHash": "f1d3ddffd1f125ed",
+      "rowHash": "36113fbf8b5eeb71"
+    },
+    {
+      "id": "shiv",
+      "name": "Shiv",
+      "koName": "그레이 쉬브",
+      "manufacturer": "Grey's Market",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "32 SCU",
+      "liveCargoScu": 32,
+      "priceUsd": 150,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "88570b6037abdf3d",
+      "koDescHash": "5ed9a4d632641c5b",
+      "rowHash": "c63ac9f88838a197"
+    },
+    {
+      "id": "spartan",
+      "name": "Spartan",
+      "koName": "앤빌 스파르탄",
+      "manufacturer": "Anvil",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 80,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "0bd79b817fcc43ee",
+      "koDescHash": "fe0ba86519105c7d",
+      "rowHash": "69f4e609ea456301"
+    },
+    {
+      "id": "srv",
+      "name": "SRV",
+      "koName": "아르고 SRV",
+      "manufacturer": "ARGO",
+      "role": "인양선",
+      "focus": "인양",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "12 SCU",
+      "liveCargoScu": 12,
+      "priceUsd": 165,
+      "tags": [
+        "인양"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "fed85413b4caa38c",
+      "koDescHash": "696f32504dabb003",
+      "rowHash": "3d7593eff505536e"
+    },
+    {
+      "id": "starfarer",
+      "name": "Starfarer",
+      "koName": "MISC 스타페어러",
+      "manufacturer": "MISC",
+      "role": "중형 주유",
+      "focus": "주유",
+      "size": "대형",
+      "crew": "1명",
+      "liveCrewSize": 8,
+      "cargo": "291 SCU",
+      "liveCargoScu": 291,
+      "priceUsd": 300,
+      "tags": [
+        "지원"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "bd7a3818acaf36c4",
+      "koDescHash": "c4441740c411e4d7",
+      "rowHash": "f5c14b6799f40728"
+    },
+    {
+      "id": "starfarer-gemini",
+      "name": "Starfarer Gemini",
+      "koName": "MISC 스타페어러 제미니",
+      "manufacturer": "MISC",
+      "role": "중형 주유",
+      "focus": "주유",
+      "size": "대형",
+      "crew": "1명",
+      "liveCrewSize": 2,
+      "cargo": "291 SCU",
+      "liveCargoScu": 291,
+      "priceUsd": 340,
+      "tags": [
+        "지원"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9bc8d17bce379cd3",
+      "koDescHash": "cdf1788bf3479959",
+      "rowHash": "996403ebfcde50b5"
+    },
+    {
+      "id": "starlancer-max",
+      "name": "Starlancer MAX",
+      "koName": "MISC 스타랜서 MAX",
+      "manufacturer": "MISC",
+      "role": "대형 화물선",
+      "focus": "화물",
+      "size": "대형",
+      "crew": "1명",
+      "liveCrewSize": 4,
+      "cargo": "224 SCU",
+      "liveCargoScu": 224,
+      "priceUsd": 250,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "4f67f0b3863efc87",
+      "koDescHash": "35394404ad521eb5",
+      "rowHash": "766261ac2cd8e983"
+    },
+    {
+      "id": "starlancer-tac",
+      "name": "Starlancer TAC",
+      "koName": "MISC 스타랜서 TAC",
+      "manufacturer": "MISC",
+      "role": "건쉽",
+      "focus": "전투",
+      "size": "대형",
+      "crew": "1명",
+      "liveCrewSize": 8,
+      "cargo": "96 SCU",
+      "liveCargoScu": 96,
+      "priceUsd": 375,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "bd8905f65a655332",
+      "koDescHash": "ebc5bd7f01e57cc8",
+      "rowHash": "a277b7783f7c0ed3"
+    },
+    {
+      "id": "starlite",
+      "name": "Starlite",
+      "koName": null,
+      "manufacturer": "MISC",
+      "role": "주유선",
+      "focus": "주유",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "주유",
+        "지원"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "08600cc1228423e1",
+      "koDescHash": null,
+      "rowHash": "b408c6846fe054b3"
+    },
+    {
+      "id": "stinger",
+      "name": "Stinger",
+      "koName": "에스페리아 스팅어",
+      "manufacturer": "Esperia",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "null-1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "58412c9b797792f3",
+      "koDescHash": "bc2182470bc011fa",
+      "rowHash": "b2de9f977702c5a0"
+    },
+    {
+      "id": "storm",
+      "name": "Storm",
+      "koName": "텀브릴 스톰",
+      "manufacturer": "Tumbril",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 90,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9332ae2c3479b078",
+      "koDescHash": "03bfc55151dad4ab",
+      "rowHash": "4b95c81a6131cecb"
+    },
+    {
+      "id": "storm-aa",
+      "name": "Storm AA",
+      "koName": "텀브릴 스톰 AA",
+      "manufacturer": "Tumbril",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "지상",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 100,
+      "tags": [
+        "지상",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9332ae2c3479b078",
+      "koDescHash": "922042a2b22e8347",
+      "rowHash": "57cb1329e1552153"
+    },
+    {
+      "id": "stv",
+      "name": "STV",
+      "koName": "그레이캣 STV",
+      "manufacturer": "Greycat Industrial",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 40,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c9d1c034b65f6f4d",
+      "koDescHash": "67eb5a4ba3882e07",
+      "rowHash": "923215782ce7d3d1"
+    },
+    {
+      "id": "syulen",
+      "name": "Syulen",
+      "koName": "가탁 슐렌",
+      "manufacturer": "Gatac",
+      "role": "입문선",
+      "focus": "입문",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 70,
+      "tags": [
+        "입문"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "611ec479f6fc63ba",
+      "koDescHash": "fc4c9a60ae535e20",
+      "rowHash": "2c56ae8569d69348"
+    },
+    {
+      "id": "talon",
+      "name": "Talon",
+      "koName": "에스페리아 탈론",
+      "manufacturer": "Esperia",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 115,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "161076e9b82b3f02",
+      "koDescHash": "ecffb6692a97e0ea",
+      "rowHash": "960ab8081fe54fb4"
+    },
+    {
+      "id": "talon-shrike",
+      "name": "Talon Shrike",
+      "koName": "에스페리아 탈론 쉬라이크",
+      "manufacturer": "Esperia",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 115,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "161076e9b82b3f02",
+      "koDescHash": "47a3ba39535bb840",
+      "rowHash": "2bc4af497abd8aaf"
+    },
+    {
+      "id": "terrapin",
+      "name": "Terrapin",
+      "koName": "앤빌 테라핀",
+      "manufacturer": "Anvil",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 220,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "8af04170aaccb0ac",
+      "koDescHash": "97f14bd341d38c05",
+      "rowHash": "e9c0389bdc49c3ee"
+    },
+    {
+      "id": "terrapin-medic",
+      "name": "Terrapin Medic",
+      "koName": "앤빌 테라핀 메딕",
+      "manufacturer": "Anvil",
+      "role": "의료선",
+      "focus": "의료",
+      "size": "소형",
+      "crew": "1-2명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 220,
+      "tags": [
+        "의료"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c6320a65d5d93938",
+      "koDescHash": "af52c6faeabe213b",
+      "rowHash": "460092676d14169d"
+    },
+    {
+      "id": "tiburon",
+      "name": "Tiburon",
+      "koName": null,
+      "manufacturer": "Aegis",
+      "role": "대형 건쉽",
+      "focus": "전투",
+      "size": "대형",
+      "crew": "7명",
+      "liveCrewSize": 7,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": null,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "2f28cc21959d0811",
+      "koDescHash": null,
+      "rowHash": "1bfa9f50ffdf87a3"
+    },
+    {
+      "id": "tyilui",
+      "name": "Tyilui",
+      "koName": null,
+      "manufacturer": "Gatac",
+      "role": "항모",
+      "focus": "기함",
+      "size": "대형",
+      "crew": "4명",
+      "liveCrewSize": 4,
+      "cargo": "96 SCU",
+      "liveCargoScu": 96,
+      "priceUsd": null,
+      "tags": [
+        "기함",
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "51cb746dff2514c5",
+      "koDescHash": null,
+      "rowHash": "7dc49ba21881d6b4"
+    },
+    {
+      "id": "ursa",
+      "name": "Ursa",
+      "koName": "RSI 우르사",
+      "manufacturer": "RSI",
+      "role": "지상 탐사",
+      "focus": "탐사",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 50,
+      "tags": [
+        "지상",
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "ccb49993a9eafd7a",
+      "koDescHash": "f7a704706115540d",
+      "rowHash": "5a76b47e76baaf22"
+    },
+    {
+      "id": "ursa-fortuna",
+      "name": "Ursa Fortuna",
+      "koName": "RSI 우르사 포르투나",
+      "manufacturer": "RSI",
+      "role": "탐사선",
+      "focus": "탐사",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "지상",
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "ec86a2e2cf02966d",
+      "koDescHash": "39f80d5352018de6",
+      "rowHash": "6fc18a989875d6aa"
+    },
+    {
+      "id": "ursa-medivac",
+      "name": "Ursa Medivac",
+      "koName": "RSI 우르사 메디백",
+      "manufacturer": "RSI",
+      "role": "지상 의료차량",
+      "focus": "의료",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 60,
+      "tags": [
+        "지상",
+        "의료"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "f9fe7ea2bda34fc4",
+      "koDescHash": "a3b713b13f39d8a3",
+      "rowHash": "faa17b794168142b"
+    },
+    {
+      "id": "utv",
+      "name": "UTV",
+      "koName": "그레이캣 UTV",
+      "manufacturer": "Greycat Industrial",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "지상",
+      "crew": "1-2명",
+      "liveCrewSize": 2,
+      "cargo": "1 SCU",
+      "liveCargoScu": 1,
+      "priceUsd": 40,
+      "tags": [
+        "지상"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "c9d1c034b65f6f4d",
+      "koDescHash": "7d5a0ea7f12f8beb",
+      "rowHash": "c6cb76e9fc46cbb4"
+    },
+    {
+      "id": "valkyrie",
+      "name": "Valkyrie",
+      "koName": "앤빌 발키리",
+      "manufacturer": "Anvil",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "소형",
+      "crew": "1-5명",
+      "liveCrewSize": 5,
+      "cargo": "90 SCU",
+      "liveCargoScu": 90,
+      "priceUsd": 375,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "9a349542d720008c",
+      "koDescHash": "dea6b257bfb017de",
+      "rowHash": "bb26dfae67aef6ce"
+    },
+    {
+      "id": "valkyrie-liberator-edition",
+      "name": "Valkyrie Liberator Edition",
+      "koName": null,
+      "manufacturer": "Anvil",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "소형",
+      "crew": "null-5명",
+      "liveCrewSize": null,
+      "cargo": "90 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "duplicate",
+      "descHash": "9a349542d720008c",
+      "koDescHash": null,
+      "rowHash": "98a6380ef1916031"
+    },
+    {
+      "id": "vanguard-harbinger",
+      "name": "Vanguard Harbinger",
+      "koName": "이지스 뱅가드 하빈저",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 290,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "68182c50cd5a7c2d",
+      "koDescHash": "e79fc5d097217c33",
+      "rowHash": "0da56ab0000de423"
+    },
+    {
+      "id": "vanguard-hoplite",
+      "name": "Vanguard Hoplite",
+      "koName": "이지스 뱅가드 홉라이트",
+      "manufacturer": "Aegis",
+      "role": "수송선",
+      "focus": "수송",
+      "size": "중형",
+      "crew": "1명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 240,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "a01e078e1bc2431f",
+      "koDescHash": "550ccc93681bff64",
+      "rowHash": "c706bbbc68b7e94f"
+    },
+    {
+      "id": "vanguard-sentinel",
+      "name": "Vanguard Sentinel",
+      "koName": "이지스 뱅가드 센티넬",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 275,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "68182c50cd5a7c2d",
+      "koDescHash": "c2b9a321b29f57fd",
+      "rowHash": "7fe79f1f71d7f837"
+    },
+    {
+      "id": "vanguard-warden",
+      "name": "Vanguard Warden",
+      "koName": "이지스 뱅가드 워든",
+      "manufacturer": "Aegis",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "2명",
+      "liveCrewSize": 2,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 260,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "68182c50cd5a7c2d",
+      "koDescHash": "4352cd16c0191524",
+      "rowHash": "73bae33e32f44a36"
+    },
+    {
+      "id": "vulcan",
+      "name": "Vulcan",
+      "koName": "이지스 벌칸",
+      "manufacturer": "Aegis",
+      "role": "주유선",
+      "focus": "지원",
+      "size": "중형",
+      "crew": "1-3명",
+      "liveCrewSize": null,
+      "cargo": "12 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "주유",
+        "미구현"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "2624e6dabbe18ffc",
+      "koDescHash": null,
+      "rowHash": "8f9f3f050d3eec0b"
+    },
+    {
+      "id": "vulture",
+      "name": "Vulture",
+      "koName": "벌처",
+      "manufacturer": "Drake",
+      "role": "인양선",
+      "focus": "인양",
+      "size": "소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "12 SCU",
+      "liveCargoScu": 12,
+      "priceUsd": 175,
+      "tags": [
+        "인양"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "5f3f21e2b66e69f9",
+      "koDescHash": "16e08e6b67399e66",
+      "rowHash": "9a734b34fa81fc9f"
+    },
+    {
+      "id": "x1",
+      "name": "X1",
+      "koName": "오리진 X1",
+      "manufacturer": "Origin",
+      "role": "투어링",
+      "focus": "수송",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 45,
+      "tags": [
+        "수송"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "ccbe65e151cc7730",
+      "koDescHash": "1af6b00998bb2859",
+      "rowHash": "8b683f0c28bf0f0c"
+    },
+    {
+      "id": "x1-force",
+      "name": "X1 Force",
+      "koName": "오리진 X1 포스",
+      "manufacturer": "Origin",
+      "role": "전투함",
+      "focus": "전투",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 55,
+      "tags": [
+        "전투"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "13b59c12fe3a554c",
+      "koDescHash": "3243f9fcdd8c24b0",
+      "rowHash": "28376e1f68cadb88"
+    },
+    {
+      "id": "x1-velocity",
+      "name": "X1 Velocity",
+      "koName": "오리진 X1 벨로시티",
+      "manufacturer": "Origin",
+      "role": "레이싱",
+      "focus": "레이싱",
+      "size": "초소형",
+      "crew": "1명",
+      "liveCrewSize": 1,
+      "cargo": "0 SCU",
+      "liveCargoScu": 0,
+      "priceUsd": 50,
+      "tags": [
+        "레이싱"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "e32a81b874c18579",
+      "koDescHash": "17c8f3c7d360f981",
+      "rowHash": "87dd93fbaaf0189f"
+    },
+    {
+      "id": "zeus-mk2-cl",
+      "name": "Zeus MK2 CL",
+      "koName": "제우스 MK2 CL",
+      "manufacturer": "RSI",
+      "role": "중형 화물",
+      "focus": "화물",
+      "size": "중형",
+      "crew": "1~3명",
+      "liveCrewSize": 3,
+      "cargo": "128 SCU",
+      "liveCargoScu": 128,
+      "priceUsd": 175,
+      "tags": [
+        "화물"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "b027481a75aa162b",
+      "koDescHash": "7613eb57d0f7454f",
+      "rowHash": "d8dffdc414850f74"
+    },
+    {
+      "id": "zeus-mk2-es",
+      "name": "Zeus MK2 ES",
+      "koName": "제우스 MK2 ES",
+      "manufacturer": "RSI",
+      "role": "탐사",
+      "focus": "탐사",
+      "size": "중형",
+      "crew": "1~3명",
+      "liveCrewSize": 3,
+      "cargo": "32 SCU",
+      "liveCargoScu": 32,
+      "priceUsd": 175,
+      "tags": [
+        "탐사"
+      ],
+      "implemented": true,
+      "erkulStatus": "matched",
+      "descHash": "721c0efbac2918e0",
+      "koDescHash": "833d45a9cbb7d008",
+      "rowHash": "05a4bf2b99a644f9"
+    },
+    {
+      "id": "zeus-mk2-mr",
+      "name": "Zeus MK2 MR",
+      "koName": null,
+      "manufacturer": "RSI",
+      "role": "경찰/바운티 헌터",
+      "focus": "전투",
+      "size": "중형",
+      "crew": "1~3명",
+      "liveCrewSize": null,
+      "cargo": "16 SCU",
+      "liveCargoScu": null,
+      "priceUsd": null,
+      "tags": [
+        "미구현",
+        "전투"
+      ],
+      "implemented": false,
+      "erkulStatus": "unreleased",
+      "descHash": "b17513f17112acfc",
+      "koDescHash": null,
+      "rowHash": "f66333a82e09912f"
+    }
+  ]
+}
