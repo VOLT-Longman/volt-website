@@ -22,13 +22,15 @@ const FREEZE_CSS = `
     }
     .reveal { opacity: 1 !important; transform: none !important; }
     html { scroll-behavior: auto !important; }
-    /* 시네마틱 히어로(J-1)는 크로스페이드/켄 번즈로 프레임마다 달라 기준 이미지에서 제외 */
-    .hero-cine { display: none !important; }
 `;
 
 async function stabilize(page) {
     await page.addStyleTag({ content: FREEZE_CSS });
     await page.evaluate(() => document.fonts.ready);
+    await page.waitForFunction(() => {
+        const image = document.querySelector('.hero-cine-image');
+        return !image || (image.complete && image.naturalWidth > 0);
+    });
     await page.waitForTimeout(150);
 }
 

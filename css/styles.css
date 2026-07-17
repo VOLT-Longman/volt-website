@@ -7465,10 +7465,8 @@ body.nav-trade-open::before {
     .hero-scroll-hint { display: none; }
 }
 
-/* ===== 시네마틱 히어로 배경 (J-1) + 히어로 진입 모션 (D-②) =====
-   함대 이미지 크로스페이드. 슬라이드는 landing.js setupHeroCine()이 생성.
-   켄 번즈(.kb)는 fine pointer + 모션 허용에서만 — 터치/reduced-motion은
-   정적/크로스페이드만 (H-1 정신: 체감 없는 상시 GPU 비용 금지). */
+/* ===== 시네마틱 히어로 배경 + 히어로 진입 모션 (J-2) =====
+   이미지 전환 대신 하나의 작전 장면을 고정해 메시지·CTA·함선의 초점을 유지한다. */
 .hero-cine {
     position: absolute;
     top: 0;
@@ -7478,48 +7476,31 @@ body.nav-trade-open::before {
     overflow: hidden;
     pointer-events: none;
     z-index: 0;
+    background: #070707;
 }
 
-.hero-cine-slide {
-    position: absolute;
-    inset: 0;
+.hero-cine-media,
+.hero-cine-image {
+    display: block;
     width: 100%;
     height: 100%;
+}
+
+.hero-cine-image {
     object-fit: cover;
-    opacity: 0;
-    transition: opacity 1.8s ease;
+    object-position: center center;
+    filter: saturate(0.78) contrast(1.06) brightness(0.68);
 }
 
-.hero-cine-slide.is-active {
-    opacity: 1;
-}
-
-.hero-cine.kb .hero-cine-slide.is-active {
-    animation: heroKenBurns 22s ease-out forwards;
-}
-
-.hero-cine.kb .hero-cine-slide.is-active.kb-alt {
-    animation-name: heroKenBurnsAlt;
-}
-
-@keyframes heroKenBurns {
-    from { transform: scale(1) translate3d(0, 0, 0); }
-    to { transform: scale(1.08) translate3d(1.2%, -0.8%, 0); }
-}
-
-@keyframes heroKenBurnsAlt {
-    from { transform: scale(1.08) translate3d(-1%, 0.6%, 0); }
-    to { transform: scale(1) translate3d(0, 0, 0); }
-}
-
-/* 가독 스크림 — 이미지 위·텍스트 아래. 중앙 타이포 대비 확보 + 하단 자연 페이드 */
+/* 가독 스크림 — 중앙 카피의 안전 영역과 하단 전환을 고정한다. */
 .hero-cine::after {
     content: '';
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at 50% 40%, rgba(7, 7, 7, 0.38) 0%, rgba(7, 7, 7, 0.52) 58%, rgba(7, 7, 7, 0.72) 100%),
-        linear-gradient(180deg, rgba(7, 7, 7, 0.42) 0%, transparent 30%, transparent 62%, #070707 100%);
+        radial-gradient(ellipse 62% 60% at 50% 46%, rgba(7, 7, 7, 0.72) 0%, rgba(7, 7, 7, 0.48) 55%, rgba(7, 7, 7, 0.2) 100%),
+        linear-gradient(90deg, rgba(7, 7, 7, 0.76) 0%, rgba(7, 7, 7, 0.18) 26%, rgba(7, 7, 7, 0.18) 74%, rgba(7, 7, 7, 0.76) 100%),
+        linear-gradient(180deg, rgba(7, 7, 7, 0.54) 0%, transparent 28%, transparent 60%, #070707 100%);
 }
 
 /* 진입 모션: 초기 상태는 keyframe from(backwards)에만 두어,
@@ -7580,9 +7561,10 @@ body.nav-trade-open::before {
 
 .hero {
     --hero-inline-padding: clamp(40px, 5vw, 88px);
-    --hero-bottom-padding: clamp(88px, 7vw, 112px);
+    --hero-top-padding: clamp(64px, 5vw, 80px);
+    --hero-bottom-padding: clamp(20px, 2vw, 32px);
     min-height: 100vh;
-    padding: 94px var(--hero-inline-padding) var(--hero-bottom-padding);
+    padding: var(--hero-top-padding) var(--hero-inline-padding) var(--hero-bottom-padding);
     justify-content: flex-start;
     background:
         linear-gradient(90deg, rgba(232, 72, 47, 0.07) 1px, transparent 1px),
@@ -7615,9 +7597,9 @@ body.nav-trade-open::before {
 
 .hero-layout {
     max-width: 1320px;
-    min-height: calc(100svh - 94px - var(--hero-bottom-padding));
+    min-height: calc(100svh - var(--hero-top-padding) - var(--hero-bottom-padding));
     align-content: center;
-    padding: 42px 0 56px;
+    padding: 16px 0 14px;
 }
 
 .hero-layout::before {
@@ -7645,7 +7627,7 @@ body.nav-trade-open::before {
     justify-content: center;
     gap: 20px;
     min-height: 52px;
-    margin-bottom: 34px;
+    margin-bottom: 22px;
 }
 
 .hero-logo {
@@ -7686,9 +7668,9 @@ body.nav-trade-open::before {
 
 .hero h1 {
     max-width: 720px;
-    margin: 0 0 18px;
+    margin: 0 0 14px;
     font-family: var(--font-family);
-    font-size: clamp(62px, 8vw, 116px);
+    font-size: clamp(58px, 7.3vw, 104px);
     font-weight: 900;
     line-height: 1;
     padding-bottom: 0.06em;
@@ -7703,7 +7685,7 @@ body.nav-trade-open::before {
 }
 
 .hero .subtitle {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     color: #f0ece9;
     font-size: clamp(20px, 2vw, 28px);
     font-weight: 650;
@@ -7712,7 +7694,7 @@ body.nav-trade-open::before {
 
 .hero .description {
     max-width: 600px;
-    margin: 0 auto 30px;
+    margin: 0 auto 20px;
     color: #9b9897;
     font-size: 15px;
     line-height: 1.75;
@@ -7720,7 +7702,7 @@ body.nav-trade-open::before {
 
 .hero-copy .hero-buttons {
     justify-content: center;
-    margin-bottom: 36px;
+    margin-bottom: 20px;
 }
 
 .hero-copy .btn {
@@ -7735,7 +7717,7 @@ body.nav-trade-open::before {
     width: 100%;
     max-width: 620px;
     margin: 0;
-    padding: 20px 0 8px;
+    padding: 14px 0 0;
     border-top: 1px solid rgba(255, 255, 255, 0.11);
 }
 
@@ -8093,8 +8075,8 @@ body.nav-trade-open::before {
 
 @media (max-width: 979px) {
     .hero-layout {
-        min-height: auto;
-        padding-top: 28px;
+        min-height: calc(100svh - var(--hero-top-padding) - var(--hero-bottom-padding));
+        padding: 12px 0;
     }
 
     .hero-content {
@@ -8156,40 +8138,74 @@ body.nav-trade-open::before {
 
     .hero {
         --hero-inline-padding: 28px;
-        --hero-bottom-padding: 64px;
-        padding: 82px var(--hero-inline-padding) var(--hero-bottom-padding);
+        --hero-top-padding: 64px;
+        --hero-bottom-padding: 20px;
+        padding: var(--hero-top-padding) var(--hero-inline-padding) var(--hero-bottom-padding);
         background-size: 64px 64px, 64px 64px, auto, auto, auto;
     }
 
     .hero h1 {
-        font-size: clamp(55px, 19vw, 76px);
+        max-width: 340px;
+        margin-bottom: 12px;
+        font-size: clamp(50px, 15vw, 62px);
+        line-height: 0.96;
+        letter-spacing: -0.065em;
     }
 
     .hero-identity {
         display: block;
-        margin-bottom: 28px;
+        margin-bottom: 16px;
     }
 
     .hero-logo {
-        width: 94px;
-        margin-bottom: 18px;
+        width: 76px;
+        margin-bottom: 12px;
     }
 
-    .hero .description br {
+    .hero-tagline {
+        gap: 8px;
+        font-size: 8px;
+        letter-spacing: 0.16em;
+    }
+
+    .hero .subtitle {
+        margin-bottom: 10px;
+        font-size: 19px;
+    }
+
+    .hero .description {
         display: none;
     }
 
     .hero-copy .hero-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
         width: 100%;
+        margin-bottom: 14px;
     }
 
     .hero-copy .btn {
-        flex: 1 1 100%;
-        width: 100%;
+        width: auto;
+        min-width: 0;
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .hero-copy .btn:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .hero-proof {
+        padding-top: 12px;
     }
 
     .hero-proof div {
-        padding: 0 10px;
+        padding: 0 8px;
+    }
+
+    .hero-proof dt {
+        font-size: 8px;
     }
 
     .hero-proof dd {

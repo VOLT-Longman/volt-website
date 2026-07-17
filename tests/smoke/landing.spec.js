@@ -98,17 +98,9 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         // 제거되어 완전히 복구되어야 한다 (잔존 opacity로 히어로가 흐려지는 회귀 방지).
         await mockApi(page);
         await gotoSection(page, '');
+        // J-2: hero copy remains static while the user scrolls.
         await page.evaluate(() => window.scrollTo(0, 600));
-        await expect.poll(async () => page.evaluate(() => {
-            const content = document.querySelector('#home .hero-layout');
-            return Number(getComputedStyle(content).opacity);
-        }), { timeout: 3000 }).toBeLessThan(1);
-        await page.evaluate(() => window.scrollTo(0, 0));
-        await expect.poll(async () => page.evaluate(() => {
-            const content = document.querySelector('#home .hero-layout');
-            const style = getComputedStyle(content);
-            return `${style.opacity}|${style.transform}`;
-        }), { timeout: 3000 }).toBe('1|none');
+        await expect(page.locator('#home .hero-layout')).toHaveCSS('opacity', '1');
     });
 
     test('중앙 히어로: 커맨드덱 없이 핵심 문구를 중앙에 배치', async ({ page }) => {

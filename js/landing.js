@@ -75,54 +75,6 @@
         renderCounts();
     }
 
-    // ===== 시네마틱 히어로 배경 (J-1) — 함대 이미지 크로스페이드 + 켄 번즈 =====
-    // 이미지: assets/images/landing/hero-0N(.webp/-m.webp), © Cloud Imperium Games(팬 콘텐츠).
-    // 정책: 첫 장만 프리로드(index.html <link rel=preload>)·나머지는 유휴 시점 지연 생성.
-    // reduced-motion=첫 장 정적, 켄 번즈(.kb)는 fine pointer + 모션 허용에서만,
-    // 백그라운드 탭·홈 비활성(offsetParent null)에서는 전환하지 않는다 (H-1 정신).
-    const HERO_SLIDES = ['hero-01', 'hero-02', 'hero-03', 'hero-04', 'hero-05'];
-    const CINE_INTERVAL_MS = 9000;
-
-    function setupHeroCine() {
-        const container = document.getElementById('hero-cine');
-        if (!container || container.childElementCount > 0) return;
-        const mobile = window.matchMedia('(max-width: 860px)').matches;
-        const makeSlide = (name, index) => {
-            const img = document.createElement('img');
-            img.src = `assets/images/landing/${name}${mobile ? '-m' : ''}.webp`;
-            img.alt = '';
-            img.decoding = 'async';
-            img.draggable = false;
-            img.className = `hero-cine-slide${index % 2 ? ' kb-alt' : ''}`;
-            return img;
-        };
-        const first = makeSlide(HERO_SLIDES[0], 0);
-        first.classList.add('is-active');
-        container.appendChild(first);
-        if (prefersReducedMotion()) return; // 정적 1장 유지
-        if (fineMotionOk()) container.classList.add('kb');
-        let restLoaded = false;
-        const ensureRest = () => {
-            if (restLoaded) return;
-            restLoaded = true;
-            HERO_SLIDES.slice(1).forEach((name, i) => {
-                container.appendChild(makeSlide(name, i + 1));
-            });
-        };
-        if ('requestIdleCallback' in window) window.requestIdleCallback(ensureRest, { timeout: 4000 });
-        else window.setTimeout(ensureRest, 2500);
-        let index = 0;
-        window.setInterval(() => {
-            if (document.hidden || !container.offsetParent) return;
-            ensureRest();
-            const slides = container.children;
-            if (slides.length < 2) return;
-            slides[index].classList.remove('is-active');
-            index = (index + 1) % slides.length;
-            slides[index].classList.add('is-active');
-        }, CINE_INTERVAL_MS);
-    }
-
     // 히어로 진입 모션 — 스플래시가 걷히는 시점에 main.js가 호출한다.
     function startHeroEntrance() {
         document.getElementById('home')?.classList.add('hero-enter');
@@ -193,48 +145,6 @@
         });
     }
 
-    // 마그네틱 CTA: 히어로/랜딩 주요 버튼이 커서 쪽으로 살짝(최대 3px) 끌림
-    function setupMagnetic() {
-        if (!fineMotionOk()) return;
-        document.querySelectorAll('#home .hero-buttons .btn').forEach((button) => {
-            button.addEventListener('pointermove', (event) => {
-                const rect = button.getBoundingClientRect();
-                const dx = ((event.clientX - rect.left) / rect.width - 0.5) * 6;
-                const dy = ((event.clientY - rect.top) / rect.height - 0.5) * 4;
-                button.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
-            });
-            button.addEventListener('pointerleave', () => {
-                button.style.transform = '';
-            });
-        });
-    }
-
-    // 히어로 스크롤 패럴랙스 (D-⑦): 스크롤에 따라 히어로 콘텐츠가 배경보다 살짝 느리게
-    // 밀리며 옅어지고, 시네마틱 배경은 더 느리게 흘러 깊이감을 만든다.
-    // 가드: reduced-motion 비활성, 홈 섹션 숨김(offsetParent null) 시 생략, y=0이면 인라인 제거.
-    function setupHeroParallax() {
-        if (prefersReducedMotion()) return;
-        // 콘솔 포함 히어로 전체(.hero-layout)를 움직인다 (F에서 대상 변경)
-        const content = document.querySelector('#home .hero-layout') || document.querySelector('#home .hero-content');
-        const backdrop = document.getElementById('hero-cine');
-        if (!content) return;
-        let ticking = false;
-        function apply() {
-            ticking = false;
-            if (!content.offsetParent) return;
-            const y = Math.min(window.scrollY, window.innerHeight);
-            const progress = Math.min(1, y / (window.innerHeight * 0.72));
-            content.style.transform = y ? `translateY(${(y * 0.18).toFixed(1)}px)` : '';
-            content.style.opacity = y ? (1 - progress * 0.85).toFixed(3) : '';
-            if (backdrop) backdrop.style.transform = y ? `translateY(${(y * 0.3).toFixed(1)}px)` : '';
-        }
-        window.addEventListener('scroll', () => {
-            if (ticking) return;
-            ticking = true;
-            window.requestAnimationFrame(apply);
-        }, { passive: true });
-    }
-
     // 랜딩 리빌 전용 관찰자 (D-⑧): 전역 관찰자는 요소가 1픽셀만 걸쳐도 즉시 리빌해
     // 큰 화면에선 로드 직후 하이라이트가 미리 밝혀진다. 여기서는 요소가 뷰포트 하단
     // 20% 위로 올라와야 리빌 — 스크롤/아래 버튼으로 진입해야 등장 모션이 보인다.
@@ -259,12 +169,9 @@
     }
 
     function setup() {
-        setupHeroCine();
         setupLandingReveals();
         setupCountup();
         setupTilt();
-        setupMagnetic();
-        setupHeroParallax();
     }
 
     window.VOLT_LANDING = {
