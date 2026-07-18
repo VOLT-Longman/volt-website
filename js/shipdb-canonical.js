@@ -32,6 +32,14 @@
     var state = 'idle';
     var promise = null;
     var store = {};
+    var idCache = null;
+
+    // 공개 canonical 함선 id 집합(219). 메인 ShipDB 리스트를 canonical로 좁힐 때 사용(ON).
+    function publicShipIds() {
+        if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
+        if (!idCache) idCache = new Set(store.canonical.ships.map(function (s) { return s.id; }));
+        return idCache;
+    }
 
     // OFF: 즉시 null 반환(fetch 없음). ON: 6개 계층 JSON을 병렬 로드해 store에 채운다.
     function load() {
@@ -52,6 +60,7 @@
     window.VOLT_SHIPDB_CANONICAL = {
         isEnabled: isEnabled,
         load: load,
+        publicShipIds: publicShipIds,
         get data() { return store; },
         get state() { return state; }
     };

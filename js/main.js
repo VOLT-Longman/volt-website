@@ -474,6 +474,13 @@
             const haystack = buildShipSearchText(ship, tags);
             return matchesManufacturer && matchesReleaseState && matchesSelectedTags && (!query || haystack.includes(query));
         });
+        // 재작성 ON: 메인 ShipDB 리스트를 canonical 219로 좁힌다(컨셉 30→RSI 카탈로그 탭,
+        // 별칭 7→리다이렉트). canonical 지연 로드 전에는 보류하고 로드 완료 후 재렌더에서 적용
+        // (marketOnly와 동일 패턴 — 빈 화면 깜빡임 방지). OFF는 그대로(256).
+        if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
+            const publicIds = window.VOLT_SHIPDB_CANONICAL.publicShipIds();
+            if (publicIds) ships = ships.filter((ship) => publicIds.has(ship.id));
+        }
         if (shipState.cargoMin > 0) {
             ships = ships.filter((ship) => getCargoValue(ship.cargo) >= shipState.cargoMin);
         }
@@ -913,6 +920,12 @@
         ensureShipLiveData().then(() => {
             if (renderedLazySections.has('ships')) renderShips();
         });
+        // 재작성 ON: canonical 로드 후 메인 리스트를 219로 재렌더(위 getVisibleShips 필터 적용).
+        if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
+            window.VOLT_SHIPDB_CANONICAL.load().then(() => {
+                if (renderedLazySections.has('ships')) renderShips();
+            });
+        }
     }
     const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery };
     const renderedLazySections = new Set();

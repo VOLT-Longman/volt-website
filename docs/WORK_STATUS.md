@@ -13,7 +13,8 @@
 - **③RSI 카탈로그 탭 UI 완료(PM 순서 2)**: `js/shipdb-rsi-catalog.js` — ON에서만 별도 칩(레거시 미수정 형제 컨테이너)+전용 그리드. 카드=RSI 명칭·상태 배지(concept "컨셉·RSI 공식 사양·변경 가능"/flight-ready "출시·RSI 공식 사양")·제조사·역할·크기·승무원·화물·KO 설명(expanse="RSI 공식 설명 미제공")·출처 링크·확인일. 게임플레이 값 미표시. DOM API(innerHTML 미사용), 언어 대응. 회귀 `shipdb-rsi-catalog.spec.js` 5건. 캐시 05.
 - **④카탈로그 실전 제외 가드 완료(PM 순서 3)**: canonical∩rsi-official=∅(구조적 보장 — 플래너·비교·AI 사실원 canonical에 카탈로그 id 0) + 카탈로그 카드에 비교/플래너/행어 컨트롤 없음(진입점 차단). 계약 10 + 카탈로그 스펙 6.
 - **⑤priceUsd 첫 원자 이관 완료(PM 순서 4)**: 플래그 gate 6지점 — ships.js(카드 스탯·비교 컬럼·모달 스탯) + main.js(정렬 비교자·검색 색인) + 정렬 드롭다운 price 옵션 제거. OFF=priceUsd 그대로(기준선, 시각 회귀 통과), ON=공개 모델서 제거(D4). 회귀 `shipdb-price-migration.spec.js` 2건. admin CMS priceUsd 편집·DDL은 3.5 제거 대상(공개 표시와 분리).
-- **다음**: 다음 필드 원자 이관(focus·tags·crew 등, consumer-map 순서) 또는 PM 지정. 각 커밋 OFF=기준선 회귀. ON 실전 전환·기존 데이터/파이프라인 삭제는 3.5 승인 시.
+- **⑥비교 하네스 + ON 메인 219 정합 완료(PM C)**: ON에서 메인 ShipDB 리스트를 canonical 219로 좁힘(컨셉 30→카탈로그 탭 전용, 별칭 7→리다이렉트) — 로더 `publicShipIds()` + getVisibleShips ON 필터 + canonical 로드 후 재렌더(marketOnly 패턴). 비교 하네스 `shipdb-compare-harness.spec.js` 3건: OFF 메인 256·priceUsd·무카탈로그 / ON 메인 219(=canonical 정확일치)·카탈로그 30·priceUsd 제거 / 허용 차이만(OFF∖ON=컨셉30+별칭7, ON 신규 추가 0). 이후 필드 이관의 안전장치.
+- **다음(PM 지정)**: `crew` 단독 원자 이관(수기값↔Erkul crewSize 불일치=최대 사실성 위험) → `cargo` 별도 커밋 → 마지막 `focus`·`tags` 제거. 각 커밋 OFF=기준선 + 비교 하네스 통과. ON 실전 전환·삭제는 3.5 승인 시.
 - **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)
