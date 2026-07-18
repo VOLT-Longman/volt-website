@@ -27,15 +27,20 @@
 - **ON/라이브 스펙**: 강제 ON 유지 + 일부 일반 스펙(ships EN·검색)을 라이브(콤보박스·canonical)로 갱신.
 - **시각 회귀**: ships 3개 스냅샷(데스크톱·모바일·모달)을 canonical 기준으로 재생성. 권위 기준 `-linux.png`는 **visual-baseline 워크플로(수동 dispatch)**로 갱신(로컬 win32는 참고용).
 
-## 운영 검증 게이트(PM 지정) — 프로덕션 확인 대상
+## 운영 검증 게이트(PM 지정) — 프로덕션(www.volt.ceo) 확인 결과
 
-배포(www.volt.ceo) 후 확인:
+배포 후 실제 프로덕션에서 확인(담당자 브라우저, 2026-07-19):
 
-- [ ] 공개 ShipDB **219척** · RSI 카탈로그 **30척** · 역할 콤보박스 · priceUsd/focus/tags 제거 (담당자 브라우저 확인 가능)
-- [ ] 무역플래너·비교의 컨셉/별칭 **제외 규칙** (공개, 확인 가능)
-- [ ] **CMS 저장/미리보기** (admin Discord 인증 필요 — 운영자)
-- [ ] **AI** 멤버 대화 (멤버 인증 필요 — 운영자)
-- [ ] **Erkul Safe Apply preview + 실제 동기화/preview 1회 성공** (admin 인증·Erkul 라이브 — 운영자)
+- [x] **플래그 실전 ON**: `VOLT_SHIPDB_CANONICAL.isEnabled() === true` (프로덕션 라이브).
+- [x] **canonical 219** + **표시 214**: 219 canonical − **5 관리자 hidden 소프트삭제**(anvil-ballista-dunestalker·-snowblind·dragonfly-yellowjacket·f7c-m-hornet-heartseeker-mk-ii·nox-kue). hidden은 D6 운영 큐레이션(정상), 삭제 아님. (별도 hidden 5척은 이미 제외된 에디션/컨셉이라 219에 영향 없음.)
+- [x] **RSI 공식 카탈로그 30척** (탭 클릭 시 `.rsi-catalog-card` 30).
+- [x] **역할 콤보박스** 53옵션(52 role + 전체), 레거시 칩 0, role 배지, priceUsd/focus/tags 제거.
+- [x] **비교·무역플래너 제외 규칙**: 카탈로그 30척 전부 플래너·비교·행어 컨트롤 0, canonical 미포함(구조적 제외).
+- [ ] **CMS 저장/미리보기** — admin Discord 인증 필요, **운영자 확인 대상**.
+- [ ] **AI 멤버 대화** — 멤버 인증 필요, **운영자 확인 대상**(AI는 2.7-b에서 canonical 이관·응답 불변 검증됨).
+- [ ] **Erkul Safe Apply preview + 실제 동기화/preview 1회 성공** — admin 인증·Erkul 라이브 필요, **운영자 확인 대상**.
+
+담당자 확인 가능한 **공개 표면은 전부 통과**. CMS·AI·Safe Apply는 인증이 필요해 운영자 확인이 남는다.
 
 ## 미결 (별도 승인)
 
