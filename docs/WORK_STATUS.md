@@ -19,7 +19,8 @@
 - **⑨focus·tags 제거 완료(PM 지정, 마지막 필드, D7)**: ON에서 카드 focus 배지·태그 칩·태그 필터(숨김)·비교 focus 행·태그 노트·검색 색인(focus/focus_en/tags_en) 제거, 대체 분류 없음. '미구현' 릴리스 게이트는 `implemented!==false`로 자연 대체(unreleased 31=implemented false 정합, isPlannerEligibleShip에 이미 포함). role은 유지(PM 순서에 미포함). 회귀 `shipdb-focus-tags-migration.spec.js` 3건 + 하네스.
 - **필드 이관 전부 완료(2단계)**: priceUsd·crew·cargo·focus·tags. 각 gate + OFF=기준선 + ON 동작 + 하네스.
 - **⑩3.1 전후 응답 비교 리포트 완료(PM A)**: `shipdb-3-1-comparison.spec.js` 4건(실행형) + `docs/shipdb-rewrite-3-1-comparison.md`. OFF 256→ON 219(제외 37=컨셉+별칭), 공유 219 name·mfr·cargo값 동일·focus/tags/price만 제거, 비교 focus/USD행 제거·role유지·crew=Erkul, 카탈로그 30. **그 외 차이는 실패 처리.** AI·CMS·Safe Apply는 서버측이라 클라 플래그 무관(별도, 3.5 이관).
-- **다음(PM 3단계 순서)**: 3.2 KO 완전성 감사(live 219·RSI 29·expanse) → 3.3 동기화 리허설(Erkul sync→canonical 재생성→Safe Apply preview 미실행, 레거시 재주입 차단 확인) → **role 별도 원자 이관(Erkul canonical role, 수기 유지·추론 금지, 없으면 배지 미표시)** → 3.4 PM 승인 → 3.5 실전 ON + 레거시 삭제. 삭제·ON은 3.5 승인 전까지 금지.
+- **⑪3.2 KO 완전성 감사 완료(PM)**: `shipdb-3-2-ko-completeness.test.mjs` 3건 — live 219 KO(ok 219·stale 0·sourceEnHash 현재 EN과 재계산 일치)·RSI 29 KO(+expanse no-en·missing 0)·무음 폴백 0. cutover 번역 준비 재확인.
+- **다음(PM 3단계 순서)**: 3.3 동기화 리허설(Erkul sync→canonical 재생성 재현·Safe Apply preview 미실행·레거시 재주입 차단 확인) → **role 별도 원자 이관(Erkul canonical role, 수기 유지·추론 금지, 없으면 배지 미표시)** → 3.4 PM 승인 → 3.5 실전 ON + 레거시 삭제. 삭제·ON은 3.5 승인 전까지 금지.
 - **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)
