@@ -17,13 +17,28 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const sha256 = (s) => createHash('sha256').update(s, 'utf8').digest('hex').slice(0, 16);
 
+// RSI 원문의 HTML 엔티티 디코드(textContent 렌더 시 문자 그대로 노출 방지). 예: endeavor "&amp;".
+function decodeEntities(s) {
+  if (!s) return s;
+  return s
+    .replace(/&amp;/g, '&')
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&rsquo;/g, '’')
+    .replace(/&lsquo;/g, '‘')
+    .replace(/&hellip;/g, '…')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)));
+}
+
 const SNAP_PATH = 'data/external/rsi/official-ship-matrix.json';
 const snap = JSON.parse(read(SNAP_PATH));
 const ids = Object.keys(snap.entries).sort((a, b) => a.localeCompare(b));
 
 const records = ids.map((id) => {
   const e = snap.entries[id];
-  const descEn = e.description && e.description.trim() ? e.description.trim() : null;
+  const descEn = e.description && e.description.trim() ? decodeEntities(e.description.trim()) : null;
   const prod = e.production_status ?? null;
   return {
     id,

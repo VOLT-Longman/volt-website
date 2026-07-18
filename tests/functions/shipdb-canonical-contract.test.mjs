@@ -18,6 +18,7 @@ import {
   LEGACY_REGEN_SCRIPTS,
   CANONICAL_FORBIDDEN_INPUTS,
   RSI_OFFICIAL_DATASET_PATH,
+  RSI_OFFICIAL_LOCALIZATION_PATH,
   RSI_OFFICIAL_CATALOG_STATUSES,
   RSI_OFFICIAL_ALLOWED_FIELDS,
   RSI_OFFICIAL_FORBIDDEN_FIELDS,
@@ -147,6 +148,33 @@ test('RSI 공식 카탈로그: 게임플레이 값 없음 + rsi 화이트리스�
     if (!rec.retrievedAt) violations.push(`${rec.id}.retrievedAt 없음`);
   }
   assert.equal(violations.length, 0, `RSI 공식 카탈로그 계약 위반: ${violations.slice(0, 20).join(', ')}`);
+});
+
+// PM: RSI 공식 카탈로그 KO localization — 설명 있는 함선은 전부 KO(missing 0), RSI 설명 미제공은 no-en.
+test('RSI 공식 카탈로그 localization: 설명 보유 함선 전부 KO, 미제공은 no-en (fail-closed)', async () => {
+  const catAbs = join(ROOT, RSI_OFFICIAL_DATASET_PATH);
+  const locAbs = join(ROOT, RSI_OFFICIAL_LOCALIZATION_PATH);
+  if (!existsSync(catAbs) || !existsSync(locAbs)) {
+    assert.ok(true, 'RSI 카탈로그/ localization 미생성 — 계약 armed');
+    return;
+  }
+  const cat = JSON.parse(await readFile(catAbs, 'utf8'));
+  const loc = JSON.parse(await readFile(locAbs, 'utf8'));
+  const locById = new Map(loc.records.map((r) => [r.id, r]));
+  const problems = [];
+  for (const rec of cat.records) {
+    const l = locById.get(rec.id);
+    if (!l) { problems.push(`${rec.id} localization 없음`); continue; }
+    if (rec.rsi.descriptionEn) {
+      // RSI 설명 있으면 KO 필수 + 해시 일치
+      if (l.status !== 'ok' || !l.ko) problems.push(`${rec.id} KO 누락(status=${l.status})`);
+      else if (l.sourceEnHash !== rec.descriptionEnHash) problems.push(`${rec.id} sourceEnHash 불일치`);
+    } else {
+      // RSI 설명 미제공 → no-en, 번역 만들지 않음
+      if (l.status !== 'no-en' || l.ko) problems.push(`${rec.id} 설명 미제공인데 no-en 아님(status=${l.status})`);
+    }
+  }
+  assert.equal(problems.length, 0, `RSI localization 계약 위반: ${problems.slice(0, 20).join(', ')}`);
 });
 
 // PM 보강 1: 레거시 재생성 4스크립트가 공개 canonical 경로에 기록하지 않는다.

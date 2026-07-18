@@ -50,6 +50,7 @@ export const UPSTREAM_INPUT_GENERATOR = 'scripts/sync-rsi-ship-matrix.mjs';
 // ── RSI 공식 카탈로그 계약 (PM 2026-07-18) ──────────────────────
 // Erkul live 없는 30척. 사실원=RSI 공식 Ship Matrix만. catalogStatus: concept | flight-ready.
 export const RSI_OFFICIAL_DATASET_PATH = 'data/canonical/ships-rsi-official.json';
+export const RSI_OFFICIAL_LOCALIZATION_PATH = 'data/canonical/localization-rsi-official.json';
 export const RSI_OFFICIAL_CATALOG_STATUSES = ['concept', 'flight-ready'];
 // rsi{} 허용 필드(PM step3: 역할·제조사·크기·승무원·화물·설명만). 화이트리스트 외 금지.
 export const RSI_OFFICIAL_ALLOWED_FIELDS = ['manufacturer', 'role', 'size', 'crewMin', 'crewMax', 'cargo', 'descriptionEn'];

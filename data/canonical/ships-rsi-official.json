@@ -3,7 +3,7 @@
   "note": "RSI 공식 카탈로그. 사실원=RSI Ship Matrix만. catalogStatus로 concept/flight-ready 구분. RSI 비제공 게임플레이 값 없음. KO는 별도 localization 계층.",
   "source": "RSI Ship Matrix (robertsspaceindustries.com/ship-matrix/index)",
   "retrievedAt": "2026-07-18",
-  "generatedFromCommit": "c7d1fdce10a897f8e1741f0e0182f5dc4c6a5331",
+  "generatedFromCommit": "74fd971d358c404e29f8ed85e021dd0066fe73ed",
   "count": 30,
   "byStatus": {
     "concept": 28,
@@ -120,9 +120,9 @@
         "crewMin": 3,
         "crewMax": 5,
         "cargo": 500,
-        "descriptionEn": "Musashi Industrial &amp; Starflight Concern is proud to present the Endeavor-class research vessel, a fully modular space platform designed to be adapted for a variety of scientific and medical tasks. Initially developed as a floating laboratory, the MISC Endeavor can be outfitted for everything from spatial telescopy to use as mobile hospital."
+        "descriptionEn": "Musashi Industrial & Starflight Concern is proud to present the Endeavor-class research vessel, a fully modular space platform designed to be adapted for a variety of scientific and medical tasks. Initially developed as a floating laboratory, the MISC Endeavor can be outfitted for everything from spatial telescopy to use as mobile hospital."
       },
-      "descriptionEnHash": "9c0a9d534be91171"
+      "descriptionEnHash": "29f2731264a1922f"
     },
     {
       "id": "expanse",
