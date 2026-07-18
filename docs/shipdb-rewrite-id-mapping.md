@@ -20,9 +20,9 @@
 | `mustang-alpha-vindicator` | `mustang-alpha` | ✓ |
 | `valkyrie-liberator-edition` | `valkyrie` | ✓ |
 
-## 미출시(unreleased) — 공개 제외, 재편입 트리거 = Erkul live 등록 (30)
+## 컨셉 30척 — RSI 공식 컨셉 카탈로그로 격리 (2026-07-18 변경)
 
-Erkul live 미등록. live 등록 전까지 공개 스펙·비교·AI 추천 대상에서 제외한다. 전부 `erkulStatus=unreleased`, `implemented=false`.
+Erkul live 미등록. **[변경]** 기존 "완전 제외" → RSI 공식 컨셉 카탈로그(`data/canonical/ships-concept-rsi.json`, 사실원=RSI Ship Matrix). `status:"concept"`, 별도 탭/필터, 무역플래너·실전 비교·AI 추천 제외. 출처 감사·빈값·이상은 [`shipdb-concept-rsi-audit.md`](shipdb-concept-rsi-audit.md). 전부 `erkulStatus=unreleased`, `implemented=false`(단 RSI상 `atls`·`atls-geo`는 flight-ready).
 
 | # | 제외 ID | # | 제외 ID | # | 제외 ID |
 |---|---|---|---|---|---|

@@ -7,7 +7,8 @@
 - **0단계 산출**: 기준선(`capture-baseline.mjs`+`data/shipdb-rewrite-baseline.json`), 파이프라인 차단 CI(`canonical-contract.mjs`+`shipdb-canonical-contract.test.mjs`, 7종), ID 매핑, 소비처 맵.
 - **1단계 산출(비활성)**: `scripts/shipdb-rewrite/build-{canonical,localization,operational}.mjs` → `data/canonical/`(ships-canonical 219·localization-ships 219·operational-ships 219·edition-aliases 7). canonical 사실원=Erkul live 레이어만(CI 강제). **localization KO 누락 8척 = 전환 차단 대상**(3.2 게이트).
 - **PM 결정 요약**: Erkul=유일 사실, ship.id 유지, 3계층. canonical 선정=Erkul live 존재(railen 포함, matched 아님). crew→live 통일, priceUsd→모델 제거, erkulName/erkulStatus→operational 격리(삭제 안 함), anomalies→admin 리포트, focus/role/tags VOLT분류→초기 전환본 제거, live 없는 37→공개 제외. 레거시 재생성 4스크립트 퇴역은 2.7.
-- **다음**: 2단계 소비처 이관(288 소비처, 필드별 원자 커밋). 삭제는 3.5 PM 승인 후에만.
+- **RSI 컨셉 카탈로그(2026-07-18 PM 변경)**: 컨셉 30척 "완전 제외" → RSI 공식 컨셉 카탈로그 격리. 사실원=RSI Ship Matrix(`data/external/rsi/concept-ship-matrix.json` 스냅샷·retrievedAt 2026-07-18). `build-concept-rsi.mjs`→`data/canonical/ships-concept-rsi.json`(30, RSI 필드만·게임플레이 값 없음, CI 가드). 감사표 `docs/shipdb-concept-rsi-audit.md`. **빈값 보고**: expanse 설명 없음 / atls·g12a·g12r 화물 null / g12·g12a·g12r·kraken·kraken-privateer 승무원 일부 null / **atls·atls-geo는 RSI상 flight-ready(컨셉 아님) — 배지 방침 PM 확인 필요**.
+- **다음(듀얼리드+플래그 승인)**: 컨셉 KO 번역(29척) + 컨셉 탭 UI(배지·출처, 플래너/비교/AI 제외) → canonical 로더+내부 플래그 → 첫 원자 이관 `priceUsd`. 플래그 OFF=라이브 무변경, ON 전환·삭제는 3.5 승인 시.
 - **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)

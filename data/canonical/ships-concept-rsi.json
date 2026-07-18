@@ -1,0 +1,580 @@
+{
+  "schema": "shipdb-concept-rsi/v1",
+  "note": "RSI 공식 컨셉 카탈로그. 사실원=RSI Ship Matrix만. RSI 비제공 게임플레이 값 없음. KO는 별도 concept-localization 계층.",
+  "source": "RSI Ship Matrix (robertsspaceindustries.com/ship-matrix/index)",
+  "retrievedAt": "2026-07-18",
+  "generatedFromCommit": "d0fc16094390c8983230fb5e9657b69232a19e34",
+  "count": 30,
+  "records": [
+    {
+      "id": "arrastra",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/arrastra/Arrastra",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Roberts Space Industries",
+        "role": "Mining / Refining",
+        "size": "large",
+        "crewMin": 2,
+        "crewMax": 5,
+        "cargo": 576,
+        "descriptionEn": "RSI is disrupting the industrial sector with an all-new approach to deep-space mining. Extract, refine, and haul huge volumes of ore in one powerhouse vessel – all with a maximum crew of five!"
+      },
+      "descriptionEnHash": "bfe373ac0c6fc2d0"
+    },
+    {
+      "id": "atls",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/atls/ATLS",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "flight-ready",
+      "rsi": {
+        "manufacturer": "Argo Astronautics",
+        "role": "Industrial",
+        "size": "vehicle",
+        "crewMin": 1,
+        "crewMax": 1,
+        "cargo": null,
+        "descriptionEn": "Single-handedly load and unload the biggest haulers with the power of Argo. The ATLS power suit’s unique exo-frame helps you work quickly, easily, and safely – whatever the task."
+      },
+      "descriptionEnHash": "d7fbe2b03ff538f5"
+    },
+    {
+      "id": "atls-geo",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/atls/ATLS-GEO",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "flight-ready",
+      "rsi": {
+        "manufacturer": "Argo Astronautics",
+        "role": "Industrial",
+        "size": "vehicle",
+        "crewMin": 1,
+        "crewMax": 1,
+        "cargo": 0.01,
+        "descriptionEn": "Built on the proven ATLS power suit chassis, the GEO is outfitted with bespoke mining components and a Jump Pack to open up the most inaccessible (and prosperous) corners of the galaxy."
+      },
+      "descriptionEnHash": "485619ef35106f68"
+    },
+    {
+      "id": "crucible",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/crucible/Crucible",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Anvil Aerospace",
+        "role": "Heavy Repair",
+        "size": "large",
+        "crewMin": 3,
+        "crewMax": 8,
+        "cargo": 240,
+        "descriptionEn": "A so-called “flying toolbox,” the Crucible is Anvil Aerospace’s first dedicated repair ship. Featuring a rotating control bridge and a detachable pressurized workspace,  the Crucible is a versatile mobile garage equipped with repair arms, a drone operation center and all the equipment needed to overhaul a damaged craft back into fighting shape."
+      },
+      "descriptionEnHash": "f7ad98c4590b37ed"
+    },
+    {
+      "id": "e1-spirit",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/spirit/E1-Spirit",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Crusader Industries",
+        "role": "Passenger",
+        "size": "medium",
+        "crewMin": 1,
+        "crewMax": 2,
+        "cargo": 0,
+        "descriptionEn": "Crusader Industries brings its usual commitment to excellence directly to the civilian market with the E1 Spirit, a mid-size multi-purpose starship aiming to redefine executive travel with VIP accommodations while packing enough versatility to tackle multiple roles and unpredictable jobs."
+      },
+      "descriptionEnHash": "bc681c85d79684ad"
+    },
+    {
+      "id": "endeavor",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/misc-endeavor/Endeavor",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "MISC",
+        "role": "Heavy Science",
+        "size": "capital",
+        "crewMin": 3,
+        "crewMax": 5,
+        "cargo": 500,
+        "descriptionEn": "Musashi Industrial &amp; Starflight Concern is proud to present the Endeavor-class research vessel, a fully modular space platform designed to be adapted for a variety of scientific and medical tasks. Initially developed as a floating laboratory, the MISC Endeavor can be outfitted for everything from spatial telescopy to use as mobile hospital."
+      },
+      "descriptionEnHash": "9c0a9d534be91171"
+    },
+    {
+      "id": "expanse",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/expanse/Expanse",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "MISC",
+        "role": "Refinery",
+        "size": "small",
+        "crewMin": 1,
+        "crewMax": 1,
+        "cargo": 64,
+        "descriptionEn": null
+      },
+      "descriptionEnHash": null
+    },
+    {
+      "id": "g12",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Origin Jumpworks",
+        "role": "Touring",
+        "size": "vehicle",
+        "crewMin": null,
+        "crewMax": null,
+        "cargo": 2,
+        "descriptionEn": "Trek to the edge of the galaxy with confidence thanks to Origin’s trademark build quality and design. Built with the most extreme environments in mind, the G12 suits all types of planetary travel, from traversing tundras to sightseeing."
+      },
+      "descriptionEnHash": "7702d7613fc786f5"
+    },
+    {
+      "id": "g12a",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12a",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Origin Jumpworks",
+        "role": "Military",
+        "size": "vehicle",
+        "crewMin": null,
+        "crewMax": null,
+        "cargo": null,
+        "descriptionEn": "The G12a combines military might with Origin’s unique approach to high-end engineering. Designed for all offensive ground-based operations, it’s the ideal partner for long-range perimeter patrols, intercepting assailants, and exploring dangerous new locales."
+      },
+      "descriptionEnHash": "2ca50b1f19c0dee2"
+    },
+    {
+      "id": "g12r",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12r",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Origin Jumpworks",
+        "role": "Racing",
+        "size": "vehicle",
+        "crewMin": null,
+        "crewMax": null,
+        "cargo": null,
+        "descriptionEn": "Stripped back and meticulously engineering for performance, Origin has taken everything learned from preparing the 350r and M50 ships for competition and added it to the ubiquitous ground racer. Lighter, faster, and with a built-in EMP for protection, it’s ready for anything the outlands can throw at it."
+      },
+      "descriptionEnHash": "1a8e91d88316917c"
+    },
+    {
+      "id": "galaxy",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/galaxy/Galaxy",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Roberts Space Industries",
+        "role": "Modular",
+        "size": "large",
+        "crewMin": 1,
+        "crewMax": 6,
+        "cargo": 64,
+        "descriptionEn": "Featuring a fully modular design and an onboard hangar capable of deploying small ships, the cutting-edge Galaxy has versatility built into its DNA with a highly configurable main deck that can be outfitted with comprehensive facilities to support cargo, medical, or refining operations."
+      },
+      "descriptionEnHash": "9f3c02efe447554b"
+    },
+    {
+      "id": "genesis",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/starliner/Genesis",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Crusader Industries",
+        "role": "Passenger",
+        "size": "large",
+        "crewMin": 2,
+        "crewMax": 8,
+        "cargo": 0,
+        "descriptionEn": "The Genesis is yet another landmark in Crusader Industries’ proud history of transport designs. This ship utilizes award-winning manufacturing techniques and the highest quality parts to create one thing; a next-generation passenger ship at a price that won’t break your budget. Crusader Industries’ proprietary NeoG engine technology offers some of the most efficient flight for a ship of its size."
+      },
+      "descriptionEnHash": "45f978bd24feca67"
+    },
+    {
+      "id": "hull-d",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-D",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "MISC",
+        "role": "Heavy Freight",
+        "size": "capital",
+        "crewMin": 3,
+        "crewMax": 5,
+        "cargo": 6912,
+        "descriptionEn": "The Hull D kicks off the larger end of the spectrum with a massive ship built around a rugged frame. The Hull D is affordable enough to be operated by mid-sized organizations and companies. Hull D are often used as flagships for mercantile operations, but their bulk means that they should be operated with escort fighters while not in safe space. The UEE military uses modified Hull D as part of their supply chain, arming and refueling the soldiers on the front line."
+      },
+      "descriptionEnHash": "7425e858d4592b3b"
+    },
+    {
+      "id": "hull-e",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-E",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "MISC",
+        "role": "Heavy Freight",
+        "size": "capital",
+        "crewMin": 4,
+        "crewMax": 5,
+        "cargo": 12288,
+        "descriptionEn": "The largest specialized freighter available on the market today, the Hull E is generally owned by major corporations and operated with a high degree of planning. The lack of maneuverability inherent in such a large ship means that anyone planning to operate them should be careful about equipping turrets and providing escort. Their potential load (and modularity) is unparalleled, however: no other ship allows as much room to store goods or to modify towards another role!"
+      },
+      "descriptionEnHash": "64e79e703a5203b3"
+    },
+    {
+      "id": "javelin",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-javelin/Javelin",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Aegis Dynamics",
+        "role": "Destroyer",
+        "size": "capital",
+        "crewMin": 12,
+        "crewMax": 65,
+        "cargo": 5400,
+        "descriptionEn": "Designed for use by the UEE military, the Javelin is a massive, modular capital ship that can be appropriated for entrepreneurial use. With a detailed interior, plenty of modular room options and a high crew capacity, the Javelin is a ship that has made a name for itself in a variety of roles."
+      },
+      "descriptionEnHash": "0e91db5d149682d4"
+    },
+    {
+      "id": "kraken",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/drake-kraken/Kraken",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Drake Interplanetary",
+        "role": "Multi-Role / Light Carrier",
+        "size": "capital",
+        "crewMin": null,
+        "crewMax": 10,
+        "cargo": 3792,
+        "descriptionEn": "The Kraken is a protector and a beacon of freedom in a too-often cruel universe. For those tasked with safekeeping Citizens unable to protect themselves, the Kraken is both a sanctuary and a self-contained war machine ready to take on the most daunting adversaries. Drake has thrown out the rule book to redefine private-use capital-class ships, attack carriers, and the very nature of personal freedom. It's nothing if not a testament to the empowerment of the people."
+      },
+      "descriptionEnHash": "7bc8bd7d95cb6b9c"
+    },
+    {
+      "id": "kraken-privateer",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/drake-kraken/Kraken-Privateer",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Drake Interplanetary",
+        "role": "Multi-Role / Light Carrier",
+        "size": "capital",
+        "crewMin": null,
+        "crewMax": 10,
+        "cargo": 768,
+        "descriptionEn": "The Kraken is a protector and a beacon of freedom in a too-often cruel universe. For those tasked with safekeeping Citizens unable to protect themselves, the Kraken is both a sanctuary and a self-contained war machine ready to take on the most daunting adversaries. Drake has thrown out the rule book to redefine private-use capital-class ships, attack carriers, and the very nature of personal freedom. It's nothing if not a testament to the empowerment of the people."
+      },
+      "descriptionEnHash": "7bc8bd7d95cb6b9c"
+    },
+    {
+      "id": "legionnaire",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/legionnaire/Legionnaire",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Anvil Aerospace",
+        "role": "Boarding",
+        "size": "small",
+        "crewMin": 1,
+        "crewMax": 2,
+        "cargo": 0,
+        "descriptionEn": "The Anvil Legionnaire presents the civilian market with a military style boarding vessel capable of occupying ships of varying sizes, crews, and capacities. High-performance jump seats safely transport a boarding party of up to ten into the action, while integrated systems let your copilot bypass security protocols on the target vessel, mitigating risk like never before."
+      },
+      "descriptionEnHash": "b01597d767e00977"
+    },
+    {
+      "id": "liberator",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/liberator/Liberator",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Anvil Aerospace",
+        "role": "Light Carrier",
+        "size": "large",
+        "crewMin": 1,
+        "crewMax": 2,
+        "cargo": 400,
+        "descriptionEn": "Anvil continues its tradition of excellence with the Liberator, an open-air vehicle carrier that applies the tradition of long-range transport to a smaller scale. Designed with the same quantum drive and long-distance capabilities of military-spec carriers and pathfinders but tailored to the civilian market, the Liberator puts your fleet on the front lines of any operation."
+      },
+      "descriptionEnHash": "26d2bfc43a867794"
+    },
+    {
+      "id": "merchantman",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/merchantman/Merchantman",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Banu",
+        "role": "Heavy Freight",
+        "size": "large",
+        "crewMin": 4,
+        "crewMax": 8,
+        "cargo": 2880,
+        "descriptionEn": "Banu traders are renowned for their merchant prowess, traveling the spacelanes and trading with everyone from humans to the Vanduul! Their sturdy, dedicated trading ships are prized beyond all other transports, sometimes passing from generation to generation of Banu."
+      },
+      "descriptionEnHash": "2d12423b9083dac8"
+    },
+    {
+      "id": "nautilus",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-nautilus/Nautilus",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Aegis Dynamics",
+        "role": "Minelayer",
+        "size": "large",
+        "crewMin": 4,
+        "crewMax": 8,
+        "cargo": 64,
+        "descriptionEn": "With four centuries of distinguished service under its belt, The Aegis Dynamics Nautilus tactical minelayer represents the ultimate in strategic combat engineering, with fully-integrated mine-deployment, sweeping and disarming capabilities."
+      },
+      "descriptionEnHash": "9f800de05006e395"
+    },
+    {
+      "id": "nautilus-solstice-edition",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-nautilus/Nautilus-Solstice-Edition",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Aegis Dynamics",
+        "role": "Minelayer",
+        "size": "large",
+        "crewMin": 4,
+        "crewMax": 8,
+        "cargo": 64,
+        "descriptionEn": "With four centuries of distinguished service under its belt, The Aegis Dynamics Nautilus tactical minelayer represents the ultimate in strategic combat engineering, with fully-integrated mine-deployment, sweeping and disarming capabilities. This limited edition Solstice model is exclusive to members of the Chairman’s Club and includes sequential serial numbering according to production order."
+      },
+      "descriptionEnHash": "6e4766478db7074c"
+    },
+    {
+      "id": "odyssey",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/odyssey/Odyssey",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "MISC",
+        "role": "Expedition",
+        "size": "large",
+        "crewMin": 1,
+        "crewMax": 6,
+        "cargo": 252,
+        "descriptionEn": "Survey distant frontiers and explore the furthest reaches of space with the MISC Odyssey, the most advanced and complete exploration ship available to civilians. Designed to be supremely self-sufficient, the Odyssey comes with an on-board refinery with built-in mining tech, expansive capacity for supplies, and a hangar capable of housing a small ship, along with comprehensive, comfortable accommodations for a crew of six. Discover a new life among the stars. Only from MISC."
+      },
+      "descriptionEnHash": "eed0c79d03e455af"
+    },
+    {
+      "id": "orion",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/orion/Orion",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Roberts Space Industries",
+        "role": "Heavy Mining",
+        "size": "capital",
+        "crewMin": 4,
+        "crewMax": 7,
+        "cargo": 384,
+        "descriptionEn": "Roberts Space Industries’ goal has always been to make the stars available to individual Citizens. Now, with the RSI Orion mining platform, RSI is letting individuals take over a process formerly controlled by mega-corporations. The Orion’s features include high-grade turret-mounted tractor beam arrays, plenty of mineral storage and a cabin designed by the team that brought you the Aurora and Constellation!\n\n\nThe listed Cargo Capacity is only for the dedicated Cargo Room and does not account for the mined material capacity in the storage pods which will be detailed later."
+      },
+      "descriptionEnHash": "7238d9db35da2c9e"
+    },
+    {
+      "id": "pioneer",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/pioneer/Pioneer",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Consolidated Outland",
+        "role": "Heavy Construction",
+        "size": "capital",
+        "crewMin": 4,
+        "crewMax": 8,
+        "cargo": 1000,
+        "descriptionEn": "After their auspicious debut with the Mustang, Consolidated Outland has gone and changed the game again with the reveal of the Pioneer. This self-contained mobile construction yard is capable of creating planetary modular structures, ushering a new wave of aspiring colonists to customize their new homes on the frontier."
+      },
+      "descriptionEnHash": "acca64ee4ab5c4c8"
+    },
+    {
+      "id": "ranger-cv",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-CV",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Tumbril",
+        "role": "Touring",
+        "size": "vehicle",
+        "crewMin": 1,
+        "crewMax": 1,
+        "cargo": 0,
+        "descriptionEn": "With a powerful frame, proprietary X-TEC adaptive tread tires, and Reactive Response precision steering and braking, the Tumbril Ranger lets you embrace the renegade spirit of the open road while staying thoroughly grounded. Born to tame the wild frontier, the Ranger CV takes adventure touring to the next level and delivers the goods with an auxiliary fuel tank and custom 0.375 SCU pannier."
+      },
+      "descriptionEnHash": "6ed6a2701ceb9f93"
+    },
+    {
+      "id": "ranger-rc",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-RC",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Tumbril",
+        "role": "Racing",
+        "size": "vehicle",
+        "crewMin": 1,
+        "crewMax": 1,
+        "cargo": 0,
+        "descriptionEn": "With a streamlined frame, proprietary X-TEC adaptive tread tires, and Reactive Response precision steering and braking, the Tumbril Ranger lets you embrace the renegade spirit of the open road while staying thoroughly grounded. Put the hammer down and pump up the adrenaline with the Ranger RC, tuned for maximum speed and response with advanced propulsion and chassis technology."
+      },
+      "descriptionEnHash": "3f7b3771fa230b74"
+    },
+    {
+      "id": "ranger-tr",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-TR",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Tumbril",
+        "role": "Combat",
+        "size": "vehicle",
+        "crewMin": 1,
+        "crewMax": 1,
+        "cargo": 0,
+        "descriptionEn": "With a powerful frame, proprietary X-TEC adaptive tread tires, and Reactive Response precision steering and braking, the Tumbril Ranger lets you embrace the renegade spirit of the open road while staying thoroughly grounded. But adventure doesn't always go to plan, so the Ranger TR comes equipped with dual weapon mounts to make sure you're more than covered."
+      },
+      "descriptionEnHash": "be660d1377c29a39"
+    },
+    {
+      "id": "vulcan",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/vulcan/Vulcan",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Aegis Dynamics",
+        "role": "Medium Repair / Medium Refuel",
+        "size": "medium",
+        "crewMin": 1,
+        "crewMax": 3,
+        "cargo": 12,
+        "descriptionEn": "Refuel. Repair. Rearm. Become a one-person support crew with Aegis Dynamics’ versatile Vulcan, supplying aid to pilots on the fly. Whether pinned down under heavy fire and in need of ammunition, low on quantum fuel after an ill-planned jump, or stranded in unknown space with a busted thruster, a pilot in distress can always count on a Vulcan and its cadre of drones to lend speedy, efficient assistance. \n\nOutfit your Vulcan with eye-catching livery and become a beacon of hope, even in the darkest, most treacherous corners of the ‘verse."
+      },
+      "descriptionEnHash": "ab8e6cb69f27d67d"
+    },
+    {
+      "id": "zeus-mk2-mr",
+      "status": "concept",
+      "source": "rsi-official",
+      "sourceType": "ship-matrix",
+      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/zeus-mk-ii/Zeus-Mk-II-MR",
+      "retrievedAt": "2026-07-18",
+      "rsiProductionStatus": "in-concept",
+      "rsi": {
+        "manufacturer": "Roberts Space Industries",
+        "role": "Interdiction",
+        "size": "medium",
+        "crewMin": 1,
+        "crewMax": 3,
+        "cargo": 16,
+        "descriptionEn": "Ready to ferry a whole new generation of travelers across the universe, the Zeus Mk II pays homage to the classic ship that launched Humanity to the stars in 2140. With a focus on security, the Zeus Mk II MR features an EMP device and quantum dampener to neutralize hostile forces."
+      },
+      "descriptionEnHash": "3600c9056576ad64"
+    }
+  ]
+}

@@ -17,6 +17,9 @@ import {
   CANONICAL_SELECTION,
   LEGACY_REGEN_SCRIPTS,
   CANONICAL_FORBIDDEN_INPUTS,
+  CONCEPT_DATASET_PATH,
+  CONCEPT_RSI_ALLOWED_FIELDS,
+  CONCEPT_FORBIDDEN_FIELDS,
 } from '../../data/shipdb-rewrite/canonical-contract.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -115,6 +118,35 @@ test('canonical 생성기가 금지 입력을 참조하지 않는다 (fail-close
   const src = await readRoot(CANONICAL_GENERATOR_PATH);
   const offenders = CANONICAL_FORBIDDEN_INPUTS.filter((p) => src.includes(p));
   assert.equal(offenders.length, 0, `canonical 생성기가 금지 입력을 사실원으로 참조: ${offenders.join(', ')} — Erkul live 레이어만 읽어야 함`);
+});
+
+// PM step4: RSI 컨셉 카탈로그는 RSI 비제공 게임플레이 값을 갖지 않고, rsi{}는 허용 필드만 가진다.
+test('컨셉 카탈로그: RSI 비제공 게임플레이 값 없음 + rsi 필드 화이트리스트 (fail-closed)', async () => {
+  const abs = join(ROOT, CONCEPT_DATASET_PATH);
+  if (!existsSync(abs)) {
+    assert.ok(true, `컨셉 카탈로그 미생성(${CONCEPT_DATASET_PATH}) — 계약 armed`);
+    return;
+  }
+  const data = JSON.parse(await readFile(abs, 'utf8'));
+  const records = Array.isArray(data) ? data : Array.isArray(data.records) ? data.records : Object.values(data);
+  const allowed = new Set(CONCEPT_RSI_ALLOWED_FIELDS);
+  const violations = [];
+  for (const rec of records) {
+    if (!rec || typeof rec !== 'object' || !rec.rsi) continue;
+    // 게임플레이 금지 필드가 레코드/ rsi 어디에도 없어야 함
+    for (const f of CONCEPT_FORBIDDEN_FIELDS) {
+      if (Object.hasOwn(rec, f) || Object.hasOwn(rec.rsi, f)) violations.push(`${rec.id}.${f}`);
+    }
+    // rsi{}는 허용 필드만
+    for (const key of Object.keys(rec.rsi)) {
+      if (!allowed.has(key)) violations.push(`${rec.id}.rsi.${key}(비허용)`);
+    }
+    // 출처·상태 필수
+    if (rec.source !== 'rsi-official') violations.push(`${rec.id}.source!=rsi-official`);
+    if (rec.status !== 'concept') violations.push(`${rec.id}.status!=concept`);
+    if (!rec.sourceUrl) violations.push(`${rec.id}.sourceUrl 없음`);
+  }
+  assert.equal(violations.length, 0, `컨셉 카탈로그 계약 위반: ${violations.slice(0, 20).join(', ')}`);
 });
 
 // PM 보강 1: 레거시 재생성 4스크립트가 공개 canonical 경로에 기록하지 않는다.

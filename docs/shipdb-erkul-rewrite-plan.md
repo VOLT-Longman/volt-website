@@ -26,7 +26,9 @@
 | `market.anomalies` · `mappedFrom` | 관리자 동기화 리포트에만 유지 (D6) |
 | `focus` · VOLT 편집 `role`/`tags` 분류 | **전환 1차본에서 제거, 대체 분류를 만들지 않음**(PM 확정). 추후 재도입은 별도 결정 (D7) |
 | `tags` '미구현' 게이트 | 표시태그와 분리 — **`implemented`(false 31=unreleased 31 정합)/`erkulStatus`로 재매핑**해 게이트 기능 보존 (D7 부수) |
-| Erkul live 없는 37척 | **공개 ShipDB·검색·비교·AI 추천에서 제외**(PM 확정). 별도 보관 카탈로그 파일 없이 **ID·제외 사유만 마이그레이션 문서에 보관**. 중복 에디션은 기존 `canonicalId` 7척을 시드로 정식 함선 별칭/리다이렉트 (D8) |
+| Erkul live 없는 컨셉 30척 | **RSI 공식 컨셉 카탈로그로 격리**(PM 2026-07-18 변경, 기존 "완전 제외" 대체). 사실 기준=RSI 공식 Ship Matrix·페이지·PDF만, VOLT 수기 재사용 금지. `status:"concept"`, 별도 탭/필터에서만 노출, 무역플래너·실전 비교·AI 추천 제외. HP·속도·DPS·구매처·시세 등 RSI 비제공 값 추정 금지 (D8) |
+| 중복 에디션 7척 | 정식 live 함선의 별칭/리다이렉트만 유지(`canonicalId` 시드). canonical 미포함 (D8) |
+| Railen | Erkul live 데이터 존재 → 컨셉 아님, **live canonical 219에 유지** (D8) |
 | `computePreviewHash`·Safe Apply | 새 스키마로 이관 + cutover 시 재기준선 + 전후 비교 (D9) |
 | `implemented` · `hidden` | operational 큐레이션 유지 |
 | `rsiUrl` | 유지-operational (참조 링크) |
@@ -101,7 +103,7 @@
 | 항목 | 확정 |
 |---|---|
 | `focus` 등 편집 분류 | 전환 1차본에서 제거. **대체 분류를 만들지 않음** |
-| Erkul live 없는 37척 | 공개 ShipDB·검색·비교·AI 추천에서 제외. **ID·제외 사유만 마이그레이션 문서에 보관**(별도 카탈로그 파일 없음) |
+| Erkul live 없는 컨셉 30척 | **RSI 공식 컨셉 카탈로그로 격리**(2026-07-18 변경). RSI Ship Matrix 사실원, 별도 탭/필터, 플래너·비교·AI 제외, RSI 비제공 값 추정 금지. 중복 에디션 7·Railen은 별개(별칭/live 유지) |
 | `priceUsd` | 이번 전환에서 공개 모델·동기화 파이프라인에서 제거. **신규 가격 공급자 도입은 별도 마일스톤** |
 | 한국어 재번역 | 전환 시점 **모든 활성 Erkul 함선에 적용**. 번역 누락은 기존 한글 재사용·무음 영어 폴백으로 넘기지 않고 **공개 전환을 막는 조건**으로 설정 |
 

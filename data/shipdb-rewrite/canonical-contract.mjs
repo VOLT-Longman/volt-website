@@ -47,6 +47,14 @@ export const LEGACY_REGEN_SCRIPTS = [
 // canonical 생성 경로에서 참조 금지(아래 CANONICAL_FORBIDDEN_INPUTS로 강제).
 export const UPSTREAM_INPUT_GENERATOR = 'scripts/sync-rsi-ship-matrix.mjs';
 
+// ── RSI 컨셉 카탈로그 계약 (PM 2026-07-18) ──────────────────────
+// Erkul live 없는 컨셉 30척. 사실원=RSI 공식 Ship Matrix만. 1단계 이후 생성.
+export const CONCEPT_DATASET_PATH = 'data/canonical/ships-concept-rsi.json';
+// rsi{} 허용 필드(PM step3: 역할·제조사·크기·승무원·화물·설명만). 화이트리스트 외 금지.
+export const CONCEPT_RSI_ALLOWED_FIELDS = ['manufacturer', 'role', 'size', 'crewMin', 'crewMax', 'cargo', 'descriptionEn'];
+// 컨셉 레코드에 절대 없어야 하는 RSI 비제공 게임플레이 값(PM step4: 추정 금지).
+export const CONCEPT_FORBIDDEN_FIELDS = ['hp', 'speed', 'speeds', 'scm', 'dps', 'purchase', 'rentals', 'price', 'priceUsd', 'market', 'cargoScu', 'crewSize'];
+
 // canonical 생성기가 사실원으로 읽어서는 안 되는 입력(PM 보강 2).
 // canonical의 사실원은 Erkul live 레이어(ship-live-stats.js·ship-market.js)뿐이다.
 export const CANONICAL_FORBIDDEN_INPUTS = [
