@@ -33,12 +33,23 @@
     var promise = null;
     var store = {};
     var idCache = null;
+    var shipCache = null;
 
     // 공개 canonical 함선 id 집합(219). 메인 ShipDB 리스트를 canonical로 좁힐 때 사용(ON).
     function publicShipIds() {
         if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
         if (!idCache) idCache = new Set(store.canonical.ships.map(function (s) { return s.id; }));
         return idCache;
+    }
+
+    // id로 canonical 레코드 조회(crewSize·cargoScu 등 Erkul 사실값). 필드별 이관 소비처가 사용.
+    function getShip(id) {
+        if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
+        if (!shipCache) {
+            shipCache = {};
+            store.canonical.ships.forEach(function (s) { shipCache[s.id] = s; });
+        }
+        return shipCache[id] || null;
     }
 
     // OFF: 즉시 null 반환(fetch 없음). ON: 6개 계층 JSON을 병렬 로드해 store에 채운다.
@@ -61,6 +72,7 @@
         isEnabled: isEnabled,
         load: load,
         publicShipIds: publicShipIds,
+        getShip: getShip,
         get data() { return store; },
         get state() { return state; }
     };

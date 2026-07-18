@@ -444,7 +444,7 @@
     function compareShipField(left, right, field) {
         const sizeOrder = { '초소형': 1, '지상': 2, '소형': 3, '중형': 4, '대형': 5, '캐피탈': 6 };
         if (field === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99);
-        if (field === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew);
+        if (field === 'crew') return crewSortValue(left) - crewSortValue(right);
         if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
         if (field === 'price') return canonicalOn() ? 0 : getPriceValue(left.priceUsd) - getPriceValue(right.priceUsd);
         return compareText(left.name, right.name);
@@ -518,6 +518,14 @@
     // 재작성 2단계 듀얼리드: ON이면 canonical 경로(priceUsd 공개 모델 제거, D4). OFF는 레거시.
     function canonicalOn() {
         return !!(window.VOLT_SHIPDB_CANONICAL && window.VOLT_SHIPDB_CANONICAL.isEnabled());
+    }
+    // crew 이관(D3): ON이면 Erkul live.crewSize를 정렬 기준값으로. OFF는 레거시 수기값.
+    function crewSortValue(ship) {
+        if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
+            const c = window.VOLT_SHIPDB_CANONICAL.getShip(ship.id);
+            if (c && c.crewSize != null) return c.crewSize;
+        }
+        return parseLargestNumber(ship.crew);
     }
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
         // KO·EN 양쪽 필드를 모두 색인해 영어로도 검색되게 한다.

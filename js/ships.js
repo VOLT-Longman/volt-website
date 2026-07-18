@@ -34,6 +34,22 @@
     function canonicalOn() {
         return !!(window.VOLT_SHIPDB_CANONICAL && window.VOLT_SHIPDB_CANONICAL.isEnabled());
     }
+    function canonicalShip(ship) {
+        return (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) ? window.VOLT_SHIPDB_CANONICAL.getShip(ship.id) : null;
+    }
+    // crew 이관(D3): ON이면 Erkul live.crewSize(단일 숫자)를 공개 기준값으로. OFF는 레거시 수기값.
+    function crewDisplay(ship) {
+        const c = canonicalShip(ship);
+        return c && c.crewSize != null ? String(c.crewSize) : tx(ship, 'crew');
+    }
+    function crewMax(ship) {
+        const c = canonicalShip(ship);
+        return c && c.crewSize != null ? c.crewSize : parseLargestNumber(ship.crew);
+    }
+    function crewMin(ship) {
+        const c = canonicalShip(ship);
+        return c && c.crewSize != null ? c.crewSize : parseSmallestNumber(ship.crew);
+    }
     function shipTagsLocalized(ship) {
         const ko = Array.isArray(ship.tags) ? ship.tags : [];
         if (currentLang() === 'en' && Array.isArray(ship.tags_en) && ship.tags_en.length === ko.length) return ship.tags_en;
@@ -408,7 +424,7 @@
             { label: i18nT('ships.role', '\uc5ed\ud560'), key: 'role', format: (ship) => tx(ship, 'role') },
             { label: i18nT('ships.focus', '\ubd84\ub958'), key: 'focus', format: (ship) => tx(ship, 'focus') },
             { label: i18nT('ships.size', '\ud06c\uae30'), key: 'size', format: (ship) => tx(ship, 'size') },
-            { label: i18nT('ships.crew', '\uc2b9\ubb34\uc6d0'), key: 'crew', format: (ship) => tx(ship, 'crew'), rawValue: (ship) => parseLargestNumber(ship.crew), numeric: true, higherIsBetter: true },
+            { label: i18nT('ships.crew', '\uc2b9\ubb34\uc6d0'), key: 'crew', format: (ship) => crewDisplay(ship), rawValue: (ship) => crewMax(ship), numeric: true, higherIsBetter: true },
             { label: i18nT('ships.cargo', '\ud654\ubb3c'), key: 'cargo', format: (ship) => ship.cargo, rawValue: (ship) => getCargoValue(ship.cargo), numeric: true, higherIsBetter: true },
             // priceUsd: \ud50c\ub798\uadf8 ON\uc774\uba74 \uacf5\uac1c \ubaa8\ub378\uc5d0\uc11c \uc81c\uac70(D4). OFF\ub294 \ub808\uac70\uc2dc \uc720\uc9c0.
             ...(canonicalOn() ? [] : [{ label: i18nT('ships.priceUsd', 'USD \uac00\uaca9'), key: 'priceUsd', format: (ship) => formatShipPrice(ship.priceUsd), rawValue: (ship) => Number(ship.priceUsd), numeric: true, higherIsBetter: false }])
@@ -446,9 +462,9 @@
     }
     function renderShipComparisonSummary(ships) {
         const cargoLeader = getShipByMetric(ships, (ship) => getCargoValue(ship.cargo), 'max');
-        const crewLeader = getShipByMetric(ships, (ship) => parseSmallestNumber(ship.crew), 'min');
-        const largeOpsLeader = getShipByMetric(ships, (ship) => getCargoValue(ship.cargo) + parseLargestNumber(ship.crew) * 10, 'max');
-        const smallOpsLeader = getShipByMetric(ships, (ship) => parseSmallestNumber(ship.crew) * 100 - getCargoValue(ship.cargo), 'min');
+        const crewLeader = getShipByMetric(ships, (ship) => crewMin(ship), 'min');
+        const largeOpsLeader = getShipByMetric(ships, (ship) => getCargoValue(ship.cargo) + crewMax(ship) * 10, 'max');
+        const smallOpsLeader = getShipByMetric(ships, (ship) => crewMin(ship) * 100 - getCargoValue(ship.cargo), 'min');
         return `<section class="ship-compare-summary">
             <h3>${escapeHtml(i18nT('ships.compareSummary', '비교 요약'))}</h3>
             <div>
@@ -654,7 +670,7 @@
         const items = [stat(i18nT('ships.role', '역할'), tx(ship, 'role'))];
         if (!live) {
             items.push(stat(i18nT('ships.size', '크기'), tx(ship, 'size')));
-            items.push(stat(i18nT('ships.crew', '승무원'), tx(ship, 'crew')));
+            items.push(stat(i18nT('ships.crew', '승무원'), crewDisplay(ship)));
             items.push(stat(i18nT('ships.cargo', '화물'), ship.cargo));
         }
         if (!canonicalOn()) items.push(stat(i18nT('ships.priceUsd', 'USD 가격'), formatShipPrice(ship.priceUsd)));
