@@ -16,7 +16,8 @@
 - **⑥비교 하네스 + ON 메인 219 정합 완료(PM C)**: ON에서 메인 ShipDB 리스트를 canonical 219로 좁힘(컨셉 30→카탈로그 탭 전용, 별칭 7→리다이렉트) — 로더 `publicShipIds()` + getVisibleShips ON 필터 + canonical 로드 후 재렌더(marketOnly 패턴). 비교 하네스 `shipdb-compare-harness.spec.js` 3건: OFF 메인 256·priceUsd·무카탈로그 / ON 메인 219(=canonical 정확일치)·카탈로그 30·priceUsd 제거 / 허용 차이만(OFF∖ON=컨셉30+별칭7, ON 신규 추가 0). 이후 필드 이관의 안전장치.
 - **⑦crew 원자 이관 완료(PM 지정)**: ON이면 Erkul `live.crewSize`를 공개 기준값으로(로더 `getShip(id)` + ships.js crewDisplay/crewMin/crewMax: 비교표·리더보드 + main.js crewSortValue: 정렬). live 있는 함선은 모달이 이미 crewSize라 무변경, 레거시 수기 crew 노출 지점(비교·리더보드·정렬)만 이관. OFF=레거시 수기(freelancer 1명). 회귀 `shipdb-crew-migration.spec.js` 2건 + 비교 하네스 통과.
 - **⑧cargo 원자 이관 완료(PM 지정)**: ON이면 Erkul `live.cargoScu`를 화물 기준값으로 — ships.js cargoDisplay/cargoValueNum(카드·비교·리더보드·모달) + main.js shipCargoValue(정렬·cargoMin 필터·**플래너 하드게이트 cargo>0**·플래너 시드·추천). 값은 219척 전부 레거시 일치(불일치 0)라 표시·동작 불변, 출처만 canonical. 포맷 toLocaleString으로 콤마 유지("1,326 SCU"). 회귀 `shipdb-cargo-migration.spec.js` 2건 + 하네스 통과.
-- **다음(PM 지정, 마지막)**: `focus`·`tags` 제거(VOLT 편집 분류, D7). ON에서 배지색·필터·플래너 '미구현' 게이트·비교 focus 행 등 제거/재배선(대체 분류 없음). 각 커밋 OFF=기준선 + 하네스. 이후 3.5 승인 시 실전 전환·기존 데이터/파이프라인 삭제.
+- **⑨focus·tags 제거 완료(PM 지정, 마지막 필드, D7)**: ON에서 카드 focus 배지·태그 칩·태그 필터(숨김)·비교 focus 행·태그 노트·검색 색인(focus/focus_en/tags_en) 제거, 대체 분류 없음. '미구현' 릴리스 게이트는 `implemented!==false`로 자연 대체(unreleased 31=implemented false 정합, isPlannerEligibleShip에 이미 포함). role은 유지(PM 순서에 미포함). 회귀 `shipdb-focus-tags-migration.spec.js` 3건 + 하네스.
+- **필드 이관 전부 완료(2단계 소비처 이관)**: priceUsd·crew·cargo·focus·tags. 각 `canonicalOn()` gate + OFF=기준선(시각회귀) + ON 동작 + 비교 하네스 통과. **남은 것은 3단계**: 3.1 전후 응답 비교(0.2 기준선 vs ON) → 3.2 KO 완전성 → 3.3 sync 동결 → **3.4 PM 승인 → 3.5 실전 플래그 ON + 레거시 데이터/파이프라인(재생성 4스크립트·볼트데이터 사실필드) 삭제**. 삭제·실전 전환은 3.5 승인 전까지 금지 유지.
 - **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)

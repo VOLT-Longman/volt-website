@@ -135,6 +135,9 @@
     function renderShipTagFilters() {
         const container = document.getElementById('ship-tag-filters');
         if (!container) return;
+        // focus·tags 제거(D7): ON은 VOLT 편집 분류 필터 자체를 숨긴다(대체 분류 없음).
+        if (canonicalOn()) { container.replaceChildren(); container.hidden = true; return; }
+        container.hidden = false;
         const selectedTags = new Set(shipState.selectedTags);
         const allActive = selectedTags.size === 0 ? ' active' : '';
         const buttons = getShipFilterTags().map((tag) => {
@@ -165,14 +168,14 @@
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
-                    <div class="ship-card-actions"><span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>${renderHangarToggleButton(ship)}</div>
+                    <div class="ship-card-actions">${canonicalOn() ? '' : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}${renderHangarToggleButton(ship)}</div>
                 </div>
                 <p class="ship-desc">${escapeHtml(shipDisplayDescription(ship))}</p>
                 <div class="ship-stats">
                     <div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.cargo', '\ud654\ubb3c'))}</span><span class="ship-stat-value">${escapeHtml(cargoDisplay(ship))}</span></div>
                     ${canonicalOn() ? '' : `<div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.priceUsd', 'USD 가격'))}</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>`}
                 </div>
-                <div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                ${canonicalOn() ? '' : `<div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>`}
                 ${renderShipPlannerButton(ship)}
                 <button class="ship-compare-toggle${shipCompareState.has(ship.id) ? ' active' : ''}" type="button" data-compare-ship-id="${escapeHtml(ship.id)}" aria-pressed="${shipCompareState.has(ship.id)}">
                     ${escapeHtml(shipCompareState.has(ship.id) ? i18nT('ships.compareRemove', '비교 제거') : i18nT('ships.compareAdd', '비교 추가'))}
@@ -432,7 +435,8 @@
         const fields = [
             { label: i18nT('ships.mfr', '\uc81c\uc870\uc0ac'), key: 'manufacturer', format: (ship) => ship.manufacturer },
             { label: i18nT('ships.role', '\uc5ed\ud560'), key: 'role', format: (ship) => tx(ship, 'role') },
-            { label: i18nT('ships.focus', '\ubd84\ub958'), key: 'focus', format: (ship) => tx(ship, 'focus') },
+            // focus \uc81c\uac70(D7): ON\uc740 VOLT \ud3b8\uc9d1 \ubd84\ub958 \ud589\uc744 \ube44\uad50\ud45c\uc5d0\uc11c \ube80\ub2e4.
+            ...(canonicalOn() ? [] : [{ label: i18nT('ships.focus', '\ubd84\ub958'), key: 'focus', format: (ship) => tx(ship, 'focus') }]),
             { label: i18nT('ships.size', '\ud06c\uae30'), key: 'size', format: (ship) => tx(ship, 'size') },
             { label: i18nT('ships.crew', '\uc2b9\ubb34\uc6d0'), key: 'crew', format: (ship) => crewDisplay(ship), rawValue: (ship) => crewMax(ship), numeric: true, higherIsBetter: true },
             { label: i18nT('ships.cargo', '\ud654\ubb3c'), key: 'cargo', format: (ship) => cargoDisplay(ship), rawValue: (ship) => cargoValueNum(ship), numeric: true, higherIsBetter: true },
@@ -496,6 +500,8 @@
         return `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(ship.name)}</strong></article>`;
     }
     function renderComparisonTagNote(ship) {
+        // tags 제거(D7): ON은 VOLT 편집 태그 기반 노트를 표시하지 않는다(함선명만).
+        if (canonicalOn()) return `<li><strong>${escapeHtml(ship.name)}</strong></li>`;
         const tags = getShipTags(ship);
         const notes = [];
         if (tags.includes('화물')) notes.push(i18nT('ships.note.cargo', '물류/화물 운송 후보'));

@@ -451,6 +451,8 @@
     }
 
     function getShipFilterTags() {
+        // focus·tags 제거(D7): ON은 VOLT 편집 분류 필터 칩을 노출하지 않는다(대체 분류 없음).
+        if (canonicalOn()) return [];
         if (!Array.isArray(data.ships)) return [];
         const tags = new Set(data.ships.flatMap((ship) => [ship.focus, ...(ship.tags || [])]));
         return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
@@ -469,7 +471,7 @@
         let ships = getSortedShips().filter((ship) => {
             const tags = getShipTags(ship);
             const matchesManufacturer = shipState.manufacturer === 'all' || ship.manufacturer === shipState.manufacturer;
-            const matchesReleaseState = !shipState.hideUnreleased || !tags.includes('\ubbf8\uad6c\ud604');
+            const matchesReleaseState = !shipState.hideUnreleased || (canonicalOn() ? ship.implemented !== false : !tags.includes('\ubbf8\uad6c\ud604'));
             const matchesSelectedTags = shipState.selectedTags.length === 0 || shipState.selectedTags.some((tag) => ship.focus === tag || tags.includes(tag));
             const haystack = buildShipSearchText(ship, tags);
             return matchesManufacturer && matchesReleaseState && matchesSelectedTags && (!query || haystack.includes(query));
@@ -542,8 +544,8 @@
         // 화면에 표시되는 Erkul 번역 설명(live 레이어)도 색인한다 — 표시 문구로 검색이 잡히도록.
         // live는 지연 로드이므로 로드 전에는 legacy 설명만 색인된다(로드 완료 시 검색 캐시 무효화).
         return [
-            ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, ...(canonicalOn() ? [] : [formatShipPrice(ship.priceUsd)]),
-            ship.role_en, ship.focus_en, ship.size_en, ship.description_en, ...(Array.isArray(ship.tags_en) ? ship.tags_en : []),
+            ship.name, ship.manufacturer, ship.role, ...(canonicalOn() ? [] : [ship.focus]), ship.description, ship.cargo, ...(canonicalOn() ? [] : [formatShipPrice(ship.priceUsd)]),
+            ship.role_en, ...(canonicalOn() ? [] : [ship.focus_en]), ship.size_en, ship.description_en, ...(canonicalOn() || !Array.isArray(ship.tags_en) ? [] : ship.tags_en),
             ...getShipLiveDescriptions(ship),
             ...tags, ...getShipAliases(ship)
         ].filter(Boolean).join(' ').toLowerCase();
@@ -642,9 +644,11 @@
     }
 
     function isPlannerEligibleShip(ship) {
-        const tags = getShipTags(ship);
+        // ON: '미구현' 태그 제거(D7). implemented!==false가 미출시(unreleased 31=implemented false)를
+        // 그대로 배제하므로 태그 없이도 게이트 동일. OFF는 레거시 태그 게이트 유지.
+        const releasedOk = canonicalOn() ? true : !getShipTags(ship).includes('미구현');
         return ship?.implemented !== false
-            && !tags.includes('미구현')
+            && releasedOk
             && shipCargoValue(ship) > 0;
     }
 
@@ -658,7 +662,7 @@
     }
 
     function getPlannerTradeScore(ship) {
-        const text = [ship.role, ship.focus, ship.description, ...getShipTags(ship)].join(' ');
+        const text = [ship.role, ...(canonicalOn() ? [] : [ship.focus, ...getShipTags(ship)]), ship.description].join(' ');
         const weights = { 화물: 3, 물류: 3, 무역: 3, 수송: 2, 운송: 2, 보급: 2, 산업: 1, 다목적: 1 };
         const score = Object.entries(weights).reduce((total, [token, weight]) => total + (text.includes(token) ? weight : 0), 0);
         return text.includes('전투') ? score - 0.5 : score;
