@@ -28,6 +28,12 @@
     }
 
     function shipCat(catKo) { return i18nT(`ship.cat.${catKo}`, catKo); }
+
+    // 재작성 2단계 듀얼리드: 플래그 ON이면 canonical 경로(priceUsd는 공개 모델에서 제거, D4).
+    // OFF(기본)에서는 레거시 그대로 — 라이브 불변.
+    function canonicalOn() {
+        return !!(window.VOLT_SHIPDB_CANONICAL && window.VOLT_SHIPDB_CANONICAL.isEnabled());
+    }
     function shipTagsLocalized(ship) {
         const ko = Array.isArray(ship.tags) ? ship.tags : [];
         if (currentLang() === 'en' && Array.isArray(ship.tags_en) && ship.tags_en.length === ko.length) return ship.tags_en;
@@ -138,7 +144,7 @@
                 <p class="ship-desc">${escapeHtml(shipDisplayDescription(ship))}</p>
                 <div class="ship-stats">
                     <div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.cargo', '\ud654\ubb3c'))}</span><span class="ship-stat-value">${escapeHtml(ship.cargo)}</span></div>
-                    <div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.priceUsd', 'USD 가격'))}</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>
+                    ${canonicalOn() ? '' : `<div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.priceUsd', 'USD 가격'))}</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>`}
                 </div>
                 <div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
                 ${renderShipPlannerButton(ship)}
@@ -173,6 +179,11 @@
         const manufacturer = document.getElementById('ship-manufacturer');
         const hideUnreleased = document.getElementById('ship-hide-unreleased');
         const sort = document.getElementById('ship-sort');
+        // priceUsd 제거(D4): ON이면 가격 정렬 옵션을 제거한다. OFF는 그대로.
+        if (sort && canonicalOn()) {
+            sort.querySelectorAll('option[value^="price"]').forEach((opt) => { opt.remove(); });
+            if (String(sort.value).startsWith('price')) sort.value = 'name-asc';
+        }
         const grid = document.getElementById('ships-grid');
         const purpose = document.getElementById('ship-purpose');
         const hangarOnly = document.getElementById('ship-hangar-only');
@@ -399,7 +410,8 @@
             { label: i18nT('ships.size', '\ud06c\uae30'), key: 'size', format: (ship) => tx(ship, 'size') },
             { label: i18nT('ships.crew', '\uc2b9\ubb34\uc6d0'), key: 'crew', format: (ship) => tx(ship, 'crew'), rawValue: (ship) => parseLargestNumber(ship.crew), numeric: true, higherIsBetter: true },
             { label: i18nT('ships.cargo', '\ud654\ubb3c'), key: 'cargo', format: (ship) => ship.cargo, rawValue: (ship) => getCargoValue(ship.cargo), numeric: true, higherIsBetter: true },
-            { label: i18nT('ships.priceUsd', 'USD \uac00\uaca9'), key: 'priceUsd', format: (ship) => formatShipPrice(ship.priceUsd), rawValue: (ship) => Number(ship.priceUsd), numeric: true, higherIsBetter: false }
+            // priceUsd: \ud50c\ub798\uadf8 ON\uc774\uba74 \uacf5\uac1c \ubaa8\ub378\uc5d0\uc11c \uc81c\uac70(D4). OFF\ub294 \ub808\uac70\uc2dc \uc720\uc9c0.
+            ...(canonicalOn() ? [] : [{ label: i18nT('ships.priceUsd', 'USD \uac00\uaca9'), key: 'priceUsd', format: (ship) => formatShipPrice(ship.priceUsd), rawValue: (ship) => Number(ship.priceUsd), numeric: true, higherIsBetter: false }])
         ];
         return `<div class="modal-header">
                 <div>
@@ -645,7 +657,7 @@
             items.push(stat(i18nT('ships.crew', '승무원'), tx(ship, 'crew')));
             items.push(stat(i18nT('ships.cargo', '화물'), ship.cargo));
         }
-        items.push(stat(i18nT('ships.priceUsd', 'USD 가격'), formatShipPrice(ship.priceUsd)));
+        if (!canonicalOn()) items.push(stat(i18nT('ships.priceUsd', 'USD 가격'), formatShipPrice(ship.priceUsd)));
         return `<div class="ship-modal-grid">${items.join('')}</div>`;
     }
     let liveRefreshShipId = null;

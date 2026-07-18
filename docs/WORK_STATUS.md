@@ -12,7 +12,8 @@
 - **②로더+비공개 플래그 완료(PM 재정렬 순서 1)**: `js/shipdb-canonical.js` — 내부 전환값 기본 OFF(URL·스토리지로 못 켬), ON은 테스트 훅(`__VOLT_SHIPDB_CANONICAL_TEST__`)만. OFF=fetch 0·store 비움·라이브 불변, ON=6계층 로드(canonical 219·localization 219·operational 219·aliases 7·rsi-official 30·rsi-localization 30). 회귀 테스트 `shipdb-canonical-loader.spec.js` 4건. 아직 어떤 소비처도 canonical 미참조(UI 불변). 캐시 20260718-04.
 - **③RSI 카탈로그 탭 UI 완료(PM 순서 2)**: `js/shipdb-rsi-catalog.js` — ON에서만 별도 칩(레거시 미수정 형제 컨테이너)+전용 그리드. 카드=RSI 명칭·상태 배지(concept "컨셉·RSI 공식 사양·변경 가능"/flight-ready "출시·RSI 공식 사양")·제조사·역할·크기·승무원·화물·KO 설명(expanse="RSI 공식 설명 미제공")·출처 링크·확인일. 게임플레이 값 미표시. DOM API(innerHTML 미사용), 언어 대응. 회귀 `shipdb-rsi-catalog.spec.js` 5건. 캐시 05.
 - **④카탈로그 실전 제외 가드 완료(PM 순서 3)**: canonical∩rsi-official=∅(구조적 보장 — 플래너·비교·AI 사실원 canonical에 카탈로그 id 0) + 카탈로그 카드에 비교/플래너/행어 컨트롤 없음(진입점 차단). 계약 10 + 카탈로그 스펙 6.
-- **다음(PM 순서 4)**: ④첫 소비처 원자 이관 `priceUsd` — OFF=기준선 회귀(가격 표시/정렬 동일), ON=canonical 경로(priceUsd 제거). ON 전환·삭제는 3.5.
+- **⑤priceUsd 첫 원자 이관 완료(PM 순서 4)**: 플래그 gate 6지점 — ships.js(카드 스탯·비교 컬럼·모달 스탯) + main.js(정렬 비교자·검색 색인) + 정렬 드롭다운 price 옵션 제거. OFF=priceUsd 그대로(기준선, 시각 회귀 통과), ON=공개 모델서 제거(D4). 회귀 `shipdb-price-migration.spec.js` 2건. admin CMS priceUsd 편집·DDL은 3.5 제거 대상(공개 표시와 분리).
+- **다음**: 다음 필드 원자 이관(focus·tags·crew 등, consumer-map 순서) 또는 PM 지정. 각 커밋 OFF=기준선 회귀. ON 실전 전환·기존 데이터/파이프라인 삭제는 3.5 승인 시.
 - **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)

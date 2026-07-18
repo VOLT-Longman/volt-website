@@ -446,7 +446,7 @@
         if (field === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99);
         if (field === 'crew') return parseLargestNumber(left.crew) - parseLargestNumber(right.crew);
         if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
-        if (field === 'price') return getPriceValue(left.priceUsd) - getPriceValue(right.priceUsd);
+        if (field === 'price') return canonicalOn() ? 0 : getPriceValue(left.priceUsd) - getPriceValue(right.priceUsd);
         return compareText(left.name, right.name);
     }
 
@@ -508,12 +508,16 @@
         return Array.isArray(ship.tags) ? ship.tags : [];
     }
 
+    // 재작성 2단계 듀얼리드: ON이면 canonical 경로(priceUsd 공개 모델 제거, D4). OFF는 레거시.
+    function canonicalOn() {
+        return !!(window.VOLT_SHIPDB_CANONICAL && window.VOLT_SHIPDB_CANONICAL.isEnabled());
+    }
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
         // KO·EN 양쪽 필드를 모두 색인해 영어로도 검색되게 한다.
         // 화면에 표시되는 Erkul 번역 설명(live 레이어)도 색인한다 — 표시 문구로 검색이 잡히도록.
         // live는 지연 로드이므로 로드 전에는 legacy 설명만 색인된다(로드 완료 시 검색 캐시 무효화).
         return [
-            ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, formatShipPrice(ship.priceUsd),
+            ship.name, ship.manufacturer, ship.role, ship.focus, ship.description, ship.cargo, ...(canonicalOn() ? [] : [formatShipPrice(ship.priceUsd)]),
             ship.role_en, ship.focus_en, ship.size_en, ship.description_en, ...(Array.isArray(ship.tags_en) ? ship.tags_en : []),
             ...getShipLiveDescriptions(ship),
             ...tags, ...getShipAliases(ship)
