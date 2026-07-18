@@ -445,7 +445,7 @@
         const sizeOrder = { '초소형': 1, '지상': 2, '소형': 3, '중형': 4, '대형': 5, '캐피탈': 6 };
         if (field === 'size') return (sizeOrder[left.size] || 99) - (sizeOrder[right.size] || 99);
         if (field === 'crew') return crewSortValue(left) - crewSortValue(right);
-        if (field === 'cargo') return getCargoValue(left.cargo) - getCargoValue(right.cargo);
+        if (field === 'cargo') return shipCargoValue(left) - shipCargoValue(right);
         if (field === 'price') return canonicalOn() ? 0 : getPriceValue(left.priceUsd) - getPriceValue(right.priceUsd);
         return compareText(left.name, right.name);
     }
@@ -482,7 +482,7 @@
             if (publicIds) ships = ships.filter((ship) => publicIds.has(ship.id));
         }
         if (shipState.cargoMin > 0) {
-            ships = ships.filter((ship) => getCargoValue(ship.cargo) >= shipState.cargoMin);
+            ships = ships.filter((ship) => shipCargoValue(ship) >= shipState.cargoMin);
         }
         if (shipState.hangarOnly) {
             const hangar = getHangar();
@@ -526,6 +526,16 @@
             if (c && c.crewSize != null) return c.crewSize;
         }
         return parseLargestNumber(ship.crew);
+    }
+    // cargo 이관: ON이면 Erkul live.cargoScu를 화물 기준값으로(정렬·필터·플래너 게이트/시드).
+    // 값은 219척 전부 레거시와 일치라 동작 불변, 출처만 canonical. OFF는 레거시.
+    function shipCargoValue(ship) {
+        if (!ship) return getCargoValue(undefined);
+        if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
+            const c = window.VOLT_SHIPDB_CANONICAL.getShip(ship.id);
+            if (c && c.cargoScu != null) return c.cargoScu;
+        }
+        return getCargoValue(ship.cargo);
     }
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
         // KO·EN 양쪽 필드를 모두 색인해 영어로도 검색되게 한다.
@@ -635,7 +645,7 @@
         const tags = getShipTags(ship);
         return ship?.implemented !== false
             && !tags.includes('미구현')
-            && getCargoValue(ship?.cargo) > 0;
+            && shipCargoValue(ship) > 0;
     }
 
     function comparePlannerShips(left, right) {
@@ -643,7 +653,7 @@
         if (eligibilityDelta) return eligibilityDelta;
         const tradeDelta = getPlannerTradeScore(right) - getPlannerTradeScore(left);
         if (tradeDelta) return tradeDelta;
-        const cargoDelta = getCargoValue(right.cargo) - getCargoValue(left.cargo);
+        const cargoDelta = shipCargoValue(right) - shipCargoValue(left);
         return cargoDelta || compareText(left.name, right.name);
     }
 
@@ -707,7 +717,7 @@
         const cargoInput = document.getElementById('logistics-cargo');
         if (input) input.value = getShipDisplayName(ship);
         const shouldUseShipCargo = setCargo || !Number(cargoInput?.value);
-        if (shouldUseShipCargo) setPlannerControlValue('logistics-cargo', String(getCargoValue(ship.cargo)));
+        if (shouldUseShipCargo) setPlannerControlValue('logistics-cargo', String(shipCargoValue(ship)));
         renderPlannerShipSummary(ship);
         announcePickerSelection(i18nT('planner.shipSelectedAnnounce', '{name} 함선을 선택했습니다.').replace('{name}', getShipDisplayName(ship)));
         closePicker(input, document.getElementById('logistics-ship-results'));
@@ -723,7 +733,7 @@
     }
 
     function getPlannerShipRecommendation(ship) {
-        if (getCargoValue(ship.cargo) >= 500) return i18nT('planner.shipRec.bulk', '대량 수송 추천');
+        if (shipCargoValue(ship) >= 500) return i18nT('planner.shipRec.bulk', '대량 수송 추천');
         if (parseLargestNumber(ship.crew) <= 1) return i18nT('planner.shipRec.solo', '단독 운송 / 소규모 화물 추천');
         return i18nT('planner.shipRec.escort', '소규모 화물 / 호송 운송 추천');
     }
