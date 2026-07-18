@@ -42,6 +42,7 @@ const records = ids.map((id) => {
   const prod = e.production_status ?? null;
   return {
     id,
+    name: (e.name || '').trim() || null, // RSI 공식 표시명 (예: "Kraken")
     // 정확성 우선: RSI production_status로 카탈로그 상태 구분.
     catalogStatus: prod === 'flight-ready' ? 'flight-ready' : 'concept',
     rsiProductionStatus: prod,

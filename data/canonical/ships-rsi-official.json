@@ -3,7 +3,7 @@
   "note": "RSI 공식 카탈로그. 사실원=RSI Ship Matrix만. catalogStatus로 concept/flight-ready 구분. RSI 비제공 게임플레이 값 없음. KO는 별도 localization 계층.",
   "source": "RSI Ship Matrix (robertsspaceindustries.com/ship-matrix/index)",
   "retrievedAt": "2026-07-18",
-  "generatedFromCommit": "74fd971d358c404e29f8ed85e021dd0066fe73ed",
+  "generatedFromCommit": "8d7810665d60c3aca8748e4eeac680dc5bd92f17",
   "count": 30,
   "byStatus": {
     "concept": 28,
@@ -12,6 +12,7 @@
   "records": [
     {
       "id": "arrastra",
+      "name": "Arrastra",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -31,6 +32,7 @@
     },
     {
       "id": "atls",
+      "name": "ATLS",
       "catalogStatus": "flight-ready",
       "rsiProductionStatus": "flight-ready",
       "source": "rsi-official",
@@ -50,6 +52,7 @@
     },
     {
       "id": "atls-geo",
+      "name": "ATLS GEO",
       "catalogStatus": "flight-ready",
       "rsiProductionStatus": "flight-ready",
       "source": "rsi-official",
@@ -69,6 +72,7 @@
     },
     {
       "id": "crucible",
+      "name": "Crucible",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -88,6 +92,7 @@
     },
     {
       "id": "e1-spirit",
+      "name": "E1 Spirit",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -107,6 +112,7 @@
     },
     {
       "id": "endeavor",
+      "name": "Endeavor",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -126,6 +132,7 @@
     },
     {
       "id": "expanse",
+      "name": "Expanse",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -145,6 +152,7 @@
     },
     {
       "id": "g12",
+      "name": "G12",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -164,6 +172,7 @@
     },
     {
       "id": "g12a",
+      "name": "G12a",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -183,6 +192,7 @@
     },
     {
       "id": "g12r",
+      "name": "G12r",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -202,6 +212,7 @@
     },
     {
       "id": "galaxy",
+      "name": "Galaxy",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -221,6 +232,7 @@
     },
     {
       "id": "genesis",
+      "name": "Genesis",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -240,6 +252,7 @@
     },
     {
       "id": "hull-d",
+      "name": "Hull D",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -259,6 +272,7 @@
     },
     {
       "id": "hull-e",
+      "name": "Hull E",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -278,6 +292,7 @@
     },
     {
       "id": "javelin",
+      "name": "Javelin",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -297,6 +312,7 @@
     },
     {
       "id": "kraken",
+      "name": "Kraken",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -316,6 +332,7 @@
     },
     {
       "id": "kraken-privateer",
+      "name": "Kraken Privateer",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -335,6 +352,7 @@
     },
     {
       "id": "legionnaire",
+      "name": "Legionnaire",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -354,6 +372,7 @@
     },
     {
       "id": "liberator",
+      "name": "Liberator",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -373,6 +392,7 @@
     },
     {
       "id": "merchantman",
+      "name": "Merchantman",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -392,6 +412,7 @@
     },
     {
       "id": "nautilus",
+      "name": "Nautilus",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -411,6 +432,7 @@
     },
     {
       "id": "nautilus-solstice-edition",
+      "name": "Nautilus Solstice Edition",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -430,6 +452,7 @@
     },
     {
       "id": "odyssey",
+      "name": "Odyssey",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -449,6 +472,7 @@
     },
     {
       "id": "orion",
+      "name": "Orion",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -468,6 +492,7 @@
     },
     {
       "id": "pioneer",
+      "name": "Pioneer",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -487,6 +512,7 @@
     },
     {
       "id": "ranger-cv",
+      "name": "Ranger CV",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -506,6 +532,7 @@
     },
     {
       "id": "ranger-rc",
+      "name": "Ranger RC",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -525,6 +552,7 @@
     },
     {
       "id": "ranger-tr",
+      "name": "Ranger TR",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -544,6 +572,7 @@
     },
     {
       "id": "vulcan",
+      "name": "Vulcan",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
@@ -563,6 +592,7 @@
     },
     {
       "id": "zeus-mk2-mr",
+      "name": "Zeus Mk II MR",
       "catalogStatus": "concept",
       "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
