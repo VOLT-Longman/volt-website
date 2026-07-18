@@ -150,6 +150,22 @@ test('RSI 공식 카탈로그: 게임플레이 값 없음 + rsi 화이트리스�
   assert.equal(violations.length, 0, `RSI 공식 카탈로그 계약 위반: ${violations.slice(0, 20).join(', ')}`);
 });
 
+// PM step3: 카탈로그(컨셉+ATLS)는 플래너·비교·AI에서 제외. 구조적 보장 = canonical∩catalog=∅.
+// canonical(219, 플래너·비교·AI 사실원)에 카탈로그 id가 하나도 없어야 실전 소비처에서 자동 제외된다.
+test('카탈로그 제외: canonical ∩ rsi-official = ∅ (플래너·비교·AI 자동 제외)', async () => {
+  const catAbs = join(ROOT, CANONICAL_DATASET_PATH);
+  const rsiAbs = join(ROOT, RSI_OFFICIAL_DATASET_PATH);
+  if (!existsSync(catAbs) || !existsSync(rsiAbs)) {
+    assert.ok(true, '데이터 미생성 — 계약 armed');
+    return;
+  }
+  const canon = JSON.parse(await readFile(catAbs, 'utf8'));
+  const rsi = JSON.parse(await readFile(rsiAbs, 'utf8'));
+  const canonIds = new Set((canon.ships || []).map((s) => s.id));
+  const overlap = (rsi.records || []).map((r) => r.id).filter((id) => canonIds.has(id));
+  assert.equal(overlap.length, 0, `카탈로그가 canonical과 겹침(플래너·비교·AI 누출 위험): ${overlap.join(', ')}`);
+});
+
 // PM: RSI 공식 카탈로그 KO localization — 설명 있는 함선은 전부 KO(missing 0), RSI 설명 미제공은 no-en.
 test('RSI 공식 카탈로그 localization: 설명 보유 함선 전부 KO, 미제공은 no-en (fail-closed)', async () => {
   const catAbs = join(ROOT, RSI_OFFICIAL_DATASET_PATH);

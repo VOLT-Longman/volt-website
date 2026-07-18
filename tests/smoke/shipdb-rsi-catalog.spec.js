@@ -59,4 +59,15 @@ test.describe('RSI 공식 카탈로그 탭 (플래그 ON 테스트 경로)', () 
         const text = await atls.innerText();
         expect(text).not.toMatch(/HP|SCM|DPS|aUEC|시세|구매처/);
     });
+
+    // PM step3: 카탈로그 카드는 비교·플래너·행어(실전 소비처) 진입점이 없다.
+    test('ON: 카탈로그 카드에 비교·플래너·행어 컨트롤 없음(실전 제외)', async ({ page }) => {
+        await gotoSection(page, '#ships');
+        await page.locator('[data-catalog-chip]').click();
+        const catalog = page.locator('#rsi-catalog-grid');
+        expect(await catalog.locator('[data-compare-ship-id]').count()).toBe(0);
+        expect(await catalog.locator('.ship-compare-toggle').count()).toBe(0);
+        expect(await catalog.locator('[data-hangar-ship-id]').count()).toBe(0);
+        expect(await catalog.locator('.ship-planner-use, .ship-compare-use').count()).toBe(0);
+    });
 });
