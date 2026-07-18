@@ -51,8 +51,8 @@
 
 | # | 작업 |
 |---|---|
-| 1.1 | **Canonical 생성** — 최신 Erkul snapshot에서 `ship.id` 키 사실 레코드. crew=`live.crewSize`(D3), role/career/size/manufacturer=Erkul. priceUsd·VOLT focus/tags 분류 **미포함**(D4·D7) |
-| 1.2 | **공개 목록 확정** — Erkul live 219척만. 37척 분리: 중복 에디션→별칭/리다이렉트 맵(**기존 `canonicalId` 7척 매핑을 시드로 대조**), 미출시→보관 카탈로그(AI/CMS/검색이 읽지 않는 경로)(D8) |
+| 1.1 | **Canonical 생성** — Erkul live 레이어(`ship-live-stats.js`·`ship-market.js`)만 사실원으로 읽어 `ship.id` 키 레코드 생성. crew=`live.crewSize`(D3), role/career/size/manufacturer=Erkul. priceUsd·VOLT focus/tags 분류 **미포함**(D4·D7). **생성기는 `volt-data.js`·`ship-prices-usd.json`·`rsi-ship-matrix-index.json`을 사실원으로 읽지 않음**(PM 보강 2, CI 강제) |
+| 1.2 | **공개 목록 확정(PM 보강 2)** — 선정 기준 = **Erkul live 레코드 존재(`hasLive`)**, `erkulStatus='matched'` 아님. 정확히 219척(railen 포함 — unreleased·implemented:false지만 live 존재). 제외 37=별칭 7(중복 에디션, `canonicalId` 시드)+미출시 30(no-live). CI로 219/30/7·railen 고정 |
 | 1.3 | **Localization 재작성** — `descriptions-ko.json` 모델을 전 KO 필드로 확장. Erkul EN 원문+`sourceEnHash` 기준으로 KO 재생성(기존 한글 그대로 이관 금지, D2). en 없으면 ko=null. *참고: 기존 `translations[id].ko`는 이미 D2 요건(Erkul-id 키+sourceEnHash) 충족 모델이므로 stale hash 범위만 갱신, 전량 재번역 아님* |
 | 1.4 | **Operational 복제(격리)** — `erkulName`/`erkulStatus`를 신규 operational 네임스페이스로 **복제**(old volt-data 잔존, 실제 제거는 2.6 재배선 후 3.5에서만). `anomalies`는 admin 리포트 전용 구조로. implemented/hidden 큐레이션 (D5·D6) |
 | 1.5 | **crew 차이 리포트**(D3) — 기존 수기 crew vs `live.crewSize` diff를 마이그레이션 기록으로(38~77척) |
@@ -72,7 +72,7 @@
 | 2.4 | **priceUsd 소비처 제거**(D4) — 카드·모달·비교·정렬에서 제거. *데이터 파일·생성기는 보존* |
 | 2.5 | **VOLT 편집 분류 제거**(D7) — focus 필터·배지 대체(Erkul career 매핑 또는 UI 재설계) + **tags '미구현' 게이트를 `implemented`/`erkulStatus`로 재배선**(플래너 자격 회귀 방지) + **cargo 하드게이트를 `live.cargoScu`로 재배선** |
 | 2.6 | **격리 전제조건 실행** — `build-ship-en.mjs` 매칭키를 id↔erkulLocalName로 재배선, `shipdb-candidates.test.mjs` 어서션을 implemented 기반으로 교체(`anomalies·mappedFrom` 포함) |
-| 2.7 | **재생성 파이프라인 처분**(blocker B1) — `normalize-ship-database`·`sync-ship-prices`가 제거 필드(priceUsd·focus·tags·crew)를 더 이상 산출하지 않도록 갱신/중단. **Safe Apply 이관**(D9): `computePreviewHash` 새 스키마 + cutover 재기준선 + `erkul-sync` carry-forward(`koSource·translatedAt`) 새 스키마 매핑 |
+| 2.7 | **레거시 재생성 4스크립트 퇴역**(blocker B1, PM 위치확정) — `normalize-ship-database`·`build-ship-database`·`build-ship-en`·`sync-ship-prices`가 제거 필드(priceUsd·focus·tags·crew)를 더 이상 산출하지 않도록 폐기/봉인(상위 입력 `sync-rsi-ship-matrix` 포함). **소비처 이관 완료 후 여기서 수행**(1단계는 차단 계약만). **Safe Apply 이관**(D9): `computePreviewHash` 새 스키마 + cutover 재기준선 + `erkul-sync` carry-forward(`koSource·translatedAt`) 새 스키마 매핑 |
 | 2.8 | 37척 기존 공개 URL 처리 — 중복 에디션 리다이렉트, 미출시 보관 카탈로그 경로/404 (D8) |
 
 - **검증**: 각 소비처가 새 스키마로 정상 동작. 스모크 갱신·통과(`ships-search-live-desc`·`admin-erkul-sync`·`ai-chat`·`erkul-sync-preview` + **플래너 자격 스모크 신규**).

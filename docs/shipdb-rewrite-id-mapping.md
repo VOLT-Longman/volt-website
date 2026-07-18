@@ -1,6 +1,7 @@
 # ShipDB Erkul 재작성 v2 — 제외 함선 ID 매핑 (0단계 산출)
 
 - **근거**: PM 결정 D8 — Erkul live 없는 37척은 공개 ShipDB·검색·비교·AI 추천에서 제외. **ID·제외 사유만 이 문서에 보관**(별도 카탈로그 파일 없음).
+- **선정 기준(PM 보강 2)**: 공개 canonical = **Erkul live 레코드 존재(`hasLive`)** — `erkulStatus='matched'` 아님. `railen`은 `erkulStatus='unreleased'`·`implemented=false`지만 **live 데이터가 존재하므로 canonical 219에 포함**된다. CI(`shipdb-canonical-contract.test.mjs`)가 219/30/7·railen을 고정.
 - **기준 데이터**: `volt-data.ships` 256척 중 `ship-live-stats` 부재 37척. 공개 canonical 목록 = Erkul live **219척**.
 - **별칭 대상 219 존재 검증**: 통과 (7/7 정식 함선이 live 목록에 존재).
 - **재생성 방법**: `node scripts/shipdb-rewrite/capture-baseline.mjs`의 `idList`가 동일 분류의 기계 판독본. 이 문서는 그 사람 판독 요약이다.

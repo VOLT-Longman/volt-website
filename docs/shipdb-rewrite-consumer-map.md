@@ -14,8 +14,9 @@
 | `focus`·`tags` | `normalize-ship-database.mjs:72/82/105`·`build-ship-database.mjs:46/85`(`getCategories`/`getTags`) | **불가 — `rsi-ship-matrix-index.json` 부재** |
 | `role` 분류 | 위 동일 `getCategory` | 위 동일 |
 
-- **핵심**: `normalize-ship-database`·`build-ship-database`·`build-ship-en` 셋 다 `data/rsi-ship-matrix-index.json`을 필수 입력으로 읽는다 — **현재 저장소에 파일 부재라 즉시 실행 불가.** 그러나 `sync-rsi-ship-matrix.mjs`로 재생성하면 다시 돌아간다.
-- **권고**: 3.5 전 이 세 스크립트를 **폐기 또는 봉인**(헤더 금지 주석 + npm 미배선 유지 + CI 계약으로 canonical 경로 미참조 강제)하는 것이, rsi-matrix 재생성만 막는 것보다 확실. (세 스크립트 모두 npm scripts 미배선 = CI엔 안 걸리나 운영자 수동 실행 위험 잔존.)
+- **핵심**: `normalize-ship-database`·`build-ship-database`·`build-ship-en` 셋 다 `data/rsi-ship-matrix-index.json`을 필수 입력으로 읽는다 — **현재 저장소에 파일 부재라 즉시 실행 불가.** 그러나 `sync-rsi-ship-matrix.mjs`(상위 입력 생성기)로 재생성하면 다시 돌아간다.
+- **레거시 재생성 4스크립트(PM 보강 1)**: `normalize-ship-database` · `build-ship-database` · `build-ship-en` · `sync-ship-prices`. 계약(`canonical-contract.mjs` `LEGACY_REGEN_SCRIPTS`)에 4종 전부 등록됨. `sync-rsi-ship-matrix`는 상위 입력 생성기로 문서화, canonical 생성 경로 참조 금지.
+- **권고**: 3.5(소비처 이관 완료 후 2.7)에서 이 4스크립트를 **폐기 또는 봉인**하는 것이 rsi-matrix 재생성만 막는 것보다 확실. **1단계에서는 실제 퇴역 대신 canonical 경로와의 차단 계약만 강화**(라이브 구 경로가 아직 사용 중, PM 지시). 4스크립트 모두 npm 미배선 = CI엔 안 걸리나 운영자 수동 실행 위험 잔존.
 
 ## 필드별 소비처 · 제거 위험 · 선행
 

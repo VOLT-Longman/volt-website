@@ -1,12 +1,17 @@
-// ShipDB Erkul 재작성 v2 — 공개 canonical 필드 계약 (0단계 0.4)
+// ShipDB Erkul 재작성 v2 — 공개 canonical 필드·선정·입력 계약 (0단계 0.4, PM 보강 반영)
 // PM 조건: 기존 재생성 스크립트가 Erkul 정규 데이터 외 필드를 다시 주입하면 CI가 실패해야 한다.
 // 이 계약은 shipdb-canonical-contract.test.mjs가 강제한다. 계약을 약화하면 테스트가 함께 실패한다.
 
 // 1단계에서 생성될 공개 canonical 데이터셋 경로. 그 전까지는 존재하지 않는다(테스트가 armed 상태).
 export const CANONICAL_DATASET_PATH = 'data/canonical/ships-canonical.json';
 
+// 1단계 canonical 생성기 경로. 존재하면 아래 CANONICAL_FORBIDDEN_INPUTS를 참조하지 않아야 한다.
+export const CANONICAL_GENERATOR_PATH = 'scripts/shipdb-rewrite/build-canonical.mjs';
+
+// 0단계 기준선. canonical 선정 기준(hasLive)과 제외/별칭 집합의 권위 소스.
+export const BASELINE_PATH = 'data/shipdb-rewrite-baseline.json';
+
 // 공개 canonical 레코드에 절대 나타나면 안 되는 필드 (PM 9개 결정 기준).
-// 재생성 스크립트가 이 중 하나라도 canonical에 주입하면 계약 테스트가 hard-fail.
 export const FORBIDDEN_PUBLIC_FIELDS = [
   { field: 'priceUsd', decision: 'D4', reason: 'SC Wiki 외부 시세 — 공개 모델·동기화 파이프라인에서 제거. 신규 가격 공급자는 별도 마일스톤' },
   { field: 'focus', decision: 'D7', reason: 'VOLT 편집 분류 — 전환 1차본에서 제거, 대체 분류 없음' },
@@ -17,10 +22,35 @@ export const FORBIDDEN_PUBLIC_FIELDS = [
   { field: 'erkulStatus', decision: 'D5', reason: 'operational 격리 필드 — 공개 canonical 표면에 노출 금지' },
 ];
 
-// 이 레거시 재생성 스크립트들은 공개 canonical 경로에 절대 기록하지 않는다.
-// canonical은 1단계의 신규 생성기만 만든다. 아래 스크립트가 canonical 경로를 참조하면 재주입 위험 신호.
+// 공개 canonical 선정 기준(PM 보강 2): erkulStatus === 'matched'가 아니라 **Erkul live 레코드 존재 여부**.
+// 예: railen은 erkulStatus='unreleased'·implemented=false이지만 live 데이터가 존재하므로 canonical에 포함.
+export const CANONICAL_SELECTION = {
+  basis: 'baseline.idList[hasLive === true]',
+  expectedCount: 219,
+  excludedNoLiveCount: 37, // 별칭 7 + 미출시 30
+  aliasCount: 7,           // canonicalId 있는 중복 에디션 — canonical 미포함, 별칭 매핑만 유지
+  unreleasedNoLiveCount: 30,
+  mustInclude: ['railen'], // unreleased·implemented:false지만 live 존재
+};
+
+// 레거시 재생성 스크립트 4종(PM 보강 1). 공개 canonical 경로에 절대 기록하지 않는다.
+// canonical은 1단계 신규 생성기만 만든다. 이 스크립트가 canonical 경로를 참조하면 재주입 위험 신호.
+// 실제 퇴역은 소비처 이관이 끝난 2.7에서 수행(1단계에서는 차단 계약만 강화).
 export const LEGACY_REGEN_SCRIPTS = [
   'scripts/normalize-ship-database.mjs',
-  'scripts/sync-ship-prices.mjs',
+  'scripts/build-ship-database.mjs',
   'scripts/build-ship-en.mjs',
+  'scripts/sync-ship-prices.mjs',
+];
+
+// 위 레거시 재생성 스크립트들의 상위 입력 생성기. focus/tags/priceUsd 파생의 원천 데이터를 만든다.
+// canonical 생성 경로에서 참조 금지(아래 CANONICAL_FORBIDDEN_INPUTS로 강제).
+export const UPSTREAM_INPUT_GENERATOR = 'scripts/sync-rsi-ship-matrix.mjs';
+
+// canonical 생성기가 사실원으로 읽어서는 안 되는 입력(PM 보강 2).
+// canonical의 사실원은 Erkul live 레이어(ship-live-stats.js·ship-market.js)뿐이다.
+export const CANONICAL_FORBIDDEN_INPUTS = [
+  'data/volt-data.js',            // VOLT 편집 혼재 DB
+  'data/ship-prices-usd.json',    // SC Wiki 외부 시세
+  'data/rsi-ship-matrix-index.json', // RSI matrix — focus/tags 파생 원천
 ];
