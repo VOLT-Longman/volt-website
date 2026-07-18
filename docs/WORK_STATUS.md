@@ -9,7 +9,8 @@
 - **PM 결정 요약**: Erkul=유일 사실, ship.id 유지, 3계층. canonical 선정=Erkul live 존재(railen 포함, matched 아님). crew→live 통일, priceUsd→모델 제거, erkulName/erkulStatus→operational 격리(삭제 안 함), anomalies→admin 리포트, focus/role/tags VOLT분류→초기 전환본 제거, live 없는 37→공개 제외. 레거시 재생성 4스크립트 퇴역은 2.7.
 - **RSI 공식 카탈로그(2026-07-18 PM)**: 30척 "완전 제외" → RSI 공식 카탈로그 격리. 사실원=RSI Ship Matrix(`data/external/rsi/official-ship-matrix.json` 스냅샷·retrievedAt 2026-07-18). `build-rsi-official.mjs`→`data/canonical/ships-rsi-official.json`(30, RSI 필드만·게임플레이 값 없음, CI 가드). 감사표 `docs/shipdb-rsi-official-audit.md`. **catalogStatus(PM A, 정확성)**: concept 28="컨셉·RSI 공식 사양·변경 가능" / flight-ready 2(`atls`·`atls-geo`)="출시·RSI 공식 사양". **빈값(임의보완 금지)**: expanse 설명 없음 / atls·g12a·g12r 화물 null / g12·g12a·g12r·kraken·kraken-privateer 승무원 일부 null.
 - **①29척 KO 번역 완료(PM A 순서 1)**: `build-rsi-official-localization.mjs`→`data/canonical/localization-rsi-official.json`(ok 29·no-en 1[expanse]·missing 0·cutoverReady). 병렬 번역+적대검증(g12r·pioneer 의미왜곡 2건 수정), HTML 엔티티 디코드(endeavor `&amp;`), 기계검증 고유명 29/29. 계약 9종.
-- **다음(듀얼리드+플래그, PM 순서 2~5)**: ②RSI 공식 카탈로그 탭/필터를 플래그 ON 경로에만(OFF 라이브 미노출) → ③28컨셉+2ATLS 플래너·비교·AI 제외 → ④canonical/localization/operational/rsi-official 로더+OFF 기본 플래그 → ⑤첫 원자 이관 `priceUsd`. 각 원자 커밋에 라이브 불변(OFF=기준선) 회귀 테스트. ON 전환·삭제는 3.5.
+- **②로더+비공개 플래그 완료(PM 재정렬 순서 1)**: `js/shipdb-canonical.js` — 내부 전환값 기본 OFF(URL·스토리지로 못 켬), ON은 테스트 훅(`__VOLT_SHIPDB_CANONICAL_TEST__`)만. OFF=fetch 0·store 비움·라이브 불변, ON=6계층 로드(canonical 219·localization 219·operational 219·aliases 7·rsi-official 30·rsi-localization 30). 회귀 테스트 `shipdb-canonical-loader.spec.js` 4건. 아직 어떤 소비처도 canonical 미참조(UI 불변). 캐시 20260718-04.
+- **다음(PM 순서 2~4)**: ②RSI 공식 카탈로그 탭/필터/배지/출처/확인일을 플래그 ON 경로에만 → ③28컨셉+2ATLS 플래너·비교·AI 제외 → ④첫 원자 이관 `priceUsd`. 각 커밋에 OFF=기준선 회귀 테스트. ON 전환·삭제는 3.5.
 - **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)
