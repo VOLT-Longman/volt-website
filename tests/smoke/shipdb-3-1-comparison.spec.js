@@ -86,9 +86,10 @@ test.describe('3.1 전후 비교 (허용 차이만, 그 외 실패)', () => {
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
         expect(await page.locator('#ship-sort option[value^="price"]').count()).toBe(0);
-        // 필터: VOLT focus/tags 칩 제거 → canonical role 칩으로 이관(집합에서만 생성). 칩 키는 Erkul EN role.
-        await expect.poll(async () => page.locator('#ship-tag-filters [data-ship-tag-filter]').count()).toBeGreaterThan(0);
-        expect(await page.locator('#ship-tag-filters [data-ship-tag-filter="Medium Freight"]').count()).toBe(1);
+        // 필터: VOLT focus/tags 칩 제거 → canonical role 단일 검색형 콤보박스(집합에서만 생성). 옵션 키는 Erkul EN role.
+        await expect.poll(async () => page.locator('#ship-tag-filters [data-role-option]').count()).toBeGreaterThan(0);
+        expect(await page.locator('#ship-tag-filters [data-ship-tag-filter]').count()).toBe(0);
+        expect(await page.locator('#ship-tag-filters [data-role-option="Medium Freight"]').count()).toBe(1);
         // purpose(VOLT 편집 프리셋)는 ON에서 숨김
         await expect(page.locator('#ship-purpose')).toBeHidden();
         for (const id of ['freelancer', 'caterpillar']) await page.locator(`[data-compare-ship-id="${id}"]`).click();

@@ -2557,6 +2557,39 @@ body.nav-trade-open::before {
     .ship-filter-btn.active:hover { color: #fff; }
 }
 .ship-filter-btn.active { background: var(--volt-orange-dark); border-color: var(--volt-orange-dark); color: #fff; } /* a11y 대비 */
+/* ON 전용: 단일 검색형 역할 선택 콤보박스 (52칩 대체). 드롭다운이 잘리지 않도록 overflow 해제. */
+.ship-filters.has-role-select { overflow: visible; flex-wrap: wrap; }
+.ship-role-select { position: relative; width: 100%; max-width: 320px; }
+.ship-role-search {
+    width: 100%; padding: 10px 40px 10px 18px;
+    border: 1px solid var(--color-border); border-radius: var(--radius-full);
+    background: var(--color-bg-card); color: var(--color-text-primary);
+    font: inherit; color-scheme: dark;
+}
+.ship-role-clear {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 26px; height: 26px; border-radius: 50%; border: none;
+    background: transparent; color: var(--color-text-secondary);
+    cursor: pointer; font-size: 13px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+}
+.ship-role-clear[hidden] { display: none; }
+.ship-role-listbox {
+    position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 4px);
+    max-height: 280px; overflow-y: auto; margin: 0; padding: 6px;
+    list-style: none; background: #1d1d1f;
+    border: 1px solid var(--color-border); border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+.ship-role-listbox[hidden] { display: none; }
+.ship-role-option { padding: 9px 14px; border-radius: 8px; color: #f5f5f7; font-size: 14px; cursor: pointer; }
+.ship-role-option[hidden] { display: none; }
+.ship-role-option.active { background: rgba(255, 255, 255, 0.08); }
+.ship-role-option[aria-selected="true"] { color: var(--volt-orange); font-weight: 600; }
+@media (hover: hover) {
+    .ship-role-clear:hover { color: var(--volt-orange); }
+    .ship-role-option:hover { background: rgba(255, 255, 255, 0.08); }
+}
 .ship-search {
     width: 100%; max-width: 420px; padding: 10px 18px;
     background: var(--color-bg-card); border: 1px solid var(--color-border);

@@ -35,17 +35,18 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         expect(await page.locator('#ship-purpose').evaluate((el) => el.closest('.ship-advanced-row').hidden)).toBe(true);
     });
 
-    test('ON 필터: canonical role 칩(키=Erkul EN, 라벨=KO) · 선택 시 해당 role만 노출', async ({ page }) => {
+    test('ON 필터(콤보박스): 옵션 키=Erkul EN·라벨=KO · 선택 시 해당 role만 노출', async ({ page }) => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
-        // 칩: 키=Erkul EN role, 라벨=roleKo
-        const chip = page.locator('#ship-tag-filters [data-ship-tag-filter="Light Freight"]');
-        await expect(chip).toHaveText('경 화물선');
-        // 선택 → 보이는 모든 카드의 role 배지가 경 화물선(= Light Freight)만
+        // 옵션: 키=Erkul EN role, 라벨=roleKo
+        const opt = page.locator('#ship-tag-filters [data-role-option="Light Freight"]');
+        await expect(opt).toHaveText('경 화물선');
+        // 콤보박스 열고 옵션 선택 → 보이는 모든 카드의 role 배지가 경 화물선(= Light Freight)만
         // textContent로 검증(reveal 애니메이션 미노출 카드도 정확 포착 — innerText는 '' 반환).
-        await chip.click();
+        await page.locator('#ship-role-search').click();
+        await opt.click();
         await expect.poll(async () => {
             const badges = await page.$$eval('#ships-grid .ship-card', (cards) =>
                 cards.map((c) => (c.querySelector('.ship-role-badge')?.textContent || '').trim()));
@@ -54,6 +55,8 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         // freelancer(Light Freight)는 남고, caterpillar(Medium Freight)는 사라진다
         expect(await page.locator(CARD('freelancer')).count()).toBe(1);
         expect(await page.locator(CARD('caterpillar')).count()).toBe(0);
+        // 선택 라벨이 입력에 반영
+        await expect(page.locator('#ship-role-search')).toHaveValue('경 화물선');
     });
 
     test('ON 모달: 역할 = canonical KO(경 화물선)', async ({ page }) => {

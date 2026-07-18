@@ -160,26 +160,163 @@
     function renderShipTagFilters() {
         const container = document.getElementById('ship-tag-filters');
         if (!container) return;
-        const on = canonicalOn();
-        // ON: 필터를 canonical role 집합으로 생성(제거된 focus/tags 필터 대체). 칩 키=Erkul EN role, 라벨=roleKo.
-        //     canonical role이 없으면 필터에서 제외(집합 자체가 canonical에서만 생성됨).
+        // ON: 52칩 대신 단일 검색형 역할 선택(콤보박스)으로 대체(PM). canonical role 원문만, 버킷팅 없음.
+        if (canonicalOn()) { renderRoleSelect(container); return; }
         // OFF: 레거시 focus/tags 카테고리 칩 — 완전 불변.
-        const values = on ? canonicalRoleFilterValues() : getShipFilterTags();
-        const labelFor = on ? roleLabel : shipCat;
-        // 칩이 없으면(OFF 태그 없음 · ON canonical 지연 로드 전) 숨긴다. ON은 로드 후 재렌더에서 채워진다.
+        const values = getShipFilterTags();
         if (values.length === 0) { container.replaceChildren(); container.hidden = true; return; }
         container.hidden = false;
         const selectedTags = new Set(shipState.selectedTags);
         const allActive = selectedTags.size === 0 ? ' active' : '';
         const buttons = values.map((value) => {
             const active = selectedTags.has(value) ? ' active' : '';
-            // 필터 키(data-ship-tag-filter)는 원본 값(OFF=KO 카테고리 / ON=Erkul EN role)을 유지하고 라벨만 번역한다.
-            return `<button class="ship-filter-btn${active}" type="button" data-ship-tag-filter="${escapeHtml(value)}" aria-pressed="${selectedTags.has(value)}">${escapeHtml(labelFor(value))}</button>`;
+            return `<button class="ship-filter-btn${active}" type="button" data-ship-tag-filter="${escapeHtml(value)}" aria-pressed="${selectedTags.has(value)}">${escapeHtml(shipCat(value))}</button>`;
         });
         container.innerHTML = [
             `<button class="ship-filter-btn${allActive}" type="button" data-ship-tag-clear aria-pressed="${selectedTags.size === 0}">${escapeHtml(i18nT('ships.allTags', '전체'))}</button>`,
             ...buttons
         ].join('');
+    }
+
+    // ── ON 전용: 단일 검색형 역할 선택 콤보박스 (PM role UX) ──────────────────────
+    // 요건: 검색·선택·초기화·키보드, canonical role 원문만(KO=UI 번역), 버킷팅 없음,
+    //   role 없는 함선 제외(집합=canonical에서만), 모바일 접근성. OFF는 손대지 않는다.
+    // 포커스 유실 방지: 콤보박스는 한 번만 빌드하고 이후엔 선택 상태만 sync한다.
+    //   타이핑은 옵션 리스트만 필터링(renderShips 미호출) → 입력 포커스가 재렌더로 풀리지 않음.
+    function roleSelectRoot() { return document.querySelector('.ship-role-select'); }
+    function renderRoleSelect(container) {
+        const roles = canonicalRoleFilterValues();
+        // canonical 지연 로드 전(roles 0)에는 숨긴다 — 로드 후 재렌더에서 빌드된다.
+        if (roles.length === 0) { container.replaceChildren(); container.hidden = true; return; }
+        container.hidden = false;
+        // 칩 가로 스크롤(overflow-x) 컨테이너는 드롭다운을 잘라내므로 콤보박스 모드로 전환.
+        container.classList.add('has-role-select');
+        if (!container.querySelector('.ship-role-select')) {
+            // createElement/textContent로 구성(innerHTML 회피 — CSP·래칫 준수).
+            const root = document.createElement('div');
+            root.className = 'ship-role-select';
+            root.dataset.open = 'false';
+            const input = document.createElement('input');
+            input.type = 'text'; input.id = 'ship-role-search'; input.className = 'ship-role-search';
+            input.autocomplete = 'off';
+            input.placeholder = i18nT('ships.roleSearchPlaceholder', '역할 검색·선택');
+            input.setAttribute('role', 'combobox');
+            input.setAttribute('aria-expanded', 'false');
+            input.setAttribute('aria-controls', 'ship-role-listbox');
+            input.setAttribute('aria-autocomplete', 'list');
+            input.setAttribute('aria-label', i18nT('ships.roleSearchLabel', '역할 검색 및 선택'));
+            const clearBtn = document.createElement('button');
+            clearBtn.type = 'button'; clearBtn.className = 'ship-role-clear'; clearBtn.hidden = true;
+            clearBtn.textContent = '✕';
+            clearBtn.setAttribute('data-role-clear', '');
+            clearBtn.setAttribute('aria-label', i18nT('ships.roleClear', '역할 필터 초기화'));
+            const listbox = document.createElement('ul');
+            listbox.id = 'ship-role-listbox'; listbox.className = 'ship-role-listbox'; listbox.hidden = true;
+            listbox.setAttribute('role', 'listbox');
+            listbox.setAttribute('aria-label', i18nT('ships.roleListLabel', '역할 목록'));
+            ['', ...roles].forEach((en, i) => {
+                const li = document.createElement('li');
+                li.className = 'ship-role-option'; li.id = `ship-role-opt-${i}`;
+                li.setAttribute('role', 'option');
+                li.setAttribute('data-role-option', en);
+                li.setAttribute('aria-selected', 'false');
+                li.textContent = en ? roleLabel(en) : i18nT('ships.allRoles', '전체');
+                listbox.appendChild(li);
+            });
+            root.append(input, clearBtn, listbox);
+            container.replaceChildren(root);
+        }
+        syncRoleSelect(container.querySelector('.ship-role-select'));
+    }
+    // 선택 상태만 DOM에 반영(빌드 없음). 열려있을 땐 input을 덮지 않는다(타이핑 보존).
+    function syncRoleSelect(root) {
+        if (!root) return;
+        const input = root.querySelector('.ship-role-search');
+        const clearBtn = root.querySelector('[data-role-clear]');
+        const selected = shipState.selectedTags[0] || '';
+        if (root.dataset.open !== 'true' && input) input.value = selected ? roleLabel(selected) : '';
+        if (clearBtn) clearBtn.hidden = !selected;
+        root.querySelectorAll('.ship-role-option').forEach((opt) => {
+            opt.setAttribute('aria-selected', String(opt.getAttribute('data-role-option') === selected));
+        });
+    }
+    function openRoleListbox() {
+        const root = roleSelectRoot();
+        if (!root || root.dataset.open === 'true') { if (root) filterRoleOptions(root.querySelector('.ship-role-search').value); return; }
+        root.dataset.open = 'true';
+        const input = root.querySelector('.ship-role-search');
+        input.setAttribute('aria-expanded', 'true');
+        root.querySelector('.ship-role-listbox').hidden = false;
+        filterRoleOptions(input.value);
+    }
+    function closeRoleListbox() {
+        const root = roleSelectRoot();
+        if (!root) return;
+        root.dataset.open = 'false';
+        const input = root.querySelector('.ship-role-search');
+        input.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
+        root.querySelector('.ship-role-listbox').hidden = true;
+        syncRoleSelect(root); // input을 선택 라벨로 복원(미선택 검색어 폐기)
+    }
+    // 옵션 목록만 필터(그리드 필터 아님). '전체'는 항상 표시. KO 라벨·EN 원문 부분일치.
+    function filterRoleOptions(query) {
+        const root = roleSelectRoot();
+        if (!root) return;
+        const q = String(query || '').trim().toLowerCase();
+        let firstVisible = null;
+        root.querySelectorAll('.ship-role-option').forEach((opt) => {
+            const en = opt.getAttribute('data-role-option');
+            const show = !q || en === '' || `${opt.textContent} ${en}`.toLowerCase().includes(q);
+            opt.hidden = !show;
+            if (show && !firstVisible) firstVisible = opt;
+        });
+        setRoleActive(firstVisible);
+    }
+    function setRoleActive(opt) {
+        const root = roleSelectRoot();
+        if (!root) return;
+        const input = root.querySelector('.ship-role-search');
+        root.querySelectorAll('.ship-role-option.active').forEach((o) => { o.classList.remove('active'); });
+        if (opt) { opt.classList.add('active'); input.setAttribute('aria-activedescendant', opt.id); opt.scrollIntoView({ block: 'nearest' }); }
+        else input.removeAttribute('aria-activedescendant');
+    }
+    function moveRoleActive(dir) {
+        const root = roleSelectRoot();
+        if (!root) return;
+        const visible = [...root.querySelectorAll('.ship-role-option')].filter((o) => !o.hidden);
+        if (!visible.length) return;
+        const current = root.querySelector('.ship-role-option.active');
+        let idx = visible.indexOf(current);
+        idx = idx < 0 ? (dir > 0 ? 0 : visible.length - 1) : (idx + dir + visible.length) % visible.length;
+        setRoleActive(visible[idx]);
+    }
+    // 선택 확정 → 그리드 필터 적용(renderShips). 콤보박스는 rebuild 없이 sync만 되어 포커스 유지.
+    function selectRoleValue(en) {
+        shipState.selectedTags = en ? [en] : [];
+        if (shipState.purpose) shipState.purpose = '';
+        closeRoleListbox();
+        syncShipControls();
+        renderShips();
+        roleSelectRoot()?.querySelector('.ship-role-search')?.focus();
+    }
+    function handleRoleSelectClick(event) {
+        const opt = event.target.closest('[data-role-option]');
+        if (opt) { selectRoleValue(opt.getAttribute('data-role-option')); return; }
+        if (event.target.closest('[data-role-clear]')) { selectRoleValue(''); return; }
+        if (event.target.id === 'ship-role-search') openRoleListbox();
+    }
+    function handleRoleSelectKeydown(event) {
+        if (event.target.id !== 'ship-role-search') return;
+        const root = roleSelectRoot();
+        if (!root) return;
+        const open = root.dataset.open === 'true';
+        if (event.key === 'ArrowDown') { event.preventDefault(); if (open) moveRoleActive(1); else openRoleListbox(); }
+        else if (event.key === 'ArrowUp') { event.preventDefault(); if (open) moveRoleActive(-1); }
+        else if (event.key === 'Enter') {
+            const active = root.querySelector('.ship-role-option.active:not([hidden])');
+            if (open && active) { event.preventDefault(); selectRoleValue(active.getAttribute('data-role-option')); }
+        } else if (event.key === 'Escape') { if (open) { event.preventDefault(); closeRoleListbox(); } }
     }
     function renderShips() {
         const container = document.getElementById('ships-grid');
@@ -259,6 +396,18 @@
         //   ON 필터는 canonical role 칩으로 대체된다(재구성은 새 VOLT 편집을 낳아 계약 위반). OFF는 완전 불변.
         if (canonicalOn()) { (purpose.closest('.ship-advanced-row') || purpose).hidden = true; shipState.purpose = ''; }
         tagFilters?.addEventListener('click', handleShipTagFilterClick);
+        // ON 전용 역할 콤보박스: 위임 리스너(빌드는 renderRoleSelect가 1회). 타이핑=옵션 필터만(그리드 재렌더 없음).
+        if (canonicalOn() && tagFilters) {
+            tagFilters.addEventListener('input', (event) => {
+                if (event.target.id === 'ship-role-search') { openRoleListbox(); filterRoleOptions(event.target.value); }
+            });
+            tagFilters.addEventListener('keydown', handleRoleSelectKeydown);
+            tagFilters.addEventListener('click', handleRoleSelectClick);
+            document.addEventListener('click', (event) => {
+                const root = roleSelectRoot();
+                if (root && root.dataset.open === 'true' && !event.target.closest('.ship-role-select')) closeRoleListbox();
+            });
+        }
         search.addEventListener('input', () => { shipState.query = search.value; renderShips(); });
         manufacturer.addEventListener('change', () => { shipState.manufacturer = manufacturer.value; renderShips(); });
         hideUnreleased.addEventListener('change', () => { shipState.hideUnreleased = hideUnreleased.checked; syncShipControls(); renderShips(); });

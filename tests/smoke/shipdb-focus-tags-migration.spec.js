@@ -24,12 +24,11 @@ test.describe('focus·tags 제거 (D7: OFF=존재, ON=제거)', () => {
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
         expect(await page.locator('.ship-focus-badge').count()).toBe(0);
         expect(await page.locator('.ship-tag').count()).toBe(0);
-        // VOLT focus/tags 카테고리 칩(KO 키)은 제거된다
-        expect(await page.locator('#ship-tag-filters [data-ship-tag-filter="화물"]').count()).toBe(0);
-        expect(await page.locator('#ship-tag-filters [data-ship-tag-filter="전투"]').count()).toBe(0);
-        // 필터 컨테이너는 숨겨지지 않고 canonical role 칩으로 대체된다(role 이관)
-        await expect(page.locator('#ship-tag-filters')).toBeVisible();
-        expect(await page.locator('#ship-tag-filters [data-ship-tag-filter]').count()).toBeGreaterThan(0);
+        // VOLT focus/tags 카테고리 칩(KO 키)은 전부 제거된다(칩 자체 0)
+        expect(await page.locator('#ship-tag-filters [data-ship-tag-filter]').count()).toBe(0);
+        // 필터는 canonical role 단일 검색형 콤보박스로 대체된다(role 이관 + UX)
+        await expect(page.locator('#ship-tag-filters #ship-role-search')).toBeVisible();
+        expect(await page.locator('#ship-tag-filters [data-role-option]').count()).toBeGreaterThan(0);
     });
 
     test('ON: 비교표에 focus(분류) 행 없음, role 행은 유지', async ({ page }) => {
