@@ -9,21 +9,30 @@ import { TEST_ENV, createMockDb, createMockKV, jsonRequest, memberCookie } from 
 
 const MEMBER = { sub: 'discord-7', username: 'tester', display_name: '테스터', roles: ['멤버'] };
 
-const SHIPS_LAYER = 'window.VOLT_SHIP_LIVE_STATS = ' + JSON.stringify({
-    asgard: {
-        source: 'erkul-live', syncedAt: '2026-07-08T12:00:00.000Z', erkulLocalName: 'misc_asgard',
-        manufacturer: 'MISC', role: 'Heavy Freight', career: 'Transport', size: 'L', crewSize: 6, cargoScu: 220, hp: 80000
-    },
-    'aurora-es': {
-        source: 'erkul-live', syncedAt: '2026-07-08T12:00:00.000Z', erkulLocalName: 'rsi_aurora_es',
-        manufacturer: 'RSI', role: 'Starter', career: 'Starter', size: 'S', crewSize: 1, cargoScu: 3, hp: 1500
-    }
-}) + ';';
+// 2.7: AI는 canonical(사실·시장) + operational(erkulLocalName·syncedAt)을 읽는다(live 레이어 아님).
+const CANONICAL_LAYER = JSON.stringify({
+    schema: 'ships-canonical', count: 2,
+    ships: [
+        {
+            id: 'asgard', manufacturer: 'MISC', role: 'Heavy Freight', career: 'Transport', size: 'L',
+            crewSize: 6, cargoScu: 220, hp: 80000,
+            market: { purchase: [{ shop: 'New Deal', location: 'Lorville', price: 18000000 }], rentals: [] }
+        },
+        {
+            id: 'aurora-es', manufacturer: 'RSI', role: 'Starter', career: 'Starter', size: 'S',
+            crewSize: 1, cargoScu: 3, hp: 1500,
+            market: { purchase: [], rentals: [] }
+        }
+    ]
+});
 
-const MARKET_LAYER = 'window.VOLT_SHIP_MARKET = ' + JSON.stringify({
-    asgard: { purchase: [{ shop: 'New Deal', location: 'Lorville', price: 18000000 }], rentals: [], anomalies: [] },
-    'aurora-es': { purchase: [], rentals: [], anomalies: [] }
-}) + ';';
+const OPERATIONAL_LAYER = JSON.stringify({
+    schema: 'operational-ships', count: 2,
+    records: [
+        { id: 'asgard', syncedAt: '2026-07-08T12:00:00.000Z', erkulLocalName: 'misc_asgard', erkulStatus: 'matched' },
+        { id: 'aurora-es', syncedAt: '2026-07-08T12:00:00.000Z', erkulLocalName: 'rsi_aurora_es', erkulStatus: 'matched' }
+    ]
+});
 
 const LOCALIZATION_LAYER = 'window.VOLT_LOCALIZATION = ' + JSON.stringify({ commodities: { Gold: '금' } }) + ';';
 
@@ -32,8 +41,8 @@ function mockAssets() {
         async fetch(url) {
             const path = new URL(url).pathname;
             const bodies = {
-                '/data/ship-live-stats.js': SHIPS_LAYER,
-                '/data/ship-market.js': MARKET_LAYER,
+                '/data/canonical/ships-canonical.json': CANONICAL_LAYER,
+                '/data/canonical/operational-ships.json': OPERATIONAL_LAYER,
                 '/data/volt-localization.js': LOCALIZATION_LAYER
             };
             if (!bodies[path]) return new Response('not found', { status: 404 });

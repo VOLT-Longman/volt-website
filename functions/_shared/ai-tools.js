@@ -16,13 +16,28 @@ async function fetchAssetText(env, path) {
 
 export async function loadShipLayers(env) {
   if (shipCache && Date.now() - shipCache.loadedAt < SHIP_CACHE_TTL_MS) return shipCache;
-  const [statsText, marketText] = await Promise.all([
-    fetchAssetText(env, '/data/ship-live-stats.js'),
-    fetchAssetText(env, '/data/ship-market.js')
+  // 2.7 canonical 이관(PM): 사실·시장은 canonical, erkulLocalName·syncedAt은 operational 레이어에서 읽는다.
+  // canonical/operational은 live 레이어 파생(219=live 동일 집합·값) → AI 응답 불변.
+  const [canonText, opsText] = await Promise.all([
+    fetchAssetText(env, '/data/canonical/ships-canonical.json'),
+    fetchAssetText(env, '/data/canonical/operational-ships.json')
   ]);
-  const ships = parseDataLayerJs(statsText, 'VOLT_SHIP_LIVE_STATS');
-  const market = parseDataLayerJs(marketText, 'VOLT_SHIP_MARKET');
-  const syncedAt = Object.values(ships)[0]?.syncedAt ?? null;
+  const canon = JSON.parse(canonText);
+  const ops = JSON.parse(opsText);
+  const opsById = new Map((ops.records || []).map((r) => [r.id, r]));
+  const ships = {};
+  const market = {};
+  let syncedAt = null;
+  for (const s of canon.ships || []) {
+    const op = opsById.get(s.id) || {};
+    ships[s.id] = {
+      manufacturer: s.manufacturer, role: s.role, career: s.career, size: s.size,
+      crewSize: s.crewSize, cargoScu: s.cargoScu, hp: s.hp,
+      erkulLocalName: op.erkulLocalName || ''
+    };
+    market[s.id] = s.market || { purchase: [], rentals: [] };
+    if (!syncedAt && op.syncedAt) syncedAt = op.syncedAt;
+  }
   shipCache = { ships, market, syncedAt, loadedAt: Date.now() };
   return shipCache;
 }
@@ -99,7 +114,7 @@ function shipSummary(id, entry, marketEntry) {
 }
 
 function shipSources(syncedAt) {
-  return [{ label: 'VOLT ShipDB — Erkul live 데이터 레이어', detail: `동기화 ${syncedAt || '알 수 없음'}`, url: '#ships' }];
+  return [{ label: 'VOLT ShipDB — Erkul canonical 데이터셋', detail: `동기화 ${syncedAt || '알 수 없음'}`, url: '#ships' }];
 }
 
 export async function toolRecommendShips(env, params) {
