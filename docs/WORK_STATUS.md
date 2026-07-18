@@ -1,12 +1,14 @@
 # 작업 상태 — 2026-07-14
 
-## 진행 — ShipDB Erkul 재작성 v2 (감사·계획 완료, 실행 미착수) (2026-07-18)
+## 진행 — ShipDB Erkul 재작성 v2 (0단계·1단계 완료, 2단계 대기) (2026-07-18)
 
-- **상태**: 2단계(전수 감사)·계획 문서화 완료. **초기화·삭제 실행은 PM 3.4 승인 게이트 전까지 금지.**
-- **문서**: [`shipdb-erkul-rewrite-audit.md`](shipdb-erkul-rewrite-audit.md)(감사표+PM 9개 결정, 승인 기록) / [`shipdb-erkul-rewrite-plan.md`](shipdb-erkul-rewrite-plan.md)(0~3단계 실행 계획).
-- **PM 결정 요약**: Erkul=유일 사실 기준, ship.id 유지, 3계층 분리. crew→live 통일(수기값은 리포트만), priceUsd→모델 제거(자산 보존), erkulName/erkulStatus→삭제 안 하고 operational 격리, anomalies→admin 리포트만, VOLT 편집분류(focus/role/tags)→초기 전환본 제거, live 없는 37척→공개 제외(에디션 별칭·미출시 아카이브).
-- **실행 순서**: 0단계 착수 게이트(전체 재grep·기준선 스냅샷·브랜치·파이프라인 인벤토리) → 1 병렬 생성 → 2 소비처 이관 → 3 비교·승인·교체. 삭제는 3.5에서만.
-- **소유 선언**: 데이터·백엔드 영역(`data/`, `functions/`, `scripts/erkul/`, `migrations/`). 착수 시 아래 경로 잠금 행을 실제 선언으로 교체.
+- **상태**: 감사·계획·0단계 게이트·**1단계 병렬 데이터셋 생성 완료**. 라이브 무변경(비활성 병렬 파일). **초기화·삭제·2단계 소비처 이관은 미착수.**
+- **문서**: [`shipdb-erkul-rewrite-audit.md`](shipdb-erkul-rewrite-audit.md)(감사+PM 9결정) / [`shipdb-erkul-rewrite-plan.md`](shipdb-erkul-rewrite-plan.md)(0~3단계) / [`shipdb-rewrite-consumer-map.md`](shipdb-rewrite-consumer-map.md)(288 소비처) / [`shipdb-rewrite-id-mapping.md`](shipdb-rewrite-id-mapping.md)(219/37).
+- **0단계 산출**: 기준선(`capture-baseline.mjs`+`data/shipdb-rewrite-baseline.json`), 파이프라인 차단 CI(`canonical-contract.mjs`+`shipdb-canonical-contract.test.mjs`, 7종), ID 매핑, 소비처 맵.
+- **1단계 산출(비활성)**: `scripts/shipdb-rewrite/build-{canonical,localization,operational}.mjs` → `data/canonical/`(ships-canonical 219·localization-ships 219·operational-ships 219·edition-aliases 7). canonical 사실원=Erkul live 레이어만(CI 강제). **localization KO 누락 8척 = 전환 차단 대상**(3.2 게이트).
+- **PM 결정 요약**: Erkul=유일 사실, ship.id 유지, 3계층. canonical 선정=Erkul live 존재(railen 포함, matched 아님). crew→live 통일, priceUsd→모델 제거, erkulName/erkulStatus→operational 격리(삭제 안 함), anomalies→admin 리포트, focus/role/tags VOLT분류→초기 전환본 제거, live 없는 37→공개 제외. 레거시 재생성 4스크립트 퇴역은 2.7.
+- **다음**: 2단계 소비처 이관(288 소비처, 필드별 원자 커밋). 삭제는 3.5 PM 승인 후에만.
+- **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)
 
@@ -46,9 +48,9 @@ PM의 대체 결정을 기다린다.
 
 | 담당 영역 | 기준 SHA | 수정 경로 | 해제 조건 |
 |---|---|---|---|
-| 데이터·백엔드 (ShipDB 재작성 0단계) | c31f3ed | `data/` 신규 계층·`scripts/`(기준선·차단 테스트)·`tests/functions/`·`docs/shipdb-erkul-*` | 0단계 보고 후 PM 검토 → 1단계 승인 시 재선언 |
+| 데이터·백엔드 (ShipDB 재작성 1단계) | 832e2ff | `data/canonical/`·`data/shipdb-rewrite/`·`scripts/shipdb-rewrite/`·`tests/functions/shipdb-canonical-contract`·`docs/shipdb-*rewrite*` | 2단계 소비처 이관 착수 시 `js/`·`functions/`·`admin/` 추가 선언 |
 
-- **0단계 범위**: 기준선 스냅샷·재생성 파이프라인 CI 차단·전수 재grep·ID 매핑. **라이브 출력 무변경**(main 내 미활성 병렬 경로). 초기화·삭제 없음.
+- **0·1단계 범위**: 기준선·CI 차단·재grep·ID 매핑·병렬 3계층 생성. **라이브 출력 무변경**(main 내 미활성 병렬 파일). 초기화·삭제 없음. 2단계(소비처 이관)부터 라이브 경로 수정.
 
 ## 이번 반영으로 완료 (J-1 시네마틱 히어로 배경, 2026-07-18)
 

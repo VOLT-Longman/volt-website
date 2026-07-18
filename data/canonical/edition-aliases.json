@@ -1,0 +1,43 @@
+{
+  "schema": "shipdb-edition-aliases/v1",
+  "note": "중복 에디션 → 정식 canonical 별칭/리다이렉트(공개 목록 미포함).",
+  "generatedFromCommit": "832e2ff332b9490bd65aea5380f6b961be8d9d94",
+  "count": 7,
+  "aliases": [
+    {
+      "aliasId": "argo-mole-carbon-edition",
+      "canonical": "mole",
+      "targetInCanonical": true
+    },
+    {
+      "aliasId": "argo-mole-talus-edition",
+      "canonical": "mole",
+      "targetInCanonical": true
+    },
+    {
+      "aliasId": "carrack-expedition-w-c8x",
+      "canonical": "carrack-expedition",
+      "targetInCanonical": true
+    },
+    {
+      "aliasId": "carrack-w-c8x",
+      "canonical": "carrack",
+      "targetInCanonical": true
+    },
+    {
+      "aliasId": "f8c-lightning-executive-edition",
+      "canonical": "f8c-lightning",
+      "targetInCanonical": true
+    },
+    {
+      "aliasId": "mustang-alpha-vindicator",
+      "canonical": "mustang-alpha",
+      "targetInCanonical": true
+    },
+    {
+      "aliasId": "valkyrie-liberator-edition",
+      "canonical": "valkyrie",
+      "targetInCanonical": true
+    }
+  ]
+}
