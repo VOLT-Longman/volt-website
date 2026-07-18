@@ -34,7 +34,8 @@ async function captureCards(page) {
 function byId(rows) { const m = {}; for (const r of rows) m[r.id] = r; return m; }
 
 async function loadState(page, on) {
-    if (on) await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
+    // 3.5-A로 기본 ON이므로 OFF도 명시적으로 강제한다(전후 비교의 OFF 기준선 고정).
+    await page.addInitScript((flag) => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = flag; }, on);
     await mockApi(page);
     await gotoSection(page, '#ships');
     if (on) await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);

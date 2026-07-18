@@ -17,8 +17,9 @@ async function mainShipIds(page) {
 }
 
 test.describe('비교 하네스 (OFF=기준선, ON=허용된 차이만)', () => {
-    test('OFF: 메인 256 그대로 · priceUsd 존재 · 카탈로그 없음', async ({ page }) => {
+    test('OFF 강제(되돌림): 메인 256 그대로 · priceUsd 존재 · 카탈로그 없음', async ({ page }) => {
         const errors = trackConsoleErrors(page);
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('#ships-grid .ship-card');
@@ -49,6 +50,7 @@ test.describe('비교 하네스 (OFF=기준선, ON=허용된 차이만)', () => 
     test('허용된 차이만: OFF∖ON = 컨셉30+별칭7(37), ON에 신규 추가 0', async ({ browser }) => {
         const offCtx = await browser.newContext();
         const offPage = await offCtx.newPage();
+        await offPage.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
         await mockApi(offPage);
         await gotoSection(offPage, '#ships');
         await offPage.waitForSelector('#ships-grid .ship-card');

@@ -23,6 +23,9 @@ test.describe('모바일 공통 폴리시 (390px)', () => {
 
     // Step 3: 함선DB 모바일 — 역할 필터 칩 가로 스크롤 + 상세 모달 2열·CTA 풀폭.
     test('함선DB: 역할 칩 가로 스크롤 + 상세 모달 2열 스펙·세로 CTA', async ({ page }) => {
+        // 역할 칩 가로 스크롤은 레거시(focus/tags 칩) 모바일 레이아웃 — OFF 강제로 검증.
+        // 3.5-A 실전 ON의 콤보박스 모바일 동작은 shipdb-role-filter-ux(ON 모바일)가 커버.
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; });
         await mockApi(page);
         await gotoSection(page, '#ships');
 

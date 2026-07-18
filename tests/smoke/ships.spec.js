@@ -113,9 +113,9 @@ test.describe('함선 DB', () => {
         // 정적 헤더/필터 라벨 영어
         await expect(page.locator('#ships .section-header h2')).toContainText('Ship');
         await expect(page.locator('#ship-search')).toHaveAttribute('placeholder', /Search by ship/);
-        // 역할 태그 칩이 영어(KO 분류 → EN 라벨)
-        await expect(page.locator('#ship-tag-filters')).toContainText('Cargo');
-        await expect(page.locator('#ship-tag-filters')).not.toContainText('화물');
+        // 역할 필터(canonical role 콤보박스)가 영어: placeholder·옵션 EN 원문(3.5-A 실전 ON)
+        await expect(page.locator('#ship-role-search')).toHaveAttribute('placeholder', /Search roles/);
+        await expect(page.locator('[data-role-option="Light Freight"]')).toHaveText('Light Freight');
 
         // Carrack 검색 → 카드 제목 영문 + 모달 영어 역할/설명
         await page.locator('#ship-search').fill('Carrack');

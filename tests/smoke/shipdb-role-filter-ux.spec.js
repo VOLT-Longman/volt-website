@@ -18,8 +18,9 @@ async function allBadges(page) {
 }
 
 test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', () => {
-    test('OFF: 기존 focus/tags 칩 유지 · 콤보박스 없음(기준선 불변)', async ({ page }) => {
+    test('OFF 강제(되돌림): 기존 focus/tags 칩 유지 · 콤보박스 없음(기준선 불변)', async ({ page }) => {
         const errors = trackConsoleErrors(page);
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card');

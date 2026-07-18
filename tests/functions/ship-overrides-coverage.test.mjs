@@ -45,9 +45,10 @@ const OVERRIDE_ROW = {
 };
 const CANONICAL_OMITTED = ['role', 'focus', 'crew', 'cargo', 'priceUsd', 'tags'];
 
-test('공개 ship-overrides GET: 서버 canonical OFF(기본) → 레거시 override 필드 전부 노출', async () => {
+test('공개 ship-overrides GET: 서버 canonical 강제 OFF(되돌림) → 레거시 override 필드 전부 노출', async () => {
     const db = createMockDb((sql) => (sql.startsWith('SELECT') ? [OVERRIDE_ROW] : []));
-    const response = await shipOverridesPublic({ env: { ...TEST_ENV, DB: db } });
+    // 3.5-A로 기본 ON이므로 되돌림 경로는 SHIPDB_CANONICAL_TEST='false'로 강제 OFF해 검증한다.
+    const response = await shipOverridesPublic({ env: { ...TEST_ENV, DB: db, SHIPDB_CANONICAL_TEST: 'false' } });
     const item = (await response.json()).items[0];
     for (const f of CANONICAL_OMITTED) assert.ok(f in item, `OFF 기준선에 ${f} 있어야`);
     assert.equal(item.role, '중형 화물선');

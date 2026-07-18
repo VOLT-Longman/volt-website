@@ -11,8 +11,9 @@ function cargoStat(page, id) {
 }
 
 test.describe('cargo 원자 이관 (OFF=레거시, ON=Erkul cargoScu, 값 불변)', () => {
-    test('OFF 기본: idris-m 카드 화물 = "1,326 SCU"(콤마)', async ({ page }) => {
+    test('OFF 강제(되돌림): idris-m 카드 화물 = "1,326 SCU"(콤마)', async ({ page }) => {
         const errors = trackConsoleErrors(page);
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card');

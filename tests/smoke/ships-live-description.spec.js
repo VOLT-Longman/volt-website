@@ -43,6 +43,8 @@ test.describe('함선 설명 KO 번역 (A-9)', () => {
     test('레이어 없는 함선(Javelin): 기존 KO 설명 폴백 + 콘솔 에러 없음', async ({ page }) => {
         const errors = [];
         page.on('pageerror', (error) => errors.push(String(error)));
+        // 비-live 함선(Javelin)은 3.5-A 실전 ON의 canonical 219에 없다 → 레거시 폴백은 OFF 강제로 검증.
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; });
         await mockApi(page);
         await gotoSection(page, '#ships');
         const desc = await openShipModalByName(page, 'Javelin');

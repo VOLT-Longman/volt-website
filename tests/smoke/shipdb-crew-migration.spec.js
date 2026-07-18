@@ -15,8 +15,9 @@ function crewRow(page) {
 }
 
 test.describe('crew 원자 이관 (OFF=레거시 수기, ON=Erkul crewSize)', () => {
-    test('OFF 기본: 비교표 승무원 = 레거시 수기값(1명·5명)', async ({ page }) => {
+    test('OFF 강제(되돌림): 비교표 승무원 = 레거시 수기값(1명·5명)', async ({ page }) => {
         const errors = trackConsoleErrors(page);
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card');

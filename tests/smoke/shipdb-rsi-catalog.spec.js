@@ -3,8 +3,9 @@ const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
 // ShipDB 재작성 2단계 — RSI 공식 카탈로그 탭/카드. 플래그 OFF에서는 완전 미노출(라이브 불변).
 test.describe('RSI 공식 카탈로그 탭 (플래그 OFF=미노출)', () => {
-    test('OFF 기본: 카탈로그 칩·그리드 없음, 함선DB 불변', async ({ page }) => {
+    test('OFF 강제(되돌림): 카탈로그 칩·그리드 없음, 함선DB 불변', async ({ page }) => {
         const errors = trackConsoleErrors(page);
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card');

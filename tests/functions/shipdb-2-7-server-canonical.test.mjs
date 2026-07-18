@@ -16,11 +16,12 @@ import { mapShipOverride } from '../../functions/_shared/cms.js';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (p) => readFile(join(ROOT, p), 'utf8');
 
-test('서버 canonical 플래그: 기본 OFF, env 테스트 훅으로만 ON', () => {
-  assert.equal(canonicalServerOn(undefined), false, '플래그 인자 없음 → OFF');
-  assert.equal(canonicalServerOn({}), false, '기본 OFF');
-  assert.equal(canonicalServerOn({ SHIPDB_CANONICAL_TEST: 'true' }), true, '테스트 훅 → ON');
-  assert.equal(canonicalServerOn({ SHIPDB_CANONICAL_TEST: '1' }), false, "정확히 'true'만 ON");
+test('서버 canonical 플래그(3.5-A): 기본 ON, SHIPDB_CANONICAL_TEST=false로만 강제 OFF(되돌림)', () => {
+  assert.equal(canonicalServerOn(undefined), true, '인자 없음 → 상수 ON(3.5-A)');
+  assert.equal(canonicalServerOn({}), true, '기본 ON');
+  assert.equal(canonicalServerOn({ SHIPDB_CANONICAL_TEST: 'false' }), false, "강제 OFF는 정확히 'false'만");
+  assert.equal(canonicalServerOn({ SHIPDB_CANONICAL_TEST: 'true' }), true, '강제 ON');
+  assert.equal(canonicalServerOn({ SHIPDB_CANONICAL_TEST: '0' }), true, "'0'은 OFF 아님");
 });
 
 test('AI 서버 reader: canonical 3계층을 읽고 레거시 live 레이어를 읽지 않는다', async () => {

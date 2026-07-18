@@ -6,8 +6,9 @@ const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 // ON: focus 배지·태그 칩·VOLT 카테고리 필터 제거. 필터 컨테이너는 이후 role 이관에서
 //     canonical role 칩으로 재활용된다(숨김 아님). '미구현' 게이트는 implemented로 대체.
 test.describe('focus·tags 제거 (D7: OFF=존재, ON=제거)', () => {
-    test('OFF 기본: focus 배지·태그 칩·태그 필터 존재', async ({ page }) => {
+    test('OFF 강제(되돌림): focus 배지·태그 칩·태그 필터 존재', async ({ page }) => {
         const errors = trackConsoleErrors(page);
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card');

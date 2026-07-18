@@ -12,12 +12,18 @@
 (function () {
     'use strict';
 
-    // 내부 전환값 — 3.5 승인 시 코드로만 true. 이용자/URL/스토리지로 못 켠다.
-    var CANONICAL_ENABLED = false;
+    // 실전 전환값(3.5-A, PM 분할 승인). true = 실전 ON. 되돌리려면 false로만 바꾸면 즉시 OFF(레거시 무손상).
+    // 이용자/URL/스토리지로 못 켜고 끈다 — 코드 상수로만 전환.
+    var CANONICAL_ENABLED = true;
 
-    // 테스트 전용 훅. 프로덕션 사용자 경로가 아니며 지속되지 않는다(페이지 로드 시 주입만).
+    // 테스트 전용 훅(프로덕션 사용자 경로 아님, 페이지 로드 시 주입만):
+    //   === false → 강제 OFF(레거시/되돌림 경로 검증) · === true → 강제 ON · 미설정 → 상수(CANONICAL_ENABLED).
     function isEnabled() {
-        return CANONICAL_ENABLED === true || (typeof window !== 'undefined' && window.__VOLT_SHIPDB_CANONICAL_TEST__ === true);
+        if (typeof window !== 'undefined') {
+            if (window.__VOLT_SHIPDB_CANONICAL_TEST__ === false) return false;
+            if (window.__VOLT_SHIPDB_CANONICAL_TEST__ === true) return true;
+        }
+        return CANONICAL_ENABLED === true;
     }
 
     var DATA_FILES = {

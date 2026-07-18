@@ -5,8 +5,9 @@ const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 // OFF(기본): 카드·모달·정렬·검색에 priceUsd 그대로 = 기준선(라이브 불변).
 // ON(테스트 경로): 공개 모델에서 제거(D4) — 카드·모달·정렬·검색 어디에도 priceUsd 없음.
 test.describe('priceUsd 원자 이관', () => {
-    test('OFF 기본: 카드·모달·정렬에 priceUsd 존재(기준선)', async ({ page }) => {
+    test('OFF 강제(되돌림): 카드·모달·정렬에 priceUsd 존재(기준선)', async ({ page }) => {
         const errors = trackConsoleErrors(page);
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card');
