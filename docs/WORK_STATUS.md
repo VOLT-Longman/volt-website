@@ -17,7 +17,9 @@
 - **⑦crew 원자 이관 완료(PM 지정)**: ON이면 Erkul `live.crewSize`를 공개 기준값으로(로더 `getShip(id)` + ships.js crewDisplay/crewMin/crewMax: 비교표·리더보드 + main.js crewSortValue: 정렬). live 있는 함선은 모달이 이미 crewSize라 무변경, 레거시 수기 crew 노출 지점(비교·리더보드·정렬)만 이관. OFF=레거시 수기(freelancer 1명). 회귀 `shipdb-crew-migration.spec.js` 2건 + 비교 하네스 통과.
 - **⑧cargo 원자 이관 완료(PM 지정)**: ON이면 Erkul `live.cargoScu`를 화물 기준값으로 — ships.js cargoDisplay/cargoValueNum(카드·비교·리더보드·모달) + main.js shipCargoValue(정렬·cargoMin 필터·**플래너 하드게이트 cargo>0**·플래너 시드·추천). 값은 219척 전부 레거시 일치(불일치 0)라 표시·동작 불변, 출처만 canonical. 포맷 toLocaleString으로 콤마 유지("1,326 SCU"). 회귀 `shipdb-cargo-migration.spec.js` 2건 + 하네스 통과.
 - **⑨focus·tags 제거 완료(PM 지정, 마지막 필드, D7)**: ON에서 카드 focus 배지·태그 칩·태그 필터(숨김)·비교 focus 행·태그 노트·검색 색인(focus/focus_en/tags_en) 제거, 대체 분류 없음. '미구현' 릴리스 게이트는 `implemented!==false`로 자연 대체(unreleased 31=implemented false 정합, isPlannerEligibleShip에 이미 포함). role은 유지(PM 순서에 미포함). 회귀 `shipdb-focus-tags-migration.spec.js` 3건 + 하네스.
-- **필드 이관 전부 완료(2단계 소비처 이관)**: priceUsd·crew·cargo·focus·tags. 각 `canonicalOn()` gate + OFF=기준선(시각회귀) + ON 동작 + 비교 하네스 통과. **남은 것은 3단계**: 3.1 전후 응답 비교(0.2 기준선 vs ON) → 3.2 KO 완전성 → 3.3 sync 동결 → **3.4 PM 승인 → 3.5 실전 플래그 ON + 레거시 데이터/파이프라인(재생성 4스크립트·볼트데이터 사실필드) 삭제**. 삭제·실전 전환은 3.5 승인 전까지 금지 유지.
+- **필드 이관 전부 완료(2단계)**: priceUsd·crew·cargo·focus·tags. 각 gate + OFF=기준선 + ON 동작 + 하네스.
+- **⑩3.1 전후 응답 비교 리포트 완료(PM A)**: `shipdb-3-1-comparison.spec.js` 4건(실행형) + `docs/shipdb-rewrite-3-1-comparison.md`. OFF 256→ON 219(제외 37=컨셉+별칭), 공유 219 name·mfr·cargo값 동일·focus/tags/price만 제거, 비교 focus/USD행 제거·role유지·crew=Erkul, 카탈로그 30. **그 외 차이는 실패 처리.** AI·CMS·Safe Apply는 서버측이라 클라 플래그 무관(별도, 3.5 이관).
+- **다음(PM 3단계 순서)**: 3.2 KO 완전성 감사(live 219·RSI 29·expanse) → 3.3 동기화 리허설(Erkul sync→canonical 재생성→Safe Apply preview 미실행, 레거시 재주입 차단 확인) → **role 별도 원자 이관(Erkul canonical role, 수기 유지·추론 금지, 없으면 배지 미표시)** → 3.4 PM 승인 → 3.5 실전 ON + 레거시 삭제. 삭제·ON은 3.5 승인 전까지 금지.
 - **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)
