@@ -1,40 +1,11 @@
-import { writeFile } from 'node:fs/promises';
-
-const API_URL = 'https://api.star-citizen.wiki/api/vehicles?page[size]=500';
-const OUTPUT_PATH = new URL('../data/ship-prices-usd.json', import.meta.url);
-
-async function fetchPage(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(`Price source request failed: ${response.status} ${response.statusText}`);
-    }
-    return response.json();
-}
-
-async function main() {
-    const firstPage = await fetchPage(API_URL);
-    const remainingUrls = [];
-    for (let page = 2; page <= firstPage.meta.last_page; page += 1) {
-        remainingUrls.push(`${API_URL}&page[number]=${page}`);
-    }
-    const remainingPages = await Promise.all(remainingUrls.map(fetchPage));
-    const vehicles = [firstPage, ...remainingPages].flatMap((page) => page.data);
-    const prices = {};
-    for (const vehicle of vehicles) {
-        if (vehicle.msrp != null && prices[vehicle.name] == null) {
-            prices[vehicle.name] = vehicle.msrp;
-        }
-    }
-    const snapshot = {
-        source: 'Star Citizen Wiki API',
-        retrievedAt: new Date().toISOString().slice(0, 10),
-        prices
-    };
-    await writeFile(OUTPUT_PATH, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
-    console.log(`Saved ${Object.keys(prices).length} USD prices.`);
-}
-
-main().catch((error) => {
-    console.error(error.message);
-    process.exitCode = 1;
-});
+// [RETIRED · 봉인 — ShipDB Erkul 재작성 2.7]
+// 근거(PM D4): priceUsd(SC Wiki 외부 시세)는 공개 모델·동기화 파이프라인에서 제거·분리됐다.
+// 이 스크립트는 data/ship-prices-usd.json을 재생성해 priceUsd를 다시 파이프라인에 주입하므로 봉인한다.
+// 자산(data/ship-prices-usd.json)은 삭제하지 않고 보존하되, 어떤 파이프라인도 이를 재생성/재참조하지 않는다.
+// 신규 가격 공급자 도입은 별도 마일스톤(Erkul aUEC와 혼합 금지). 원본 로직은 이 커밋 이전 git 히스토리 참조.
+console.error(
+  '[RETIRED] scripts/sync-ship-prices.mjs 는 봉인되었습니다(ShipDB Erkul 재작성 2.7, D4). '
+  + 'priceUsd는 공개 모델에서 제거됐고 재생성은 금지됩니다. '
+  + 'ship-prices-usd.json 자산은 보존되지만 파이프라인에서 분리되었습니다.',
+);
+process.exit(1);

@@ -203,3 +203,23 @@ test('레거시 재생성 스크립트가 공개 canonical 경로에 기록하�
   }
   assert.equal(offenders.length, 0, `레거시 재생성 스크립트가 canonical 경로를 참조(무통제 재주입 위험): ${offenders.join(', ')}`);
 });
+
+// 2.7 봉인: 레거시 재생성 4스크립트는 봉인 상태(RETIRED + 즉시 종료)여야 하며,
+// 제거·이관된 필드를 담은 레거시 데이터 파일(volt-data·ship-en·ship-prices-usd)을 다시 기록하면 안 된다.
+test('레거시 재생성 스크립트가 봉인돼 있다(RETIRED + process.exit, 레거시 데이터 write 없음)', async () => {
+  const LEGACY_WRITE_TARGETS = ['volt-data.js', 'ship-en.js', 'ship-prices-usd.json'];
+  const problems = [];
+  for (const rel of LEGACY_REGEN_SCRIPTS) {
+    if (!existsSync(join(ROOT, rel))) { problems.push(`${rel}: 파일 없음(봉인 스텁 유지 필요)`); continue; }
+    const src = await readRoot(rel);
+    if (!src.includes('RETIRED')) problems.push(`${rel}: RETIRED 봉인 표식 없음`);
+    if (!src.includes('process.exit')) problems.push(`${rel}: 즉시 종료(process.exit) 없음`);
+    // 봉인 스텁은 데이터 파일을 write 하지 않는다(writeFile/writeFileSync 부재).
+    if (/writeFile(Sync)?\s*\(/.test(src)) {
+      for (const t of LEGACY_WRITE_TARGETS) {
+        if (src.includes(t)) problems.push(`${rel}: 레거시 데이터(${t}) 재기록 잔존`);
+      }
+    }
+  }
+  assert.equal(problems.length, 0, `봉인 위반: ${problems.join(', ')}`);
+});
