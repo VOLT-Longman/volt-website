@@ -38,4 +38,4 @@
 
 ## 미결
 
-- `role`은 아직 미이관(PM 순서 제외). **3.5 전 별도 원자 이관**: Erkul canonical `role`로, VOLT 수기 role 유지·추론 금지. Erkul 값 없으면 역할 배지 미표시, KO는 동일 Erkul 역할 문자열의 UI 번역만.
+- `role` **이관 완료**([shipdb-rewrite-role-migration.md](shipdb-rewrite-role-migration.md) 참조). Erkul canonical `role`로 원자 이관 — 카드 focus 배지→canonical role 배지, 필터=canonical role 칩, purpose 숨김, 비교·모달·검색=canonical. VOLT 수기 role·career 조합·추론 금지 준수. 219/219 role 보유. 이로써 3.5 전 데이터 필드 이관은 모두 종료.

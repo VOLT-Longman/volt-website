@@ -6,7 +6,8 @@ const aliases = require('../../data/canonical/edition-aliases.json');
 
 // 재작성 2단계 비교 하네스 — 이후 필드 이관의 안전장치(PM).
 //  OFF: 기존 API·DOM·주요 ShipDB 화면 = 기준선.
-//  ON: 허용된 차이만 — (1) RSI 공식 카탈로그 탭/카드 추가, (2) priceUsd 공개 표시·정렬·검색 제거.
+//  ON: 허용된 차이만 — (1) RSI 공식 카탈로그 탭/카드 추가, (2) priceUsd 공개 표시·정렬·검색 제거,
+//      (3) crew·cargo·role=Erkul canonical, (4) 필터=canonical role 칩(focus/tags 대체)·purpose 숨김.
 //      그 밖(카드 수·비교/플래너/AI 대상)은 live canonical 219와 동일.
 const CANONICAL_IDS = canonical.ships.map((s) => s.id).sort();
 const EXCLUDED_37 = new Set([...rsiOfficial.records.map((r) => r.id), ...aliases.aliases.map((a) => a.aliasId)]);

@@ -472,7 +472,11 @@
             const tags = getShipTags(ship);
             const matchesManufacturer = shipState.manufacturer === 'all' || ship.manufacturer === shipState.manufacturer;
             const matchesReleaseState = !shipState.hideUnreleased || (canonicalOn() ? ship.implemented !== false : !tags.includes('\ubbf8\uad6c\ud604'));
-            const matchesSelectedTags = shipState.selectedTags.length === 0 || shipState.selectedTags.some((tag) => ship.focus === tag || tags.includes(tag));
+            // role 필터 이관: ON은 canonical role(EN)로 매칭(선택 칩 키=EN role). canonical role 없으면 제외.
+            //   OFF는 레거시 focus/tags 매칭 — 불변.
+            const matchesSelectedTags = shipState.selectedTags.length === 0 || (canonicalOn()
+                ? shipState.selectedTags.includes((shipCanonicalRole(ship) || {}).en)
+                : shipState.selectedTags.some((tag) => ship.focus === tag || tags.includes(tag)));
             const haystack = buildShipSearchText(ship, tags);
             return matchesManufacturer && matchesReleaseState && matchesSelectedTags && (!query || haystack.includes(query));
         });
@@ -539,13 +543,24 @@
         }
         return getCargoValue(ship.cargo);
     }
+    // role 이관(PM): ON이면 canonical role(Erkul EN)만 사용. career 조합·VOLT 수기·추론 금지.
+    // {en, ko} 반환(ko는 사실 불변 UI 번역, 없으면 en 폴백). canonical role 없으면 null → 배지·필터 제외.
+    function shipCanonicalRole(ship) {
+        if (!ship || !canonicalOn() || !window.VOLT_SHIPDB_CANONICAL) return null;
+        const c = window.VOLT_SHIPDB_CANONICAL.getShip(ship.id);
+        if (!c || !c.role) return null;
+        const en = c.role;
+        return { en, ko: window.VOLT_SHIPDB_CANONICAL.roleKo(en) || en };
+    }
     function buildShipSearchText(ship, tags = getShipTags(ship)) {
         // KO·EN 양쪽 필드를 모두 색인해 영어로도 검색되게 한다.
         // 화면에 표시되는 Erkul 번역 설명(live 레이어)도 색인한다 — 표시 문구로 검색이 잡히도록.
         // live는 지연 로드이므로 로드 전에는 legacy 설명만 색인된다(로드 완료 시 검색 캐시 무효화).
+        // role 이관: ON은 legacy role/role_en 대신 canonical role(EN+KO)을 색인.
+        const cr = shipCanonicalRole(ship);
         return [
-            ship.name, ship.manufacturer, ship.role, ...(canonicalOn() ? [] : [ship.focus]), ship.description, ship.cargo, ...(canonicalOn() ? [] : [formatShipPrice(ship.priceUsd)]),
-            ship.role_en, ...(canonicalOn() ? [] : [ship.focus_en]), ship.size_en, ship.description_en, ...(canonicalOn() || !Array.isArray(ship.tags_en) ? [] : ship.tags_en),
+            ship.name, ship.manufacturer, ...(canonicalOn() ? (cr ? [cr.en, cr.ko] : []) : [ship.role]), ...(canonicalOn() ? [] : [ship.focus]), ship.description, ship.cargo, ...(canonicalOn() ? [] : [formatShipPrice(ship.priceUsd)]),
+            ...(canonicalOn() ? [] : [ship.role_en]), ...(canonicalOn() ? [] : [ship.focus_en]), ship.size_en, ship.description_en, ...(canonicalOn() || !Array.isArray(ship.tags_en) ? [] : ship.tags_en),
             ...getShipLiveDescriptions(ship),
             ...tags, ...getShipAliases(ship)
         ].filter(Boolean).join(' ').toLowerCase();
@@ -621,7 +636,7 @@
     function renderRecommendedTradeShipCard(ship) {
         return `<article class="recommended-trade-card">
             <strong>${escapeHtml(ship.name)}</strong>
-            <span>${escapeHtml(ship.cargo)} · ${escapeHtml(ship.role)}</span>
+            <span>${escapeHtml(ship.cargo)} · ${escapeHtml(canonicalOn() ? (shipCanonicalRole(ship) ? (currentLang() === 'en' ? shipCanonicalRole(ship).en : shipCanonicalRole(ship).ko) : '') : ship.role)}</span>
             <div>
                 <button class="btn btn-secondary" type="button" data-open-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('tradeHub.shipDetail', '함선 상세'))}</button>
                 <button class="btn btn-primary" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('tradeHub.useInPlanner', '무역 플래너에서 사용'))}</button>
@@ -662,7 +677,8 @@
     }
 
     function getPlannerTradeScore(ship) {
-        const text = [ship.role, ...(canonicalOn() ? [] : [ship.focus, ...getShipTags(ship)]), ship.description].join(' ');
+        // role 이관: ON은 canonical role KO(사실 불변 번역)로 토큰 스코어링(로케일 무관, OFF의 KO role과 동치).
+        const text = [canonicalOn() ? ((shipCanonicalRole(ship) || {}).ko || '') : ship.role, ...(canonicalOn() ? [] : [ship.focus, ...getShipTags(ship)]), ship.description].join(' ');
         const weights = { 화물: 3, 물류: 3, 무역: 3, 수송: 2, 운송: 2, 보급: 2, 산업: 1, 다목적: 1 };
         const score = Object.entries(weights).reduce((total, [token, weight]) => total + (text.includes(token) ? weight : 0), 0);
         return text.includes('전투') ? score - 0.5 : score;

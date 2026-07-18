@@ -25,7 +25,7 @@ test.describe('ShipDB canonical 로더 (듀얼리드, 기본 OFF)', () => {
         expect(await page.locator('.ship-card').count()).toBeGreaterThan(0);
     });
 
-    test('ON 테스트 훅: canonical 6계층 로드(219 canonical · 30 rsi-official)', async ({ page }) => {
+    test('ON 테스트 훅: canonical 7계층 로드(219 canonical · 30 rsi-official · 52 role KO)', async ({ page }) => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
@@ -37,16 +37,17 @@ test.describe('ShipDB canonical 로더 (듀얼리드, 기본 OFF)', () => {
             aliases: s.editionAliases && s.editionAliases.count,
             rsiOfficial: s.rsiOfficial && s.rsiOfficial.count,
             rsiLocalization: s.rsiLocalization && s.rsiLocalization.count,
+            roleLocalization: s.roleLocalization && s.roleLocalization.summary && s.roleLocalization.summary.total,
         })));
-        expect(store).toEqual({ canonical: 219, localization: 219, operational: 219, aliases: 7, rsiOfficial: 30, rsiLocalization: 30 });
+        expect(store).toEqual({ canonical: 219, localization: 219, operational: 219, aliases: 7, rsiOfficial: 30, rsiLocalization: 30, roleLocalization: 52 });
     });
 
-    test('ON 테스트 훅: 데이터 로드돼도 함선DB UI는 불변(소비처 미배선)', async ({ page }) => {
+    test('ON 테스트 훅: canonical 로드 후에도 함선 카드가 정상 렌더된다', async ({ page }) => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card');
-        // 이 커밋 범위: 로더만 존재, 어떤 소비처도 canonical을 읽지 않음 → 카드 렌더는 레거시와 동일
+        // 소비처 배선 후에도(price·crew·cargo·focus·tags·role 이관) ON 카드 렌더는 안정적이다.
         expect(await page.locator('.ship-card').count()).toBeGreaterThan(0);
     });
 });

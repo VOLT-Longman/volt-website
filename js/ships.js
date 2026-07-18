@@ -60,6 +60,31 @@
         const c = canonicalShip(ship);
         return c && c.cargoScu != null ? c.cargoScu : getCargoValue(ship.cargo);
     }
+    // role 이관(PM): ON이면 canonical role(Erkul EN)만 사용. career 조합·VOLT 수기·추론 금지.
+    function canonicalRole(ship) {
+        const c = canonicalShip(ship);
+        return c && c.role ? c.role : null;
+    }
+    // 표시용 role. OFF: 레거시 tx(ship,'role'). ON: EN 로케일=canonical EN 그대로, KO=사실 불변 UI 번역(roleKo).
+    // canonical role이 없으면 '' → 배지·표시에서 제외(라이브 219/219 보유라 방어적).
+    function roleDisplay(ship) {
+        if (!canonicalOn()) return tx(ship, 'role');
+        const en = canonicalRole(ship);
+        if (!en) return '';
+        return roleLabel(en);
+    }
+    // Erkul EN role 문자열의 표시 라벨(필터 칩 등). EN 로케일=원문, 그 외=roleKo(사실 불변 번역).
+    function roleLabel(enRole) {
+        if (!enRole) return '';
+        if (currentLang() === 'en') return enRole;
+        const ko = window.VOLT_SHIPDB_CANONICAL && window.VOLT_SHIPDB_CANONICAL.roleKo(enRole);
+        return ko || enRole;
+    }
+    // ON role 필터 값 = canonical role 집합(EN, 정렬)에서만. 미로드/OFF면 빈 배열.
+    function canonicalRoleFilterValues() {
+        const list = (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) ? window.VOLT_SHIPDB_CANONICAL.roleList() : null;
+        return Array.isArray(list) ? list : [];
+    }
     function shipTagsLocalized(ship) {
         const ko = Array.isArray(ship.tags) ? ship.tags : [];
         if (currentLang() === 'en' && Array.isArray(ship.tags_en) && ship.tags_en.length === ko.length) return ship.tags_en;
@@ -135,15 +160,21 @@
     function renderShipTagFilters() {
         const container = document.getElementById('ship-tag-filters');
         if (!container) return;
-        // focus·tags 제거(D7): ON은 VOLT 편집 분류 필터 자체를 숨긴다(대체 분류 없음).
-        if (canonicalOn()) { container.replaceChildren(); container.hidden = true; return; }
+        const on = canonicalOn();
+        // ON: 필터를 canonical role 집합으로 생성(제거된 focus/tags 필터 대체). 칩 키=Erkul EN role, 라벨=roleKo.
+        //     canonical role이 없으면 필터에서 제외(집합 자체가 canonical에서만 생성됨).
+        // OFF: 레거시 focus/tags 카테고리 칩 — 완전 불변.
+        const values = on ? canonicalRoleFilterValues() : getShipFilterTags();
+        const labelFor = on ? roleLabel : shipCat;
+        // 칩이 없으면(OFF 태그 없음 · ON canonical 지연 로드 전) 숨긴다. ON은 로드 후 재렌더에서 채워진다.
+        if (values.length === 0) { container.replaceChildren(); container.hidden = true; return; }
         container.hidden = false;
         const selectedTags = new Set(shipState.selectedTags);
         const allActive = selectedTags.size === 0 ? ' active' : '';
-        const buttons = getShipFilterTags().map((tag) => {
-            const active = selectedTags.has(tag) ? ' active' : '';
-            // 필터 키(data-ship-tag-filter)는 KO를 유지하고 라벨만 번역한다.
-            return `<button class="ship-filter-btn${active}" type="button" data-ship-tag-filter="${escapeHtml(tag)}" aria-pressed="${selectedTags.has(tag)}">${escapeHtml(shipCat(tag))}</button>`;
+        const buttons = values.map((value) => {
+            const active = selectedTags.has(value) ? ' active' : '';
+            // 필터 키(data-ship-tag-filter)는 원본 값(OFF=KO 카테고리 / ON=Erkul EN role)을 유지하고 라벨만 번역한다.
+            return `<button class="ship-filter-btn${active}" type="button" data-ship-tag-filter="${escapeHtml(value)}" aria-pressed="${selectedTags.has(value)}">${escapeHtml(labelFor(value))}</button>`;
         });
         container.innerHTML = [
             `<button class="ship-filter-btn${allActive}" type="button" data-ship-tag-clear aria-pressed="${selectedTags.size === 0}">${escapeHtml(i18nT('ships.allTags', '전체'))}</button>`,
@@ -168,7 +199,9 @@
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
-                    <div class="ship-card-actions">${canonicalOn() ? '' : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}${renderHangarToggleButton(ship)}</div>
+                    <div class="ship-card-actions">${canonicalOn()
+                        ? (roleDisplay(ship) ? `<span class="ship-role-badge" data-style-bg="#a0aec022" data-style-color="#a0aec0">${escapeHtml(roleDisplay(ship))}</span>` : '')
+                        : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}${renderHangarToggleButton(ship)}</div>
                 </div>
                 <p class="ship-desc">${escapeHtml(shipDisplayDescription(ship))}</p>
                 <div class="ship-stats">
@@ -222,6 +255,9 @@
         const filterReset = document.getElementById('ship-filter-reset');
         const cargoButtons = [...document.querySelectorAll('.cargo-filter-btn')];
         if (!search || !manufacturer || !hideUnreleased || !sort || !grid || !purpose) return;
+        // role 이관(PM): purpose(VOLT 편집 분류 프리셋)는 ON에서 숨긴다 — focus/tags(D7)와 동일 취급.
+        //   ON 필터는 canonical role 칩으로 대체된다(재구성은 새 VOLT 편집을 낳아 계약 위반). OFF는 완전 불변.
+        if (canonicalOn()) { (purpose.closest('.ship-advanced-row') || purpose).hidden = true; shipState.purpose = ''; }
         tagFilters?.addEventListener('click', handleShipTagFilterClick);
         search.addEventListener('input', () => { shipState.query = search.value; renderShips(); });
         manufacturer.addEventListener('change', () => { shipState.manufacturer = manufacturer.value; renderShips(); });
@@ -434,7 +470,7 @@
     function renderShipComparison(ships) {
         const fields = [
             { label: i18nT('ships.mfr', '\uc81c\uc870\uc0ac'), key: 'manufacturer', format: (ship) => ship.manufacturer },
-            { label: i18nT('ships.role', '\uc5ed\ud560'), key: 'role', format: (ship) => tx(ship, 'role') },
+            { label: i18nT('ships.role', '\uc5ed\ud560'), key: 'role', format: (ship) => roleDisplay(ship) },
             // focus \uc81c\uac70(D7): ON\uc740 VOLT \ud3b8\uc9d1 \ubd84\ub958 \ud589\uc744 \ube44\uad50\ud45c\uc5d0\uc11c \ube80\ub2e4.
             ...(canonicalOn() ? [] : [{ label: i18nT('ships.focus', '\ubd84\ub958'), key: 'focus', format: (ship) => tx(ship, 'focus') }]),
             { label: i18nT('ships.size', '\ud06c\uae30'), key: 'size', format: (ship) => tx(ship, 'size') },
@@ -683,7 +719,7 @@
     // live가 없는 함선(미출시/변형)만 legacy volt-data 값으로 전부 폴백한다.
     function renderShipBaseGrid(ship, live) {
         const stat = (label, value) => `<div class="ship-modal-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`;
-        const items = [stat(i18nT('ships.role', '역할'), tx(ship, 'role'))];
+        const items = [stat(i18nT('ships.role', '역할'), roleDisplay(ship))];
         if (!live) {
             items.push(stat(i18nT('ships.size', '크기'), tx(ship, 'size')));
             items.push(stat(i18nT('ships.crew', '승무원'), crewDisplay(ship)));

@@ -26,7 +26,8 @@
         operational: 'data/canonical/operational-ships.json',
         editionAliases: 'data/canonical/edition-aliases.json',
         rsiOfficial: 'data/canonical/ships-rsi-official.json',
-        rsiLocalization: 'data/canonical/localization-rsi-official.json'
+        rsiLocalization: 'data/canonical/localization-rsi-official.json',
+        roleLocalization: 'data/canonical/localization-roles.json'
     };
 
     var state = 'idle';
@@ -34,6 +35,7 @@
     var store = {};
     var idCache = null;
     var shipCache = null;
+    var roleListCache = null;
 
     // 공개 canonical 함선 id 집합(219). 메인 ShipDB 리스트를 canonical로 좁힐 때 사용(ON).
     function publicShipIds() {
@@ -52,7 +54,29 @@
         return shipCache[id] || null;
     }
 
-    // OFF: 즉시 null 반환(fetch 없음). ON: 6개 계층 JSON을 병렬 로드해 store에 채운다.
+    // Erkul EN role 문자열 → KO UI 번역(없으면 null). 역할 사실을 바꾸지 않는 표기 계층.
+    function roleKo(enRole) {
+        if (!enRole || !store.roleLocalization || !store.roleLocalization.roles) return null;
+        var ko = store.roleLocalization.roles[enRole];
+        return typeof ko === 'string' ? ko : null;
+    }
+
+    // canonical에 존재하는 distinct role 집합(EN, 정렬). role 필터 칩 생성에 사용(canonical 집합에서만).
+    function roleList() {
+        if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
+        var seen;
+        if (!roleListCache) {
+            roleListCache = [];
+            seen = {};
+            store.canonical.ships.forEach(function (s) {
+                if (s.role && !seen[s.role]) { seen[s.role] = true; roleListCache.push(s.role); }
+            });
+            roleListCache.sort();
+        }
+        return roleListCache;
+    }
+
+    // OFF: 즉시 null 반환(fetch 없음). ON: 7개 계층 JSON을 병렬 로드해 store에 채운다.
     function load() {
         if (!isEnabled()) return Promise.resolve(null);
         if (state === 'loaded') return Promise.resolve(store);
@@ -73,6 +97,8 @@
         load: load,
         publicShipIds: publicShipIds,
         getShip: getShip,
+        roleKo: roleKo,
+        roleList: roleList,
         get data() { return store; },
         get state() { return state; }
     };
