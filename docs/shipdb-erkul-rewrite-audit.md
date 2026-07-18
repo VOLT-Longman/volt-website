@@ -111,7 +111,7 @@
 5. **`erkulName`·`erkulStatus` 삭제하지 않음.** 공개 필드 아닌 **수집·매칭·CI용 운영 메타데이터로 격리**.
 6. **`market.anomalies`도 ShipDB 데이터 아님(동기화 실행 결과)** → 관리자 동기화 리포트에만 유지.
 7. **role·focus·tags 등 Erkul 사실값 아닌 VOLT 편집 분류는 초기 전환본에서 제거.** 추후 별도 분류 체계·근거 정의 후 "VOLT 편집 정보"로만 재도입.
-8. **Erkul live 없는 37척은 현행 ShipDB 기준 목록에서 제외.** 중복 에디션 7 → 정식 Erkul 함선의 별칭/리다이렉트로 정리. ~~미출시 함선 → 보관 카탈로그로 격리~~ → **[2026-07-18 변경] 컨셉 30척 → RSI 공식 컨셉 카탈로그로 격리**(RSI Ship Matrix 사실원, 별도 탭/필터, 플래너·비교·AI 제외, RSI 비제공 값 추정 금지). 상세는 [`shipdb-concept-rsi-audit.md`](shipdb-concept-rsi-audit.md). Railen은 live 존재 → canonical 유지.
+8. **Erkul live 없는 37척은 현행 ShipDB 기준 목록에서 제외.** 중복 에디션 7 → 정식 Erkul 함선의 별칭/리다이렉트로 정리. ~~미출시 함선 → 보관 카탈로그로 격리~~ → **[2026-07-18 변경] 30척 → RSI 공식 카탈로그로 격리**(RSI Ship Matrix 사실원, `catalogStatus: concept 28 · flight-ready 2`, 별도 탭/필터, 플래너·비교·AI 제외, RSI 비제공 값 추정 금지). 상세는 [`shipdb-rsi-official-audit.md`](shipdb-rsi-official-audit.md). Railen은 live 존재 → canonical 유지.
 9. **`computePreviewHash`·Safe Apply를 새 스키마에 맞춰 함께 이관**, 전환 전후 ID 매핑·공개 API·CMS·AI·검색·스모크 테스트를 모두 비교 검증.
 
 **실행 순서 원칙(PM):** "기존 DB 비우기"가 아니라 **Erkul 정규 데이터셋 병렬 생성 → 소비처 이관 → 비교 검증 → 승인 후 교체.** 초기화·삭제는 승인된 실행 계획 이전까지 금지.

@@ -1,19 +1,23 @@
 {
-  "schema": "shipdb-concept-rsi/v1",
-  "note": "RSI 공식 컨셉 카탈로그. 사실원=RSI Ship Matrix만. RSI 비제공 게임플레이 값 없음. KO는 별도 concept-localization 계층.",
+  "schema": "shipdb-rsi-official/v1",
+  "note": "RSI 공식 카탈로그. 사실원=RSI Ship Matrix만. catalogStatus로 concept/flight-ready 구분. RSI 비제공 게임플레이 값 없음. KO는 별도 localization 계층.",
   "source": "RSI Ship Matrix (robertsspaceindustries.com/ship-matrix/index)",
   "retrievedAt": "2026-07-18",
-  "generatedFromCommit": "d0fc16094390c8983230fb5e9657b69232a19e34",
+  "generatedFromCommit": "c7d1fdce10a897f8e1741f0e0182f5dc4c6a5331",
   "count": 30,
+  "byStatus": {
+    "concept": 28,
+    "flight-ready": 2
+  },
   "records": [
     {
       "id": "arrastra",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/arrastra/Arrastra",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Roberts Space Industries",
         "role": "Mining / Refining",
@@ -27,12 +31,12 @@
     },
     {
       "id": "atls",
-      "status": "concept",
+      "catalogStatus": "flight-ready",
+      "rsiProductionStatus": "flight-ready",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/atls/ATLS",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "flight-ready",
       "rsi": {
         "manufacturer": "Argo Astronautics",
         "role": "Industrial",
@@ -46,12 +50,12 @@
     },
     {
       "id": "atls-geo",
-      "status": "concept",
+      "catalogStatus": "flight-ready",
+      "rsiProductionStatus": "flight-ready",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/atls/ATLS-GEO",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "flight-ready",
       "rsi": {
         "manufacturer": "Argo Astronautics",
         "role": "Industrial",
@@ -65,12 +69,12 @@
     },
     {
       "id": "crucible",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/crucible/Crucible",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Anvil Aerospace",
         "role": "Heavy Repair",
@@ -84,12 +88,12 @@
     },
     {
       "id": "e1-spirit",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/spirit/E1-Spirit",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Crusader Industries",
         "role": "Passenger",
@@ -103,12 +107,12 @@
     },
     {
       "id": "endeavor",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/misc-endeavor/Endeavor",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "MISC",
         "role": "Heavy Science",
@@ -122,12 +126,12 @@
     },
     {
       "id": "expanse",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/expanse/Expanse",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "MISC",
         "role": "Refinery",
@@ -141,12 +145,12 @@
     },
     {
       "id": "g12",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Origin Jumpworks",
         "role": "Touring",
@@ -160,12 +164,12 @@
     },
     {
       "id": "g12a",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12a",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Origin Jumpworks",
         "role": "Military",
@@ -179,12 +183,12 @@
     },
     {
       "id": "g12r",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12r",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Origin Jumpworks",
         "role": "Racing",
@@ -198,12 +202,12 @@
     },
     {
       "id": "galaxy",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/galaxy/Galaxy",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Roberts Space Industries",
         "role": "Modular",
@@ -217,12 +221,12 @@
     },
     {
       "id": "genesis",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/starliner/Genesis",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Crusader Industries",
         "role": "Passenger",
@@ -236,12 +240,12 @@
     },
     {
       "id": "hull-d",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-D",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "MISC",
         "role": "Heavy Freight",
@@ -255,12 +259,12 @@
     },
     {
       "id": "hull-e",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-E",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "MISC",
         "role": "Heavy Freight",
@@ -274,12 +278,12 @@
     },
     {
       "id": "javelin",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-javelin/Javelin",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Aegis Dynamics",
         "role": "Destroyer",
@@ -293,12 +297,12 @@
     },
     {
       "id": "kraken",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/drake-kraken/Kraken",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Drake Interplanetary",
         "role": "Multi-Role / Light Carrier",
@@ -312,12 +316,12 @@
     },
     {
       "id": "kraken-privateer",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/drake-kraken/Kraken-Privateer",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Drake Interplanetary",
         "role": "Multi-Role / Light Carrier",
@@ -331,12 +335,12 @@
     },
     {
       "id": "legionnaire",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/legionnaire/Legionnaire",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Anvil Aerospace",
         "role": "Boarding",
@@ -350,12 +354,12 @@
     },
     {
       "id": "liberator",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/liberator/Liberator",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Anvil Aerospace",
         "role": "Light Carrier",
@@ -369,12 +373,12 @@
     },
     {
       "id": "merchantman",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/merchantman/Merchantman",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Banu",
         "role": "Heavy Freight",
@@ -388,12 +392,12 @@
     },
     {
       "id": "nautilus",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-nautilus/Nautilus",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Aegis Dynamics",
         "role": "Minelayer",
@@ -407,12 +411,12 @@
     },
     {
       "id": "nautilus-solstice-edition",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-nautilus/Nautilus-Solstice-Edition",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Aegis Dynamics",
         "role": "Minelayer",
@@ -426,12 +430,12 @@
     },
     {
       "id": "odyssey",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/odyssey/Odyssey",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "MISC",
         "role": "Expedition",
@@ -445,12 +449,12 @@
     },
     {
       "id": "orion",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/orion/Orion",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Roberts Space Industries",
         "role": "Heavy Mining",
@@ -464,12 +468,12 @@
     },
     {
       "id": "pioneer",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/pioneer/Pioneer",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Consolidated Outland",
         "role": "Heavy Construction",
@@ -483,12 +487,12 @@
     },
     {
       "id": "ranger-cv",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-CV",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Tumbril",
         "role": "Touring",
@@ -502,12 +506,12 @@
     },
     {
       "id": "ranger-rc",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-RC",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Tumbril",
         "role": "Racing",
@@ -521,12 +525,12 @@
     },
     {
       "id": "ranger-tr",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-TR",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Tumbril",
         "role": "Combat",
@@ -540,12 +544,12 @@
     },
     {
       "id": "vulcan",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/vulcan/Vulcan",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Aegis Dynamics",
         "role": "Medium Repair / Medium Refuel",
@@ -559,12 +563,12 @@
     },
     {
       "id": "zeus-mk2-mr",
-      "status": "concept",
+      "catalogStatus": "concept",
+      "rsiProductionStatus": "in-concept",
       "source": "rsi-official",
       "sourceType": "ship-matrix",
       "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/zeus-mk-ii/Zeus-Mk-II-MR",
       "retrievedAt": "2026-07-18",
-      "rsiProductionStatus": "in-concept",
       "rsi": {
         "manufacturer": "Roberts Space Industries",
         "role": "Interdiction",

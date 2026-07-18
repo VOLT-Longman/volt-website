@@ -22,7 +22,7 @@
 
 ## 컨셉 30척 — RSI 공식 컨셉 카탈로그로 격리 (2026-07-18 변경)
 
-Erkul live 미등록. **[변경]** 기존 "완전 제외" → RSI 공식 컨셉 카탈로그(`data/canonical/ships-concept-rsi.json`, 사실원=RSI Ship Matrix). `status:"concept"`, 별도 탭/필터, 무역플래너·실전 비교·AI 추천 제외. 출처 감사·빈값·이상은 [`shipdb-concept-rsi-audit.md`](shipdb-concept-rsi-audit.md). 전부 `erkulStatus=unreleased`, `implemented=false`(단 RSI상 `atls`·`atls-geo`는 flight-ready).
+Erkul live 미등록. **[변경]** 기존 "완전 제외" → RSI 공식 카탈로그(`data/canonical/ships-rsi-official.json`, 사실원=RSI Ship Matrix). `catalogStatus`: concept 28 · flight-ready 2(`atls`·`atls-geo`), `source:"rsi-official"`, 별도 탭/필터, 무역플래너·실전 비교·AI 추천 제외. 출처 감사·빈값·이상은 [`shipdb-rsi-official-audit.md`](shipdb-rsi-official-audit.md). VOLT id 기준 전부 `erkulStatus=unreleased`, `implemented=false`.
 
 | # | 제외 ID | # | 제외 ID | # | 제외 ID |
 |---|---|---|---|---|---|

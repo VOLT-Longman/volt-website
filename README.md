@@ -36,7 +36,7 @@
 | [`docs/shipdb-erkul-rewrite-plan.md`](docs/shipdb-erkul-rewrite-plan.md) | ShipDB Erkul 재작성 v2 — 0~3단계 실행 계획(미착수, 승인 대기) |
 | [`docs/shipdb-rewrite-consumer-map.md`](docs/shipdb-rewrite-consumer-map.md) | 재작성 0.1 — 제거/격리 대상 필드의 소비처 전수 맵 + 재주입 위험 |
 | [`docs/shipdb-rewrite-id-mapping.md`](docs/shipdb-rewrite-id-mapping.md) | 재작성 0단계 — 제외 37척 ID 매핑(중복 에디션 별칭·컨셉 카탈로그) |
-| [`docs/shipdb-concept-rsi-audit.md`](docs/shipdb-concept-rsi-audit.md) | 컨셉 30척 RSI 공식 출처 감사표(Ship Matrix, 빈값·이상 보고) |
+| [`docs/shipdb-rsi-official-audit.md`](docs/shipdb-rsi-official-audit.md) | RSI 공식 카탈로그 30척 출처 감사표(concept 28/flight-ready 2, 빈값 보고) |
 | [`docs/SECURITY_CSP.md`](docs/SECURITY_CSP.md) | CSP 최종 태세·전수 검색 결과·예외·검증법 |
 | [`docs/LOCALIZATION_USAGE.md`](docs/LOCALIZATION_USAGE.md) | i18n(KO/EN) 사용 규칙 |
 | [`docs/QA.md`](docs/QA.md) · [`docs/playwright-qa-scenarios.md`](docs/playwright-qa-scenarios.md) | QA 시나리오 |
