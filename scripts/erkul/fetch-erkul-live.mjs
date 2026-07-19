@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
@@ -16,6 +17,10 @@ const REQUEST_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126 Safari/537.36',
     Accept: 'application/json, text/plain, */*'
 };
+
+function sha256(text) {
+    return createHash('sha256').update(text).digest('hex');
+}
 
 async function fetchErkulJson(url) {
     const controller = new AbortController();
@@ -47,7 +52,11 @@ async function fetchErkulJson(url) {
     } catch {
         throw new Error(`Erkul JSON parse failed: ${url} — 응답 시작부: ${rawText.slice(0, 200)}`);
     }
-    return { payload, byteLength: Buffer.byteLength(rawText, 'utf8') };
+    return {
+        payload,
+        byteLength: Buffer.byteLength(rawText, 'utf8'),
+        sha256: sha256(rawText)
+    };
 }
 
 function toRecordArray(payload, label) {
@@ -75,13 +84,13 @@ function hasShopInventory(shops) {
 async function main() {
     await mkdir(OUTPUT_DIR, { recursive: true });
 
-    const { payload: shipsPayload, byteLength: shipsBytes } = await fetchErkulJson(ERKUL_SHIPS_ENDPOINT);
+    const { payload: shipsPayload, byteLength: shipsBytes, sha256: shipsSha256 } = await fetchErkulJson(ERKUL_SHIPS_ENDPOINT);
     const ships = toRecordArray(shipsPayload, 'live/ships');
     if (ships.length < MIN_SHIP_COUNT) {
         throw new Error(`Erkul ships 레코드 수 부족: ${ships.length} < ${MIN_SHIP_COUNT}`);
     }
 
-    const { payload: shopPayload, byteLength: shopBytes } = await fetchErkulJson(ERKUL_SHOP_ENDPOINT);
+    const { payload: shopPayload, byteLength: shopBytes, sha256: shopSha256 } = await fetchErkulJson(ERKUL_SHOP_ENDPOINT);
     const shops = toRecordArray(shopPayload, 'shop');
     if (shops.length < MIN_SHOP_COUNT) {
         throw new Error(`Erkul shop 레코드 수 부족: ${shops.length} < ${MIN_SHOP_COUNT}`);
@@ -106,6 +115,10 @@ async function main() {
         shopCount: shops.length,
         shipsBytes,
         shopBytes,
+        rawSha256: {
+            ships: shipsSha256,
+            shops: shopSha256
+        },
         note: 'ships.raw.json / shop.raw.json은 용량 문제로 git에 커밋하지 않는다 (.gitignore 참조). 커밋 대상은 asgard.raw.json / asgard-field-sample.json / fetch-meta.json.'
     };
     await writeFile(resolve(OUTPUT_DIR, 'fetch-meta.json'), `${JSON.stringify(meta, null, 2)}\n`, 'utf8');

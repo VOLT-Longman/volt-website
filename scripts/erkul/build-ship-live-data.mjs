@@ -1,7 +1,8 @@
+import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { mergeMappedMarketRows, normalizeErkulMarket, normalizeMarketOnlyMappings } from '../../functions/_shared/erkul-sync.js';
+import { mergeMappedMarketRows, normalizeErkulMarket, normalizeMarketOnlyMappings, parseDataLayerJs } from '../../functions/_shared/erkul-sync.js';
 import { toPlatform } from '../../functions/_shared/erkul-platform.js';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -14,17 +15,80 @@ const MANUAL_MAP_PATH = resolve(ROOT, 'data/external/erkul/manual-ship-map.json'
 const LIVE_STATS_PATH = resolve(ROOT, 'data/ship-live-stats.js');
 const SHIP_MARKET_PATH = resolve(ROOT, 'data/ship-market.js');
 const BUILD_REPORT_PATH = resolve(ROOT, 'data/external/erkul/live-data-build-report.json');
+const INPUT_MANIFEST_PATH = resolve(ROOT, 'data/external/erkul/live-data-input-manifest.json');
 
 const toSizeLabel = (n) => (typeof n === 'number' ? `S${n}` : null);
 
-async function main() {
-    const erkul = JSON.parse(await readFile(SHIPS_NORMALIZED_PATH, 'utf8'));
-    const market = JSON.parse(await readFile(MARKET_PATH, 'utf8'));
-    const shopRaw = JSON.parse(await readFile(SHOP_RAW_PATH, 'utf8'));
-    const matchReport = JSON.parse(await readFile(MATCH_REPORT_PATH, 'utf8'));
-    const manualMap = JSON.parse(await readFile(MANUAL_MAP_PATH, 'utf8'));
+function sha256(text) {
+    return createHash('sha256').update(text).digest('hex');
+}
 
-    const shipsRaw = JSON.parse(await readFile(SHIPS_RAW_PATH, 'utf8'));
+function parseArgs(argv) {
+    return {
+        verify: argv.includes('--verify'),
+        recordManifest: argv.includes('--record-manifest')
+    };
+}
+
+function stableJson(value) {
+    return JSON.stringify(value);
+}
+
+function buildInputManifest(inputs, matchedCount) {
+    return {
+        schema: 'erkul-live-input-manifest/v1',
+        source: 'erkul-live',
+        syncedAt: inputs.erkul.syncedAt,
+        matchedCount,
+        inputs: {
+            shipsRaw: sha256(inputs.shipsRawText),
+            shipsNormalized: sha256(inputs.normalizedText),
+            shopRaw: sha256(inputs.shopRawText),
+            marketNormalized: sha256(inputs.marketText),
+            matchReport: sha256(inputs.matchText),
+            manualMap: sha256(inputs.manualMapText)
+        }
+    };
+}
+
+function assertMatchingLayer(label, expected, actual) {
+    if (stableJson(expected) === stableJson(actual)) return;
+    const expectedKeys = Object.keys(expected).sort();
+    const actualKeys = Object.keys(actual).sort();
+    const missing = expectedKeys.filter((key) => !Object.hasOwn(actual, key));
+    const unexpected = actualKeys.filter((key) => !Object.hasOwn(expected, key));
+    const changed = expectedKeys.filter((key) => Object.hasOwn(actual, key) && stableJson(expected[key]) !== stableJson(actual[key]));
+    throw new Error(`${label} 재현성 실패: 누락 ${missing.slice(0, 5).join(', ') || '0'} / 추가 ${unexpected.slice(0, 5).join(', ') || '0'} / 변경 ${changed.slice(0, 5).join(', ') || '0'}`);
+}
+
+function preserveTranslation(existingEntry, description) {
+    const existing = existingEntry?.descriptions;
+    if (!existing || existing.en !== description.en) return { ko: null };
+    return {
+        ko: existing.ko ?? null,
+        ...(existing.koSource ? { koSource: existing.koSource } : {}),
+        ...(existing.translatedAt ? { translatedAt: existing.translatedAt } : {})
+    };
+}
+
+async function main() {
+    const args = parseArgs(process.argv.slice(2));
+    const [normalizedText, marketText, shopRawText, matchText, manualMapText, shipsRawText, currentStatsText] = await Promise.all([
+        readFile(SHIPS_NORMALIZED_PATH, 'utf8'),
+        readFile(MARKET_PATH, 'utf8'),
+        readFile(SHOP_RAW_PATH, 'utf8'),
+        readFile(MATCH_REPORT_PATH, 'utf8'),
+        readFile(MANUAL_MAP_PATH, 'utf8'),
+        readFile(SHIPS_RAW_PATH, 'utf8'),
+        readFile(LIVE_STATS_PATH, 'utf8')
+    ]);
+    const erkul = JSON.parse(normalizedText);
+    const market = JSON.parse(marketText);
+    const shopRaw = JSON.parse(shopRawText);
+    const matchReport = JSON.parse(matchText);
+    const manualMap = JSON.parse(manualMapText);
+    const shipsRaw = JSON.parse(shipsRawText);
+    const currentLiveStats = parseDataLayerJs(currentStatsText, 'VOLT_SHIP_LIVE_STATS');
     const calcByLocal = new Map(shipsRaw.map((r) => [r.localName, r.calculatorType])); // platform 직접 근거
     const erkulByLocal = new Map(erkul.ships.map((s) => [s.localName, s]));
     // A-3 정규화 파일에는 live ships 목록에 없는 구형 선체가 빠진다.
@@ -46,6 +110,12 @@ async function main() {
         }
         const st = ship.externalStats;
 
+        const descriptions = {
+            source: ship.descriptions?.source ?? null,
+            enRaw: ship.descriptions?.enRaw ?? null,
+            en: ship.descriptions?.en ?? null,
+            ...preserveTranslation(currentLiveStats[row.voltId], { en: ship.descriptions?.en ?? null })
+        };
         liveStats[row.voltId] = {
             source: 'erkul-live',
             sourceVersion: 'live',
@@ -71,12 +141,7 @@ async function main() {
             insurance: st.insurance,
             damageReduction: st.damageReduction,
 
-            descriptions: {
-                source: ship.descriptions?.source ?? null,
-                enRaw: ship.descriptions?.enRaw ?? null,
-                en: ship.descriptions?.en ?? null,
-                ko: null
-            }
+            descriptions
         };
 
         const m = mergeMappedMarketRows(marketByLocal.get(ship.localName), row.voltId, marketByLocal, marketOnlyMappings);
@@ -120,6 +185,28 @@ async function main() {
         return;
     }
 
+    const manifest = buildInputManifest({ erkul, shipsRawText, normalizedText, shopRawText, marketText, matchText, manualMapText }, matched.length);
+
+    if (args.verify || args.recordManifest) {
+        const [currentStatsText, currentMarketText] = await Promise.all([
+            readFile(LIVE_STATS_PATH, 'utf8'),
+            readFile(SHIP_MARKET_PATH, 'utf8')
+        ]);
+        assertMatchingLayer('ship-live-stats', liveStats, parseDataLayerJs(currentStatsText, 'VOLT_SHIP_LIVE_STATS'));
+        assertMatchingLayer('ship-market', shipMarket, parseDataLayerJs(currentMarketText, 'VOLT_SHIP_MARKET'));
+        if (args.recordManifest) {
+            await writeFile(INPUT_MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+            console.log(`입력 manifest 기록 완료: ${INPUT_MANIFEST_PATH}`);
+            return;
+        }
+        const currentManifestText = await readFile(INPUT_MANIFEST_PATH, 'utf8');
+        if (stableJson(manifest) !== stableJson(JSON.parse(currentManifestText))) {
+            throw new Error('Erkul 입력 manifest가 현재 로컬 원본과 다릅니다. fetch → normalize → market → match → build-live 순서로 재생성하세요.');
+        }
+        console.log(`재현성 검증 통과: ${matched.length}척 · syncedAt=${manifest.syncedAt}`);
+        return;
+    }
+
     const header = (generator, varName, note) => [
         `// 자동 생성 파일 — 직접 수정하지 마세요. \`npm run ${generator}\`로 재생성.`,
         `// ${note}`,
@@ -129,6 +216,7 @@ async function main() {
 
     await writeFile(LIVE_STATS_PATH, `${header('shipdb:erkul:build-live', 'VOLT_SHIP_LIVE_STATS', '함선 상세 스펙 레이어 (volt-data.js와 분리). key = VOLT ship id.')}${JSON.stringify(liveStats)};\n`, 'utf8');
     await writeFile(SHIP_MARKET_PATH, `${header('shipdb:erkul:build-live', 'VOLT_SHIP_MARKET', '함선 구매처/렌탈 레이어 (volt-data.js와 분리). key = VOLT ship id.')}${JSON.stringify(shipMarket)};\n`, 'utf8');
+    await writeFile(INPUT_MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 
     const withPurchase = Object.values(shipMarket).filter((e) => e.purchase.length > 0).length;
     const withRentals = Object.values(shipMarket).filter((e) => e.rentals.length > 0).length;

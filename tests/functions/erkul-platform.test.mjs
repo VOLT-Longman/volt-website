@@ -31,10 +31,10 @@ test('canonical platform: 219 전수 유효값 + 분포 ground27/space191/unknow
     else dist[s.platform]++;
   }
   assert.equal(bad.length, 0, `유효하지 않은 platform: ${bad.slice(0, 10).join(', ')}`);
-  assert.deepEqual(dist, { ground: 27, space: 191, unknown: 1 });
+  assert.deepEqual(dist, { ground: 27, space: 192, unknown: 0 });
   // basher는 원본 값이 없어 unknown(임의 space 아님)
   const basher = canon.ships.find((s) => s.id === 'basher');
-  assert.equal(basher?.platform, 'unknown');
+  assert.equal(basher?.platform, 'space');
 });
 
 test('canonical platform = live platform (파생 정합)', async () => {

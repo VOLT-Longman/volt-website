@@ -1,0 +1,14 @@
+{
+  "schema": "erkul-live-input-manifest/v1",
+  "source": "erkul-live",
+  "syncedAt": "2026-07-17T15:11:08.433Z",
+  "matchedCount": 219,
+  "inputs": {
+    "shipsRaw": "3c47469defd9b89f7d1b74334d38ba7538e57fa56ece3e94300f16ccbb9831ca",
+    "shipsNormalized": "da940001e5772645bc91e09ab592779735fb30b1b50ed8cc984aebf4a2fdfa4c",
+    "shopRaw": "10b54b4876299f1c5a6b96fa7b30723ce462b84107dcd892486f6920948c7432",
+    "marketNormalized": "be5f67ada0220fbc3c994791022fa1e867825bef330e2f75b0666ecab6e488ea",
+    "matchReport": "371a43dc63fce6dd66ccd75d61c6292aeb84c3213de92f9f19a017e6409b8178",
+    "manualMap": "191da682902e05e72bb89e4ad6531f5ed85a4d188612e8af8a7b0859fc312d3d"
+  }
+}
