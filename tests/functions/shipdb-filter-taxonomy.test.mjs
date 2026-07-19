@@ -5,6 +5,7 @@
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
@@ -56,16 +57,25 @@ test('taxonomy: 다중 태그 정확(§4) — 의료·급유·회수·복합', a
   assert.deepEqual([...m['Medium Freight / Gun Ship']].sort(), ['cargo', 'combat']);
 });
 
-test('taxonomy: 규모 매핑 S1~S6 전수 + 지상은 Erkul calculator 직접필드로만', async () => {
+test('taxonomy: 규모 매핑 S1~S6 전수 + 지상 목록 정합(커밋 데이터·spot-check)', async () => {
   const { canon, tax } = await load();
   for (const s of ['S1', 'S2', 'S3', 'S4', 'S5', 'S6']) assert.ok(tax.axes.size.map[s], `size ${s} 매핑 필요`);
-  // 지상 = calculatorType==='vehicle' 정확 일치(추론 아님)
-  const raw = JSON.parse(await read('data/external/erkul/ships.raw.json'));
-  const ops = JSON.parse(await read('data/canonical/operational-ships.json'));
-  const calc = {}; for (const r of raw) calc[r.localName] = r.calculatorType;
-  const lname = {}; for (const r of ops.records) lname[r.id] = r.erkulLocalName;
-  const expectGround = canon.ships.filter((s) => calc[lname[s.id]] === 'vehicle').map((s) => s.id).sort();
-  assert.deepEqual([...tax.platformGroundIds].sort(), expectGround, '지상 id가 calculatorType=vehicle와 불일치');
+  const canonIds = new Set(canon.ships.map((s) => s.id));
+  const ground = tax.platformGroundIds;
+  assert.ok(ground.every((id) => canonIds.has(id)), '지상 id가 canonical에 없음');
+  assert.equal(ground.length, tax.summary.groundShips, '지상 수 불일치');
+  // 알려진 지상차량 포함 / 우주선 제외 — calculatorType 직접필드 결과의 spot-check
+  for (const g of ['cyclone-tr', 'nova', 'storm', 'ballista']) assert.ok(ground.includes(g), `${g}는 지상이어야`);
+  for (const s of ['freelancer', '100i', 'asgard']) assert.ok(!ground.includes(s), `${s}는 지상 아니어야`);
+  // 원본 raw(35MB, gitignore)가 로컬에 있으면 calculatorType으로 전수 재검증(CI는 spot-check만).
+  if (existsSync(join(ROOT, 'data/external/erkul/ships.raw.json'))) {
+    const raw = JSON.parse(await read('data/external/erkul/ships.raw.json'));
+    const ops = JSON.parse(await read('data/canonical/operational-ships.json'));
+    const calc = {}; for (const r of raw) calc[r.localName] = r.calculatorType;
+    const lname = {}; for (const r of ops.records) lname[r.id] = r.erkulLocalName;
+    const expectGround = canon.ships.filter((s) => calc[lname[s.id]] === 'vehicle').map((s) => s.id).sort();
+    assert.deepEqual([...ground].sort(), expectGround, '지상 id가 calculatorType=vehicle와 불일치');
+  }
 });
 
 test('taxonomy: 생성기가 레거시 focus/tags/career/설명/가격을 참조하지 않는다', async () => {
