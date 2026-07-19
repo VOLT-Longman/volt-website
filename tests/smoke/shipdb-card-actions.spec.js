@@ -9,6 +9,29 @@ async function actionHeights(page) {
         (els) => els.map((e) => Math.round(e.getBoundingClientRect().height)));
 }
 
+async function auditCardHeaders(page) {
+    return page.$$eval('#ships-grid .ship-card', (cards) => cards.reduce((problems, card) => {
+        const header = card.querySelector('.ship-card-header');
+        const title = card.querySelector('.ship-card-title');
+        const badges = card.querySelector('.ship-card-badges');
+        const favorite = header?.querySelector(':scope > .hangar-toggle-btn');
+        if (!header || !title || !badges || !favorite) {
+            problems.push(`${card.dataset.shipId}: missing header element`);
+            return problems;
+        }
+        const headerBox = header.getBoundingClientRect();
+        const titleBox = title.getBoundingClientRect();
+        const badgesBox = badges.getBoundingClientRect();
+        const favoriteBox = favorite.getBoundingClientRect();
+        const gap = 8;
+        if (header.scrollWidth > header.clientWidth + 1) problems.push(`${card.dataset.shipId}: header overflow`);
+        if (Math.abs(favoriteBox.right - headerBox.right) > 1) problems.push(`${card.dataset.shipId}: favorite not right-aligned`);
+        if (titleBox.right > favoriteBox.left - gap + 1) problems.push(`${card.dataset.shipId}: title overlaps favorite`);
+        if (badgesBox.top < Math.max(titleBox.bottom, favoriteBox.bottom) + 5) problems.push(`${card.dataset.shipId}: badges share title row`);
+        return problems;
+    }, []));
+}
+
 test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
     test('데스크톱: 모든 플래너·비교 버튼 높이 = 48px', async ({ page }) => {
         const errors = trackConsoleErrors(page);
@@ -67,7 +90,7 @@ test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
                 roleDetailCount: card.querySelectorAll('.ship-card-role-detail').length,
                 statCount: card.querySelectorAll('.ship-stat').length,
                 headerFits: header.scrollWidth <= header.clientWidth + 1,
-                favoriteInMeta: card.querySelector('.ship-card-meta > .hangar-toggle-btn') !== null,
+                favoriteInHeader: header.querySelector(':scope > .hangar-toggle-btn') !== null,
             };
         });
         expect(result.roleTags).toContain('레이싱');
@@ -75,7 +98,15 @@ test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
         expect(result.roleDetailCount).toBe(0);
         expect(result.statCount).toBe(2);
         expect(result.headerFits).toBe(true);
-        expect(result.favoriteInMeta).toBe(true);
+        expect(result.favoriteInHeader).toBe(true);
+    });
+
+    test('카드 헤더 전수: 제목·배지·즐겨찾기가 서로 침범하지 않는다', async ({ page }) => {
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await expect.poll(async () => page.locator('#ships-grid .ship-card').count()).toBe(249);
+        expect(await auditCardHeaders(page)).toEqual([]);
     });
 
     test('필터 도구막대와 결과 요약: 높이와 현재 표시 수가 일관된다', async ({ page }) => {
@@ -99,6 +130,22 @@ test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
         expect(heights.every((h) => h === 48)).toBe(true);
         const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
         expect(noOverflow).toBe(true);
+        const e1 = page.locator('[data-ship-id="e1-spirit"]');
+        await e1.scrollIntoViewIfNeeded();
+        const mobileHeader = await e1.evaluate((card) => {
+            const header = card.querySelector('.ship-card-header');
+            const favorite = header.querySelector(':scope > .hangar-toggle-btn');
+            const title = header.querySelector('.ship-card-title');
+            return {
+                headerWidth: header.getBoundingClientRect().width,
+                favoriteRight: favorite.getBoundingClientRect().right,
+                headerRight: header.getBoundingClientRect().right,
+                titleRight: title.getBoundingClientRect().right,
+                favoriteLeft: favorite.getBoundingClientRect().left,
+            };
+        });
+        expect(Math.abs(mobileHeader.favoriteRight - mobileHeader.headerRight)).toBeLessThanOrEqual(1);
+        expect(mobileHeader.titleRight).toBeLessThanOrEqual(mobileHeader.favoriteLeft - 7);
         await ctx.close();
     });
 });

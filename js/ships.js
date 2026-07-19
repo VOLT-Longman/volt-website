@@ -533,12 +533,10 @@
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(displayedManufacturer(ship))}</span>
                     </div>
-                    <div class="ship-card-meta">
-                        <div class="ship-card-badges">${canonicalOn()
-                            ? renderCardTags(ship)
-                            : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}</div>
-                        ${renderHangarToggleButton(ship)}
-                    </div>
+                    <div class="ship-card-badges">${canonicalOn()
+                        ? renderCardTags(ship)
+                        : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}</div>
+                    ${renderHangarToggleButton(ship)}
                 </div>
                 ${canonicalOn() ? renderCardRoleDetail(ship) : ''}
                 <p class="ship-desc">${escapeHtml(shipDisplayDescription(ship))}</p>
