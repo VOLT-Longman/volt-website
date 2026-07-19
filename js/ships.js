@@ -425,9 +425,37 @@
             if (open && active) { event.preventDefault(); selectRoleValue(active.getAttribute('data-role-option')); }
         } else if (event.key === 'Escape') { if (open) { event.preventDefault(); closeRoleListbox(); } }
     }
+    function canonicalLoadFailed() {
+        return canonicalOn() && window.VOLT_SHIPDB_CANONICAL?.state === 'failed';
+    }
+    function renderCanonicalLoadError(container) {
+        const message = i18nT('ships.canonicalLoadError', '함선 데이터를 불러오지 못했습니다. 다시 시도해 주세요.');
+        const retry = i18nT('ships.canonicalRetry', '다시 시도');
+        const wrapper = document.createElement('div');
+        const copy = document.createElement('p');
+        const button = document.createElement('button');
+        wrapper.className = 'ships-empty';
+        wrapper.setAttribute('role', 'alert');
+        copy.textContent = message;
+        button.className = 'ship-compare-toggle';
+        button.type = 'button';
+        button.dataset.retryCanonical = '1';
+        button.textContent = retry;
+        wrapper.append(copy, button);
+        container.replaceChildren(wrapper);
+        button.addEventListener('click', () => {
+            window.VOLT_SHIPDB_CANONICAL.retry().then(renderShips).catch(renderShips);
+        });
+    }
     function renderShips() {
         const container = document.getElementById('ships-grid');
         if (!container) return;
+        if (canonicalLoadFailed()) {
+            renderShipTagFilters();
+            renderShipPurposeSummary(0);
+            renderCanonicalLoadError(container);
+            return;
+        }
         const ships = getVisibleShips();
         renderShipTagFilters();
         renderShipPurposeSummary(ships.length);

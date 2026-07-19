@@ -1,7 +1,7 @@
 {
   "schema": "shipdb-operational/v1",
   "note": "동기화·매칭·anomalies 격리(공개 canonical 미노출).",
-  "generatedFromCommit": "832e2ff332b9490bd65aea5380f6b961be8d9d94",
+  "generatedFromCommit": "fc115b2761a40fcbab2c8d325f3a259c34147449",
   "count": 219,
   "records": [
     {

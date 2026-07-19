@@ -17,9 +17,11 @@
     "shipdb:erkul:build-live": "node scripts/erkul/build-ship-live-data.mjs",
     "shipdb:erkul:verify": "node scripts/erkul/build-ship-live-data.mjs --verify",
     "shipdb:erkul:record-manifest": "node scripts/erkul/build-ship-live-data.mjs --record-manifest",
+    "shipdb:canonical:manifest": "node scripts/shipdb-rewrite/build-canonical-manifest.mjs",
+    "shipdb:canonical:build": "node scripts/shipdb-rewrite/build-canonical.mjs && node scripts/shipdb-rewrite/build-localization.mjs && node scripts/shipdb-rewrite/build-operational.mjs && node scripts/shipdb-rewrite/build-role-localization.mjs && node scripts/shipdb-rewrite/build-ship-filter-taxonomy.mjs && node scripts/shipdb-rewrite/build-canonical-manifest.mjs",
     "shipdb:erkul:apply": "node scripts/erkul/apply-erkul-live-data.mjs",
     "shipdb:erkul:translate-descriptions": "node scripts/erkul/apply-ship-description-ko.mjs",
-    "shipdb:erkul:post-apply": "npm run shipdb:erkul:translate-descriptions && npm run check",
+    "shipdb:erkul:post-apply": "npm run shipdb:erkul:translate-descriptions && npm run shipdb:canonical:build && npm run check",
     "shipdb:erkul:classify-candidates": "node scripts/erkul/classify-new-ship-candidates.mjs"
   },
   "devDependencies": {

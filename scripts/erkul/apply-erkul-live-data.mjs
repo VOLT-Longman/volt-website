@@ -1,4 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import {
@@ -28,6 +30,21 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const LIVE_STATS_PATH = resolve(ROOT, 'data/ship-live-stats.js');
 const SHIP_MARKET_PATH = resolve(ROOT, 'data/ship-market.js');
 const BUILD_REPORT_PATH = resolve(ROOT, 'data/external/erkul/live-data-build-report.json');
+const execFileAsync = promisify(execFile);
+const CANONICAL_BUILD_SCRIPTS = [
+    'scripts/shipdb-rewrite/build-canonical.mjs',
+    'scripts/shipdb-rewrite/build-localization.mjs',
+    'scripts/shipdb-rewrite/build-operational.mjs',
+    'scripts/shipdb-rewrite/build-role-localization.mjs',
+    'scripts/shipdb-rewrite/build-ship-filter-taxonomy.mjs',
+    'scripts/shipdb-rewrite/build-canonical-manifest.mjs'
+];
+
+async function rebuildCanonicalLayers() {
+    for (const script of CANONICAL_BUILD_SCRIPTS) {
+        await execFileAsync(process.execPath, [resolve(ROOT, script)], { cwd: ROOT });
+    }
+}
 
 function parseArgs(argv) {
     const args = { dryRun: true, confirmHash: null };
@@ -148,8 +165,9 @@ async function main() {
         warnings: nextLayers.warnings
     }, null, 2)}\n`, 'utf8');
 
+    await rebuildCanonicalLayers();
     console.log(`\n적용 완료: stats ${statsKeys} / market ${marketKeys} key 갱신 (syncedAt: ${syncedAt})`);
-    console.log('다음 단계: git diff 확인 → npm run check && npm test → 커밋/푸시로 배포.');
+    console.log('canonical 계층과 client manifest도 함께 재생성했습니다. 번역 반영 후에는 npm run shipdb:erkul:post-apply를 실행하세요.');
 }
 
 main().catch((error) => {

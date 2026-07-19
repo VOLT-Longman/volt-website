@@ -503,6 +503,7 @@
         if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
             const publicIds = window.VOLT_SHIPDB_CANONICAL.publicShipIds();
             if (publicIds) ships = ships.filter((ship) => publicIds.has(ship.id));
+            else if (window.VOLT_SHIPDB_CANONICAL.state === 'failed') ships = [];
         }
         if (shipState.cargoMin > 0) {
             ships = ships.filter((ship) => shipCargoValue(ship) >= shipState.cargoMin);
@@ -978,6 +979,8 @@
         // 재작성 ON: canonical 로드 후 메인 리스트를 219로 재렌더(위 getVisibleShips 필터 적용).
         if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
             window.VOLT_SHIPDB_CANONICAL.load().then(() => {
+                if (renderedLazySections.has('ships')) renderShips();
+            }).catch(() => {
                 if (renderedLazySections.has('ships')) renderShips();
             });
         }

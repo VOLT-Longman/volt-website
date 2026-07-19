@@ -1,6 +1,14 @@
-# 작업 상태 — 2026-07-14
+# 작업 상태 — 2026-07-19
 
-## 진행 — ShipDB Erkul 재작성 v2 (0단계·1단계 완료, 2단계 대기) (2026-07-18)
+## 우선순위 보수 — ShipDB 동기화·클라이언트 무결성 (완료)
+
+- **Erkul 재현성**: raw/정규화/매칭 입력 manifest를 기준으로 `npm run shipdb:erkul:verify`가 219척 파생 결과를 검증한다. 영문 원문이 동일할 때만 기존 KO 번역을 보존하고, 달라지면 번역을 무효화한다.
+- **canonical 배포 원자성**: `data/canonical/shipdb-manifest.json`이 8개 JSON 계층의 SHA-256을 고정한다. 브라우저는 core 6개를 모두 검증한 뒤에만 적용하며, RSI 공식 카탈로그 2개는 사용자가 카탈로그를 열 때만 불러온다.
+- **실패 안전성**: canonical 파일은 Service Worker cache-first 대상에서 제외한다. 검증·로딩 실패 시 레거시 목록을 섞어 표시하지 않고 오류와 재시도만 제공한다.
+- **동기화 연결**: Safe Apply 완료 시 canonical 6단계 생성과 client manifest 갱신을 자동 실행한다. KO 번역 적용 뒤 `npm run shipdb:erkul:post-apply`가 다시 전체 canonical 계층을 재생성한다.
+- **검증**: manifest 해시·Safe Apply 연결 계약을 Functions 테스트로 고정했다. 데이터 삭제·D1 컬럼 정리·레거시 파일 제거는 3.5-B 승인 전까지 계속 보류한다.
+
+## 진행 — ShipDB Erkul 재작성 v2 (0단계·3.5-A 완료, 3.5-B 대기) (2026-07-19)
 
 - **상태**: 감사·계획·0단계 게이트·**1단계 병렬 데이터셋 생성 완료**. 라이브 무변경(비활성 병렬 파일). **초기화·삭제·2단계 소비처 이관은 미착수.**
 - **문서**: [`shipdb-erkul-rewrite-audit.md`](shipdb-erkul-rewrite-audit.md)(감사+PM 9결정) / [`shipdb-erkul-rewrite-plan.md`](shipdb-erkul-rewrite-plan.md)(0~3단계) / [`shipdb-rewrite-consumer-map.md`](shipdb-rewrite-consumer-map.md)(288 소비처) / [`shipdb-rewrite-id-mapping.md`](shipdb-rewrite-id-mapping.md)(219/37).

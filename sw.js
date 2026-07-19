@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20260719-04';
+const CACHE_VERSION = '20260719-05';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
 // index.html에서 ?v= 버전 쿼리를 붙여 로드하는 에셋.
@@ -21,6 +21,8 @@ const VERSIONED_ASSETS = [
     '/js/uex-panel.js',
     '/js/trade-planner.js',
     '/js/ships.js',
+    '/js/shipdb-canonical.js',
+    '/js/shipdb-rsi-catalog.js',
     '/js/search-modal.js',
     '/js/auth-ui.js',
     '/js/mypage.js',
@@ -69,6 +71,10 @@ self.addEventListener('fetch', (event) => {
 
     if (request.method !== 'GET' || url.origin !== self.location.origin) return;
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/')) return;
+    // Canonical ShipDB는 manifest hash로 함께 배포된다. 이전 Service Worker의
+    // cache-first 응답이 새 manifest와 섞이지 않도록, manifest와 데이터 파일은
+    // 네트워크/CDN 캐시에 맡기고 SW 런타임 캐시에서는 제외한다.
+    if (url.pathname.startsWith('/data/canonical/')) return;
     // Range 부분 요청(미션 컨트롤 콘솔의 레이어 헤더 조회)은 SW 우회 —
     // Cache API는 206을 저장하지 못하고, cache-first가 응답을 고정하면 syncedAt이 낡는다.
     if (request.headers.get('range')) return;

@@ -1,0 +1,46 @@
+{
+  "schema": "shipdb-client-manifest/v1",
+  "version": "c1cbc044e4c50457",
+  "files": {
+    "canonical": {
+      "path": "data/canonical/ships-canonical.json",
+      "group": "core",
+      "sha256": "a00962fe4cbf3c2ed57fc0279a50b0308f3360c322e1d60c0ddaa68aedbf7312"
+    },
+    "localization": {
+      "path": "data/canonical/localization-ships.json",
+      "group": "core",
+      "sha256": "b51129cfc979344a2fdcd89c1dc72a5b559975e9674fb94a4ec0bc6e47c24987"
+    },
+    "operational": {
+      "path": "data/canonical/operational-ships.json",
+      "group": "core",
+      "sha256": "f28e540c96167e61e8875d9c761f2889c98e8e6bbfe674769081053ab3689f89"
+    },
+    "editionAliases": {
+      "path": "data/canonical/edition-aliases.json",
+      "group": "core",
+      "sha256": "ecdbebd13f1ef1d7a81d0cf58dee70b366d05347fb0f52fb0287059f1606004f"
+    },
+    "roleLocalization": {
+      "path": "data/canonical/localization-roles.json",
+      "group": "core",
+      "sha256": "a69b55ac235e9ba5faba4884333bab63a3937c9b540645556969ba1205396c02"
+    },
+    "filterTaxonomy": {
+      "path": "data/canonical/ship-filter-taxonomy.json",
+      "group": "core",
+      "sha256": "b35e402e17764ac0e3d7c59260856ec85c9c690e3ada8a360dede48ac79ba988"
+    },
+    "rsiOfficial": {
+      "path": "data/canonical/ships-rsi-official.json",
+      "group": "rsi",
+      "sha256": "d9ed1b4a83cc687b1a0406a75fa83ba9a197116493295ec81f0f47ed7e8e9384"
+    },
+    "rsiLocalization": {
+      "path": "data/canonical/localization-rsi-official.json",
+      "group": "rsi",
+      "sha256": "01215bf329b1cea33f9678751eadde3fedf1f936022011d43f01ffaadaa924f1"
+    }
+  }
+}

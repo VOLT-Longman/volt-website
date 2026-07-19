@@ -1,23 +1,37 @@
 /**
- * ShipDB Erkul 재작성 v2 — canonical 데이터 내부 로더 + 비공개 플래그 (2단계 듀얼리드)
+ * ShipDB canonical data loader.
  *
- * 원칙(PM):
- *  - 기본 OFF. URL·localStorage 등 이용자 경로로 켤 수 없는 내부 전환값이다.
- *  - OFF에서는 아무 것도 로드/렌더하지 않는다 — 라이브 출력은 기준선과 완전히 동일.
- *  - ON 전환(실사용)과 기존 데이터 삭제는 3.5 PM 승인 시점에만. 여기서는 데이터 로드 배관만 둔다.
- *  - 테스트는 addInitScript로 __VOLT_SHIPDB_CANONICAL_TEST__=true를 주입해 ON 경로만 검증한다.
- *
- * 이 커밋 범위: 플래그 + 로더 API 정의뿐. 어떤 소비처도 아직 이 데이터를 읽지 않는다(UI 무변경).
+ * The client never accepts a partial canonical dataset. A versioned manifest
+ * pins every JSON file to a SHA-256 hash, so a deploy cannot mix old and new
+ * canonical layers in the same page session.
  */
 (function () {
     'use strict';
 
-    // 실전 전환값(3.5-A, PM 분할 승인). true = 실전 ON. 되돌리려면 false로만 바꾸면 즉시 OFF(레거시 무손상).
-    // 이용자/URL/스토리지로 못 켜고 끈다 — 코드 상수로만 전환.
     var CANONICAL_ENABLED = true;
+    var MANIFEST_URL = 'data/canonical/shipdb-manifest.json';
+    var DATA_FILES = {
+        canonical: { path: 'data/canonical/ships-canonical.json', group: 'core' },
+        localization: { path: 'data/canonical/localization-ships.json', group: 'core' },
+        operational: { path: 'data/canonical/operational-ships.json', group: 'core' },
+        editionAliases: { path: 'data/canonical/edition-aliases.json', group: 'core' },
+        roleLocalization: { path: 'data/canonical/localization-roles.json', group: 'core' },
+        filterTaxonomy: { path: 'data/canonical/ship-filter-taxonomy.json', group: 'core' },
+        rsiOfficial: { path: 'data/canonical/ships-rsi-official.json', group: 'rsi' },
+        rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'rsi' }
+    };
 
-    // 테스트 전용 훅(프로덕션 사용자 경로 아님, 페이지 로드 시 주입만):
-    //   === false → 강제 OFF(레거시/되돌림 경로 검증) · === true → 강제 ON · 미설정 → 상수(CANONICAL_ENABLED).
+    var state = 'idle';
+    var rsiState = 'idle';
+    var corePromise = null;
+    var rsiPromise = null;
+    var manifestPromise = null;
+    var store = {};
+    var lastError = null;
+    var idCache = null;
+    var shipCache = null;
+    var roleListCache = null;
+
     function isEnabled() {
         if (typeof window !== 'undefined') {
             if (window.__VOLT_SHIPDB_CANONICAL_TEST__ === false) return false;
@@ -26,88 +40,189 @@
         return CANONICAL_ENABLED === true;
     }
 
-    var DATA_FILES = {
-        canonical: 'data/canonical/ships-canonical.json',
-        localization: 'data/canonical/localization-ships.json',
-        operational: 'data/canonical/operational-ships.json',
-        editionAliases: 'data/canonical/edition-aliases.json',
-        rsiOfficial: 'data/canonical/ships-rsi-official.json',
-        rsiLocalization: 'data/canonical/localization-rsi-official.json',
-        roleLocalization: 'data/canonical/localization-roles.json',
-        filterTaxonomy: 'data/canonical/ship-filter-taxonomy.json'
-    };
+    function makeError(message) {
+        return new Error('ShipDB 데이터 오류: ' + message);
+    }
 
-    var state = 'idle';
-    var promise = null;
-    var store = {};
-    var idCache = null;
-    var shipCache = null;
-    var roleListCache = null;
+    function validateManifest(manifest) {
+        var actual;
+        var expected;
+        var key;
+        if (!manifest || manifest.schema !== 'shipdb-client-manifest/v1') throw makeError('manifest 형식이 올바르지 않습니다.');
+        if (!/^[a-f0-9]{16}$/.test(manifest.version || '')) throw makeError('manifest 버전이 올바르지 않습니다.');
+        for (key in DATA_FILES) {
+            expected = DATA_FILES[key];
+            actual = manifest.files && manifest.files[key];
+            if (!actual || actual.path !== expected.path || actual.group !== expected.group || !/^[a-f0-9]{64}$/.test(actual.sha256 || '')) {
+                throw makeError(key + ' manifest 항목이 올바르지 않습니다.');
+            }
+        }
+        return manifest;
+    }
 
-    // 공개 canonical 함선 id 집합(219). 메인 ShipDB 리스트를 canonical로 좁힐 때 사용(ON).
+    function fetchManifest() {
+        if (manifestPromise) return manifestPromise;
+        manifestPromise = fetch(MANIFEST_URL, { cache: 'no-store', headers: { Accept: 'application/json' } })
+            .then(function (response) {
+                if (!response.ok) throw makeError('manifest를 불러오지 못했습니다 (' + response.status + ').');
+                return response.json();
+            })
+            .then(validateManifest)
+            .catch(function (error) {
+                manifestPromise = null;
+                throw error;
+            });
+        return manifestPromise;
+    }
+
+    function digest(text) {
+        if (!window.crypto || !window.crypto.subtle) return Promise.reject(makeError('브라우저가 SHA-256 검증을 지원하지 않습니다.'));
+        return window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buffer) {
+            return Array.prototype.map.call(new Uint8Array(buffer), function (value) {
+                return value.toString(16).padStart(2, '0');
+            }).join('');
+        });
+    }
+
+    function validatePayload(key, payload) {
+        if (key === 'canonical') return payload && Array.isArray(payload.ships) && payload.count === payload.ships.length;
+        if (key === 'localization' || key === 'operational' || key === 'rsiLocalization') return payload && Array.isArray(payload.records);
+        if (key === 'editionAliases') return payload && Array.isArray(payload.aliases);
+        if (key === 'roleLocalization') return payload && payload.roles && typeof payload.roles === 'object';
+        if (key === 'filterTaxonomy') return payload && payload.axes && payload.roleTagMap && typeof payload.roleTagMap === 'object';
+        if (key === 'rsiOfficial') return payload && Array.isArray(payload.records);
+        return false;
+    }
+
+    function fetchVerifiedFile(key, manifest) {
+        var entry = manifest.files[key];
+        var url = entry.path + '?v=' + encodeURIComponent(manifest.version);
+        return fetch(url, { headers: { Accept: 'application/json' } })
+            .then(function (response) {
+                if (!response.ok) throw makeError(key + ' 데이터를 불러오지 못했습니다 (' + response.status + ').');
+                return response.text();
+            })
+            .then(function (text) {
+                return digest(text).then(function (hash) {
+                    if (hash !== entry.sha256) throw makeError(key + ' 데이터 버전이 manifest와 일치하지 않습니다.');
+                    var payload;
+                    try { payload = JSON.parse(text); }
+                    catch (_error) { throw makeError(key + ' JSON 형식이 올바르지 않습니다.'); }
+                    if (!validatePayload(key, payload)) throw makeError(key + ' 데이터 구조가 올바르지 않습니다.');
+                    return { key: key, payload: payload };
+                });
+            });
+    }
+
+    function resetCaches() {
+        idCache = null;
+        shipCache = null;
+        roleListCache = null;
+    }
+
+    function loadGroup(group) {
+        return fetchManifest().then(function (manifest) {
+            var keys = Object.keys(DATA_FILES).filter(function (key) { return DATA_FILES[key].group === group; });
+            return Promise.all(keys.map(function (key) { return fetchVerifiedFile(key, manifest); }));
+        }).then(function (entries) {
+            entries.forEach(function (entry) { store[entry.key] = entry.payload; });
+            resetCaches();
+            return store;
+        });
+    }
+
+    function load() {
+        if (!isEnabled()) return Promise.resolve(null);
+        if (state === 'loaded') return Promise.resolve(store);
+        if (state === 'loading') return corePromise;
+        state = 'loading';
+        lastError = null;
+        corePromise = loadGroup('core').then(function (data) {
+            state = 'loaded';
+            return data;
+        }).catch(function (error) {
+            state = 'failed';
+            lastError = error instanceof Error ? error : makeError('알 수 없는 오류');
+            throw lastError;
+        });
+        return corePromise;
+    }
+
+    function loadRsiCatalog() {
+        if (!isEnabled()) return Promise.resolve(null);
+        if (rsiState === 'loaded') return Promise.resolve(store);
+        if (rsiState === 'loading') return rsiPromise;
+        rsiState = 'loading';
+        rsiPromise = loadGroup('rsi').then(function (data) {
+            rsiState = 'loaded';
+            return data;
+        }).catch(function (error) {
+            rsiState = 'failed';
+            lastError = error instanceof Error ? error : makeError('알 수 없는 오류');
+            throw lastError;
+        });
+        return rsiPromise;
+    }
+
+    function retry() {
+        if (!isEnabled()) return Promise.resolve(null);
+        state = 'idle';
+        corePromise = null;
+        manifestPromise = null;
+        return load();
+    }
+
     function publicShipIds() {
         if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
-        if (!idCache) idCache = new Set(store.canonical.ships.map(function (s) { return s.id; }));
+        if (!idCache) idCache = new Set(store.canonical.ships.map(function (ship) { return ship.id; }));
         return idCache;
     }
 
-    // id로 canonical 레코드 조회(crewSize·cargoScu 등 Erkul 사실값). 필드별 이관 소비처가 사용.
     function getShip(id) {
         if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
         if (!shipCache) {
             shipCache = {};
-            store.canonical.ships.forEach(function (s) { shipCache[s.id] = s; });
+            store.canonical.ships.forEach(function (ship) { shipCache[ship.id] = ship; });
         }
         return shipCache[id] || null;
     }
 
-    // Erkul EN role 문자열 → KO UI 번역(없으면 null). 역할 사실을 바꾸지 않는 표기 계층.
     function roleKo(enRole) {
         if (!enRole || !store.roleLocalization || !store.roleLocalization.roles) return null;
         var ko = store.roleLocalization.roles[enRole];
         return typeof ko === 'string' ? ko : null;
     }
 
-    // canonical에 존재하는 distinct role 집합(EN, 정렬). role 필터 칩 생성에 사용(canonical 집합에서만).
     function roleList() {
-        if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
         var seen;
+        if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
         if (!roleListCache) {
-            roleListCache = [];
             seen = {};
-            store.canonical.ships.forEach(function (s) {
-                if (s.role && !seen[s.role]) { seen[s.role] = true; roleListCache.push(s.role); }
+            roleListCache = [];
+            store.canonical.ships.forEach(function (ship) {
+                if (ship.role && !seen[ship.role]) {
+                    seen[ship.role] = true;
+                    roleListCache.push(ship.role);
+                }
             });
             roleListCache.sort();
         }
         return roleListCache;
     }
 
-    // OFF: 즉시 null 반환(fetch 없음). ON: 7개 계층 JSON을 병렬 로드해 store에 채운다.
-    function load() {
-        if (!isEnabled()) return Promise.resolve(null);
-        if (state === 'loaded') return Promise.resolve(store);
-        if (state === 'loading') return promise;
-        state = 'loading';
-        var keys = Object.keys(DATA_FILES);
-        promise = Promise.all(keys.map(function (key) {
-            return fetch(DATA_FILES[key], { headers: { Accept: 'application/json' } })
-                .then(function (r) { return r && r.ok ? r.json() : null; })
-                .then(function (json) { store[key] = json; })
-                .catch(function () { store[key] = null; });
-        })).then(function () { state = 'loaded'; return store; });
-        return promise;
-    }
-
     window.VOLT_SHIPDB_CANONICAL = {
         isEnabled: isEnabled,
         load: load,
+        loadRsiCatalog: loadRsiCatalog,
+        retry: retry,
         publicShipIds: publicShipIds,
         getShip: getShip,
         roleKo: roleKo,
         roleList: roleList,
         taxonomy: function () { return store.filterTaxonomy || null; },
         get data() { return store; },
-        get state() { return state; }
+        get state() { return state; },
+        get rsiState() { return rsiState; },
+        get error() { return lastError ? lastError.message : null; }
     };
 })();

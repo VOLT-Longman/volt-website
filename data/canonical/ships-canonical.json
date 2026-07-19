@@ -1,7 +1,7 @@
 {
   "schema": "shipdb-canonical/v1",
   "note": "1단계 병렬 canonical. 사실원=Erkul live 레이어(ship-live-stats·ship-market)만. 비활성 — 소비처 미참조.",
-  "generatedFromCommit": "7d6989ec87a49170790359fff076a98f5b625adc",
+  "generatedFromCommit": "fc115b2761a40fcbab2c8d325f3a259c34147449",
   "sourceHashes": {
     "data/ship-live-stats.js": "6a55deba7b44964b",
     "data/ship-market.js": "cfed92c8b369de88"
