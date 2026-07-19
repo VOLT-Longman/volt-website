@@ -462,7 +462,14 @@
 
     function getShipManufacturers() {
         if (!Array.isArray(data.ships)) return [];
-        return [...new Set(data.ships.map(shipManufacturer))].filter(Boolean).sort(compareText);
+        const publicIds = canonicalOn() ? window.VOLT_SHIPDB_CANONICAL?.publicShipIds() : null;
+        const manufacturers = new Map();
+        data.ships.forEach((ship) => {
+            if (publicIds && !publicIds.has(ship.id)) return;
+            const manufacturer = shipManufacturerMeta(ship);
+            if (manufacturer.key) manufacturers.set(manufacturer.key, manufacturer);
+        });
+        return [...manufacturers.values()].sort((left, right) => compareText(left.label, right.label));
     }
 
 
@@ -489,7 +496,7 @@
         const query = shipState.query.trim().toLowerCase();
         let ships = getSortedShips().filter((ship) => {
             const tags = getShipTags(ship);
-            const matchesManufacturer = shipState.manufacturer === 'all' || shipManufacturer(ship) === shipState.manufacturer;
+            const matchesManufacturer = shipState.manufacturer === 'all' || shipManufacturerKey(ship) === shipState.manufacturer;
             const matchesReleaseState = !shipState.hideUnreleased || (canonicalOn() ? shipImplemented(ship) : !tags.includes('\ubbf8\uad6c\ud604'));
             // 필터: ON은 2축(규모·플랫폼 OR + 역할 태그 OR, 축 간 AND) + 세부 역할(단일 원문). OFF는 레거시 focus/tags.
             const matchesFilters = canonicalOn()
@@ -550,10 +557,17 @@
     function isRsiOfficialShip(ship) {
         return canonicalShip(ship)?.source === 'rsi-official';
     }
-    function shipManufacturer(ship) {
+    function shipManufacturerMeta(ship) {
         const c = canonicalShip(ship);
-        if (c?.source === 'rsi-official') return c.manufacturer || ship?.manufacturer || '';
-        return ship?.manufacturer || c?.manufacturer || '';
+        const raw = c?.manufacturer || ship?.manufacturer || '';
+        const resolver = window.VOLT_SHIPDB_MANUFACTURERS?.resolve;
+        return resolver ? resolver(raw) : { key: String(raw).toLowerCase(), label: raw };
+    }
+    function shipManufacturerKey(ship) {
+        return shipManufacturerMeta(ship).key;
+    }
+    function shipManufacturerLabel(ship) {
+        return shipManufacturerMeta(ship).label;
     }
     function shipImplemented(ship) {
         const c = canonicalShip(ship);
@@ -600,7 +614,7 @@
         const cr = shipCanonicalRole(ship);
         const c = canonicalShip(ship);
         return [
-            c?.name || ship.name, shipManufacturer(ship), ...(canonicalOn() ? (cr ? [cr.en, cr.ko] : []) : [ship.role]), ...(canonicalOn() ? [] : [ship.focus]), c?.descriptions?.ko, c?.descriptions?.en, ship.description, ship.cargo, ...(canonicalOn() ? [] : [formatShipPrice(ship.priceUsd)]),
+            c?.name || ship.name, shipManufacturerLabel(ship), c?.manufacturer, ship?.manufacturer, ...(canonicalOn() ? (cr ? [cr.en, cr.ko] : []) : [ship.role]), ...(canonicalOn() ? [] : [ship.focus]), c?.descriptions?.ko, c?.descriptions?.en, ship.description, ship.cargo, ...(canonicalOn() ? [] : [formatShipPrice(ship.priceUsd)]),
             ...(canonicalOn() ? [] : [ship.role_en]), ...(canonicalOn() ? [] : [ship.focus_en]), ship.size_en, ship.description_en, ...(canonicalOn() || !Array.isArray(ship.tags_en) ? [] : ship.tags_en),
             ...getShipLiveDescriptions(ship),
             ...tags, ...getShipAliases(ship)
@@ -780,7 +794,7 @@
         return `<button class="planner-picker-option" type="button" role="option" aria-selected="${selected}" data-planner-ship-id="${escapeHtml(ship.id)}">
             <strong>${escapeHtml(getShipDisplayName(ship))}</strong>
             ${getShipSecondaryName(ship) ? `<span class="planner-option-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
-            <span>${escapeHtml(ship.manufacturer)} · ${escapeHtml(ship.size)} · ${escapeHtml(ship.cargo)}</span>
+            <span>${escapeHtml(shipManufacturerLabel(ship))} · ${escapeHtml(ship.size)} · ${escapeHtml(ship.cargo)}</span>
             <small>${escapeHtml(tags)}</small>
         </button>`;
     }
@@ -806,7 +820,7 @@
         if (!summary) return;
         summary.hidden = false;
         const secondary = getShipSecondaryName(ship);
-        summary.innerHTML = `<strong>${escapeHtml(getShipDisplayName(ship))}</strong>${secondary ? `<span class="planner-summary-en">${escapeHtml(secondary)}</span>` : ''}<span>${escapeHtml(ship.manufacturer)} · ${escapeHtml(ship.cargo)} · ${escapeHtml(ship.size)}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small>`;
+        summary.innerHTML = `<strong>${escapeHtml(getShipDisplayName(ship))}</strong>${secondary ? `<span class="planner-summary-en">${escapeHtml(secondary)}</span>` : ''}<span>${escapeHtml(shipManufacturerLabel(ship))} · ${escapeHtml(ship.cargo)} · ${escapeHtml(ship.size)}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small>`;
     }
 
     function getPlannerShipRecommendation(ship) {
@@ -1851,7 +1865,7 @@
         window.VOLT_SHIPS?.init?.({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,
             parseLargestNumber, parseSmallestNumber, getShipDisplayName, getShipSecondaryName,
-            getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips,
+            getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips, shipManufacturerLabel,
             isPlannerEligibleShip, useShipInPlanner, isInHangar, toggleHangar,
             observeNewReveals, openModal, showToast, trackEvent, shipState,
             getShipById: (id) => shipById.get(id),

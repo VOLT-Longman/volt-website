@@ -35,6 +35,23 @@ test.describe('RSI 공식 함선 통합 목록', () => {
         await expect(page.locator('#ships-grid [data-ship-id="atls"]')).toHaveCount(1);
     });
 
+    test('ON: 제조사 필터는 RSI 공식 제조사와 기존 약칭을 하나로 묶는다', async ({ page }) => {
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
+
+        const manufacturer = page.locator('#ship-manufacturer');
+        await expect(manufacturer.locator('option', { hasText: 'RSI' })).toHaveCount(1);
+        await manufacturer.selectOption('roberts-space-industries');
+        await expect(page.locator('#ships-grid [data-ship-id="aurora-es"]')).toHaveCount(1);
+        await expect(page.locator('#ships-grid [data-ship-id="arrastra"]')).toHaveCount(1);
+
+        await manufacturer.selectOption('misc');
+        await expect(page.locator('#ships-grid [data-ship-id="freelancer"]')).toHaveCount(1);
+        await expect(page.locator('#ships-grid [data-ship-id="endeavor"]')).toHaveCount(1);
+    });
+
     test('ON: RSI 공식 레코드는 레거시 설명·플래너 진입 없이 공식 값만 표시한다', async ({ page }) => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);

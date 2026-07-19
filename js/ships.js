@@ -11,7 +11,7 @@
     // main.js가 주입하는 의존성(이름 동일 → 이동 코드 무수정). shipById는 재할당되므로 getter.
     let currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,
         parseLargestNumber, parseSmallestNumber, getShipDisplayName, getShipSecondaryName,
-        getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips,
+        getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips, shipManufacturerLabel,
         isPlannerEligibleShip, useShipInPlanner, isInHangar, toggleHangar,
         observeNewReveals, openModal, showToast, trackEvent, shipState, getShipById,
         RSI_SHIP_MATRIX_URL, ensureShipLiveData;
@@ -20,7 +20,7 @@
         ({
             currentLang, escapeHtml, i18nT, tx, formatShipPrice, getCargoValue,
             parseLargestNumber, parseSmallestNumber, getShipDisplayName, getShipSecondaryName,
-            getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips,
+            getShipTags, getShipFilterTags, getShipManufacturers, getVisibleShips, shipManufacturerLabel,
             isPlannerEligibleShip, useShipInPlanner, isInHangar, toggleHangar,
             observeNewReveals, openModal, showToast, trackEvent, shipState, getShipById,
             RSI_SHIP_MATRIX_URL, ensureShipLiveData,
@@ -44,9 +44,7 @@
         return i18nT('ships.officialNotProvided', 'RSI 공식 미제공');
     }
     function displayedManufacturer(ship) {
-        const canonical = canonicalShip(ship);
-        if (canonical?.source === 'rsi-official') return canonical.manufacturer || ship.manufacturer;
-        return ship.manufacturer || canonical?.manufacturer || '';
+        return shipManufacturerLabel ? shipManufacturerLabel(ship) : ship.manufacturer;
     }
     function rsiStatusLabel(ship) {
         const status = canonicalShip(ship)?.catalogStatus;
@@ -245,7 +243,7 @@
         if (!select) return;
         select.innerHTML = [
             `<option value="all">${escapeHtml(i18nT('ships.mfrAll', '제조사 전체'))}</option>`,
-            ...getShipManufacturers().map((manufacturer) => `<option value="${escapeHtml(manufacturer)}">${escapeHtml(manufacturer)}</option>`)
+            ...getShipManufacturers().map((manufacturer) => `<option value="${escapeHtml(manufacturer.key)}">${escapeHtml(manufacturer.label)}</option>`)
         ].join('');
         select.value = shipState.manufacturer;
     }
