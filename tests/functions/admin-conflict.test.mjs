@@ -84,7 +84,7 @@ test('함선 PUT: 신규 override(기존 없음) + 빈 expectedUpdatedAt → 저
         if (sql.includes('SELECT updated_at FROM ship_overrides')) return null;
         return [];
     });
-    const env = { ...TEST_ENV, DB: db };
+    const env = { ...TEST_ENV, DB: db, SHIPDB_CANONICAL_TEST: 'false' };
     const request = jsonRequest('https://volt.ceo/api/admin/ships/aurora-es', {
         method: 'PUT',
         cookie: await adminCookie(),
@@ -93,6 +93,38 @@ test('함선 PUT: 신규 override(기존 없음) + 빈 expectedUpdatedAt → 저
     const response = await shipItem({ request, env, params: { id: 'aurora-es' } });
     assert.equal(response.status, 200);
     assert.equal(db.calls.some((call) => call.sql.startsWith('INSERT INTO ship_overrides')), true);
+});
+
+test('함선 PUT: canonical ON에서는 source override를 거부하고 이름·숨김만 저장한다', async () => {
+    const db = createMockDb((sql) => {
+        if (sql.includes('SELECT updated_at FROM ship_overrides')) return null;
+        return [];
+    });
+    const env = { ...TEST_ENV, DB: db, SHIPDB_CANONICAL_TEST: 'true' };
+    const rejected = await shipItem({
+        request: jsonRequest('https://volt.ceo/api/admin/ships/aurora-es', {
+            method: 'PUT',
+            cookie: await adminCookie(),
+            body: { role: 'Combat' }
+        }),
+        env,
+        params: { id: 'aurora-es' }
+    });
+    assert.equal(rejected.status, 422);
+
+    const accepted = await shipItem({
+        request: jsonRequest('https://volt.ceo/api/admin/ships/aurora-es', {
+            method: 'PUT',
+            cookie: await adminCookie(),
+            body: { nameKo: '오로라 ES', hidden: false }
+        }),
+        env,
+        params: { id: 'aurora-es' }
+    });
+    assert.equal(accepted.status, 200);
+    const write = db.calls.find((call) => call.sql.startsWith('INSERT INTO ship_overrides'));
+    assert.match(write.sql, /name, name_ko, hidden, updated_at/);
+    assert.doesNotMatch(write.sql, /manufacturer, role/);
 });
 
 test('hasUpdateConflict: 미제공/일치/불일치 판정', () => {

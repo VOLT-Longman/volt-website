@@ -43,7 +43,7 @@ const OVERRIDE_ROW = {
     price_usd: 125, implemented: 1, planner_eligible: 1, tags: '["화물"]', description: '설명',
     hidden: 0, updated_at: 't'
 };
-const CANONICAL_OMITTED = ['role', 'focus', 'crew', 'cargo', 'priceUsd', 'tags'];
+const CANONICAL_OMITTED = ['manufacturer', 'role', 'focus', 'size', 'crew', 'cargo', 'priceUsd', 'implemented', 'plannerEligible', 'tags', 'description'];
 
 test('공개 ship-overrides GET: 서버 canonical 강제 OFF(되돌림) → 레거시 override 필드 전부 노출', async () => {
     const db = createMockDb((sql) => (sql.startsWith('SELECT') ? [OVERRIDE_ROW] : []));
@@ -55,17 +55,14 @@ test('공개 ship-overrides GET: 서버 canonical 강제 OFF(되돌림) → 레�
     assert.equal(item.priceUsd, 125);
 });
 
-test('공개 ship-overrides GET: 서버 canonical ON → 사실원/제거 필드 생략, 비-사실 필드 유지', async () => {
+test('공개 ship-overrides GET: 서버 canonical ON → 표시 이름과 숨김 외 모든 source override 생략', async () => {
     const db = createMockDb((sql) => (sql.startsWith('SELECT') ? [OVERRIDE_ROW] : []));
     const response = await shipOverridesPublic({ env: { ...TEST_ENV, DB: db, SHIPDB_CANONICAL_TEST: 'true' } });
     const item = (await response.json()).items[0];
     for (const f of CANONICAL_OMITTED) assert.ok(!(f in item), `ON에서 ${f} 생략돼야`);
-    // 비-사실(표시·운영) override는 유지
+    // canonical ON에서는 명칭과 공개 여부만 유지
     assert.equal(item.name, 'Freelancer');
     assert.equal(item.nameKo, '프리랜서');
-    assert.equal(item.manufacturer, 'MISC');
-    assert.equal(item.size, 'M');
-    assert.equal(item.implemented, true);
     assert.equal(item.hidden, false);
 });
 

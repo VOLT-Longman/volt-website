@@ -11,6 +11,7 @@
     'use strict';
 
     const data = window.VOLT_DATA;
+    const CANONICAL_SHIP_OVERRIDE_KEYS = new Set(['name', 'nameKo', 'hidden']);
     if (!data) {
         console.error('VOLT_DATA 미로드');
         // 콘텐츠 원본이 없으면 렌더할 것이 없어 여기서 중단하지만, 최소한 스플래시가
@@ -854,8 +855,10 @@
     function mergeShipOverride(ship, override) {
         if (!override) return ship;
         const merged = { ...ship };
+        const canonical = canonicalOn();
         Object.entries(override).forEach(([key, value]) => {
             if (['id', 'shipId', 'updatedAt'].includes(key)) return;
+            if (canonical && !CANONICAL_SHIP_OVERRIDE_KEYS.has(key)) return;
             if (value === null || value === undefined || value === '') return;
             merged[key] = key === 'tags' && !Array.isArray(value) ? getShipTags({ tags: value }) : value;
         });

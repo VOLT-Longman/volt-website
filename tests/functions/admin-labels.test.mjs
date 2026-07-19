@@ -11,12 +11,9 @@ test('admin.js: CONFIG의 모든 필드가 LABELS에 정의되어 있음', () =>
     assert.ok(labelsBlock, 'LABELS 블록을 찾을 수 없음');
     const labelKeys = new Set([...labelsBlock[1].matchAll(/^\s*(\w+):/gm)].map((m) => m[1]));
 
-    const shipFieldsBlock = src.match(/const SHIP_EDIT_FIELDS = \[([^\]]*)\]/);
-    assert.ok(shipFieldsBlock, 'SHIP_EDIT_FIELDS를 찾을 수 없음');
-
     const inlineFieldArrays = [...src.matchAll(/fields: \[([^\]]*)\]/g)].map((m) => m[1]);
     const allFields = new Set(
-        [...inlineFieldArrays, shipFieldsBlock[1]]
+        inlineFieldArrays
             .flatMap((list) => [...list.matchAll(/'(\w+)'/g)].map((m) => m[1]))
     );
 

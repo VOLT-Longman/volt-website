@@ -7,8 +7,10 @@ const state = {
   galleryFiles: [],
   shipOverrides: new Map(),
   shipOverridesLoaded: false,
+  shipSourceError: '',
   shipQuery: ''
 };
+const CANONICAL_SHIP_OVERRIDE_KEYS = new Set(['name', 'nameKo', 'hidden']);
 
 const NOTICE_TAGS = ['\uacf5\uc9c0', '\uc911\uc694', '\uc5c5\ub370\uc774\ud2b8', '\uc774\ubca4\ud2b8', '\uc791\uc804', '\uc2dc\uc2a4\ud15c', '\ubaa8\uc9d1'];
 const EVENT_TYPES = ['\uc815\uae30\uc791\uc804', '\ud569\ub3d9\uc791\uc804', '\uc774\ubca4\ud2b8', '\ud68c\uc758', '\ud6c8\ub828', '\uc810\uac80', '\uae30\ud0c0'];
@@ -17,7 +19,6 @@ const GALLERY_CATEGORIES = ['\uc791\uc804', '\ud568\uc120', '\ud48d\uacbd', '\uc
 const PARTNER_REGIONS = ['한국', '아시아', '글로벌', '북미', '유럽', '기타'];
 const PARTNER_GAMES = ['Star Citizen', '기타'];
 const GALLERY_MAX_SIZE = 10 * 1024 * 1024;
-const SHIP_EDIT_FIELDS = ['manufacturer', 'role', 'focus', 'size', 'crew', 'cargo', 'priceUsd', 'implemented', 'plannerEligible', 'tags', 'description'];
 const SHIP_SEARCH_DELAY_MS = 200;
 
 let shipSearchTimer = null;
@@ -29,7 +30,7 @@ const CONFIG = {
   'partner-fleets': { title: '협력함대', endpoint: '/api/admin/partner-fleets', fields: ['name', 'region', 'game', 'focus', 'description', 'memberCount', 'discordUrl', 'websiteUrl', 'photoUrl', 'logoUrl', 'established', 'sortOrder', 'published'] },
   leadership: { title: '\uc784\uc6d0\uc9c4', endpoint: '/api/admin/leadership', fields: ['name', 'role', 'discord', 'description', 'duties', 'avatarUrl', 'avatar', 'avatarGradient', 'sortOrder', 'published'] },
   timeline: { title: '\uc5f0\ud601', endpoint: '/api/admin/timeline', fields: ['dateLabel', 'title', 'description', 'sortOrder', 'published'] },
-  ships: { title: '\ud568\uc120DB', endpoint: '/api/admin/ships', fields: SHIP_EDIT_FIELDS }
+  ships: { title: '\ud568\uc120DB', endpoint: '/api/admin/ships', fields: [] }
 };
 
 const FIELD_OPTIONS = {
@@ -425,11 +426,18 @@ function getNoticeSortTime(value) {
 }
 
 async function loadShipItems() {
-  const ships = (window.VOLT_DATA?.ships || []).map((ship) => ({
-    base: ship,
-    override: null,
-    merged: { ...ship }
-  }));
+  const source = await loadCanonicalShipSource();
+  if (!source) return [];
+  const legacyById = new Map((window.VOLT_DATA?.ships || []).map((ship) => [ship.id, ship]));
+  const operationalById = new Map((source.operational.records || []).map((record) => [record.id, record]));
+  const ships = source.canonical.ships.map((canonical) => {
+    const legacy = legacyById.get(canonical.id) || { id: canonical.id, name: canonical.id };
+    return {
+      base: adminShipBase(legacy, canonical, operationalById.get(canonical.id)),
+      override: null,
+      merged: null
+    };
+  });
 
   if (!state.shipOverridesLoaded) {
     const payload = await api(CONFIG.ships.endpoint).catch(() => ({ items: [] }));
@@ -442,11 +450,44 @@ async function loadShipItems() {
     .filter(matchShipQuery);
 }
 
+async function loadCanonicalShipSource() {
+  const source = window.VOLT_SHIPDB_CANONICAL;
+  state.shipSourceError = '';
+  if (!source?.isEnabled()) {
+    state.shipSourceError = 'canonical 함선 데이터 로더를 사용할 수 없습니다.';
+    return null;
+  }
+  try {
+    await source.load();
+    const data = source.data;
+    if (!Array.isArray(data.canonical?.ships) || !Array.isArray(data.operational?.records)) {
+      throw new Error('canonical 데이터 구조가 올바르지 않습니다.');
+    }
+    return data;
+  } catch (error) {
+    state.shipSourceError = error.message || 'canonical 함선 데이터를 불러오지 못했습니다.';
+    return null;
+  }
+}
+
+function adminShipBase(legacy, canonical, operational) {
+  return {
+    id: canonical.id,
+    name: legacy?.name || canonical.id,
+    manufacturer: canonical.manufacturer || '',
+    role: canonical.role || '',
+    size: canonical.size || '',
+    cargo: canonical.cargoScu === null || canonical.cargoScu === undefined ? '' : `${canonical.cargoScu.toLocaleString('en-US')} SCU`,
+    implemented: operational?.implemented ?? null
+  };
+}
+
 function mergeShipItem(base, override) {
   const merged = { ...base };
   if (override) {
     Object.entries(override).forEach(([key, value]) => {
       if (['id', 'shipId', 'updatedAt'].includes(key)) return;
+      if (!CANONICAL_SHIP_OVERRIDE_KEYS.has(key)) return;
       if (value !== null && value !== undefined && value !== '') merged[key] = value;
     });
   }
@@ -456,8 +497,7 @@ function mergeShipItem(base, override) {
 function matchShipQuery(item) {
   if (!state.shipQuery) return true;
   const ship = item.merged;
-  const tags = Array.isArray(ship.tags) ? ship.tags.join(' ') : '';
-  return [ship.name, ship.manufacturer, ship.role, ship.focus, tags]
+  return [ship.name, ship.manufacturer, ship.role, ship.size]
     .join(' ')
     .toLowerCase()
     .includes(state.shipQuery);
@@ -515,14 +555,15 @@ function renderGalleryListItem(item) {
 }
 
 function renderShipSearch() {
-  return `<label class="admin-search-label">\ud568\uc120 \uac80\uc0c9<input id="ship-admin-search" type="search" value="${escapeHtml(state.shipQuery)}" placeholder="\ud568\uc120\uba85, \uc81c\uc870\uc0ac, \uc5ed\ud560, \ud0dc\uadf8 \uac80\uc0c9"></label>`;
+  return `<label class="admin-search-label">\ud568\uc120 \uac80\uc0c9<input id="ship-admin-search" type="search" value="${escapeHtml(state.shipQuery)}" placeholder="\ud568\uc120\uba85, \uc81c\uc870\uc0ac, \uc5ed\ud560, \ud06c\uae30 \uac80\uc0c9"></label>`;
 }
 
 function renderShipList() {
+  if (state.shipSourceError) return `<p class="admin-message">\ud568\uc120DB\ub97c \uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4: ${escapeHtml(state.shipSourceError)}</p>`;
   if (!state.items.length) return '<p class="admin-message">\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4.</p>';
   return state.items.map((item) => {
     const ship = item.merged;
-    return `<button class="item-button ship-admin-item${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(ship.name)}</strong><span>${escapeHtml(ship.manufacturer || '')} - ${escapeHtml(ship.focus || ship.role || '')} - ${escapeHtml(ship.cargo || '0 SCU')}</span><small>${item.override ? '\uc218\uc815\uac12 \uc801\uc6a9\ub428' : '\uc6d0\ubcf8'}</small>${item.override?.hidden === true ? '<span class="ship-hidden-badge">숨김</span>' : ''}</button>`;
+    return `<button class="item-button ship-admin-item${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(ship.name)}</strong><span>${escapeHtml(ship.manufacturer || '')} - ${escapeHtml(ship.role || '')} - ${escapeHtml(ship.cargo || '0 SCU')}</span><small>${item.override ? '\ud45c\uc2dc \uc124\uc815 \uc801\uc6a9\ub428' : 'Erkul canonical'}</small>${item.override?.hidden === true ? '<span class="ship-hidden-badge">숨김</span>' : ''}</button>`;
   }).join('');
 }
 
@@ -732,14 +773,14 @@ function renderShipForm(item) {
   const hidden = override.hidden === true;
   const nameFields = `<label>${LABELS.shipNameKo}<input name="nameKo" value="${escapeHtml(override.nameKo ?? '')}" placeholder="${escapeHtml(baseKo)}"></label>`
     + `<label>${LABELS.shipNameEn}<input name="name" value="${escapeHtml(override.name ?? '')}" placeholder="${escapeHtml(base.name ?? '')}"></label>`;
-  const specFields = SHIP_EDIT_FIELDS.map((field) => renderShipField(field, item)).join('');
   const hiddenToggle = `<label class="ship-hidden-toggle"><input type="checkbox" name="hidden" ${hidden ? 'checked' : ''}> 사이트에서 숨김(삭제 상태)</label>`;
   const buttons = '<div class="ship-form-buttons">'
     + '<button type="button" class="secondary" id="reset-ship-button">원본으로 되돌리기</button>'
     + `<button type="button" class="danger" id="hide-ship-button">${hidden ? '숨김 해제' : '삭제(사이트에서 숨김)'}</button>`
     + '</div>';
+  const source = `<div class="ship-canonical-note"><strong>Erkul canonical 기준</strong><span>${escapeHtml(ship.manufacturer || '-')} · ${escapeHtml(ship.role || '-')} · ${escapeHtml(ship.cargo || '-')}</span><p>사양·역할·태그·설명은 동기화 데이터에서만 갱신됩니다. 이 화면에서는 표시 이름과 공개 여부만 변경할 수 있습니다.</p></div>`;
   return `<div class="ship-readonly"><strong>${escapeHtml(ship.name)}</strong><span>ID: ${escapeHtml(ship.id)}</span></div>`
-    + nameFields + specFields + hiddenToggle + buttons;
+    + source + nameFields + hiddenToggle + buttons;
 }
 
 function renderShipFormEmpty() {
@@ -751,52 +792,6 @@ function getBaseShipKoreanName(base) {
   const aliases = window.VOLT_LOCALIZATION?.ships?.[base?.name];
   if (!Array.isArray(aliases)) return '';
   return aliases.find((alias) => /[가-힣]/.test(alias)) || '';
-}
-
-function renderShipField(field, item) {
-  const override = item.override || {};
-  const base = item.base || {};
-  const value = field === 'tags' ? normalizeTags(override.tags).join(', ') : override[field] ?? '';
-  const placeholder = field === 'tags' ? normalizeTags(base.tags).join(', ') : base[field] ?? '';
-  if (field === 'tags') return renderShipTagSelector(item);
-  if (field === 'description') {
-    return `<label>${LABELS[field]}<textarea name="${field}" placeholder="${escapeHtml(placeholder)}">${escapeHtml(value)}</textarea></label>`;
-  }
-  if (field === 'implemented' || field === 'plannerEligible') return renderShipTriState(field, value);
-  return `<label>${LABELS[field]}<input name="${field}" value="${escapeHtml(value)}" placeholder="${escapeHtml(placeholder)}"></label>`;
-}
-
-function renderShipTriState(field, value) {
-  return `<label>${LABELS[field]}<select name="${field}"><option value="" ${value === '' || value === null || value === undefined ? 'selected' : ''}>\uc6d0\ubcf8 \uc720\uc9c0</option><option value="true" ${value === true ? 'selected' : ''}>true</option><option value="false" ${value === false ? 'selected' : ''}>false</option></select></label>`;
-}
-
-function renderShipTagSelector(item) {
-  const selectedTags = getSelectedShipTags(item);
-  const options = getShipTagOptions(selectedTags);
-  const checkboxes = options.map((tag) => renderShipTagOption(tag, selectedTags)).join('');
-  return `<fieldset class="ship-tag-selector"><legend>${LABELS.tags}</legend><p>\uae30\uc874 \ud568\uc120DB \ud0dc\uadf8 \uc911\uc5d0\uc11c \uc120\ud0dd\ud569\ub2c8\ub2e4. \uc0c8 \ud0dc\uadf8\uac00 \ud544\uc694\ud558\uba74 \uba3c\uc800 \ub370\uc774\ud130 \uae30\uc900\uc744 \uc815\ub9ac\ud574 \uc8fc\uc138\uc694.</p><div class="ship-tag-options">${checkboxes}</div></fieldset>`;
-}
-
-function renderShipTagOption(tag, selectedTags) {
-  const checked = selectedTags.includes(tag) ? 'checked' : '';
-  return `<label class="ship-tag-option"><input type="checkbox" name="tags" value="${escapeHtml(tag)}" ${checked}> <span>${escapeHtml(tag)}</span></label>`;
-}
-
-function getSelectedShipTags(item) {
-  const overrideTags = normalizeTags(item?.override?.tags);
-  if (item?.override && Array.isArray(item.override.tags)) return overrideTags;
-  return overrideTags.length ? overrideTags : normalizeTags(item?.base?.tags);
-}
-
-function getShipTagOptions(extraTags = []) {
-  const tags = new Set(extraTags.filter(Boolean));
-  for (const ship of window.VOLT_DATA?.ships || []) {
-    for (const tag of normalizeTags(ship.tags)) tags.add(tag);
-  }
-  for (const override of state.shipOverrides) {
-    for (const tag of normalizeTags(override.tags)) tags.add(tag);
-  }
-  return [...tags].sort((left, right) => left.localeCompare(right, 'ko'));
 }
 
 // 낙관적 잠금: 수정 시작 시점의 updatedAt을 서버에 에코해 동시 저장 충돌(409)을 감지한다.
@@ -836,23 +831,11 @@ function applyGalleryPayloadDefaults(payload) {
 
 function getShipPayload() {
   const form = $('#cms-form');
-  const payload = {};
-  payload.name = (form.elements.name?.value || '').trim() || null;
-  payload.nameKo = (form.elements.nameKo?.value || '').trim() || null;
-  payload.hidden = Boolean(form.elements.hidden?.checked);
-  SHIP_EDIT_FIELDS.forEach((field) => {
-    if (field === 'tags') {
-      payload[field] = [...form.querySelectorAll('input[name="tags"]:checked')].map((input) => input.value);
-      return;
-    }
-    const input = form.elements[field];
-    if (!input) return;
-    const value = input.value.trim();
-    if (field === 'priceUsd') payload[field] = value ? Number(value) : null;
-    else if (field === 'implemented' || field === 'plannerEligible') payload[field] = value === '' ? null : value === 'true';
-    else payload[field] = value || null;
-  });
-  return payload;
+  return {
+    name: (form.elements.name?.value || '').trim() || null,
+    nameKo: (form.elements.nameKo?.value || '').trim() || null,
+    hidden: Boolean(form.elements.hidden?.checked)
+  };
 }
 
 function validatePayload(payload) {
@@ -864,9 +847,6 @@ function validatePayload(payload) {
   if (state.tab === 'timeline' && !payload.dateLabel) throw new Error('표시 날짜는 필수입니다.');
   if (state.tab === 'gallery' && !payload.title) throw new Error('\uac24\ub7ec\ub9ac \uc81c\ubaa9\uc740 \ud544\uc218\uc785\ub2c8\ub2e4.');
   if (state.tab === 'gallery' && !payload.imageUrl) throw new Error('\uac24\ub7ec\ub9ac \uc774\ubbf8\uc9c0\ub97c \uc5c5\ub85c\ub4dc\ud558\uac70\ub098 \uae30\uc874 \uc774\ubbf8\uc9c0\ub97c \uc120\ud0dd\ud574\uc57c \ud569\ub2c8\ub2e4.');
-  if (state.tab === 'ships' && payload.priceUsd !== null && !Number.isFinite(payload.priceUsd)) {
-    throw new Error('\uac00\uaca9\uc740 \uc22b\uc790\ub9cc \uc785\ub825\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.');
-  }
 }
 
 function setSaveBusy(busy) {
@@ -981,19 +961,6 @@ function validateImageFile(file) {
   const allowed = ['image/jpeg', 'image/png', 'image/webp'];
   if (!allowed.includes(file.type)) throw new Error(`${file.name}: JPG, PNG, WEBP \ud30c\uc77c\ub9cc \uc5c5\ub85c\ub4dc\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.`);
   if (file.size > GALLERY_MAX_SIZE) throw new Error(`${file.name}: 10MB \uc774\ud558 \uc774\ubbf8\uc9c0\ub97c \uad8c\uc7a5\ud569\ub2c8\ub2e4.`);
-}
-
-function normalizeTags(tags) {
-  if (Array.isArray(tags)) return tags;
-  if (typeof tags === 'string') {
-    try {
-      const parsed = JSON.parse(tags);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (_error) {
-      return tags.split(',').map((tag) => tag.trim()).filter(Boolean);
-    }
-  }
-  return [];
 }
 
 function todayDate() {

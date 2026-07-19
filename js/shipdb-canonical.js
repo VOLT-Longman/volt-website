@@ -44,6 +44,10 @@
         return new Error('ShipDB 데이터 오류: ' + message);
     }
 
+    function rootUrl(path) {
+        return '/' + String(path || '').replace(/^\/+/, '');
+    }
+
     function validateManifest(manifest) {
         var actual;
         var expected;
@@ -62,7 +66,7 @@
 
     function fetchManifest() {
         if (manifestPromise) return manifestPromise;
-        manifestPromise = fetch(MANIFEST_URL, { cache: 'no-store', headers: { Accept: 'application/json' } })
+        manifestPromise = fetch(rootUrl(MANIFEST_URL), { cache: 'no-store', headers: { Accept: 'application/json' } })
             .then(function (response) {
                 if (!response.ok) throw makeError('manifest를 불러오지 못했습니다 (' + response.status + ').');
                 return response.json();
@@ -96,7 +100,7 @@
 
     function fetchVerifiedFile(key, manifest) {
         var entry = manifest.files[key];
-        var url = entry.path + '?v=' + encodeURIComponent(manifest.version);
+        var url = rootUrl(entry.path) + '?v=' + encodeURIComponent(manifest.version);
         return fetch(url, { headers: { Accept: 'application/json' } })
             .then(function (response) {
                 if (!response.ok) throw makeError(key + ' 데이터를 불러오지 못했습니다 (' + response.status + ').');

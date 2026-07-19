@@ -32,20 +32,19 @@ test('AI 서버 reader: canonical 3계층을 읽고 레거시 live 레이어를 
   assert.ok(!src.includes("fetchAssetText(env, '/data/ship-market.js')"), '레거시 market 레이어 fetch 잔존 금지');
 });
 
-test('CMS mapShipOverride: OFF=레거시 필드 전부, ON=사실원/제거 필드(role·focus·crew·cargo·priceUsd·tags) 생략', () => {
+test('CMS mapShipOverride: OFF=레거시 필드 전부, ON=표시 이름·숨김 외 source field 생략', () => {
   const row = {
     ship_id: 'x', name: 'X', name_ko: '엑스', manufacturer: 'MISC', role: '중형 화물선', focus: '화물',
     size: 'M', crew: '2명', cargo: '66 SCU', price_usd: 125, implemented: 1, planner_eligible: 1,
     tags: '["화물"]', description: 'd', hidden: 0, updated_at: 't'
   };
-  const omitted = ['role', 'focus', 'crew', 'cargo', 'priceUsd', 'tags'];
+  const omitted = ['manufacturer', 'role', 'focus', 'size', 'crew', 'cargo', 'priceUsd', 'implemented', 'plannerEligible', 'tags', 'description'];
   const off = mapShipOverride(row);
   for (const f of omitted) assert.ok(f in off, `OFF에 ${f} 있어야(기준선 불변)`);
   assert.equal(off.priceUsd, 125);
   const on = mapShipOverride(row, { canonical: true });
   for (const f of omitted) assert.ok(!(f in on), `ON에서 ${f} 생략돼야`);
-  // 비-사실(표시·운영) override는 유지
-  for (const f of ['name', 'nameKo', 'manufacturer', 'size', 'implemented', 'plannerEligible', 'description', 'hidden']) {
+  for (const f of ['name', 'nameKo', 'hidden']) {
     assert.ok(f in on, `ON에 ${f} 유지돼야`);
   }
 });

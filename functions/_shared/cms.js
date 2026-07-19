@@ -225,10 +225,11 @@ function parseJsonObject(value) {
   }
 }
 
-// canonical=false(기본): 레거시 override 전 필드 포함 — 공개 출력 기준선 불변.
-// canonical=true(2.7 서버 플래그 ON): canonical이 사실원인/제거된 필드(role·focus·crew·cargo·priceUsd·tags)를
-//   생략한다. 클라이언트 canonical ON이 이미 이 값들을 무시하므로 공개 노출은 동일하며,
-//   3.5에서 D1 레거시 컬럼이 삭제돼도 reader가 안전하다(삭제된 컬럼을 읽어 노출하지 않음).
+const CANONICAL_OVERRIDE_FIELDS = ['manufacturer', 'role', 'focus', 'size', 'crew', 'cargo', 'priceUsd', 'implemented', 'plannerEligible', 'tags', 'description'];
+
+// canonical=false(되돌림): 레거시 override 전 필드 포함.
+// canonical=true(실전): 표시 이름과 숨김만 허용한다. 모든 사양·분류·설명은
+// canonical/localization/operational 계층에서만 읽으므로, 오래된 API 캐시도 사실값을 덮지 못한다.
 export function mapShipOverride(row, { canonical = false } = {}) {
   const out = {
     id: row.ship_id,
@@ -250,12 +251,13 @@ export function mapShipOverride(row, { canonical = false } = {}) {
     updatedAt: row.updated_at
   };
   if (canonical) {
-    for (const f of ['role', 'focus', 'crew', 'cargo', 'priceUsd', 'tags']) delete out[f];
+    for (const field of CANONICAL_OVERRIDE_FIELDS) delete out[field];
   }
   return out;
 }
 
-export function shipOverrideInput(shipId, body) {
+export function shipOverrideInput(shipId, body, { canonical = false } = {}) {
+  if (canonical) return canonicalShipOverrideInput(shipId, body);
   return {
     ship_id: limitText(shipId, 120),
     name: nullableText(body.name, 200),
@@ -271,6 +273,18 @@ export function shipOverrideInput(shipId, body) {
     planner_eligible: nullableBooleanInt(body.plannerEligible ?? body.planner_eligible),
     tags: normalizeTagsInput(body.tags),
     description: nullableText(body.description, 20000),
+    hidden: nullableBooleanInt(body.hidden),
+    updated_at: nowIso()
+  };
+}
+
+function canonicalShipOverrideInput(shipId, body) {
+  const unsupported = CANONICAL_OVERRIDE_FIELDS.filter((field) => Object.hasOwn(body || {}, field));
+  if (unsupported.length) throw new Error(`Canonical ShipDB does not accept source overrides: ${unsupported.join(', ')}`);
+  return {
+    ship_id: limitText(shipId, 120),
+    name: nullableText(body.name, 200),
+    name_ko: nullableText(body.nameKo ?? body.name_ko, 200),
     hidden: nullableBooleanInt(body.hidden),
     updated_at: nowIso()
   };
