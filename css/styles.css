@@ -2573,7 +2573,14 @@ body.nav-trade-open::before {
 }
 .ship-tag-size { background: rgba(130, 170, 210, 0.18); color: #9ec1e0; }
 .ship-tag-role { background: rgba(232, 72, 47, 0.14); color: var(--volt-orange); }
-.ship-rsi-status { background: rgba(232, 72, 47, 0.12); color: var(--volt-orange); border: 1px solid rgba(232, 72, 47, 0.35); }
+.ship-rsi-status {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: rgba(232, 72, 47, 0.12);
+    color: var(--volt-orange);
+    border: 1px solid rgba(232, 72, 47, 0.35);
+}
 .ship-rsi-status-flight-ready { background: rgba(47, 163, 107, 0.12); color: #5bc98b; border-color: rgba(47, 163, 107, 0.4); }
 .ship-role-select { position: relative; width: 100%; max-width: 360px; }
 .ship-role-search {

@@ -65,4 +65,17 @@ test.describe('RSI 공식 함선 통합 목록', () => {
         const officialUrl = await page.locator('.ship-modal-link[href*="robertsspaceindustries.com"]').getAttribute('href');
         expect(officialUrl).toContain('robertsspaceindustries.com');
     });
+
+    test('ON: RSI 상태 배지는 카드 폭 안에 머물고 전체 상태는 접근 가능하다', async ({ page }) => {
+        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        for (const id of ['e1-spirit', 'genesis']) {
+            const card = page.locator(`#ships-grid [data-ship-id="${id}"]`);
+            const status = card.locator('.ship-rsi-status');
+            await expect(status).toContainText('컨셉 · RSI 공식');
+            await expect(status).toHaveAttribute('aria-label', '컨셉 · RSI 공식 사양 · 변경 가능');
+            expect(await card.locator('.ship-card-header').evaluate((header) => header.scrollWidth <= header.clientWidth + 1)).toBe(true);
+        }
+    });
 });

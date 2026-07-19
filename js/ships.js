@@ -51,6 +51,11 @@
         if (status === 'flight-ready') return i18nT('ships.rsiFlightReady', '출시 · RSI 공식 사양');
         return i18nT('ships.rsiConcept', '컨셉 · RSI 공식 사양 · 변경 가능');
     }
+    function rsiCardStatusLabel(ship) {
+        const status = canonicalShip(ship)?.catalogStatus;
+        if (status === 'flight-ready') return i18nT('ships.rsiFlightReadyShort', '출시 · RSI 공식');
+        return i18nT('ships.rsiConceptShort', '컨셉 · RSI 공식');
+    }
     function rsiSizeDisplay(ship) {
         const size = canonicalShip(ship)?.size;
         const labels = { small: '소형', medium: '중형', large: '대형', capital: '캐피탈', vehicle: '지상' };
@@ -157,7 +162,8 @@
         const parts = [];
         if (isRsiOfficialShip(ship)) {
             const status = canonicalShip(ship).catalogStatus || 'concept';
-            parts.push(`<span class="ship-rsi-status ship-rsi-status-${escapeHtml(status)}">${escapeHtml(rsiStatusLabel(ship))}</span>`);
+            const fullLabel = rsiStatusLabel(ship);
+            parts.push(`<span class="ship-rsi-status ship-rsi-status-${escapeHtml(status)}" title="${escapeHtml(fullLabel)}" aria-label="${escapeHtml(fullLabel)}">${escapeHtml(rsiCardStatusLabel(ship))}</span>`);
         }
         const sizeTag = shipSizeTag(ship);
         if (sizeTag) parts.push(`<span class="ship-tag-size">${escapeHtml(taxoTagLabel('size', sizeTag))}</span>`);
