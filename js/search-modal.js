@@ -12,12 +12,12 @@
     let lastSearchTrigger = null;
 
     // main.js 주입 의존성(이름 동일 → 이동 코드 무수정).
-    let data, localization, escapeHtml, i18nT, trackEvent, getShipAliases, getShipById,
+    let data, localization, escapeHtml, i18nT, trackEvent, getShipAliases, getShipById, getShipSearchEntries,
         resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState;
 
     function init(deps) {
         ({
-            data, localization, escapeHtml, i18nT, trackEvent, getShipAliases, getShipById,
+            data, localization, escapeHtml, i18nT, trackEvent, getShipAliases, getShipById, getShipSearchEntries,
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         } = deps || {});
     }
@@ -101,8 +101,8 @@
         if (searchIndexCache) return searchIndexCache;
         const result = [
             ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', item.title, item.content)),
-            // 함선 설명은 legacy(volt-data)와 화면 표시용 Erkul 번역(live 레이어, 로드된 경우) 모두 색인 (C-1).
-            ...data.ships.map((item) => makeSearchItem('search.type.ships', 'ships', item.name, `${item.manufacturer} ${shipSearchRole(item)} ${item.description} ${shipLiveDescriptionText(item)} ${getShipAliases(item).join(' ')}`, item.id)),
+            // ON에서는 메인 함선DB와 같은 공개 집합(Erkul 219 + RSI 공식 30)만 색인한다.
+            ...shipSearchEntries().map(({ ship, title, body }) => makeSearchItem('search.type.ships', 'ships', title, body, ship.id)),
             ...data.faq.map((item) => makeSearchItem('search.type.faq', 'faq', item.q, item.a)),
             ...data.timeline.map((item) => makeSearchItem('search.type.timeline', 'timeline', item.title, item.description)),
             ...data.leadership.map((item) => makeSearchItem('search.type.leadership', 'leadership', item.name, `${item.role} ${item.description}`)),
@@ -118,6 +118,14 @@
         ];
         searchIndexCache = result;
         return searchIndexCache;
+    }
+    function shipSearchEntries() {
+        if (typeof getShipSearchEntries === 'function') return getShipSearchEntries();
+        return data.ships.map((ship) => ({
+            ship,
+            title: ship.name,
+            body: `${ship.manufacturer} ${shipSearchRole(ship)} ${ship.description} ${shipLiveDescriptionText(ship)} ${getShipAliases(ship).join(' ')}`
+        }));
     }
 
     function getLocalizationSearchItems() {

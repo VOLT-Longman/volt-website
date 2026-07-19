@@ -1,15 +1,15 @@
 {
   "layer": "ship-filter-taxonomy",
-  "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=canonical size·role·platform만. 레거시 편집분류 미참조. RSI 제외.",
-  "generatedFromCommit": "bafa22066ebc6698960391db3965ab12290c67bc",
-  "source": "ships-canonical.json[].size·role·platform",
+  "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=Erkul canonical과 RSI 공식의 명시 size·role·platform만. 레거시 편집분류 미참조.",
+  "generatedFromCommit": "d63ec695ff0fe2b236ca3b08b2dfaad3516bc41e",
+  "source": "ships-canonical.json[].size·role·platform + ships-rsi-official.json[].rsi.size·role",
   "summary": {
-    "totalRoles": 52,
-    "mapped": 52,
+    "totalRoles": 67,
+    "mapped": 67,
     "unmapped": 0,
     "platformCount": {
-      "ground": 27,
-      "space": 192,
+      "ground": 35,
+      "space": 214,
       "unknown": 0
     }
   },
@@ -156,10 +156,20 @@
     "Anti-Vehicle": [
       "combat"
     ],
+    "Boarding": [
+      "combat",
+      "transport"
+    ],
     "Bomber": [
       "combat"
     ],
+    "Combat": [
+      "combat"
+    ],
     "Corvette": [
+      "combat"
+    ],
+    "Destroyer": [
       "combat"
     ],
     "Dropship": [
@@ -180,6 +190,9 @@
     "Heavy Bomber": [
       "combat"
     ],
+    "Heavy Construction": [
+      "support"
+    ],
     "Heavy Dropship": [
       "transport"
     ],
@@ -195,21 +208,37 @@
     "Heavy Gunship": [
       "combat"
     ],
+    "Heavy Mining": [
+      "mining"
+    ],
     "Heavy Refueling": [
       "refuel",
+      "support"
+    ],
+    "Heavy Repair": [
       "support"
     ],
     "Heavy Salvage": [
       "salvage"
     ],
+    "Heavy Science": [
+      "science"
+    ],
     "Heavy Tank": [
       "combat"
+    ],
+    "Industrial": [
+      "support"
     ],
     "Interceptor": [
       "combat"
     ],
     "Interdiction": [
       "combat"
+    ],
+    "Light Carrier": [
+      "combat",
+      "transport"
     ],
     "Light Fighter": [
       "combat"
@@ -260,11 +289,30 @@
     "Medium Mining": [
       "mining"
     ],
+    "Medium Repair / Medium Refuel": [
+      "support",
+      "refuel"
+    ],
     "Medium Salvage": [
       "salvage"
     ],
+    "Military": [
+      "combat"
+    ],
+    "Minelayer": [
+      "combat"
+    ],
+    "Mining / Refining": [
+      "mining",
+      "refining"
+    ],
     "Modular": [
       "modular"
+    ],
+    "Multi-Role / Light Carrier": [
+      "multipurpose",
+      "combat",
+      "transport"
     ],
     "Passenger": [
       "transport"
@@ -278,6 +326,9 @@
     "Recovery": [
       "salvage",
       "support"
+    ],
+    "Refinery": [
+      "refining"
     ],
     "Reporting": [
       "science"
@@ -316,33 +367,36 @@
   "unmapped": [],
   "audit": {
     "sizeShipCount": {
-      "small": 129,
-      "medium": 38,
-      "large": 47,
-      "capital": 5
+      "small": 116,
+      "medium": 37,
+      "large": 48,
+      "capital": 13
     },
     "roleTagShipCount": {
-      "combat": 93,
-      "cargo": 34,
-      "transport": 24,
+      "combat": 103,
+      "cargo": 37,
+      "transport": 32,
       "salvage": 6,
-      "mining": 5,
-      "refining": 0,
-      "refuel": 3,
+      "mining": 7,
+      "refining": 2,
+      "refuel": 4,
       "medical": 6,
-      "exploration": 27,
-      "science": 3,
-      "racing": 18,
-      "multipurpose": 1,
-      "modular": 1,
-      "support": 10
+      "exploration": 28,
+      "science": 4,
+      "racing": 20,
+      "multipurpose": 3,
+      "modular": 2,
+      "support": 15
     },
     "roleTagRoles": {
       "combat": [
         "Anti-Air",
         "Anti-Vehicle",
+        "Boarding",
         "Bomber",
+        "Combat",
         "Corvette",
+        "Destroyer",
         "Frigate",
         "Gunship",
         "Heavy Bomber",
@@ -352,11 +406,15 @@
         "Heavy Tank",
         "Interceptor",
         "Interdiction",
+        "Light Carrier",
         "Light Fighter",
         "Light Freight / Medium Fighter",
         "Light Tank",
         "Medium Fighter",
         "Medium Freight / Gun Ship",
+        "Military",
+        "Minelayer",
+        "Multi-Role / Light Carrier",
         "Snub Fighter",
         "Starter / Light Fighter",
         "Stealth Bomber",
@@ -371,9 +429,12 @@
         "Starter / Light Freight"
       ],
       "transport": [
+        "Boarding",
         "Dropship",
         "Heavy Dropship",
+        "Light Carrier",
         "Luxury Touring",
+        "Multi-Role / Light Carrier",
         "Passenger",
         "Snub Carrier",
         "Touring"
@@ -386,14 +447,20 @@
         "Starter / Light Salvage"
       ],
       "mining": [
+        "Heavy Mining",
         "Light Mining",
         "Medium Mining",
+        "Mining / Refining",
         "Starter / Light Mining"
       ],
-      "refining": [],
+      "refining": [
+        "Mining / Refining",
+        "Refinery"
+      ],
       "refuel": [
         "Heavy Refueling",
-        "Light Refueling"
+        "Light Refueling",
+        "Medium Repair / Medium Refuel"
       ],
       "medical": [
         "Medical"
@@ -404,6 +471,7 @@
         "Starter / Pathfinder"
       ],
       "science": [
+        "Heavy Science",
         "Light Science",
         "Medium Data",
         "Reporting"
@@ -412,15 +480,20 @@
         "Racing"
       ],
       "multipurpose": [
-        "Generalist"
+        "Generalist",
+        "Multi-Role / Light Carrier"
       ],
       "modular": [
         "Modular"
       ],
       "support": [
+        "Heavy Construction",
         "Heavy Refueling",
+        "Heavy Repair",
+        "Industrial",
         "Light Refueling",
         "Medical",
+        "Medium Repair / Medium Refuel",
         "Recovery"
       ]
     }

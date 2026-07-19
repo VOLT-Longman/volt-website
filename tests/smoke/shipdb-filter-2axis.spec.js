@@ -6,7 +6,7 @@ async function onShips(page) {
     await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
     await mockApi(page);
     await gotoSection(page, '#ships');
-    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
 }
 // 보이는 카드가 특정 태그(클래스+라벨)를 가졌는지: card 텍스트로 판별
 async function visibleCardTagTexts(page, sel) {
@@ -27,15 +27,15 @@ test.describe('2축 태그 필터 (규모·플랫폼 + 역할, 커밋 C)', () =>
         expect(errors).toEqual([]);
     });
 
-    test('ON: 규모·플랫폼 축(지상+4규모)·역할 축(정제 숨김)·세부 역할 검색', async ({ page }) => {
+    test('ON: 규모·플랫폼 축(지상+4규모)·역할 축(정제 포함)·세부 역할 검색', async ({ page }) => {
         await onShips(page);
         // 규모·플랫폼: 지상 + 소형/중형/대형/캐피탈
         for (const k of ['ground', 'small', 'medium', 'large', 'capital']) {
             expect(await page.locator(`[data-size-tag="${k}"]`).count()).toBe(1);
         }
-        // 역할: 전투 등 존재, 정제(0척)는 숨김
+        // 역할: 전투와 정제는 공식 역할 값으로 노출
         expect(await page.locator('[data-role-tag="combat"]').count()).toBe(1);
-        expect(await page.locator('[data-role-tag="refining"]').count()).toBe(0);
+        expect(await page.locator('[data-role-tag="refining"]').count()).toBe(1);
         // 세부 역할 검색 콤보박스
         await expect(page.locator('#ship-role-search[role="combobox"]')).toBeVisible();
     });

@@ -12,8 +12,8 @@ const DATA_FILES = {
   editionAliases: { path: 'data/canonical/edition-aliases.json', group: 'core' },
   roleLocalization: { path: 'data/canonical/localization-roles.json', group: 'core' },
   filterTaxonomy: { path: 'data/canonical/ship-filter-taxonomy.json', group: 'core' },
-  rsiOfficial: { path: 'data/canonical/ships-rsi-official.json', group: 'rsi' },
-  rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'rsi' }
+  rsiOfficial: { path: 'data/canonical/ships-rsi-official.json', group: 'core' },
+  rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'core' }
 };
 
 function normalizeHashInput(text) {

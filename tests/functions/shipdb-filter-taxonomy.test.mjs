@@ -1,6 +1,6 @@
 // ShipDB 필터 분류(2축) — 데이터 계약 (PM 확정 지시서 §5). canonical size·role + Erkul 직접 필드만.
 //  · canonical 원문 역할 전부 매핑됨 or 미분류 사유 있음. 매핑 없는 역할은 자동 태그 생성 금지.
-//  · 카드 역할 태그는 taxonomy에서만. focus/tags/career 참조 0. RSI 30척 미유입.
+//  · 카드 역할 태그는 taxonomy에서만. focus/tags/career 참조 0. RSI 공식 30척도 같은 계약에 포함.
 //  · 지상은 Erkul calculatorType==='vehicle'(직접 필드)로만 — 추론 아님.
 
 import assert from 'node:assert/strict';
@@ -15,13 +15,17 @@ const read = (p) => readFile(join(ROOT, p), 'utf8');
 async function load() {
   return {
     canon: JSON.parse(await read('data/canonical/ships-canonical.json')),
+    rsi: JSON.parse(await read('data/canonical/ships-rsi-official.json')),
     tax: JSON.parse(await read('data/canonical/ship-filter-taxonomy.json')),
   };
 }
 
-test('taxonomy: canonical 원문 역할 전수 = 매핑됨 ∪ 미분류(둘 다인 역할 0)', async () => {
-  const { canon, tax } = await load();
-  const distinct = [...new Set(canon.ships.map((s) => s.role).filter((r) => r && String(r).trim()))].sort();
+test('taxonomy: 공개 함선 원문 역할 전수 = 매핑됨 ∪ 미분류(둘 다인 역할 0)', async () => {
+  const { canon, rsi, tax } = await load();
+  const distinct = [...new Set([
+    ...canon.ships.map((ship) => ship.role),
+    ...rsi.records.map((record) => record.rsi?.role),
+  ].filter((role) => role && String(role).trim()))].sort();
   const unmappedSet = new Set(tax.unmapped.map((u) => u.role));
   const roleTagKeys = new Set(tax.axes.role.tags.map((t) => t.key));
   const problems = [];
@@ -38,9 +42,12 @@ test('taxonomy: canonical 원문 역할 전수 = 매핑됨 ∪ 미분류(둘 다
   assert.equal(problems.length, 0, problems.slice(0, 15).join(', '));
 });
 
-test('taxonomy: roleTagMap 키가 canonical 역할 집합과 정확히 일치(잉여 자동태그 0)', async () => {
-  const { canon, tax } = await load();
-  const distinct = new Set(canon.ships.map((s) => s.role).filter(Boolean));
+test('taxonomy: roleTagMap 키가 공개 함선 역할 집합과 정확히 일치(잉여 자동태그 0)', async () => {
+  const { canon, rsi, tax } = await load();
+  const distinct = new Set([
+    ...canon.ships.map((ship) => ship.role),
+    ...rsi.records.map((record) => record.rsi?.role),
+  ].filter(Boolean));
   const extra = Object.keys(tax.roleTagMap).filter((r) => !distinct.has(r));
   assert.equal(extra.length, 0, `canonical에 없는 역할 태그 키: ${extra.slice(0, 10).join(', ')}`);
 });
@@ -74,12 +81,14 @@ test('taxonomy: 생성기가 레거시 focus/tags/career/설명/가격을 참조
   }
 });
 
-test('taxonomy: RSI 공식 카탈로그 30척이 필터 분류에 유입되지 않는다', async () => {
-  const { canon, tax } = await load();
-  const rsi = JSON.parse(await read('data/canonical/ships-rsi-official.json'));
+test('taxonomy: RSI 공식 30척도 같은 역할·규모 계약으로 필터링된다', async () => {
+  const { canon, rsi, tax } = await load();
   const canonSet = new Set(canon.ships.map((s) => s.id));
-  const leaked = rsi.records.filter((r) => canonSet.has(r.id)).map((r) => r.id);
-  assert.equal(leaked.length, 0, `RSI가 canonical에 유입: ${leaked.join(', ')}`);
-  // RSI는 canonical에 없으므로 platform·역할 태그 대상이 아니다(별도 카탈로그).
-  assert.ok(Object.keys(tax.roleTagMap).length > 0);
+  const overlap = rsi.records.filter((record) => canonSet.has(record.id)).map((record) => record.id);
+  assert.equal(overlap.length, 0, `RSI가 Erkul canonical에 중복: ${overlap.join(', ')}`);
+  for (const record of rsi.records) {
+    const role = record.rsi.role;
+    assert.ok(tax.roleTagMap[role]?.length, `RSI 역할 태그 누락: ${record.id} (${role})`);
+  }
+  assert.equal(tax.summary.platformCount.ground, 35, 'RSI vehicle 2척이 지상 축에 반영돼야');
 });

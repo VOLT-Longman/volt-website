@@ -28,7 +28,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         // 카드: role 배지=경 화물선, focus 배지 없음
         await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('경 화물선');
         expect(await page.locator(`${CARD('freelancer')} .ship-focus-badge`).count()).toBe(0);
@@ -40,7 +40,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         // 옵션: 키=Erkul EN role, 라벨=roleKo
         const opt = page.locator('#ship-tag-filters [data-role-option="Light Freight"]');
         await expect(opt).toHaveText('경 화물선');
@@ -64,7 +64,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         await page.locator(`${CARD('freelancer')} .ship-name-btn`).click();
         await page.waitForSelector('.ship-modal-grid');
         const grid = await page.locator('.ship-modal-grid').first().innerText();
@@ -75,7 +75,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         await page.locator('.nav-lang [data-set-lang="en"]').click();
         await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('Light Freight');
     });

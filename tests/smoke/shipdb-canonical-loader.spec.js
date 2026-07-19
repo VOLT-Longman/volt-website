@@ -26,7 +26,7 @@ test.describe('ShipDB canonical 로더 (듀얼리드, 기본 OFF)', () => {
         expect(await page.locator('.ship-card').count()).toBeGreaterThan(0);
     });
 
-    test('ON 테스트 훅: core 6계층은 무결성 검증으로 로드하고 RSI 2계층은 사용 시점에 로드한다', async ({ page }) => {
+    test('ON 테스트 훅: core 8계층은 무결성 검증으로 함께 로드한다', async ({ page }) => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
@@ -36,17 +36,13 @@ test.describe('ShipDB canonical 로더 (듀얼리드, 기본 OFF)', () => {
             localization: s.localization && s.localization.count,
             operational: s.operational && s.operational.count,
             aliases: s.editionAliases && s.editionAliases.count,
-            rsiOfficial: s.rsiOfficial || null,
-            rsiLocalization: s.rsiLocalization || null,
+            rsiOfficial: s.rsiOfficial && s.rsiOfficial.count,
+            rsiLocalization: s.rsiLocalization && s.rsiLocalization.count,
             roleLocalization: s.roleLocalization && s.roleLocalization.summary && s.roleLocalization.summary.total,
             filterTaxonomy: s.filterTaxonomy && s.filterTaxonomy.summary && s.filterTaxonomy.summary.totalRoles,
         })));
-        expect(store).toEqual({ canonical: 219, localization: 219, operational: 219, aliases: 7, rsiOfficial: null, rsiLocalization: null, roleLocalization: 52, filterTaxonomy: 52 });
-        const rsi = await page.evaluate(() => window.VOLT_SHIPDB_CANONICAL.loadRsiCatalog().then((s) => ({
-            official: s.rsiOfficial && s.rsiOfficial.count,
-            localization: s.rsiLocalization && s.rsiLocalization.count,
-        })));
-        expect(rsi).toEqual({ official: 30, localization: 30 });
+        expect(store).toEqual({ canonical: 219, localization: 219, operational: 219, aliases: 7, rsiOfficial: 30, rsiLocalization: 30, roleLocalization: 67, filterTaxonomy: 67 });
+        expect(await page.evaluate(() => window.VOLT_SHIPDB_CANONICAL.publicShipIds().size)).toBe(249);
     });
 
     test('ON 테스트 훅: canonical 로드 후에도 함선 카드가 정상 렌더된다', async ({ page }) => {

@@ -37,27 +37,57 @@
     function canonicalShip(ship) {
         return (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) ? window.VOLT_SHIPDB_CANONICAL.getShip(ship.id) : null;
     }
+    function isRsiOfficialShip(ship) {
+        return canonicalShip(ship)?.source === 'rsi-official';
+    }
+    function officialMissingValue() {
+        return i18nT('ships.officialNotProvided', 'RSI 공식 미제공');
+    }
+    function displayedManufacturer(ship) {
+        const canonical = canonicalShip(ship);
+        if (canonical?.source === 'rsi-official') return canonical.manufacturer || ship.manufacturer;
+        return ship.manufacturer || canonical?.manufacturer || '';
+    }
+    function rsiStatusLabel(ship) {
+        const status = canonicalShip(ship)?.catalogStatus;
+        if (status === 'flight-ready') return i18nT('ships.rsiFlightReady', '출시 · RSI 공식 사양');
+        return i18nT('ships.rsiConcept', '컨셉 · RSI 공식 사양 · 변경 가능');
+    }
+    function rsiSizeDisplay(ship) {
+        const size = canonicalShip(ship)?.size;
+        const labels = { small: '소형', medium: '중형', large: '대형', capital: '캐피탈', vehicle: '지상' };
+        return currentLang() === 'en' ? (size || ship.size) : (labels[size] || ship.size);
+    }
     // crew 이관(D3): ON이면 Erkul live.crewSize(단일 숫자)를 공개 기준값으로. OFF는 레거시 수기값.
     function crewDisplay(ship) {
         const c = canonicalShip(ship);
+        if (c?.source === 'rsi-official') {
+            if (c.crewMin == null && c.crewMax == null) return officialMissingValue();
+            if (c.crewMin === c.crewMax) return String(c.crewMin);
+            return [c.crewMin, c.crewMax].filter((value) => value != null).join('–');
+        }
         return c && c.crewSize != null ? String(c.crewSize) : tx(ship, 'crew');
     }
     function crewMax(ship) {
         const c = canonicalShip(ship);
+        if (c?.source === 'rsi-official') return c.crewMax ?? c.crewMin ?? 0;
         return c && c.crewSize != null ? c.crewSize : parseLargestNumber(ship.crew);
     }
     function crewMin(ship) {
         const c = canonicalShip(ship);
+        if (c?.source === 'rsi-official') return c.crewMin ?? c.crewMax ?? 0;
         return c && c.crewSize != null ? c.crewSize : parseSmallestNumber(ship.crew);
     }
     // cargo 이관: ON이면 Erkul live.cargoScu를 공개 기준값으로(포맷은 레거시와 동일 "N SCU"·콤마 유지).
     // 값은 219척 전부 레거시와 일치(불일치 0)이므로 표시 불변, 출처만 canonical.
     function cargoDisplay(ship) {
         const c = canonicalShip(ship);
+        if (c?.source === 'rsi-official') return Number.isFinite(c.cargoScu) ? `${c.cargoScu.toLocaleString('en-US')} SCU` : officialMissingValue();
         return c && c.cargoScu != null ? `${c.cargoScu.toLocaleString('en-US')} SCU` : ship.cargo;
     }
     function cargoValueNum(ship) {
         const c = canonicalShip(ship);
+        if (c?.source === 'rsi-official') return Number.isFinite(c.cargoScu) ? c.cargoScu : 0;
         return c && c.cargoScu != null ? c.cargoScu : getCargoValue(ship.cargo);
     }
     // role 이관(PM): ON이면 canonical role(Erkul EN)만 사용. career 조합·VOLT 수기·추론 금지.
@@ -92,7 +122,7 @@
         const t = taxo(); const c = canonicalShip(ship);
         if (!t || !c) return null;
         if (c.platform === 'ground') return 'ground';
-        return t.axes.size.map[c.size] || null;
+        return t.axes.size.map[c.size] || c.size || null;
     }
     // 역할 축: canonical role → 역할 태그[](다중). 매핑 없으면 [].
     function shipRoleTags(ship) {
@@ -127,6 +157,10 @@
     // 카드 태그(ON): 규모·플랫폼 1 + 역할군 최대 2. 세부 역할은 별도 메타 행에서 렌더한다.
     function renderCardTags(ship) {
         const parts = [];
+        if (isRsiOfficialShip(ship)) {
+            const status = canonicalShip(ship).catalogStatus || 'concept';
+            parts.push(`<span class="ship-rsi-status ship-rsi-status-${escapeHtml(status)}">${escapeHtml(rsiStatusLabel(ship))}</span>`);
+        }
         const sizeTag = shipSizeTag(ship);
         if (sizeTag) parts.push(`<span class="ship-tag-size">${escapeHtml(taxoTagLabel('size', sizeTag))}</span>`);
         for (const k of shipRoleTags(ship).slice(0, 2)) parts.push(`<span class="ship-tag-role">${escapeHtml(taxoTagLabel('role', k))}</span>`);
@@ -473,12 +507,12 @@
             return;
         }
         container.innerHTML = ships.map((ship) => `
-            <article class="ship-card reveal" data-ship-id="${escapeHtml(ship.id)}" data-canonical-role="${escapeHtml(canonicalRole(ship) || '')}">
+            <article class="ship-card reveal${isRsiOfficialShip(ship) ? ' ship-card--rsi-official' : ''}" data-ship-id="${escapeHtml(ship.id)}" data-canonical-role="${escapeHtml(canonicalRole(ship) || '')}"${isRsiOfficialShip(ship) ? ` data-rsi-status="${escapeHtml(canonicalShip(ship).catalogStatus || 'concept')}"` : ''}>
                 <div class="ship-card-header">
                     <div class="ship-card-title">
                         <h3 class="ship-name"><button type="button" class="ship-name-btn" data-open-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(`${getShipDisplayName(ship)} ${i18nT('ships.viewDetail', '상세 보기')}`)}">${escapeHtml(getShipDisplayName(ship))}</button></h3>
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
-                        <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
+                        <span class="ship-mfr">${escapeHtml(displayedManufacturer(ship))}</span>
                     </div>
                     <div class="ship-card-badges">${canonicalOn()
                         ? renderCardTags(ship)
@@ -769,11 +803,11 @@
     }
     function renderShipComparison(ships) {
         const fields = [
-            { label: i18nT('ships.mfr', '\uc81c\uc870\uc0ac'), key: 'manufacturer', format: (ship) => ship.manufacturer },
+            { label: i18nT('ships.mfr', '\uc81c\uc870\uc0ac'), key: 'manufacturer', format: (ship) => displayedManufacturer(ship) },
             { label: i18nT('ships.role', '\uc5ed\ud560'), key: 'role', format: (ship) => roleDisplay(ship) },
             // focus \uc81c\uac70(D7): ON\uc740 VOLT \ud3b8\uc9d1 \ubd84\ub958 \ud589\uc744 \ube44\uad50\ud45c\uc5d0\uc11c \ube80\ub2e4.
             ...(canonicalOn() ? [] : [{ label: i18nT('ships.focus', '\ubd84\ub958'), key: 'focus', format: (ship) => tx(ship, 'focus') }]),
-            { label: i18nT('ships.size', '\ud06c\uae30'), key: 'size', format: (ship) => tx(ship, 'size') },
+            { label: i18nT('ships.size', '\ud06c\uae30'), key: 'size', format: (ship) => isRsiOfficialShip(ship) ? rsiSizeDisplay(ship) : tx(ship, 'size') },
             { label: i18nT('ships.crew', '\uc2b9\ubb34\uc6d0'), key: 'crew', format: (ship) => crewDisplay(ship), rawValue: (ship) => crewMax(ship), numeric: true, higherIsBetter: true },
             { label: i18nT('ships.cargo', '\ud654\ubb3c'), key: 'cargo', format: (ship) => cargoDisplay(ship), rawValue: (ship) => cargoValueNum(ship), numeric: true, higherIsBetter: true },
             // priceUsd: \ud50c\ub798\uadf8 ON\uc774\uba74 \uacf5\uac1c \ubaa8\ub378\uc5d0\uc11c \uc81c\uac70(D4). OFF\ub294 \ub808\uac70\uc2dc \uc720\uc9c0.
@@ -793,7 +827,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">${escapeHtml(i18nT('ships.compareField', '\ud56d\ubaa9'))}</th>
-                                ${ships.map((ship) => `<th scope="col">${escapeHtml(ship.name)}</th>`).join('')}
+                                ${ships.map((ship) => `<th scope="col">${escapeHtml(getShipDisplayName(ship))}</th>`).join('')}
                             </tr>
                         </thead>
                         <tbody>
@@ -803,7 +837,7 @@
                 </div>
                 <div class="ship-compare-tags">
                     ${ships.map((ship) => `<section>
-                        <h3>${escapeHtml(ship.name)}</h3>
+                        <h3>${escapeHtml(getShipDisplayName(ship))}</h3>
                         <div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
                         ${renderShipPlannerAction(ship, 'btn btn-secondary ship-compare-use')}
                     </section>`).join('')}
@@ -894,6 +928,11 @@
         return `<div class="ship-modal-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`;
     }
     function shipModalDescription(ship, live) {
+        const canonical = canonicalShip(ship);
+        if (canonical?.source === 'rsi-official') {
+            const description = currentLang() === 'en' ? canonical.descriptions?.en : canonical.descriptions?.ko;
+            return description || officialMissingValue();
+        }
         // A-9 정책: EN 모드 = Erkul 정제 설명 우선, KO 모드 = Erkul 기반 한국어 번역 우선.
         // 둘 다 없으면 기존 volt-data 설명(legacy)으로 폴백한다.
         if (currentLang() === 'en' && live?.descriptions?.en) return live.descriptions.en;
@@ -1021,7 +1060,7 @@
         const stat = (label, value) => `<div class="ship-modal-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`;
         const items = [stat(i18nT('ships.role', '역할'), roleDisplay(ship))];
         if (!live) {
-            items.push(stat(i18nT('ships.size', '크기'), tx(ship, 'size')));
+            items.push(stat(i18nT('ships.size', '크기'), isRsiOfficialShip(ship) ? rsiSizeDisplay(ship) : tx(ship, 'size')));
             items.push(stat(i18nT('ships.crew', '승무원'), crewDisplay(ship)));
             items.push(stat(i18nT('ships.cargo', '화물'), cargoDisplay(ship)));
         }
@@ -1032,11 +1071,13 @@
     function openShipModal(ship, isLiveRefresh = false) {
         if (!isLiveRefresh) trackEvent('ship_modal_open', { shipId: ship?.id || '', shipName: ship?.name || '' });
         const officialUrl = getShipOfficialUrl(ship);
-        const officialLabel = ship.rsiUrl ? i18nT('ships.officialPage', 'RSI 공식 페이지') : i18nT('ships.shipMatrix', 'RSI 함선 매트릭스');
+        const officialLabel = isRsiOfficialShip(ship) || ship.rsiUrl
+            ? i18nT('ships.officialPage', 'RSI 공식 페이지')
+            : i18nT('ships.shipMatrix', 'RSI 함선 매트릭스');
         const liveStats = getShipLiveStats(ship);
         const liveMarket = getShipLiveMarket(ship);
         // live 레이어 지연 로드 레이스: 아직 로드 전이면 로드 후 같은 함선 모달이 열려 있을 때만 다시 렌더한다.
-        if (!liveStats && !liveMarket && typeof ensureShipLiveData === 'function') {
+        if (!isRsiOfficialShip(ship) && !liveStats && !liveMarket && typeof ensureShipLiveData === 'function') {
             liveRefreshShipId = ship.id;
             ensureShipLiveData().then(() => {
                 if (liveRefreshShipId !== ship.id) return;
@@ -1047,7 +1088,7 @@
         }
         openModal(`<div class="modal-header">
                 <div>
-                    <div class="ship-mfr">${escapeHtml(ship.manufacturer)}</div>
+                    <div class="ship-mfr">${escapeHtml(displayedManufacturer(ship))}</div>
                     <h2 class="modal-title">${escapeHtml(getShipDisplayName(ship))}</h2>
                     ${getShipSecondaryName(ship) ? `<p class="modal-subtitle-en">${escapeHtml(getShipSecondaryName(ship))}</p>` : ''}
                 </div>
@@ -1071,7 +1112,7 @@
         return `<button class="${escapeHtml(className)}" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('ships.usePlanner', '무역 플래너에서 사용'))}</button>`;
     }
     function getShipOfficialUrl(ship) {
-        return ship.rsiUrl || RSI_SHIP_MATRIX_URL;
+        return canonicalShip(ship)?.sourceUrl || ship.rsiUrl || RSI_SHIP_MATRIX_URL;
     }
 
     window.VOLT_SHIPS = {

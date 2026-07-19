@@ -25,7 +25,7 @@ test.describe('cargo 원자 이관 (OFF=레거시, ON=Erkul 기본값+RSI 공식
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         await expect(cargoStat(page, 'idris-m')).toHaveText('1,326 SCU');
     });
 
@@ -42,7 +42,7 @@ test.describe('cargo 원자 이관 (OFF=레거시, ON=Erkul 기본값+RSI 공식
         await onPage.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(onPage);
         await gotoSection(onPage, '#ships');
-        await expect.poll(async () => onPage.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => onPage.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         await expect(cargoStat(onPage, 'intrepid')).toHaveText('8 SCU');
         await offContext.close();
         await onContext.close();

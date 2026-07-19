@@ -22,7 +22,7 @@ test.describe('focus·tags 제거 (D7: OFF=존재, ON=제거)', () => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         expect(await page.locator('.ship-focus-badge').count()).toBe(0);
         expect(await page.locator('.ship-tag').count()).toBe(0);
         // VOLT focus/tags 카테고리 칩(KO 키)은 전부 제거된다(칩 자체 0)
@@ -36,7 +36,7 @@ test.describe('focus·tags 제거 (D7: OFF=존재, ON=제거)', () => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         for (const id of ['freelancer', 'caterpillar']) await page.locator(`[data-compare-ship-id="${id}"]`).click();
         await page.locator('#ship-compare-open').click();
         await page.waitForSelector('.ship-compare-table');

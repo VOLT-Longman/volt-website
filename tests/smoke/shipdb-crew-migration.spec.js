@@ -32,7 +32,7 @@ test.describe('crew 원자 이관 (OFF=레거시 수기, ON=Erkul crewSize)', ()
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
         await openCompare(page, ['freelancer', 'caterpillar']);
         const row = await crewRow(page).innerText();
         expect(row).not.toContain('1명');

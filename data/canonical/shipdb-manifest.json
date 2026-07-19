@@ -1,45 +1,45 @@
 {
   "schema": "shipdb-client-manifest/v1",
-  "version": "5a1dea72a83fe5a4",
+  "version": "e4dbbbd1812280a5",
   "files": {
     "canonical": {
       "path": "data/canonical/ships-canonical.json",
       "group": "core",
-      "sha256": "82d47f0571ff9e24f76ff3f38dc192cd81e20f42ae4bd976a6f187b41ca5e474"
+      "sha256": "15bf87a8456fbf3dd5af020400834fc44d89acb4b84e7afb3b93fa67fd8d7c13"
     },
     "localization": {
       "path": "data/canonical/localization-ships.json",
       "group": "core",
-      "sha256": "edca4de43a66544aa529154c79ebf14062ae8787fe494c7d261c51c558a8b1ec"
+      "sha256": "a9610c99f2b6bc632831d27b15190d094dd46836fee51db8aee7f2623e0089e7"
     },
     "operational": {
       "path": "data/canonical/operational-ships.json",
       "group": "core",
-      "sha256": "b348305135ac71408cf5c599179048ccbc3274ac949d5f6869033c17607d5e9d"
+      "sha256": "34dcce7afe0d5ae1c2c56dfde890058bfbd4ce2d5c0da2af58f29a60991fe925"
     },
     "editionAliases": {
       "path": "data/canonical/edition-aliases.json",
       "group": "core",
-      "sha256": "1c80fcbb34b7da021f8251407c55fef4f4894862c1c1b068c85b28a993a78d0d"
+      "sha256": "212a2db2821bedc02afb50eb67e5c315905d8d05e8c6b216aebc708d8d6cdbd1"
     },
     "roleLocalization": {
       "path": "data/canonical/localization-roles.json",
       "group": "core",
-      "sha256": "04598660c673b39c7bcd5348e974e7de0c5fedbc1372f6ab7baeb6d9a8068b1b"
+      "sha256": "4d89a7288ba23d598e0be84f6be586c23b6c9b1324cd507beba9277d64645a05"
     },
     "filterTaxonomy": {
       "path": "data/canonical/ship-filter-taxonomy.json",
       "group": "core",
-      "sha256": "c7603805346a899d6d883329205cf04a1d5cc9bc5db743e2563862b0a57499b3"
+      "sha256": "888bfcee837a3b2b5d5f4875aa46487c49e73fdd78229b9203013e2b25fdd037"
     },
     "rsiOfficial": {
       "path": "data/canonical/ships-rsi-official.json",
-      "group": "rsi",
+      "group": "core",
       "sha256": "a917db9c7ff4a5764a0898dd3ba4039d4df839b95e3ea845a5009029ae2caa2e"
     },
     "rsiLocalization": {
       "path": "data/canonical/localization-rsi-official.json",
-      "group": "rsi",
+      "group": "core",
       "sha256": "1a1825f4dcaa057dc8875e4e87a0e535908eb8d239662677462785ac381e9005"
     }
   }

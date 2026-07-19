@@ -17,14 +17,12 @@
         editionAliases: { path: 'data/canonical/edition-aliases.json', group: 'core' },
         roleLocalization: { path: 'data/canonical/localization-roles.json', group: 'core' },
         filterTaxonomy: { path: 'data/canonical/ship-filter-taxonomy.json', group: 'core' },
-        rsiOfficial: { path: 'data/canonical/ships-rsi-official.json', group: 'rsi' },
-        rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'rsi' }
+        rsiOfficial: { path: 'data/canonical/ships-rsi-official.json', group: 'core' },
+        rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'core' }
     };
 
     var state = 'idle';
-    var rsiState = 'idle';
     var corePromise = null;
-    var rsiPromise = null;
     var manifestPromise = null;
     var store = {};
     var lastError = null;
@@ -153,22 +151,6 @@
         return corePromise;
     }
 
-    function loadRsiCatalog() {
-        if (!isEnabled()) return Promise.resolve(null);
-        if (rsiState === 'loaded') return Promise.resolve(store);
-        if (rsiState === 'loading') return rsiPromise;
-        rsiState = 'loading';
-        rsiPromise = loadGroup('rsi').then(function (data) {
-            rsiState = 'loaded';
-            return data;
-        }).catch(function (error) {
-            rsiState = 'failed';
-            lastError = error instanceof Error ? error : makeError('알 수 없는 오류');
-            throw lastError;
-        });
-        return rsiPromise;
-    }
-
     function retry() {
         if (!isEnabled()) return Promise.resolve(null);
         state = 'idle';
@@ -178,18 +160,58 @@
     }
 
     function publicShipIds() {
-        if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
-        if (!idCache) idCache = new Set(store.canonical.ships.map(function (ship) { return ship.id; }));
+        if (!store.canonical || !store.rsiOfficial) return null;
+        if (!idCache) {
+            idCache = new Set(store.canonical.ships.map(function (ship) { return ship.id; }));
+            store.rsiOfficial.records.forEach(function (ship) { idCache.add(ship.id); });
+        }
         return idCache;
     }
 
-    function getShip(id) {
-        if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
+    function rsiLocalizationById() {
+        var entries = store.rsiLocalization && store.rsiLocalization.records;
+        return Object.fromEntries((entries || []).map(function (entry) { return [entry.id, entry]; }));
+    }
+
+    function toRsiPublicShip(record, localization) {
+        var rsi = record.rsi || {};
+        var singleCrew = rsi.crewMin === rsi.crewMax ? rsi.crewMin : null;
+        return {
+            id: record.id,
+            source: 'rsi-official',
+            name: record.name,
+            manufacturer: rsi.manufacturer,
+            role: rsi.role,
+            size: rsi.size,
+            platform: rsi.size === 'vehicle' ? 'ground' : 'space',
+            crewMin: rsi.crewMin,
+            crewMax: rsi.crewMax,
+            crewSize: singleCrew,
+            cargoScu: rsi.cargo,
+            descriptions: { en: rsi.descriptionEn || null, ko: localization?.status === 'ok' ? localization.ko : null },
+            catalogStatus: record.catalogStatus,
+            implemented: record.catalogStatus === 'flight-ready',
+            sourceUrl: record.sourceUrl,
+            retrievedAt: record.retrievedAt
+        };
+    }
+
+    function buildShipCache() {
+        var localizationById;
         if (!shipCache) {
             shipCache = {};
             store.canonical.ships.forEach(function (ship) { shipCache[ship.id] = ship; });
+            localizationById = rsiLocalizationById();
+            store.rsiOfficial.records.forEach(function (record) {
+                shipCache[record.id] = toRsiPublicShip(record, localizationById[record.id]);
+            });
         }
-        return shipCache[id] || null;
+        return shipCache;
+    }
+
+    function getShip(id) {
+        if (!store.canonical || !store.rsiOfficial) return null;
+        return buildShipCache()[id] || null;
     }
 
     function roleKo(enRole) {
@@ -200,11 +222,11 @@
 
     function roleList() {
         var seen;
-        if (!store.canonical || !Array.isArray(store.canonical.ships)) return null;
+        if (!store.canonical || !store.rsiOfficial) return null;
         if (!roleListCache) {
             seen = {};
             roleListCache = [];
-            store.canonical.ships.forEach(function (ship) {
+            Object.values(buildShipCache()).forEach(function (ship) {
                 if (ship.role && !seen[ship.role]) {
                     seen[ship.role] = true;
                     roleListCache.push(ship.role);
@@ -218,7 +240,6 @@
     window.VOLT_SHIPDB_CANONICAL = {
         isEnabled: isEnabled,
         load: load,
-        loadRsiCatalog: loadRsiCatalog,
         retry: retry,
         publicShipIds: publicShipIds,
         getShip: getShip,
@@ -227,7 +248,6 @@
         taxonomy: function () { return store.filterTaxonomy || null; },
         get data() { return store; },
         get state() { return state; },
-        get rsiState() { return rsiState; },
         get error() { return lastError ? lastError.message : null; }
     };
 })();

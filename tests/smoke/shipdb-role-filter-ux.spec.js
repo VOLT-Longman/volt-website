@@ -1,16 +1,20 @@
 const { test, expect } = require('@playwright/test');
 const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 const canonical = require('../../data/canonical/ships-canonical.json');
+const rsiOfficial = require('../../data/canonical/ships-rsi-official.json');
 
-// role 필터 UX(PM): 52칩 → 단일 검색형 역할 선택 콤보박스. canonical role 원문만(KO=UI 번역),
+// role 필터 UX(PM): 역할 칩 → 단일 검색형 역할 선택 콤보박스. Erkul/RSI 공식 role 원문만(KO=UI 번역),
 // 버킷팅 없음, 검색·선택·초기화·키보드, role 없는 함선 제외, OFF 완전 불변, 모바일 접근성.
-const ROLE_COUNT = new Set(canonical.ships.map((s) => s.role).filter(Boolean)).size;
+const ROLE_COUNT = new Set([
+    ...canonical.ships.map((ship) => ship.role),
+    ...rsiOfficial.records.map((record) => record.rsi.role),
+].filter(Boolean)).size;
 
 async function onShips(page) {
     await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
     await mockApi(page);
     await gotoSection(page, '#ships');
-    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
 }
 async function allCanonicalRoles(page) {
     return page.$$eval('#ships-grid .ship-card', (cards) =>
@@ -29,10 +33,10 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         expect(errors).toEqual([]);
     });
 
-    test('ON: 콤보박스 구조 — combobox 입력 + canonical role 52+전체 옵션(KO 라벨, 버킷 없음)', async ({ page }) => {
+    test('ON: 콤보박스 구조 — combobox 입력 + 공식 role 전체 옵션(KO 라벨, 버킷 없음)', async ({ page }) => {
         await onShips(page);
         await expect(page.locator('#ship-role-search[role="combobox"]')).toBeVisible();
-        // VOLT 칩 없음, 옵션 = 전체 + canonical role 전량(그룹/버킷 헤더 없음: option만)
+        // VOLT 칩 없음, 옵션 = 전체 + 공식 role 전량(그룹/버킷 헤더 없음: option만)
         expect(await page.locator('#ship-tag-filters [data-ship-tag-filter]').count()).toBe(0);
         expect(await page.locator('[data-role-option]').count()).toBe(ROLE_COUNT + 1);
         // 옵션 키=Erkul EN, 라벨=KO 번역
@@ -50,8 +54,8 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         expect(await page.evaluate(() => document.activeElement?.id)).toBe('ship-role-search');
         await expect(page.locator('[data-role-option="Light Fighter"]')).toBeVisible();
         expect(await page.locator('[data-role-option="Heavy Freight"]').isVisible()).toBe(false);
-        // 선택 전이므로 그리드는 그대로 219
-        expect(await page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        // 선택 전이므로 그리드는 그대로 249
+        expect(await page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
     });
 
     test('ON 키보드: ArrowDown→Enter 선택, Escape 닫힘', async ({ page }) => {
@@ -81,7 +85,7 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         await expect.poll(async () => (await allCanonicalRoles(page)).every((role) => role === 'Light Fighter')).toBe(true);
         await page.locator('[data-role-clear]').click();
         await expect(input).toHaveValue('');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
     });
 
     test('ON 모바일 390px: 콤보박스 검색·선택 동작 + 가로 overflow 없음', async ({ page }) => {

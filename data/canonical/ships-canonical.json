@@ -1,7 +1,7 @@
 {
   "schema": "shipdb-canonical/v1",
   "note": "Erkul live 기본값과 승인된 RSI 공식 필드 보정으로 생성한 canonical 데이터셋.",
-  "generatedFromCommit": "bafa22066ebc6698960391db3965ab12290c67bc",
+  "generatedFromCommit": "d63ec695ff0fe2b236ca3b08b2dfaad3516bc41e",
   "sourceHashes": {
     "data/ship-live-stats.js": "2a91e256db39796a",
     "data/ship-market.js": "9e783cc64ec115e0",

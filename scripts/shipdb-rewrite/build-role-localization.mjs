@@ -20,25 +20,34 @@ const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const ROLE_KO = {
   'Anti-Air': '대공',
   'Anti-Vehicle': '대차량',
+  Boarding: '강습',
   Bomber: '폭격기',
+  Combat: '전투',
   Corvette: '코르벳',
+  Destroyer: '구축함',
   Dropship: '드롭십',
   Expedition: '원정',
   Frigate: '프리깃',
   Generalist: '다목적',
   Gunship: '건십',
   'Heavy Bomber': '대형 폭격기',
+  'Heavy Construction': '대형 건설선',
   'Heavy Dropship': '대형 드롭십',
   'Heavy Fighter': '대형 전투기',
   'Heavy Fighter / Bomber': '대형 전투기 / 폭격기',
   'Heavy Freight': '대형 화물선',
   'Heavy Gunship': '대형 건십',
+  'Heavy Mining': '대형 채굴선',
   'Heavy Refueling': '대형 급유선',
+  'Heavy Repair': '대형 수리선',
   'Heavy Salvage': '대형 인양선',
+  'Heavy Science': '대형 과학선',
   'Heavy Tank': '중전차',
   Interceptor: '요격기',
   Interdiction: '인터딕션',
+  Industrial: '산업용',
   'Light Fighter': '경 전투기',
+  'Light Carrier': '경 항모',
   'Light Freight': '경 화물선',
   'Light Freight / Medium Fighter': '경 화물선 / 중형 전투기',
   'Light Mining': '경 채굴선',
@@ -53,12 +62,18 @@ const ROLE_KO = {
   'Medium Freight': '중형 화물선',
   'Medium Freight / Gun Ship': '중형 화물선 / 건십',
   'Medium Mining': '중형 채굴선',
+  'Medium Repair / Medium Refuel': '중형 수리선 / 중형 급유선',
   'Medium Salvage': '중형 인양선',
+  Military: '군용',
+  Minelayer: '기뢰부설함',
+  'Mining / Refining': '채굴 / 정제',
   Modular: '모듈형',
+  'Multi-Role / Light Carrier': '다목적 / 경 항모',
   Passenger: '여객선',
   Pathfinder: '개척선',
   Racing: '레이싱',
   Recovery: '회수',
+  Refinery: '정제선',
   Reporting: '보도',
   'Snub Carrier': '스넙 모함',
   'Snub Fighter': '스넙 전투기',
@@ -73,7 +88,11 @@ const ROLE_KO = {
 };
 
 const canon = JSON.parse(read('data/canonical/ships-canonical.json'));
-const distinct = [...new Set(canon.ships.map((s) => s.role).filter((r) => r && String(r).trim()))].sort();
+const rsiOfficial = JSON.parse(read('data/canonical/ships-rsi-official.json'));
+const distinct = [...new Set([
+  ...canon.ships.map((ship) => ship.role),
+  ...rsiOfficial.records.map((record) => record.rsi?.role),
+].filter((role) => role && String(role).trim()))].sort();
 
 const missing = distinct.filter((r) => !ROLE_KO[r]);
 if (missing.length) {
@@ -94,7 +113,7 @@ const out = {
   layer: 'localization-roles',
   note: 'canonical role(Erkul EN) → KO UI 번역. 사실원은 canonical role. 여기는 표기 계층일 뿐.',
   generatedFromCommit: commit,
-  source: 'ships-canonical.json[].role (distinct)',
+  source: 'ships-canonical.json[].role + ships-rsi-official.json[].rsi.role (distinct)',
   summary: { total: distinct.length, ok: distinct.length, missing: 0, extraUnusedKeys: extra.length },
   roles,
 };

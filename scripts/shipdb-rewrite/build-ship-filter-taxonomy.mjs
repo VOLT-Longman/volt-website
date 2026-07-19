@@ -5,7 +5,7 @@
 //  · 역할 태그 매핑은 원문 role의 정확한 값만(문자열 추론·부분일치 자동분류 금지) — 아래 ROLE_TAGS 표.
 //  · 매핑에 없는 원문 role은 태그를 붙이지 않고 unmapped(미분류 사유)로 기록 + 세부 역할 검색/원문 라벨로 노출.
 //  · 지상은 canonical.platform==='ground'(Erkul calculatorType 파생, canonical 소유). 크기 태그 대신 지상 태그.
-//  · RSI 공식 카탈로그는 대상 아님(별도).
+//  · RSI 공식 데이터도 메인 함선DB에 포함한다. 해당 값은 RSI가 명시한 role·size만 사용한다.
 //
 //   node scripts/shipdb-rewrite/build-ship-filter-taxonomy.mjs
 //     → data/canonical/ship-filter-taxonomy.json
@@ -77,30 +77,45 @@ const ROLE_TAGS_MAP = {
   Racing: ['racing'], Generalist: ['multipurpose'], Modular: ['modular'],
   // 복합(화물+전투)
   'Light Freight / Medium Fighter': ['cargo', 'combat'], 'Medium Freight / Gun Ship': ['cargo', 'combat'],
+  // RSI 공식 role — 원문 값마다 명시적으로만 분류한다.
+  Boarding: ['combat', 'transport'], Combat: ['combat'], Destroyer: ['combat'],
+  'Heavy Construction': ['support'], 'Heavy Mining': ['mining'], 'Heavy Repair': ['support'],
+  'Heavy Science': ['science'], Industrial: ['support'], 'Light Carrier': ['combat', 'transport'],
+  'Medium Repair / Medium Refuel': ['support', 'refuel'], Military: ['combat'], Minelayer: ['combat'],
+  'Mining / Refining': ['mining', 'refining'], 'Multi-Role / Light Carrier': ['multipurpose', 'combat', 'transport'],
+  Refinery: ['refining'],
 };
 
 const ROLE_TAG_KEYS = new Set(ROLE_TAGS.map((t) => t.key));
 
-// platform(지상)은 canonical의 `platform` 필드(B-2에서 Erkul calculatorType로 canonical에 포함).
-// taxonomy는 Erkul raw를 읽지 않는다 — 규모 매핑·역할 태그만 정의. 지상 판정은 클라이언트가 canonical.platform으로.
+// platform(지상)은 canonical의 `platform` 또는 RSI 공식 size(vehicle)에서 온다.
+// taxonomy는 레거시 raw를 읽지 않는다 — 규모 매핑·역할 태그만 정의한다.
 const canon = JSON.parse(read('data/canonical/ships-canonical.json'));
+const rsiOfficial = JSON.parse(read('data/canonical/ships-rsi-official.json'));
+const rsiShips = rsiOfficial.records.map((record) => ({
+  id: record.id,
+  role: record.rsi?.role,
+  size: record.rsi?.size,
+  platform: record.rsi?.size === 'vehicle' ? 'ground' : 'space',
+}));
+const publicShips = [...canon.ships, ...rsiShips];
 
-const distinctRoles = [...new Set(canon.ships.map((s) => s.role).filter((r) => r && String(r).trim()))].sort();
+const distinctRoles = [...new Set(publicShips.map((ship) => ship.role).filter((role) => role && String(role).trim()))].sort();
 
 // 검증: 매핑 태그 키 유효성 + 잉여 키
 const problems = [];
 for (const [role, tags] of Object.entries(ROLE_TAGS_MAP)) {
   if (!Array.isArray(tags) || tags.length === 0) problems.push(`${role}: 태그 없음`);
   for (const t of tags) if (!ROLE_TAG_KEYS.has(t)) problems.push(`${role}: 알 수 없는 태그키 ${t}`);
-  if (!distinctRoles.includes(role)) problems.push(`잉여(캐논에 없는) role 키: ${role}`);
+  if (!distinctRoles.includes(role)) problems.push(`잉여(공개 집합에 없는) role 키: ${role}`);
 }
-// 미분류: 매핑 표에 없는 canonical role
+// 미분류: 매핑 표에 없는 공개 함선 role
 const unmapped = distinctRoles.filter((r) => !ROLE_TAGS_MAP[r]).map((r) => ({ role: r, reason: '매핑 표 미포함 — 세부 역할 검색·원문 라벨로만 노출' }));
 if (problems.length) { console.error('taxonomy 매핑 오류:\n  ' + problems.join('\n  ')); process.exit(1); }
 
-// platform 분포(감사용) — canonical.platform 필드에서 집계.
+// platform 분포(감사용) — Erkul canonical + RSI 공식 공개 집합에서 집계.
 const platformCount = { ground: 0, space: 0, unknown: 0 };
-for (const s of canon.ships) if (s.platform in platformCount) platformCount[s.platform]++;
+for (const ship of publicShips) if (ship.platform in platformCount) platformCount[ship.platform]++;
 
 let commit = 'unknown';
 try { commit = execSync('git rev-parse HEAD', { cwd: ROOT }).toString().trim(); } catch { /* noop */ }
@@ -112,9 +127,10 @@ for (const r of distinctRoles) for (const t of (ROLE_TAGS_MAP[r] || [])) rolesBy
 const shipCountByTag = {};
 for (const t of ROLE_TAGS) shipCountByTag[t.key] = 0;
 const sizeCount = { small: 0, medium: 0, large: 0, capital: 0 };
-for (const s of canon.ships) {
-  for (const t of (ROLE_TAGS_MAP[s.role] || [])) shipCountByTag[t]++;
-  const sz = SIZE_MAP[s.size];
+for (const ship of publicShips) {
+  for (const t of (ROLE_TAGS_MAP[ship.role] || [])) shipCountByTag[t]++;
+  if (ship.platform === 'ground') continue;
+  const sz = SIZE_MAP[ship.size] || ship.size;
   if (sz) sizeCount[sz]++;
 }
 
@@ -123,9 +139,9 @@ for (const r of distinctRoles) roleTagMap[r] = ROLE_TAGS_MAP[r] || [];
 
 const out = {
   layer: 'ship-filter-taxonomy',
-  note: '2축(규모·플랫폼 / 역할) 필터 분류. 사실원=canonical size·role·platform만. 레거시 편집분류 미참조. RSI 제외.',
+  note: '2축(규모·플랫폼 / 역할) 필터 분류. 사실원=Erkul canonical과 RSI 공식의 명시 size·role·platform만. 레거시 편집분류 미참조.',
   generatedFromCommit: commit,
-  source: 'ships-canonical.json[].size·role·platform',
+  source: 'ships-canonical.json[].size·role·platform + ships-rsi-official.json[].rsi.size·role',
   summary: {
     totalRoles: distinctRoles.length,
     mapped: distinctRoles.length - unmapped.length,
