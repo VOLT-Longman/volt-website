@@ -16,7 +16,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card');
         expect(await page.locator(`${CARD('freelancer')} .ship-focus-badge`).count()).toBe(1);
-        expect(await page.locator(`${CARD('freelancer')} .ship-role-badge`).count()).toBe(0);
+        expect(await page.locator(`${CARD('freelancer')} .ship-card-role-detail`).count()).toBe(0);
         // 필터에 Erkul EN role 키가 없다(OFF=KO 카테고리)
         expect(await page.locator('#ship-tag-filters [data-ship-tag-filter="Light Freight"]').count()).toBe(0);
         // purpose 행은 OFF에서 개별 숨김되지 않는다(상세 필터 패널 접힘과 무관하게 hidden 속성 없음)
@@ -30,7 +30,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
         // 카드: role 배지=경 화물선, focus 배지 없음
-        await expect(page.locator(`${CARD('freelancer')} .ship-role-badge`)).toHaveText('경 화물선');
+        await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('경 화물선');
         expect(await page.locator(`${CARD('freelancer')} .ship-focus-badge`).count()).toBe(0);
         // purpose(VOLT 편집 프리셋) 행 자체가 ON에서 숨김(hidden 속성)
         expect(await page.locator('#ship-purpose').evaluate((el) => el.closest('.ship-advanced-row').hidden)).toBe(true);
@@ -49,9 +49,9 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         await page.locator('#ship-role-search').click();
         await opt.click();
         await expect.poll(async () => {
-            const badges = await page.$$eval('#ships-grid .ship-card', (cards) =>
-                cards.map((c) => (c.querySelector('.ship-role-badge')?.textContent || '').trim()));
-            return badges.length > 0 && badges.every((t) => t === '경 화물선');
+            const roles = await page.$$eval('#ships-grid .ship-card', (cards) =>
+                cards.map((card) => card.dataset.canonicalRole || ''));
+            return roles.length > 0 && roles.every((role) => role === 'Light Freight');
         }).toBe(true);
         // freelancer(Light Freight)는 남고, caterpillar(Medium Freight)는 사라진다
         expect(await page.locator(CARD('freelancer')).count()).toBe(1);
@@ -77,6 +77,6 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
         await page.locator('.nav-lang [data-set-lang="en"]').click();
-        await expect(page.locator(`${CARD('freelancer')} .ship-role-badge`)).toHaveText('Light Freight');
+        await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('Light Freight');
     });
 });

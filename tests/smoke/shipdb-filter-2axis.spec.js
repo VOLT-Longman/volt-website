@@ -12,6 +12,9 @@ async function onShips(page) {
 async function visibleCardTagTexts(page, sel) {
     return page.$$eval(`#ships-grid .ship-card ${sel}`, (els) => els.map((e) => e.textContent.trim()));
 }
+async function visibleCanonicalRoles(page) {
+    return page.$$eval('#ships-grid .ship-card', (cards) => cards.map((card) => card.dataset.canonicalRole || ''));
+}
 
 test.describe('2축 태그 필터 (규모·플랫폼 + 역할, 커밋 C)', () => {
     test('OFF 강제(되돌림): 콤보박스·2축 없음, 레거시 focus/tags 칩 유지', async ({ page }) => {
@@ -91,14 +94,14 @@ test.describe('2축 태그 필터 (규모·플랫폼 + 역할, 커밋 C)', () =>
         await input.click();
         await page.locator('[data-role-option="Light Fighter"]').click();
         await expect.poll(async () => {
-            const labels = await visibleCardTagTexts(page, '.ship-role-badge');
-            return labels.length > 0 && labels.every((t) => t === '경 전투기');
+            const roles = await visibleCanonicalRoles(page);
+            return roles.length > 0 && roles.every((role) => role === 'Light Fighter');
         }).toBe(true);
         // 역할 축 전체 → 역할 태그 해제(세부는 유지되어 여전히 경 전투기)
         await page.locator('[data-axis-clear="role"]').click();
         await expect.poll(async () => {
-            const labels = await visibleCardTagTexts(page, '.ship-role-badge');
-            return labels.length > 0 && labels.every((t) => t === '경 전투기');
+            const roles = await visibleCanonicalRoles(page);
+            return roles.length > 0 && roles.every((role) => role === 'Light Fighter');
         }).toBe(true);
     });
 
@@ -107,7 +110,7 @@ test.describe('2축 태그 필터 (규모·플랫폼 + 역할, 커밋 C)', () =>
         const card = page.locator('[data-ship-id="freelancer"]');
         expect(await card.locator('.ship-tag-size').count()).toBe(1);
         expect(await card.locator('.ship-tag-role').count()).toBeLessThanOrEqual(2);
-        await expect(card.locator('.ship-role-badge')).toHaveText('경 화물선');
+        await expect(card.locator('.ship-card-role-detail')).toHaveText('경 화물선');
     });
 
     test('ON 모바일 390px: 축 가로 스크롤 + 태그 선택 동작', async ({ page }) => {

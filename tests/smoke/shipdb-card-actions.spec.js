@@ -33,6 +33,51 @@ test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
         expect(errors).toEqual([]);
     });
 
+    test('데스크톱: 플래너 유무와 설명 길이와 무관하게 비교 버튼 기준선이 같다', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await page.waitForSelector('.ship-card-actions .ship-compare-toggle');
+        const firstRow = await page.$$eval('#ships-grid .ship-card', (cards) => {
+            const entries = cards.map((card) => {
+                const compare = card.querySelector('.ship-compare-toggle');
+                const cardBox = card.getBoundingClientRect();
+                const compareBox = compare?.getBoundingClientRect();
+                return {
+                    top: Math.round(cardBox.top),
+                    compareBottom: Math.round(compareBox?.bottom || 0),
+                    cardBottom: Math.round(cardBox.bottom),
+                };
+            }).filter((entry) => entry.compareBottom > 0);
+            const top = Math.min(...entries.map((entry) => entry.top));
+            return entries.filter((entry) => Math.abs(entry.top - top) <= 1);
+        });
+        expect(firstRow.length).toBeGreaterThanOrEqual(2);
+        expect(Math.max(...firstRow.map((entry) => entry.compareBottom)) - Math.min(...firstRow.map((entry) => entry.compareBottom))).toBeLessThanOrEqual(1);
+        expect(firstRow.every((entry) => entry.cardBottom - entry.compareBottom >= 16)).toBe(true);
+    });
+
+    test('카드 정보: 역할군 태그는 최대 두 개, 중복 원문 역할은 숨기고 헤더가 넘치지 않는다', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await page.waitForSelector('[data-ship-id="350r"]');
+        const result = await page.locator('[data-ship-id="350r"]').evaluate((card) => {
+            const header = card.querySelector('.ship-card-header');
+            return {
+                roleTags: [...card.querySelectorAll('.ship-tag-role')].map((tag) => tag.textContent.trim()),
+                roleDetailCount: card.querySelectorAll('.ship-card-role-detail').length,
+                statCount: card.querySelectorAll('.ship-stat').length,
+                headerFits: header.scrollWidth <= header.clientWidth + 1,
+                favoriteAbsolute: getComputedStyle(card.querySelector('.hangar-toggle-btn')).position === 'absolute',
+            };
+        });
+        expect(result.roleTags).toContain('레이싱');
+        expect(result.roleTags.length).toBeLessThanOrEqual(2);
+        expect(result.roleDetailCount).toBe(0);
+        expect(result.statCount).toBe(2);
+        expect(result.headerFits).toBe(true);
+        expect(result.favoriteAbsolute).toBe(true);
+    });
+
     test('모바일 390px: 버튼 높이 = 48px, 줄바꿈으로 늘어나지 않음', async ({ browser }) => {
         const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
         const page = await ctx.newPage();
@@ -42,6 +87,8 @@ test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
         const heights = await actionHeights(page);
         expect(heights.length).toBeGreaterThan(0);
         expect(heights.every((h) => h === 48)).toBe(true);
+        const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
+        expect(noOverflow).toBe(true);
         await ctx.close();
     });
 });

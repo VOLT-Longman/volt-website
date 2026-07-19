@@ -2298,6 +2298,8 @@ body.nav-trade-open::before {
 }
 
 .ship-card {
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
     content-visibility: auto;
     contain-intrinsic-size: 340px;
@@ -2314,16 +2316,6 @@ body.nav-trade-open::before {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
-}
-
-.ship-role-badge {
-    font-family: var(--font-family);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
 .ship-role-?붾Ъ  { background: rgba(255,179,0,0.12);  color: #ffb300; }
@@ -2642,7 +2634,8 @@ body.nav-trade-open::before {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-top: 16px;
+    margin-top: auto;
+    padding-top: 16px;
 }
 .ship-compare-toggle,
 .ship-planner-toggle {
@@ -2817,7 +2810,32 @@ body.nav-trade-open::before {
     border-color: var(--volt-orange);
     color: var(--volt-orange);
 }
-.ship-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.ship-card-header {
+    position: relative;
+    display: block;
+    margin-bottom: 8px;
+}
+.ship-card-title { min-width: 0; padding-right: 40px; }
+.ship-card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-height: 24px;
+    padding-right: 40px;
+}
+.ship-card-badges > .hangar-toggle-btn {
+    position: absolute;
+    top: -2px;
+    right: 0;
+}
+.ship-card-role-detail {
+    margin: 0 0 10px;
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+}
 .ship-mfr { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-family); margin-top: 2px; }
 
 /* RSI 공식 카탈로그(컨셉/출시 장비) — 재작성 2단계, 플래그 ON 경로 전용 */
@@ -2838,16 +2856,16 @@ body.nav-trade-open::before {
 .rsi-catalog-source:hover { text-decoration: underline; }
 .rsi-catalog-retrieved { font-size: 11.5px; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
 .rsi-catalog-chip.active { background: var(--volt-orange); color: #fff; }
-.ship-focus-badge, .ship-role-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px; font-family: var(--font-family); white-space: nowrap; }
-/* 카드 설명은 4줄로 제한(EN RSI 설명은 장문이라 카드 높이가 들쭉날쭉해지는 것 방지). 전문은 모달에서. */
+.ship-focus-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px; font-family: var(--font-family); white-space: nowrap; }
+/* 카드 설명은 2줄로 제한한다. 비교에 필요한 수치·행동을 먼저 보이게 하고 전문은 모달에서 제공한다. */
 .ship-desc {
     font-size: 13px;
     color: var(--color-text-secondary);
     line-height: 1.6;
     margin-bottom: 16px;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -2858,6 +2876,7 @@ body.nav-trade-open::before {
     border-top: 1px solid var(--color-border);
     padding-top: 16px;
  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.ship-stats--canonical { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .ship-stat {
     text-align: center;
     display: flex;
@@ -4599,7 +4618,6 @@ body.nav-trade-open::before {
 .hero-tagline,
 .ship-stat-label,
 .ship-focus-badge,
-.ship-role-badge,
 .schedule-status,
 .schedule-type-badge,
 .notice-tag,

@@ -25,7 +25,7 @@ async function captureCards(page) {
         return {
             id, name, mfr, cargo,
             focusBadge: !!card.querySelector('.ship-focus-badge'),
-            roleBadge: card.querySelector('.ship-role-badge')?.textContent?.trim() || '',
+            canonicalRole: card.dataset.canonicalRole || '',
             tagCount: card.querySelectorAll('.ship-tag').length,
             priceStat: [...card.querySelectorAll('.ship-stat-label')].some((l) => l.textContent.includes('USD')),
         };
@@ -72,7 +72,7 @@ test.describe('3.1 전후 비교 (허용 차이만, 그 외 실패)', () => {
             // 허용된 이관: OFF는 focus 배지, ON은 canonical role 배지(219/219 role 보유 → 전부 표시).
             if (!a.focusBadge) unexpected.push(`${id}: OFF focus 배지 없음(기준선 위반)`);
             if (b.focusBadge) unexpected.push(`${id}: ON focus 배지 잔존(role 배지로 이관돼야)`);
-            if (!b.roleBadge) unexpected.push(`${id}: ON role 배지 없음(canonical role 미표시)`);
+            if (!b.canonicalRole) unexpected.push(`${id}: ON canonical role 없음`);
             // 허용된 제거: 태그·가격 스탯
             if (b.tagCount !== 0) unexpected.push(`${id}: ON 태그 잔존(${b.tagCount})`);
             if (b.priceStat) unexpected.push(`${id}: ON priceUsd 잔존`);

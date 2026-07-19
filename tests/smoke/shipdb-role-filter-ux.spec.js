@@ -12,9 +12,9 @@ async function onShips(page) {
     await gotoSection(page, '#ships');
     await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
 }
-async function allBadges(page) {
+async function allCanonicalRoles(page) {
     return page.$$eval('#ships-grid .ship-card', (cards) =>
-        cards.map((c) => (c.querySelector('.ship-role-badge')?.textContent || '').trim()));
+        cards.map((card) => card.dataset.canonicalRole || ''));
 }
 
 test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', () => {
@@ -63,8 +63,8 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         await input.press('Enter');
         await expect(input).toHaveValue('중형 화물선'); // Medium Freight
         await expect.poll(async () => {
-            const b = await allBadges(page);
-            return b.length > 0 && b.every((t) => t === '중형 화물선');
+            const roles = await allCanonicalRoles(page);
+            return roles.length > 0 && roles.every((role) => role === 'Medium Freight');
         }).toBe(true);
         // 다시 열고 Escape로 닫기
         await input.click();
@@ -78,7 +78,7 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         await input.click();
         await page.locator('[data-role-option="Light Fighter"]').click();
         await expect(input).toHaveValue('경 전투기');
-        await expect.poll(async () => (await allBadges(page)).every((t) => t === '경 전투기')).toBe(true);
+        await expect.poll(async () => (await allCanonicalRoles(page)).every((role) => role === 'Light Fighter')).toBe(true);
         await page.locator('[data-role-clear]').click();
         await expect(input).toHaveValue('');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(219);
@@ -93,8 +93,8 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         await page.locator('[data-role-option="Medical"]').click();
         await expect(input).toHaveValue('의료선');
         await expect.poll(async () => {
-            const b = await allBadges(page);
-            return b.length > 0 && b.every((t) => t === '의료선');
+            const roles = await allCanonicalRoles(page);
+            return roles.length > 0 && roles.every((role) => role === 'Medical');
         }).toBe(true);
         const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
         expect(noOverflow).toBe(true);

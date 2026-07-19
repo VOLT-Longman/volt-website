@@ -124,15 +124,24 @@
         const count = t.audit && t.audit.roleTagShipCount ? t.audit.roleTagShipCount : {};
         return t.axes.role.order.filter((k) => (count[k] || 0) > 0);
     }
-    // 카드 태그(ON): 규모·플랫폼 1 + 역할 최대 2 + 세부 원문 역할 KO 라벨 1.
+    // 카드 태그(ON): 규모·플랫폼 1 + 역할군 최대 2. 세부 역할은 별도 메타 행에서 렌더한다.
     function renderCardTags(ship) {
         const parts = [];
         const sizeTag = shipSizeTag(ship);
         if (sizeTag) parts.push(`<span class="ship-tag-size">${escapeHtml(taxoTagLabel('size', sizeTag))}</span>`);
         for (const k of shipRoleTags(ship).slice(0, 2)) parts.push(`<span class="ship-tag-role">${escapeHtml(taxoTagLabel('role', k))}</span>`);
-        const detail = roleDisplay(ship);
-        if (detail) parts.push(`<span class="ship-role-badge">${escapeHtml(detail)}</span>`);
         return parts.join('');
+    }
+    function normalizeRoleLabel(value) {
+        return String(value || '').trim().toLocaleLowerCase();
+    }
+    // 역할군 태그와 같은 세부 역할은 중복 표기하지 않는다. 예: Racing 태그 + Racing 원문 역할.
+    function renderCardRoleDetail(ship) {
+        const detail = roleDisplay(ship);
+        if (!detail) return '';
+        const tagLabels = shipRoleTags(ship).slice(0, 2).map((key) => taxoTagLabel('role', key));
+        if (tagLabels.some((label) => normalizeRoleLabel(label) === normalizeRoleLabel(detail))) return '';
+        return `<div class="ship-card-role-detail">${escapeHtml(detail)}</div>`;
     }
     function shipTagsLocalized(ship) {
         const ko = Array.isArray(ship.tags) ? ship.tags : [];
@@ -464,9 +473,9 @@
             return;
         }
         container.innerHTML = ships.map((ship) => `
-            <article class="ship-card reveal" data-ship-id="${escapeHtml(ship.id)}">
+            <article class="ship-card reveal" data-ship-id="${escapeHtml(ship.id)}" data-canonical-role="${escapeHtml(canonicalRole(ship) || '')}">
                 <div class="ship-card-header">
-                    <div>
+                    <div class="ship-card-title">
                         <h3 class="ship-name"><button type="button" class="ship-name-btn" data-open-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(`${getShipDisplayName(ship)} ${i18nT('ships.viewDetail', '상세 보기')}`)}">${escapeHtml(getShipDisplayName(ship))}</button></h3>
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
@@ -475,9 +484,11 @@
                         ? renderCardTags(ship)
                         : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}${renderHangarToggleButton(ship)}</div>
                 </div>
+                ${canonicalOn() ? renderCardRoleDetail(ship) : ''}
                 <p class="ship-desc">${escapeHtml(shipDisplayDescription(ship))}</p>
-                <div class="ship-stats">
+                <div class="ship-stats${canonicalOn() ? ' ship-stats--canonical' : ''}">
                     <div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.cargo', '\ud654\ubb3c'))}</span><span class="ship-stat-value">${escapeHtml(cargoDisplay(ship))}</span></div>
+                    ${canonicalOn() ? `<div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.crew', '승무원'))}</span><span class="ship-stat-value">${escapeHtml(crewDisplay(ship))}</span></div>` : ''}
                     ${canonicalOn() ? '' : `<div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.priceUsd', 'USD 가격'))}</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>`}
                 </div>
                 ${canonicalOn() ? '' : `<div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>`}
