@@ -34,7 +34,7 @@ const MARKET = loadGlobals(MARKET_FILE).VOLT_SHIP_MARKET;
 // 제외: source/sourceVersion(삭제), syncedAt/erkulLocalName/erkulRef(operational),
 //       descriptions(en만 canonical로 분리, ko는 localization), 금지 필드는 애초에 live에 없음.
 const CANONICAL_LIVE_FIELDS = [
-  'manufacturer', 'role', 'career', 'size',
+  'manufacturer', 'role', 'career', 'size', 'platform',
   'crewSize', 'cargoScu', 'hp', 'massKg',
   'speeds', 'rotation', 'countermeasures', 'dimensions',
   'fuel', 'insurance', 'damageReduction',

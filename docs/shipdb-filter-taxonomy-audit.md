@@ -12,10 +12,9 @@
 | S4, S5 | 대형 | 47 |
 | S6 | 캐피탈 | 5 |
 
-- **지상(platform)**: 크기가 아니라 플랫폼. **Erkul 원본 `calculatorType`**(`ship`/`vehicle`) 직접 필드로만 판정 — 추론 아님. `vehicle` **27척**(Cyclone 전변형·Nova·Storm·Ballista·Ursa·Greycat 계열·Lynx 등).
-- **카드/필터 규칙(1개 태그)**: 지상 차량 = **지상** 태그(크기 태그 대신). 우주선 = 크기 태그. 즉 `지상 ? 지상 : sizeMap[size]`.
-- **미조인 1척**: `basher`(Erkul raw에 localName 없음) → 지상 근거 없음 → space(크기 태그). 추론하지 않음.
-- **⚠ 배치 결정 필요(PM)**: 지시서는 "canonical 생성기에 `platform` 추가"였으나, `calculatorType`이 **정규화된 live 레이어엔 없고 원본 fetch(ships.raw.json)에만** 있습니다. 실전 ON 중 deployed canonical/live 재생성 위험을 피하려 **taxonomy 계층에 `platformGroundIds`로 배치**(같은 Erkul 직접 필드 사용)했습니다. canonical에 넣으려면 live+canonical 파이프라인 재생성이 필요 — PM 확인 요청.
+- **지상(platform)**: 크기가 아니라 플랫폼. **canonical의 `platform` 필드**(B-2에서 Erkul 원본 `calculatorType` 직접 필드로 canonical에 포함). `vehicle`→`ground`(27) · `ship`→`space`(191) · 값없음→`unknown`(1, basher).
+- **카드/필터 규칙(1개 태그)**: `platform==='ground'` → **지상** 태그(크기 태그 대신). 그 외 = 크기 태그. taxonomy는 `platformGroundIds`를 보관하지 않고 클라이언트가 `canonical.platform`을 읽는다.
+- **PM 판정(B안)**: platform은 canonical에 포함 — 다음 Erkul 동기화 때 자동 유지. `build-ship-live-data`(calculatorType→platform)·`build-canonical`(화이트리스트)·Safe Apply preview·파생 정합 계약에 platform 추가. 변환 규칙은 `functions/_shared/erkul-platform.js`(fixture 테스트 `erkul-platform.test.mjs`). 현재 deployed 데이터는 로컬 재생성이 divergent(수기 함선·키순서)이라 `patch-platform-additive.mjs`로 **platform만 additive 추가**(platform 외 값 변경 0을 git 원본 대조로 증명).
 
 ## 축 2 — 역할 태그 (14, §4 표 그대로)
 

@@ -5,6 +5,8 @@
 // Node 스크립트는 파일 I/O 파이프라인 중심이라 아직 이 모듈을 공유하지 않는다(후속 리팩터 후보).
 // 추출 규칙을 바꿀 때는 두 곳을 함께 갱신하고 docs/erkul-field-map.md를 기준으로 삼는다.
 
+import { toPlatform } from './erkul-platform.js';
+
 export const ERKUL_SHIPS_ENDPOINT = 'https://server.erkul.games/live/ships';
 export const ERKUL_SHOP_ENDPOINT = 'https://server.erkul.games/shop';
 export const ERKUL_FETCH_TIMEOUT_MS = 30000;
@@ -95,6 +97,7 @@ export function normalizeErkulShip(record) {
     role: toNull(d.vehicle?.role),
     career: toNull(d.vehicle?.career),
     size: toSizeLabel(toNull(d.size)),
+    platform: toPlatform(record?.calculatorType),
     crewSize: toNull(d.vehicle?.crewSize),
     speeds: {
       scm: toNull(d.ifcs?.scmSpeed),
@@ -347,6 +350,7 @@ function buildLiveStatsEntry(currentEntry, incoming) {
     role: incoming.role,
     career: incoming.career,
     size: incoming.size,
+    platform: incoming.platform,
     crewSize: incoming.crewSize,
     speeds: incoming.speeds,
     rotation: incoming.rotation,

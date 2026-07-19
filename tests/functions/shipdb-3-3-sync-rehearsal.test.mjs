@@ -30,7 +30,7 @@ test('canonical은 Erkul live 레이어에서 파생된다(드리프트/수기 �
     const live = LIVE[rec.id];
     if (!live) { drift.push(`${rec.id}: live 없음(canonical에 있으면 안 됨)`); continue; }
     // 사실 필드가 live와 정확히 일치해야 한다(canonical은 live 파생, 수기 아님).
-    for (const f of ['manufacturer', 'role', 'career', 'size', 'crewSize', 'cargoScu', 'hp', 'massKg']) {
+    for (const f of ['manufacturer', 'role', 'career', 'size', 'platform', 'crewSize', 'cargoScu', 'hp', 'massKg']) {
       if (JSON.stringify(rec[f]) !== JSON.stringify(live[f])) drift.push(`${rec.id}.${f}: canonical≠live`);
     }
     const liveEn = live.descriptions ? (live.descriptions.en ?? null) : null;

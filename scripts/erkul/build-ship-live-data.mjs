@@ -2,9 +2,11 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { mergeMappedMarketRows, normalizeErkulMarket, normalizeMarketOnlyMappings } from '../../functions/_shared/erkul-sync.js';
+import { toPlatform } from '../../functions/_shared/erkul-platform.js';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const SHIPS_NORMALIZED_PATH = resolve(ROOT, 'data/external/erkul/ships-normalized.json');
+const SHIPS_RAW_PATH = resolve(ROOT, 'data/external/erkul/ships.raw.json'); // platform(지상): calculatorType 직접 필드
 const MARKET_PATH = resolve(ROOT, 'data/external/erkul/ship-market-normalized.json');
 const SHOP_RAW_PATH = resolve(ROOT, 'data/external/erkul/shop.raw.json');
 const MATCH_REPORT_PATH = resolve(ROOT, 'data/external/erkul/ship-match-report.json');
@@ -22,6 +24,8 @@ async function main() {
     const matchReport = JSON.parse(await readFile(MATCH_REPORT_PATH, 'utf8'));
     const manualMap = JSON.parse(await readFile(MANUAL_MAP_PATH, 'utf8'));
 
+    const shipsRaw = JSON.parse(await readFile(SHIPS_RAW_PATH, 'utf8'));
+    const calcByLocal = new Map(shipsRaw.map((r) => [r.localName, r.calculatorType])); // platform 직접 근거
     const erkulByLocal = new Map(erkul.ships.map((s) => [s.localName, s]));
     // A-3 정규화 파일에는 live ships 목록에 없는 구형 선체가 빠진다.
     // 수동 검증된 market-only 매핑을 보존하려면 원본 상점 인벤토리 전체를 사용해야 한다.
@@ -53,6 +57,7 @@ async function main() {
             role: st.role,
             career: st.career,
             size: toSizeLabel(st.size),
+            platform: toPlatform(calcByLocal.get(ship.localName)),
             crewSize: st.crewSize,
 
             speeds: st.speeds,

@@ -1,14 +1,17 @@
 {
   "layer": "ship-filter-taxonomy",
-  "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=canonical size·role + Erkul calculatorType(지상). focus/tags/career 미참조. RSI 제외.",
-  "generatedFromCommit": "7ef0753c7646c84242d8518d6db48a5158619bda",
-  "source": "ships-canonical.json[].size·role + operational erkulLocalName + erkul/ships.raw.json calculatorType",
+  "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=canonical size·role·platform만. 레거시 편집분류 미참조. RSI 제외.",
+  "generatedFromCommit": "6271f5eb288a8687258aa0a301a78a6a7323e336",
+  "source": "ships-canonical.json[].size·role·platform",
   "summary": {
     "totalRoles": 52,
     "mapped": 52,
     "unmapped": 0,
-    "groundShips": 27,
-    "unjoinedPlatform": 1
+    "platformCount": {
+      "ground": 27,
+      "space": 191,
+      "unknown": 1
+    }
   },
   "axes": {
     "size": {
@@ -146,35 +149,6 @@
       ]
     }
   },
-  "platformGroundIds": [
-    "anvil-ballista-dunestalker",
-    "anvil-ballista-snowblind",
-    "ballista",
-    "centurion",
-    "csv-sm",
-    "cyclone",
-    "cyclone-aa",
-    "cyclone-mt",
-    "cyclone-rc",
-    "cyclone-rn",
-    "cyclone-tr",
-    "lynx",
-    "mdc",
-    "mtc",
-    "mule",
-    "nova",
-    "ptv",
-    "roc",
-    "roc-ds",
-    "spartan",
-    "storm",
-    "storm-aa",
-    "stv",
-    "ursa",
-    "ursa-fortuna",
-    "ursa-medivac",
-    "utv"
-  ],
   "roleTagMap": {
     "Anti-Air": [
       "combat"
@@ -449,9 +423,6 @@
         "Medical",
         "Recovery"
       ]
-    },
-    "unjoinedPlatform": [
-      "basher"
-    ]
+    }
   }
 }
