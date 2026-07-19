@@ -1,0 +1,457 @@
+{
+  "layer": "ship-filter-taxonomy",
+  "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=canonical size·role + Erkul calculatorType(지상). focus/tags/career 미참조. RSI 제외.",
+  "generatedFromCommit": "7ef0753c7646c84242d8518d6db48a5158619bda",
+  "source": "ships-canonical.json[].size·role + operational erkulLocalName + erkul/ships.raw.json calculatorType",
+  "summary": {
+    "totalRoles": 52,
+    "mapped": 52,
+    "unmapped": 0,
+    "groundShips": 27,
+    "unjoinedPlatform": 1
+  },
+  "axes": {
+    "size": {
+      "order": [
+        "ground",
+        "small",
+        "medium",
+        "large",
+        "capital"
+      ],
+      "tags": [
+        {
+          "key": "small",
+          "ko": "소형",
+          "en": "Small"
+        },
+        {
+          "key": "medium",
+          "ko": "중형",
+          "en": "Medium"
+        },
+        {
+          "key": "large",
+          "ko": "대형",
+          "en": "Large"
+        },
+        {
+          "key": "capital",
+          "ko": "캐피탈",
+          "en": "Capital"
+        }
+      ],
+      "platform": {
+        "key": "ground",
+        "ko": "지상",
+        "en": "Ground"
+      },
+      "map": {
+        "S1": "small",
+        "S2": "small",
+        "S3": "medium",
+        "S4": "large",
+        "S5": "large",
+        "S6": "capital"
+      }
+    },
+    "role": {
+      "order": [
+        "combat",
+        "cargo",
+        "transport",
+        "salvage",
+        "mining",
+        "refining",
+        "refuel",
+        "medical",
+        "exploration",
+        "science",
+        "racing",
+        "multipurpose",
+        "modular",
+        "support"
+      ],
+      "tags": [
+        {
+          "key": "combat",
+          "ko": "전투",
+          "en": "Combat"
+        },
+        {
+          "key": "cargo",
+          "ko": "화물",
+          "en": "Cargo"
+        },
+        {
+          "key": "transport",
+          "ko": "수송",
+          "en": "Transport"
+        },
+        {
+          "key": "salvage",
+          "ko": "인양",
+          "en": "Salvage"
+        },
+        {
+          "key": "mining",
+          "ko": "채광",
+          "en": "Mining"
+        },
+        {
+          "key": "refining",
+          "ko": "정제",
+          "en": "Refining"
+        },
+        {
+          "key": "refuel",
+          "ko": "급유",
+          "en": "Refueling"
+        },
+        {
+          "key": "medical",
+          "ko": "의료",
+          "en": "Medical"
+        },
+        {
+          "key": "exploration",
+          "ko": "탐사",
+          "en": "Exploration"
+        },
+        {
+          "key": "science",
+          "ko": "과학",
+          "en": "Science"
+        },
+        {
+          "key": "racing",
+          "ko": "레이싱",
+          "en": "Racing"
+        },
+        {
+          "key": "multipurpose",
+          "ko": "다목적",
+          "en": "Multipurpose"
+        },
+        {
+          "key": "modular",
+          "ko": "모듈",
+          "en": "Modular"
+        },
+        {
+          "key": "support",
+          "ko": "지원",
+          "en": "Support"
+        }
+      ]
+    }
+  },
+  "platformGroundIds": [
+    "anvil-ballista-dunestalker",
+    "anvil-ballista-snowblind",
+    "ballista",
+    "centurion",
+    "csv-sm",
+    "cyclone",
+    "cyclone-aa",
+    "cyclone-mt",
+    "cyclone-rc",
+    "cyclone-rn",
+    "cyclone-tr",
+    "lynx",
+    "mdc",
+    "mtc",
+    "mule",
+    "nova",
+    "ptv",
+    "roc",
+    "roc-ds",
+    "spartan",
+    "storm",
+    "storm-aa",
+    "stv",
+    "ursa",
+    "ursa-fortuna",
+    "ursa-medivac",
+    "utv"
+  ],
+  "roleTagMap": {
+    "Anti-Air": [
+      "combat"
+    ],
+    "Anti-Vehicle": [
+      "combat"
+    ],
+    "Bomber": [
+      "combat"
+    ],
+    "Corvette": [
+      "combat"
+    ],
+    "Dropship": [
+      "transport"
+    ],
+    "Expedition": [
+      "exploration"
+    ],
+    "Frigate": [
+      "combat"
+    ],
+    "Generalist": [
+      "multipurpose"
+    ],
+    "Gunship": [
+      "combat"
+    ],
+    "Heavy Bomber": [
+      "combat"
+    ],
+    "Heavy Dropship": [
+      "transport"
+    ],
+    "Heavy Fighter": [
+      "combat"
+    ],
+    "Heavy Fighter / Bomber": [
+      "combat"
+    ],
+    "Heavy Freight": [
+      "cargo"
+    ],
+    "Heavy Gunship": [
+      "combat"
+    ],
+    "Heavy Refueling": [
+      "refuel",
+      "support"
+    ],
+    "Heavy Salvage": [
+      "salvage"
+    ],
+    "Heavy Tank": [
+      "combat"
+    ],
+    "Interceptor": [
+      "combat"
+    ],
+    "Interdiction": [
+      "combat"
+    ],
+    "Light Fighter": [
+      "combat"
+    ],
+    "Light Freight": [
+      "cargo"
+    ],
+    "Light Freight / Medium Fighter": [
+      "cargo",
+      "combat"
+    ],
+    "Light Mining": [
+      "mining"
+    ],
+    "Light Refueling": [
+      "refuel",
+      "support"
+    ],
+    "Light Salvage": [
+      "salvage"
+    ],
+    "Light Science": [
+      "science"
+    ],
+    "Light Tank": [
+      "combat"
+    ],
+    "Luxury Touring": [
+      "transport"
+    ],
+    "Medical": [
+      "medical",
+      "support"
+    ],
+    "Medium Data": [
+      "science"
+    ],
+    "Medium Fighter": [
+      "combat"
+    ],
+    "Medium Freight": [
+      "cargo"
+    ],
+    "Medium Freight / Gun Ship": [
+      "cargo",
+      "combat"
+    ],
+    "Medium Mining": [
+      "mining"
+    ],
+    "Medium Salvage": [
+      "salvage"
+    ],
+    "Modular": [
+      "modular"
+    ],
+    "Passenger": [
+      "transport"
+    ],
+    "Pathfinder": [
+      "exploration"
+    ],
+    "Racing": [
+      "racing"
+    ],
+    "Recovery": [
+      "salvage",
+      "support"
+    ],
+    "Reporting": [
+      "science"
+    ],
+    "Snub Carrier": [
+      "transport"
+    ],
+    "Snub Fighter": [
+      "combat"
+    ],
+    "Starter / Light Fighter": [
+      "combat"
+    ],
+    "Starter / Light Freight": [
+      "cargo"
+    ],
+    "Starter / Light Mining": [
+      "mining"
+    ],
+    "Starter / Light Salvage": [
+      "salvage"
+    ],
+    "Starter / Pathfinder": [
+      "exploration"
+    ],
+    "Stealth Bomber": [
+      "combat"
+    ],
+    "Stealth Fighter": [
+      "combat"
+    ],
+    "Touring": [
+      "transport"
+    ]
+  },
+  "unmapped": [],
+  "audit": {
+    "sizeShipCount": {
+      "small": 129,
+      "medium": 38,
+      "large": 47,
+      "capital": 5
+    },
+    "roleTagShipCount": {
+      "combat": 93,
+      "cargo": 34,
+      "transport": 24,
+      "salvage": 6,
+      "mining": 5,
+      "refining": 0,
+      "refuel": 3,
+      "medical": 6,
+      "exploration": 27,
+      "science": 3,
+      "racing": 18,
+      "multipurpose": 1,
+      "modular": 1,
+      "support": 10
+    },
+    "roleTagRoles": {
+      "combat": [
+        "Anti-Air",
+        "Anti-Vehicle",
+        "Bomber",
+        "Corvette",
+        "Frigate",
+        "Gunship",
+        "Heavy Bomber",
+        "Heavy Fighter",
+        "Heavy Fighter / Bomber",
+        "Heavy Gunship",
+        "Heavy Tank",
+        "Interceptor",
+        "Interdiction",
+        "Light Fighter",
+        "Light Freight / Medium Fighter",
+        "Light Tank",
+        "Medium Fighter",
+        "Medium Freight / Gun Ship",
+        "Snub Fighter",
+        "Starter / Light Fighter",
+        "Stealth Bomber",
+        "Stealth Fighter"
+      ],
+      "cargo": [
+        "Heavy Freight",
+        "Light Freight",
+        "Light Freight / Medium Fighter",
+        "Medium Freight",
+        "Medium Freight / Gun Ship",
+        "Starter / Light Freight"
+      ],
+      "transport": [
+        "Dropship",
+        "Heavy Dropship",
+        "Luxury Touring",
+        "Passenger",
+        "Snub Carrier",
+        "Touring"
+      ],
+      "salvage": [
+        "Heavy Salvage",
+        "Light Salvage",
+        "Medium Salvage",
+        "Recovery",
+        "Starter / Light Salvage"
+      ],
+      "mining": [
+        "Light Mining",
+        "Medium Mining",
+        "Starter / Light Mining"
+      ],
+      "refining": [],
+      "refuel": [
+        "Heavy Refueling",
+        "Light Refueling"
+      ],
+      "medical": [
+        "Medical"
+      ],
+      "exploration": [
+        "Expedition",
+        "Pathfinder",
+        "Starter / Pathfinder"
+      ],
+      "science": [
+        "Light Science",
+        "Medium Data",
+        "Reporting"
+      ],
+      "racing": [
+        "Racing"
+      ],
+      "multipurpose": [
+        "Generalist"
+      ],
+      "modular": [
+        "Modular"
+      ],
+      "support": [
+        "Heavy Refueling",
+        "Light Refueling",
+        "Medical",
+        "Recovery"
+      ]
+    },
+    "unjoinedPlatform": [
+      "basher"
+    ]
+  }
+}
