@@ -32,8 +32,11 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         // 카드: role 배지=경 화물선, focus 배지 없음
         await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('경 화물선');
         expect(await page.locator(`${CARD('freelancer')} .ship-focus-badge`).count()).toBe(0);
-        // purpose(VOLT 편집 프리셋) 행 자체가 ON에서 숨김(hidden 속성)
+        // purpose(VOLT 편집 프리셋) 행 자체가 ON에서 숨김(hidden 속성 + 실제 렌더링 모두 확인 —
+        // hidden 속성만 참이고 CSS가 [hidden]을 못 덮으면 화면엔 계속 노출되는 회귀가 있었다).
         expect(await page.locator('#ship-purpose').evaluate((el) => el.closest('.ship-advanced-row').hidden)).toBe(true);
+        await page.locator('#ship-advanced-toggle').click();
+        await expect(page.locator('#ship-purpose').locator('xpath=ancestor::div[contains(@class,"ship-advanced-row")]')).toBeHidden();
     });
 
     test('ON 필터(콤보박스): 옵션 키=Erkul EN·라벨=KO · 선택 시 해당 role만 노출', async ({ page }) => {

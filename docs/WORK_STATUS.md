@@ -1,5 +1,21 @@
 # 작업 상태 — 2026-07-19
 
+## 버그 수정 — ShipDB "목적별 추천" 필터 죽은 UI 노출 (2026-07-20)
+
+- **문제**: canonical(ON, 현재 라이브 기본값) 모드에서 `js/ships.js`가 `purpose` 행에
+  `hidden` 속성을 정상적으로 설정하는데도(PM 결정: focus/tags와 동일하게 ON에서 숨김),
+  `css/styles.css`의 `.ship-advanced-row`에 `[hidden]` 예외가 없어 `display: flex`가
+  이겨서 화면에 계속 노출됐다. 선택해도 그리드는 전혀 안 바뀌면서(ON 필터 로직이
+  `selectedTags`를 안 봄) "N척 추천" 요약 카드만 거짓으로 표시되는 사용자 오도 상태였다.
+  바로 위 `.ship-advanced-panel[hidden]`은 이미 이 패턴으로 고쳐져 있었는데 자식 행만 누락.
+- **수정**: `.ship-advanced-row[hidden] { display: none; }` 한 줄 추가.
+- **회귀 보강**: `tests/smoke/shipdb-role-migration.spec.js`의 기존 purpose 숨김 검증이
+  DOM `hidden` 속성(IDL 프로퍼티)만 확인하고 실제 렌더링은 확인하지 않아 이 버그를
+  놓쳤다 — `toBeHidden()`으로 실제 시각적 비노출까지 검증하도록 보강.
+- **검증**: check ✅ · functions 160/160 ✅ · playwright 296/296 ✅(시각회귀 포함, 별도
+  baseline 갱신 불필요). CSS 되돌려서 새 검증 스텝이 회귀를 실제로 잡는지 확인 후 복원.
+- **캐시 버전**: `20260720-02`.
+
 ## 우선순위 보수 — ShipDB 동기화·클라이언트 무결성 (완료)
 
 - **Erkul 재현성**: raw/정규화/매칭 입력 manifest를 기준으로 `npm run shipdb:erkul:verify`가 219척 파생 결과를 검증한다. 영문 원문이 동일할 때만 기존 KO 번역을 보존하고, 달라지면 번역을 무효화한다.

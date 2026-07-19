@@ -2814,6 +2814,7 @@ body.nav-trade-open::before {
     flex-wrap: wrap;
     gap: 12px;
 }
+.ship-advanced-row[hidden] { display: none; }
 .ship-advanced-label {
     min-width: 90px;
     color: var(--color-text-secondary);
