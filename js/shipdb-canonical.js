@@ -81,7 +81,8 @@
 
     function digest(text) {
         if (!window.crypto || !window.crypto.subtle) return Promise.reject(makeError('브라우저가 SHA-256 검증을 지원하지 않습니다.'));
-        return window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buffer) {
+        var normalized = String(text).replace(/\r\n/g, '\n');
+        return window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(normalized)).then(function (buffer) {
             return Array.prototype.map.call(new Uint8Array(buffer), function (value) {
                 return value.toString(16).padStart(2, '0');
             }).join('');

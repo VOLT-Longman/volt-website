@@ -4,6 +4,9 @@
 
 // 1단계에서 생성될 공개 canonical 데이터셋 경로. 그 전까지는 존재하지 않는다(테스트가 armed 상태).
 export const CANONICAL_DATASET_PATH = 'data/canonical/ships-canonical.json';
+export const OFFICIAL_SPEC_OVERRIDES_PATH = 'data/canonical/official-spec-overrides.json';
+export const OFFICIAL_SPEC_OVERRIDE_FIELDS = ['cargoScu'];
+export const OFFICIAL_SPEC_OVERRIDE_SOURCE = 'rsi-official';
 
 // 1단계 canonical 생성기 경로. 존재하면 아래 CANONICAL_FORBIDDEN_INPUTS를 참조하지 않아야 한다.
 export const CANONICAL_GENERATOR_PATH = 'scripts/shipdb-rewrite/build-canonical.mjs';

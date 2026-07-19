@@ -11,6 +11,9 @@ import { dirname, join } from 'node:path';
 import test from 'node:test';
 import {
   CANONICAL_DATASET_PATH,
+  OFFICIAL_SPEC_OVERRIDES_PATH,
+  OFFICIAL_SPEC_OVERRIDE_FIELDS,
+  OFFICIAL_SPEC_OVERRIDE_SOURCE,
   CANONICAL_GENERATOR_PATH,
   BASELINE_PATH,
   FORBIDDEN_PUBLIC_FIELDS,
@@ -108,6 +111,27 @@ test('공개 canonical ID 집합 = 기준선 hasLive 219 (fail-closed)', async (
   const extra = [...actual].filter((id) => !expected.has(id));
   assert.equal(actual.size, expected.size, `canonical ${actual.size}척, 기대 ${expected.size}`);
   assert.equal(missing.length + extra.length, 0, `canonical ID 불일치 — 누락: ${missing.slice(0, 10).join(',')} / 초과: ${extra.slice(0, 10).join(',')}`);
+});
+
+test('RSI 공식 보정은 승인된 함선·필드·공식 URL만 사용한다', async () => {
+  const overrides = JSON.parse(await readRoot(OFFICIAL_SPEC_OVERRIDES_PATH));
+  const canonical = JSON.parse(await readRoot(CANONICAL_DATASET_PATH));
+  const canonicalIds = new Set(canonical.ships.map((ship) => ship.id));
+  const allowedFields = new Set(OFFICIAL_SPEC_OVERRIDE_FIELDS);
+  const problems = [];
+  for (const record of overrides.records || []) {
+    if (!canonicalIds.has(record.id)) problems.push(`${record.id}: canonical 대상 아님`);
+    if (record.source !== OFFICIAL_SPEC_OVERRIDE_SOURCE) problems.push(`${record.id}: source`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(record.verifiedAt || '')) problems.push(`${record.id}: verifiedAt`);
+    if (!Array.isArray(record.sourceUrls) || record.sourceUrls.length === 0) problems.push(`${record.id}: sourceUrls`);
+    for (const url of record.sourceUrls || []) if (!/^https:\/\/(?:www\.)?robertsspaceindustries\.com\/|^https:\/\/media\.robertsspaceindustries\.com\//.test(url)) problems.push(`${record.id}: 비공식 URL`);
+    for (const [field, value] of Object.entries(record.fields || {})) {
+      if (!allowedFields.has(field) || !Number.isFinite(value) || value < 0) problems.push(`${record.id}.${field}`);
+    }
+  }
+  assert.equal(problems.length, 0, `RSI 공식 보정 계약 위반: ${problems.join(', ')}`);
+  const intrepid = canonical.ships.find((ship) => ship.id === 'intrepid');
+  assert.equal(intrepid?.cargoScu, 8, 'Intrepid 화물은 RSI 공식 사양 8 SCU여야 합니다.');
 });
 
 // PM 보강 2: canonical 생성기는 volt-data.js·ship-prices-usd.json·rsi-ship-matrix-index.json을 사실원으로 읽지 않는다.

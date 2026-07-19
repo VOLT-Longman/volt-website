@@ -1,0 +1,18 @@
+{
+  "schema": "shipdb-official-spec-overrides/v1",
+  "note": "Erkul live와 RSI 공식 사양이 충돌할 때만 적용하는, 출처·검증일이 보존된 필드 단위 승인 예외입니다.",
+  "records": [
+    {
+      "id": "intrepid",
+      "source": "rsi-official",
+      "sourceUrls": [
+        "https://robertsspaceindustries.com/en/comm-link/transmission/20175-Crusader-Intrepid",
+        "https://media.robertsspaceindustries.com/ynrkfgcqcb999/source.pdf"
+      ],
+      "verifiedAt": "2026-07-19",
+      "fields": {
+        "cargoScu": 8
+      }
+    }
+  ]
+}

@@ -1,36 +1,36 @@
 {
   "schema": "shipdb-client-manifest/v1",
-  "version": "1cf1393277f6f5d7",
+  "version": "eeb6240442a2c0d1",
   "files": {
     "canonical": {
       "path": "data/canonical/ships-canonical.json",
       "group": "core",
-      "sha256": "a00962fe4cbf3c2ed57fc0279a50b0308f3360c322e1d60c0ddaa68aedbf7312"
+      "sha256": "15d4452f8264c034e4c3862d0b58d4d236200cbe10917c94828c1fb2096bcbe5"
     },
     "localization": {
       "path": "data/canonical/localization-ships.json",
       "group": "core",
-      "sha256": "b51129cfc979344a2fdcd89c1dc72a5b559975e9674fb94a4ec0bc6e47c24987"
+      "sha256": "be80baf8e5dd9e68b132138950fbfe1c46984033ac0516425c9ada14f0f419e0"
     },
     "operational": {
       "path": "data/canonical/operational-ships.json",
       "group": "core",
-      "sha256": "f28e540c96167e61e8875d9c761f2889c98e8e6bbfe674769081053ab3689f89"
+      "sha256": "4b94f4e6a4a4533e7fe6cbb4076a9d9691540efb24854efe48a21170df129e39"
     },
     "editionAliases": {
       "path": "data/canonical/edition-aliases.json",
       "group": "core",
-      "sha256": "ecdbebd13f1ef1d7a81d0cf58dee70b366d05347fb0f52fb0287059f1606004f"
+      "sha256": "a304b27d427c86c7bbbddf209f2794fb4801a19f7959df70b4731f4381cdfea3"
     },
     "roleLocalization": {
       "path": "data/canonical/localization-roles.json",
       "group": "core",
-      "sha256": "a69b55ac235e9ba5faba4884333bab63a3937c9b540645556969ba1205396c02"
+      "sha256": "83582946d9bf8c3f978834398a32498ac09cfa7da5ff9a3345a23c588e6fcf4f"
     },
     "filterTaxonomy": {
       "path": "data/canonical/ship-filter-taxonomy.json",
       "group": "core",
-      "sha256": "b35e402e17764ac0e3d7c59260856ec85c9c690e3ada8a360dede48ac79ba988"
+      "sha256": "613acba7b4f153ecca74458273e4bb611011b31b0d91f99a1ffba7ea968dfeb4"
     },
     "rsiOfficial": {
       "path": "data/canonical/ships-rsi-official.json",

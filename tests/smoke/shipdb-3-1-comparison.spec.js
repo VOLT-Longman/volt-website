@@ -10,6 +10,7 @@ const aliases = require('../../data/canonical/edition-aliases.json');
 //  그 외(공유 219척의 name·manufacturer·size·cargo 값·동작)는 OFF와 동일해야 한다.
 const CANONICAL_IDS = new Set(canonical.ships.map((s) => s.id));
 const EXCLUDED_37 = new Set([...rsiOfficial.records.map((r) => r.id), ...aliases.aliases.map((a) => a.aliasId)]);
+const APPROVED_CARGO_CHANGES = new Map([['intrepid', ['0 SCU', '8 SCU']]]);
 
 // 메인 그리드 카드를 id→{표시필드}로 포착
 async function captureCards(page) {
@@ -68,7 +69,8 @@ test.describe('3.1 전후 비교 (허용 차이만, 그 외 실패)', () => {
             // 그 외 차이 없어야: 이름·제조사·화물값(cargo는 219척 Erkul==레거시)
             if (a.name !== b.name) unexpected.push(`${id}: name ${a.name}→${b.name}`);
             if (a.mfr !== b.mfr) unexpected.push(`${id}: mfr ${a.mfr}→${b.mfr}`);
-            if (a.cargo !== b.cargo) unexpected.push(`${id}: cargo ${a.cargo}→${b.cargo}`);
+            const approvedCargo = APPROVED_CARGO_CHANGES.get(id);
+            if (a.cargo !== b.cargo && (!approvedCargo || a.cargo !== approvedCargo[0] || b.cargo !== approvedCargo[1])) unexpected.push(`${id}: cargo ${a.cargo}→${b.cargo}`);
             // 허용된 이관: OFF는 focus 배지, ON은 canonical role 배지(219/219 role 보유 → 전부 표시).
             if (!a.focusBadge) unexpected.push(`${id}: OFF focus 배지 없음(기준선 위반)`);
             if (b.focusBadge) unexpected.push(`${id}: ON focus 배지 잔존(role 배지로 이관돼야)`);

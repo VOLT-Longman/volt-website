@@ -21,17 +21,20 @@ async function loadGlobals(file) {
   return { ...ctx, ...ctx.window };
 }
 
-test('canonical은 Erkul live 레이어에서 파생된다(드리프트/수기 편집 0)', async () => {
+test('canonical은 Erkul live와 승인된 RSI 공식 보정에서 파생된다', async () => {
   const LIVE = (await loadGlobals('data/ship-live-stats.js')).VOLT_SHIP_LIVE_STATS;
   const MARKET = (await loadGlobals('data/ship-market.js')).VOLT_SHIP_MARKET;
   const canon = JSON.parse(await read('data/canonical/ships-canonical.json'));
+  const overrideData = JSON.parse(await read('data/canonical/official-spec-overrides.json'));
+  const overrides = new Map(overrideData.records.map((entry) => [entry.id, entry.fields]));
   const drift = [];
   for (const rec of canon.ships) {
     const live = LIVE[rec.id];
     if (!live) { drift.push(`${rec.id}: live 없음(canonical에 있으면 안 됨)`); continue; }
     // 사실 필드가 live와 정확히 일치해야 한다(canonical은 live 파생, 수기 아님).
     for (const f of ['manufacturer', 'role', 'career', 'size', 'platform', 'crewSize', 'cargoScu', 'hp', 'massKg']) {
-      if (JSON.stringify(rec[f]) !== JSON.stringify(live[f])) drift.push(`${rec.id}.${f}: canonical≠live`);
+      const expected = overrides.get(rec.id)?.[f] ?? live[f];
+      if (JSON.stringify(rec[f]) !== JSON.stringify(expected)) drift.push(`${rec.id}.${f}: canonical≠approved source`);
     }
     const liveEn = live.descriptions ? (live.descriptions.en ?? null) : null;
     if ((rec.descriptions && rec.descriptions.en) !== liveEn) drift.push(`${rec.id}.descriptions.en: ≠live`);
@@ -39,6 +42,7 @@ test('canonical은 Erkul live 레이어에서 파생된다(드리프트/수기 �
     const mp = m && Array.isArray(m.purchase) ? m.purchase : [];
     if (JSON.stringify(rec.market.purchase) !== JSON.stringify(mp)) drift.push(`${rec.id}.market.purchase: ≠market`);
   }
+  assert.deepEqual(canon.officialOverrides, overrideData.records, 'canonical은 승인된 공식 보정 출처를 그대로 기록해야 합니다.');
   assert.equal(drift.length, 0, `canonical 드리프트: ${drift.slice(0, 15).join(', ')}`);
 });
 
