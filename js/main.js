@@ -185,7 +185,8 @@
     function renderTradeGuide() { return window.VOLT_SITE_CONTENT?.renderTradeGuide?.(); }
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
-    const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [] };
+    // selectedTags = OFF 레거시 focus/tags 칩. sizeTags·roleTags·detailRole = ON 2축 태그 필터(커밋 C).
+    const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [], sizeTags: [], roleTags: [], detailRole: '' };
     const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const UEX_CACHE_TTL_MS = { commodities: 60 * 60 * 1000, prices: 30 * 60 * 1000 };
@@ -466,19 +467,35 @@
 
     // 통합 태그 칩: '전체' + 역할 태그(복수 선택). 선택한 태그 중 하나라도 포함되면 표시한다.
 
+    // ON 2축 필터 매처: 규모·플랫폼(OR) ∧ 역할 태그(OR) ∧ 세부 역할(단일 canonical 원문). taxonomy·canonical 소유.
+    function matches2AxisFilter(ship) {
+        const canon = window.VOLT_SHIPDB_CANONICAL;
+        const t = canon && canon.taxonomy();
+        const c = canon && canon.getShip(ship.id);
+        if (!t || !c) return true; // 지연 로드 전엔 통과(로드 완료 후 재렌더에서 적용)
+        if (shipState.sizeTags.length) {
+            const sizeTag = c.platform === 'ground' ? 'ground' : t.axes.size.map[c.size];
+            if (!shipState.sizeTags.includes(sizeTag)) return false;
+        }
+        if (shipState.roleTags.length) {
+            const rtags = t.roleTagMap[c.role] || [];
+            if (!shipState.roleTags.some((k) => rtags.includes(k))) return false;
+        }
+        if (shipState.detailRole && c.role !== shipState.detailRole) return false;
+        return true;
+    }
     function getVisibleShips() {
         const query = shipState.query.trim().toLowerCase();
         let ships = getSortedShips().filter((ship) => {
             const tags = getShipTags(ship);
             const matchesManufacturer = shipState.manufacturer === 'all' || ship.manufacturer === shipState.manufacturer;
             const matchesReleaseState = !shipState.hideUnreleased || (canonicalOn() ? ship.implemented !== false : !tags.includes('\ubbf8\uad6c\ud604'));
-            // role 필터 이관: ON은 canonical role(EN)로 매칭(선택 칩 키=EN role). canonical role 없으면 제외.
-            //   OFF는 레거시 focus/tags 매칭 — 불변.
-            const matchesSelectedTags = shipState.selectedTags.length === 0 || (canonicalOn()
-                ? shipState.selectedTags.includes((shipCanonicalRole(ship) || {}).en)
-                : shipState.selectedTags.some((tag) => ship.focus === tag || tags.includes(tag)));
+            // 필터: ON은 2축(규모·플랫폼 OR + 역할 태그 OR, 축 간 AND) + 세부 역할(단일 원문). OFF는 레거시 focus/tags.
+            const matchesFilters = canonicalOn()
+                ? matches2AxisFilter(ship)
+                : (shipState.selectedTags.length === 0 || shipState.selectedTags.some((tag) => ship.focus === tag || tags.includes(tag)));
             const haystack = buildShipSearchText(ship, tags);
-            return matchesManufacturer && matchesReleaseState && matchesSelectedTags && (!query || haystack.includes(query));
+            return matchesManufacturer && matchesReleaseState && matchesFilters && (!query || haystack.includes(query));
         });
         // 재작성 ON: 메인 ShipDB 리스트를 canonical 219로 좁힌다(컨셉 30→RSI 카탈로그 탭,
         // 별칭 7→리다이렉트). canonical 지연 로드 전에는 보류하고 로드 완료 후 재렌더에서 적용

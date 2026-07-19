@@ -33,7 +33,8 @@
         editionAliases: 'data/canonical/edition-aliases.json',
         rsiOfficial: 'data/canonical/ships-rsi-official.json',
         rsiLocalization: 'data/canonical/localization-rsi-official.json',
-        roleLocalization: 'data/canonical/localization-roles.json'
+        roleLocalization: 'data/canonical/localization-roles.json',
+        filterTaxonomy: 'data/canonical/ship-filter-taxonomy.json'
     };
 
     var state = 'idle';
@@ -105,6 +106,7 @@
         getShip: getShip,
         roleKo: roleKo,
         roleList: roleList,
+        taxonomy: function () { return store.filterTaxonomy || null; },
         get data() { return store; },
         get state() { return state; }
     };

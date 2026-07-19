@@ -2560,6 +2560,17 @@ body.nav-trade-open::before {
 .ship-filter-btn.active { background: var(--volt-orange-dark); border-color: var(--volt-orange-dark); color: #fff; } /* a11y 대비 */
 /* ON 전용: 단일 검색형 역할 선택 콤보박스 (52칩 대체). 드롭다운이 잘리지 않도록 overflow 해제. */
 .ship-filters.has-role-select { overflow: visible; flex-wrap: wrap; }
+/* 2축 태그 필터(규모·플랫폼 / 역할) + 세부 역할 검색 — 커밋 C */
+.ship-filter-axes { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.ship-filter-axis { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ship-filter-axis-label { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); min-width: 72px; }
+/* 카드 태그 pill: 규모·플랫폼 / 역할 */
+.ship-tag-size, .ship-tag-role {
+    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px;
+    font-family: var(--font-family); white-space: nowrap;
+}
+.ship-tag-size { background: rgba(130, 170, 210, 0.18); color: #9ec1e0; }
+.ship-tag-role { background: rgba(232, 72, 47, 0.14); color: var(--volt-orange); }
 .ship-role-select { position: relative; width: 100%; max-width: 320px; }
 .ship-role-search {
     width: 100%; padding: 10px 40px 10px 18px;
@@ -3782,6 +3793,17 @@ body.nav-trade-open::before {
         scrollbar-width: thin;
         -webkit-overflow-scrolling: touch;
     }
+    /* 커밋 C: 모바일은 축별 가로 스크롤(줄바꿈 대신). 컨테이너는 세로 축 스택. */
+    .ship-filters.has-role-select { overflow-x: visible; }
+    .ship-filter-axis {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
+    }
+    .ship-filter-axis .ship-filter-btn, .ship-filter-axis-label { flex: 0 0 auto; }
     .ship-filter-btn {
         flex: 0 0 auto;
         scroll-snap-align: start;
@@ -4241,7 +4263,8 @@ body.nav-trade-open::before {
 .ship-card-badges {
     display: flex;
     align-items: center;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .compare-winner {
