@@ -1,98 +1,18 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-07-17T15:11:08.433Z",
+  "syncedAt": "2026-07-19T12:05:02.121Z",
+  "appliedAt": "2026-07-19T12:05:02.121Z",
+  "appliedBy": "shipdb:erkul:apply (safe apply)",
+  "previewHash": "7a32ead34cbe0eeb99c0a4da3a54c44bc61e043b2455155e116364c83c20817b",
   "matchedInput": 219,
   "liveStatsEntries": 219,
   "marketEntries": 219,
-  "entriesWithPurchase": 176,
+  "entriesWithPurchase": 177,
   "entriesWithRentals": 45,
-  "entriesWithoutMarket": 43,
-  "excluded": {
-    "unmatchedVolt": [
-      "merchantman",
-      "hull-d",
-      "hull-e",
-      "orion",
-      "javelin",
-      "genesis",
-      "endeavor",
-      "crucible",
-      "pioneer",
-      "vulcan",
-      "kraken",
-      "kraken-privateer",
-      "ranger-rc",
-      "ranger-tr",
-      "ranger-cv",
-      "nautilus",
-      "nautilus-solstice-edition",
-      "g12",
-      "g12r",
-      "g12a",
-      "liberator",
-      "odyssey",
-      "expanse",
-      "legionnaire",
-      "e1-spirit",
-      "galaxy",
-      "zeus-mk2-mr",
-      "arrastra",
-      "atls",
-      "atls-geo"
-    ],
-    "unmatchedErkul": [
-      "drak_command_module"
-    ],
-    "marketOnlyUnmatched": [
-      "rsi_aurora_mr",
-      "rsi_aurora_ln",
-      "rsi_aurora_es",
-      "rsi_aurora_cl",
-      "aegs_hammerhead",
-      "rsi_aurora_lx"
-    ],
-    "voltVariants": [
-      "mustang-alpha-vindicator",
-      "carrack-w-c8x",
-      "carrack-expedition-w-c8x",
-      "valkyrie-liberator-edition",
-      "argo-mole-carbon-edition",
-      "argo-mole-talus-edition",
-      "f8c-lightning-executive-edition"
-    ]
+  "entriesWithoutMarket": 42,
+  "skipped": {
+    "newCandidates": 1,
+    "marketOnly": 557
   },
-  "validations": [
-    {
-      "label": "live stats key 수 = matched 수",
-      "ok": true,
-      "detail": "219/219"
-    },
-    {
-      "label": "market key 수 = matched 수",
-      "ok": true,
-      "detail": "219/219"
-    },
-    {
-      "label": "모든 key가 A-4 matched VOLT id",
-      "ok": true
-    },
-    {
-      "label": "모든 stats entry에 source/syncedAt/erkulLocalName 존재",
-      "ok": true
-    },
-    {
-      "label": "모든 market entry에 source/syncedAt/erkulLocalName 존재",
-      "ok": true
-    },
-    {
-      "label": "Erkul-only 1척 미포함",
-      "ok": true,
-      "detail": "drak_command_module"
-    },
-    {
-      "label": "market-only unmatched 6종 미포함",
-      "ok": true,
-      "detail": "rsi_aurora_mr,rsi_aurora_ln,rsi_aurora_es,rsi_aurora_cl,aegs_hammerhead,rsi_aurora_lx"
-    }
-  ]
+  "warnings": []
 }

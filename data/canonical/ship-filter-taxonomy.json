@@ -1,7 +1,7 @@
 {
   "layer": "ship-filter-taxonomy",
   "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=canonical size·role·platform만. 레거시 편집분류 미참조. RSI 제외.",
-  "generatedFromCommit": "588de57def9c76d6017ddfabbbd02cecc92715ce",
+  "generatedFromCommit": "bafa22066ebc6698960391db3965ab12290c67bc",
   "source": "ships-canonical.json[].size·role·platform",
   "summary": {
     "totalRoles": 52,

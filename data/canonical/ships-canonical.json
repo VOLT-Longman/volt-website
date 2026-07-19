@@ -1,10 +1,10 @@
 {
   "schema": "shipdb-canonical/v1",
   "note": "Erkul live 기본값과 승인된 RSI 공식 필드 보정으로 생성한 canonical 데이터셋.",
-  "generatedFromCommit": "588de57def9c76d6017ddfabbbd02cecc92715ce",
+  "generatedFromCommit": "bafa22066ebc6698960391db3965ab12290c67bc",
   "sourceHashes": {
-    "data/ship-live-stats.js": "6a55deba7b44964b",
-    "data/ship-market.js": "cfed92c8b369de88",
+    "data/ship-live-stats.js": "2a91e256db39796a",
+    "data/ship-market.js": "9e783cc64ec115e0",
     "data/canonical/official-spec-overrides.json": "22ff63652a333fc3"
   },
   "officialOverrides": [
@@ -10599,7 +10599,15 @@
         "en": "Experience Argo's centuries of industrial expertise with the MOTH. Using a tried and tested chassis as its foundation, the MOTH features three dedicated salvage turrets and an external salvage autoloader, so a four person crew can strip, rip, and store salvage as fast as they can get to it."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "Teach's",
+            "location": "Levski",
+            "price": 8930250,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
