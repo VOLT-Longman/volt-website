@@ -280,17 +280,30 @@
         row.setAttribute('aria-label', labelText);
         const label = document.createElement('span');
         label.className = 'ship-filter-axis-label'; label.textContent = labelText;
+        const options = document.createElement('div');
+        options.className = 'ship-filter-axis-options';
         const clear = document.createElement('button');
         clear.type = 'button'; clear.className = 'ship-filter-btn'; clear.textContent = clearLabel;
         clear.setAttribute(`data-axis-clear`, axisKey);
-        row.append(label, clear);
+        options.appendChild(clear);
         for (const key of tagKeys) {
             const btn = document.createElement('button');
             btn.type = 'button'; btn.className = 'ship-filter-btn';
             btn.setAttribute(tagAttr, key);
             btn.textContent = taxoTagLabel(axisKey === 'size' ? 'size' : 'role', key);
-            row.appendChild(btn);
+            options.appendChild(btn);
         }
+        row.append(label, options);
+        return row;
+    }
+    function buildRoleSelectRow(roles) {
+        const row = document.createElement('div');
+        row.className = 'ship-filter-axis ship-filter-axis--detail';
+        const label = document.createElement('label');
+        label.className = 'ship-filter-axis-label';
+        label.htmlFor = 'ship-role-search';
+        label.textContent = i18nT('ships.detailRoleLabel', '세부 역할');
+        row.append(label, buildRoleCombobox(roles));
         return row;
     }
     function buildRoleCombobox(roles) {
@@ -339,7 +352,7 @@
             axes.className = 'ship-filter-axes';
             axes.appendChild(buildAxisRow('size', i18nT('ships.axisSize', '규모·플랫폼'), i18nT('ships.allTags', '전체'), sizeAxisTagKeys(), 'data-size-tag'));
             axes.appendChild(buildAxisRow('role', i18nT('ships.axisRole', '역할'), i18nT('ships.allTags', '전체'), roleAxisTagKeys(), 'data-role-tag'));
-            axes.appendChild(buildRoleCombobox(roles));
+            axes.appendChild(buildRoleSelectRow(roles));
             container.replaceChildren(axes);
         }
         syncShipFilters2Axis(container);
@@ -493,12 +506,14 @@
         if (!container) return;
         if (canonicalLoadFailed()) {
             renderShipTagFilters();
+            renderShipResultsSummary(0);
             renderShipPurposeSummary(0);
             renderCanonicalLoadError(container);
             return;
         }
         const ships = getVisibleShips();
         renderShipTagFilters();
+        renderShipResultsSummary(ships.length);
         renderShipPurposeSummary(ships.length);
         if (ships.length === 0) {
             container.innerHTML = `<div class="ships-empty">${escapeHtml(i18nT('ships.empty', '검색 결과가 없습니다.'))}</div>`;
@@ -512,9 +527,12 @@
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(displayedManufacturer(ship))}</span>
                     </div>
-                    <div class="ship-card-badges">${canonicalOn()
-                        ? renderCardTags(ship)
-                        : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}${renderHangarToggleButton(ship)}</div>
+                    <div class="ship-card-meta">
+                        <div class="ship-card-badges">${canonicalOn()
+                            ? renderCardTags(ship)
+                            : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}</div>
+                        ${renderHangarToggleButton(ship)}
+                    </div>
                 </div>
                 ${canonicalOn() ? renderCardRoleDetail(ship) : ''}
                 <p class="ship-desc">${escapeHtml(shipDisplayDescription(ship))}</p>
@@ -705,6 +723,19 @@
                 <b>${escapeHtml(countText)}</b>
             </div>
             <small>${escapeHtml(tx(copy, 'useCase'))}</small>`;
+    }
+    function renderShipResultsSummary(visibleCount) {
+        const container = document.getElementById('ship-results-summary');
+        if (!container) return;
+        const label = i18nT('ships.resultsLabel', '검색 결과');
+        const count = currentLang() === 'en'
+            ? `${visibleCount} ${i18nT('ships.resultsUnit', 'ships')}`
+            : `${visibleCount}${i18nT('ships.resultsUnit', '척')}`;
+        const labelElement = document.createElement('span');
+        const countElement = document.createElement('strong');
+        labelElement.textContent = label;
+        countElement.textContent = count;
+        container.replaceChildren(labelElement, countElement);
     }
     function setupShipCompareControls() {
         const grid = document.getElementById('ships-grid');

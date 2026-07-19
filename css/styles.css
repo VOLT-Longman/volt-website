@@ -1642,10 +1642,11 @@ body.nav-trade-open::before {
    ========================================================================== */
 
 .ships-toolbar {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(260px, 1.6fr) minmax(170px, 0.8fr) minmax(170px, 0.8fr) auto;
     align-items: center;
-    flex-wrap: wrap;
     gap: 12px;
+    width: 100%;
 }
 
 .ship-sort {
@@ -2535,8 +2536,16 @@ body.nav-trade-open::before {
 .notice-content { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; }
 
 /* ?? ?⑥꽑 ?곗씠?곕쿋?댁뒪 ?? */
-.ships-controls { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
-.ship-filters { display: flex; flex-wrap: wrap; gap: 10px; }
+.ships-controls { display: flex; flex-direction: column; gap: 16px; margin-bottom: 18px; }
+.ship-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card);
+}
 .ship-filter-btn {
     padding: 7px 18px; border-radius: var(--radius-full);
     border: 1px solid var(--color-border); background: transparent;
@@ -2553,9 +2562,10 @@ body.nav-trade-open::before {
 /* ON 전용: 단일 검색형 역할 선택 콤보박스 (52칩 대체). 드롭다운이 잘리지 않도록 overflow 해제. */
 .ship-filters.has-role-select { overflow: visible; flex-wrap: wrap; }
 /* 2축 태그 필터(규모·플랫폼 / 역할) + 세부 역할 검색 — 커밋 C */
-.ship-filter-axes { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-.ship-filter-axis { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.ship-filter-axis-label { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); min-width: 72px; }
+.ship-filter-axes { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.ship-filter-axis { display: grid; grid-template-columns: 88px minmax(0, 1fr); align-items: start; gap: 10px; }
+.ship-filter-axis-label { padding-top: 7px; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); }
+.ship-filter-axis-options { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-width: 0; }
 /* 카드 태그 pill: 규모·플랫폼 / 역할 */
 .ship-tag-size, .ship-tag-role, .ship-rsi-status {
     font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px;
@@ -2565,7 +2575,7 @@ body.nav-trade-open::before {
 .ship-tag-role { background: rgba(232, 72, 47, 0.14); color: var(--volt-orange); }
 .ship-rsi-status { background: rgba(232, 72, 47, 0.12); color: var(--volt-orange); border: 1px solid rgba(232, 72, 47, 0.35); }
 .ship-rsi-status-flight-ready { background: rgba(47, 163, 107, 0.12); color: #5bc98b; border-color: rgba(47, 163, 107, 0.4); }
-.ship-role-select { position: relative; width: 100%; max-width: 320px; }
+.ship-role-select { position: relative; width: 100%; max-width: 360px; }
 .ship-role-search {
     width: 100%; padding: 10px 40px 10px 18px;
     border: 1px solid var(--color-border); border-radius: var(--radius-full);
@@ -2597,7 +2607,7 @@ body.nav-trade-open::before {
     .ship-role-option:hover { background: rgba(255, 255, 255, 0.08); }
 }
 .ship-search {
-    width: 100%; max-width: 420px; padding: 10px 18px;
+    width: 100%; max-width: none; min-height: 48px; box-sizing: border-box; padding: 10px 18px;
     background: var(--color-bg-card); border: 1px solid var(--color-border);
     border-radius: var(--radius-full); color: var(--color-text-primary);
     font-size: 14px; font-family: inherit; transition: border-color 0.2s;
@@ -2617,12 +2627,19 @@ body.nav-trade-open::before {
     accent-color: var(--volt-orange);
 }
 .ship-search::placeholder { color: var(--color-text-tertiary); }
+.ships-toolbar .ship-sort,
+.ships-toolbar .ship-advanced-toggle {
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+}
+.ships-toolbar .ship-advanced-toggle { justify-content: center; white-space: nowrap; }
 .ships-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     margin-top: 8px;
- display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 20px; }
+}
 .ships-empty {
     grid-column: 1 / -1;
     text-align: center;
@@ -2813,24 +2830,29 @@ body.nav-trade-open::before {
     color: var(--volt-orange);
 }
 .ship-card-header {
-    position: relative;
-    display: block;
-    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 10px;
+    margin-bottom: 10px;
 }
-.ship-card-title { min-width: 0; padding-right: 40px; }
+.ship-card-title { min-width: 0; }
+.ship-card-meta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    align-items: start;
+    gap: 6px;
+    max-width: 58%;
+}
 .ship-card-badges {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: flex-end;
     gap: 6px;
     min-height: 24px;
-    padding-right: 40px;
 }
-.ship-card-badges > .hangar-toggle-btn {
-    position: absolute;
-    top: -2px;
-    right: 0;
-}
+.ship-card-meta > .hangar-toggle-btn { grid-column: 2; grid-row: 1; }
 .ship-card-role-detail {
     margin: 0 0 10px;
     color: var(--color-text-tertiary);
@@ -2857,11 +2879,12 @@ body.nav-trade-open::before {
 }
 .ship-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     border-top: 1px solid var(--color-border);
     padding-top: 16px;
- display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    margin-bottom: 14px;
+}
 .ship-stats--canonical { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .ship-stat {
     text-align: center;
@@ -2871,6 +2894,15 @@ body.nav-trade-open::before {
  background: var(--color-bg-card); border-radius: 8px; padding: 8px 10px; }
 .ship-stat-label { font-size: 10px; color: var(--color-text-tertiary); font-family: var(--font-family); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 2px; }
 .ship-stat-value { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
+.ship-results-summary {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0 0 20px;
+    color: var(--color-text-tertiary);
+    font-size: 13px;
+}
+.ship-results-summary strong { color: var(--color-text-primary); font-size: 14px; }
 .ship-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .ship-tag {
     font-size: 11px;
@@ -3801,6 +3833,10 @@ body.nav-trade-open::before {
     /* 커밋 C: 모바일은 축별 가로 스크롤(줄바꿈 대신). 컨테이너는 세로 축 스택. */
     .ship-filters.has-role-select { overflow-x: visible; }
     .ship-filter-axis {
+        grid-template-columns: 80px minmax(0, 1fr);
+        align-items: center;
+    }
+    .ship-filter-axis-options {
         flex-wrap: nowrap;
         overflow-x: auto;
         overscroll-behavior-x: contain;
@@ -3808,7 +3844,7 @@ body.nav-trade-open::before {
         -webkit-overflow-scrolling: touch;
         padding-bottom: 2px;
     }
-    .ship-filter-axis .ship-filter-btn, .ship-filter-axis-label { flex: 0 0 auto; }
+    .ship-filter-axis-options .ship-filter-btn, .ship-filter-axis-label { flex: 0 0 auto; }
     .ship-filter-btn {
         flex: 0 0 auto;
         scroll-snap-align: start;
@@ -4221,8 +4257,6 @@ body.nav-trade-open::before {
         display: grid;
         grid-template-columns: 1fr 1fr;
         align-items: end;
-    
-        flex-direction: column;
         gap: 8px;
     }
 
@@ -4256,9 +4290,21 @@ body.nav-trade-open::before {
 }
 
 @media (max-width: 480px) {
-    .ships-toolbar { align-items: stretch; flex-direction: column;  grid-template-columns: 1fr; 
+    .ships-toolbar { align-items: stretch; grid-template-columns: 1fr;
         gap: 6px;
     }
+
+    .ship-filters { padding: 14px; }
+
+    .ship-filter-axis { grid-template-columns: 1fr; gap: 4px; }
+
+    .ship-filter-axis-label { padding-top: 0; }
+
+    .ship-card-header { grid-template-columns: 1fr; }
+
+    .ship-card-meta { width: 100%; max-width: none; }
+
+    .ship-card-badges { justify-content: flex-start; }
 
     .ship-card {
         padding: 16px;

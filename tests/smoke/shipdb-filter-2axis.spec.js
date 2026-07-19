@@ -116,9 +116,9 @@ test.describe('2축 태그 필터 (규모·플랫폼 + 역할, 커밋 C)', () =>
     test('ON 모바일 390px: 축 가로 스크롤 + 태그 선택 동작', async ({ page }) => {
         await page.setViewportSize({ width: 390, height: 844 });
         await onShips(page);
-        const axis = page.locator('.ship-filter-axis').first();
-        expect(await axis.evaluate((el) => getComputedStyle(el).flexWrap)).toBe('nowrap');
-        expect(['auto', 'scroll']).toContain(await axis.evaluate((el) => getComputedStyle(el).overflowX));
+        const options = page.locator('.ship-filter-axis-options').first();
+        expect(await options.evaluate((el) => getComputedStyle(el).flexWrap)).toBe('nowrap');
+        expect(['auto', 'scroll']).toContain(await options.evaluate((el) => getComputedStyle(el).overflowX));
         await page.locator('[data-size-tag="ground"]').click();
         const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
         expect(noOverflow).toBe(true);
