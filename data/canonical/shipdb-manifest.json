@@ -1,6 +1,6 @@
 {
   "schema": "shipdb-client-manifest/v1",
-  "version": "c1cbc044e4c50457",
+  "version": "1cf1393277f6f5d7",
   "files": {
     "canonical": {
       "path": "data/canonical/ships-canonical.json",
@@ -35,12 +35,12 @@
     "rsiOfficial": {
       "path": "data/canonical/ships-rsi-official.json",
       "group": "rsi",
-      "sha256": "d9ed1b4a83cc687b1a0406a75fa83ba9a197116493295ec81f0f47ed7e8e9384"
+      "sha256": "a917db9c7ff4a5764a0898dd3ba4039d4df839b95e3ea845a5009029ae2caa2e"
     },
     "rsiLocalization": {
       "path": "data/canonical/localization-rsi-official.json",
       "group": "rsi",
-      "sha256": "01215bf329b1cea33f9678751eadde3fedf1f936022011d43f01ffaadaa924f1"
+      "sha256": "1a1825f4dcaa057dc8875e4e87a0e535908eb8d239662677462785ac381e9005"
     }
   }
 }

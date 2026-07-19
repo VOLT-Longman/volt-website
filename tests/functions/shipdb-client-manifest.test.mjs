@@ -18,8 +18,12 @@ const expected = {
   rsiLocalization: ['data/canonical/localization-rsi-official.json', 'rsi']
 };
 
+function normalizeHashInput(text) {
+  return text.replace(/\r\n/g, '\n');
+}
+
 function hash(text) {
-  return createHash('sha256').update(text).digest('hex');
+  return createHash('sha256').update(normalizeHashInput(text)).digest('hex');
 }
 
 test('ShipDB client manifest pins every canonical asset to its exact source hash', async () => {

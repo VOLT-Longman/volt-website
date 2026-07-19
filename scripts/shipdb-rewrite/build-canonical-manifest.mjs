@@ -16,8 +16,12 @@ const DATA_FILES = {
   rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'rsi' }
 };
 
+function normalizeHashInput(text) {
+  return text.replace(/\r\n/g, '\n');
+}
+
 function sha256(text) {
-  return createHash('sha256').update(text).digest('hex');
+  return createHash('sha256').update(normalizeHashInput(text)).digest('hex');
 }
 
 function read(path) {
