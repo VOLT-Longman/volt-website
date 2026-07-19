@@ -49,6 +49,7 @@
     --radius-sm: 14px;
     --radius-md: 22px;
     --radius-full: 980px;
+    --ship-card-action-height: 48px;
 
     /* Typography */
     --font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -2625,27 +2626,38 @@ body.nav-trade-open::before {
     font-family: var(--font-family);
  text-align: center; color: var(--color-text-tertiary); padding: 60px 0; font-family: var(--font-family); font-size: 14px; }
 .ship-card:hover { background: var(--color-bg-card-hover); transform: translateY(-3px); border-color: var(--color-border-accent); }
-.ship-compare-toggle {
-    width: 100%;
+/* 카드 액션 두 버튼(플래너·비교)의 공통 높이 계약 — 항상 48px, 줄바꿈으로 늘어나지 않음. */
+.ship-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     margin-top: 16px;
-    padding: 10px 12px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    background: transparent;
-    color: var(--color-text-secondary);
-    font-weight: 600;
-    cursor: pointer;
 }
+.ship-compare-toggle,
 .ship-planner-toggle {
     width: 100%;
-    margin-top: 16px;
-    padding: 10px 12px;
-    border: 1px solid var(--color-border-accent);
+    block-size: var(--ship-card-action-height);
+    min-block-size: var(--ship-card-action-height);
+    box-sizing: border-box;
+    padding: 0 12px;
     border-radius: var(--radius-full);
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+.ship-compare-toggle {
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-secondary);
+}
+.ship-planner-toggle {
+    border: 1px solid var(--color-border-accent);
     background: rgba(232, 72, 47, 0.08);
     color: var(--volt-orange);
-    font-weight: 600;
-    cursor: pointer;
 }
 .ship-planner-toggle:hover {
     border-color: var(--volt-orange);
@@ -4226,7 +4238,7 @@ body.nav-trade-open::before {
     }
 }
 /* Trade planner and ship database enhancements */
-.ship-card-actions {
+.ship-card-badges {
     display: flex;
     align-items: center;
     gap: 8px;

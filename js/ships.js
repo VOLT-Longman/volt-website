@@ -336,7 +336,7 @@
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
                         <span class="ship-mfr">${escapeHtml(ship.manufacturer)}</span>
                     </div>
-                    <div class="ship-card-actions">${canonicalOn()
+                    <div class="ship-card-badges">${canonicalOn()
                         ? (roleDisplay(ship) ? `<span class="ship-role-badge" data-style-bg="#a0aec022" data-style-color="#a0aec0">${escapeHtml(roleDisplay(ship))}</span>` : '')
                         : `<span class="ship-focus-badge" data-style-bg="${FOCUS_COLORS[ship.focus] || '#a0aec0'}22" data-style-color="${FOCUS_COLORS[ship.focus] || '#a0aec0'}">${escapeHtml(tx(ship, 'focus'))}</span>`}${renderHangarToggleButton(ship)}</div>
                 </div>
@@ -346,10 +346,12 @@
                     ${canonicalOn() ? '' : `<div class="ship-stat"><span class="ship-stat-label">${escapeHtml(i18nT('ships.priceUsd', 'USD 가격'))}</span><span class="ship-stat-value">${escapeHtml(formatShipPrice(ship.priceUsd))}</span></div>`}
                 </div>
                 ${canonicalOn() ? '' : `<div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>`}
-                ${renderShipPlannerButton(ship)}
-                <button class="ship-compare-toggle${shipCompareState.has(ship.id) ? ' active' : ''}" type="button" data-compare-ship-id="${escapeHtml(ship.id)}" aria-pressed="${shipCompareState.has(ship.id)}">
-                    ${escapeHtml(shipCompareState.has(ship.id) ? i18nT('ships.compareRemove', '비교 제거') : i18nT('ships.compareAdd', '비교 추가'))}
-                </button>
+                <div class="ship-card-actions">
+                    ${renderShipPlannerButton(ship)}
+                    <button class="ship-compare-toggle${shipCompareState.has(ship.id) ? ' active' : ''}" type="button" data-compare-ship-id="${escapeHtml(ship.id)}" aria-pressed="${shipCompareState.has(ship.id)}">
+                        ${escapeHtml(shipCompareState.has(ship.id) ? i18nT('ships.compareRemove', '비교 제거') : i18nT('ships.compareAdd', '비교 추가'))}
+                    </button>
+                </div>
             </article>`).join('');
         renderShipCompareBar();
         observeNewReveals(container);
