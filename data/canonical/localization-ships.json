@@ -1,7 +1,7 @@
 {
   "schema": "shipdb-localization/v1",
   "note": "1단계 병렬 localization(KO). D2: Erkul EN+sourceEnHash 기준. 전환 시 missing+stale=0 필수(3.2 게이트).",
-  "generatedFromCommit": "d63ec695ff0fe2b236ca3b08b2dfaad3516bc41e",
+  "generatedFromCommit": "9aebace6c3319e56888777b798a8e64261c09f0d",
   "count": 219,
   "summary": {
     "ok": 219,

@@ -1,7 +1,7 @@
 {
   "layer": "localization-roles",
   "note": "canonical role(Erkul EN) → KO UI 번역. 사실원은 canonical role. 여기는 표기 계층일 뿐.",
-  "generatedFromCommit": "d63ec695ff0fe2b236ca3b08b2dfaad3516bc41e",
+  "generatedFromCommit": "9aebace6c3319e56888777b798a8e64261c09f0d",
   "source": "ships-canonical.json[].role + ships-rsi-official.json[].rsi.role (distinct)",
   "summary": {
     "total": 67,

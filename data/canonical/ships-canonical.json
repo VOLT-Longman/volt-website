@@ -1,10 +1,10 @@
 {
   "schema": "shipdb-canonical/v1",
   "note": "Erkul live 기본값과 승인된 RSI 공식 필드 보정으로 생성한 canonical 데이터셋.",
-  "generatedFromCommit": "d63ec695ff0fe2b236ca3b08b2dfaad3516bc41e",
+  "generatedFromCommit": "9aebace6c3319e56888777b798a8e64261c09f0d",
   "sourceHashes": {
-    "data/ship-live-stats.js": "2a91e256db39796a",
-    "data/ship-market.js": "9e783cc64ec115e0",
+    "data/ship-live-stats.js": "fd265a78b04f1045",
+    "data/ship-market.js": "91e9cf29fdbcea93",
     "data/canonical/official-spec-overrides.json": "22ff63652a333fc3"
   },
   "officialOverrides": [
