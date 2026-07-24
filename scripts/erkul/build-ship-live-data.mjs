@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { mergeMappedMarketRows, normalizeErkulMarket, normalizeMarketOnlyMappings, parseDataLayerJs } from '../../functions/_shared/erkul-sync.js';
 import { toPlatform } from '../../functions/_shared/erkul-platform.js';
+import { compareLayerFacts, invalidSyncedAtKeys } from './live-data-reproducibility.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const SHIPS_NORMALIZED_PATH = resolve(ROOT, 'data/external/erkul/ships-normalized.json');
@@ -52,13 +53,20 @@ function buildInputManifest(inputs, matchedCount) {
 }
 
 function assertMatchingLayer(label, expected, actual) {
-    if (stableJson(expected) === stableJson(actual)) return;
+    const comparison = compareLayerFacts(expected, actual);
+    if (comparison.missing.length === 0 && comparison.unexpected.length === 0 && comparison.changed.length === 0) return;
     const expectedKeys = Object.keys(expected).sort();
     const actualKeys = Object.keys(actual).sort();
     const missing = expectedKeys.filter((key) => !Object.hasOwn(actual, key));
     const unexpected = actualKeys.filter((key) => !Object.hasOwn(expected, key));
-    const changed = expectedKeys.filter((key) => Object.hasOwn(actual, key) && stableJson(expected[key]) !== stableJson(actual[key]));
+    const changed = comparison.changed;
     throw new Error(`${label} 재현성 실패: 누락 ${missing.slice(0, 5).join(', ') || '0'} / 추가 ${unexpected.slice(0, 5).join(', ') || '0'} / 변경 ${changed.slice(0, 5).join(', ') || '0'}`);
+}
+
+function assertValidSyncedAt(label, layer) {
+    const invalid = invalidSyncedAtKeys(layer);
+    if (invalid.length === 0) return;
+    throw new Error(`${label} has invalid syncedAt values: ${invalid.slice(0, 5).join(', ')}`);
 }
 
 function preserveTranslation(existingEntry, description) {
@@ -192,8 +200,12 @@ async function main() {
             readFile(LIVE_STATS_PATH, 'utf8'),
             readFile(SHIP_MARKET_PATH, 'utf8')
         ]);
-        assertMatchingLayer('ship-live-stats', liveStats, parseDataLayerJs(currentStatsText, 'VOLT_SHIP_LIVE_STATS'));
-        assertMatchingLayer('ship-market', shipMarket, parseDataLayerJs(currentMarketText, 'VOLT_SHIP_MARKET'));
+        const currentStats = parseDataLayerJs(currentStatsText, 'VOLT_SHIP_LIVE_STATS');
+        const currentMarket = parseDataLayerJs(currentMarketText, 'VOLT_SHIP_MARKET');
+        assertValidSyncedAt('ship-live-stats', currentStats);
+        assertValidSyncedAt('ship-market', currentMarket);
+        assertMatchingLayer('ship-live-stats', liveStats, currentStats);
+        assertMatchingLayer('ship-market', shipMarket, currentMarket);
         if (args.recordManifest) {
             await writeFile(INPUT_MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
             console.log(`입력 manifest 기록 완료: ${INPUT_MANIFEST_PATH}`);
