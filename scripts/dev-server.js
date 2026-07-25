@@ -47,6 +47,30 @@ const server = http.createServer((req, res) => {
     });
 });
 
+server.on('error', (error) => {
+    console.error(`VOLT dev server error: ${error.message}`);
+    process.exitCode = 1;
+});
+
+// Playwright webServer는 종료 시 시그널을 보낸다. keep-alive 소켓이 남으면 close()가 대기하면서
+// Windows 로컬 실행이 끝나지 않는다. 소켓을 함께 닫고, 이벤트 루프가 비면 자연 종료한다.
+// 유예 타이머는 unref이므로 정상 드레인을 지연시키지 않고, 남은 핸들이 있을 때만 강제 종료한다.
+let closing = false;
+function shutdown() {
+    if (closing) return;
+    closing = true;
+    server.close((error) => {
+        if (error) {
+            console.error(`VOLT dev server close failed: ${error.message}`);
+            process.exitCode = 1;
+        }
+    });
+    if (typeof server.closeAllConnections === 'function') server.closeAllConnections();
+    setTimeout(() => process.exit(process.exitCode ?? 0), 2000).unref();
+}
+
+for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, shutdown);
+
 server.listen(port, () => {
     console.log(`VOLT dev server: http://localhost:${port}`);
 });
