@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import vm from 'node:vm';
 
 const APPROVED_CANDIDATE_IDS = [
     'tiburon',
@@ -23,24 +22,21 @@ function parseWindowData(source, variableName) {
     return JSON.parse(source.slice(start + prefix.length, end));
 }
 
+// 레거시 volt-data ships·ship-en은 삭제됐다. live/market 레이어만 읽고 나머지는 canonical에서 검증한다.
 async function readShipData() {
-    const [voltSource, statsSource, marketSource, englishSource] = await Promise.all([
-        readFile(new URL('../../data/volt-data.js', import.meta.url), 'utf8'),
+    const [statsSource, marketSource] = await Promise.all([
         readFile(new URL('../../data/ship-live-stats.js', import.meta.url), 'utf8'),
-        readFile(new URL('../../data/ship-market.js', import.meta.url), 'utf8'),
-        readFile(new URL('../../data/ship-en.js', import.meta.url), 'utf8')
+        readFile(new URL('../../data/ship-market.js', import.meta.url), 'utf8')
     ]);
     return {
-        ships: vm.runInNewContext(`${voltSource}; VOLT_DATA.ships;`, {}),
         stats: parseWindowData(statsSource, 'VOLT_SHIP_LIVE_STATS'),
-        market: parseWindowData(marketSource, 'VOLT_SHIP_MARKET'),
-        english: parseWindowData(englishSource, 'VOLT_SHIP_EN')
+        market: parseWindowData(marketSource, 'VOLT_SHIP_MARKET')
     };
 }
 
 // 레거시 volt-data ships 배열은 삭제됐다. 승인 선체의 존재는 canonical·표시 계층·live·market으로 확인한다.
 test('ShipDB: 승인된 Erkul 선체 9종은 전체 데이터 레이어에 포함', async () => {
-    const { stats, market, english } = await readShipData();
+    const { stats, market } = await readShipData();
     const canonical = JSON.parse(await readFile(new URL('../../data/canonical/ships-canonical.json', import.meta.url), 'utf8'));
     const presentation = JSON.parse(await readFile(new URL('../../data/canonical/presentation-ships.json', import.meta.url), 'utf8'));
     const canonicalById = new Map(canonical.ships.map((ship) => [ship.id, ship]));
@@ -50,7 +46,7 @@ test('ShipDB: 승인된 Erkul 선체 9종은 전체 데이터 레이어에 포�
         assert.ok(presentationById.get(id)?.name, `${id}: presentation name is required`);
         assert.ok(stats[id], `${id}: live stats entry is required`);
         assert.ok(market[id], `${id}: market entry is required`);
-        assert.ok(english[id]?.description, `${id}: English description is required`);
+        assert.ok(canonicalById.get(id)?.descriptions?.en, `${id}: canonical English description is required`);
     }
     assert.equal(presentation.records.some((record) => record.name === 'Command Module'), false);
 });

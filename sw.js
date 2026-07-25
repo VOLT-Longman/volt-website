@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20260720-02';
+const CACHE_VERSION = '20260725-01';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 
 // index.html에서 ?v= 버전 쿼리를 붙여 로드하는 에셋.
@@ -31,7 +31,7 @@ const VERSIONED_ASSETS = [
     '/js/volt-ai.js',
     '/data/volt-data.js',
     '/data/volt-localization.js',
-    // ship-en/ship-live-stats/ship-market(~616KB)는 함선DB 진입 시 지연 로드가 설계 —
+    // ship-live-stats/ship-market(~500KB)는 함선DB 진입 시 지연 로드가 설계 —
     // install 프리캐시에 넣으면 lazy-load 최적화를 SW가 무효화하므로 제외한다.
     // 첫 사용 시 fetch 핸들러의 cache-first가 런타임 캐시에 채운다 (G1).
 ];

@@ -35,7 +35,7 @@ test.describe('lazy init (무거운 섹션 지연 렌더)', () => {
         await expect(page.locator('#ships-grid .ship-card').first()).toBeVisible();
     });
 
-    // ShipDB 2.0 live 레이어(~500KB)도 ship-en.js처럼 함선DB 진입 전까지 로드하지 않는다.
+    // ShipDB 2.0 live 레이어(~500KB)는 함선DB 진입 전까지 로드하지 않는다.
     test('live 레이어 lazy: home 로드 시 미로드 → #ships 진입 시 로드 + 모달 표시', async ({ page }) => {
         const liveRequests = [];
         page.on('request', (request) => {

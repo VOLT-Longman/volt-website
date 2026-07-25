@@ -167,11 +167,11 @@ npm run shipdb:erkul:verify           # 배포 데이터와 재생성 결과 대
 npm run shipdb:canonical:build        # canonical·localization·taxonomy·manifest 재생성
 ```
 
-- 3.5-B에서 레거시 재생성 경로(`sync-rsi-ship-matrix`·`sync-ship-prices`·`normalize-ship-database`·`build-ship-database`·`build-ship-en`)와
+- 3.5-B에서 레거시 재생성 경로(`sync-rsi-ship-matrix`·`sync-ship-prices`·`normalize-ship-database`·`build-ship-database`·`build-ship-en`)·`data/ship-en.js`와
   SC Wiki 가격 데이터(`data/ship-prices-usd.json`)를 **물리 삭제**했다. 다시 만들지 않는다(계약 테스트가 부재를 강제).
 - 함선DB 편집은 `data/volt-data.js`(표시명·설명 시드) + D1 `ship_overrides`(운영 수정값) **병합** 구조다.
   운영 중 함선 필드 수정은 관리자 함선DB 탭에서 하며 `data/volt-data.js`를 직접 고치지 않는다.
-- `data/ship-en.js`는 EN 모드에서 **지연 로드**되는 표시 계층이다(스펙 사실값은 canonical이 소유).
+- EN 표시(이름·설명·역할)는 canonical·presentation·localization 계층이 직접 제공한다. 레거시 `data/ship-en.js`는 삭제됐다.
 
 ---
 

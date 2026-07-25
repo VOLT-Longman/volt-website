@@ -176,11 +176,6 @@
         if (tagLabels.some((label) => normalizeRoleLabel(label) === normalizeRoleLabel(detail))) return '';
         return `<div class="ship-card-role-detail">${escapeHtml(detail)}</div>`;
     }
-    function shipTagsLocalized(ship) {
-        const ko = Array.isArray(ship.tags) ? ship.tags : [];
-        if (currentLang() === 'en' && Array.isArray(ship.tags_en) && ship.tags_en.length === ko.length) return ship.tags_en;
-        return ko;
-    }
     const shipCompareState = new Set();
     const SHIP_PURPOSE_COPY = {
         '입문': {
@@ -829,7 +824,6 @@
                 <div class="ship-compare-tags">
                     ${ships.map((ship) => `<section>
                         <h3>${escapeHtml(getShipDisplayName(ship))}</h3>
-                        <div class="ship-tags">${shipTagsLocalized(ship).map((tag) => `<span class="ship-tag">${escapeHtml(tag)}</span>`).join('')}</div>
                         ${renderShipPlannerAction(ship, 'btn btn-secondary ship-compare-use')}
                     </section>`).join('')}
                 </div>

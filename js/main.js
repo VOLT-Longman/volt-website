@@ -23,48 +23,8 @@
     // 랜딩 강화 레이어(js/landing.js)는 선택적이다. 호출부가 window.VOLT_LANDING?.() 옵셔널
     // 체이닝으로 접근하므로 로드 실패(캐시 skew·네트워크·보안 규칙) 시에도 핵심 사이트가 죽지 않는다.
     if (!window.VOLT_LANDING) console.warn('VOLT_LANDING 미로드 — 랜딩 강화 레이어 없이 계속 진행');
-    // 함선 영어 데이터(_en)는 EN 모드에서만 필요 → 지연 로드(KO 초기 로드에서 103KB 제외).
-    // tx(ship, field)가 EN을 집어들도록 병합. KO 원본 필드는 필터/색상/검색용으로 유지.
-    let shipEnState = 'idle';
-    let shipEnPromise = null;
-    function mergeShipEn() {
-        if (!window.VOLT_SHIP_EN || publicShips.length === 0) return;
-        for (const ship of publicShips) {
-            const en = window.VOLT_SHIP_EN[ship.id];
-            if (!en) continue;
-            ship.role_en = en.role;
-            ship.focus_en = en.focus;
-            ship.size_en = en.size;
-            ship.crew_en = en.crew;
-            ship.description_en = en.description;
-            ship.tags_en = Array.isArray(en.tags) ? en.tags : [];
-        }
-    }
-    // ship-en.js를 필요 시 1회만 동적 로드 후 병합. 로드 실패는 조용히 KO 폴백(경고 로그).
-    function ensureShipEn() {
-        if (shipEnState === 'loaded') return Promise.resolve();
-        if (shipEnState === 'loading') return shipEnPromise;
-        shipEnState = 'loading';
-        shipEnPromise = new Promise((resolve) => {
-            if (window.VOLT_SHIP_EN) { mergeShipEn(); shipEnState = 'loaded'; return resolve(); }
-            const script = document.createElement('script');
-            const mainSrc = document.querySelector('script[src*="js/main.js"]')?.getAttribute('src') || '';
-            const version = (mainSrc.match(/\?v=([\w.-]+)/) || [])[1];
-            script.src = `data/ship-en.js${version ? `?v=${version}` : ''}`;
-            script.onload = () => { mergeShipEn(); shipEnState = 'loaded'; resolve(); };
-            script.onerror = () => { shipEnState = 'idle'; console.warn('ship-en 로드 실패 — 영어 함선 정보 폴백(KO)'); resolve(); };
-            document.head.appendChild(script);
-        });
-        return shipEnPromise;
-    }
-    // EN일 때만 ship-en 로드 후 함선 UI를 다시 렌더한다.
-    function ensureShipEnForEn() {
-        if (currentLang() !== 'en') return;
-        // EN 함선 데이터는 항상 병합하되, 함선DB가 이미 표시된 경우에만 다시 렌더한다.
-        ensureShipEn().then(() => { if (renderedLazySections.has('ships')) renderShipsSection(); });
-    }
     // ShipDB 2.0 live 레이어(스펙/구매처, 합계 ~500KB)는 함선DB 첫 진입 전까지 로드하지 않는다.
-    // ship-en.js와 같은 지연 로드 패턴. 로드 실패 시 모달은 live 섹션 없이 기존 정보로 폴백한다.
+    // 함선DB 첫 진입 시 지연 로드한다. 로드 실패 시 모달은 live 섹션 없이 canonical 정보로 폴백한다.
     let shipLiveState = 'idle';
     let shipLivePromise = null;
     function ensureShipLiveData() {
@@ -605,7 +565,6 @@
         const c = canonicalShip(ship);
         return [
             c?.name || ship.name, shipManufacturerLabel(ship), c?.manufacturer, ship?.manufacturer, ...(cr ? [cr.en, cr.ko] : []), c?.descriptions?.ko, c?.descriptions?.en, ship.description, ship.cargo,
-            ship.size_en, ship.description_en,
             ...getShipLiveDescriptions(ship),
             ...tags, ...getShipAliases(ship)
         ].filter(Boolean).join(' ').toLowerCase();
@@ -1896,7 +1855,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); ensureShipEnForEn(); });
+            i18n.onChange(() => { updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); });
         }
         setupDynamicStyles();
         setupSplash();
@@ -1905,7 +1864,6 @@
         // 진입 시 등장). 전역 revealObserver 의존이 없어져 순서 제약도 사라졌다.
         window.VOLT_LANDING?.setup?.();
         renderAll();
-        ensureShipEnForEn();
         setupNavLinks();
         setupMobileMenu();
         setupNoticeControls();
