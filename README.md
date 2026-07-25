@@ -30,6 +30,7 @@
 | [`docs/ADMIN_CMS_RUNBOOK.md`](docs/ADMIN_CMS_RUNBOOK.md) | 관리자 CMS 사용법 · 환경변수 · Discord OAuth · 콘텐츠 입력 기준 |
 | [`docs/ship-data-pipeline.md`](docs/ship-data-pipeline.md) | 함선 데이터 소스(RSI Ship Matrix)·가격·EN 생성 파이프라인 |
 | [`docs/shipdb-live-data-layer.md`](docs/shipdb-live-data-layer.md) | ShipDB 2.0 라이브 데이터 레이어(Erkul stats/market) 구조·Safe Apply |
+| [`docs/erkul-r2-snapshot-runbook.md`](docs/erkul-r2-snapshot-runbook.md) | Erkul raw 스냅샷의 private R2 보관·CI 독립 재현성 검증 |
 | [`docs/shipdb-description-translation.md`](docs/shipdb-description-translation.md) | 함선 설명 KO 번역 정책·stale 처리 |
 | [`docs/shipdb-new-ship-candidates.md`](docs/shipdb-new-ship-candidates.md) | 신규 함선 후보 분류표(보류/제외/수동매핑) |
 | [`docs/shipdb-erkul-rewrite-audit.md`](docs/shipdb-erkul-rewrite-audit.md) | ShipDB Erkul 재작성 v2 — 현행 필드 전수 감사(승인 기록) + PM 9개 결정 |

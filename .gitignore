@@ -19,4 +19,5 @@ debug.log
 # Erkul 전체 raw (35MB+) — 커밋하지 않음. 재현: npm run shipdb:erkul:fetch
 data/external/erkul/ships.raw.json
 data/external/erkul/shop.raw.json
+data/external/erkul/r2-snapshot-stage-manifest.json
 data/rsi-ship-matrix-index.json

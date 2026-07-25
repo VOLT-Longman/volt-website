@@ -1,0 +1,40 @@
+name: Erkul Snapshot Verify
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/external/erkul/r2-snapshot-manifest.json'
+      - 'data/ship-live-stats.js'
+      - 'data/ship-market.js'
+      - 'data/canonical/**'
+      - 'scripts/erkul/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/erkul-snapshot-verify.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    if: vars.ERKUL_SNAPSHOT_VERIFY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_SNAPSHOT_BUCKET: ${{ secrets.R2_SNAPSHOT_BUCKET }}
+      R2_SNAPSHOT_CI_ACCESS_KEY_ID: ${{ secrets.R2_SNAPSHOT_CI_ACCESS_KEY_ID }}
+      R2_SNAPSHOT_CI_SECRET_ACCESS_KEY: ${{ secrets.R2_SNAPSHOT_CI_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Reproduce ShipDB from locked R2 snapshot
+        run: npm run shipdb:erkul:snapshot:verify
