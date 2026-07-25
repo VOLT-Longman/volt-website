@@ -12,12 +12,12 @@
     let lastSearchTrigger = null;
 
     // main.js 주입 의존성(이름 동일 → 이동 코드 무수정).
-    let data, localization, escapeHtml, i18nT, trackEvent, getShipAliases, getShipById, getShipSearchEntries,
+    let data, localization, escapeHtml, i18nT, trackEvent, getShipById, getShipSearchEntries,
         resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState;
 
     function init(deps) {
         ({
-            data, localization, escapeHtml, i18nT, trackEvent, getShipAliases, getShipById, getShipSearchEntries,
+            data, localization, escapeHtml, i18nT, trackEvent, getShipById, getShipSearchEntries,
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         } = deps || {});
     }
@@ -28,23 +28,6 @@
 
     function invalidateSearchCache() {
         searchIndexCache = null;
-    }
-    // role 이관(PM): ON이면 canonical role(EN+KO)을 색인, OFF면 legacy item.role. canonical load 후
-    // main.js가 invalidateSearchCache()를 호출해 재색인된다. canonical role 없으면 색인 제외('').
-    function shipSearchRole(item) {
-        const c = window.VOLT_SHIPDB_CANONICAL;
-        if (c && c.isEnabled()) {
-            const rec = c.getShip(item.id);
-            return rec && rec.role ? `${rec.role} ${c.roleKo(rec.role) || ''}` : '';
-        }
-        return item.role || '';
-    }
-    // live 레이어(지연 로드)의 번역/영문 설명. 로드 전이면 빈 문자열 — 로드 완료 시
-    // main.js가 invalidateSearchCache()를 호출해 색인이 재구성된다.
-    function shipLiveDescriptionText(ship) {
-        const live = (window.VOLT_SHIP_LIVE_STATS || {})[ship.id];
-        if (!live || !live.descriptions) return '';
-        return [live.descriptions.ko, live.descriptions.en].filter(Boolean).join(' ');
     }
     function setupSearch() {
         const overlay = document.getElementById('search-overlay');
@@ -119,13 +102,9 @@
         searchIndexCache = result;
         return searchIndexCache;
     }
+    // 함선 검색 대상은 공개 ShipDB(canonical 219 + RSI 공식 30)뿐이다. main.js가 목록을 소유한다.
     function shipSearchEntries() {
-        if (typeof getShipSearchEntries === 'function') return getShipSearchEntries();
-        return data.ships.map((ship) => ({
-            ship,
-            title: ship.name,
-            body: `${ship.manufacturer} ${shipSearchRole(ship)} ${ship.description} ${shipLiveDescriptionText(ship)} ${getShipAliases(ship).join(' ')}`
-        }));
+        return typeof getShipSearchEntries === 'function' ? getShipSearchEntries() : [];
     }
 
     function getLocalizationSearchItems() {

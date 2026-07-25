@@ -28,8 +28,8 @@
     let shipEnState = 'idle';
     let shipEnPromise = null;
     function mergeShipEn() {
-        if (!window.VOLT_SHIP_EN || !Array.isArray(data.ships)) return;
-        for (const ship of data.ships) {
+        if (!window.VOLT_SHIP_EN || publicShips.length === 0) return;
+        for (const ship of publicShips) {
             const en = window.VOLT_SHIP_EN[ship.id];
             if (!en) continue;
             ship.role_en = en.role;
@@ -188,10 +188,13 @@
     const HANGAR_KEY = 'volt-hangar';
     // selectedTags = OFF 레거시 focus/tags 칩. sizeTags·roleTags·detailRole = ON 2축 태그 필터(커밋 C).
     const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [], sizeTags: [], roleTags: [], detailRole: '' };
-    const SHIP_FILTER_ORDER = ['화물', '전투', '탐사', '인양', '채굴', '정제', '주유', '의료', '연구', '수송', '지원', '방송', '레이싱', '다목적', '입문', '기함', '미구현'];
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const UEX_CACHE_TTL_MS = { commodities: 60 * 60 * 1000, prices: 30 * 60 * 1000 };
-    let shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
+    // 공개 ShipDB의 유일한 함선 목록(canonical 219 + RSI 공식 30). canonical 로드 전에는 비어 있고,
+    // 로드 완료 시 adoptCanonicalShips()가 채운 뒤 CMS 오버라이드를 다시 얹는다.
+    let publicShips = [];
+    let lastShipOverrides = [];
+    let shipById = new Map();
     let deferredInstallPrompt = null;
     let authState = { loggedIn: false, user: null, roles: [] };
     let userPreferencesLoaded = false;
@@ -432,8 +435,7 @@
     }
 
     function getSortedShips() {
-        if (!Array.isArray(data.ships)) return [];
-        return [...data.ships].sort(compareShips);
+        return [...publicShips].sort(compareShips);
     }
 
     function compareShips(left, right) {
@@ -453,19 +455,13 @@
     }
 
     function getShipFilterTags() {
-        // focus·tags 제거(D7): ON은 VOLT 편집 분류 필터 칩을 노출하지 않는다(대체 분류 없음).
-        if (canonicalOn()) return [];
-        if (!Array.isArray(data.ships)) return [];
-        const tags = new Set(data.ships.flatMap((ship) => [ship.focus, ...(ship.tags || [])]));
-        return SHIP_FILTER_ORDER.filter((tag) => tags.has(tag));
+        // VOLT 편집 분류(focus·tags)는 삭제됐다. 분류는 canonical taxonomy(규모·플랫폼/역할)가 담당한다.
+        return [];
     }
 
     function getShipManufacturers() {
-        if (!Array.isArray(data.ships)) return [];
-        const publicIds = canonicalOn() ? window.VOLT_SHIPDB_CANONICAL?.publicShipIds() : null;
         const manufacturers = new Map();
-        data.ships.forEach((ship) => {
-            if (publicIds && !publicIds.has(ship.id)) return;
+        publicShips.forEach((ship) => {
             const manufacturer = shipManufacturerMeta(ship);
             if (manufacturer.key) manufacturers.set(manufacturer.key, manufacturer);
         });
@@ -621,7 +617,7 @@
         ].filter(Boolean).join(' ').toLowerCase();
     }
     function getShipSearchEntries() {
-        let ships = Array.isArray(data.ships) ? data.ships : [];
+        let ships = publicShips;
         if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
             const publicIds = window.VOLT_SHIPDB_CANONICAL.publicShipIds();
             if (publicIds) ships = ships.filter((ship) => publicIds.has(ship.id));
@@ -715,7 +711,7 @@
     }
 
     function getLogisticsShips() {
-        return (data.ships || [])
+        return publicShips
             .filter(isPlannerEligibleShip)
             .sort(comparePlannerShips);
     }
@@ -894,11 +890,34 @@
     }
 
 
+    // canonical 데이터를 1회 로드해 공개 목록을 세운다. 실패해도 화면은 빈 목록으로 안전하게 유지된다.
+    let canonicalShipsPromise = null;
+    function ensureCanonicalShips() {
+        if (canonicalShipsPromise) return canonicalShipsPromise;
+        const loader = window.VOLT_SHIPDB_CANONICAL;
+        if (!loader) return Promise.resolve(false);
+        canonicalShipsPromise = loader.load()
+            .then(() => adoptCanonicalShips())
+            .catch((error) => { console.error('ShipDB canonical 로드 실패', error); return false; });
+        return canonicalShipsPromise;
+    }
+
+    // canonical 로드 완료 시 공개 목록을 교체한다. 사실값·표시명은 canonical/presentation이 소유하고,
+    // CMS 오버라이드(표시명·숨김 등)는 그 위에 다시 적용한다.
+    function adoptCanonicalShips() {
+        const ships = window.VOLT_SHIPDB_CANONICAL?.publicShips();
+        if (!Array.isArray(ships)) return false;
+        publicShips = ships;
+        applyShipOverrides(lastShipOverrides);
+        return true;
+    }
+
     function applyShipOverrides(overrides) {
-        if (!Array.isArray(overrides) || !Array.isArray(data.ships)) return;
-        const overrideById = new Map(overrides.map((item) => [item.shipId || item.id, item]));
+        if (Array.isArray(overrides)) lastShipOverrides = overrides;
+        if (!Array.isArray(lastShipOverrides) || publicShips.length === 0) { rebuildShipIndex(); return; }
+        const overrideById = new Map(lastShipOverrides.map((item) => [item.shipId || item.id, item]));
         // CMS hidden=true 함선은 공개 목록·검색·플래너에서 완전히 제외(소프트 삭제).
-        data.ships = data.ships
+        publicShips = publicShips
             .map((ship) => mergeShipOverride(ship, overrideById.get(ship.id)))
             .filter((ship) => ship.hidden !== true);
         rebuildShipIndex();
@@ -918,7 +937,8 @@
     }
 
     function rebuildShipIndex() {
-        shipById = new Map((data.ships || []).map((ship) => [ship.id, ship]));
+        shipById = new Map(publicShips.map((ship) => [ship.id, ship]));
+        window.VOLT_SEARCH?.invalidateCache?.();
     }
 
     function getMemberCount() {
@@ -1031,14 +1051,12 @@
         ensureShipLiveData().then(() => {
             if (renderedLazySections.has('ships')) renderShips();
         });
-        // 재작성 ON: canonical 로드 후 메인 리스트를 219로 재렌더(위 getVisibleShips 필터 적용).
-        if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
-            window.VOLT_SHIPDB_CANONICAL.load().then(() => {
-                if (renderedLazySections.has('ships')) renderShips();
-            }).catch(() => {
-                if (renderedLazySections.has('ships')) renderShips();
-            });
-        }
+        // canonical이 공개 목록의 사실원이므로 로드 완료 후 제조사 목록·그리드를 함께 갱신한다.
+        ensureCanonicalShips().then(() => {
+            if (!renderedLazySections.has('ships')) return;
+            renderShipManufacturers();
+            renderShips();
+        });
     }
     const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery };
     const renderedLazySections = new Set();
@@ -1845,7 +1863,7 @@
         // 랜딩(장식 계층)은 로드 실패해도 사이트가 동작해야 한다 — 옵셔널 참조 (라이브 블랭크 사고 예방)
         window.VOLT_LANDING?.init?.({
             getAnnouncements: () => data.announcements,
-            getShipsCount: () => (Array.isArray(data.ships) ? data.ships.length : null),
+            getShipsCount: () => (publicShips.length > 0 ? publicShips.length : null),
             getMemberLabel,
             currentLang, observeNewReveals,
         });
@@ -1929,6 +1947,11 @@
         const initial = getInitialRoute();
         history.replaceState({ section: initial.section }, '', initial.url);
         showSection(initial.section, false, initial.anchorId);
+        // 공개 함선 목록은 canonical이 유일 사실원이라 ShipDB 밖(전역 검색·무역플래너·격납고·랜딩)에서도
+        // 필요하다. 진입 즉시 로드하고, 완료되면 이미 렌더된 영역을 CMS 갱신과 같은 경로로 다시 그린다.
+        ensureCanonicalShips()
+            .then((ready) => { if (ready) refreshCmsRenderedContent(); })
+            .catch((error) => console.warn('ShipDB canonical load failed', error));
         loadCmsContent()
             .then(refreshCmsRenderedContent)
             .catch((error) => console.warn('CMS content refresh failed', error));

@@ -1,0 +1,1095 @@
+{
+  "schema": "shipdb-presentation/v1",
+  "note": "표시 계층: canonical 함선의 영문 표시명·공식 RSI URL만. 게임플레이 사실값은 canonical이 소유한다.",
+  "generatedFromCommit": "b93fb1676596747771210240235891bb50aa4f02",
+  "count": 219,
+  "records": [
+    {
+      "id": "100i",
+      "name": "100i",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/origin-100/100i"
+    },
+    {
+      "id": "125a",
+      "name": "125a",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/origin-100/125a"
+    },
+    {
+      "id": "135c",
+      "name": "135c",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/origin-100/135c"
+    },
+    {
+      "id": "300i",
+      "name": "300i",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/origin-300/300i"
+    },
+    {
+      "id": "315p",
+      "name": "315p",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/origin-300/315p"
+    },
+    {
+      "id": "325a",
+      "name": "325a",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/origin-300/325a"
+    },
+    {
+      "id": "350r",
+      "name": "350r",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/origin-300/350r"
+    },
+    {
+      "id": "400i",
+      "name": "400i",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/400i/400i"
+    },
+    {
+      "id": "600i-executive-edition",
+      "name": "600i Executive Edition"
+    },
+    {
+      "id": "600i-explorer",
+      "name": "600i Explorer",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/600i/600i-Explorer"
+    },
+    {
+      "id": "600i-touring",
+      "name": "600i Touring",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/600i/600i-Touring"
+    },
+    {
+      "id": "85x",
+      "name": "85X",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/85x/85X"
+    },
+    {
+      "id": "890-jump",
+      "name": "890 Jump",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/890-jump/890-Jump"
+    },
+    {
+      "id": "a1-spirit",
+      "name": "A1 Spirit ",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/spirit/A1-Spirit"
+    },
+    {
+      "id": "a2-hercules",
+      "name": "A2 Hercules",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/crusader-starlifter/A2-Hercules"
+    },
+    {
+      "id": "anvil-ballista-dunestalker",
+      "name": "Anvil Ballista Dunestalker",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-ballista/Anvil-Ballista-Dunestalker"
+    },
+    {
+      "id": "anvil-ballista-snowblind",
+      "name": "Anvil Ballista Snowblind",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-ballista/Anvil-Ballista-Snowblind"
+    },
+    {
+      "id": "apollo-medivac",
+      "name": "Apollo Medivac",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-apollo/Apollo-Medivac"
+    },
+    {
+      "id": "apollo-triage",
+      "name": "Apollo Triage",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-apollo/Apollo-Triage"
+    },
+    {
+      "id": "ares-inferno",
+      "name": "Ares Inferno ",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/crusader-ares/Ares-Inferno"
+    },
+    {
+      "id": "ares-ion",
+      "name": "Ares Ion",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/crusader-ares/Ares-Ion"
+    },
+    {
+      "id": "arrow",
+      "name": "Arrow",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-arrow/Arrow"
+    },
+    {
+      "id": "asgard",
+      "name": "Asgard",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-asgard/Asgard"
+    },
+    {
+      "id": "aurora-cl",
+      "name": "Aurora CL",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-CL"
+    },
+    {
+      "id": "aurora-es",
+      "name": "Aurora ES",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-ES"
+    },
+    {
+      "id": "aurora-ln",
+      "name": "Aurora LN",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-LN"
+    },
+    {
+      "id": "aurora-lx",
+      "name": "Aurora LX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-LX"
+    },
+    {
+      "id": "aurora-mk1-se",
+      "name": "Aurora Mk1 SE",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-SE"
+    },
+    {
+      "id": "aurora-mk2",
+      "name": "Aurora MK2",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aurora-mk-ii/Aurora-Mk-II"
+    },
+    {
+      "id": "aurora-mr",
+      "name": "Aurora MR",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-MR"
+    },
+    {
+      "id": "avenger-stalker",
+      "name": "Avenger Stalker",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-avenger/Avenger-Stalker"
+    },
+    {
+      "id": "avenger-titan",
+      "name": "Avenger Titan",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-avenger/Avenger-Titan"
+    },
+    {
+      "id": "avenger-titan-renegade",
+      "name": "Avenger Titan Renegade",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-avenger/Avenger-Titan-Renegade"
+    },
+    {
+      "id": "avenger-warlock",
+      "name": "Avenger Warlock",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-avenger/Avenger-Warlock"
+    },
+    {
+      "id": "ballista",
+      "name": "Ballista ",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-ballista/Ballista"
+    },
+    {
+      "id": "basher",
+      "name": "Basher",
+      "rsiUrl": "https://robertsspaceindustries.com/en/comm-link/transmission/21227-Grey-s-Market-Basher"
+    },
+    {
+      "id": "blade",
+      "name": "Blade",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/vanduul-blade/Blade"
+    },
+    {
+      "id": "buccaneer",
+      "name": "Buccaneer",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-buccaneer/Buccaneer"
+    },
+    {
+      "id": "c1-spirit",
+      "name": "C1 Spirit",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/spirit/C1-Spirit"
+    },
+    {
+      "id": "c2-hercules",
+      "name": "C2 Hercules",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/crusader-starlifter/C2-Hercules"
+    },
+    {
+      "id": "c8-pisces",
+      "name": "C8 Pisces",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-pisces/C8-Pisces"
+    },
+    {
+      "id": "c8r-pisces",
+      "name": "C8R Pisces",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-pisces/C8R-Pisces"
+    },
+    {
+      "id": "c8x-pisces-expedition",
+      "name": "C8X Pisces Expedition ",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-pisces/C8X-Pisces-Expedition"
+    },
+    {
+      "id": "carrack",
+      "name": "Carrack",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/carrack/Carrack"
+    },
+    {
+      "id": "carrack-expedition",
+      "name": "Carrack Expedition",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/carrack/Carrack-Expedition"
+    },
+    {
+      "id": "caterpillar",
+      "name": "Caterpillar",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-caterpillar/Caterpillar"
+    },
+    {
+      "id": "caterpillar-pirate",
+      "name": "Caterpillar Pirate"
+    },
+    {
+      "id": "centurion",
+      "name": "Centurion",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/centurion/Centurion"
+    },
+    {
+      "id": "clipper",
+      "name": "Clipper",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/clipper/Clipper"
+    },
+    {
+      "id": "constellation-andromeda",
+      "name": "Constellation Andromeda",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Andromeda"
+    },
+    {
+      "id": "constellation-aquila",
+      "name": "Constellation Aquila",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Aquila"
+    },
+    {
+      "id": "constellation-phoenix",
+      "name": "Constellation Phoenix",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Phoenix"
+    },
+    {
+      "id": "constellation-phoenix-emerald",
+      "name": "Constellation Phoenix Emerald",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Phoenix-Emerald"
+    },
+    {
+      "id": "constellation-taurus",
+      "name": "Constellation Taurus",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Taurus"
+    },
+    {
+      "id": "corsair",
+      "name": "Corsair",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-corsair/Corsair"
+    },
+    {
+      "id": "csv-sm",
+      "name": "CSV-SM",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/csv/CSV-SM"
+    },
+    {
+      "id": "cutlass-black",
+      "name": "Cutlass Black",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-cutlass/Cutlass-Black"
+    },
+    {
+      "id": "cutlass-blue",
+      "name": "Cutlass Blue",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-cutlass/Cutlass-Blue"
+    },
+    {
+      "id": "cutlass-red",
+      "name": "Cutlass Red",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-cutlass/Cutlass-Red"
+    },
+    {
+      "id": "cutlass-steel",
+      "name": "Cutlass Steel",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-cutlass/Cutlass-Steel"
+    },
+    {
+      "id": "cutter",
+      "name": "Cutter",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cutter/Cutter"
+    },
+    {
+      "id": "cutter-rambler",
+      "name": "Cutter Rambler",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cutter/Cutter-Rambler"
+    },
+    {
+      "id": "cutter-scout",
+      "name": "Cutter Scout",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cutter/Cutter-Scout"
+    },
+    {
+      "id": "cyclone",
+      "name": "Cyclone",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone"
+    },
+    {
+      "id": "cyclone-aa",
+      "name": "Cyclone AA",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-AA"
+    },
+    {
+      "id": "cyclone-mt",
+      "name": "Cyclone MT",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-MT"
+    },
+    {
+      "id": "cyclone-rc",
+      "name": "Cyclone RC",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-RC"
+    },
+    {
+      "id": "cyclone-rn",
+      "name": "Cyclone RN",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-RN"
+    },
+    {
+      "id": "cyclone-tr",
+      "name": "Cyclone TR",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-TR"
+    },
+    {
+      "id": "defender",
+      "name": "Defender",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/defender/Defender"
+    },
+    {
+      "id": "dragonfly-black",
+      "name": "Dragonfly Black",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-dragonfly/Dragonfly-Black"
+    },
+    {
+      "id": "dragonfly-star-kitten",
+      "name": "Dragonfly Star Kitten"
+    },
+    {
+      "id": "dragonfly-yellowjacket",
+      "name": "Dragonfly Yellowjacket",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-dragonfly/Dragonfly-Yellowjacket"
+    },
+    {
+      "id": "eclipse",
+      "name": "Eclipse",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/eclipse/Eclipse"
+    },
+    {
+      "id": "f7a-hornet-mk-i",
+      "name": "F7A Hornet Mk I",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7A-Hornet-Mk-I"
+    },
+    {
+      "id": "f7a-hornet-mk-ii",
+      "name": "F7A Hornet Mk II",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7A-Hornet-Mk-II"
+    },
+    {
+      "id": "f7c-hornet-mk-i",
+      "name": "F7C Hornet Mk I",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-Hornet-Mk-I"
+    },
+    {
+      "id": "f7c-hornet-mk-ii",
+      "name": "F7C Hornet Mk II",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-Hornet-Mk-II"
+    },
+    {
+      "id": "f7c-hornet-wildfire-mk-i",
+      "name": "F7C Hornet Wildfire Mk I",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-Hornet-Wildfire-Mk-I"
+    },
+    {
+      "id": "f7c-m-hornet-heartseeker-mk-ii",
+      "name": "F7C-M Hornet Heartseeker Mk II"
+    },
+    {
+      "id": "f7c-m-super-hornet-heartseeker-mk-i",
+      "name": "F7C-M Super Hornet Heartseeker Mk I",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-M-Super-Hornet-Heartseeker-Mk-I"
+    },
+    {
+      "id": "f7c-m-super-hornet-mk-i",
+      "name": "F7C-M Super Hornet Mk I",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-M-Super-Hornet-Mk-I"
+    },
+    {
+      "id": "f7c-m-super-hornet-mk-ii",
+      "name": "F7C-M Super Hornet Mk II ",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-M-Super-Hornet-Mk-II"
+    },
+    {
+      "id": "f7c-r-hornet-tracker-mk-i",
+      "name": "F7C-R Hornet Tracker Mk I",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-R-Hornet-Tracker-Mk-I"
+    },
+    {
+      "id": "f7c-r-hornet-tracker-mk-ii",
+      "name": "F7C-R Hornet Tracker Mk II",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-R-Hornet-Tracker-Mk-II"
+    },
+    {
+      "id": "f7c-s-hornet-ghost-mk-i",
+      "name": "F7C-S Hornet Ghost Mk I",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-S-Hornet-Ghost-Mk-I"
+    },
+    {
+      "id": "f7c-s-hornet-ghost-mk-ii",
+      "name": "F7C-S Hornet Ghost Mk II",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-S-Hornet-Ghost-Mk-II"
+    },
+    {
+      "id": "f8a-lightning",
+      "name": "F8A Lightning"
+    },
+    {
+      "id": "f8c-lightning",
+      "name": "F8C Lightning",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/lightning/F8C-Lightning"
+    },
+    {
+      "id": "fortune",
+      "name": "Fortune",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/fortune/Fortune"
+    },
+    {
+      "id": "freelancer",
+      "name": "Freelancer",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/misc-freelancer/Freelancer"
+    },
+    {
+      "id": "freelancer-dur",
+      "name": "Freelancer DUR",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/misc-freelancer/Freelancer-DUR"
+    },
+    {
+      "id": "freelancer-max",
+      "name": "Freelancer MAX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/misc-freelancer/Freelancer-MAX"
+    },
+    {
+      "id": "freelancer-mis",
+      "name": "Freelancer MIS",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/misc-freelancer/Freelancer-MIS"
+    },
+    {
+      "id": "fury",
+      "name": "Fury",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/fury/Fury"
+    },
+    {
+      "id": "fury-lx",
+      "name": "Fury LX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/fury/Fury-LX"
+    },
+    {
+      "id": "fury-mx",
+      "name": "Fury MX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/fury/Fury-MX"
+    },
+    {
+      "id": "gladiator",
+      "name": "Gladiator",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-gladiator/Gladiator"
+    },
+    {
+      "id": "gladius",
+      "name": "Gladius",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/gladius/Gladius"
+    },
+    {
+      "id": "gladius-pirate-edition",
+      "name": "Gladius Pirate Edition",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/gladius/Gladius-Pirate-Edition"
+    },
+    {
+      "id": "gladius-valiant",
+      "name": "Gladius Valiant",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/gladius/Gladius-Valiant"
+    },
+    {
+      "id": "glaive",
+      "name": "Glaive",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/esperia-glaive/Glaive"
+    },
+    {
+      "id": "golem",
+      "name": "Golem",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/golem/Golem"
+    },
+    {
+      "id": "golem-ox",
+      "name": "Golem OX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/golem/Golem-OX"
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/guardian/Guardian"
+    },
+    {
+      "id": "guardian-mx",
+      "name": "Guardian MX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/guardian/Guardian-MX"
+    },
+    {
+      "id": "guardian-qi",
+      "name": "Guardian QI",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/guardian/Guardian-QI"
+    },
+    {
+      "id": "hammerhead",
+      "name": "Hammerhead",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hammerhead/Hammerhead"
+    },
+    {
+      "id": "hawk",
+      "name": "Hawk",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hawk/Hawk"
+    },
+    {
+      "id": "herald",
+      "name": "Herald",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/herald/Herald"
+    },
+    {
+      "id": "hermes",
+      "name": "Hermes",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hermes/Hermes"
+    },
+    {
+      "id": "hoverquad",
+      "name": "HoverQuad",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hoverquad/HoverQuad"
+    },
+    {
+      "id": "hull-a",
+      "name": "Hull A",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-A"
+    },
+    {
+      "id": "hull-b",
+      "name": "Hull B",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-B"
+    },
+    {
+      "id": "hull-c",
+      "name": "Hull C",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-C"
+    },
+    {
+      "id": "hurricane",
+      "name": "Hurricane",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hurricane/Hurricane"
+    },
+    {
+      "id": "idris-m",
+      "name": "Idris-M",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-idris/Idris-M"
+    },
+    {
+      "id": "idris-p",
+      "name": "Idris-P",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-idris/Idris-P"
+    },
+    {
+      "id": "intrepid",
+      "name": "Intrepid",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/intrepid/Intrepid"
+    },
+    {
+      "id": "ironclad",
+      "name": "Ironclad",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/ironclad/Ironclad"
+    },
+    {
+      "id": "ironclad-assault",
+      "name": "Ironclad Assault",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/ironclad/Ironclad-Assault"
+    },
+    {
+      "id": "khartu-al",
+      "name": "Khartu-Al",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/khartu/Khartu-Al"
+    },
+    {
+      "id": "l-21-wolf",
+      "name": "L-21 Wolf",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/wolf/L-21-Wolf"
+    },
+    {
+      "id": "l-22-alpha-wolf",
+      "name": "L-22 Alpha Wolf",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/wolf/L-22-Alpha-Wolf"
+    },
+    {
+      "id": "lynx",
+      "name": "Lynx ",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/ursa/Lynx"
+    },
+    {
+      "id": "m2-hercules",
+      "name": "M2 Hercules",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/crusader-starlifter/M2-Hercules"
+    },
+    {
+      "id": "m50",
+      "name": "M50",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/origin-m50/M50"
+    },
+    {
+      "id": "m80",
+      "name": "M80",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/m80/M80"
+    },
+    {
+      "id": "mantis",
+      "name": "Mantis",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-mantis/Mantis"
+    },
+    {
+      "id": "mdc",
+      "name": "MDC",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mdc/MDC"
+    },
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/crusader-mercury-star-runner/Mercury"
+    },
+    {
+      "id": "meteor",
+      "name": "Meteor",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-meteor/Meteor"
+    },
+    {
+      "id": "mole",
+      "name": "MOLE",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/argo-mole/MOLE"
+    },
+    {
+      "id": "moth",
+      "name": "MOTH",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/moth/MOTH"
+    },
+    {
+      "id": "mpuv-cargo",
+      "name": "MPUV Cargo",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/argo/MPUV-Cargo"
+    },
+    {
+      "id": "mpuv-personnel",
+      "name": "MPUV Personnel",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/argo/MPUV-Personnel"
+    },
+    {
+      "id": "mpuv-tractor",
+      "name": "MPUV Tractor",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/argo/MPUV-Tractor"
+    },
+    {
+      "id": "mtc",
+      "name": "MTC",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mtc/MTC"
+    },
+    {
+      "id": "mule",
+      "name": "Mule",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mule/Mule"
+    },
+    {
+      "id": "mustang-alpha",
+      "name": "Mustang Alpha",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Alpha"
+    },
+    {
+      "id": "mustang-beta",
+      "name": "Mustang Beta",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Beta"
+    },
+    {
+      "id": "mustang-delta",
+      "name": "Mustang Delta",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Delta"
+    },
+    {
+      "id": "mustang-gamma",
+      "name": "Mustang Gamma",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Gamma"
+    },
+    {
+      "id": "mustang-omega",
+      "name": "Mustang Omega",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Omega"
+    },
+    {
+      "id": "nomad",
+      "name": "Nomad",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/nomad/Nomad"
+    },
+    {
+      "id": "nova",
+      "name": "Nova",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/nova-tank/Nova"
+    },
+    {
+      "id": "nox",
+      "name": "Nox",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/nox/Nox"
+    },
+    {
+      "id": "nox-kue",
+      "name": "Nox Kue",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/nox/Nox-Kue"
+    },
+    {
+      "id": "p-52-merlin",
+      "name": "P-52 Merlin",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/p52-merlin/P-52-Merlin"
+    },
+    {
+      "id": "p-72-archimedes",
+      "name": "P-72 Archimedes",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/p72-archimedes/P-72-Archimedes"
+    },
+    {
+      "id": "p-72-archimedes-emerald",
+      "name": "P-72 Archimedes Emerald",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/p72-archimedes/P-72-Archimedes-Emerald"
+    },
+    {
+      "id": "paladin",
+      "name": "Paladin",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/paladin/Paladin"
+    },
+    {
+      "id": "perseus",
+      "name": "Perseus",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/perseus/Perseus"
+    },
+    {
+      "id": "pitbull",
+      "name": "Pitbull",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/pitbull/Pitbull"
+    },
+    {
+      "id": "polaris",
+      "name": "Polaris",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/polaris/Polaris"
+    },
+    {
+      "id": "prospector",
+      "name": "Prospector",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/misc-prospector/Prospector"
+    },
+    {
+      "id": "prowler",
+      "name": "Prowler",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/prowler/Prowler"
+    },
+    {
+      "id": "prowler-utility",
+      "name": "Prowler Utility",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/prowler/Prowler-Utility"
+    },
+    {
+      "id": "ptv",
+      "name": "PTV",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/ptv/PTV"
+    },
+    {
+      "id": "pulse",
+      "name": "Pulse",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mirai-pulse/Pulse"
+    },
+    {
+      "id": "pulse-lx",
+      "name": "Pulse LX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/mirai-pulse/Pulse-LX"
+    },
+    {
+      "id": "raft",
+      "name": "RAFT",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/raft/RAFT"
+    },
+    {
+      "id": "railen",
+      "name": "Railen",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/railen/Railen"
+    },
+    {
+      "id": "razor",
+      "name": "Razor",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/razor/Razor"
+    },
+    {
+      "id": "razor-ex",
+      "name": "Razor EX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/razor/Razor-EX"
+    },
+    {
+      "id": "razor-lx",
+      "name": "Razor LX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/razor/Razor-LX"
+    },
+    {
+      "id": "reclaimer",
+      "name": "Reclaimer",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/reclaimer/Reclaimer"
+    },
+    {
+      "id": "redeemer",
+      "name": "Redeemer",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/redeemer/Redeemer"
+    },
+    {
+      "id": "reliant-kore",
+      "name": "Reliant Kore",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/reliant/Reliant-Kore"
+    },
+    {
+      "id": "reliant-mako",
+      "name": "Reliant Mako",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/reliant/Reliant-Mako"
+    },
+    {
+      "id": "reliant-sen",
+      "name": "Reliant Sen",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/reliant/Reliant-Sen"
+    },
+    {
+      "id": "reliant-tana",
+      "name": "Reliant Tana",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/reliant/Reliant-Tana"
+    },
+    {
+      "id": "retaliator",
+      "name": "Retaliator",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-retaliator/Retaliator"
+    },
+    {
+      "id": "roc",
+      "name": "ROC",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/roc/ROC"
+    },
+    {
+      "id": "roc-ds",
+      "name": "ROC-DS",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/roc/ROC-DS"
+    },
+    {
+      "id": "sabre",
+      "name": "Sabre",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre"
+    },
+    {
+      "id": "sabre-comet",
+      "name": "Sabre Comet",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Comet"
+    },
+    {
+      "id": "sabre-firebird",
+      "name": "Sabre Firebird",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Firebird"
+    },
+    {
+      "id": "sabre-peregrine",
+      "name": "Sabre Peregrine",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Peregrine"
+    },
+    {
+      "id": "sabre-raven",
+      "name": "Sabre Raven",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Raven"
+    },
+    {
+      "id": "salvation",
+      "name": "Salvation",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/salvation/Salvation"
+    },
+    {
+      "id": "san-tok-y-i",
+      "name": "San'tok.yāi",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aopoa-santokyai/Santoky-i"
+    },
+    {
+      "id": "scorpius",
+      "name": "Scorpius",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/scorpius/Scorpius"
+    },
+    {
+      "id": "scorpius-antares",
+      "name": "Scorpius Antares",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/scorpius/Scorpius-Antares"
+    },
+    {
+      "id": "scythe",
+      "name": "Scythe",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/scythe/Scythe"
+    },
+    {
+      "id": "shiv",
+      "name": "Shiv",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/shiv/Shiv"
+    },
+    {
+      "id": "spartan",
+      "name": "Spartan",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/spartan/Spartan"
+    },
+    {
+      "id": "srv",
+      "name": "SRV",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/argo-srv/SRV"
+    },
+    {
+      "id": "starfarer",
+      "name": "Starfarer",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/misc-starfarer/Starfarer"
+    },
+    {
+      "id": "starfarer-gemini",
+      "name": "Starfarer Gemini",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/misc-starfarer/Starfarer-Gemini"
+    },
+    {
+      "id": "starlancer-max",
+      "name": "Starlancer MAX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/starlancer/Starlancer-MAX"
+    },
+    {
+      "id": "starlancer-tac",
+      "name": "Starlancer TAC",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/starlancer/Starlancer-TAC"
+    },
+    {
+      "id": "starlite",
+      "name": "Starlite"
+    },
+    {
+      "id": "stinger",
+      "name": "Stinger",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/stinger/Stinger"
+    },
+    {
+      "id": "storm",
+      "name": "Storm",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/storm/Storm"
+    },
+    {
+      "id": "storm-aa",
+      "name": "Storm AA",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/storm/Storm-AA"
+    },
+    {
+      "id": "stv",
+      "name": "STV",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/stv/STV"
+    },
+    {
+      "id": "syulen",
+      "name": "Syulen",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/syulen/Syulen"
+    },
+    {
+      "id": "talon",
+      "name": "Talon",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/talon/Talon"
+    },
+    {
+      "id": "talon-shrike",
+      "name": "Talon Shrike",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/talon/Talon-Shrike"
+    },
+    {
+      "id": "terrapin",
+      "name": "Terrapin",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/terrapin/Terrapin"
+    },
+    {
+      "id": "terrapin-medic",
+      "name": "Terrapin Medic",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/terrapin/Terrapin-Medic"
+    },
+    {
+      "id": "tiburon",
+      "name": "Tiburon"
+    },
+    {
+      "id": "tyilui",
+      "name": "Tyilui"
+    },
+    {
+      "id": "ursa",
+      "name": "Ursa",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/ursa/Ursa"
+    },
+    {
+      "id": "ursa-fortuna",
+      "name": "Ursa Fortuna",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/ursa/Ursa-Fortuna"
+    },
+    {
+      "id": "ursa-medivac",
+      "name": "Ursa Medivac",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/ursa/Ursa-Medivac"
+    },
+    {
+      "id": "utv",
+      "name": "UTV",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/utv/UTV"
+    },
+    {
+      "id": "valkyrie",
+      "name": "Valkyrie",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-valkyrie/Valkyrie"
+    },
+    {
+      "id": "vanguard-harbinger",
+      "name": "Vanguard Harbinger",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/vanguard/Vanguard-Harbinger"
+    },
+    {
+      "id": "vanguard-hoplite",
+      "name": "Vanguard Hoplite",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/vanguard/Vanguard-Hoplite"
+    },
+    {
+      "id": "vanguard-sentinel",
+      "name": "Vanguard Sentinel",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/vanguard/Vanguard-Sentinel"
+    },
+    {
+      "id": "vanguard-warden",
+      "name": "Vanguard Warden",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/vanguard/Vanguard-Warden"
+    },
+    {
+      "id": "vulture",
+      "name": "Vulture",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-vulture/Vulture"
+    },
+    {
+      "id": "x1",
+      "name": "X1",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/x1/X1"
+    },
+    {
+      "id": "x1-force",
+      "name": "X1 Force",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/x1/X1-Force"
+    },
+    {
+      "id": "x1-velocity",
+      "name": "X1 Velocity",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/x1/X1-Velocity"
+    },
+    {
+      "id": "zeus-mk2-cl",
+      "name": "Zeus MK2 CL",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/zeus-mk-ii/Zeus-Mk-II-CL"
+    },
+    {
+      "id": "zeus-mk2-es",
+      "name": "Zeus MK2 ES",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/zeus-mk-ii/Zeus-Mk-II-ES"
+    }
+  ]
+}

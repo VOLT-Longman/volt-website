@@ -15,7 +15,8 @@ const expected = {
   roleLocalization: ['data/canonical/localization-roles.json', 'core'],
   filterTaxonomy: ['data/canonical/ship-filter-taxonomy.json', 'core'],
   rsiOfficial: ['data/canonical/ships-rsi-official.json', 'core'],
-  rsiLocalization: ['data/canonical/localization-rsi-official.json', 'core']
+  rsiLocalization: ['data/canonical/localization-rsi-official.json', 'core'],
+  presentation: ['data/canonical/presentation-ships.json', 'core']
 };
 
 function normalizeHashInput(text) {

@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
+const { mockApi, gotoSection } = require('./helpers');
 
 // 커밋 C: 2축 태그 필터(규모·플랫폼 + 역할) + 세부 역할 검색. 같은 축 OR·축 간 AND·세부는 원문 role 단일.
 async function onShips(page) {
@@ -17,16 +17,6 @@ async function visibleCanonicalRoles(page) {
 }
 
 test.describe('2축 태그 필터 (규모·플랫폼 + 역할, 커밋 C)', () => {
-    test('OFF 강제(되돌림): 콤보박스·2축 없음, 레거시 focus/tags 칩 유지', async ({ page }) => {
-        const errors = trackConsoleErrors(page);
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림
-        await mockApi(page); await gotoSection(page, '#ships');
-        await page.waitForSelector('.ship-card');
-        expect(await page.locator('#ship-tag-filters [data-ship-tag-filter]').count()).toBeGreaterThan(0);
-        expect(await page.locator('[data-size-tag], [data-role-tag]').count()).toBe(0);
-        expect(errors).toEqual([]);
-    });
-
     test('ON: 규모·플랫폼 축(지상+4규모)·역할 축(정제 포함)·세부 역할 검색', async ({ page }) => {
         await onShips(page);
         // 규모·플랫폼: 지상 + 소형/중형/대형/캐피탈

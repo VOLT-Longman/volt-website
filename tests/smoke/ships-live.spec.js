@@ -158,21 +158,6 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         expect(modalDesc).toBe(cardDesc);
     });
 
-    test('레이어 없는 함선(미출시): Live 섹션 없이 기존 모달 정상 + 콘솔 에러 없음', async ({ page }) => {
-        const errors = [];
-        page.on('pageerror', (error) => errors.push(String(error)));
-        // 비-live 함선은 3.5-A 실전 ON의 canonical 219에 없다 → 레거시 모달 폴백은 OFF 강제로 검증.
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; });
-        await mockApi(page);
-        await gotoSection(page, '#ships');
-        const modal = await openShipModalByName(page, 'Javelin');
-
-        await expect(modal.locator('.ship-modal-grid').first()).toBeVisible();
-        await expect(modal.locator('.ship-live-summary')).toHaveCount(0);
-        await expect(modal.locator('.ship-market-panel')).toHaveCount(0);
-        expect(errors).toEqual([]);
-    });
-
     test('모바일 390px: Asgard 모달 가로 overflow 없음', async ({ page }) => {
         await page.setViewportSize({ width: 390, height: 844 });
         await mockApi(page);

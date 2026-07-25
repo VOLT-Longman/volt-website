@@ -13,7 +13,8 @@ const DATA_FILES = {
   roleLocalization: { path: 'data/canonical/localization-roles.json', group: 'core' },
   filterTaxonomy: { path: 'data/canonical/ship-filter-taxonomy.json', group: 'core' },
   rsiOfficial: { path: 'data/canonical/ships-rsi-official.json', group: 'core' },
-  rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'core' }
+  rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'core' },
+  presentation: { path: 'data/canonical/presentation-ships.json', group: 'core' }
 };
 
 function normalizeHashInput(text) {

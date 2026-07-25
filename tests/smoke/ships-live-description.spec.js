@@ -40,20 +40,6 @@ test.describe('함선 설명 KO 번역 (A-9)', () => {
         await ctx.close();
     });
 
-    test('레이어 없는 함선(Javelin): 기존 KO 설명 폴백 + 콘솔 에러 없음', async ({ page }) => {
-        const errors = [];
-        page.on('pageerror', (error) => errors.push(String(error)));
-        // 비-live 함선(Javelin)은 3.5-A 실전 ON의 canonical 219에 없다 → 레거시 폴백은 OFF 강제로 검증.
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; });
-        await mockApi(page);
-        await gotoSection(page, '#ships');
-        const desc = await openShipModalByName(page, 'Javelin');
-
-        // 미출시 함선은 live 레이어가 없으므로 volt-data 한국어 설명이 그대로 표시된다
-        await expect(desc).toContainText(/[가-힣]/);
-        expect(errors).toEqual([]);
-    });
-
     test('KO 번역 일관성: 다른 함선(Carrack)도 번역 설명 표시', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');

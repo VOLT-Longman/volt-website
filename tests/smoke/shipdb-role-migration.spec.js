@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
+const { mockApi, gotoSection } = require('./helpers');
 
 // ShipDB 재작성 — role 원자 이관(PM 계약).
 //  OFF: 카드 focus 배지, role=레거시 VOLT 수기, 필터=focus/tags 카테고리, purpose 노출 — 완전 불변.
@@ -9,21 +9,6 @@ const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 const CARD = (id) => `[data-ship-id="${id}"]`;
 
 test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
-    test('OFF 강제(되돌림): 카드 focus 배지 · role 배지 없음 · 필터=카테고리 · purpose 노출', async ({ page }) => {
-        const errors = trackConsoleErrors(page);
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
-        await mockApi(page);
-        await gotoSection(page, '#ships');
-        await page.waitForSelector('.ship-card');
-        expect(await page.locator(`${CARD('freelancer')} .ship-focus-badge`).count()).toBe(1);
-        expect(await page.locator(`${CARD('freelancer')} .ship-card-role-detail`).count()).toBe(0);
-        // 필터에 Erkul EN role 키가 없다(OFF=KO 카테고리)
-        expect(await page.locator('#ship-tag-filters [data-ship-tag-filter="Light Freight"]').count()).toBe(0);
-        // purpose 행은 OFF에서 개별 숨김되지 않는다(상세 필터 패널 접힘과 무관하게 hidden 속성 없음)
-        expect(await page.locator('#ship-purpose').evaluate((el) => el.closest('.ship-advanced-row').hidden)).toBe(false);
-        expect(errors).toEqual([]);
-    });
-
     test('ON: 카드 role 배지=canonical KO · focus 배지 제거 · purpose 숨김', async ({ page }) => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);

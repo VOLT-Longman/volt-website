@@ -1,24 +1,9 @@
 const { test, expect } = require('@playwright/test');
-const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
+const { mockApi, gotoSection } = require('./helpers');
 
 // ShipDB 재작성 2단계 — canonical 내부 로더 + 비공개 플래그.
 // 핵심 계약: 기본 OFF에서 라이브는 완전히 불변(로드/렌더 없음). ON은 테스트 경로에서만.
 test.describe('ShipDB canonical 로더 (듀얼리드, 기본 OFF)', () => {
-    test('OFF 강제(되돌림): 플래그 비활성 + load() null + canonical fetch 0', async ({ page }) => {
-        const canonicalRequests = [];
-        page.on('request', (r) => { if (r.url().includes('/data/canonical/')) canonicalRequests.push(r.url()); });
-        const errors = trackConsoleErrors(page);
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; }); // 3.5-A 기본 ON → OFF 되돌림 검증
-        await mockApi(page);
-        await gotoSection(page, '#ships');
-        expect(await page.evaluate(() => window.VOLT_SHIPDB_CANONICAL.isEnabled())).toBe(false);
-        const result = await page.evaluate(() => window.VOLT_SHIPDB_CANONICAL.load());
-        expect(result).toBeNull();
-        expect(await page.evaluate(() => window.VOLT_SHIPDB_CANONICAL.state)).toBe('idle');
-        expect(canonicalRequests).toHaveLength(0);
-        expect(errors).toEqual([]);
-    });
-
     test('OFF 기본: 함선DB 렌더는 레거시 그대로(로더 도입 무영향)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');

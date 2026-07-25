@@ -18,7 +18,8 @@
         roleLocalization: { path: 'data/canonical/localization-roles.json', group: 'core' },
         filterTaxonomy: { path: 'data/canonical/ship-filter-taxonomy.json', group: 'core' },
         rsiOfficial: { path: 'data/canonical/ships-rsi-official.json', group: 'core' },
-        rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'core' }
+        rsiLocalization: { path: 'data/canonical/localization-rsi-official.json', group: 'core' },
+        presentation: { path: 'data/canonical/presentation-ships.json', group: 'core' }
     };
 
     var state = 'idle';
@@ -94,6 +95,7 @@
         if (key === 'roleLocalization') return payload && payload.roles && typeof payload.roles === 'object';
         if (key === 'filterTaxonomy') return payload && payload.axes && payload.roleTagMap && typeof payload.roleTagMap === 'object';
         if (key === 'rsiOfficial') return payload && Array.isArray(payload.records);
+        if (key === 'presentation') return payload && Array.isArray(payload.records) && payload.count === payload.records.length;
         return false;
     }
 
@@ -196,11 +198,42 @@
         };
     }
 
+    // 표시 계층(영문 표시명·공식 URL)과 KO 설명을 canonical 사실값에 덧붙여 화면이 쓰는 함선 객체를 만든다.
+    // 사실값은 canonical, 표시값은 presentation/localization이 소유한다(수기 게임플레이 값 없음).
+    function presentationById() {
+        var records = store.presentation && store.presentation.records;
+        return Object.fromEntries((records || []).map(function (entry) { return [entry.id, entry]; }));
+    }
+    function koDescriptionById() {
+        var records = store.localization && store.localization.records;
+        return Object.fromEntries((records || [])
+            .filter(function (entry) { return entry.status === 'ok' && entry.ko; })
+            .map(function (entry) { return [entry.id, entry.ko]; }));
+    }
+    function toCanonicalPublicShip(ship, presentation, koDescription) {
+        var merged = Object.assign({}, ship, {
+            source: 'erkul-canonical',
+            name: presentation ? presentation.name : ship.id,
+            rsiUrl: presentation ? presentation.rsiUrl || null : null
+        });
+        merged.descriptions = {
+            en: ship.descriptions ? ship.descriptions.en : null,
+            ko: koDescription || null
+        };
+        return merged;
+    }
+
     function buildShipCache() {
         var localizationById;
+        var presentation;
+        var koById;
         if (!shipCache) {
             shipCache = {};
-            store.canonical.ships.forEach(function (ship) { shipCache[ship.id] = ship; });
+            presentation = presentationById();
+            koById = koDescriptionById();
+            store.canonical.ships.forEach(function (ship) {
+                shipCache[ship.id] = toCanonicalPublicShip(ship, presentation[ship.id], koById[ship.id]);
+            });
             localizationById = rsiLocalizationById();
             store.rsiOfficial.records.forEach(function (record) {
                 shipCache[record.id] = toRsiPublicShip(record, localizationById[record.id]);
@@ -212,6 +245,12 @@
     function getShip(id) {
         if (!store.canonical || !store.rsiOfficial) return null;
         return buildShipCache()[id] || null;
+    }
+
+    // 공개 ShipDB의 유일한 함선 목록(249 = canonical 219 + RSI 공식 30). 로드 전에는 null.
+    function publicShips() {
+        if (!store.canonical || !store.rsiOfficial || !store.presentation) return null;
+        return Object.values(buildShipCache());
     }
 
     function roleKo(enRole) {
@@ -242,6 +281,7 @@
         load: load,
         retry: retry,
         publicShipIds: publicShipIds,
+        publicShips: publicShips,
         getShip: getShip,
         roleKo: roleKo,
         roleList: roleList,

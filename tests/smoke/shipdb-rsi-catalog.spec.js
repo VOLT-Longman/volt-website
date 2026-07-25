@@ -1,18 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
+const { mockApi, gotoSection } = require('./helpers');
 
 test.describe('RSI 공식 함선 통합 목록', () => {
-    test('OFF 강제: RSI 공식 상태 배지와 별도 카탈로그는 노출하지 않는다', async ({ page }) => {
-        const errors = trackConsoleErrors(page);
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = false; });
-        await mockApi(page);
-        await gotoSection(page, '#ships');
-        await page.waitForSelector('.ship-card');
-        expect(await page.locator('.ship-rsi-status').count()).toBe(0);
-        expect(await page.locator('[data-catalog-chip], #rsi-catalog-grid').count()).toBe(0);
-        expect(errors).toEqual([]);
-    });
-
     test('ON: RSI 공식 30척이 메인 목록에 포함되고 별도 탭은 없다', async ({ page }) => {
         await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
