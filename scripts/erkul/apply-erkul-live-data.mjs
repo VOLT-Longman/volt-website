@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -30,7 +31,16 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const LIVE_STATS_PATH = resolve(ROOT, 'data/ship-live-stats.js');
 const SHIP_MARKET_PATH = resolve(ROOT, 'data/ship-market.js');
 const BUILD_REPORT_PATH = resolve(ROOT, 'data/external/erkul/live-data-build-report.json');
+const ERKUL_INPUT_DIR = resolve(ROOT, 'data/external/erkul');
+const SHIPS_RAW_PATH = resolve(ERKUL_INPUT_DIR, 'ships.raw.json');
+const SHOPS_RAW_PATH = resolve(ERKUL_INPUT_DIR, 'shop.raw.json');
+const FETCH_META_PATH = resolve(ERKUL_INPUT_DIR, 'fetch-meta.json');
 const execFileAsync = promisify(execFile);
+const INPUT_REBUILD_SCRIPTS = [
+    'scripts/erkul/normalize-erkul-ships.mjs',
+    'scripts/erkul/normalize-erkul-market.mjs',
+    'scripts/erkul/match-erkul-to-volt.mjs'
+];
 const CANONICAL_BUILD_SCRIPTS = [
     'scripts/shipdb-rewrite/build-canonical.mjs',
     'scripts/shipdb-rewrite/build-localization.mjs',
@@ -40,10 +50,40 @@ const CANONICAL_BUILD_SCRIPTS = [
     'scripts/shipdb-rewrite/build-canonical-manifest.mjs'
 ];
 
-async function rebuildCanonicalLayers() {
-    for (const script of CANONICAL_BUILD_SCRIPTS) {
-        await execFileAsync(process.execPath, [resolve(ROOT, script)], { cwd: ROOT });
+function sha256(text) {
+    return createHash('sha256').update(text).digest('hex');
+}
+
+async function runScripts(scripts, args = []) {
+    for (const script of scripts) {
+        await execFileAsync(process.execPath, [resolve(ROOT, script), ...args], { cwd: ROOT });
     }
+}
+
+async function rebuildCanonicalLayers() {
+    await runScripts(CANONICAL_BUILD_SCRIPTS);
+}
+
+async function recordReproducibleInputs(ships, shops, fetchedAt) {
+    const shipsText = `${JSON.stringify(ships, null, 2)}\n`;
+    const shopsText = `${JSON.stringify(shops, null, 2)}\n`;
+    const meta = {
+        source: 'erkul-live',
+        endpoints: { ships: ERKUL_SHIPS_ENDPOINT, shop: ERKUL_SHOP_ENDPOINT },
+        fetchedAt,
+        shipCount: ships.length,
+        shopCount: shops.length,
+        shipsBytes: Buffer.byteLength(shipsText, 'utf8'),
+        shopBytes: Buffer.byteLength(shopsText, 'utf8'),
+        rawSha256: { ships: sha256(shipsText), shops: sha256(shopsText) },
+        note: 'Safe Apply confirmed input snapshot. Raw files remain local-only by .gitignore.'
+    };
+    await Promise.all([
+        writeFile(SHIPS_RAW_PATH, shipsText, 'utf8'),
+        writeFile(SHOPS_RAW_PATH, shopsText, 'utf8'),
+        writeFile(FETCH_META_PATH, `${JSON.stringify(meta, null, 2)}\n`, 'utf8')
+    ]);
+    await runScripts(INPUT_REBUILD_SCRIPTS);
 }
 
 function parseArgs(argv) {
@@ -141,6 +181,7 @@ async function main() {
     const statsOut = inject(nextLayers.nextStats);
     const marketOut = inject(nextLayers.nextMarket);
 
+    await recordReproducibleInputs(erkulShipsRaw, erkulShopsRaw, syncedAt);
     await writeFile(LIVE_STATS_PATH, `${layerHeader('VOLT_SHIP_LIVE_STATS', '함선 상세 스펙 레이어 (volt-data.js와 분리). key = VOLT ship id.', syncedAt, statsKeys)}${JSON.stringify(statsOut)};\n`, 'utf8');
     await writeFile(SHIP_MARKET_PATH, `${layerHeader('VOLT_SHIP_MARKET', '함선 구매처/렌탈 레이어 (volt-data.js와 분리). key = VOLT ship id.', syncedAt, marketKeys)}${JSON.stringify(marketOut)};\n`, 'utf8');
 
@@ -166,6 +207,7 @@ async function main() {
     }, null, 2)}\n`, 'utf8');
 
     await rebuildCanonicalLayers();
+    await runScripts(['scripts/erkul/build-ship-live-data.mjs'], ['--record-manifest']);
     console.log(`\n적용 완료: stats ${statsKeys} / market ${marketKeys} key 갱신 (syncedAt: ${syncedAt})`);
     console.log('canonical 계층과 client manifest도 함께 재생성했습니다. 번역 반영 후에는 npm run shipdb:erkul:post-apply를 실행하세요.');
 }

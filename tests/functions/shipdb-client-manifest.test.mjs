@@ -45,5 +45,8 @@ test('Safe Apply and post-apply rebuild the canonical layers before deployment',
   const packageJson = JSON.parse(await readFile(join(ROOT, 'package.json'), 'utf8'));
   assert.match(applySource, /CANONICAL_BUILD_SCRIPTS/);
   assert.match(applySource, /build-canonical-manifest\.mjs/);
+  assert.match(applySource, /recordReproducibleInputs/);
+  assert.match(applySource, /INPUT_REBUILD_SCRIPTS/);
+  assert.match(applySource, /build-ship-live-data\.mjs.*--record-manifest/s);
   assert.match(packageJson.scripts['shipdb:erkul:post-apply'], /shipdb:canonical:build/);
 });
