@@ -68,7 +68,13 @@ The key already exists with *different* content, which is the one case a retry c
 `snapshot:publish` recomputes every source checksum and compares it with both the local receipt and the staged R2 objects. If any hash differs it refuses to publish. Re-run the staging sequence from step 2 instead of forcing the publish.
 
 **`npx playwright test` finishes all tests on Windows but the process does not exit.**
-Known local-only behaviour: the Playwright `webServer` (`scripts/dev-server.js`) has no shutdown handler, so teardown waits on Windows. GitHub Actions is unaffected — the Linux runner completes and exits normally. Read the reported pass count and stop the process.
+Intermittent, local only; GitHub Actions is unaffected. `scripts/dev-server.js` now handles `SIGINT`/`SIGTERM`, closes the server once, and drops keep-alive connections, but that hardening has **not** been shown to remove the wait — the behaviour has not reproduced since. Status: explicit shutdown handling done, intermittent Windows wait under observation.
+
+Do not change the Playwright configuration or refactor the shutdown path while the issue is unreproduced. If it recurs, collect the evidence first and only then decide on a fix:
+
+1. the Playwright `webServer` output, including its teardown lines,
+2. the process still holding port 8787 (`Get-NetTCPConnection -LocalPort 8787 -State Listen`, then `Get-Process -Id <pid>`),
+3. whether the termination signal reached the dev server (its `VOLT dev server` / close-failure lines).
 
 ## Independent CI verification
 
