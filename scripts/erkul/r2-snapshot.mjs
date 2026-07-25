@@ -16,6 +16,14 @@ export const SNAPSHOT_FILE_NAMES = Object.freeze({
     manifest: 'manifest.json'
 });
 
+// 재현성 판정 대상 파생 산출물. 생성(publish)과 검증(verify)이 같은 목록을 써야 공허 통과가 생기지 않는다.
+export const DERIVED_FILE_PATHS = Object.freeze([
+    'data/external/erkul/live-data-input-manifest.json',
+    'data/ship-live-stats.js',
+    'data/ship-market.js',
+    'data/canonical/shipdb-manifest.json'
+]);
+
 const PREVIEW_HASH_PATTERN = /^[a-f0-9]{64}$/;
 const SHA256_PATTERN = /^[a-f0-9]{64}$/;
 
@@ -72,10 +80,25 @@ function assertObjectEntry(name, entry) {
     if (!Number.isInteger(entry.compressedBytes) || entry.compressedBytes < 0) throw new Error(`${name} compressedBytes must be a non-negative integer`);
 }
 
+// derived는 재현성 판정의 근거이므로 비어 있거나 일부만 있으면 안 된다(0회 순회로 통과하는 경로 차단).
+export function assertDerivedManifest(derived) {
+    if (!derived || typeof derived !== 'object' || Array.isArray(derived)) throw new Error('snapshot derived outputs are missing');
+    const actual = Object.keys(derived);
+    if (actual.length === 0) throw new Error('snapshot derived outputs are empty');
+    for (const path of DERIVED_FILE_PATHS) {
+        if (!(path in derived)) throw new Error(`snapshot derived output is missing: ${path}`);
+        if (!SHA256_PATTERN.test(derived[path] || '')) throw new Error(`snapshot derived output must be SHA-256: ${path}`);
+    }
+    const unexpected = actual.filter((path) => !DERIVED_FILE_PATHS.includes(path));
+    if (unexpected.length > 0) throw new Error(`unexpected snapshot derived output: ${unexpected.join(', ')}`);
+    return derived;
+}
+
 export function createSnapshotManifest({ previewHash, syncedAt, sourceCommit, prefix, objects, derived }) {
     const snapshotPrefix = createSnapshotPrefix(prefix, syncedAt, previewHash);
     if (!/^[a-f0-9]{7,64}$/.test(sourceCommit || '')) throw new Error('snapshot sourceCommit must be a git SHA');
     for (const name of ['shipsRaw', 'shopRaw', 'fetchMeta']) assertObjectEntry(name, objects?.[name]);
+    assertDerivedManifest(derived);
     return {
         schema: SNAPSHOT_SCHEMA,
         source: 'erkul-live',

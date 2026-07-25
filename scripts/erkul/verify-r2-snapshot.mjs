@@ -1,11 +1,12 @@
-import { execFile } from 'node:child_process';
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
+import { runNodeScript } from './run-node-script.mjs';
 import {
+    SNAPSHOT_FILE_NAMES,
     SNAPSHOT_SCHEMA,
     STAGING_PREFIX,
+    assertDerivedManifest,
     createR2Client,
     getR2Object,
     gunzipText,
@@ -28,7 +29,6 @@ const REBUILD_SCRIPTS = Object.freeze([
     'scripts/erkul/match-erkul-to-volt.mjs',
     'scripts/erkul/build-ship-live-data.mjs'
 ]);
-const execFileAsync = promisify(execFile);
 
 function parseArgs(argv) {
     return { stage: argv.includes('--stage') };
@@ -44,7 +44,10 @@ async function readManifest(useStage) {
 
 async function restoreSourceFile(client, config, manifest, name) {
     const entry = manifest.objects?.[name];
-    const key = `${manifest.snapshot.prefix}/${name === 'shopRaw' ? 'shop.raw.json.gz' : name === 'fetchMeta' ? 'fetch-meta.json.gz' : 'ships.raw.json.gz'}`;
+    // 파일명 사실원은 SNAPSHOT_FILE_NAMES 하나뿐 — 업로드·다운로드·복원이 함께 움직인다.
+    const fileName = SNAPSHOT_FILE_NAMES[name];
+    if (!fileName) throw new Error(`unknown snapshot object: ${name}`);
+    const key = `${manifest.snapshot.prefix}/${fileName}`;
     const compressed = await getR2Object(client, config, key);
     if (sha256(compressed) !== entry?.compressedSha256) throw new Error(`${name} compressed checksum mismatch`);
     const raw = await gunzipText(compressed);
@@ -52,12 +55,15 @@ async function restoreSourceFile(client, config, manifest, name) {
     await writeFile(TARGET_FILES[name], raw, 'utf8');
 }
 
+// 출력 스트리밍·종료 처리는 run-node-script.mjs가 담당(테스트 가능한 단일 사실원).
 async function runNode(script, args = []) {
-    await execFileAsync(process.execPath, [resolve(ROOT, script), ...args], { cwd: ROOT, stdio: 'inherit' });
+    await runNodeScript(resolve(ROOT, script), args, { cwd: ROOT, stdio: 'inherit' });
 }
 
 async function assertDerivedHashes(manifest) {
-    for (const [path, expectedHash] of Object.entries(manifest.derived || {})) {
+    // 형식 검증을 먼저 통과해야 비교로 넘어간다 — derived가 비면 순회 0회로 통과하던 경로를 제거.
+    const derived = assertDerivedManifest(manifest.derived);
+    for (const [path, expectedHash] of Object.entries(derived)) {
         const actualHash = sha256(await readFile(resolve(ROOT, path)));
         if (actualHash !== expectedHash) throw new Error(`derived output checksum mismatch: ${path}`);
     }

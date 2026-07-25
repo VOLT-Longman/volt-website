@@ -4,6 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import {
+    DERIVED_FILE_PATHS,
     SNAPSHOT_PREFIX,
     STAGING_PREFIX,
     R2ObjectAlreadyExistsError,
@@ -29,12 +30,7 @@ const SOURCE_FILES = Object.freeze({
     shopRaw: resolve(ERKUL_DIR, 'shop.raw.json'),
     fetchMeta: resolve(ERKUL_DIR, 'fetch-meta.json')
 });
-const DERIVED_FILES = Object.freeze([
-    'data/external/erkul/live-data-input-manifest.json',
-    'data/ship-live-stats.js',
-    'data/ship-market.js',
-    'data/canonical/shipdb-manifest.json'
-]);
+const DERIVED_FILES = DERIVED_FILE_PATHS; // 사실원은 r2-snapshot.mjs — 생성·검증이 같은 목록을 공유한다.
 
 function parseArgs(argv) {
     const mode = argv.includes('--publish') ? SNAPSHOT_PREFIX : STAGING_PREFIX;

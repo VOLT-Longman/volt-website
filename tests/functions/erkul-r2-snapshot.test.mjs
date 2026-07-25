@@ -2,8 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import {
+    DERIVED_FILE_PATHS,
+    SNAPSHOT_FILE_NAMES,
     SNAPSHOT_PREFIX,
     STAGING_PREFIX,
+    assertDerivedManifest,
     createR2ObjectUrl,
     createSnapshotManifest,
     createSnapshotObjectKeys,
@@ -13,10 +16,12 @@ import {
     putImmutableObject,
     sha256
 } from '../../scripts/erkul/r2-snapshot.mjs';
+import { runNodeScript } from '../../scripts/erkul/run-node-script.mjs';
 
 const PREVIEW_HASH = 'a'.repeat(64);
 const SYNCED_AT = '2026-07-25T01:02:03.456Z';
 const CONFIG = { endpoint: 'https://account.r2.cloudflarestorage.com', bucket: 'volt-erkul-snapshots' };
+const validDerived = () => Object.fromEntries(DERIVED_FILE_PATHS.map((path, index) => [path, String(index).repeat(64)]));
 
 test('R2 snapshot keys use immutable and separately staged prefixes', () => {
     const finalKeys = createSnapshotObjectKeys(SNAPSHOT_PREFIX, SYNCED_AT, PREVIEW_HASH);
@@ -35,12 +40,49 @@ test('R2 snapshot manifest requires source and compressed checksums', () => {
         sourceCommit: '1234567',
         prefix: SNAPSHOT_PREFIX,
         objects: { shipsRaw: entry, shopRaw: entry, fetchMeta: entry },
-        derived: { inputManifestSha256: checksum }
+        derived: validDerived()
     };
     const manifest = createSnapshotManifest(args);
     assert.equal(manifest.schema, 'erkul-r2-snapshot/v1');
     assert.equal(manifest.snapshot.prefix, `erkul/${SYNCED_AT}/${PREVIEW_HASH}`);
     assert.throws(() => createSnapshotManifest({ ...args, sourceCommit: 'not-a-sha' }), /sourceCommit/);
+});
+
+// F3: derived가 비어 있으면 verify가 0회 순회로 통과하던 결함. 생성 단계에서부터 차단한다.
+test('R2 snapshot manifest rejects incomplete derived outputs', () => {
+    const checksum = 'b'.repeat(64);
+    const entry = { rawSha256: checksum, compressedSha256: checksum, rawBytes: 12, compressedBytes: 9 };
+    const base = {
+        previewHash: PREVIEW_HASH,
+        syncedAt: SYNCED_AT,
+        sourceCommit: '1234567',
+        prefix: SNAPSHOT_PREFIX,
+        objects: { shipsRaw: entry, shopRaw: entry, fetchMeta: entry }
+    };
+    const withDerived = (derived) => () => createSnapshotManifest({ ...base, derived });
+    assert.throws(withDerived(undefined), /derived outputs are missing/);
+    assert.throws(withDerived({}), /derived outputs are empty/);
+    assert.throws(withDerived([]), /derived outputs are missing/);
+    // 키 누락: 4개 중 하나만 빠져도 실패
+    const missingKey = validDerived();
+    delete missingKey[DERIVED_FILE_PATHS[2]];
+    assert.throws(withDerived(missingKey), new RegExp(`derived output is missing: ${DERIVED_FILE_PATHS[2]}`));
+    // 해시 형식 오류
+    assert.throws(withDerived({ ...validDerived(), [DERIVED_FILE_PATHS[0]]: 'not-a-hash' }), /must be SHA-256/);
+    // 예상 밖 키(옛 fixture의 inputManifestSha256 같은 임의 키)
+    assert.throws(withDerived({ ...validDerived(), inputManifestSha256: checksum }), /unexpected snapshot derived output/);
+    // 정상 4종은 통과
+    assert.deepEqual(Object.keys(assertDerivedManifest(validDerived())), [...DERIVED_FILE_PATHS]);
+});
+
+// F3: 재현성 판정 대상은 PM이 고정한 4개 산출물이어야 한다(목록이 줄면 검증이 형식화된다).
+test('R2 snapshot derived outputs cover the tracked ShipDB artifacts', () => {
+    assert.deepEqual([...DERIVED_FILE_PATHS], [
+        'data/external/erkul/live-data-input-manifest.json',
+        'data/ship-live-stats.js',
+        'data/ship-market.js',
+        'data/canonical/shipdb-manifest.json'
+    ]);
 });
 
 test('R2 transfer preserves gzip content and refuses overwrites', async () => {
@@ -87,6 +129,34 @@ test('R2 overwrite refusal explains the prefix-specific recovery path', async ()
         const key = createSnapshotObjectKeys(prefix, SYNCED_AT, PREVIEW_HASH).shipsRaw;
         await putImmutableObject(client, CONFIG, key, body, 'application/gzip');
         await assert.rejects(() => putImmutableObject(client, CONFIG, key, body, 'application/gzip'), pattern);
+    }
+});
+
+// F1: execFile은 출력을 캡처해 대형 로그가 maxBuffer(기본 1MB)를 넘으면 ENOBUFS로 실패했다.
+// spawn 스트리밍에는 그 경로가 없어야 하고, 종료 코드·시그널은 원인과 함께 실패해야 한다.
+test('rebuild runner streams large output and reports exit failures', async () => {
+    // 1.6MB 출력: execFile(maxBuffer 기본 1MB)이었다면 ENOBUFS로 실패한다. 스트리밍이면 정상 종료.
+    await runNodeScript('-e', ["process.stdout.write('x'.repeat(1600000))"], { stdio: 'ignore' });
+    // 비정상 종료는 exit code를 포함해 실패
+    await assert.rejects(() => runNodeScript('-e', ['process.exit(3)'], { stdio: 'ignore' }), /exited with code 3/);
+    // spawn 실패(존재하지 않는 cwd)는 원인을 포함해 실패
+    await assert.rejects(
+        () => runNodeScript('-e', ['0'], { cwd: new URL('./no-such-dir-for-spawn/', import.meta.url).pathname, stdio: 'ignore' }),
+        /failed to start/
+    );
+});
+
+// F2: 복원 파일명이 하드코딩되면 상수 변경 시 업로드·다운로드가 조용히 어긋난다.
+test('snapshot file names stay the single source of truth', async () => {
+    const verifySource = await readFile(new URL('../../scripts/erkul/verify-r2-snapshot.mjs', import.meta.url), 'utf8');
+    assert.match(verifySource, /SNAPSHOT_FILE_NAMES\[name\]/, '복원 키는 SNAPSHOT_FILE_NAMES에서 나와야 함');
+    for (const fileName of Object.values(SNAPSHOT_FILE_NAMES)) {
+        assert.ok(!verifySource.includes(`'${fileName}'`), `파일명 하드코딩 금지: ${fileName}`);
+    }
+    // 업로드 키(createSnapshotObjectKeys)와 복원 키가 같은 상수에서 파생되는지 확인
+    const keys = createSnapshotObjectKeys(SNAPSHOT_PREFIX, SYNCED_AT, PREVIEW_HASH);
+    for (const [name, fileName] of Object.entries(SNAPSHOT_FILE_NAMES)) {
+        assert.equal(keys[name], `erkul/${SYNCED_AT}/${PREVIEW_HASH}/${fileName}`);
     }
 });
 
