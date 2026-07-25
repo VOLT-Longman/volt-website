@@ -1743,6 +1743,8 @@
     }
 
     function refreshCmsRenderedContent() {
+        // 진단 카운터: 초기 로드에서 전체 재렌더가 몇 번 도는지 계약 테스트가 확인한다(동작에는 영향 없음).
+        window.__VOLT_FULL_REFRESH_COUNT__ = (window.__VOLT_FULL_REFRESH_COUNT__ || 0) + 1;
         renderAll();
         // CMS 데이터(함선 오버라이드·갤러리)가 반영되도록 이미 표시된 지연 섹션은 다시 렌더.
         refreshRenderedLazySections();
@@ -1895,14 +1897,14 @@
         const initial = getInitialRoute();
         history.replaceState({ section: initial.section }, '', initial.url);
         showSection(initial.section, false, initial.anchorId);
-        // 공개 함선 목록은 canonical이 유일 사실원이라 ShipDB 밖(전역 검색·무역플래너·격납고·랜딩)에서도
-        // 필요하다. 진입 즉시 로드하고, 완료되면 이미 렌더된 영역을 CMS 갱신과 같은 경로로 다시 그린다.
-        ensureCanonicalShips()
-            .then((ready) => { if (ready) refreshCmsRenderedContent(); })
-            .catch((error) => console.warn('ShipDB canonical load failed', error));
-        loadCmsContent()
-            .then(refreshCmsRenderedContent)
-            .catch((error) => console.warn('CMS content refresh failed', error));
+        // canonical(공개 함선 249척)과 CMS 콘텐츠는 각각 즉시 요청한다 — 요청 수·순서는 그대로다.
+        // 다만 완료 콜백에서 각자 전체 재렌더를 돌리면 초기 로드에 같은 렌더가 두 번 실행되므로,
+        // 둘이 정착한 뒤 한 번만 그린다. 한쪽이 실패해도 allSettled라 나머지 콘텐츠는 정상 렌더된다.
+        const canonicalSettled = ensureCanonicalShips()
+            .catch((error) => { console.warn('ShipDB canonical load failed', error); });
+        const cmsSettled = loadCmsContent()
+            .catch((error) => { console.warn('CMS content refresh failed', error); });
+        Promise.allSettled([canonicalSettled, cmsSettled]).then(() => refreshCmsRenderedContent());
     }
 
     // D-1 방어 2단계(defense-in-depth): 개별 모듈 호출은 이미 옵셔널 체이닝으로 보호되지만,
