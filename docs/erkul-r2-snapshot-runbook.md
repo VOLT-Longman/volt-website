@@ -51,6 +51,25 @@ npm run shipdb:erkul:snapshot:publish
 
 Commit the generated `data/external/erkul/r2-snapshot-manifest.json` with the Safe Apply data changes. Do not commit raw JSON or `r2-snapshot-stage-manifest.json`.
 
+Step 3 restores `ships.raw.json`, `shop.raw.json`, and `fetch-meta.json` from R2 over the local copies. Each object is checksum-verified against the manifest before it is written, so a mismatch aborts the run without touching local files.
+
+## Recovery
+
+**Re-running `snapshot:stage` or `snapshot:publish` after a partial upload is safe.**
+Uploads are create-only, but the publisher treats an already-present key as acceptable and then re-downloads it to compare both the gzip and the raw SHA-256 against the manifest. An identical retry therefore succeeds without deleting anything. Do not delete R2 objects as a routine retry step.
+
+**`R2 compressed checksum mismatch` / `R2 source checksum mismatch`.**
+The key already exists with *different* content, which is the one case a retry cannot resolve. Under `staging/` (not covered by the Bucket Lock) remove that staging object with the writer credential and stage again. Under `erkul/` the object is immutable and must not be replaced: keep it as the record of that Safe Apply and run a new Safe Apply so the snapshot lands under a new `previewHash`. Never remove the Bucket Lock rule to force an overwrite.
+
+**The staging receipt is missing (`run shipdb:erkul:snapshot:verify -- --stage before publishing`).**
+`r2-snapshot-stage-manifest.json` is local-only and untracked, so it is lost on a clean checkout or a different workstation. Re-run step 3 on the workstation that performed the Safe Apply; it regenerates the receipt without re-uploading.
+
+**Sources changed between staging and publishing.**
+`snapshot:publish` recomputes every source checksum and compares it with both the local receipt and the staged R2 objects. If any hash differs it refuses to publish. Re-run the staging sequence from step 2 instead of forcing the publish.
+
+**`npx playwright test` finishes all tests on Windows but the process does not exit.**
+Known local-only behaviour: the Playwright `webServer` (`scripts/dev-server.js`) has no shutdown handler, so teardown waits on Windows. GitHub Actions is unaffected — the Linux runner completes and exits normally. Read the reported pass count and stop the process.
+
 ## Independent CI verification
 
 The `Erkul Snapshot Verify` workflow downloads the final `erkul/` snapshot with the read-only token. It regenerates the normalized and matched layers, runs `shipdb:erkul:verify`, and compares the tracked derived-output SHA-256 values with the final snapshot manifest.

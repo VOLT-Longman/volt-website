@@ -21,8 +21,13 @@ const SHA256_PATTERN = /^[a-f0-9]{64}$/;
 
 export class R2ObjectAlreadyExistsError extends Error {
     constructor(objectKey) {
-        super(`immutable R2 object already exists: ${objectKey}`);
+        // 같은 키를 덮어쓰지 않는다(If-None-Match: *). 복구 절차는 prefix마다 다르므로 함께 안내한다.
+        const remedy = String(objectKey).startsWith(`${STAGING_PREFIX}/`)
+            ? `staging/ is not covered by the Bucket Lock: retrying with identical content is safe, so only delete this staging object with the writer token when the stored content differs`
+            : `erkul/ is immutable under the Bucket Lock and can never be replaced: publish a new Safe Apply (new previewHash) instead of re-publishing this one`;
+        super(`immutable R2 object already exists: ${objectKey} — ${remedy}`);
         this.name = 'R2ObjectAlreadyExistsError';
+        this.objectKey = objectKey;
     }
 }
 
