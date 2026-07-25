@@ -31,7 +31,7 @@ const BASELINE = {
   'js/site-content.js': 6,
   'js/uex-panel.js': 17,
   'admin/admin.js': 9,
-  'js/ships.js': 6,
+  'js/ships.js': 5,
   'js/mypage.js': 5,
   'js/auth-ui.js': 4,
   'js/search-modal.js': 2,

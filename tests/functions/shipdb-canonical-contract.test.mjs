@@ -6,6 +6,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
+import { createContext, runInContext } from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
@@ -215,6 +216,23 @@ test('RSI 공식 카탈로그 localization: 설명 보유 함선 전부 KO, 미�
     }
   }
   assert.equal(problems.length, 0, `RSI localization 계약 위반: ${problems.slice(0, 20).join(', ')}`);
+});
+
+// 3.5-B 후속: 레거시 ShipDB 배열은 물리 삭제됐다. 공개 함선 목록의 사실원은 canonical + RSI 공식뿐이다.
+test('레거시 volt-data ships 배열이 되살아나지 않는다', async () => {
+  const source = await readRoot('data/volt-data.js');
+  assert.ok(!/\n\s*ships:\s*\[/.test(source), 'volt-data.js에 ships 배열이 다시 생겼다');
+  const ctx = createContext({ window: {} });
+  runInContext(source, ctx);
+  assert.ok(!('ships' in (ctx.window.VOLT_DATA || {})), 'VOLT_DATA.ships 키가 존재하면 안 된다');
+});
+
+// canonical fallback(OFF 듀얼리드) 경로도 제거됐다. 조건 분기가 다시 생기면 레거시가 되살아난 신호다.
+test('클라이언트에 canonicalOn/OFF fallback 경로가 남아 있지 않다', async () => {
+  for (const rel of ['js/main.js', 'js/ships.js', 'js/search-modal.js']) {
+    const src = await readRoot(rel);
+    assert.ok(!src.includes('canonicalOn'), `${rel}에 canonicalOn 잔존`);
+  }
 });
 
 // 3.5-B: 레거시 재생성 경로는 봉인이 아니라 물리 삭제됐다. 다시 생기면 canonical 사실원이 흔들린다.

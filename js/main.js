@@ -450,7 +450,7 @@
         if (field === 'size') return (sizeOrder[shipSizeForSort(left)] || 99) - (sizeOrder[shipSizeForSort(right)] || 99);
         if (field === 'crew') return crewSortValue(left) - crewSortValue(right);
         if (field === 'cargo') return shipCargoValue(left) - shipCargoValue(right);
-        if (field === 'price') return canonicalOn() ? 0 : getPriceValue(left.priceUsd) - getPriceValue(right.priceUsd);
+        if (field === 'price') return 0; // 공개 모델에 USD 가격 없음(레거시 제거)
         return compareText(left.name, right.name);
     }
 
@@ -493,17 +493,15 @@
         let ships = getSortedShips().filter((ship) => {
             const tags = getShipTags(ship);
             const matchesManufacturer = shipState.manufacturer === 'all' || shipManufacturerKey(ship) === shipState.manufacturer;
-            const matchesReleaseState = !shipState.hideUnreleased || (canonicalOn() ? shipImplemented(ship) : !tags.includes('\ubbf8\uad6c\ud604'));
-            // 필터: ON은 2축(규모·플랫폼 OR + 역할 태그 OR, 축 간 AND) + 세부 역할(단일 원문). OFF는 레거시 focus/tags.
-            const matchesFilters = canonicalOn()
-                ? matches2AxisFilter(ship)
-                : (shipState.selectedTags.length === 0 || shipState.selectedTags.some((tag) => ship.focus === tag || tags.includes(tag)));
+            const matchesReleaseState = !shipState.hideUnreleased || shipImplemented(ship);
+            // 필터: 2축(규모·플랫폼 OR + 역할 태그 OR, 축 간 AND) + 세부 역할(단일 원문).
+            const matchesFilters = matches2AxisFilter(ship);
             const haystack = buildShipSearchText(ship, tags);
             return matchesManufacturer && matchesReleaseState && matchesFilters && (!query || haystack.includes(query));
         });
         // ON: Erkul live 219척과 RSI 공식 30척을 기본 목록에 함께 표시한다.
         // 중복 에디션 별칭 7척만 리다이렉트로 제외한다. 지연 로드 전에는 보류한다.
-        if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
+        if (window.VOLT_SHIPDB_CANONICAL) {
             const publicIds = window.VOLT_SHIPDB_CANONICAL.publicShipIds();
             if (publicIds) ships = ships.filter((ship) => publicIds.has(ship.id));
             else if (window.VOLT_SHIPDB_CANONICAL.state === 'failed') ships = [];
@@ -542,12 +540,8 @@
         return Array.isArray(ship.tags) ? ship.tags : [];
     }
 
-    // 재작성 2단계 듀얼리드: ON이면 canonical 경로(priceUsd 공개 모델 제거, D4). OFF는 레거시.
-    function canonicalOn() {
-        return !!(window.VOLT_SHIPDB_CANONICAL && window.VOLT_SHIPDB_CANONICAL.isEnabled());
-    }
     function canonicalShip(ship) {
-        if (!ship || !canonicalOn() || !window.VOLT_SHIPDB_CANONICAL) return null;
+        if (!ship || !window.VOLT_SHIPDB_CANONICAL) return null;
         return window.VOLT_SHIPDB_CANONICAL.getShip(ship.id);
     }
     function isRsiOfficialShip(ship) {
@@ -596,7 +590,7 @@
     // role 이관(PM): ON이면 canonical role(Erkul EN)만 사용. career 조합·VOLT 수기·추론 금지.
     // {en, ko} 반환(ko는 사실 불변 UI 번역, 없으면 en 폴백). canonical role 없으면 null → 배지·필터 제외.
     function shipCanonicalRole(ship) {
-        if (!ship || !canonicalOn() || !window.VOLT_SHIPDB_CANONICAL) return null;
+        if (!ship || !window.VOLT_SHIPDB_CANONICAL) return null;
         const c = canonicalShip(ship);
         if (!c || !c.role) return null;
         const en = c.role;
@@ -610,15 +604,15 @@
         const cr = shipCanonicalRole(ship);
         const c = canonicalShip(ship);
         return [
-            c?.name || ship.name, shipManufacturerLabel(ship), c?.manufacturer, ship?.manufacturer, ...(canonicalOn() ? (cr ? [cr.en, cr.ko] : []) : [ship.role]), ...(canonicalOn() ? [] : [ship.focus]), c?.descriptions?.ko, c?.descriptions?.en, ship.description, ship.cargo, ...(canonicalOn() ? [] : [formatShipPrice(ship.priceUsd)]),
-            ...(canonicalOn() ? [] : [ship.role_en]), ...(canonicalOn() ? [] : [ship.focus_en]), ship.size_en, ship.description_en, ...(canonicalOn() || !Array.isArray(ship.tags_en) ? [] : ship.tags_en),
+            c?.name || ship.name, shipManufacturerLabel(ship), c?.manufacturer, ship?.manufacturer, ...(cr ? [cr.en, cr.ko] : []), c?.descriptions?.ko, c?.descriptions?.en, ship.description, ship.cargo,
+            ship.size_en, ship.description_en,
             ...getShipLiveDescriptions(ship),
             ...tags, ...getShipAliases(ship)
         ].filter(Boolean).join(' ').toLowerCase();
     }
     function getShipSearchEntries() {
         let ships = publicShips;
-        if (canonicalOn() && window.VOLT_SHIPDB_CANONICAL) {
+        if (window.VOLT_SHIPDB_CANONICAL) {
             const publicIds = window.VOLT_SHIPDB_CANONICAL.publicShipIds();
             if (publicIds) ships = ships.filter((ship) => publicIds.has(ship.id));
         }
@@ -667,10 +661,6 @@
         return Number.isFinite(priceUsd) ? `$${priceUsd.toLocaleString('en-US')}` : i18nT('ships.priceTbd', '미공개');
     }
 
-    function getPriceValue(priceUsd) {
-        return Number.isFinite(priceUsd) ? priceUsd : Number.MAX_SAFE_INTEGER;
-    }
-
 
 
 
@@ -702,7 +692,7 @@
     function renderRecommendedTradeShipCard(ship) {
         return `<article class="recommended-trade-card">
             <strong>${escapeHtml(ship.name)}</strong>
-            <span>${escapeHtml(ship.cargo)} · ${escapeHtml(canonicalOn() ? (shipCanonicalRole(ship) ? (currentLang() === 'en' ? shipCanonicalRole(ship).en : shipCanonicalRole(ship).ko) : '') : ship.role)}</span>
+            <span>${escapeHtml(ship.cargo)} · ${escapeHtml(shipCanonicalRole(ship) ? (currentLang() === 'en' ? shipCanonicalRole(ship).en : shipCanonicalRole(ship).ko) : '')}</span>
             <div>
                 <button class="btn btn-secondary" type="button" data-open-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('tradeHub.shipDetail', '함선 상세'))}</button>
                 <button class="btn btn-primary" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('tradeHub.useInPlanner', '무역 플래너에서 사용'))}</button>
@@ -728,7 +718,7 @@
         // ON: '미구현' 태그 제거(D7). implemented!==false가 미출시(unreleased 31=implemented false)를
         // 그대로 배제하므로 태그 없이도 게이트 동일. OFF는 레거시 태그 게이트 유지.
         if (isRsiOfficialShip(ship)) return false;
-        const releasedOk = canonicalOn() ? true : !getShipTags(ship).includes('미구현');
+        const releasedOk = true;
         return shipImplemented(ship)
             && releasedOk
             && shipCargoValue(ship) > 0;
@@ -745,7 +735,7 @@
 
     function getPlannerTradeScore(ship) {
         // role 이관: ON은 canonical role KO(사실 불변 번역)로 토큰 스코어링(로케일 무관, OFF의 KO role과 동치).
-        const text = [canonicalOn() ? ((shipCanonicalRole(ship) || {}).ko || '') : ship.role, ...(canonicalOn() ? [] : [ship.focus, ...getShipTags(ship)]), ship.description].join(' ');
+        const text = [(shipCanonicalRole(ship) || {}).ko || '', ship.description].join(' ');
         const weights = { 화물: 3, 물류: 3, 무역: 3, 수송: 2, 운송: 2, 보급: 2, 산업: 1, 다목적: 1 };
         const score = Object.entries(weights).reduce((total, [token, weight]) => total + (text.includes(token) ? weight : 0), 0);
         return text.includes('전투') ? score - 0.5 : score;
@@ -926,7 +916,7 @@
     function mergeShipOverride(ship, override) {
         if (!override) return ship;
         const merged = { ...ship };
-        const canonical = canonicalOn();
+        const canonical = true;
         Object.entries(override).forEach(([key, value]) => {
             if (['id', 'shipId', 'updatedAt'].includes(key)) return;
             if (canonical && !CANONICAL_SHIP_OVERRIDE_KEYS.has(key)) return;

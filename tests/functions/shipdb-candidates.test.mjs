@@ -38,17 +38,21 @@ async function readShipData() {
     };
 }
 
+// 레거시 volt-data ships 배열은 삭제됐다. 승인 선체의 존재는 canonical·표시 계층·live·market으로 확인한다.
 test('ShipDB: 승인된 Erkul 선체 9종은 전체 데이터 레이어에 포함', async () => {
-    const { ships, stats, market, english } = await readShipData();
+    const { stats, market, english } = await readShipData();
+    const canonical = JSON.parse(await readFile(new URL('../../data/canonical/ships-canonical.json', import.meta.url), 'utf8'));
+    const presentation = JSON.parse(await readFile(new URL('../../data/canonical/presentation-ships.json', import.meta.url), 'utf8'));
+    const canonicalById = new Map(canonical.ships.map((ship) => [ship.id, ship]));
+    const presentationById = new Map(presentation.records.map((record) => [record.id, record]));
     for (const id of APPROVED_CANDIDATE_IDS) {
-        const ship = ships.find((item) => item.id === id);
-        assert.ok(ship, `${id}: base ShipDB entry is required`);
-        assert.equal(ship.erkulStatus, 'matched');
+        assert.ok(canonicalById.has(id), `${id}: canonical entry is required`);
+        assert.ok(presentationById.get(id)?.name, `${id}: presentation name is required`);
         assert.ok(stats[id], `${id}: live stats entry is required`);
         assert.ok(market[id], `${id}: market entry is required`);
         assert.ok(english[id]?.description, `${id}: English description is required`);
     }
-    assert.equal(ships.some((ship) => ship.name === 'Command Module'), false);
+    assert.equal(presentation.records.some((record) => record.name === 'Command Module'), false);
 });
 
 test('ShipDB: Aurora ES는 수동 매핑된 New Deal 구매처와 렌탈 정보를 유지', async () => {
