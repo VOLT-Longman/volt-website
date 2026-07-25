@@ -1,6 +1,6 @@
 {
   "schema": "shipdb-rewrite-baseline/v1",
-  "note": "0단계 0.2 기준선. 3.1 전후 비교의 old 축. capture-baseline.mjs로 재현.",
+  "note": "0단계 0.2 기준선(동결). 3.1 전후 비교의 old 축. 생성기(capture-baseline.mjs)는 3.5-B에서 레거시 입력과 함께 삭제됨.",
   "capturedFromCommit": "c31f3ed287748c600403fbc522e0e28d53a62e63",
   "fileHashes": {
     "data/volt-data.js": {

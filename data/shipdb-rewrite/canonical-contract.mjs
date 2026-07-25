@@ -36,19 +36,17 @@ export const CANONICAL_SELECTION = {
   mustInclude: ['railen'], // unreleased·implemented:false지만 live 존재
 };
 
-// 레거시 재생성 스크립트 4종(PM 보강 1). 공개 canonical 경로에 절대 기록하지 않는다.
-// canonical은 1단계 신규 생성기만 만든다. 이 스크립트가 canonical 경로를 참조하면 재주입 위험 신호.
-// 실제 퇴역은 소비처 이관이 끝난 2.7에서 수행(1단계에서는 차단 계약만 강화).
-export const LEGACY_REGEN_SCRIPTS = [
+// 3.5-B에서 물리 삭제한 레거시 재생성 경로. 다시 생기면 canonical 사실원이 흔들리므로 부재를 계약으로 강제한다.
+export const DELETED_LEGACY_PATHS = [
   'scripts/normalize-ship-database.mjs',
   'scripts/build-ship-database.mjs',
   'scripts/build-ship-en.mjs',
   'scripts/sync-ship-prices.mjs',
+  'scripts/sync-rsi-ship-matrix.mjs',   // focus/tags/priceUsd 파생의 상위 입력 생성기
+  'scripts/shipdb-rewrite/capture-baseline.mjs', // 레거시 기준선 캡처(기준선 JSON은 동결 보관)
+  'data/ship-prices-usd.json',
+  'data/rsi-ship-matrix-index.json',
 ];
-
-// 위 레거시 재생성 스크립트들의 상위 입력 생성기. focus/tags/priceUsd 파생의 원천 데이터를 만든다.
-// canonical 생성 경로에서 참조 금지(아래 CANONICAL_FORBIDDEN_INPUTS로 강제).
-export const UPSTREAM_INPUT_GENERATOR = 'scripts/sync-rsi-ship-matrix.mjs';
 
 // ── RSI 공식 카탈로그 계약 (PM 2026-07-18) ──────────────────────
 // Erkul live 없는 30척. 사실원=RSI 공식 Ship Matrix만. catalogStatus: concept | flight-ready.

@@ -155,21 +155,23 @@ ALTER TABLE partner_fleets DROP COLUMN photo_url;
 
 ## 7. 데이터 파이프라인 (함선 DB / 가격 / EN)
 
-상세는 [`ship-data-pipeline.md`](./ship-data-pipeline.md). 요약 명령:
+상세는 [`ship-data-pipeline.md`](./ship-data-pipeline.md). 공개 ShipDB의 사실원은 **Erkul canonical 219척 + RSI 공식 30척(249척)** 이며, 재생성은 Erkul 파이프라인만 사용한다:
 
 ```bash
-node scripts/sync-rsi-ship-matrix.mjs   # RSI 공식 Ship Matrix → data/rsi-ship-matrix-index.json
-node scripts/sync-ship-prices.mjs       # star-citizen.wiki 가격 → data/ship-prices-usd.json
-node scripts/normalize-ship-database.mjs
-node scripts/build-ship-database.mjs    # 원본 → data/volt-data.js ships 병합
-node scripts/build-ship-en.mjs          # volt-data 변경 시 data/ship-en.js(EN) 재생성
+npm run shipdb:erkul:fetch            # Erkul live 원본 수집
+npm run shipdb:erkul:normalize        # 정규화
+npm run shipdb:erkul:market           # 시장 정규화
+npm run shipdb:erkul:match            # VOLT id 매칭
+npm run shipdb:erkul:build-live       # data/ship-live-stats.js · ship-market.js 생성
+npm run shipdb:erkul:verify           # 배포 데이터와 재생성 결과 대조(재현성)
+npm run shipdb:canonical:build        # canonical·localization·taxonomy·manifest 재생성
 ```
 
-- 함선DB 편집은 `data/volt-data.js`(시드/백업) + D1 `ship_overrides`(운영 수정값) **병합** 구조다.
+- 3.5-B에서 레거시 재생성 경로(`sync-rsi-ship-matrix`·`sync-ship-prices`·`normalize-ship-database`·`build-ship-database`·`build-ship-en`)와
+  SC Wiki 가격 데이터(`data/ship-prices-usd.json`)를 **물리 삭제**했다. 다시 만들지 않는다(계약 테스트가 부재를 강제).
+- 함선DB 편집은 `data/volt-data.js`(표시명·설명 시드) + D1 `ship_overrides`(운영 수정값) **병합** 구조다.
   운영 중 함선 필드 수정은 관리자 함선DB 탭에서 하며 `data/volt-data.js`를 직접 고치지 않는다.
-- `build-ship-en.mjs`는 KO→EN 도메인 사전으로 매핑하며, 사전에 없는 값이 있으면 **빌드가 실패**한다
-  (누락 시 사전 보강 필요). EN 함선 설명은 RSI 공식 영어 설명을 `erkulName`/`name`으로 매칭한다.
-- `data/ship-en.js`는 초기 로드 최적화를 위해 EN 모드에서 **지연 로드**된다.
+- `data/ship-en.js`는 EN 모드에서 **지연 로드**되는 표시 계층이다(스펙 사실값은 canonical이 소유).
 
 ---
 

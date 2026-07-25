@@ -18,7 +18,7 @@ import {
   BASELINE_PATH,
   FORBIDDEN_PUBLIC_FIELDS,
   CANONICAL_SELECTION,
-  LEGACY_REGEN_SCRIPTS,
+  DELETED_LEGACY_PATHS,
   CANONICAL_FORBIDDEN_INPUTS,
   RSI_OFFICIAL_DATASET_PATH,
   RSI_OFFICIAL_LOCALIZATION_PATH,
@@ -217,33 +217,8 @@ test('RSI 공식 카탈로그 localization: 설명 보유 함선 전부 KO, 미�
   assert.equal(problems.length, 0, `RSI localization 계약 위반: ${problems.slice(0, 20).join(', ')}`);
 });
 
-// PM 보강 1: 레거시 재생성 4스크립트가 공개 canonical 경로에 기록하지 않는다.
-test('레거시 재생성 스크립트가 공개 canonical 경로에 기록하지 않는다', async () => {
-  const offenders = [];
-  for (const rel of LEGACY_REGEN_SCRIPTS) {
-    if (!existsSync(join(ROOT, rel))) continue;
-    const src = await readRoot(rel);
-    if (src.includes(CANONICAL_DATASET_PATH)) offenders.push(rel);
-  }
-  assert.equal(offenders.length, 0, `레거시 재생성 스크립트가 canonical 경로를 참조(무통제 재주입 위험): ${offenders.join(', ')}`);
-});
-
-// 2.7 봉인: 레거시 재생성 4스크립트는 봉인 상태(RETIRED + 즉시 종료)여야 하며,
-// 제거·이관된 필드를 담은 레거시 데이터 파일(volt-data·ship-en·ship-prices-usd)을 다시 기록하면 안 된다.
-test('레거시 재생성 스크립트가 봉인돼 있다(RETIRED + process.exit, 레거시 데이터 write 없음)', async () => {
-  const LEGACY_WRITE_TARGETS = ['volt-data.js', 'ship-en.js', 'ship-prices-usd.json'];
-  const problems = [];
-  for (const rel of LEGACY_REGEN_SCRIPTS) {
-    if (!existsSync(join(ROOT, rel))) { problems.push(`${rel}: 파일 없음(봉인 스텁 유지 필요)`); continue; }
-    const src = await readRoot(rel);
-    if (!src.includes('RETIRED')) problems.push(`${rel}: RETIRED 봉인 표식 없음`);
-    if (!src.includes('process.exit')) problems.push(`${rel}: 즉시 종료(process.exit) 없음`);
-    // 봉인 스텁은 데이터 파일을 write 하지 않는다(writeFile/writeFileSync 부재).
-    if (/writeFile(Sync)?\s*\(/.test(src)) {
-      for (const t of LEGACY_WRITE_TARGETS) {
-        if (src.includes(t)) problems.push(`${rel}: 레거시 데이터(${t}) 재기록 잔존`);
-      }
-    }
-  }
-  assert.equal(problems.length, 0, `봉인 위반: ${problems.join(', ')}`);
+// 3.5-B: 레거시 재생성 경로는 봉인이 아니라 물리 삭제됐다. 다시 생기면 canonical 사실원이 흔들린다.
+test('삭제된 레거시 재생성 경로가 저장소에 다시 생기지 않는다', () => {
+  const revived = DELETED_LEGACY_PATHS.filter((rel) => existsSync(join(ROOT, rel)));
+  assert.equal(revived.length, 0, `삭제된 레거시 경로가 복구됨: ${revived.join(', ')}`);
 });

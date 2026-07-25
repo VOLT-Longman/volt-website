@@ -1,43 +1,41 @@
 # 함선 데이터 소스 운영 방식
 
-VOLT 함선 DB는 두 층으로 관리합니다.
+공개 ShipDB는 **249척 = Erkul canonical 219척 + RSI 공식 30척**이며, 사실값의 출처는 이 둘뿐입니다.
+3.5-B에서 VOLT 수기 재생성 경로와 SC Wiki 가격 데이터는 물리 삭제했습니다.
 
-1. **공식 원본 데이터**
-   - 출처: RSI Ship Matrix API
-   - 저장 위치: `data/rsi-ship-matrix-index.json` — **빌드 타임 소스 전용, 저장소 미포함(gitignore, ~5MB)**.
-     없으면 아래 동기화 명령으로 재생성한다. 브라우저에는 서빙되지 않는다.
-   - 용도: 제조사, 공식 명칭, 승무원, 화물, 크기, 구현 상태, 공식 상세 URL 같은 기준값
+## 계층
 
-2. **VOLT 편집 데이터**
-   - 저장 위치: `data/volt-data.js`
-   - 용도: 한국어 역할명, VOLT식 태그, 설명문, 운영상 분류
+1. **Erkul canonical (219척)** — `data/canonical/ships-canonical.json`
+   - 사실원: Erkul live 레이어(`data/ship-live-stats.js`·`data/ship-market.js`)
+   - 내용: 제조사·역할·크기·플랫폼·승무원·화물·HP·시장(구매/렌탈) 등 게임 사실값
+2. **RSI 공식 카탈로그 (30척)** — `data/canonical/ships-rsi-official.json`
+   - 사실원: RSI 공식 Ship Matrix 스냅샷(`data/external/rsi/official-ship-matrix.json`)
+   - RSI가 제공하지 않는 게임플레이 값은 추정하지 않습니다(계약 테스트로 강제).
+3. **표시 계층** — `localization-ships.json`(KO 설명)·`localization-roles.json`(역할 KO)·
+   `ship-filter-taxonomy.json`(규모·플랫폼/역할 태그). 사실을 바꾸지 않는 번역·분류만 담습니다.
+4. **운영 계층** — `operational-ships.json`(동기화 시각·매칭 상태), D1 `ship_overrides`(표시명·숨김 등 운영 수정값).
 
-3. **USD 가격 스냅샷**
-   - 저장 위치: `data/ship-prices-usd.json`
-   - 용도: RSI Ship Matrix가 제공하지 않는 USD 기준 가격 보강
-   - 원칙: 가격이 없는 함선은 억지로 추정하지 않고 `미공개`로 표시
-
-공식 데이터를 그대로 덮어쓰지 않는 이유는, RSI 기준 필드와 VOLT가 실제로 보여주고 싶은 분류가 다르기 때문입니다. 예를 들어 RSI는 `focus`를 영어로 제공하지만, VOLT 사이트에서는 `탐사`, `인양`, `물류`처럼 한국어 중심의 탐색 경험이 더 중요합니다.
+`data/volt-data.js`는 표시명·설명 시드로만 남아 있고, 스펙 사실값은 canonical이 소유합니다.
 
 ## 동기화 방법
 
 ```bash
-node scripts/sync-rsi-ship-matrix.mjs
-node scripts/sync-ship-prices.mjs
-node scripts/normalize-ship-database.mjs
+npm run shipdb:erkul:fetch        # Erkul live 원본 수집
+npm run shipdb:erkul:normalize    # 정규화
+npm run shipdb:erkul:market       # 시장 정규화
+npm run shipdb:erkul:match        # VOLT id 매칭
+npm run shipdb:erkul:build-live   # ship-live-stats.js · ship-market.js 생성
+npm run shipdb:erkul:verify       # 배포 데이터와 재생성 결과 대조(재현성)
+npm run shipdb:canonical:build    # canonical·localization·taxonomy·manifest 재생성
 ```
 
-이 명령은 RSI 공식 Ship Matrix 응답을 다시 받아 `data/rsi-ship-matrix-index.json`에 저장합니다.
+관리자 CMS의 Erkul Preview → Safe Apply 경로도 같은 레이어를 갱신하며, `previewHash`로 적용 대상을 고정합니다.
 
 ## 현재 적용 원칙
 
-- 공식 상세 링크가 있는 함선은 `rsiUrl`에 정확한 공식 URL을 저장합니다.
-- 공식 데이터에 없는 함선은 기존처럼 Ship Matrix 메인으로 안전하게 폴백합니다.
-- 한국어 설명과 태그는 자동 생성하지 않고, 사이트 운영자가 계속 검수합니다.
-- 화면 필터는 `focus`를 주 분류, `tags`를 보조 분류로 사용해 같은 단어가 반복되지 않게 유지합니다.
-
-## 다음 단계
-
-- 공식 원본과 VOLT 편집 데이터를 병합하는 생성 스크립트 추가
-- 이름이 다른 함선(`Zeus Mk II`, `Aurora Mk I` 등)을 위한 별칭 테이블 분리
-- 공식 수치와 VOLT 수치가 다를 때 변경 내역을 보여주는 검증 리포트 추가
+- 공개 목록은 canonical 219 + RSI 30만 노출하고, 중복 에디션 7척은 별칭으로 리다이렉트합니다(목록 미등장).
+- canonical에는 `priceUsd`·VOLT 수기 `focus`/`tags`/`crew` 같은 레거시 필드를 넣지 않습니다(계약 테스트가 차단).
+- RSI 공식 30척은 별도 카탈로그로 유지하며, 비교·무역플래너 대상에 섞지 않습니다.
+- 한국어 설명·역할 라벨은 Erkul 원문을 기준으로 번역하며, 사실을 바꾸지 않습니다.
+- 삭제된 레거시 경로(`sync-rsi-ship-matrix`·`sync-ship-prices`·`normalize-ship-database`·`build-ship-database`·
+  `build-ship-en`·`ship-prices-usd.json`)는 재도입하지 않습니다.
