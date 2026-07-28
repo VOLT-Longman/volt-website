@@ -47,10 +47,12 @@ test.describe('관리자 CMS', () => {
         await expect(search).toBeVisible();
 
         await search.click();
-        // 디바운스(200ms)를 넘겨 재렌더를 유발하며 한 글자씩 입력
+        // 디바운스(200ms) 뒤 renderList()가 #ship-admin-results의 innerHTML을 통째로 교체한다.
+        // 고정 대기 대신 "직전 자식 노드가 DOM에서 떨어졌는가"를 재렌더 완료 신호로 쓴다.
         for (const ch of ['h', 'u', 'l', 'l']) {
+            const stale = await page.locator('#ship-admin-results').evaluateHandle((el) => el.firstElementChild);
             await page.keyboard.type(ch);
-            await page.waitForTimeout(300);
+            await expect.poll(async () => stale.evaluate((el) => !el || !el.isConnected)).toBe(true);
             const focused = await page.evaluate(() => document.activeElement?.id);
             expect(focused).toBe('ship-admin-search');
         }
