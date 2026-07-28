@@ -1,4 +1,19 @@
-# 작업 상태 — 2026-07-19
+# 작업 상태 — 2026-07-25
+
+## 현재 상태 — ShipDB Erkul 재작성 v2 **전 단계 완료** · 위생 패치 진행 (2026-07-25)
+
+- **ShipDB**: 3.5-A(실전 ON)·3.5-B(레거시 물리 삭제)·후속 커밋 A/B/C까지 완료. 공개 249척
+  (Erkul canonical 219 + RSI 공식 30)이 **유일 사실원**이며 이중 읽기 플래그는 클라이언트에서 제거됐다.
+- **삭제 완료**: `data/volt-data.js`의 ships 배열, `data/ship-en.js`, `data/ship-prices-usd.json`,
+  레거시 재생성 스크립트 5종. 계약 테스트가 **부재를 강제**하므로 다시 만들 수 없다.
+- **롤백 지점**: Git 태그 `shipdb-pre-legacy-delete-20260725` (R2 스냅샷 계획은 폐기).
+- **범위 밖으로 명시 유예**: D1 `ship_overrides`의 레거시 컬럼 11개(`role`·`size`·`crew`·`cargo`·
+  `price_usd`·`tags`·`description` 등). 읽지도 쓰지도 않는 정지 데이터이며, 백업·복구 리허설 확인 후
+  별도 마이그레이션으로만 삭제한다.
+- **위생 패치**: P1(초기 로드 중복 재렌더 제거) 완료 — 초기화 전체 재렌더 2회→1회, 요청 수·순서 불변.
+  P2(CSS 중복)·P3(main.js 모듈 분리)·P4(테스트 고정 대기)는 미착수.
+- **관찰 대기**: Windows에서 playwright 종료가 간헐 지연되던 건은 "명시적 종료 처리 보강 완료,
+  근본 해결 아님"으로 기록. 재발·증거 수집 전까지 설정 변경 금지.
 
 ## 버그 수정 — ShipDB "목적별 추천" 필터 죽은 UI 노출 (2026-07-20)
 
@@ -24,9 +39,11 @@
 - **동기화 연결**: Safe Apply 완료 시 canonical 6단계 생성과 client manifest 갱신을 자동 실행한다. KO 번역 적용 뒤 `npm run shipdb:erkul:post-apply`가 다시 전체 canonical 계층을 재생성한다.
 - **검증**: manifest 해시·Safe Apply 연결 계약을 Functions 테스트로 고정했다. 데이터 삭제·D1 컬럼 정리·레거시 파일 제거는 3.5-B 승인 전까지 계속 보류한다.
 
-## 진행 — ShipDB Erkul 재작성 v2 (0단계·3.5-A 완료, 3.5-B 대기) (2026-07-19)
+## 완료 — ShipDB Erkul 재작성 v2 단계별 실행 기록 (2026-07-19 시점 로그)
 
-- **상태**: 감사·계획·0단계 게이트·**1단계 병렬 데이터셋 생성 완료**. 라이브 무변경(비활성 병렬 파일). **초기화·삭제·2단계 소비처 이관은 미착수.**
+> 아래는 진행 당시의 단계별 기록이다. **최종 상태는 이 문서 맨 위 "현재 상태" 절을 따른다** — 전 단계 완료.
+
+- **상태(당시)**: 감사·계획·0단계 게이트·**1단계 병렬 데이터셋 생성 완료**. 라이브 무변경(비활성 병렬 파일). 초기화·삭제·2단계 소비처 이관 미착수.
 - **문서**: [`shipdb-erkul-rewrite-audit.md`](shipdb-erkul-rewrite-audit.md)(감사+PM 9결정) / [`shipdb-erkul-rewrite-plan.md`](shipdb-erkul-rewrite-plan.md)(0~3단계) / [`shipdb-rewrite-consumer-map.md`](shipdb-rewrite-consumer-map.md)(288 소비처) / [`shipdb-rewrite-id-mapping.md`](shipdb-rewrite-id-mapping.md)(219/37).
 - **0단계 산출**: 기준선(`capture-baseline.mjs`+`data/shipdb-rewrite-baseline.json`), 파이프라인 차단 CI(`canonical-contract.mjs`+`shipdb-canonical-contract.test.mjs`, 7종), ID 매핑, 소비처 맵.
 - **1단계 산출(비활성)**: `scripts/shipdb-rewrite/build-{canonical,localization,operational}.mjs` → `data/canonical/`(ships-canonical 219·localization-ships 219·operational-ships 219·edition-aliases 7). canonical 사실원=Erkul live 레이어만(CI 강제). **localization KO 누락 8척 = 전환 차단 대상**(3.2 게이트).
@@ -44,7 +61,8 @@
 - **필드 이관 전부 완료(2단계)**: priceUsd·crew·cargo·focus·tags. 각 gate + OFF=기준선 + ON 동작 + 하네스.
 - **⑩3.1 전후 응답 비교 리포트 완료(PM A)**: `shipdb-3-1-comparison.spec.js`은 OFF 256→ON 249(제외=별칭 7), Erkul live 219의 승인된 표시값, RSI 30의 공식 상태, 가격 제거·역할 필터·플래너 제외를 검증한다. **그 외 차이는 실패 처리.** AI·CMS·Safe Apply는 서버측이라 클라 플래그 무관(별도, 3.5 이관).
 - **⑪3.2 KO 완전성 감사 완료(PM)**: `shipdb-3-2-ko-completeness.test.mjs` 3건 — live 219 KO(ok 219·stale 0·sourceEnHash 현재 EN과 재계산 일치)·RSI 29 KO(+expanse no-en·missing 0)·무음 폴백 0. cutover 번역 준비 재확인.
-- **다음(PM 3단계 순서)**: 3.3 동기화 리허설(Erkul sync→canonical 재생성 재현·Safe Apply preview 미실행·레거시 재주입 차단 확인) → **role 별도 원자 이관(Erkul canonical role, 수기 유지·추론 금지, 없으면 배지 미표시)** → 3.4 PM 승인 → 3.5 실전 ON + 레거시 삭제. 삭제·ON은 3.5 승인 전까지 금지.
+- **다음(당시 계획, 이후 전부 집행됨)**: 3.3 동기화 리허설 → role 별도 원자 이관 → 3.4 PM 승인 → 3.5 실전 ON + 레거시 삭제.
+  실제 결과는 3.5-A(실전 ON)와 3.5-B(물리 삭제)를 PM 판정으로 **분리 집행**했고, 안전장치는 R2 스냅샷 대신 Git 태그로 확정했다.
 - **소유 선언**: 데이터·백엔드(`data/canonical/`, `scripts/shipdb-rewrite/`, `tests/functions/`, 2단계부터 `js/`·`functions/`·`admin/`).
 
 ## 완료 — J-2 랜딩 초점·첫 화면 정비 (2026-07-18)

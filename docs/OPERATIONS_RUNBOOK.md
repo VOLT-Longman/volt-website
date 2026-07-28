@@ -169,9 +169,13 @@ npm run shipdb:canonical:build        # canonical·localization·taxonomy·manif
 
 - 3.5-B에서 레거시 재생성 경로(`sync-rsi-ship-matrix`·`sync-ship-prices`·`normalize-ship-database`·`build-ship-database`·`build-ship-en`)·`data/ship-en.js`와
   SC Wiki 가격 데이터(`data/ship-prices-usd.json`)를 **물리 삭제**했다. 다시 만들지 않는다(계약 테스트가 부재를 강제).
-- 함선DB 편집은 `data/volt-data.js`(표시명·설명 시드) + D1 `ship_overrides`(운영 수정값) **병합** 구조다.
-  운영 중 함선 필드 수정은 관리자 함선DB 탭에서 하며 `data/volt-data.js`를 직접 고치지 않는다.
-- EN 표시(이름·설명·역할)는 canonical·presentation·localization 계층이 직접 제공한다. 레거시 `data/ship-en.js`는 삭제됐다.
+- 함선DB는 **canonical 계층이 유일 사실원**이다. `data/volt-data.js`의 ships 배열과 `data/ship-en.js`는 삭제됐고,
+  표시명·공식 URL은 `data/canonical/presentation-ships.json`, KO 설명·역할명은 localization 계층이 소유한다.
+  KO/EN 표시 모두 canonical·presentation·localization에서 직접 나온다(레거시 수기 값 없음).
+- 운영 중 함선 수정은 관리자 함선DB 탭(D1 `ship_overrides`)에서만 한다. **현재 반영되는 필드는
+  `name`·`name_ko`·`hidden` 3개뿐**이다 — 사양·분류·설명(`role`·`size`·`crew`·`cargo`·`price_usd`·`tags` 등)은
+  canonical이 소유하므로 API가 거부한다(`CANONICAL_OVERRIDE_FIELDS`). D1에 남은 해당 컬럼은 읽지도 쓰지도 않는
+  정지 데이터이며, 물리 삭제는 백업·복구 리허설 확인 후 별도 마이그레이션으로만 진행한다.
 
 ---
 
@@ -221,10 +225,12 @@ npm test
 - **자동 추가 금지 대상**: Erkul-only 신규 함선 9척, market-only 선체 6종(구형 Aurora 5 + Hammerhead),
   unreleased VOLT 30척. 신규 함선 추가는 별도 마일스톤이다.
 - `sourceEnHash` 불일치(=번역 후 Erkul 원문 변경) 번역은 **stale로 분류되어 적용되지 않는다.**
-  stale 함선은 KO 모드에서 기존 VOLT 설명으로 폴백되며, 해당 함선만
+  localization 계층은 `status === 'ok'`인 번역만 방출하므로 stale 함선은 KO가 비고 **영문 원문으로 표시된다**
+  (레거시 VOLT 설명 폴백은 ships 배열 삭제와 함께 없어졌다). 해당 함선만
   `ship-descriptions-ko.json`의 번역과 `sourceEnHash`를 갱신한 뒤 재적용한다. stale 번역을 임의로 계속 쓰지 않는다.
 - Erkul에 없는 설명을 임의 생성하지 않는다. Admin에 [바로 적용] 버튼을 추가하지 않는다.
-- `volt-data.js`에 live stats/market/description을 직접 merge하지 않는다.
+- 동기화 산출물은 `data/ship-live-stats.js`·`ship-market.js`와 canonical 계층뿐이다.
+  `volt-data.js`(임원진·연혁 등 비함선 섹션)에는 어떤 함선 데이터도 되돌려 넣지 않는다.
 
 ### 동기화 주기 정책 (2026-07-06 확정)
 
@@ -246,7 +252,7 @@ npm test
 
 - [ ] `git diff`에서 변경이 `data/ship-live-stats.js`, `data/ship-market.js`,
       `data/external/erkul/live-data-build-report.json`, `description-translation-report.json`에 한정되는가
-- [ ] **`data/volt-data.js` diff 0인가 — 변경됐다면 실패로 간주하고 원인 확인**
+- [ ] **`data/volt-data.js` diff 0인가 — 함선 데이터가 여기로 되돌아오면 실패로 간주하고 원인 확인**
 - [ ] `description-translation-report.json`의 `staleTranslation`/`missingKoTranslation`이 비어 있는가 (있으면 번역 갱신)
 - [ ] `npm run check` / `npm run test:functions` / `npm test` 전부 통과하는가
 - [ ] A-6 스모크의 Asgard 대표값(HP·최저가 exact assertion)이 가격/스펙 변경으로 깨졌다면 기대값을 함께 갱신했는가
@@ -307,8 +313,11 @@ git revert <sync-commit-sha>
 
 ## 8. 장애 대응 요약
 
-- **공개 API(D1) 장애:** 공개 사이트는 `data/volt-data.js`의 동일 키를 폴백/시드로 사용해 계속 동작한다.
-  임원진·연혁·공지 등은 D1이 비어도 정적 데이터로 렌더된다.
+- **공개 API(D1) 장애:** 임원진·연혁·공지 등은 `data/volt-data.js`의 동일 키를 폴백/시드로 사용해
+  D1이 비어도 정적 데이터로 렌더된다.
+- **canonical 로드/검증 실패:** 함선DB에는 폴백이 **없다**(레거시 목록을 섞어 보여주지 않는다).
+  manifest SHA-256 검증에 실패하면 함선 목록은 비고 오류·재시도만 표시된다 — 잘못된 사양을 보여주는 것보다
+  안전하다. 초기화 자체는 계속되므로 공지·임원진 등 나머지 섹션은 정상 렌더된다.
 - **UEX API 장애/지연:** 무역플래너는 타임아웃(10s)·error/stale 상태로 안전 처리(페이지 전체 중단 없음).
 - **관리자 시크릿 미설정:** `ADMIN_SESSION_SECRET`/`DISCORD_*` 미설정 시 로그인은 **안전하게 실패**한다(무단 접근 아님).
 - **배포 미반영 의심:** `node scripts/check-deploy-sync.mjs`로 라이브 캐시 버전과 저장소 `sw.js`를 대조한다.

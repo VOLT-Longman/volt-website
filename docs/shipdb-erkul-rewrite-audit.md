@@ -1,5 +1,11 @@
 # ShipDB Erkul 재작성 v2 — 현행 필드 전수 감사 (승인 기록)
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 - **상태**: 감사 완료 · **PM 승인(2026-07-18)** · 코드·데이터 미변경
 - **목적**: Erkul을 단일 사실 기준으로 하는 3계층 재구성 착수 전, 현행 필드의 출처·사용처·처분을 전수 분류한다. 이 문서가 초기화의 승인 기준이며, 실행 계획은 [`shipdb-erkul-rewrite-plan.md`](shipdb-erkul-rewrite-plan.md)에 있다.
 - **방법**: 12-에이전트 병렬 매핑(8 계층/소비처) → 통합표 합성 → 3-렌즈 적대 검증(삭제안전·출처정확·누락). 검증 정정 5건은 모두 재확인함.

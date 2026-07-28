@@ -1,5 +1,11 @@
 # ShipDB Erkul 재작성 v2 — 소비처 전수 맵 (0단계 0.1 산출)
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 - **목적**: 제거/격리 대상 필드의 실제 소비처를 `js/ + functions/ + admin/ + tests/ + scripts/` 전 디렉터리에서 전수 확인. 감사 방법론 결함(정정 5: js/만 grep) 폐쇄.
 - **방법**: 5-에이전트 병렬 전수 grep(필드군별). 코드·데이터 무변경. **소비처 288건 확인**(js 79 / functions 62 / admin 24 / tests 43 / scripts 78 / migrations 2).
 - **결론**: 3.5 제거는 아래 소비처 재배선 + 재생성 파이프라인 봉인이 선행돼야 안전. 이 맵은 2단계 이관의 작업 목록이다.

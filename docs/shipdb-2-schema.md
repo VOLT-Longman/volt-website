@@ -1,5 +1,11 @@
 # ShipDB 2.0 상세 스펙 스키마 (A-1)
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 ShipDB 2.0에서 함선 상세 스펙/구매처/설명문을 담을 목표 데이터 구조와 원천 정책을 정의한다.
 이 문서는 **스키마 확정 단계**의 산출물이며, 실제 데이터 반영(A-2 이후) 전까지 `data/volt-data.js`는 변경하지 않는다.
 

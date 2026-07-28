@@ -88,10 +88,13 @@ Discord Developer Portal의 OAuth2 Redirects에는 `DISCORD_REDIRECT_URI`와 동
 2. `함선DB` 탭을 선택합니다.
 3. 함선명, 제조사, 역할, 태그로 검색합니다.
 4. 수정할 함선을 선택합니다.
-5. 필요한 필드만 입력하고 저장합니다. 빈 필드는 원본 값을 유지합니다.
+5. **표시 이름(EN/KO)과 공개 여부(숨김)만** 입력하고 저장합니다. 빈 필드는 canonical 값을 그대로 씁니다.
 6. `원본으로 되돌리기`를 누르면 해당 함선의 관리자 수정값이 삭제됩니다.
 
-함선DB 편집은 원본 `data/volt-data.js`를 직접 수정하지 않습니다. 관리자 수정값은 D1 `ship_overrides` 테이블에 저장되며, 공개 사이트는 원본 데이터와 override를 병합해 표시합니다.
+함선의 사양·역할·태그·설명은 **Erkul canonical이 유일 사실원**이며 관리자 화면에서 바꿀 수 없습니다
+(편집 화면에도 그렇게 표시됩니다). 이 값들은 Erkul 동기화로만 갱신됩니다 — `OPERATIONS_RUNBOOK.md` 7-1절 참조.
+관리자 수정값은 D1 `ship_overrides`의 `name`·`name_ko`·`hidden` 3개 컬럼에만 저장되고,
+그 외 필드를 API로 보내면 거부됩니다. 원본 `data/volt-data.js`에는 함선 데이터가 더 이상 없습니다.
 
 
 ## 정형화된 공지/일정 입력 기준
@@ -137,9 +140,10 @@ Discord Developer Portal의 OAuth2 Redirects에는 `DISCORD_REDIRECT_URI`와 동
 - 상세 모달 이미지는 `max-height: 60vh`와 `object-fit: contain`을 기준으로 조정합니다.
 
 
-## 함선DB 태그 선택 기준
+## 함선DB 태그 — 관리자 편집 대상이 아님 (2026-07-25 갱신)
 
-함선DB 태그는 자유 입력하지 않고 기존 함선DB에 존재하는 태그 중에서 선택합니다.
-새 태그가 필요하면 먼저 태그 분류 기준을 정리한 뒤 `data/volt-data.js` 또는 별도 데이터 감사 절차에서 추가합니다.
-관리자 화면에서 저장하면 선택된 태그만 D1 override에 JSON 배열로 저장됩니다.
+함선 태그는 더 이상 관리자가 입력하지 않습니다. 공개 필터의 역할 태그는 Erkul canonical role에서
+`data/canonical/ship-filter-taxonomy.json`으로 파생되며, 수기 태그 편집 경로는 제거됐습니다.
+분류 기준을 바꾸려면 taxonomy 생성기(`scripts/shipdb-rewrite/build-ship-filter-taxonomy.mjs`)를
+수정해 재생성해야 합니다 — 관리자 화면에서 저장할 수 없습니다.
 

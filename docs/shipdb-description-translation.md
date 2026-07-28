@@ -1,5 +1,11 @@
 # ShipDB 2.0 함선 설명 한국어 번역 (A-9)
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 KO 모드의 함선 설명을 기존 VOLT 큐레이션 설명 대신 **Erkul live 영어 설명의 한국어 번역본**으로 교체했다.
 `volt-data.js`의 기존 설명은 삭제하지 않고 legacy fallback으로 유지된다.
 

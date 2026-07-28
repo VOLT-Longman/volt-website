@@ -1,5 +1,11 @@
 # ShipDB Erkul 재작성 v2 — 3.3 동기화 연결 리허설 리포트
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 - **목적(PM)**: 3.5 실전 전환 전, **Erkul 동기화 → canonical 재생성 → Safe Apply 미실행 preview**까지의 파이프라인 정합을 확인하고, **레거시 재생성 스크립트가 canonical을 재주입하지 못함**을 재확인한다. 데이터 삭제·플래그 ON은 하지 않는다.
 - **집행**: `tests/functions/shipdb-3-3-sync-rehearsal.test.mjs`(3건) + 기존 계약 `shipdb-canonical-contract.test.mjs`·`erkul-sync-preview.test.mjs`.
 - **결과**: 전 게이트 통과 — 파이프라인 결정론적, 레거시 격리 유효, preview 로직 무결.

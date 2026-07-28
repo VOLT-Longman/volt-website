@@ -1,5 +1,11 @@
 # ShipDB Erkul 재작성 v2 — 실행 계획 (0~3단계)
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 - **상태**: 계획 작성 · **실행 미착수(초기화·삭제 금지)** · PM 승인 대기(3단계 교체 게이트)
 - **승인 기준 문서**: [`shipdb-erkul-rewrite-audit.md`](shipdb-erkul-rewrite-audit.md) (감사표 + PM 9개 결정)
 - **핵심 원칙(PM)**: "기존 DB 비우기"가 아니라 **Erkul 정규 데이터셋 병렬 생성 → 소비처 이관 → 비교 검증 → 승인 후 교체**. 기존 혼재 데이터의 실제 삭제는 3단계 교체(3.5)에서만 일어난다.

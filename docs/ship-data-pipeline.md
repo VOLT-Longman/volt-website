@@ -11,11 +11,13 @@
 2. **RSI 공식 카탈로그 (30척)** — `data/canonical/ships-rsi-official.json`
    - 사실원: RSI 공식 Ship Matrix 스냅샷(`data/external/rsi/official-ship-matrix.json`)
    - RSI가 제공하지 않는 게임플레이 값은 추정하지 않습니다(계약 테스트로 강제).
-3. **표시 계층** — `localization-ships.json`(KO 설명)·`localization-roles.json`(역할 KO)·
-   `ship-filter-taxonomy.json`(규모·플랫폼/역할 태그). 사실을 바꾸지 않는 번역·분류만 담습니다.
+3. **표시 계층** — `presentation-ships.json`(영문 표시명·공식 URL)·`localization-ships.json`(KO 설명)·
+   `localization-roles.json`(역할 KO)·`ship-filter-taxonomy.json`(규모·플랫폼/역할 태그).
+   사실을 바꾸지 않는 표기·번역·분류만 담습니다.
 4. **운영 계층** — `operational-ships.json`(동기화 시각·매칭 상태), D1 `ship_overrides`(표시명·숨김 등 운영 수정값).
 
-`data/volt-data.js`는 표시명·설명 시드로만 남아 있고, 스펙 사실값은 canonical이 소유합니다.
+`data/volt-data.js`의 ships 배열은 삭제됐습니다(3.5-B 후속). 함선의 사실값·표시값 어느 쪽도 거기에 없으며,
+해당 파일에는 임원진·연혁 등 비함선 섹션만 남아 있습니다.
 
 ## 동기화 방법
 

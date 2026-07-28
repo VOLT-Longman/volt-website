@@ -1,5 +1,11 @@
 # ShipDB Erkul 재작성 v2 — 2.7 서버측 canonical 이관 + 레거시 파이프라인 봉인 리포트
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 - **목적(PM B)**: 3.5 실전 ON·삭제 전에, ① 제거 필드 재생성 파이프라인 봉인 ② 서버측 reader(AI·CMS·Safe Apply) canonical 이관 ③ priceUsd 파이프라인 분리(자산 보존)를 선행한다. **기본 플래그 OFF · 데이터 삭제 없음 · 사용자 노출 변화 없음.**
 - **결과**: 5개 범위 항목 전부 이행. OFF 기준선 완전 불변, ON 경로는 테스트로 고정. 전 게이트 통과.
 

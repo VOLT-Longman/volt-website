@@ -1,5 +1,11 @@
 # ShipDB Erkul 재작성 v2 — 3.4 전환·삭제 승인 패키지 (PM 결정용)
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 > **요청**: 3.5 **실전 플래그 ON + 레거시 삭제** 착수 승인. 이 문서는 0~2단계·3.1~3.3·role 이관 결과와 CI를 종합해, 전환이 안전하고 되돌릴 수 있음을 입증하고 3.5 실행 계획·삭제 인벤토리를 제시한다. **이 문서 자체는 코드·데이터를 바꾸지 않는다**(삭제·플래그 ON 없음).
 
 ## 1. 결론

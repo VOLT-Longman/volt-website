@@ -111,6 +111,7 @@ shim만 유지)으로 timeline부터 분리. 한 커밋에 하나씩, 각각 게
 
 - 스크립트 로딩: `theme-init.js`(FOUC 방지 목적, 의도적 blocking) 제외 전부 `defer` — 렌더 블로킹 없음.
 - 무거운 섹션(함선DB·갤러리) 지연 렌더, ship-en.js·ship-live-stats/market 지연 로드 — 이미 완료(마일스톤 이전).
+  (2026-07-25 주: `ship-en.js`는 이후 3.5-B에서 삭제됐고, EN 표시는 canonical·presentation·localization이 직접 제공한다.)
 - 터치 타깃 ≥36px, 모바일 필터 칩 가로 스크롤, 함선 모달 2열 스펙 — 이미 반영.
 - `prefers-reduced-motion` 전역 존중, 커서 추적형 인터랙션(틸트·마그네틱)은 `pointer: fine`에서만 활성화.
 - PWA manifest 아이콘 세트(webp+png, maskable 포함) 정상.

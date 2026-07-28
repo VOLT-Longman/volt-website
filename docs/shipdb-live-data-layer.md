@@ -1,5 +1,11 @@
 # ShipDB 2.0 라이브 데이터 레이어 (A-5)
 
+> **시점 기록 (2026-07-25 확인).** 이 문서는 작성 당시 상태를 남긴 기록이며 현행 운영 문서가 아니다.
+> 본문이 현재형으로 서술하는 `data/volt-data.js`의 ships 배열, `data/ship-en.js`,
+> `data/ship-prices-usd.json`, 레거시 재생성 스크립트는 **3.5-B에서 물리 삭제**됐다.
+> 현재 데이터 구조는 [ship-data-pipeline.md](ship-data-pipeline.md), 운영 절차는
+> [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md)를 사실원으로 본다.
+
 `data/ship-live-stats.js` / `data/ship-market.js`는 Erkul live 원천의 상세 스펙·구매처 데이터를
 기존 `data/volt-data.js`와 **분리된 레이어**로 제공한다. 재생성: `npm run shipdb:erkul:build-live`
 
