@@ -11,7 +11,6 @@ const ROLE_COUNT = new Set([
 ].filter(Boolean)).size;
 
 async function onShips(page) {
-    await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
     await mockApi(page);
     await gotoSection(page, '#ships');
     await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);

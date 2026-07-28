@@ -102,7 +102,6 @@ test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
     });
 
     test('카드 헤더 전수: 제목·배지·즐겨찾기가 서로 침범하지 않는다', async ({ page }) => {
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid .ship-card').count()).toBe(249);

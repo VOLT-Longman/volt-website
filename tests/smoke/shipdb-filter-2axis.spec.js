@@ -3,7 +3,6 @@ const { mockApi, gotoSection } = require('./helpers');
 
 // 커밋 C: 2축 태그 필터(규모·플랫폼 + 역할) + 세부 역할 검색. 같은 축 OR·축 간 AND·세부는 원문 role 단일.
 async function onShips(page) {
-    await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
     await mockApi(page);
     await gotoSection(page, '#ships');
     await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);

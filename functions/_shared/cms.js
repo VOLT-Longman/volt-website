@@ -227,58 +227,21 @@ function parseJsonObject(value) {
 
 const CANONICAL_OVERRIDE_FIELDS = ['manufacturer', 'role', 'focus', 'size', 'crew', 'cargo', 'priceUsd', 'implemented', 'plannerEligible', 'tags', 'description'];
 
-// canonical=false(되돌림): 레거시 override 전 필드 포함.
-// canonical=true(실전): 표시 이름과 숨김만 허용한다. 모든 사양·분류·설명은
-// canonical/localization/operational 계층에서만 읽으므로, 오래된 API 캐시도 사실값을 덮지 못한다.
-export function mapShipOverride(row, { canonical = false } = {}) {
-  const out = {
+// override는 표시 이름과 숨김만 담는다. 사양·분류·설명은 canonical/localization/operational
+// 계층이 유일 사실원이므로, D1에 남아 있는 레거시 컬럼 값은 공개 출력에 싣지 않는다
+// (오래된 API 캐시나 정지 데이터가 사실값을 덮지 못하게 하는 장치).
+export function mapShipOverride(row) {
+  return {
     id: row.ship_id,
     shipId: row.ship_id,
     name: row.name,
     nameKo: row.name_ko,
-    manufacturer: row.manufacturer,
-    role: row.role,
-    focus: row.focus,
-    size: row.size,
-    crew: row.crew,
-    cargo: row.cargo,
-    priceUsd: row.price_usd === null || row.price_usd === undefined ? null : Number(row.price_usd),
-    implemented: row.implemented === null || row.implemented === undefined ? null : Boolean(row.implemented),
-    plannerEligible: row.planner_eligible === null || row.planner_eligible === undefined ? null : Boolean(row.planner_eligible),
-    tags: parseTags(row.tags),
-    description: row.description,
     hidden: row.hidden === null || row.hidden === undefined ? null : Boolean(row.hidden),
     updatedAt: row.updated_at
   };
-  if (canonical) {
-    for (const field of CANONICAL_OVERRIDE_FIELDS) delete out[field];
-  }
-  return out;
 }
 
-export function shipOverrideInput(shipId, body, { canonical = false } = {}) {
-  if (canonical) return canonicalShipOverrideInput(shipId, body);
-  return {
-    ship_id: limitText(shipId, 120),
-    name: nullableText(body.name, 200),
-    name_ko: nullableText(body.nameKo ?? body.name_ko, 200),
-    manufacturer: nullableText(body.manufacturer, 120),
-    role: nullableText(body.role, 120),
-    focus: nullableText(body.focus, 80),
-    size: nullableText(body.size, 80),
-    crew: nullableText(body.crew, 80),
-    cargo: nullableText(body.cargo, 80),
-    price_usd: nullableNumber(body.priceUsd ?? body.price_usd),
-    implemented: nullableBooleanInt(body.implemented),
-    planner_eligible: nullableBooleanInt(body.plannerEligible ?? body.planner_eligible),
-    tags: normalizeTagsInput(body.tags),
-    description: nullableText(body.description, 20000),
-    hidden: nullableBooleanInt(body.hidden),
-    updated_at: nowIso()
-  };
-}
-
-function canonicalShipOverrideInput(shipId, body) {
+export function shipOverrideInput(shipId, body) {
   const unsupported = CANONICAL_OVERRIDE_FIELDS.filter((field) => Object.hasOwn(body || {}, field));
   if (unsupported.length) throw new Error(`Canonical ShipDB does not accept source overrides: ${unsupported.join(', ')}`);
   return {

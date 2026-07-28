@@ -8,7 +8,6 @@
 (function () {
     'use strict';
 
-    var CANONICAL_ENABLED = true;
     var MANIFEST_URL = 'data/canonical/shipdb-manifest.json';
     var DATA_FILES = {
         canonical: { path: 'data/canonical/ships-canonical.json', group: 'core' },
@@ -30,14 +29,6 @@
     var idCache = null;
     var shipCache = null;
     var roleListCache = null;
-
-    function isEnabled() {
-        if (typeof window !== 'undefined') {
-            if (window.__VOLT_SHIPDB_CANONICAL_TEST__ === false) return false;
-            if (window.__VOLT_SHIPDB_CANONICAL_TEST__ === true) return true;
-        }
-        return CANONICAL_ENABLED === true;
-    }
 
     function makeError(message) {
         return new Error('ShipDB 데이터 오류: ' + message);
@@ -137,7 +128,6 @@
     }
 
     function load() {
-        if (!isEnabled()) return Promise.resolve(null);
         if (state === 'loaded') return Promise.resolve(store);
         if (state === 'loading') return corePromise;
         state = 'loading';
@@ -154,7 +144,6 @@
     }
 
     function retry() {
-        if (!isEnabled()) return Promise.resolve(null);
         state = 'idle';
         corePromise = null;
         manifestPromise = null;
@@ -277,7 +266,6 @@
     }
 
     window.VOLT_SHIPDB_CANONICAL = {
-        isEnabled: isEnabled,
         load: load,
         retry: retry,
         publicShipIds: publicShipIds,

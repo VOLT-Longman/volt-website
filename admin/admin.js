@@ -453,7 +453,7 @@ async function loadShipItems() {
 async function loadCanonicalShipSource() {
   const source = window.VOLT_SHIPDB_CANONICAL;
   state.shipSourceError = '';
-  if (!source?.isEnabled()) {
+  if (!source) {
     state.shipSourceError = 'canonical 함선 데이터 로더를 사용할 수 없습니다.';
     return null;
   }

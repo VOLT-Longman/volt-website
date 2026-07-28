@@ -10,7 +10,6 @@ const CARD = (id) => `[data-ship-id="${id}"]`;
 
 test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     test('ON: 카드 role 배지=canonical KO · focus 배지 제거 · purpose 숨김', async ({ page }) => {
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
@@ -25,7 +24,6 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     });
 
     test('ON 필터(콤보박스): 옵션 키=Erkul EN·라벨=KO · 선택 시 해당 role만 노출', async ({ page }) => {
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
@@ -49,7 +47,6 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     });
 
     test('ON 모달: 역할 = canonical KO(경 화물선)', async ({ page }) => {
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
@@ -60,7 +57,6 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     });
 
     test('ON EN 로케일: role 배지 = Erkul EN 원문(Light Freight)', async ({ page }) => {
-        await page.addInitScript(() => { window.__VOLT_SHIPDB_CANONICAL_TEST__ = true; });
         await mockApi(page);
         await gotoSection(page, '#ships');
         await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
