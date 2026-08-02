@@ -221,7 +221,13 @@ export async function toolMarketInfo(env, request, query) {
 export async function toolUpcomingEvents(env) {
   try {
     const result = await requireDb(env).prepare(
-      "SELECT title, date_label, event_date, status FROM events WHERE published = 1 ORDER BY created_at DESC LIMIT 20"
+      // created_at DESC로 먼저 20건을 자르면, 먼 미래 일정을 오래 전에 등록해 둔 경우
+      // "최근 등록 20건" 밖으로 밀려 다가오는 일정에서 누락된다.
+      // 다가오는 일정(0) → 날짜 미정·지난 일정(1) 순으로 정렬해 잘림이 생기지 않게 한다.
+      `SELECT title, date_label, event_date, status FROM events WHERE published = 1
+         ORDER BY CASE WHEN event_date IS NOT NULL AND event_date <> '' AND event_date >= date('now') THEN 0 ELSE 1 END,
+                  event_date ASC
+         LIMIT 20`
     ).all();
     // "다가오는 일정" = 오늘 이후를 가까운 순으로(M1.1). 날짜 없는 일정(dateLabel만)은 뒤에 붙인다.
     // 필터·정렬을 JS에서 수행해 모의 DB로도 계약을 검증할 수 있게 한다.

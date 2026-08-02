@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 
 import { onRequestGet, onRequestPost } from '../../functions/api/ai/chat.js';
 import { resetShipCacheForTests } from '../../functions/_shared/ai-tools.js';
@@ -324,4 +325,16 @@ test('AI 일정(M1.1): 오늘 이후만 가까운 순, 날짜 없는 일정은 �
     assert.ok(!titles.includes('지난 작전'), '과거 일정 제외');
     assert.ok(titles.indexOf('가까운 작전') < titles.indexOf('먼 작전'), '가까운 순 정렬');
     assert.ok(titles.indexOf('먼 작전') < titles.indexOf('날짜 미정 작전'), '날짜 없는 일정은 후순위');
+});
+
+// 일정 도구 쿼리 계약 — 모의 DB는 SQL을 해석하지 않아 위 테스트로는 잘림을 잡지 못한다.
+// created_at DESC로 20건을 먼저 자르면 "먼 미래 일정을 오래 전에 등록"한 경우 누락되므로,
+// 다가오는 일정이 정렬 우선순위를 갖는지 쿼리 원문으로 고정한다.
+test('일정 도구: 다가오는 일정이 LIMIT에 잘리지 않도록 정렬한다', async () => {
+    const src = await readFile(new URL('../../functions/_shared/ai-tools.js', import.meta.url), 'utf8');
+    const query = src.slice(src.indexOf('FROM events'), src.indexOf('FROM events') + 400);
+    assert.ok(!/ORDER BY created_at DESC\s+LIMIT/i.test(query),
+        'created_at DESC + LIMIT 조합은 다가오는 일정을 누락시킨다');
+    assert.match(query, /event_date >= date\('now'\)/, '다가오는 일정을 정렬 우선순위로 올려야');
+    assert.match(query, /LIMIT 20/, '상한 자체는 유지');
 });
