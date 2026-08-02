@@ -106,7 +106,8 @@ export function galleryInput(body, existing = {}) {
     category: limitText(body.category, 40, '기타'),
     image_url: nullableHttpUrl(body.imageUrl || body.image_url || body.src),
     thumb_url: nullableHttpUrl(body.thumbUrl || body.thumb_url || body.thumb || body.imageUrl || body.image_url || body.src),
-    date: limitText(body.date, 40, timestamp.slice(0, 10)),
+    // 공지와 같은 이유로 빈 문자열을 미입력으로 되돌린다(blankAsUnset 주석 참조).
+    date: limitText(blankAsUnset(body.date), 40, timestamp.slice(0, 10)),
     sort_order: finiteNumberOr(body.sortOrder ?? body.sort_order, 0),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,

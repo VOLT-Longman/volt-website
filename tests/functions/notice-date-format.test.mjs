@@ -7,6 +7,9 @@
 //
 // 계약: 저장 포맷은 YYYY-MM-DD 하나로 고정하고, 읽기 정렬도 포맷에 의존하지 않는다.
 // (표시 계층이 대시→점으로 변환해 렌더하므로 화면 표기는 바뀌지 않는다.)
+//
+// 아울러 CMS date 입력의 "빈 값" 규칙도 여기서 고정한다 — limitText가 ''를 값 있음으로
+// 취급해 기본값을 건너뛰던 결함이 noticeInput·galleryInput 양쪽에 있었다.
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
@@ -14,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 
-import { noticeInput } from '../../functions/_shared/cms.js';
+import { galleryInput, noticeInput } from '../../functions/_shared/cms.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (p) => readFile(join(ROOT, p), 'utf8');
@@ -38,6 +41,16 @@ test('noticeInput: 빈 날짜는 미입력으로 보고 기본값(오늘)을 채
   // 기존 동작(미제공)도 그대로
   assert.match(noticeInput({ title: 't' }).date, ISO_DATE);
   assert.match(noticeInput({ title: 't', date: null }).date, ISO_DATE);
+});
+
+test('galleryInput: 빈 날짜는 미입력으로 보고 기본값(오늘)을 채운다', () => {
+  // 갤러리는 date로 정렬하지 않아 순서 문제는 없지만, 빈 날짜가 저장되면 화면에 날짜가 비어 보인다.
+  for (const blank of ['', '   ', '\t']) {
+    assert.match(galleryInput({ title: 't', date: blank }).date, ISO_DATE, `빈 입력 ${JSON.stringify(blank)}`);
+  }
+  assert.match(galleryInput({ title: 't' }).date, ISO_DATE);
+  // 갤러리는 공지와 달리 포맷 정규화 대상이 아니다 — 입력값을 그대로 보존한다.
+  assert.equal(galleryInput({ title: 't', date: '2026.05.15' }).date, '2026.05.15');
 });
 
 test('noticeInput: 날짜로 해석 불가능한 값은 임의 변형 없이 보존한다', () => {
