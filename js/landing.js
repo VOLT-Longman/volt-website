@@ -40,6 +40,13 @@
         return /^\d{4}-\d{2}-\d{2}/.test(raw) ? raw.slice(0, 10).replace(/-/g, '.') : raw;
     }
 
+    // 날짜 정렬은 포맷에 의존하지 않는다. 저장 포맷은 YYYY-MM-DD로 통일했지만(0012),
+    // 점 포맷 과거 행이 섞여도 순서가 뒤집히지 않도록 파싱해서 비교한다(js/notices.js와 동일 규칙).
+    function noticeSortTime(value) {
+        const time = Date.parse(String(value || '').trim().replace(/\./g, '-'));
+        return Number.isNaN(time) ? 0 : time;
+    }
+
     // 최신 공지 3건 티저 (고정 공지 우선, 날짜 내림차순)
     function renderNoticeTeaser() {
         const container = document.getElementById('landing-notices-list');
@@ -48,7 +55,8 @@
         container.replaceChildren();
         if (!Array.isArray(announcements) || announcements.length === 0) return;
         const items = [...announcements]
-            .sort((a, b) => (Boolean(b.pinned) - Boolean(a.pinned)) || String(b.date || '').localeCompare(String(a.date || '')))
+            .sort((a, b) => (Boolean(b.pinned) - Boolean(a.pinned))
+                || (noticeSortTime(b.date) - noticeSortTime(a.date)))
             .slice(0, 3);
         for (const item of items) {
             const row = el('a', 'landing-notice-row');

@@ -241,7 +241,8 @@ export async function toolUpcomingEvents(env) {
 export async function toolRecentNotices(env) {
   try {
     const result = await requireDb(env).prepare(
-      'SELECT title, date, tag FROM notices WHERE published = 1 ORDER BY pinned DESC, date DESC LIMIT 5'
+      // 정렬은 포맷에 의존하지 않는다 — 점/대시가 섞이면 원문 정렬이 뒤집힌다(0012 참조).
+      "SELECT title, date, tag FROM notices WHERE published = 1 ORDER BY pinned DESC, date(replace(date, '.', '-')) DESC LIMIT 5"
     ).all();
     const items = (result.results || []).map((row) => ({ title: row.title, date: row.date || '', tag: row.tag || '' }));
     return { data: { status: 'ok', notices: items }, sources: [{ label: 'VOLT 공지 (CMS)', url: '#notices' }], freshness: { label: '공지', at: new Date().toISOString() } };

@@ -41,10 +41,20 @@ export function noticeInput(body, existing = {}) {
     tag_en: localizedTextInput(body.tagEn ?? body.tag_en, 20),
     pinned: toBooleanInt(body.pinned),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
-    date: limitText(body.date, 40, timestamp.slice(0, 10)),
+    date: normalizeNoticeDate(limitText(body.date, 40, timestamp.slice(0, 10))),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
   };
+}
+
+// 공지 날짜 저장 포맷은 YYYY-MM-DD 하나로 고정한다.
+// 시드는 점 포맷, 관리자 UI(<input type="date">)와 기본값은 대시라 두 포맷이 섞이면
+// 원문 문자열 정렬이 뒤집힌다('.'(0x2E) > '-'(0x2D) → DESC에서 점이 무조건 위).
+// 표시 계층이 대시→점으로 변환해 렌더하므로 화면 표기는 바뀌지 않는다.
+// 날짜로 해석되지 않는 값(예: '미정')은 사실을 바꾸지 않기 위해 그대로 둔다.
+function normalizeNoticeDate(value) {
+  const text = String(value ?? '').trim();
+  return /^\d{4}\.\d{2}\.\d{2}$/.test(text) ? text.replace(/\./g, '-') : text;
 }
 
 // optional 다국어 텍스트: 미제공/빈 값 → null, 문자열 아니면 throw(잘못된 타입), 길이 초과 throw.
@@ -271,11 +281,6 @@ function nullableText(value, maxLength = 2000) {
   return text ? text : null;
 }
 
-function normalizeTagsInput(value) {
-  if (value === null || value === undefined) return null;
-  const tags = Array.isArray(value) ? value : parseTags(value);
-  return JSON.stringify(tags.map((tag) => limitText(tag, 40)).slice(0, 24));
-}
 
 function nullableNumber(value) {
   if (value === null || value === undefined || value === '') return null;
@@ -303,15 +308,3 @@ function publishedInput(body, existing = {}) {
   if (existing.published !== null && existing.published !== undefined) return toBooleanInt(existing.published);
   return 1;
 }
-
-function parseTags(value) {
-  if (Array.isArray(value)) return value;
-  if (!value) return [];
-  try {
-    const parsed = JSON.parse(value);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (_error) {
-    return String(value).split(',').map((tag) => tag.trim()).filter(Boolean);
-  }
-}
-
