@@ -54,9 +54,26 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
 | `0007_people_partner_images.sql` | avatar_url · photo_url 컬럼 | `ALTER TABLE ADD COLUMN` | ❌ |
 | `0008_notice_i18n.sql` | 공지 EN 컬럼(title/content/tag_en) | `ALTER TABLE ADD COLUMN` | ❌ |
 | `0009_schema_migrations.sql` | 마이그레이션 적용 추적 테이블 + 0001~0009 백필 | `CREATE IF NOT EXISTS` + `INSERT OR IGNORE` | ✅ |
+| `0010_ship_name_ko_hidden.sql` | ship_overrides에 name_ko · hidden 컬럼 | `ALTER TABLE ADD COLUMN` | ❌ |
+| `0011_rsvp_user_index.sql` | event_rsvps(user_sub) 인덱스 | `CREATE INDEX IF NOT EXISTS` | ✅ |
+| `0012_notice_date_format.sql` | 공지 날짜를 YYYY-MM-DD로 정규화 | 조건부 `UPDATE`(GLOB) | ✅ |
 
-> **핵심:** `ALTER TABLE ADD COLUMN`(0007·0008)은 **재실행하면 `duplicate column name` 오류로 실패**한다.
+> **핵심:** `ALTER TABLE ADD COLUMN`(0007·0008·0010)은 **재실행하면 `duplicate column name` 오류로 실패**한다.
 > 이미 적용한 마이그레이션은 다시 실행하지 않는다. `CREATE IF NOT EXISTS`/`INSERT OR IGNORE`류는 재실행해도 무해하다.
+
+**운영 D1 적용 현황 (2026-08-02 확인)**
+
+- `0012` **적용 완료.** 공지 15행 전부 `YYYY-MM-DD`이며 점 표기 0건임을 조회로 확인했다.
+- 같은 작업에서 **중복 공지 3쌍을 삭제**했다 — 시드(`ann-003`·`ann-004`·`ann-005`)와 관리자가
+  다시 작성한 동일 사건 공지가 함께 있었다. 관리자 생성본(`notice-*`)을 남겼다.
+  ⚠ `0002_seed_content.sql`은 `INSERT OR IGNORE`라 **파일을 수동으로 재실행하면 이 3건이 되살아난다.**
+  정상 운영에서는 `schema_migrations`에 `0002`가 기록돼 재실행되지 않는다.
+- `ann-006`('공식 홈페이지 리뉴얼 오픈')의 비어 있던 날짜를 시드 원본값 `2026-05-15`로 복구했다.
+  빈 날짜가 저장되던 원인(코드)은 `80e0ba3`·`762fe73`에서 제거했다.
+- **미확인:** `0008`~`0011`의 운영 적용 여부는 아직 조회하지 않았다. 아래로 한 번에 확인한다.
+  ```sql
+  SELECT id, applied_at FROM schema_migrations ORDER BY id;
+  ```
 
 ### 4. 적용 절차
 

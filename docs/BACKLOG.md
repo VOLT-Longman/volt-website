@@ -37,6 +37,17 @@
       `.landing-card-eyebrow/h3/p`, `.landing-card-metric(+strong)`, `.landing-notices-head h2`,
       `.landing-notice-row:hover`, `.landing-cta h2/p`. 병합 시 G0 규약(전 선언 파일 순서 보존 +
       computed style 전 속성 비교) 필수 — 랜딩 소유 세션이 처리 권장(WORK_STATUS 소유 기준 참조).
+  - **결말 (P2, 2026-07-28, `210ddb5`)** — 위 "15건"은 랜딩 재설계 이전 기준이라 재측정했다.
+    실제 hero/landing 계열 solo 중복은 **28건**이었고, 대상 선정을 이름이 아니라 **속성 충돌 기준**으로
+    다시 했다: 두 발생 사이에 "같은 클래스를 매치하면서 같은 속성을 선언하는" 규칙이 0개인 것만 병합.
+    → **7건 병합**(`.hero-layout::before`, `.landing-header h2`, `.landing-card-eyebrow`,
+    `.landing-card-metric`, `.landing-notices-head`, `.landing-notice-row`, `.landing-cta h2`).
+    중복 **140 → 133**, top-level 규칙 1095 → 1088, 선언 총수 5018 불변.
+    검증: computed style 전 속성 **0건 불일치**(51,084속성 / 118요소 / 6상태) + CI linux 시각 회귀 변화 0.
+    측정 시 애니메이션을 결정론적으로 고정(유한=finish·무한=currentTime 0)하고 좌표를 문서 기준으로
+    정규화해야 한다 — 안 그러면 트랜지션 진행 중 값과 hover 자동 스크롤이 허위 차이를 만든다.
+  - **잔여 21건은 중단** — `.hero` 계열이 대부분이고 두 발생 사이에 속성 충돌 규칙이 있어
+    병합 위치에 따라 cascade 승자가 바뀐다. 실제 버그·기능 개발 필요가 생길 때만 재개한다.
 
 ## 데이터 레벨 i18n — 완료 확인 (2026-07-13)
 
@@ -45,6 +56,20 @@
   불필요해졌다. cargo는 언어 비의존적인 `SCU` 값이다.
 - **공지 RSVP status**: API 계약값(참가/대기/불참)은 유지하되, `schedule.js`·`mypage.js`가 i18n 키로 표시한다.
   원천 스키마를 영어로 바꾸는 것은 호환성 이득이 없어 작업 대상으로 남기지 않는다.
+
+## 날짜 계약 — 일정 `event_date` (잠재 개선, 2026-08-03)
+
+공지·갤러리는 정리 완료(`b7507ab`·`80e0ba3`·`762fe73`). 일정만 같은 유형이 남아 있다.
+
+- **현재**: `event_date`는 관리자 UI의 `<input type="date">`에서만 오고 시드에 날짜 리터럴이 없어
+  **혼재 이력이 없다**(실측 확인). `api/events.js`는 `ORDER BY NULLIF(event_date,'') DESC`로 문자열 정렬한다.
+- **위험**: 지금은 활성 결함이 아니다. 다만 어떤 경로로든 점 표기(`2026.05.15`)가 한 건이라도 들어오면
+  공지에서 겪은 것과 같은 정렬 역전이 재발한다(`'.'(0x2E) > '-'(0x2D)`).
+- **착수 조건**: 일정 관련 기능을 손댈 때 함께 처리한다. 단독으로 할 만큼 급하지 않다.
+- **권장 규칙(공지에서 확립)**: 정렬용 날짜는 `YYYY-MM-DD` 고정 / 화면용 자유 문구는 `dateLabel`로 분리 /
+  날짜로 해석 안 되는 값은 변형하지 않고 보존 / 저장·API 정렬·프런트 정렬이 같은 계약을 쓴다.
+  구현 참고: `functions/_shared/cms.js`의 `blankAsUnset`·`normalizeNoticeDate`,
+  계약 `tests/functions/notice-date-format.test.mjs`.
 
 ## 성능 (Stage B — 보류)
 
