@@ -41,10 +41,17 @@ export function noticeInput(body, existing = {}) {
     tag_en: localizedTextInput(body.tagEn ?? body.tag_en, 20),
     pinned: toBooleanInt(body.pinned),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
-    date: normalizeNoticeDate(limitText(body.date, 40, timestamp.slice(0, 10))),
+    date: normalizeNoticeDate(limitText(blankAsUnset(body.date), 40, timestamp.slice(0, 10))),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
   };
+}
+
+// limitText는 빈 문자열을 "값 있음"으로 보고 기본값을 건너뛴다. 관리자 화면에서 날짜를 지우고
+// 저장하면 빈 날짜가 그대로 들어가고(운영 ann-006이 그 사례), 그 공지는 정렬에서 맨 아래로 밀린다.
+// 빈 문자열·공백은 미입력으로 되돌려 기본값(오늘)이 적용되게 한다.
+function blankAsUnset(value) {
+  return typeof value === 'string' && value.trim() === '' ? undefined : value;
 }
 
 // 공지 날짜 저장 포맷은 YYYY-MM-DD 하나로 고정한다.

@@ -29,6 +29,17 @@ test('noticeInput: 점 포맷 입력을 대시로 정규화해 저장한다', ()
   assert.match(noticeInput({ title: 't' }).date, ISO_DATE);
 });
 
+test('noticeInput: 빈 날짜는 미입력으로 보고 기본값(오늘)을 채운다', () => {
+  // limitText가 ''를 "값 있음"으로 취급해 기본값을 건너뛰던 결함.
+  // 관리자 화면에서 날짜를 지우고 저장하면 빈 날짜가 저장돼 그 공지가 목록 최하단으로 밀렸다.
+  for (const blank of ['', '   ', '\t']) {
+    assert.match(noticeInput({ title: 't', date: blank }).date, ISO_DATE, `빈 입력 ${JSON.stringify(blank)}`);
+  }
+  // 기존 동작(미제공)도 그대로
+  assert.match(noticeInput({ title: 't' }).date, ISO_DATE);
+  assert.match(noticeInput({ title: 't', date: null }).date, ISO_DATE);
+});
+
 test('noticeInput: 날짜로 해석 불가능한 값은 임의 변형 없이 보존한다', () => {
   // 사실을 바꾸지 않는다 — 포맷 정규화는 YYYY.MM.DD 형태에만 적용한다.
   assert.equal(noticeInput({ title: 't', date: '미정' }).date, '미정');
