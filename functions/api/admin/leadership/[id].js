@@ -24,28 +24,30 @@ async function updateItem(request, env, id) {
     return error(err.message || 'Invalid input', 422);
   }
   if (!item.name) return error('Missing required fields', 422);
+  let result;
   if (await tableHasColumn(db, 'leadership_members', 'avatar_url')) {
-    await updateLeaderWithAvatarUrl(db, id, item);
+    result = await updateLeaderWithAvatarUrl(db, id, item, existing);
   } else {
-    await updateLeaderLegacy(db, id, item);
+    result = await updateLeaderLegacy(db, id, item, existing);
   }
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ item: mapLeader(item) });
 }
 
-async function updateLeaderWithAvatarUrl(db, id, item) {
-  await db.prepare(`
+async function updateLeaderWithAvatarUrl(db, id, item, existing) {
+  return db.prepare(`
     UPDATE leadership_members
     SET name = ?, role = ?, discord = ?, description = ?, duties = ?, avatar = ?, avatar_url = ?, avatar_gradient = ?, avatar_style = ?, extras = ?, sort_order = ?, published = ?, updated_at = ?
-    WHERE id = ?
-  `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_url, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id).run();
+    WHERE id = ? AND updated_at IS ?
+  `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_url, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
 }
 
-async function updateLeaderLegacy(db, id, item) {
-  await db.prepare(`
+async function updateLeaderLegacy(db, id, item, existing) {
+  return db.prepare(`
     UPDATE leadership_members
     SET name = ?, role = ?, discord = ?, description = ?, duties = ?, avatar = ?, avatar_gradient = ?, avatar_style = ?, extras = ?, sort_order = ?, published = ?, updated_at = ?
-    WHERE id = ?
-  `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id).run();
+    WHERE id = ? AND updated_at IS ?
+  `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
 }
 
 async function deleteItem(env, id) {

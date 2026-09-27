@@ -1,6 +1,7 @@
-import { clearUserSessionCookie } from '../_shared/discord-auth.js';
+import { clearUserSessionCookie, revokeUserSession } from '../_shared/discord-auth.js';
 
-export function onRequestGet() {
+export async function onRequestGet({ request, env }) {
+  await revokeUserSession(request, env);
   return new Response(null, {
     status: 302,
     headers: {

@@ -18,7 +18,8 @@ async function updateItem(request, env, id) {
   if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
   let item; try { item = galleryInput({ ...body, id }, existing); } catch (err) { return error(err.message || 'Invalid input', 422); }
   if (!item.title || !item.image_url) return error('Missing required fields', 422);
-  await db.prepare('UPDATE gallery_items SET title = ?, description = ?, category = ?, image_url = ?, thumb_url = ?, date = ?, sort_order = ?, published = ?, updated_at = ? WHERE id = ?').bind(item.title, item.description, item.category, item.image_url, item.thumb_url, item.date, item.sort_order, item.published, item.updated_at, id).run();
+  const result = await db.prepare('UPDATE gallery_items SET title = ?, description = ?, category = ?, image_url = ?, thumb_url = ?, date = ?, sort_order = ?, published = ?, updated_at = ? WHERE id = ? AND updated_at IS ?').bind(item.title, item.description, item.category, item.image_url, item.thumb_url, item.date, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ item: mapGallery(item) });
 }
 

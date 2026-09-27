@@ -8654,3 +8654,24 @@ body.nav-trade-open::before {
     }
 }
 
+
+/* A failed CMS refresh is distinguishable from an intentionally empty collection. */
+#cms-load-status:not([hidden]) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 24px;
+    margin-top: 80px;
+    background: #302710;
+    color: #ffe7a3;
+}
+#cms-load-status button {
+    padding: 8px 14px;
+    border: 1px solid currentColor;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}

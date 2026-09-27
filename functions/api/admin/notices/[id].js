@@ -20,7 +20,8 @@ async function updateItem(request, env, id) {
   if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
   let item; try { item = noticeInput({ ...body, id }, existing); } catch (err) { return error(err.message || 'Invalid input', 422); }
   if (!item.title) return error('Missing required fields', 422);
-  await db.prepare('UPDATE notices SET title = ?, content = ?, tag = ?, title_en = ?, content_en = ?, tag_en = ?, pinned = ?, published = ?, date = ?, updated_at = ? WHERE id = ?').bind(item.title, item.content, item.tag, item.title_en, item.content_en, item.tag_en, item.pinned, item.published, item.date, item.updated_at, id).run();
+  const result = await db.prepare('UPDATE notices SET title = ?, content = ?, tag = ?, title_en = ?, content_en = ?, tag_en = ?, pinned = ?, published = ?, date = ?, updated_at = ? WHERE id = ? AND updated_at IS ?').bind(item.title, item.content, item.tag, item.title_en, item.content_en, item.tag_en, item.pinned, item.published, item.date, item.updated_at, id, existing.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ item: mapNotice(item) });
 }
 

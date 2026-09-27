@@ -3,9 +3,7 @@ const { mockApi, gotoSection } = require('./helpers');
 
 // 격납고를 로컬스토리지에 미리 심는다(페이지 스크립트보다 먼저 실행).
 async function seedHangar(page, shipIds) {
-    await page.addInitScript((ids) => {
-        localStorage.setItem('volt-hangar', JSON.stringify(ids));
-    }, shipIds);
+    await page.route('**/api/me/preferences', (route) => route.fulfill({ json: { preferences: { favorites: shipIds, planner: {} } } }));
 }
 
 async function routeRsvps(page, items) {

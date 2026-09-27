@@ -72,7 +72,7 @@ test('공개 API: 테이블 미존재(마이그레이션 전) → 빈 목록 + w
     const env = { ...TEST_ENV, DB: createMockDb(() => { throw new Error('no such table'); }) };
     for (const handler of [leadershipPublic, timelinePublic]) {
         const response = await handler({ env });
-        assert.equal(response.status, 200);
+        assert.equal(response.status, 503);
         const body = await response.json();
         assert.deepEqual(body.items, []);
         assert.ok(body.warning);

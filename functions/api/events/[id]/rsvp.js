@@ -13,7 +13,7 @@ export async function onRequest({ request, env, params }) {
 }
 
 async function requireExistingEvent(db, eventId) {
-  const row = await db.prepare('SELECT id FROM events WHERE id = ?').bind(eventId).first();
+  const row = await db.prepare('SELECT id FROM events WHERE id = ? AND published = 1').bind(eventId).first();
   return row ? null : error('Event not found', 404);
 }
 

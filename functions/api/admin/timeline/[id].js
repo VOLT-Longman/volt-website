@@ -23,11 +23,12 @@ async function updateItem(request, env, id) {
     return error(err.message || 'Invalid input', 422);
   }
   if (!item.title || !item.date_label) return error('Missing required fields', 422);
-  await db.prepare(`
+  const result = await db.prepare(`
     UPDATE timeline_entries
     SET date_label = ?, title = ?, description = ?, sort_order = ?, published = ?, updated_at = ?
-    WHERE id = ?
-  `).bind(item.date_label, item.title, item.description, item.sort_order, item.published, item.updated_at, id).run();
+    WHERE id = ? AND updated_at IS ?
+  `).bind(item.date_label, item.title, item.description, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ item: mapTimelineEntry(item) });
 }
 

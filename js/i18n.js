@@ -20,6 +20,8 @@
 
     const STRINGS = {
         ko: {
+            'cms.unavailable': '일부 콘텐츠를 갱신하지 못했습니다. 표시된 내용은 최신이 아닐 수 있습니다.',
+            'cms.retry': '다시 시도',
             'lang.toggleAria': '언어 변경 (한국어/English)',
             // 메타
             'meta.title': 'VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대',
@@ -535,6 +537,8 @@
             'footer.fanDisclaimer': 'Star Citizen® 이미지 © Cloud Imperium Games. 본 사이트는 CIG와 무관한 비공식 팬 사이트입니다.'
         },
         en: {
+            'cms.unavailable': 'Some content could not be refreshed. Displayed information may be out of date.',
+            'cms.retry': 'Try again',
             'lang.toggleAria': 'Change language (Korean/English)',
             // meta
             'meta.title': 'VOLT — Voyagers of Logistics and Trade | Korean Star Citizen Fleet',

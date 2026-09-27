@@ -1,8 +1,12 @@
-import { createId, limitText, nowIso, sanitizeText, toBooleanInt } from './http.js';
+import { createId, limitText, sanitizeText, toBooleanInt } from './http.js';
 
 // 낙관적 잠금: 클라이언트가 수정 시작 시점의 updatedAt(expectedUpdatedAt)을 보내면
 // 현재 행의 updated_at과 비교한다. 다르면 다른 관리자가 먼저 저장한 것 → 409.
-// expectedUpdatedAt 미제공(구버전 클라이언트/스크립트)은 기존 동작(last-write-wins) 유지.
+// 라우트의 UPDATE도 읽은 버전을 조건으로 검사한다. 구버전 클라이언트도 동시 저장 시 409를 받는다.
+export function nextUpdatedAt(existing = {}) {
+  return new Date(Math.max(Date.now(), (Date.parse(existing.updated_at) || 0) + 1)).toISOString();
+}
+
 export const CONFLICT_MESSAGE = '다른 관리자가 먼저 저장했습니다. 목록을 새로고침해 최신 내용을 확인한 뒤 다시 수정해 주세요.';
 
 export function hasUpdateConflict(body, existing) {
@@ -29,7 +33,7 @@ export function mapNotice(row) {
 }
 
 export function noticeInput(body, existing = {}) {
-  const timestamp = nowIso();
+  const timestamp = nextUpdatedAt(existing);
   return {
     id: existing.id || sanitizeText(body.id) || createId('notice'),
     title: limitText(body.title, 200),
@@ -77,7 +81,7 @@ export function mapEvent(row) {
 }
 
 export function eventInput(body, existing = {}) {
-  const timestamp = nowIso();
+  const timestamp = nextUpdatedAt(existing);
   const eventDate = limitText(body.eventDate || body.event_date, 40);
   return {
     id: existing.id || sanitizeText(body.id) || createId('event'),
@@ -98,7 +102,7 @@ export function mapGallery(row) {
 }
 
 export function galleryInput(body, existing = {}) {
-  const timestamp = nowIso();
+  const timestamp = nextUpdatedAt(existing);
   return {
     id: existing.id || sanitizeText(body.id) || createId('gallery'),
     title: limitText(body.title, 200),
@@ -140,7 +144,7 @@ export function mapPartnerFleet(row) {
 }
 
 export function partnerFleetInput(body, existing = {}) {
-  const timestamp = nowIso();
+  const timestamp = nextUpdatedAt(existing);
   return {
     id: existing.id || sanitizeText(body.id) || createId('partner'),
     name: limitText(body.name, 200),
@@ -185,7 +189,7 @@ export function mapLeader(row) {
 }
 
 export function leaderInput(body, existing = {}) {
-  const timestamp = nowIso();
+  const timestamp = nextUpdatedAt(existing);
   return {
     id: existing.id || sanitizeText(body.id) || createId('leader'),
     name: limitText(body.name, 80),
@@ -220,7 +224,7 @@ export function mapTimelineEntry(row) {
 }
 
 export function timelineInput(body, existing = {}) {
-  const timestamp = nowIso();
+  const timestamp = nextUpdatedAt(existing);
   return {
     id: existing.id || sanitizeText(body.id) || createId('tl'),
     date_label: limitText(body.dateLabel || body.date_label || body.date, 40),
@@ -259,7 +263,7 @@ export function mapShipOverride(row) {
   };
 }
 
-export function shipOverrideInput(shipId, body) {
+export function shipOverrideInput(shipId, body, existing = {}) {
   const unsupported = CANONICAL_OVERRIDE_FIELDS.filter((field) => Object.hasOwn(body || {}, field));
   if (unsupported.length) throw new Error(`Canonical ShipDB does not accept source overrides: ${unsupported.join(', ')}`);
   return {
@@ -267,7 +271,7 @@ export function shipOverrideInput(shipId, body) {
     name: nullableText(body.name, 200),
     name_ko: nullableText(body.nameKo ?? body.name_ko, 200),
     hidden: nullableBooleanInt(body.hidden),
-    updated_at: nowIso()
+    updated_at: nextUpdatedAt(existing)
   };
 }
 

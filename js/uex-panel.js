@@ -21,6 +21,7 @@
 
     // UEX 패널 소유 상태(main.js에서 이동).
     let currentUexModel = null;
+    let candidateRequest = 0;
     let currentUexSelection = { buyKey: '', sellKey: '' };
     let currentUexLocationFilter = 'all';
     let currentUexSystemFilter = [];
@@ -252,6 +253,7 @@
         const search = document.getElementById('uex-commodity-search');
         const button = document.getElementById('uex-refresh');
         if (!item || !select || !search || !button) return;
+        candidateRequest += 1;
         select.value = String(item.id);
         search.value = formatCommodityLabel(item.name);
         button.disabled = false;
@@ -305,6 +307,8 @@
     }
 
     async function renderUexCommodityCandidates(commodityId) {
+        const requestId = ++candidateRequest;
+        const isCurrent = () => requestId === candidateRequest && String(document.getElementById('uex-commodity-select')?.value) === String(commodityId);
         const status = document.getElementById('uex-status');
         const results = document.getElementById('uex-results');
         if (!commodityId || !status || !results) return;
@@ -313,6 +317,7 @@
         currentUexSelection = { buyKey: '', sellKey: '' };
         try {
             const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices);
+            if (!isCurrent()) return;
             const selectedCommodity = availableUexCommodities.find((item) => String(item.id) === String(commodityId));
             // 칩 소스(항성계)는 전체 가격에서 뽑고, 사라진 선택은 떨어낸 뒤 필터를 적용한다.
             const systems = uex.listStarSystems ? uex.listStarSystems(prices) : [];
@@ -324,6 +329,7 @@
             status.textContent = formatUexLastUpdated(model);
             refreshProfitSelection();
         } catch (error) {
+            if (!isCurrent()) return;
             currentUexModel = null;
             const errorType = uex.uexErrorType ? uex.uexErrorType(error) : 'network';
             console.warn('UEX candidate load failed', errorType, error);

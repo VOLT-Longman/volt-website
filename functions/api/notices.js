@@ -11,6 +11,6 @@ export async function onRequestGet({ env }) {
     return json({ items: (result.results || []).map(mapNotice) }, { cacheControl: 'public, max-age=60' });
   } catch (error) {
     console.error('Public notices API unavailable', error);
-    return json({ items: [], warning: 'notices unavailable' }, { cacheControl: 'no-store' });
+    return json({ items: [], warning: 'notices unavailable' }, { status: 503, cacheControl: 'no-store' });
   }
 }

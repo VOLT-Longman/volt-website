@@ -18,19 +18,25 @@ export async function loadShipLayers(env) {
   if (shipCache && Date.now() - shipCache.loadedAt < SHIP_CACHE_TTL_MS) return shipCache;
   // 2.7 canonical 이관(PM): 사실·시장은 canonical, erkulLocalName·syncedAt은 operational 레이어에서 읽는다.
   // canonical/operational은 live 레이어 파생(219=live 동일 집합·값) → AI 응답 불변.
-  const [canonText, opsText] = await Promise.all([
+  const [canonText, opsText, presentationText, localizationText] = await Promise.all([
     fetchAssetText(env, '/data/canonical/ships-canonical.json'),
-    fetchAssetText(env, '/data/canonical/operational-ships.json')
+    fetchAssetText(env, '/data/canonical/operational-ships.json'),
+    fetchAssetText(env, '/data/canonical/presentation-ships.json'),
+    fetchAssetText(env, '/data/volt-localization.js')
   ]);
   const canon = JSON.parse(canonText);
   const ops = JSON.parse(opsText);
   const opsById = new Map((ops.records || []).map((r) => [r.id, r]));
+  const presentation = new Map((JSON.parse(presentationText).records || []).map((r) => [r.id, r]));
+  const localized = parseDataLayerJs(localizationText, 'VOLT_LOCALIZATION').ships || {};
   const ships = {};
   const market = {};
   let syncedAt = null;
   for (const s of canon.ships || []) {
     const op = opsById.get(s.id) || {};
     ships[s.id] = {
+      name: presentation.get(s.id)?.name || s.id,
+      aliases: localized[presentation.get(s.id)?.name] || [],
       manufacturer: s.manufacturer, role: s.role, career: s.career, size: s.size,
       crewSize: s.crewSize, cargoScu: s.cargoScu, hp: s.hp,
       erkulLocalName: op.erkulLocalName || ''
@@ -52,15 +58,17 @@ function normalizeToken(value) {
 export function matchShipIds(ships, text, max = 4) {
   const haystack = normalizeToken(text);
   const found = [];
-  const candidates = Object.keys(ships)
-    .map((id) => ({ id, token: normalizeToken(id), alt: normalizeToken(ships[id].erkulLocalName?.split('_').slice(1).join('') || '') }))
-    .sort((a, b) => b.token.length - a.token.length); // 긴 이름 우선 — 'hull-c'가 'c'류 오매칭을 막는다
+  const candidates = Object.entries(ships).flatMap(([id, ship]) =>
+    [id, ship.name, ...(Array.isArray(ship.aliases) ? ship.aliases : []), ship.erkulLocalName?.split('_').slice(1).join('')]
+      .map((name) => ({ id, token: normalizeToken(name) })).filter((item) => item.token.length >= 3 || /^[가-힣]{2,}$/.test(item.token)))
+    .sort((a, b) => b.token.length - a.token.length);
+  const occupied = [];
   for (const candidate of candidates) {
-    if (found.length >= max) break;
-    if (candidate.token.length < 3 && candidate.alt.length < 3) continue;
-    if ((candidate.token.length >= 3 && haystack.includes(candidate.token))
-      || (candidate.alt.length >= 4 && haystack.includes(candidate.alt))) {
-      if (!found.includes(candidate.id)) found.push(candidate.id);
+    for (let offset = haystack.indexOf(candidate.token); offset !== -1; offset = haystack.indexOf(candidate.token, offset + 1)) {
+      const end = offset + candidate.token.length;
+      if (occupied.some(([left, right]) => offset < right && end > left)) continue;
+      occupied.push([offset, end]);
+      if (!found.includes(candidate.id) && found.length < max) found.push(candidate.id);
     }
   }
   return found;

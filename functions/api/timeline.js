@@ -15,6 +15,6 @@ export async function onRequestGet({ env }) {
     return json({ items: (result.results || []).map(mapTimelineEntry) }, { cacheControl: 'public, max-age=60' });
   } catch (error) {
     console.warn('Timeline API fallback:', error);
-    return json({ items: [], warning: 'Timeline API unavailable' }, { cacheControl: 'no-store' });
+    return json({ items: [], warning: 'Timeline API unavailable' }, { status: 503, cacheControl: 'no-store' });
   }
 }

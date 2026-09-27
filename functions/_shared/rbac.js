@@ -7,7 +7,9 @@ import { error } from './http.js';
 // 비밀번호(requireAdmin) 모델. 필요해지면(다인 운영 전환 등) git history에서 복원 가능.
 
 export async function requireUser(request, env) {
-  const session = await readUserSession(request, env);
+  let session;
+  try { session = await readUserSession(request, env); }
+  catch (_error) { return error('인증 상태를 확인할 수 없습니다. 잠시 후 다시 시도하세요.', 503); }
   return session || error('Unauthorized', 401);
 }
 

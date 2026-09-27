@@ -1,3 +1,4 @@
+import { reserveAiUsage } from '../../_shared/security-store.js';
 import { json, error, readJson } from '../../_shared/http.js';
 import { requireMember } from '../../_shared/rbac.js';
 import { checkRateLimit } from '../../_shared/rate-limit.js';
@@ -15,8 +16,8 @@ const DEFAULTS = {
   DAILY_REQUEST_LIMIT: 200,       // 전 멤버 합산 일일 요청 상한
   MAX_INPUT_CHARS: 500,
   MAX_OUTPUT_TOKENS: 400,
-  COST_CAP_DAY_KRW: 3000,         // PM #2: 일 ₩3,000 하드캡
-  COST_CAP_MONTH_KRW: 30000,      // PM #2: 월 ₩30,000 하드캡
+  COST_CAP_DAY_KRW: 3000,         // 일 추정 비용 예산
+  COST_CAP_MONTH_KRW: 30000,      // 월 추정 비용 예산
   EST_COST_PER_REQ_KRW: 3,        // 보수적 추정치(모델 2콜 기준) — 실비 아님, 하드캡 근사용
   PER_USER_PER_MINUTE: 8
 };
@@ -49,23 +50,14 @@ function dateKeys(now = new Date()) {
   return { day: iso.slice(0, 10).replace(/-/g, ''), month: iso.slice(0, 7).replace(/-/g, '') };
 }
 
-async function readUsage(env, keys) {
-  if (!env.RATE_LIMIT_KV) return { day: { count: 0, cost: 0 }, month: { count: 0, cost: 0 } };
-  const [day, month] = await Promise.all([
-    env.RATE_LIMIT_KV.get(`ai_usage:d:${keys.day}`, { type: 'json' }),
-    env.RATE_LIMIT_KV.get(`ai_usage:m:${keys.month}`, { type: 'json' })
-  ]);
-  return { day: day || { count: 0, cost: 0 }, month: month || { count: 0, cost: 0 } };
-}
-
-// KV는 최종 일관성이라 근사 집계다 — 하드캡의 최종 방어는 VOLT_AI_ENABLED 스위치.
+// KV is best-effort telemetry only. D1 reservations enforce the estimated-cost budget.
 function commitUsage(env, waitUntil, keys, usage, intent, estCost, failed) {
   if (!env.RATE_LIMIT_KV) return;
   const writes = [
     env.RATE_LIMIT_KV.put(`ai_usage:d:${keys.day}`,
       JSON.stringify({ count: usage.day.count + 1, cost: usage.day.cost + estCost }), { expirationTtl: 60 * 60 * 48 }),
     env.RATE_LIMIT_KV.put(`ai_usage:m:${keys.month}`,
-      JSON.stringify({ count: usage.month.count + 1, cost: usage.month.cost + estCost }), { expirationTtl: 60 * 60 * 24 * 40 })
+      JSON.stringify({ cost: usage.month.cost + estCost }), { expirationTtl: 60 * 60 * 24 * 40 })
   ];
   // 도구 호출 종류·오류만 익명 집계 — 메시지 원문·사용자 식별자는 저장하지 않는다.
   writes.push((async () => {
@@ -204,12 +196,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
   if (message.length > config.maxInputChars) return error(`메시지가 너무 깁니다 (최대 ${config.maxInputChars}자).`, 400);
 
   const keys = dateKeys();
-  const usage = await readUsage(env, keys);
-  if (usage.day.count >= config.dailyLimit
-    || usage.day.cost + config.estCostPerReq > config.costCapDay
-    || usage.month.cost + config.estCostPerReq > config.costCapMonth) {
-    return error('오늘의 AI 사용 한도에 도달했습니다. 내일 다시 이용해 주세요.', 429);
-  }
+  const reserved = await reserveAiUsage(env, keys, config);
+  if (!reserved) return error('AI 사용 한도에 도달했습니다. 나중에 다시 이용해 주세요.', 429);
+  const usage = { day: { count: reserved.day_count - 1, cost: reserved.day_cost - config.estCostPerReq },
+    month: { cost: reserved.month_cost - config.estCostPerReq } };
 
   let failed = false;
   let route = null;

@@ -7,8 +7,8 @@ export async function onRequestGet({ request, env }) {
   const result = await requireDb(env).prepare(`
     SELECT r.*, e.title, e.date_label, e.event_date, e.status AS event_status
     FROM event_rsvps r
-    LEFT JOIN events e ON e.id = r.event_id
-    WHERE r.user_sub = ?
+    JOIN events e ON e.id = r.event_id
+    WHERE r.user_sub = ? AND e.published = 1
     ORDER BY r.updated_at DESC
   `).bind(session.sub).all();
   return json({ items: (result.results || []).map(mapMyRsvp) });

@@ -28,13 +28,14 @@ async function saveItem(request, env, shipId) {
   const existing = await db.prepare('SELECT updated_at FROM ship_overrides WHERE ship_id = ?').bind(shipId).first();
   if (hasUpdateConflict(body, existing || {})) return error(CONFLICT_MESSAGE, 409);
   let item;
-  try { item = shipOverrideInput(shipId, body); }
+  try { item = shipOverrideInput(shipId, body, existing || {}); }
   catch (err) { return error(err.message || 'Invalid input', 422); }
   // 표시 이름과 숨김만 저장한다. D1에 남은 레거시 컬럼은 건드리지 않는다(정지 데이터).
-  await db.prepare(`INSERT INTO ship_overrides (id, ship_id, name, name_ko, hidden, updated_at)
+  const result = await db.prepare(`INSERT INTO ship_overrides (id, ship_id, name, name_ko, hidden, updated_at)
     VALUES (?, ?, ?, ?, ?, ?)
-    ON CONFLICT(ship_id) DO UPDATE SET name = excluded.name, name_ko = excluded.name_ko, hidden = excluded.hidden, updated_at = excluded.updated_at`)
-    .bind(`ship-${item.ship_id}`, item.ship_id, item.name, item.name_ko, item.hidden, item.updated_at).run();
+    ON CONFLICT(ship_id) DO UPDATE SET name = excluded.name, name_ko = excluded.name_ko, hidden = excluded.hidden, updated_at = excluded.updated_at WHERE ship_overrides.updated_at IS ?`)
+    .bind(`ship-${item.ship_id}`, item.ship_id, item.name, item.name_ko, item.hidden, item.updated_at, existing?.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ item: mapShipOverride(item) });
 }
 

@@ -15,6 +15,6 @@ export async function onRequestGet({ env }) {
     return json({ items: (result.results || []).map(mapLeader) }, { cacheControl: 'public, max-age=60' });
   } catch (error) {
     console.warn('Leadership API fallback:', error);
-    return json({ items: [], warning: 'Leadership API unavailable' }, { cacheControl: 'no-store' });
+    return json({ items: [], warning: 'Leadership API unavailable' }, { status: 503, cacheControl: 'no-store' });
   }
 }

@@ -15,6 +15,6 @@ export async function onRequestGet({ env }) {
     return json({ items: (result.results || []).map(mapPartnerFleet) }, { cacheControl: 'public, max-age=60' });
   } catch (error) {
     console.warn('Partner fleets API fallback:', error);
-    return json({ items: [], warning: 'Partner fleets API unavailable' }, { cacheControl: 'no-store' });
+    return json({ items: [], warning: 'Partner fleets API unavailable' }, { status: 503, cacheControl: 'no-store' });
   }
 }

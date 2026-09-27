@@ -24,29 +24,31 @@ async function updateItem(request, env, id) {
     return error(err.message || 'Invalid input', 422);
   }
   if (!item.name) return error('Missing required fields', 422);
+  let result;
   if (await tableHasColumn(db, 'partner_fleets', 'photo_url')) {
-    await updatePartnerFleetWithPhoto(db, id, item);
+    result = await updatePartnerFleetWithPhoto(db, id, item, existing);
   } else {
-    await updatePartnerFleetLegacy(db, id, item);
+    result = await updatePartnerFleetLegacy(db, id, item, existing);
   }
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ item: mapPartnerFleet(item) });
 }
 
-async function updatePartnerFleetWithPhoto(db, id, item) {
-  await db.prepare(`
+async function updatePartnerFleetWithPhoto(db, id, item, existing) {
+  return db.prepare(`
     UPDATE partner_fleets
     SET name = ?, region = ?, game = ?, focus = ?, description = ?, member_count = ?, discord_url = ?, website_url = ?, photo_url = ?, logo_url = ?, established = ?, sort_order = ?, published = ?, updated_at = ?
-    WHERE id = ?
-  `).bind(item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, item.photo_url, item.logo_url, item.established, item.sort_order, item.published, item.updated_at, id).run();
+    WHERE id = ? AND updated_at IS ?
+  `).bind(item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, item.photo_url, item.logo_url, item.established, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
 }
 
-async function updatePartnerFleetLegacy(db, id, item) {
+async function updatePartnerFleetLegacy(db, id, item, existing) {
   const logoUrl = item.logo_url || item.photo_url;
-  await db.prepare(`
+  return db.prepare(`
     UPDATE partner_fleets
     SET name = ?, region = ?, game = ?, focus = ?, description = ?, member_count = ?, discord_url = ?, website_url = ?, logo_url = ?, established = ?, sort_order = ?, published = ?, updated_at = ?
-    WHERE id = ?
-  `).bind(item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, logoUrl, item.established, item.sort_order, item.published, item.updated_at, id).run();
+    WHERE id = ? AND updated_at IS ?
+  `).bind(item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, logoUrl, item.established, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
 }
 
 async function deleteItem(env, id) {

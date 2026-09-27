@@ -9,6 +9,6 @@ export async function onRequestGet({ env }) {
     return json({ items: (result.results || []).map(mapGallery) }, { cacheControl: 'public, max-age=60' });
   } catch (error) {
     console.error('Public gallery API unavailable', error);
-    return json({ items: [], warning: 'gallery unavailable' }, { cacheControl: 'no-store' });
+    return json({ items: [], warning: 'gallery unavailable' }, { status: 503, cacheControl: 'no-store' });
   }
 }

@@ -63,7 +63,7 @@
         const leaders = Array.isArray(source)
             ? source.filter((leader) => leader && leader.published !== false)
             : [];
-        if (leaders.length) return leaders;
+        if (Array.isArray(source)) return leaders;
         const fallback = typeof getStaticLeadership === 'function' ? getStaticLeadership() : [];
         return Array.isArray(fallback) ? fallback : [];
     }

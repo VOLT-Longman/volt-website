@@ -1,3 +1,4 @@
+import { createSqliteDb } from './sqlite-d1.mjs';
 // Cloudflare Pages Functions 테스트용 공용 모의 바인딩.
 // 실제 핸들러(onRequest*)를 그대로 import해서 Request/Response 수준으로 검증한다.
 
@@ -7,16 +8,21 @@ import { createUserSession } from '../../functions/_shared/discord-auth.js';
 export const TEST_ENV = {
     ADMIN_SESSION_SECRET: 'test-admin-secret',
     ADMIN_PASSWORD: 'correct-password',
-    DISCORD_SESSION_SECRET: 'test-discord-secret'
+    DISCORD_SESSION_SECRET: 'test-discord-secret',
+    DISCORD_GUILD_ID: 'test-guild',
+    DISCORD_ROLE_MAP: JSON.stringify({ member: 'member', '멤버': '멤버' }),
+    DB: createSqliteDb()
 };
 
 // D1 모의: handler(sql, args, op)가 op별 결과를 돌려준다.
 // op = 'first' → 행 객체 또는 null, 'all' → 행 배열, 'run' → 무시.
 export function createMockDb(handler) {
     const calls = [];
+    const security = createSqliteDb();
     return {
         calls,
         prepare(sql) {
+            if (/\bsecurity_/.test(sql)) return security.prepare(sql);
             let bound = [];
             const statement = {
                 bind(...args) { bound = args; return statement; },
@@ -30,8 +36,8 @@ export function createMockDb(handler) {
                 },
                 async run() {
                     calls.push({ sql, args: bound, op: 'run' });
-                    await handler(sql, bound, 'run');
-                    return { success: true };
+                    const result = await handler(sql, bound, 'run');
+                    return result?.meta ? result : { success: true, meta: { changes: 1 } };
                 }
             };
             return statement;
@@ -72,7 +78,7 @@ export async function adminCookie(env = TEST_ENV) {
 }
 
 export async function memberCookie(user, env = TEST_ENV) {
-    return cookiePair(await createUserSession(env, user));
+    return cookiePair(await createUserSession(env, user, { accessToken: 'test-oauth-token', expiresIn: 3600, roleIds: user.roles || [] }));
 }
 
 export function jsonRequest(url, { method = 'POST', cookie = '', body } = {}) {

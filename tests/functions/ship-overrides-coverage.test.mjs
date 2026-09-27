@@ -60,7 +60,7 @@ test('공개 ship-overrides GET: DB 예외 시 500이 아닌 200 + 빈 items + n
     const db = createMockDb(() => { throw new Error('D1 unavailable'); });
     const env = { ...TEST_ENV, DB: db };
     const response = await shipOverridesPublic({ env });
-    assert.equal(response.status, 200);
+    assert.equal(response.status, 503);
     assert.match(response.headers.get('Cache-Control') || '', /no-store/);
     const body = await response.json();
     assert.deepEqual(body.items, []);

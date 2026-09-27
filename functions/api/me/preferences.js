@@ -19,7 +19,7 @@ async function getPreferences(request, env) {
   const session = await requireMember(request, env);
   if (session instanceof Response) return session;
   const row = await requireDb(env).prepare('SELECT * FROM user_preferences WHERE user_sub = ?').bind(session.sub).first();
-  return json({ preferences: mapPreferences(row) });
+  return json({ account: session.sub, preferences: mapPreferences(row) });
 }
 
 async function savePreferences(request, env) {
@@ -28,6 +28,7 @@ async function savePreferences(request, env) {
   const limited = await enforceRateLimit(env, `preferences:${session.sub}`, PREFERENCES_RATE_LIMIT);
   if (limited) return limited;
   const body = (await readJson(request)) || {};
+  if (body.account !== undefined && body.account !== session.sub) return error('Account changed; reload before saving', 409);
   let favoritesJson; let plannerJson;
   try {
     favoritesJson = serializeJson(Array.isArray(body.favorites) ? body.favorites.map(String).slice(0, 500) : []);

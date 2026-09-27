@@ -1,3 +1,4 @@
+import { createSqliteDb } from './sqlite-d1.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -11,7 +12,7 @@ function loginRequest(password, ip = '203.0.113.1') {
 }
 
 test('로그인: 올바른 비밀번호 → 200 + 세션 쿠키 발급', async () => {
-    const env = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV() };
+    const env = { ...TEST_ENV, DB: createSqliteDb(), RATE_LIMIT_KV: createMockKV() };
     const response = await onRequestPost({ request: loginRequest('correct-password'), env });
     assert.equal(response.status, 200);
     assert.deepEqual(await response.json(), { ok: true });
@@ -20,24 +21,24 @@ test('로그인: 올바른 비밀번호 → 200 + 세션 쿠키 발급', async (
 
 test('로그인: 잘못된 비밀번호 → 401 + 실패 카운트 기록', async () => {
     const kv = createMockKV();
-    const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
+    const env = { ...TEST_ENV, DB: createSqliteDb(), RATE_LIMIT_KV: kv };
     const response = await onRequestPost({ request: loginRequest('nope'), env });
     assert.equal(response.status, 401);
     // D-4: 공유 rate-limit 모듈 저장 형태({count, resetAt}) — locked 여부는 count>=limit로 매 요청 계산.
-    const stored = await kv.get('login_fail:203.0.113.1', { type: 'json' });
+    const stored = await env.DB.prepare("SELECT * FROM security_limits WHERE key = 'login_fail:203.0.113.1'").first();
     assert.equal(stored.count, 1);
-    assert.equal(typeof stored.resetAt, 'number');
+    assert.equal(typeof stored.reset_at, 'number');
 });
 
 test('로그인: 5회 실패 시 잠금 → 이후 올바른 비밀번호도 429', async () => {
     const kv = createMockKV();
-    const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
+    const env = { ...TEST_ENV, DB: createSqliteDb(), RATE_LIMIT_KV: kv };
 
     for (let attempt = 0; attempt < 5; attempt += 1) {
         const response = await onRequestPost({ request: loginRequest('nope'), env });
         assert.equal(response.status, 401);
     }
-    const stored = await kv.get('login_fail:203.0.113.1', { type: 'json' });
+    const stored = await env.DB.prepare("SELECT * FROM security_limits WHERE key = 'login_fail:203.0.113.1'").first();
     assert.equal(stored.count, 5);
 
     const locked = await onRequestPost({ request: loginRequest('correct-password'), env });
@@ -46,7 +47,7 @@ test('로그인: 5회 실패 시 잠금 → 이후 올바른 비밀번호도 429
 
 test('로그인: IP별로 잠금이 분리됨', async () => {
     const kv = createMockKV();
-    const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
+    const env = { ...TEST_ENV, DB: createSqliteDb(), RATE_LIMIT_KV: kv };
     for (let attempt = 0; attempt < 5; attempt += 1) {
         await onRequestPost({ request: loginRequest('nope', '198.51.100.7'), env });
     }
@@ -54,42 +55,27 @@ test('로그인: IP별로 잠금이 분리됨', async () => {
     assert.equal(otherIp.status, 200);
 });
 
-test('로그인: 성공 시 실패 카운트 초기화', async () => {
+test('로그인: 성공한 요청은 실패 카운트에 추가되지 않음', async () => {
     const kv = createMockKV();
-    const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
+    const env = { ...TEST_ENV, DB: createSqliteDb(), RATE_LIMIT_KV: kv };
     await onRequestPost({ request: loginRequest('nope'), env });
     const success = await onRequestPost({ request: loginRequest('correct-password'), env });
     assert.equal(success.status, 200);
-    assert.equal(await kv.get('login_fail:203.0.113.1'), null);
+    assert.equal((await env.DB.prepare("SELECT count FROM security_limits WHERE key = 'login_fail:203.0.113.1'").first()).count, 1);
 });
 
-test('로그인: 전역 20회 실패 시 IP를 바꿔도 429 (G2 분산 대입 방어)', async () => {
-    const kv = createMockKV();
-    const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
-    // 서로 다른 IP로 20회 실패 → IP별 잠금(5회)에는 안 걸리지만 전역 카운터가 참
-    for (let attempt = 0; attempt < 20; attempt += 1) {
+test('로그인: 다른 IP들의 실패로 정상 관리자의 새 IP를 잠글 수 없음', async () => {
+    const env = { ...TEST_ENV, DB: createSqliteDb() };
+    for (let attempt = 0; attempt < 25; attempt += 1) {
         const response = await onRequestPost({ request: loginRequest('nope', `198.51.100.${attempt}`), env });
         assert.equal(response.status, 401);
     }
-    const stored = await kv.get('login_fail:__global__', { type: 'json' });
-    assert.equal(stored.count, 20);
-    // 새 IP + 올바른 비밀번호여도 전역 잠금이 우선
-    const locked = await onRequestPost({ request: loginRequest('correct-password', '203.0.113.99'), env });
-    assert.equal(locked.status, 429);
-});
-
-test('로그인: 성공해도 전역 실패 카운터는 리셋되지 않음 (공격자 카운터 보존)', async () => {
-    const kv = createMockKV();
-    const env = { ...TEST_ENV, RATE_LIMIT_KV: kv };
-    await onRequestPost({ request: loginRequest('nope', '198.51.100.1'), env });
-    const success = await onRequestPost({ request: loginRequest('correct-password', '203.0.113.1'), env });
-    assert.equal(success.status, 200);
-    const stored = await kv.get('login_fail:__global__', { type: 'json' });
-    assert.equal(stored.count, 1); // 성공이 전역 카운터를 지우지 않는다
+    const response = await onRequestPost({ request: loginRequest('correct-password', '203.0.113.99'), env });
+    assert.equal(response.status, 200);
 });
 
 test('로그인: 본문이 JSON이 아니어도 500이 아닌 401', async () => {
-    const env = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV() };
+    const env = { ...TEST_ENV, DB: createSqliteDb(), RATE_LIMIT_KV: createMockKV() };
     const request = new Request('https://volt.ceo/api/admin/login', { method: 'POST', body: 'not-json' });
     const response = await onRequestPost({ request, env });
     assert.equal(response.status, 401);

@@ -81,7 +81,7 @@ export async function onRequestGet({ request, env }) {
     const token = await exchangeCodeForToken(env, code);
     const user = await fetchJson(`${API_BASE}/users/@me`, token.access_token);
     const member = await fetchGuildMember(env, token.access_token);
-    const sessionCookie = await createUserSession(env, createSessionUser(user, member, env));
+    const sessionCookie = await createUserSession(env, createSessionUser(user, member, env), { accessToken: token.access_token, expiresIn: token.expires_in, roleIds: member?.roles || [] });
     return redirectToHome([sessionCookie, clearOAuthStateCookie()]);
   } catch (_error) {
     return redirectToAuthError();

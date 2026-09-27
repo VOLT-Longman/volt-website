@@ -27,21 +27,21 @@ test('RSVP: 비로그인 → 401', async () => {
 
 test('RSVP: 역할 없는 사용자(비멤버) → 403', async () => {
     const env = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV(), DB: createMockDb(eventDbHandler()) };
-    const cookie = await memberCookie({ ...MEMBER, roles: [] });
+    const cookie = await memberCookie({ ...MEMBER, roles: [] }, env);
     const response = await onRequest({ request: rsvpRequest({ cookie }), env, params: { id: 'evt-1' } });
     assert.equal(response.status, 403);
 });
 
 test('RSVP: 존재하지 않는 이벤트 → 404', async () => {
     const env = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV(), DB: createMockDb(eventDbHandler({ eventExists: false })) };
-    const cookie = await memberCookie(MEMBER);
+    const cookie = await memberCookie(MEMBER, env);
     const response = await onRequest({ request: rsvpRequest({ cookie }), env, params: { id: 'evt-1' } });
     assert.equal(response.status, 404);
 });
 
 test('RSVP: 허용되지 않는 상태값 → 422', async () => {
     const env = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV(), DB: createMockDb(eventDbHandler()) };
-    const cookie = await memberCookie(MEMBER);
+    const cookie = await memberCookie(MEMBER, env);
     const response = await onRequest({
         request: rsvpRequest({ cookie, body: { status: '<script>' } }),
         env,
@@ -57,7 +57,7 @@ test('RSVP: 정상 등록 — user_sub는 세션에서만 결정(IDOR 방지) + 
     };
     const db = createMockDb(eventDbHandler({ rsvps: [storedRow] }));
     const env = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV(), DB: db };
-    const cookie = await memberCookie(MEMBER);
+    const cookie = await memberCookie(MEMBER, env);
 
     // 본문으로 다른 사용자의 user_sub를 주입 시도해도 무시되어야 한다.
     const response = await onRequest({

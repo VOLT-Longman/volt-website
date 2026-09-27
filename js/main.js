@@ -146,6 +146,9 @@
     function renderTradeGuide() { return window.VOLT_SITE_CONTENT?.renderTradeGuide?.(); }
     const PLANNER_STORAGE_KEY = 'volt-planner-state';
     const HANGAR_KEY = 'volt-hangar';
+    function preferenceKey(key) {
+        return authState.loggedIn ? `${key}:user:${authState.user?.sub || 'unverified'}` : `${key}:guest`;
+    }
     // selectedTags = OFF 레거시 focus/tags 칩. sizeTags·roleTags·detailRole = ON 2축 태그 필터(커밋 C).
     const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [], sizeTags: [], roleTags: [], detailRole: '' };
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
@@ -238,17 +241,17 @@
 
     function getHangar() {
         try {
-            const parsed = JSON.parse(localStorage.getItem(HANGAR_KEY) || '[]');
+            const parsed = JSON.parse(localStorage.getItem(preferenceKey(HANGAR_KEY)) || '[]');
             return Array.isArray(parsed) ? parsed : [];
         } catch (error) {
             console.warn('Invalid hangar state', error);
-            localStorage.removeItem(HANGAR_KEY);
+            localStorage.removeItem(preferenceKey(HANGAR_KEY));
             return [];
         }
     }
 
     function setHangar(hangar, options = {}) {
-        localStorage.setItem(HANGAR_KEY, JSON.stringify([...new Set(hangar)]));
+        localStorage.setItem(preferenceKey(HANGAR_KEY), JSON.stringify([...new Set(hangar)]));
         if (options.sync !== false) schedulePreferenceSave();
         renderMyPage();
     }
@@ -272,16 +275,15 @@
             shipSearch: document.getElementById('logistics-ship-search')?.value || '',
             cargo: document.getElementById('logistics-cargo')?.value || ''
         };
-        localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(preferenceKey(PLANNER_STORAGE_KEY), JSON.stringify(state));
         schedulePreferenceSave();
         renderMyPage();
     }
 
     function restorePlannerState() {
         try {
-            const raw = localStorage.getItem(PLANNER_STORAGE_KEY);
-            if (!raw) return;
-            const state = JSON.parse(raw);
+            const raw = localStorage.getItem(preferenceKey(PLANNER_STORAGE_KEY));
+            const state = { shipId: '', shipSearch: '', cargo: '', ...JSON.parse(raw || '{}') };
             const set = (id, value) => {
                 const element = document.getElementById(id);
                 if (element && value !== undefined) element.value = value;
@@ -292,7 +294,7 @@
             syncPlannerSelectedShip(state.shipId);
         } catch (error) {
             console.warn('Invalid planner state', error);
-            localStorage.removeItem(PLANNER_STORAGE_KEY);
+            localStorage.removeItem(preferenceKey(PLANNER_STORAGE_KEY));
         }
     }
 
@@ -805,39 +807,66 @@
 
 
 
-    async function loadCmsContent() {
-        const [notices, events, gallery, partnerFleets, shipOverrides, leadership, timeline] = await Promise.all([
-            fetchCmsCollection('/api/notices'),
-            fetchCmsCollection('/api/events'),
-            fetchCmsCollection('/api/gallery'),
-            fetchCmsCollection('/api/partner-fleets'),
-            fetchCmsCollection('/api/ship-overrides'),
-            fetchCmsCollection('/api/leadership'),
-            fetchCmsCollection('/api/timeline')
-        ]);
-        if (Array.isArray(notices)) data.announcements = notices;
-        if (Array.isArray(events)) data.calendar = events;
-        if (Array.isArray(gallery)) data.gallery = gallery;
-        if (Array.isArray(partnerFleets)) data.partnerFleets = partnerFleets;
-        if (Array.isArray(shipOverrides)) applyShipOverrides(shipOverrides);
-        // 임원진/연혁은 volt-data.js에 정적 폴백이 있으므로 CMS에 데이터가 있을 때만 교체한다.
-        if (Array.isArray(leadership) && leadership.length) data.leadership = leadership;
-        if (Array.isArray(timeline) && timeline.length) data.timeline = timeline;
-    invalidateSearchCache();
+    const cmsFailures = new Set();
+    let cmsRefreshScheduled = false;
+    function scheduleCmsRefresh() {
+        if (cmsRefreshScheduled) return;
+        cmsRefreshScheduled = true;
+        window.setTimeout(() => {
+            cmsRefreshScheduled = false;
+            refreshCmsRenderedContent();
+        }, 50);
+    }
+    function renderCmsStatus() {
+        let banner = document.getElementById('cms-load-status');
+        if (!banner) {
+            banner = document.createElement('aside');
+            banner.id = 'cms-load-status';
+            banner.setAttribute('role', 'status');
+            const message = document.createElement('span');
+            const retry = document.createElement('button');
+            retry.type = 'button';
+            retry.addEventListener('click', () => loadCmsContent());
+            banner.append(message, retry);
+            document.querySelector('main')?.prepend(banner);
+        }
+        banner.hidden = cmsFailures.size === 0;
+        banner.firstElementChild.textContent = i18nT('cms.unavailable', '일부 콘텐츠를 갱신하지 못했습니다. 표시된 내용은 최신이 아닐 수 있습니다.');
+        banner.lastElementChild.textContent = i18nT('cms.retry', '다시 시도');
+    }
+    let cmsLoadPromise = null;
+    function loadCmsContent() {
+        if (cmsLoadPromise) return cmsLoadPromise;
+        const collections = { notices: 'announcements', events: 'calendar', gallery: 'gallery',
+            'partner-fleets': 'partnerFleets', 'ship-overrides': null, leadership: 'leadership', timeline: 'timeline' };
+        cmsLoadPromise = Promise.all(Object.entries(collections).map(async ([endpoint, property]) => {
+            const items = await fetchCmsCollection(`/api/${endpoint}`);
+            if (items !== null) {
+                if (property) data[property] = items;
+                else applyShipOverrides(items);
+                cmsFailures.delete(endpoint);
+                invalidateSearchCache();
+                scheduleCmsRefresh();
+            } else cmsFailures.add(endpoint);
+            renderCmsStatus();
+        })).finally(() => { cmsLoadPromise = null; });
+        return cmsLoadPromise;
     }
 
     async function fetchCmsCollection(url) {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 5000);
         try {
-            const response = await fetch(url, { headers: { Accept: 'application/json' } });
+            const response = await fetch(url, { cache: 'no-store', signal: controller.signal, headers: { Accept: 'application/json' } });
             if (!response.ok) throw new Error(`CMS API failed: ${response.status}`);
             const payload = await response.json();
-            return Array.isArray(payload.items) ? payload.items : null;
+            if (payload.warning || !Array.isArray(payload.items)) throw new Error('CMS unavailable');
+            return payload.items;
         } catch (error) {
             console.warn(`CMS API fallback: ${url}`, error);
             return null;
-        }
+        } finally { window.clearTimeout(timeout); }
     }
-
 
     // canonical 데이터를 1회 로드해 공개 목록을 세운다. 실패해도 화면은 빈 목록으로 안전하게 유지된다.
     let canonicalShipsPromise = null;
@@ -1094,13 +1123,19 @@
             summary.hidden = true;
             summary.innerHTML = '';
         }
-        localStorage.removeItem(PLANNER_STORAGE_KEY);
+        localStorage.removeItem(preferenceKey(PLANNER_STORAGE_KEY));
+        schedulePreferenceSave();
+        renderMyPage();
         showToast(i18nT('planner.resetToast', '무역플래너 입력을 초기화했습니다.'));
     }
 
     function syncPlannerSelectedShip(shipId) {
         const ship = shipById.get(shipId);
-        if (!ship || !isPlannerEligibleShip(ship)) return;
+        if (!ship || !isPlannerEligibleShip(ship)) {
+            const summary = document.getElementById('logistics-ship-summary');
+            if (summary) { summary.hidden = true; summary.replaceChildren(); }
+            return;
+        }
         const input = document.getElementById('logistics-ship-search');
         if (input) input.value = ship.name;
         renderPlannerShipSummary(ship);
@@ -1414,7 +1449,11 @@
             })
             .then((payload) => {
                 if (payload && payload.logged_in && payload.user) {
+                    window.clearTimeout(preferencesSaveTimer);
                     authState = normalizeAuthState(payload.user);
+                    userPreferencesLoaded = false;
+                    restorePlannerState();
+                    refreshCmsRenderedContent();
                     renderAuthUi();
                     applyRoleGates();
                     loadUserPreferences().catch((error) => {
@@ -1440,8 +1479,10 @@
     }
 
     function setLoggedOutState() {
+        window.clearTimeout(preferencesSaveTimer);
         authState = { loggedIn: false, user: null, roles: [] };
         userPreferencesLoaded = false;
+        restorePlannerState();
         window.VOLT_AUTH_UI?.render?.({ status: 'loggedOut' });
         applyRoleGates();
         renderMyPage();
@@ -1509,33 +1550,30 @@
     }
 
     async function loadUserPreferences() {
-        if (!authState.loggedIn) return;
-        const response = await fetch('/api/me/preferences', { credentials: 'same-origin', headers: { Accept: 'application/json' } });
+        const account = authState.user?.sub;
+        if (!authState.loggedIn || !account) return;
+        const response = await fetch('/api/me/preferences', { credentials: 'same-origin', cache: 'no-store', headers: { Accept: 'application/json' } });
         if (!response.ok) throw new Error(`PREF ${response.status}`);
         const payload = await response.json();
-        mergeUserPreferences(payload.preferences || {});
+        if (!authState.loggedIn || authState.user?.sub !== account) return;
+        if (payload.account && payload.account !== account) throw new Error('Account changed; reload');
+        if (!payload.preferences || typeof payload.preferences !== 'object') throw new Error('Invalid preferences');
+        // The account's server state is authoritative; never upload another account/guest's local data.
+        const preferences = payload.preferences;
+        setHangar(Array.isArray(preferences.favorites) ? preferences.favorites.map(String) : [], { sync: false });
+        const planner = preferences.planner && typeof preferences.planner === 'object' ? preferences.planner : {};
+        localStorage.setItem(preferenceKey(PLANNER_STORAGE_KEY), JSON.stringify(planner));
+        restorePlannerState();
         userPreferencesLoaded = true;
-        await saveUserPreferences();
-        renderMyPage();
-    }
-
-    function mergeUserPreferences(preferences) {
-        const remoteFavorites = Array.isArray(preferences.favorites) ? preferences.favorites.map(String) : [];
-        const mergedFavorites = [...new Set([...remoteFavorites, ...getHangar()])];
-        setHangar(mergedFavorites, { sync: false });
-        const localPlanner = getPlannerStateFromStorage();
-        if (!hasPlannerState(localPlanner) && preferences.planner && typeof preferences.planner === 'object') {
-            localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(preferences.planner));
-            restorePlannerState();
-        }
+        refreshCmsRenderedContent();
     }
 
     function getPlannerStateFromStorage() {
         try {
-            return JSON.parse(localStorage.getItem(PLANNER_STORAGE_KEY) || '{}');
+            return JSON.parse(localStorage.getItem(preferenceKey(PLANNER_STORAGE_KEY)) || '{}');
         } catch (error) {
             console.warn('Invalid planner state', error);
-            localStorage.removeItem(PLANNER_STORAGE_KEY);
+            localStorage.removeItem(preferenceKey(PLANNER_STORAGE_KEY));
             return {};
         }
     }
@@ -1547,18 +1585,20 @@
     function schedulePreferenceSave() {
         if (!authState.loggedIn || !userPreferencesLoaded) return;
         window.clearTimeout(preferencesSaveTimer);
+        const account = authState.user?.sub;
         preferencesSaveTimer = window.setTimeout(() => {
+            if (authState.user?.sub !== account) return;
             saveUserPreferences().catch((error) => console.warn('Preference save failed', error));
         }, 800);
     }
 
     async function saveUserPreferences() {
-        if (!authState.loggedIn) return;
+        if (!authState.loggedIn || !authState.user?.sub || !userPreferencesLoaded) return;
         const response = await fetch('/api/me/preferences', {
             method: 'PUT',
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ favorites: getHangar(), planner: getPlannerStateFromStorage() })
+            body: JSON.stringify({ account: authState.user.sub, favorites: getHangar(), planner: getPlannerStateFromStorage() })
         });
         if (!response.ok) throw new Error(`PREF ${response.status}`);
     }
@@ -1857,7 +1897,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); });
+            i18n.onChange(() => { renderCmsStatus(); updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); });
         }
         setupDynamicStyles();
         setupSplash();
@@ -1897,14 +1937,9 @@
         const initial = getInitialRoute();
         history.replaceState({ section: initial.section }, '', initial.url);
         showSection(initial.section, false, initial.anchorId);
-        // canonical(공개 함선 249척)과 CMS 콘텐츠는 각각 즉시 요청한다 — 요청 수·순서는 그대로다.
-        // 다만 완료 콜백에서 각자 전체 재렌더를 돌리면 초기 로드에 같은 렌더가 두 번 실행되므로,
-        // 둘이 정착한 뒤 한 번만 그린다. 한쪽이 실패해도 allSettled라 나머지 콘텐츠는 정상 렌더된다.
-        const canonicalSettled = ensureCanonicalShips()
+        ensureCanonicalShips().then(scheduleCmsRefresh)
             .catch((error) => { console.warn('ShipDB canonical load failed', error); });
-        const cmsSettled = loadCmsContent()
-            .catch((error) => { console.warn('CMS content refresh failed', error); });
-        Promise.allSettled([canonicalSettled, cmsSettled]).then(() => refreshCmsRenderedContent());
+        loadCmsContent().catch((error) => { console.warn('CMS content refresh failed', error); });
     }
 
     // D-1 방어 2단계(defense-in-depth): 개별 모듈 호출은 이미 옵셔널 체이닝으로 보호되지만,
