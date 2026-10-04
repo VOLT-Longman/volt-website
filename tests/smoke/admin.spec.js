@@ -10,7 +10,7 @@ const NOTICES = [
 
 async function mockAdminApi(page, { conflictOnPut = false, notices = NOTICES } = {}) {
     await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
-    await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: notices } }));
+    await page.route('**/api/admin/notices{,?*}', (route) => route.fulfill({ json: { items: notices } }));
     await page.route('**/api/admin/notices/n1', (route) => {
         if (route.request().method() !== 'PUT') return route.fulfill({ json: { ok: true } });
         if (conflictOnPut) {
@@ -171,7 +171,7 @@ test.describe('관리자 공지 UX (P2-1)', () => {
             pinned: false, published: true, date: '2026-07-01', updatedAt: 'x',
         }];
         await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
-        await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: withEn } }));
+        await page.route('**/api/admin/notices{,?*}', (route) => route.fulfill({ json: { items: withEn } }));
         await page.route('**/api/admin/ships', (route) => route.fulfill({ json: { items: [] } }));
         await page.goto('/admin/');
         await expect(page.locator('#dashboard')).toBeVisible();

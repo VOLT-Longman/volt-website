@@ -58,7 +58,8 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
 | `0011_rsvp_user_index.sql` | event_rsvps(user_sub) 인덱스 | `CREATE INDEX IF NOT EXISTS` | ✅ |
 | `0012_notice_date_format.sql` | 공지 날짜를 YYYY-MM-DD로 정규화 | 조건부 `UPDATE`(GLOB) | ✅ |
 | `0013_atomic_security.sql` | 보안 제한·사용량·세션 테이블 | `CREATE TABLE IF NOT EXISTS` | ✅ |
-| `0014_cleanup_orphan_event_rsvps.sql` | 삭제된 일정의 과거 참가 기록 정리 | 조건부 `DELETE` | ✅ |
+| `0014_cleanup_orphan_event_rsvps.sql` | 삭제된 일정의 과거 참가 기록 백업 후 정리 | 조건부 `INSERT` + `DELETE` | ✅ |
+| `0015_cms_history.sql` | 콘텐츠 시작 시점 스냅샷과 변경 이력 트리거 | `CREATE IF NOT EXISTS` + 조건부 `INSERT` | ✅ |
 
 > **핵심:** `ALTER TABLE ADD COLUMN`(0007·0008·0010)은 **재실행하면 `duplicate column name` 오류로 실패**한다.
 > 이미 적용한 마이그레이션은 다시 실행하지 않는다. `CREATE IF NOT EXISTS`/`INSERT OR IGNORE`류는 재실행해도 무해하다.
@@ -80,6 +81,8 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
 `0014`는 과거에 삭제된 일정의 참가 기록을 한 번 정리하는 작업이다. 코드 배포나 main 푸시만으로는
 운영 D1에 적용되지 않는다. 백업 후 `schema_migrations`에서 미적용임을 확인하고 아래 명령으로 적용한다.
 현재 존재하는 일정의 참가 기록은 삭제하지 않는다.
+
+이번 버전의 0014는 정리 대상 원본을 `event_rsvps_orphan_backup`에 먼저 저장한다. 운영 D1 전체 백업도 먼저 수행한다. 0015 적용, 이력 복구와 이미지 유지관리 절차는 [CMS 유지관리 문서](CMS_MAINTENANCE.md)를 참조한다.
 
 ```bash
 npx wrangler d1 execute <DB_NAME> --remote --file=migrations/0014_cleanup_orphan_event_rsvps.sql

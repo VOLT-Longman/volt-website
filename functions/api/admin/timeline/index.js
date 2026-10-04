@@ -1,3 +1,4 @@
+import { adminList } from '../../../_shared/admin-collections.js';
 import { requireAdmin } from '../../../_shared/auth.js';
 import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
 import { mapTimelineEntry, timelineInput } from '../../../_shared/cms.js';
@@ -5,14 +6,13 @@ import { mapTimelineEntry, timelineInput } from '../../../_shared/cms.js';
 export async function onRequest({ request, env }) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
-  if (request.method === 'GET') return listItems(env);
+  if (request.method === 'GET') return listItems(request, env);
   if (request.method === 'POST') return createItem(request, env);
   return methodNotAllowed();
 }
 
-async function listItems(env) {
-  const result = await requireDb(env).prepare('SELECT * FROM timeline_entries ORDER BY sort_order ASC, created_at ASC').all();
-  return json({ items: (result.results || []).map(mapTimelineEntry) });
+async function listItems(request, env) {
+  return json(await adminList(requireDb(env), request, 'timeline', mapTimelineEntry));
 }
 
 async function createItem(request, env) {

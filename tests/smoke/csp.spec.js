@@ -150,7 +150,7 @@ test.describe('CSP 가드레일(강화 script-src + style-src)', () => {
         await enforceCsp(page);
         await mockApi(page);
         await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
-        await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: [] } }));
+        await page.route('**/api/admin/notices{,?*}', (route) => route.fulfill({ json: { items: [] } }));
         const tracker = await trackCspViolations(page);
 
         await page.goto('/admin/');
@@ -163,7 +163,7 @@ test.describe('CSP 가드레일(강화 script-src + style-src)', () => {
         await enforceCsp(page);
         await mockApi(page);
         await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
-        await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: [] } }));
+        await page.route('**/api/admin/notices{,?*}', (route) => route.fulfill({ json: { items: [] } }));
         await page.route('**/api/admin/ships', (route) => route.fulfill({ json: { items: [] } }));
         const tracker = await trackCspViolations(page);
 

@@ -19,7 +19,7 @@ export function ownedUploadKeyFromUrl(url, env) {
 
 // Image URLs can be reused by another CMS entry. Scan the image-bearing fields
 // before deleting an object; if a legacy schema/query is unavailable, fail closed.
-async function isReferenced(db, key) {
+export async function isUploadReferenced(db, key) {
   const suffix = `%/${key}`;
   const checks = [
     ['SELECT 1 FROM gallery_items WHERE image_url LIKE ? OR thumb_url LIKE ? LIMIT 1', [suffix, suffix]],
@@ -30,14 +30,34 @@ async function isReferenced(db, key) {
   for (const [sql, bindings] of checks) {
     if (await db.prepare(sql).bind(...bindings).first()) return true;
   }
+  // Keep images needed to restore an older version. Legacy databases without
+  // history retain the previous cleanup behavior until migration 0015 is applied.
+  try {
+    if (await db.prepare('SELECT 1 FROM cms_history WHERE instr(before_json, ?) > 0 OR instr(after_json, ?) > 0 LIMIT 1').bind(key, key).first()) return true;
+  } catch (caught) {
+    if (!/no such table: cms_history/i.test(caught.message)) throw caught;
+  }
   return false;
 }
 
 export async function deleteUnreferencedUpload(env, key) {
   if (!isOwnedUploadKey(key) || !env.GALLERY_BUCKET) return false;
-  if (await isReferenced(requireDb(env), key)) return false;
+  if (await isUploadReferenced(requireDb(env), key)) return false;
   await env.GALLERY_BUCKET.delete(key);
   return true;
+}
+
+export async function findUnreferencedUploadKeys(db, keys) {
+  if (!keys.length) return [];
+  const hasHistory = await db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'cms_history'").first();
+  const history = hasHistory ? 'AND NOT EXISTS (SELECT 1 FROM cms_history WHERE instr(before_json, c.key) > 0 OR instr(after_json, c.key) > 0)' : '';
+  const result = await db.prepare(`WITH candidates(key) AS (VALUES ${keys.map(() => '(?)').join(', ')})
+    SELECT c.key FROM candidates c WHERE NOT EXISTS (
+      SELECT 1 FROM gallery_items WHERE image_url LIKE '%/' || c.key OR thumb_url LIKE '%/' || c.key
+      UNION ALL SELECT 1 FROM partner_fleets WHERE logo_url LIKE '%/' || c.key OR photo_url LIKE '%/' || c.key
+      UNION ALL SELECT 1 FROM leadership_members WHERE avatar_url LIKE '%/' || c.key
+    ) ${history}`).bind(...keys).all();
+  return (result.results || []).map((row) => row.key);
 }
 
 export async function cleanupReplacedUploadUrls(env, urls) {

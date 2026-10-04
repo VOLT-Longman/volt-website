@@ -804,3 +804,16 @@ select {
 	font-size: 11px;
 	font-weight: 900;
 }
+
+.list-pagination { display:flex; gap:10px; align-items:center; justify-content:space-between; margin-top:16px; }
+.admin-tools { display:grid; gap:16px; margin-top:24px; }
+.admin-tools > details { padding:20px; border:1px solid var(--border); border-radius:12px; }
+.admin-tools summary { cursor:pointer; font-weight:700; }
+.admin-tools button { margin:8px 8px 8px 0; }
+.history-entry { padding:12px 0; border-bottom:1px solid var(--border); }
+.history-preview { max-height:320px; overflow:auto; overflow-wrap:anywhere; white-space:pre-wrap; }
+.history-preview dt { font-weight:700; margin-top:8px; }
+.history-preview dd { margin:4px 0 12px; }
+.upload-candidate { display:flex; align-items:center; gap:8px; overflow-wrap:anywhere; }
+.upload-candidate input { width:auto; flex-shrink:0; }
+@media (max-width:600px) { .list-pagination { flex-wrap:wrap; } .admin-tools > details { padding:12px; } }

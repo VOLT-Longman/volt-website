@@ -36,7 +36,7 @@ const PREVIEW_RESPONSE = {
 
 async function mockAdmin(page, { previewStatus = 200, previewBody = PREVIEW_RESPONSE, delayMs = 0 } = {}) {
     await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
-    await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: [] } }));
+    await page.route('**/api/admin/notices{,?*}', (route) => route.fulfill({ json: { items: [] } }));
     await page.route('**/api/admin/ships', (route) => route.fulfill({ json: { items: [] } }));
     await page.route('**/api/admin/ships/erkul-sync/preview', async (route) => {
         if (delayMs) await new Promise((resolve) => setTimeout(resolve, delayMs));

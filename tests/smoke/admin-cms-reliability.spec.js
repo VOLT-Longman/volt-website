@@ -14,18 +14,18 @@ const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR
 
 async function mockSession(page, notices = [NOTICE]) {
     await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
-    await page.route('**/api/admin/notices', (route) => route.fulfill({ json: { items: notices } }));
+    await page.route('**/api/admin/notices{,?*}', (route) => route.fulfill({ json: { items: notices } }));
 }
 
 test('늦게 끝난 이전 탭 조회가 현재 목록을 덮지 않는다', async ({ page }) => {
     let releaseNotices;
     const holdNotices = new Promise((resolve) => { releaseNotices = resolve; });
     await page.route('**/api/admin/session', (route) => route.fulfill({ json: { authenticated: true } }));
-    await page.route('**/api/admin/notices', async (route) => {
+    await page.route('**/api/admin/notices{,?*}', async (route) => {
         await holdNotices;
         await route.fulfill({ json: { items: [NOTICE] } });
     });
-    await page.route('**/api/admin/events', (route) => route.fulfill({ json: { items: [{ id: 'e1', title: '현재 일정', eventDate: '2026-09-30', published: true }] } }));
+    await page.route('**/api/admin/events{,?*}', (route) => route.fulfill({ json: { items: [{ id: 'e1', title: '현재 일정', eventDate: '2026-09-30', published: true }] } }));
     await page.goto('/admin/');
     await page.locator('[data-tab="events"]').click();
     await expect(page.locator('#item-list [data-id="e1"]')).toBeVisible();
@@ -36,7 +36,7 @@ test('늦게 끝난 이전 탭 조회가 현재 목록을 덮지 않는다', asy
 
 test('관리 메뉴는 현재 선택 항목을 보조기기에 알린다', async ({ page }) => {
     await mockSession(page);
-    await page.route('**/api/admin/events', (route) => route.fulfill({ json: { items: [] } }));
+    await page.route('**/api/admin/events{,?*}', (route) => route.fulfill({ json: { items: [] } }));
     await page.goto('/admin/');
     await expect(page.locator('[data-tab="notices"]')).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('[data-tab="events"]')).toHaveAttribute('aria-pressed', 'false');
@@ -56,7 +56,7 @@ test('함선 오버라이드 조회 실패를 빈 설정으로 표시하지 않�
 
 test('일반 CMS 목록 조회 실패 시 이전 탭의 목록을 지운다', async ({ page }) => {
     await mockSession(page);
-    await page.route('**/api/admin/gallery', (route) => route.fulfill({ status: 503, json: { error: '갤러리 조회 실패' } }));
+    await page.route('**/api/admin/gallery{,?*}', (route) => route.fulfill({ status: 503, json: { error: '갤러리 조회 실패' } }));
     await page.goto('/admin/');
     await expect(page.locator('#item-list [data-id="n1"]')).toBeVisible();
     await page.locator('[data-tab="gallery"]').click();
@@ -66,7 +66,7 @@ test('일반 CMS 목록 조회 실패 시 이전 탭의 목록을 지운다', as
 
 test('기존 분류값이 선택 목록 밖에 있어도 편집 시 보존한다', async ({ page }) => {
     await mockSession(page);
-    await page.route('**/api/admin/events', (route) => route.fulfill({
+    await page.route('**/api/admin/events{,?*}', (route) => route.fulfill({
         json: { items: [{ id: 'e1', title: '기존 일정', type: '레거시 분류', status: '예정', published: true }] },
     }));
     await page.goto('/admin/');
@@ -115,7 +115,7 @@ test('임원 사진을 올린 뒤 저장을 취소하면 임시 업로드 파일
     await mockSession(page);
     let releaseList;
     const listGate = new Promise((resolve) => { releaseList = resolve; });
-    await page.route('**/api/admin/leadership', async (route) => {
+    await page.route('**/api/admin/leadership{,?*}', async (route) => {
         await listGate;
         await route.fulfill({ json: { items: [{ id: 'other', name: '다른 임원', updatedAt: '2026-09-01T00:00:00.000Z' }] } });
     });
@@ -143,7 +143,7 @@ test('임원 사진을 올린 뒤 저장을 취소하면 임시 업로드 파일
 test('저장한 임원 사진은 임시 파일 정리 대상에서 제외한다', async ({ page }) => {
     await mockSession(page);
     let item = null;
-    await page.route('**/api/admin/leadership', (route) => {
+    await page.route('**/api/admin/leadership{,?*}', (route) => {
         if (route.request().method() === 'POST') {
             const body = route.request().postDataJSON();
             item = { id: 'leader-1', ...body, updatedAt: '2026-09-02T00:00:00.000Z' };
@@ -175,7 +175,7 @@ test('갤러리 이미지 수정 실패 후 업로드 파일을 유지하고 기
     let putAttempts = 0;
     let galleryPosts = 0;
     const deletedKeys = [];
-    await page.route('**/api/admin/gallery', (route) => {
+    await page.route('**/api/admin/gallery{,?*}', (route) => {
         if (route.request().method() === 'POST') galleryPosts += 1;
         return route.fulfill({ json: { items: [gallery] } });
     });
@@ -217,7 +217,7 @@ test('갤러리 다중 업로드에서 실패한 파일만 같은 번호로 재�
     const titles = [];
     let posts = 0;
     let uploads = 0;
-    await page.route('**/api/admin/gallery', (route) => {
+    await page.route('**/api/admin/gallery{,?*}', (route) => {
         if (route.request().method() !== 'POST') return route.fulfill({ json: { items } });
         posts += 1;
         const body = route.request().postDataJSON();
@@ -252,7 +252,7 @@ test('큰 갤러리 사진은 별도 WebP 썸네일 주소로 저장한다', asy
     await mockSession(page);
     let savedBody;
     let uploads = 0;
-    await page.route('**/api/admin/gallery', (route) => {
+    await page.route('**/api/admin/gallery{,?*}', (route) => {
         if (route.request().method() === 'POST') {
             savedBody = route.request().postDataJSON();
             return route.fulfill({ json: { item: { id: 'g2', ...savedBody } } });
@@ -289,7 +289,7 @@ test('큰 갤러리 사진은 별도 WebP 썸네일 주소로 저장한다', asy
 test('새 갤러리 날짜는 한국 시간의 날짜를 사용한다', async ({ page }) => {
     await page.addInitScript(() => { Date.now = () => Date.parse('2026-09-28T16:00:00.000Z'); });
     await mockSession(page);
-    await page.route('**/api/admin/gallery', (route) => route.fulfill({ json: { items: [] } }));
+    await page.route('**/api/admin/gallery{,?*}', (route) => route.fulfill({ json: { items: [] } }));
     await page.goto('/admin/');
     await page.locator('[data-tab="gallery"]').click();
     await expect(page.locator('#cms-form [name="date"]')).toHaveValue('2026-09-29');

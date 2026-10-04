@@ -9,6 +9,9 @@ const state = {
   shipOverridesLoaded: false,
   shipSourceError: '',
   shipQuery: '',
+  listQuery: '',
+  listPage: 1,
+  pagination: null,
   saving: false,
   pendingUploads: 0,
   formRevision: 0,
@@ -180,6 +183,12 @@ function setTab(tab) {
   clearTimeout(shipSearchTimer);
   loadItemsRevision += 1;
   state.tab = tab;
+  state.listQuery = '';
+  state.listPage = 1;
+  state.pagination = null;
+  $('#cms-search').value = '';
+  $('#cms-search-label').hidden = tab === 'ships';
+  document.dispatchEvent(new Event('cms-tab-change'));
   state.items = [];
   state.editing = null;
   state.galleryImageUrls = [];
@@ -437,7 +446,15 @@ async function loadItems(clearForm = true) {
   $('#form-title').textContent = `${config.title} \uc791\uc131`;
   let items;
   try {
-    items = tab === 'ships' ? await loadShipItems(requestRevision) : (await api(config.endpoint)).items || [];
+    if (tab === 'ships') {
+      items = await loadShipItems(requestRevision);
+    } else {
+      const data = await api(config.endpoint + '?' + new URLSearchParams({ page: state.listPage, q: state.listQuery }));
+      if (requestRevision !== loadItemsRevision || tab !== state.tab) return;
+      items = data.items || [];
+      state.pagination = data.pagination || { page: 1, pages: 1, total: items.length };
+      state.listPage = state.pagination.page;
+    }
   } catch (error) {
     if (requestRevision !== loadItemsRevision || tab !== state.tab) return;
     state.items = [];
@@ -575,6 +592,12 @@ function matchShipQuery(item) {
 function renderList() {
   const list = $('#item-list');
   if (state.tab === 'ships') {
+    const pages = Math.max(1, Math.ceil(state.items.length / 20));
+    state.listPage = Math.min(state.listPage, pages);
+    state.pagination = { page: state.listPage, pages, total: state.items.length };
+  }
+  updateListPagination();
+  if (state.tab === 'ships') {
     // 검색 input을 다시 그리면 타이핑 중 포커스·한글 IME 조합이 끊긴다(커서 풀림 버그).
     // input이 이미 있으면 결과 영역만 교체해 포커스를 보존한다.
     const results = document.getElementById('ship-admin-results');
@@ -588,6 +611,13 @@ function renderList() {
   list.innerHTML = state.items.length
     ? state.items.map(renderStandardListItem).join('')
     : '<p class="admin-message">\ub4f1\ub85d\ub41c \ud56d\ubaa9\uc774 \uc5c6\uc2b5\ub2c8\ub2e4.</p>';
+}
+
+function updateListPagination() {
+  const pagination = state.pagination || { page: 1, pages: 1, total: 0 };
+  $('#list-prev').disabled = state.saving || pagination.page <= 1;
+  $('#list-next').disabled = state.saving || pagination.page >= pagination.pages;
+  $('#list-page').textContent = `${pagination.page} / ${pagination.pages} 페이지 · ${pagination.total}건`;
 }
 
 function renderStandardListItem(item) {
@@ -630,7 +660,7 @@ function renderShipSearch() {
 function renderShipList() {
   if (state.shipSourceError) return `<p class="admin-message">\ud568\uc120DB\ub97c \uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4: ${escapeHtml(state.shipSourceError)}</p>`;
   if (!state.items.length) return '<p class="admin-message">\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4.</p>';
-  return state.items.map((item) => {
+  return state.items.slice((state.listPage - 1) * 20, state.listPage * 20).map((item) => {
     const ship = item.merged;
     return `<button class="item-button ship-admin-item${state.editing?.id === item.id ? ' active' : ''}" type="button" data-id="${escapeHtml(item.id)}"><strong>${escapeHtml(ship.name)}</strong><span>${escapeHtml(ship.manufacturer || '')} - ${escapeHtml(ship.role || '')} - ${escapeHtml(ship.cargo || '0 SCU')}</span><small>${item.override ? '\ud45c\uc2dc \uc124\uc815 \uc801\uc6a9\ub428' : 'Erkul canonical'}</small>${item.override?.hidden === true ? '<span class="ship-hidden-badge">숨김</span>' : ''}</button>`;
   }).join('');
@@ -928,10 +958,11 @@ function setSaveBusy(busy) {
     button.disabled = busy;
     button.textContent = busy ? '저장 중…' : '저장';
   }
-  document.querySelectorAll('#cms-form input, #cms-form textarea, #cms-form select, #cms-form button, [data-tab], #new-button, #cancel-button, #delete-button, #logout-button').forEach((control) => {
+  document.querySelectorAll('#cms-form input, #cms-form textarea, #cms-form select, #cms-form button, [data-tab], #new-button, #cancel-button, #delete-button, #logout-button, #cms-search, #list-prev, #list-next, .admin-tools button').forEach((control) => {
     control.disabled = busy;
   });
   $('#item-list').inert = busy;
+  if (!busy) updateListPagination();
 }
 
 async function saveItem(event) {
@@ -1233,6 +1264,7 @@ function updateImagePreview(field, url) {
 function handleListInput(event) {
   if (event.target?.id !== 'ship-admin-search') return;
   state.shipQuery = event.target.value.trim().toLowerCase();
+  state.listPage = 1;
   clearTimeout(shipSearchTimer);
   shipSearchTimer = setTimeout(() => {
     // 검색 중에는 편집 중인 폼을 유지한다(clearForm=false).
