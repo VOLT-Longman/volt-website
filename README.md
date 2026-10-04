@@ -14,11 +14,11 @@
 백엔드는 다음 Cloudflare 리소스에 의존합니다.
 
 - **D1**(`DB`) — 공지·일정·갤러리·협력함대·임원진·연혁·함선 보정값 등 CMS 콘텐츠 저장
-- **KV**(`RATE_LIMIT_KV`) — 로그인 등 rate limiting
+- **KV**(`RATE_LIMIT_KV`) — AI 사용량 집계와 기존 집계 이전. 인증 요청의 제한은 D1에서 원자적으로 처리
 - **R2**(`GALLERY_BUCKET`) — 관리자 이미지 업로드 저장소
-- **Discord OAuth** — 소셜 로그인(`/auth/discord/*`), 관리자 RBAC(`ADMIN_DISCORD_ROLES`)
+- **Discord OAuth** — 소셜 로그인(`/auth/discord/*`)과 회원 기능의 역할 확인. CMS 관리자는 별도의 비밀번호 인증 사용
 
-이들 바인딩과 시크릿(`ADMIN_SESSION_SECRET`, `ADMIN_PASSWORD`, `UEX_API_BASE_URL`, `DISCORD_OPERATION_WEBHOOK_URL` 등)은 Cloudflare Pages 대시보드에서 설정합니다. `functions/` 디렉토리 규칙으로 배포되므로 `wrangler.toml`은 필요하지 않습니다.
+바인딩과 환경변수는 Cloudflare Pages 대시보드에서 설정합니다. `ADMIN_SESSION_SECRET`, `ADMIN_PASSWORD`, Discord 인증 비밀값과 `DISCORD_OPERATION_WEBHOOK_URL`은 Secret으로 저장하고, `UEX_API_BASE_URL` 등 공개 주소는 Text로 저장합니다. `functions/` 디렉토리 규칙으로 배포되므로 `wrangler.toml`은 필요하지 않습니다. [2026-10-04 운영 설정 적용 기록](docs/CLOUDFLARE_CONFIGURATION.md)을 참고하세요.
 
 ---
 

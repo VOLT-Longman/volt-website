@@ -18,7 +18,7 @@ wrangler d1 execute <DB_NAME> --file ./migrations/0005_member_features.sql --rem
 2. Cloudflare Pages 환경변수
 
 - `DISCORD_OPERATION_WEBHOOK_URL` — 작전 브리핑을 보낼 Discord Webhook URL(Secret 권장)
-- `ADMIN_DISCORD_ROLES` — 선택값. 예: `["대표이사","감찰","임원진"]`
+- `ADMIN_DISCORD_ROLES` — 현재 CMS 인증에는 사용하지 않는 기존 변수. 이 값을 바꿔도 관리자 권한은 부여되지 않는다.
 
 ## 주의
 

@@ -4,6 +4,8 @@
 관리자 CMS 사용법(로그인·콘텐츠 작성)은 [`ADMIN_CMS_RUNBOOK.md`](./ADMIN_CMS_RUNBOOK.md),
 함선 데이터 파이프라인은 [`ship-data-pipeline.md`](./ship-data-pipeline.md)를 참조한다.
 
+2026-10-04 최신 Cloudflare 설정과 운영 D1 적용 상태는 [운영 설정 기록](CLOUDFLARE_CONFIGURATION.md)을 따른다. 아래 과거 실행 기록은 당시 상태다. 현재는 0013·0015 및 변경 이력이 준비됐고, Under Attack은 해제돼 공개 배포 검사를 직접 실행할 수 있다. 0014는 정리 대상이 없어 실행하지 않았다.
+
 ---
 
 ## 1. 배포 파이프라인

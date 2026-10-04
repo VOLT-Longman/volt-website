@@ -11,10 +11,24 @@ export function isOwnedUploadKey(key) {
 export function ownedUploadKeyFromUrl(url, env) {
   if (typeof url !== 'string') return null;
   const baseUrl = String(env.R2_PUBLIC_BASE_URL || '').replace(/\/+$/, '');
-  const prefix = baseUrl ? `${baseUrl}/` : '/';
-  if (!url.startsWith(prefix)) return null;
-  const key = url.slice(prefix.length);
-  return isOwnedUploadKey(key) ? key : null;
+  let legacyBases = [];
+  try {
+    const configured = JSON.parse(env.R2_PUBLIC_LEGACY_BASE_URLS || '[]');
+    if (Array.isArray(configured)) legacyBases = configured.filter((base) => {
+      if (typeof base !== 'string') return false;
+      try {
+        const parsed = new URL(base);
+        return parsed.protocol === 'https:' && !parsed.username && !parsed.password && !parsed.search && !parsed.hash;
+      } catch (_error) { return false; }
+    }).slice(0, 8);
+  } catch (_error) { /* Invalid aliases never expand the upload allowlist. */ }
+  for (const base of [baseUrl, ...legacyBases]) {
+    const prefix = base ? `${base.replace(/\/+$/, '')}/` : '/';
+    if (!url.startsWith(prefix)) continue;
+    const key = url.slice(prefix.length);
+    if (isOwnedUploadKey(key)) return key;
+  }
+  return null;
 }
 
 // Image URLs can be reused by another CMS entry. Scan the image-bearing fields
