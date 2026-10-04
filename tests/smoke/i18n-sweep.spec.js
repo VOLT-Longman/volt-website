@@ -8,14 +8,14 @@ test.describe('i18n 스윕 (동적 UI 문구)', () => {
         const page = await ctx.newPage();
         await mockApi(page);
         await gotoSection(page, '#notices');
-        await expect(page.locator('#notice-filters .notice-filter-btn').first()).toHaveText('All');
+        await expect(page.locator('#notice-filters .notice-filter-btn').first().locator('.notice-filter-label')).toHaveText('All');
         await ctx.close();
     });
 
     test('공지 필터 KO 회귀 "전체"', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#notices');
-        await expect(page.locator('#notice-filters .notice-filter-btn').first()).toHaveText('전체');
+        await expect(page.locator('#notice-filters .notice-filter-btn').first().locator('.notice-filter-label')).toHaveText('전체');
     });
 
     test('검색: 결과 없음 EN "No results."', async ({ browser }) => {

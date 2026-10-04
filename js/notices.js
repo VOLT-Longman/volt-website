@@ -20,7 +20,7 @@
     }
 
     const PAGE_SIZE = 4;
-    const noticeState = { tag: 'all', visibleCount: PAGE_SIZE };
+    const noticeState = { tag: 'all', query: '', pinnedOnly: false, visibleCount: PAGE_SIZE };
     const NOTICE_TAG_COLORS = { '공지': 'var(--volt-orange)', '중요': '#e53e3e', '업데이트': '#3182ce', '이벤트': '#805ad5', '작전': '#38a169', '시스템': '#319795', '모집': '#d69e2e', '정책': '#e53e3e' };
 
     // 공지 CMS 다국어: EN 모드이고 `${field}En` 값이 있으면 사용, 없으면 KO fallback.
@@ -33,16 +33,18 @@
     function getNoticeTags() {
         const announcements = getAnnouncements();
         if (!Array.isArray(announcements)) return [];
-        return [...new Set(announcements.map((announcement) => announcement.tag))];
+        return [...new Set(announcements.map((announcement) => announcement.tag).filter(Boolean))];
     }
 
     function renderNoticeFilters() {
         const container = document.getElementById('notice-filters');
         if (!container) return;
         const buttons = ['all', ...getNoticeTags()].map((tag) => {
-            const label = tag === 'all' ? i18nT('notices.filterAll', '전체') : tag;
+            const example = (getAnnouncements() || []).find((item) => item.tag === tag);
+            const label = tag === 'all' ? i18nT('notices.filterAll', '전체') : noticeField(example, 'tag');
+            const count = (getAnnouncements() || []).filter((item) => tag === 'all' || item.tag === tag).length;
             const active = tag === noticeState.tag ? ' active' : '';
-            return `<button class="notice-filter-btn${active}" type="button" data-tag="${escapeHtml(tag)}">${escapeHtml(label)}</button>`;
+            return `<button class="notice-filter-btn${active}" type="button" data-tag="${escapeHtml(tag)}" aria-pressed="${tag === noticeState.tag}" aria-controls="notices-list"><span class="notice-filter-label">${escapeHtml(label)}</span><span class="notice-filter-count" aria-hidden="true">${count}</span></button>`;
         });
         container.innerHTML = buttons.join('');
     }
@@ -52,6 +54,13 @@
         if (!Array.isArray(announcements)) return [];
         return [...announcements]
             .filter((announcement) => noticeState.tag === 'all' || announcement.tag === noticeState.tag)
+            .filter((announcement) => !noticeState.pinnedOnly || Boolean(announcement.pinned))
+            .filter((announcement) => {
+                const text = ['title', 'content', 'tag', 'titleEn', 'contentEn', 'tagEn']
+                    .map((field) => announcement[field] || '').join(' ').normalize('NFKC').toLocaleLowerCase();
+                const words = noticeState.query.normalize('NFKC').toLocaleLowerCase().trim().split(/\s+/);
+                return words.every((word) => text.includes(word));
+            })
             .sort(compareAnnouncements);
     }
 
@@ -92,6 +101,11 @@
         const visibleItems = items.slice(0, noticeState.visibleCount);
         // 강조(featured)는 최신 고정 공지 1개만. 나머지 고정은 배지만 유지.
         const featuredId = (visibleItems.find((item) => item.pinned) || {}).id || null;
+        const results = document.getElementById('notice-results');
+        if (results) results.textContent = i18nT('notices.results', '{shown} / {total}개 공지')
+            .replace('{shown}', visibleItems.length).replace('{total}', items.length);
+        const reset = document.getElementById('notice-reset');
+        if (reset) reset.hidden = noticeState.tag === 'all' && !noticeState.query && !noticeState.pinnedOnly;
         container.innerHTML = visibleItems.map((announcement) => `
             <button class="notice-card${announcement.id === featuredId ? ' is-featured' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(noticeField(announcement, 'title'))} ${escapeHtml(i18nT('notices.detailAria', '상세 보기'))}">
                 <div class="notice-meta">
@@ -102,8 +116,12 @@
                 <h3 class="notice-title">${escapeHtml(noticeField(announcement, 'title'))}</h3>
                 <p class="notice-content notice-excerpt">${formatMultilineText(noticeField(announcement, 'content'))}</p>
                 <span class="notice-more" aria-hidden="true">${escapeHtml(i18nT('notices.readMore', '자세히 보기 →'))}</span>
-            </button>`).join('');
+            </button>`).join('') || `<div class="notice-empty"><span class="notice-empty-mark" aria-hidden="true">↗</span>
+                <h3>${escapeHtml(i18nT('notices.emptyTitle', '표시할 공지가 없습니다.'))}</h3>
+                <p>${escapeHtml(i18nT('notices.emptyHint', '다른 검색어를 입력하거나 필터를 초기화해 보세요.'))}</p></div>`;
         loadMore.hidden = visibleItems.length >= items.length;
+        loadMore.textContent = i18nT('notices.loadMore', '더 보기 ({count}개 남음)')
+            .replace('{count}', items.length - visibleItems.length);
         observeNewReveals(container);
     }
 
@@ -118,6 +136,31 @@
         const loadMore = document.getElementById('notice-load-more');
         const list = document.getElementById('notices-list');
         if (!filters || !loadMore || !list) return;
+        const search = document.getElementById('notice-search');
+        const pinned = document.getElementById('notice-pinned-toggle');
+        const reset = document.getElementById('notice-reset');
+        if (search) search.addEventListener('input', () => {
+            noticeState.query = search.value;
+            noticeState.visibleCount = PAGE_SIZE;
+            renderAnnouncements();
+        });
+        if (pinned) pinned.addEventListener('click', () => {
+            noticeState.pinnedOnly = !noticeState.pinnedOnly;
+            pinned.setAttribute('aria-pressed', String(noticeState.pinnedOnly));
+            noticeState.visibleCount = PAGE_SIZE;
+            renderAnnouncements();
+        });
+        if (reset) reset.addEventListener('click', () => {
+            noticeState.tag = 'all';
+            noticeState.query = '';
+            noticeState.pinnedOnly = false;
+            noticeState.visibleCount = PAGE_SIZE;
+            if (search) search.value = '';
+            if (pinned) pinned.setAttribute('aria-pressed', 'false');
+            renderNoticeFilters();
+            renderAnnouncements();
+            if (search) search.focus();
+        });
         filters.addEventListener('click', (event) => {
             const button = event.target.closest('[data-tag]');
             if (!button) return;
