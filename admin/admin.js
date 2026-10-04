@@ -1102,27 +1102,25 @@ async function cleanupAbandonedUploads() {
   }
 }
 
-async function makeGalleryThumbnail(file) {
-  const url = URL.createObjectURL(file);
+async function makeGalleryThumbnail(file, { strict = false } = {}) {
+  let image;
   try {
-    const image = new Image();
-    await new Promise((resolve, reject) => {
-      image.onload = resolve;
-      image.onerror = reject;
-      image.src = url;
-    });
-    const scale = Math.min(1, 640 / image.naturalWidth, 640 / image.naturalHeight);
+    // Decode the file directly: blob: image URLs are blocked by our CSP.
+    image = await createImageBitmap(file);
+    const scale = Math.min(1, 640 / image.width, 640 / image.height);
     const canvas = document.createElement('canvas');
-    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
-    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+    canvas.width = Math.max(1, Math.round(image.width * scale));
+    canvas.height = Math.max(1, Math.round(image.height * scale));
     canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.78));
-    if (!blob || blob.type !== 'image/webp' || blob.size >= file.size) return null;
+    if (!blob || blob.type !== 'image/webp') throw new Error('WebP conversion failed');
+    if (blob.size >= file.size) return null;
     return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}-thumb.webp`, { type: 'image/webp' });
   } catch {
+    if (strict) throw new Error('이미지를 썸네일로 변환하지 못했습니다. 원본은 그대로 보존했습니다.');
     return null;
   } finally {
-    URL.revokeObjectURL(url);
+    image?.close();
   }
 }
 

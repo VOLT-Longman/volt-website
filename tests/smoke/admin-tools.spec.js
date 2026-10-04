@@ -74,7 +74,17 @@ test('이미지 삭제는 선택한 후보만 보내고 보호된 파일 결과�
   expect(selected).toEqual(['candidate-1']);
 });
 
-test('기존 이미지 최적화는 원본을 보존하고 충돌한 썸네일을 정리한다', async ({ page }) => {
+async function enforceThumbnailCsp(page) {
+  await page.route('**/*', async (route) => {
+    if (route.request().resourceType() !== 'document') return route.fallback();
+    const response = await route.fetch();
+    await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': "default-src 'self'; img-src 'self' data: https:; script-src 'self'; style-src 'self'; connect-src 'self'" } });
+  });
+}
+
+for (const conflict of [false, true]) {
+test(`기존 이미지 최적화는 CSP 아래 원본을 보존하고 ${conflict ? '충돌한 썸네일을 정리한다' : '640px WebP 썸네일을 저장한다'}`, async ({ page }) => {
+  await enforceThumbnailCsp(page);
   await setup(page);
   const src = 'https://cdn.volt.ceo/gallery/original.png';
   await page.route('**/api/admin/gallery{,?*}', (route) => route.fulfill({ json: { items: [{ id: 'g1', title: '기존 사진', src, thumb: src, updatedAt: 'v1', published: true }] } }));
@@ -93,21 +103,54 @@ test('기존 이미지 최적화는 원본을 보존하고 충돌한 썸네일�
   await page.route('**/api/admin/image-source?*', (route) => route.fulfill({ body: Buffer.from(base64, 'base64'), contentType: 'image/png' }));
   let savedBody;
   let cleaned;
+  let uploadBody;
   await page.route('**/api/admin/upload', (route) => {
     if (route.request().method() === 'DELETE') { cleaned = route.request().postDataJSON().key; return route.fulfill({ json: { deleted: true } }); }
+    uploadBody = route.request().postDataBuffer();
     return route.fulfill({ json: { key: 'gallery/thumb.webp', imageUrl: 'https://cdn.volt.ceo/gallery/thumb.webp' } });
   });
   await page.route('**/api/admin/gallery/g1', (route) => {
     savedBody = route.request().postDataJSON();
-    return route.fulfill({ status: 409, json: { error: '다른 관리자가 먼저 저장했습니다.' } });
+    return conflict
+      ? route.fulfill({ status: 409, json: { error: '다른 관리자가 먼저 저장했습니다.' } })
+      : route.fulfill({ json: { item: { id: 'g1' } } });
   });
   await page.locator('#workspace-tools').click();
   await page.locator('#maintenance-panel > summary').click();
   page.on('dialog', (dialog) => dialog.accept());
   await page.locator('#gallery-optimize').click();
-  await expect(page.locator('#maintenance-result')).toContainText('오류 1건');
+  await expect(page.locator('#maintenance-result')).toContainText(conflict ? '오류 1건' : '최적화 1건');
   expect(savedBody.imageUrl).toBe(src);
   expect(savedBody.thumbUrl).toContain('thumb.webp');
   expect(savedBody.expectedUpdatedAt).toBe('v1');
-  expect(cleaned).toBe('gallery/thumb.webp');
+  expect(cleaned).toBe(conflict ? 'gallery/thumb.webp' : undefined);
+  const start = uploadBody.indexOf(Buffer.from('RIFF'));
+  const webp = uploadBody.subarray(start, start + uploadBody.readUInt32LE(start + 4) + 8);
+  expect(webp.subarray(8, 12).toString()).toBe('WEBP');
+  expect(webp.length).toBeLessThan(Buffer.from(base64, 'base64').length);
+  const dimensions = await page.evaluate(async (bytes) => {
+    const image = await createImageBitmap(new Blob([new Uint8Array(bytes)], { type: 'image/webp' }));
+    const result = [image.width, image.height];
+    image.close();
+    return result;
+  }, Array.from(webp));
+  expect(dimensions).toEqual([640, 360]);
+});
+}
+
+test('디코딩 실패는 크기 유지로 오인하지 않고 원본과 저장 내용을 보존한다', async ({ page }) => {
+  await enforceThumbnailCsp(page);
+  await setup(page);
+  const src = 'https://cdn.volt.ceo/gallery/broken.png';
+  await page.route('**/api/admin/gallery{,?*}', (route) => route.fulfill({ json: { items: [{ id: 'g1', src, thumb: src, updatedAt: 'v1' }] } }));
+  await page.route('**/api/admin/image-source?*', (route) => route.fulfill({ body: 'not an image', contentType: 'image/png' }));
+  let writes = 0;
+  await page.route('**/api/admin/upload', (route) => { writes++; return route.fulfill({ status: 500 }); });
+  await page.route('**/api/admin/gallery/g1', (route) => { writes++; return route.fulfill({ status: 500 }); });
+  await page.locator('#workspace-tools').click();
+  await page.locator('#maintenance-panel > summary').click();
+  page.on('dialog', (dialog) => dialog.accept());
+  await page.locator('#gallery-optimize').click();
+  await expect(page.locator('#maintenance-result')).toContainText('크기 유지 0건, 오류 1건');
+  expect(writes).toBe(0);
 });

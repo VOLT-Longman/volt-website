@@ -171,7 +171,7 @@ async function optimizeGallery() {
           if (!response.ok) throw new Error((await response.json()).error || '원본 조회 실패');
           blob = await response.blob();
         } finally { clearTimeout(timeout); }
-        const thumbnail = await makeGalleryThumbnail(new File([blob], 'original', { type: blob.type }));
+        const thumbnail = await makeGalleryThumbnail(new File([blob], 'original', { type: blob.type }), { strict: true });
         if (!thumbnail) { skipped += 1; continue; }
         asset = await uploadAsset(thumbnail);
         await api(`${CONFIG.gallery.endpoint}/${encodeURIComponent(item.id)}`, { method: 'PUT', body: JSON.stringify({ ...item, imageUrl: item.src, thumbUrl: asset.imageUrl, expectedUpdatedAt: item.updatedAt }) });

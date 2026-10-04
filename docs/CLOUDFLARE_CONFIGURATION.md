@@ -40,11 +40,23 @@
 - 미리보기 배포에는 운영 DB와 비밀값을 복제하지 않았다. 관리자까지 검증하는 미리보기가 필요하면 별도 DB·R2·인증정보를 준비한다.
 - 사용처가 확인되지 않은 기존 Worker, R2 원본 및 변경 이력을 삭제하지 않았다. Workers AI와 유료 기능도 활성화하지 않았다.
 
+## 테스트 완료 후 운영 배포
+
+Pages 빌드 명령은 `node scripts/check-release-gate.mjs`다. `CF_PAGES_COMMIT_SHA`와 정확히 같은 main push의 `Smoke Tests` 전체 성공을 확인한 뒤에만 빌드가 성공한다. 새 실행이 대기·실패 상태이면 과거 성공 결과를 재사용하지 않는다. 실패·취소·알 수 없는 응답·15분 시간 초과는 배포를 차단한다. GitHub 일시 연결 오류는 제한 시간 안에서 재시도하며 통과로 처리하지 않는다. 공개 저장소 API를 조회하므로 추가 인증정보는 필요하지 않다.
+
+이 명령은 Pages Git 빌드에 적용되며 직접 업로드나 별도의 배포 경로에 대한 접근 통제를 대체하지 않는다. 운영 브랜치를 바꾸면 스크립트도 함께 수정해야 한다. main 이외의 미리보기에는 이 운영 게이트를 적용하지 않는다. 과거 버전으로 재배포할 때 이 스크립트가 없는 커밋은 해당 빌드 명령을 사용할 수 없으므로, 검증된 현재 코드에서 수정·배포하는 방식을 권장한다.
+
+`Deploy Verify`도 같은 Smoke Tests가 성공한 후 해당 커밋을 체크아웃해 운영 캐시 버전을 확인한다. Pages가 먼저 공개되고 테스트가 나중에 실패하던 순서를 보완한다.
+
+## 기존 갤러리 썸네일
+
+CMS 이미지 변환은 `blob:` 이미지 URL 대신 `createImageBitmap`으로 파일을 직접 디코딩한다. 기존 CSP를 유지하며 최대 640px WebP 썸네일을 만든다. 원본은 보존하고, 더 작은 결과만 저장하며 동시 수정 충돌 때 생성한 파일은 정리한다. 디코딩 오류는 크기 유지로 집계하지 않는다. 신규 업로드의 변환 실패는 원본 업로드를 유지한다.
+
 ## 검증
 
-- 문법·링크·마이그레이션 규약·HTML 사용 검사 및 린트 통과. 서버 테스트 207개와 Playwright 315개 통과.
+- 문법·링크·마이그레이션 규약·HTML 사용 검사 및 린트 통과. 서버 테스트 211개와 Playwright 317개 통과. 배포 게이트 4개와 운영 CSP 아래 썸네일 저장·충돌·디코딩 실패 검사를 포함한다.
 - 운영 홈·관리자 화면·공개 콘텐츠 API의 정상 응답, 비로그인 관리자 API의 401 거부, 인증 API의 no-store를 확인했다.
-- Discord 로그인 시작이 상태 쿠키와 함께 Discord로 이동하는 것을 확인했다. 실제 Discord 동의·콜백 로그인은 사용자 계정으로 별도 확인해야 한다.
+- Discord 로그인 시작과 실제 콜백 후 로그인을 확인했다. 마이페이지에 사용자 프로필·Discord 역할·정식 멤버 상태가 표시된다. 참가 일정 등의 운영 데이터를 테스트용으로 추가하지는 않았다.
 - 대표 주소의 308 이동이 경로·쿼리를 보존하며, 기존 이미지 8개는 새 도메인에서 정상 응답한다.
 - DB 백업 SQLite의 무결성 검사는 `ok`다. 운영 이미지 주소 변경 5건이 이력에 기록돼 전체 165건이다.
 
@@ -53,3 +65,5 @@
 - [Worker 경로](https://developers.cloudflare.com/workers/configuration/routing/routes/)
 - [R2 공개 도메인](https://developers.cloudflare.com/r2/buckets/public-buckets/)
 - [Pages 실패 시 동작](https://developers.cloudflare.com/pages/functions/routing/#fail-open--closed)
+- [Pages 빌드 명령과 환경변수](https://developers.cloudflare.com/pages/configuration/build-configuration/)
+- [GitHub workflow 실행 조회](https://docs.github.com/en/rest/actions/workflow-runs)
