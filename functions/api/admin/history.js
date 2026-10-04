@@ -1,5 +1,6 @@
+import { adminDb } from '../../_shared/admin-db.js';
 import { requireAdmin } from '../../_shared/auth.js';
-import { error, json, readJson, requireDb } from '../../_shared/http.js';
+import { error, json, readJson } from '../../_shared/http.js';
 import { ADMIN_COLLECTIONS } from '../../_shared/admin-collections.js';
 import { CONFLICT_MESSAGE, nextUpdatedAt } from '../../_shared/cms.js';
 
@@ -17,7 +18,7 @@ export async function onRequestGet({ request, env }) {
   if (itemId) { clauses.push('item_id = ?'); bindings.push(itemId); }
   if (before) { clauses.push('id < ?'); bindings.push(before); }
   try {
-    const result = await requireDb(env).prepare(`SELECT *, (SELECT updated_at FROM ${config.table} WHERE ${config.key || 'id'} = cms_history.item_id) AS current_updated_at FROM cms_history WHERE ${clauses.join(' AND ')} ORDER BY id DESC LIMIT 21`).bind(...bindings).all();
+    const result = await adminDb(request, env).prepare(`SELECT *, (SELECT updated_at FROM ${config.table} WHERE ${config.key || 'id'} = cms_history.item_id) AS current_updated_at FROM cms_history WHERE ${clauses.join(' AND ')} ORDER BY id DESC LIMIT 21`).bind(...bindings).all();
     const rows = result.results || [];
     const items = rows.slice(0, 20).map((row) => ({ id: row.id, itemId: row.item_id, action: row.action, createdAt: row.created_at, actor: row.actor, currentUpdatedAt: row.current_updated_at ?? null, before: row.before_json ? JSON.parse(row.before_json) : null, after: row.after_json ? JSON.parse(row.after_json) : null }));
     return json({ items, next: rows.length > 20 ? items.at(-1).id : null });
@@ -34,7 +35,7 @@ export async function onRequestPost({ request, env }) {
   const config = Object.hasOwn(ADMIN_COLLECTIONS, body.collection) ? ADMIN_COLLECTIONS[body.collection] : null;
   if (!config || !Number.isSafeInteger(body.historyId) || !['before', 'after'].includes(body.version)) return error('Invalid restore request', 422);
   if (body.expectedUpdatedAt !== null && typeof body.expectedUpdatedAt !== 'string') return error('Current version is required', 422);
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   const history = await db.prepare('SELECT * FROM cms_history WHERE id = ? AND collection = ?').bind(body.historyId, body.collection).first();
   if (!history) return error('History not found', 404);
   const encoded = history[`${body.version}_json`];
@@ -46,6 +47,7 @@ export async function onRequestPost({ request, env }) {
   const schema = await db.prepare(`PRAGMA table_info(${config.table})`).all();
   const allowed = new Set((schema.results || []).map((column) => column.name));
   const values = Object.fromEntries(Object.entries(snapshot).filter(([column]) => allowed.has(column)));
+  if (allowed.has('translations_json') && !Object.hasOwn(snapshot, 'translations_json')) values.translations_json = '{}';
   values[key] = history.item_id;
   values.updated_at = nextUpdatedAt(current || {});
   if (current) {

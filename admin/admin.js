@@ -38,11 +38,11 @@ const adminAssetVersion = new URL(document.currentScript?.src || location.href).
 
 const CONFIG = {
   notices: { title: '\uacf5\uc9c0', endpoint: '/api/admin/notices', fields: ['title', 'content', 'tag', 'titleEn', 'contentEn', 'tagEn', 'date', 'pinned', 'published'] },
-  events: { title: '\uc77c\uc815', endpoint: '/api/admin/events', fields: ['title', 'description', 'type', 'status', 'dateLabel', 'eventDate', 'published'] },
-  gallery: { title: '\uac24\ub7ec\ub9ac', endpoint: '/api/admin/gallery', fields: ['title', 'description', 'category', 'date', 'published'] },
-  'partner-fleets': { title: '협력함대', endpoint: '/api/admin/partner-fleets', fields: ['name', 'region', 'game', 'focus', 'description', 'memberCount', 'discordUrl', 'websiteUrl', 'photoUrl', 'logoUrl', 'established', 'sortOrder', 'published'] },
-  leadership: { title: '\uc784\uc6d0\uc9c4', endpoint: '/api/admin/leadership', fields: ['name', 'role', 'discord', 'description', 'duties', 'avatarUrl', 'avatar', 'avatarGradient', 'sortOrder', 'published'] },
-  timeline: { title: '\uc5f0\ud601', endpoint: '/api/admin/timeline', fields: ['dateLabel', 'title', 'description', 'sortOrder', 'published'] },
+  events: { title: '\uc77c\uc815', endpoint: '/api/admin/events', fields: ['title', 'description', 'type', 'status', 'dateLabel', 'eventDate', 'published', 'titleEn', 'descriptionEn', 'typeEn', 'statusEn', 'dateLabelEn'] },
+  gallery: { title: '\uac24\ub7ec\ub9ac', endpoint: '/api/admin/gallery', fields: ['title', 'description', 'category', 'date', 'published', 'titleEn', 'descriptionEn', 'categoryEn'] },
+  'partner-fleets': { title: '협력함대', endpoint: '/api/admin/partner-fleets', fields: ['name', 'region', 'game', 'focus', 'description', 'memberCount', 'discordUrl', 'websiteUrl', 'photoUrl', 'logoUrl', 'established', 'sortOrder', 'published', 'nameEn', 'regionEn', 'gameEn', 'focusEn', 'descriptionEn', 'establishedEn'] },
+  leadership: { title: '\uc784\uc6d0\uc9c4', endpoint: '/api/admin/leadership', fields: ['name', 'role', 'discord', 'description', 'duties', 'avatarUrl', 'avatar', 'avatarGradient', 'sortOrder', 'published', 'nameEn', 'roleEn', 'descriptionEn', 'dutiesEn', 'detailsEn', 'competenciesEn'] },
+  timeline: { title: '\uc5f0\ud601', endpoint: '/api/admin/timeline', fields: ['dateLabel', 'title', 'description', 'sortOrder', 'published', 'titleEn', 'descriptionEn', 'dateLabelEn'] },
   ships: { title: '\ud568\uc120DB', endpoint: '/api/admin/ships', fields: [] }
 };
 
@@ -60,6 +60,20 @@ const IMAGE_FIELDS = {
 };
 
 const LABELS = {
+  nameEn: "영어 이름",
+  descriptionEn: "영어 설명",
+  typeEn: "영어 유형",
+  statusEn: "영어 상태",
+  dateLabelEn: "영어 표시 날짜",
+  categoryEn: "영어 분류",
+  regionEn: "영어 지역",
+  gameEn: "영어 게임",
+  focusEn: "영어 주 역할",
+  establishedEn: "영어 창설",
+  roleEn: "영어 역할",
+  dutiesEn: "영어 주요 업무",
+  detailsEn: "영어 상세 항목 (JSON)",
+  competenciesEn: "영어 핵심 역량 (JSON)",
   title: '\uc81c\ubaa9',
   content: '\ub0b4\uc6a9',
   tag: '\ud0dc\uadf8',
@@ -719,7 +733,9 @@ function renderForm(item) {
 
 function renderCollectionForm(config, item) {
   if (state.tab === 'notices') return renderNoticeForm(item);
-  const fields = config.fields.map((field) => renderField(field, item)).join('');
+  const fields = config.fields.filter((field) => !field.endsWith('En')).map((field) => renderField(field, item)).join('')
+    + '<details class="admin-disclosure"><summary>영어 콘텐츠 (EN)</summary><p class="admin-field-hint">영문은 영어 화면에서 표시됩니다. 비워두면 한국어 원문을 표시합니다. 상세 항목은 제목·내용 객체의 JSON 배열, 핵심 역량은 문자열 JSON 배열로 입력하세요.</p>'
+    + config.fields.filter((field) => field.endsWith('En')).map((field) => renderField(field, item)).join('') + '</details>';
   return state.tab === 'gallery' ? renderGalleryUpload(item) + fields : fields;
 }
 
@@ -821,15 +837,17 @@ function formatPreviewDate(value) {
 }
 
 function renderField(field, item) {
-  const value = getItemValue(item, field);
+  const original = getItemValue(item, field);
+  const value = Array.isArray(original) ? JSON.stringify(original, null, 2) : original;
+  const label = LABELS[field] || `${LABELS[field.replace(/En$/, '')] || (field === 'detailsEn' ? '상세 항목' : '핵심 역량')} (EN)`;
   if (field === 'published' || field === 'pinned') return renderCheckbox(field, item);
   if (isImageField(field)) return renderImageField(field, value);
   if (getFieldOptions(field)) return renderSelectField(field, value);
-  if (field === 'content' || field === 'contentEn' || field === 'description' || field === 'duties') {
-    return `<label>${LABELS[field]}<textarea name="${field}">${escapeHtml(value)}</textarea></label>`;
+  if (field === 'content' || field === 'contentEn' || field === 'description' || field === 'duties' || ['descriptionEn', 'dutiesEn', 'detailsEn', 'competenciesEn'].includes(field)) {
+    return `<label>${label}<textarea name="${field}">${escapeHtml(value)}</textarea></label>`;
   }
   const type = field === 'eventDate' || field === 'date' ? 'date' : field === 'memberCount' || field === 'sortOrder' ? 'number' : 'text';
-  return `<label>${LABELS[field]}<input type="${type}" name="${field}" value="${escapeHtml(value)}"></label>`;
+  return `<label>${label}<input type="${type}" name="${field}" value="${escapeHtml(value)}"></label>`;
 }
 
 function isImageField(field) {

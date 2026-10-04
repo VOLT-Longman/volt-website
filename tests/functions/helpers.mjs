@@ -21,6 +21,7 @@ export function createMockDb(handler) {
     const security = createSqliteDb();
     return {
         calls,
+        async batch(statements) { const results = []; for (const statement of statements) results.push(await statement.run()); return results; },
         prepare(sql) {
             if (/\bsecurity_/.test(sql)) return security.prepare(sql);
             let bound = [];

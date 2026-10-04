@@ -55,9 +55,11 @@ async function loadHistory(more = false) {
     const labels = { baseline: '시작 시점', create: '작성', update: '수정', delete: '삭제' };
     if (!data.items.length && !more) $('#history-result').append(el('p', '', '기록된 이력이 없습니다.'));
     for (const item of data.items) {
+      let actor = "기록 없음";
+      try { actor = JSON.parse(item.actor).name || actor; } catch { /* Historical records have no actor. */ }
       const card = el('details', 'history-entry');
       const snapshot = item.after || item.before || {};
-      card.append(el('summary', '', `${snapshot.title || snapshot.name || item.itemId} · ${labels[item.action] || item.action} · ${new Date(item.createdAt).toLocaleString('ko-KR')}`));
+      card.append(el('summary', '', `${snapshot.title || snapshot.name || item.itemId} · ${labels[item.action] || item.action} · ${new Date(item.createdAt).toLocaleString('ko-KR')} · ${actor}`));
       for (const version of ['before', 'after']) {
         if (!item[version]) continue;
         const title = version === 'before' ? '변경 전' : '변경 후';

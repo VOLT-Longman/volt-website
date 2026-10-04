@@ -1,3 +1,4 @@
+import { localizationInput, mapLocalization } from './cms-localization.js';
 import { createId, limitText, sanitizeText, toBooleanInt } from './http.js';
 
 // 낙관적 잠금: 클라이언트가 수정 시작 시점의 updatedAt(expectedUpdatedAt)을 보내면
@@ -83,19 +84,23 @@ function localizedTextInput(value, maxLength) {
 }
 
 export function mapEvent(row) {
-  return { id: row.id, title: row.title, description: row.description || '', type: row.type || '작전', status: row.status || '예정', dateLabel: row.date_label || row.event_date || '', eventDate: row.event_date || '', published: Boolean(row.published), updatedAt: row.updated_at || '' };
+  return { ...mapLocalization('events', row), id: row.id, title: row.title, description: row.description || '', type: row.type || '작전', status: row.status || '예정', dateLabel: row.date_label || row.event_date || '', eventDate: row.event_date || '', published: Boolean(row.published), updatedAt: row.updated_at || '' };
 }
 
 export function eventInput(body, existing = {}) {
   const timestamp = nextUpdatedAt(existing);
-  const eventDate = limitText(body.eventDate || body.event_date, 40);
+  const dateLabel = limitText(body.dateLabel || body.date_label || body.date, 80);
+  const rawDate = body.eventDate || body.event_date || (/^\d{4}[.-]\d{2}[.-]\d{2}$/.test(dateLabel) ? dateLabel.replace(/\./g, '-') : '');
+  const eventDate = limitText(rawDate, 10);
+  if (eventDate && (!/^\d{4}-\d{2}-\d{2}$/.test(eventDate) || !Number.isFinite(Date.parse(eventDate)) || new Date(eventDate).toISOString().slice(0, 10) !== eventDate)) throw new Error('Invalid event date (YYYY-MM-DD required)');
   return {
+    translations_json: localizationInput('events', body, existing),
     id: existing.id || sanitizeText(body.id) || createId('event'),
     title: limitText(body.title, 200),
     description: limitText(body.description, 20000),
     type: limitText(body.type, 20, '작전'),
     status: limitText(body.status, 20, '예정'),
-    date_label: limitText(body.dateLabel || body.date_label || body.date, 80),
+    date_label: dateLabel || eventDate,
     event_date: eventDate || null,
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,
@@ -104,12 +109,13 @@ export function eventInput(body, existing = {}) {
 }
 
 export function mapGallery(row) {
-  return { id: row.id, title: row.title, description: row.description || '', category: row.category || '기타', src: row.image_url, thumb: row.thumb_url || row.image_url, date: row.date || '', sortOrder: Number(row.sort_order || 0), published: Boolean(row.published), updatedAt: row.updated_at || '' };
+  return { ...mapLocalization('gallery', row), id: row.id, title: row.title, description: row.description || '', category: row.category || '기타', src: row.image_url, thumb: row.thumb_url || row.image_url, date: row.date || '', sortOrder: Number(row.sort_order || 0), published: Boolean(row.published), updatedAt: row.updated_at || '' };
 }
 
 export function galleryInput(body, existing = {}) {
   const timestamp = nextUpdatedAt(existing);
   return {
+    translations_json: localizationInput('gallery', body, existing),
     id: existing.id || sanitizeText(body.id) || createId('gallery'),
     title: limitText(body.title, 200),
     description: limitText(body.description, 20000),
@@ -128,7 +134,7 @@ export function galleryInput(body, existing = {}) {
 
 
 export function mapPartnerFleet(row) {
-  return {
+  return { ...mapLocalization('partners', row),
     id: row.id,
     name: row.name,
     region: row.region || '',
@@ -152,6 +158,7 @@ export function mapPartnerFleet(row) {
 export function partnerFleetInput(body, existing = {}) {
   const timestamp = nextUpdatedAt(existing);
   return {
+    translations_json: localizationInput('partners', body, existing),
     id: existing.id || sanitizeText(body.id) || createId('partner'),
     name: limitText(body.name, 200),
     region: limitText(body.region, 80),
@@ -173,7 +180,7 @@ export function partnerFleetInput(body, existing = {}) {
 
 export function mapLeader(row) {
   const extras = parseJsonObject(row.extras);
-  return {
+  return { ...mapLocalization('leadership', row),
     id: row.id,
     name: row.name,
     role: row.role || '',
@@ -186,7 +193,7 @@ export function mapLeader(row) {
     imageUrl: row.avatar_url || '',
     avatarGradient: row.avatar_gradient || '',
     avatarStyle: row.avatar_style || '',
-    details: Array.isArray(extras.details) ? extras.details : undefined,
+    details: Array.isArray(extras.details) ? extras.details.map((item, index) => ({ ...item, title_en: mapLocalization('leadership', row).detailsEn[index]?.title || '', content_en: mapLocalization('leadership', row).detailsEn[index]?.content || '' })) : undefined,
     competencies: Array.isArray(extras.competencies) ? extras.competencies : undefined,
     sortOrder: Number(row.sort_order || 0),
     published: row.published === null || row.published === undefined ? true : Boolean(row.published),
@@ -197,6 +204,7 @@ export function mapLeader(row) {
 export function leaderInput(body, existing = {}) {
   const timestamp = nextUpdatedAt(existing);
   return {
+    translations_json: localizationInput('leadership', body, existing),
     id: existing.id || sanitizeText(body.id) || createId('leader'),
     name: limitText(body.name, 80),
     role: limitText(body.role, 160),
@@ -217,7 +225,7 @@ export function leaderInput(body, existing = {}) {
 }
 
 export function mapTimelineEntry(row) {
-  return {
+  return { ...mapLocalization('timeline', row),
     id: row.id,
     date: row.date_label || '',
     dateLabel: row.date_label || '',
@@ -232,6 +240,7 @@ export function mapTimelineEntry(row) {
 export function timelineInput(body, existing = {}) {
   const timestamp = nextUpdatedAt(existing);
   return {
+    translations_json: localizationInput('timeline', body, existing),
     id: existing.id || sanitizeText(body.id) || createId('tl'),
     date_label: limitText(body.dateLabel || body.date_label || body.date, 40),
     title: limitText(body.title, 200),

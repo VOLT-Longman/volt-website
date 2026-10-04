@@ -1,6 +1,7 @@
+import { adminDb } from '../../../_shared/admin-db.js';
 import { adminList } from '../../../_shared/admin-collections.js';
 import { requireAdmin } from '../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { error, json, methodNotAllowed, readJson } from '../../../_shared/http.js';
 import { mapEvent, eventInput } from '../../../_shared/cms.js';
 
 export async function onRequest({ request, env }) {
@@ -12,12 +13,12 @@ export async function onRequest({ request, env }) {
 }
 
 async function listItems(request, env) {
-  return json(await adminList(requireDb(env), request, 'events', mapEvent));
+  return json(await adminList(adminDb(request, env), request, 'events', mapEvent));
 }
 
 async function createItem(request, env) {
   let item; try { item = eventInput((await readJson(request)) || {}); } catch (err) { return error(err.message || 'Invalid input', 422); }
   if (!item.title) return error('Missing required fields', 422);
-  await requireDb(env).prepare('INSERT INTO events (id, title, description, type, status, date_label, event_date, published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').bind(item.id, item.title, item.description, item.type, item.status, item.date_label, item.event_date, item.published, item.created_at, item.updated_at).run();
+  await adminDb(request, env).prepare('INSERT INTO events (id, title, description, type, status, date_label, event_date, published, created_at, updated_at, translations_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').bind(item.id, item.title, item.description, item.type, item.status, item.date_label, item.event_date, item.published, item.created_at, item.updated_at, item.translations_json).run();
   return json({ item: mapEvent(item) }, { status: 201 });
 }

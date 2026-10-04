@@ -1,5 +1,8 @@
 import { error } from './http.js';
 
+const verifiedIdentities = new WeakMap();
+export function getVerifiedAdminIdentity(request) { return verifiedIdentities.get(request) || null; }
+
 const SESSION_COOKIE = 'volt_admin_session';
 const SESSION_MAX_AGE = 60 * 60 * 8;
 const MISCONFIGURED_SECRET_MESSAGE = 'Server misconfigured: ADMIN_SESSION_SECRET';
@@ -93,8 +96,10 @@ export async function isAuthenticated(request, env) {
 }
 
 export async function requireAdmin(request, env) {
+  verifiedIdentities.delete(request);
   try {
-    if (await isAuthenticated(request, env)) return null;
+    const identity = await getAdminIdentity(request, env);
+    if (identity) { verifiedIdentities.set(request, identity); return null; }
   } catch { return error('관리자 인증 상태를 확인할 수 없습니다. 잠시 후 다시 시도하세요.', 503); }
   return error('Unauthorized', 401);
 }

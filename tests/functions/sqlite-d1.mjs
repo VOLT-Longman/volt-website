@@ -5,6 +5,8 @@ import { SECURITY_SCHEMA } from '../../functions/_shared/security-store.js';
 export function createSqliteDb() {
   const sqlite = new DatabaseSync(':memory:');
   for (const sql of SECURITY_SCHEMA) sqlite.exec(sql);
+  sqlite.exec('CREATE TABLE IF NOT EXISTS cms_write_context (id INTEGER PRIMARY KEY CHECK(id=1), actor TEXT NOT NULL)');
+  let pending = Promise.resolve();
   const db = {
     sqlite,
     prepare(sql) {
@@ -17,7 +19,8 @@ export function createSqliteDb() {
       };
       return statement;
     },
-    async batch(statements) {
+    batch(statements) {
+      const operation = pending.then(async () => {
       sqlite.exec('BEGIN');
       try {
         const results = [];
@@ -28,6 +31,9 @@ export function createSqliteDb() {
         sqlite.exec('ROLLBACK');
         throw caught;
       }
+      });
+      pending = operation.catch(() => {});
+      return operation;
     }
   };
   return db;

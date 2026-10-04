@@ -1,6 +1,7 @@
+import { adminDb } from '../../../_shared/admin-db.js';
 import { adminList } from '../../../_shared/admin-collections.js';
 import { requireAdmin } from '../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { error, json, methodNotAllowed, readJson } from '../../../_shared/http.js';
 import { mapPartnerFleet, partnerFleetInput } from '../../../_shared/cms.js';
 import { tableHasColumn } from '../../../_shared/schema.js';
 
@@ -13,7 +14,7 @@ export async function onRequest({ request, env }) {
 }
 
 async function listItems(request, env) {
-  return json(await adminList(requireDb(env), request, 'partner-fleets', mapPartnerFleet));
+  return json(await adminList(adminDb(request, env), request, 'partner-fleets', mapPartnerFleet));
 }
 
 async function createItem(request, env) {
@@ -24,7 +25,7 @@ async function createItem(request, env) {
     return error(err.message || 'Invalid input', 422);
   }
   if (!item.name) return error('Missing required fields', 422);
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   if (await tableHasColumn(db, 'partner_fleets', 'photo_url')) {
     await createPartnerFleetWithPhoto(db, item);
   } else {
@@ -35,15 +36,15 @@ async function createItem(request, env) {
 
 async function createPartnerFleetWithPhoto(db, item) {
   await db.prepare(`
-    INSERT INTO partner_fleets (id, name, region, game, focus, description, member_count, discord_url, website_url, photo_url, logo_url, established, sort_order, published, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(item.id, item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, item.photo_url, item.logo_url, item.established, item.sort_order, item.published, item.created_at, item.updated_at).run();
+    INSERT INTO partner_fleets (id, name, region, game, focus, description, member_count, discord_url, website_url, photo_url, logo_url, established, sort_order, published, created_at, updated_at, translations_json)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).bind(item.id, item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, item.photo_url, item.logo_url, item.established, item.sort_order, item.published, item.created_at, item.updated_at, item.translations_json).run();
 }
 
 async function createPartnerFleetLegacy(db, item) {
   const logoUrl = item.logo_url || item.photo_url;
   await db.prepare(`
-    INSERT INTO partner_fleets (id, name, region, game, focus, description, member_count, discord_url, website_url, logo_url, established, sort_order, published, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(item.id, item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, logoUrl, item.established, item.sort_order, item.published, item.created_at, item.updated_at).run();
+    INSERT INTO partner_fleets (id, name, region, game, focus, description, member_count, discord_url, website_url, logo_url, established, sort_order, published, created_at, updated_at, translations_json)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).bind(item.id, item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, logoUrl, item.established, item.sort_order, item.published, item.created_at, item.updated_at, item.translations_json).run();
 }

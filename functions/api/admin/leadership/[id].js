@@ -1,5 +1,6 @@
+import { adminDb } from '../../../_shared/admin-db.js';
 import { requireAdmin } from '../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { error, json, methodNotAllowed, readJson } from '../../../_shared/http.js';
 import { mapLeader, leaderInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
 import { tableHasColumn } from '../../../_shared/schema.js';
 import { cleanupReplacedUploadUrls } from '../../../_shared/upload-cleanup.js';
@@ -13,7 +14,7 @@ export async function onRequest({ request, env, params }) {
 }
 
 async function updateItem(request, env, id) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   const existing = await db.prepare('SELECT * FROM leadership_members WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
   const body = (await readJson(request)) || {};
@@ -39,21 +40,21 @@ async function updateItem(request, env, id) {
 async function updateLeaderWithAvatarUrl(db, id, item, existing) {
   return db.prepare(`
     UPDATE leadership_members
-    SET name = ?, role = ?, discord = ?, description = ?, duties = ?, avatar = ?, avatar_url = ?, avatar_gradient = ?, avatar_style = ?, extras = ?, sort_order = ?, published = ?, updated_at = ?
+    SET translations_json = ?, name = ?, role = ?, discord = ?, description = ?, duties = ?, avatar = ?, avatar_url = ?, avatar_gradient = ?, avatar_style = ?, extras = ?, sort_order = ?, published = ?, updated_at = ?
     WHERE id = ? AND updated_at IS ?
-  `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_url, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
+  `).bind(item.translations_json, item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_url, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
 }
 
 async function updateLeaderLegacy(db, id, item, existing) {
   return db.prepare(`
     UPDATE leadership_members
-    SET name = ?, role = ?, discord = ?, description = ?, duties = ?, avatar = ?, avatar_gradient = ?, avatar_style = ?, extras = ?, sort_order = ?, published = ?, updated_at = ?
+    SET translations_json = ?, name = ?, role = ?, discord = ?, description = ?, duties = ?, avatar = ?, avatar_gradient = ?, avatar_style = ?, extras = ?, sort_order = ?, published = ?, updated_at = ?
     WHERE id = ? AND updated_at IS ?
-  `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
+  `).bind(item.translations_json, item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
 }
 
 async function deleteItem(request, env, id) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   const existing = await db.prepare('SELECT * FROM leadership_members WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
   const body = (await readJson(request)) || {};

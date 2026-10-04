@@ -80,23 +80,28 @@
         lastSearchTrigger = null;
     }
 
+    function localized(item, field) {
+        const en = window.VOLT_I18N?.getLang?.() === 'en';
+        return en ? (item[field + 'En'] || item[field + '_en'] || item[field] || '') : (item[field] || '');
+    }
+
     function buildSearchIndex() {
         if (searchIndexCache) return searchIndexCache;
         const result = [
-            ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', item.title, item.content)),
+            ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', localized(item, 'title'), localized(item, 'content'))),
             // ON에서는 메인 함선DB와 같은 공개 집합(Erkul 219 + RSI 공식 30)만 색인한다.
             ...shipSearchEntries().map(({ ship, title, body }) => makeSearchItem('search.type.ships', 'ships', title, body, ship.id)),
-            ...data.faq.map((item) => makeSearchItem('search.type.faq', 'faq', item.q, item.a)),
-            ...data.timeline.map((item) => makeSearchItem('search.type.timeline', 'timeline', item.title, item.description)),
-            ...data.leadership.map((item) => makeSearchItem('search.type.leadership', 'leadership', item.name, `${item.role} ${item.description}`)),
-            ...(Array.isArray(data.partnerFleets) ? data.partnerFleets.map((item) => makeSearchItem('search.type.partnerFleets', 'partner-fleets', item.name, `${item.region || ''} ${item.game || ''} ${item.focus || ''} ${item.description || ''}`)) : []),
-            ...data.departments.map((item) => makeSearchItem('search.type.about', 'about', item.name, item.description)),
-            ...data.coreValues.map((item) => makeSearchItem('search.type.values', 'about', item.title, item.description)),
-            ...data.calendar.map((item) => makeSearchItem('search.type.schedule', 'schedule', item.title, item.description)),
-            ...data.tradeGuide.map((item) => makeSearchItem('search.type.guide', 'guide', item.title, item.content)),
-            ...data.joinSteps.map((item) => makeSearchItem('search.type.join', 'join', item.title, item.description)),
-            ...data.gallery.map((item) => makeSearchItem('search.type.gallery', 'gallery', item.title, item.description)),
-            ...data.policy.sections.map((item) => makeSearchItem('search.type.policy', 'policy', item.title, item.items.map((policyItem) => policyItem.text).join(' '))),
+            ...data.faq.map((item) => makeSearchItem('search.type.faq', 'faq', localized(item, 'q'), localized(item, 'a'))),
+            ...data.timeline.map((item) => makeSearchItem('search.type.timeline', 'timeline', localized(item, 'title'), localized(item, 'description'))),
+            ...data.leadership.map((item) => makeSearchItem('search.type.leadership', 'leadership', localized(item, 'name'), `${localized(item, 'role')} ${localized(item, 'description')}`)),
+            ...(Array.isArray(data.partnerFleets) ? data.partnerFleets.map((item) => makeSearchItem('search.type.partnerFleets', 'partner-fleets', localized(item, 'name'), `${localized(item, 'region') || ''} ${localized(item, 'game') || ''} ${localized(item, 'focus') || ''} ${localized(item, 'description') || ''}`)) : []),
+            ...data.departments.map((item) => makeSearchItem('search.type.about', 'about', localized(item, 'name'), localized(item, 'description'))),
+            ...data.coreValues.map((item) => makeSearchItem('search.type.values', 'about', localized(item, 'title'), localized(item, 'description'))),
+            ...data.calendar.map((item) => makeSearchItem('search.type.schedule', 'schedule', localized(item, 'title'), localized(item, 'description'))),
+            ...data.tradeGuide.map((item) => makeSearchItem('search.type.guide', 'guide', localized(item, 'title'), localized(item, 'content'))),
+            ...data.joinSteps.map((item) => makeSearchItem('search.type.join', 'join', localized(item, 'title'), localized(item, 'description'))),
+            ...data.gallery.map((item) => makeSearchItem('search.type.gallery', 'gallery', localized(item, 'title'), localized(item, 'description'))),
+            ...data.policy.sections.map((item) => makeSearchItem('search.type.policy', 'policy', localized(item, 'title'), item.items.map((policyItem) => policyItem.text).join(' '))),
             ...getLocalizationSearchItems()
         ];
         searchIndexCache = result;

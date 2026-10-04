@@ -1,19 +1,20 @@
+import { adminDb } from '../../../_shared/admin-db.js';
 import { requireAdmin } from '../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { error, json, methodNotAllowed, readJson } from '../../../_shared/http.js';
 import { CONFLICT_MESSAGE, hasUpdateConflict, mapShipOverride, shipOverrideInput } from '../../../_shared/cms.js';
 import { ensureShipOverridesTable } from '../../../_shared/ships.js';
 
 export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
-  if (request.method === 'GET') return getItem(env, params.id);
+  if (request.method === 'GET') return getItem(request, env, params.id);
   if (request.method === 'PUT') return saveItem(request, env, params.id);
   if (request.method === 'DELETE') return deleteItem(request, env, params.id);
   return methodNotAllowed();
 }
 
-async function getItem(env, shipId) {
-  const db = requireDb(env);
+async function getItem(request, env, shipId) {
+  const db = adminDb(request, env);
   await ensureShipOverridesTable(db);
   const row = await db.prepare('SELECT * FROM ship_overrides WHERE ship_id = ?').bind(shipId).first();
   return json({ item: row ? mapShipOverride(row) : null });
@@ -22,7 +23,7 @@ async function getItem(env, shipId) {
 async function saveItem(request, env, shipId) {
   if (!shipId) return error('Missing ship id', 422);
   const body = (await readJson(request)) || {};
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   await ensureShipOverridesTable(db);
   // 낙관적 잠금: 기존 override의 updated_at과 비교(신규면 빈 문자열 기준).
   const existing = await db.prepare('SELECT updated_at FROM ship_overrides WHERE ship_id = ?').bind(shipId).first();
@@ -40,7 +41,7 @@ async function saveItem(request, env, shipId) {
 }
 
 async function deleteItem(request, env, shipId) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   await ensureShipOverridesTable(db);
   const existing = await db.prepare('SELECT updated_at FROM ship_overrides WHERE ship_id = ?').bind(shipId).first();
   const body = (await readJson(request)) || {};

@@ -1,10 +1,10 @@
 export const ADMIN_COLLECTIONS = {
   notices: { table: 'notices', search: ['title', 'content', 'tag', 'title_en', 'content_en'], order: "date(replace(date, '.', '-')) DESC, updated_at DESC, created_at DESC, id ASC" },
-  events: { table: 'events', search: ['title', 'description', 'type', 'status'], order: 'COALESCE(event_date, created_at) DESC, id ASC' },
-  gallery: { table: 'gallery_items', search: ['title', 'description', 'category'], order: 'sort_order ASC, date DESC, created_at DESC, id ASC' },
-  'partner-fleets': { table: 'partner_fleets', search: ['name', 'region', 'game', 'focus'], order: 'sort_order ASC, created_at DESC, id ASC' },
-  leadership: { table: 'leadership_members', search: ['name', 'role', 'description'], order: 'sort_order ASC, created_at ASC, id ASC' },
-  timeline: { table: 'timeline_entries', search: ['title', 'description', 'date_label'], order: 'sort_order ASC, created_at ASC, id ASC' },
+  events: { table: 'events', search: ['title', 'description', 'type', 'status', 'translations_json'], order: 'COALESCE(event_date, created_at) DESC, id ASC' },
+  gallery: { table: 'gallery_items', search: ['title', 'description', 'category', 'translations_json'], order: 'sort_order ASC, date DESC, created_at DESC, id ASC' },
+  'partner-fleets': { table: 'partner_fleets', search: ['name', 'region', 'game', 'focus', 'translations_json'], order: 'sort_order ASC, created_at DESC, id ASC' },
+  leadership: { table: 'leadership_members', search: ['name', 'role', 'description', 'translations_json'], order: 'sort_order ASC, created_at ASC, id ASC' },
+  timeline: { table: 'timeline_entries', search: ['title', 'description', 'date_label', 'translations_json'], order: 'sort_order ASC, created_at ASC, id ASC' },
   ships: { table: 'ship_overrides', key: 'ship_id' }
 };
 

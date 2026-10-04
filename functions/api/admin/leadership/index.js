@@ -1,6 +1,7 @@
+import { adminDb } from '../../../_shared/admin-db.js';
 import { adminList } from '../../../_shared/admin-collections.js';
 import { requireAdmin } from '../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { error, json, methodNotAllowed, readJson } from '../../../_shared/http.js';
 import { mapLeader, leaderInput } from '../../../_shared/cms.js';
 import { tableHasColumn } from '../../../_shared/schema.js';
 
@@ -13,7 +14,7 @@ export async function onRequest({ request, env }) {
 }
 
 async function listItems(request, env) {
-  return json(await adminList(requireDb(env), request, 'leadership', mapLeader));
+  return json(await adminList(adminDb(request, env), request, 'leadership', mapLeader));
 }
 
 async function createItem(request, env) {
@@ -24,7 +25,7 @@ async function createItem(request, env) {
     return error(err.message || 'Invalid input', 422);
   }
   if (!item.name) return error('Missing required fields', 422);
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   if (await tableHasColumn(db, 'leadership_members', 'avatar_url')) {
     await createLeaderWithAvatarUrl(db, item);
   } else {
@@ -35,14 +36,14 @@ async function createItem(request, env) {
 
 async function createLeaderWithAvatarUrl(db, item) {
   await db.prepare(`
-    INSERT INTO leadership_members (id, name, role, discord, description, duties, avatar, avatar_url, avatar_gradient, avatar_style, extras, sort_order, published, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(item.id, item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_url, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.created_at, item.updated_at).run();
+    INSERT INTO leadership_members (id, name, role, discord, description, duties, avatar, avatar_url, avatar_gradient, avatar_style, extras, sort_order, published, created_at, updated_at, translations_json)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).bind(item.id, item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_url, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.created_at, item.updated_at, item.translations_json).run();
 }
 
 async function createLeaderLegacy(db, item) {
   await db.prepare(`
-    INSERT INTO leadership_members (id, name, role, discord, description, duties, avatar, avatar_gradient, avatar_style, extras, sort_order, published, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(item.id, item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.created_at, item.updated_at).run();
+    INSERT INTO leadership_members (id, name, role, discord, description, duties, avatar, avatar_gradient, avatar_style, extras, sort_order, published, created_at, updated_at, translations_json)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).bind(item.id, item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.created_at, item.updated_at, item.translations_json).run();
 }

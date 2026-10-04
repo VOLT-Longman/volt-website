@@ -43,7 +43,7 @@ node scripts/check-deploy-sync.mjs      # 라이브 캐시 버전 == 저장소 s
 
 마이그레이션은 `migrations/NNNN_*.sql`에 순서대로 있으며, **운영 D1에 수동 적용**한다.
 Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 않으므로,
-**어떤 파일까지 적용했는지는 운영자가 직접 추적**해야 한다(4절 추적 방법 참조).
+0009 이후에는 `schema_migrations`에 적용 번호가 기록된다. 운영자는 이 대장과 실제 컬럼·인덱스를 함께 확인한다(4절 참조).
 
 | 파일 | 목적 | 방식 | 재실행 안전(멱등)? |
 |---|---|---|:--:|
@@ -62,11 +62,13 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
 | `0013_atomic_security.sql` | 보안 제한·사용량·세션 테이블 | `CREATE TABLE IF NOT EXISTS` | ✅ |
 | `0014_cleanup_orphan_event_rsvps.sql` | 삭제된 일정의 과거 참가 기록 백업 후 정리 | 조건부 `INSERT` + `DELETE` | ✅ |
 | `0015_cms_history.sql` | 콘텐츠 시작 시점 스냅샷과 변경 이력 트리거 | `CREATE IF NOT EXISTS` + 조건부 `INSERT` | ✅ |
+| `0016_cms_localization_actor.sql` | CMS 영어·작성자 이력·명확한 일정 날짜 보정 | `ALTER` + 트리거 교체 | ❌ |
+| `0017_published_content_english.sql` | 원문 일치·영문 미입력 공개 콘텐츠 번역 | 조건부 `UPDATE` | ✅ |
 
 > **핵심:** `ALTER TABLE ADD COLUMN`(0007·0008·0010)은 **재실행하면 `duplicate column name` 오류로 실패**한다.
 > 이미 적용한 마이그레이션은 다시 실행하지 않는다. `CREATE IF NOT EXISTS`/`INSERT OR IGNORE`류는 재실행해도 무해하다.
 
-**운영 D1 적용 현황 (2026-08-02 확인)**
+**운영 D1 적용 현황 (2026-10-04 확인, 과거 실행 설명 포함)**
 
 - `0012` **적용 완료.** 공지 15행 전부 `YYYY-MM-DD`이며 점 표기 0건임을 조회로 확인했다.
 - 같은 작업에서 **중복 공지 3쌍을 삭제**했다 — 시드(`ann-003`·`ann-004`·`ann-005`)와 관리자가
@@ -75,7 +77,7 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
   정상 운영에서는 `schema_migrations`에 `0002`가 기록돼 재실행되지 않는다.
 - `ann-006`('공식 홈페이지 리뉴얼 오픈')의 비어 있던 날짜를 시드 원본값 `2026-05-15`로 복구했다.
   빈 날짜가 저장되던 원인(코드)은 `80e0ba3`·`762fe73`에서 제거했다.
-- **미확인:** `0008`~`0011`의 운영 적용 여부는 아직 조회하지 않았다. 아래로 한 번에 확인한다.
+- **확인 완료:** `0008`~`0011`의 컬럼·인덱스와 적용 대장을 2026-10-04에 조회했다. `0013`·`0015`도 운영 적용 완료다. 새 배포에서도 아래 조회로 적용 대장을 확인한다.
   ```sql
   SELECT id, applied_at FROM schema_migrations ORDER BY id;
   ```

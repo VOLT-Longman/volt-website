@@ -1,5 +1,6 @@
+import { adminDb } from '../../../_shared/admin-db.js';
 import { requireAdmin } from '../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { error, json, methodNotAllowed, readJson } from '../../../_shared/http.js';
 import { mapEvent, eventInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
 
 export async function onRequest({ request, env, params }) {
@@ -11,20 +12,20 @@ export async function onRequest({ request, env, params }) {
 }
 
 async function updateItem(request, env, id) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   const existing = await db.prepare('SELECT * FROM events WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
   const body = (await readJson(request)) || {};
   if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
   let item; try { item = eventInput({ ...body, id }, existing); } catch (err) { return error(err.message || 'Invalid input', 422); }
   if (!item.title) return error('Missing required fields', 422);
-  const result = await db.prepare('UPDATE events SET title = ?, description = ?, type = ?, status = ?, date_label = ?, event_date = ?, published = ?, updated_at = ? WHERE id = ? AND updated_at IS ?').bind(item.title, item.description, item.type, item.status, item.date_label, item.event_date, item.published, item.updated_at, id, existing.updated_at ?? null).run();
+  const result = await db.prepare('UPDATE events SET translations_json = ?, title = ?, description = ?, type = ?, status = ?, date_label = ?, event_date = ?, published = ?, updated_at = ? WHERE id = ? AND updated_at IS ?').bind(item.translations_json, item.title, item.description, item.type, item.status, item.date_label, item.event_date, item.published, item.updated_at, id, existing.updated_at ?? null).run();
   if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ item: mapEvent(item) });
 }
 
 async function deleteItem(request, env, id) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   const existing = await db.prepare('SELECT id, updated_at FROM events WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
   const body = (await readJson(request)) || {};

@@ -34,8 +34,8 @@
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
   <link rel="preload" href="assets/images/landing/hero-01.webp" as="image" media="(min-width: 861px)">
   <link rel="preload" href="assets/images/landing/hero-01-m.webp" as="image" media="(max-width: 860px)">
-  <script src="js/theme-init.js?v=20261005-01"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20261005-01">
+  <script src="js/theme-init.js?v=20261005-02"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261005-02">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -74,11 +74,11 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20261005-01">
+   <link rel="stylesheet" href="css/noscript.css?v=20261005-02">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
-    <p><a href="https://discord.gg/voltstarcitizen">Discord 참여</a> · <a href="https://robertsspaceindustries.com/orgs/VOLT">RSI 공식 조직 페이지</a></p>
+    <p><a href="https://discord.gg/voltstarcitizen" data-i18n="join.discord">Discord 참여</a> · <a href="https://robertsspaceindustries.com/orgs/VOLT">RSI 공식 조직 페이지</a></p>
    </section>
   </noscript>
   <h1 class="sr-only">VOLT — Voyagers of Logistics and Trade</h1>
@@ -318,8 +318,8 @@
   <section class="section leadership" id="leadership">
    <div class="section-content">
     <div class="section-header">
-     <h2>함대 <span class="accent">임원진</span></h2>
-     <p>VOLT를 이끄는 운영진</p>
+     <h2 data-i18n-html="leadership.title">함대 <span class="accent">임원진</span></h2>
+     <p data-i18n="leadership.subtitle">VOLT를 이끄는 운영진</p>
     </div>
     <div class="leadership-grid" id="leadership-grid"></div>
    </div>
@@ -328,8 +328,8 @@
   <section class="section partner-fleets" id="partner-fleets">
    <div class="section-content">
     <div class="section-header">
-     <h2>협력 <span class="accent">함대</span></h2>
-     <p>VOLT와 함께 작전·교류를 이어가는 파트너 조직</p>
+     <h2 data-i18n-html="partners.title">협력 <span class="accent">함대</span></h2>
+     <p data-i18n="partners.subtitle">VOLT와 함께 작전·교류를 이어가는 파트너 조직</p>
     </div>
     <div class="partner-fleets-grid" id="partner-fleets-grid"></div>
    </div>
@@ -338,19 +338,19 @@
   <section class="section hub" id="hub">
    <div class="section-content">
     <div class="section-header">
-     <h2>VOLT <span class="accent">무역허브</span></h2>
-     <p>함대 전용 통합 교역 시스템</p>
+     <h2 data-i18n-html="hub.title">VOLT <span class="accent">무역허브</span></h2>
+     <p data-i18n="hub.subtitle">함대 전용 통합 교역 시스템</p>
     </div>
     <div class="hub-content">
-     <h3>VOLT-무역허브란?</h3>
-     <p class="hub-description">
+     <h3 data-i18n="hub.about">VOLT-무역허브란?</h3>
+     <p class="hub-description" data-i18n="hub.description">
       무역허브는 함대 내부 거래, 임무 모집, 자산 흐름 관리를 위한 운영 플랫폼입니다.
       무역플래너가 개별 작전의 수익과 운송 조건을 계산하는 도구라면, 무역허브는 함대 단위의 거래와 인력 매칭을 관리하는 공간입니다.
      </p>
      <div class="hub-features" id="hub-features"></div>
      <div class="hub-notice">
-      <strong class="hub-notice-label">&#50976;&#51032;&#49324;&#54637;</strong>
-      <span>&#47784;&#46304; &#44144;&#47000;&#45716; &#51064;&#44172;&#51076; &#54868;&#54224;(aUEC)&#47564; &#54728;&#50857;&#46104;&#47728;, &#54788;&#44552;&#183;&#44228;&#51340;&#51060;&#52404;&#183;&#49892;&#47932; &#46321; &#54788;&#44552;&#49457; &#44144;&#47000;&#45716; &#51204;&#47732; &#44552;&#51648;&#46121;&#45768;&#45796;. &#49884;&#49464; &#44368;&#46976;, &#54728;&#50948; &#47588;&#47932;, &#48516;&#51137; &#50976;&#48156; &#54665;&#50948; &#46608;&#54620; &#44552;&#51648;&#46104;&#47728;, &#48152;&#48373; &#50948;&#48152; &#49884; &#51060;&#50857; &#51228;&#54620; &#51312;&#52824;&#44032; &#51201;&#50857;&#46121;&#45768;&#45796;.</span>
+      <strong class="hub-notice-label" data-i18n="hub.warningTitle">&#50976;&#51032;&#49324;&#54637;</strong>
+      <span data-i18n="hub.warning">&#47784;&#46304; &#44144;&#47000;&#45716; &#51064;&#44172;&#51076; &#54868;&#54224;(aUEC)&#47564; &#54728;&#50857;&#46104;&#47728;, &#54788;&#44552;&#183;&#44228;&#51340;&#51060;&#52404;&#183;&#49892;&#47932; &#46321; &#54788;&#44552;&#49457; &#44144;&#47000;&#45716; &#51204;&#47732; &#44552;&#51648;&#46121;&#45768;&#45796;. &#49884;&#49464; &#44368;&#46976;, &#54728;&#50948; &#47588;&#47932;, &#48516;&#51137; &#50976;&#48156; &#54665;&#50948; &#46608;&#54620; &#44552;&#51648;&#46104;&#47728;, &#48152;&#48373; &#50948;&#48152; &#49884; &#51060;&#50857; &#51228;&#54620; &#51312;&#52824;&#44032; &#51201;&#50857;&#46121;&#45768;&#45796;.</span>
      </div>
     </div>
    </div>
@@ -359,8 +359,8 @@
   <section class="section streamers" id="streamers">
    <div class="section-content">
     <div class="section-header">
-     <h2>공식 <span class="accent">스트리머</span></h2>
-     <p>VOLT의 얼굴이 되어주시는 분들</p>
+     <h2 data-i18n-html="streamers.title">공식 <span class="accent">스트리머</span></h2>
+     <p data-i18n="streamers.subtitle">VOLT의 얼굴이 되어주시는 분들</p>
     </div>
     <div class="streamers-grid" id="streamers-grid"></div>
    </div>
@@ -369,10 +369,10 @@
   <section class="section gallery" id="gallery">
    <div class="section-content">
     <div class="section-header">
-     <h2>활동 <span class="accent">갤러리</span></h2>
-     <p>VOLT의 발자취</p>
+     <h2 data-i18n-html="gallery.title">활동 <span class="accent">갤러리</span></h2>
+     <p data-i18n="gallery.subtitle">VOLT의 발자취</p>
     </div>
-    <div class="gallery-grid" id="gallery-grid" aria-label="VOLT 함대 갤러리"></div>
+    <div class="gallery-grid" id="gallery-grid" aria-label="VOLT 함대 갤러리" data-i18n-aria-label="gallery.aria"></div>
    </div>
   </section>
 
@@ -380,16 +380,16 @@
    <div class="section-content">
     <div class="join-content">
      <div class="section-header">
-      <h2>함대 <span class="accent">합류</span></h2>
-      <p>새로운 동료를 환영합니다</p>
+      <h2 data-i18n-html="join.title">함대 <span class="accent">합류</span></h2>
+      <p data-i18n="join.subtitle">새로운 동료를 환영합니다</p>
      </div>
      <div class="join-steps" id="join-steps"></div>
      <div class="join-checklist" id="join-checklist"></div>
      <div class="join-cta">
-      <h3>지금 VOLT에 합류하세요</h3>
-      <p>VOLT는 신뢰와 협력을 기반으로 운영됩니다.<br>체계적인 온보딩 과정을 통해 누구나 빠르게 적응할 수 있으며,<br>자신의 전문 분야에서 성장하고 기여할 수 있는 환경을 제공합니다.</p>
+      <h3 data-i18n="join.ctaTitle">지금 VOLT에 합류하세요</h3>
+      <p data-i18n-html="join.ctaDescription">VOLT는 신뢰와 협력을 기반으로 운영됩니다.<br>체계적인 온보딩 과정을 통해 누구나 빠르게 적응할 수 있으며,<br>자신의 전문 분야에서 성장하고 기여할 수 있는 환경을 제공합니다.</p>
       <div class="join-buttons">
-       <a href="https://forms.gle/2X3jLNATNj3fneQq8" target="_blank" rel="noopener noreferrer" class="btn btn-primary">지원서 제출</a>
+       <a href="https://forms.gle/2X3jLNATNj3fneQq8" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="join.apply">지원서 제출</a>
        <a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Discord 참여</a>
       </div>
      </div>
@@ -413,8 +413,8 @@
   <section class="section notices" id="notices">
    <div class="section-content">
     <div class="section-header">
-     <h2>함대 <span class="accent">공지사항</span></h2>
-     <p>최근 함대 소식</p>
+     <h2 data-i18n-html="notices.title">함대 <span class="accent">공지사항</span></h2>
+     <p data-i18n="notices.subtitle">최근 함대 소식</p>
     </div>
     <div class="notice-tools">
      <label class="notice-search" for="notice-search">
@@ -554,42 +554,42 @@
   <section class="section" id="guide">
    <div class="section-content">
     <div class="section-header">
-     <h2>무역 <span class="accent">가이드</span></h2>
-     <p>스타시티즌 물류·무역 입문 안내</p>
+     <h2 data-i18n-html="guide.title">무역 <span class="accent">가이드</span></h2>
+     <p data-i18n="guide.subtitle">스타시티즌 물류·무역 입문 안내</p>
     </div>
     <div class="guide-grid" id="guide-list"></div>
     <div class="guide-planner-cta">
-     <strong>작전 계산이 필요하다면 VOLT 무역플래너를 사용하세요.</strong>
-     <button class="btn btn-primary" type="button" data-section="trade-planner">무역플래너 열기</button>
+     <strong data-i18n="guide.plannerPrompt">작전 계산이 필요하다면 VOLT 무역플래너를 사용하세요.</strong>
+     <button class="btn btn-primary" type="button" data-section="trade-planner" data-i18n="guide.openPlanner">무역플래너 열기</button>
     </div>
     <div class="guide-tools">
-     <h3>추천 외부 도구</h3>
+     <h3 data-i18n="guide.toolsTitle">추천 외부 도구</h3>
      <div class="guide-tools-grid">
       <a href="https://sc-trade.tools" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
        <span class="guide-tool-icon guide-tool-icon--sc" aria-hidden="true">S</span>
        <span class="guide-tool-name">SC Trade Tools</span>
-       <span class="guide-tool-desc">&#47924;&#50669; &#47336;&#53944; &#52572;&#51201;&#54868;</span>
+       <span class="guide-tool-desc" data-i18n="guide.scTool">&#47924;&#50669; &#47336;&#53944; &#52572;&#51201;&#54868;</span>
       </a>
       <a href="https://uexcorp.space" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
        <span class="guide-tool-icon guide-tool-icon--uex" aria-hidden="true">U</span>
        <span class="guide-tool-name">UEX Corp</span>
-       <span class="guide-tool-desc">&#49345;&#54408; &#44032;&#44201; &#45936;&#51060;&#53552;&#48288;&#51060;&#49828;</span>
+       <span class="guide-tool-desc" data-i18n="guide.uexTool">&#49345;&#54408; &#44032;&#44201; &#45936;&#51060;&#53552;&#48288;&#51060;&#49828;</span>
       </a>
       <a href="https://www.erkul.games" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
        <span class="guide-tool-icon guide-tool-icon--erkul" aria-hidden="true">E</span>
        <span class="guide-tool-name">Erkul.games</span>
-       <span class="guide-tool-desc">&#54632;&#49440; &#47924;&#51109; &#49884;&#48044;&#47112;&#51060;&#53552;</span>
+       <span class="guide-tool-desc" data-i18n="guide.erkulTool">&#54632;&#49440; &#47924;&#51109; &#49884;&#48044;&#47112;&#51060;&#53552;</span>
       </a>
       <a href="https://robertsspaceindustries.com/spectrum" target="_blank" rel="noopener noreferrer" class="guide-tool-card">
        <span class="guide-tool-icon guide-tool-icon--rsi" aria-hidden="true">R</span>
        <span class="guide-tool-name">RSI Spectrum</span>
-       <span class="guide-tool-desc">&#44277;&#49885; &#52964;&#48036;&#45768;&#54000; &#54252;&#47100;</span>
+       <span class="guide-tool-desc" data-i18n="guide.rsiTool">&#44277;&#49885; &#52964;&#48036;&#45768;&#54000; &#54252;&#47100;</span>
       </a>
      </div>
     </div>
     <details class="guide-glossary trade-secondary-block">
-     <summary>무역 용어집 보기</summary>
-     <p>한국어 패치 표기와 VOLT 무역플래너에서 자주 쓰는 기본 용어입니다.</p>
+     <summary data-i18n="guide.glossaryTitle">무역 용어집 보기</summary>
+     <p data-i18n="guide.glossaryDescription">한국어 패치 표기와 VOLT 무역플래너에서 자주 쓰는 기본 용어입니다.</p>
      <div class="guide-glossary-grid" id="guide-glossary"></div>
     </details>
    </div>
@@ -736,22 +736,22 @@
    <div class="section-content">
     <div class="section-header">
      <span class="doc-tag">VOLT FLEET AI</span>
-     <h2 id="volt-ai-title">VOLT <span class="accent">AI</span> <span class="volt-ai-status-badge">준비 중</span></h2>
-     <p>VOLT 전용 AI 어시스턴트를 준비하고 있습니다. 곧 만나보실 수 있습니다.</p>
+     <h2 id="volt-ai-title" data-i18n-html="ai.title">VOLT <span class="accent">AI</span> <span class="volt-ai-status-badge">준비 중</span></h2>
+     <p data-i18n="ai.subtitle">VOLT 전용 AI 어시스턴트를 준비하고 있습니다. 곧 만나보실 수 있습니다.</p>
     </div>
 
     <div class="volt-ai-shell reveal">
      <aside class="volt-ai-sidebar" aria-label="VOLT AI 도구">
       <h3 class="volt-ai-side-title">AI Tools</h3>
-      <button class="volt-ai-tool-button" id="volt-ai-new-chat" type="button" disabled title="준비 중입니다">
-       <span>새 대화</span>
+      <button class="volt-ai-tool-button" id="volt-ai-new-chat" type="button" disabled title="준비 중입니다" data-i18n-title="ai.comingSoon">
+       <span data-i18n="ai.newChat">새 대화</span>
        <span aria-hidden="true">＋</span>
       </button>
-      <button class="volt-ai-tool-button" id="volt-ai-history-button" type="button" disabled title="준비 중입니다">
-       <span>대화 기록</span>
+      <button class="volt-ai-tool-button" id="volt-ai-history-button" type="button" disabled title="준비 중입니다" data-i18n-title="ai.comingSoon">
+       <span data-i18n="ai.history">대화 기록</span>
        <span aria-hidden="true">⌁</span>
       </button>
-      <button class="volt-ai-tool-button" id="volt-ai-settings-button" type="button" disabled title="준비 중입니다">
+      <button class="volt-ai-tool-button" id="volt-ai-settings-button" type="button" disabled title="준비 중입니다" data-i18n-title="ai.comingSoon">
        <span>설정</span>
        <span aria-hidden="true">⚙</span>
       </button>
@@ -761,15 +761,15 @@
       <div class="volt-ai-chat-header">
        <div>
         <h3 class="volt-ai-chat-title">VOLT <span>AI</span></h3>
-        <p class="volt-ai-chat-subtitle">VOLT 전용 AI 어시스턴트가 현재 개발 중입니다.</p>
+        <p class="volt-ai-chat-subtitle" data-i18n="ai.chatSubtitle">VOLT 전용 AI 어시스턴트가 현재 개발 중입니다.</p>
        </div>
-       <span class="volt-ai-chat-badge">BETA 준비 중</span>
+       <span class="volt-ai-chat-badge" data-i18n="ai.badge">BETA 준비 중</span>
       </div>
 
       <div class="volt-ai-chat-log" id="volt-ai-messages" aria-live="polite">
        <article class="volt-ai-message">
         <span class="volt-ai-message-meta">VOLT AI</span>
-        <div class="volt-ai-message-bubble">
+        <div class="volt-ai-message-bubble" data-i18n="ai.introduction">
          VOLT AI는 함선 추천, 무역 경로 상담, 커뮤니티 정보 안내를 도와줄 VOLT 전용 AI 어시스턴트입니다.
          현재 베타 버전을 개발하고 있으며, 준비가 끝나는 대로 이곳에서 바로 사용하실 수 있습니다.
         </div>
@@ -780,11 +780,11 @@
        <div class="volt-ai-attachment-preview" id="volt-ai-attachment-preview" hidden></div>
        <div class="volt-ai-input-row">
         <input id="volt-ai-file" type="file" accept="image/*" hidden disabled>
-        <button class="volt-ai-icon-button" id="volt-ai-image-button" type="button" aria-label="이미지 업로드 (준비 중)" disabled title="준비 중입니다">IMG</button>
-        <button class="volt-ai-icon-button" id="volt-ai-voice-button" type="button" aria-label="음성 입력 (준비 중)" disabled title="준비 중입니다">MIC</button>
-        <label class="sr-only" for="volt-ai-input">VOLT AI 메시지 입력</label>
-        <textarea id="volt-ai-input" class="volt-ai-input" rows="1" placeholder="VOLT AI는 준비 중입니다." disabled></textarea>
-        <button class="volt-ai-send-button" id="volt-ai-send" type="submit" disabled title="준비 중입니다">전송</button>
+        <button class="volt-ai-icon-button" id="volt-ai-image-button" type="button" aria-label="이미지 업로드 (준비 중)" disabled title="준비 중입니다" data-i18n-title="ai.comingSoon">IMG</button>
+        <button class="volt-ai-icon-button" id="volt-ai-voice-button" type="button" aria-label="음성 입력 (준비 중)" disabled title="준비 중입니다" data-i18n-title="ai.comingSoon">MIC</button>
+        <label class="sr-only" for="volt-ai-input" data-i18n="ai.inputLabel">VOLT AI 메시지 입력</label>
+        <textarea id="volt-ai-input" class="volt-ai-input" rows="1" placeholder="VOLT AI는 준비 중입니다." data-i18n-placeholder="ai.placeholder" disabled></textarea>
+        <button class="volt-ai-send-button" id="volt-ai-send" type="submit" disabled title="준비 중입니다" data-i18n-title="ai.comingSoon" data-i18n="ai.send">전송</button>
        </div>
       </form>
      </div>
@@ -1003,26 +1003,26 @@
    </div>
   </div>
 
-<script src="js/shipdb-manufacturers.js?v=20261005-01" defer></script>
-<script src="js/shipdb-canonical.js?v=20261005-01" defer></script>
-<script src="data/volt-data.js?v=20261005-01" defer></script>
+<script src="js/shipdb-manufacturers.js?v=20261005-02" defer></script>
+<script src="js/shipdb-canonical.js?v=20261005-02" defer></script>
+<script src="data/volt-data.js?v=20261005-02" defer></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20261005-01" defer></script>
-<script src="js/i18n.js?v=20261005-01" defer></script>
-<script src="js/navigation.js?v=20261005-01" defer></script>
-<script src="js/notices.js?v=20261005-01" defer></script>
-<script src="js/schedule.js?v=20261005-01" defer></script>
-<script src="js/leadership.js?v=20261005-01" defer></script>
-<script src="js/landing.js?v=20261005-01" defer></script>
-<script src="js/site-content.js?v=20261005-01" defer></script>
-<script src="js/uex.js?v=20261005-01" defer></script>
-<script src="js/uex-panel.js?v=20261005-01" defer></script>
-<script src="js/trade-planner.js?v=20261005-01" defer></script>
-<script src="js/ships.js?v=20261005-01" defer></script>
-<script src="js/search-modal.js?v=20261005-01" defer></script>
-<script src="js/auth-ui.js?v=20261005-01" defer></script>
-<script src="js/mypage.js?v=20261005-01" defer></script>
-<script src="js/main.js?v=20261005-01" defer></script>
-<script src="js/volt-ai.js?v=20261005-01" defer></script>
+<script src="data/volt-localization.js?v=20261005-02" defer></script>
+<script src="js/i18n.js?v=20261005-02" defer></script>
+<script src="js/navigation.js?v=20261005-02" defer></script>
+<script src="js/notices.js?v=20261005-02" defer></script>
+<script src="js/schedule.js?v=20261005-02" defer></script>
+<script src="js/leadership.js?v=20261005-02" defer></script>
+<script src="js/landing.js?v=20261005-02" defer></script>
+<script src="js/site-content.js?v=20261005-02" defer></script>
+<script src="js/uex.js?v=20261005-02" defer></script>
+<script src="js/uex-panel.js?v=20261005-02" defer></script>
+<script src="js/trade-planner.js?v=20261005-02" defer></script>
+<script src="js/ships.js?v=20261005-02" defer></script>
+<script src="js/search-modal.js?v=20261005-02" defer></script>
+<script src="js/auth-ui.js?v=20261005-02" defer></script>
+<script src="js/mypage.js?v=20261005-02" defer></script>
+<script src="js/main.js?v=20261005-02" defer></script>
+<script src="js/volt-ai.js?v=20261005-02" defer></script>
  </body>
 </html>

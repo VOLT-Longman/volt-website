@@ -1,5 +1,6 @@
+import { adminDb } from '../../../_shared/admin-db.js';
 import { requireAdmin } from '../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { error, json, methodNotAllowed, readJson } from '../../../_shared/http.js';
 import { mapNotice, noticeInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
 import { ensureNoticesEnColumns } from '../../../_shared/notices.js';
 
@@ -12,7 +13,7 @@ export async function onRequest({ request, env, params }) {
 }
 
 async function updateItem(request, env, id) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   await ensureNoticesEnColumns(db);
   const existing = await db.prepare('SELECT * FROM notices WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
@@ -26,7 +27,7 @@ async function updateItem(request, env, id) {
 }
 
 async function deleteItem(request, env, id) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   const existing = await db.prepare('SELECT id, updated_at FROM notices WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
   const body = (await readJson(request)) || {};

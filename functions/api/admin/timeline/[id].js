@@ -1,5 +1,6 @@
+import { adminDb } from '../../../_shared/admin-db.js';
 import { requireAdmin } from '../../../_shared/auth.js';
-import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
+import { error, json, methodNotAllowed, readJson } from '../../../_shared/http.js';
 import { mapTimelineEntry, timelineInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
 
 export async function onRequest({ request, env, params }) {
@@ -11,7 +12,7 @@ export async function onRequest({ request, env, params }) {
 }
 
 async function updateItem(request, env, id) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   const existing = await db.prepare('SELECT * FROM timeline_entries WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
   const body = (await readJson(request)) || {};
@@ -25,15 +26,15 @@ async function updateItem(request, env, id) {
   if (!item.title || !item.date_label) return error('Missing required fields', 422);
   const result = await db.prepare(`
     UPDATE timeline_entries
-    SET date_label = ?, title = ?, description = ?, sort_order = ?, published = ?, updated_at = ?
+    SET translations_json = ?, date_label = ?, title = ?, description = ?, sort_order = ?, published = ?, updated_at = ?
     WHERE id = ? AND updated_at IS ?
-  `).bind(item.date_label, item.title, item.description, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
+  `).bind(item.translations_json, item.date_label, item.title, item.description, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
   if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ item: mapTimelineEntry(item) });
 }
 
 async function deleteItem(request, env, id) {
-  const db = requireDb(env);
+  const db = adminDb(request, env);
   const existing = await db.prepare('SELECT id, updated_at FROM timeline_entries WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
   const body = (await readJson(request)) || {};

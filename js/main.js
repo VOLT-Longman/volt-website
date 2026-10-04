@@ -97,13 +97,13 @@
     function currentLang() { return i18n && i18n.getLang ? i18n.getLang() : 'ko'; }
     function tx(item, field) {
         if (!item) return '';
-        const en = item[`${field}_en`];
+        const en = item[`${field}En`] || item[`${field}_en`];
         return currentLang() === 'en' && en ? en : item[field];
     }
     // 배열 필드용(예: competencies_en). EN이고 배열이 있으면 그걸, 아니면 KO 원본.
     function txArr(item, field) {
-        const en = item && item[`${field}_en`];
-        return currentLang() === 'en' && Array.isArray(en) ? en : (item && Array.isArray(item[field]) ? item[field] : []);
+        const en = item && (item[`${field}En`]?.length ? item[`${field}En`] : item[`${field}_en`]);
+        return currentLang() === 'en' && Array.isArray(en) && en.length ? en : (item && Array.isArray(item[field]) ? item[field] : []);
     }
     function i18nT(key, fallback) { return i18n && i18n.t ? i18n.t(key) : (fallback || key); }
     const SECTION_TITLE_KEYS = Object.freeze({
@@ -387,10 +387,10 @@
             return;
         }
         container.innerHTML = data.gallery.map((item) => `
-            <button class="gallery-item reveal" type="button" data-gallery-id="${escapeHtml(item.id)}" aria-label="${escapeHtml(item.title)} ${escapeHtml(i18nT('gallery.viewLarger', '크게 보기'))}">
-                <img src="${escapeHtml(item.thumb || item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
+            <button class="gallery-item reveal" type="button" data-gallery-id="${escapeHtml(item.id)}" aria-label="${escapeHtml(tx(item, 'title'))} ${escapeHtml(i18nT('gallery.viewLarger', '크게 보기'))}">
+                <img src="${escapeHtml(item.thumb || item.src)}" alt="${escapeHtml(tx(item, 'title'))}" loading="lazy" decoding="async">
                 <span class="gallery-item-overlay">
-                    <span class="gallery-item-title">${escapeHtml(item.title)}</span>
+                    <span class="gallery-item-title">${escapeHtml(tx(item, 'title'))}</span>
                     <span class="gallery-item-meta">${escapeHtml(item.date)}</span>
                 </span>
             </button>`).join('');
@@ -966,10 +966,10 @@
     }
 
     function renderPartnerFleetCard(fleet) {
-        const name = fleet.name || i18nT('partner.fallbackName', '협력함대');
+        const name = tx(fleet, 'name') || i18nT('partner.fallbackName', '협력함대');
         const logo = renderPartnerFleetImage(fleet, name);
         const en = currentLang() === 'en';
-        const meta = [tx(fleet, 'region'), fleet.game, tx(fleet, 'focus')].filter(Boolean)
+        const meta = [tx(fleet, 'region'), tx(fleet, 'game'), tx(fleet, 'focus')].filter(Boolean)
             .map((item) => `<span class="partner-fleet-badge">${escapeHtml(item)}</span>`)
             .join('');
         const memberText = fleet.memberCount
@@ -977,7 +977,7 @@
             : '';
         const stats = [
             memberText,
-            fleet.established ? `${i18nT('partner.founded', '창설')} ${fleet.established}` : ''
+            fleet.established ? `${i18nT('partner.founded', '창설')} ${tx(fleet, 'established')}` : ''
         ].filter(Boolean).map((item) => `<span class="partner-fleet-stat">${escapeHtml(item)}</span>`).join('');
         const links = [
             fleet.discordUrl ? `<a class="partner-fleet-link" href="${escapeHtml(fleet.discordUrl)}" target="_blank" rel="noopener noreferrer">Discord</a>` : '',
@@ -1295,14 +1295,14 @@
         openModal(`<div class="modal-header gallery-modal-header">
                 <div class="gallery-modal-heading">
                     <div class="ship-mfr">${escapeHtml(item.date)}</div>
-                    <h2 class="modal-title gallery-modal-title">${escapeHtml(item.title)}</h2>
+                    <h2 class="modal-title gallery-modal-title">${escapeHtml(tx(item, 'title'))}</h2>
                 </div>
                 <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('common.modalClose', '모달 닫기'))}">×</button>
             </div>
             <div class="gallery-modal-image-wrap">
-                <img class="gallery-lightbox-image gallery-modal-image" src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
+                <img class="gallery-lightbox-image gallery-modal-image" src="${escapeHtml(item.src)}" alt="${escapeHtml(tx(item, 'title'))}" loading="lazy" decoding="async">
             </div>
-            <div class="gallery-lightbox-copy gallery-modal-description"><p>${escapeHtml(item.description)}</p></div>`, true);
+            <div class="gallery-lightbox-copy gallery-modal-description"><p>${escapeHtml(tx(item, 'description'))}</p></div>`, true);
     }
 
     function setupModalControls() {

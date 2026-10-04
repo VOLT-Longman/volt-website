@@ -159,7 +159,7 @@ test('partner fleet admin: update works before photo_url migration', async () =>
     const update = db.calls.find((call) => call.sql.includes('UPDATE partner_fleets'));
     assert.ok(update);
     assert.equal(update.sql.includes('photo_url'), false);
-    assert.equal(update.args[8], photoUrl);
+    assert.equal(update.args[9], photoUrl);
 });
 
 test('partner fleet admin: update uses photo_url after migration', async () => {
@@ -184,7 +184,7 @@ test('partner fleet admin: update uses photo_url after migration', async () => {
     const update = db.calls.find((call) => call.sql.includes('UPDATE partner_fleets'));
     assert.ok(update);
     assert.equal(update.sql.includes('photo_url'), true);
-    assert.equal(update.args[8], photoUrl);
+    assert.equal(update.args[9], photoUrl);
 });
 
 test('partner fleet admin: create works before photo_url migration', async () => {

@@ -34,7 +34,7 @@
         const id = escapeHtml(String(leader.id || leader.name || ''));
         const info = `
                 <div class="leader-info">
-                    <h3>${escapeHtml(leader.name)}</h3>
+                    <h3>${escapeHtml(tx(leader, 'name'))}</h3>
                     <span class="leader-role">${escapeHtml(tx(leader, 'role'))}</span>
                     <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
                     <p class="leader-description leader-summary">${escapeHtml(tx(leader, 'description'))}</p>
@@ -46,7 +46,7 @@
                     <span class="leader-more" aria-hidden="true">${escapeHtml(i18nT('leadership.viewDetail', '자세히 보기 →'))}</span>
                 </div>` : '';
         return `
-            <button class="leader-card${isPrimary ? ' ceo-card is-primary' : ''} reveal" type="button" data-leader-id="${id}" aria-label="${escapeHtml(`${leader.name} ${i18nT('leadership.detailAria', '상세 보기')}`)}">
+            <button class="leader-card${isPrimary ? ' ceo-card is-primary' : ''} reveal" type="button" data-leader-id="${id}" aria-label="${escapeHtml(`${tx(leader, 'name')} ${i18nT('leadership.detailAria', '상세 보기')}`)}">
                 ${renderLeaderAvatar(leader)}${info}${aside}
             </button>`;
     }
@@ -71,7 +71,7 @@
     function renderLeaderAvatar(leader) {
         const avatarUrl = getLeaderAvatarUrl(leader);
         if (avatarUrl) {
-            return `<img class="leader-avatar leader-avatar-image" src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(leader.name || 'Leader')} profile photo" loading="lazy" decoding="async">`;
+            return `<img class="leader-avatar leader-avatar-image" src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(tx(leader, 'name') || 'Leader')} profile photo" loading="lazy" decoding="async">`;
         }
         // 아바타 배경은 CSS(charcoal + accent)로 통일한다. (브랜드 톤 정리)
         return `<div class="leader-avatar leader-avatar-fallback" aria-hidden="true">${escapeHtml(getLeaderInitial(leader))}</div>`;
@@ -103,7 +103,7 @@
         trackEvent('leader_modal_open', { leaderId: leader.id || '' });
         openModal(`<div class="modal-header">
                 <div>
-                    <h2 class="modal-title">${escapeHtml(leader.name)}</h2>
+                    <h2 class="modal-title">${escapeHtml(tx(leader, 'name'))}</h2>
                     <p class="leader-role">${escapeHtml(tx(leader, 'role'))}</p>
                 </div>
                 <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '모달 닫기'))}">×</button>
