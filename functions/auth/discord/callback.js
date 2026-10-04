@@ -6,12 +6,13 @@ import {
   mapRoles,
   readOAuthState
 } from '../../_shared/discord-auth.js';
+import { createOAuthReturnCookie, readOAuthReturnPath } from '../../_shared/discord-auth.js';
 
 const TOKEN_URL = 'https://discord.com/api/oauth2/token';
 const API_BASE = 'https://discord.com/api/v10';
 
-function redirectToHome(cookies = []) {
-  const headers = new Headers({ Location: '/', 'Cache-Control': 'no-store' });
+function redirectToHome(cookies = [], location = '/') {
+  const headers = new Headers({ Location: location, 'Cache-Control': 'no-store' });
   cookies.forEach((cookie) => { headers.append('Set-Cookie', cookie); });
   return new Response(null, { status: 302, headers });
 }
@@ -19,6 +20,7 @@ function redirectToHome(cookies = []) {
 function redirectToAuthError() {
   const headers = new Headers({ Location: '/?auth=error', 'Cache-Control': 'no-store' });
   headers.append('Set-Cookie', clearOAuthStateCookie());
+  headers.append('Set-Cookie', createOAuthReturnCookie(null));
   return new Response(null, { status: 302, headers });
 }
 
@@ -82,7 +84,7 @@ export async function onRequestGet({ request, env }) {
     const user = await fetchJson(`${API_BASE}/users/@me`, token.access_token);
     const member = await fetchGuildMember(env, token.access_token);
     const sessionCookie = await createUserSession(env, createSessionUser(user, member, env), { accessToken: token.access_token, expiresIn: token.expires_in, roleIds: member?.roles || [] });
-    return redirectToHome([sessionCookie, clearOAuthStateCookie()]);
+    return redirectToHome([sessionCookie, clearOAuthStateCookie(), createOAuthReturnCookie(null)], readOAuthReturnPath(request));
   } catch (_error) {
     return redirectToAuthError();
   }

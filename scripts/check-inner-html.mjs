@@ -30,7 +30,7 @@ const BASELINE = {
   'js/leadership.js': 1,
   'js/site-content.js': 6,
   'js/uex-panel.js': 17,
-  'admin/admin.js': 9,
+  'admin/admin.js': 8,
   'js/ships.js': 5,
   'js/mypage.js': 5,
   'js/auth-ui.js': 4,

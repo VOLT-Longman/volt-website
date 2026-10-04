@@ -3,6 +3,7 @@ import { constantTimeEqual, hmac, parseCookies } from './auth.js';
 
 const USER_SESSION_COOKIE = 'volt_user_session';
 const OAUTH_STATE_COOKIE = 'volt_oauth_state';
+const OAUTH_RETURN_COOKIE = 'volt_oauth_return';
 const USER_SESSION_MAX_AGE = 60 * 60 * 24 * 7;
 const OAUTH_STATE_MAX_AGE = 60 * 10;
 
@@ -44,6 +45,14 @@ export function clearOAuthStateCookie() {
   return createCookie(OAUTH_STATE_COOKIE, '', 0);
 }
 
+export function createOAuthReturnCookie(returnTo) {
+  return createCookie(OAUTH_RETURN_COOKIE, returnTo === '/admin/' ? 'admin' : '', returnTo === '/admin/' ? OAUTH_STATE_MAX_AGE : 0);
+}
+
+export function readOAuthReturnPath(request) {
+  return parseCookies(request)[OAUTH_RETURN_COOKIE] === 'admin' ? '/admin/?discord=1' : '/';
+}
+
 export function readOAuthState(request) {
   const state = parseCookies(request)[OAUTH_STATE_COOKIE];
   try {
@@ -83,7 +92,7 @@ export async function createUserSession(env, user, oauth) {
   return createCookie(USER_SESSION_COOKIE, `${payload}.${signature}`, age);
 }
 
-export async function readUserSession(request, env) {
+export async function readUserSession(request, env, { membershipTtlMs = MEMBERSHIP_TTL_MS } = {}) {
   const value = parseCookies(request)[USER_SESSION_COOKIE];
   if (!value) return null;
   const [payload, signature] = value.split('.');
@@ -98,7 +107,7 @@ export async function readUserSession(request, env) {
     .bind(session.sid, session.sub).first();
   if (!row || row.expires_at <= Date.now()) return null;
   let roleIds = JSON.parse(row.role_ids);
-  if (Date.now() - row.checked_at >= MEMBERSHIP_TTL_MS) {
+  if (Date.now() - row.checked_at >= Math.min(MEMBERSHIP_TTL_MS, membershipTtlMs)) {
     const guildId = getSecretOrThrow(env, 'DISCORD_GUILD_ID');
     const response = await fetch(`https://discord.com/api/v10/users/@me/guilds/${encodeURIComponent(guildId)}/member`, {
       headers: { Authorization: `Bearer ${await openToken(env, row.token)}`, Accept: 'application/json' },

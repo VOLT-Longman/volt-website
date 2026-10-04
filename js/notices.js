@@ -125,10 +125,14 @@
         observeNewReveals(container);
     }
 
+    let openedQueryNoticeId = null;
     function openNoticeFromQuery() {
         const noticeId = new URLSearchParams(window.location.search).get('notice');
         const notice = noticeId ? findAnnouncement(noticeId) : null;
-        if (notice) openNoticeModal(notice);
+        if (notice && openedQueryNoticeId !== noticeId) {
+            openedQueryNoticeId = noticeId;
+            openNoticeModal(notice);
+        }
     }
 
     function setupNoticeControls() {

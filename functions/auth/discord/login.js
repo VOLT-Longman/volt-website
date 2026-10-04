@@ -1,4 +1,4 @@
-import { createOAuthStateCookie, getSecretOrThrow } from '../../_shared/discord-auth.js';
+import { createOAuthStateCookie, createOAuthReturnCookie, getSecretOrThrow } from '../../_shared/discord-auth.js';
 
 const DISCORD_AUTHORIZE_URL = 'https://discord.com/api/oauth2/authorize';
 const DISCORD_SCOPE = 'identify guilds.members.read';
@@ -15,14 +15,14 @@ function createAuthorizeUrl(env, state) {
   return `${DISCORD_AUTHORIZE_URL}?${params.toString()}`;
 }
 
-export function onRequestGet({ env }) {
+export function onRequestGet({ request, env }) {
   const state = crypto.randomUUID();
+  const returnTo = request ? new URL(request.url).searchParams.get('returnTo') : null;
+  const headers = new Headers({ Location: createAuthorizeUrl(env, state), 'Cache-Control': 'no-store' });
+  headers.append('Set-Cookie', createOAuthStateCookie(state));
+  headers.append('Set-Cookie', createOAuthReturnCookie(returnTo));
   return new Response(null, {
     status: 302,
-    headers: {
-      Location: createAuthorizeUrl(env, state),
-      'Set-Cookie': createOAuthStateCookie(state),
-      'Cache-Control': 'no-store'
-    }
+    headers
   });
 }

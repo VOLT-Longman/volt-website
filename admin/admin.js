@@ -143,9 +143,38 @@ async function api(path, options = {}) {
 
 async function checkSession() {
   const session = await api('/api/admin/session');
+  $('#preview-environment').hidden = session.environment !== 'preview';
   $('#login-panel').hidden = session.authenticated;
   $('#dashboard').hidden = !session.authenticated;
+  $('#discord-login-button').hidden = !session.discordLoginEnabled;
+  $('#discord-login-note').hidden = !session.discordLoginEnabled;
+  $('#discord-switch-button').hidden = !session.authenticated || !session.discordLoginEnabled || session.identity?.method === 'discord';
+  $('#admin-identity').textContent = session.identity?.method === 'discord'
+    ? `${session.identity.displayName} · ${session.identity.roles.join(', ')} · Discord 로그인`
+    : session.authenticated ? '공통 관리자 비밀번호 로그인' : '';
   if (session.authenticated) await loadItems();
+}
+
+async function loginWithDiscord({ redirect = true } = {}) {
+  if (state.saving || state.pendingUploads || !confirmDiscard()) return;
+  $('#discord-login-button').disabled = true;
+  $('#discord-switch-button').disabled = true;
+  try {
+    await api('/api/admin/discord-login', { method: 'POST' });
+    $('#login-message').textContent = '';
+    await checkSession();
+  } catch (error) {
+    if (error.status === 401 && redirect) {
+      await cleanupAbandonedUploads();
+      window.location.assign('/auth/discord/login?returnTo=%2Fadmin%2F');
+      return;
+    }
+    $('#login-message').textContent = error.message;
+    if (!$('#dashboard').hidden) setFormMessage(error.message, 'error');
+  } finally {
+    $('#discord-login-button').disabled = false;
+    $('#discord-switch-button').disabled = false;
+  }
 }
 
 async function login(event) {
@@ -1217,6 +1246,8 @@ function updateEditorStatus() {
 
 function bindEvents() {
   $('#login-form').addEventListener('submit', login);
+  $('#discord-login-button').addEventListener('click', () => loginWithDiscord());
+  $('#discord-switch-button').addEventListener('click', () => loginWithDiscord());
   $('#logout-button').addEventListener('click', logout);
   $('#erkul-sync-preview-button')?.addEventListener('click', runErkulSyncPreview);
   $('#new-button').addEventListener('click', () => { if (!state.saving && !state.pendingUploads && confirmDiscard()) renderForm(null); });
@@ -1353,27 +1384,60 @@ function setGalleryFiles(files) {
   renderLocalPreviews(state.galleryFiles);
 }
 
+let galleryPreviewGeneration = 0;
 function revokeLocalPreviews() {
+  galleryPreviewGeneration += 1;
   document.querySelectorAll('#gallery-preview img[data-object-url]').forEach((img) => {
     URL.revokeObjectURL(img.src);
   });
 }
 
-function renderLocalPreviews(files) {
+async function renderLocalPreviews(files) {
   const preview = $('#gallery-preview');
   if (!preview) return;
   revokeLocalPreviews();
+  const generation = galleryPreviewGeneration;
   if (!files.length) {
     preview.innerHTML = '<div class="image-placeholder">\uc774\ubbf8\uc9c0 \uc5c6\uc74c</div>';
     return;
   }
-  preview.innerHTML = files.map((file) => {
-    const url = URL.createObjectURL(file);
-    return `<img src="${url}" data-object-url="true" alt="${escapeHtml(file.name)}" title="${escapeHtml(file.name)}">`;
-  }).join('');
+  preview.replaceChildren();
+  for (const file of files) {
+    let bitmap;
+    try {
+      bitmap = await createImageBitmap(file);
+      if (generation !== galleryPreviewGeneration) return;
+      const scale = Math.min(1, 640 / bitmap.width, 640 / bitmap.height);
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+      canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+      canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      const image = document.createElement('img');
+      image.src = canvas.toDataURL('image/webp', 0.78);
+      image.alt = file.name;
+      image.title = file.name;
+      preview.append(image);
+    } catch {
+      if (generation !== galleryPreviewGeneration) return;
+      const unavailable = document.createElement('div');
+      unavailable.className = 'image-placeholder';
+      unavailable.textContent = `${file.name}: 미리보기를 만들 수 없습니다.`;
+      preview.append(unavailable);
+    } finally { bitmap?.close(); }
+  }
 }
 
 bindEvents();
-checkSession().catch((error) => {
+async function initializeAdminSession() {
+  const url = new URL(window.location.href);
+  if (url.searchParams.get('discord') === '1') {
+    url.searchParams.delete('discord');
+    window.history.replaceState(null, '', url.pathname + url.search + url.hash);
+    await checkSession();
+    await loginWithDiscord({ redirect: false });
+  } else await checkSession();
+}
+
+initializeAdminSession().catch((error) => {
   $('#login-message').textContent = error.message;
 });

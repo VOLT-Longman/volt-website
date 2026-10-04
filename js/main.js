@@ -855,6 +855,7 @@
                 cmsFailures.delete(endpoint);
                 invalidateSearchCache();
                 scheduleCmsRefresh(endpoint);
+                if (endpoint === 'notices' && document.getElementById('notices')?.classList.contains('active')) openNoticeFromQuery();
             } else cmsFailures.add(endpoint);
             renderCmsStatus();
         })).finally(() => { cmsLoadPromise = null; });

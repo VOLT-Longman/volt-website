@@ -41,9 +41,11 @@ export function constantTimeEqual(left, right) {
   return diff === 0;
 }
 
-export async function createSessionCookie(env) {
+export async function createSessionCookie(env, discordSession = null) {
   const expires = Math.floor(Date.now() / 1000) + SESSION_MAX_AGE;
-  const payload = `admin.${expires}`;
+  const role = discordSession ? `discord:${discordSession.sid}` : 'admin';
+  if (discordSession && !/^[0-9a-f-]{36}$/u.test(discordSession.sid || '')) throw new Error('Invalid Discord session');
+  const payload = `${role}.${expires}`;
   const signature = await hmac(payload, getSecret(env));
   return `${SESSION_COOKIE}=${payload}.${signature}; Path=/; Max-Age=${SESSION_MAX_AGE}; HttpOnly; Secure; SameSite=Lax`;
 }
@@ -52,19 +54,48 @@ export function clearSessionCookie() {
   return `${SESSION_COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax`;
 }
 
-export async function isAuthenticated(request, env) {
+export function getAdminDiscordRoles(env) {
+  try {
+    const roles = JSON.parse(env.ADMIN_DISCORD_ROLES || '[]');
+    if (!Array.isArray(roles) || roles.length > 16 || roles.some((role) => typeof role !== 'string' || !role.trim())) return [];
+    return [...new Set(roles)];
+  } catch { return []; }
+}
+
+export async function readAdminDiscordUser(request, env) {
+  const allowed = getAdminDiscordRoles(env);
+  if (!allowed.length) return null;
+  const { readUserSession } = await import('./discord-auth.js');
+  const session = await readUserSession(request, env, { membershipTtlMs: 60000 });
+  if (!session || !session.roles.some((role) => allowed.includes(role))) return null;
+  return session;
+}
+
+export async function getAdminIdentity(request, env) {
   const value = parseCookies(request)[SESSION_COOKIE];
-  if (!value) return false;
+  if (!value) return null;
   const parts = value.split('.');
-  if (parts.length !== 3) return false;
+  if (parts.length !== 3) return null;
   const [role, expires, signature] = parts;
-  if (role !== 'admin' || Number(expires) < Math.floor(Date.now() / 1000)) return false;
+  const expiry = Number(expires);
+  if (!Number.isSafeInteger(expiry) || expiry <= Math.floor(Date.now() / 1000)) return null;
+  if (role !== 'admin' && !/^discord:[0-9a-f-]{36}$/u.test(role)) return null;
   const expectedSignature = await hmac(`${role}.${expires}`, getSecret(env));
-  return constantTimeEqual(signature, expectedSignature);
+  if (!constantTimeEqual(signature, expectedSignature)) return null;
+  if (role === 'admin') return { method: 'password', displayName: '공통 관리자', roles: [] };
+  const session = await readAdminDiscordUser(request, env);
+  if (!session || role !== `discord:${session.sid}`) return null;
+  return { method: 'discord', id: session.sub, displayName: session.display_name || session.username, roles: session.roles.filter((name) => getAdminDiscordRoles(env).includes(name)) };
+}
+
+export async function isAuthenticated(request, env) {
+  return Boolean(await getAdminIdentity(request, env));
 }
 
 export async function requireAdmin(request, env) {
-  if (await isAuthenticated(request, env)) return null;
+  try {
+    if (await isAuthenticated(request, env)) return null;
+  } catch { return error('관리자 인증 상태를 확인할 수 없습니다. 잠시 후 다시 시도하세요.', 503); }
   return error('Unauthorized', 401);
 }
 

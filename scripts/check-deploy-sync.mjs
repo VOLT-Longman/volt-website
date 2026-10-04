@@ -46,24 +46,25 @@ async function main() {
     res = await fetch(`${targetBase}/`, {
       headers: { Accept: 'text/html', 'User-Agent': 'volt-deploy-sync-check' },
       redirect: 'follow',
+      signal: AbortSignal.timeout(15000),
     });
     html = await res.text();
   } catch (error) {
     console.error(`\n⚠️  라이브에 접근하지 못했습니다(네트워크 오류): ${error.message}`);
     console.error('   라이브에 접근 가능한 네트워크에서 다시 실행하세요.');
-    process.exit(2);
+    return 2;
   }
 
   if (looksLikeBotChallenge(res.status, html)) {
     console.error(`\n⚠️  확인 불가: 라이브가 Cloudflare 봇 챌린지를 반환했습니다(status ${res.status}).`);
     console.error('   실제 브라우저가 있는 운영자 PC에서 실행하거나, 페이지 소스에서 ?v= 를 직접 확인하세요.');
-    process.exit(2);
+    return 2;
   }
 
   const liveVersions = extractLiveVersions(html);
   if (liveVersions.size === 0) {
     console.error('\n⚠️  확인 불가: 라이브 HTML에서 ?v= 버전 쿼리를 찾지 못했습니다.');
-    process.exit(2);
+    return 2;
   }
 
   const liveList = [...liveVersions].sort();
@@ -72,7 +73,7 @@ async function main() {
   const allMatch = liveVersions.size === 1 && liveVersions.has(repoVersion);
   if (allMatch) {
     console.log(`\n✅ 동기화 일치: 라이브가 ${repoVersion} 을 서빙 중입니다.`);
-    process.exit(0);
+    return 0;
   }
 
   console.error('\n❌ 동기화 불일치.');
@@ -82,7 +83,10 @@ async function main() {
   if (liveVersions.size > 1) {
     console.error('   라이브 에셋 버전이 섞여 있습니다 — 부분 캐시 무효화/배포 진행 중일 수 있습니다.');
   }
-  process.exit(1);
+  return 1;
 }
 
-main();
+main().then((code) => { process.exitCode = code; }).catch((error) => {
+  console.error(error.message);
+  process.exitCode = 2;
+});
