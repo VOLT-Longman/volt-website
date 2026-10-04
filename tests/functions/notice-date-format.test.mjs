@@ -17,11 +17,16 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 
-import { galleryInput, noticeInput } from '../../functions/_shared/cms.js';
+import { galleryInput, koreanDate, noticeInput } from '../../functions/_shared/cms.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (p) => readFile(join(ROOT, p), 'utf8');
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+test('CMS 기본 날짜는 UTC가 아닌 한국 날짜를 사용한다', () => {
+  assert.equal(koreanDate('2026-09-29T14:59:59.000Z'), '2026-09-29');
+  assert.equal(koreanDate('2026-09-29T15:00:00.000Z'), '2026-09-30');
+});
 
 test('noticeInput: 점 포맷 입력을 대시로 정규화해 저장한다', () => {
   assert.equal(noticeInput({ title: 't', date: '2026.05.15' }).date, '2026-05-15');

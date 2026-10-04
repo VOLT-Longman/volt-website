@@ -1,10 +1,10 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VOLT 관리자 CMS</title>
-  <link rel="stylesheet" href="admin.css?v=20261002-01">
+  <link rel="stylesheet" href="admin.css?v=20261004-01">
 </head>
 <body>
   <main class="admin-shell">
@@ -25,13 +25,13 @@
       </header>
 
       <nav class="admin-tabs" aria-label="관리 메뉴">
-        <button type="button" class="active" data-tab="notices">공지</button>
-        <button type="button" data-tab="events">일정</button>
-        <button type="button" data-tab="gallery">갤러리</button>
-        <button type="button" data-tab="partner-fleets">협력함대</button>
-        <button type="button" data-tab="leadership">임원진</button>
-        <button type="button" data-tab="timeline">연혁</button>
-        <button type="button" data-tab="ships">함선DB</button>
+        <button type="button" class="active" data-tab="notices" aria-pressed="true">공지</button>
+        <button type="button" data-tab="events" aria-pressed="false">일정</button>
+        <button type="button" data-tab="gallery" aria-pressed="false">갤러리</button>
+        <button type="button" data-tab="partner-fleets" aria-pressed="false">협력함대</button>
+        <button type="button" data-tab="leadership" aria-pressed="false">임원진</button>
+        <button type="button" data-tab="timeline" aria-pressed="false">연혁</button>
+        <button type="button" data-tab="ships" aria-pressed="false">함선DB</button>
       </nav>
 
       <section class="admin-sync-card" id="erkul-sync-card" hidden>
@@ -65,9 +65,6 @@
     </section>
   </main>
 
-  <script src="../data/volt-data.js?v=20261002-01"></script>
-  <script src="../data/volt-localization.js?v=20261002-01"></script>
-  <script src="../js/shipdb-canonical.js?v=20261002-01"></script>
-  <script src="admin.js?v=20261002-01"></script>
+  <script src="admin.js?v=20261004-01"></script>
 </body>
 </html>

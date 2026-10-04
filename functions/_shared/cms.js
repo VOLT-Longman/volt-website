@@ -45,7 +45,7 @@ export function noticeInput(body, existing = {}) {
     tag_en: localizedTextInput(body.tagEn ?? body.tag_en, 20),
     pinned: toBooleanInt(body.pinned),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
-    date: normalizeNoticeDate(limitText(blankAsUnset(body.date), 40, timestamp.slice(0, 10))),
+    date: normalizeNoticeDate(limitText(blankAsUnset(body.date), 40, koreanDate(timestamp))),
     created_at: existing.created_at || timestamp,
     updated_at: timestamp
   };
@@ -56,6 +56,12 @@ export function noticeInput(body, existing = {}) {
 // 빈 문자열·공백은 미입력으로 되돌려 기본값(오늘)이 적용되게 한다.
 function blankAsUnset(value) {
   return typeof value === 'string' && value.trim() === '' ? undefined : value;
+}
+
+// CMS editors operate on Korean calendar dates. UTC midnight can otherwise
+// assign yesterday to records created between 00:00 and 08:59 in Seoul.
+export function koreanDate(timestamp) {
+  return new Date(Date.parse(timestamp) + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
 }
 
 // 공지 날짜 저장 포맷은 YYYY-MM-DD 하나로 고정한다.
@@ -111,7 +117,7 @@ export function galleryInput(body, existing = {}) {
     image_url: nullableHttpUrl(body.imageUrl || body.image_url || body.src),
     thumb_url: nullableHttpUrl(body.thumbUrl || body.thumb_url || body.thumb || body.imageUrl || body.image_url || body.src),
     // 공지와 같은 이유로 빈 문자열을 미입력으로 되돌린다(blankAsUnset 주석 참조).
-    date: limitText(blankAsUnset(body.date), 40, timestamp.slice(0, 10)),
+    date: limitText(blankAsUnset(body.date), 40, koreanDate(timestamp)),
     sort_order: finiteNumberOr(body.sortOrder ?? body.sort_order, 0),
     published: body.published === undefined ? 1 : toBooleanInt(body.published),
     created_at: existing.created_at || timestamp,

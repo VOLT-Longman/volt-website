@@ -8,7 +8,11 @@ const state = {
   shipOverrides: new Map(),
   shipOverridesLoaded: false,
   shipSourceError: '',
-  shipQuery: ''
+  shipQuery: '',
+  saving: false,
+  pendingUploads: 0,
+  formRevision: 0,
+  unsavedUploads: new Map()
 };
 const CANONICAL_SHIP_OVERRIDE_KEYS = new Set(['name', 'nameKo', 'hidden']);
 
@@ -22,6 +26,12 @@ const GALLERY_MAX_SIZE = 10 * 1024 * 1024;
 const SHIP_SEARCH_DELAY_MS = 200;
 
 let shipSearchTimer = null;
+let loadItemsRevision = 0;
+let shipBaseCache = null;
+let galleryFileNumbers = new WeakMap();
+let galleryBatchSize = 0;
+let shipScriptsPromise = null;
+const adminAssetVersion = new URL(document.currentScript?.src || location.href).searchParams.get('v');
 
 const CONFIG = {
   notices: { title: '\uacf5\uc9c0', endpoint: '/api/admin/notices', fields: ['title', 'content', 'tag', 'titleEn', 'contentEn', 'tagEn', 'date', 'pinned', 'published'] },
@@ -104,10 +114,21 @@ function escapeHtml(value) {
 }
 
 async function api(path, options = {}) {
-  const response = await fetch(path, {
-    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
-    ...options
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  let response;
+  try {
+    response = await fetch(path, {
+      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+      ...options,
+      signal: controller.signal
+    });
+  } catch (error) {
+    if (error.name === 'AbortError') throw new Error('요청 시간이 초과됐습니다. 다시 시도해 주세요.');
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
     const err = new Error(data.error || (response.status >= 500 ? '서버 오류가 발생했습니다. 잠시 후 다시 시도하세요.' : '요청에 실패했습니다.'));
@@ -140,6 +161,8 @@ async function login(event) {
 }
 
 async function logout() {
+  if (state.saving || state.pendingUploads || !confirmDiscard()) return;
+  await cleanupAbandonedUploads();
   await api('/api/admin/logout', { method: 'POST' });
   state.items = [];
   state.editing = null;
@@ -152,20 +175,29 @@ function confirmDiscard() {
 }
 
 function setTab(tab) {
+  if (state.saving || state.pendingUploads) return;
   if (!confirmDiscard()) return;
+  clearTimeout(shipSearchTimer);
+  loadItemsRevision += 1;
   state.tab = tab;
+  state.items = [];
   state.editing = null;
   state.galleryImageUrls = [];
   state.galleryFiles = [];
   if (tab === 'ships') state.shipOverridesLoaded = false;
   document.querySelectorAll('[data-tab]').forEach((button) => {
-    button.classList.toggle('active', button.dataset.tab === tab);
+    const active = button.dataset.tab === tab;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
   });
   // Erkul 동기화 미리보기는 함선DB 탭 전용
   const syncCard = $('#erkul-sync-card');
   if (syncCard) syncCard.hidden = tab !== 'ships';
   if (tab === 'ships') loadErkulSyncStatus();
-  loadItems().catch(showFormError);
+  renderForm(null);
+  // The empty form was rendered above. A late list response must not replace
+  // an image input while the administrator is selecting a file.
+  loadItems(false).catch(showFormError);
 }
 
 // ===== Erkul Live 동기화 미리보기 (A-7, 읽기 전용 — apply는 A-8) =====
@@ -397,13 +429,30 @@ async function runErkulSyncPreview() {
 }
 
 async function loadItems(clearForm = true) {
-  const config = CONFIG[state.tab];
-  $('#list-title').textContent = `${config.title} \ubaa9\ub85d${state.tab === 'notices' ? ' · \ucd5c\uc2e0\uc21c' : ''}`;
+  const tab = state.tab;
+  const requestRevision = ++loadItemsRevision;
+  const formRevision = state.formRevision;
+  const config = CONFIG[tab];
+  $('#list-title').textContent = `${config.title} \ubaa9\ub85d${tab === 'notices' ? ' · \ucd5c\uc2e0\uc21c' : ''}`;
   $('#form-title').textContent = `${config.title} \uc791\uc131`;
-  const items = state.tab === 'ships' ? await loadShipItems() : (await api(config.endpoint)).items || [];
+  let items;
+  try {
+    items = tab === 'ships' ? await loadShipItems(requestRevision) : (await api(config.endpoint)).items || [];
+  } catch (error) {
+    if (requestRevision !== loadItemsRevision || tab !== state.tab) return;
+    state.items = [];
+    if (tab === 'ships') {
+      state.shipSourceError = error.message;
+      renderList();
+    } else {
+      $('#item-list').replaceChildren(el('p', 'admin-message', `목록을 불러오지 못했습니다: ${error.message}`));
+    }
+    throw error;
+  }
+  if (requestRevision !== loadItemsRevision || tab !== state.tab) return;
   state.items = sortItemsForTab(items);
   renderList();
-  if (clearForm) renderForm(null);
+  if (clearForm && formRevision === state.formRevision) renderForm(null);
 }
 
 function sortItemsForTab(items) {
@@ -425,49 +474,69 @@ function getNoticeSortTime(value) {
   return Number.isNaN(time) ? 0 : time;
 }
 
-async function loadShipItems() {
+async function loadShipItems(requestRevision) {
   const source = await loadCanonicalShipSource();
-  if (!source) return [];
-  const legacyById = new Map((window.VOLT_DATA?.ships || []).map((ship) => [ship.id, ship]));
-  const operationalById = new Map((source.operational.records || []).map((record) => [record.id, record]));
-  const ships = source.canonical.ships.map((canonical) => {
-    const legacy = legacyById.get(canonical.id) || { id: canonical.id, name: canonical.id };
-    return {
-      base: adminShipBase(legacy, canonical, operationalById.get(canonical.id)),
-      override: null,
-      merged: null
+  if (requestRevision !== loadItemsRevision || state.tab !== 'ships') return [];
+  state.shipSourceError = '';
+  if (shipBaseCache?.source !== source) {
+    const legacyById = new Map((window.VOLT_DATA?.ships || []).map((ship) => [ship.id, ship]));
+    const operationalById = new Map((source.operational.records || []).map((record) => [record.id, record]));
+    shipBaseCache = {
+      source,
+      items: source.canonical.ships.map((canonical) => {
+        const legacy = legacyById.get(canonical.id) || { id: canonical.id, name: canonical.id };
+        return adminShipBase(legacy, canonical, operationalById.get(canonical.id));
+      })
     };
-  });
+  }
 
   if (!state.shipOverridesLoaded) {
-    const payload = await api(CONFIG.ships.endpoint).catch(() => ({ items: [] }));
+    const payload = await api(CONFIG.ships.endpoint);
+    if (requestRevision !== loadItemsRevision || state.tab !== 'ships') return [];
     state.shipOverrides = new Map((payload.items || []).map((item) => [item.shipId, item]));
     state.shipOverridesLoaded = true;
   }
 
-  return ships
-    .map((item) => mergeShipItem(item.base, state.shipOverrides.get(item.base.id)))
+  return shipBaseCache.items
+    .map((base) => mergeShipItem(base, state.shipOverrides.get(base.id)))
     .filter(matchShipQuery);
 }
 
 async function loadCanonicalShipSource() {
+  await ensureShipScripts();
   const source = window.VOLT_SHIPDB_CANONICAL;
-  state.shipSourceError = '';
   if (!source) {
-    state.shipSourceError = 'canonical 함선 데이터 로더를 사용할 수 없습니다.';
-    return null;
+    throw new Error('canonical 함선 데이터 로더를 사용할 수 없습니다.');
   }
-  try {
-    await source.load();
-    const data = source.data;
-    if (!Array.isArray(data.canonical?.ships) || !Array.isArray(data.operational?.records)) {
-      throw new Error('canonical 데이터 구조가 올바르지 않습니다.');
+  await source.load();
+  const data = source.data;
+  if (!Array.isArray(data.canonical?.ships) || !Array.isArray(data.operational?.records)) {
+    throw new Error('canonical 데이터 구조가 올바르지 않습니다.');
+  }
+  return data;
+}
+
+function ensureShipScripts() {
+  if (shipScriptsPromise) return shipScriptsPromise;
+  shipScriptsPromise = (async () => {
+    for (const src of [
+      '../data/volt-data.js',
+      '../data/volt-localization.js',
+      '../js/shipdb-canonical.js'
+    ]) {
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = `${src}${adminAssetVersion ? `?v=${encodeURIComponent(adminAssetVersion)}` : ''}`;
+        script.onload = resolve;
+        script.onerror = () => reject(new Error('함선DB 스크립트를 불러오지 못했습니다. 다시 시도해 주세요.'));
+        document.head.append(script);
+      });
     }
-    return data;
-  } catch (error) {
-    state.shipSourceError = error.message || 'canonical 함선 데이터를 불러오지 못했습니다.';
-    return null;
-  }
+  })().catch((error) => {
+    shipScriptsPromise = null;
+    throw error;
+  });
+  return shipScriptsPromise;
 }
 
 function adminShipBase(legacy, canonical, operational) {
@@ -568,10 +637,13 @@ function renderShipList() {
 }
 
 function renderForm(item) {
+  void cleanupAbandonedUploads();
+  revokeLocalPreviews();
+  state.formRevision += 1;
   state.editing = item;
   state.dirty = false;
-  if (state.tab === 'gallery' && !item) {
-    state.galleryImageUrls = [];
+  if (state.tab === 'gallery') {
+    state.galleryImageUrls = item ? [item.src || item.imageUrl || ''].filter(Boolean) : [];
     state.galleryFiles = [];
   }
   const config = CONFIG[state.tab];
@@ -725,7 +797,7 @@ function getFieldOptions(field) {
 
 function renderSelectField(field, value) {
   const options = getFieldOptions(field);
-  const normalized = options.includes(value) ? value : options[0];
+  const normalized = value || options[0];
   const extra = value && !options.includes(value)
     ? `<option value="${escapeHtml(value)}" selected>\uae30\uc874\uac12: ${escapeHtml(value)}</option>`
     : '';
@@ -825,7 +897,7 @@ function applyGalleryPayloadDefaults(payload) {
   payload.category = payload.category || '\uae30\ud0c0';
   payload.date = payload.date || todayDate();
   payload.imageUrl = state.galleryImageUrls[0] || state.editing?.src || state.editing?.imageUrl || '';
-  payload.thumbUrl = payload.imageUrl;
+  payload.thumbUrl = state.editing?.thumb || payload.imageUrl;
   payload.sortOrder = state.editing?.sortOrder ?? 0;
 }
 
@@ -850,14 +922,25 @@ function validatePayload(payload) {
 }
 
 function setSaveBusy(busy) {
+  state.saving = busy;
   const button = document.querySelector('button[type="submit"][form="cms-form"]');
-  if (!button) return;
-  button.disabled = busy;
-  button.textContent = busy ? '저장 중…' : '저장';
+  if (button) {
+    button.disabled = busy;
+    button.textContent = busy ? '저장 중…' : '저장';
+  }
+  document.querySelectorAll('#cms-form input, #cms-form textarea, #cms-form select, #cms-form button, [data-tab], #new-button, #cancel-button, #delete-button, #logout-button').forEach((control) => {
+    control.disabled = busy;
+  });
+  $('#item-list').inert = busy;
 }
 
 async function saveItem(event) {
   event.preventDefault();
+  if (state.saving) return;
+  if (state.pendingUploads) {
+    $('#form-message').textContent = '이미지 업로드가 끝난 뒤 저장해 주세요.';
+    return;
+  }
   setSaveBusy(true);
   try {
     if (state.tab === 'gallery' && state.galleryFiles.length) {
@@ -870,6 +953,7 @@ async function saveItem(event) {
     if (expectedUpdatedAt !== undefined) payload.expectedUpdatedAt = expectedUpdatedAt;
     const previousEditingId = state.editing?.id;
     const result = await savePayload(payload);
+    releaseSavedUploads(payload);
     if (state.tab === 'ships') state.shipOverridesLoaded = false;
     await loadItems(false);
     const savedId = result?.item?.id || result?.item?.shipId || previousEditingId;
@@ -891,70 +975,178 @@ async function saveItem(event) {
   }
 }
 
-async function savePayload(payload) {
-  const config = CONFIG[state.tab];
-  const method = state.editing ? 'PUT' : 'POST';
-  const url = state.tab === 'ships'
-    ? `${config.endpoint}/${encodeURIComponent(state.editing.id)}`
-    : state.editing
-      ? `${config.endpoint}/${encodeURIComponent(state.editing.id)}`
-      : config.endpoint;
+async function savePayload(payload, tab = state.tab, editing = state.editing) {
+  const config = CONFIG[tab];
+  const method = editing ? 'PUT' : 'POST';
+  const url = editing ? `${config.endpoint}/${encodeURIComponent(editing.id)}` : config.endpoint;
   return await api(url, { method, body: JSON.stringify(payload) });
 }
 
 async function saveGalleryWithUploads() {
   const basePayload = getFormPayload();
   if (!basePayload.title) throw new Error('\uac24\ub7ec\ub9ac \uc81c\ubaa9\uc740 \ud544\uc218\uc785\ub2c8\ub2e4.');
+  const editing = state.editing;
+  const files = [...state.galleryFiles];
+  if (editing && files.length > 1) throw new Error('기존 갤러리 항목을 수정할 때는 이미지 한 장만 선택해 주세요.');
   const progress = $('#upload-progress');
   const results = [];
-  for (let index = 0; index < state.galleryFiles.length; index += 1) {
-    const file = state.galleryFiles[index];
+  for (let index = 0; index < files.length; index += 1) {
+    const file = files[index];
+    const uploaded = [];
     try {
-      progress.textContent = `${index + 1}/${state.galleryFiles.length} \uc5c5\ub85c\ub4dc \uc911: ${file.name}`;
-      const imageUrl = await uploadFile(file);
-      const payload = buildGalleryPayloadForFile(basePayload, imageUrl, index);
-      await api(CONFIG.gallery.endpoint, { method: 'POST', body: JSON.stringify(payload) });
-      results.push({ file: file.name, ok: true });
+      progress.textContent = `${index + 1}/${files.length} 업로드 중: ${file.name}`;
+      const original = await uploadAsset(file);
+      uploaded.push(original);
+      let thumbnail = original;
+      const thumbnailFile = await makeGalleryThumbnail(file);
+      if (thumbnailFile) {
+        thumbnail = await uploadAsset(thumbnailFile);
+        uploaded.push(thumbnail);
+      }
+      const payload = buildGalleryPayloadForFile(basePayload, original.imageUrl, thumbnail.imageUrl, file, editing);
+      if (editing) payload.expectedUpdatedAt = editing.updatedAt ?? '';
+      const saved = await savePayload(payload, 'gallery', editing);
+      results.push({ file, ok: true, item: saved.item });
     } catch (error) {
-      results.push({ file: file.name, ok: false, error: error.message });
+      const cleanupErrors = await cleanupUploadedAssets(uploaded);
+      results.push({ file, ok: false, error: error.message, cleanupErrors });
     }
   }
   const success = results.filter((item) => item.ok).length;
-  const failed = results.length - success;
-  $('#form-message').textContent = `\uc5c5\ub85c\ub4dc \uc644\ub8cc: \uc131\uacf5 ${success}\uac74${failed ? `, \uc2e4\ud328 ${failed}\uac74` : ''}`;
-  state.galleryFiles = [];
-  state.galleryImageUrls = [];
-  await loadItems();
+  const failures = results.filter((item) => !item.ok);
+  setGalleryFiles(failures.map((item) => item.file));
+  if (success) {
+    await loadItems(false);
+    if (!failures.length) {
+      const saved = editing && state.items.find((item) => item.id === editing.id);
+      renderForm(saved || null);
+    }
+  }
+  state.dirty = failures.length > 0;
+  const failureDetails = failures.map((item) => `${item.file.name}: ${item.error}`).join(' / ');
+  const cleanupFailed = failures.some((item) => item.cleanupErrors.length);
+  $('#form-message').textContent = `업로드 결과: 성공 ${success}건, 실패 ${failures.length}건.${failures.length ? ` 실패한 파일은 선택 상태로 남아 있습니다. ${failureDetails}` : ''}${cleanupFailed ? ' 실패한 항목의 이미지 정리에도 실패했습니다. 관리자에게 문의해 주세요.' : ''}`;
+  if (progress) progress.textContent = '';
 }
 
-function buildGalleryPayloadForFile(basePayload, imageUrl, index) {
-  const total = state.galleryFiles.length;
-  const title = total > 1 ? `${basePayload.title} ${index + 1}` : basePayload.title;
-  return { ...basePayload, title, imageUrl, thumbUrl: imageUrl, sortOrder: 0 };
+function buildGalleryPayloadForFile(basePayload, imageUrl, thumbUrl, file, editing) {
+  const title = !editing && galleryBatchSize > 1 ? `${basePayload.title} ${galleryFileNumbers.get(file)}` : basePayload.title;
+  return { ...basePayload, title, imageUrl, thumbUrl, sortOrder: editing?.sortOrder ?? 0 };
+}
+
+async function cleanupUploadedAssets(assets) {
+  const failures = [];
+  for (const asset of assets) {
+    try {
+      await api('/api/admin/upload', { method: 'DELETE', body: JSON.stringify({ key: asset.key }) });
+    } catch (error) {
+      failures.push(error);
+    }
+  }
+  return failures;
+}
+
+function releaseSavedUploads(payload) {
+  const savedUrls = new Set(Object.values(payload));
+  for (const [key, url] of state.unsavedUploads) {
+    if (savedUrls.has(url)) state.unsavedUploads.delete(key);
+  }
+}
+
+async function cleanupAbandonedUploads() {
+  const pending = [...state.unsavedUploads.keys()];
+  for (const key of pending) {
+    try {
+      await api('/api/admin/upload', { method: 'DELETE', body: JSON.stringify({ key }) });
+      state.unsavedUploads.delete(key);
+    } catch {
+      // 연결 오류가 나면 키를 보존해 다음 이동·로그아웃 시 다시 정리한다.
+    }
+  }
+}
+
+async function makeGalleryThumbnail(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    await new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = reject;
+      image.src = url;
+    });
+    const scale = Math.min(1, 640 / image.naturalWidth, 640 / image.naturalHeight);
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+    canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.78));
+    if (!blob || blob.type !== 'image/webp' || blob.size >= file.size) return null;
+    return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}-thumb.webp`, { type: 'image/webp' });
+  } catch {
+    return null;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
 }
 
 async function deleteItem() {
+  if (state.saving || state.pendingUploads) return;
   if (!state.editing || !confirm('\uc774 \ud56d\ubaa9\uc744 \uc0ad\uc81c\ud560\uae4c\uc694?')) return;
-  await api(`${CONFIG[state.tab].endpoint}/${encodeURIComponent(state.editing.id)}`, { method: 'DELETE' });
-  state.editing = null;
-  await loadItems();
+  const editing = state.editing;
+  setSaveBusy(true);
+  try {
+    await api(`${CONFIG[state.tab].endpoint}/${encodeURIComponent(editing.id)}`, {
+      method: 'DELETE',
+      body: JSON.stringify({ expectedUpdatedAt: editing.updatedAt ?? '' })
+    });
+    state.editing = null;
+    await loadItems();
+    $('#form-message').textContent = '삭제했습니다.';
+  } catch (error) {
+    showFormError(error);
+  } finally {
+    setSaveBusy(false);
+  }
 }
 
 async function resetShipOverride() {
+  if (state.saving || state.pendingUploads) return;
   if (!state.editing || !confirm('\uc774 \ud568\uc120\uc758 \uc218\uc815\uac12\uc744 \uc0ad\uc81c\ud558\uace0 \uc6d0\ubcf8\uc73c\ub85c \ub418\ub3cc\ub9b4\uae4c\uc694?')) return;
-  await api(`${CONFIG.ships.endpoint}/${encodeURIComponent(state.editing.id)}`, { method: 'DELETE' });
-  state.shipOverridesLoaded = false;
-  await loadItems();
+  setSaveBusy(true);
+  try {
+    await api(`${CONFIG.ships.endpoint}/${encodeURIComponent(state.editing.id)}`, {
+      method: 'DELETE',
+      body: JSON.stringify({ expectedUpdatedAt: state.editing.override?.updatedAt ?? '' })
+    });
+    state.shipOverridesLoaded = false;
+    await loadItems();
+    $('#form-message').textContent = '원본으로 되돌렸습니다.';
+  } catch (error) {
+    showFormError(error);
+  } finally {
+    setSaveBusy(false);
+  }
 }
 
-async function uploadFile(file) {
+async function uploadAsset(file) {
   validateImageFile(file);
   const body = new FormData();
   body.append('file', file);
-  const response = await fetch('/api/admin/upload', { method: 'POST', body });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 60000);
+  let response;
+  try {
+    response = await fetch('/api/admin/upload', { method: 'POST', body, signal: controller.signal });
+  } catch (error) {
+    if (error.name === 'AbortError') throw new Error('업로드 시간이 초과됐습니다. 다시 시도해 주세요.');
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
   const result = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(result.error || '\uc5c5\ub85c\ub4dc\uc5d0 \uc2e4\ud328\ud588\uc2b5\ub2c8\ub2e4.');
-  return result.imageUrl;
+  if (!result.imageUrl || !result.key) throw new Error('업로드 응답에 이미지 주소가 없습니다.');
+  return result;
 }
 
 function validateImageFile(file) {
@@ -964,7 +1156,8 @@ function validateImageFile(file) {
 }
 
 function todayDate() {
-  return new Date().toISOString().slice(0, 10);
+  // 대한민국은 연중 UTC+9이므로 UTC 자정 근처에서도 현지 날짜를 고른다.
+  return new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
 }
 
 function showFormError(error) {
@@ -975,9 +1168,9 @@ function bindEvents() {
   $('#login-form').addEventListener('submit', login);
   $('#logout-button').addEventListener('click', logout);
   $('#erkul-sync-preview-button')?.addEventListener('click', runErkulSyncPreview);
-  $('#new-button').addEventListener('click', () => { if (confirmDiscard()) renderForm(null); });
-  $('#cancel-button').addEventListener('click', () => { if (confirmDiscard()) renderForm(null); });
-  $('#cms-form').addEventListener('input', () => { state.dirty = true; updateNoticePreview(); });
+  $('#new-button').addEventListener('click', () => { if (!state.saving && !state.pendingUploads && confirmDiscard()) renderForm(null); });
+  $('#cancel-button').addEventListener('click', () => { if (!state.saving && !state.pendingUploads && confirmDiscard()) renderForm(null); });
+  $('#cms-form').addEventListener('input', () => { state.dirty = true; state.formRevision += 1; updateNoticePreview(); });
   $('#delete-button').addEventListener('click', deleteItem);
   $('#cms-form').addEventListener('submit', saveItem);
   document.querySelectorAll('[data-tab]').forEach((button) => {
@@ -1008,15 +1201,26 @@ async function handleImageFieldUpload(input) {
   if (!file) return;
   const status = document.querySelector(`[data-image-status="${field}"]`);
   const urlInput = document.querySelector(`[data-image-url="${field}"]`);
+  state.pendingUploads += 1;
+  state.dirty = true;
+  state.formRevision += 1;
   try {
     if (status) status.textContent = '업로드 중…';
-    const imageUrl = await uploadFile(file);
-    if (urlInput) urlInput.value = imageUrl;
-    updateImagePreview(field, imageUrl);
+    const asset = await uploadAsset(file);
+    const imageUrl = asset.imageUrl;
+    if (urlInput?.isConnected && input.isConnected) {
+      state.unsavedUploads.set(asset.key, imageUrl);
+      urlInput.value = imageUrl;
+      updateImagePreview(field, imageUrl);
+      state.formRevision += 1;
+    } else {
+      await cleanupUploadedAssets([asset]);
+    }
     if (status) status.textContent = '업로드 완료';
   } catch (error) {
     if (status) status.textContent = error.message || '업로드에 실패했습니다.';
   } finally {
+    state.pendingUploads -= 1;
     input.value = '';
   }
 }
@@ -1037,6 +1241,7 @@ function handleListInput(event) {
 }
 
 function handleListClick(event) {
+  if (state.saving || state.pendingUploads) return;
   const button = event.target.closest('[data-id]');
   if (!button) return;
   if (!confirmDiscard()) return;
@@ -1067,8 +1272,20 @@ function handleDocumentChange(event) {
     return;
   }
   if (event.target?.id !== 'upload-file') return;
-  state.galleryFiles = Array.from(event.target.files || []);
+  const files = Array.from(event.target.files || []);
+  galleryFileNumbers = new WeakMap();
+  galleryBatchSize = files.length;
+  files.forEach((file, index) => { galleryFileNumbers.set(file, index + 1); });
+  setGalleryFiles(files);
   state.galleryImageUrls = [];
+  state.dirty = true;
+  state.formRevision += 1;
+}
+
+function setGalleryFiles(files) {
+  state.galleryFiles = files;
+  const input = $('#upload-file');
+  if (input) input.value = '';
   const name = $('#upload-file-name');
   if (name) {
     name.textContent = state.galleryFiles.length
@@ -1080,12 +1297,16 @@ function handleDocumentChange(event) {
   renderLocalPreviews(state.galleryFiles);
 }
 
+function revokeLocalPreviews() {
+  document.querySelectorAll('#gallery-preview img[data-object-url]').forEach((img) => {
+    URL.revokeObjectURL(img.src);
+  });
+}
+
 function renderLocalPreviews(files) {
   const preview = $('#gallery-preview');
   if (!preview) return;
-  preview.querySelectorAll('img[data-object-url]').forEach((img) => {
-    URL.revokeObjectURL(img.src);
-  });
+  revokeLocalPreviews();
   if (!files.length) {
     preview.innerHTML = '<div class="image-placeholder">\uc774\ubbf8\uc9c0 \uc5c6\uc74c</div>';
     return;

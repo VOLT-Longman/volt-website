@@ -10,12 +10,12 @@
 
     // main.js가 주입하는 의존성 (이름 동일 → 이동 코드 무수정)
     let getCalendar, escapeHtml, tx, i18nT, formatMultilineText, showToast,
-        isLoggedIn, applyRoleGates, renderMyPage;
+        isLoggedIn, getAuthSubject, applyRoleGates, renderMyPage;
 
     function init(deps) {
         ({
             getCalendar, escapeHtml, tx, i18nT, formatMultilineText, showToast,
-            isLoggedIn, applyRoleGates, renderMyPage,
+            isLoggedIn, getAuthSubject, applyRoleGates, renderMyPage,
         } = deps || {});
     }
 
@@ -23,14 +23,23 @@
     const RSVP_STATUSES = ['참가', '대기', '불참'];
     const RSVP_STATUS_KEYS = { 참가: 'mypage.rsvpStatusGoing', 대기: 'mypage.rsvpStatusMaybe', 불참: 'mypage.rsvpStatusNo' };
     const STATUS_COLORS = { '예정': 'var(--volt-orange)', '진행중': '#38a169', '완료': '#718096', '취소': '#e53e3e', '연기': '#d69e2e', '대기': '#a0aec0', '계획': '#63b3ed' };
+    const RSVP_CACHE_TTL_MS = 20_000;
+    const rsvpCache = new Map();
+    let renderRevision = 0;
 
     function renderSchedule() {
         const container = document.getElementById('schedule-list');
         const calendar = getCalendar();
         if (!container || !Array.isArray(calendar)) return;
+        const focusedToggle = container.contains(document.activeElement) && document.activeElement?.matches('.schedule-item-toggle')
+            ? document.activeElement.closest('[data-schedule-event-id]')?.getAttribute('data-schedule-event-id')
+            : null;
+        const expandedIds = new Set(Array.from(container.querySelectorAll('.schedule-item-toggle[aria-expanded="true"]'))
+            .map((button) => button.closest('[data-schedule-event-id]')?.getAttribute('data-schedule-event-id')));
         container.innerHTML = calendar.map((event) => {
             const eventId = getEventId(event);
             const detailId = `schedule-detail-${escapeHtml(eventId)}`;
+            const expanded = expandedIds.has(eventId);
             return `<div class="schedule-item reveal" data-schedule-event-id="${escapeHtml(eventId)}">
                 <div class="schedule-date-col">
                     <span class="schedule-date">${escapeHtml(tx(event, 'dateLabel'))}</span>
@@ -38,17 +47,21 @@
                 </div>
                 <div class="schedule-body">
                     <div class="schedule-type-badge">${escapeHtml(tx(event, 'type'))}</div>
-                    <button class="schedule-item-toggle" type="button" aria-expanded="false" aria-controls="${detailId}">
+                    <button class="schedule-item-toggle" type="button" aria-expanded="${expanded}" aria-controls="${detailId}">
                         ${escapeHtml(tx(event, 'title'))}
                     </button>
-                    <div class="schedule-item-detail" id="${detailId}" hidden>
+                    <div class="schedule-item-detail" id="${detailId}"${expanded ? '' : ' hidden'}>
                         <p>${formatMultilineText(tx(event, 'description'))}</p>
                     </div>
                     ${renderRsvpControls(eventId)}
                 </div>
             </div>`;
         }).join('');
-        window.requestAnimationFrame(loadScheduleRsvps);
+        if (focusedToggle) {
+            container.querySelector(`[data-schedule-event-id="${CSS.escape(focusedToggle)}"] .schedule-item-toggle`)?.focus({ preventScroll: true });
+        }
+        const revision = ++renderRevision;
+        window.requestAnimationFrame(() => { if (revision === renderRevision) loadScheduleRsvps(); });
     }
 
     function getEventId(event) {
@@ -79,16 +92,42 @@
             const eventId = control.getAttribute('data-rsvp-event-id');
             if (!eventId) return;
             try {
-                const response = await fetch(`/api/events/${encodeURIComponent(eventId)}/rsvp`, { headers: { Accept: 'application/json' } });
-                if (response.status === 401) return;
-                if (!response.ok) throw new Error(`RSVP ${response.status}`);
-                renderRsvpSummary(control, await response.json());
+                const payload = await getRsvpPayload(eventId);
+                if (payload && control.isConnected) renderRsvpSummary(control, payload);
             } catch (error) {
                 console.warn('RSVP load failed', error);
             }
         }));
         applyRoleGates();
     }
+
+    function rsvpCacheKey(eventId) {
+        const subject = getAuthSubject?.();
+        return subject ? `${subject}:${eventId}` : null;
+    }
+
+    function fetchRsvpPayload(eventId) {
+        return fetch(`/api/events/${encodeURIComponent(eventId)}/rsvp`, { headers: { Accept: 'application/json' } })
+            .then((response) => {
+                if (response.status === 401) return null;
+                if (!response.ok) throw new Error(`RSVP ${response.status}`);
+                return response.json();
+            });
+    }
+
+    function getRsvpPayload(eventId) {
+        const key = rsvpCacheKey(eventId);
+        if (!key) return fetchRsvpPayload(eventId);
+        const cached = rsvpCache.get(key);
+        if (cached && cached.expiresAt > Date.now()) return cached.promise;
+        const promise = fetchRsvpPayload(eventId);
+        const entry = { promise, expiresAt: Date.now() + RSVP_CACHE_TTL_MS };
+        rsvpCache.set(key, entry);
+        promise.catch(() => { if (rsvpCache.get(key) === entry) rsvpCache.delete(key); });
+        return promise;
+    }
+
+    function clearRsvpCache() { rsvpCache.clear(); }
 
     function renderRsvpSummary(control, payload) {
         const summary = control.querySelector('[data-rsvp-summary]');
@@ -111,9 +150,12 @@
             body: JSON.stringify({ status })
         });
         if (!response.ok) throw new Error(`RSVP ${response.status}`);
+        const payload = await response.json();
+        const key = rsvpCacheKey(eventId);
+        if (key) rsvpCache.set(key, { promise: Promise.resolve(payload), expiresAt: Date.now() + RSVP_CACHE_TTL_MS });
         const control = document.querySelector(`[data-rsvp-event-id="${CSS.escape(eventId)}"]`);
         if (control) {
-            renderRsvpSummary(control, await response.json());
+            renderRsvpSummary(control, payload);
             control.querySelectorAll('[data-rsvp-status]').forEach((button) => {
                 button.classList.toggle('is-selected', button.getAttribute('data-rsvp-status') === status);
             });
@@ -151,5 +193,6 @@
         renderSchedule,
         setupScheduleAccordion,
         loadScheduleRsvps,
+        clearRsvpCache,
     };
 })();

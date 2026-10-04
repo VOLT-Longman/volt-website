@@ -62,9 +62,11 @@ export function createMockKV() {
 export function createMockR2() {
     return {
         puts: [],
+        deletes: [],
         async put(key, bytes, options) {
             this.puts.push({ key, size: bytes.byteLength ?? bytes.length, options });
-        }
+        },
+        async delete(key) { this.deletes.push(key); }
     };
 }
 

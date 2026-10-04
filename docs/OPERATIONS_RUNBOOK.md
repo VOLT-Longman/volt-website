@@ -57,6 +57,8 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
 | `0010_ship_name_ko_hidden.sql` | ship_overrides에 name_ko · hidden 컬럼 | `ALTER TABLE ADD COLUMN` | ❌ |
 | `0011_rsvp_user_index.sql` | event_rsvps(user_sub) 인덱스 | `CREATE INDEX IF NOT EXISTS` | ✅ |
 | `0012_notice_date_format.sql` | 공지 날짜를 YYYY-MM-DD로 정규화 | 조건부 `UPDATE`(GLOB) | ✅ |
+| `0013_atomic_security.sql` | 보안 제한·사용량·세션 테이블 | `CREATE TABLE IF NOT EXISTS` | ✅ |
+| `0014_cleanup_orphan_event_rsvps.sql` | 삭제된 일정의 과거 참가 기록 정리 | 조건부 `DELETE` | ✅ |
 
 > **핵심:** `ALTER TABLE ADD COLUMN`(0007·0008·0010)은 **재실행하면 `duplicate column name` 오류로 실패**한다.
 > 이미 적용한 마이그레이션은 다시 실행하지 않는다. `CREATE IF NOT EXISTS`/`INSERT OR IGNORE`류는 재실행해도 무해하다.
@@ -74,6 +76,21 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
   ```sql
   SELECT id, applied_at FROM schema_migrations ORDER BY id;
   ```
+
+`0014`는 과거에 삭제된 일정의 참가 기록을 한 번 정리하는 작업이다. 코드 배포나 main 푸시만으로는
+운영 D1에 적용되지 않는다. 백업 후 `schema_migrations`에서 미적용임을 확인하고 아래 명령으로 적용한다.
+현재 존재하는 일정의 참가 기록은 삭제하지 않는다.
+
+```bash
+npx wrangler d1 execute <DB_NAME> --remote --file=migrations/0014_cleanup_orphan_event_rsvps.sql
+```
+
+적용 후 `schema_migrations`에 `0014`가 기록되고, 아래 조회 결과가 0인지 확인한다.
+
+```sql
+SELECT COUNT(*) AS orphan_count FROM event_rsvps
+WHERE NOT EXISTS (SELECT 1 FROM events WHERE events.id = event_rsvps.event_id);
+```
 
 ### 4. 적용 절차
 

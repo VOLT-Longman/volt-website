@@ -1,12 +1,13 @@
 import { requireAdmin } from '../../../_shared/auth.js';
 import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
 import { mapGallery, galleryInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
+import { cleanupReplacedUploadUrls } from '../../../_shared/upload-cleanup.js';
 
 export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
   if (request.method === 'PUT') return updateItem(request, env, params.id);
-  if (request.method === 'DELETE') return deleteItem(env, params.id);
+  if (request.method === 'DELETE') return deleteItem(request, env, params.id);
   return methodNotAllowed();
 }
 
@@ -20,14 +21,19 @@ async function updateItem(request, env, id) {
   if (!item.title || !item.image_url) return error('Missing required fields', 422);
   const result = await db.prepare('UPDATE gallery_items SET title = ?, description = ?, category = ?, image_url = ?, thumb_url = ?, date = ?, sort_order = ?, published = ?, updated_at = ? WHERE id = ? AND updated_at IS ?').bind(item.title, item.description, item.category, item.image_url, item.thumb_url, item.date, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
   if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
+  await cleanupReplacedUploadUrls(env, [existing.image_url, existing.thumb_url]);
   return json({ item: mapGallery(item) });
 }
 
-async function deleteItem(env, id) {
+async function deleteItem(request, env, id) {
   const db = requireDb(env);
-  const existing = await db.prepare('SELECT id FROM gallery_items WHERE id = ?').bind(id).first();
+  const existing = await db.prepare('SELECT id, image_url, thumb_url, updated_at FROM gallery_items WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
-  await db.prepare('DELETE FROM gallery_items WHERE id = ?').bind(id).run();
+  const body = (await readJson(request)) || {};
+  if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
+  const result = await db.prepare('DELETE FROM gallery_items WHERE id = ? AND updated_at IS ?').bind(id, existing.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
+  await cleanupReplacedUploadUrls(env, [existing.image_url, existing.thumb_url]);
   return json({ ok: true });
 }
 

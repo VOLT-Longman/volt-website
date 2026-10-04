@@ -6,7 +6,7 @@ export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
   if (request.method === 'PUT') return updateItem(request, env, params.id);
-  if (request.method === 'DELETE') return deleteItem(env, params.id);
+  if (request.method === 'DELETE') return deleteItem(request, env, params.id);
   return methodNotAllowed();
 }
 
@@ -23,11 +23,19 @@ async function updateItem(request, env, id) {
   return json({ item: mapEvent(item) });
 }
 
-async function deleteItem(env, id) {
+async function deleteItem(request, env, id) {
   const db = requireDb(env);
-  const existing = await db.prepare('SELECT id FROM events WHERE id = ?').bind(id).first();
+  const existing = await db.prepare('SELECT id, updated_at FROM events WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
-  await db.prepare('DELETE FROM events WHERE id = ?').bind(id).run();
+  const body = (await readJson(request)) || {};
+  if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
+  // D1 batch is transactional. Only clear RSVPs when the conditional event delete
+  // actually succeeded; a concurrent edit leaves both the event and its RSVPs intact.
+  const [deleted] = await db.batch([
+    db.prepare('DELETE FROM events WHERE id = ? AND updated_at IS ?').bind(id, existing.updated_at ?? null),
+    db.prepare('DELETE FROM event_rsvps WHERE event_id = ? AND NOT EXISTS (SELECT 1 FROM events WHERE id = ?)').bind(id, id)
+  ]);
+  if (deleted.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ ok: true });
 }
 

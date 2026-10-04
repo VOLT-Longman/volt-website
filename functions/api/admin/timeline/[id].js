@@ -6,7 +6,7 @@ export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
   if (request.method === 'PUT') return updateItem(request, env, params.id);
-  if (request.method === 'DELETE') return deleteItem(env, params.id);
+  if (request.method === 'DELETE') return deleteItem(request, env, params.id);
   return methodNotAllowed();
 }
 
@@ -32,10 +32,13 @@ async function updateItem(request, env, id) {
   return json({ item: mapTimelineEntry(item) });
 }
 
-async function deleteItem(env, id) {
+async function deleteItem(request, env, id) {
   const db = requireDb(env);
-  const existing = await db.prepare('SELECT id FROM timeline_entries WHERE id = ?').bind(id).first();
+  const existing = await db.prepare('SELECT id, updated_at FROM timeline_entries WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
-  await db.prepare('DELETE FROM timeline_entries WHERE id = ?').bind(id).run();
+  const body = (await readJson(request)) || {};
+  if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
+  const result = await db.prepare('DELETE FROM timeline_entries WHERE id = ? AND updated_at IS ?').bind(id, existing.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ ok: true });
 }

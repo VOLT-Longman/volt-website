@@ -178,9 +178,9 @@ volt-website/
 
 > **운영 콘텐츠(공지·일정·갤러리·협력함대·임원진·연혁·함선 보정)는 `/admin` 관리자 CMS에서 처리합니다.**
 
-이 항목들은 D1에 저장되고 `/api/*`로 제공되며, 프런트엔드는 `fetchCmsCollection()`으로 불러옵니다. API가 비어 있거나 실패하면 `data/volt-data.js`의 동일 키를 **폴백/시드**로 사용합니다. 따라서 `data/volt-data.js`의 해당 배열은 "초기 시드 + 백업"이지 운영 중 단일 원본이 아닙니다.
+이 항목들은 D1에 저장되고 `/api/*`로 제공되며, 프런트엔드는 `fetchCmsCollection()`으로 불러옵니다. API 요청이 실패한 경우에만 `data/volt-data.js`의 정적 값을 임시로 표시합니다. API가 정상 응답한 빈 목록은 그대로 빈 목록으로 표시합니다. 따라서 정적 배열을 수정해도 운영 중인 CMS 목록에는 반영되지 않습니다.
 
-> **CMS 엔드포인트가 없는 정적 콘텐츠(함대 기본 정보, 함선 기본값, FAQ, 정책, 스트리머, 무역허브, 무역가이드)는 `data/volt-data.js`에서 직접 수정합니다.**
+> **CMS 엔드포인트가 없는 정적 콘텐츠(함대 기본 정보, FAQ, 정책, 스트리머, 무역허브, 무역가이드)는 `data/volt-data.js`에서 직접 수정합니다.** 함선 사실 데이터는 아래 ShipDB 절차를 따릅니다.
 
 새 화면 구조가 필요할 때만 `index.html`, `js/main.js`, `css/styles.css`를 함께 수정합니다. 아래 "자주 하는 수정"의 `volt-data.js` 예시는 정적 콘텐츠 또는 시드값 기준이며, 운영 중 공지·일정·갤러리는 관리자 CMS에서 다루는 것을 권장합니다.
 
@@ -190,7 +190,7 @@ volt-website/
 
 ### 1. 공지 추가
 
-`data/volt-data.js`의 `announcements` 배열에 새 항목을 추가합니다.
+운영 공지는 `/admin/`의 공지 탭에서 추가합니다. 아래는 정적 폴백 데이터를 관리할 때의 예시입니다.
 
 ```javascript
 {
@@ -215,7 +215,7 @@ volt-website/
 
 ### 2. 작전 일정 추가
 
-`calendar` 배열에 새 항목을 추가합니다.
+운영 일정은 `/admin/`의 일정 탭에서 추가합니다. 아래는 정적 폴백 데이터를 관리할 때의 예시입니다.
 
 ```javascript
 {
@@ -239,45 +239,10 @@ volt-website/
 
 ### 3. 함선 추가
 
-`ships` 배열에 새 함선 정보를 추가합니다.
-
-```javascript
-{
-    id: "ship-id",
-    name: "함선명",
-    manufacturer: "제조사",
-    role: "역할",
-    focus: "물류",
-    size: "대형",
-    crew: "2-4명",
-    cargo: "4,608 SCU",
-    description: "함선 설명",
-    tags: ["화물", "무역"],
-    rsiUrl: "https://robertsspaceindustries.com/..."
-}
-```
-
-함선 DB에서 사용되는 주요 값은 다음과 같습니다.
-
-| 필드 | 사용 위치 |
-|---|---|
-| `name` | 카드 제목, 검색 |
-| `manufacturer` | 제조사 필터, 검색 |
-| `role` | 카드 스탯, 검색 |
-| `focus` | 카드 배지 |
-| `size` | 정렬, 상세 모달 |
-| `crew` | 정렬, 상세 모달 |
-| `cargo` | 정렬, 상세 모달 |
-| `tags` | 역할 필터, 미구현 제외, 검색 |
-| `rsiUrl` | 상세 모달의 공식 링크 |
-
-`rsiUrl`이 없으면 상세 모달은 RSI 함선 매트릭스로 연결됩니다.
-
-미구현 함선은 `tags`에 `"미구현"`을 넣습니다.
-
-```javascript
-tags: ["화물", "미구현"]
-```
+함선 사양·분류·태그는 `data/volt-data.js`의 `ships` 배열에서 추가하지 않습니다.
+공개 함선 데이터는 Erkul canonical 파이프라인에서 생성합니다. 신규 함선 반영과 데이터 재생성은
+[`docs/OPERATIONS_RUNBOOK.md`](docs/OPERATIONS_RUNBOOK.md)의 ShipDB 절차를 따릅니다.
+관리자 CMS의 함선DB 탭에서는 기존 함선의 표시 이름과 숨김 여부만 수정합니다.
 
 ---
 

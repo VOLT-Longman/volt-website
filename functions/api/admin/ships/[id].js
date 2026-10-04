@@ -8,7 +8,7 @@ export async function onRequest({ request, env, params }) {
   if (unauthorized) return unauthorized;
   if (request.method === 'GET') return getItem(env, params.id);
   if (request.method === 'PUT') return saveItem(request, env, params.id);
-  if (request.method === 'DELETE') return deleteItem(env, params.id);
+  if (request.method === 'DELETE') return deleteItem(request, env, params.id);
   return methodNotAllowed();
 }
 
@@ -39,10 +39,15 @@ async function saveItem(request, env, shipId) {
   return json({ item: mapShipOverride(item) });
 }
 
-async function deleteItem(env, shipId) {
+async function deleteItem(request, env, shipId) {
   const db = requireDb(env);
   await ensureShipOverridesTable(db);
-  await db.prepare('DELETE FROM ship_overrides WHERE ship_id = ?').bind(shipId).run();
+  const existing = await db.prepare('SELECT updated_at FROM ship_overrides WHERE ship_id = ?').bind(shipId).first();
+  const body = (await readJson(request)) || {};
+  if (hasUpdateConflict(body, existing || {})) return error(CONFLICT_MESSAGE, 409);
+  if (!existing) return json({ ok: true });
+  const result = await db.prepare('DELETE FROM ship_overrides WHERE ship_id = ? AND updated_at IS ?').bind(shipId, existing.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
   return json({ ok: true });
 }
 

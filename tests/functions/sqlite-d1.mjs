@@ -5,7 +5,7 @@ import { SECURITY_SCHEMA } from '../../functions/_shared/security-store.js';
 export function createSqliteDb() {
   const sqlite = new DatabaseSync(':memory:');
   for (const sql of SECURITY_SCHEMA) sqlite.exec(sql);
-  return {
+  const db = {
     sqlite,
     prepare(sql) {
       let args = [];
@@ -16,6 +16,19 @@ export function createSqliteDb() {
         async run() { const result = sqlite.prepare(sql).run(...args); return { success: true, meta: { changes: Number(result.changes) } }; }
       };
       return statement;
+    },
+    async batch(statements) {
+      sqlite.exec('BEGIN');
+      try {
+        const results = [];
+        for (const statement of statements) results.push(await statement.run());
+        sqlite.exec('COMMIT');
+        return results;
+      } catch (caught) {
+        sqlite.exec('ROLLBACK');
+        throw caught;
+      }
     }
   };
+  return db;
 }

@@ -2,12 +2,13 @@ import { requireAdmin } from '../../../_shared/auth.js';
 import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
 import { mapPartnerFleet, partnerFleetInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
 import { tableHasColumn } from '../../../_shared/schema.js';
+import { cleanupReplacedUploadUrls } from '../../../_shared/upload-cleanup.js';
 
 export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
   if (request.method === 'PUT') return updateItem(request, env, params.id);
-  if (request.method === 'DELETE') return deleteItem(env, params.id);
+  if (request.method === 'DELETE') return deleteItem(request, env, params.id);
   return methodNotAllowed();
 }
 
@@ -31,6 +32,7 @@ async function updateItem(request, env, id) {
     result = await updatePartnerFleetLegacy(db, id, item, existing);
   }
   if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
+  await cleanupReplacedUploadUrls(env, [existing.photo_url, existing.logo_url]);
   return json({ item: mapPartnerFleet(item) });
 }
 
@@ -51,10 +53,14 @@ async function updatePartnerFleetLegacy(db, id, item, existing) {
   `).bind(item.name, item.region, item.game, item.focus, item.description, item.member_count, item.discord_url, item.website_url, logoUrl, item.established, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
 }
 
-async function deleteItem(env, id) {
+async function deleteItem(request, env, id) {
   const db = requireDb(env);
-  const existing = await db.prepare('SELECT id FROM partner_fleets WHERE id = ?').bind(id).first();
+  const existing = await db.prepare('SELECT * FROM partner_fleets WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
-  await db.prepare('DELETE FROM partner_fleets WHERE id = ?').bind(id).run();
+  const body = (await readJson(request)) || {};
+  if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
+  const result = await db.prepare('DELETE FROM partner_fleets WHERE id = ? AND updated_at IS ?').bind(id, existing.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
+  await cleanupReplacedUploadUrls(env, [existing.photo_url, existing.logo_url]);
   return json({ ok: true });
 }

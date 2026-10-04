@@ -1,5 +1,6 @@
 import { requireAdmin } from '../../_shared/auth.js';
-import { error, json } from '../../_shared/http.js';
+import { error, json, readJson } from '../../_shared/http.js';
+import { deleteUnreferencedUpload, isOwnedUploadKey } from '../../_shared/upload-cleanup.js';
 
 const MAX_BYTES = 10 * 1024 * 1024;
 const ALLOWED_TYPES = new Map([['image/jpeg', 'jpg'], ['image/png', 'png'], ['image/webp', 'webp']]);
@@ -19,6 +20,18 @@ export async function onRequestPost({ request, env }) {
   await env.GALLERY_BUCKET.put(key, bytes, { httpMetadata: { contentType: detectedType } });
   const baseUrl = (env.R2_PUBLIC_BASE_URL || '').replace(/\/$/, '');
   return json({ key, imageUrl: baseUrl ? `${baseUrl}/${key}` : `/${key}` });
+}
+
+// Used as a compensating action when an upload succeeds but saving its CMS
+// record fails. A referenced object cannot be removed through this endpoint.
+export async function onRequestDelete({ request, env }) {
+  const unauthorized = await requireAdmin(request, env);
+  if (unauthorized) return unauthorized;
+  if (!env.GALLERY_BUCKET) return error('Missing R2 binding: GALLERY_BUCKET', 500);
+  const { key } = (await readJson(request)) || {};
+  if (!isOwnedUploadKey(key)) return error('Invalid upload key', 422);
+  const deleted = await deleteUnreferencedUpload(env, key);
+  return json({ ok: true, deleted });
 }
 
 

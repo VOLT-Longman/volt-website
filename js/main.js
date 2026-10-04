@@ -156,6 +156,7 @@
     // 공개 ShipDB의 유일한 함선 목록(canonical 219 + RSI 공식 30). canonical 로드 전에는 비어 있고,
     // 로드 완료 시 adoptCanonicalShips()가 채운 뒤 CMS 오버라이드를 다시 얹는다.
     let publicShips = [];
+    let canonicalPublicShips = [];
     let lastShipOverrides = [];
     let shipById = new Map();
     let deferredInstallPrompt = null;
@@ -670,9 +671,11 @@
     function renderLogisticsShipOptions() {
         const select = document.getElementById('logistics-ship');
         if (!select) return;
+        const selectedShipId = select.value || getPlannerStateFromStorage().shipId;
         select.innerHTML = `<option value="">${escapeHtml(i18nT('planner.shipSelectDefault', '보유 함선 선택'))}</option>${getLogisticsShips().map((ship) => (
             `<option value="${escapeHtml(ship.id)}">${escapeHtml(ship.name)} · ${escapeHtml(ship.cargo)}</option>`
         )).join('')}`;
+        if (selectedShipId) select.value = selectedShipId;
     }
 
     function isPlannerEligibleShip(ship) {
@@ -809,12 +812,16 @@
 
     const cmsFailures = new Set();
     let cmsRefreshScheduled = false;
-    function scheduleCmsRefresh() {
+    const pendingCmsCollections = new Set();
+    function scheduleCmsRefresh(collection) {
+        pendingCmsCollections.add(collection);
         if (cmsRefreshScheduled) return;
         cmsRefreshScheduled = true;
         window.setTimeout(() => {
             cmsRefreshScheduled = false;
-            refreshCmsRenderedContent();
+            const changed = [...pendingCmsCollections];
+            pendingCmsCollections.clear();
+            refreshCmsRenderedContent(changed);
         }, 50);
     }
     function renderCmsStatus() {
@@ -826,7 +833,7 @@
             const message = document.createElement('span');
             const retry = document.createElement('button');
             retry.type = 'button';
-            retry.addEventListener('click', () => loadCmsContent());
+            retry.addEventListener('click', () => loadCmsContent(true));
             banner.append(message, retry);
             document.querySelector('main')?.prepend(banner);
         }
@@ -835,29 +842,31 @@
         banner.lastElementChild.textContent = i18nT('cms.retry', '다시 시도');
     }
     let cmsLoadPromise = null;
-    function loadCmsContent() {
+    function loadCmsContent(forceRefresh = false) {
         if (cmsLoadPromise) return cmsLoadPromise;
         const collections = { notices: 'announcements', events: 'calendar', gallery: 'gallery',
             'partner-fleets': 'partnerFleets', 'ship-overrides': null, leadership: 'leadership', timeline: 'timeline' };
         cmsLoadPromise = Promise.all(Object.entries(collections).map(async ([endpoint, property]) => {
-            const items = await fetchCmsCollection(`/api/${endpoint}`);
+            const items = await fetchCmsCollection(`/api/${endpoint}`, forceRefresh);
             if (items !== null) {
+                if (endpoint === 'events' && forceRefresh) window.VOLT_SCHEDULE?.clearRsvpCache?.();
                 if (property) data[property] = items;
                 else applyShipOverrides(items);
                 cmsFailures.delete(endpoint);
                 invalidateSearchCache();
-                scheduleCmsRefresh();
+                scheduleCmsRefresh(endpoint);
             } else cmsFailures.add(endpoint);
             renderCmsStatus();
         })).finally(() => { cmsLoadPromise = null; });
         return cmsLoadPromise;
     }
 
-    async function fetchCmsCollection(url) {
+    async function fetchCmsCollection(url, forceRefresh = false) {
         const controller = new AbortController();
         const timeout = window.setTimeout(() => controller.abort(), 5000);
         try {
-            const response = await fetch(url, { cache: 'no-store', signal: controller.signal, headers: { Accept: 'application/json' } });
+            // Normal reads honor the public API's 60-second cache; retry bypasses stale failures.
+            const response = await fetch(url, { cache: forceRefresh ? 'reload' : 'default', signal: controller.signal, headers: { Accept: 'application/json' } });
             if (!response.ok) throw new Error(`CMS API failed: ${response.status}`);
             const payload = await response.json();
             if (payload.warning || !Array.isArray(payload.items)) throw new Error('CMS unavailable');
@@ -885,17 +894,21 @@
     function adoptCanonicalShips() {
         const ships = window.VOLT_SHIPDB_CANONICAL?.publicShips();
         if (!Array.isArray(ships)) return false;
-        publicShips = ships;
+        canonicalPublicShips = ships;
         applyShipOverrides(lastShipOverrides);
         return true;
     }
 
     function applyShipOverrides(overrides) {
         if (Array.isArray(overrides)) lastShipOverrides = overrides;
-        if (!Array.isArray(lastShipOverrides) || publicShips.length === 0) { rebuildShipIndex(); return; }
+        if (!Array.isArray(lastShipOverrides) || canonicalPublicShips.length === 0) {
+            publicShips = canonicalPublicShips.slice();
+            rebuildShipIndex();
+            return;
+        }
         const overrideById = new Map(lastShipOverrides.map((item) => [item.shipId || item.id, item]));
         // CMS hidden=true 함선은 공개 목록·검색·플래너에서 완전히 제외(소프트 삭제).
-        publicShips = publicShips
+        publicShips = canonicalPublicShips
             .map((ship) => mergeShipOverride(ship, overrideById.get(ship.id)))
             .filter((ship) => ship.hidden !== true);
         rebuildShipIndex();
@@ -998,6 +1011,7 @@
     }
 
     function renderAll() {
+        window.__VOLT_FULL_REFRESH_COUNT__ = (window.__VOLT_FULL_REFRESH_COUNT__ || 0) + 1;
         renderMemberCount();
         renderDepartments();
         renderCoreValues();
@@ -1450,10 +1464,12 @@
             .then((payload) => {
                 if (payload && payload.logged_in && payload.user) {
                     window.clearTimeout(preferencesSaveTimer);
+                    window.VOLT_SCHEDULE?.clearRsvpCache?.();
                     authState = normalizeAuthState(payload.user);
                     userPreferencesLoaded = false;
                     restorePlannerState();
-                    refreshCmsRenderedContent();
+                    renderMyPage();
+                    window.VOLT_SCHEDULE?.loadScheduleRsvps?.();
                     renderAuthUi();
                     applyRoleGates();
                     loadUserPreferences().catch((error) => {
@@ -1466,6 +1482,7 @@
                 }
             })
             .catch(() => {
+                window.VOLT_SCHEDULE?.clearRsvpCache?.();
                 authState = { loggedIn: false, user: null, roles: [] };
                 userPreferencesLoaded = false;
                 window.VOLT_AUTH_UI?.render?.({ status: 'error' });
@@ -1480,6 +1497,7 @@
 
     function setLoggedOutState() {
         window.clearTimeout(preferencesSaveTimer);
+        window.VOLT_SCHEDULE?.clearRsvpCache?.();
         authState = { loggedIn: false, user: null, roles: [] };
         userPreferencesLoaded = false;
         restorePlannerState();
@@ -1565,7 +1583,8 @@
         localStorage.setItem(preferenceKey(PLANNER_STORAGE_KEY), JSON.stringify(planner));
         restorePlannerState();
         userPreferencesLoaded = true;
-        refreshCmsRenderedContent();
+        renderMyPage();
+        if (renderedLazySections.has('ships')) renderShips();
     }
 
     function getPlannerStateFromStorage() {
@@ -1782,15 +1801,29 @@
         document.getElementById('pwa-install-prompt')?.remove();
     }
 
-    function refreshCmsRenderedContent() {
-        // 진단 카운터: 초기 로드에서 전체 재렌더가 몇 번 도는지 계약 테스트가 확인한다(동작에는 영향 없음).
-        window.__VOLT_FULL_REFRESH_COUNT__ = (window.__VOLT_FULL_REFRESH_COUNT__ || 0) + 1;
-        renderAll();
-        // CMS 데이터(함선 오버라이드·갤러리)가 반영되도록 이미 표시된 지연 섹션은 다시 렌더.
-        refreshRenderedLazySections();
-        setupFaqAccordion();
-        applyRoleGates();
-        renderMyPage();
+    function refreshCmsRenderedContent(changedCollections) {
+        // Unrelated CMS responses must not close an opened schedule detail or
+        // request its RSVP summaries again.
+        const changed = new Set(changedCollections);
+        if (changed.has('notices')) {
+            renderNoticeFilters();
+            renderAnnouncements();
+        }
+        if (changed.has('events')) renderSchedule();
+        if (changed.has('gallery') && renderedLazySections.has('gallery')) renderGallery();
+        if (changed.has('partner-fleets')) renderPartnerFleets();
+        if (changed.has('leadership')) renderLeaders();
+        if (changed.has('timeline')) renderTimeline();
+        if (changed.has('ship-overrides') || changed.has('canonical-ships')) {
+            renderMemberCount();
+            renderLogisticsShipOptions();
+            renderRecommendedTradeShips();
+            renderMyPage();
+            if (renderedLazySections.has('ships')) {
+                renderShipManufacturers();
+                renderShips();
+            }
+        }
     }
 
     // 동적 색상·그라데이션을 인라인 style 속성 대신 data 속성으로 전달하고,
@@ -1842,6 +1875,7 @@
             getCalendar: () => data.calendar,
             escapeHtml, tx, i18nT, formatMultilineText, showToast,
             isLoggedIn: () => authState.loggedIn,
+            getAuthSubject: () => authState.user?.sub,
             applyRoleGates, renderMyPage,
         });
         // 임원진 UI 계층 — 데이터 접근(CMS 우선 + 정적 폴백)·공용 유틸 주입 (G4).
@@ -1937,7 +1971,7 @@
         const initial = getInitialRoute();
         history.replaceState({ section: initial.section }, '', initial.url);
         showSection(initial.section, false, initial.anchorId);
-        ensureCanonicalShips().then(scheduleCmsRefresh)
+        ensureCanonicalShips().then(() => scheduleCmsRefresh('canonical-ships'))
             .catch((error) => { console.warn('ShipDB canonical load failed', error); });
         loadCmsContent().catch((error) => { console.warn('CMS content refresh failed', error); });
     }

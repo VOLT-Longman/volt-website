@@ -2,12 +2,13 @@ import { requireAdmin } from '../../../_shared/auth.js';
 import { error, json, methodNotAllowed, readJson, requireDb } from '../../../_shared/http.js';
 import { mapLeader, leaderInput, CONFLICT_MESSAGE, hasUpdateConflict } from '../../../_shared/cms.js';
 import { tableHasColumn } from '../../../_shared/schema.js';
+import { cleanupReplacedUploadUrls } from '../../../_shared/upload-cleanup.js';
 
 export async function onRequest({ request, env, params }) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
   if (request.method === 'PUT') return updateItem(request, env, params.id);
-  if (request.method === 'DELETE') return deleteItem(env, params.id);
+  if (request.method === 'DELETE') return deleteItem(request, env, params.id);
   return methodNotAllowed();
 }
 
@@ -31,6 +32,7 @@ async function updateItem(request, env, id) {
     result = await updateLeaderLegacy(db, id, item, existing);
   }
   if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
+  await cleanupReplacedUploadUrls(env, [existing.avatar_url]);
   return json({ item: mapLeader(item) });
 }
 
@@ -50,10 +52,14 @@ async function updateLeaderLegacy(db, id, item, existing) {
   `).bind(item.name, item.role, item.discord, item.description, item.duties, item.avatar, item.avatar_gradient, item.avatar_style, item.extras, item.sort_order, item.published, item.updated_at, id, existing.updated_at ?? null).run();
 }
 
-async function deleteItem(env, id) {
+async function deleteItem(request, env, id) {
   const db = requireDb(env);
-  const existing = await db.prepare('SELECT id FROM leadership_members WHERE id = ?').bind(id).first();
+  const existing = await db.prepare('SELECT * FROM leadership_members WHERE id = ?').bind(id).first();
   if (!existing) return error('Not found', 404);
-  await db.prepare('DELETE FROM leadership_members WHERE id = ?').bind(id).run();
+  const body = (await readJson(request)) || {};
+  if (hasUpdateConflict(body, existing)) return error(CONFLICT_MESSAGE, 409);
+  const result = await db.prepare('DELETE FROM leadership_members WHERE id = ? AND updated_at IS ?').bind(id, existing.updated_at ?? null).run();
+  if (result.meta.changes === 0) return error(CONFLICT_MESSAGE, 409);
+  await cleanupReplacedUploadUrls(env, [existing.avatar_url]);
   return json({ ok: true });
 }

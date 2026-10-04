@@ -127,6 +127,23 @@ test('함선 PUT: source override를 거부하고 이름·숨김만 저장한다
     assert.doesNotMatch(write.sql, /manufacturer, role/);
 });
 
+test('함선 DELETE: 오래된 updatedAt이면 설정을 지우지 않는다', async () => {
+    const db = createMockDb((sql) => {
+        if (sql.includes('SELECT updated_at FROM ship_overrides')) return { updated_at: NOTICE_ROW.updated_at };
+        return [];
+    });
+    const env = { ...TEST_ENV, DB: db };
+    const response = await shipItem({
+        request: jsonRequest('https://volt.ceo/api/admin/ships/aurora-es', {
+            method: 'DELETE', cookie: await adminCookie(), body: { expectedUpdatedAt: '2026-06-19T09:00:00.000Z' }
+        }),
+        env,
+        params: { id: 'aurora-es' }
+    });
+    assert.equal(response.status, 409);
+    assert.equal(db.calls.some((call) => call.sql.startsWith('DELETE FROM ship_overrides')), false);
+});
+
 test('hasUpdateConflict: 미제공/일치/불일치 판정', () => {
     assert.equal(hasUpdateConflict({}, { updated_at: 'x' }), false);
     assert.equal(hasUpdateConflict({ expectedUpdatedAt: 'x' }, { updated_at: 'x' }), false);
