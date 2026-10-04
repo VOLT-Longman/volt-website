@@ -174,6 +174,7 @@ test.describe('CSP 가드레일(강화 script-src + style-src)', () => {
         // KO/EN 입력 → 미리보기 라이브 갱신(동적 innerHTML)
         await page.locator('#cms-form [name="title"]').fill('한글 제목');
         await page.locator('#cms-form [name="content"]').fill('한글 본문');
+        await page.locator('#notice-en-section > summary').click();
         await page.locator('#notice-title-en').fill('EN Title');
         await expect(page.locator('#notice-preview-ko')).toContainText('한글 제목');
         await expect(page.locator('#notice-preview-en')).toContainText('EN Title');

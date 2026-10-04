@@ -1,6 +1,16 @@
 /* global state, $, el, api, CONFIG, confirmDiscard, loadItems, renderList,
  renderForm, setSaveBusy, showFormError, updateListPagination, makeGalleryThumbnail,
- uploadAsset, cleanupUploadedAssets, LABELS */
+ uploadAsset, cleanupUploadedAssets, LABELS, setFormMessage */
+
+function switchWorkspace(tools) {
+  if (state.saving || state.pendingUploads) return;
+  $('#content-workspace').hidden = tools;
+  $('#tools-workspace').hidden = !tools;
+  $('#workspace-content').setAttribute('aria-pressed', String(!tools));
+  $('#workspace-tools').setAttribute('aria-pressed', String(tools));
+}
+$('#workspace-content').addEventListener('click', () => switchWorkspace(false));
+$('#workspace-tools').addEventListener('click', () => switchWorkspace(true));
 
 let cmsSearchTimer;
 let historyRevision = 0;
@@ -85,7 +95,7 @@ async function restoreHistory(collection, item, version) {
     renderForm(null);
     await loadItems(false);
     await loadHistory();
-    $('#form-message').textContent = '선택한 내용으로 복구했습니다.';
+    setFormMessage('선택한 내용으로 복구했습니다.');
   } catch (caught) { showFormError(caught); }
   finally { setSaveBusy(false); }
 }

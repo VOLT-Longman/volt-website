@@ -22,6 +22,7 @@ test('CMS 페이지 이동과 검색은 편집 중인 내용을 유지한다', a
   await expect(page.locator('#item-list [data-id="n2"]')).toBeVisible();
   await expect(page.locator('#list-page')).toHaveText('2 / 3 페이지 · 43건');
   await expect(page.locator('#cms-form [name="title"]')).toHaveValue('작성 중인 내용');
+  await expect(page.locator('#form-title')).toHaveText('공지 수정');
   await page.locator('#cms-search').fill('검색어');
   await expect(page.locator('#item-list')).toContainText('검색어');
   await expect(page.locator('#cms-search')).toBeFocused();
@@ -62,6 +63,7 @@ test('이미지 삭제는 선택한 후보만 보내고 보호된 파일 결과�
     }
     return route.fulfill({ json: { candidates: [{ key: 'candidate-1', size: 5000 }, { key: 'candidate-2', size: 5000 }], orphanRsvps: 2, storageAvailable: true } });
   });
+  await page.locator('#workspace-tools').click();
   await page.locator('#maintenance-panel > summary').click();
   await page.locator('#maintenance-scan').click();
   await expect(page.locator('#upload-candidates input')).toHaveCount(2);
@@ -99,6 +101,7 @@ test('기존 이미지 최적화는 원본을 보존하고 충돌한 썸네일�
     savedBody = route.request().postDataJSON();
     return route.fulfill({ status: 409, json: { error: '다른 관리자가 먼저 저장했습니다.' } });
   });
+  await page.locator('#workspace-tools').click();
   await page.locator('#maintenance-panel > summary').click();
   page.on('dialog', (dialog) => dialog.accept());
   await page.locator('#gallery-optimize').click();

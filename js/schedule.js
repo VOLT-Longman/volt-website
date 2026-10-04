@@ -36,7 +36,11 @@
             : null;
         const expandedIds = new Set(Array.from(container.querySelectorAll('.schedule-item-toggle[aria-expanded="true"]'))
             .map((button) => button.closest('[data-schedule-event-id]')?.getAttribute('data-schedule-event-id')));
-        container.innerHTML = calendar.map((event) => {
+        container.innerHTML = !calendar.length ? `<div class="content-empty" role="status">
+            <span class="content-empty-mark" aria-hidden="true">—</span>
+            <h3>${escapeHtml(i18nT('schedule.emptyTitle', '등록된 일정이 없습니다.'))}</h3>
+            <p>${escapeHtml(i18nT('schedule.emptyDesc', '새로운 작전과 이벤트가 등록되면 이곳에서 확인할 수 있습니다.'))}</p>
+        </div>` : calendar.map((event) => {
             const eventId = getEventId(event);
             const detailId = `schedule-detail-${escapeHtml(eventId)}`;
             const expanded = expandedIds.has(eventId);

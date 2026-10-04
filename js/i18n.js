@@ -122,6 +122,8 @@
             // 일정 / 연혁
             'schedule.title': '작전 <span class="accent">일정</span>',
             'schedule.subtitle': '함대 주요 일정 및 이벤트',
+            'schedule.emptyTitle': '등록된 일정이 없습니다.',
+            'schedule.emptyDesc': '새로운 작전과 이벤트가 등록되면 이곳에서 확인할 수 있습니다.',
             'timeline.title': '함대 <span class="accent">연혁</span>',
             'timeline.subtitle': 'VOLT가 걸어온 길',
             // 공지(카드/모달 크롬)
@@ -648,6 +650,8 @@
             // Schedule / History
             'schedule.title': 'Operations <span class="accent">Schedule</span>',
             'schedule.subtitle': 'Key fleet dates & events',
+            'schedule.emptyTitle': 'No events scheduled.',
+            'schedule.emptyDesc': 'New operations and events will appear here when they are announced.',
             'timeline.title': 'Fleet <span class="accent">History</span>',
             'timeline.subtitle': "VOLT's journey so far",
             // notices (card/modal chrome)

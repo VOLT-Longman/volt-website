@@ -111,6 +111,9 @@ test.describe('관리자 공지 UX (P2-1)', () => {
         await expect(page.locator('#dashboard')).toBeVisible();
         await page.locator('#new-button').click();
 
+        await expect(page.locator('#notice-en-section')).not.toHaveAttribute('open', '');
+        await page.locator('#notice-en-section > summary').click();
+        await page.locator('#notice-preview-section > summary').click();
         const form = page.locator('#cms-form');
         await expect(form.locator('legend', { hasText: '한국어 공지' })).toBeVisible();
         await expect(form.locator('legend', { hasText: '영어 공지' })).toBeVisible();
@@ -129,11 +132,13 @@ test.describe('관리자 공지 UX (P2-1)', () => {
 
         await page.locator('#cms-form [name="title"]').fill('한글 제목');
         await page.locator('#cms-form [name="content"]').fill('한글 본문');
+        await page.locator('#notice-preview-section > summary').click();
         await expect(page.locator('#notice-preview-ko')).toContainText('한글 제목');
         // EN 비어 있음 → EN 미리보기가 KO fallback + 배지 표시
         await expect(page.locator('#notice-preview-en')).toContainText('한글 제목');
         await expect(page.locator('#notice-preview-en-fallback')).toBeVisible();
 
+        await page.locator('#notice-en-section > summary').click();
         await page.locator('#notice-title-en').fill('EN Title');
         await page.locator('#notice-content-en').fill('EN body');
         await page.locator('#notice-tag-en').fill('Notice');

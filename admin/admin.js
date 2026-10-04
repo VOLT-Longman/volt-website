@@ -443,7 +443,6 @@ async function loadItems(clearForm = true) {
   const formRevision = state.formRevision;
   const config = CONFIG[tab];
   $('#list-title').textContent = `${config.title} \ubaa9\ub85d${tab === 'notices' ? ' · \ucd5c\uc2e0\uc21c' : ''}`;
-  $('#form-title').textContent = `${config.title} \uc791\uc131`;
   let items;
   try {
     if (tab === 'ships') {
@@ -678,12 +677,13 @@ function renderForm(item) {
   }
   const config = CONFIG[state.tab];
   $('#form-title').textContent = `${config.title} ${item ? '\uc218\uc815' : '\uc791\uc131'}`;
+  $('#editing-item-title').textContent = item ? (item.merged?.name || item.title || item.name || item.id) : '새 콘텐츠를 작성합니다.';
   $('#delete-button').hidden = !item || state.tab === 'ships';
   $('#delete-button').textContent = '\uc0ad\uc81c';
   $('#cms-form').innerHTML = state.tab === 'ships'
     ? renderShipForm(item)
     : renderCollectionForm(config, item);
-  $('#form-message').textContent = '';
+  setFormMessage('');
   if (state.tab === 'notices') updateNoticePreview();
   renderList();
 }
@@ -698,20 +698,23 @@ function renderCollectionForm(config, item) {
 // 입력 name은 기존과 동일(getFormPayload/서버 계약 무변경). EN 필드는 명시적 label·aria로 연결한다.
 const NOTICE_EN_HINT_ID = 'notice-en-hint';
 function renderNoticeForm(item) {
-  const group = (legend, fields, hint) => `<fieldset class="admin-fieldset">
+  const group = (legend, fields, hint, className = '') => `<fieldset class="admin-fieldset ${className}">
       <legend>${escapeHtml(legend)}</legend>
       ${hint || ''}
       ${fields.map((field) => renderField(field, item)).join('')}
     </fieldset>`;
   const enHint = `<p class="admin-field-hint" id="${NOTICE_EN_HINT_ID}">비워두면 한국어 공지가 그대로 표시됩니다. (선택 입력)</p>`;
   return [
-    group('기본 정보', ['date', 'pinned', 'published']),
+    group('기본 정보', ['date', 'pinned', 'published'], '', 'notice-settings'),
     group('한국어 공지 (필수)', ['title', 'content', 'tag']),
-    `<fieldset class="admin-fieldset">
+    `<details class="admin-disclosure" id="notice-en-section"${item && (item.titleEn || item.contentEn || item.tagEn) ? ' open' : ''}>
+      <summary>영어 공지 <span>선택 입력</span></summary>
+      <fieldset class="admin-fieldset">
       <legend>영어 공지 (선택 입력)</legend>
       ${enHint}
       ${renderNoticeEnFields(item)}
-    </fieldset>`,
+      </fieldset>
+    </details>`,
     renderNoticePreview(),
   ].join('');
 }
@@ -729,7 +732,9 @@ function renderNoticeEnFields(item) {
 }
 
 function renderNoticePreview() {
-  return `<fieldset class="admin-fieldset notice-preview-group">
+  return `<details class="admin-disclosure" id="notice-preview-section">
+    <summary>미리보기 <span>저장 전 확인</span></summary>
+    <fieldset class="admin-fieldset notice-preview-group">
       <legend>미리보기</legend>
       <p class="admin-field-hint">저장 전 공지 카드가 어떻게 보일지 확인합니다.</p>
       <div class="notice-preview-grid">
@@ -742,7 +747,7 @@ function renderNoticePreview() {
           <div class="notice-preview-card" id="notice-preview-en" aria-live="polite"></div>
         </div>
       </div>
-    </fieldset>`;
+    </fieldset></details>`;
 }
 
 // 폼 입력값으로 KO/EN 미리보기 카드를 즉시 갱신한다. EN이 비면 KO fallback + 상태 배지.
@@ -953,12 +958,13 @@ function validatePayload(payload) {
 
 function setSaveBusy(busy) {
   state.saving = busy;
+  updateEditorStatus();
   const button = document.querySelector('button[type="submit"][form="cms-form"]');
   if (button) {
     button.disabled = busy;
     button.textContent = busy ? '저장 중…' : '저장';
   }
-  document.querySelectorAll('#cms-form input, #cms-form textarea, #cms-form select, #cms-form button, [data-tab], #new-button, #cancel-button, #delete-button, #logout-button, #cms-search, #list-prev, #list-next, .admin-tools button').forEach((control) => {
+  document.querySelectorAll('#cms-form input, #cms-form textarea, #cms-form select, #cms-form button, [data-tab], #new-button, #cancel-button, #delete-button, #logout-button, #cms-search, #list-prev, #list-next, .admin-tools button, .workspace-switch button').forEach((control) => {
     control.disabled = busy;
   });
   $('#item-list').inert = busy;
@@ -969,7 +975,7 @@ async function saveItem(event) {
   event.preventDefault();
   if (state.saving) return;
   if (state.pendingUploads) {
-    $('#form-message').textContent = '이미지 업로드가 끝난 뒤 저장해 주세요.';
+    setFormMessage('이미지 업로드가 끝난 뒤 저장해 주세요.', 'error');
     return;
   }
   setSaveBusy(true);
@@ -992,12 +998,12 @@ async function saveItem(event) {
       const saved = state.items.find((item) => item.id === savedId || item.shipId === savedId);
       if (saved) renderForm(saved);
     }
-    $('#form-message').textContent = '\uc800\uc7a5\ud588\uc2b5\ub2c8\ub2e4.';
+    setFormMessage('\uc800\uc7a5\ud588\uc2b5\ub2c8\ub2e4.');
     state.dirty = false;
   } catch (error) {
     if (error.status === 409) {
       // 동시 저장 충돌: 작성 내용은 폼에 그대로 유지된다. 안내만 표시.
-      $('#form-message').textContent = error.message;
+      setFormMessage(error.message, 'error');
     } else {
       showFormError(error);
     }
@@ -1056,7 +1062,7 @@ async function saveGalleryWithUploads() {
   state.dirty = failures.length > 0;
   const failureDetails = failures.map((item) => `${item.file.name}: ${item.error}`).join(' / ');
   const cleanupFailed = failures.some((item) => item.cleanupErrors.length);
-  $('#form-message').textContent = `업로드 결과: 성공 ${success}건, 실패 ${failures.length}건.${failures.length ? ` 실패한 파일은 선택 상태로 남아 있습니다. ${failureDetails}` : ''}${cleanupFailed ? ' 실패한 항목의 이미지 정리에도 실패했습니다. 관리자에게 문의해 주세요.' : ''}`;
+  setFormMessage(`업로드 결과: 성공 ${success}건, 실패 ${failures.length}건.${failures.length ? ` 실패한 파일은 선택 상태로 남아 있습니다. ${failureDetails}` : ''}${cleanupFailed ? ' 실패한 항목의 이미지 정리에도 실패했습니다. 관리자에게 문의해 주세요.' : ''}`, failures.length ? 'error' : 'success');
   if (progress) progress.textContent = '';
 }
 
@@ -1132,7 +1138,7 @@ async function deleteItem() {
     });
     state.editing = null;
     await loadItems();
-    $('#form-message').textContent = '삭제했습니다.';
+    setFormMessage('삭제했습니다.');
   } catch (error) {
     showFormError(error);
   } finally {
@@ -1151,7 +1157,7 @@ async function resetShipOverride() {
     });
     state.shipOverridesLoaded = false;
     await loadItems();
-    $('#form-message').textContent = '원본으로 되돌렸습니다.';
+    setFormMessage('원본으로 되돌렸습니다.');
   } catch (error) {
     showFormError(error);
   } finally {
@@ -1192,7 +1198,23 @@ function todayDate() {
 }
 
 function showFormError(error) {
-  $('#form-message').textContent = error.message || '\ucc98\ub9ac \uc911 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4.';
+  setFormMessage(error.message || '\ucc98\ub9ac \uc911 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4.', 'error');
+}
+
+function setFormMessage(message, tone = 'success') {
+  const node = $('#form-message');
+  node.textContent = message;
+  node.dataset.tone = message ? tone : '';
+  updateEditorStatus();
+}
+
+function updateEditorStatus() {
+  const badge = $('#editor-status');
+  if (!badge) return;
+  const message = $('#form-message');
+  const tone = state.saving ? 'busy' : state.pendingUploads ? 'busy' : message?.dataset.tone === 'error' ? 'error' : state.dirty ? 'dirty' : message?.textContent ? 'success' : 'idle';
+  badge.dataset.tone = tone;
+  badge.textContent = ({ busy: state.pendingUploads ? '이미지 업로드 중' : '처리 중', error: '확인 필요', dirty: '저장하지 않은 변경', success: '작업 완료', idle: state.editing ? '저장된 콘텐츠' : '새 콘텐츠' })[tone];
 }
 
 function bindEvents() {
@@ -1201,7 +1223,7 @@ function bindEvents() {
   $('#erkul-sync-preview-button')?.addEventListener('click', runErkulSyncPreview);
   $('#new-button').addEventListener('click', () => { if (!state.saving && !state.pendingUploads && confirmDiscard()) renderForm(null); });
   $('#cancel-button').addEventListener('click', () => { if (!state.saving && !state.pendingUploads && confirmDiscard()) renderForm(null); });
-  $('#cms-form').addEventListener('input', () => { state.dirty = true; state.formRevision += 1; updateNoticePreview(); });
+  $('#cms-form').addEventListener('input', () => { state.dirty = true; state.formRevision += 1; setFormMessage(''); updateEditorStatus(); updateNoticePreview(); });
   $('#delete-button').addEventListener('click', deleteItem);
   $('#cms-form').addEventListener('submit', saveItem);
   document.querySelectorAll('[data-tab]').forEach((button) => {
@@ -1233,7 +1255,9 @@ async function handleImageFieldUpload(input) {
   const status = document.querySelector(`[data-image-status="${field}"]`);
   const urlInput = document.querySelector(`[data-image-url="${field}"]`);
   state.pendingUploads += 1;
+  updateEditorStatus();
   state.dirty = true;
+  updateEditorStatus();
   state.formRevision += 1;
   try {
     if (status) status.textContent = '업로드 중…';
@@ -1252,6 +1276,7 @@ async function handleImageFieldUpload(input) {
     if (status) status.textContent = error.message || '업로드에 실패했습니다.';
   } finally {
     state.pendingUploads -= 1;
+    updateEditorStatus();
     input.value = '';
   }
 }
@@ -1278,6 +1303,7 @@ function handleListClick(event) {
   if (!button) return;
   if (!confirmDiscard()) return;
   renderForm(state.items.find((item) => item.id === button.dataset.id));
+  if (window.innerWidth <= 860) $('.admin-form-card').scrollIntoView({ block: 'start', behavior: 'smooth' });
 }
 
 async function handleDocumentClick(event) {
