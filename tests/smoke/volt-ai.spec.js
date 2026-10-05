@@ -4,10 +4,10 @@ const { mockApi, gotoSection } = require('./helpers');
 // M1 VOLT AI: 게이트(비활성/비로그인/멤버)와 근거 표시(출처·기준 시각) 계약을 고정한다.
 // 모델·백엔드는 전부 모킹 — 프런트는 /api/ai/chat 단일 관문만 안다.
 
-function mockAiConfig(page, { enabled = true } = {}) {
+function mockAiConfig(page, { enabled = true, mode = 'data' } = {}) {
     return page.route('**/api/ai/chat', (route) => {
         if (route.request().method() === 'GET') {
-            return route.fulfill({ json: { enabled, memberOnly: true, dailyLimit: 200 } });
+            return route.fulfill({ json: { enabled, mode, memberOnly: true, dailyLimit: 200 } });
         }
         return route.fallback();
     });
@@ -156,4 +156,19 @@ test.describe('VOLT AI (M1)', () => {
         await expect(page.locator('#volt-ai-messages .volt-ai-message')).toHaveCount(1);
         await expect(page.locator('#volt-ai-messages')).toContainText('VOLT AI입니다');
     });
+});
+
+
+test('Assisted beta discloses Cloudflare processing and preserves data-only fallback', async ({ page }) => {
+    await mockApi(page, { loggedIn: true });
+    await mockAiConfig(page, { mode: 'assisted' });
+    await page.route('**/api/ai/chat', (route) => route.request().method() === 'POST'
+        ? route.fulfill({ json: { ...CHAT_RESPONSE, aiNote: null, mode: 'data' } }) : route.fallback());
+    await gotoSection(page, '#ai');
+    await expect(page.locator('.volt-ai-chat-subtitle')).toContainText('AI 해설 베타');
+    await expect(page.locator('#volt-ai-messages')).toContainText('Cloudflare AI로 전달');
+    await page.locator('#volt-ai-input').fill('화물 함선 추천');
+    await page.locator('#volt-ai-input').press('Enter');
+    await expect(page.locator('.volt-ai-note')).toContainText('조회 데이터로 안내');
+    await expect(page.locator('.volt-ai-source-card')).toBeVisible();
 });

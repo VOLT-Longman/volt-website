@@ -1,25 +1,39 @@
-// VOLT AI 모델 어댑터 (M1) — 교체 가능 계층.
-// 현재 구현은 Cloudflare Workers AI 바인딩(env.AI). 다른 공급자로 바꾸려면
-// 이 파일의 runModel만 교체한다 — 호출부는 { text } | { unavailable } 계약만 안다.
-// 바인딩이 없거나 호출이 실패하면 unavailable을 반환하고, 호출부는 도구 데이터
-// 기반 템플릿 응답으로 폴백한다 (모델 없이도 동작하는 것이 M1 완료 조건).
+import { checkRateLimit } from './rate-limit.js';
 
-const DEFAULT_MODEL = '@cf/meta/llama-3.1-8b-instruct';
+// Fixed model and conservative limits for the Workers Free deployment.
+// The account's Free plan is the billing boundary, not a request-count estimate.
+export const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8-fast';
+export const MODEL_DAILY_LIMIT = 100;
+const MAX_INPUT_BYTES = 8000;
+const MAX_OUTPUT_TOKENS = 256;
+const TIMEOUT_MS = 8000;
 
 export async function runModel(env, { system, user, maxTokens }) {
   if (!env.AI || typeof env.AI.run !== 'function') return { unavailable: true, reason: 'no-binding' };
+  const messages = [{ role: 'system', content: system }, { role: 'user', content: user }];
+  if (new TextEncoder().encode(JSON.stringify(messages)).byteLength > MAX_INPUT_BYTES) {
+    return { unavailable: true, reason: 'input-limit' };
+  }
+  let timer;
   try {
-    const output = await env.AI.run(env.VOLT_AI_MODEL || DEFAULT_MODEL, {
-      messages: [
-        { role: 'system', content: system },
-        { role: 'user', content: user }
-      ],
-      max_tokens: maxTokens
-    });
-    const text = typeof output === 'string' ? output : (output?.response ?? '');
-    if (!text || !text.trim()) return { unavailable: true, reason: 'empty' };
+    const day = new Date().toISOString().slice(0, 10);
+    // Reserve before inference; failures/timeouts still consume capacity. Never retry.
+    const gate = await checkRateLimit(env, `ai_model_daily:${day}`, { limit: MODEL_DAILY_LIMIT, windowSeconds: 86400 });
+    if (gate.limited) return { unavailable: true, reason: 'daily-limit' };
+    const output = await Promise.race([
+      env.AI.run(MODEL, {
+        messages,
+        max_tokens: Math.min(MAX_OUTPUT_TOKENS, Math.max(1, Number.isFinite(maxTokens) ? Math.floor(maxTokens) : MAX_OUTPUT_TOKENS)),
+        temperature: 0.2
+      }),
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new DOMException('Model timeout', 'AbortError')), TIMEOUT_MS); })
+    ]);
+    const text = typeof output === 'string' ? output : output?.response;
+    if (typeof text !== 'string' || !text.trim()) return { unavailable: true, reason: 'empty' };
     return { text: text.trim() };
   } catch (error) {
     return { unavailable: true, reason: error?.name === 'AbortError' ? 'timeout' : 'error' };
+  } finally {
+    clearTimeout(timer);
   }
 }

@@ -4,11 +4,13 @@
 (function () {
     'use strict';
 
-    const state = { enabled: false, loggedIn: false, sending: false, history: [] };
+    const state = { enabled: false, assisted: false, loggedIn: false, sending: false, history: [] };
 
     const english = () => window.VOLT_I18N?.getLang() === 'en';
     const tr = (ko, en) => english() ? en : ko;
-    const intro = () => tr(INTRO_MEMBER + ' 데이터 기반 베타이며 자유 대화나 생성형 답변은 지원하지 않습니다. 대화는 새로고침하면 초기화됩니다.', 'VOLT AI is a data-based beta for ship recommendations, comparisons, UEX prices, events and notices. Answers include sources and timestamps. Generative chat is not connected. Conversations reset on refresh.');
+    const intro = () => state.assisted
+        ? tr(INTRO_MEMBER + ' Cloudflare AI가 참고용 해설을 덧붙입니다. 한도·연결 상태에 따라 데이터 답변만 제공할 수 있습니다. 질문과 조회 결과가 Cloudflare AI로 전달되니 개인정보·비밀번호는 입력하지 마세요. 대화는 새로고침하면 초기화됩니다.', 'VOLT AI looks up ships, UEX prices, events and notices with sources. Cloudflare AI adds optional commentary; limits or connection issues may leave data-only answers. Questions and retrieved records are sent to Cloudflare AI. Do not enter personal information or passwords. Conversations reset on refresh.')
+        : tr(INTRO_MEMBER + ' 데이터 기반 베타이며 자유 대화나 생성형 답변은 지원하지 않습니다. 대화는 새로고침하면 초기화됩니다.', 'VOLT AI is a data-based beta for ship recommendations, comparisons, UEX prices, events and notices. Answers include sources and timestamps. Generative chat is not connected. Conversations reset on refresh.');
 
     function el(tag, className, text) {
         const node = document.createElement(tag);
@@ -125,6 +127,8 @@
                 note.append(el('span', 'volt-ai-note-label', tr('AI 해설 · 참고용', 'AI commentary · reference only')));
                 note.append(el('p', 'volt-ai-note-text', result.data.aiNote));
                 bubble.append(note);
+            } else if (state.assisted && result.data.sources?.length && bubble) {
+                bubble.append(el('div', 'volt-ai-note', tr('이번 답변은 조회 데이터로 안내합니다. AI 해설은 한도·연결·검증 상태에 따라 생략될 수 있습니다.', 'This answer uses retrieved data. AI commentary may be omitted due to limits, connectivity or validation.')));
             }
             appendSources(pending, result.data.sources, result.data.freshness);
         } catch (_error) {
@@ -170,6 +174,7 @@
             return;
         }
         state.enabled = true;
+        state.assisted = config.data.mode === 'assisted';
         document.getElementById('ai')?.classList.add('is-data-beta');
 
         const auth = await fetchJson('/auth/me').catch(() => null);
@@ -184,7 +189,9 @@
     }
 
     function renderState(reset = true) {
-        const subtitle = tr('데이터 기반 베타 · 함선, 시세, 일정과 공지를 출처와 함께 확인하세요.', 'Data-based beta · Ships, prices, events and notices, with sources.');
+        const subtitle = state.assisted
+            ? tr('AI 해설 베타 · 출처 있는 데이터에 짧은 설명을 더합니다.', 'AI commentary beta · Sourced data with a little more context.')
+            : tr('데이터 기반 베타 · 함선, 시세, 일정과 공지를 출처와 함께 확인하세요.', 'Data-based beta · Ships, prices, events and notices, with sources.');
         const heading = document.querySelector('#ai .section-header p');
         if (heading) heading.textContent = subtitle;
         setSubtitle(subtitle);

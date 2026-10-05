@@ -396,3 +396,22 @@ test('일정 도구: 다가오는 일정이 LIMIT에 잘리지 않도록 정렬�
     assert.match(query, /event_date >= date\('now'\)/, '다가오는 일정을 정렬 우선순위로 올려야');
     assert.match(query, /LIMIT 20/, '상한 자체는 유지');
 });
+
+test('Generative failure retains sourced data; English commentary uses English instruction', async () => {
+    const env = baseEnv({ VOLT_AI_GENERATIVE_ENABLED: 'true', AI: { run: async (_model, payload) => {
+        assert.match(payload.messages[0].content, /sentences in English/);
+        throw new Error('Provider quota exceeded');
+    } } });
+    const cookie = await memberCookie(MEMBER, env);
+    const { context, settle } = makeContext(env, jsonRequest('https://volt.ceo/api/ai/chat', {
+        cookie, body: { message: 'recommend cargo ships', lang: 'en' }
+    }));
+    const response = await onRequestPost(context);
+    await settle();
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(body.mode, 'data');
+    assert.equal(body.aiNote, null);
+    assert.match(body.answer, /asgard/);
+    assert.ok(body.sources.length);
+});
