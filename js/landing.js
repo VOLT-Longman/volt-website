@@ -9,11 +9,11 @@
     'use strict';
 
     // main.js가 주입하는 의존성 (랜딩 리빌은 D-⑧부터 전용 관찰자를 쓴다)
-    let getAnnouncements, getShipsCount, getMemberLabel, currentLang;
+    let getAnnouncements, getShipsCount, getMemberLabel, currentLang, openNotice;
 
     function init(deps) {
         ({
-            getAnnouncements, getShipsCount, getMemberLabel, currentLang,
+            getAnnouncements, getShipsCount, getMemberLabel, currentLang, openNotice,
         } = deps || {});
     }
 
@@ -43,24 +43,48 @@
     // 날짜 정렬은 포맷에 의존하지 않는다. 저장 포맷은 YYYY-MM-DD로 통일했지만(0012),
     // 점 포맷 과거 행이 섞여도 순서가 뒤집히지 않도록 파싱해서 비교한다(js/notices.js와 동일 규칙).
     function noticeSortTime(value) {
-        const time = Date.parse(String(value || '').trim().replace(/\./g, '-'));
+        const time = Date.parse(String(value || '').trim().replace(/^(\d{4})\.(\d{2})\.(\d{2})/, '$1-$2-$3'));
         return Number.isNaN(time) ? 0 : time;
+    }
+
+    function newestFirst(a, b) {
+        return (noticeSortTime(b.date) - noticeSortTime(a.date))
+            || (noticeSortTime(b.updatedAt) - noticeSortTime(a.updatedAt));
+    }
+
+    function noticeLink(item, className) {
+        const link = el('a', className);
+        link.href = `?notice=${encodeURIComponent(item.id)}#notices`;
+        link.dataset.landingNoticeId = item.id;
+        return link;
     }
 
     // 최신 공지 3건 티저 (고정 공지 우선, 날짜 내림차순)
     function renderNoticeTeaser() {
         const container = document.getElementById('landing-notices-list');
-        const announcements = getAnnouncements();
+        const source = getAnnouncements();
+        const announcements = Array.isArray(source) ? source.filter(item => item.published !== false) : [];
         if (!container) return;
         container.replaceChildren();
-        if (!Array.isArray(announcements) || announcements.length === 0) return;
+        const spotlight = document.getElementById('hero-notice');
+        const news = document.getElementById('hero-news');
+        spotlight?.replaceChildren();
+        if (news) news.hidden = announcements.length === 0;
+        if (announcements.length === 0) return;
+        if (spotlight) {
+            const latest = [...announcements].sort(newestFirst)[0];
+            const link = noticeLink(latest, 'hero-notice-link');
+            const meta = el('span', 'hero-notice-meta');
+            meta.append(el('span', '', noticeField(latest, 'tag')), el('span', '', formatTeaserDate(latest.date)));
+            link.append(meta, el('strong', 'hero-notice-title', noticeField(latest, 'title')));
+            spotlight.append(link);
+        }
         const items = [...announcements]
             .sort((a, b) => (Boolean(b.pinned) - Boolean(a.pinned))
-                || (noticeSortTime(b.date) - noticeSortTime(a.date)))
+                || newestFirst(a, b))
             .slice(0, 3);
         for (const item of items) {
-            const row = el('a', 'landing-notice-row');
-            row.href = '#notices';
+            const row = noticeLink(item, 'landing-notice-row');
             const meta = el('div', 'landing-notice-meta');
             meta.append(el('span', 'landing-notice-tag', noticeField(item, 'tag')));
             meta.append(el('span', 'landing-notice-date', formatTeaserDate(item.date)));
@@ -177,6 +201,14 @@
     }
 
     function setup() {
+        document.getElementById('home')?.addEventListener('click', (event) => {
+            const link = event.target.closest('[data-landing-notice-id]');
+            if (!link || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+            const notice = getAnnouncements()?.find(item => String(item.id) === link.dataset.landingNoticeId && item.published !== false);
+            if (!notice || typeof openNotice !== 'function') return;
+            event.preventDefault();
+            openNotice(notice);
+        });
         setupLandingReveals();
         setupCountup();
         setupTilt();

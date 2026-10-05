@@ -34,8 +34,8 @@
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
   <link rel="preload" href="assets/images/landing/hero-01.webp" as="image" media="(min-width: 861px)">
   <link rel="preload" href="assets/images/landing/hero-01-m.webp" as="image" media="(max-width: 860px)">
-  <script src="js/theme-init.js?v=20261005-05"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20261005-05">
+  <script src="js/theme-init.js?v=20261005-06"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261005-06">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -74,7 +74,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20261005-05">
+   <link rel="stylesheet" href="css/noscript.css?v=20261005-06">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -200,9 +200,13 @@
       <p class="subtitle" data-i18n="hero.subtitle">물류와 무역을 위해 여행하는 항해자</p>
       <p class="description" data-i18n-html="hero.description">한국 기반 Star Citizen 물류·무역 전문 함대.<br>안전한 운송, 체계적인 무역, 전문적인 정보 전달을 핵심 가치로 운영됩니다.</p>
       <div class="hero-buttons">
-       <a href="#ships" data-section="ships" class="btn btn-secondary" data-i18n="hero.btnShips">함선DB 보기</a>
-       <a href="#trade-planner" data-section="trade-planner" class="btn btn-secondary" data-i18n="hero.btnPlanner">무역플래너</a>
-       <a href="#join" data-section="join" class="btn btn-primary" data-i18n="hero.btnJoin">가입하기</a>
+       <a href="#ships" data-section="ships" class="btn btn-secondary hero-action"><strong data-i18n="hero.btnShips">함선DB 보기</strong><span data-i18n="hero.shipsHint">제원·구매처 찾아보기</span><span class="hero-action-arrow" aria-hidden="true">↗</span></a>
+       <a href="#trade-planner" data-section="trade-planner" class="btn btn-secondary hero-action"><strong data-i18n="hero.btnPlanner">무역플래너</strong><span data-i18n="hero.plannerHint">운송 경로·수익 계산</span><span class="hero-action-arrow" aria-hidden="true">↗</span></a>
+       <a href="#join" data-section="join" class="btn btn-primary hero-action"><strong data-i18n="hero.btnJoin">가입하기</strong><span data-i18n="hero.joinHint">VOLT와 함께 항해하기</span><span class="hero-action-arrow" aria-hidden="true">↗</span></a>
+      </div>
+      <div class="hero-news" id="hero-news" hidden>
+       <div class="hero-news-heading"><span data-i18n="hero.latestNotice">최신 공지</span><a href="#notices" data-section="notices" data-i18n="landing.viewAll">전체 보기 →</a></div>
+       <div id="hero-notice"></div>
       </div>
       <dl class="hero-proof" aria-label="VOLT 핵심 지표">
        <div><dt>FOUNDED</dt><dd>2953</dd></div>
@@ -1003,26 +1007,26 @@
    </div>
   </div>
 
-<script src="js/shipdb-manufacturers.js?v=20261005-05" defer></script>
-<script src="js/shipdb-canonical.js?v=20261005-05" defer></script>
-<script src="data/volt-data.js?v=20261005-05" defer></script>
+<script src="js/shipdb-manufacturers.js?v=20261005-06" defer></script>
+<script src="js/shipdb-canonical.js?v=20261005-06" defer></script>
+<script src="data/volt-data.js?v=20261005-06" defer></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20261005-05" defer></script>
-<script src="js/i18n.js?v=20261005-05" defer></script>
-<script src="js/navigation.js?v=20261005-05" defer></script>
-<script src="js/notices.js?v=20261005-05" defer></script>
-<script src="js/schedule.js?v=20261005-05" defer></script>
-<script src="js/leadership.js?v=20261005-05" defer></script>
-<script src="js/landing.js?v=20261005-05" defer></script>
-<script src="js/site-content.js?v=20261005-05" defer></script>
-<script src="js/uex.js?v=20261005-05" defer></script>
-<script src="js/uex-panel.js?v=20261005-05" defer></script>
-<script src="js/trade-planner.js?v=20261005-05" defer></script>
-<script src="js/ships.js?v=20261005-05" defer></script>
-<script src="js/search-modal.js?v=20261005-05" defer></script>
-<script src="js/auth-ui.js?v=20261005-05" defer></script>
-<script src="js/mypage.js?v=20261005-05" defer></script>
-<script src="js/main.js?v=20261005-05" defer></script>
-<script src="js/volt-ai.js?v=20261005-05" defer></script>
+<script src="data/volt-localization.js?v=20261005-06" defer></script>
+<script src="js/i18n.js?v=20261005-06" defer></script>
+<script src="js/navigation.js?v=20261005-06" defer></script>
+<script src="js/notices.js?v=20261005-06" defer></script>
+<script src="js/schedule.js?v=20261005-06" defer></script>
+<script src="js/leadership.js?v=20261005-06" defer></script>
+<script src="js/landing.js?v=20261005-06" defer></script>
+<script src="js/site-content.js?v=20261005-06" defer></script>
+<script src="js/uex.js?v=20261005-06" defer></script>
+<script src="js/uex-panel.js?v=20261005-06" defer></script>
+<script src="js/trade-planner.js?v=20261005-06" defer></script>
+<script src="js/ships.js?v=20261005-06" defer></script>
+<script src="js/search-modal.js?v=20261005-06" defer></script>
+<script src="js/auth-ui.js?v=20261005-06" defer></script>
+<script src="js/mypage.js?v=20261005-06" defer></script>
+<script src="js/main.js?v=20261005-06" defer></script>
+<script src="js/volt-ai.js?v=20261005-06" defer></script>
  </body>
 </html>

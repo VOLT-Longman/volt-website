@@ -122,6 +122,10 @@
             'hero.btnShips': '함선DB 보기',
             'hero.btnPlanner': '무역플래너',
             'hero.btnJoin': '가입하기',
+            'hero.shipsHint': '제원·구매처 찾아보기',
+            'hero.plannerHint': '운송 경로·수익 계산',
+            'hero.joinHint': 'VOLT와 함께 항해하기',
+            'hero.latestNotice': '최신 공지',
             // 랜딩 하이라이트 (D-①)
             'landing.scrollHint': '아래로 스크롤',
             'landing.title': 'VOLT가 <span class="accent">제공하는 것</span>',
@@ -699,6 +703,10 @@
             'hero.btnShips': 'Browse Ship DB',
             'hero.btnPlanner': 'Trade Planner',
             'hero.btnJoin': 'Join VOLT',
+            'hero.shipsHint': 'Specs and purchase locations',
+            'hero.plannerHint': 'Plan routes and calculate profit',
+            'hero.joinHint': 'Start your journey with us',
+            'hero.latestNotice': 'Latest notice',
             // Landing highlights (D-①)
             'landing.scrollHint': 'Scroll down',
             'landing.title': 'What VOLT <span class="accent">offers</span>',

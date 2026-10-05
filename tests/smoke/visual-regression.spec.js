@@ -89,4 +89,12 @@ test.describe('스크린샷 회귀 (C-4)', () => {
         await expect(page).toHaveScreenshot('ships-mobile390.png', { maxDiffPixels: 120 });
         await ctx.close();
     });
+
+    test('모바일 390px: home', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await mockApi(page);
+        await gotoSection(page, '');
+        await stabilize(page);
+        await expect(page).toHaveScreenshot('home-mobile390.png', { maxDiffPixels: 120 });
+    });
 });

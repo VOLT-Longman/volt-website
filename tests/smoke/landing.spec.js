@@ -39,6 +39,43 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await expect(page.locator('.landing-notices-more')).toHaveAttribute('href', '#notices');
     });
 
+    for (const locale of ['ko-KR', 'en-US']) {
+        test(`첫 화면 공지: 최신순·번역·직접 열기·초점 복귀 (${locale})`, async ({ browser }) => {
+            const context = await browser.newContext({ locale, viewport: { width: 320, height: 844 } });
+            const page = await context.newPage();
+            await mockApi(page);
+            const title = locale === 'en-US' ? 'Latest fleet update <safe>' : '최신 함대 업데이트 <안전>';
+            await page.route('**/api/notices', route => route.fulfill({ json: { items: [
+                { id: 'old-pin', title: '지난 고정 공지', date: '2026-01-01', pinned: true, content: '이전 공지' },
+                { id: 'earlier', title: '먼저 게시한 공지', date: '2026-10-05', updatedAt: '2026-10-05T01:00:00.100Z' },
+                { id: 'latest & safe', title: '최신 함대 업데이트 <안전>', titleEn: 'Latest fleet update <safe>', date: '2026-10-05', updatedAt: '2026-10-05T02:00:00.100Z', tag: '시스템', tagEn: 'System', content: '공지 본문', contentEn: 'Notice body' }
+            ] } }));
+            await gotoSection(page, '');
+            const latest = page.locator('.hero-notice-link');
+            await expect(latest).toContainText(title);
+            await expect(latest).toHaveAttribute('href', '?notice=latest%20%26%20safe#notices');
+            await expect(page.locator('.landing-notice-row').first()).toContainText('지난 고정 공지');
+            expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+            await latest.click();
+            await expect(page.locator('#global-modal-title')).toHaveText(title);
+            await page.keyboard.press('Escape');
+            await expect(latest).toBeFocused();
+            await page.locator('.landing-notice-row').first().click();
+            await expect(page.locator('#global-modal-title')).toHaveText('지난 고정 공지');
+            await context.close();
+        });
+    }
+
+    test('공지 없는 첫 화면: 빈 소식 패널 숨김, 주요 메뉴 유지', async ({ page }) => {
+        await mockApi(page);
+        await page.route('**/api/notices', route => route.fulfill({ json: { items: [] } }));
+        await gotoSection(page, '');
+        await expect(page.locator('#hero-news')).toBeHidden();
+        await expect(page.locator('.hero-action')).toHaveCount(3);
+        await page.locator('.hero-action[href="#trade-planner"]').click();
+        await expect(page.locator('#trade-planner')).toHaveClass(/active/);
+    });
+
     test('카운트업: 랜딩 SHIPDB 수치가 최종값에 도달', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');

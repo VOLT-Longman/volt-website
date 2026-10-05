@@ -1889,6 +1889,7 @@
         // 랜딩(장식 계층)은 로드 실패해도 사이트가 동작해야 한다 — 옵셔널 참조 (라이브 블랭크 사고 예방)
         window.VOLT_LANDING?.init?.({
             getAnnouncements: () => data.announcements,
+            openNotice: (notice) => window.VOLT_NOTICES?.openNoticeModal?.(notice),
             getShipsCount: () => (publicShips.length > 0 ? publicShips.length : null),
             getMemberLabel,
             currentLang, observeNewReveals,
