@@ -1250,9 +1250,13 @@
         return modal;
     }
 
-    function openModal(content, wide = false) {
+    function openModal(content, wide = false, { refresh = false } = {}) {
         const modal = ensureModalRoot();
-        lastModalTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        const focused = document.activeElement;
+        const restoreCopyFocus = refresh && modal.contains(focused) && focused.classList.contains('notice-copy-link');
+        const restoreDialogFocus = refresh && modal.contains(focused);
+        const scrollTop = refresh ? activeModal?.scrollTop || 0 : 0;
+        if (!refresh) lastModalTrigger = focused instanceof HTMLElement ? focused : null;
         modal.innerHTML = `<div class="modal-card${wide ? ' modal-card-wide' : ''}" role="dialog" aria-modal="true">${content}</div>`;
         modal.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
@@ -1261,7 +1265,10 @@
         // 접근성: dialog에 접근 가능한 이름 부여. 제목이 있으면 aria-labelledby로 연결,
         // 없으면 일반 aria-label로 폴백(axe aria-dialog-name 위반 제거).
         labelModalDialog(activeModal);
-        activeModal.querySelector('.modal-close')?.focus();
+        if (!refresh || restoreDialogFocus) {
+            activeModal.querySelector(restoreCopyFocus ? '.notice-copy-link' : '.modal-close')?.focus({ preventScroll: refresh });
+        }
+        if (refresh) activeModal.scrollTop = scrollTop;
     }
 
     function labelModalDialog(dialog) {
@@ -1284,7 +1291,10 @@
         if (modal) modal.innerHTML = '';
         activeModal = null;
         document.body.style.overflow = '';
-        lastModalTrigger?.focus();
+        const noticeId = lastModalTrigger?.dataset.noticeId;
+        const trigger = lastModalTrigger?.isConnected ? lastModalTrigger
+            : noticeId ? document.querySelector(`[data-notice-id="${CSS.escape(noticeId)}"]`) : null;
+        trigger?.focus();
         lastModalTrigger = null;
     }
 
@@ -1933,7 +1943,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderCmsStatus(); updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); });
+            i18n.onChange(() => { renderCmsStatus(); updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); window.VOLT_NOTICES?.onLanguageChange?.(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); });
         }
         setupDynamicStyles();
         setupSplash();

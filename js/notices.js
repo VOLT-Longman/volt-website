@@ -209,8 +209,8 @@
         return blocks.join('');
     }
 
-    function openNoticeModal(announcement) {
-        openModal(`<div class="modal-header notice-reader-header">
+    function openNoticeModal(announcement, refresh = false) {
+        openModal(`<div class="modal-header notice-reader-header" data-notice-reader-id="${escapeHtml(announcement.id)}">
                 <div>
                     <div class="reader-eyebrow">VOLT · ${escapeHtml(noticeField(announcement, 'tag'))}</div>
                     ${announcement.pinned ? `<span class="notice-pin">${escapeHtml(i18nT('notices.pinned', '고정'))}</span>` : ''}
@@ -227,7 +227,14 @@
                 <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">${escapeHtml(i18nT('notices.copyLink', '공지 링크 복사'))}</button>
                 </aside>
                 <article class="notice-reader-article">${renderNoticeArticle(noticeField(announcement, 'content'))}</article>
-            </div>`, true);
+            </div>`, true, { refresh });
+    }
+
+    function onLanguageChange() {
+        const reader = document.querySelector('#global-modal.active [data-notice-reader-id]');
+        if (!reader) return;
+        const announcement = findAnnouncement(reader.dataset.noticeReaderId);
+        if (announcement) openNoticeModal(announcement, true);
     }
 
     async function copyNoticeLink(id) {
@@ -250,6 +257,7 @@
         openNoticeFromQuery,
         findAnnouncement,
         openNoticeModal,
+        onLanguageChange,
         copyNoticeLink,
     };
 })();

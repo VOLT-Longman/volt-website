@@ -114,3 +114,26 @@ test.describe('공지 다국어 (KO/EN)', () => {
         await expect(modal).not.toHaveClass(/active/);
     });
 });
+
+test('Open notice changes language while keeping dialog focus and returning to its card', async ({ page }) => {
+    await mockApi(page);
+    await routeNotices(page);
+    await gotoSection(page, '#notices');
+    await page.locator('[data-notice-id="en1"]').click();
+    const modal = page.locator('#global-modal');
+    await modal.locator('.notice-copy-link').focus();
+    await page.evaluate(() => window.VOLT_I18N.setLang('en'));
+    await expect(modal.locator('.modal-title')).toHaveText('English Title');
+    await expect(modal).toContainText('This is the English body.');
+    await expect(modal.locator('.notice-copy-link')).toHaveText('Copy notice link');
+    await expect(modal.locator('.notice-copy-link')).toBeFocused();
+    await page.evaluate(() => window.VOLT_I18N.setLang('ko'));
+    await expect(modal.locator('.modal-title')).toHaveText('한국어 제목');
+    await expect(modal).toContainText('한국어 본문입니다.');
+    await page.keyboard.press('Escape');
+    await expect(modal).not.toHaveClass(/active/);
+    await expect(page.locator('[data-notice-id="en1"]')).toBeFocused();
+    // A later language change must not resurrect a closed notice.
+    await page.locator('.nav-lang [data-set-lang="en"]').click();
+    await expect(modal).not.toHaveClass(/active/);
+});
