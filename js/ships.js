@@ -1065,7 +1065,7 @@
                 if (modalRoot?.classList.contains('active')) openShipModal(ship, true);
             });
         }
-        openModal(`<div class="modal-header">
+        openModal(`<div class="modal-header ship-reader-header">
                 <div>
                     <div class="ship-mfr">${escapeHtml(displayedManufacturer(ship))}</div>
                     <h2 class="modal-title">${escapeHtml(getShipDisplayName(ship))}</h2>
@@ -1073,18 +1073,20 @@
                 </div>
                 <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '모달 닫기'))}">×</button>
             </div>
-            <div class="modal-body">
-                <p>${escapeHtml(shipModalDescription(ship, liveStats))}</p>
-                ${renderShipBaseGrid(ship, liveStats)}
-                ${renderShipLiveSummary(liveStats, liveMarket)}
-                ${renderShipMarketPanel(liveStats, liveMarket)}
+            <div class="modal-body ship-reader-body">
+                <div class="ship-reader-overview">
+                    ${renderShipBaseGrid(ship, liveStats)}
+                    ${renderShipLiveSummary(liveStats, liveMarket)}
+                </div>
+                <aside class="ship-reader-market">${renderShipMarketPanel(liveStats, liveMarket)}</aside>
+                <p class="ship-reader-description">${escapeHtml(shipModalDescription(ship, liveStats))}</p>
                 ${renderShipLiveDetails(liveStats)}
-                <div class="ship-modal-actions">
+            </div>
+                <div class="ship-modal-actions ship-reader-actions">
                     <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
                     ${renderShipPlannerAction(ship, 'btn btn-secondary ship-modal-link')}
                     ${renderHangarToggleButton(ship, true)}
-                </div>
-            </div>`);
+                </div>`, true);
     }
     function renderShipPlannerAction(ship, className) {
         if (!isPlannerEligibleShip(ship)) return '';

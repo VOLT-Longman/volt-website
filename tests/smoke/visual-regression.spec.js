@@ -68,6 +68,18 @@ test.describe('스크린샷 회귀 (C-4)', () => {
         await expect(page.locator('#global-modal .modal-card')).toHaveScreenshot('ship-modal-asgard.png', { maxDiffPixels: 120 });
     });
 
+    test('데스크톱: 공지 읽기 화면', async ({ page }) => {
+        await mockApi(page);
+        await page.route('**/api/notices', route => route.fulfill({ json: { items: [{
+            id: 'reader-visual', title: '함선DB 및 무역플래너 업데이트 안내', date: '2026-10-05', tag: '시스템',
+            content: '■ 내용\n\n안녕하세요, VOLT 함대원 여러분.\n\n함선 정보와 무역 경로를 더 편리하게 확인할 수 있도록 홈페이지를 개선했습니다.\n\n⸻\n\n■ 주요 변경 사항\n\n최신 함선 제원과 구매처를 한눈에 확인하고, 무역플래너에서 거래 가능량을 비교해 보세요.\n\n⸻\n\n■ 사용 방법\n\n함선DB에서 원하는 함선을 선택하면 상세 정보를 볼 수 있습니다.'
+        }] } }));
+        await gotoSection(page, '#notices');
+        await page.locator('[data-notice-id="reader-visual"]').click();
+        await stabilize(page);
+        await expect(page.locator('#global-modal .modal-card')).toHaveScreenshot('notice-reader.png', { maxDiffPixels: 120 });
+    });
+
     test('모바일 390px: ships', async ({ browser }) => {
         const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
         const page = await ctx.newPage();

@@ -19,7 +19,7 @@ async function assertNoNewViolations(page, allowlist) {
     const results = await new AxeBuilder({ page }).analyze();
     const blocking = results.violations.filter((v) => BLOCKING_IMPACTS.has(v.impact));
     const unexpected = blocking.filter((v) => !allowlist.includes(v.id));
-    const summary = unexpected.map((v) => `(${v.impact}) ${v.id}: ${v.help}`);
+    const summary = unexpected.map((v) => `(${v.impact}) ${v.id}: ${v.help}\n${v.nodes.map(node => `${node.target.join(' ')}: ${node.failureSummary}`).join('\n')}`);
     expect(summary, `새 접근성 위반:\n${summary.join('\n')}`).toEqual([]);
 }
 

@@ -189,22 +189,46 @@
         return (getAnnouncements() || []).find((announcement) => announcement.id === id);
     }
 
+    function renderNoticeArticle(content) {
+        const blocks = [];
+        let paragraph = [];
+        const flush = () => {
+            if (paragraph.length) blocks.push(`<p>${formatMultilineText(paragraph.join('\n'))}</p>`);
+            paragraph = [];
+        };
+        for (const line of String(content || '').replace(/\r\n?/g, '\n').split('\n')) {
+            const trimmed = line.trim();
+            if (!trimmed || /^⸻+$/.test(trimmed)) {
+                flush();
+                if (trimmed) blocks.push('<hr>');
+            } else if (/^■\s*\S/.test(trimmed)) {
+                flush();
+                blocks.push(`<h3>${escapeHtml(trimmed.replace(/^■\s*/, ''))}</h3>`);
+            } else paragraph.push(line);
+        }
+        flush();
+        return blocks.join('');
+    }
+
     function openNoticeModal(announcement) {
-        openModal(`<div class="modal-header">
+        openModal(`<div class="modal-header notice-reader-header">
                 <div>
+                    <div class="reader-eyebrow">VOLT · ${escapeHtml(noticeField(announcement, 'tag'))}</div>
                     ${announcement.pinned ? `<span class="notice-pin">${escapeHtml(i18nT('notices.pinned', '고정'))}</span>` : ''}
                     <h2 class="modal-title">${escapeHtml(noticeField(announcement, 'title'))}</h2>
                 </div>
                 <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('notices.modalClose', '모달 닫기'))}">×</button>
             </div>
-            <div class="modal-body notice-modal-body">
-                <div class="notice-meta">
+            <div class="modal-body notice-modal-body notice-reader-layout">
+                <aside class="notice-reader-sidebar">
+                  <div class="notice-meta">
                     <span class="notice-tag">${escapeHtml(noticeField(announcement, 'tag'))}</span>
                     <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
-                </div>
-                <p>${formatMultilineText(noticeField(announcement, 'content'))}</p>
+                  </div>
                 <button class="btn btn-secondary notice-copy-link" type="button" data-copy-notice-id="${escapeHtml(announcement.id)}">${escapeHtml(i18nT('notices.copyLink', '공지 링크 복사'))}</button>
-            </div>`);
+                </aside>
+                <article class="notice-reader-article">${renderNoticeArticle(noticeField(announcement, 'content'))}</article>
+            </div>`, true);
     }
 
     async function copyNoticeLink(id) {
