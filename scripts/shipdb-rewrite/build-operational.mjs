@@ -36,6 +36,8 @@ const records = ids.map((id) => {
   return {
     id,
     syncedAt: live.syncedAt ?? null,
+    sourceVersion: live.sourceVersion ?? null,
+    sourceGeneratedAt: live.sourceGeneratedAt ?? null,
     erkulLocalName: live.erkulLocalName ?? null,
     erkulRef: live.erkulRef ?? null,
     erkulStatus: base.erkulStatus ?? null, // 격리 — 공개 canonical 미노출

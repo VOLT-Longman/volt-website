@@ -938,13 +938,15 @@
             liveStatItem(i18nT('ships.live.purchaseCount', '구매처 수'), purchase.length || null)
         ].join('');
         if (!items) return '';
-        const synced = String(live.syncedAt || '').slice(0, 10);
+        const synced = live.syncedAt ? new Date(live.syncedAt).toLocaleDateString(currentLang() === 'en' ? 'en-GB' : 'ko-KR', { timeZone: 'Asia/Seoul' }) : '';
+        const version = live.sourceVersion && live.sourceVersion !== 'live' ? live.sourceVersion : i18nT('ships.live.versionUnknown', '버전 미확인 · 과거 자료');
         return `<section class="ship-live-summary">
                 <div class="ship-live-heading">
                     <h3>${escapeHtml(i18nT('ships.live.title', 'Live 상세 정보'))}</h3>
-                    <span class="ship-live-meta">${escapeHtml(i18nT('ships.live.source', 'Erkul live'))}${synced ? ` · ${escapeHtml(synced)}` : ''}</span>
+                    <span class="ship-live-meta">${escapeHtml(i18nT('ships.live.source', 'Erkul live'))} · ${escapeHtml(version)}${synced ? ` · ${escapeHtml(synced)}` : ''}</span>
                 </div>
                 <div class="ship-modal-grid ship-live-grid">${items}</div>
+                <p class="ship-live-meta">${escapeHtml(i18nT('ships.live.cargoScope', '화물량은 일반 화물칸 기준이며 채굴용 광석 저장량과는 다릅니다.'))}</p>
             </section>`;
     }
     function renderMarketRow(row, isRental) {

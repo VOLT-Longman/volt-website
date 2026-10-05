@@ -1,13 +1,24 @@
 {
   "source": "erkul-live",
   "endpoints": {
-    "ships": "https://server.erkul.games/live/ships",
-    "shop": "https://server.erkul.games/shop"
+    "ships": "https://cdn.erkul.games/LIVE/catalog.bin",
+    "shop": "https://cdn.erkul.games/prices.bin"
   },
-  "fetchedAt": "2026-07-17T15:11:08.433Z",
+  "catalog": {
+    "source": "erkul-live",
+    "version": "4.10.1-LIVE.12660092",
+    "generatedAt": "2026-10-04T07:37:31.475Z",
+    "pricesGeneratedAt": "2026-10-04T09:23:36.525Z",
+    "fetchedAt": "2026-10-05T01:53:08.789Z"
+  },
+  "fetchedAt": "2026-10-05T01:53:08.801Z",
   "shipCount": 220,
-  "shopCount": 112,
-  "shipsBytes": 5021181,
-  "shopBytes": 386011,
-  "note": "ships.raw.json / shop.raw.json은 용량 문제로 git에 커밋하지 않는다 (.gitignore 참조). 커밋 대상은 asgard.raw.json / asgard-field-sample.json / fetch-meta.json."
+  "shopCount": 39,
+  "shipsBytes": 483271,
+  "shopBytes": 61007,
+  "rawSha256": {
+    "ships": "eda7537b974e0ed50637fb33a17b7020d0b48f821f92a436dedd75686b99a441",
+    "shops": "e5852f964b04f0a7554089f71912cdb79524a1a2ee04e5049e605ea150a3b7f0"
+  },
+  "note": "Safe Apply confirmed input snapshot. Raw files remain local-only by .gitignore."
 }

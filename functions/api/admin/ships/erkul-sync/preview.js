@@ -1,16 +1,14 @@
 import { requireAdmin } from '../../../../_shared/auth.js';
 import { json, error, methodNotAllowed } from '../../../../_shared/http.js';
 import {
-  ERKUL_SHIPS_ENDPOINT,
-  ERKUL_SHOP_ENDPOINT,
   ErkulFetchError,
-  fetchErkulJson,
   parseDataLayerJs,
   buildSyncPreview,
   buildNextLayers,
   computePreviewHash,
   normalizeMarketOnlyMappings
 } from '../../../../_shared/erkul-sync.js';
+import { fetchErkulCatalog } from '../../../../_shared/erkul-catalog.js';
 
 // Erkul live 동기화 미리보기 (읽기 전용).
 // 현재 배포된 data/ship-live-stats.js·ship-market.js를 기준으로 Erkul 최신 데이터와의 diff를 반환한다.
@@ -57,15 +55,19 @@ export async function onRequest({ request, env }) {
 
   let erkulShipsRaw;
   let erkulShopsRaw;
+  let sourceMetadata;
   try {
-    erkulShipsRaw = await fetchErkulJson(ERKUL_SHIPS_ENDPOINT);
-    erkulShopsRaw = await fetchErkulJson(ERKUL_SHOP_ENDPOINT);
+    const cacheText = await fetchAsset('/data/external/erkul/catalog-details.json', { optional: true });
+    const snapshot = await fetchErkulCatalog({ detailCache: cacheText ? JSON.parse(cacheText) : {}, maxDetailRequests: 35 });
+    erkulShipsRaw = snapshot.ships;
+    erkulShopsRaw = snapshot.shops;
+    sourceMetadata = snapshot.metadata;
   } catch (cause) {
     if (cause instanceof ErkulFetchError) {
       const status = cause.kind === 'timeout' || cause.kind === 'network' ? 503 : 502;
       return error(`Erkul 데이터를 가져오지 못했습니다: ${cause.message}`, status);
     }
-    throw cause;
+    return error(`Erkul 동기화 확인 실패: ${cause.message}`, 503);
   }
 
   if (!Array.isArray(erkulShipsRaw) || erkulShipsRaw.length < 100) {
@@ -76,6 +78,7 @@ export async function onRequest({ request, env }) {
   }
 
   const preview = buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, matchBaseline, marketOnlyMappings });
+  preview.catalog = sourceMetadata;
   // Safe Apply(A-8)용 hash: 로컬 스크립트가 같은 조건으로 재계산해 일치할 때만 파일을 쓴다.
   const nextLayers = buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, erkulShopsRaw, marketOnlyMappings });
   preview.previewHash = await computePreviewHash(nextLayers);

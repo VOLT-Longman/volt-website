@@ -118,7 +118,7 @@ test.describe('i18n (KO/EN)', () => {
         const ctx = await browser.newContext({ locale: 'en-US' });
         const page = await ctx.newPage();
         await page.route(/\/api\/uex\/commodities$/, (r) => r.fulfill({ json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] } }));
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (r) => r.fulfill({ json: { status: 'ok', data: [
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (r) => r.fulfill({ json: { status: 'ok', data: [
             { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
             { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', star_system_name: 'Pyro', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 8000 },
         ] } }));

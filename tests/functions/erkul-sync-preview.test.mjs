@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { deflateRawSync } from 'node:zlib';
 
 import { onRequest as previewHandler } from '../../functions/api/admin/ships/erkul-sync/preview.js';
 import { parseDataLayerJs, buildSyncPreview, buildNextLayers, computePreviewHash, normalizeErkulShip, normalizeMarketOnlyMappings } from '../../functions/_shared/erkul-sync.js';
@@ -85,6 +87,7 @@ function mockAssets({ stats, market }) {
             if (url.pathname === '/data/external/erkul/ship-match-report.json') {
                 return new Response(JSON.stringify({ unmatchedVolt: [{ voltId: 'javelin' }] }));
             }
+            if (url.pathname === '/data/external/erkul/catalog-details.json') return new Response(JSON.stringify(catalogFixture(fixtureFleet()).details));
             return new Response('not found', { status: 404 });
         }
     };
@@ -92,16 +95,52 @@ function mockAssets({ stats, market }) {
 
 function mockErkulFetch({ ships, shops, failShips = false } = {}) {
     const original = globalThis.fetch;
+    const fixture = catalogFixture({ ships, shops });
     globalThis.fetch = async (url) => {
         const target = String(url);
-        if (target.includes('/live/ships')) {
+        if (target.endsWith('/catalog.bin')) {
             if (failShips) return new Response('blocked', { status: 403 });
-            return new Response(JSON.stringify(ships));
+            return new Response(fixture.files['catalog.bin']);
         }
-        if (target.includes('/shop')) return new Response(JSON.stringify(shops));
+        const file = target.split('/').pop();
+        if (fixture.files[file]) return new Response(fixture.files[file]);
         throw new Error(`예상 밖 fetch: ${target}`);
     };
     return () => { globalThis.fetch = original; };
+}
+
+function catalogFixture({ ships = [], shops = [] }) {
+    const files = {};
+    const bin = (name, value) => {
+        files[name] = deflateRawSync(Buffer.from(JSON.stringify(value)));
+        return createHash('sha256').update(files[name]).digest('hex');
+    };
+    const details = {};
+    const entries = ships.map(s => {
+        const d = s.data;
+        const detail = { ref: d.ref, className: s.localName, i18n: { description: d.description }, vehicle: { insurance: d.insurance, fusePenetrationMultiplier: d.vehicle?.fusePenetrationDamageMultiplier, componentPenetrationMultiplier: d.vehicle?.componentPenetrationDamageMultiplier }, precomputed: { hp: { total: d.hull?.totalHp }, massFixedKg: d.hull?.mass, cargo: d.cargo, flight: { ...d.ifcs, pitch: d.ifcs?.angularVelocity?.x, yaw: d.ifcs?.angularVelocity?.z, roll: d.ifcs?.angularVelocity?.y }, fuel: { hydrogenCapacity: d.fuelCapacity, quantumCapacity: d.qtFuelCapacity }, armorModifiers: d.armor?.data?.armor?.damageMultiplier } };
+        details[s.localName] = { adapterVersion: 2, sha256: bin(`${s.localName}.bin`, detail), detail };
+        return { ref: d.ref, className: s.localName, name: d.name, size: d.size, category: 'AssembledShip', manufacturerName: d.manufacturerData?.data?.name, role: d.vehicle?.role, career: d.vehicle?.career, crewSize: d.vehicle?.crewSize, dimensions: d.vehicle?.size };
+    });
+    const version = '4.10.1-LIVE.test';
+    const generatedAt = '2026-10-04T00:00:00Z';
+    const indexHash = bin('index.bin', { dataVersion: version, ships: entries });
+    const groupHash = bin('ships.group.bin', { blobs: ships.map(s => ({ ref: s.data.ref, path: `${s.localName}.bin`, sha256: details[s.localName].sha256 })) });
+    bin('catalog.bin', { schemaVersion: 8, branch: 'LIVE', dataVersion: version, generatedAt, singles: [{ kind: 'index', path: 'index.bin', sha256: indexHash }], groups: [{ kind: 'ships', indexPath: 'ships.group.bin', indexSha256: groupHash }] });
+    const terminals = {}, items = {};
+    shops.forEach((s, id) => {
+        terminals[id] = { name: s.data.name, city: s.data.location };
+        const inventory = s.data.inventory.length ? s.data.inventory : ships.length ? [{ localName: ships[Math.min(id + 1, ships.length - 1)].localName, price: 100 }] : [];
+        inventory.forEach(row => {
+            const ref = ships.find(ship => ship.localName === row.localName)?.data.ref;
+            if (ref) {
+                items[ref] ||= [];
+                items[ref].push({ terminal: id, [s.data.rental ? 'rent' : 'buy']: row.price });
+            }
+        });
+    });
+    bin('prices.bin', { schemaVersion: 2, catalog: { LIVE: version }, terminals, items });
+    return { files, details };
 }
 
 // 219/112 하한 검증을 통과할 크기의 픽스처 생성

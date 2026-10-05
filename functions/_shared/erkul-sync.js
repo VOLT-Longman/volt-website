@@ -7,8 +7,8 @@
 
 import { toPlatform } from './erkul-platform.js';
 
-export const ERKUL_SHIPS_ENDPOINT = 'https://server.erkul.games/live/ships';
-export const ERKUL_SHOP_ENDPOINT = 'https://server.erkul.games/shop';
+export const ERKUL_SHIPS_ENDPOINT = 'https://cdn.erkul.games/LIVE/catalog.bin';
+export const ERKUL_SHOP_ENDPOINT = 'https://cdn.erkul.games/prices.bin';
 export const ERKUL_FETCH_TIMEOUT_MS = 30000;
 
 const ERKUL_HEADERS = {
@@ -91,6 +91,7 @@ export function normalizeErkulShip(record) {
   const hasXY = typeof size?.x === 'number' && typeof size?.y === 'number';
   return {
     localName: toNull(record?.localName),
+    ...(record.catalogVersion ? { sourceVersion: record.catalogVersion, sourceGeneratedAt: record.catalogGeneratedAt } : {}),
     name: toNull(d.name),
     ref: toNull(d.ref),
     manufacturer: toNull(d.manufacturerData?.data?.name),
@@ -110,9 +111,9 @@ export function normalizeErkulShip(record) {
       yaw: toNull(d.ifcs?.angularVelocity?.z),
       roll: toNull(d.ifcs?.angularVelocity?.y),
       // raw에 없는 Erkul 클라이언트 계산값 — A-2 결정대로 null 유지
-      boostedPitch: null,
-      boostedYaw: null,
-      boostedRoll: null,
+      boostedPitch: record.catalogVersion ? toNull(d.ifcs?.boostedPitch) : null,
+      boostedYaw: record.catalogVersion ? toNull(d.ifcs?.boostedYaw) : null,
+      boostedRoll: record.catalogVersion ? toNull(d.ifcs?.boostedRoll) : null,
       currentPitch: null,
       currentYaw: null,
       currentRoll: null
@@ -203,6 +204,9 @@ export function normalizeErkulMarket(rawShops) {
 const STATS_DIFF_PATHS = [
   'cargoScu', 'hp', 'size', 'crewSize', 'massKg',
   'speeds.scm', 'speeds.scmBoostForward', 'speeds.scmBoostBackward', 'speeds.navMax',
+  'rotation.pitch', 'rotation.yaw', 'rotation.roll',
+  'rotation.boostedPitch', 'rotation.boostedYaw', 'rotation.boostedRoll',
+  'countermeasures.decoy', 'countermeasures.noise',
   'fuel.hydrogenScu', 'fuel.quantumScu',
   'insurance.expeditionFee', 'insurance.claimTime', 'insurance.expediteTime',
   'damageReduction.physical', 'damageReduction.energy', 'damageReduction.distortion',
@@ -342,7 +346,8 @@ function buildDescriptions(currentEntry, incoming) {
 function buildLiveStatsEntry(currentEntry, incoming) {
   return {
     source: 'erkul-live',
-    sourceVersion: 'live',
+    sourceVersion: incoming.sourceVersion ?? 'live',
+    ...(incoming.sourceGeneratedAt ? { sourceGeneratedAt: incoming.sourceGeneratedAt } : {}),
     syncedAt: null, // hash 안정성을 위해 null — 파일 쓰기 시점에 주입
     erkulLocalName: currentEntry.erkulLocalName,
     erkulRef: incoming.ref ?? currentEntry.erkulRef ?? null,
@@ -399,7 +404,8 @@ export function buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, er
     const incomingMarket = mergeMappedMarketRows(market.byLocal.get(entry.erkulLocalName), voltId, market.byLocal, marketOnlyMappings);
     nextMarket[voltId] = {
       source: 'erkul-live',
-      sourceVersion: 'live',
+      sourceVersion: incoming.sourceVersion ?? 'live',
+      ...(incoming.sourceGeneratedAt ? { sourceGeneratedAt: incoming.sourceGeneratedAt } : {}),
       syncedAt: null,
       erkulLocalName: entry.erkulLocalName,
       erkulRef: incoming.ref ?? entry.erkulRef ?? null,

@@ -1,18 +1,31 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-07-20T14:27:20.482Z",
-  "appliedAt": "2026-07-20T14:27:20.482Z",
+  "syncedAt": "2026-10-05T01:53:08.801Z",
+  "appliedAt": "2026-10-05T01:53:08.801Z",
   "appliedBy": "shipdb:erkul:apply (safe apply)",
-  "previewHash": "922cee8de19cffdd2c7dca68e64179899bc7e2ecee8d7d13e87182f93d94a91d",
+  "previewHash": "e81af281f99aaf16a7367f7caf2f33b22d99cf381dcbdbf997b2ef4ad69db72e",
   "matchedInput": 219,
   "liveStatsEntries": 219,
   "marketEntries": 219,
-  "entriesWithPurchase": 177,
-  "entriesWithRentals": 45,
-  "entriesWithoutMarket": 42,
+  "entriesWithPurchase": 172,
+  "entriesWithRentals": 47,
+  "entriesWithoutMarket": 47,
   "skipped": {
-    "newCandidates": 1,
-    "marketOnly": 557
+    "newCandidates": 4,
+    "marketOnly": 0
   },
-  "warnings": []
+  "warnings": [
+    "Erkul live에 없는 함선이라 기존 값 유지: anvl_ballista_dunestalker (volt: anvil-ballista-dunestalker)",
+    "Erkul live에 없는 함선이라 기존 값 유지: anvl_ballista_snowblind (volt: anvil-ballista-snowblind)",
+    "Erkul live에 없는 함선이라 기존 값 유지: xian_nox_kue (volt: nox-kue)"
+  ],
+  "catalog": {
+    "source": "erkul-live",
+    "version": "4.10.1-LIVE.12660092",
+    "generatedAt": "2026-10-04T07:37:31.475Z",
+    "pricesGeneratedAt": "2026-10-04T09:23:36.525Z",
+    "fetchedAt": "2026-10-05T01:53:08.789Z"
+  },
+  "updatedEntries": 216,
+  "historicalEntries": 3
 }

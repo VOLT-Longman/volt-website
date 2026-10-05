@@ -224,6 +224,9 @@
             detailEl.textContent = ready && qty > 0
                 ? `${t('ledger.selectionQtyHint', '{qty} SCU 기준', { qty: formatCount(qty) })} · ${t('ledger.selectionPerScu', 'SCU당 {amount}', { amount: formatCredits(perScu) })}`
                 : t('ledger.selectionNoQty', '수량을 입력하면 총 이윤이 계산됩니다.');
+            if (ready && Number.isFinite(model.tradeLimitScu) && qty > model.tradeLimitScu) {
+                detailEl.textContent += ` · ${t('ledger.stockWarning', '보고된 재고·수요 한도 {limit} SCU 초과 · 이론 수익', { limit: formatCount(model.tradeLimitScu) })}`;
+            }
         }
     }
 

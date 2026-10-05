@@ -29,7 +29,7 @@ test.describe('무역플래너', () => {
         await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({
             json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'GOLD', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] },
         }));
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({
             json: { status: 'ok', data: [
                 { id_terminal: 101, terminal_name: 'Port A', id_commodity: 1, commodity_name: 'Gold', price_buy: 100, price_sell: 0, date_modified: 1700000000 },
                 { id_terminal: 102, terminal_name: 'Port B', id_commodity: 1, commodity_name: 'Gold', price_buy: 0, price_sell: 180, date_modified: 1700000000 },
@@ -124,7 +124,7 @@ test.describe('무역플래너', () => {
         await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({
             json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] },
         }));
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({
             json: { status: 'ok', data: [
                 { terminal_name: 'Station A', space_station_name: 'Station A', price_buy: 100, price_sell: 120, date_modified: 1700000000 },
                 { terminal_name: 'City B', city_name: 'Lorville', price_buy: 90, price_sell: 130, date_modified: 1700000000 },
@@ -170,12 +170,12 @@ test.describe('무역플래너', () => {
             { id: 2, name: 'Beryl', code: 'B', category_name: 'Metal', is_visible: 1, is_available_live: 1 },
         ] } }));
         // Gold: 스테이션 매수 + 스테이션 매도 (auto 그룹)
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: [
             { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
             { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 8000 },
         ] } }));
         // Beryl: 지상기지 매수 + 지상기지 매도
-        await page.route(/\/api\/uex\/commodities\/2\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+        await page.route(/\/api\/uex\/commodities\/2\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: [
             { terminal_name: 'Shubin', outpost_name: 'Shubin', price_buy: 80, price_sell: 0, date_modified: 1700000000, scu_buy: 1000 },
             { terminal_name: 'Rayari', outpost_name: 'Rayari', price_buy: 0, price_sell: 140, date_modified: 1700000000, scu_sell: 900 },
         ] } }));
@@ -212,7 +212,7 @@ test.describe('무역플래너', () => {
         await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({
             json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] },
         }));
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({
             json: { status: 'ok', data: [
                 { terminal_name: 'StantonBuy', space_station_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
                 { terminal_name: 'StantonSell', space_station_name: 'ARC-L1', star_system_name: 'Stanton', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 4000 },
@@ -265,7 +265,7 @@ test.describe('무역플래너', () => {
         await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({
             json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] },
         }));
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({
             json: { status: 'ok', data: [
                 { terminal_name: 'Port A', space_station_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 100, price_sell: 0, date_modified: 1700000000 },
                 { terminal_name: 'Port B', space_station_name: 'ARC-L1', star_system_name: 'Stanton', price_buy: 0, price_sell: 180, date_modified: 1700000000 },
@@ -291,7 +291,7 @@ test.describe('무역플래너', () => {
             { id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 },
         ] } }));
         // Gold는 스테이션 전용 → 지상기지 필터에선 추천 0
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: [
             { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
             { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 150, date_modified: 1700000000, scu_sell: 8000 },
         ] } }));
@@ -310,7 +310,7 @@ test.describe('무역플래너', () => {
         await page.route(/\/api\/uex\/commodities$/, (route) => route.fulfill({ json: { status: 'ok', data: [
             { id: 1, name: 'Medical Supplies', code: 'MED', category_name: 'Medical', is_visible: 1, is_available_live: 1 },
         ] } }));
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: [
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: [
             { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },
             { terminal_name: 'ARC-L1', space_station_name: 'ARC-L1', price_buy: 0, price_sell: 180, date_modified: 1700000000, scu_sell: 4000 },
         ] } }));
@@ -401,7 +401,7 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
         test.setTimeout(25000);
         await mockApi(page);
         await routeCommodities(page);
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, async (route) => {
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, async (route) => {
             await new Promise((resolve) => setTimeout(resolve, 11000));
             try { await route.fulfill({ json: { status: 'ok', data: [] } }); } catch (_e) { /* 이미 abort됨 */ }
         });
@@ -418,7 +418,7 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
     test('UEX invalid response: data=null → error state', async ({ page }) => {
         await mockApi(page);
         await routeCommodities(page);
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: null } }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: null } }));
         await gotoSection(page, '#trade-planner');
         await selectGold(page);
         await page.locator('#uex-refresh').click();
@@ -430,7 +430,7 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
     test('UEX stale: 오래된 date_modified → stale 경고 표시', async ({ page }) => {
         await mockApi(page);
         await routeCommodities(page);
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(1700000000) } }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(1700000000) } }));
         await gotoSection(page, '#trade-planner');
         await selectGold(page);
         await page.locator('#uex-refresh').click();
@@ -444,7 +444,7 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
         await mockApi(page);
         await routeCommodities(page);
         const now = Math.floor(Date.now() / 1000);
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
         await gotoSection(page, '#trade-planner');
         await selectGold(page);
         await page.locator('#uex-refresh').click();
@@ -486,7 +486,7 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
         await mockApi(page);
         await routeCommodities(page);
         const now = Math.floor(Date.now() / 1000);
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
         await gotoSection(page, '#trade-planner');
         await page.locator('#logistics-cargo').fill('1000');
         await selectGold(page);
@@ -517,7 +517,7 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
         await mockApi(page);
         await routeCommodities(page);
         // invalid response → English error state
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: null } }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: null } }));
         await gotoSection(page, '#trade-planner');
         await selectGold(page);
         await page.locator('#uex-refresh').click();
@@ -525,8 +525,8 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
         await expect(page.locator('#uex-results [data-uex-retry]')).toContainText('Try again');
 
         // stale → English warning
-        await page.unroute(/\/api\/uex\/commodities\/1\/prices$/);
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(1700000000) } }));
+        await page.unroute(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/);
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(1700000000) } }));
         await page.locator('#uex-refresh').click();
         await expect(page.locator('#uex-results .uex-stale')).toContainText('out of date');
         await ctx.close();
@@ -538,7 +538,7 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
         await mockApi(page);
         await routeCommodities(page);
         const now = Math.floor(Date.now() / 1000);
-        await page.route(/\/api\/uex\/commodities\/1\/prices$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
+        await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (route) => route.fulfill({ json: { status: 'ok', data: priceRows(now) } }));
         await gotoSection(page, '#trade-planner');
         await page.locator('#logistics-cargo').fill('1000');
         await selectGold(page);

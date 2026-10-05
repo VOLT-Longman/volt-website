@@ -50,7 +50,8 @@ function normalizeShip(record, syncedAt) {
         ref: toNull(d.ref),
         externalStats: {
             source: 'erkul-live',
-            sourceVersion: 'live',
+            sourceVersion: record.catalogVersion ?? 'live',
+            ...(record.catalogGeneratedAt ? { sourceGeneratedAt: record.catalogGeneratedAt } : {}),
             syncedAt,
 
             manufacturer: toNull(d.manufacturerData?.data?.name),
@@ -71,9 +72,9 @@ function normalizeShip(record, syncedAt) {
                 yaw: toNull(d.ifcs?.angularVelocity?.z),
                 roll: toNull(d.ifcs?.angularVelocity?.y),
                 // raw에 없는 Erkul 클라이언트 계산값 — 계산식 역추적 전까지 null 유지 (A-2 결정)
-                boostedPitch: null,
-                boostedYaw: null,
-                boostedRoll: null,
+                boostedPitch: record.catalogVersion ? toNull(d.ifcs?.boostedPitch) : null,
+                boostedYaw: record.catalogVersion ? toNull(d.ifcs?.boostedYaw) : null,
+                boostedRoll: record.catalogVersion ? toNull(d.ifcs?.boostedRoll) : null,
                 currentPitch: null,
                 currentYaw: null,
                 currentRoll: null
@@ -139,9 +140,9 @@ const COVERAGE_FIELDS = [
     { key: 'externalStats.rotation.pitch', class: 'raw' },
     { key: 'externalStats.rotation.yaw', class: 'raw' },
     { key: 'externalStats.rotation.roll', class: 'raw' },
-    { key: 'externalStats.rotation.boostedPitch', class: 'derived-only / unavailable in raw' },
-    { key: 'externalStats.rotation.boostedYaw', class: 'derived-only / unavailable in raw' },
-    { key: 'externalStats.rotation.boostedRoll', class: 'derived-only / unavailable in raw' },
+    { key: 'externalStats.rotation.boostedPitch', class: 'catalog-precomputed' },
+    { key: 'externalStats.rotation.boostedYaw', class: 'catalog-precomputed' },
+    { key: 'externalStats.rotation.boostedRoll', class: 'catalog-precomputed' },
     { key: 'externalStats.rotation.currentPitch', class: 'derived-only / unavailable in raw' },
     { key: 'externalStats.rotation.currentYaw', class: 'derived-only / unavailable in raw' },
     { key: 'externalStats.rotation.currentRoll', class: 'derived-only / unavailable in raw' },

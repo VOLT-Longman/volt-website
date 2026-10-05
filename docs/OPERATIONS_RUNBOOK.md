@@ -199,14 +199,17 @@ ALTER TABLE partner_fleets DROP COLUMN photo_url;
 상세는 [`ship-data-pipeline.md`](./ship-data-pipeline.md). 공개 ShipDB의 사실원은 **Erkul canonical 219척 + RSI 공식 30척(249척)** 이며, 재생성은 Erkul 파이프라인만 사용한다:
 
 ```bash
-npm run shipdb:erkul:fetch            # Erkul live 원본 수집
-npm run shipdb:erkul:normalize        # 정규화
-npm run shipdb:erkul:market           # 시장 정규화
-npm run shipdb:erkul:match            # VOLT id 매칭
-npm run shipdb:erkul:build-live       # data/ship-live-stats.js · ship-market.js 생성
+npm run shipdb:erkul:apply            # 새 LIVE catalog + prices 수집, dry-run/hash 확인
+npm run shipdb:erkul:apply -- --confirm-preview-hash <hash> # 기존 219개 식별자 보존하여 반영
 npm run shipdb:erkul:verify           # 배포 데이터와 재생성 결과 대조(재현성)
 npm run shipdb:canonical:build        # canonical·localization·taxonomy·manifest 재생성
 ```
+
+2026-10-05부터 Erkul `cdn.erkul.games/LIVE/catalog.bin`(schema 8)과 `prices.bin`(schema 2)을 사용한다. 압축 해제와 SHA-256 검증 후 기존 정규화 형식으로 변환한다. 가격의 LIVE 게임 버전이 함선 catalog와 다르면 중단한다. `catalog-details.json`은 공개 원본의 최소 상세 자료와 파일 해시를 보관하며, CMS는 변하지 않은 파일을 다시 받지 않는다. 무료 Workers 요청 한도를 위해 한 번의 미리보기에서 변경 상세 35건까지 확인하며, 그보다 많으면 로컬 Safe Apply를 안내한다.
+
+반영되지 않은 신규 후보는 자동 추가하지 않는다. 원본에서 빠진 변형은 기존 수치와 기존 날짜를 유지하며 과거 자료로 표시한다. 재매칭을 하지 않는 Safe Apply가 현재 운영 갱신 경로다. 공개 화물량은 일반 화물칸 기준이고 광석 저장량을 포함하지 않는다.
+
+UEX 가격 재조회는 브라우저의 30분 캐시를 건너뛰며, 서버는 같은 가격 요청의 원본 조회를 최대 1분 간격으로 제한한다. 최신성은 선택 매수·매도 중 오래된 보고 시각으로 판정하며, 미확인·미래 시각도 경고한다. 예상 수익은 보고된 재고·수요 범위로 계산하고, 미보고 수량은 제한으로 추정하지 않는다. 수익표의 직접 입력 수량은 유지하되 보고량을 넘으면 이론 수익 안내를 표시한다.
 
 - 3.5-B에서 레거시 재생성 경로(`sync-rsi-ship-matrix`·`sync-ship-prices`·`normalize-ship-database`·`build-ship-database`·`build-ship-en`)·`data/ship-en.js`와
   SC Wiki 가격 데이터(`data/ship-prices-usd.json`)를 **물리 삭제**했다. 다시 만들지 않는다(계약 테스트가 부재를 강제).
@@ -238,7 +241,7 @@ npm run shipdb:erkul:apply
 #      apply해도 syncedAt 타임스탬프만 바뀌므로 커밋/배포할 가치가 없다.
 #      (재고 항목 포함 — 2026-07-06 첫 정기 동기화에서 재고만 바뀐 케이스 확인됨)
 
-# 3. previewHash 일치 시 적용 (기존 210개 matched key만 갱신)
+# 3. previewHash 일치 시 적용 (기존 219개 matched key만 갱신)
 npm run shipdb:erkul:apply -- --confirm-preview-hash <previewHash>
 
 # 4. ★ KO 설명 번역 재적용 — 생략 금지 ★
@@ -262,8 +265,8 @@ npm test
 ### 동기화 원칙 (요약)
 
 - Admin preview는 **읽기 전용**이다. 파일/DB를 절대 쓰지 않는다.
-- Safe Apply는 **기존 210개 matched key만** 갱신한다. 재매칭하지 않는다.
-- **자동 추가 금지 대상**: Erkul-only 신규 함선 9척, market-only 선체 6종(구형 Aurora 5 + Hammerhead),
+- Safe Apply는 **기존 219개 matched key만** 갱신한다. 재매칭하지 않는다.
+- **자동 추가 금지 대상**: Erkul-only 신규 후보 4척(2026-10-05), 기존 market-only 수동 매핑,
   unreleased VOLT 30척. 신규 함선 추가는 별도 마일스톤이다.
 - `sourceEnHash` 불일치(=번역 후 Erkul 원문 변경) 번역은 **stale로 분류되어 적용되지 않는다.**
   localization 계층은 `status === 'ok'`인 번역만 방출하므로 stale 함선은 KO가 비고 **영문 원문으로 표시된다**

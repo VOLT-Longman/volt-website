@@ -28,7 +28,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(summary).toContainText('203 m/s');
         await expect(summary).toContainText('1075 m/s');
         await expect(summary).toContainText('17,860,500 aUEC');
-        await expect(summary.locator('.ship-live-meta')).toContainText('Erkul live');
+        await expect(summary.locator('.ship-live-heading .ship-live-meta')).toContainText('4.10.1-LIVE');
     });
 
     test('Asgard 모달: 구매처 Astro Armada/Area18/가격/재고 표시', async ({ page }) => {
@@ -40,13 +40,13 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(market).toBeVisible();
         const row = market.locator('.ship-market-row').first();
         await expect(row).toContainText('Astro Armada');
-        await expect(row).toContainText('Area18');
+        await expect(row).toContainText('Area 18');
         // 가격/재고는 동기화로 바뀔 수 있어 형식만 검증
         await expect(row).toContainText(/[\d,]+ aUEC/);
-        await expect(row).toContainText(/재고 \d+/);
+        await expect(row).not.toContainText(/재고 \d+/); // new price catalog does not report ship stock
     });
 
-    test('100i 모달: 구매 2곳 + 렌탈 가격 미표기', async ({ page }) => {
+    test('100i 모달: 구매 2곳 + 최신 원본 렌탈 가격 제공', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
         const modal = await openShipModalByName(page, '100i');
@@ -56,7 +56,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         const rental = market.locator('.ship-market-row.is-rental');
         await expect(rental).toHaveCount(1);
         await expect(rental).toContainText('Regal Luxury Rentals');
-        await expect(rental).toContainText('가격 미표기');
+        await expect(rental).toContainText('28,665 aUEC');
     });
 
     test('890 Jump 모달: 상점별 가격 2개 + 오름차순 정렬', async ({ page }) => {
@@ -77,15 +77,15 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         expect([...prices].sort((a, b) => a - b)).toEqual(prices);
     });
 
-    test('수동매핑 market 보강: Aurora ES 모달에 New Deal 구매처 표시', async ({ page }) => {
+    test('Aurora ES 모달: 최신 원본에 없는 과거 판매처를 표시하지 않는다', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
         const modal = await openShipModalByName(page, 'Aurora ES');
 
         // marketOnlyMappings로 구형 rsi_aurora_es의 상점 행이 병합됨 (stats는 현 선체 기준 유지)
         const market = modal.locator('.ship-market-panel');
-        await expect(market).toContainText('New Deal');
-        await expect(market.locator('.ship-market-row.is-rental').first()).toBeVisible();
+        await expect(market).toContainText('확인된 인게임 구매처 없음');
+        await expect(market.locator('.ship-market-row')).toHaveCount(0);
         await expect(modal.locator('.ship-live-summary')).toBeVisible();
     });
 

@@ -304,6 +304,8 @@ function renderErkulSyncStatus(container, status) {
     badges.append(syncBadge(`렌탈가 미제공 기록 ${status.rentalGapShips}척 (Erkul 원천, 무해)`, 'info'));
   }
   const days = syncedAtAgeDays(status.statsSyncedAt);
+  if (status.sourceVersion) badges.append(syncBadge(`Erkul ${status.sourceVersion}`, 'info'));
+  if (status.historicalShips) badges.append(syncBadge(`원본에 없는 ${status.historicalShips}척은 과거 자료 유지`, 'warn'));
   if (days !== null && days >= SYNC_CADENCE_DAYS) {
     badges.append(syncBadge(`${days}일 경과 — 격주 주기 초과, 동기화 권장`, 'warn'));
   }
@@ -358,6 +360,8 @@ async function loadErkulSyncStatus() {
       marketSyncedAt: marketText.match(/"syncedAt":"([^"]+)"/)?.[1] ?? null,
       // 엔트리 수 = erkulLocalName 필드 수 (레이어 스키마상 함선당 1회)
       shipCount: (statsText.match(/"erkulLocalName"/g) || []).length,
+      sourceVersion: statsText.match(/"sourceVersion":"([^"]+)"/)?.[1] ?? null,
+      historicalShips: (statsText.match(/"sourceVersion":"live"/g) || []).length,
       ...classifyMarketAnomalies(marketText)
     };
     renderErkulSyncStatus(container, erkulStatusCache);

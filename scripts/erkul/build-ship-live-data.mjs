@@ -104,7 +104,9 @@ async function main() {
     const marketByLocal = normalizeErkulMarket(shopRaw).byLocal;
     const marketOnlyMappings = normalizeMarketOnlyMappings(manualMap);
     // 포함 대상은 A-4 matched만. unmatched VOLT/Erkul-only/market-only/manual candidates는 제외한다.
-    const matched = [...matchReport.matched].sort((a, b) => a.voltId.localeCompare(b.voltId));
+    const catalogInput = shipsRaw.some(r => r.catalogVersion);
+    const matched = (catalogInput ? Object.entries(currentLiveStats).map(([voltId, entry]) => ({ voltId, erkulLocalName: entry.erkulLocalName })) : [...matchReport.matched]).sort((a, b) => a.voltId.localeCompare(b.voltId));
+    const existingMarket = parseDataLayerJs(await readFile(SHIP_MARKET_PATH, 'utf8'), 'VOLT_SHIP_MARKET');
 
     const liveStats = {};
     const shipMarket = {};
@@ -113,6 +115,11 @@ async function main() {
     for (const row of matched) {
         const ship = erkulByLocal.get(row.erkulLocalName);
         if (!ship) {
+            if (catalogInput) {
+                liveStats[row.voltId] = currentLiveStats[row.voltId];
+                shipMarket[row.voltId] = existingMarket[row.voltId];
+                continue;
+            }
             buildErrors.push(`matched row의 Erkul 원본 없음: ${row.erkulLocalName} (volt: ${row.voltId})`);
             continue;
         }
@@ -126,7 +133,8 @@ async function main() {
         };
         liveStats[row.voltId] = {
             source: 'erkul-live',
-            sourceVersion: 'live',
+            sourceVersion: st.sourceVersion ?? 'live',
+            ...(st.sourceGeneratedAt ? { sourceGeneratedAt: st.sourceGeneratedAt } : {}),
             syncedAt: erkul.syncedAt,
             erkulLocalName: ship.localName,
             erkulRef: ship.ref,
@@ -155,7 +163,8 @@ async function main() {
         const m = mergeMappedMarketRows(marketByLocal.get(ship.localName), row.voltId, marketByLocal, marketOnlyMappings);
         shipMarket[row.voltId] = {
             source: 'erkul-live',
-            sourceVersion: 'live',
+            sourceVersion: st.sourceVersion ?? 'live',
+            ...(st.sourceGeneratedAt ? { sourceGeneratedAt: st.sourceGeneratedAt } : {}),
             syncedAt: market.syncedAt,
             erkulLocalName: ship.localName,
             erkulRef: ship.ref,

@@ -89,12 +89,12 @@ for (const outcome of ['success', 'failure', 'selection-only']) {
         const requested = new Promise((resolve) => { started = resolve; });
         const stalled = new Promise((resolve) => { release = resolve; });
         const prices = (id, name) => ({ data: [{ id_terminal: id, terminal_name: name, price_buy: 100, date_modified: Math.floor(Date.now() / 1000) }] });
-        await page.route('**/api/uex/commodities/1/prices', async (route) => {
+        await page.route('**/api/uex/commodities/1/prices{,?*}', async (route) => {
             started();
             await stalled;
             await route.fulfill(outcome === 'failure' ? { status: 500, json: {} } : { json: prices(1, 'GOLD PORT') });
         });
-        await page.route('**/api/uex/commodities/2/prices', (route) => route.fulfill({ json: prices(2, 'BERYL PORT') }));
+        await page.route('**/api/uex/commodities/2/prices{,?*}', (route) => route.fulfill({ json: prices(2, 'BERYL PORT') }));
         await gotoSection(page, '#trade-planner');
         const select = async (name, id) => {
             await page.locator('#uex-commodity-search').fill(name);
@@ -108,7 +108,7 @@ for (const outcome of ['success', 'failure', 'selection-only']) {
             await page.locator('#uex-refresh').click();
             await expect(page.locator('#uex-results')).toContainText('BERYL PORT');
         }
-        const finished = page.waitForResponse('**/api/uex/commodities/1/prices');
+        const finished = page.waitForResponse('**/api/uex/commodities/1/prices{,?*}');
         release();
         await finished;
         await expect(page.locator('#uex-results')).not.toContainText('GOLD PORT');

@@ -87,7 +87,7 @@
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.uex-live-controls')) closePicker(search, results);
         });
-        button.addEventListener('click', () => renderUexCommodityCandidates(select.value));
+        button.addEventListener('click', () => renderUexCommodityCandidates(select.value, { forceRefresh: true }));
         uexResults?.addEventListener('click', handleUexCandidateClick);
         document.addEventListener('click', handleLocationModalBackdropClick);
         document.addEventListener('keydown', handleLocationModalKeydown);
@@ -296,7 +296,7 @@
     // date_modified 기준 오래된 데이터면 stale 경고 배너를 만든다(사용 자체는 막지 않는다).
     function renderUexStaleBanner(model) {
         const level = uex.getStaleLevel ? uex.getStaleLevel(model.lastUpdated) : 'unknown';
-        if (level !== 'warning' && level !== 'danger') return '';
+        if (level === 'fresh') return '';
         const lastLabel = model.lastUpdated
             ? t('planner.uex.lastSuccessAt', '마지막 갱신: {time}', { time: formatUexLastUpdated(model, 'time') })
             : '';
@@ -306,7 +306,7 @@
         </div>`;
     }
 
-    async function renderUexCommodityCandidates(commodityId) {
+    async function renderUexCommodityCandidates(commodityId, options = {}) {
         const requestId = ++candidateRequest;
         const isCurrent = () => requestId === candidateRequest && String(document.getElementById('uex-commodity-select')?.value) === String(commodityId);
         const status = document.getElementById('uex-status');
@@ -316,7 +316,7 @@
         results.innerHTML = `<div class="uex-loading">${escapeHtml(t('planner.uex.loadingCandidates', '거래 후보를 조회하는 중입니다...'))}</div>`;
         currentUexSelection = { buyKey: '', sellKey: '' };
         try {
-            const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices);
+            const prices = await uex.fetchUexData(`commodities/${encodeURIComponent(commodityId)}/prices`, UEX_CACHE_TTL_MS.prices, options);
             if (!isCurrent()) return;
             const selectedCommodity = availableUexCommodities.find((item) => String(item.id) === String(commodityId));
             // 칩 소스(항성계)는 전체 가격에서 뽑고, 사라진 선택은 떨어낸 뒤 필터를 적용한다.
@@ -343,7 +343,7 @@
         const retryButton = event.target.closest('[data-uex-retry]');
         if (retryButton) {
             const select = document.getElementById('uex-commodity-select');
-            if (select && select.value) renderUexCommodityCandidates(select.value);
+            if (select && select.value) renderUexCommodityCandidates(select.value, { forceRefresh: true });
             return;
         }
         const listButton = event.target.closest('[data-uex-location-list]');
@@ -359,6 +359,7 @@
         if (side === 'sell') currentUexSelection.sellKey = key;
         currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter);
         document.getElementById('uex-results').innerHTML = renderUexCandidateCards(currentUexModel);
+        document.getElementById('uex-status').textContent = formatUexLastUpdated(currentUexModel);
         refreshProfitSelection();
     }
 
@@ -372,6 +373,7 @@
             ${stale}
             ${renderUexSummaryGrid(model)}
             ${warning}
+            <p class="uex-warning">${escapeHtml(t('planner.uex.quantityEstimate', '입력 {cargo} SCU · 재고·수요 반영 {usable} SCU. 미보고 수량은 제한에 포함하지 않습니다. 가격·수량은 보고 시점의 참고값입니다.', { cargo: formatCount(model.cargoTarget), usable: formatCount(model.usableScu) }))}</p>
             <div class="uex-candidate-layout">
                 ${renderUexCandidateColumn(model, 'buy')}
                 ${renderUexCandidateColumn(model, 'sell')}
@@ -706,6 +708,8 @@
         currentUexModel = uex.buildUexCandidateModel(currentUexModel.rawPrices, currentUexModel.commodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter);
         const results = document.getElementById('uex-results');
         if (results) results.innerHTML = renderUexCandidateCards(currentUexModel);
+        const status = document.getElementById('uex-status');
+        if (status) status.textContent = formatUexLastUpdated(currentUexModel);
         refreshProfitSelection();
     }
 

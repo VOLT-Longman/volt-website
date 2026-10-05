@@ -5,15 +5,13 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import {
-    ERKUL_SHIPS_ENDPOINT,
-    ERKUL_SHOP_ENDPOINT,
-    fetchErkulJson,
     parseDataLayerJs,
     buildSyncPreview,
     buildNextLayers,
     computePreviewHash,
     normalizeMarketOnlyMappings
 } from '../../functions/_shared/erkul-sync.js';
+import { fetchErkulCatalog, ERKUL_CATALOG_URL, ERKUL_PRICES_URL } from '../../functions/_shared/erkul-catalog.js';
 
 // ShipDB 2.0 Safe Apply (A-8).
 //
@@ -38,8 +36,7 @@ const FETCH_META_PATH = resolve(ERKUL_INPUT_DIR, 'fetch-meta.json');
 const execFileAsync = promisify(execFile);
 const INPUT_REBUILD_SCRIPTS = [
     'scripts/erkul/normalize-erkul-ships.mjs',
-    'scripts/erkul/normalize-erkul-market.mjs',
-    'scripts/erkul/match-erkul-to-volt.mjs'
+    'scripts/erkul/normalize-erkul-market.mjs'
 ];
 const CANONICAL_BUILD_SCRIPTS = [
     'scripts/shipdb-rewrite/build-canonical.mjs',
@@ -64,12 +61,13 @@ async function rebuildCanonicalLayers() {
     await runScripts(CANONICAL_BUILD_SCRIPTS);
 }
 
-async function recordReproducibleInputs(ships, shops, fetchedAt) {
+async function recordReproducibleInputs(ships, shops, fetchedAt, snapshot) {
     const shipsText = `${JSON.stringify(ships, null, 2)}\n`;
     const shopsText = `${JSON.stringify(shops, null, 2)}\n`;
     const meta = {
         source: 'erkul-live',
-        endpoints: { ships: ERKUL_SHIPS_ENDPOINT, shop: ERKUL_SHOP_ENDPOINT },
+        endpoints: { ships: ERKUL_CATALOG_URL, shop: ERKUL_PRICES_URL },
+        catalog: snapshot.metadata,
         fetchedAt,
         shipCount: ships.length,
         shopCount: shops.length,
@@ -83,6 +81,8 @@ async function recordReproducibleInputs(ships, shops, fetchedAt) {
         writeFile(SHOPS_RAW_PATH, shopsText, 'utf8'),
         writeFile(FETCH_META_PATH, `${JSON.stringify(meta, null, 2)}\n`, 'utf8')
     ]);
+    await writeFile(resolve(ERKUL_INPUT_DIR, 'catalog-details.json'), `${JSON.stringify(snapshot.details)}\n`, 'utf8');
+    await writeFile(resolve(ERKUL_INPUT_DIR, 'catalog-meta.json'), `${JSON.stringify(snapshot.metadata, null, 2)}\n`, 'utf8');
     await runScripts(INPUT_REBUILD_SCRIPTS);
 }
 
@@ -115,8 +115,11 @@ async function main() {
     const currentMarket = parseDataLayerJs(await readFile(SHIP_MARKET_PATH, 'utf8'), 'VOLT_SHIP_MARKET');
 
     console.log('Erkul live 데이터를 가져오는 중...');
-    const erkulShipsRaw = await fetchErkulJson(ERKUL_SHIPS_ENDPOINT);
-    const erkulShopsRaw = await fetchErkulJson(ERKUL_SHOP_ENDPOINT);
+    let detailCache = {};
+    try { detailCache = JSON.parse(await readFile(resolve(ERKUL_INPUT_DIR, 'catalog-details.json'), 'utf8')); } catch { /* first catalog sync */ }
+    const snapshot = await fetchErkulCatalog({ detailCache });
+    const erkulShipsRaw = snapshot.ships;
+    const erkulShopsRaw = snapshot.shops;
     if (!Array.isArray(erkulShipsRaw) || erkulShipsRaw.length < 100) {
         throw new Error(`Erkul ships 응답 비정상 (records: ${erkulShipsRaw?.length})`);
     }
@@ -175,13 +178,13 @@ async function main() {
     const syncedAt = new Date().toISOString();
     const inject = (layers) => {
         const out = {};
-        for (const [key, entry] of Object.entries(layers)) out[key] = { ...entry, syncedAt };
+        for (const [key, entry] of Object.entries(layers)) out[key] = { ...entry, syncedAt: entry.syncedAt ?? syncedAt };
         return out;
     };
     const statsOut = inject(nextLayers.nextStats);
     const marketOut = inject(nextLayers.nextMarket);
 
-    await recordReproducibleInputs(erkulShipsRaw, erkulShopsRaw, syncedAt);
+    await recordReproducibleInputs(erkulShipsRaw, erkulShopsRaw, syncedAt, snapshot);
     await writeFile(LIVE_STATS_PATH, `${layerHeader('VOLT_SHIP_LIVE_STATS', '함선 상세 스펙 레이어 (volt-data.js와 분리). key = VOLT ship id.', syncedAt, statsKeys)}${JSON.stringify(statsOut)};\n`, 'utf8');
     await writeFile(SHIP_MARKET_PATH, `${layerHeader('VOLT_SHIP_MARKET', '함선 구매처/렌탈 레이어 (volt-data.js와 분리). key = VOLT ship id.', syncedAt, marketKeys)}${JSON.stringify(marketOut)};\n`, 'utf8');
 
@@ -194,6 +197,9 @@ async function main() {
         appliedBy: 'shipdb:erkul:apply (safe apply)',
         previewHash,
         matchedInput: statsKeys,
+        catalog: snapshot.metadata,
+        updatedEntries: Object.values(statsOut).filter(entry => entry.sourceVersion === snapshot.metadata.version).length,
+        historicalEntries: Object.values(statsOut).filter(entry => entry.sourceVersion !== snapshot.metadata.version).length,
         liveStatsEntries: statsKeys,
         marketEntries: marketKeys,
         entriesWithPurchase: withPurchase,

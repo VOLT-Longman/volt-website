@@ -56,7 +56,7 @@
     function getStaleLevel(lastUpdatedSec) {
         if (!lastUpdatedSec) return 'unknown';
         const ageMs = Date.now() - Number(lastUpdatedSec) * 1000;
-        if (!Number.isFinite(ageMs) || ageMs < 0) return 'fresh';
+        if (!Number.isFinite(ageMs) || ageMs < 0) return 'unknown';
         if (ageMs >= UEX_STALE_DANGER_MS) return 'danger';
         if (ageMs >= UEX_STALE_WARNING_MS) return 'warning';
         return 'fresh';
@@ -68,15 +68,17 @@
     async function fetchUexData(path, ttlMs, options = {}) {
         const cacheKey = path;
         const cached = uexCache.get(cacheKey);
-        if (cached && Date.now() - cached.timestamp < ttlMs) return cached.data;
+        if (!options.forceRefresh && cached && Date.now() - cached.timestamp < ttlMs) return cached.data;
 
         const timeoutMs = Number.isFinite(options.timeoutMs) ? options.timeoutMs : UEX_REQUEST_TIMEOUT_MS;
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeoutMs);
         let response;
         try {
-            response = await fetch(`${UEX_API_BASE_URL}/${path}`, {
+            const separator = path.includes('?') ? '&' : '?';
+            response = await fetch(`${UEX_API_BASE_URL}/${path}${options.forceRefresh ? `${separator}refresh=1` : ''}`, {
                 headers: { Accept: 'application/json' },
+                ...(options.forceRefresh ? { cache: 'no-store' } : {}),
                 signal: controller.signal,
             });
         } catch (error) {
@@ -155,13 +157,20 @@
         const bestBuy = pickSelectedUexRow(buyOptions, 'buy', selectionState);
         const bestSell = pickSelectedUexRow(sellOptions, 'sell', selectionState);
         const cargoTarget = Math.max(0, Number(getCargoTarget()) || 0);
-        const usableScu = cargoTarget;
+        const quantityLimit = (value) => value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value)) && Number(value) >= 0 ? Number(value) : null;
+        const stockScu = quantityLimit(bestBuy?.scu_buy);
+        const demandScu = quantityLimit(bestSell?.scu_sell);
+        const tradeLimitScu = Math.min(stockScu ?? Infinity, demandScu ?? Infinity);
+        const usableScu = Math.min(cargoTarget, tradeLimitScu);
         const profitPerScu = bestBuy && bestSell ? bestSell.price_sell - bestBuy.price_buy : 0;
         const purchaseCost = bestBuy ? bestBuy.price_buy * usableScu : 0;
         const grossRevenue = bestSell ? bestSell.price_sell * usableScu : 0;
         const estimatedProfit = grossRevenue - purchaseCost;
         const profitRate = purchaseCost > 0 ? (estimatedProfit / purchaseCost) * 100 : 0;
-        const lastUpdated = prices.length ? Math.max(...prices.map((row) => row.date_modified || 0)) : 0;
+        // Both selected locations must be current. An unrelated fresh report
+        // must never make an old selected route appear fresh.
+        const reports = [bestBuy, bestSell].map(row => Number(row?.date_modified));
+        const lastUpdated = reports.every(value => Number.isFinite(value) && value > 0 && value * 1000 <= Date.now()) ? Math.min(...reports) : 0;
         const commodityName = commodity?.name || prices[0]?.commodity_name || '선택 상품';
         return {
             commodityId: commodity?.id || prices[0]?.id_commodity || null,
@@ -173,6 +182,10 @@
             bestBuy,
             bestSell,
             usableScu,
+            cargoTarget,
+            stockScu,
+            demandScu,
+            tradeLimitScu,
             profitPerScu,
             purchaseCost,
             grossRevenue,

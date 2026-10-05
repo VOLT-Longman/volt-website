@@ -36,9 +36,19 @@ async function readUexPayload(response) {
 // upstreamPathWithQuery는 호출부에서 검증된 값만 조립한다 (사용자 입력 직결 금지).
 export async function proxyUexJson({ request, env, waitUntil }, upstreamPathWithQuery, ttlSeconds) {
   const cache = caches.default;
-  const cacheKey = new Request(new URL(request.url));
+  const url = new URL(request.url);
+  const refresh = url.searchParams.get('refresh') === '1';
+  url.searchParams.delete('refresh');
+  const cacheKey = new Request(url);
   const cached = await cache.match(cacheKey);
-  if (cached) return cached;
+  if (cached) {
+    const payload = await cached.clone().json();
+    const age = Date.now() - Date.parse(payload.meta?.fetchedAt);
+    // A shared one-minute floor prevents repeated clicks from hammering UEX.
+    if (!refresh || (Number.isFinite(age) && age >= 0 && age < 60000)) {
+      return json({ ...payload, meta: { ...payload.meta, cached: true } }, { cacheControl: refresh ? 'no-store' : `public, max-age=${Math.max(0, ttlSeconds - Math.floor(age / 1000)) || 0}` });
+    }
+  }
 
   const upstreamResult = await fetchUex(getUpstreamUrl(env, upstreamPathWithQuery));
   if (upstreamResult.error) return error(upstreamResult.error, 503);
@@ -52,5 +62,6 @@ export async function proxyUexJson({ request, env, waitUntil }, upstreamPathWith
     cacheControl: `public, max-age=${ttlSeconds}`
   });
   waitUntil(cache.put(cacheKey, response.clone()));
+  if (refresh) response.headers.set('Cache-Control', 'no-store');
   return response;
 }
