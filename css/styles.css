@@ -9039,7 +9039,7 @@ body.nav-trade-open::before {
     background: #1c1c1e;
     border-radius: 18px;
 }
-#trade-planner .profit-selection-panel.is-ready { border-color: #ffffff26; }
+#trade-planner .profit-selection-panel.is-ready:not(.is-capacity-blocked):not(.is-over-capacity) { border-color: #ffffff26; }
 #trade-planner .profit-selection-item {
     background: transparent;
     border-color: transparent;
