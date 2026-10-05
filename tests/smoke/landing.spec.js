@@ -140,12 +140,12 @@ test.describe('인터랙티브 랜딩 (D)', () => {
         await expect(page.locator('#home .hero-layout')).toHaveCSS('opacity', '1');
     });
 
-    test('중앙 히어로: 커맨드덱 없이 핵심 문구를 중앙에 배치', async ({ page }) => {
+    test('에디토리얼 히어로: 핵심 문구를 왼쪽에 배치', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');
         await expect(page.locator('.hero-status-panel')).toHaveCount(0);
         await expect(page.getByText('COMMAND DECK')).toHaveCount(0);
-        await expect(page.locator('.hero-copy')).toHaveCSS('text-align', 'center');
+        await expect(page.locator('.hero-copy')).toHaveCSS('text-align', 'left');
     });
 
     test('hero headline: 제품 기본 서체에서 클리핑/overflow 없음', async ({ page }) => {
