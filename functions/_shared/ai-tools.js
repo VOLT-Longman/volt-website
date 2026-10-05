@@ -49,7 +49,7 @@ export async function loadShipLayers(env) {
   return shipCache;
 }
 
-export function resetShipCacheForTests() { shipCache = null; }
+export function resetShipCacheForTests() { shipCache = null; localizationCache = null; }
 
 function normalizeToken(value) {
   return String(value || '').toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
@@ -163,11 +163,9 @@ async function loadCommodityKoMap(env) {
     const text = await fetchAssetText(env, '/data/volt-localization.js');
     const data = parseDataLayerJs(text, 'VOLT_LOCALIZATION');
     const map = new Map(); // KO명 → EN명
-    for (const section of Object.values(data)) {
-      if (!section || typeof section !== 'object') continue;
-      for (const [en, ko] of Object.entries(section)) {
-        if (typeof ko === 'string') map.set(normalizeToken(ko), en);
-      }
+    for (const [en, value] of Object.entries(data.commodities || {})) {
+      const ko = typeof value === 'string' ? value : value?.ko;
+      if (typeof ko === 'string') map.set(normalizeToken(ko), en);
     }
     localizationCache = map;
   } catch (_error) {

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 import { onRequestGet, onRequestPost } from '../../functions/api/ai/chat.js';
-import { resetShipCacheForTests } from '../../functions/_shared/ai-tools.js';
+import { resetShipCacheForTests, toolMarketInfo } from '../../functions/_shared/ai-tools.js';
 import { TEST_ENV, createMockDb, createMockKV, jsonRequest, memberCookie } from './helpers.mjs';
 
 // M1 VOLT AI: 도구 기반 어시스턴트의 보안·한도·근거(fallback 포함) 계약을 고정한다.
@@ -84,6 +84,19 @@ function makeContext(env, request) {
 }
 
 test.beforeEach(() => { resetShipCacheForTests(); });
+
+test('Market lookup understands actual repository Korean commodity records', async (t) => {
+    const localization = await readFile(new URL('../../data/volt-localization.js', import.meta.url), 'utf8');
+    const env = baseEnv({ ASSETS: { fetch: async () => new Response(localization) } });
+    const originalFetch = globalThis.fetch;
+    t.after(() => { globalThis.fetch = originalFetch; });
+    globalThis.fetch = async (url) => new URL(url).pathname.endsWith('/prices')
+        ? Response.json({ data: [{ terminal_name: 'Test terminal', price_buy: 100, date_modified: Math.floor(Date.now() / 1000) - 60 }] })
+        : Response.json({ data: [{ id: 1, name: 'Gold' }, { id: 2, name: 'Gold (Ore)' }] });
+    const request = new Request('https://volt.ceo/api/ai/chat');
+    assert.equal((await toolMarketInfo(env, request, '금')).data.commodity, 'Gold');
+    assert.equal((await toolMarketInfo(env, request, '금 (광석)')).data.commodity, 'Gold (Ore)');
+});
 
 test('Data beta never calls a bound model; English and bounded follow-up preserve criteria', async () => {
     let calls = 0;
