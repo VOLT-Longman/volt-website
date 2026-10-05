@@ -21,7 +21,6 @@
 
     const PAGE_SIZE = 4;
     const noticeState = { tag: 'all', query: '', pinnedOnly: false, visibleCount: PAGE_SIZE };
-    const NOTICE_TAG_COLORS = { '공지': 'var(--volt-orange)', '중요': '#e53e3e', '업데이트': '#3182ce', '이벤트': '#805ad5', '작전': '#38a169', '시스템': '#319795', '모집': '#d69e2e', '정책': '#e53e3e' };
 
     // 공지 CMS 다국어: EN 모드이고 `${field}En` 값이 있으면 사용, 없으면 KO fallback.
     function noticeField(announcement, field) {
@@ -110,7 +109,7 @@
             <button class="notice-card${announcement.id === featuredId ? ' is-featured' : ''} reveal" type="button" data-notice-id="${escapeHtml(announcement.id)}" aria-label="${escapeHtml(noticeField(announcement, 'title'))} ${escapeHtml(i18nT('notices.detailAria', '상세 보기'))}">
                 <div class="notice-meta">
                     ${announcement.pinned ? `<span class="notice-pin">${escapeHtml(i18nT('notices.pinned', '고정'))}</span>` : ''}
-                    <span class="notice-tag" data-style-bg="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}20" data-style-color="${NOTICE_TAG_COLORS[announcement.tag] || 'var(--volt-orange)'}">${escapeHtml(noticeField(announcement, 'tag'))}</span>
+                    <span class="notice-tag">${escapeHtml(noticeField(announcement, 'tag'))}</span>
                     <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
                 </div>
                 <h3 class="notice-title">${escapeHtml(noticeField(announcement, 'title'))}</h3>

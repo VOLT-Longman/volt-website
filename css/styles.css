@@ -8997,3 +8997,95 @@ body.nav-trade-open::before {
     #notices .notice-card .notice-title { font-size: 16px; }
     #notices .notice-card.is-featured .notice-title { font-size: 18px; }
 }
+
+/* Extend the restrained home/catalog treatment to planning and notice discovery. */
+#trade-planner .trade-planner {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #171719;
+    border-color: #ffffff0a;
+    border-radius: 24px;
+}
+#trade-planner .planner-step-num {
+    background: #ffffff14;
+    color: #f5f5f7;
+    font-weight: 500;
+}
+#trade-planner .uex-live-panel {
+    padding: 28px 0 0;
+    border: 0;
+    border-top: 1px solid #ffffff1a;
+    border-radius: 0;
+    background: transparent;
+}
+#trade-planner .planner-picker input,
+#trade-planner #logistics-cargo {
+    background: #232326;
+    border-radius: 12px;
+}
+#trade-planner .uex-live-badge,
+#trade-planner .profit-selection-eyebrow {
+    color: #c3c3c8;
+    background: none;
+}
+#trade-planner .uex-loc-btn { min-height: 44px; padding: 8px 16px; }
+#trade-planner .uex-loc-btn[aria-pressed="true"] {
+    background: #f5f5f7;
+    border-color: #f5f5f7;
+    color: #1d1d1f;
+}
+#trade-planner .profit-selection-panel {
+    background: #1c1c1e;
+    border-radius: 18px;
+}
+#trade-planner .profit-selection-panel.is-ready { border-color: #ffffff26; }
+#trade-planner .profit-selection-item {
+    background: transparent;
+    border-color: transparent;
+    padding: 12px 8px;
+}
+#trade-planner .profit-selection-item strong { font-size: 16px; font-weight: 600; }
+#trade-planner .ledger-add-row {
+    background: transparent;
+    border: 0;
+    border-top: 1px solid #ffffff1a;
+    border-radius: 0;
+    padding: 18px 0 0;
+}
+#trade-planner .btn { box-shadow: none; transform: none; }
+#trade-planner .btn-primary { background: #b73825; }
+#trade-planner .btn-primary:hover { background: #982e20; }
+#trade-planner .trade-secondary-block { width: 100%; max-width: 1120px; margin-left: auto; margin-right: auto; }
+#notices .notice-tools {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+}
+#notices .notice-search { background: #1c1c1e; border-radius: 12px; }
+#notices .notice-pinned-toggle { border-radius: 12px; }
+#notices .notice-filter-btn.active,
+#notices .notice-pinned-toggle[aria-pressed="true"] {
+    background: #f5f5f7;
+    border-color: #f5f5f7;
+    color: #1d1d1f;
+}
+#notices .notice-card,
+#notices .notice-card:not(.is-featured),
+#notices .notice-card.is-featured {
+    background: #1c1c1e;
+    border: 1px solid #ffffff0a;
+    border-radius: 18px;
+}
+#notices .notice-card:hover { background: #232326; transform: none; }
+#notices .notice-card::before { display: none; }
+#notices .notice-card .notice-title { font-weight: 600; }
+#notices .notice-card .notice-tag { color: #c3c3c8; background: #ffffff0a; }
+#notices .notice-more { color: #c3c3c8; }
+@media (max-width: 600px) {
+    #trade-planner .trade-planner { padding: 22px 18px; border-radius: 20px; }
+    #trade-planner .profit-selection-panel { padding: 14px; }
+    #trade-planner .profit-selection-item { padding: 10px 0; }
+    #notices .notice-tools { padding: 0; }
+}
