@@ -9240,7 +9240,7 @@ body.nav-trade-open::before {
     #home .hero-proof { display: none; }
 }
 
-/* Landing continuation: readable scenes and product previews. */
+/* Landing continuation: readable scenes and concise service cards. */
 @media (min-width: 641px) and (max-width: 979px) {
     #home .hero-copy { width: 64%; }
     #home h1 { font-size: clamp(54px, 7.2vw, 72px); }
@@ -9254,16 +9254,11 @@ body.nav-trade-open::before {
     #home .hero-identity { margin-bottom: 20px; }
 }
 #home .landing-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
-#home .landing-card, #home .landing-card:first-child { min-height: 0; overflow: hidden; padding: 36px 36px 0; }
+#home .landing-card, #home .landing-card:first-child { min-height: 0; overflow: hidden; padding: 36px; }
 #home .landing-card h3 { font-size: clamp(26px,3vw,36px); }
 #home .landing-card p { max-width: 420px; margin-bottom: 22px; }
 #home .landing-card-metric { margin-bottom: 24px; }
 #home .landing-card-arrow { top: 38px; bottom: auto; right: 30px; }
-#home .landing-preview { margin: auto -12px 0; border: 1px solid #ffffff1c; border-bottom: 0; border-radius: 14px 14px 0 0; overflow: hidden; background: #070707; }
-#home .landing-preview img { width: 100%; height: auto; display: block; }
-#home .landing-preview .preview-en { display: none; }
-html[lang="en"] #home .landing-preview .preview-ko { display: none; }
-html[lang="en"] #home .landing-preview .preview-en { display: block; }
 #home .landing-card:last-child { grid-column: 1 / -1; padding: 32px 36px; }
 #home .landing-card:last-child h3 { font-size: 26px; }
 #home .landing-card:last-child p { max-width: 70%; margin-bottom: 0; }
@@ -9282,7 +9277,7 @@ html[lang="en"] #home .landing-preview .preview-en { display: block; }
 #home .landing-cta .btn-primary { background: #f5f5f7; border-color: #f5f5f7; color: #1d1d1f; }
 @media (max-width: 700px) {
     #home .landing-grid { grid-template-columns: 1fr; }
-    #home .landing-card, #home .landing-card:first-child { padding: 28px 24px 0; }
+    #home .landing-card, #home .landing-card:first-child { padding: 28px 24px; }
     #home .landing-card:last-child { padding: 28px 24px; }
     #home .landing-card:last-child p { max-width: none; margin-bottom: 20px; }
     #home .landing-card:last-child .landing-card-metric { position: static; }
