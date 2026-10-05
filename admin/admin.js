@@ -132,7 +132,8 @@ function escapeHtml(value) {
 
 async function api(path, options = {}) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15000);
+  const timeoutMs = path === '/api/admin/ships/erkul-sync/preview' ? 60000 : 15000;
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   let response;
   try {
     response = await fetch(path, {
