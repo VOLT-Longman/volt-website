@@ -5449,6 +5449,18 @@ body.nav-trade-open::before {
 
 .volt-ai [hidden] { display: none; }
 
+.volt-ai.is-data-beta .volt-ai-input-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+@media (max-width: 640px) {
+    .volt-ai.is-data-beta .volt-ai-sidebar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .volt-ai.is-data-beta #volt-ai-new-chat { grid-column: 1 / -1; }
+}
+
 .volt-ai-tool-button {
     display: flex;
     align-items: center;

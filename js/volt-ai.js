@@ -170,6 +170,7 @@
             return;
         }
         state.enabled = true;
+        document.getElementById('ai')?.classList.add('is-data-beta');
 
         const auth = await fetchJson('/auth/me').catch(() => null);
         state.loggedIn = Boolean(auth?.data?.logged_in && auth.data.user?.roles?.length);
