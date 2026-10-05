@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-import { onRequestGet, onRequestPost } from '../../functions/api/ai/chat.js';
+import { onRequestGet, onRequestPost, validateModelNote } from '../../functions/api/ai/chat.js';
 import { resetShipCacheForTests, toolMarketInfo } from '../../functions/_shared/ai-tools.js';
 import { TEST_ENV, createMockDb, createMockKV, jsonRequest, memberCookie } from './helpers.mjs';
 
@@ -398,8 +398,9 @@ test('일정 도구: 다가오는 일정이 LIMIT에 잘리지 않도록 정렬�
 });
 
 test('Generative failure retains sourced data; English commentary uses English instruction', async () => {
+    let sent;
     const env = baseEnv({ VOLT_AI_GENERATIVE_ENABLED: 'true', AI: { run: async (_model, payload) => {
-        assert.match(payload.messages[0].content, /sentences in English/);
+        sent = payload;
         throw new Error('Provider quota exceeded');
     } } });
     const cookie = await memberCookie(MEMBER, env);
@@ -410,8 +411,20 @@ test('Generative failure retains sourced data; English commentary uses English i
     await settle();
     const body = await response.json();
     assert.equal(response.status, 200);
+    assert.match(sent.messages[0].content, /sentences in English/);
+    assert.match(sent.messages[1].content, /VERIFIED_ANSWER/);
+    assert.ok(!sent.messages[1].content.includes('recommend cargo ships'));
     assert.equal(body.mode, 'data');
     assert.equal(body.aiNote, null);
     assert.match(body.answer, /asgard/);
     assert.ok(body.sources.length);
+});
+
+test('Commentary rejects empty-result contradictions and new single-digit or decimal facts', () => {
+    const data = { ships: [{ id: 'raft', cargoScu: 192, crewSize: 2 }] };
+    assert.equal(validateModelNote(data, 'Unfortunately, there are no cargo ships in the database that match your criteria.'), null);
+    assert.equal(validateModelNote(data, '조건에 맞는 함선이 없습니다.'), null);
+    assert.equal(validateModelNote(data, 'Crew size is 9.'), null);
+    assert.equal(validateModelNote(data, 'Cargo capacity is 192.5 SCU.'), null);
+    assert.equal(validateModelNote(data, 'These ships match the requested cargo and crew limits.'), 'These ships match the requested cargo and crew limits.');
 });
