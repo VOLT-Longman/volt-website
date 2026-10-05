@@ -9239,3 +9239,62 @@ body.nav-trade-open::before {
     #home .hero-copy .hero-buttons { width: 100%; gap: 10px; }
     #home .hero-proof { display: none; }
 }
+
+/* Landing continuation: readable scenes and product previews. */
+@media (min-width: 641px) and (max-width: 979px) {
+    #home .hero-copy { width: 64%; }
+    #home h1 { font-size: clamp(54px, 7.2vw, 72px); }
+    #home .hero-cine-image { object-position: 42% center; }
+}
+@media (min-width: 980px) and (max-height: 760px) {
+    #home { --hero-top-padding: 96px; }
+    #home .hero-layout { min-height: 660px; padding-top: 12px; }
+    #home .hero-cine { height: 760px; }
+    #home h1 { font-size: clamp(66px, 7vw, 96px); margin-bottom: 20px; }
+    #home .hero-identity { margin-bottom: 20px; }
+}
+#home .landing-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+#home .landing-card, #home .landing-card:first-child { min-height: 0; overflow: hidden; padding: 36px 36px 0; }
+#home .landing-card h3 { font-size: clamp(26px,3vw,36px); }
+#home .landing-card p { max-width: 420px; margin-bottom: 22px; }
+#home .landing-card-metric { margin-bottom: 24px; }
+#home .landing-card-arrow { top: 38px; bottom: auto; right: 30px; }
+#home .landing-preview { margin: auto -12px 0; border: 1px solid #ffffff1c; border-bottom: 0; border-radius: 14px 14px 0 0; overflow: hidden; background: #070707; }
+#home .landing-preview img { width: 100%; height: auto; display: block; }
+#home .landing-preview .preview-en { display: none; }
+html[lang="en"] #home .landing-preview .preview-ko { display: none; }
+html[lang="en"] #home .landing-preview .preview-en { display: block; }
+#home .landing-card:last-child { grid-column: 1 / -1; padding: 32px 36px; }
+#home .landing-card:last-child h3 { font-size: 26px; }
+#home .landing-card:last-child p { max-width: 70%; margin-bottom: 0; }
+#home .landing-card:last-child .landing-card-metric { position: absolute; right: 72px; top: 36px; margin: 0; }
+#home .landing-briefing { grid-template-columns: 1fr; gap: 56px; margin-top: 72px; }
+#home .landing-notices { background: none; padding: 0; border-radius: 0; }
+#home .landing-notice-row { display: grid; grid-template-columns: 150px minmax(0,1fr); gap: 24px; padding: 22px 0; align-items: center; }
+#home .landing-notice-meta { gap: 12px; }
+#home .landing-notice-title { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 18px; line-height: 1.55; }
+#home .landing-cta { position: relative; isolation: isolate; overflow: hidden; padding: 72px 48px; min-height: 360px; text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
+#home .landing-cta-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 35% center; z-index: -2; }
+#home .landing-cta::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,rgba(7,7,7,.1),rgba(7,7,7,.86) 65%); z-index: -1; }
+#home .landing-cta h2 { font-size: clamp(28px,3vw,40px); max-width: 530px; line-height: 1.3; }
+#home .landing-cta p { color: #dddde1; max-width: 470px; }
+#home .landing-cta .hero-buttons { justify-content: flex-end; }
+#home .landing-cta .btn-primary { background: #f5f5f7; border-color: #f5f5f7; color: #1d1d1f; }
+@media (max-width: 700px) {
+    #home .landing-grid { grid-template-columns: 1fr; }
+    #home .landing-card, #home .landing-card:first-child { padding: 28px 24px 0; }
+    #home .landing-card:last-child { padding: 28px 24px; }
+    #home .landing-card:last-child p { max-width: none; margin-bottom: 20px; }
+    #home .landing-card:last-child .landing-card-metric { position: static; }
+    #home .landing-card-arrow { top: 30px; right: 22px; }
+    #home .landing-notice-row { grid-template-columns: 1fr; gap: 8px; padding: 20px 0; }
+    #home .landing-notice-title { font-size: 16px; }
+    #home .landing-briefing { gap: 40px; margin-top: 48px; }
+    #home .landing-cta { text-align: left; align-items: flex-start; min-height: 440px; padding: 180px 24px 32px; }
+    #home .landing-cta::after { background: linear-gradient(0deg,rgba(7,7,7,.95) 10%,rgba(7,7,7,.75) 50%,transparent); }
+    #home .landing-cta .hero-buttons { justify-content: flex-start; flex-wrap: wrap; }
+}
+@media (max-width: 640px) {
+    #home .hero-cine { height: auto; aspect-ratio: 16 / 10; }
+    #home .hero-cine-image { object-position: 40% center; }
+}

@@ -126,7 +126,7 @@
             // 랜딩 하이라이트 (D-①)
             'landing.scrollHint': '아래로 스크롤',
             'landing.title': 'VOLT가 <span class="accent">제공하는 것</span>',
-            'landing.subtitle': '데이터로 운영되는 함대 — 필요한 정보가 항상 최신입니다.',
+            'landing.subtitle': '함선을 살펴보고, 무역을 준비하고, 함께 출발하세요.',
             'landing.ships.eyebrow': 'SHIP DATABASE',
             'landing.ships.title': '함선 데이터베이스',
             'landing.ships.desc': 'Erkul 실시간 스펙·인게임 구매처·한국어 설명까지. 모든 함선 정보를 한 곳에서.',
@@ -705,7 +705,7 @@
             // Landing highlights (D-①)
             'landing.scrollHint': 'Scroll down',
             'landing.title': 'What VOLT <span class="accent">offers</span>',
-            'landing.subtitle': 'A data-driven fleet — the information you need is always current.',
+            'landing.subtitle': 'Explore your ship, plan your trade, and fly together.',
             'landing.ships.eyebrow': 'SHIP DATABASE',
             'landing.ships.title': 'Ship Database',
             'landing.ships.desc': 'Live Erkul specs, in-game purchase locations, and curated descriptions — every ship in one place.',
