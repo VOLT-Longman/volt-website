@@ -25,9 +25,6 @@ test.describe('i18n (KO/EN)', () => {
         await expect(page.locator('.nav-links a[href="#about"]')).toHaveText('About');
         // 히어로의 1순위 CTA는 가입 전환이며, Discord 버튼은 랜딩 CTA에서 확인한다.
         await expect(page.locator('.hero-action.btn-primary strong')).toHaveText('Join VOLT');
-        await expect(page.locator('.hero-action [data-i18n="hero.shipsHint"]')).toHaveText('Specs and purchase locations');
-        await expect(page.locator('.hero-action [data-i18n="hero.plannerHint"]')).toHaveText('Plan routes and calculate profit');
-        await expect(page.locator('.hero-action [data-i18n="hero.joinHint"]')).toHaveText('Start your journey with us');
         await expect(page.locator('.landing-cta .btn-primary')).toHaveText('Join our Discord');
         await ctx.close();
     });

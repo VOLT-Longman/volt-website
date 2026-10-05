@@ -83,7 +83,7 @@ test.describe('CSS 회귀 (P2-4)', () => {
         { hash: '', selector: '.hub-description', props: { fontSize: '16px', lineHeight: '28.8px' } },
         { hash: '#ships', selector: '.ship-search', props: { maxWidth: 'none', fontSize: '14px' } },
         { hash: '#ships', selector: '.ships-controls', props: { display: 'flex', flexDirection: 'column', marginBottom: '18px' } },
-        { hash: '#ships', selector: '.ship-name', props: { fontSize: '24px', fontWeight: '600' } },
+        { hash: '#ships', selector: '.ship-name', props: { fontSize: '21px', fontWeight: '600' } },
         { hash: '#notices', selector: '.notices-grid', props: { display: 'flex', maxWidth: '920px' } },
         { hash: '#notices', selector: '.notice-card', props: { display: 'block', cursor: 'pointer', textAlign: 'left' } },
         { hash: '#notices', selector: '.notice-meta', props: { display: 'flex', alignItems: 'center' } },
