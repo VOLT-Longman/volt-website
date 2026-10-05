@@ -177,8 +177,11 @@ const HELP_ANSWER = 'VOLT AI는 다음을 도와드립니다 — ① 함선 추�
 
 // 모델 보조 설명 검증 — 도구 데이터에 없는 숫자가 있으면 폐기한다.
 // "수치는 결정론 도구만 생성" 원칙의 집행 지점. (한글 단위 표기 등 완전 차단은 불가 — 한계는 런북 문서화)
-export function validateModelNote(toolData, text) {
+export function validateModelNote(toolData, text, lang = 'ko') {
   if (!text) return null;
+  // Keep model scaffolding out of the public explanation.
+  text = String(text).replace(/^Here (?:are|is)[^:\n]{0,120}:\s*/i, '')
+    .replace(/VERIFIED_ANSWER|TOOL_DATA/g, lang === 'en' ? 'the lookup results' : '조회 결과');
   // Reject common empty-result contradictions before showing optional commentary.
   if (toolData.ships?.length && /\bno\b[^.!?\n]{0,100}\bships?\b|\b(?:not|none)\b[^.!?\n]{0,100}\bmatch\b|함선[^.!?\n]{0,60}(?:없|못)/i.test(text)) return null;
   const allowed = new Set((JSON.stringify(toolData).match(/\d+(?:\.\d+)?/g) || []));
@@ -278,7 +281,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
       // Explain the verified result, not the ambiguous original query. Public data only.
       const user = `VERIFIED_ANSWER: ${answer}\nTOOL_DATA: ${JSON.stringify(tool.data)}`;
       const phrased = await runModel(env, { system, user, maxTokens: config.maxOutputTokens });
-      if (!phrased.unavailable) aiNote = validateModelNote(tool.data, phrased.text);
+      if (!phrased.unavailable) aiNote = validateModelNote(tool.data, phrased.text, lang);
     }
 
     commitUsage(env, waitUntil, keys, usage, route.intent, config.estCostPerReq, false);

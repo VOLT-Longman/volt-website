@@ -427,4 +427,6 @@ test('Commentary rejects empty-result contradictions and new single-digit or dec
     assert.equal(validateModelNote(data, 'Crew size is 9.'), null);
     assert.equal(validateModelNote(data, 'Cargo capacity is 192.5 SCU.'), null);
     assert.equal(validateModelNote(data, 'These ships match the requested cargo and crew limits.'), 'These ships match the requested cargo and crew limits.');
+    assert.equal(validateModelNote(data, 'Here are two short sentences explaining VERIFIED_ANSWER: VERIFIED_ANSWER lists the matching ships.', 'en'), 'the lookup results lists the matching ships.');
+    assert.equal(validateModelNote(data, 'VERIFIED_ANSWER에 표시된 함선입니다.'), '조회 결과에 표시된 함선입니다.');
 });
