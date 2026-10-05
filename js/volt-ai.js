@@ -4,7 +4,11 @@
 (function () {
     'use strict';
 
-    const state = { enabled: false, loggedIn: false, sending: false };
+    const state = { enabled: false, loggedIn: false, sending: false, history: [] };
+
+    const english = () => window.VOLT_I18N?.getLang() === 'en';
+    const tr = (ko, en) => english() ? en : ko;
+    const intro = () => tr(INTRO_MEMBER + ' 데이터 기반 베타이며 자유 대화나 생성형 답변은 지원하지 않습니다. 대화는 새로고침하면 초기화됩니다.', 'VOLT AI is a data-based beta for ship recommendations, comparisons, UEX prices, events and notices. Answers include sources and timestamps. Generative chat is not connected. Conversations reset on refresh.');
 
     function el(tag, className, text) {
         const node = document.createElement(tag);
@@ -19,7 +23,7 @@
         const container = messagesContainer();
         if (!container) return null;
         const article = el('article', `volt-ai-message${who === 'user' ? ' is-user' : ''}`);
-        article.append(el('span', 'volt-ai-message-meta', who === 'user' ? '나' : 'VOLT AI'));
+        article.append(el('span', 'volt-ai-message-meta', who === 'user' ? tr('나', 'You') : 'VOLT AI'));
         article.append(el('div', 'volt-ai-message-bubble', text));
         container.append(article);
         container.scrollTop = container.scrollHeight;
@@ -32,13 +36,13 @@
         const footer = el('div', 'volt-ai-sources');
         for (const source of sources || []) {
             const card = el('a', 'volt-ai-source-card');
-            if (source.url) card.href = source.url;
+            if (typeof source.url === 'string' && /^#[a-z-]+$/.test(source.url)) card.href = source.url;
             card.append(el('span', 'volt-ai-source-label', source.label));
             if (source.detail) card.append(el('span', 'volt-ai-source-detail', source.detail));
             footer.append(card);
         }
         if (freshness) {
-            const status = freshness.status === 'unavailable' ? '데이터 연결 불가' : (freshness.at ? `기준 ${formatTime(freshness.at)}` : '');
+            const status = freshness.status === 'unavailable' ? tr('데이터 연결 불가', 'Data unavailable') : (freshness.at ? `${tr('기준', 'As of')} ${formatTime(freshness.at)}` : tr('기준 시각 없음', 'Timestamp unavailable'));
             if (status) footer.append(el('span', `volt-ai-freshness${freshness.status === 'unavailable' ? ' is-unavailable' : ''}`, `${freshness.label} · ${status}`));
         }
         article.append(footer);
@@ -47,7 +51,7 @@
     function formatTime(iso) {
         const date = new Date(iso);
         if (Number.isNaN(date.getTime())) return iso;
-        return date.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        return date.toLocaleString(english() ? 'en-GB' : 'ko-KR', { timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     }
 
     function clearLog(introText) {
@@ -69,7 +73,7 @@
             control.disabled = !enabled;
             if (enabled) control.removeAttribute('title');
         });
-        if (input && enabled) input.placeholder = '예: 화물 96 SCU 이상 2인 함선 추천';
+        if (input && enabled) input.placeholder = tr('예: 화물 96 SCU 이상 함선 추천', 'Try: recommend cargo ships with 96 SCU');
     }
 
     function setBadges(text) {
@@ -82,7 +86,7 @@
     }
 
     async function fetchJson(url, options) {
-        const response = await fetch(url, options);
+        const response = await fetch(url, { ...options, signal: AbortSignal.timeout(30000) });
         const data = await response.json().catch(() => ({}));
         return { status: response.status, ok: response.ok, data };
     }
@@ -98,35 +102,37 @@
         state.sending = true;
         const send = document.getElementById('volt-ai-send');
         if (send) send.disabled = true;
+        document.getElementById('volt-ai-new-chat').disabled = true;
         appendMessage('user', message);
-        const pending = appendMessage('ai', '확인 중…');
+        const pending = appendMessage('ai', tr('확인 중…', 'Checking…'));
         try {
             const result = await fetchJson('/api/ai/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                 credentials: 'same-origin',
-                body: JSON.stringify({ message })
+                body: JSON.stringify({ message, lang: english() ? 'en' : 'ko', history: state.history })
             });
             const bubble = pending?.querySelector('.volt-ai-message-bubble');
             if (!result.ok) {
-                if (bubble) bubble.textContent = ERROR_MESSAGES[result.status] || result.data.error || '요청에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+                if (bubble) bubble.textContent = english() ? ({ 401: 'Please sign in with Discord.', 403: 'Discord membership is required.', 429: 'Request limit reached. Please try again later.', 503: 'VOLT AI is currently unavailable.' }[result.status] || 'Request failed. Please try again later.') : (ERROR_MESSAGES[result.status] || result.data.error || '요청에 실패했습니다. 잠시 후 다시 시도해 주세요.');
                 return;
             }
+            state.history = [...state.history, message].slice(-3);
             if (bubble) bubble.textContent = result.data.answer || '';
             // 모델 보조 설명(M1.1) — 확정 답변과 시각적으로 분리, 참고용임을 명시
             if (result.data.aiNote && bubble) {
                 const note = el('div', 'volt-ai-note');
-                note.append(el('span', 'volt-ai-note-label', 'AI 해설 · 참고용'));
+                note.append(el('span', 'volt-ai-note-label', tr('AI 해설 · 참고용', 'AI commentary · reference only')));
                 note.append(el('p', 'volt-ai-note-text', result.data.aiNote));
                 bubble.append(note);
             }
             appendSources(pending, result.data.sources, result.data.freshness);
         } catch (_error) {
             const bubble = pending?.querySelector('.volt-ai-message-bubble');
-            if (bubble) bubble.textContent = '네트워크 오류가 발생했습니다. 연결을 확인해 주세요.';
+            if (bubble) bubble.textContent = tr('연결이 지연되거나 끊겼습니다. 잠시 후 다시 시도해 주세요.', 'The connection timed out or failed. Please try again.');
         } finally {
             state.sending = false;
-            if (send) send.disabled = false;
+            setControlsEnabled(state.loggedIn);
         }
     }
 
@@ -136,26 +142,26 @@
         if (!form || !input) return;
         form.addEventListener('submit', (event) => {
             event.preventDefault();
-            if (!state.enabled || !state.loggedIn) return;
+            if (!state.enabled || !state.loggedIn || state.sending) return;
             const message = input.value.trim();
             if (!message) return;
             input.value = '';
             sendMessage(message);
         });
         input.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
+            if (event.key === 'Enter' && !event.shiftKey && !event.isComposing && event.keyCode !== 229) {
                 event.preventDefault();
                 form.requestSubmit();
             }
         });
         const newChat = document.getElementById('volt-ai-new-chat');
-        if (newChat) newChat.addEventListener('click', () => clearLog(INTRO_MEMBER));
+        if (newChat) newChat.addEventListener('click', () => { state.history = []; clearLog(intro()); });
     }
 
     async function init() {
         // 범위 외 컨트롤(이미지/음성/기록/설정)은 MVP에서 비활성 유지
         ['volt-ai-image-button', 'volt-ai-voice-button', 'volt-ai-file', 'volt-ai-history-button', 'volt-ai-settings-button']
-            .forEach((id) => { const control = document.getElementById(id); if (control) control.disabled = true; });
+            .forEach((id) => { const control = document.getElementById(id); if (control) { control.disabled = true; control.hidden = true; } });
 
         const config = await fetchJson('/api/ai/chat').catch(() => null);
         if (!config || !config.ok || !config.data.enabled) {
@@ -166,26 +172,49 @@
         state.enabled = true;
 
         const auth = await fetchJson('/auth/me').catch(() => null);
-        state.loggedIn = Boolean(auth?.data?.logged_in);
+        state.loggedIn = Boolean(auth?.data?.logged_in && auth.data.user?.roles?.length);
 
         setupForm();
+        renderState();
+        window.VOLT_I18N?.onChange(() => {
+            renderState(false);
+            if (state.loggedIn && !state.history.length && !state.sending) clearLog(intro());
+        });
+    }
+
+    function renderState(reset = true) {
+        const subtitle = tr('데이터 기반 베타 · 함선, 시세, 일정과 공지를 출처와 함께 확인하세요.', 'Data-based beta · Ships, prices, events and notices, with sources.');
+        const heading = document.querySelector('#ai .section-header p');
+        if (heading) heading.textContent = subtitle;
+        setSubtitle(subtitle);
+        setBadges(state.loggedIn ? 'BETA' : 'MEMBERS');
+        document.querySelectorAll('a[href="#ai"] .nav-soon-tag').forEach((badge) => { badge.textContent = 'BETA'; });
+        const input = document.getElementById('volt-ai-input');
+        if (input) input.maxLength = 500;
+        const sidebar = document.querySelector('.volt-ai-sidebar');
+        sidebar?.querySelectorAll('.volt-ai-example').forEach((node) => { node.remove(); });
+        const examples = english() ? ['Recommend cargo ships', 'Gold prices', 'Upcoming events', 'Recent notices'] : ['화물 함선 추천', '금 시세', '다가오는 일정', '최근 공지'];
+        for (const question of examples) {
+            const button = el('button', 'volt-ai-tool-button volt-ai-example', question);
+            button.type = 'button';
+            button.disabled = !state.loggedIn;
+            button.addEventListener('click', () => {
+                if (state.sending || !input) return;
+                input.value = question;
+                input.focus();
+            });
+            sidebar?.append(button);
+        }
+        setControlsEnabled(state.loggedIn && !state.sending);
         if (!state.loggedIn) {
-            setBadges('MEMBERS');
-            setSubtitle('Discord 멤버 전용 어시스턴트입니다. 로그인 후 이용해 주세요.');
-            clearLog('VOLT AI는 Discord 멤버 전용입니다. 상단 메뉴에서 Discord 로그인 후 함선 추천·비교, 시세, 일정 안내를 이용할 수 있습니다.');
-            const container = messagesContainer();
-            if (container) {
-                const login = el('a', 'volt-ai-login-link', 'Discord 로그인 →');
-                login.href = '/auth/discord/login';
-                container.lastElementChild?.querySelector('.volt-ai-message-bubble')?.append(document.createElement('br'), login);
-            }
+            if (input) input.placeholder = tr('Discord 멤버 로그인 후 이용할 수 있습니다.', 'Sign in as a Discord member to continue.');
+            clearLog(tr('VOLT AI는 Discord 멤버 전용입니다. 로그인 후 이용해 주세요.', 'VOLT AI is for Discord members. Please sign in to continue.'));
+            const login = el('a', 'volt-ai-login-link', tr('Discord 로그인 →', 'Sign in with Discord →'));
+            login.href = '/auth/discord/login';
+            messagesContainer()?.lastElementChild?.querySelector('.volt-ai-message-bubble')?.append(document.createElement('br'), login);
             return;
         }
-
-        setBadges('BETA');
-        setSubtitle('함선·무역 데이터 기반 안내 — 수치에는 항상 출처와 기준 시각이 붙습니다.');
-        setControlsEnabled(true);
-        clearLog(INTRO_MEMBER);
+        if (reset) clearLog(intro());
     }
 
     if (document.readyState === 'loading') {

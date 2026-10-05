@@ -85,6 +85,48 @@ function makeContext(env, request) {
 
 test.beforeEach(() => { resetShipCacheForTests(); });
 
+test('Data beta never calls a bound model; English and bounded follow-up preserve criteria', async () => {
+    let calls = 0;
+    const env = baseEnv({ AI: { run: async () => { calls += 1; throw new Error('Must not call'); } } });
+    const cookie = await memberCookie(MEMBER, env);
+    const ask = async (body) => {
+        const { context, settle } = makeContext(env, jsonRequest('https://volt.ceo/api/ai/chat', { cookie, body }));
+        const response = await onRequestPost(context);
+        await settle();
+        return response.json();
+    };
+    const first = await ask({ message: 'Recommend cargo ships with 100 SCU', lang: 'en' });
+    assert.match(first.answer, /asgard/);
+    assert.doesNotMatch(first.answer, /[가-힣]/);
+    const followup = await ask({ message: 'Then 2 crew', lang: 'en', history: ['Recommend cargo ships with 100 SCU'] });
+    assert.equal(followup.intent, 'recommend');
+    assert.match(followup.answer, /No matching ships/);
+    const newTopic = await ask({ message: 'recent notices', lang: 'en', history: ['Recommend cargo ships with 100 SCU'] });
+    assert.equal(newTopic.intent, 'notices');
+    await ask({ message: 'write a poem' });
+    assert.equal(calls, 0);
+    const usage = [...env.RATE_LIMIT_KV.store.entries()].find(([key]) => key.startsWith('ai_usage:d:'));
+    assert.equal(JSON.parse(usage[1]).cost, 0);
+});
+
+test('Malformed or oversized history is rejected before reserving usage', async () => {
+    const env = baseEnv();
+    const cookie = await memberCookie(MEMBER, env);
+    for (const history of ['not an array', ['x'.repeat(501)], [1], ['a', 'b', 'c', 'd']]) {
+        const { context } = makeContext(env, jsonRequest('https://volt.ceo/api/ai/chat', { cookie, body: { message: '공지', history } }));
+        assert.equal((await onRequestPost(context)).status, 400);
+    }
+});
+
+test('Public notices still work when ship assets are unavailable, with stored English translation', async () => {
+    const env = baseEnv({ ASSETS: { fetch: async () => { throw new Error('assets unavailable'); } }, DB: createMockDb((sql) => sql.includes('FROM notices') ? [{ title: '정비', title_en: 'Maintenance', date: '2026-10-05' }] : []) });
+    const cookie = await memberCookie(MEMBER, env);
+    const { context } = makeContext(env, jsonRequest('https://volt.ceo/api/ai/chat', { cookie, body: { message: 'recent notices', lang: 'en' } }));
+    const body = await (await onRequestPost(context)).json();
+    assert.match(body.answer, /Maintenance/);
+    assert.doesNotMatch(body.answer, /정비/);
+});
+
 test('AI GET: 비활성 상태 공개 조회 (인증 불필요)', async () => {
     const response = await onRequestGet({ env: { ...TEST_ENV } });
     assert.equal(response.status, 200);
@@ -138,7 +180,7 @@ test('AI: 일일 요청 한도 도달 → 429', async () => {
 });
 
 test('AI: 일 비용 하드캡 도달 → 429 (PM #2)', async () => {
-    const env = baseEnv({ VOLT_AI_COST_CAP: '3000', VOLT_AI_EST_COST_PER_REQ_KRW: '3' });
+    const env = baseEnv({ VOLT_AI_GENERATIVE_ENABLED: 'true', VOLT_AI_COST_CAP: '3000', VOLT_AI_EST_COST_PER_REQ_KRW: '3' });
     const day = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     await env.DB.prepare('INSERT INTO security_ai_usage VALUES (1, ?, ?, 10, 2998, 2998)').bind(day, day.slice(0, 6)).run();
     const cookie = await memberCookie(MEMBER, env);
@@ -244,6 +286,7 @@ test('AI 주입 방어: 지시 무시 요구 → 도구 경로 밖으로 나가�
 test('AI 모델 사용(M1.1): 확정 답변은 템플릿, 모델 문장은 aiNote로 분리', async () => {
     const calls = [];
     const env = baseEnv({
+        VOLT_AI_GENERATIVE_ENABLED: 'true',
         AI: { run: async (model, payload) => { calls.push({ model, payload }); return { response: '화물 운송에 적합한 대형 함선이 우선 추천됐습니다.' }; } }
     });
     const cookie = await memberCookie(MEMBER, env);
@@ -262,6 +305,7 @@ test('AI 모델 사용(M1.1): 확정 답변은 템플릿, 모델 문장은 aiNot
 
 test('AI aiNote 검증(M1.1): 도구에 없는 수치를 말하면 노트 폐기 + 확정 답변 유지', async () => {
     const env = baseEnv({
+        VOLT_AI_GENERATIVE_ENABLED: 'true',
         AI: { run: async () => ({ response: '이 함선의 실제 가격은 99,999,999 aUEC로 알려져 있습니다.' }) }
     });
     const cookie = await memberCookie(MEMBER, env);

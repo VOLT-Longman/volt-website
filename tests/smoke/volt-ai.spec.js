@@ -23,6 +23,59 @@ const CHAT_RESPONSE = {
     usage: { dayCount: 1, dayLimit: 200 }
 };
 
+test('Data beta carries bounded context, resets it and preserves pending drafts and Korean composition', async ({ page }) => {
+    await mockApi(page, { loggedIn: true });
+    await mockAiConfig(page);
+    const requests = [];
+    let release;
+    await page.route('**/api/ai/chat', async (route) => {
+        if (route.request().method() !== 'POST') return route.fallback();
+        requests.push(route.request().postDataJSON());
+        if (requests.length === 1) await new Promise((resolve) => { release = resolve; });
+        return route.fulfill({ json: { ...CHAT_RESPONSE, aiNote: null } });
+    });
+    await gotoSection(page, '#ai');
+    const input = page.locator('#volt-ai-input');
+    await input.fill('화물 함선 추천');
+    await input.dispatchEvent('keydown', { key: 'Enter', isComposing: true });
+    expect(requests).toHaveLength(0);
+    await input.press('Enter');
+    await expect.poll(() => requests.length).toBe(1);
+    await input.fill('그럼 2인');
+    await input.press('Enter');
+    await expect(input).toHaveValue('그럼 2인');
+    await expect(page.locator('#volt-ai-new-chat')).toBeDisabled();
+    release();
+    await expect(page.locator('#volt-ai-send')).toBeEnabled();
+    await input.press('Enter');
+    await expect.poll(() => requests.length).toBe(2);
+    expect(requests[1].history).toEqual(['화물 함선 추천']);
+    await page.locator('#volt-ai-new-chat').click();
+    await input.fill('최근 공지');
+    await input.press('Enter');
+    await expect.poll(() => requests.length).toBe(3);
+    expect(requests[2].history).toEqual([]);
+});
+
+test('English beta UI and request locale remain active after changing language', async ({ page }) => {
+    await mockApi(page, { loggedIn: true });
+    await mockAiConfig(page);
+    let payload;
+    await page.route('**/api/ai/chat', (route) => {
+        if (route.request().method() !== 'POST') return route.fallback();
+        payload = route.request().postDataJSON();
+        return route.fulfill({ json: { ...CHAT_RESPONSE, answer: 'Recent notices: Maintenance', aiNote: null } });
+    });
+    await gotoSection(page, '#ai');
+    await page.evaluate(() => window.VOLT_I18N.setLang('en'));
+    await expect(page.locator('#volt-ai-input')).toHaveAttribute('placeholder', /recommend cargo/);
+    await expect(page.locator('.volt-ai-status-badge')).toHaveText('BETA');
+    await page.locator('#volt-ai-input').fill('recent notices');
+    await page.locator('#volt-ai-send').click();
+    await expect(page.locator('#volt-ai-messages')).toContainText('Maintenance');
+    expect(payload.lang).toBe('en');
+});
+
 test.describe('VOLT AI (M1)', () => {
     test('비활성: 준비 중 UI 유지 + 입력 비활성', async ({ page }) => {
         await mockApi(page);

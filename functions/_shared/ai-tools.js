@@ -1,4 +1,5 @@
 import { parseDataLayerJs } from './erkul-sync.js';
+import { mapLocalization } from './cms-localization.js';
 import { requireDb } from './http.js';
 
 // VOLT AI 도구 계층 (M1) — 모든 수치는 이 결정론적 함수들이 반환한다.
@@ -59,7 +60,7 @@ export function matchShipIds(ships, text, max = 4) {
   const haystack = normalizeToken(text);
   const found = [];
   const candidates = Object.entries(ships).flatMap(([id, ship]) =>
-    [id, ship.name, ...(Array.isArray(ship.aliases) ? ship.aliases : []), ship.erkulLocalName?.split('_').slice(1).join('')]
+    [id, ship.name, ...(Array.isArray(ship.aliases) ? ship.aliases : [ship.aliases]), ship.erkulLocalName?.split('_').slice(1).join('')]
       .map((name) => ({ id, token: normalizeToken(name) })).filter((item) => item.token.length >= 3 || /^[가-힣]{2,}$/.test(item.token)))
     .sort((a, b) => b.token.length - a.token.length);
   const occupied = [];
@@ -88,11 +89,11 @@ const ROLE_KEYWORDS = [
 export function extractRecommendParams(text) {
   const params = {};
   for (const group of ROLE_KEYWORDS) {
-    if (group.ko.some((word) => text.includes(word))) { params.roleTokens = group.en; break; }
+    if ([...group.ko, ...group.en].some((word) => text.toLowerCase().includes(word))) { params.roleTokens = group.en; break; }
   }
   const cargoMatch = text.match(/(\d{1,4})\s*scu/i) || text.match(/화물\s*(\d{1,4})/);
   if (cargoMatch) params.minCargo = Number(cargoMatch[1]);
-  const crewMatch = text.match(/(\d{1,2})\s*인/) || text.match(/인원\s*(\d{1,2})/);
+  const crewMatch = text.match(/(\d{1,2})\s*인/) || text.match(/인원\s*(\d{1,2})/) || text.match(/(\d{1,2})\s*(?:crew|people|person)/i) || text.match(/crew\s*(?:of\s*)?(\d{1,2})/i);
   if (crewMatch) params.maxCrew = Number(crewMatch[1]);
   return params;
 }
@@ -132,7 +133,7 @@ export async function toolRecommendShips(env, params) {
     const roleText = `${entry.role || ''} ${entry.career || ''}`.toLowerCase();
     if (params.roleTokens && !params.roleTokens.some((token) => roleText.includes(token))) continue;
     if (params.minCargo && !(Number(entry.cargoScu) >= params.minCargo)) continue;
-    if (params.maxCrew && !(Number(entry.crewSize) <= params.maxCrew)) continue;
+    if (params.maxCrew && !(Number(entry.crewSize) > 0 && Number(entry.crewSize) <= params.maxCrew)) continue;
     scored.push(shipSummary(id, entry, market[id]));
   }
   scored.sort((a, b) => (b.cargoScu ?? 0) - (a.cargoScu ?? 0) || (a.crewSize ?? 99) - (b.crewSize ?? 99));
@@ -177,7 +178,7 @@ async function loadCommodityKoMap(env) {
 
 export async function toolMarketInfo(env, request, query) {
   const origin = new URL(request.url).origin;
-  const listResponse = await fetch(`${origin}/api/uex/commodities`, { headers: { Accept: 'application/json' } }).catch(() => null);
+  const listResponse = await fetch(`${origin}/api/uex/commodities`, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(12000) }).catch(() => null);
   if (!listResponse || !listResponse.ok) {
     return { data: { status: 'unavailable' }, sources: [{ label: 'UEX Corp API', url: '#trade-planner' }], freshness: { label: 'UEX 시세', at: null, status: 'unavailable' } };
   }
@@ -194,7 +195,7 @@ export async function toolMarketInfo(env, request, query) {
   if (!commodity) {
     return { data: { status: 'not-found', query }, sources: [{ label: 'UEX Corp API', url: '#trade-planner' }], freshness: { label: 'UEX 시세', at: list.meta?.fetchedAt ?? null } };
   }
-  const priceResponse = await fetch(`${origin}/api/uex/commodities/${encodeURIComponent(commodity.id)}/prices`, { headers: { Accept: 'application/json' } }).catch(() => null);
+  const priceResponse = await fetch(`${origin}/api/uex/commodities/${encodeURIComponent(commodity.id)}/prices`, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(12000) }).catch(() => null);
   const prices = priceResponse && priceResponse.ok ? await priceResponse.json().catch(() => null) : null;
   if (!prices || !Array.isArray(prices.data)) {
     return { data: { status: 'unavailable', commodity: commodity.name }, sources: [{ label: 'UEX Corp API', url: '#trade-planner' }], freshness: { label: 'UEX 시세', at: null, status: 'unavailable' } };
@@ -204,7 +205,7 @@ export async function toolMarketInfo(env, request, query) {
   // 갱신 시각이 없는 행은 안내에서 제외한다. 오래된 시세를 최신처럼 답하지 않는다.
   const STALE_CUTOFF_MS = 60 * 60 * 1000;
   const now = Date.now();
-  const isFresh = (row) => Number(row.date_modified) > 0 && (now - Number(row.date_modified) * 1000) < STALE_CUTOFF_MS;
+  const isFresh = (row) => Number(row.date_modified) > 0 && (now - Number(row.date_modified) * 1000) >= 0 && (now - Number(row.date_modified) * 1000) < STALE_CUTOFF_MS;
   const freshRows = prices.data.filter(isFresh);
   const buys = freshRows.filter((row) => Number(row.price_buy) > 0)
     .sort((a, b) => a.price_buy - b.price_buy).slice(0, 3)
@@ -226,13 +227,13 @@ export async function toolMarketInfo(env, request, query) {
   };
 }
 
-export async function toolUpcomingEvents(env) {
+export async function toolUpcomingEvents(env, lang = 'ko') {
   try {
     const result = await requireDb(env).prepare(
       // created_at DESC로 먼저 20건을 자르면, 먼 미래 일정을 오래 전에 등록해 둔 경우
       // "최근 등록 20건" 밖으로 밀려 다가오는 일정에서 누락된다.
       // 다가오는 일정(0) → 날짜 미정·지난 일정(1) 순으로 정렬해 잘림이 생기지 않게 한다.
-      `SELECT title, date_label, event_date, status FROM events WHERE published = 1
+      `SELECT title, date_label, event_date, status, translations_json FROM events WHERE published = 1
          ORDER BY CASE WHEN event_date IS NOT NULL AND event_date <> '' AND event_date >= date('now') THEN 0 ELSE 1 END,
                   event_date ASC
          LIMIT 20`
@@ -240,25 +241,28 @@ export async function toolUpcomingEvents(env) {
     // "다가오는 일정" = 오늘 이후를 가까운 순으로(M1.1). 날짜 없는 일정(dateLabel만)은 뒤에 붙인다.
     // 필터·정렬을 JS에서 수행해 모의 DB로도 계약을 검증할 수 있게 한다.
     const today = new Date().toISOString().slice(0, 10);
-    const rows = result.results || [];
+    const rows = (result.results || []).filter((row) => !/^(취소|완료|cancelled|canceled|completed)$/i.test(row.status || ''));
     const dated = rows.filter((row) => row.event_date && row.event_date >= today)
       .sort((a, b) => String(a.event_date).localeCompare(String(b.event_date)));
     const dateless = rows.filter((row) => !row.event_date);
     const items = [...dated, ...dateless].slice(0, 5)
-      .map((row) => ({ title: row.title, dateLabel: row.date_label || row.event_date || '', status: row.status || '' }));
+      .map((row) => {
+        const en = lang === 'en' ? mapLocalization('events', row) : {};
+        return { title: en.titleEn || row.title, dateLabel: en.dateLabelEn || row.date_label || row.event_date || '', status: en.statusEn || row.status || '' };
+      });
     return { data: { status: 'ok', events: items }, sources: [{ label: 'VOLT 일정 (CMS)', url: '#schedule' }], freshness: { label: '일정', at: new Date().toISOString() } };
   } catch (_error) {
     return { data: { status: 'unavailable' }, sources: [{ label: 'VOLT 일정 (CMS)', url: '#schedule' }], freshness: { label: '일정', at: null, status: 'unavailable' } };
   }
 }
 
-export async function toolRecentNotices(env) {
+export async function toolRecentNotices(env, lang = 'ko') {
   try {
     const result = await requireDb(env).prepare(
       // 정렬은 포맷에 의존하지 않는다 — 점/대시가 섞이면 원문 정렬이 뒤집힌다(0012 참조).
-      "SELECT title, date, tag FROM notices WHERE published = 1 ORDER BY pinned DESC, date(replace(date, '.', '-')) DESC LIMIT 5"
+      "SELECT title, title_en, date, tag FROM notices WHERE published = 1 ORDER BY pinned DESC, date(replace(date, '.', '-')) DESC LIMIT 5"
     ).all();
-    const items = (result.results || []).map((row) => ({ title: row.title, date: row.date || '', tag: row.tag || '' }));
+    const items = (result.results || []).map((row) => ({ title: (lang === 'en' && row.title_en) || row.title, date: row.date || '', tag: row.tag || '' }));
     return { data: { status: 'ok', notices: items }, sources: [{ label: 'VOLT 공지 (CMS)', url: '#notices' }], freshness: { label: '공지', at: new Date().toISOString() } };
   } catch (_error) {
     return { data: { status: 'unavailable' }, sources: [{ label: 'VOLT 공지 (CMS)', url: '#notices' }], freshness: { label: '공지', at: null, status: 'unavailable' } };

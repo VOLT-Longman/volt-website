@@ -30,19 +30,20 @@ function intOrDefault(value, fallback) {
 function readConfig(env) {
   return {
     enabled: env.VOLT_AI_ENABLED === 'true',
+    generative: env.VOLT_AI_GENERATIVE_ENABLED === 'true',
     dailyLimit: intOrDefault(env.VOLT_AI_DAILY_REQUEST_LIMIT, DEFAULTS.DAILY_REQUEST_LIMIT),
     maxInputChars: intOrDefault(env.VOLT_AI_MAX_INPUT_CHARS, DEFAULTS.MAX_INPUT_CHARS),
     maxOutputTokens: intOrDefault(env.VOLT_AI_MAX_OUTPUT_TOKENS, DEFAULTS.MAX_OUTPUT_TOKENS),
     costCapDay: intOrDefault(env.VOLT_AI_COST_CAP, DEFAULTS.COST_CAP_DAY_KRW),
     costCapMonth: intOrDefault(env.VOLT_AI_COST_CAP_MONTHLY, DEFAULTS.COST_CAP_MONTH_KRW),
-    estCostPerReq: intOrDefault(env.VOLT_AI_EST_COST_PER_REQ_KRW, DEFAULTS.EST_COST_PER_REQ_KRW)
+    estCostPerReq: env.VOLT_AI_GENERATIVE_ENABLED === 'true' ? intOrDefault(env.VOLT_AI_EST_COST_PER_REQ_KRW, DEFAULTS.EST_COST_PER_REQ_KRW) : 0
   };
 }
 
 // 공개 상태 조회 — 프런트가 배지/게이트를 그릴 최소 정보만 노출한다.
 export async function onRequestGet({ env }) {
   const config = readConfig(env);
-  return json({ enabled: config.enabled, memberOnly: true, dailyLimit: config.dailyLimit }, { cacheControl: 'no-store' });
+  return json({ enabled: config.enabled, memberOnly: true, mode: config.generative ? 'assisted' : 'data', dailyLimit: config.dailyLimit }, { cacheControl: 'no-store' });
 }
 
 function dateKeys(now = new Date()) {
@@ -70,16 +71,54 @@ function commitUsage(env, waitUntil, keys, usage, intent, estCost, failed) {
 
 const INTENTS = new Set(['recommend', 'compare', 'market', 'events', 'notices']);
 
+const HELP_EN = 'VOLT AI is a data-based beta. Try “recommend cargo ships with 96 SCU”, “asgard vs aurora-es”, “Gold prices”, “upcoming events”, or “recent notices”. Answers use VOLT and UEX records; this is not a general-purpose generative chat.';
+const SOURCE_EN = { recommend: 'VOLT ShipDB · Erkul data', compare: 'VOLT ShipDB · Erkul data', market: 'UEX prices · records updated within 60 minutes', events: 'VOLT public events', notices: 'VOLT public notices' };
+
+async function contextualRoute(env, message, history) {
+  const followup = /^(그럼|그러면|그중|대신|then\b|what about\b|instead\b|and\b)/i;
+  if (!followup.test(message)) return routeIntent(env, message);
+  let previous = null;
+  for (const text of [...history, message]) {
+    const current = await routeIntent(env, text);
+    const params = extractRecommendParams(text);
+    if (followup.test(text) && previous?.intent === 'recommend' && Object.keys(params).length && (!current || current.intent === 'recommend')) {
+      previous = { intent: 'recommend', params: { ...previous.params, ...params } };
+    } else previous = current;
+  }
+  return previous;
+}
+
+function englishAnswer(route, data) {
+  if (data.status === 'unavailable') return 'The data source is unavailable. Please try again later.';
+  if (data.status === 'stale') return `No prices updated within 60 minutes are available for ${data.commodity || 'this commodity'}. Check the Trade Planner for timestamps.`;
+  switch (route.intent) {
+    case 'recommend':
+      return data.ships.length ? `${data.ships.length} of ${data.totalMatched} matching ships, sorted by cargo capacity: ` + data.ships.map((ship) => `${ship.id} (cargo ${ship.cargoScu ?? '?'} SCU · crew ${ship.crewSize ?? '?'})`).join(', ') : 'No matching ships. Try broader role, cargo or crew requirements.';
+    case 'compare':
+      return data.ships.length ? data.ships.map((ship) => `${ship.id}: cargo ${ship.cargoScu ?? '?'} SCU, crew ${ship.crewSize ?? '?'}, HP ${ship.hp ?? '?'}` + (ship.cheapestBuy ? `, lowest recorded price ${ship.cheapestBuy.price.toLocaleString('en-US')} aUEC (${ship.cheapestBuy.shop}@${ship.cheapestBuy.location})` : ', no recorded in-game seller')).join(' / ') : 'No ships found. Try the ship ID shown in ShipDB.';
+    case 'market':
+      if (data.status === 'not-found') return `No UEX commodity matches “${data.query}”. Try its exact name in the Trade Planner.`;
+      return `${data.commodity} — lowest buy: ${data.buys.map((row) => `${row.location} ${Number(row.price).toLocaleString('en-US')}`).join(', ') || 'none'} · highest sell: ${data.sells.map((row) => `${row.location} ${Number(row.price).toLocaleString('en-US')}`).join(', ') || 'none'} (aUEC/SCU).`;
+    case 'events': return data.events.length ? 'Upcoming events: ' + data.events.map((event) => `${event.title} (${event.dateLabel || event.status})`).join(', ') : 'No upcoming public events.';
+    case 'notices': return data.notices.length ? 'Recent notices: ' + data.notices.map((notice) => `${notice.title} (${notice.date})`).join(', ') : 'No public notices.';
+    default: return HELP_EN;
+  }
+}
+
 // 1차: 결정론적 라우터 — 모델 없이도 주요 질의를 처리한다.
 async function routeIntent(env, message) {
+  if (/일정|작전|이벤트|스케줄|\b(events?|schedule|operations?)\b/i.test(message)) return { intent: 'events' };
+  if (/공지|소식|뉴스|\b(notices?|news|announcements?)\b/i.test(message)) return { intent: 'notices' };
   const { ships } = await loadShipLayers(env);
   const shipIds = matchShipIds(ships, message);
-  if (shipIds.length >= 2 || (shipIds.length >= 1 && /비교|vs|차이/.test(message))) {
+  if (shipIds.length >= 2 || (shipIds.length >= 1 && /비교|vs|차이|compare/i.test(message))) {
     return { intent: 'compare', shipIds };
   }
-  if (/추천|골라|어떤\s*함선|뭐\s*탈|뭘\s*살/.test(message)) {
+  if (/추천|골라|어떤\s*함선|뭐\s*탈|뭘\s*살|recommend|suggest/i.test(message)) {
     return { intent: 'recommend', params: extractRecommendParams(message) };
   }
+  const englishMarket = message.match(/^(?:price(?:s)?(?: of)?|buy|sell)\s+(.+?)[?.!]*$/i) || message.match(/^(.+?)\s+(?:price|prices)[?.!]*$/i);
+  if (englishMarket) return { intent: 'market', query: englishMarket[1].trim() };
   const marketMatch = message.match(/(.{1,20}?)\s*(시세|가격|팔|매도|매수|어디서\s*사)/);
   if (marketMatch) return { intent: 'market', query: marketMatch[1].trim() || message };
   if (/일정|작전|이벤트|스케줄/.test(message)) return { intent: 'events' };
@@ -121,13 +160,13 @@ async function modelIntent(env, message) {
   }
 }
 
-async function executeTool(env, request, route) {
+async function executeTool(env, request, route, lang) {
   switch (route.intent) {
     case 'recommend': return toolRecommendShips(env, route.params || {});
     case 'compare': return toolCompareShips(env, route.shipIds || []);
     case 'market': return toolMarketInfo(env, request, route.query || '');
-    case 'events': return toolUpcomingEvents(env);
-    case 'notices': return toolRecentNotices(env);
+    case 'events': return toolUpcomingEvents(env, lang);
+    case 'notices': return toolRecentNotices(env, lang);
     default: return null;
   }
 }
@@ -150,7 +189,8 @@ export function validateModelNote(toolData, text) {
 
 // 항상 서버 확정 답변(도구 데이터 기반 템플릿)을 기준으로 노출한다 (M1.1).
 // 모델 문장은 aiNote(보조 설명)로 분리되며 사실을 추가할 수 없다.
-function templateAnswer(route, tool) {
+function templateAnswer(route, tool, lang) {
+  if (lang === 'en') return englishAnswer(route, tool.data);
   const data = tool.data;
   if (data.status === 'unavailable') return '지금은 해당 데이터 원본에 연결할 수 없어 최신 정보를 안내할 수 없습니다. 잠시 후 다시 시도해 주세요.';
   if (data.status === 'stale') return `${data.commodity ?? '해당 상품'}의 60분 이내 갱신 시세가 없어 안내하지 않습니다. 무역플래너에서 갱신 시각과 함께 직접 확인해 주세요.`;
@@ -195,6 +235,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
   if (!message) return error('메시지가 비어 있습니다.', 400);
   if (message.length > config.maxInputChars) return error(`메시지가 너무 깁니다 (최대 ${config.maxInputChars}자).`, 400);
 
+  const lang = body.lang === 'en' ? 'en' : 'ko';
+  const history = body.history ?? [];
+  if (!Array.isArray(history) || history.length > 3 || history.some((item) => typeof item !== 'string' || item.length > config.maxInputChars)) return error('Invalid conversation context.', 400);
+
   const keys = dateKeys();
   const reserved = await reserveAiUsage(env, keys, config);
   if (!reserved) return error('AI 사용 한도에 도달했습니다. 나중에 다시 이용해 주세요.', 429);
@@ -204,25 +248,25 @@ export async function onRequestPost({ request, env, waitUntil }) {
   let failed = false;
   let route = null;
   try {
-    route = await routeIntent(env, message);
-    if (!route) route = await modelIntent(env, message);
+    route = await contextualRoute(env, message, history);
+    if (!route && config.generative) route = await modelIntent(env, message);
 
     if (!route) {
       commitUsage(env, waitUntil, keys, usage, 'help', config.estCostPerReq, false);
       return json({
-        ok: true, intent: 'help', answer: HELP_ANSWER,
+        ok: true, intent: 'help', answer: lang === 'en' ? HELP_EN : HELP_ANSWER,
         sources: [], freshness: null,
         usage: { dayCount: usage.day.count + 1, dayLimit: config.dailyLimit }
       });
     }
 
-    const tool = await executeTool(env, request, route);
+    const tool = await executeTool(env, request, route, lang);
     // M1.1: answer는 항상 서버 확정(템플릿) — 모델은 aiNote 보조 설명만 담당한다.
-    const answer = templateAnswer(route, tool);
+    const answer = templateAnswer(route, tool, lang);
     let aiNote = null;
 
     // 데이터가 정상일 때만 모델 해설을 시도한다 — unavailable/stale이면 상태 그대로 전달.
-    if (tool.data.status === undefined || tool.data.status === 'ok') {
+    if (config.generative && (tool.data.status === undefined || tool.data.status === 'ok')) {
       const system = '너는 한국 Star Citizen 함대 VOLT의 안내 도우미다. '
         + '아래 TOOL_DATA JSON을 바탕으로 2~3문장의 한국어 맥락 설명만 덧붙인다. '
         + '새로운 수치·가격·함선을 절대 만들지 말고, 가능하면 숫자를 반복하지 말고 의미만 설명한다. '
@@ -235,7 +279,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
     commitUsage(env, waitUntil, keys, usage, route.intent, config.estCostPerReq, false);
     return json({
       ok: true, intent: route.intent, answer, aiNote,
-      sources: tool.sources, freshness: tool.freshness,
+      sources: lang === 'en' ? tool.sources.map((source) => ({ ...source, label: SOURCE_EN[route.intent], detail: '' })) : tool.sources,
+      freshness: lang === 'en' ? { ...tool.freshness, label: SOURCE_EN[route.intent] } : tool.freshness,
       usage: { dayCount: usage.day.count + 1, dayLimit: config.dailyLimit }
     });
   } catch (caught) {
