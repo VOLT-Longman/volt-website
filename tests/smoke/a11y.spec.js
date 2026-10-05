@@ -24,6 +24,18 @@ async function assertNoNewViolations(page, allowlist) {
 }
 
 test.describe('접근성(axe) 래칫', () => {
+    for (const section of ['schedule', 'gallery', 'leadership', 'hub', 'guide']) {
+        test(`${section}: 콘텐츠 화면의 글자 대비와 접근성`, async ({ page }) => {
+            await mockApi(page);
+            if (section === 'gallery') {
+                await page.route('**/api/gallery', route => route.fulfill({ json: { items: [{ id: 'surface-gallery', title: 'VOLT 활동 사진', date: '2026-10-05', src: '/assets/images/landing/hero-01-m.webp' }] } }));
+            }
+            await gotoSection(page, `#${section}`);
+            await page.addStyleTag({ content: '* { animation: none !important; transition: none !important; } .reveal { opacity: 1 !important; transform: none !important; }' });
+            await assertNoNewViolations(page, []);
+        });
+    }
+
     test('홈: 새 critical/serious 위반 없음', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '');

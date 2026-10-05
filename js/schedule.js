@@ -22,7 +22,7 @@
     // RSVP 원본 상태값(참가/대기/불참)은 API 계약이라 유지하고, 표시만 언어별로 바꾼다.
     const RSVP_STATUSES = ['참가', '대기', '불참'];
     const RSVP_STATUS_KEYS = { 참가: 'mypage.rsvpStatusGoing', 대기: 'mypage.rsvpStatusMaybe', 불참: 'mypage.rsvpStatusNo' };
-    const STATUS_COLORS = { '예정': 'var(--volt-orange)', '진행중': '#38a169', '완료': '#718096', '취소': '#e53e3e', '연기': '#d69e2e', '대기': '#a0aec0', '계획': '#63b3ed' };
+    const STATUS_COLORS = { '예정': '#ff8a75', '진행중': '#68d391', '완료': '#a1a1a6', '취소': '#fc8181', '연기': '#ecc94b', '대기': '#a0aec0', '계획': '#63b3ed' };
     const RSVP_CACHE_TTL_MS = 20_000;
     const rsvpCache = new Map();
     let renderRevision = 0;

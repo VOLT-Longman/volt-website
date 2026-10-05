@@ -19,6 +19,14 @@
    ========================================================================== */
 
 :root {
+    /* Shared restrained surfaces; keep semantic warning/success colors separate. */
+    --surface-canvas: #171719;
+    --surface-card: #1c1c1e;
+    --surface-hover: #232326;
+    --text-muted-bright: #c3c3c8;
+    --border-subtle: #ffffff0a;
+    --action-primary: #b73825;
+    --action-primary-hover: #982e20;
     /* VOLT Brand Colors */
     --volt-orange: #E8482F;
     --volt-orange-light: #FF5F44;
@@ -8555,19 +8563,19 @@ body.nav-trade-open::before {
     padding: 12px 24px;
     border-radius: 999px;
     border: 1px solid #ffffff30;
-    background: #ffffff0a;
+    background: var(--border-subtle);
     color: #f5f5f7;
     box-shadow: none;
     transform: none;
 }
 #home .hero-action strong { font-size: 14px; font-weight: 500; line-height: 1.5; }
-#home .hero-copy .hero-action.btn-primary { background: #b73825; border-color: #b73825; }
+#home .hero-copy .hero-action.btn-primary { background: var(--action-primary); border-color: var(--action-primary); }
 #home .hero-copy .hero-action:hover { background: #ffffff15; border-color: #ffffff60; }
-#home .hero-copy .hero-action.btn-primary:hover { background: #982e20; border-color: #982e20; }
+#home .hero-copy .hero-action.btn-primary:hover { background: var(--action-primary-hover); border-color: var(--action-primary-hover); }
 .hero-news { width: 100%; max-width: 580px; padding: 18px 0 0; margin-bottom: 28px; border-top: 1px solid #ffffff26; text-align: left; }
 .hero-news[hidden] { display: none; }
-.hero-news-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 11px; font-weight: 500; color: #c3c3c8; }
-.hero-news-heading > a { color: #c3c3c8; padding: 6px 0 6px 12px; min-height: 32px; text-decoration: none; }
+.hero-news-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 11px; font-weight: 500; color: var(--text-muted-bright); }
+.hero-news-heading > a { color: var(--text-muted-bright); padding: 6px 0 6px 12px; min-height: 32px; text-decoration: none; }
 .hero-notice-link { display: flex; align-items: baseline; gap: 18px; padding: 8px 0; min-height: 44px; color: #f5f5f7; text-decoration: none; }
 .hero-notice-meta { display: flex; flex-shrink: 0; gap: 10px; color: #b6b6bd; font-size: 11px; font-variant-numeric: tabular-nums; }
 .hero-notice-meta > span:first-child { display: none; }
@@ -8585,7 +8593,7 @@ body.nav-trade-open::before {
 #home .landing-header .accent { color: inherit; }
 #home .landing-header p { margin: 16px auto 0; color: #a1a1a6; }
 #home .landing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border: 0; background: none; }
-#home .landing-card, #home .landing-card:first-child { grid-column: auto; min-height: 260px; padding: 32px; border-radius: 24px; background: #171719; transform: none; }
+#home .landing-card, #home .landing-card:first-child { grid-column: auto; min-height: 260px; padding: 32px; border-radius: 24px; background: var(--surface-canvas); transform: none; }
 #home .landing-card:hover { background: #1d1d20; }
 #home .landing-card h3 { font-size: 24px; line-height: 1.3; letter-spacing: -0.03em; }
 #home .landing-card p, #home .landing-cta p { color: #a1a1a6; font-size: 14px; line-height: 1.7; }
@@ -8593,25 +8601,25 @@ body.nav-trade-open::before {
 #home .landing-card-metric strong { font-size: 24px; color: #f5f5f7; }
 #home .landing-card-arrow { color: #a1a1a6; font-size: 20px; }
 #home .landing-briefing { gap: 32px; border: 0; background: none; }
-#home .landing-notices, #home .landing-cta { padding: 32px; border: 0; border-radius: 24px; background: #171719; }
+#home .landing-notices, #home .landing-cta { padding: 32px; border: 0; border-radius: 24px; background: var(--surface-canvas); }
 #home .landing-notice-row:hover { background: transparent; }
-#home .landing-notice-tag { color: #c3c3c8; background: none; padding-left: 0; }
-#home .landing-cta .btn-primary { background: #b73825; box-shadow: none; }
+#home .landing-notice-tag { color: var(--text-muted-bright); background: none; padding-left: 0; }
+#home .landing-cta .btn-primary { background: var(--action-primary); box-shadow: none; }
 #ships .section-header .accent { color: inherit; }
 #ships .section-header { margin-bottom: 40px; }
 #ships .ships-controls { gap: 24px; }
-#ships .ship-search, #ships .ship-sort, #ships .ship-advanced-toggle { border-radius: 12px; background: #1c1c1e; border-color: #ffffff1f; }
+#ships .ship-search, #ships .ship-sort, #ships .ship-advanced-toggle { border-radius: 12px; background: var(--surface-card); border-color: #ffffff1f; }
 #ships .ship-filters { padding: 20px 0; border: 0; border-bottom: 1px solid #ffffff1a; border-radius: 0; background: none; }
 #ships .ship-filter-axis { grid-template-columns: 88px minmax(0, 1fr); }
 #ships .ship-filter-btn { border-color: transparent; color: #b6b6bd; }
 #ships .ship-filter-btn.active { background: #f5f5f7; border-color: #f5f5f7; color: #1d1d1f; }
 #ships .ship-filter-btn:hover { color: #f5f5f7; }
 #ships .ship-filter-btn.active:hover { color: #1d1d1f; }
-#ships .ship-card { padding: 28px; border: 1px solid #ffffff0a; border-radius: 22px; background: #1c1c1e; box-shadow: none; }
-#ships .ship-card:hover { background: #232326; border-color: #ffffff24; transform: none; }
+#ships .ship-card { padding: 28px; border: 1px solid var(--border-subtle); border-radius: 22px; background: var(--surface-card); box-shadow: none; }
+#ships .ship-card:hover { background: var(--surface-hover); border-color: #ffffff24; transform: none; }
 #ships .ship-name { font-size: 21px; letter-spacing: -0.03em; line-height: 1.4; }
 #ships .ship-card-header { row-gap: 14px; margin-bottom: 14px; }
-#ships .ship-tag-size, #ships .ship-tag-role { background: #ffffff0c; color: #c3c3c8; border-radius: 6px; }
+#ships .ship-tag-size, #ships .ship-tag-role { background: #ffffff0c; color: var(--text-muted-bright); border-radius: 6px; }
 #ships .ship-card .ship-stat { background: none; padding: 8px 0; text-align: left; }
 #ships .ship-card .ship-stat-label { color: #a1a1a6; font-size: 11px; text-transform: none; letter-spacing: 0; }
 #ships .ship-card .ship-stat-value { font-size: 18px; font-weight: 500; }
@@ -9003,8 +9011,8 @@ body.nav-trade-open::before {
     max-width: 1120px;
     margin-left: auto;
     margin-right: auto;
-    background: #171719;
-    border-color: #ffffff0a;
+    background: var(--surface-canvas);
+    border-color: var(--border-subtle);
     border-radius: 24px;
 }
 #trade-planner .planner-step-num {
@@ -9021,12 +9029,12 @@ body.nav-trade-open::before {
 }
 #trade-planner .planner-picker input,
 #trade-planner #logistics-cargo {
-    background: #232326;
+    background: var(--surface-hover);
     border-radius: 12px;
 }
 #trade-planner .uex-live-badge,
 #trade-planner .profit-selection-eyebrow {
-    color: #c3c3c8;
+    color: var(--text-muted-bright);
     background: none;
 }
 #trade-planner .uex-loc-btn { min-height: 44px; padding: 8px 16px; }
@@ -9036,7 +9044,7 @@ body.nav-trade-open::before {
     color: #1d1d1f;
 }
 #trade-planner .profit-selection-panel {
-    background: #1c1c1e;
+    background: var(--surface-card);
     border-radius: 18px;
 }
 #trade-planner .profit-selection-panel.is-ready:not(.is-capacity-blocked):not(.is-over-capacity) { border-color: #ffffff26; }
@@ -9054,8 +9062,8 @@ body.nav-trade-open::before {
     padding: 18px 0 0;
 }
 #trade-planner .btn { box-shadow: none; transform: none; }
-#trade-planner .btn-primary { background: #b73825; }
-#trade-planner .btn-primary:hover { background: #982e20; }
+#trade-planner .btn-primary { background: var(--action-primary); }
+#trade-planner .btn-primary:hover { background: var(--action-primary-hover); }
 #trade-planner .trade-secondary-block { width: 100%; max-width: 1120px; margin-left: auto; margin-right: auto; }
 #notices .notice-tools {
     padding: 0;
@@ -9063,7 +9071,7 @@ body.nav-trade-open::before {
     border: 0;
     border-radius: 0;
 }
-#notices .notice-search { background: #1c1c1e; border-radius: 12px; }
+#notices .notice-search { background: var(--surface-card); border-radius: 12px; }
 #notices .notice-pinned-toggle { border-radius: 12px; }
 #notices .notice-filter-btn.active,
 #notices .notice-pinned-toggle[aria-pressed="true"] {
@@ -9074,18 +9082,94 @@ body.nav-trade-open::before {
 #notices .notice-card,
 #notices .notice-card:not(.is-featured),
 #notices .notice-card.is-featured {
-    background: #1c1c1e;
-    border: 1px solid #ffffff0a;
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
     border-radius: 18px;
 }
-#notices .notice-card:hover { background: #232326; transform: none; }
+#notices .notice-card:hover { background: var(--surface-hover); transform: none; }
 #notices .notice-card::before { display: none; }
 #notices .notice-card .notice-title { font-weight: 600; }
-#notices .notice-card .notice-tag { color: #c3c3c8; background: #ffffff0a; }
-#notices .notice-more { color: #c3c3c8; }
+#notices .notice-card .notice-tag { color: var(--text-muted-bright); background: var(--border-subtle); }
+#notices .notice-more { color: var(--text-muted-bright); }
 @media (max-width: 600px) {
     #trade-planner .trade-planner { padding: 22px 18px; border-radius: 20px; }
     #trade-planner .profit-selection-panel { padding: 14px; }
     #trade-planner .profit-selection-item { padding: 10px 0; }
     #notices .notice-tools { padding: 0; }
 }
+
+/* Shared content surfaces: preserve status colors and keyboard focus. */
+#schedule .schedule-item,
+#gallery .gallery-item,
+#leadership .leader-card,
+#leadership .leader-card.is-primary,
+#hub .hub-content,
+#hub .hub-feature-card,
+#guide .guide-card,
+#guide .guide-tools,
+#guide .guide-tool-card {
+    background: var(--surface-card);
+    border-color: var(--border-subtle);
+    box-shadow: none;
+}
+#schedule .schedule-item:hover,
+#gallery .gallery-item:hover,
+#leadership .leader-card:hover,
+#guide .guide-card:hover,
+#guide .guide-tool-card:hover,
+#hub .hub-feature-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--color-border-hover);
+    transform: none;
+}
+#gallery .gallery-item { will-change: auto; }
+#schedule .schedule-date,
+#schedule .schedule-type-badge,
+#leadership .leader-role,
+#leadership .leader-more { color: var(--text-muted-bright); }
+#schedule .schedule-type-badge,
+#leadership .leader-role { background: var(--border-subtle); }
+#schedule .schedule-body { min-width: 0; }
+#schedule .schedule-item-toggle { overflow-wrap: anywhere; }
+#hub .hub-notice {
+    border-left: 1px solid var(--color-border-hover);
+    background: transparent;
+    border-radius: 0;
+}
+#hub .hub-notice-label { color: var(--text-muted-bright); }
+#guide .guide-planner-cta {
+    background: var(--surface-canvas);
+    border-color: var(--border-subtle);
+}
+#guide .btn-primary { background: var(--action-primary); box-shadow: none; }
+#guide .btn-primary:hover { background: var(--action-primary-hover); transform: none; }
+#trade-planner .uex-candidate-card,
+#trade-planner .uex-recommend-card { background: var(--surface-card); }
+#trade-planner .uex-candidate-card:hover { background: var(--surface-hover); border-color: var(--color-border-hover); }
+#trade-planner .uex-candidate-card.is-selected {
+    background: var(--surface-hover);
+    border-color: var(--color-text-primary);
+    box-shadow: inset 3px 0 0 var(--color-text-primary);
+}
+#trade-planner .uex-candidate-action,
+#trade-planner .uex-recommend-grade {
+    color: var(--text-muted-bright);
+    border-color: var(--color-border-hover);
+    background: var(--border-subtle);
+}
+#trade-planner .uex-candidate-card.is-selected .uex-candidate-action {
+    color: var(--surface-card);
+    background: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+}
+#trade-planner .ledger-total-row th,
+#trade-planner .ledger-total-row td {
+    border-top-color: var(--color-border-hover);
+    background: var(--surface-hover);
+}
+#hub .hub-feature {
+    background: var(--surface-hover);
+    border-top: 1px solid var(--color-border);
+}
+#hub .hub-feature li::before { color: var(--text-muted-bright); }
+#leadership .leader-contact { color: var(--text-muted-bright); }

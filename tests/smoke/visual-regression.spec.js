@@ -39,6 +39,10 @@ const SCREENS = [
     { name: 'ships', hash: '#ships' },
     { name: 'notices', hash: '#notices' },
     { name: 'schedule', hash: '#schedule' },
+    { name: 'gallery', hash: '#gallery' },
+    { name: 'leadership', hash: '#leadership' },
+    { name: 'hub', hash: '#hub' },
+    { name: 'guide', hash: '#guide' },
     { name: 'policy', hash: '#policy' },
     { name: 'trade-planner', hash: '#trade-planner' },
 ];
@@ -50,7 +54,14 @@ test.describe('스크린샷 회귀 (C-4)', () => {
     for (const screen of SCREENS) {
         test(`데스크톱: ${screen.name}`, async ({ page }) => {
             await mockApi(page);
+            if (screen.name === 'gallery') {
+                await page.route('**/api/gallery', route => route.fulfill({ json: { items: [{ id: 'surface-gallery', title: 'VOLT 활동 사진', date: '2026-10-05', src: '/assets/images/landing/hero-01-m.webp' }] } }));
+            }
             await gotoSection(page, screen.hash);
+            if (screen.name === 'gallery') {
+                await expect(page.locator('.gallery-item img')).toBeVisible();
+                await expect.poll(() => page.locator('.gallery-item img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+            }
             await stabilize(page);
             await expect(page).toHaveScreenshot(`${screen.name}-desktop.png`, { maxDiffPixels: 120 });
         });
