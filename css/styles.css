@@ -5878,6 +5878,9 @@ body.nav-trade-open::before {
     margin-top: var(--spacing-lg);
 }
 
+#comms .btn-primary { background: var(--action-primary); }
+#comms .btn-primary:hover { background: var(--action-primary-hover); }
+
 .comms-hero-note {
     margin-top: var(--spacing-sm);
     font-size: var(--text-eyebrow);

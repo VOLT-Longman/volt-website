@@ -64,6 +64,8 @@ test.describe('VOLT Comms', () => {
         await expect(page.locator('#comms')).toHaveClass(/active/);
         await page.reload();
         await expect(page.locator('#comms')).toHaveClass(/active/);
+        await page.evaluate(() => document.fonts.ready);
+        await page.addStyleTag({ content: '#comms *, #comms *::before, #comms *::after { animation: none !important; transition: none !important; } #comms .reveal { opacity: 1 !important; transform: none !important; }' });
         await page.evaluate(() => window.VOLT_I18N.setLang('en'));
         await expect(page.locator('#comms-usage')).toContainText('How to use');
         await expect(page.locator('#comms')).toContainText('Get connection help on Discord');
@@ -72,5 +74,8 @@ test.describe('VOLT Comms', () => {
         const { AxeBuilder } = require('@axe-core/playwright');
         const result = await new AxeBuilder({ page }).include('#comms').analyze();
         expect(result.violations.filter((v) => ['critical', 'serious'].includes(v.impact))).toEqual([]);
+        await page.locator('#comms a[data-i18n="comms.download"]').hover();
+        const hovered = await new AxeBuilder({ page }).include('#comms').analyze();
+        expect(hovered.violations.filter((v) => ['critical', 'serious'].includes(v.impact))).toEqual([]);
     });
 });
