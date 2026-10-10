@@ -4,6 +4,7 @@ export function json(data, init = {}) {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': init.cacheControl || 'no-store',
+      'X-Content-Type-Options': 'nosniff',
       ...(init.headers || {})
     }
   });
