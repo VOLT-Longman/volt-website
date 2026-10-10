@@ -59,6 +59,7 @@
 
     function parseRouteFromHash() {
         const hash = window.location.hash.replace('#', '');
+        if (hash === 'comms-usage') return { section: 'comms', anchorId: hash };
         const policyMatch = hash.match(/^policy-section-(\d+)$/);
         if (policyMatch) return { section: 'policy', anchorId: hash };
         return {

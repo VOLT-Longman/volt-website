@@ -34,8 +34,8 @@
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
   <link rel="preload" href="assets/images/landing/hero-01.webp" as="image" media="(min-width: 861px)">
   <link rel="preload" href="assets/images/landing/hero-01-m.webp" as="image" media="(max-width: 860px)">
-  <script src="js/theme-init.js?v=20261005-18"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20261005-18">
+  <script src="js/theme-init.js?v=20261010-01"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261010-01">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -74,7 +74,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20261005-18">
+   <link rel="stylesheet" href="css/noscript.css?v=20261010-01">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -803,126 +803,50 @@
     <div class="section-header">
      <span class="doc-tag">VOLT COMMS</span>
      <h2 id="comms-title">VOLT <span class="accent">Comms</span></h2>
-     <p>함대 지휘망 PTT 무전기</p>
+     <p data-i18n="comms.subtitle">함대 지휘망 PTT 무전기</p>
     </div>
-
     <div class="comms-hero reveal">
-     <p class="comms-lead">Discord와 병행 사용하는 VOLT 전용 반이중 음성 통신 앱입니다. 한 번에 한 명만 송신할 수 있는 무전기 규율을 서버가 강제해, 작전 중 지휘망 혼선을 줄이고 명확한 음성 전달을 지원합니다.</p>
+     <p class="comms-lead" data-i18n="comms.lead">Discord와 함께 사용하는 VOLT 전용 음성 통신 앱입니다. 한 번에 한 명씩 말하는 PTT 방식으로, 작전 중 지휘망 혼선을 줄입니다.</p>
      <div class="comms-hero-actions">
-      <a class="btn btn-primary" href="https://github.com/VOLT-Longman/volt-comms/releases/latest" target="_blank" rel="noopener noreferrer">Windows 클라이언트 다운로드</a>
-      <a class="btn btn-secondary" href="https://github.com/VOLT-Longman/volt-comms" target="_blank" rel="noopener noreferrer">GitHub 저장소 보기</a>
+      <a class="btn btn-primary" href="https://github.com/VOLT-Longman/volt-comms/releases/latest" target="_blank" rel="noopener noreferrer" data-i18n="comms.download">Windows 다운로드</a>
+      <a class="btn btn-secondary" href="#comms-usage" data-i18n="comms.usage">사용 방법</a>
      </div>
-     <p class="comms-hero-note">VoltComms.exe 단일 파일 실행 · 별도 설치 불필요 · GitHub Releases 최신 페이지로 연결됩니다.</p>
+     <p class="comms-hero-note" data-i18n="comms.note">별도 설치 없이 실행 · 공식 GitHub Releases에서 Windows 클라이언트를 받으세요.</p>
     </div>
-
     <div class="comms-features reveal">
-     <article class="comms-card">
-      <h3>PTT 무전 통신</h3>
-      <p>Push-To-Talk 방식으로 필요한 순간에만 송신합니다.</p>
-     </article>
-     <article class="comms-card">
-      <h3>반이중 중재</h3>
-      <p>한 명이 발언 중일 때 다른 사용자의 송신은 거부 비프음으로 차단됩니다.</p>
-     </article>
-     <article class="comms-card">
-      <h3>게임 중 전역 입력</h3>
-      <p>전체화면 게임 중에도 PTT 키가 동작하며 Mouse4/5 같은 사이드 버튼도 지원합니다.</p>
-     </article>
-     <article class="comms-card">
-      <h3>안전장치</h3>
-      <p>30초 이상 연속 송신되거나 연결이 끊기면 발언권을 자동 회수합니다.</p>
-     </article>
+     <article class="comms-card"><h3 data-i18n="comms.f1">필요한 순간에 송신</h3><p data-i18n="comms.fd1">PTT 키를 누르는 동안만 마이크 음성을 전송합니다.</p></article>
+     <article class="comms-card"><h3 data-i18n="comms.f2">한 번에 한 명씩</h3><p data-i18n="comms.fd2">다른 사람이 말하는 동안에는 송신을 제한해 지시가 겹치지 않도록 합니다.</p></article>
+     <article class="comms-card"><h3 data-i18n="comms.f3">게임 중에도 바로 사용</h3><p data-i18n="comms.fd3">전체화면에서도 PTT 키를 사용할 수 있으며 마우스 사이드 버튼도 지원합니다.</p></article>
+     <article class="comms-card"><h3 data-i18n="comms.f4">발언권 자동 회수</h3><p data-i18n="comms.fd4">30초 이상 연속 송신하거나 연결이 끊기면 발언권을 자동으로 회수합니다.</p></article>
     </div>
-
-    <div class="comms-download reveal">
-     <div class="comms-download-info">
-      <h3>Windows 클라이언트</h3>
-      <p>VoltComms.exe 단일 파일 실행 방식입니다. 별도 설치가 필요 없습니다.</p>
-     </div>
-     <div class="comms-download-actions">
-      <a class="btn btn-primary" href="https://github.com/VOLT-Longman/volt-comms/releases/latest" target="_blank" rel="noopener noreferrer">최신 버전 다운로드</a>
-      <a class="comms-text-link" href="https://github.com/VOLT-Longman/volt-comms" target="_blank" rel="noopener noreferrer">GitHub 저장소 보기 →</a>
-     </div>
-    </div>
-
-    <div class="comms-steps reveal">
-     <h3 class="comms-block-title">사용 방법</h3>
+    <div class="comms-steps reveal" id="comms-usage">
+     <h3 class="comms-block-title" data-i18n="comms.usage">사용 방법</h3>
      <ol class="comms-step-list">
-      <li class="comms-step">
-       <span class="comms-step-num" aria-hidden="true">1</span>
-       <div class="comms-step-body">
-        <strong>VoltComms.exe 실행</strong>
-        <p>처음 실행하면 설정 화면이 자동으로 열립니다.</p>
-       </div>
-      </li>
-      <li class="comms-step">
-       <span class="comms-step-num" aria-hidden="true">2</span>
-       <div class="comms-step-body">
-        <strong>접속 정보 입력</strong>
-        <p>서버 주소와 포트는 운영진에게 전달받은 값을 입력합니다. 기본 포트는 TCP 8443입니다.</p>
-       </div>
-      </li>
-      <li class="comms-step">
-       <span class="comms-step-num" aria-hidden="true">3</span>
-       <div class="comms-step-body">
-        <strong>비밀 토큰 / 콜사인 입력</strong>
-        <p>토큰은 함대원에게만 공유되는 인증값입니다. 홈페이지에는 공개하지 않고 Discord 또는 운영진을 통해 안내합니다.</p>
-       </div>
-      </li>
-      <li class="comms-step">
-       <span class="comms-step-num" aria-hidden="true">4</span>
-       <div class="comms-step-body">
-        <strong>PTT 키 설정</strong>
-        <p>[키 변경] 버튼을 누른 뒤 원하는 키나 마우스 버튼을 누릅니다. 게임에서 이미 사용하는 키와 겹치지 않게 설정하는 것을 권장합니다.</p>
-       </div>
-      </li>
-      <li class="comms-step">
-       <span class="comms-step-num" aria-hidden="true">5</span>
-       <div class="comms-step-body">
-        <strong>마이크 / 스피커 선택</strong>
-        <p>입력 레벨 막대와 소리 테스트로 장치를 확인합니다.</p>
-       </div>
-      </li>
-      <li class="comms-step">
-       <span class="comms-step-num" aria-hidden="true">6</span>
-       <div class="comms-step-body">
-        <strong>연결 확인</strong>
-        <p>저장 후 메인 화면에 "연결됨" 상태가 초록색으로 표시되면 준비 완료입니다.</p>
-       </div>
-      </li>
+      <li class="comms-step"><span class="comms-step-num" aria-hidden="true">1</span><div class="comms-step-body"><strong data-i18n="comms.s1">클라이언트 다운로드·실행</strong><p data-i18n="comms.sd1">공식 릴리스에서 Windows 클라이언트를 내려받아 압축을 풀고 VoltComms.exe를 실행하세요.</p></div></li>
+      <li class="comms-step"><span class="comms-step-num" aria-hidden="true">2</span><div class="comms-step-body"><strong data-i18n="comms.s2">운영진에게 접속 정보 받기</strong><p data-i18n="comms.sd2">Discord에서 서버 접속 정보와 인증 토큰을 안내받으세요. 안내받은 값과 본인의 콜사인을 앱 설정에 입력합니다.</p></div></li>
+      <li class="comms-step"><span class="comms-step-num" aria-hidden="true">3</span><div class="comms-step-body"><strong data-i18n="comms.s3">PTT 키와 음성 장치 설정</strong><p data-i18n="comms.sd3">게임 단축키와 겹치지 않는 키를 선택하고, 마이크 입력 레벨과 소리 테스트로 장치를 확인하세요.</p></div></li>
+      <li class="comms-step"><span class="comms-step-num" aria-hidden="true">4</span><div class="comms-step-body"><strong data-i18n="comms.s4">연결 상태 확인 후 사용</strong><p data-i18n="comms.sd4">저장 후 연결 상태와 접속자 목록을 확인하세요. PTT 키를 누른 채 말하고, 말을 마치면 키를 놓습니다.</p></div></li>
      </ol>
     </div>
-
     <details class="comms-collapse">
-     <summary>운영자용 서버 정보</summary>
-     <div class="comms-collapse-body">
-      <p>서버는 Go 기반 단일 바이너리로 제공됩니다. 기본 포트는 제어 TCP 8443, 음성 UDP 4001입니다. 방화벽과 보안그룹에서 두 포트를 모두 허용해야 합니다.</p>
-      <p class="comms-code-label">서버 실행 예</p>
-      <pre class="comms-code"><code>./volt-server -token "비밀토큰"</code></pre>
-      <p class="comms-code-label">TLS 사용 시</p>
-      <pre class="comms-code"><code>./volt-server -token 비밀 -tls-cert cert.pem -tls-key key.pem</code></pre>
-     </div>
+     <summary data-i18n="comms.trouble">문제 해결</summary>
+     <div class="comms-collapse-body"><ul class="comms-trouble-list">
+      <li data-i18n="comms.t1">연결이 안 되면 운영진에게 받은 접속 정보가 맞는지 확인하세요.</li>
+      <li data-i18n="comms.t2">음성이 안 들리면 마이크·스피커 선택과 앱의 소리 테스트를 확인하세요.</li>
+      <li data-i18n="comms.t3">게임에서 PTT가 동작하지 않으면 게임 단축키와 겹치지 않는 키로 바꿔보세요.</li>
+      <li data-i18n="comms.t4">계속 문제가 있으면 Discord에서 운영진에게 문의하세요. 인증 토큰은 공개 채널이나 문제 보고에 포함하지 마세요.</li>
+     </ul></div>
     </details>
-
-    <details class="comms-collapse">
-     <summary>문제 해결</summary>
-     <div class="comms-collapse-body">
-      <ul class="comms-trouble-list">
-       <li>연결이 안 되면 서버 주소와 포트(TCP 8443), 방화벽 인바운드 허용을 먼저 확인하세요.</li>
-       <li>음성이 안 들리면 음성 UDP 4001 포트 개방과 마이크/스피커 장치 선택을 확인하세요.</li>
-       <li>PTT가 게임 안에서 동작하지 않으면 게임 내 키와 겹치지 않는 키로 다시 설정하세요.</li>
-       <li>비밀 토큰과 서버 주소는 운영진에게 문의해 받은 값을 사용하세요. (보안을 위해 홈페이지에는 공개하지 않습니다.)</li>
-      </ul>
-     </div>
-    </details>
-
     <div class="comms-final-cta reveal">
-     <h3>접속 정보가 필요하신가요?</h3>
-     <p>비밀 토큰과 서버 주소는 보안을 위해 홈페이지에 공개하지 않습니다. Discord 또는 운영진을 통해 안내받으세요.</p>
+     <h3 data-i18n="comms.contact">접속 안내가 필요하신가요?</h3>
+     <p data-i18n="comms.contactBody">VOLT Comms는 함대 지휘망용 앱입니다. 서버 접속 정보와 인증 토큰은 Discord에서 운영진을 통해 안내받으세요.</p>
      <div class="comms-final-actions">
-      <a class="btn btn-primary" href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer">Discord에서 접속 정보 받기</a>
-      <a class="btn btn-secondary" href="https://github.com/VOLT-Longman/volt-comms/releases/latest" target="_blank" rel="noopener noreferrer">GitHub Releases 보기</a>
+      <a class="btn btn-primary" href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" data-i18n="comms.discord">Discord에서 접속 안내받기</a>
      </div>
+    </div>
+    <div class="comms-source-links">
+     <a href="https://github.com/VOLT-Longman/volt-comms" target="_blank" rel="noopener noreferrer" data-i18n="comms.source">소스 코드 · GitHub</a>
+     <a href="https://github.com/VOLT-Longman/volt-comms#2-서버-실행" target="_blank" rel="noopener noreferrer" data-i18n="comms.operator">서버 운영 문서</a>
     </div>
    </div>
   </section>
@@ -1008,26 +932,26 @@
    </div>
   </div>
 
-<script src="js/shipdb-manufacturers.js?v=20261005-18" defer></script>
-<script src="js/shipdb-canonical.js?v=20261005-18" defer></script>
-<script src="data/volt-data.js?v=20261005-18" defer></script>
+<script src="js/shipdb-manufacturers.js?v=20261010-01" defer></script>
+<script src="js/shipdb-canonical.js?v=20261010-01" defer></script>
+<script src="data/volt-data.js?v=20261010-01" defer></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20261005-18" defer></script>
-<script src="js/i18n.js?v=20261005-18" defer></script>
-<script src="js/navigation.js?v=20261005-18" defer></script>
-<script src="js/notices.js?v=20261005-18" defer></script>
-<script src="js/schedule.js?v=20261005-18" defer></script>
-<script src="js/leadership.js?v=20261005-18" defer></script>
-<script src="js/landing.js?v=20261005-18" defer></script>
-<script src="js/site-content.js?v=20261005-18" defer></script>
-<script src="js/uex.js?v=20261005-18" defer></script>
-<script src="js/uex-panel.js?v=20261005-18" defer></script>
-<script src="js/trade-planner.js?v=20261005-18" defer></script>
-<script src="js/ships.js?v=20261005-18" defer></script>
-<script src="js/search-modal.js?v=20261005-18" defer></script>
-<script src="js/auth-ui.js?v=20261005-18" defer></script>
-<script src="js/mypage.js?v=20261005-18" defer></script>
-<script src="js/main.js?v=20261005-18" defer></script>
-<script src="js/volt-ai.js?v=20261005-18" defer></script>
+<script src="data/volt-localization.js?v=20261010-01" defer></script>
+<script src="js/i18n.js?v=20261010-01" defer></script>
+<script src="js/navigation.js?v=20261010-01" defer></script>
+<script src="js/notices.js?v=20261010-01" defer></script>
+<script src="js/schedule.js?v=20261010-01" defer></script>
+<script src="js/leadership.js?v=20261010-01" defer></script>
+<script src="js/landing.js?v=20261010-01" defer></script>
+<script src="js/site-content.js?v=20261010-01" defer></script>
+<script src="js/uex.js?v=20261010-01" defer></script>
+<script src="js/uex-panel.js?v=20261010-01" defer></script>
+<script src="js/trade-planner.js?v=20261010-01" defer></script>
+<script src="js/ships.js?v=20261010-01" defer></script>
+<script src="js/search-modal.js?v=20261010-01" defer></script>
+<script src="js/auth-ui.js?v=20261010-01" defer></script>
+<script src="js/mypage.js?v=20261010-01" defer></script>
+<script src="js/main.js?v=20261010-01" defer></script>
+<script src="js/volt-ai.js?v=20261010-01" defer></script>
  </body>
 </html>

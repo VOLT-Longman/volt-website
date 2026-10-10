@@ -5916,50 +5916,10 @@ body.nav-trade-open::before {
     line-height: 1.6;
 }
 
-.comms-download {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-md);
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-2xl);
-}
-
-.comms-download-info {
-    min-width: 0;
-}
-
-.comms-download-info h3 {
-    font-size: var(--text-h3);
-    margin-bottom: var(--spacing-xs);
-}
-
-.comms-download-info p {
-    color: var(--color-text-secondary);
-}
-
-.comms-download-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--spacing-md);
-}
-
-.comms-text-link {
-    color: var(--volt-orange);
-    text-decoration: none;
-    font-weight: 600;
-    white-space: nowrap;
-    transition: color var(--transition-fast);
-}
-
-.comms-text-link:hover {
-    color: var(--volt-orange-light);
-}
+.comms-steps { scroll-margin-top: 100px; }
+.comms-source-links { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-lg); margin-top: var(--spacing-lg); font-size: var(--text-eyebrow); }
+.comms-source-links a { color: var(--color-text-secondary); text-underline-offset: 4px; }
+.comms-source-links a:hover { color: var(--color-text-primary); }
 
 .comms-block-title {
     font-size: var(--text-h3);
@@ -6051,26 +6011,6 @@ body.nav-trade-open::before {
     line-height: 1.7;
 }
 
-.comms-code-label {
-    margin-top: var(--spacing-sm);
-    font-size: var(--text-eyebrow);
-    color: var(--color-text-tertiary);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-}
-
-.comms-code {
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: var(--spacing-sm) var(--spacing-md);
-    margin-top: 6px;
-    overflow-x: auto;
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    color: var(--color-text-primary);
-}
-
 .comms-trouble-list {
     margin: 0;
     padding-left: 1.2em;
@@ -6109,20 +6049,9 @@ body.nav-trade-open::before {
     gap: var(--spacing-sm);
 }
 
-@media (max-width: 768px) {
-    .comms-download {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .comms-download-actions {
-        width: 100%;
-    }
-}
 
 @media (max-width: 480px) {
     .comms-hero-actions .btn,
-    .comms-download-actions .btn,
     .comms-final-actions .btn {
         width: 100%;
         text-align: center;

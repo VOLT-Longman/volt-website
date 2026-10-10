@@ -54,4 +54,23 @@ test.describe('VOLT Comms', () => {
         await expect(download).toHaveAttribute('rel', /noopener/);
         await expect(download).toHaveAttribute('rel', /noreferrer/);
     });
+
+    test('사용 안내 앵커는 새로고침에도 유지되고 영어·모바일에서도 읽을 수 있다', async ({ page }) => {
+        await mockApi(page);
+        await page.setViewportSize({ width: 390, height: 844 });
+        await gotoSection(page, '#comms');
+        await page.getByRole('link', { name: '사용 방법', exact: true }).click();
+        await expect(page).toHaveURL(/#comms-usage$/);
+        await expect(page.locator('#comms')).toHaveClass(/active/);
+        await page.reload();
+        await expect(page.locator('#comms')).toHaveClass(/active/);
+        await page.evaluate(() => window.VOLT_I18N.setLang('en'));
+        await expect(page.locator('#comms-usage')).toContainText('How to use');
+        await expect(page.locator('#comms')).toContainText('Get connection help on Discord');
+        expect(await page.locator('#comms').innerText()).not.toMatch(/[가-힣]/);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+        const { AxeBuilder } = require('@axe-core/playwright');
+        const result = await new AxeBuilder({ page }).include('#comms').analyze();
+        expect(result.violations.filter((v) => ['critical', 'serious'].includes(v.impact))).toEqual([]);
+    });
 });

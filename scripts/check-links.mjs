@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 // 검사 대상 HTML 문서.
-const htmlFiles = ['index.html', 'admin/index.html', '404.html'];
+const htmlFiles = ['index.html', 'admin/index.html', 'guide/index.html', '404.html'];
 
 // 동적이라 파일 존재로 검증할 수 없는 접두사(서버 라우트 등).
 const dynamicPrefixes = ['/api/', '/auth/'];
