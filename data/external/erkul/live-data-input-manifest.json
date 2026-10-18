@@ -2,7 +2,7 @@
   "schema": "erkul-live-input-manifest/v1",
   "source": "erkul-live",
   "syncedAt": "2026-10-18T11:55:00.287Z",
-  "matchedCount": 224,
+  "matchedCount": 217,
   "inputs": {
     "shipsRaw": "9ac78cc34649debcac4ff132a61770aa32806e8d8284b48b9f6832269f923443",
     "shipsNormalized": "01b55cd17eea08aa1fd64a09e352fb72f2fabc2977b16d7af28dbcd92d91b13d",

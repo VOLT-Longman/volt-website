@@ -5,7 +5,7 @@ const { mockApi, gotoSection } = require('./helpers');
 async function onShips(page) {
     await mockApi(page);
     await gotoSection(page, '#ships');
-    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
 }
 // 보이는 카드가 특정 태그(클래스+라벨)를 가졌는지: card 텍스트로 판별
 async function visibleCardTagTexts(page, sel) {

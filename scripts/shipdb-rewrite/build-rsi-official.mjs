@@ -1,3 +1,4 @@
+import { isExcludedShip } from '../../functions/_shared/ship-catalog-policy.js';
 // ShipDB Erkul 재작성 v2 — RSI 공식 카탈로그 생성기 (PM 2026-07-18)
 // Erkul live 없는 30척의 사실 기준 = RSI 공식 Ship Matrix만. VOLT 수기 데이터 재사용 금지.
 // catalogStatus: "concept"(28) | "flight-ready"(atls·atls-geo 2) — RSI production_status 반영(정확성 우선).
@@ -34,7 +35,7 @@ function decodeEntities(s) {
 
 const SNAP_PATH = 'data/external/rsi/official-ship-matrix.json';
 const snap = JSON.parse(read(SNAP_PATH));
-const ids = Object.keys(snap.entries).sort((a, b) => a.localeCompare(b));
+const ids = Object.keys(snap.entries).filter(id => !isExcludedShip(id, snap.entries[id])).sort((a, b) => a.localeCompare(b));
 
 const records = ids.map((id) => {
   const e = snap.entries[id];

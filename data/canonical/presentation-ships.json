@@ -1,8 +1,8 @@
 {
   "schema": "shipdb-presentation/v1",
   "note": "표시 계층: canonical 함선의 영문 표시명·공식 RSI URL만. 게임플레이 사실값은 canonical이 소유한다.",
-  "generatedFromCommit": "b93fb1676596747771210240235891bb50aa4f02",
-  "count": 224,
+  "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
+  "count": 217,
   "records": [
     {
       "id": "100i",
@@ -43,10 +43,6 @@
       "id": "400i",
       "name": "400i",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/400i/400i"
-    },
-    {
-      "id": "600i-executive-edition",
-      "name": "600i Executive Edition"
     },
     {
       "id": "600i-explorer",
@@ -234,10 +230,6 @@
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-caterpillar/Caterpillar"
     },
     {
-      "id": "caterpillar-pirate",
-      "name": "Caterpillar Pirate"
-    },
-    {
       "id": "centurion",
       "name": "Centurion",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/centurion/Centurion"
@@ -265,11 +257,6 @@
       "id": "constellation-phoenix",
       "name": "Constellation Phoenix",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Phoenix"
-    },
-    {
-      "id": "constellation-phoenix-emerald",
-      "name": "Constellation Phoenix Emerald",
-      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Phoenix-Emerald"
     },
     {
       "id": "constellation-taurus",
@@ -362,10 +349,6 @@
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-dragonfly/Dragonfly-Black"
     },
     {
-      "id": "dragonfly-star-kitten",
-      "name": "Dragonfly Star Kitten"
-    },
-    {
       "id": "dragonfly-yellowjacket",
       "name": "Dragonfly Yellowjacket",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/drake-dragonfly/Dragonfly-Yellowjacket"
@@ -401,10 +384,6 @@
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-Hornet-Wildfire-Mk-I"
     },
     {
-      "id": "f7c-m-hornet-heartseeker-mk-ii",
-      "name": "F7C-M Hornet Heartseeker Mk II"
-    },
-    {
       "id": "f7c-m-super-hornet-heartseeker-mk-i",
       "name": "F7C-M Super Hornet Heartseeker Mk I",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-M-Super-Hornet-Heartseeker-Mk-I"
@@ -438,10 +417,6 @@
       "id": "f7c-s-hornet-ghost-mk-ii",
       "name": "F7C-S Hornet Ghost Mk II",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-S-Hornet-Ghost-Mk-II"
-    },
-    {
-      "id": "f8a-lightning",
-      "name": "F8A Lightning"
     },
     {
       "id": "f8c-lightning",
@@ -497,10 +472,6 @@
       "id": "gladius",
       "name": "Gladius",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/gladius/Gladius"
-    },
-    {
-      "id": "gladius-dunlevy",
-      "name": "Gladius Dunlevy"
     },
     {
       "id": "gladius-pirate-edition",

@@ -1,3 +1,4 @@
+import { isExcludedShip } from '../functions/_shared/ship-catalog-policy.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -9,13 +10,14 @@ const presentation = JSON.parse(await fs.readFile(path.join(root, 'data/canonica
 const official = JSON.parse(await fs.readFile(path.join(root, 'data/canonical/ships-rsi-official.json'), 'utf8'));
 const catalog = [...presentation.records, ...official.records];
 const review = JSON.parse(await fs.readFile(path.join(root, 'data/ship-imagery-review.json'), 'utf8'));
+if (catalog.some(ship => isExcludedShip(ship))) throw Error('Permanently excluded ship restored');
 const reviews = new Map(review.records.map((entry) => [entry.id, entry]));
 const seen = new Set();
 const sourceHashes = new Set();
 const runtime = {};
 if (manifest.schema !== 'volt-ship-imagery/v1') throw Error('Unsupported imagery schema');
-if (review.schema !== 'volt-ship-imagery-review/v1' || reviews.size !== review.records.length || review.records.some((entry) => !['verified', 'held'].includes(entry.status))) throw Error('Invalid image review registry');
-if (review.verifiedCount !== manifest.records.length || review.heldCount !== review.records.filter((entry) => entry.status === 'held').length || review.catalogCountAtReview !== review.records.length) throw Error('Invalid reviewed coverage totals');
+if (review.schema !== 'volt-ship-imagery-review/v1' || reviews.size !== review.records.length || review.records.some((entry) => !['verified', 'held', 'excluded'].includes(entry.status))) throw Error('Invalid image review registry');
+if (review.verifiedCount !== manifest.records.length || review.heldCount !== review.records.filter((entry) => entry.status === 'held').length || review.excludedCount !== review.records.filter((entry) => entry.status === 'excluded').length || review.catalogCountAtReview !== review.records.length) throw Error('Invalid reviewed coverage totals');
 for (const entry of manifest.records) {
     const ship = catalog.find((item) => item.id === entry.id);
     const approval = reviews.get(entry.id);

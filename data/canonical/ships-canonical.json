@@ -1,10 +1,10 @@
 {
   "schema": "shipdb-canonical/v1",
   "note": "Erkul live 기본값과 승인된 RSI 공식 필드 보정으로 생성한 canonical 데이터셋.",
-  "generatedFromCommit": "8f5255816cdef516c4f2a949701f4b9ee9eec221",
+  "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
   "sourceHashes": {
-    "data/ship-live-stats.js": "351820114dcb69cc",
-    "data/ship-market.js": "567b31c1a7d03ae1",
+    "data/ship-live-stats.js": "64d88f7556f16411",
+    "data/ship-market.js": "d44dc92a86fa776b",
     "data/canonical/official-spec-overrides.json": "8bef1e863eb7a665"
   },
   "officialOverrides": [
@@ -21,7 +21,7 @@
       }
     }
   ],
-  "count": 224,
+  "count": 217,
   "ships": [
     {
       "id": "100i",
@@ -650,72 +650,6 @@
             "unavailable": null
           }
         ],
-        "rentals": []
-      }
-    },
-    {
-      "id": "600i-executive-edition",
-      "manufacturer": "Origin Jumpworks",
-      "role": "Expedition",
-      "career": "Exploration",
-      "size": "S5",
-      "platform": "space",
-      "crewSize": 5,
-      "cargoScu": 44,
-      "hp": 197250,
-      "massKg": 1544667,
-      "speeds": {
-        "scm": 165,
-        "scmBoostForward": 325,
-        "scmBoostBackward": 185,
-        "navMax": 975
-      },
-      "rotation": {
-        "pitch": 19,
-        "yaw": 19,
-        "roll": 30,
-        "boostedPitch": 28.5,
-        "boostedYaw": 28.5,
-        "boostedRoll": 60,
-        "currentPitch": null,
-        "currentYaw": null,
-        "currentRoll": null
-      },
-      "countermeasures": {
-        "decoy": 25,
-        "noise": 10
-      },
-      "dimensions": {
-        "length": 91.5,
-        "beam": 52,
-        "height": 17,
-        "sizeRaw": {
-          "x": 52,
-          "y": 91.5,
-          "z": 17
-        }
-      },
-      "fuel": {
-        "hydrogenScu": 41,
-        "quantumScu": 9.9
-      },
-      "insurance": {
-        "expeditionFee": 17550,
-        "claimTime": 35.1,
-        "expediteTime": 11.7
-      },
-      "damageReduction": {
-        "physical": null,
-        "energy": null,
-        "distortion": null,
-        "fuse": 0.7,
-        "component": 0.8
-      },
-      "descriptions": {
-        "en": "This multi-role luxury vessel from Origin Jumpworks features an exquisitely detailed hull design that balances performance and versatility in a sleek and timeless form. The 600i is designed with a cutting-edge modular technology, allowing you to customize your ship for your needs."
-      },
-      "market": {
-        "purchase": [],
         "rentals": []
       }
     },
@@ -3611,72 +3545,6 @@
       }
     },
     {
-      "id": "caterpillar-pirate",
-      "manufacturer": "Drake Interplanetary",
-      "role": "Medium Freight",
-      "career": "Transporter",
-      "size": "S5",
-      "platform": "space",
-      "crewSize": 4,
-      "cargoScu": 576,
-      "hp": 91500,
-      "massKg": 1508063,
-      "speeds": {
-        "scm": 130,
-        "scmBoostForward": 300,
-        "scmBoostBackward": 120,
-        "navMax": 900
-      },
-      "rotation": {
-        "pitch": 16,
-        "yaw": 16,
-        "roll": 25,
-        "boostedPitch": 19.2,
-        "boostedYaw": 19.2,
-        "boostedRoll": 30,
-        "currentPitch": null,
-        "currentYaw": null,
-        "currentRoll": null
-      },
-      "countermeasures": {
-        "decoy": 25,
-        "noise": 10
-      },
-      "dimensions": {
-        "length": 39.5,
-        "beam": 13.4,
-        "height": 111.5,
-        "sizeRaw": {
-          "x": 39.5,
-          "y": 13.4,
-          "z": 111.5
-        }
-      },
-      "fuel": {
-        "hydrogenScu": 43.2,
-        "quantumScu": 18.8
-      },
-      "insurance": {
-        "expeditionFee": 7730,
-        "claimTime": 18.63,
-        "expediteTime": 6.21
-      },
-      "damageReduction": {
-        "physical": null,
-        "energy": null,
-        "distortion": null,
-        "fuse": 0.7,
-        "component": 0.8
-      },
-      "descriptions": {
-        "en": "First introduced in 2871, Drake Interplanetary's Caterpillar has long proven to be a reliable, cost-effective multi-role vessel, capable of being outfitted for everything from mercantile operations to combat support. Long hailed as a hard-fought alternative to the ubiquitous Hull series, the Caterpillar is a freighter that doesn't skimp on weaponry or customization. This model features a unique livery applied by the previous owners."
-      },
-      "market": {
-        "purchase": [],
-        "rentals": []
-      }
-    },
-    {
       "id": "centurion",
       "manufacturer": "Anvil Aerospace",
       "role": "Anti-Air",
@@ -4278,72 +4146,6 @@
             "unavailable": null
           }
         ],
-        "rentals": []
-      }
-    },
-    {
-      "id": "constellation-phoenix-emerald",
-      "manufacturer": "Roberts Space Industries",
-      "role": "Luxury Touring",
-      "career": "Exploration",
-      "size": "S4",
-      "platform": "space",
-      "crewSize": 4,
-      "cargoScu": 80,
-      "hp": 161145,
-      "massKg": 383801,
-      "speeds": {
-        "scm": 185,
-        "scmBoostForward": 385,
-        "scmBoostBackward": 191,
-        "navMax": 995
-      },
-      "rotation": {
-        "pitch": 25,
-        "yaw": 21,
-        "roll": 45,
-        "boostedPitch": 30,
-        "boostedYaw": 25.2,
-        "boostedRoll": 54,
-        "currentPitch": null,
-        "currentYaw": null,
-        "currentRoll": null
-      },
-      "countermeasures": {
-        "decoy": 48,
-        "noise": 5
-      },
-      "dimensions": {
-        "length": 63.5,
-        "beam": 27.75,
-        "height": 15.25,
-        "sizeRaw": {
-          "x": 27.75,
-          "y": 63.5,
-          "z": 15.25
-        }
-      },
-      "fuel": {
-        "hydrogenScu": 19,
-        "quantumScu": 7
-      },
-      "insurance": {
-        "expeditionFee": 12079,
-        "claimTime": 24.3,
-        "expediteTime": 8.1
-      },
-      "damageReduction": {
-        "physical": null,
-        "energy": null,
-        "distortion": null,
-        "fuse": 0.7,
-        "component": 0.7
-      },
-      "descriptions": {
-        "en": "Whether you are a discerning socialite or a freewheeling party animal, the Constellation Phoenix Emerald is your personal passport to entertainment. With a swank interior cabin designed specifically for revelry, and a limited edition \"lucky\" paint job, the Emerald is the perfect venue to sip a glass of Radegast Gold or throw back a green Sleeping Tiger Malt while hurtling luxuriously through the stars. Just be sure to bring a designated pilot."
-      },
-      "market": {
-        "purchase": [],
         "rentals": []
       }
     },
@@ -6206,72 +6008,6 @@
       }
     },
     {
-      "id": "dragonfly-star-kitten",
-      "manufacturer": "Drake Interplanetary",
-      "role": "Racing",
-      "career": "Competition",
-      "size": "S1",
-      "platform": "space",
-      "crewSize": 1,
-      "cargoScu": 0,
-      "hp": 1570,
-      "massKg": 5600,
-      "speeds": {
-        "scm": 190,
-        "scmBoostForward": 270,
-        "scmBoostBackward": 120,
-        "navMax": 523
-      },
-      "rotation": {
-        "pitch": 70,
-        "yaw": 70,
-        "roll": 130,
-        "boostedPitch": 84,
-        "boostedYaw": 84,
-        "boostedRoll": 156,
-        "currentPitch": null,
-        "currentYaw": null,
-        "currentRoll": null
-      },
-      "countermeasures": {
-        "decoy": 5,
-        "noise": 1
-      },
-      "dimensions": {
-        "length": 7,
-        "beam": 2.5,
-        "height": 2,
-        "sizeRaw": {
-          "x": 2.5,
-          "y": 7,
-          "z": 2
-        }
-      },
-      "fuel": {
-        "hydrogenScu": 1.5,
-        "quantumScu": 0
-      },
-      "insurance": {
-        "expeditionFee": 55,
-        "claimTime": 0.10125,
-        "expediteTime": 0
-      },
-      "damageReduction": {
-        "physical": null,
-        "energy": null,
-        "distortion": null,
-        "fuse": 0,
-        "component": 0.4
-      },
-      "descriptions": {
-        "en": "The Drake Dragonfly is the perfect snub ship for anyone looking to live on the edge. With nothing separating the pilot from the dangers of space, the Dragonfly is as much an adventure as a ship! Dual-mode conversion allows the Dragonfly to operate on the ground or in space, and a rear-facing second seat means you can even take a passenger! This model features a custom paintjob of Genady Kuzo's beloved Star Kitten character."
-      },
-      "market": {
-        "purchase": [],
-        "rentals": []
-      }
-    },
-    {
       "id": "dragonfly-yellowjacket",
       "manufacturer": "Drake Interplanetary",
       "role": "Racing",
@@ -6743,72 +6479,6 @@
       },
       "descriptions": {
         "en": "Created as part of the ‘Masters of Flight’ series in conjunction with the flight-sim Arena Commander, the Wildfire pays tribute to famed pilot Aria Reilly for her distinguished service with the legendary Squadron 42. This F7C Hornet Mk I comes equipped with her own personally selected loadout preferences and a custom special edition livery honoring her iconic ship."
-      },
-      "market": {
-        "purchase": [],
-        "rentals": []
-      }
-    },
-    {
-      "id": "f7c-m-hornet-heartseeker-mk-ii",
-      "manufacturer": "Anvil Aerospace",
-      "role": "Medium Fighter",
-      "career": "Combat",
-      "size": "S2",
-      "platform": "space",
-      "crewSize": 2,
-      "cargoScu": 0,
-      "hp": 15250,
-      "massKg": 68317,
-      "speeds": {
-        "scm": 215,
-        "scmBoostForward": 465,
-        "scmBoostBackward": 240,
-        "navMax": 1125
-      },
-      "rotation": {
-        "pitch": 50,
-        "yaw": 40,
-        "roll": 140,
-        "boostedPitch": 60,
-        "boostedYaw": 48,
-        "boostedRoll": 168,
-        "currentPitch": null,
-        "currentYaw": null,
-        "currentRoll": null
-      },
-      "countermeasures": {
-        "decoy": 96,
-        "noise": 10
-      },
-      "dimensions": {
-        "length": 24,
-        "beam": 24,
-        "height": 6.5,
-        "sizeRaw": {
-          "x": 24,
-          "y": 24,
-          "z": 6.5
-        }
-      },
-      "fuel": {
-        "hydrogenScu": 3.8,
-        "quantumScu": 0.9
-      },
-      "insurance": {
-        "expeditionFee": 5640,
-        "claimTime": 11.17,
-        "expediteTime": 2.8
-      },
-      "damageReduction": {
-        "physical": null,
-        "energy": null,
-        "distortion": null,
-        "fuse": 0,
-        "component": 0.4
-      },
-      "descriptions": {
-        "en": "When the F7C-M Super Hornet got upgraded to the Mk II, there was no doubt in the Anvil Aerospace’s mind that they would be giving the very special Heartseeker edition the same treatment. With its robust weapon package designed for pilots whose true love is the thrill of a harrowing dogfight, the limited-edition F7C-M Heartseeker Mk II is set to become the favorite ship for an all-new generation of true combat die-hards."
       },
       "market": {
         "purchase": [],
@@ -7290,72 +6960,6 @@
             "unavailable": null
           }
         ],
-        "rentals": []
-      }
-    },
-    {
-      "id": "f8a-lightning",
-      "manufacturer": "Anvil Aerospace",
-      "role": "Heavy Fighter",
-      "career": "Combat",
-      "size": "S2",
-      "platform": "space",
-      "crewSize": 1,
-      "cargoScu": 0,
-      "hp": 40200,
-      "massKg": 153775,
-      "speeds": {
-        "scm": 210,
-        "scmBoostForward": 445,
-        "scmBoostBackward": 218,
-        "navMax": 1075
-      },
-      "rotation": {
-        "pitch": 38,
-        "yaw": 35,
-        "roll": 140,
-        "boostedPitch": 45.6,
-        "boostedYaw": 42,
-        "boostedRoll": 168,
-        "currentPitch": null,
-        "currentYaw": null,
-        "currentRoll": null
-      },
-      "countermeasures": {
-        "decoy": 48,
-        "noise": 5
-      },
-      "dimensions": {
-        "length": 26,
-        "beam": 25,
-        "height": 8,
-        "sizeRaw": {
-          "x": 25,
-          "y": 26,
-          "z": 8
-        }
-      },
-      "fuel": {
-        "hydrogenScu": 7.8,
-        "quantumScu": 0.9
-      },
-      "insurance": {
-        "expeditionFee": 8020,
-        "claimTime": 16.03125,
-        "expediteTime": 5.34375
-      },
-      "damageReduction": {
-        "physical": null,
-        "energy": null,
-        "distortion": null,
-        "fuse": 0,
-        "component": 0.3
-      },
-      "descriptions": {
-        "en": "Few vehicles employed by the proud men and women who serve in our Empire’s Navy inspire the awe of the legendary F8 Lightning. A force to be reckoned with, the F8 has secured Humanity’s freedom from numerous threats at home and abroad countless times."
-      },
-      "market": {
-        "purchase": [],
         "rentals": []
       }
     },
@@ -8445,72 +8049,6 @@
             "unavailable": null
           }
         ],
-        "rentals": []
-      }
-    },
-    {
-      "id": "gladius-dunlevy",
-      "manufacturer": "Aegis Dynamics",
-      "role": "Light Fighter",
-      "career": "Combat",
-      "size": "S2",
-      "platform": "space",
-      "crewSize": 1,
-      "cargoScu": 0,
-      "hp": 6110,
-      "massKg": 48552.06,
-      "speeds": {
-        "scm": 226,
-        "scmBoostForward": 520,
-        "scmBoostBackward": 268,
-        "navMax": 1193
-      },
-      "rotation": {
-        "pitch": 68,
-        "yaw": 52,
-        "roll": 200,
-        "boostedPitch": 81.6,
-        "boostedYaw": 62.4,
-        "boostedRoll": 240,
-        "currentPitch": null,
-        "currentYaw": null,
-        "currentRoll": null
-      },
-      "countermeasures": {
-        "decoy": 48,
-        "noise": 5
-      },
-      "dimensions": {
-        "length": 21,
-        "beam": 17.5,
-        "height": 5.5,
-        "sizeRaw": {
-          "x": 17.5,
-          "y": 21,
-          "z": 5.5
-        }
-      },
-      "fuel": {
-        "hydrogenScu": 1.6,
-        "quantumScu": 0.6
-      },
-      "insurance": {
-        "expeditionFee": 2335,
-        "claimTime": 5.83,
-        "expediteTime": 1.94
-      },
-      "damageReduction": {
-        "physical": null,
-        "energy": null,
-        "distortion": null,
-        "fuse": 0,
-        "component": 0.4
-      },
-      "descriptions": {
-        "en": "Honor the famed Captain who shaped the course of the UEE Navy's elite fighter squadron with the Dunlevy variant for the Aegis Gladius. This special ship pays to tribute to Captain Alexandra Dunlevy and Squadron 42 with red highlights against a grey base paint and military-grade components."
-      },
-      "market": {
-        "purchase": [],
         "rentals": []
       }
     },

@@ -2,9 +2,9 @@
   "schema": "shipdb-rsi-official-localization/v1",
   "note": "RSI 공식 카탈로그 KO. 번역 원천=RSI EN(적대검증 통과). no-en(expanse)은 \"RSI 공식 설명 미제공\" 상태. sourceEnHash=카탈로그 EN 해시.",
   "generatedFromCommit": "74fd971d358c404e29f8ed85e021dd0066fe73ed",
-  "count": 30,
+  "count": 29,
   "summary": {
-    "ok": 29,
+    "ok": 28,
     "noEn": 1,
     "missing": 0
   },
@@ -155,13 +155,6 @@
       "ko": "4세기에 걸친 눈부신 복무 경력을 자랑하는 Aegis Dynamics의 Nautilus 전술 기뢰부설함은 완전 통합형 기뢰 부설, 소해, 해제 능력을 갖추어 전략적 전투 공학의 정수를 구현합니다.",
       "koSource": "translated-from-rsi-en",
       "sourceEnHash": "9f800de05006e395",
-      "status": "ok"
-    },
-    {
-      "id": "nautilus-solstice-edition",
-      "ko": "4세기에 걸친 뛰어난 복무 이력을 자랑하는 Aegis Dynamics의 Nautilus 전술 기뢰부설함은 완전히 통합된 기뢰 부설, 소해, 해제 능력을 갖춘 전략 전투 공학의 정점을 상징합니다. 이 한정판 Solstice 모델은 Chairman's Club 회원 전용으로 제공되며, 생산 순서에 따른 순차적 일련번호가 부여됩니다.",
-      "koSource": "translated-from-rsi-en",
-      "sourceEnHash": "6e4766478db7074c",
       "status": "ok"
     },
     {

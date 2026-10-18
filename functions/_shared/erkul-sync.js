@@ -1,3 +1,4 @@
+import { isExcludedShip } from './ship-catalog-policy.js';
 // Erkul live 동기화 공용 로직 (Cloudflare Workers 환경 — fs 없음, 전부 메모리 처리).
 //
 // 중복 주의: 필드 추출 규칙은 scripts/erkul/normalize-erkul-ships.mjs,
@@ -376,7 +377,7 @@ export function buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, er
   const incomingByLocal = new Map();
   for (const record of erkulShipsRaw) {
     const normalized = normalizeErkulShip(record);
-    if (normalized.localName) incomingByLocal.set(normalized.localName, normalized);
+    if (normalized.localName && !isExcludedShip(normalized)) incomingByLocal.set(normalized.localName, normalized);
   }
   const market = normalizeErkulMarket(erkulShopsRaw);
 
@@ -387,6 +388,7 @@ export function buildNextLayers({ currentStats, currentMarket, erkulShipsRaw, er
 
   for (const voltId of Object.keys(currentStats).sort()) {
     const entry = currentStats[voltId];
+    if (isExcludedShip(voltId, entry)) continue;
     matchedLocalNames.add(entry.erkulLocalName);
     const incoming = incomingByLocal.get(entry.erkulLocalName);
     if (!incoming) {
@@ -436,7 +438,7 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
   const incomingByLocal = new Map();
   for (const record of erkulShipsRaw) {
     const normalized = normalizeErkulShip(record);
-    if (normalized.localName) incomingByLocal.set(normalized.localName, normalized);
+    if (normalized.localName && !isExcludedShip(normalized)) incomingByLocal.set(normalized.localName, normalized);
   }
   const market = normalizeErkulMarket(erkulShopsRaw);
 
@@ -447,6 +449,7 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
 
   const matchedLocalNames = new Set();
   for (const [voltId, entry] of Object.entries(currentStats)) {
+    if (isExcludedShip(voltId, entry)) continue;
     const localName = entry.erkulLocalName;
     matchedLocalNames.add(localName);
     const incoming = incomingByLocal.get(localName);
@@ -472,7 +475,7 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
   const componentLike = /turret|module|mount|cannon|gatling|repeater|tractorbeam|missile|wing|scitem|lasercannon|ballistic|_s\d+$/i;
   const vehiclePrefix = /^(aegs|anvl|orig|misc|drak|rsi|crus|cnou|argo|mrai|banu|xian|xnaa|espr|grin|krig|tmbl|vncl|gama|mira|aopo)_/;
   const marketOnly = [...market.byLocal.keys()]
-    .filter((localName) => !incomingByLocal.has(localName) && vehiclePrefix.test(localName) && !componentLike.test(localName))
+    .filter((localName) => !isExcludedShip(localName) && !incomingByLocal.has(localName) && vehiclePrefix.test(localName) && !componentLike.test(localName))
     // 검증·승격된 매핑은 더 이상 "미매칭"이 아니다
     .filter((localName) => !(marketOnlyMappings && marketOnlyMappings[localName]))
     .map((localName) => ({ localName }));
@@ -496,12 +499,12 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
     summary: {
       erkulShips: erkulShipsRaw.length,
       erkulShops: market.shopsCount,
-      matched: Object.keys(currentStats).length,
+      matched: Object.entries(currentStats).filter(([id, entry]) => !isExcludedShip(id, entry)).length,
       statsChanged: distinct(statsChanges),
       marketChanged: distinct(marketChanges),
       descriptionsChanged: distinct(descriptionChanges),
       newErkulCandidates: newCandidates.length,
-      unmatchedVolt: matchBaseline?.unmatchedVolt?.length ?? null,
+      unmatchedVolt: matchBaseline?.unmatchedVolt?.filter(row => !isExcludedShip(row)).length ?? null,
       marketOnlyUnmatched: marketOnly.length,
       priceChanges: priceRows.length,
       purchaseLocationChanges: locationRows.length,
@@ -513,7 +516,7 @@ export function buildSyncPreview({ currentStats, currentMarket, erkulShipsRaw, e
       market: cap(marketChanges, 'market'),
       descriptions: cap(descriptionChanges, 'descriptions'),
       newCandidates: cap(newCandidates, 'newCandidates'),
-      unmatched: matchBaseline?.unmatchedVolt ?? [],
+      unmatched: (matchBaseline?.unmatchedVolt ?? []).filter(row => !isExcludedShip(row)),
       marketOnly
     },
     warnings

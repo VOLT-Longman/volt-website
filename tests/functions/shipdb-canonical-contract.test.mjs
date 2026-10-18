@@ -1,3 +1,4 @@
+import { isExcludedShip } from '../../functions/_shared/ship-catalog-policy.js';
 // ShipDB Erkul 재작성 v2 — 공개 canonical 필드·선정·입력 계약 CI 차단 (0단계 0.4, PM 보강 반영)
 // PM 조건 이행: 재생성 스크립트가 Erkul 정규 데이터 외 필드를 공개 canonical에 재주입하면 CI 실패,
 // canonical 선정 기준(Erkul live 존재)·입력 출처를 CI로 강제.
@@ -115,6 +116,7 @@ test('공개 canonical ID 집합 = 동결 기준선 + 검토된 신규 identity 
   const data = JSON.parse(await readFile(abs, 'utf8'));
   const records = Array.isArray(data) ? data : Array.isArray(data.ships) ? data.ships : Object.values(data);
   const actual = new Set(records.map((r) => r.id));
+  for (const id of expected) if (isExcludedShip(id)) expected.delete(id);
   const missing = [...expected].filter((id) => !actual.has(id));
   const extra = [...actual].filter((id) => !expected.has(id));
   assert.equal(actual.size, expected.size, `canonical ${actual.size}척, 기대 ${expected.size}`);

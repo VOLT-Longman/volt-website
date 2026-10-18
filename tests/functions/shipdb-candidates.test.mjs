@@ -4,13 +4,8 @@ import test from 'node:test';
 
 const APPROVED_CANDIDATE_IDS = [
     'tiburon',
-    'f7c-m-hornet-heartseeker-mk-ii',
-    'f8a-lightning',
-    'caterpillar-pirate',
-    'dragonfly-star-kitten',
     'tyilui',
     'starlite',
-    '600i-executive-edition',
     'basher'
 ];
 
@@ -35,7 +30,7 @@ async function readShipData() {
 }
 
 // 레거시 volt-data ships 배열은 삭제됐다. 승인 선체의 존재는 canonical·표시 계층·live·market으로 확인한다.
-test('ShipDB: 승인된 Erkul 선체 9종은 전체 데이터 레이어에 포함', async () => {
+test('ShipDB: 승인된 Erkul 선체 중 유지된 4종은 전체 데이터 레이어에 포함', async () => {
     const { stats, market } = await readShipData();
     const canonical = JSON.parse(await readFile(new URL('../../data/canonical/ships-canonical.json', import.meta.url), 'utf8'));
     const presentation = JSON.parse(await readFile(new URL('../../data/canonical/presentation-ships.json', import.meta.url), 'utf8'));

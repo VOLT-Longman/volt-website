@@ -1,10 +1,10 @@
 {
   "schema": "shipdb-localization/v1",
   "note": "1단계 병렬 localization(KO). D2: Erkul EN+sourceEnHash 기준. 전환 시 missing+stale=0 필수(3.2 게이트).",
-  "generatedFromCommit": "8f5255816cdef516c4f2a949701f4b9ee9eec221",
-  "count": 224,
+  "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
+  "count": 217,
   "summary": {
-    "ok": 224,
+    "ok": 217,
     "stale": 0,
     "missing": 0,
     "noEn": 0
@@ -73,14 +73,6 @@
       "koSource": "translated-from-erkul-en",
       "sourceEnHash": "d38bde1818532777",
       "currentEnHash": "d38bde1818532777",
-      "status": "ok"
-    },
-    {
-      "id": "600i-executive-edition",
-      "ko": "Origin Jumpworks의 이 다목적 럭셔리 함선은 성능과 다재다능함을 세련되고 시대를 초월한 형태로 조화시킨, 정교하고 섬세한 선체 디자인이 돋보입니다. 600i는 최첨단 모듈식 기술로 설계되어 필요에 맞게 함선을 커스터마이징할 수 있습니다.",
-      "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "c7db64d0e1af268e",
-      "currentEnHash": "c7db64d0e1af268e",
       "status": "ok"
     },
     {
@@ -380,14 +372,6 @@
       "status": "ok"
     },
     {
-      "id": "caterpillar-pirate",
-      "ko": "2871년에 처음 선보인 Drake Interplanetary의 Caterpillar는 상업 운송부터 전투 지원까지 다양한 용도로 개조할 수 있는, 신뢰성 높고 비용 효율적인 다목적 함선임을 오랫동안 입증해 왔습니다. 어디서나 볼 수 있는 Hull 시리즈의 당당한 대항마로 오랫동안 평가받아 온 Caterpillar는 무장과 커스터마이징에 결코 인색하지 않은 화물선입니다. 이 모델에는 이전 소유주가 입힌 독특한 도장이 적용되어 있습니다.",
-      "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "f84fec63e8fa7829",
-      "currentEnHash": "f84fec63e8fa7829",
-      "status": "ok"
-    },
-    {
       "id": "centurion",
       "ko": "Anvil의 인기 Atlas 플랫폼을 기반으로 제작된 Centurion은 단거리 대공 작전을 위한 전술적 해법을 제시합니다. Centurion의 전용 에너지 기반 대공 터렛 덕분에 상공의 즉각적인 위협을 빠르고 효율적으로 처리하여 아군 지상 우세를 확보할 수 있습니다.",
       "koSource": "translated-from-erkul-en",
@@ -433,14 +417,6 @@
       "koSource": "translated-from-erkul-en",
       "sourceEnHash": "b312f690312f7e22",
       "currentEnHash": "b312f690312f7e22",
-      "status": "ok"
-    },
-    {
-      "id": "constellation-phoenix-emerald",
-      "ko": "안목 있는 사교계 명사든 자유분방한 파티광이든, Constellation Phoenix Emerald는 엔터테인먼트를 향한 당신만의 여권입니다. 유흥을 위해 특별히 설계된 세련된 선실 인테리어와 한정판 \"행운의\" 도색을 갖춘 Emerald는 별들 사이를 호화롭게 질주하며 Radegast Gold 한 잔을 음미하거나 초록빛 Sleeping Tiger Malt를 들이켜기에 완벽한 무대입니다. 다만 지정 파일럿은 꼭 데려가시기 바랍니다.",
-      "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "3d06d16c8199d3cf",
-      "currentEnHash": "3d06d16c8199d3cf",
       "status": "ok"
     },
     {
@@ -588,14 +564,6 @@
       "status": "ok"
     },
     {
-      "id": "dragonfly-star-kitten",
-      "ko": "Drake Dragonfly는 아슬아슬하게 살아가기를 원하는 이들에게 완벽한 스넙 함선입니다. 파일럿과 우주의 위험 사이를 가로막는 것이 전혀 없어, Dragonfly는 함선이자 그 자체로 하나의 모험입니다! 듀얼 모드 변환 덕분에 Dragonfly는 지상과 우주 양쪽에서 운용할 수 있으며, 뒤를 향한 두 번째 좌석으로 승객까지 태울 수 있습니다! 이 모델에는 Genady Kuzo가 사랑하는 캐릭터 Star Kitten을 담은 커스텀 도색이 적용되어 있습니다.",
-      "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "96aefbcb098fdbf5",
-      "currentEnHash": "96aefbcb098fdbf5",
-      "status": "ok"
-    },
-    {
       "id": "dragonfly-yellowjacket",
       "ko": "Drake Dragonfly는 아슬아슬한 삶을 즐기려는 이들에게 완벽한 스너브 십입니다. 조종사와 우주의 위험 사이를 가로막는 것이 아무것도 없는 Dragonfly는 함선인 동시에 모험 그 자체입니다! 듀얼 모드 전환 기능으로 지상과 우주 어디서든 운용할 수 있으며, 후방을 향한 보조 좌석 덕분에 동승자도 태울 수 있습니다! 이 모델에는 커스텀 Yellowjacket 도색이 적용되어 있습니다.",
       "koSource": "translated-from-erkul-en",
@@ -652,14 +620,6 @@
       "status": "ok"
     },
     {
-      "id": "f7c-m-hornet-heartseeker-mk-ii",
-      "ko": "F7C-M Super Hornet이 Mk II로 업그레이드되었을 때, Anvil Aerospace는 그 특별한 Heartseeker 에디션에도 똑같은 대우를 하리라는 데 조금의 의심도 없었습니다. 손에 땀을 쥐게 하는 도그파이트의 스릴을 진정으로 사랑하는 파일럿을 위해 설계된 견고한 무장 패키지를 갖춘 한정판 F7C-M Heartseeker Mk II는, 진정한 전투광의 완전히 새로운 세대에게 가장 사랑받는 함선이 될 것입니다.",
-      "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "107b6f7b127e019f",
-      "currentEnHash": "107b6f7b127e019f",
-      "status": "ok"
-    },
-    {
       "id": "f7c-m-super-hornet-heartseeker-mk-i",
       "ko": "심장을 뛰게 하는 아찔한 공중전의 짜릿함을 진정으로 사랑하는 조종사들을 위해 설계된 한정판 F7C-M Heartseeker Mk I은 진정한 전투 마니아를 위한 '운명의 기체'입니다. 최고급 컴포넌트를 탑재하고 위압적인 Behring 레이저 캐논 4문으로 무장한 이 맹렬한 섬멸자는 Super Hornet의 전설적인 전투 역량을 갈고닦아 우주 전투에서 궁극의 우위를 선사합니다.",
       "koSource": "translated-from-erkul-en",
@@ -713,14 +673,6 @@
       "koSource": "translated-from-erkul-en",
       "sourceEnHash": "0f3c7379dd142981",
       "currentEnHash": "0f3c7379dd142981",
-      "status": "ok"
-    },
-    {
-      "id": "f8a-lightning",
-      "ko": "우리 제국의 Navy에서 복무하는 자랑스러운 군인들이 운용하는 기체 중, 전설적인 F8 Lightning만큼 경외심을 불러일으키는 것은 드뭅니다. 무시할 수 없는 존재인 F8은 제국 안팎의 수많은 위협으로부터 인류의 자유를 수없이 지켜냈습니다.",
-      "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "07e18f9647db73ec",
-      "currentEnHash": "07e18f9647db73ec",
       "status": "ok"
     },
     {
@@ -809,14 +761,6 @@
       "koSource": "translated-from-erkul-en",
       "sourceEnHash": "d66ba34e7e63c038",
       "currentEnHash": "d66ba34e7e63c038",
-      "status": "ok"
-    },
-    {
-      "id": "gladius-dunlevy",
-      "ko": "UEE 해군의 정예 전투기 편대를 이끈 전설적인 함장을 기리는 이지스 글라디우스 던리비 변형입니다. 알렉산드라 던리비 함장과 스쿼드론 42에 경의를 표하는 특별 함선으로, 회색 바탕의 붉은 포인트 도색과 군용 등급 부품이 특징입니다.",
-      "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "7323f9cb63e9955b",
-      "currentEnHash": "7323f9cb63e9955b",
       "status": "ok"
     },
     {

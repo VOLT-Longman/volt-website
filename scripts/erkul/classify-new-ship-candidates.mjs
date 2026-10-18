@@ -1,3 +1,4 @@
+import { SHIP_CATALOG_EXCLUSIONS, isExcludedShip } from '../../functions/_shared/ship-catalog-policy.js';
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
@@ -74,7 +75,7 @@ async function main() {
     const unclassified = [];
 
     for (const u of matchReport.unmatchedErkul) {
-        const rule = ERKUL_ONLY_CLASSIFICATION[u.localName];
+        const rule = isExcludedShip(u, byLocal.get(u.localName)) ? { verdict: '제외', reason: '영구 제외: 2026-10-18 운영자 승인. 패치·자동 갱신으로 복원 금지.' } : ERKUL_ONLY_CLASSIFICATION[u.localName];
         if (!rule) {
             // 새 동기화에서 처음 보는 Erkul-only 함선 — 분류표 갱신 전까지 보류로 기록
             unclassified.push(u.localName);
@@ -105,8 +106,8 @@ async function main() {
             name: null,
             manufacturer: null,
             group: 'market-only',
-            verdict: promoted ? '수동매핑 승격 완료' : '수동매핑 후보',
-            reason: promoted
+            verdict: isExcludedShip(u, promoted) ? '제외' : promoted ? '수동매핑 승격 완료' : '수동매핑 후보',
+            reason: isExcludedShip(u, promoted) ? '영구 제외: 운영자 재승인 없이 복원 금지.' : promoted
                 ? `검증 후 marketOnlyMappings로 승격됨 → VOLT "${promoted.voltId ?? promoted}". ${typeof promoted === 'object' && promoted.evidence ? promoted.evidence : ''}`
                 : `Erkul ships 목록에 없어 stats 없음 — 자동 추가 금지. ${candidate?.hintVoltId ? `기존 VOLT id "${candidate.hintVoltId}"와의 수동 매핑만 검토 (확정은 운영자).` : '수동 매핑 대상 검토 필요.'}`,
             hasStats: false,
@@ -119,6 +120,10 @@ async function main() {
         });
     }
 
+    for (const entry of SHIP_CATALOG_EXCLUSIONS) {
+        if (rows.some(row => isExcludedShip(row) && (row.localName === entry.localName || row.name === entry.name))) continue;
+        rows.push({ localName: entry.localName ?? entry.id, name: entry.name, manufacturer: null, group: 'permanent-exclusion', verdict: '제외', reason: '2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.', hasStats: false, role: null, hp: null, purchaseCount: null, rentalCount: null });
+    }
     const summary = {};
     for (const row of rows) summary[row.verdict] = (summary[row.verdict] ?? 0) + 1;
 
@@ -127,15 +132,15 @@ async function main() {
         policy: {
             add: '정식 독립 선체(기본형) + Erkul stats 존재만 추가 후보',
             hold: 'Pirate/Executive/스킨류 에디션은 기본형과 별도 가치가 있을 때만 (운영자 판단)',
-            exclude: '함선이 아닌 항목',
+            exclude: '함선이 아닌 항목 및 ship-catalog-policy.js의 영구 제외 8종. 소유자 재승인 없이 복원 금지.',
             manualMap: 'market-only(stats 없음)는 자동 추가 금지 — 수동 매핑 후보로만',
-            keep: 'VOLT-only unreleased 30척은 유지/폴백 (조치 없음)'
+            keep: 'VOLT-only 원본 중 영구 제외 항목은 제거하고 나머지만 유지'
         },
         summary,
         voltOnlyUnreleased: {
             verdict: '유지',
-            count: matchReport.unmatchedVolt.length,
-            voltIds: matchReport.unmatchedVolt.map((s) => s.voltId)
+            count: matchReport.unmatchedVolt.filter(row => !isExcludedShip(row)).length,
+            voltIds: matchReport.unmatchedVolt.filter(row => !isExcludedShip(row)).map((s) => s.voltId)
         },
         candidates: rows,
         unclassified

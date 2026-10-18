@@ -1,51 +1,51 @@
 {
   "schema": "shipdb-client-manifest/v1",
-  "version": "a09323ff20dbec26",
+  "version": "f8d2357f7cbdae65",
   "files": {
     "canonical": {
       "path": "data/canonical/ships-canonical.json",
       "group": "core",
-      "sha256": "b1c95389e27566a0f73370c8c5813cedd4295fc4dbc10b80192d59e048d272c9"
+      "sha256": "4e31f64e34f687ed2ea2ff628856fbf1025bf74143ce304d52dbdaafcc369d9c"
     },
     "localization": {
       "path": "data/canonical/localization-ships.json",
       "group": "core",
-      "sha256": "7060134e6ba936de9c0b4f789f850a9c4a865eb4a908a6981aa8b16a56854aac"
+      "sha256": "cbf779248168a69cad006f6ddbd6a0c5e34d6f675a1b7ecfc4f8ea08a2d356ff"
     },
     "operational": {
       "path": "data/canonical/operational-ships.json",
       "group": "core",
-      "sha256": "152edb719189f69f0f376cabdd73bb07fc4a010d6c1184664455921c386c2010"
+      "sha256": "300ffec25559c113fee8a2ed4c5bb42b9b85c1e20e50f4714fe5c6ea96ea4d5b"
     },
     "editionAliases": {
       "path": "data/canonical/edition-aliases.json",
       "group": "core",
-      "sha256": "5d8f2b5160440daf66bd1899fda12d7a8306703bddb3e864dcf130e7e9864e1b"
+      "sha256": "8bb7b2c7330efaac2c5072564dd23d3ab4b508a60b3ff9902e01f87584683e21"
     },
     "roleLocalization": {
       "path": "data/canonical/localization-roles.json",
       "group": "core",
-      "sha256": "e4cdd408f83452fa66481882719c16bd5854bf87653a6f6f158b91e4c2735e7d"
+      "sha256": "3fb23d2251fcbade25c3c13b5a7d2486cc2f4bd7e65dd3f13da27ddf2bdb30b8"
     },
     "filterTaxonomy": {
       "path": "data/canonical/ship-filter-taxonomy.json",
       "group": "core",
-      "sha256": "8e4a926e2babcf5dd5afc6ada313e9a06d65a97ea08e8707b8fbb4123e93221b"
+      "sha256": "c71b20243f8dde154f012a536524cf16672caa8012901cfd394f7003ffa23339"
     },
     "rsiOfficial": {
       "path": "data/canonical/ships-rsi-official.json",
       "group": "core",
-      "sha256": "a917db9c7ff4a5764a0898dd3ba4039d4df839b95e3ea845a5009029ae2caa2e"
+      "sha256": "efce1b3b10fe3e4c8d5928ec1a4a21f2d7b17a587d97430dfed88b0344332b21"
     },
     "rsiLocalization": {
       "path": "data/canonical/localization-rsi-official.json",
       "group": "core",
-      "sha256": "1a1825f4dcaa057dc8875e4e87a0e535908eb8d239662677462785ac381e9005"
+      "sha256": "8158deddd69114fcc5dbb911352d1f7d214ba3f67e5edce48c3ee7b08a62764b"
     },
     "presentation": {
       "path": "data/canonical/presentation-ships.json",
       "group": "core",
-      "sha256": "e06b1a0cfa512607306e88ab40d71ba94b7ba66b0270790d8b2980fd713a02e0"
+      "sha256": "3d55951d4c2ea4a4f481b97f18244a21985fb9ba31d04867f3e179907ba530c6"
     }
   }
 }

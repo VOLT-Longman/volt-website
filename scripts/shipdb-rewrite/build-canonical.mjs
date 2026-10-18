@@ -1,3 +1,4 @@
+import { isExcludedShip } from '../../functions/_shared/ship-catalog-policy.js';
 // ShipDB Erkul 재작성 v2 — 1단계 canonical 생성기 (병렬, 라이브 무변경)
 // PM 예외: 기본 사실원은 Erkul live 레이어이며, 승인된 RSI 공식 필드 보정만 별도 파일에서 적용한다.
 // volt-data.js·ship-prices-usd.json·rsi-ship-matrix-index.json을 사실원으로 읽지 않는다(CI 강제).
@@ -90,7 +91,7 @@ function buildCanonicalRecord(id) {
 }
 
 // 선정: Erkul live 존재 = Object.keys(LIVE). erkulStatus·implemented(volt-data)를 읽지 않는다.
-const ids = Object.keys(LIVE).sort((a, b) => a.localeCompare(b));
+const ids = Object.keys(LIVE).filter(id => !isExcludedShip(id, LIVE[id])).sort((a, b) => a.localeCompare(b));
 const ships = ids.map(buildCanonicalRecord);
 
 let commit = 'unknown';

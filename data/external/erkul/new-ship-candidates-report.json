@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-07-17T15:11:08.433Z",
+  "generatedAt": "2026-10-18T11:55:00.287Z",
   "policy": {
     "add": "정식 독립 선체(기본형) + Erkul stats 존재만 추가 후보",
     "hold": "Pirate/Executive/스킨류 에디션은 기본형과 별도 가치가 있을 때만 (운영자 판단)",
-    "exclude": "함선이 아닌 항목",
+    "exclude": "함선이 아닌 항목 및 ship-catalog-policy.js의 영구 제외 8종. 소유자 재승인 없이 복원 금지.",
     "manualMap": "market-only(stats 없음)는 자동 추가 금지 — 수동 매핑 후보로만",
-    "keep": "VOLT-only unreleased 30척은 유지/폴백 (조치 없음)"
+    "keep": "VOLT-only 원본 중 영구 제외 항목은 제거하고 나머지만 유지"
   },
   "summary": {
-    "제외": 1,
+    "제외": 9,
     "수동매핑 승격 완료": 6
   },
   "voltOnlyUnreleased": {
     "verdict": "유지",
-    "count": 30,
+    "count": 29,
     "voltIds": [
       "merchantman",
       "hull-d",
@@ -31,7 +31,6 @@
       "ranger-tr",
       "ranger-cv",
       "nautilus",
-      "nautilus-solstice-edition",
       "g12",
       "g12r",
       "g12a",
@@ -150,6 +149,110 @@
       "rentalCount": null,
       "hintVoltId": "aurora-lx",
       "marketRows": 1
+    },
+    {
+      "localName": "orig_600i_executive_edition",
+      "name": "600i Executive Edition",
+      "manufacturer": null,
+      "group": "permanent-exclusion",
+      "verdict": "제외",
+      "reason": "2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.",
+      "hasStats": false,
+      "role": null,
+      "hp": null,
+      "purchaseCount": null,
+      "rentalCount": null
+    },
+    {
+      "localName": "drak_caterpillar_pirate",
+      "name": "Caterpillar Pirate",
+      "manufacturer": null,
+      "group": "permanent-exclusion",
+      "verdict": "제외",
+      "reason": "2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.",
+      "hasStats": false,
+      "role": null,
+      "hp": null,
+      "purchaseCount": null,
+      "rentalCount": null
+    },
+    {
+      "localName": "rsi_constellation_phoenix_emerald",
+      "name": "Constellation Phoenix Emerald",
+      "manufacturer": null,
+      "group": "permanent-exclusion",
+      "verdict": "제외",
+      "reason": "2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.",
+      "hasStats": false,
+      "role": null,
+      "hp": null,
+      "purchaseCount": null,
+      "rentalCount": null
+    },
+    {
+      "localName": "drak_dragonfly_pink",
+      "name": "Dragonfly Star Kitten",
+      "manufacturer": null,
+      "group": "permanent-exclusion",
+      "verdict": "제외",
+      "reason": "2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.",
+      "hasStats": false,
+      "role": null,
+      "hp": null,
+      "purchaseCount": null,
+      "rentalCount": null
+    },
+    {
+      "localName": "anvl_hornet_f7cm_mk2_heartseeker",
+      "name": "F7C-M Hornet Heartseeker Mk II",
+      "manufacturer": null,
+      "group": "permanent-exclusion",
+      "verdict": "제외",
+      "reason": "2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.",
+      "hasStats": false,
+      "role": null,
+      "hp": null,
+      "purchaseCount": null,
+      "rentalCount": null
+    },
+    {
+      "localName": "anvl_lightning_f8",
+      "name": "F8A Lightning",
+      "manufacturer": null,
+      "group": "permanent-exclusion",
+      "verdict": "제외",
+      "reason": "2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.",
+      "hasStats": false,
+      "role": null,
+      "hp": null,
+      "purchaseCount": null,
+      "rentalCount": null
+    },
+    {
+      "localName": "aegs_gladius_dunlevy",
+      "name": "Gladius Dunlevy",
+      "manufacturer": null,
+      "group": "permanent-exclusion",
+      "verdict": "제외",
+      "reason": "2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.",
+      "hasStats": false,
+      "role": null,
+      "hp": null,
+      "purchaseCount": null,
+      "rentalCount": null
+    },
+    {
+      "localName": "nautilus-solstice-edition",
+      "name": "Nautilus Solstice Edition",
+      "manufacturer": null,
+      "group": "permanent-exclusion",
+      "verdict": "제외",
+      "reason": "2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요.",
+      "hasStats": false,
+      "role": null,
+      "hp": null,
+      "purchaseCount": null,
+      "rentalCount": null
     }
   ],
   "unclassified": []

@@ -2,12 +2,12 @@ const { test, expect } = require('@playwright/test');
 const { mockApi, gotoSection } = require('./helpers');
 
 test.describe('RSI 공식 함선 통합 목록', () => {
-    test('ON: RSI 공식 30척이 메인 목록에 포함되고 별도 탭은 없다', async ({ page }) => {
+    test('ON: RSI 공식 29척이 메인 목록에 포함되고 별도 탭은 없다', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
         expect(await page.locator('[data-catalog-chip], #rsi-catalog-grid').count()).toBe(0);
-        expect(await page.locator('#ships-grid [data-rsi-status="concept"]').count()).toBe(28);
+        expect(await page.locator('#ships-grid [data-rsi-status="concept"]').count()).toBe(27);
         expect(await page.locator('#ships-grid [data-rsi-status="flight-ready"]').count()).toBe(2);
     });
 
@@ -25,7 +25,7 @@ test.describe('RSI 공식 함선 통합 목록', () => {
     test('ON: 제조사 필터는 RSI 공식 제조사와 기존 약칭을 하나로 묶는다', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
 
         const manufacturer = page.locator('#ship-manufacturer');
         await expect(manufacturer.locator('option', { hasText: 'RSI' })).toHaveCount(1);

@@ -1,12 +1,14 @@
+import { isExcludedShip, withoutExcludedShips } from '../../functions/_shared/ship-catalog-policy.js';
 // Explicit, reviewed identities only. Never infer matches from similar names.
 export function reconcileReviewedCatalog({ currentStats, currentMarket, ships, review }) {
-    const stats = structuredClone(currentStats);
-    const market = structuredClone(currentMarket);
+    const stats = structuredClone(withoutExcludedShips(currentStats));
+    const market = structuredClone(withoutExcludedShips(currentMarket));
     const byLocal = new Map(ships.map(ship => [ship.localName, ship]));
     const changes = [];
     if (review.schema !== 'erkul-catalog-review/v1') throw new Error('Invalid catalog review schema');
     for (const row of [...review.migrations, ...review.additions]) {
         const incoming = byLocal.get(row.localName);
+        if (isExcludedShip(row, incoming)) continue;
         if (!incoming || incoming.catalogVersion !== review.sourceVersion || incoming.data.ref !== row.ref || incoming.data.name !== row.name) {
             throw new Error(`Reviewed source identity changed: ${row.id}`);
         }

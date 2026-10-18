@@ -9,8 +9,8 @@ test.describe('초기 로드 렌더 예산 (P1)', () => {
     test('독립 데이터 소스가 갱신된 후 함선이 표시됨', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        // canonical 로드가 끝나 254척이 보이는 시점 = 초기화 경로가 모두 정착한 뒤
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+        // canonical 로드가 끝나 246척이 보이는 시점 = 초기화 경로가 모두 정착한 뒤
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
         await expect.poll(async () => fullRefreshCount(page)).toBe(1);
     });
 
@@ -21,7 +21,7 @@ test.describe('초기 로드 렌더 예산 (P1)', () => {
             await page.route(route, (r) => r.fulfill({ status: 500, body: 'fail' }));
         }
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
         expect(await fullRefreshCount(page)).toBe(1);
     });
 
@@ -37,7 +37,7 @@ test.describe('초기 로드 렌더 예산 (P1)', () => {
     test('초기 로드 뒤 전역 검색·무역플래너·마이페이지가 함선을 인식한다', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
         // 전역 검색
         await page.locator('#search-toggle').click();
         await page.locator('#global-search-input').fill('Freelancer');

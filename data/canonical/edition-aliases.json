@@ -1,7 +1,7 @@
 {
   "schema": "shipdb-edition-aliases/v1",
   "note": "중복 에디션 → 정식 canonical 별칭/리다이렉트(공개 목록 미포함).",
-  "generatedFromCommit": "8f5255816cdef516c4f2a949701f4b9ee9eec221",
+  "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
   "count": 7,
   "aliases": [
     {

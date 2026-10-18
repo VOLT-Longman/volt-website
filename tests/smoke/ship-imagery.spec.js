@@ -39,12 +39,8 @@ test('파생형·미등록 함선에는 다른 모델 사진을 상속하지 않
     await gotoSection(page, '#ships');
     expect(await page.evaluate(() => ['c2', 'c2-hercules-bis', 'aurora-mk-iii', 'cutlass-unknown', 'freelancer-max-unknown', 'hull-z', '__proto__', 'constructor'].map((id) => window.VOLT_SHIP_IMAGERY.get(id)))).toEqual(Array(8).fill(null));
     await page.locator('#ship-search').fill('F8A Lightning');
-    const card = page.locator('[data-ship-id="f8a-lightning"]');
-    await expect(card).toBeVisible();
-    await expect(card.locator('[data-ship-image]')).toHaveCount(0);
-    await card.locator('.ship-name-btn').click();
-    await expect(page.locator('#global-modal .ship-photo')).toHaveCount(0);
-    await expect(page.locator('#global-modal')).toContainText('SCU');
+    await expect(page.locator('[data-ship-id="f8a-lightning"]')).toHaveCount(0);
+    expect(await page.evaluate(() => window.VOLT_SHIPDB_CANONICAL.getShip('f8a-lightning'))).toBeNull();
 });
 
 test('이미지 요청 실패 시 카드·상세 사양과 조작 유지', async ({ page }) => {

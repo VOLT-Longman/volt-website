@@ -3,22 +3,30 @@
 신규 함선 추가 트랙 1단계 — **분류만 하고 DB에는 반영하지 않는다.**
 재현: `npm run shipdb:erkul:classify-candidates` (입력: A-4 match report + A-2/A-3 normalized)
 
-- 데이터 기준: Erkul live 2026-07-17T15:11:08.433Z
-- 요약: **제외 1** · **수동매핑 승격 완료 6** · 유지(VOLT-only unreleased) 30
+- 데이터 기준: Erkul live 2026-10-18T11:55:00.287Z
+- 요약: **제외 9** · **수동매핑 승격 완료 6** · 유지(VOLT-only unreleased) 29
 
 ## 분류 정책
 
 - 추가 후보: 정식 독립 선체(기본형) + Erkul stats 존재만 추가 후보
 - 보류: Pirate/Executive/스킨류 에디션은 기본형과 별도 가치가 있을 때만 (운영자 판단)
-- 제외: 함선이 아닌 항목
+- 제외: 함선이 아닌 항목 및 ship-catalog-policy.js의 영구 제외 8종. 소유자 재승인 없이 복원 금지.
 - 수동매핑 후보: market-only(stats 없음)는 자동 추가 금지 — 수동 매핑 후보로만
-- 유지: VOLT-only unreleased 30척은 유지/폴백 (조치 없음)
+- 유지: VOLT-only 원본 중 영구 제외 항목은 제거하고 나머지만 유지
 
-## 제외 (1)
+## 제외 (9)
 
 | localName | 이름 | stats | 인게임 구매처 | 근거 |
 |---|---|---|---|---|
 | `drak_command_module` | Command Module | ✅ (hp 6,700) | 없음 | 함선이 아님 — Caterpillar 커맨드 모듈(선체 부속). VOLT 함선DB 등재 대상 아님. |
+| `orig_600i_executive_edition` | 600i Executive Edition | ❌ 없음 | shop undefined행 | 2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요. |
+| `drak_caterpillar_pirate` | Caterpillar Pirate | ❌ 없음 | shop undefined행 | 2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요. |
+| `rsi_constellation_phoenix_emerald` | Constellation Phoenix Emerald | ❌ 없음 | shop undefined행 | 2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요. |
+| `drak_dragonfly_pink` | Dragonfly Star Kitten | ❌ 없음 | shop undefined행 | 2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요. |
+| `anvl_hornet_f7cm_mk2_heartseeker` | F7C-M Hornet Heartseeker Mk II | ❌ 없음 | shop undefined행 | 2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요. |
+| `anvl_lightning_f8` | F8A Lightning | ❌ 없음 | shop undefined행 | 2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요. |
+| `aegs_gladius_dunlevy` | Gladius Dunlevy | ❌ 없음 | shop undefined행 | 2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요. |
+| `nautilus-solstice-edition` | Nautilus Solstice Edition | ❌ 없음 | shop undefined행 | 2026-10-18 운영자 영구 제외. 패치·동기화·수동 승인으로 복원 금지. 재추가에는 소유자 재승인 필요. |
 
 ## 수동매핑 승격 완료 (6)
 
@@ -31,11 +39,11 @@
 | `aegs_hammerhead` | → VOLT `hammerhead` 후보 | ❌ 없음 | shop 1행 | 검증 후 marketOnlyMappings로 승격됨 → VOLT "hammerhead". VOLT hammerhead는 aegs_hammerhead_gs(Hammerhead, stats 보유)에 매칭됨. Hammerhead 선체는 단일 종이며 shop localName은 _gs 리워크 전 구형 엔티티. Aurora와 동일한 네이밍 패턴. |
 | `rsi_aurora_lx` | → VOLT `aurora-lx` 후보 | ❌ 없음 | shop 1행 | 검증 후 marketOnlyMappings로 승격됨 → VOLT "aurora-lx". rsi_aurora_gs_lx(Aurora Mk I LX)와 동일 선체 — 변형 코드(lx) 1:1, _gs 리워크 패턴 일관. |
 
-## 유지 — VOLT-only unreleased (30척)
+## 유지 — VOLT-only unreleased (29척)
 
 컨셉/미출시 함선. live 레이어 없이 기존 volt-data 표시로 폴백되는 현행 동작을 유지한다.
 
-`merchantman`, `hull-d`, `hull-e`, `orion`, `javelin`, `genesis`, `endeavor`, `crucible`, `pioneer`, `vulcan`, `kraken`, `kraken-privateer`, `ranger-rc`, `ranger-tr`, `ranger-cv`, `nautilus`, `nautilus-solstice-edition`, `g12`, `g12r`, `g12a`, `liberator`, `odyssey`, `expanse`, `legionnaire`, `e1-spirit`, `galaxy`, `zeus-mk2-mr`, `arrastra`, `atls`, `atls-geo`
+`merchantman`, `hull-d`, `hull-e`, `orion`, `javelin`, `genesis`, `endeavor`, `crucible`, `pioneer`, `vulcan`, `kraken`, `kraken-privateer`, `ranger-rc`, `ranger-tr`, `ranger-cv`, `nautilus`, `g12`, `g12r`, `g12a`, `liberator`, `odyssey`, `expanse`, `legionnaire`, `e1-spirit`, `galaxy`, `zeus-mk2-mr`, `arrastra`, `atls`, `atls-geo`
 
 ## 다음 단계 (승인 후)
 

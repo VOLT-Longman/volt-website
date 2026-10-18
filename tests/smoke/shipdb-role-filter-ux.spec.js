@@ -13,7 +13,7 @@ const ROLE_COUNT = new Set([
 async function onShips(page) {
     await mockApi(page);
     await gotoSection(page, '#ships');
-    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
 }
 async function allCanonicalRoles(page) {
     return page.$$eval('#ships-grid .ship-card', (cards) =>
@@ -42,8 +42,8 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         expect(await page.evaluate(() => document.activeElement?.id)).toBe('ship-role-search');
         await expect(page.locator('[data-role-option="Light Fighter"]')).toBeVisible();
         expect(await page.locator('[data-role-option="Heavy Freight"]').isVisible()).toBe(false);
-        // 선택 전이므로 그리드는 그대로 254
-        expect(await page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+        // 선택 전이므로 그리드는 그대로 246
+        expect(await page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
     });
 
     test('ON 키보드: ArrowDown→Enter 선택, Escape 닫힘', async ({ page }) => {
@@ -73,7 +73,7 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         await expect.poll(async () => (await allCanonicalRoles(page)).every((role) => role === 'Light Fighter')).toBe(true);
         await page.locator('[data-role-clear]').click();
         await expect(input).toHaveValue('');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
     });
 
     test('ON 모바일 390px: 콤보박스 검색·선택 동작 + 가로 overflow 없음', async ({ page }) => {

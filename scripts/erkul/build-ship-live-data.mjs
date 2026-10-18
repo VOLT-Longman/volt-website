@@ -1,3 +1,4 @@
+import { isExcludedShip } from '../../functions/_shared/ship-catalog-policy.js';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -105,7 +106,7 @@ async function main() {
     const marketOnlyMappings = normalizeMarketOnlyMappings(manualMap);
     // 포함 대상은 A-4 matched만. unmatched VOLT/Erkul-only/market-only/manual candidates는 제외한다.
     const catalogInput = shipsRaw.some(r => r.catalogVersion);
-    const matched = (catalogInput ? Object.entries(currentLiveStats).map(([voltId, entry]) => ({ voltId, erkulLocalName: entry.erkulLocalName })) : [...matchReport.matched]).sort((a, b) => a.voltId.localeCompare(b.voltId));
+    const matched = (catalogInput ? Object.entries(currentLiveStats).map(([voltId, entry]) => ({ voltId, erkulLocalName: entry.erkulLocalName })) : [...matchReport.matched]).filter(row => !isExcludedShip(row, currentLiveStats[row.voltId], erkulByLocal.get(row.erkulLocalName))).sort((a, b) => a.voltId.localeCompare(b.voltId));
     const existingMarket = parseDataLayerJs(await readFile(SHIP_MARKET_PATH, 'utf8'), 'VOLT_SHIP_MARKET');
 
     const liveStats = {};

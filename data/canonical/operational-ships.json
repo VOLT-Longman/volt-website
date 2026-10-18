@@ -1,8 +1,8 @@
 {
   "schema": "shipdb-operational/v1",
   "note": "동기화·매칭·anomalies 격리(공개 canonical 미노출).",
-  "generatedFromCommit": "8f5255816cdef516c4f2a949701f4b9ee9eec221",
-  "count": 224,
+  "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
+  "count": 217,
   "records": [
     {
       "id": "100i",
@@ -88,17 +88,6 @@
       "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
       "erkulLocalName": "orig_400i",
       "erkulRef": "718f4435-628b-4436-bb80-bf9cfef9a945",
-      "erkulStatus": "matched",
-      "implemented": true,
-      "anomalies": []
-    },
-    {
-      "id": "600i-executive-edition",
-      "syncedAt": "2026-10-18T11:55:00.287Z",
-      "sourceVersion": "4.10.2-LIVE.12913470",
-      "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
-      "erkulLocalName": "orig_600i_executive_edition",
-      "erkulRef": "38ae749f-d4fc-4dfd-907b-ed8db61f3d88",
       "erkulStatus": "matched",
       "implemented": true,
       "anomalies": []
@@ -511,17 +500,6 @@
       "anomalies": []
     },
     {
-      "id": "caterpillar-pirate",
-      "syncedAt": "2026-10-18T11:55:00.287Z",
-      "sourceVersion": "4.10.2-LIVE.12913470",
-      "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
-      "erkulLocalName": "drak_caterpillar_pirate",
-      "erkulRef": "565d8121-50a9-4920-af50-f176caef0431",
-      "erkulStatus": "matched",
-      "implemented": true,
-      "anomalies": []
-    },
-    {
       "id": "centurion",
       "syncedAt": "2026-10-18T11:55:00.287Z",
       "sourceVersion": "4.10.2-LIVE.12913470",
@@ -583,17 +561,6 @@
       "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
       "erkulLocalName": "rsi_constellation_phoenix_gs",
       "erkulRef": "1e26a179-45cf-4541-ade6-0f0daf7c372b",
-      "erkulStatus": "matched",
-      "implemented": true,
-      "anomalies": []
-    },
-    {
-      "id": "constellation-phoenix-emerald",
-      "syncedAt": "2026-10-18T11:55:00.287Z",
-      "sourceVersion": "4.10.2-LIVE.12913470",
-      "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
-      "erkulLocalName": "rsi_constellation_phoenix_emerald",
-      "erkulRef": "daf936a1-689f-4edb-980a-96947e2727c4",
       "erkulStatus": "matched",
       "implemented": true,
       "anomalies": []
@@ -797,17 +764,6 @@
       "anomalies": []
     },
     {
-      "id": "dragonfly-star-kitten",
-      "syncedAt": "2026-10-18T11:55:00.287Z",
-      "sourceVersion": "4.10.2-LIVE.12913470",
-      "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
-      "erkulLocalName": "drak_dragonfly_pink",
-      "erkulRef": "d868dfb9-5bcd-4f7b-a40a-3aa5bbf7d705",
-      "erkulStatus": "matched",
-      "implemented": true,
-      "anomalies": []
-    },
-    {
       "id": "dragonfly-yellowjacket",
       "syncedAt": "2026-10-18T11:55:00.287Z",
       "sourceVersion": "4.10.2-LIVE.12913470",
@@ -885,17 +841,6 @@
       "anomalies": []
     },
     {
-      "id": "f7c-m-hornet-heartseeker-mk-ii",
-      "syncedAt": "2026-10-18T11:55:00.287Z",
-      "sourceVersion": "4.10.2-LIVE.12913470",
-      "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
-      "erkulLocalName": "anvl_hornet_f7cm_mk2_heartseeker",
-      "erkulRef": "6f8bfcc3-2ade-4976-a8e9-fd07de5c3601",
-      "erkulStatus": "matched",
-      "implemented": true,
-      "anomalies": []
-    },
-    {
       "id": "f7c-m-super-hornet-heartseeker-mk-i",
       "syncedAt": "2026-10-18T11:55:00.287Z",
       "sourceVersion": "4.10.2-LIVE.12913470",
@@ -968,17 +913,6 @@
       "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
       "erkulLocalName": "anvl_hornet_f7cs_mk2",
       "erkulRef": "6fa37a02-3d65-448c-a989-02d42d9574dc",
-      "erkulStatus": "matched",
-      "implemented": true,
-      "anomalies": []
-    },
-    {
-      "id": "f8a-lightning",
-      "syncedAt": "2026-10-18T11:55:00.287Z",
-      "sourceVersion": "4.10.2-LIVE.12913470",
-      "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
-      "erkulLocalName": "anvl_lightning_f8",
-      "erkulRef": "1e837261-78d9-4d5b-b17c-90d312d6a3dd",
       "erkulStatus": "matched",
       "implemented": true,
       "anomalies": []
@@ -1102,17 +1036,6 @@
       "erkulRef": "b6b59889-7226-458e-a6b0-1c9392128a3c",
       "erkulStatus": "matched",
       "implemented": true,
-      "anomalies": []
-    },
-    {
-      "id": "gladius-dunlevy",
-      "syncedAt": "2026-10-18T11:55:00.287Z",
-      "sourceVersion": "4.10.2-LIVE.12913470",
-      "sourceGeneratedAt": "2026-10-13T16:33:31.894Z",
-      "erkulLocalName": "aegs_gladius_dunlevy",
-      "erkulRef": "af7d6591-bec1-442b-8d90-cd1bc6db4162",
-      "erkulStatus": null,
-      "implemented": null,
       "anomalies": []
     },
     {

@@ -3,7 +3,7 @@
   "reviewedAt": "2026-10-18",
   "catalogCountAtReview": 254,
   "verifiedCount": 246,
-  "heldCount": 8,
+  "heldCount": 0,
   "records": [
     {
       "id": "100i",
@@ -96,8 +96,9 @@
     {
       "id": "600i-executive-edition",
       "catalogName": "600i Executive Edition",
-      "status": "held",
-      "reason": "no-catalog-product-url"
+      "status": "excluded",
+      "reason": "no-catalog-product-url",
+      "exclusionReason": "2026-10-18 운영자 요청으로 영구 제외. 패치·동기화로 복원 금지."
     },
     {
       "id": "600i-explorer",
@@ -543,8 +544,9 @@
     {
       "id": "caterpillar-pirate",
       "catalogName": "Caterpillar Pirate",
-      "status": "held",
-      "reason": "no-catalog-product-url"
+      "status": "excluded",
+      "reason": "no-catalog-product-url",
+      "exclusionReason": "2026-10-18 운영자 요청으로 영구 제외. 패치·동기화로 복원 금지."
     },
     {
       "id": "centurion",
@@ -616,8 +618,9 @@
     {
       "id": "constellation-phoenix-emerald",
       "catalogName": "Constellation Phoenix Emerald",
-      "status": "held",
-      "reason": "page-http-404"
+      "status": "excluded",
+      "reason": "page-http-404",
+      "exclusionReason": "2026-10-18 운영자 요청으로 영구 제외. 패치·동기화로 복원 금지."
     },
     {
       "id": "constellation-taurus",
@@ -831,8 +834,9 @@
     {
       "id": "dragonfly-star-kitten",
       "catalogName": "Dragonfly Star Kitten",
-      "status": "held",
-      "reason": "no-catalog-product-url"
+      "status": "excluded",
+      "reason": "no-catalog-product-url",
+      "exclusionReason": "2026-10-18 운영자 요청으로 영구 제외. 패치·동기화로 복원 금지."
     },
     {
       "id": "dragonfly-yellowjacket",
@@ -947,8 +951,9 @@
     {
       "id": "f7c-m-hornet-heartseeker-mk-ii",
       "catalogName": "F7C-M Hornet Heartseeker Mk II",
-      "status": "held",
-      "reason": "no-catalog-product-url"
+      "status": "excluded",
+      "reason": "no-catalog-product-url",
+      "exclusionReason": "2026-10-18 운영자 요청으로 영구 제외. 패치·동기화로 복원 금지."
     },
     {
       "id": "f7c-m-super-hornet-heartseeker-mk-i",
@@ -1030,8 +1035,9 @@
     {
       "id": "f8a-lightning",
       "catalogName": "F8A Lightning",
-      "status": "held",
-      "reason": "no-catalog-product-url"
+      "status": "excluded",
+      "reason": "no-catalog-product-url",
+      "exclusionReason": "2026-10-18 운영자 요청으로 영구 제외. 패치·동기화로 복원 금지."
     },
     {
       "id": "f8c-lightning",
@@ -1212,8 +1218,9 @@
     {
       "id": "gladius-dunlevy",
       "catalogName": "Gladius Dunlevy",
-      "status": "held",
-      "reason": "no-catalog-product-url"
+      "status": "excluded",
+      "reason": "no-catalog-product-url",
+      "exclusionReason": "2026-10-18 운영자 요청으로 영구 제외. 패치·동기화로 복원 금지."
     },
     {
       "id": "gladius-pirate-edition",
@@ -1812,8 +1819,9 @@
     {
       "id": "nautilus-solstice-edition",
       "catalogName": "Nautilus Solstice Edition",
-      "status": "held",
-      "reason": "subject-not-clear-in-official-photo"
+      "status": "excluded",
+      "reason": "subject-not-clear-in-official-photo",
+      "exclusionReason": "2026-10-18 운영자 요청으로 영구 제외. 패치·동기화로 복원 금지."
     },
     {
       "id": "nomad",
@@ -2767,5 +2775,6 @@
       "pageSha256": "3ec655a0aedc2c5a03b2e4e6c242a51dfe7d922204dbbe788a239bc57dfa7167",
       "reviewNote": "Official product name, variant, source page and representative scene visually reviewed"
     }
-  ]
+  ],
+  "excludedCount": 8
 }

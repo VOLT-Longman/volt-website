@@ -1,3 +1,4 @@
+import { isExcludedShip } from './ship-catalog-policy.js';
 import { parseDataLayerJs } from './erkul-sync.js';
 import { mapLocalization } from './cms-localization.js';
 import { requireDb } from './http.js';
@@ -35,6 +36,7 @@ export async function loadShipLayers(env) {
   const market = {};
   let syncedAt = null;
   for (const s of canon.ships || []) {
+    if (isExcludedShip(s)) continue;
     const op = opsById.get(s.id) || {};
     ships[s.id] = {
       name: presentation.get(s.id)?.name || s.id,

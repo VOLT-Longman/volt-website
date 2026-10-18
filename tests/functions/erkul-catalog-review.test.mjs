@@ -1,3 +1,4 @@
+import { isExcludedShip } from '../../functions/_shared/ship-catalog-policy.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -42,6 +43,7 @@ test('published review identities, current source versions, and retained histori
     runInContext(read('data/ship-live-stats.js'), ctx);
     const live = ctx.window.VOLT_SHIP_LIVE_STATS;
     for (const row of [...reviewed.migrations, ...reviewed.additions]) {
+        if (isExcludedShip(row)) { assert.equal(live[row.id], undefined); continue; }
         assert.equal(live[row.id].erkulLocalName, row.localName);
         assert.equal(live[row.id].erkulRef, row.ref);
         assert.equal(live[row.id].sourceVersion, reviewed.sourceVersion);
@@ -50,7 +52,7 @@ test('published review identities, current source versions, and retained histori
         assert.notEqual(live[id].sourceVersion, reviewed.sourceVersion);
         assert.ok(live[id].syncedAt < '2026-10-18');
     }
-    assert.equal(Object.values(live).filter(row => row.sourceVersion === reviewed.sourceVersion).length, 221);
-    assert.equal(new Set(Object.values(live).map(row => row.erkulRef)).size, 224);
+    assert.equal(Object.values(live).filter(row => row.sourceVersion === reviewed.sourceVersion).length, 214);
+    assert.equal(new Set(Object.values(live).map(row => row.erkulRef)).size, 217);
     assert.ok(!Object.values(live).some(row => row.erkulLocalName === 'drak_command_module'));
 });

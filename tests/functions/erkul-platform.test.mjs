@@ -22,7 +22,7 @@ test('toPlatform: fixture — vehicle→ground · ship→space · 값 없음→u
   assert.deepEqual(got, ['ground', 'space', 'unknown', 'unknown', 'unknown']);
 });
 
-test('canonical platform: 224 전수 유효값 + 분포 ground27/space197', async () => {
+test('canonical platform: 217 전수 유효값 + 분포 ground27/space190', async () => {
   const canon = JSON.parse(await read('data/canonical/ships-canonical.json'));
   const dist = { ground: 0, space: 0, unknown: 0 };
   const bad = [];
@@ -31,7 +31,7 @@ test('canonical platform: 224 전수 유효값 + 분포 ground27/space197', asyn
     else dist[s.platform]++;
   }
   assert.equal(bad.length, 0, `유효하지 않은 platform: ${bad.slice(0, 10).join(', ')}`);
-  assert.deepEqual(dist, { ground: 27, space: 197, unknown: 0 });
+  assert.deepEqual(dist, { ground: 27, space: 190, unknown: 0 });
   // Basher는 최신 Erkul raw의 calculatorType=ship을 따라 space다.
   const basher = canon.ships.find((s) => s.id === 'basher');
   assert.equal(basher?.platform, 'space');

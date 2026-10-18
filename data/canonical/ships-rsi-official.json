@@ -3,10 +3,10 @@
   "note": "RSI 공식 카탈로그. 사실원=RSI Ship Matrix만. catalogStatus로 concept/flight-ready 구분. RSI 비제공 게임플레이 값 없음. KO는 별도 localization 계층.",
   "source": "RSI Ship Matrix (robertsspaceindustries.com/ship-matrix/index)",
   "retrievedAt": "2026-07-18",
-  "generatedFromCommit": "8d7810665d60c3aca8748e4eeac680dc5bd92f17",
-  "count": 30,
+  "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
+  "count": 29,
   "byStatus": {
-    "concept": 28,
+    "concept": 27,
     "flight-ready": 2
   },
   "records": [
@@ -429,26 +429,6 @@
         "descriptionEn": "With four centuries of distinguished service under its belt, The Aegis Dynamics Nautilus tactical minelayer represents the ultimate in strategic combat engineering, with fully-integrated mine-deployment, sweeping and disarming capabilities."
       },
       "descriptionEnHash": "9f800de05006e395"
-    },
-    {
-      "id": "nautilus-solstice-edition",
-      "name": "Nautilus Solstice Edition",
-      "catalogStatus": "concept",
-      "rsiProductionStatus": "in-concept",
-      "source": "rsi-official",
-      "sourceType": "ship-matrix",
-      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-nautilus/Nautilus-Solstice-Edition",
-      "retrievedAt": "2026-07-18",
-      "rsi": {
-        "manufacturer": "Aegis Dynamics",
-        "role": "Minelayer",
-        "size": "large",
-        "crewMin": 4,
-        "crewMax": 8,
-        "cargo": 64,
-        "descriptionEn": "With four centuries of distinguished service under its belt, The Aegis Dynamics Nautilus tactical minelayer represents the ultimate in strategic combat engineering, with fully-integrated mine-deployment, sweeping and disarming capabilities. This limited edition Solstice model is exclusive to members of the Chairman’s Club and includes sequential serial numbering according to production order."
-      },
-      "descriptionEnHash": "6e4766478db7074c"
     },
     {
       "id": "odyssey",
