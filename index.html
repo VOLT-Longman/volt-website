@@ -32,10 +32,9 @@
   <link rel="icon" type="image/webp" href="assets/images/VOLT_logo.webp">
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
-  <link rel="preload" href="assets/images/landing/hero-01.webp" as="image" media="(min-width: 861px)">
-  <link rel="preload" href="assets/images/landing/hero-01-m.webp" as="image" media="(max-width: 860px)">
-  <script src="js/theme-init.js?v=20261018-01"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20261018-01">
+  <link rel="preload" href="assets/images/landing/hercules-hero-1920.webp" as="image" imagesrcset="assets/images/landing/hercules-hero-960.webp 960w, assets/images/landing/hercules-hero-1600.webp 1600w, assets/images/landing/hercules-hero-1920.webp 1920w, assets/images/landing/hercules-hero-2560.webp 2560w, assets/images/landing/hercules-hero-4000.webp 4000w" imagesizes="100vw" fetchpriority="high">
+  <script src="js/theme-init.js?v=20261018-02"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261018-02">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -74,7 +73,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20261018-01">
+   <link rel="stylesheet" href="css/noscript.css?v=20261018-02">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -184,8 +183,7 @@
    <!-- 시네마틱 히어로 배경 — 단일 장면으로 브랜드 메시지와 초점 유지. 이미지 © Cloud Imperium Games (팬 콘텐츠 정책 준수) -->
    <div class="hero-cine" id="hero-cine" aria-hidden="true">
     <picture class="hero-cine-media">
-     <source media="(max-width: 860px)" srcset="assets/images/landing/hero-01-m.webp">
-     <img src="assets/images/landing/hero-01.webp" alt="" class="hero-cine-image" fetchpriority="high" decoding="async">
+     <img src="assets/images/landing/hercules-hero-1920.webp" srcset="assets/images/landing/hercules-hero-960.webp 960w, assets/images/landing/hercules-hero-1600.webp 1600w, assets/images/landing/hercules-hero-1920.webp 1920w, assets/images/landing/hercules-hero-2560.webp 2560w, assets/images/landing/hercules-hero-4000.webp 4000w" sizes="100vw" width="4000" height="2250" alt="" class="hero-cine-image" fetchpriority="high" decoding="async">
     </picture>
    </div>
    <div class="hero-layout">
@@ -241,6 +239,7 @@
        <p data-i18n="landing.ships.desc">Erkul 실시간 스펙·인게임 구매처·한국어 설명까지. 모든 함선 정보를 한 곳에서.</p>
        <span class="landing-card-metric"><strong data-landing-count="ships" data-countup>240</strong><span data-i18n="landing.ships.metric">척 수록</span></span>
        <span class="landing-card-arrow" aria-hidden="true">↗</span>
+       <img class="landing-card-photo" src="assets/images/landing/hercules-fleet-800.webp" srcset="assets/images/landing/hercules-fleet-800.webp 800w, assets/images/landing/hercules-fleet-1600.webp 1600w" sizes="(max-width: 700px) calc(100vw - 48px), 600px" width="800" height="450" alt="" loading="lazy" decoding="async">
       </a>
       <a class="landing-card reveal" href="#trade-planner">
        <span class="landing-card-index">02</span>
@@ -249,6 +248,7 @@
        <p data-i18n="landing.trade.desc">UEX 실시간 시세 기반 수익 계산과 루트 추천. 화물 적재부터 수익표까지.</p>
        <span class="landing-card-metric"><strong data-i18n="landing.trade.metricValue">실시간</strong><span data-i18n="landing.trade.metric">UEX 시세 연동</span></span>
        <span class="landing-card-arrow" aria-hidden="true">↗</span>
+       <img class="landing-card-photo" src="assets/images/landing/hercules-cargo-800.webp" srcset="assets/images/landing/hercules-cargo-800.webp 800w, assets/images/landing/hercules-cargo-1600.webp 1600w" sizes="(max-width: 700px) calc(100vw - 48px), 600px" width="800" height="464" alt="" loading="lazy" decoding="async">
       </a>
       <a class="landing-card reveal" href="#join">
        <span class="landing-card-index">03</span>
@@ -257,6 +257,7 @@
        <p data-i18n="landing.community.desc">체계적인 운영과 명확한 기준. 입문자부터 베테랑까지 예측 가능한 협업.</p>
        <span class="landing-card-metric"><strong data-landing-count="members" data-countup>100+</strong><span data-i18n="landing.community.metric">명의 멤버</span></span>
        <span class="landing-card-arrow" aria-hidden="true">↗</span>
+       <img class="landing-card-photo" src="assets/images/landing/starlancer-crew-800.webp" srcset="assets/images/landing/starlancer-crew-800.webp 800w, assets/images/landing/starlancer-crew-1600.webp 1600w" sizes="(max-width: 700px) calc(100vw - 48px), 600px" width="800" height="343" alt="" loading="lazy" decoding="async">
       </a>
      </div>
      <div class="landing-briefing reveal">
@@ -268,7 +269,7 @@
        <div class="landing-notices-list" id="landing-notices-list"></div>
       </div>
       <div class="landing-cta">
-       <img class="landing-cta-photo" src="assets/images/landing/hero-01-m.webp" alt="" width="960" height="540" loading="lazy" decoding="async">
+       <img class="landing-cta-photo" src="assets/images/landing/hercules-fleet-1600.webp" srcset="assets/images/landing/hercules-fleet-800.webp 800w, assets/images/landing/hercules-fleet-1600.webp 1600w" sizes="(max-width: 700px) 100vw, 1200px" alt="" width="1600" height="900" loading="lazy" decoding="async">
        <span class="landing-kicker">OPEN RECRUITMENT</span>
        <h2 data-i18n="landing.ctaTitle">항해를 함께할 준비가 되셨나요?</h2>
        <p data-i18n="landing.ctaBody">Discord에서 함대원들과 인사하고, 첫 운송부터 함께하세요.</p>
@@ -913,7 +914,8 @@
     </div>
     <div class="footer-bottom">
      <p><span data-i18n="footer.copyright">© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED</span></p>
-     <p class="footer-fan-disclaimer" data-i18n="footer.fanDisclaimer">Star Citizen® 이미지 © Cloud Imperium Games. 본 사이트는 CIG와 무관한 비공식 팬 사이트입니다.</p>
+     <p class="footer-fan-disclaimer" data-i18n="footer.fanDisclaimer">VOLT는 Cloud Imperium 그룹과 제휴하지 않은 비공식 Star Citizen 팬 사이트입니다. 운영자·사용자가 제작하지 않은 콘텐츠의 권리는 각 소유자에게 있습니다.</p>
+     <p class="footer-image-credit">Star Citizen® imagery © Cloud Imperium Games · <a href="https://robertsspaceindustries.com/en/comm-link/engineering/16589-Q-A-Crusader-Hercules" target="_blank" rel="noopener noreferrer">Hercules</a> · <a href="https://robertsspaceindustries.com/en/comm-link/transmission/20214-MISC-Starlancer-MAX" target="_blank" rel="noopener noreferrer">Starlancer MAX / RSI</a></p>
     </div>
    </div>
   </footer>
@@ -932,26 +934,26 @@
    </div>
   </div>
 
-<script src="js/shipdb-manufacturers.js?v=20261018-01" defer></script>
-<script src="js/shipdb-canonical.js?v=20261018-01" defer></script>
-<script src="data/volt-data.js?v=20261018-01" defer></script>
+<script src="js/shipdb-manufacturers.js?v=20261018-02" defer></script>
+<script src="js/shipdb-canonical.js?v=20261018-02" defer></script>
+<script src="data/volt-data.js?v=20261018-02" defer></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20261018-01" defer></script>
-<script src="js/i18n.js?v=20261018-01" defer></script>
-<script src="js/navigation.js?v=20261018-01" defer></script>
-<script src="js/notices.js?v=20261018-01" defer></script>
-<script src="js/schedule.js?v=20261018-01" defer></script>
-<script src="js/leadership.js?v=20261018-01" defer></script>
-<script src="js/landing.js?v=20261018-01" defer></script>
-<script src="js/site-content.js?v=20261018-01" defer></script>
-<script src="js/uex.js?v=20261018-01" defer></script>
-<script src="js/uex-panel.js?v=20261018-01" defer></script>
-<script src="js/trade-planner.js?v=20261018-01" defer></script>
-<script src="js/ships.js?v=20261018-01" defer></script>
-<script src="js/search-modal.js?v=20261018-01" defer></script>
-<script src="js/auth-ui.js?v=20261018-01" defer></script>
-<script src="js/mypage.js?v=20261018-01" defer></script>
-<script src="js/main.js?v=20261018-01" defer></script>
-<script src="js/volt-ai.js?v=20261018-01" defer></script>
+<script src="data/volt-localization.js?v=20261018-02" defer></script>
+<script src="js/i18n.js?v=20261018-02" defer></script>
+<script src="js/navigation.js?v=20261018-02" defer></script>
+<script src="js/notices.js?v=20261018-02" defer></script>
+<script src="js/schedule.js?v=20261018-02" defer></script>
+<script src="js/leadership.js?v=20261018-02" defer></script>
+<script src="js/landing.js?v=20261018-02" defer></script>
+<script src="js/site-content.js?v=20261018-02" defer></script>
+<script src="js/uex.js?v=20261018-02" defer></script>
+<script src="js/uex-panel.js?v=20261018-02" defer></script>
+<script src="js/trade-planner.js?v=20261018-02" defer></script>
+<script src="js/ships.js?v=20261018-02" defer></script>
+<script src="js/search-modal.js?v=20261018-02" defer></script>
+<script src="js/auth-ui.js?v=20261018-02" defer></script>
+<script src="js/mypage.js?v=20261018-02" defer></script>
+<script src="js/main.js?v=20261018-02" defer></script>
+<script src="js/volt-ai.js?v=20261018-02" defer></script>
  </body>
 </html>

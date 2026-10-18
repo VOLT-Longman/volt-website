@@ -1,0 +1,152 @@
+{
+  "updated": "2026-10-18",
+  "owner": "Cloud Imperium Games",
+  "use": "Unofficial noncommercial Star Citizen fleet fansite",
+  "policy": "https://support.robertsspaceindustries.com/hc/en-us/articles/360006895793-Star-Citizen-Fankit-and-Fandom-FAQ",
+  "processing": "Downsample only; preserve original scene and marks; WebP quality 88, method 6. No AI generation or upscaling.",
+  "images": [
+    {
+      "sourcePage": "https://robertsspaceindustries.com/en/comm-link/engineering/16589-Q-A-Crusader-Hercules",
+      "sourceUrl": "https://robertsspaceindustries.com/media/7bdt759toqnvhr/source/CRUS_Starlifter_Promo_Basic_Landed_MO01-Squashed.jpg",
+      "sourceSize": [
+        4000,
+        2250
+      ],
+      "sourceSha256": "defc45c8bd0daefeef8184edbcfe8c43182ec05ccda1b14ecbf1a97727ea4c30",
+      "outputs": [
+        {
+          "path": "assets/images/landing/hercules-hero-960.webp",
+          "size": [
+            960,
+            540
+          ],
+          "bytes": 35114,
+          "sha256": "9f37c37dff7247db19821af80baf0806cefc957fe30afe7919c1d022f41c6723"
+        },
+        {
+          "path": "assets/images/landing/hercules-hero-1600.webp",
+          "size": [
+            1600,
+            900
+          ],
+          "bytes": 76238,
+          "sha256": "c99ab5b74e3f056bfb45533bd31b8fdf8a70b13cc262824a2d7316aad406d0ae"
+        },
+        {
+          "path": "assets/images/landing/hercules-hero-1920.webp",
+          "size": [
+            1920,
+            1080
+          ],
+          "bytes": 102390,
+          "sha256": "a2518a2321fc3eaffbcb583c92518ac4e75fae20260b66b6a057ff017d207203"
+        },
+        {
+          "path": "assets/images/landing/hercules-hero-2560.webp",
+          "size": [
+            2560,
+            1440
+          ],
+          "bytes": 163564,
+          "sha256": "8eaa24b8d1832d14a9515ebe6dcd8e95e8bf368f71c90ec7b91051c7bd4bb7b6"
+        },
+        {
+          "path": "assets/images/landing/hercules-hero-4000.webp",
+          "size": [
+            4000,
+            2250
+          ],
+          "bytes": 453744,
+          "sha256": "771613fc7358b644993030abdec61dfdea4da386c23938ad13350d9c242b8524"
+        }
+      ]
+    },
+    {
+      "sourcePage": "https://robertsspaceindustries.com/en/comm-link/engineering/16589-Q-A-Crusader-Hercules",
+      "sourceUrl": "https://robertsspaceindustries.com/media/2mr0e5xt04t7lr/source/CRUS_Starlifter_Promo_Basic-And-Military_Arrival_MO01-Squashed.jpg",
+      "sourceSize": [
+        4000,
+        2250
+      ],
+      "sourceSha256": "59717b0b3c671a5c2aec313affe0826d86485a444e23f59f3b319e08a2a5ba60",
+      "outputs": [
+        {
+          "path": "assets/images/landing/hercules-fleet-800.webp",
+          "size": [
+            800,
+            450
+          ],
+          "bytes": 29000,
+          "sha256": "18dd66d33d7f4d50a3e8418e3554b31ea993e2582642fbfec454899b2b9497a2"
+        },
+        {
+          "path": "assets/images/landing/hercules-fleet-1600.webp",
+          "size": [
+            1600,
+            900
+          ],
+          "bytes": 78544,
+          "sha256": "9440db74b2b4b3eced4fda8f75ac2d4a922ddb83ca4b909b8316b1333158c143"
+        }
+      ]
+    },
+    {
+      "sourcePage": "https://robertsspaceindustries.com/en/comm-link/engineering/16589-Q-A-Crusader-Hercules",
+      "sourceUrl": "https://robertsspaceindustries.com/media/5zxiygiko8kcyr/source/CloudImperiumGames_StarCitizen_HerculesCargoBay.jpeg",
+      "sourceSize": [
+        2048,
+        1187
+      ],
+      "sourceSha256": "8782e2c1cea5635bf22268c6dec27b22264ef3e27ca7f0ef89034ad244573c6e",
+      "outputs": [
+        {
+          "path": "assets/images/landing/hercules-cargo-800.webp",
+          "size": [
+            800,
+            464
+          ],
+          "bytes": 63294,
+          "sha256": "b806292d856f98463a7e6d0daca603dac13074de487fb1dd6a5bcbfcf3a475c7"
+        },
+        {
+          "path": "assets/images/landing/hercules-cargo-1600.webp",
+          "size": [
+            1600,
+            927
+          ],
+          "bytes": 191484,
+          "sha256": "ecb2cd11de054e3d9fcab2f077b0fe940b9de2baefd7482524fc8570516a9381"
+        }
+      ]
+    },
+    {
+      "sourcePage": "https://robertsspaceindustries.com/en/comm-link/transmission/20214-MISC-Starlancer-MAX",
+      "sourceUrl": "https://robertsspaceindustries.com/i/d368c7a8433a295cfc9cda9067c46029e201e9a1/RGgukq5E6HBRmLSVwJXPQUvKdSZvNRnG4XnGMY5HzAzvV5Y1W56ywMXyJWwpyRRxGEcBAwxfnFWearcLJ64PBC3J3kwsrignoyn74qAyWG96c7HKz2zhBzbw1mUAXRg/misc-starlancer-gallery-03.png",
+      "sourceSize": [
+        3840,
+        1646
+      ],
+      "sourceSha256": "7e851c2efa2a772566f847af37eb90d549466fb12ad473950452c5bfcac41ed6",
+      "outputs": [
+        {
+          "path": "assets/images/landing/starlancer-crew-800.webp",
+          "size": [
+            800,
+            343
+          ],
+          "bytes": 42398,
+          "sha256": "7aee05a89551c131b10268449e54a037d88474d4ae8af596a35b1afe3682a33e"
+        },
+        {
+          "path": "assets/images/landing/starlancer-crew-1600.webp",
+          "size": [
+            1600,
+            686
+          ],
+          "bytes": 124438,
+          "sha256": "e90e6a063fe4fc1a8610b9bf3635f1daff62e79cf3b4f39ba09c2e5bbfbd4df5"
+        }
+      ]
+    }
+  ]
+}

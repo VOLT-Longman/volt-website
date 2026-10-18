@@ -8,7 +8,7 @@
 - 사용자 확인에 따라 Under Attack만 해제했다. 일반 DDoS 방어, Bot Fight Mode, Browser Integrity Check는 유지한다.
 - 브라우저 캐시 TTL은 기존 응답 헤더를 존중하도록 바꿨다. HTML의 재검증과 버전이 붙은 자산의 장기 캐시 정책은 `_headers`에서 정한다.
 - 잘못된 자기 자신으로의 리디렉션을 `https://volt.ceo/*` → `https://www.volt.ceo/${1}`으로 수정하고 활성화했다. 308 응답으로 요청 메서드와 본문을 유지하며 쿼리 문자열도 보존한다.
-- 구형 `volt-discord-auth` Worker의 `www.volt.ceo/auth/*` 및 콜백 경로 연결을 해제했다. `/auth/*`는 GitHub와 함께 배포되는 Pages Functions가 처리한다. 구형 Worker 자체는 복구용으로 보존했다.
+- 구형 `volt-discord-auth` Worker의 `www.volt.ceo/auth/*` 및 콜백 경로 연결을 해제했다. `/auth/*`는 GitHub와 함께 배포되는 Pages Functions가 처리한다. 구형 Worker는 당시 복구용으로 보존했으며, 아래 2026-10-18 정리에서 삭제했다.
 - `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `DISCORD_OPERATION_WEBHOOK_URL`을 Text에서 Secret으로 전환했다. 관리자가 새 관리자 세션 비밀값을 직접 저장했다. 기존 관리자 세션은 다시 로그인해야 한다.
 - Pages Functions는 Fail closed로 설정했다. 무료 호출 한도가 소진되면 API 요청에 정적 페이지를 대신 반환하지 않는다.
 - 갤러리 R2에 `images.volt.ceo`를 연결하고 최소 TLS 1.2를 설정했다. 새 업로드 기본 주소는 `R2_PUBLIC_BASE_URL=https://images.volt.ceo`다. 이전 공개 주소는 과거 콘텐츠·이력의 링크 보존을 위해 유지한다.
@@ -67,3 +67,11 @@ CMS 이미지 변환은 `blob:` 이미지 URL 대신 `createImageBitmap`으로 �
 - [Pages 실패 시 동작](https://developers.cloudflare.com/pages/functions/routing/#fail-open--closed)
 - [Pages 빌드 명령과 환경변수](https://developers.cloudflare.com/pages/configuration/build-configuration/)
 - [GitHub workflow 실행 조회](https://docs.github.com/en/rest/actions/workflow-runs)
+
+
+## 구형 Worker 영구 삭제 — 2026-10-18
+
+- 현행 홈페이지와 최신 Comms 소스에서 의존성이 없고, 이전 이후의 운영 호출이 없음을 확인한 `volt-discord-auth`, `volt-comms-api`를 사용자 실행 직전 확인 후 영구 삭제했다.
+- 삭제 후 계정의 Workers 및 Pages 목록에는 홈페이지와 별도 아트 Pages 프로젝트만 남았다. 두 구형 주소는 404이며 홈페이지 200, 현행 Discord 로그인 302, 공지 API 200을 확인했다.
+- `/auth/*`는 계속 Pages Functions가 처리한다. Pages 프로젝트, D1/R2, 현행 Discord 애플리케이션과 인증정보는 삭제하지 않았다. 실제 Comms 음성 서버의 종단 간 연결 검증을 뜻하지 않는다.
+- 삭제 전 버전·구성·변수 이름 및 사용 여부 기록은 저장소 밖에 보관했다. 브라우저 편집기 제약으로 전체 소스를 내보내지 못했으며, 영구 삭제한 Worker는 제품 내에서 복구할 수 없다.
