@@ -2,7 +2,7 @@
   "schema": "shipdb-presentation/v1",
   "note": "표시 계층: canonical 함선의 영문 표시명·공식 RSI URL만. 게임플레이 사실값은 canonical이 소유한다.",
   "generatedFromCommit": "b93fb1676596747771210240235891bb50aa4f02",
-  "count": 219,
+  "count": 224,
   "records": [
     {
       "id": "100i",
@@ -258,6 +258,10 @@
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Aquila"
     },
     {
+      "id": "constellation-mk5-centaurus",
+      "name": "Constellation Mk V Centaurus"
+    },
+    {
       "id": "constellation-phoenix",
       "name": "Constellation Phoenix",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Phoenix"
@@ -493,6 +497,10 @@
       "id": "gladius",
       "name": "Gladius",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/gladius/Gladius"
+    },
+    {
+      "id": "gladius-dunlevy",
+      "name": "Gladius Dunlevy"
     },
     {
       "id": "gladius-pirate-edition",
@@ -875,6 +883,10 @@
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/roc/ROC-DS"
     },
     {
+      "id": "s65-stingray",
+      "name": "S-65 Stingray"
+    },
+    {
       "id": "sabre",
       "name": "Sabre",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre"
@@ -898,6 +910,10 @@
       "id": "sabre-raven",
       "name": "Sabre Raven",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Raven"
+    },
+    {
+      "id": "sabre-raven-ex",
+      "name": "Sabre Raven EX"
     },
     {
       "id": "salvation",
@@ -928,6 +944,10 @@
       "id": "shiv",
       "name": "Shiv",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/shiv/Shiv"
+    },
+    {
+      "id": "skylark",
+      "name": "Skylark"
     },
     {
       "id": "spartan",

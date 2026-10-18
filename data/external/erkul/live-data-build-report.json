@@ -1,31 +1,78 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-10-05T01:53:08.801Z",
-  "appliedAt": "2026-10-05T01:53:08.801Z",
+  "syncedAt": "2026-10-18T11:55:00.287Z",
+  "appliedAt": "2026-10-18T11:55:00.287Z",
   "appliedBy": "shipdb:erkul:apply (safe apply)",
-  "previewHash": "e81af281f99aaf16a7367f7caf2f33b22d99cf381dcbdbf997b2ef4ad69db72e",
-  "matchedInput": 219,
-  "liveStatsEntries": 219,
-  "marketEntries": 219,
+  "catalogChanges": [
+    {
+      "id": "constellation-andromeda",
+      "type": "migration",
+      "localName": "rsi_constellation_andromeda_gs"
+    },
+    {
+      "id": "constellation-aquila",
+      "type": "migration",
+      "localName": "rsi_constellation_aquila_gs"
+    },
+    {
+      "id": "constellation-phoenix",
+      "type": "migration",
+      "localName": "rsi_constellation_phoenix_gs"
+    },
+    {
+      "id": "constellation-taurus",
+      "type": "migration",
+      "localName": "rsi_constellation_taurus_gs"
+    },
+    {
+      "id": "gladius-dunlevy",
+      "type": "addition",
+      "localName": "aegs_gladius_dunlevy"
+    },
+    {
+      "id": "sabre-raven-ex",
+      "type": "addition",
+      "localName": "aegs_sabre_raven_ex"
+    },
+    {
+      "id": "s65-stingray",
+      "type": "addition",
+      "localName": "krig_s65_stingray"
+    },
+    {
+      "id": "constellation-mk5-centaurus",
+      "type": "addition",
+      "localName": "rsi_constellation_mk5_centaurus"
+    },
+    {
+      "id": "skylark",
+      "type": "addition",
+      "localName": "rsi_skylark"
+    }
+  ],
+  "previewHash": "c5d5ab6b530824a52451dcd605e86a83a6d4e0793a4dbbe9d7c05058a3c30e0e",
+  "matchedInput": 224,
+  "catalog": {
+    "source": "erkul-live",
+    "version": "4.10.2-LIVE.12913470",
+    "generatedAt": "2026-10-13T16:33:31.894Z",
+    "pricesGeneratedAt": "2026-10-18T09:23:57.096Z",
+    "fetchedAt": "2026-10-18T11:55:00.270Z"
+  },
+  "updatedEntries": 221,
+  "historicalEntries": 3,
+  "liveStatsEntries": 224,
+  "marketEntries": 224,
   "entriesWithPurchase": 172,
-  "entriesWithRentals": 47,
-  "entriesWithoutMarket": 47,
+  "entriesWithRentals": 45,
+  "entriesWithoutMarket": 52,
   "skipped": {
-    "newCandidates": 4,
+    "newCandidates": 1,
     "marketOnly": 0
   },
   "warnings": [
     "Erkul live에 없는 함선이라 기존 값 유지: anvl_ballista_dunestalker (volt: anvil-ballista-dunestalker)",
     "Erkul live에 없는 함선이라 기존 값 유지: anvl_ballista_snowblind (volt: anvil-ballista-snowblind)",
     "Erkul live에 없는 함선이라 기존 값 유지: xian_nox_kue (volt: nox-kue)"
-  ],
-  "catalog": {
-    "source": "erkul-live",
-    "version": "4.10.1-LIVE.12660092",
-    "generatedAt": "2026-10-04T07:37:31.475Z",
-    "pricesGeneratedAt": "2026-10-04T09:23:36.525Z",
-    "fetchedAt": "2026-10-05T01:53:08.789Z"
-  },
-  "updatedEntries": 216,
-  "historicalEntries": 3
+  ]
 }

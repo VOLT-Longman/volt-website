@@ -3,8 +3,8 @@
 `ships-normalized.json` 기준 필드별 채움률. 재현: `npm run shipdb:erkul:normalize`
 
 - 원천: Erkul live (`https://cdn.erkul.games/LIVE/catalog.bin`)
-- fetch 시각: 2026-10-05T01:53:08.801Z
-- 대상: 220척 (지상 차량 포함 전체 레코드)
+- fetch 시각: 2026-10-18T11:55:00.287Z
+- 대상: 222척 (지상 차량 포함 전체 레코드)
 
 분류 기준:
 - **raw** — Erkul 원본 path에서 직접 추출
@@ -14,45 +14,45 @@
 
 | Field | Class | Filled | Coverage | Missing (최대 10) |
 |---|---|---|---|---|
-| `externalStats.manufacturer` | raw | 220/220 | 100.0% | — |
-| `externalStats.role` | raw | 220/220 | 100.0% | — |
-| `externalStats.career` | raw | 220/220 | 100.0% | — |
-| `externalStats.size` | raw | 220/220 | 100.0% | — |
-| `externalStats.crewSize` | raw | 220/220 | 100.0% | — |
-| `externalStats.speeds.scm` | raw | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.speeds.scmBoostForward` | raw | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.speeds.scmBoostBackward` | raw | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.speeds.navMax` | raw | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.rotation.pitch` | raw | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.rotation.yaw` | raw | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.rotation.roll` | raw | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.rotation.boostedPitch` | catalog-precomputed | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.rotation.boostedYaw` | catalog-precomputed | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.rotation.boostedRoll` | catalog-precomputed | 195/220 | 88.6% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
-| `externalStats.rotation.currentPitch` | derived-only / unavailable in raw | 0/220 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
-| `externalStats.rotation.currentYaw` | derived-only / unavailable in raw | 0/220 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
-| `externalStats.rotation.currentRoll` | derived-only / unavailable in raw | 0/220 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
-| `externalStats.countermeasures.decoy` | raw | 193/220 | 87.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, argo_mpuv, argo_mpuv_transport, drak_mule, grin_mdc, grin_mtc, grin_ptv |
-| `externalStats.countermeasures.noise` | raw | 193/220 | 87.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, argo_mpuv, argo_mpuv_transport, drak_mule, grin_mdc, grin_mtc, grin_ptv |
-| `externalStats.hp` | raw | 220/220 | 100.0% | — |
-| `externalStats.cargoScu` | raw | 220/220 | 100.0% | — |
-| `externalStats.dimensions.length` | heuristic (max of size.x,y) | 219/220 | 99.5% | argo_moth |
-| `externalStats.dimensions.beam` | heuristic (min of size.x,y) | 219/220 | 99.5% | argo_moth |
-| `externalStats.dimensions.height` | raw (size.z) | 219/220 | 99.5% | argo_moth |
-| `externalStats.massKg` | raw | 220/220 | 100.0% | — |
-| `externalStats.fuel.hydrogenScu` | raw | 220/220 | 100.0% | — |
-| `externalStats.fuel.quantumScu` | raw | 220/220 | 100.0% | — |
-| `externalStats.insurance.expeditionFee` | raw | 220/220 | 100.0% | — |
-| `externalStats.insurance.claimTime` | raw | 220/220 | 100.0% | — |
-| `externalStats.insurance.expediteTime` | raw | 220/220 | 100.0% | — |
-| `externalStats.damageReduction.physical` | raw | 0/220 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
-| `externalStats.damageReduction.energy` | raw | 0/220 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
-| `externalStats.damageReduction.distortion` | raw | 0/220 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
-| `externalStats.damageReduction.fuse` | raw | 220/220 | 100.0% | — |
-| `externalStats.damageReduction.component` | raw | 220/220 | 100.0% | — |
-| `descriptions.enRaw` | raw | 220/220 | 100.0% | — |
-| `descriptions.en` | heuristic (헤더 제거 정제) | 220/220 | 100.0% | — |
-| `descriptions.ko` | unavailable (Erkul에 원천 없음) | 0/220 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
+| `externalStats.manufacturer` | raw | 222/222 | 100.0% | — |
+| `externalStats.role` | raw | 222/222 | 100.0% | — |
+| `externalStats.career` | raw | 222/222 | 100.0% | — |
+| `externalStats.size` | raw | 222/222 | 100.0% | — |
+| `externalStats.crewSize` | raw | 222/222 | 100.0% | — |
+| `externalStats.speeds.scm` | raw | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.speeds.scmBoostForward` | raw | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.speeds.scmBoostBackward` | raw | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.speeds.navMax` | raw | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.rotation.pitch` | raw | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.rotation.yaw` | raw | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.rotation.roll` | raw | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.rotation.boostedPitch` | catalog-precomputed | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.rotation.boostedYaw` | catalog-precomputed | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.rotation.boostedRoll` | catalog-precomputed | 197/222 | 88.7% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, drak_mule, grin_mdc, grin_mtc, grin_ptv, grin_roc, grin_roc_ds |
+| `externalStats.rotation.currentPitch` | derived-only / unavailable in raw | 0/222 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
+| `externalStats.rotation.currentYaw` | derived-only / unavailable in raw | 0/222 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
+| `externalStats.rotation.currentRoll` | derived-only / unavailable in raw | 0/222 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
+| `externalStats.countermeasures.decoy` | raw | 195/222 | 87.8% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, argo_mpuv, argo_mpuv_transport, drak_mule, grin_mdc, grin_mtc, grin_ptv |
+| `externalStats.countermeasures.noise` | raw | 195/222 | 87.8% | anvl_ballista, anvl_centurion, anvl_spartan, argo_csv_cargo, argo_mpuv, argo_mpuv_transport, drak_mule, grin_mdc, grin_mtc, grin_ptv |
+| `externalStats.hp` | raw | 222/222 | 100.0% | — |
+| `externalStats.cargoScu` | raw | 222/222 | 100.0% | — |
+| `externalStats.dimensions.length` | heuristic (max of size.x,y) | 221/222 | 99.5% | argo_moth |
+| `externalStats.dimensions.beam` | heuristic (min of size.x,y) | 221/222 | 99.5% | argo_moth |
+| `externalStats.dimensions.height` | raw (size.z) | 221/222 | 99.5% | argo_moth |
+| `externalStats.massKg` | raw | 222/222 | 100.0% | — |
+| `externalStats.fuel.hydrogenScu` | raw | 222/222 | 100.0% | — |
+| `externalStats.fuel.quantumScu` | raw | 222/222 | 100.0% | — |
+| `externalStats.insurance.expeditionFee` | raw | 222/222 | 100.0% | — |
+| `externalStats.insurance.claimTime` | raw | 222/222 | 100.0% | — |
+| `externalStats.insurance.expediteTime` | raw | 222/222 | 100.0% | — |
+| `externalStats.damageReduction.physical` | raw | 0/222 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
+| `externalStats.damageReduction.energy` | raw | 0/222 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
+| `externalStats.damageReduction.distortion` | raw | 0/222 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
+| `externalStats.damageReduction.fuse` | raw | 222/222 | 100.0% | — |
+| `externalStats.damageReduction.component` | raw | 222/222 | 100.0% | — |
+| `descriptions.enRaw` | raw | 222/222 | 100.0% | — |
+| `descriptions.en` | heuristic (헤더 제거 정제) | 222/222 | 100.0% | — |
+| `descriptions.ko` | unavailable (Erkul에 원천 없음) | 0/222 | 0.0% | aegs_avenger_stalker, aegs_avenger_titan, aegs_avenger_titan_renegade, aegs_avenger_warlock, aegs_eclipse, aegs_gladius, aegs_gladius_dunlevy, aegs_gladius_pir, aegs_gladius_valiant, aegs_hammerhead_gs |
 
 ## dimensions 축 검증 (A-2 사실)
 

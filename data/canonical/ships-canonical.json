@@ -1,10 +1,10 @@
 {
   "schema": "shipdb-canonical/v1",
   "note": "Erkul live 기본값과 승인된 RSI 공식 필드 보정으로 생성한 canonical 데이터셋.",
-  "generatedFromCommit": "4abbc7ab673a496d119a8013830dca5fbff8815d",
+  "generatedFromCommit": "8f5255816cdef516c4f2a949701f4b9ee9eec221",
   "sourceHashes": {
-    "data/ship-live-stats.js": "41b1e223ff9ea307",
-    "data/ship-market.js": "23bbde50101a0f5d",
+    "data/ship-live-stats.js": "351820114dcb69cc",
+    "data/ship-market.js": "567b31c1a7d03ae1",
     "data/canonical/official-spec-overrides.json": "8bef1e863eb7a665"
   },
   "officialOverrides": [
@@ -21,7 +21,7 @@
       }
     }
   ],
-  "count": 219,
+  "count": 224,
   "ships": [
     {
       "id": "100i",
@@ -2220,6 +2220,13 @@
       "market": {
         "purchase": [
           {
+            "shop": "Teach's Ship Shop - Levski",
+            "location": "Levski",
+            "price": 904932,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "New Deal - Teasa Spaceport - Lorville",
             "location": "Lorville",
             "price": 904932,
@@ -2488,7 +2495,7 @@
           {
             "shop": "Teach's Rentals - Levski",
             "location": "Levski",
-            "price": 27166,
+            "price": 27165,
             "available": null,
             "unavailable": null
           }
@@ -3995,12 +4002,12 @@
       "platform": "space",
       "crewSize": 4,
       "cargoScu": 96,
-      "hp": 180844,
-      "massKg": 386857,
+      "hp": 103004,
+      "massKg": 367247.34,
       "speeds": {
         "scm": 190,
         "scmBoostForward": 390,
-        "scmBoostBackward": 191,
+        "scmBoostBackward": 200,
         "navMax": 1000
       },
       "rotation": {
@@ -4019,13 +4026,13 @@
         "noise": 5
       },
       "dimensions": {
-        "length": 63.5,
-        "beam": 27.75,
-        "height": 15.25,
+        "length": 62,
+        "beam": 26.6,
+        "height": 16.3,
         "sizeRaw": {
-          "x": 27.75,
-          "y": 63.5,
-          "z": 15.25
+          "x": 26.6,
+          "y": 62,
+          "z": 16.3
         }
       },
       "fuel": {
@@ -4057,15 +4064,7 @@
             "unavailable": null
           }
         ],
-        "rentals": [
-          {
-            "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
-            "location": "New Babbage",
-            "price": 254016,
-            "available": null,
-            "unavailable": null
-          }
-        ]
+        "rentals": []
       }
     },
     {
@@ -4077,12 +4076,12 @@
       "platform": "space",
       "crewSize": 4,
       "cargoScu": 96,
-      "hp": 180844,
-      "massKg": 406543,
+      "hp": 103004,
+      "massKg": 385699.47,
       "speeds": {
         "scm": 180,
         "scmBoostForward": 380,
-        "scmBoostBackward": 191,
+        "scmBoostBackward": 200,
         "navMax": 1075
       },
       "rotation": {
@@ -4101,13 +4100,13 @@
         "noise": 5
       },
       "dimensions": {
-        "length": 63.5,
-        "beam": 27.75,
-        "height": 15.25,
+        "length": 62,
+        "beam": 26.6,
+        "height": 16.3,
         "sizeRaw": {
-          "x": 27.75,
-          "y": 63.5,
-          "z": 15.25
+          "x": 26.6,
+          "y": 62,
+          "z": 16.3
         }
       },
       "fuel": {
@@ -4143,6 +4142,72 @@
       }
     },
     {
+      "id": "constellation-mk5-centaurus",
+      "manufacturer": "Roberts Space Industries",
+      "role": "Medium Freight / Gun Ship",
+      "career": "Multi-Role",
+      "size": "S5",
+      "platform": "space",
+      "crewSize": 4,
+      "cargoScu": 240,
+      "hp": 170500,
+      "massKg": 1240000,
+      "speeds": {
+        "scm": 170,
+        "scmBoostForward": 365,
+        "scmBoostBackward": 191,
+        "navMax": 1075
+      },
+      "rotation": {
+        "pitch": 22,
+        "yaw": 18,
+        "roll": 35,
+        "boostedPitch": 33,
+        "boostedYaw": 27,
+        "boostedRoll": 70,
+        "currentPitch": null,
+        "currentYaw": null,
+        "currentRoll": null
+      },
+      "countermeasures": {
+        "decoy": 48,
+        "noise": 5
+      },
+      "dimensions": {
+        "length": 82.5,
+        "beam": 47.5,
+        "height": 20.25,
+        "sizeRaw": {
+          "x": 47.5,
+          "y": 82.5,
+          "z": 20.25
+        }
+      },
+      "fuel": {
+        "hydrogenScu": 46.8,
+        "quantumScu": 8.6
+      },
+      "insurance": {
+        "expeditionFee": 6750,
+        "claimTime": 13.5,
+        "expediteTime": 4.5
+      },
+      "damageReduction": {
+        "physical": null,
+        "energy": null,
+        "distortion": null,
+        "fuse": 0.7,
+        "component": 1
+      },
+      "descriptions": {
+        "en": "The Constellation Mk V Centaurus reimages RSI's classic, versatile multi-crew ship for a new generation. Its bold new look honors the last-generation Constellation while updating the design to take advantage of the increased size to feature a larger crew mess and cargo bay. Bigger turrets and missiles racks provide additional defense, and an updated snub-fighter docking port is the perfect home for the RSI Skylark. Together these changes elevate the Mk V into a truly modern ship ready and raring to go on any adventure."
+      },
+      "market": {
+        "purchase": [],
+        "rentals": []
+      }
+    },
+    {
       "id": "constellation-phoenix",
       "manufacturer": "Roberts Space Industries",
       "role": "Luxury Touring",
@@ -4151,12 +4216,12 @@
       "platform": "space",
       "crewSize": 4,
       "cargoScu": 80,
-      "hp": 161145,
-      "massKg": 383801,
+      "hp": 104005,
+      "massKg": 363884.47,
       "speeds": {
         "scm": 185,
         "scmBoostForward": 385,
-        "scmBoostBackward": 191,
+        "scmBoostBackward": 200,
         "navMax": 995
       },
       "rotation": {
@@ -4175,13 +4240,13 @@
         "noise": 5
       },
       "dimensions": {
-        "length": 63.5,
-        "beam": 27.75,
-        "height": 15.25,
+        "length": 62,
+        "beam": 26.6,
+        "height": 16.3,
         "sizeRaw": {
-          "x": 27.75,
-          "y": 63.5,
-          "z": 15.25
+          "x": 26.6,
+          "y": 62,
+          "z": 16.3
         }
       },
       "fuel": {
@@ -4291,12 +4356,12 @@
       "platform": "space",
       "crewSize": 4,
       "cargoScu": 174,
-      "hp": 140240,
-      "massKg": 383801,
+      "hp": 104005,
+      "massKg": 361677,
       "speeds": {
         "scm": 180,
         "scmBoostForward": 380,
-        "scmBoostBackward": 191,
+        "scmBoostBackward": 200,
         "navMax": 950
       },
       "rotation": {
@@ -4315,17 +4380,17 @@
         "noise": 5
       },
       "dimensions": {
-        "length": 70,
-        "beam": 27.75,
-        "height": 15.25,
+        "length": 69,
+        "beam": 28.6,
+        "height": 16.3,
         "sizeRaw": {
-          "x": 27.75,
-          "y": 70,
-          "z": 15.25
+          "x": 28.6,
+          "y": 69,
+          "z": 16.3
         }
       },
       "fuel": {
-        "hydrogenScu": 19,
+        "hydrogenScu": 33,
         "quantumScu": 7.7
       },
       "insurance": {
@@ -4360,15 +4425,7 @@
             "unavailable": null
           }
         ],
-        "rentals": [
-          {
-            "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
-            "location": "New Babbage",
-            "price": 160877,
-            "available": null,
-            "unavailable": null
-          }
-        ]
+        "rentals": []
       }
     },
     {
@@ -4670,6 +4727,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
             "price": 52920,
@@ -4798,13 +4862,6 @@
           {
             "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
             "location": "Pyro Gateway (Nyx)",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
             "price": 52920,
             "available": null,
             "unavailable": null
@@ -5187,13 +5244,20 @@
           {
             "shop": "Teach's Rentals - Levski",
             "location": "Levski",
-            "price": 9526,
+            "price": 9525,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Traveler Rentals - Cargo Center - Port Tressler",
             "location": "Port Tressler",
+            "price": 9525,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
             "price": 9525,
             "available": null,
             "unavailable": null
@@ -5250,13 +5314,6 @@
           {
             "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
             "location": "Pyro Gateway (Nyx)",
-            "price": 9526,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
             "price": 9526,
             "available": null,
             "unavailable": null
@@ -7861,6 +7918,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 85050,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
             "price": 85050,
@@ -7912,13 +7976,6 @@
           {
             "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
             "location": "Pyro Gateway (Nyx)",
-            "price": 85050,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
             "price": 85050,
             "available": null,
             "unavailable": null
@@ -8388,6 +8445,72 @@
             "unavailable": null
           }
         ],
+        "rentals": []
+      }
+    },
+    {
+      "id": "gladius-dunlevy",
+      "manufacturer": "Aegis Dynamics",
+      "role": "Light Fighter",
+      "career": "Combat",
+      "size": "S2",
+      "platform": "space",
+      "crewSize": 1,
+      "cargoScu": 0,
+      "hp": 6110,
+      "massKg": 48552.06,
+      "speeds": {
+        "scm": 226,
+        "scmBoostForward": 520,
+        "scmBoostBackward": 268,
+        "navMax": 1193
+      },
+      "rotation": {
+        "pitch": 68,
+        "yaw": 52,
+        "roll": 200,
+        "boostedPitch": 81.6,
+        "boostedYaw": 62.4,
+        "boostedRoll": 240,
+        "currentPitch": null,
+        "currentYaw": null,
+        "currentRoll": null
+      },
+      "countermeasures": {
+        "decoy": 48,
+        "noise": 5
+      },
+      "dimensions": {
+        "length": 21,
+        "beam": 17.5,
+        "height": 5.5,
+        "sizeRaw": {
+          "x": 17.5,
+          "y": 21,
+          "z": 5.5
+        }
+      },
+      "fuel": {
+        "hydrogenScu": 1.6,
+        "quantumScu": 0.6
+      },
+      "insurance": {
+        "expeditionFee": 2335,
+        "claimTime": 5.83,
+        "expediteTime": 1.94
+      },
+      "damageReduction": {
+        "physical": null,
+        "energy": null,
+        "distortion": null,
+        "fuse": 0,
+        "component": 0.4
+      },
+      "descriptions": {
+        "en": "Honor the famed Captain who shaped the course of the UEE Navy's elite fighter squadron with the Dunlevy variant for the Aegis Gladius. This special ship pays to tribute to Captain Alexandra Dunlevy and Squadron 42 with red highlights against a grey base paint and military-grade components."
+      },
+      "market": {
+        "purchase": [],
         "rentals": []
       }
     },
@@ -9670,6 +9793,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 34020,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
             "price": 34020,
@@ -9721,13 +9851,6 @@
           {
             "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
             "location": "Pyro Gateway (Nyx)",
-            "price": 34020,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
             "price": 34020,
             "available": null,
             "unavailable": null
@@ -11282,7 +11405,7 @@
           {
             "shop": "Teach's Rentals - Levski",
             "location": "Levski",
-            "price": 234420,
+            "price": 234419,
             "available": null,
             "unavailable": null
           },
@@ -11310,6 +11433,13 @@
           {
             "shop": "Vantage Rentals - ARC-L2",
             "location": "ARC-L2 Lively Pathway Station",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
             "price": 223256,
             "available": null,
             "unavailable": null
@@ -11448,13 +11578,6 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
             "location": "Stanton Gateway (Nyx)",
             "price": 223257,
@@ -11584,7 +11707,7 @@
           {
             "shop": "Teach's Rentals - Levski",
             "location": "Levski",
-            "price": 223257,
+            "price": 223256,
             "available": null,
             "unavailable": null
           },
@@ -11945,6 +12068,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 10395,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
             "price": 10395,
@@ -11996,13 +12126,6 @@
           {
             "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
             "location": "Pyro Gateway (Nyx)",
-            "price": 10395,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
             "price": 10395,
             "available": null,
             "unavailable": null
@@ -12693,6 +12816,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 30240,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
             "price": 30240,
@@ -12744,13 +12874,6 @@
           {
             "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
             "location": "Pyro Gateway (Nyx)",
-            "price": 30240,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
             "price": 30240,
             "available": null,
             "unavailable": null
@@ -13623,6 +13746,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 73237,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
             "price": 73238,
@@ -13751,13 +13881,6 @@
           {
             "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
             "location": "Pyro Gateway (Nyx)",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
             "price": 73238,
             "available": null,
             "unavailable": null
@@ -15241,7 +15364,7 @@
           {
             "shop": "Teach's Rentals - Levski",
             "location": "Levski",
-            "price": 2599,
+            "price": 2598,
             "available": null,
             "unavailable": null
           },
@@ -15438,6 +15561,72 @@
             "unavailable": null
           }
         ],
+        "rentals": []
+      }
+    },
+    {
+      "id": "s65-stingray",
+      "manufacturer": "Kruger Intergalactic",
+      "role": "Medium Fighter",
+      "career": "Combat",
+      "size": "S2",
+      "platform": "space",
+      "crewSize": 1,
+      "cargoScu": 0,
+      "hp": 10859,
+      "massKg": 41070,
+      "speeds": {
+        "scm": 218,
+        "scmBoostForward": 485,
+        "scmBoostBackward": 230,
+        "navMax": 1200
+      },
+      "rotation": {
+        "pitch": 55,
+        "yaw": 42,
+        "roll": 185,
+        "boostedPitch": 66,
+        "boostedYaw": 50.4,
+        "boostedRoll": 222,
+        "currentPitch": null,
+        "currentYaw": null,
+        "currentRoll": null
+      },
+      "countermeasures": {
+        "decoy": 48,
+        "noise": 5
+      },
+      "dimensions": {
+        "length": 20.447,
+        "beam": 15.1,
+        "height": 8.231,
+        "sizeRaw": {
+          "x": 15.1,
+          "y": 20.447,
+          "z": 8.231
+        }
+      },
+      "fuel": {
+        "hydrogenScu": 3.6,
+        "quantumScu": 0.9
+      },
+      "insurance": {
+        "expeditionFee": 333,
+        "claimTime": 2,
+        "expediteTime": 1
+      },
+      "damageReduction": {
+        "physical": null,
+        "energy": null,
+        "distortion": null,
+        "fuse": 0,
+        "component": 0.4
+      },
+      "descriptions": {
+        "en": "Sleek, balanced, and uncompromising in its vision, the S-65 Stingray is a medium fighter that balances great maneuverability whilst still packing a punch. Taking after its namesake, the Stingray is no stranger to combat, able to swoop in, deliver sustained damage, and swoop out, unafraid to take a few hits in the process."
+      },
+      "market": {
+        "purchase": [],
         "rentals": []
       }
     },
@@ -15804,6 +15993,72 @@
       }
     },
     {
+      "id": "sabre-raven-ex",
+      "manufacturer": "Aegis Dynamics",
+      "role": "Medium Fighter",
+      "career": "Combat",
+      "size": "S2",
+      "platform": "space",
+      "crewSize": 1,
+      "cargoScu": 0,
+      "hp": 13116,
+      "massKg": 68711.32,
+      "speeds": {
+        "scm": 233,
+        "scmBoostForward": 560,
+        "scmBoostBackward": 260,
+        "navMax": 1320
+      },
+      "rotation": {
+        "pitch": 56,
+        "yaw": 45,
+        "roll": 160,
+        "boostedPitch": 67.2,
+        "boostedYaw": 54,
+        "boostedRoll": 192,
+        "currentPitch": null,
+        "currentYaw": null,
+        "currentRoll": null
+      },
+      "countermeasures": {
+        "decoy": 48,
+        "noise": 5
+      },
+      "dimensions": {
+        "length": 24.5,
+        "beam": 24.5,
+        "height": 5,
+        "sizeRaw": {
+          "x": 24.5,
+          "y": 24.5,
+          "z": 5
+        }
+      },
+      "fuel": {
+        "hydrogenScu": 2.6,
+        "quantumScu": 0.9
+      },
+      "insurance": {
+        "expeditionFee": 3934,
+        "claimTime": 7.56,
+        "expediteTime": 2.52
+      },
+      "damageReduction": {
+        "physical": null,
+        "energy": null,
+        "distortion": null,
+        "fuse": 0,
+        "component": 0.4
+      },
+      "descriptions": {
+        "en": "Aegis Dynamics have raised the bar yet again with their Raven variant. Nearing the speed and maneuverability of its Sabre forebearer but with a lower ship signature, the Raven is a fast, stealthy infiltrator. This special EX model reincorporates some of the offensive capabilities of the original Sabre while introducing a Quantum Dampener on the spine of the ship to help ensure enemies won't escape."
+      },
+      "market": {
+        "purchase": [],
+        "rentals": []
+      }
+    },
+    {
       "id": "salvation",
       "manufacturer": "Roberts Space Industries",
       "role": "Starter / Light Salvage",
@@ -15939,6 +16194,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
             "price": 31185,
@@ -16067,13 +16329,6 @@
           {
             "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
             "location": "Pyro Gateway (Nyx)",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
             "price": 31185,
             "available": null,
             "unavailable": null
@@ -16461,6 +16716,72 @@
             "unavailable": null
           }
         ],
+        "rentals": []
+      }
+    },
+    {
+      "id": "skylark",
+      "manufacturer": "Roberts Space Industries",
+      "role": "Snub Fighter",
+      "career": "Combat",
+      "size": "S1",
+      "platform": "space",
+      "crewSize": 1,
+      "cargoScu": 0,
+      "hp": 6230,
+      "massKg": 14868.5,
+      "speeds": {
+        "scm": 227,
+        "scmBoostForward": 535,
+        "scmBoostBackward": 255,
+        "navMax": 1240
+      },
+      "rotation": {
+        "pitch": 70,
+        "yaw": 58,
+        "roll": 212,
+        "boostedPitch": 84,
+        "boostedYaw": 69.6,
+        "boostedRoll": 254.39999999999998,
+        "currentPitch": null,
+        "currentYaw": null,
+        "currentRoll": null
+      },
+      "countermeasures": {
+        "decoy": 48,
+        "noise": 5
+      },
+      "dimensions": {
+        "length": 7,
+        "beam": 6.5,
+        "height": 3.5,
+        "sizeRaw": {
+          "x": 6.5,
+          "y": 7,
+          "z": 3.5
+        }
+      },
+      "fuel": {
+        "hydrogenScu": 0.8,
+        "quantumScu": 0
+      },
+      "insurance": {
+        "expeditionFee": 2280,
+        "claimTime": 3.37,
+        "expediteTime": 1.12
+      },
+      "damageReduction": {
+        "physical": null,
+        "energy": null,
+        "distortion": null,
+        "fuse": 0.7,
+        "component": 0.4
+      },
+      "descriptions": {
+        "en": "The Skylark snub fighter was built to be the ultimate companion for the Constellation Mk V. With a complimentary style and shape, the Skylark can be docked and accessed directly from its parent ship. It also features highly maneuverable thrusters to keep it nimble and a spirited weapons package that includes a robust missile payload."
+      },
+      "market": {
+        "purchase": [],
         "rentals": []
       }
     },
@@ -18101,7 +18422,7 @@
           {
             "shop": "Teach's Rentals - Levski",
             "location": "Levski",
-            "price": 3119,
+            "price": 3118,
             "available": null,
             "unavailable": null
           }
@@ -18676,7 +18997,7 @@
           {
             "shop": "Teach's Rentals - Levski",
             "location": "Levski",
-            "price": 69458,
+            "price": 69457,
             "available": null,
             "unavailable": null
           }

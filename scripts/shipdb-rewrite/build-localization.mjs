@@ -73,7 +73,7 @@ const out = {
 mkdirSync(join(ROOT, 'data/canonical'), { recursive: true });
 writeFileSync(join(ROOT, 'data/canonical/localization-ships.json'), JSON.stringify(out, null, 2) + '\n');
 console.log('localization 생성 완료 → data/canonical/localization-ships.json');
-console.log(`  219 중 ok=${summary.ok} · stale=${summary.stale} · missing=${summary.missing} · no-en=${summary.noEn}`);
+console.log(`  ${ids.length} 중 ok=${summary.ok} · stale=${summary.stale} · missing=${summary.missing} · no-en=${summary.noEn}`);
 console.log(`  cutover 준비(missing+stale+no-en=0): ${cutoverReady}`);
 if (summary.missing > 0) {
   const miss = records.filter((r) => r.status === 'missing').map((r) => r.id);

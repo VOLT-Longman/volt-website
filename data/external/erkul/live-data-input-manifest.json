@@ -1,13 +1,13 @@
 {
   "schema": "erkul-live-input-manifest/v1",
   "source": "erkul-live",
-  "syncedAt": "2026-10-05T01:53:08.801Z",
-  "matchedCount": 219,
+  "syncedAt": "2026-10-18T11:55:00.287Z",
+  "matchedCount": 224,
   "inputs": {
-    "shipsRaw": "eda7537b974e0ed50637fb33a17b7020d0b48f821f92a436dedd75686b99a441",
-    "shipsNormalized": "ee6eebb0ef10adfc5caae477273b9de90a10303c3cd74c93eb14b823c96030d0",
-    "shopRaw": "e5852f964b04f0a7554089f71912cdb79524a1a2ee04e5049e605ea150a3b7f0",
-    "marketNormalized": "899ab828a13b107e5721ef99c50a89c2c367011397a5604dd98b7d7b6ac3e87f",
+    "shipsRaw": "9ac78cc34649debcac4ff132a61770aa32806e8d8284b48b9f6832269f923443",
+    "shipsNormalized": "01b55cd17eea08aa1fd64a09e352fb72f2fabc2977b16d7af28dbcd92d91b13d",
+    "shopRaw": "629a59171d8249c2aaa5b9e16bb1757fc413c4e1be2c500a3a76f88a506f9437",
+    "marketNormalized": "d00de24d3508e69d5f93d11b2a3afe970a16a5227401b85407f5d24f61c734ca",
     "matchReport": "e3fd3a4f5faa79758929211ff8a56e40344edacfee7c4565acb145b5da16af6c",
     "manualMap": "191da682902e05e72bb89e4ad6531f5ed85a4d188612e8af8a7b0859fc312d3d"
   }

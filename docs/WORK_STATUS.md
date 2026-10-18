@@ -1,3 +1,15 @@
+# Erkul LIVE 함선 갱신 — 2026-10-18 (20261018-01)
+
+- 기준 main 8f52558. Erkul의 해시 검증된 LIVE catalog/가격 원본을 재수집했다. 버전 `4.10.2-LIVE.12913470`, 제원 생성 2026-10-13, 가격 생성·수집 2026-10-18.
+- Mk IV Constellation 4종의 localName/ref 변경을 명시적으로 검토해 기존 VOLT ID를 유지하면서 갱신했다. Andromeda·Aquila HP 103004, Phoenix·Taurus HP 104005가 최신 원본과 일치한다.
+- Gladius Dunlevy·Sabre Raven EX·S-65 Stingray·Constellation Mk V Centaurus·Skylark 5종을 등록하고 한국어 설명과 검색어를 추가했다. Mk V는 Mk IV의 대체 ID로 덮어쓰지 않는다. 부속 Command Module은 제외한다.
+- Erkul canonical 224 = 최신 원본 221 + 원본에서 빠진 도색형 3(Ballista Dunestalker/Snowblind, Nox Kue). 이 3종의 이전 버전/동기화 날짜를 유지한다. 별도 RSI 공식 30종을 합한 공개 목록은 254종이며 기존 별칭 7종도 유지한다.
+- 검토 파일의 정확한 버전·이름·ref/이전 identity를 대조하는 CLI opt-in과 회귀 검사를 추가했다. 일반 Safe Apply의 신규 후보 제외 원칙은 유지하며, 입력이 바뀌면 hash 확인을 다시 요구한다. 동결 기준선을 수정하지 않고 검토된 신규 ID만 공개 계약에 추가했다.
+- 224종 원본 재생성 대조, KO 설명 224/224(누락·구식 0), 서버 검사 253개, 함선DB 기존 화면 검사 49개와 수정한 신규 경로 검사 통과. 로컬 화면에서 Centaurus 검색·상세·플래너 240 SCU 연결 확인. 정적 검사·린트 통과.
+- 시각 비교 14개 중 Asgard의 원본 버전/날짜 표기만 달라짐을 이미지 차이로 확인했다. Windows 참고 이미지 해당 1개를 갱신했다. 메인 반영 후 공식 Linux 기준 생성, 전체 CI, 정확한 커밋의 Pages 배포와 공개 공지를 마무리한다.
+
+---
+
 # 정기 위생 점검 및 AI 일정 조회 정비 — 2026-10-18
 
 - 기준 main 9897a01. 코드·링크·마이그레이션·HTML 삽입·번역·린트, 운영 공개 페이지/API, 의존성 보안 공지를 확인했다.

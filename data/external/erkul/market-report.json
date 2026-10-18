@@ -1,11 +1,11 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-10-05T01:53:08.801Z",
+  "syncedAt": "2026-10-18T11:55:00.287Z",
   "shopsCount": 39,
-  "inventoryRows": 625,
-  "shipMarketRows": 625,
+  "inventoryRows": 624,
+  "shipMarketRows": 624,
   "shipsWithPurchase": 172,
-  "shipsWithRentals": 47,
+  "shipsWithRentals": 45,
   "shipsWithoutMarket": [
     "aegs_gladius_dunlevy",
     "aegs_gladius_pir",
@@ -50,8 +50,10 @@
     "rsi_aurora_gs_lx",
     "rsi_aurora_gs_mr",
     "rsi_aurora_gs_se",
+    "rsi_constellation_mk5_centaurus",
     "rsi_constellation_phoenix_emerald",
     "rsi_polaris",
+    "rsi_skylark",
     "rsi_ursa_rover_emerald",
     "vncl_glaive",
     "vncl_scythe"
@@ -72,7 +74,7 @@
     },
     {
       "location": "Levski",
-      "rows": 35
+      "rows": 36
     },
     {
       "location": "Ruin Station",
@@ -105,6 +107,10 @@
       "rows": 21
     },
     {
+      "location": "Stanton Gateway (Nyx)",
+      "rows": 18
+    },
+    {
       "location": "Stanton Gateway (Pyro)",
       "rows": 18
     },
@@ -122,10 +128,6 @@
     },
     {
       "location": "Pyro Gateway (Nyx)",
-      "rows": 18
-    },
-    {
-      "location": "Stanton Gateway (Nyx)",
       "rows": 18
     },
     {

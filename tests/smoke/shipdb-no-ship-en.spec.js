@@ -14,7 +14,7 @@ test.describe('ship-en 제거 (커밋 C)', () => {
         const hits = trackShipEnRequests(page);
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
         const card = page.locator('[data-ship-id="freelancer"]');
         await expect(card.locator('.ship-name')).toContainText(/프리랜서|Freelancer/);
         await expect(card.locator('.ship-desc')).not.toHaveText('');
@@ -26,7 +26,7 @@ test.describe('ship-en 제거 (커밋 C)', () => {
         const hits = trackShipEnRequests(page);
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
         await page.locator('.nav-lang [data-set-lang="en"]').click();
         const card = page.locator('[data-ship-id="freelancer"]');
         await expect(card.locator('.ship-name')).toContainText('Freelancer');
@@ -41,7 +41,7 @@ test.describe('ship-en 제거 (커밋 C)', () => {
         const hits = trackShipEnRequests(page);
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
         // 검색(영문명)
         await page.locator('#ship-search').fill('Freelancer');
         const card = page.locator('#ships-grid .ship-card').first();

@@ -919,6 +919,26 @@ window.VOLT_LOCALIZATION = {
         "Pitbull": [
             "드레이크 핏불",
             "핏불 [Pitbull]"
+        ],
+        "Gladius Dunlevy": [
+            "글라디우스 던리비",
+            "던리비"
+        ],
+        "Sabre Raven EX": [
+            "세이버 레이븐 EX",
+            "레이븐 EX"
+        ],
+        "S-65 Stingray": [
+            "S-65 스팅레이",
+            "스팅레이"
+        ],
+        "Constellation Mk V Centaurus": [
+            "컨스텔레이션 Mk V 센타우루스",
+            "센타우루스",
+            "컨스텔레이션 마크 5"
+        ],
+        "Skylark": [
+            "스카이라크"
         ]
     },
     "commodities": {

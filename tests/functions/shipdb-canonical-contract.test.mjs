@@ -17,6 +17,7 @@ import {
   OFFICIAL_SPEC_OVERRIDE_SOURCE,
   CANONICAL_GENERATOR_PATH,
   BASELINE_PATH,
+  CATALOG_REVIEW_PATH,
   FORBIDDEN_PUBLIC_FIELDS,
   CANONICAL_SELECTION,
   DELETED_LEGACY_PATHS,
@@ -97,7 +98,7 @@ test('공개 canonical에 금지 필드가 없다 (fail-closed, 1단계에서 �
 });
 
 // PM 보강 2: 생성된 canonical의 ID 집합 = 기준선 hasLive 집합과 정확히 일치.
-test('공개 canonical ID 집합 = 기준선 hasLive 219 (fail-closed)', async () => {
+test('공개 canonical ID 집합 = 동결 기준선 + 검토된 신규 identity (fail-closed)', async () => {
   const abs = join(ROOT, CANONICAL_DATASET_PATH);
   if (!existsSync(abs)) {
     assert.ok(true, 'canonical 미생성 — 계약 armed');
@@ -105,6 +106,12 @@ test('공개 canonical ID 집합 = 기준선 hasLive 219 (fail-closed)', async (
   }
   const b = await loadBaseline();
   const expected = new Set(b.idList.filter((x) => x.hasLive).map((x) => x.id));
+  const review = JSON.parse(await readRoot(CATALOG_REVIEW_PATH));
+  assert.equal(review.additions.length, 5);
+  for (const row of review.additions) {
+    assert.ok(!expected.has(row.id), `기준선과 중복된 신규 id: ${row.id}`);
+    expected.add(row.id);
+  }
   const data = JSON.parse(await readFile(abs, 'utf8'));
   const records = Array.isArray(data) ? data : Array.isArray(data.ships) ? data.ships : Object.values(data);
   const actual = new Set(records.map((r) => r.id));

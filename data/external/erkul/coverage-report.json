@@ -1,54 +1,54 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-10-05T01:53:08.801Z",
-  "shipCount": 220,
+  "syncedAt": "2026-10-18T11:55:00.287Z",
+  "shipCount": 222,
   "fields": [
     {
       "field": "externalStats.manufacturer",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.role",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.career",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.size",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.crewSize",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.speeds.scm",
       "class": "raw",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -65,9 +65,9 @@
     {
       "field": "externalStats.speeds.scmBoostForward",
       "class": "raw",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -84,9 +84,9 @@
     {
       "field": "externalStats.speeds.scmBoostBackward",
       "class": "raw",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -103,9 +103,9 @@
     {
       "field": "externalStats.speeds.navMax",
       "class": "raw",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -122,9 +122,9 @@
     {
       "field": "externalStats.rotation.pitch",
       "class": "raw",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -141,9 +141,9 @@
     {
       "field": "externalStats.rotation.yaw",
       "class": "raw",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -160,9 +160,9 @@
     {
       "field": "externalStats.rotation.roll",
       "class": "raw",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -179,9 +179,9 @@
     {
       "field": "externalStats.rotation.boostedPitch",
       "class": "catalog-precomputed",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -198,9 +198,9 @@
     {
       "field": "externalStats.rotation.boostedYaw",
       "class": "catalog-precomputed",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -217,9 +217,9 @@
     {
       "field": "externalStats.rotation.boostedRoll",
       "class": "catalog-precomputed",
-      "filled": 195,
-      "total": 220,
-      "coverage": "88.6%",
+      "filled": 197,
+      "total": 222,
+      "coverage": "88.7%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -237,7 +237,7 @@
       "field": "externalStats.rotation.currentPitch",
       "class": "derived-only / unavailable in raw",
       "filled": 0,
-      "total": 220,
+      "total": 222,
       "coverage": "0.0%",
       "missingSample": [
         "aegs_avenger_stalker",
@@ -256,7 +256,7 @@
       "field": "externalStats.rotation.currentYaw",
       "class": "derived-only / unavailable in raw",
       "filled": 0,
-      "total": 220,
+      "total": 222,
       "coverage": "0.0%",
       "missingSample": [
         "aegs_avenger_stalker",
@@ -275,7 +275,7 @@
       "field": "externalStats.rotation.currentRoll",
       "class": "derived-only / unavailable in raw",
       "filled": 0,
-      "total": 220,
+      "total": 222,
       "coverage": "0.0%",
       "missingSample": [
         "aegs_avenger_stalker",
@@ -293,9 +293,9 @@
     {
       "field": "externalStats.countermeasures.decoy",
       "class": "raw",
-      "filled": 193,
-      "total": 220,
-      "coverage": "87.7%",
+      "filled": 195,
+      "total": 222,
+      "coverage": "87.8%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -312,9 +312,9 @@
     {
       "field": "externalStats.countermeasures.noise",
       "class": "raw",
-      "filled": 193,
-      "total": 220,
-      "coverage": "87.7%",
+      "filled": 195,
+      "total": 222,
+      "coverage": "87.8%",
       "missingSample": [
         "anvl_ballista",
         "anvl_centurion",
@@ -331,24 +331,24 @@
     {
       "field": "externalStats.hp",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.cargoScu",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.dimensions.length",
       "class": "heuristic (max of size.x,y)",
-      "filled": 219,
-      "total": 220,
+      "filled": 221,
+      "total": 222,
       "coverage": "99.5%",
       "missingSample": [
         "argo_moth"
@@ -357,8 +357,8 @@
     {
       "field": "externalStats.dimensions.beam",
       "class": "heuristic (min of size.x,y)",
-      "filled": 219,
-      "total": 220,
+      "filled": 221,
+      "total": 222,
       "coverage": "99.5%",
       "missingSample": [
         "argo_moth"
@@ -367,8 +367,8 @@
     {
       "field": "externalStats.dimensions.height",
       "class": "raw (size.z)",
-      "filled": 219,
-      "total": 220,
+      "filled": 221,
+      "total": 222,
       "coverage": "99.5%",
       "missingSample": [
         "argo_moth"
@@ -377,48 +377,48 @@
     {
       "field": "externalStats.massKg",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.fuel.hydrogenScu",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.fuel.quantumScu",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.insurance.expeditionFee",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.insurance.claimTime",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.insurance.expediteTime",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
@@ -426,7 +426,7 @@
       "field": "externalStats.damageReduction.physical",
       "class": "raw",
       "filled": 0,
-      "total": 220,
+      "total": 222,
       "coverage": "0.0%",
       "missingSample": [
         "aegs_avenger_stalker",
@@ -445,7 +445,7 @@
       "field": "externalStats.damageReduction.energy",
       "class": "raw",
       "filled": 0,
-      "total": 220,
+      "total": 222,
       "coverage": "0.0%",
       "missingSample": [
         "aegs_avenger_stalker",
@@ -464,7 +464,7 @@
       "field": "externalStats.damageReduction.distortion",
       "class": "raw",
       "filled": 0,
-      "total": 220,
+      "total": 222,
       "coverage": "0.0%",
       "missingSample": [
         "aegs_avenger_stalker",
@@ -482,32 +482,32 @@
     {
       "field": "externalStats.damageReduction.fuse",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "externalStats.damageReduction.component",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "descriptions.enRaw",
       "class": "raw",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
     {
       "field": "descriptions.en",
       "class": "heuristic (헤더 제거 정제)",
-      "filled": 220,
-      "total": 220,
+      "filled": 222,
+      "total": 222,
       "coverage": "100.0%",
       "missingSample": []
     },
@@ -515,7 +515,7 @@
       "field": "descriptions.ko",
       "class": "unavailable (Erkul에 원천 없음)",
       "filled": 0,
-      "total": 220,
+      "total": 222,
       "coverage": "0.0%",
       "missingSample": [
         "aegs_avenger_stalker",

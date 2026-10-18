@@ -12,12 +12,14 @@ import {
     normalizeMarketOnlyMappings
 } from '../../functions/_shared/erkul-sync.js';
 import { fetchErkulCatalog, ERKUL_CATALOG_URL, ERKUL_PRICES_URL } from '../../functions/_shared/erkul-catalog.js';
+import { reconcileReviewedCatalog } from './reconcile-reviewed-catalog.mjs';
 
 // ShipDB 2.0 Safe Apply (A-8).
 //
 // 원칙:
 // - apply는 매칭을 새로 하지 않는다. 현재 ship-live-stats.js에 존재하는 voltId key만 갱신한다.
-// - 신규 후보/market-only/미매칭 함선은 적용하지 않는다 (신규 함선 추가는 별도 마일스톤).
+// - 신규 후보/market-only/미매칭 함선은 적용하지 않는다.
+// - 예외: --reconcile-catalog는 검토 파일의 정확한 버전·이름·ref만 검증해 기존 ID 이관/신규 등록한다.
 // - 기본은 dry-run: --confirm-preview-hash <hash>가 있고, 지금 재계산한 hash와 일치할 때만 파일을 쓴다.
 //   hash는 Admin preview(GET /api/admin/ships/erkul-sync/preview)의 previewHash와 같은 방식으로 계산된다.
 //
@@ -87,9 +89,10 @@ async function recordReproducibleInputs(ships, shops, fetchedAt, snapshot) {
 }
 
 function parseArgs(argv) {
-    const args = { dryRun: true, confirmHash: null };
+    const args = { dryRun: true, confirmHash: null, reconcileCatalog: false };
     for (let i = 0; i < argv.length; i += 1) {
         if (argv[i] === '--dry-run') args.dryRun = true;
+        if (argv[i] === '--reconcile-catalog') args.reconcileCatalog = true;
         if (argv[i] === '--confirm-preview-hash') {
             args.confirmHash = argv[i + 1] || null;
             i += 1;
@@ -111,8 +114,8 @@ function layerHeader(varName, note, syncedAt, count) {
 async function main() {
     const args = parseArgs(process.argv.slice(2));
 
-    const currentStats = parseDataLayerJs(await readFile(LIVE_STATS_PATH, 'utf8'), 'VOLT_SHIP_LIVE_STATS');
-    const currentMarket = parseDataLayerJs(await readFile(SHIP_MARKET_PATH, 'utf8'), 'VOLT_SHIP_MARKET');
+    let currentStats = parseDataLayerJs(await readFile(LIVE_STATS_PATH, 'utf8'), 'VOLT_SHIP_LIVE_STATS');
+    let currentMarket = parseDataLayerJs(await readFile(SHIP_MARKET_PATH, 'utf8'), 'VOLT_SHIP_MARKET');
 
     console.log('Erkul live 데이터를 가져오는 중...');
     let detailCache = {};
@@ -120,6 +123,14 @@ async function main() {
     const snapshot = await fetchErkulCatalog({ detailCache });
     const erkulShipsRaw = snapshot.ships;
     const erkulShopsRaw = snapshot.shops;
+    let catalogChanges = [];
+    if (args.reconcileCatalog) {
+        const review = JSON.parse(await readFile(resolve(ERKUL_INPUT_DIR, 'catalog-review-20261018.json'), 'utf8'));
+        const reconciled = reconcileReviewedCatalog({ currentStats, currentMarket, ships: erkulShipsRaw, review });
+        ({ currentStats, currentMarket } = reconciled);
+        catalogChanges = reconciled.changes;
+        console.log(`검증된 catalog 변경: ${JSON.stringify(catalogChanges)}`);
+    }
     if (!Array.isArray(erkulShipsRaw) || erkulShipsRaw.length < 100) {
         throw new Error(`Erkul ships 응답 비정상 (records: ${erkulShipsRaw?.length})`);
     }
@@ -145,7 +156,7 @@ async function main() {
     const statsKeys = Object.keys(nextLayers.nextStats).length;
     const marketKeys = Object.keys(nextLayers.nextMarket).length;
     console.log(`\n=== Safe Apply ${args.dryRun ? 'DRY-RUN' : 'CONFIRM'} ===`);
-    console.log(`갱신 대상 key: stats ${statsKeys} / market ${marketKeys} (현재 레이어 key만 — 재매칭 없음)`);
+    console.log(`갱신 대상 key: stats ${statsKeys} / market ${marketKeys}${args.reconcileCatalog ? ' (명시적으로 검토된 catalog 변경 포함)' : ' (현재 레이어 key만 — 재매칭 없음)'}`);
     console.log(`변경 요약: stats ${preview.summary.statsChanged}척 / 가격 ${preview.summary.priceChanges}건 / 구매처 ${preview.summary.purchaseLocationChanges}건 / 렌탈 ${preview.summary.rentalChanges}건 / 재고 ${preview.summary.stockChanges}건 / 설명 ${preview.summary.descriptionsChanged}척`);
     console.log(`적용 제외: 신규 후보 ${preview.summary.newErkulCandidates} / market-only ${preview.summary.marketOnlyUnmatched}`);
     for (const warning of nextLayers.warnings) console.log(`경고: ${warning}`);
@@ -153,7 +164,7 @@ async function main() {
 
     if (args.dryRun) {
         console.log('\ndry-run — 파일을 변경하지 않았습니다.');
-        console.log(`적용하려면: npm run shipdb:erkul:apply -- --confirm-preview-hash ${previewHash}`);
+        console.log(`적용하려면: npm run shipdb:erkul:apply --${args.reconcileCatalog ? ' --reconcile-catalog' : ''} --confirm-preview-hash ${previewHash}`);
         return;
     }
 
@@ -195,6 +206,7 @@ async function main() {
         syncedAt,
         appliedAt: syncedAt,
         appliedBy: 'shipdb:erkul:apply (safe apply)',
+        catalogChanges,
         previewHash,
         matchedInput: statsKeys,
         catalog: snapshot.metadata,

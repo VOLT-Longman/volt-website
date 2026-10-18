@@ -16,6 +16,22 @@ async function openShipModalByName(page, query) {
 }
 
 test.describe('함선DB Live 레이어 (A-6)', () => {
+    test('최신 카탈로그: Mk IV 기존 링크는 유지되고 신규 Mk V는 한국어로 검색된다', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await page.locator('#ship-search').fill('Andromeda');
+        const existing = page.locator('#ships-grid [data-ship-id="constellation-andromeda"] .ship-name-btn');
+        await expect(existing).toBeVisible();
+        await existing.click();
+        await expect(page.locator('#global-modal .ship-live-summary')).toContainText('103,004');
+        await expect(page.locator('#global-modal .ship-live-summary')).toContainText('4.10.2-LIVE');
+        await page.keyboard.press('Escape');
+        const modal = await openShipModalByName(page, '센타우루스');
+        await expect(modal.locator('.ship-live-summary')).toContainText('170,500');
+        await expect(modal).toContainText('240');
+        await expect(modal).toContainText('컨스텔레이션 Mk V');
+    });
+
     test('Asgard 모달: Live 요약 표시 (Size/HP/SCM/최저가)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
@@ -28,7 +44,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(summary).toContainText('203 m/s');
         await expect(summary).toContainText('1075 m/s');
         await expect(summary).toContainText('17,860,500 aUEC');
-        await expect(summary.locator('.ship-live-heading .ship-live-meta')).toContainText('4.10.1-LIVE');
+        await expect(summary.locator('.ship-live-heading .ship-live-meta')).toContainText('4.10.2-LIVE');
     });
 
     test('Asgard 모달: 구매처 Astro Armada/Area18/가격/재고 표시', async ({ page }) => {

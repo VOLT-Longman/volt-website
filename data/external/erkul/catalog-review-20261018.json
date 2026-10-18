@@ -1,0 +1,92 @@
+{
+  "schema": "erkul-catalog-review/v1",
+  "verifiedAt": "2026-10-18",
+  "sourceVersion": "4.10.2-LIVE.12913470",
+  "sourceUrl": "https://cdn.erkul.games/LIVE/catalog.bin",
+  "evidence": "Exact names, roles, source refs and descriptions inspected in the hash-verified LIVE catalog. Mk IV identities retain existing VOLT ids; Mk V is a separate hull. No fuzzy matching.",
+  "migrations": [
+    {
+      "id": "constellation-andromeda",
+      "localName": "rsi_constellation_andromeda_gs",
+      "ref": "9f4e2cea-f7dc-4155-9cb2-95bb42a74141",
+      "name": "RSI Constellation Mk IV Andromeda",
+      "from": {
+        "localName": "rsi_constellation_andromeda",
+        "ref": "d95fb013-60d5-43ac-ab2d-daa082f45411"
+      }
+    },
+    {
+      "id": "constellation-aquila",
+      "localName": "rsi_constellation_aquila_gs",
+      "ref": "562b0c9b-4635-4b40-8e57-09feb3056073",
+      "name": "RSI Constellation Mk IV Aquila",
+      "from": {
+        "localName": "rsi_constellation_aquila",
+        "ref": "e7b40f5c-4099-4aa6-b226-b5b08bd68413"
+      }
+    },
+    {
+      "id": "constellation-phoenix",
+      "localName": "rsi_constellation_phoenix_gs",
+      "ref": "1e26a179-45cf-4541-ade6-0f0daf7c372b",
+      "name": "RSI Constellation Mk IV Phoenix",
+      "from": {
+        "localName": "rsi_constellation_phoenix",
+        "ref": "ecadf2b2-a404-4776-9289-04af91538d76"
+      }
+    },
+    {
+      "id": "constellation-taurus",
+      "localName": "rsi_constellation_taurus_gs",
+      "ref": "e4d9c1c3-d0d0-4581-b0a5-27a4c536b039",
+      "name": "RSI Constellation Mk IV Taurus",
+      "from": {
+        "localName": "rsi_constellation_taurus",
+        "ref": "d1c3fa10-b2d9-421e-8301-97dbf4d0c115"
+      }
+    }
+  ],
+  "additions": [
+    {
+      "id": "gladius-dunlevy",
+      "localName": "aegs_gladius_dunlevy",
+      "ref": "af7d6591-bec1-442b-8d90-cd1bc6db4162",
+      "name": "Aegis Gladius Dunlevy"
+    },
+    {
+      "id": "sabre-raven-ex",
+      "localName": "aegs_sabre_raven_ex",
+      "ref": "0e614cd8-a509-4721-a629-b89e6e83569e",
+      "name": "Aegis Sabre Raven EX"
+    },
+    {
+      "id": "s65-stingray",
+      "localName": "krig_s65_stingray",
+      "ref": "88f279d0-afd2-442f-83e9-d470552364d3",
+      "name": "Kruger S-65 Stingray"
+    },
+    {
+      "id": "constellation-mk5-centaurus",
+      "localName": "rsi_constellation_mk5_centaurus",
+      "ref": "d26ba152-8cfb-4f2c-9995-2c5ec3f0707f",
+      "name": "RSI Constellation Mk V Centaurus"
+    },
+    {
+      "id": "skylark",
+      "localName": "rsi_skylark",
+      "ref": "6a77c8c6-87ef-4d01-9401-024e1b3fcc74",
+      "name": "RSI Skylark"
+    }
+  ],
+  "excluded": [
+    {
+      "localName": "drak_command_module",
+      "reason": "Detachable command module, not an independent catalog ship."
+    }
+  ],
+  "historical": [
+    "anvil-ballista-dunestalker",
+    "anvil-ballista-snowblind",
+    "nox-kue"
+  ]
+}

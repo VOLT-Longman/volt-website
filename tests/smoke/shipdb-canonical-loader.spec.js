@@ -24,8 +24,8 @@ test.describe('ShipDB canonical 로더', () => {
             roleLocalization: s.roleLocalization && s.roleLocalization.summary && s.roleLocalization.summary.total,
             filterTaxonomy: s.filterTaxonomy && s.filterTaxonomy.summary && s.filterTaxonomy.summary.totalRoles,
         })));
-        expect(store).toEqual({ canonical: 219, localization: 219, operational: 219, aliases: 7, rsiOfficial: 30, rsiLocalization: 30, roleLocalization: 67, filterTaxonomy: 67 });
-        expect(await page.evaluate(() => window.VOLT_SHIPDB_CANONICAL.publicShipIds().size)).toBe(249);
+        expect(store).toEqual({ canonical: 224, localization: 224, operational: 224, aliases: 7, rsiOfficial: 30, rsiLocalization: 30, roleLocalization: 67, filterTaxonomy: 67 });
+        expect(await page.evaluate(() => window.VOLT_SHIPDB_CANONICAL.publicShipIds().size)).toBe(254);
     });
 
     test('canonical 로드 후에도 함선 카드가 정상 렌더된다', async ({ page }) => {

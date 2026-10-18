@@ -1,6 +1,6 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-10-05T01:53:08.801Z",
+  "syncedAt": "2026-10-18T11:55:00.287Z",
   "ships": {
     "anvl_hawk": {
       "localName": "anvl_hawk",
@@ -1483,7 +1483,7 @@
         {
           "shop": "Teach's Rentals - Levski",
           "location": "Levski",
-          "price": 27166,
+          "price": 27165,
           "available": null,
           "unavailable": null
         }
@@ -1588,7 +1588,7 @@
         {
           "shop": "Teach's Rentals - Levski",
           "location": "Levski",
-          "price": 234420,
+          "price": 234419,
           "available": null,
           "unavailable": null
         },
@@ -1616,6 +1616,13 @@
         {
           "shop": "Vantage Rentals - ARC-L2",
           "location": "ARC-L2 Lively Pathway Station",
+          "price": 223256,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
           "price": 223256,
           "available": null,
           "unavailable": null
@@ -1749,13 +1756,6 @@
         {
           "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
           "location": "Pyro Gateway (Nyx)",
-          "price": 223257,
-          "available": null,
-          "unavailable": null
-        },
-        {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
           "price": 223257,
           "available": null,
           "unavailable": null
@@ -1903,6 +1903,13 @@
           "unavailable": null
         },
         {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 30240,
+          "available": null,
+          "unavailable": null
+        },
+        {
           "shop": "Traveler Rentals - Cargo Center - Baijini Point",
           "location": "Baijini Point",
           "price": 30240,
@@ -1954,13 +1961,6 @@
         {
           "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
           "location": "Pyro Gateway (Nyx)",
-          "price": 30240,
-          "available": null,
-          "unavailable": null
-        },
-        {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
           "price": 30240,
           "available": null,
           "unavailable": null
@@ -2043,13 +2043,20 @@
         {
           "shop": "Teach's Rentals - Levski",
           "location": "Levski",
-          "price": 9526,
+          "price": 9525,
           "available": null,
           "unavailable": null
         },
         {
           "shop": "Traveler Rentals - Cargo Center - Port Tressler",
           "location": "Port Tressler",
+          "price": 9525,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
           "price": 9525,
           "available": null,
           "unavailable": null
@@ -2111,13 +2118,6 @@
           "unavailable": null
         },
         {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
-          "price": 9526,
-          "available": null,
-          "unavailable": null
-        },
-        {
           "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
           "location": "Nyx Gateway (Pyro)",
           "price": 9526,
@@ -2158,7 +2158,7 @@
         {
           "shop": "Teach's Rentals - Levski",
           "location": "Levski",
-          "price": 2599,
+          "price": 2598,
           "available": null,
           "unavailable": null
         },
@@ -2420,6 +2420,13 @@
           "unavailable": null
         },
         {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 34020,
+          "available": null,
+          "unavailable": null
+        },
+        {
           "shop": "Traveler Rentals - Cargo Center - Baijini Point",
           "location": "Baijini Point",
           "price": 34020,
@@ -2471,13 +2478,6 @@
         {
           "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
           "location": "Pyro Gateway (Nyx)",
-          "price": 34020,
-          "available": null,
-          "unavailable": null
-        },
-        {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
           "price": 34020,
           "available": null,
           "unavailable": null
@@ -2537,17 +2537,17 @@
         {
           "shop": "Teach's Rentals - Levski",
           "location": "Levski",
-          "price": 69458,
+          "price": 69457,
           "available": null,
           "unavailable": null
         }
       ],
       "anomalies": []
     },
-    "rsi_constellation_taurus": {
-      "localName": "rsi_constellation_taurus",
-      "ref": "d1c3fa10-b2d9-421e-8301-97dbf4d0c115",
-      "name": "RSI Constellation Taurus",
+    "rsi_constellation_taurus_gs": {
+      "localName": "rsi_constellation_taurus_gs",
+      "ref": "e4d9c1c3-d0d0-4581-b0a5-27a4c536b039",
+      "name": "RSI Constellation Mk IV Taurus",
       "purchase": [
         {
           "shop": "Teach's Ship Shop - Levski",
@@ -2564,15 +2564,7 @@
           "unavailable": null
         }
       ],
-      "rentals": [
-        {
-          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
-          "location": "New Babbage",
-          "price": 160877,
-          "available": null,
-          "unavailable": null
-        }
-      ],
+      "rentals": [],
       "anomalies": []
     },
     "argo_srv": {
@@ -2622,7 +2614,7 @@
         {
           "shop": "Teach's Rentals - Levski",
           "location": "Levski",
-          "price": 3119,
+          "price": 3118,
           "available": null,
           "unavailable": null
         }
@@ -2660,6 +2652,13 @@
         {
           "shop": "Traveler Rentals - Cargo Center - Port Tressler",
           "location": "Port Tressler",
+          "price": 10395,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
           "price": 10395,
           "available": null,
           "unavailable": null
@@ -2716,13 +2715,6 @@
         {
           "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
           "location": "Pyro Gateway (Nyx)",
-          "price": 10395,
-          "available": null,
-          "unavailable": null
-        },
-        {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
           "price": 10395,
           "available": null,
           "unavailable": null
@@ -3530,6 +3522,13 @@
           "unavailable": null
         },
         {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 31185,
+          "available": null,
+          "unavailable": null
+        },
+        {
           "shop": "Traveler Rentals - Cargo Center - Baijini Point",
           "location": "Baijini Point",
           "price": 31185,
@@ -3663,13 +3662,6 @@
           "unavailable": null
         },
         {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
-          "price": 31185,
-          "available": null,
-          "unavailable": null
-        },
-        {
           "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
           "location": "Stanton Gateway (Nyx)",
           "price": 31185,
@@ -3745,7 +3737,7 @@
         {
           "shop": "Teach's Rentals - Levski",
           "location": "Levski",
-          "price": 223257,
+          "price": 223256,
           "available": null,
           "unavailable": null
         },
@@ -3885,6 +3877,51 @@
         }
       ],
       "rentals": [],
+      "anomalies": []
+    },
+    "rsi_aurora_mk2": {
+      "localName": "rsi_aurora_mk2",
+      "ref": "ec956be2-8e3a-460d-b3a8-97df4cb12b78",
+      "name": "RSI Aurora Mk II",
+      "purchase": [
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 904932,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 904932,
+          "available": null,
+          "unavailable": null
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 23814,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 23814,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 22623,
+          "available": null,
+          "unavailable": null
+        }
+      ],
       "anomalies": []
     },
     "crus_starlifter_m2": {
@@ -4293,6 +4330,13 @@
           "unavailable": null
         },
         {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 52920,
+          "available": null,
+          "unavailable": null
+        },
+        {
           "shop": "Traveler Rentals - Cargo Center - Baijini Point",
           "location": "Baijini Point",
           "price": 52920,
@@ -4421,13 +4465,6 @@
         {
           "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
           "location": "Pyro Gateway (Nyx)",
-          "price": 52920,
-          "available": null,
-          "unavailable": null
-        },
-        {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
           "price": 52920,
           "available": null,
           "unavailable": null
@@ -4701,6 +4738,13 @@
           "unavailable": null
         },
         {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 85050,
+          "available": null,
+          "unavailable": null
+        },
+        {
           "shop": "Traveler Rentals - Cargo Center - Baijini Point",
           "location": "Baijini Point",
           "price": 85050,
@@ -4752,13 +4796,6 @@
         {
           "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
           "location": "Pyro Gateway (Nyx)",
-          "price": 85050,
-          "available": null,
-          "unavailable": null
-        },
-        {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
           "price": 85050,
           "available": null,
           "unavailable": null
@@ -4872,6 +4909,13 @@
           "shop": "Vantage Rentals - ARC-L2",
           "location": "ARC-L2 Lively Pathway Station",
           "price": 73238,
+          "available": null,
+          "unavailable": null
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 73237,
           "available": null,
           "unavailable": null
         },
@@ -5009,13 +5053,6 @@
           "unavailable": null
         },
         {
-          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-          "location": "Stanton Gateway (Nyx)",
-          "price": 73238,
-          "available": null,
-          "unavailable": null
-        },
-        {
           "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
           "location": "Stanton Gateway (Nyx)",
           "price": 73238,
@@ -5135,10 +5172,10 @@
       "rentals": [],
       "anomalies": []
     },
-    "rsi_constellation_phoenix": {
-      "localName": "rsi_constellation_phoenix",
-      "ref": "ecadf2b2-a404-4776-9289-04af91538d76",
-      "name": "RSI Constellation Phoenix",
+    "rsi_constellation_phoenix_gs": {
+      "localName": "rsi_constellation_phoenix_gs",
+      "ref": "1e26a179-45cf-4541-ade6-0f0daf7c372b",
+      "name": "RSI Constellation Mk IV Phoenix",
       "purchase": [
         {
           "shop": "New Deal - Teasa Spaceport - Lorville",
@@ -5151,10 +5188,10 @@
       "rentals": [],
       "anomalies": []
     },
-    "rsi_constellation_andromeda": {
-      "localName": "rsi_constellation_andromeda",
-      "ref": "d95fb013-60d5-43ac-ab2d-daa082f45411",
-      "name": "RSI Constellation Andromeda",
+    "rsi_constellation_andromeda_gs": {
+      "localName": "rsi_constellation_andromeda_gs",
+      "ref": "9f4e2cea-f7dc-4155-9cb2-95bb42a74141",
+      "name": "RSI Constellation Mk IV Andromeda",
       "purchase": [
         {
           "shop": "New Deal - Teasa Spaceport - Lorville",
@@ -5164,21 +5201,13 @@
           "unavailable": null
         }
       ],
-      "rentals": [
-        {
-          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
-          "location": "New Babbage",
-          "price": 254016,
-          "available": null,
-          "unavailable": null
-        }
-      ],
+      "rentals": [],
       "anomalies": []
     },
-    "rsi_constellation_aquila": {
-      "localName": "rsi_constellation_aquila",
-      "ref": "e7b40f5c-4099-4aa6-b226-b5b08bd68413",
-      "name": "RSI Constellation Aquila",
+    "rsi_constellation_aquila_gs": {
+      "localName": "rsi_constellation_aquila_gs",
+      "ref": "562b0c9b-4635-4b40-8e57-09feb3056073",
+      "name": "RSI Constellation Mk IV Aquila",
       "purchase": [
         {
           "shop": "New Deal - Teasa Spaceport - Lorville",
@@ -5800,44 +5829,6 @@
         }
       ],
       "rentals": [],
-      "anomalies": []
-    },
-    "rsi_aurora_mk2": {
-      "localName": "rsi_aurora_mk2",
-      "ref": "ec956be2-8e3a-460d-b3a8-97df4cb12b78",
-      "name": "RSI Aurora Mk II",
-      "purchase": [
-        {
-          "shop": "New Deal - Teasa Spaceport - Lorville",
-          "location": "Lorville",
-          "price": 904932,
-          "available": null,
-          "unavailable": null
-        }
-      ],
-      "rentals": [
-        {
-          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
-          "location": "Area 18",
-          "price": 23814,
-          "available": null,
-          "unavailable": null
-        },
-        {
-          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
-          "location": "Orison",
-          "price": 23814,
-          "available": null,
-          "unavailable": null
-        },
-        {
-          "shop": "Vantage Rentals - Lorville",
-          "location": "Lorville",
-          "price": 22623,
-          "available": null,
-          "unavailable": null
-        }
-      ],
       "anomalies": []
     },
     "drak_golem_ox": {

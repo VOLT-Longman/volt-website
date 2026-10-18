@@ -13,6 +13,8 @@ export const CANONICAL_GENERATOR_PATH = 'scripts/shipdb-rewrite/build-canonical.
 
 // 0단계 기준선. canonical 선정 기준(hasLive)과 제외/별칭 집합의 권위 소스.
 export const BASELINE_PATH = 'data/shipdb-rewrite-baseline.json';
+// 동결 기준선 이후 정확한 Erkul identity를 검토해 추가한 함선. 기준선 자체는 변경하지 않는다.
+export const CATALOG_REVIEW_PATH = 'data/external/erkul/catalog-review-20261018.json';
 
 // 공개 canonical 레코드에 절대 나타나면 안 되는 필드 (PM 9개 결정 기준).
 export const FORBIDDEN_PUBLIC_FIELDS = [

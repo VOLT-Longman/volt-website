@@ -6,19 +6,19 @@
   },
   "catalog": {
     "source": "erkul-live",
-    "version": "4.10.1-LIVE.12660092",
-    "generatedAt": "2026-10-04T07:37:31.475Z",
-    "pricesGeneratedAt": "2026-10-04T09:23:36.525Z",
-    "fetchedAt": "2026-10-05T01:53:08.789Z"
+    "version": "4.10.2-LIVE.12913470",
+    "generatedAt": "2026-10-13T16:33:31.894Z",
+    "pricesGeneratedAt": "2026-10-18T09:23:57.096Z",
+    "fetchedAt": "2026-10-18T11:55:00.270Z"
   },
-  "fetchedAt": "2026-10-05T01:53:08.801Z",
-  "shipCount": 220,
+  "fetchedAt": "2026-10-18T11:55:00.287Z",
+  "shipCount": 222,
   "shopCount": 39,
-  "shipsBytes": 483271,
-  "shopBytes": 61007,
+  "shipsBytes": 488039,
+  "shopBytes": 60911,
   "rawSha256": {
-    "ships": "eda7537b974e0ed50637fb33a17b7020d0b48f821f92a436dedd75686b99a441",
-    "shops": "e5852f964b04f0a7554089f71912cdb79524a1a2ee04e5049e605ea150a3b7f0"
+    "ships": "9ac78cc34649debcac4ff132a61770aa32806e8d8284b48b9f6832269f923443",
+    "shops": "629a59171d8249c2aaa5b9e16bb1757fc413c4e1be2c500a3a76f88a506f9437"
   },
   "note": "Safe Apply confirmed input snapshot. Raw files remain local-only by .gitignore."
 }

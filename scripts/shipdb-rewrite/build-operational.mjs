@@ -67,5 +67,5 @@ writeFileSync(
 );
 
 const anomalyShips = records.filter((r) => r.anomalies.length > 0).length;
-console.log('operational 생성 완료 → operational-ships.json (219) + edition-aliases.json (7)');
+console.log(`operational 생성 완료 → operational-ships.json (${records.length}) + edition-aliases.json (${aliases.length})`);
 console.log(`  anomalies 보유 ${anomalyShips}척(admin 리포트) · 별칭 ${aliases.length} · 대상 canonical 존재 ${aliases.filter((a) => a.targetInCanonical).length}/${aliases.length}`);

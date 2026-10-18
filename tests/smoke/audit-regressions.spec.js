@@ -37,7 +37,7 @@ test('A4/A6: stalled gallery does not block notices, canonical ships, or authori
     for (const collection of ['leadership', 'timeline']) await page.route(`**/api/${collection}`, (route) => route.fulfill({ json: { items: [] } }));
     try {
         await gotoSection(page, '#ships');
-        await expect(page.locator('#ships-grid [data-compare-ship-id]')).toHaveCount(249);
+        await expect(page.locator('#ships-grid [data-compare-ship-id]')).toHaveCount(254);
         expect(await page.evaluate(() => window.VOLT_DATA.announcements[0].title)).toBe('Fresh audit notice');
         expect(await page.evaluate(() => [window.VOLT_DATA.leadership.length, window.VOLT_DATA.timeline.length])).toEqual([0, 0]);
         await expect(page.locator('#leadership-grid > *')).toHaveCount(0);

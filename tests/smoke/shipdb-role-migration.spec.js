@@ -12,7 +12,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     test('ON: 카드 role 배지=canonical KO · focus 배지 제거 · purpose 숨김', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
         // 카드: role 배지=경 화물선, focus 배지 없음
         await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('경 화물선');
         expect(await page.locator(`${CARD('freelancer')} .ship-focus-badge`).count()).toBe(0);
@@ -26,7 +26,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     test('ON 필터(콤보박스): 옵션 키=Erkul EN·라벨=KO · 선택 시 해당 role만 노출', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
         // 옵션: 키=Erkul EN role, 라벨=roleKo
         const opt = page.locator('#ship-tag-filters [data-role-option="Light Freight"]');
         await expect(opt).toHaveText('경 화물선');
@@ -49,7 +49,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     test('ON 모달: 역할 = canonical KO(경 화물선)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
         await page.locator(`${CARD('freelancer')} .ship-name-btn`).click();
         await page.waitForSelector('.ship-modal-grid');
         const grid = await page.locator('.ship-modal-grid').first().innerText();
@@ -59,7 +59,7 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     test('ON EN 로케일: role 배지 = Erkul EN 원문(Light Freight)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(249);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(254);
         await page.locator('.nav-lang [data-set-lang="en"]').click();
         await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('Light Freight');
     });
