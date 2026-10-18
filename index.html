@@ -33,8 +33,8 @@
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
   <link rel="preload" href="assets/images/landing/hercules-hero-1920.webp" as="image" imagesrcset="assets/images/landing/hercules-hero-960.webp 960w, assets/images/landing/hercules-hero-1600.webp 1600w, assets/images/landing/hercules-hero-1920.webp 1920w, assets/images/landing/hercules-hero-2560.webp 2560w, assets/images/landing/hercules-hero-4000.webp 4000w" imagesizes="100vw" fetchpriority="high">
-  <script src="js/theme-init.js?v=20261018-02"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20261018-02">
+  <script src="js/theme-init.js?v=20261018-03"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261018-03">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -73,7 +73,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20261018-02">
+   <link rel="stylesheet" href="css/noscript.css?v=20261018-03">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -285,9 +285,15 @@
 
   <section class="section about" id="about">
    <div class="section-content">
-    <div class="section-header">
-     <h2 data-i18n-html="about.title">VOLT <span class="accent">소개</span></h2>
-     <p data-i18n="about.subtitle">전문성과 신뢰를 기반으로 운영되는 함대</p>
+    <div class="fleet-section-lead">
+     <div class="section-header">
+      <h2 data-i18n-html="about.title">VOLT <span class="accent">소개</span></h2>
+      <p data-i18n="about.subtitle">전문성과 신뢰를 기반으로 운영되는 함대</p>
+     </div>
+     <figure class="fleet-section-photo">
+      <img src="assets/images/landing/hercules-fleet-800.webp" srcset="assets/images/landing/hercules-fleet-800.webp 800w, assets/images/landing/hercules-fleet-1600.webp 1600w" sizes="(max-width: 700px) calc(100vw - 48px), 680px" width="1600" height="900" alt="" loading="lazy" decoding="async">
+      <figcaption><a href="https://robertsspaceindustries.com/en/comm-link/engineering/16589-Q-A-Crusader-Hercules" target="_blank" rel="noopener noreferrer" data-i18n="fleet.officialPhoto">RSI 공식 이미지 · 실제 함대 활동 사진 아님 ↗</a></figcaption>
+     </figure>
     </div>
     <div class="about-intro">
      <h3 data-i18n="about.introHeading">VOLT란?</h3>
@@ -385,9 +391,15 @@
   <section class="section join" id="join">
    <div class="section-content">
     <div class="join-content">
-     <div class="section-header">
-      <h2 data-i18n-html="join.title">함대 <span class="accent">합류</span></h2>
-      <p data-i18n="join.subtitle">새로운 동료를 환영합니다</p>
+     <div class="fleet-section-lead">
+      <div class="section-header">
+       <h2 data-i18n-html="join.title">함대 <span class="accent">합류</span></h2>
+       <p data-i18n="join.subtitle">새로운 동료를 환영합니다</p>
+      </div>
+      <figure class="fleet-section-photo">
+       <img src="assets/images/landing/starlancer-crew-800.webp" srcset="assets/images/landing/starlancer-crew-800.webp 800w, assets/images/landing/starlancer-crew-1600.webp 1600w" sizes="(max-width: 700px) calc(100vw - 48px), 680px" width="1600" height="686" alt="" loading="lazy" decoding="async">
+       <figcaption><a href="https://robertsspaceindustries.com/en/comm-link/transmission/20214-MISC-Starlancer-MAX" target="_blank" rel="noopener noreferrer" data-i18n="fleet.officialPhoto">RSI 공식 이미지 · 실제 함대 활동 사진 아님 ↗</a></figcaption>
+      </figure>
      </div>
      <div class="join-steps" id="join-steps"></div>
      <div class="join-checklist" id="join-checklist"></div>
@@ -396,7 +408,7 @@
       <p data-i18n-html="join.ctaDescription">VOLT는 신뢰와 협력을 기반으로 운영됩니다.<br>체계적인 온보딩 과정을 통해 누구나 빠르게 적응할 수 있으며,<br>자신의 전문 분야에서 성장하고 기여할 수 있는 환경을 제공합니다.</p>
       <div class="join-buttons">
        <a href="https://forms.gle/2X3jLNATNj3fneQq8" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="join.apply">지원서 제출</a>
-       <a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Discord 참여</a>
+       <a href="https://discord.gg/voltstarcitizen" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-i18n="hero.btnDiscord">Discord 참여</a>
       </div>
      </div>
     </div>
@@ -934,26 +946,26 @@
    </div>
   </div>
 
-<script src="js/shipdb-manufacturers.js?v=20261018-02" defer></script>
-<script src="js/shipdb-canonical.js?v=20261018-02" defer></script>
-<script src="data/volt-data.js?v=20261018-02" defer></script>
+<script src="js/shipdb-manufacturers.js?v=20261018-03" defer></script>
+<script src="js/shipdb-canonical.js?v=20261018-03" defer></script>
+<script src="data/volt-data.js?v=20261018-03" defer></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20261018-02" defer></script>
-<script src="js/i18n.js?v=20261018-02" defer></script>
-<script src="js/navigation.js?v=20261018-02" defer></script>
-<script src="js/notices.js?v=20261018-02" defer></script>
-<script src="js/schedule.js?v=20261018-02" defer></script>
-<script src="js/leadership.js?v=20261018-02" defer></script>
-<script src="js/landing.js?v=20261018-02" defer></script>
-<script src="js/site-content.js?v=20261018-02" defer></script>
-<script src="js/uex.js?v=20261018-02" defer></script>
-<script src="js/uex-panel.js?v=20261018-02" defer></script>
-<script src="js/trade-planner.js?v=20261018-02" defer></script>
-<script src="js/ships.js?v=20261018-02" defer></script>
-<script src="js/search-modal.js?v=20261018-02" defer></script>
-<script src="js/auth-ui.js?v=20261018-02" defer></script>
-<script src="js/mypage.js?v=20261018-02" defer></script>
-<script src="js/main.js?v=20261018-02" defer></script>
-<script src="js/volt-ai.js?v=20261018-02" defer></script>
+<script src="data/volt-localization.js?v=20261018-03" defer></script>
+<script src="js/i18n.js?v=20261018-03" defer></script>
+<script src="js/navigation.js?v=20261018-03" defer></script>
+<script src="js/notices.js?v=20261018-03" defer></script>
+<script src="js/schedule.js?v=20261018-03" defer></script>
+<script src="js/leadership.js?v=20261018-03" defer></script>
+<script src="js/landing.js?v=20261018-03" defer></script>
+<script src="js/site-content.js?v=20261018-03" defer></script>
+<script src="js/uex.js?v=20261018-03" defer></script>
+<script src="js/uex-panel.js?v=20261018-03" defer></script>
+<script src="js/trade-planner.js?v=20261018-03" defer></script>
+<script src="js/ships.js?v=20261018-03" defer></script>
+<script src="js/search-modal.js?v=20261018-03" defer></script>
+<script src="js/auth-ui.js?v=20261018-03" defer></script>
+<script src="js/mypage.js?v=20261018-03" defer></script>
+<script src="js/main.js?v=20261018-03" defer></script>
+<script src="js/volt-ai.js?v=20261018-03" defer></script>
  </body>
 </html>

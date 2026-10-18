@@ -627,6 +627,7 @@
             'footer.content': '콘텐츠',
             'footer.community': '커뮤니티',
             'footer.copyright': '© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED',
+            'fleet.officialPhoto': 'RSI 공식 이미지 · 실제 함대 활동 사진 아님 ↗',
             'footer.fanDisclaimer': 'VOLT는 Cloud Imperium 그룹과 제휴하지 않은 비공식 Star Citizen 팬 사이트입니다. 운영자·사용자가 제작하지 않은 콘텐츠의 권리는 각 소유자에게 있습니다.'
         },
         en: {
@@ -1237,6 +1238,7 @@
             'footer.content': 'Content',
             'footer.community': 'Community',
             'footer.copyright': '© 2953–2956 VOLT FLEET · ALL RIGHTS RESERVED',
+            'fleet.officialPhoto': 'Official RSI image · Not a VOLT activity photo ↗',
             'footer.fanDisclaimer': 'This is an unofficial Star Citizen fan site, not affiliated with the Cloud Imperium group of companies. All content on this site not authored by its host or users are property of their respective owners.'
         }
     };

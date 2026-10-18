@@ -24,7 +24,7 @@ async function assertNoNewViolations(page, allowlist) {
 }
 
 test.describe('접근성(axe) 래칫', () => {
-    for (const section of ['schedule', 'gallery', 'leadership', 'hub', 'guide']) {
+    for (const section of ['about', 'join', 'schedule', 'gallery', 'leadership', 'hub', 'guide']) {
         test(`${section}: 콘텐츠 화면의 글자 대비와 접근성`, async ({ page }) => {
             await mockApi(page);
             if (section === 'gallery') {

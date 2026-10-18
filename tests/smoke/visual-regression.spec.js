@@ -31,11 +31,16 @@ async function stabilize(page) {
         const image = document.querySelector('.hero-cine-image');
         return !image || (image.complete && image.naturalWidth > 0);
     });
+    await page.locator('.fleet-section-photo img:visible').evaluateAll(async images => {
+        await Promise.all(images.map(image => image.decode()));
+    });
     await page.waitForTimeout(150);
 }
 
 const SCREENS = [
     { name: 'home', hash: '' },
+    { name: 'about', hash: '#about' },
+    { name: 'join', hash: '#join' },
     { name: 'ships', hash: '#ships' },
     { name: 'notices', hash: '#notices' },
     { name: 'schedule', hash: '#schedule' },
@@ -108,4 +113,14 @@ test.describe('스크린샷 회귀 (C-4)', () => {
         await stabilize(page);
         await expect(page).toHaveScreenshot('home-mobile390.png', { maxDiffPixels: 120 });
     });
+
+    for (const name of ['about', 'join']) {
+        test(`모바일 390px: ${name}`, async ({ page }) => {
+            await page.setViewportSize({ width: 390, height: 844 });
+            await mockApi(page);
+            await gotoSection(page, `#${name}`);
+            await stabilize(page);
+            await expect(page).toHaveScreenshot(`${name}-mobile390.png`, { maxDiffPixels: 120 });
+        });
+    }
 });
