@@ -37,6 +37,20 @@ async function stabilize(page) {
     await page.waitForTimeout(150);
 }
 
+for (const width of [1280, 390]) {
+    test(`공식 사진 상세: C2 ${width}px`, async ({ page }) => {
+        await page.setViewportSize({ width, height: width === 390 ? 844 : 800 });
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await expect.poll(() => page.evaluate(() => Boolean(window.VOLT_SHIP_LIVE_STATS))).toBe(true);
+        await page.locator('#ship-search').fill('C2 Hercules');
+        await page.locator('[data-ship-id="c2-hercules"] .ship-name-btn').click();
+        await page.locator('.ship-photo-detail img').evaluate((img) => img.decode());
+        await stabilize(page);
+        await expect(page.locator('#global-modal .modal-card')).toHaveScreenshot(`ship-photo-c2-${width}.png`, { maxDiffPixels: 120 });
+    });
+}
+
 const SCREENS = [
     { name: 'home', hash: '' },
     { name: 'about', hash: '#about' },

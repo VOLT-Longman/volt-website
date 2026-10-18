@@ -6,7 +6,7 @@
     "test": "playwright test",
     "lint": "biome lint .",
     "check:links": "node scripts/check-links.mjs",
-    "check": "node scripts/check-syntax.mjs && node scripts/check-links.mjs && node scripts/check-migrations.mjs && node scripts/check-inner-html.mjs && node scripts/check-i18n.mjs && biome lint --error-on-warnings .",
+    "check": "node scripts/check-syntax.mjs && node scripts/check-links.mjs && node scripts/check-migrations.mjs && node scripts/check-inner-html.mjs && node scripts/build-ship-imagery.mjs --verify && node scripts/check-i18n.mjs && biome lint --error-on-warnings .",
     "test:functions": "node --test \"tests/functions/**/*.test.mjs\"",
     "cache-version": "node scripts/update-cache-version.js",
     "shipdb:erkul:fetch": "node scripts/erkul/fetch-erkul-live.mjs",
@@ -22,7 +22,8 @@
     "shipdb:erkul:apply": "node scripts/erkul/apply-erkul-live-data.mjs",
     "shipdb:erkul:translate-descriptions": "node scripts/erkul/apply-ship-description-ko.mjs",
     "shipdb:erkul:post-apply": "npm run shipdb:erkul:translate-descriptions && npm run shipdb:canonical:build && npm run check",
-    "shipdb:erkul:classify-candidates": "node scripts/erkul/classify-new-ship-candidates.mjs"
+    "shipdb:erkul:classify-candidates": "node scripts/erkul/classify-new-ship-candidates.mjs",
+    "shipdb:imagery:build": "node scripts/build-ship-imagery.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",

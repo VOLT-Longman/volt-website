@@ -1,0 +1,150 @@
+{
+  "schema": "volt-ship-imagery/v1",
+  "records": [
+    {
+      "id": "c2-hercules",
+      "productName": "C2 Hercules",
+      "sourcePage": "https://robertsspaceindustries.com/en/pledge/ships/crusader-starlifter/C2-Hercules",
+      "sourceUrl": "https://robertsspaceindustries.com/i/387f877bf5aae2c4dc6e32568d621473b5d4d79e/resize(1820,1024,cover,ADdPNihJzmPbNuTnFsH1DqUeqBRpXdSXVVtgJTyDDgscGKrzJuoFjReskpcDUyTPuKfT2cePUz4jof5hYcpd6LjZx)/source.webp",
+      "original": {
+        "width": 1820,
+        "height": 1024,
+        "sha256": "281d0cd54d731ad2995927389bb780cc55de9b635095bb6530733421a2066ce1"
+      },
+      "reviewedAt": "2026-10-18",
+      "reviewStatus": "verified",
+      "altKo": "C2 허큘리스 함선",
+      "altEn": "C2 Hercules spacecraft",
+      "thumbnail": {
+        "path": "/assets/images/ships/c2-hercules-thumbnail.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 29340,
+        "sha256": "d61e30e0e95b2258857cb2078ff7592ae3e1d57d8390df2dfd9c05c013bf42a7"
+      },
+      "detail": {
+        "path": "/assets/images/ships/c2-hercules-detail.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 79038,
+        "sha256": "38f823173313c966d5abaa5150af6c3833d2d533b731f4e71b014dc7e88f4c36"
+      }
+    },
+    {
+      "id": "c1-spirit",
+      "productName": "C1 Spirit",
+      "sourcePage": "https://robertsspaceindustries.com/en/pledge/ships/spirit/C1-Spirit",
+      "sourceUrl": "https://robertsspaceindustries.com/i/bac6648185eab3ca89a9b859d6092c81fe337587/resize(1820,1024,cover,ADdPNihJzmPbNuTnFsH1DqUeqBRpXdSXVVtgJTyDDgscGKrzJuoFjResjfBqExzNdjFYFntDZSQvoviQmVRUrSXUz)/source.webp",
+      "original": {
+        "width": 1820,
+        "height": 1024,
+        "sha256": "c0683d1593de73d49ae8276638a4c0550eb61568649f5d0fc87e4da568d6888a"
+      },
+      "reviewedAt": "2026-10-18",
+      "reviewStatus": "verified",
+      "altKo": "C1 스피릿 함선",
+      "altEn": "C1 Spirit spacecraft",
+      "thumbnail": {
+        "path": "/assets/images/ships/c1-spirit-thumbnail.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 27742,
+        "sha256": "63f841e91100205df8b5f7e0fcbf99407950a0b4c715dbc52b5bd63616ea9a58"
+      },
+      "detail": {
+        "path": "/assets/images/ships/c1-spirit-detail.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 71816,
+        "sha256": "3224217a00301ef44e315bd9530297b811420300653a197331c21afa8de2bf0b"
+      }
+    },
+    {
+      "id": "cutlass-black",
+      "productName": "Cutlass Black",
+      "sourcePage": "https://robertsspaceindustries.com/en/pledge/ships/drake-cutlass/Cutlass-Black",
+      "sourceUrl": "https://robertsspaceindustries.com/i/23b7d89ec0b391d6ed79e7169c133ecbce5153b3/resize(1820,1024,cover,ADdPNihJzmPbNuTnFsH1DqUeqBRpXdSXVVtgJTyDDgscGKrzJuoFjReseczedehU6DiyGVBJrQEkLAao6v8XpwcvS)/source.webp",
+      "original": {
+        "width": 1820,
+        "height": 1024,
+        "sha256": "d2d39da16c2cc720be62c0280f86d125377a13b3bf55ee09bba2f2d0054fefb0"
+      },
+      "reviewedAt": "2026-10-18",
+      "reviewStatus": "verified",
+      "altKo": "커틀라스 블랙 함선",
+      "altEn": "Cutlass Black spacecraft",
+      "thumbnail": {
+        "path": "/assets/images/ships/cutlass-black-thumbnail.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 38696,
+        "sha256": "86588ca56c56a4e83b78fce957c00056f3f5ff97e13e50c94d85c5955dc7b205"
+      },
+      "detail": {
+        "path": "/assets/images/ships/cutlass-black-detail.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 126776,
+        "sha256": "dae1d0b370c269aead8b2d8ef00e8f1767ac876dc1aad0817bf289e027359a37"
+      }
+    },
+    {
+      "id": "freelancer",
+      "productName": "Freelancer",
+      "sourcePage": "https://robertsspaceindustries.com/en/pledge/ships/misc-freelancer/Freelancer",
+      "sourceUrl": "https://robertsspaceindustries.com/i/eae94400f321ac79b60801b8f638b59b014596c0/resize(1820,1024,cover,ADdPNihJzmPbNuTnFsH1DqUeqBRpXdSXVVtgJTyDDgscGKrzJuoFjReskumhWA6r5nzPt54RLffKr4yti7fDf58wp)/source.webp",
+      "original": {
+        "width": 1820,
+        "height": 1024,
+        "sha256": "89dcee2bd26c4facfcd462a0849b1fd7087b7750c7d25b9f3722e1793c79ddcc"
+      },
+      "reviewedAt": "2026-10-18",
+      "reviewStatus": "verified",
+      "altKo": "프리랜서 함선",
+      "altEn": "Freelancer spacecraft",
+      "thumbnail": {
+        "path": "/assets/images/ships/freelancer-thumbnail.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 29820,
+        "sha256": "00fdfc8a41cd8c8f2f66a8ce6fad0f1bb5c1dc87228ad6b61a0ed9fc151275ac"
+      },
+      "detail": {
+        "path": "/assets/images/ships/freelancer-detail.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 96500,
+        "sha256": "4b6a74b45d0e575f53f8db1aee8c8cc5c13b8cea039461da14412c52216270d1"
+      }
+    },
+    {
+      "id": "hull-a",
+      "productName": "Hull A",
+      "sourcePage": "https://robertsspaceindustries.com/en/pledge/ships/hull/Hull-A",
+      "sourceUrl": "https://robertsspaceindustries.com/i/a9ba88708475a069e74c3ebd44840f1568730111/resize(1820,1024,cover,ADdPNihJzmPbNuTnFsH1DqUeqBRpXdSXVVtgJTyDDgscGKrzJuoFjReseTiWv14XfeGqkvh7qGGd8PsbT6CXSrQ9c)/source.webp",
+      "original": {
+        "width": 1820,
+        "height": 1024,
+        "sha256": "c1410f346b62c15c092ecfef2c224212133dd6110272df22bc69e35af497aca7"
+      },
+      "reviewedAt": "2026-10-18",
+      "reviewStatus": "verified",
+      "altKo": "헐 A 함선",
+      "altEn": "Hull A spacecraft",
+      "thumbnail": {
+        "path": "/assets/images/ships/hull-a-thumbnail.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 27922,
+        "sha256": "adde6766204f229c42a858b9b2def6546598c626ab9e5e557fcd672be5f7b84f"
+      },
+      "detail": {
+        "path": "/assets/images/ships/hull-a-detail.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 76352,
+        "sha256": "932201802d9bd4858bba9121edaf614f739ea76c1556229ed3284fecca1e1255"
+      }
+    }
+  ]
+}

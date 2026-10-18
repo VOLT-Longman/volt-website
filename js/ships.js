@@ -25,6 +25,23 @@
             observeNewReveals, openModal, showToast, trackEvent, shipState, getShipById,
             RSI_SHIP_MATRIX_URL, ensureShipLiveData,
         } = deps || {});
+        document.addEventListener('error', handleShipImageError, true);
+    }
+
+    function handleShipImageError(event) {
+        if (event.target instanceof HTMLImageElement && event.target.matches('[data-ship-image]')) {
+            event.target.closest('.ship-photo')?.remove();
+        }
+    }
+    function renderShipPhoto(ship, detail = false) {
+        const image = window.VOLT_SHIP_IMAGERY?.get(ship.id);
+        if (!image) return '';
+        const asset = detail ? image.detail : image.thumbnail;
+        const alt = currentLang() === 'en' ? image.altEn : image.altKo;
+        return `<figure class="ship-photo ${detail ? 'ship-photo-detail' : 'ship-photo-card'}">
+            <img data-ship-image src="${escapeHtml(asset.path)}" width="${asset.width}" height="${asset.height}" alt="${escapeHtml(alt)}" loading="${detail ? 'eager' : 'lazy'}" decoding="async">
+            ${detail ? `<figcaption><a href="${escapeHtml(image.sourcePage)}" target="_blank" rel="noopener noreferrer">${currentLang() === 'en' ? 'Image source' : '이미지 출처'} ↗</a><span>© Cloud Imperium Games</span></figcaption>` : ''}
+        </figure>`;
     }
 
     function shipCat(catKo) { return i18nT(`ship.cat.${catKo}`, catKo); }
@@ -485,7 +502,8 @@
         }
         container.innerHTML = ships.map((ship) => `
             <article class="ship-card reveal${isRsiOfficialShip(ship) ? ' ship-card--rsi-official' : ''}" data-ship-id="${escapeHtml(ship.id)}" data-canonical-role="${escapeHtml(canonicalRole(ship) || '')}"${isRsiOfficialShip(ship) ? ` data-rsi-status="${escapeHtml(canonicalShip(ship).catalogStatus || 'concept')}"` : ''}>
-                <div class="ship-card-header">
+                    ${renderShipPhoto(ship)}
+                    <div class="ship-card-header">
                     <div class="ship-card-title">
                         <h3 class="ship-name"><button type="button" class="ship-name-btn" data-open-ship-id="${escapeHtml(ship.id)}" aria-label="${escapeHtml(`${getShipDisplayName(ship)} ${i18nT('ships.viewDetail', '상세 보기')}`)}">${escapeHtml(getShipDisplayName(ship))}</button></h3>
                         ${getShipSecondaryName(ship) ? `<span class="ship-name-en">${escapeHtml(getShipSecondaryName(ship))}</span>` : ''}
@@ -1074,6 +1092,7 @@
                 <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '모달 닫기'))}">×</button>
             </div>
             <div class="modal-body ship-reader-body">
+                ${renderShipPhoto(ship, true)}
                 <div class="ship-reader-overview">
                     ${renderShipBaseGrid(ship, liveStats)}
                     ${renderShipLiveSummary(liveStats, liveMarket)}
