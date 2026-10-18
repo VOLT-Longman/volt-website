@@ -4,34 +4,42 @@ const pilot = require('../../data/ship-imagery.json').records;
 // Failure injection must reach the network instead of the offline cache.
 test.use({ serviceWorkers: 'block' });
 
-for (const ship of pilot) {
-    test(`공식 사진: ${ship.productName} 카드·상세·출처 일치`, async ({ page }) => {
+// Reuse a page per batch so every reviewed model is tested without hundreds of reloads.
+for (let offset = 0; offset < pilot.length; offset += 12) {
+    const batch = pilot.slice(offset, offset + 12);
+    test(`공식 사진 전수: ${offset + 1}–${offset + batch.length} 카드·상세·출처`, async ({ page }) => {
+        test.setTimeout(90000);
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await page.locator('#ship-search').fill(ship.productName);
-        const card = page.locator(`[data-ship-id="${ship.id}"]`);
-        const image = card.locator('[data-ship-image]');
-        await expect(image).toHaveAttribute('src', ship.thumbnail.path);
-        await expect(image).toHaveAttribute('loading', 'lazy');
-        await image.scrollIntoViewIfNeeded();
-        await expect.poll(() => image.evaluate((img) => img.complete && img.naturalWidth === 640)).toBe(true);
-        await card.locator('.ship-name-btn').click();
-        const detail = page.locator('#global-modal .ship-photo-detail');
-        await expect(detail.locator('img')).toHaveAttribute('src', ship.detail.path);
-        await expect(detail.locator('a')).toHaveAttribute('href', ship.sourcePage);
-        await expect.poll(() => detail.locator('img').evaluate((img) => img.complete && img.naturalWidth === 1280)).toBe(true);
-        const photoBox = await detail.boundingBox();
-        const statsBox = await page.locator('.ship-reader-overview').boundingBox();
-        expect(statsBox.y).toBeGreaterThanOrEqual(photoBox.y + photoBox.height);
+        await expect.poll(() => page.evaluate(() => Boolean(window.VOLT_SHIP_LIVE_STATS))).toBe(true);
+        for (const ship of batch) {
+            await page.locator('#ship-search').fill(ship.productName.trim());
+            const card = page.locator(`[data-ship-id="${ship.id}"]`);
+            const image = card.locator('[data-ship-image]');
+            await expect(image).toHaveAttribute('src', ship.thumbnail.path);
+            await expect(image).toHaveAttribute('loading', 'lazy');
+            await image.scrollIntoViewIfNeeded();
+            await expect.poll(() => image.evaluate((img) => img.complete && img.naturalWidth === 640)).toBe(true);
+            await card.locator('.ship-name-btn').click();
+            const detail = page.locator('#global-modal .ship-photo-detail');
+            await expect(detail.locator('img')).toHaveAttribute('src', ship.detail.path);
+            await expect(detail.locator('a')).toHaveAttribute('href', ship.sourcePage);
+            await expect.poll(() => detail.locator('img').evaluate((img) => img.complete && img.naturalWidth === 1280)).toBe(true);
+            const photoBox = await detail.boundingBox();
+            const statsBox = await page.locator('.ship-reader-overview').boundingBox();
+            expect(statsBox.y, ship.id).toBeGreaterThanOrEqual(photoBox.y + photoBox.height);
+            await page.keyboard.press('Escape');
+            await expect(page.locator('#global-modal')).not.toHaveClass(/active/);
+        }
     });
 }
 
 test('파생형·미등록 함선에는 다른 모델 사진을 상속하지 않음', async ({ page }) => {
     await mockApi(page);
     await gotoSection(page, '#ships');
-    expect(await page.evaluate(() => ['c2', 'c2-hercules-bis', 'a1-spirit', 'cutlass-red', 'freelancer-max', 'hull-b', '__proto__', 'constructor'].map((id) => window.VOLT_SHIP_IMAGERY.get(id)))).toEqual(Array(8).fill(null));
-    await page.locator('#ship-search').fill('Freelancer MAX');
-    const card = page.locator('[data-ship-id="freelancer-max"]');
+    expect(await page.evaluate(() => ['c2', 'c2-hercules-bis', 'aurora-mk-iii', 'cutlass-unknown', 'freelancer-max-unknown', 'hull-z', '__proto__', 'constructor'].map((id) => window.VOLT_SHIP_IMAGERY.get(id)))).toEqual(Array(8).fill(null));
+    await page.locator('#ship-search').fill('F8A Lightning');
+    const card = page.locator('[data-ship-id="f8a-lightning"]');
     await expect(card).toBeVisible();
     await expect(card.locator('[data-ship-image]')).toHaveCount(0);
     await card.locator('.ship-name-btn').click();

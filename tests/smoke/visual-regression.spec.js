@@ -34,6 +34,13 @@ async function stabilize(page) {
     await page.locator('.fleet-section-photo img:visible').evaluateAll(async images => {
         await Promise.all(images.map(image => image.decode()));
     });
+    await page.locator('[data-ship-image]').evaluateAll(async images => {
+        const visible = images.filter(image => {
+            const rect = image.getBoundingClientRect();
+            return rect.width > 0 && rect.height > 0 && rect.top < innerHeight && rect.bottom > 0;
+        });
+        await Promise.all(visible.map(image => image.decode()));
+    });
     await page.waitForTimeout(150);
 }
 
