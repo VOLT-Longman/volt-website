@@ -1,6 +1,7 @@
 import { parseDataLayerJs } from './erkul-sync.js';
 import { mapLocalization } from './cms-localization.js';
 import { requireDb } from './http.js';
+import { koreanDate } from './cms.js';
 
 // VOLT AI 도구 계층 (M1) — 모든 수치는 이 결정론적 함수들이 반환한다.
 // 모델은 자연어 해석·문장화만 담당하며, 여기 결과 밖의 수치를 만들 수 없다.
@@ -227,19 +228,21 @@ export async function toolMarketInfo(env, request, query) {
 
 export async function toolUpcomingEvents(env, lang = 'ko') {
   try {
+    const timestamp = new Date().toISOString();
+    const today = koreanDate(timestamp);
     const result = await requireDb(env).prepare(
       // created_at DESC로 먼저 20건을 자르면, 먼 미래 일정을 오래 전에 등록해 둔 경우
       // "최근 등록 20건" 밖으로 밀려 다가오는 일정에서 누락된다.
       // 다가오는 일정(0) → 날짜 미정·지난 일정(1) 순으로 정렬해 잘림이 생기지 않게 한다.
       `SELECT title, date_label, event_date, status, translations_json FROM events WHERE published = 1
-         ORDER BY CASE WHEN event_date IS NOT NULL AND event_date <> '' AND event_date >= date('now') THEN 0 ELSE 1 END,
+         AND lower(trim(coalesce(status, ''))) NOT IN ('취소', '완료', 'cancelled', 'canceled', 'completed')
+         ORDER BY CASE WHEN event_date IS NOT NULL AND event_date <> '' AND event_date >= ? THEN 0 ELSE 1 END,
                   event_date ASC
          LIMIT 20`
-    ).all();
+    ).bind(today).all();
     // "다가오는 일정" = 오늘 이후를 가까운 순으로(M1.1). 날짜 없는 일정(dateLabel만)은 뒤에 붙인다.
     // 필터·정렬을 JS에서 수행해 모의 DB로도 계약을 검증할 수 있게 한다.
-    const today = new Date().toISOString().slice(0, 10);
-    const rows = (result.results || []).filter((row) => !/^(취소|완료|cancelled|canceled|completed)$/i.test(row.status || ''));
+    const rows = (result.results || []).filter((row) => !/^(취소|완료|cancelled|canceled|completed)$/i.test(String(row.status || '').trim()));
     const dated = rows.filter((row) => row.event_date && row.event_date >= today)
       .sort((a, b) => String(a.event_date).localeCompare(String(b.event_date)));
     const dateless = rows.filter((row) => !row.event_date);
@@ -248,7 +251,7 @@ export async function toolUpcomingEvents(env, lang = 'ko') {
         const en = lang === 'en' ? mapLocalization('events', row) : {};
         return { title: en.titleEn || row.title, dateLabel: en.dateLabelEn || row.date_label || row.event_date || '', status: en.statusEn || row.status || '' };
       });
-    return { data: { status: 'ok', events: items }, sources: [{ label: 'VOLT 일정 (CMS)', url: '#schedule' }], freshness: { label: '일정', at: new Date().toISOString() } };
+    return { data: { status: 'ok', events: items }, sources: [{ label: 'VOLT 일정 (CMS)', url: '#schedule' }], freshness: { label: '일정', at: timestamp } };
   } catch (_error) {
     return { data: { status: 'unavailable' }, sources: [{ label: 'VOLT 일정 (CMS)', url: '#schedule' }], freshness: { label: '일정', at: null, status: 'unavailable' } };
   }
@@ -258,9 +261,9 @@ export async function toolRecentNotices(env, lang = 'ko') {
   try {
     const result = await requireDb(env).prepare(
       // 정렬은 포맷에 의존하지 않는다 — 점/대시가 섞이면 원문 정렬이 뒤집힌다(0012 참조).
-      "SELECT title, title_en, date, tag FROM notices WHERE published = 1 ORDER BY pinned DESC, date(replace(date, '.', '-')) DESC LIMIT 5"
+      "SELECT title, title_en, date, tag, tag_en FROM notices WHERE published = 1 ORDER BY pinned DESC, date(replace(date, '.', '-')) DESC LIMIT 5"
     ).all();
-    const items = (result.results || []).map((row) => ({ title: (lang === 'en' && row.title_en) || row.title, date: row.date || '', tag: row.tag || '' }));
+    const items = (result.results || []).map((row) => ({ title: (lang === 'en' && row.title_en) || row.title, date: row.date || '', tag: (lang === 'en' && row.tag_en) || row.tag || '' }));
     return { data: { status: 'ok', notices: items }, sources: [{ label: 'VOLT 공지 (CMS)', url: '#notices' }], freshness: { label: '공지', at: new Date().toISOString() } };
   } catch (_error) {
     return { data: { status: 'unavailable' }, sources: [{ label: 'VOLT 공지 (CMS)', url: '#notices' }], freshness: { label: '공지', at: null, status: 'unavailable' } };
