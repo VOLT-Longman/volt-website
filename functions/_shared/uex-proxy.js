@@ -38,8 +38,9 @@ export async function proxyUexJson({ request, env, waitUntil }, upstreamPathWith
   const cache = caches.default;
   const url = new URL(request.url);
   const refresh = url.searchParams.get('refresh') === '1';
-  url.searchParams.delete('refresh');
-  const cacheKey = new Request(url);
+  // 캐시 키는 검증된 업스트림 경로로만 만든다. 요청 URL을 그대로 쓰면 임의 쿼리
+  // (?x=1, ?x=2 …)마다 캐시가 빗나가 UEX 업스트림을 무제한 호출시킬 수 있다.
+  const cacheKey = new Request(new URL(`/__uex-cache/${encodeURIComponent(upstreamPathWithQuery)}`, url.origin));
   const cached = await cache.match(cacheKey);
   if (cached) {
     const payload = await cached.clone().json();

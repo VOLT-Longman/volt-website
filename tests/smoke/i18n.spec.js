@@ -69,7 +69,7 @@ test.describe('i18n (KO/EN)', () => {
     test('일정 영어화: 비한국어 기본 영어', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'en-US' });
         const page = await load(ctx, '/#schedule');
-        await expect(page.locator('#schedule-list')).toContainText('Quarterly Fleet Event');
+        await expect(page.locator('#schedule-list')).toContainText('User Marketplace Project Restart');
         await ctx.close();
     });
 

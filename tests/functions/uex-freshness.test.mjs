@@ -72,3 +72,25 @@ test('server refresh shares cache key, accurately reports hits and honors one-mi
     await Promise.all(pending);
   } finally { globalThis.fetch = original.fetch; globalThis.caches = original.caches; }
 });
+
+test('arbitrary query parameters cannot mint new cache keys or extra upstream calls', async () => {
+  const original = { fetch: globalThis.fetch, caches: globalThis.caches };
+  const store = new Map();
+  let calls = 0;
+  globalThis.caches = { default: { match: async key => store.get(key.url)?.clone(), put: async (key, response) => { store.set(key.url, response); } } };
+  globalThis.fetch = async () => { calls++; return new Response(JSON.stringify({ status: 'ok', data: [] })); };
+  const run = async (search) => {
+    const pending = [];
+    const response = await proxyUexJson({ request: new Request(`https://volt.test/api/uex/commodities${search}`), env: {}, waitUntil: promise => pending.push(promise) }, 'commodities', 3600);
+    await Promise.all(pending);
+    return response;
+  };
+  try {
+    assert.equal((await (await run('')).json()).meta.cached, false);
+    for (const search of ['?x=1', '?x=2', '?anything=else&y=3']) {
+      assert.equal((await (await run(search)).json()).meta.cached, true);
+    }
+    assert.equal(calls, 1);
+    assert.equal(store.size, 1);
+  } finally { globalThis.fetch = original.fetch; globalThis.caches = original.caches; }
+});

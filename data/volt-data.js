@@ -606,34 +606,6 @@ const VOLT_DATA = {
     // ===== 작전 일정 =====
     calendar: [
         {
-            id: "cal-001",
-            date: "2026.08",
-            dateLabel: "2026년 8월 예정",
-            dateLabel_en: "Aug 2026 (planned)",
-            title: "TSG 미션 (4.8 업데이트 후)",
-            title_en: "TSG Mission (after 4.8 update)",
-            description: "4.8 업데이트 이후 진행 예정. 우주팀(함대 기동·제공권 확보)과 스테이션 진입팀(FPS 교전)으로 나뉘어 수행.",
-            description_en: "Planned after the 4.8 update. Split into a space team (fleet maneuvers, air superiority) and a station-entry team (FPS combat).",
-            type: "작전",
-            type_en: "Operation",
-            status: "예정",
-            status_en: "Upcoming"
-        },
-        {
-            id: "cal-002",
-            date: "2026.Q3",
-            dateLabel: "2026년 3분기",
-            dateLabel_en: "Q3 2026",
-            title: "분기 정기 이벤트",
-            title_en: "Quarterly Fleet Event",
-            description: "함대원 전원이 참여하는 분기별 공식 이벤트. 세부 일정은 디스코드 공지 채널에서 확인.",
-            description_en: "An official quarterly event for the whole fleet. Check the Discord announcements channel for details.",
-            type: "이벤트",
-            type_en: "Event",
-            status: "예정",
-            status_en: "Upcoming"
-        },
-        {
             id: "cal-003",
             date: "2026.TBD",
             dateLabel: "일정 미정",
