@@ -6,6 +6,9 @@ import { fileURLToPath } from 'node:url';
 const REPOSITORY = 'VOLT-Longman/volt-website';
 const WORKFLOW_PATH = '.github/workflows/smoke.yml';
 const DEFAULT_TIMEOUT_MS = 15 * 60 * 1000;
+// GitHub 공개 API는 로그인 없이 시간당 60번까지만 답한다(같은 주소를 쓰는 빌드끼리 한도를 나눠 쓴다).
+// 30초마다 물으면 한 시간에 몇 번만 올려도 한도를 넘겨 배포가 막히므로 60초 간격으로 묻는다.
+const DEFAULT_POLL_MS = 60000;
 
 export function assessSmokeRuns(payload, sha) {
   if (!Array.isArray(payload?.workflow_runs)) throw new Error('Invalid GitHub workflow response');
@@ -27,7 +30,7 @@ export function assessSmokeRuns(payload, sha) {
 export async function waitForProductionChecks({
   sha, branch, fetchImpl = fetch, now = Date.now,
   sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
-  timeoutMs = DEFAULT_TIMEOUT_MS, pollMs = 30000, log = console.log
+  timeoutMs = DEFAULT_TIMEOUT_MS, pollMs = DEFAULT_POLL_MS, log = console.log
 }) {
   if (!branch) throw new Error('Missing CF_PAGES_BRANCH');
   if (branch !== 'main') {
