@@ -193,7 +193,9 @@
         state.cart = readCart();
         // meta는 항상 새로 확인하고, 나머지는 자료 버전을 주소에 붙여 패치 후 옛 캐시가 섞이지 않게 한다.
         const meta = await fetchJson(`${DATA_BASE}/meta.json`, { cache: 'no-cache' });
-        const stamp = encodeURIComponent(meta.version || '');
+        // 같은 게임 버전에서 자료만 다시 뽑아도 새로 받도록 만든 시각까지 붙인다.
+        const stamp = encodeURIComponent(`${meta.version || ''}-${meta.builtAt || ''}`);
+        meta.stamp = stamp;
         const [index, items, ko] = await Promise.all([
             fetchJson(`${DATA_BASE}/index.json?v=${stamp}`), fetchJson(`${DATA_BASE}/items.json?v=${stamp}`),
             // 한국어 표기(게임 한국어 패치 기준)는 없어도 화면이 동작한다 — 원문으로 표시.
@@ -223,7 +225,7 @@
         try {
             await ensureBase();
             cls = canonicalShip(cls);
-            const ship = await fetchJson(`${DATA_BASE}/ships/${cls}.json?v=${encodeURIComponent(state.meta?.version || '')}`);
+            const ship = await fetchJson(`${DATA_BASE}/ships/${cls}.json?v=${state.meta?.stamp || ''}`);
             state.ship = ship; state.shipCls = cls; state.history = [];
             const stored = overrides ?? readStored().sets?.[cls] ?? readStored().sets?.[requested] ?? {};
             state.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(stored).map(([path, id]) => [path, canonicalItem(id)])));
@@ -999,7 +1001,7 @@
         state.tab = 'compare'; draw();
         try {
             const buildShip = canonicalShip(build.ship);
-            const ship = buildShip === state.shipCls ? state.ship : await fetchJson(`${DATA_BASE}/ships/${buildShip}.json?v=${encodeURIComponent(state.meta?.version || '')}`);
+            const ship = buildShip === state.shipCls ? state.ship : await fetchJson(`${DATA_BASE}/ships/${buildShip}.json?v=${state.meta?.stamp || ''}`);
             if (state.compare?.name !== build.name) return;
             state.compare.ship = ship;
             state.compare.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(build.overrides || {}).map(([path, id]) => [path, canonicalItem(id)])));
