@@ -29,7 +29,7 @@
             firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
             equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', changedCount: '{count}곳 변경됨',
-            burstDps: '순간 DPS', burstHint: '순간 DPS는 과열·탄약·축전 제한을 따지지 않고 모든 무기를 계속 쏠 때의 값입니다. 오래 쏠 때의 지속 DPS는 이보다 낮습니다.', colPart: '부품', colPrice: '최저가', dmg_energy: '에너지', dmg_ballistic: '실탄', dmg_distortion: '디스토션', kind_repeater: '리피터', kind_cannon: '캐논', kind_gatling: '개틀링', kind_scattergun: '스캐터건', kind_beam: '빔', sortHint: '{label} 기준으로 줄 세우기',
+            burstDps: '순간 DPS', sustainDps: '지속 DPS', sustainShort: '지속', burstHint: '순간 DPS는 쉬지 않고 쏘는 동안의 값이고, 지속 DPS는 과열되거나 축전 탄창이 비어 쉬는 시간까지 넣어 오래 쏠 때의 평균입니다. 실탄 무기는 과열, 에너지 무기는 축전 탄창이 기준입니다.', limitCol: '오래 쏠 때', limitHeat: '{fire}초 쏘면 과열 · {down}초 뒤 재사격', limitCap: '{fire}초 쏘면 축전 소진 · 재충전 {down}초', limitNone: '제한 없음', ammoTime: '{value}초분', colPart: '부품', colPrice: '최저가', dmg_energy: '에너지', dmg_ballistic: '실탄', dmg_distortion: '디스토션', kind_repeater: '리피터', kind_cannon: '캐논', kind_gatling: '개틀링', kind_scattergun: '스캐터건', kind_beam: '빔', sortHint: '{label} 기준으로 줄 세우기',
             sortLabel: '정렬', sort_best: '성능순', sort_name: '이름순', sort_price: '가격 낮은순', filterLabel: '부품 걸러 보기', buyableOnly: '상점 판매만',
             bulkApply: '같은 부품이 달린 {count}곳을 한 번에 교체', powerShort: '출력', coolingShort: '냉각',
             flight: '비행 성능', scmSpeed: 'SCM 속도', boostSpeed: '부스트 속도', boostBack: '부스트 후진', navSpeed: '최고 속도 (NAV)', pitch: '피치', yaw: '요', roll: '롤', degPerSec: '°/초',
@@ -83,7 +83,7 @@
             firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
             equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', changedCount: '{count} slots changed',
-            burstDps: 'Burst DPS', burstHint: 'Burst DPS assumes every weapon keeps firing with no heat, ammo or capacitor limits. Sustained DPS over a long burst is lower.', colPart: 'Part', colPrice: 'Lowest price', dmg_energy: 'Energy', dmg_ballistic: 'Ballistic', dmg_distortion: 'Distortion', kind_repeater: 'Repeater', kind_cannon: 'Cannon', kind_gatling: 'Gatling', kind_scattergun: 'Scattergun', kind_beam: 'Beam', sortHint: 'Sort by {label}',
+            burstDps: 'Burst DPS', sustainDps: 'Sustained DPS', sustainShort: 'sustained', burstHint: 'Burst DPS is the value while firing without a break. Sustained DPS is the long-run average including the pauses for overheating (ballistic) or an empty capacitor (energy).', limitCol: 'Sustained fire', limitHeat: 'Overheats after {fire}s · fires again after {down}s', limitCap: 'Capacitor empty after {fire}s · recharge {down}s', limitNone: 'No limit', ammoTime: '{value}s of fire', colPart: 'Part', colPrice: 'Lowest price', dmg_energy: 'Energy', dmg_ballistic: 'Ballistic', dmg_distortion: 'Distortion', kind_repeater: 'Repeater', kind_cannon: 'Cannon', kind_gatling: 'Gatling', kind_scattergun: 'Scattergun', kind_beam: 'Beam', sortHint: 'Sort by {label}',
             sortLabel: 'Sort', sort_best: 'Best first', sort_name: 'Name', sort_price: 'Lowest price', filterLabel: 'Filter parts', buyableOnly: 'Sold in shops',
             bulkApply: 'Replace all {count} slots with this part', powerShort: 'Output', coolingShort: 'Cooling',
             flight: 'Flight performance', scmSpeed: 'SCM speed', boostSpeed: 'Boost speed', boostBack: 'Boost reverse', navSpeed: 'Top speed (NAV)', pitch: 'Pitch', yaw: 'Yaw', roll: 'Roll', degPerSec: '°/s',
@@ -317,6 +317,8 @@
         if (item.w) {
             const stats = calc.weaponStats(item);
             if (stats.dps) facts.push(`DPS ${num(stats.dps)}`);
+            const sustained = calc.weaponSustain(item);
+            if (sustained.limit) facts.push(`${text('sustainShort')} ${num(sustained.dps)}`);
             if (stats.alpha) facts.push(text('perShot', { value: num(stats.alpha, 1) }));
             if (item.w.rpm) facts.push(text('rpm', { value: num(item.w.rpm) }));
             const reach = calc.weaponRange(item);
@@ -420,6 +422,7 @@
             ${state.buildsOpen ? drawBuilds() : ''}
             <div class="loadout-kpis" role="group" aria-label="${esc(text('kpiLabel'))}">
                 ${kpi(text('burstDps'), num(totals.dps.total), drawChange(totals.dps.total, stock.dps.total))}
+                ${kpi(text('sustainDps'), num(totals.sustain.total), drawChange(totals.sustain.total, stock.sustain.total))}
                 ${kpi(text('kpiAlpha'), num(totals.alpha.total), drawChange(totals.alpha.total, stock.alpha.total))}
                 ${kpi(text('kpiShield'), num(totals.shield.hp), drawChange(totals.shield.hp, stock.shield.hp))}
                 ${ship.base?.hull ? kpi(text('kpiHull'), num(ship.base.hull)) : ''}
@@ -500,8 +503,10 @@
             ${section(text('firepower'), `
                 ${bar}<p class="loadout-legends">${legend}</p>
                 <dl class="loadout-rows">
-                    ${row(text('pilot'), num(totals.dps.pilot), drawChange(totals.dps.pilot, stock.dps.pilot))}
-                    ${row(text('turret'), num(totals.dps.turret), drawChange(totals.dps.turret, stock.dps.turret))}
+                    ${row(text('burstDps'), num(totals.dps.total), drawChange(totals.dps.total, stock.dps.total))}
+                    ${row(text('sustainDps'), num(totals.sustain.total), drawChange(totals.sustain.total, stock.sustain.total))}
+                    ${row(text('pilot'), `${num(totals.dps.pilot)} (${text('sustainShort')} ${num(totals.sustain.pilot)})`, drawChange(totals.dps.pilot, stock.dps.pilot))}
+                    ${row(text('turret'), `${num(totals.dps.turret)} (${text('sustainShort')} ${num(totals.sustain.turret)})`, drawChange(totals.dps.turret, stock.dps.turret))}
                     ${row(text('weaponCount'), text('weapons', { count: totals.weapons }))}
                     ${row(text('missiles'), `${num(totals.missiles.damage)} (${text('missileCount', { count: totals.missiles.count })})`, drawChange(totals.missiles.damage, stock.missiles.damage))}
                 </dl><p class="loadout-note loadout-dpsnote">${esc(text('burstHint'))}</p>`, true)}
@@ -555,7 +560,7 @@
         if (!item) return [];
         const m = (label, value, digits = 0, better = 'high') => ({ label, value: Number(value) || 0, digits, better });
         const list = [];
-        if (item.w) { const stats = calc.weaponStats(item); list.push(m('DPS', stats.dps), m(text('alphaShort'), stats.alpha, 1), m(text('rangeShort'), calc.weaponRange(item))); }
+        if (item.w) { const stats = calc.weaponStats(item); list.push(m('DPS', stats.dps), m(text('sustainDps'), calc.weaponSustain(item).dps), m(text('alphaShort'), stats.alpha, 1), m(text('rangeShort'), calc.weaponRange(item))); }
         else if (item.sh) list.push(m(text('shield'), item.sh.hp), m(text('regenShort'), item.sh.regen));
         else if (item.power?.gen) list.push(m(text('powerShort'), item.power.gen, 1));
         else if (item.cool?.gen) list.push(m(text('coolingShort'), item.cool.gen, 1));
@@ -930,24 +935,28 @@
             const stats = calc.weaponStats(node.item);
             if (!stats.dps && !stats.alpha) continue;
             const key = `${node.itemId}|${node.turret ? 't' : 'p'}`;
-            const group = groups.get(key) || { id: node.itemId, item: node.item, turret: node.turret, count: 0, stats };
+            const group = groups.get(key) || { id: node.itemId, item: node.item, turret: node.turret, count: 0, stats, sustain: calc.weaponSustain(node.item) };
             group.count += 1; groups.set(key, group);
         }
         const rows = [...groups.values()].sort((a, b) => Number(a.turret) - Number(b.turret) || b.stats.dps * b.count - a.stats.dps * a.count);
         if (!rows.length) return `<div class="loadout-view"><p class="loadout-note">${esc(text('weaponsNone'))}</p></div>`;
         const kind = (item) => Object.keys(item.w.dmg || item.w.beamDps || {}).map((type) => table('damage')[type] || type).join('·');
         const total = rows.reduce((sum, row) => sum + row.stats.dps * row.count, 0);
+        const sustainTotal = rows.reduce((sum, row) => sum + row.sustain.dps * row.count, 0);
+        const limitText = (row) => (row.sustain.limit ? text(row.sustain.limit === 'heat' ? 'limitHeat' : 'limitCap', { fire: num(row.sustain.fireTime, 1), down: num(row.sustain.downTime, 1) }) : text('limitNone'));
+        const ammoText = (w) => { const rate = w.rpm ? w.rpm / 60 : 0; return `${num(w.ammo)}${rate ? ` (${text('ammoTime', { value: num(w.ammo / rate) })})` : ''}`; };
         return `<div class="loadout-view"><div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-weapontable">
-            <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('whoFires'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('size'))}</th><th>DPS</th><th>${esc(text('dpsSum'))}</th><th>${esc(text('alphaShort'))}</th><th>${esc(text('rpmShort'))}</th><th>${esc(text('speedShort'))}</th><th>${esc(text('rangeShort'))}</th><th>${esc(text('dmgKind'))}</th><th>${esc(text('ammoShort'))}</th></tr></thead>
+            <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('whoFires'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('size'))}</th><th>DPS</th><th>${esc(text('sustainDps'))}</th><th>${esc(text('dpsSum'))}</th><th>${esc(text('alphaShort'))}</th><th>${esc(text('rpmShort'))}</th><th>${esc(text('speedShort'))}</th><th>${esc(text('rangeShort'))}</th><th>${esc(text('dmgKind'))}</th><th>${esc(text('ammoShort'))}</th><th>${esc(text('limitCol'))}</th></tr></thead>
             <tbody>${rows.map((row) => `<tr>
                 <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemName(row.id, row.item) !== row.item.name ? `<span class="loadout-origin">${esc(row.item.name)}</span>` : ''}</td>
                 <td>${esc(row.turret ? text('turret') : text('pilot'))}</td><td>${row.count}</td><td>S${esc(row.item.size ?? '?')}</td>
-                <td>${esc(num(row.stats.dps))}</td><td>${esc(num(row.stats.dps * row.count))}</td><td>${esc(num(row.stats.alpha, 1))}</td>
+                <td>${esc(num(row.stats.dps))}</td><td>${esc(num(row.sustain.dps))}</td><td>${esc(num(row.stats.dps * row.count))}</td><td>${esc(num(row.stats.alpha, 1))}</td>
                 <td>${esc(row.item.w.rpm ? num(row.item.w.rpm) : '—')}</td><td>${esc(row.item.w.speed ? `${num(row.item.w.speed)} m/s` : '—')}</td>
                 <td>${esc(calc.weaponRange(row.item) ? `${num(calc.weaponRange(row.item))} m` : '—')}</td><td>${esc(kind(row.item))}</td>
-                <td>${esc(row.item.w.ammo ? num(row.item.w.ammo) : (row.item.w.regen ? (row.item.w.regen.load ? text('capacitor', { load: num(row.item.w.regen.load), rate: num(row.item.w.regen.perSec || 0, 1) }) : text('ammoRegen')) : '—'))}</td>
+                <td>${esc(row.item.w.ammo ? ammoText(row.item.w) : (row.item.w.regen ? (row.item.w.regen.load ? text('capacitor', { load: num(row.item.w.regen.load), rate: num(row.item.w.regen.perSec || 0, 1) }) : text('ammoRegen')) : '—'))}</td>
+                <td>${esc(limitText(row))}</td>
             </tr>`).join('')}</tbody>
-            <tfoot><tr><th colspan="5">${esc(text('total'))}</th><th colspan="7">${esc(num(total))}</th></tr></tfoot>
+            <tfoot><tr><th colspan="4">${esc(text('total'))}</th><th>${esc(num(total))}</th><th colspan="9">${esc(text('sustainDps'))} ${esc(num(sustainTotal))}</th></tr></tfoot>
         </table></div>${drawMissiles(nodes)}</div>`;
     }
 
@@ -977,7 +986,7 @@
     function compareMetrics(ship, totals) {
         const flight = ship.base?.flight || {};
         return [
-            ['dps', totals.dps.total], ['pilot', totals.dps.pilot], ['turret', totals.dps.turret], ['alpha', totals.alpha.total], ['missiles', totals.missiles.damage],
+            ['burstDps', totals.dps.total], ['sustainDps', totals.sustain.total], ['pilot', totals.dps.pilot], ['turret', totals.dps.turret], ['alpha', totals.alpha.total], ['missiles', totals.missiles.damage],
             ['shield', totals.shield.hp], ['regenLabel', totals.shield.regen], ['hullHp', ship.base?.hull || 0], ['armorHp', ship.base?.armor?.hp || 0],
             ['power', totals.power.gen, 1], ['powerUseLabel', totals.power.use, 1, 'low'], ['cooling', totals.cooling.gen, 1], ['signatureEm', totals.signature.em, 0, 'low'], ['signatureIr', totals.signature.ir, 0, 'low'],
             ['qdSpeedLabel', (totals.quantum?.speed || 0) / 1000], ['spoolLabel', totals.quantum?.spool || 0, 1, 'low'], ['rangeLabel', totals.quantum?.range || 0], ['scmSpeed', flight.scm || 0], ['navSpeed', flight.max || 0],

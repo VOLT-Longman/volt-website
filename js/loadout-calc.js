@@ -60,6 +60,41 @@
         return { alpha, dps, byType };
     }
 
+    // 오래 쏠 때의 초당 피해(지속 DPS)와 그 근거.
+    // - 실탄 무기: 쏠 때마다 열이 오르고(heat), 한도(oh.max)에 닿으면 oh.fix초 동안 못 쏜다.
+    //   발사 간격이 oh.start보다 길면 그 사이 oh.cool만큼 식는다.
+    // - 에너지 무기: 축전 탄창(regen.load)을 다 쏘면 regen.cd초 뒤부터 초당 regen.perSec발씩 다시 찬다.
+    // 두 제한이 없는 무기는 순간 DPS와 같다. limit: 'heat' | 'cap' | ''.
+    function weaponSustain(item) {
+        const stats = weaponStats(item);
+        const w = item?.w;
+        const none = { dps: stats.dps, ratio: stats.dps ? 1 : 0, limit: '', fireTime: 0, downTime: 0, shots: 0 };
+        if (!w || !stats.dps || w.kind === 'beam') return none;
+        const rate = shotsPerSecond(w);
+        if (!rate) return none;
+        const interval = 1 / rate;
+        let best = none;
+        const consider = (limit, shots, fireTime, downTime) => {
+            const cycle = fireTime + downTime;
+            if (!(cycle > 0) || !(shots > 0)) return;
+            const dps = Math.min(stats.dps, stats.alpha * shots / cycle);
+            if (dps < best.dps) best = { dps, ratio: dps / stats.dps, limit, fireTime, downTime, shots };
+        };
+        if (w.heat && w.oh?.max) {
+            const cooled = Math.max(0, interval - (w.oh.start || 0)) * (w.oh.cool || 0);
+            const net = w.heat - cooled;
+            const room = w.oh.max - (w.oh.after || 0);
+            if (net > 0 && room > 0) {
+                const shots = Math.max(1, Math.ceil((room - w.heat) / net) + 1);
+                consider('heat', shots, (shots - 1) * interval, Math.max(w.oh.fix || 0, interval));
+            }
+        }
+        if (w.regen?.load && w.regen.perSec) {
+            consider('cap', w.regen.load, w.regen.load * interval, (w.regen.cd || 0) + w.regen.load / w.regen.perSec);
+        }
+        return best;
+    }
+
     function weaponRange(item) {
         const w = item?.w;
         return w?.speed && w?.life ? Math.round(w.speed * w.life) : 0;
@@ -119,6 +154,7 @@
     function emptyTotals() {
         return {
             dps: { total: 0, pilot: 0, turret: 0, byType: {} },
+            sustain: { total: 0, pilot: 0, turret: 0 },
             alpha: { total: 0, pilot: 0, turret: 0 },
             weapons: 0,
             missiles: { count: 0, damage: 0 },
@@ -157,6 +193,9 @@
                     totals.dps.total += stats.dps;
                     totals.alpha.total += stats.alpha;
                     totals.dps[turret ? 'turret' : 'pilot'] += stats.dps;
+                    const sustained = weaponSustain(item).dps;
+                    totals.sustain.total += sustained;
+                    totals.sustain[turret ? 'turret' : 'pilot'] += sustained;
                     totals.alpha[turret ? 'turret' : 'pilot'] += stats.alpha;
                     for (const [type, value] of Object.entries(stats.byType)) totals.dps.byType[type] = (totals.dps.byType[type] || 0) + value;
                 }
@@ -236,5 +275,5 @@
         return valid;
     }
 
-    return { DAMAGE_TYPES, sumDamage, weaponStats, weaponRange, fitsSlot, normalizeTag, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
+    return { DAMAGE_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, fitsSlot, normalizeTag, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
 });

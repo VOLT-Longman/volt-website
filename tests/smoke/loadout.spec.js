@@ -267,8 +267,10 @@ test.describe('로드아웃 편집기', () => {
         await expect(mantisRow).toContainText('파일럿');
         await expect(mantisRow.locator('td').nth(2)).toHaveText('6');
         await expect(table.locator('tbody tr', { hasText: 'CF-447 라이노 리피터' })).toContainText('터렛');
-        const total = await table.locator('tfoot th').last().innerText();
+        const total = await table.locator('tfoot th').nth(1).innerText();
         expect(total).toBe(await stat(page, DPS).innerText());
+        // 표의 지속 DPS 합계도 상단 수치와 같다.
+        expect(await table.locator('tfoot th').last().innerText()).toBe(`지속 DPS ${await stat(page, '지속 DPS').innerText()}`);
 
         // 부품 찾기: 종류·크기로 훑어보고 담는다.
         await page.locator('[data-loadout-tab="finder"]').click();
@@ -502,13 +504,13 @@ test.describe('로드아웃 편집기', () => {
         await firstGunSlot(page).locator('[data-loadout-open]').click();
         const box = await page.locator('.loadout-picker').boundingBox();
         expect(box.width).toBeGreaterThan(1000);
-        await expect(page.locator('.loadout-opttable thead th')).toContainText(['부품', 'DPS', '알파', '사거리', '소비 전력', '최저가']);
+        await expect(page.locator('.loadout-opttable thead th')).toContainText(['부품', 'DPS', '지속 DPS', '알파', '사거리', '소비 전력', '최저가']);
         expect(await page.locator('.loadout-optrows tr').count()).toBeGreaterThan(8);
         const visibleRows = await page.locator('.loadout-optrows tr').evaluateAll((list) => { const wrap = document.querySelector('.loadout-optwrap').getBoundingClientRect(); return list.filter((el) => el.getBoundingClientRect().bottom <= wrap.bottom).length; });
         expect(visibleRows).toBeGreaterThan(7);
         // 열 제목을 누르면 그 수치로 줄을 세운다.
-        await page.locator('[data-loadout-sort="m1"]').click();
-        const alphas = await page.locator('.loadout-optrows tr td:nth-of-type(2) b').allInnerTexts().then((list) => list.map((value) => Number(value.replace(/,/g, ''))));
+        await page.locator('[data-loadout-sort="m2"]').click();
+        const alphas = await page.locator('.loadout-optrows tr td:nth-of-type(3) b').allInnerTexts().then((list) => list.map((value) => Number(value.replace(/,/g, ''))));
         expect(alphas).toEqual([...alphas].sort((x, y) => y - x));
         await page.locator('[data-loadout-sort="m0"]').click();
         // 무기는 피해 종류·형태로 거를 수 있다.

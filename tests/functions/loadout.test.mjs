@@ -262,3 +262,30 @@ test('대표 제품 정리: 내부 변형은 숨기고 원본은 남기며, 같�
     const ko = read('data/loadout/ko.json');
     assert.deepEqual(index.ships.filter((ship) => !ko.ships[ship.cls]).map((ship) => ship.cls), []);
 });
+
+test('지속 DPS: 실탄은 과열, 에너지는 축전 탄창을 넣어 계산하고 순간 DPS를 넘지 않는다', () => {
+    const byClass = (cls) => Object.values(items).find((item) => item.cls === cls);
+    // 실탄 개틀링: 1발 0.512씩 올라 196발째에 과열(한도 100), 2.61초 뒤 다시 쏜다.
+    const gatling = calc.weaponSustain(byClass('GATS_BallisticGatling_S3'));
+    assert.equal(gatling.limit, 'heat');
+    assert.equal(gatling.shots, 196);
+    assert.ok(Math.abs(gatling.dps - 632.1) < 0.5, `개틀링 지속 ${gatling.dps}`);
+    // 에너지 리피터: 75발을 6초에 쏘고, 0.74초 뒤부터 초당 15발씩 다시 찬다.
+    const repeater = calc.weaponSustain(byClass('KLWE_LaserRepeater_S3'));
+    assert.equal(repeater.limit, 'cap');
+    assert.ok(Math.abs(repeater.dps - 278.9) < 0.5, `리피터 지속 ${repeater.dps}`);
+    // 발사 간격 사이에 다 식는 느린 실탄 캐논은 제한이 없다.
+    const cannon = calc.weaponSustain(byClass('BEHR_BallisticCannon_S4'));
+    assert.equal(cannon.limit, '');
+    assert.equal(cannon.dps, calc.weaponStats(byClass('BEHR_BallisticCannon_S4')).dps);
+    for (const item of Object.values(items)) {
+        if (!item.w) continue;
+        const sustained = calc.weaponSustain(item); const burst = calc.weaponStats(item).dps;
+        assert.ok(sustained.dps <= burst + 1e-9 && sustained.dps >= 0, `${item.cls} 지속 ${sustained.dps} > 순간 ${burst}`);
+    }
+    // 함선 합계: 어벤저 스토커 기본 장착(순간 2,360 · 지속 1,460).
+    const stalker = calc.summarize(read('data/loadout/ships/aegs_avenger_stalker.json'), items, {});
+    assert.equal(Math.round(stalker.dps.total), 2360);
+    assert.equal(Math.round(stalker.sustain.total), 1460);
+    assert.ok(Math.abs(stalker.sustain.pilot + stalker.sustain.turret - stalker.sustain.total) < 1e-6);
+});

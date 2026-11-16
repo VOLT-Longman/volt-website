@@ -131,7 +131,8 @@ function main() {
             return inner;
         }
         const launch = action.launchParams || action.weaponAction?.launchParams;
-        const base = { pellets: launch?.pelletCount > 1 ? launch.pelletCount : undefined, mult: launch && launch.damageMultiplier !== 1 ? round(launch.damageMultiplier) : undefined };
+        // heat: 1발 쏠 때 오르는 열(실탄 무기의 과열 계산에 쓴다).
+        const base = { pellets: launch?.pelletCount > 1 ? launch.pelletCount : undefined, mult: launch && launch.damageMultiplier !== 1 ? round(launch.damageMultiplier) : undefined, heat: round(action.heatPerShot, 4) || undefined };
         switch (action.__type) {
             case 'SWeaponActionFireSingleParams': return { kind: 'single', rpm: round(action.fireRate, 2), ...base };
             case 'SWeaponActionFireRapidParams': return { kind: 'rapid', rpm: round(action.fireRate, 2), ...base };
@@ -192,11 +193,14 @@ function main() {
             const ammo = followRecord(ammoBox?.ammoParamsRecord);
             if (action) {
                 const regen = weapon.weaponRegenConsumerParams;
+                // 과열 한도·식는 속도·과열 뒤 다시 쏠 수 있을 때까지의 시간.
+                const heat = weapon.connectionParams?.simplifiedHeatParams;
                 w = prune({
                     ...action,
                     modes: weapon.fireActions.length > 1 ? weapon.fireActions.length : undefined,
                     speed: round(ammo?.speed, 1), life: round(ammo?.lifetime, 2), dmg: damageOf(ammo?.projectileParams?.damage),
                     ammo: ammoBox?.maxAmmoCount || undefined,
+                    oh: heat && action.heat ? prune({ max: round(heat.overheatTemperature, 2), cool: round(heat.coolingPerSecond, 2), start: round(heat.timeTillCoolingStarts, 3), fix: round(heat.overheatFixTime, 3), after: round(heat.temperatureAfterOverheatFix, 2) || undefined }) : undefined,
                     regen: regen?.maxAmmoLoad ? prune({ load: regen.maxAmmoLoad, perSec: round(regen.maxRegenPerSec, 2), cd: round(regen.regenerationCooldown, 2) }) : undefined,
                 });
             }
