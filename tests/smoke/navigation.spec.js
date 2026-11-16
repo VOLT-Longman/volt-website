@@ -6,6 +6,7 @@ test.describe('네비게이션', () => {
         await mockApi(page);
         await gotoSection(page, '');
 
+        await page.locator('#nav-ships-toggle').click();
         await page.locator('.nav-links a[href="#ships"]').click();
         await expect(page.locator('#ships')).toHaveClass(/active/);
         await expect(page.locator('#home')).toBeHidden();

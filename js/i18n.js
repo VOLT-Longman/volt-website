@@ -107,9 +107,10 @@
             // 네비게이션
             'nav.about': '소개',
             'nav.ships': '함선DB',
+            'nav.shipsGroup': '함선',
             'nav.trade': '무역',
             'nav.tradePlanner': '무역플래너',
-            'nav.loadout': '로드아웃',
+            'nav.loadout': '함선 로드아웃',
             'loadout.titleHtml': '함선 <span class="accent">로드아웃</span>',
             'loadout.subtitle': '함선의 무기·실드·동력 장치를 바꿔 끼워 보고 화력과 방어, 구매처와 비용을 확인합니다.',
             'nav.tradeHub': '무역허브',
@@ -725,9 +726,10 @@
             // navigation
             'nav.about': 'About',
             'nav.ships': 'Ship DB',
+            'nav.shipsGroup': 'Ships',
             'nav.trade': 'Trade',
             'nav.tradePlanner': 'Trade Planner',
-            'nav.loadout': 'Loadout',
+            'nav.loadout': 'Ship Loadout',
             'loadout.titleHtml': 'Ship <span class="accent">Loadout</span>',
             'loadout.subtitle': 'Swap weapons, shields and power plants, then check firepower, defense, where to buy and what it costs.',
             'nav.tradeHub': 'Trade Hub',

@@ -27,6 +27,7 @@ test.describe('로드아웃 편집기', () => {
         await mockApi(page);
         await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
         await gotoSection(page, '');
+        await page.locator('#nav-ships-toggle').click();
         await page.locator('.nav-links [data-section="loadout"]').click();
         await expect(page).toHaveURL(/#loadout$/);
         await expect(page.locator('#loadout .section-header h2')).toContainText('로드아웃');
@@ -301,6 +302,8 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-slot.is-changed')).toHaveCount(1);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
         expect(overflow).toBeLessThanOrEqual(1);
+        // 함선을 고른 뒤에는 검색창이 접혀 있으므로 "함선 바꾸기"로 다시 편다.
+        await page.locator('[data-loadout-browse]').click();
         const input = await page.locator('#loadout-ship-search').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
         expect(input).toBeGreaterThanOrEqual(16);
         await ctx.close();
@@ -375,5 +378,58 @@ test.describe('로드아웃 편집기', () => {
         await page.locator('[data-loadout-reset-all]').click();
         await expect(stat(page, '실드')).toHaveText('42,240');
         await expect(page.locator('.loadout-slot.is-off')).toHaveCount(0);
+    });
+
+    test('작업 도구형 화면: 「함선」 메뉴, 사진 카드로 함선 고르기, 상단 핵심 수치, 위치별 부품 행', async ({ page }) => {
+        await mockApi(page);
+        await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
+        await gotoSection(page, '');
+        // 함선 DB와 함선 로드아웃은 「함선」 묶음 안에 있다(무역 메뉴와 같은 방식).
+        await expect(page.locator('#nav-ships-menu')).toBeHidden();
+        await page.locator('#nav-ships-toggle').click();
+        await expect(page.locator('#nav-ships-menu a')).toHaveText(['함선DB', '함선 로드아웃']);
+        await page.locator('#nav-ships-menu a[href="#loadout"]').click();
+        await expect(page.locator('#nav-ships-menu')).toBeHidden();
+        await expect(page.locator('#nav-ships-toggle')).toHaveClass(/nav-active/);
+
+        // 함선 고르기: 사진 카드, 제조사·종류로 걸러 보기.
+        await expect(page.locator('#loadout-ship-results .loadout-shipcard img').first()).toBeVisible();
+        await page.locator('#loadout-ship-mfr').selectOption('Anvil Aerospace');
+        await expect(page.locator('#loadout-ship-count')).toHaveText(/^검색 결과 \d+척$/);
+        const anvil = await page.locator('#loadout-ship-results [data-loadout-ship]').count();
+        expect(anvil).toBeGreaterThan(5);
+        expect(anvil).toBeLessThan(224);
+        await page.locator('[data-loadout-ship-kind="ground"]').click();
+        expect(await page.locator('#loadout-ship-results [data-loadout-ship]').count()).toBeLessThan(anvil);
+        await page.locator('[data-loadout-ship-kind=""]').click();
+        await page.locator('[data-loadout-ship="anvl_asgard"]').click();
+
+        // 함선을 고르면 큰 제목은 접히고, 상단 바에 핵심 수치가 모인다.
+        await expect(page.locator('#loadout .section-header')).toBeHidden();
+        const kpis = page.locator('.loadout-kpis');
+        await expect(kpis.locator('.loadout-kpi').first()).toHaveText(/DPS\s*5,313/);
+        await expect(kpis).toContainText(/실드\s*42,240/);
+        await expect(kpis).toContainText(/선체\s*77,000/);
+        await expect(kpis).toContainText(/항속\s*706 Gm/);
+        // 출력이 모자라면 경고색과 문구로 구별한다.
+        await expect(kpis.locator('.loadout-kpi.is-warn')).toContainText('출력 부족');
+
+        // 부품은 큰 묶음(무장 / 방어·동력 / 이동·기타) 아래 한 줄씩, 위치 › 부품 순서로 보인다.
+        await expect(page.locator('.loadout-super > h3')).toHaveText(['무장', '방어·동력', '이동·기타']);
+        const gun = firstGunSlot(page);
+        await expect(gun.locator('.loadout-slot-label')).toContainText('›');
+        await expect(gun.locator('.loadout-metric')).toHaveText(/546\s*DPS/);
+        // 아래에 부품을 거느린 자리(퀀텀 드라이브 › 점프 모듈)는 들여쓰기로 관계를 보여준다.
+        await expect(page.locator('.loadout-group.is-quantum .loadout-slot.is-mount')).toHaveCount(1);
+        await expect(page.locator('.loadout-group.is-quantum .loadout-slot.is-child')).toHaveCount(1);
+        // 성능 패널은 안쪽 스크롤 없이 펼쳐진다.
+        const scrolls = await panel(page).evaluate((el) => el.scrollHeight - el.clientHeight);
+        expect(scrolls).toBeLessThanOrEqual(1);
+
+        // 부품 선택 창: 후보마다 대표 수치와 지금 부품과의 차이가 같은 열에 놓인다.
+        await gun.locator('[data-loadout-open]').click();
+        const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
+        await expect(option.locator('.loadout-metric')).toHaveText(/853\s*DPS/);
+        await expect(option.locator('.loadout-delta')).toHaveText(/^DPS \+\d/);
     });
 });

@@ -18,6 +18,7 @@ test.describe('lazy init 개선폭 계측', () => {
 
         // 함선DB 진입 → 렌더까지 걸린 시간(브라우저 내부 측정) + 추가 노드
         const shipStart = await page.evaluate(() => performance.now());
+        await page.locator('#nav-ships-toggle').click();
         await page.locator('.nav-links a[href="#ships"]').click();
         await page.locator('#ships-grid .ship-card').first().waitFor();
         const shipRenderMs = await page.evaluate((start) => performance.now() - start, shipStart);

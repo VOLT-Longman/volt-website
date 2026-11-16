@@ -268,6 +268,7 @@ body {
 }
 
 body.nav-more-open::before,
+body.nav-ships-open::before,
 body.nav-trade-open::before {
     position: fixed;
     inset: 0;
@@ -9552,4 +9553,157 @@ body.nav-trade-open::before {
     .loadout-options li { flex-direction: column; align-items: stretch; }
     .loadout-option-side { justify-content: space-between; }
     .loadout-stat.is-primary strong { font-size: 26px; }
+}
+
+/* ==========================================================================
+   로드아웃 편집기 — 작업 도구형 화면 (2026-11-16 재구성)
+   상단 바(함선·실행·핵심 수치) → [위치별 부품 행 | 넓은 성능 패널].
+   장식보다 간격·구분선·열 정렬로 정보를 나눈다. 빨강은 선택·주요 실행에만 쓴다.
+   ========================================================================== */
+#loadout.has-ship .section-header { display: none; }
+#loadout.has-ship { padding-top: 84px; }
+.loadout-app { gap: 14px; --lo-bg: #131417; --lo-card: #1a1b1f; --lo-card-2: #212329; --lo-line: rgba(255, 255, 255, 0.09); --lo-warn: #ffb84d; --lo-radius: 8px; }
+.loadout-app .btn { border-radius: var(--lo-radius); }
+.loadout-chip { border-radius: 6px; }
+
+/* 함선 고르기 */
+.loadout-shippicker { gap: 10px; padding: 14px; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); }
+.loadout-shipsearch { display: grid; grid-template-columns: minmax(0, 1fr) minmax(160px, 240px) auto; gap: 8px; align-items: center; }
+.loadout-shipsearch input, .loadout-shipsearch select, .loadout-picker-head input { min-height: 44px; border-radius: var(--lo-radius); background: var(--lo-bg); border: 1px solid var(--lo-line); }
+.loadout-shipsearch select { padding: 0 12px; color: var(--color-text-primary); font: inherit; font-size: 16px; min-width: 0; }
+.loadout-shipsearch .loadout-filters { flex-wrap: nowrap; }
+.loadout-ship-results { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; max-height: none; overflow: visible; padding: 0; }
+.loadout-shippicker.is-overlay .loadout-ship-results { max-height: min(56vh, 520px); overflow-y: auto; padding-right: 4px; }
+.loadout-ship-results .loadout-shipcard { display: grid; grid-template-rows: auto 1fr; gap: 0; padding: 0; min-height: 0; overflow: hidden; border-radius: var(--lo-radius); background: var(--lo-bg); border: 1px solid var(--lo-line); text-align: left; }
+.loadout-shipcard img, .loadout-shipcard-blank { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; background: var(--lo-card-2); }
+.loadout-shipcard-blank { background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 10px, transparent 10px 20px); }
+.loadout-shipcard-text { display: grid; gap: 2px; padding: 8px 10px 10px; }
+.loadout-shipcard-text strong { font-size: 14px; line-height: 1.3; color: var(--color-text-primary); overflow-wrap: anywhere; }
+.loadout-ship-results .loadout-shipcard-text span { font-size: 12px; color: var(--color-text-secondary); }
+.loadout-ship-results .loadout-shipcard[aria-selected="true"] { border-color: var(--volt-orange); background: var(--lo-card-2); box-shadow: inset 0 0 0 1px var(--volt-orange); }
+
+/* 상단 바: 함선 + 실행 + 핵심 수치 (스크롤해도 수치가 보인다) */
+.loadout-topbar { position: sticky; top: 68px; z-index: 30; display: grid; gap: 0; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45); }
+.loadout-shiphead { grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; padding: 10px 12px; border: 0; border-radius: 0; background: none; }
+.loadout-shipphoto { width: 112px; border-radius: 6px; }
+.loadout-shipinfo { gap: 4px; }
+.loadout-shipinfo h3 { font-size: clamp(18px, 1.8vw, 24px); }
+.loadout-shipfacts { gap: 4px 12px; align-items: baseline; }
+.loadout-shipfacts span { padding: 0; border: 0; border-radius: 0; font-size: 13px; }
+.loadout-shipfacts .loadout-shipstate { color: var(--volt-orange-light); font-weight: 600; }
+.loadout-actions { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.loadout-actions .btn { min-height: 40px; padding: 0 14px; font-size: 13px; }
+.loadout-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); border-top: 1px solid var(--lo-line); }
+.loadout-kpi { display: grid; gap: 1px; padding: 8px 14px; border-left: 1px solid var(--lo-line); min-width: 0; }
+.loadout-kpi:first-child { border-left: 0; }
+.loadout-kpi > span:first-child { font-size: 11px; font-weight: 600; letter-spacing: 0.03em; color: var(--color-text-secondary); }
+.loadout-kpi strong { font-size: 20px; line-height: 1.2; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.loadout-kpi.is-primary strong { color: var(--volt-orange-light); }
+.loadout-kpi.is-warn strong, .loadout-kpi.is-warn > span:first-child { color: var(--lo-warn); }
+.loadout-kpi .loadout-change { margin-left: 0; font-size: 11px; }
+
+/* 탭: 밑줄형 */
+.loadout-tabs { gap: 0; padding: 0; border: 0; border-bottom: 1px solid var(--lo-line); border-radius: 0; background: none; width: 100%; }
+.loadout-tab { min-height: 44px; padding: 0 16px; border-radius: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.loadout-tab.is-active { background: none; color: var(--color-text-primary); border-bottom-color: var(--volt-orange); }
+.loadout-tab.is-active .loadout-badge, .loadout-tab:not(.is-active) .loadout-badge { background: var(--volt-orange); color: #fff; }
+
+/* 왼쪽 부품 목록 : 오른쪽 성능 패널 = 약 6 : 4 */
+.loadout-columns { grid-template-columns: minmax(0, 3fr) minmax(380px, 2fr); gap: 16px; }
+.loadout-super { display: grid; gap: 8px; }
+.loadout-super > h3 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: var(--color-text-secondary); }
+.loadout-group { margin: 0; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); overflow: hidden; }
+.loadout-group h4 { justify-content: space-between; margin: 0; padding: 9px 12px; border-left: 0; border-bottom: 1px solid var(--lo-line); background: var(--lo-card-2); font-size: 13px; }
+.loadout-group h4 span { padding: 0; border: 0; border-radius: 0; font-weight: 500; }
+.loadout-slotlist { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.loadout-slot { border: 0; border-radius: 0; background: none; border-top: 1px solid var(--lo-line); }
+.loadout-slotlist > .loadout-slot:first-child { border-top: 0; }
+.loadout-slot-row { grid-template-columns: 40px minmax(0, 1fr) minmax(64px, auto) auto; gap: 12px; padding: 8px 12px 8px calc(12px + var(--lo-level, 0) * 22px); }
+.loadout-slot.is-child .loadout-slot-row { position: relative; }
+.loadout-slot.is-child .loadout-slot-row::before { content: ''; position: absolute; left: calc(18px + (var(--lo-level, 1) - 1) * 22px); top: 0; bottom: 50%; width: 10px; border-left: 1px solid var(--color-border-hover); border-bottom: 1px solid var(--color-border-hover); }
+.loadout-size { min-width: 0; width: 40px; height: 28px; border-radius: 6px; background: var(--lo-bg); }
+.loadout-slot-label { font-size: 12px; }
+.loadout-item-name { font-size: 15px; }
+.loadout-slot.is-mount .loadout-item-name { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); }
+.loadout-slot.is-mount .loadout-size { height: 22px; font-size: 11px; color: var(--color-text-secondary); }
+.loadout-slot.is-mount .loadout-slot-row { padding-top: 5px; padding-bottom: 5px; }
+.loadout-slot.is-mount .loadout-origin { display: none; }
+.loadout-slot.is-changed { background: rgba(232, 72, 47, 0.06); box-shadow: inset 2px 0 0 var(--volt-orange); }
+.loadout-slot.is-open { background: var(--lo-card-2); box-shadow: inset 2px 0 0 var(--volt-orange); }
+.loadout-slot.is-fixed { opacity: 1; }
+.loadout-slot.is-fixed .loadout-item-name { color: var(--color-text-secondary); }
+.loadout-facts { gap: 2px 12px; margin-top: 1px; }
+.loadout-facts span { padding: 0; border: 0; border-radius: 0; background: none; font-size: 12px; color: var(--color-text-secondary); }
+.loadout-metric { display: grid; justify-items: end; align-content: center; gap: 0; min-width: 64px; text-align: right; font-variant-numeric: tabular-nums; }
+.loadout-metric b { font-size: 16px; line-height: 1.2; }
+.loadout-metric small { font-size: 11px; color: var(--color-text-secondary); }
+.loadout-slot-actions { flex-direction: row; align-items: center; justify-content: flex-end; gap: 4px; min-width: 150px; }
+.loadout-slot-actions .btn { min-height: 36px; padding: 0 12px; order: 3; }
+.loadout-fixed { max-width: none; }
+
+/* 성능 패널: 넓게, 안쪽 스크롤 없이 */
+.loadout-panel { position: static; max-height: none; overflow: visible; padding: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: start; }
+.loadout-panel-section { border-radius: var(--lo-radius); padding: 12px 14px; align-content: start; }
+.loadout-panel-section.is-wide { grid-column: 1 / -1; }
+.loadout-panel-section h4 { font-size: 12px; letter-spacing: 0.06em; padding-bottom: 6px; border-bottom: 1px solid var(--lo-line); }
+.loadout-stat strong { font-size: 20px; }
+.loadout-stat.is-primary strong { font-size: 28px; }
+.loadout-view, .loadout-shopping { border-radius: var(--lo-radius); }
+.loadout-table th { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); }
+
+/* 부품 선택 창 · 부품 찾기: 열을 맞춰 견주기 */
+.loadout-picker { width: min(620px, 100vw); background: var(--lo-bg); }
+.loadout-options { gap: 0; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); }
+.loadout-options li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(64px, auto) minmax(150px, auto); align-items: center; gap: 12px; padding: 9px 12px; border: 0; border-radius: 0; border-top: 1px solid var(--lo-line); background: none; }
+.loadout-options li:first-child { border-top: 0; }
+.loadout-options li.is-current { background: var(--lo-card-2); box-shadow: inset 2px 0 0 var(--volt-orange); border-color: var(--lo-line); }
+.loadout-options li.loadout-note { display: block; }
+.loadout-option-side { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px; }
+.loadout-delta { border-radius: 6px; }
+.loadout-finderlist { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+.loadout-bulk { border-radius: var(--lo-radius); border-style: solid; background: var(--lo-card); }
+@media (hover: hover) {
+    .loadout-options li:hover, .loadout-slot:hover { background: var(--lo-card-2); }
+    .loadout-ship-results .loadout-shipcard:hover { border-color: var(--color-border-hover); }
+}
+
+@media (max-width: 1100px) {
+    .loadout-columns { grid-template-columns: minmax(0, 1fr); }
+    .loadout-panel { order: 0; }
+}
+@media (max-width: 720px) {
+    #loadout.has-ship { padding-top: 72px; }
+    .loadout-topbar { top: 60px; }
+    .loadout-shiphead { grid-template-columns: 72px minmax(0, 1fr); gap: 10px; }
+    .loadout-shipphoto { width: 72px; }
+    .loadout-actions { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .loadout-actions .btn { padding: 0 6px; font-size: 12px; min-height: 44px; }
+    .loadout-kpis { display: flex; overflow-x: auto; scrollbar-width: none; }
+    .loadout-kpi { flex: 0 0 auto; padding: 6px 12px; }
+    .loadout-kpi strong { font-size: 16px; }
+    .loadout-shipsearch { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .loadout-ship-results { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: none; }
+    .loadout-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .loadout-tab { flex: 0 0 auto; padding: 0 12px; }
+    .loadout-panel { grid-template-columns: minmax(0, 1fr); }
+    .loadout-slot-row { grid-template-columns: 36px minmax(0, 1fr) auto; gap: 8px 10px; padding-left: calc(10px + var(--lo-level, 0) * 14px); }
+    .loadout-size { width: 36px; }
+    .loadout-slot-actions { grid-column: 1 / -1; justify-content: flex-end; min-width: 0; }
+    .loadout-slot-actions .btn, .loadout-slot-actions .loadout-link { min-height: 44px; }
+    .loadout-slot.is-child .loadout-slot-row::before { display: none; }
+    .loadout-options li { grid-template-columns: minmax(0, 1fr) auto; }
+    .loadout-option-side { grid-column: 1 / -1; justify-content: space-between; }
+}
+/* 이름과 게임 원문 이름을 한 줄에 놓아 행 높이를 줄인다. */
+.loadout-slot-main, .loadout-option-main { display: block; }
+.loadout-slot-main .loadout-slot-label { display: block; }
+.loadout-slot-main .loadout-item-name, .loadout-option-main > strong { display: inline; }
+.loadout-slot-main .loadout-origin, .loadout-option-main .loadout-origin { display: inline; margin-left: 8px; }
+.loadout-slot-row { padding-top: 7px; padding-bottom: 7px; }
+.loadout-slot-actions .loadout-link { white-space: nowrap; }
+@media (max-width: 720px) {
+    /* 휴대폰에서는 상단 바가 화면을 많이 가리므로 고정하지 않는다. */
+    .loadout-topbar { position: static; }
+    .loadout-slot-actions .btn { flex: 0 0 auto; width: auto; min-width: 88px; }
+    .loadout-slot-main .loadout-origin, .loadout-option-main .loadout-origin { display: block; margin-left: 0; }
 }

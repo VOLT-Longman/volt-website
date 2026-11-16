@@ -21,6 +21,7 @@
             link.classList.toggle('nav-active', link.getAttribute('data-section') === id);
         });
         document.getElementById('nav-trade-toggle')?.classList.toggle('nav-active', ['trade-planner', 'hub', 'guide'].includes(id));
+        document.getElementById('nav-ships-toggle')?.classList.toggle('nav-active', ['ships', 'loadout'].includes(id));
         document.getElementById('nav-more-toggle')?.classList.toggle('nav-active', ['timeline', 'leadership', 'streamers', 'gallery', 'policy', 'faq', 'comms'].includes(id));
     }
 
@@ -92,10 +93,12 @@
                 showSection(link.getAttribute('data-section'));
                 closeMoreMenu();
                 closeTradeMenu();
+                closeShipsMenu();
             });
         });
         setupMoreMenu();
         setupTradeMenu();
+        setupShipsMenu();
     }
 
     function setupMoreMenu() {
@@ -104,7 +107,7 @@
             toggleId: 'nav-more-toggle',
             menuId: 'nav-more-menu',
             bodyClass: 'nav-more-open',
-            closeOther: closeTradeMenu
+            closeOther: () => { closeTradeMenu(); closeShipsMenu(); }
         });
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.nav-more')) closeMoreMenu();
@@ -117,11 +120,31 @@
             toggleId: 'nav-trade-toggle',
             menuId: 'nav-trade-menu',
             bodyClass: 'nav-trade-open',
-            closeOther: closeMoreMenu
+            closeOther: () => { closeMoreMenu(); closeShipsMenu(); }
         });
         document.addEventListener('click', (event) => {
-            if (!event.target.closest('.nav-trade')) closeTradeMenu();
+            if (!event.target.closest('.nav-trade:not(.nav-ships)')) closeTradeMenu();
         });
+    }
+
+    // 「함선」 묶음(함선 DB · 함선 로드아웃). 무역 메뉴와 같은 모양·동작을 쓴다.
+    function setupShipsMenu() {
+        setupDropdownMenu({
+            toggleId: 'nav-ships-toggle',
+            menuId: 'nav-ships-menu',
+            bodyClass: 'nav-ships-open',
+            closeOther: () => { closeMoreMenu(); closeTradeMenu(); }
+        });
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.nav-ships')) closeShipsMenu();
+        });
+    }
+
+    function closeShipsMenu() {
+        const toggle = document.getElementById('nav-ships-toggle');
+        const menu = document.getElementById('nav-ships-menu');
+        if (!toggle || !menu) return;
+        setDropdownState(toggle, menu, 'nav-ships-open', false);
     }
 
     function setupDropdownMenu({ toggleId, menuId, bodyClass, closeOther }) {

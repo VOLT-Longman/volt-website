@@ -10,6 +10,7 @@ test.describe('lazy init (무거운 섹션 지연 렌더)', () => {
         await expect(page.locator('#ships-grid .ship-card')).toHaveCount(0);
 
         // 함선DB 섹션으로 이동하면 그리드가 채워진다.
+        await page.locator('#nav-ships-toggle').click();
         await page.locator('.nav-links a[href="#ships"]').click();
         await expect(page.locator('#ships')).toHaveClass(/active/);
         await expect(page.locator('#ships-grid .ship-card').first()).toBeVisible();
@@ -48,6 +49,7 @@ test.describe('lazy init (무거운 섹션 지연 렌더)', () => {
         await gotoSection(page, '');
         expect(liveRequests).toHaveLength(0);
 
+        await page.locator('#nav-ships-toggle').click();
         await page.locator('.nav-links a[href="#ships"]').click();
         await expect(page.locator('#ships-grid .ship-card').first()).toBeVisible();
         await expect.poll(() => liveRequests.length).toBe(2);
