@@ -9710,15 +9710,6 @@ body.nav-trade-open::before {
 }
 
 /* 넓은 화면: 장착 탭은 늘 [장비 목록 | 교체 후보 | 성능 요약] 세 칸. 「변경」을 눌러도 칸의 위치와 폭이 바뀌지 않는다. */
-.loadout-pickhint { display: none; }
-@media (min-width: 1360px) {
-    .loadout-columns.is-edit { grid-template-columns: minmax(0, 1fr) minmax(360px, 420px) minmax(280px, 320px); }
-    .loadout-columns.is-edit .loadout-drawer-backdrop { display: none; }
-    .loadout-columns.is-edit .loadout-picker, .loadout-columns.is-edit .loadout-pickhint { position: sticky; top: 196px; right: auto; bottom: auto; width: auto; height: calc(100vh - 212px); z-index: 1; padding: 12px; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); box-shadow: none; }
-    .loadout-columns.is-edit .loadout-pickhint { display: grid; place-content: center; text-align: center; border-style: dashed; background: none; }
-    .loadout-columns.is-edit .loadout-panel { grid-template-columns: minmax(0, 1fr); position: sticky; top: 196px; max-height: calc(100vh - 212px); overflow-y: auto; }
-    .loadout-columns.is-edit .loadout-options { background: var(--lo-bg); }
-}
 
 /* 글자 대비 보완(검수 2026-11-16): 작은 회색 글자는 배경 대비 4.5:1 이상이 되게 한다. */
 .ledger-total-card span, .ledger-total-card small, .ledger-empty { color: var(--color-text-secondary); }
@@ -9776,3 +9767,53 @@ details.loadout-panel-section.loadout-fold { display: block; }
     .loadout-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .loadout-equip { min-height: 44px; }
 }
+
+/* 로드아웃 재구성(2026-11-17 검토 반영): 빈 편집 칸 없이 장비를 화면 폭에 맞춰 놓고, 교체는 넓은 창의 열 맞춘 비교 표에서 한다 */
+.loadout-picker { top: 4vh; bottom: auto; left: 50%; right: auto; transform: translateX(-50%); width: min(1180px, 96vw); height: 92vh; padding: 16px; border: 1px solid var(--color-border-hover); border-radius: var(--lo-radius); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6); }
+.loadout-optwrap { flex: 1 1 auto; min-height: 0; overflow: auto; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); }
+.loadout-picker > .loadout-optwrap { flex: 1 1 auto; }
+.loadout-opttable { width: 100%; border-collapse: collapse; font-size: 14px; }
+.loadout-opttable thead th { position: sticky; top: 0; z-index: 1; padding: 4px 12px; background: var(--lo-card-2); text-align: right; white-space: nowrap; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); }
+.loadout-opttable thead th.is-name { text-align: left; }
+.loadout-sortbtn { min-height: 36px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.loadout-sortbtn.is-active { color: var(--color-text-primary); text-decoration: underline; text-underline-offset: 4px; }
+.loadout-sortbtn.is-active::after { content: " ▾"; }
+.loadout-opttable tbody th, .loadout-opttable tbody td { padding: 5px 12px; border-top: 1px solid var(--lo-line); text-align: right; vertical-align: middle; font-weight: 400; line-height: 1.3; }
+.loadout-opttable tbody th { text-align: left; }
+.loadout-opttable tbody th strong { display: block; font-size: 14px; font-weight: 700; }
+.loadout-picker .loadout-opttable tbody th .loadout-meta { display: block; margin: 0; font-size: 11px; }
+.loadout-opttable tr.is-current { background: var(--lo-card-2); box-shadow: inset 2px 0 0 var(--volt-orange); }
+.loadout-opttable td.loadout-cmp-cell { display: table-cell; white-space: nowrap; }
+.loadout-opttable td.loadout-cmp-cell small { display: none; }
+.loadout-opttable td.loadout-cmp-cell b { display: block; font-size: 14px; }
+.loadout-opttable td.loadout-cmp-cell .loadout-delta { display: block; width: auto; margin-left: auto; font-size: 11px; text-align: right; }
+.loadout-opttable td.is-blank { color: var(--color-text-secondary); }
+.loadout-optprice { font-size: 12px; max-width: 220px; }
+.loadout-optprice .loadout-price { display: block; margin: 0; }
+.loadout-optact { width: 1%; white-space: nowrap; }
+.loadout-optact .loadout-equip { min-height: 32px; padding: 0 14px; }
+.loadout-picker .loadout-picker-head input { min-height: 40px; }
+.loadout-picker { gap: 8px; }
+@media (hover: hover) { .loadout-opttable tbody tr:hover { background: var(--lo-card-2); } }
+@media (min-width: 1360px) {
+    .loadout-columns { grid-template-columns: minmax(0, 1fr) 340px; }
+    .loadout-super { display: grid; grid-template-columns: repeat(auto-fit, minmax(430px, 1fr)); gap: 4px 28px; align-items: start; }
+    .loadout-super > h3 { grid-column: 1 / -1; }
+}
+@media (max-width: 720px) {
+    .loadout-picker { top: 0; left: 0; transform: none; width: 100vw; height: 100vh; height: 100dvh; padding: 12px; border: 0; border-radius: 0; }
+    .loadout-opttable thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .loadout-opttable tbody tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; padding: 10px 12px; border-top: 1px solid var(--lo-line); }
+    .loadout-opttable tbody tr:first-child { border-top: 0; }
+    .loadout-opttable tbody th, .loadout-opttable tbody td { padding: 0; border: 0; text-align: left; }
+    .loadout-opttable tbody th, .loadout-optprice, .loadout-optact { grid-column: 1 / -1; }
+    .loadout-opttable td.loadout-cmp-cell { display: block; white-space: normal; }
+    .loadout-opttable td.loadout-cmp-cell small { display: inline; margin-right: 6px; font-size: 12px; color: var(--color-text-secondary); }
+    .loadout-opttable td.loadout-cmp-cell b, .loadout-opttable td.loadout-cmp-cell .loadout-delta { display: inline; }
+    .loadout-opttable td.is-blank { display: none; }
+    .loadout-optact { width: auto; }
+    .loadout-optact .loadout-equip { width: 100%; min-height: 44px; }
+    .loadout-opttable td.loadout-cmp-cell .loadout-delta { margin-left: 4px; }
+    .loadout-opttable tbody th strong { font-size: 15px; }
+}
+.loadout-dpsnote { margin: 8px 0 0; font-size: 12px; }

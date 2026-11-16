@@ -84,7 +84,7 @@ test.describe('저장·상태 안전', () => {
         });
         await openAsgard(page);
         await firstGun(page).locator('[data-loadout-open]').click();
-        const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
+        const option = page.locator('.loadout-optrows tr', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
         await expect(option).toContainText('가격을 불러오지 못했습니다');
         await option.locator('[data-loadout-price-retry]').click();
         await expect(option).toContainText('23,500');
@@ -110,7 +110,7 @@ test.describe('저장·상태 안전', () => {
         await expect(page.locator(`[data-loadout-open="${path}"]`)).toBeFocused();
         // 부품을 고른 뒤에도 같은 자리의 변경 버튼으로 돌아온다.
         await page.locator(`[data-loadout-open="${path}"]`).click();
-        await page.locator(`.loadout-options [data-loadout-pick="${MANTIS}"]`).click();
+        await page.locator(`.loadout-optrows [data-loadout-pick="${MANTIS}"]`).click();
         await expect(page.locator(`[data-loadout-open="${path}"]`)).toBeFocused();
     });
 });

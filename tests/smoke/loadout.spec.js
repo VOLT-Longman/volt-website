@@ -5,7 +5,7 @@ const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 // 수치 자료는 저장소의 data/loadout(게임 파일에서 추출)을 그대로 쓰고, 가격(UEX)만 모의한다.
 // 한국어 표기는 게임 한국어 패치 기준(data/loadout/ko.json)이다.
 const MANTIS = 'b837397c-47b6-45e7-b409-db290a068b47'; // Mantis GT-220 Gatling = 맨티스 GT-220 개틀링
-const DPS = 'DPS'; // 상단 핵심 수치의 이름표
+const DPS = '순간 DPS'; // 상단 핵심 수치의 이름표
 
 async function openAsgard(page, { prices = {} } = {}) {
     await mockApi(page);
@@ -25,7 +25,7 @@ const shieldOff = async (page) => {
     await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-open]').click();
     await page.locator('.loadout-picker [data-loadout-power]').click();
 };
-const pick = (page, id) => page.locator(`.loadout-options [data-loadout-pick="${id}"]`);
+const pick = (page, id) => page.locator(`.loadout-optrows [data-loadout-pick="${id}"]`);
 
 test.describe('로드아웃 편집기', () => {
     test('메뉴에서 들어가 함선을 고르면 기본 장착 요약과 출처가 보인다', async ({ page }) => {
@@ -85,10 +85,10 @@ test.describe('로드아웃 편집기', () => {
         const picker = page.locator('.loadout-picker');
         await expect(picker).toContainText(/맞는 부품 \d+종/);
         // 크기가 맞는 무기만 나온다(S3 자리).
-        expect(await picker.locator('.loadout-options .loadout-meta').allInnerTexts().then((list) => list.every((line) => line.startsWith('S3')))).toBe(true);
+        expect(await picker.locator('.loadout-optrows .loadout-meta').allInnerTexts().then((list) => list.every((line) => line.startsWith('S3')))).toBe(true);
         // 한국어 이름으로도, 원문 이름으로도 찾을 수 있다.
         await picker.locator('#loadout-picker-search').fill('맨티스');
-        const option = picker.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
+        const option = picker.locator('.loadout-optrows tr', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
         await expect(option).toContainText('맨티스 GT-220 개틀링');
         await picker.locator('#loadout-picker-search').fill('mantis');
         await expect(option.locator('strong')).toHaveAttribute('title', 'Mantis GT-220 Gatling');
@@ -120,7 +120,7 @@ test.describe('로드아웃 편집기', () => {
         // 가격표에 아무 부품도 없는 상황: 군용 등 전리품 전용 부품이 이렇게 보인다.
         await openAsgard(page, { prices: {} });
         await firstGunSlot(page).locator('[data-loadout-open]').click();
-        const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
+        const option = page.locator('.loadout-optrows tr', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
         await expect(option.locator('.loadout-price')).toHaveText('판매처 정보 없음');
         await expect(pick(page, MANTIS)).toBeEnabled();
         await pick(page, MANTIS).click();
@@ -134,14 +134,14 @@ test.describe('로드아웃 편집기', () => {
         await firstGunSlot(page).locator('[data-loadout-open]').click();
         const picker = page.locator('.loadout-picker');
         await expect(picker).toHaveAttribute('role', 'dialog');
-        const total = await picker.locator('.loadout-options li').count();
+        const total = await picker.locator('.loadout-optrows tr').count();
 
         // 상점에서 파는 것만 걸러 본다 → 가격표에 있는 맨티스만 남는다.
         await picker.locator('[data-loadout-buyable]').click();
-        await expect(picker.locator('.loadout-options li')).toHaveCount(1);
-        await expect(picker.locator('.loadout-options li')).toContainText('맨티스 GT-220 개틀링');
+        await expect(picker.locator('.loadout-optrows tr')).toHaveCount(1);
+        await expect(picker.locator('.loadout-optrows tr')).toContainText('맨티스 GT-220 개틀링');
         await picker.locator('[data-loadout-buyable]').click();
-        await expect(picker.locator('.loadout-options li')).toHaveCount(total);
+        await expect(picker.locator('.loadout-optrows tr')).toHaveCount(total);
 
         // Esc로 닫으면 아무것도 바뀌지 않는다.
         await page.keyboard.press('Escape');
@@ -200,11 +200,11 @@ test.describe('로드아웃 편집기', () => {
         await page.locator('#loadout-ship-search').fill('asgard');
         await page.locator('[data-loadout-ship="anvl_asgard"]').click();
         await expect(page.locator('#loadout-ship-title')).toHaveText('Anvil Asgard');
-        await expect(stat(page, DPS)).toHaveText('5,313');
+        await expect(stat(page, 'Burst DPS')).toHaveText('5,313');
         await firstGunSlot(page, 'CF-337 Panther Repeater').locator('[data-loadout-open]').click();
-        await expect(page.locator('.loadout-options li').first()).toContainText('Couldn\'t load prices');
+        await expect(page.locator('.loadout-optrows tr').first()).toContainText('Couldn\'t load prices');
         await pick(page, MANTIS).click();
-        await expect(stat(page, DPS)).not.toHaveText('5,313');
+        await expect(stat(page, 'Burst DPS')).not.toHaveText('5,313');
         await expect(page.locator('.loadout-shopping')).toContainText('Mantis GT-220 Gatling');
         await expect(page.locator('#loadout-app')).not.toContainText(/[가-힣]/);
 
@@ -448,7 +448,7 @@ test.describe('로드아웃 편집기', () => {
 
         // 부품 선택 창: 후보마다 대표 수치와 지금 부품과의 차이가 같은 열에 놓인다.
         await gun.locator('[data-loadout-open]').click();
-        const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
+        const option = page.locator('.loadout-optrows tr', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
         await expect(option.locator('.loadout-cmp-cell').first()).toContainText(/DPS\s*853\s*\+\d/);
     });
 
@@ -468,7 +468,7 @@ test.describe('로드아웃 편집기', () => {
         await page.locator('#loadout-ship-search').fill('asgard');
         await page.locator('[data-loadout-ship="anvl_asgard"]').click();
         await firstGunSlot(page, 'CF-447 라이노 리피터').locator('[data-loadout-open]').click();
-        const options = page.locator('.loadout-options li');
+        const options = page.locator('.loadout-optrows tr');
         for (const query of ['Revenant', '레버넌트']) {
             await page.locator('#loadout-picker-search').fill(query);
             await expect(options).toHaveCount(1);
@@ -487,17 +487,38 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('#loadout-ship-title')).toContainText('피닉스');
     });
 
-    test('세 칸 화면과 되돌리기: 후보를 고르는 동안 성능 요약이 보이고, 직전 변경을 취소할 수 있다', async ({ page }) => {
+    test('넓은 교체창과 되돌리기: 후보를 열 맞춘 표로 견주고, 직전 변경을 취소할 수 있다', async ({ page }) => {
         await page.setViewportSize({ width: 1440, height: 900 });
         await openAsgard(page);
         const undo = page.locator('[data-loadout-undo]');
         await expect(undo).toBeDisabled();
         await firstGunSlot(page).locator('[data-loadout-open]').click();
-        // 넓은 화면: 후보 목록이 가운데 칸에 놓이고, 화면을 덮는 막이 없으며, 성능 요약이 그대로 보인다.
-        await expect(page.locator('.loadout-drawer-backdrop')).toBeHidden();
-        const boxes = await Promise.all(['.loadout-slots', '.loadout-picker', '.loadout-panel'].map((selector) => page.locator(selector).boundingBox()));
-        expect(boxes[0].x + boxes[0].width).toBeLessThanOrEqual(boxes[1].x + 1);
-        expect(boxes[1].x + boxes[1].width).toBeLessThanOrEqual(boxes[2].x + 1);
+        // 편집하지 않을 때 빈 칸을 두지 않는다: 장비 목록과 요약 두 칸뿐이고, 장비는 화면 폭에 맞춰 두 줄로 놓인다.
+        await page.keyboard.press('Escape');
+        await expect(page.locator('.loadout-pickhint')).toHaveCount(0);
+        const groupX = await page.locator('.loadout-super').first().locator('.loadout-group').evaluateAll((list) => new Set(list.map((el) => Math.round(el.getBoundingClientRect().x))).size);
+        expect(groupX).toBeGreaterThan(1);
+        // 교체창은 화면 대부분을 쓰는 창으로 뜨고, 후보의 같은 수치가 같은 열에 놓인다.
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        const box = await page.locator('.loadout-picker').boundingBox();
+        expect(box.width).toBeGreaterThan(1000);
+        await expect(page.locator('.loadout-opttable thead th')).toContainText(['부품', 'DPS', '알파', '사거리', '소비 전력', '최저가']);
+        expect(await page.locator('.loadout-optrows tr').count()).toBeGreaterThan(8);
+        const visibleRows = await page.locator('.loadout-optrows tr').evaluateAll((list) => { const wrap = document.querySelector('.loadout-optwrap').getBoundingClientRect(); return list.filter((el) => el.getBoundingClientRect().bottom <= wrap.bottom).length; });
+        expect(visibleRows).toBeGreaterThan(7);
+        // 열 제목을 누르면 그 수치로 줄을 세운다.
+        await page.locator('[data-loadout-sort="m1"]').click();
+        const alphas = await page.locator('.loadout-optrows tr td:nth-of-type(2) b').allInnerTexts().then((list) => list.map((value) => Number(value.replace(/,/g, ''))));
+        expect(alphas).toEqual([...alphas].sort((x, y) => y - x));
+        await page.locator('[data-loadout-sort="m0"]').click();
+        // 무기는 피해 종류·형태로 거를 수 있다.
+        const all = await page.locator('.loadout-optrows tr').count();
+        await page.locator('[data-loadout-kind="gatling"]').click();
+        const gatlings = await page.locator('.loadout-optrows tr th strong').allInnerTexts();
+        expect(gatlings.length).toBeLessThan(all);
+        expect(gatlings.every((name) => name.includes('개틀링'))).toBe(true);
+        await page.locator('[data-loadout-dmg="energy"]').click();
+        await page.locator('[data-loadout-dmg="energy"]').click();
         await expect(stat(page, DPS)).toBeVisible();
         await pick(page, MANTIS).click();
         await expect(stat(page, DPS)).not.toHaveText('5,313');
@@ -576,14 +597,14 @@ test.describe('로드아웃 편집기', () => {
         await expect(row('EM 시그니쳐').locator('.loadout-change')).toHaveClass(/is-good/);
         // 후보 목록: 소비 전력이 늘어나는 부품은 따로 불리한 색으로 알린다.
         await firstGunSlot(page).locator('[data-loadout-open]').click();
-        const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
+        const option = page.locator('.loadout-optrows tr', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
         const draw = option.locator('.loadout-cmp-cell', { hasText: '소비 전력' }).locator('.loadout-delta');
         await expect(draw).toHaveClass(/is-good/);
         await expect(draw).toContainText('−0.9');
         // 같은 수치는 그 칸에서만 「동일」이라고 한다(전체가 같다는 뜻으로 읽히지 않게).
-        await expect(page.locator('.loadout-options .loadout-cmp-cell', { hasText: '동일' }).first()).toContainText(/DPS|알파|사거리|소비 전력/);
+        await expect(page.locator('.loadout-optrows .loadout-cmp-cell', { hasText: '동일' }).first()).toContainText(/DPS|알파|사거리|소비 전력/);
         // 목록 전체에서 소비 전력이 늘어나는 후보는 모두 불리, 줄어드는 후보는 모두 유리로 표시된다.
-        const chips = await page.locator('.loadout-options .loadout-cmp-cell', { hasText: '소비 전력' }).locator('.loadout-delta:not(:text-is("동일"))').evaluateAll((list) => list.map((el) => [el.textContent.includes('+'), el.classList.contains('is-bad')]));
+        const chips = await page.locator('.loadout-optrows .loadout-cmp-cell', { hasText: '소비 전력' }).locator('.loadout-delta:not(:text-is("동일"))').evaluateAll((list) => list.map((el) => [el.textContent.includes('+'), el.classList.contains('is-bad')]));
         expect(chips.length).toBeGreaterThan(1);
         expect(chips.every(([up, bad]) => up === bad)).toBe(true);
     });

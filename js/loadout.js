@@ -18,7 +18,7 @@
     let deps = {};
     const state = {
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
-        query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
+        query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(),
         tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [], split: {}, buildsOpen: false,
     };
@@ -29,6 +29,7 @@
             firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
             equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', changedCount: '{count}곳 변경됨',
+            burstDps: '순간 DPS', burstHint: '순간 DPS는 과열·탄약·축전 제한을 따지지 않고 모든 무기를 계속 쏠 때의 값입니다. 오래 쏠 때의 지속 DPS는 이보다 낮습니다.', colPart: '부품', colPrice: '최저가', dmg_energy: '에너지', dmg_ballistic: '실탄', dmg_distortion: '디스토션', kind_repeater: '리피터', kind_cannon: '캐논', kind_gatling: '개틀링', kind_scattergun: '스캐터건', kind_beam: '빔', sortHint: '{label} 기준으로 줄 세우기',
             sortLabel: '정렬', sort_best: '성능순', sort_name: '이름순', sort_price: '가격 낮은순', filterLabel: '부품 걸러 보기', buyableOnly: '상점 판매만',
             bulkApply: '같은 부품이 달린 {count}곳을 한 번에 교체', powerShort: '출력', coolingShort: '냉각',
             flight: '비행 성능', scmSpeed: 'SCM 속도', boostSpeed: '부스트 속도', boostBack: '부스트 후진', navSpeed: '최고 속도 (NAV)', pitch: '피치', yaw: '요', roll: '롤', degPerSec: '°/초',
@@ -82,6 +83,7 @@
             firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
             equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', changedCount: '{count} slots changed',
+            burstDps: 'Burst DPS', burstHint: 'Burst DPS assumes every weapon keeps firing with no heat, ammo or capacitor limits. Sustained DPS over a long burst is lower.', colPart: 'Part', colPrice: 'Lowest price', dmg_energy: 'Energy', dmg_ballistic: 'Ballistic', dmg_distortion: 'Distortion', kind_repeater: 'Repeater', kind_cannon: 'Cannon', kind_gatling: 'Gatling', kind_scattergun: 'Scattergun', kind_beam: 'Beam', sortHint: 'Sort by {label}',
             sortLabel: 'Sort', sort_best: 'Best first', sort_name: 'Name', sort_price: 'Lowest price', filterLabel: 'Filter parts', buyableOnly: 'Sold in shops',
             bulkApply: 'Replace all {count} slots with this part', powerShort: 'Output', coolingShort: 'Cooling',
             flight: 'Flight performance', scmSpeed: 'SCM speed', boostSpeed: 'Boost speed', boostBack: 'Boost reverse', navSpeed: 'Top speed (NAV)', pitch: 'Pitch', yaw: 'Yaw', roll: 'Roll', degPerSec: '°/s',
@@ -417,7 +419,7 @@
             </div>
             ${state.buildsOpen ? drawBuilds() : ''}
             <div class="loadout-kpis" role="group" aria-label="${esc(text('kpiLabel'))}">
-                ${kpi('DPS', num(totals.dps.total), drawChange(totals.dps.total, stock.dps.total))}
+                ${kpi(text('burstDps'), num(totals.dps.total), drawChange(totals.dps.total, stock.dps.total))}
                 ${kpi(text('kpiAlpha'), num(totals.alpha.total), drawChange(totals.alpha.total, stock.alpha.total))}
                 ${kpi(text('kpiShield'), num(totals.shield.hp), drawChange(totals.shield.hp, stock.shield.hp))}
                 ${ship.base?.hull ? kpi(text('kpiHull'), num(ship.base.hull)) : ''}
@@ -502,7 +504,7 @@
                     ${row(text('turret'), num(totals.dps.turret), drawChange(totals.dps.turret, stock.dps.turret))}
                     ${row(text('weaponCount'), text('weapons', { count: totals.weapons }))}
                     ${row(text('missiles'), `${num(totals.missiles.damage)} (${text('missileCount', { count: totals.missiles.count })})`, drawChange(totals.missiles.damage, stock.missiles.damage))}
-                </dl>`, true)}
+                </dl><p class="loadout-note loadout-dpsnote">${esc(text('burstHint'))}</p>`, true)}
             ${section(text('defense'), `
                 <dl class="loadout-rows">${row(text('regenLabel'), `${num(totals.shield.regen)}${text('perSecond')}`, drawChange(totals.shield.regen, stock.shield.regen))}${row(text('shieldCount'), text('unitCount', { count: totals.shield.count }))}${shieldResistRows(row)}</dl>`)}
             ${section(text('systems'), `
@@ -563,18 +565,6 @@
         return list;
     }
     const compareMetric = (item) => metricsOf(item)[0] || null;
-    // 후보 한 줄의 수치 칸들. 지금 달린 부품과 견준 차이를 칸마다 유리·불리 색으로 붙인다("동일"은 그 칸의 수치가 같다는 뜻).
-    function drawCompareCells(item, currentItem, isCurrent) {
-        const now = new Map(metricsOf(currentItem).map((metric) => [metric.label, metric]));
-        return `<div class="loadout-cmp">${metricsOf(item).map((metric) => {
-            const base = isCurrent ? null : now.get(metric.label);
-            const diff = base ? metric.value - base.value : 0;
-            const delta = !base ? '' : Math.abs(diff) < (metric.digits ? 0.05 : 0.5) ? `<span class="loadout-delta">${esc(text('same'))}</span>`
-                : `<span class="loadout-delta is-${toneOf(diff, metric.better)}">${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff), metric.digits))}${toneWord(toneOf(diff, metric.better))}</span>`;
-            return `<span class="loadout-cmp-cell"><small>${esc(metric.label)}</small><b>${esc(num(metric.value, metric.digits))}</b>${delta}</span>`;
-        }).join('')}</div>`;
-    }
-
     // 대표 수치 한 칸(무기는 DPS, 실드는 내구 …). 목록에서 같은 열에 놓여 위아래로 견주기 쉽다.
     function drawMetric(item) {
         const metric = compareMetric(item);
@@ -605,8 +595,11 @@
         return (a, b) => { const x = metricsOf(a)[index]; const y = metricsOf(b)[index]; if (!x || !y) return (y ? 1 : 0) - (x ? 1 : 0); return x.better === 'low' ? x.value - y.value : y.value - x.value; };
     };
 
-    // 넓은 화면에서는 후보 목록이 가운데 칸에 놓이고(성능 요약이 가려지지 않는다), 좁은 화면에서는 화면을 덮는 창으로 뜬다.
-    const isOverlayPicker = () => window.matchMedia('(max-width: 1359px)').matches;
+    // 부품 교체창은 어느 화면에서나 화면을 덮는 넓은 창으로 뜬다(후보를 표로 나란히 견주기 위해).
+    const isOverlayPicker = () => true;
+    // 무기 후보를 거르는 갈래: 피해 종류(에너지·실탄·디스토션)와 무기 형태(캐논·개틀링·리피터 …).
+    const damageOf = (item) => { const type = String(item?.dtype || ''); if (!item?.w || !type) return ''; return /Distortion/.test(type) ? 'distortion' : /Ballistic|Mass Driver|Rocket/.test(type) ? 'ballistic' : /Laser|Neutron|Plasma|Tachyon/.test(type) ? 'energy' : ''; };
+    const kindOf = (item) => { const type = String(item?.dtype || ''); return !item?.w ? '' : /Repeater/.test(type) ? 'repeater' : /Cann?on/.test(type) ? 'cannon' : /Gatling/.test(type) ? 'gatling' : /Scattergun/.test(type) ? 'scattergun' : /Beam/.test(type) ? 'beam' : ''; };
 
     function drawPicker(node, nodes) {
         const query = state.pickerQuery.trim().toLowerCase();
@@ -619,21 +612,38 @@
             .filter(([id, item]) => !query || [item.name, itemName(id, item), item.mfr, mfrName(item)].some((value) => String(value || '').toLowerCase().includes(query)))
             .filter(([, item]) => !state.pickerGrade || item.grade === state.pickerGrade)
             .filter(([, item]) => !state.pickerClass || item.klass === state.pickerClass)
+            .filter(([, item]) => !state.pickerDamage || damageOf(item) === state.pickerDamage)
+            .filter(([, item]) => !state.pickerKind || kindOf(item) === state.pickerKind)
             .filter(([id, item]) => !state.pickerBuyable || priceInfo(id, item).min > 0)
             .sort(([ida, a], [idb, b]) => sortFn(state.pickerSort)(a, b, ida, idb) || String(itemName(ida, a)).localeCompare(String(itemName(idb, b))));
         const shown = candidates.slice(0, 80);
         const run = runOf(node.path);
         const siblings = siblingSlots(node, nodes);
         const mount = mountOf.get(node.path);
-        const extraSorts = metricsOf(node.item || fitting[0]?.[1]).slice(1, 3).map((metric, index) => [`m${index + 1}`, text('sortBy', { label: metric.label })]);
-        const sorts = [['best', text('sort_best')], ...extraSorts, ['name', text('sort_name')], ['price', text('sort_price')]];
+        // 표의 열: 지금 달린 부품(없으면 첫 후보)의 수치 종류를 기준으로 삼아, 같은 수치가 같은 열에 놓이게 한다.
+        const columns = metricsOf(node.item || fitting[0]?.[1]);
+        const sorts = [['best', text('sort_best')], ...columns.map((metric, index) => [`m${index}`, text('sortBy', { label: metric.label })]), ['name', text('sort_name')], ['price', text('sort_price')]];
         const where = placeOf.get(node.path) || slotLabel(node.slot, node.item);
         const chip = (attr, value, label, active) => `<button type="button" class="loadout-chip${active ? ' is-active' : ''}" ${attr}="${esc(value)}" aria-pressed="${active}">${esc(label)}</button>`;
+        const damages = ['energy', 'ballistic', 'distortion'].filter((key) => fitting.some(([, item]) => damageOf(item) === key));
+        const kinds = ['cannon', 'repeater', 'gatling', 'scattergun', 'beam'].filter((key) => fitting.some(([, item]) => kindOf(item) === key));
+        const head = (key, label, first) => `<th scope="col" class="${first ? 'is-name' : ''}" ${state.pickerSort === key ? 'aria-sort="descending"' : ''}><button type="button" class="loadout-sortbtn${state.pickerSort === key ? ' is-active' : ''}" data-loadout-sort="${key}" title="${esc(text('sortHint', { label }))}">${esc(label)}</button></th>`;
+        const now = new Map(metricsOf(node.item).map((metric) => [metric.label, metric]));
+        // 수치 한 칸. 지금 달린 부품과 견준 차이를 유리·불리 색으로 붙인다("동일"은 그 칸의 수치가 같다는 뜻).
+        const cell = (item, column, isCurrent) => {
+            const metric = metricsOf(item).find((entry) => entry.label === column.label);
+            if (!metric) return `<td class="loadout-cmp-cell is-blank">—</td>`;
+            const base = isCurrent ? null : now.get(metric.label);
+            const diff = base ? metric.value - base.value : 0;
+            const delta = !base ? '' : Math.abs(diff) < (metric.digits ? 0.05 : 0.5) ? `<span class="loadout-delta">${esc(text('same'))}</span>`
+                : `<span class="loadout-delta is-${toneOf(diff, metric.better)}">${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff), metric.digits))}${toneWord(toneOf(diff, metric.better))}</span>`;
+            return `<td class="loadout-cmp-cell"><small>${esc(metric.label)}</small> <b>${esc(num(metric.value, metric.digits))}</b> ${delta}</td>`;
+        };
         return `<div class="loadout-drawer-backdrop" data-loadout-close></div>
-        <div class="loadout-picker" role="dialog" aria-modal="${isOverlayPicker()}" aria-label="${esc(where)}">
+        <div class="loadout-picker" role="dialog" aria-modal="true" aria-label="${esc(where)}">
             <div class="loadout-picker-title">
-                <div><span class="loadout-slot-label">${esc(where)}${run.length > 1 ? ` ×${run.length}` : ''}</span><strong>${esc(node.item ? itemName(node.itemId, node.item) : text('empty'))}</strong>
-                    ${node.item ? `<span class="loadout-picker-detail">${itemName(node.itemId, node.item) !== node.item.name ? `<span class="loadout-origin">${esc(node.item.name)}</span>` : ''}<span class="loadout-meta">${esc(itemMeta(node.item))}</span></span>` : ''}</div>
+                <div><span class="loadout-slot-label">${esc(where)}${run.length > 1 ? ` ×${run.length}` : ''}</span><strong title="${esc(node.item?.name || '')}">${esc(node.item ? itemName(node.itemId, node.item) : text('empty'))}</strong>
+                    ${node.item ? `<span class="loadout-picker-detail"><span class="loadout-meta">${esc(itemMeta(node.item))}</span></span>` : ''}</div>
                 <button type="button" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button>
             </div>
             ${mount && mount.slot.kind === 's' ? `<p class="loadout-note loadout-mountnote">${esc(text('mountedOn'))}: ${esc(itemName(mount.itemId, mount.item))} <button type="button" class="loadout-link" data-loadout-open="${esc(mount.path)}">${esc(text(/Launcher$/.test(mount.item?.type || '') ? 'rackChange' : 'mountChange'))}</button></p>` : ''}
@@ -646,6 +656,8 @@
                 </label>
             </div>
             <div class="loadout-filters" role="group" aria-label="${esc(text('filterLabel'))}">
+                ${damages.length > 1 ? damages.map((key) => chip('data-loadout-dmg', key, text(`dmg_${key}`), state.pickerDamage === key)).join('') : ''}
+                ${kinds.length > 1 ? kinds.map((key) => chip('data-loadout-kind', key, text(`kind_${key}`), state.pickerKind === key)).join('') : ''}
                 ${grades.map((grade) => chip('data-loadout-grade', grade, `${text('grade')} ${grade}`, state.pickerGrade === grade)).join('')}
                 ${classes.map((klass) => chip('data-loadout-class', klass, className({ klass }), state.pickerClass === klass)).join('')}
                 ${chip('data-loadout-buyable', '1', text('buyableOnly'), Boolean(state.pickerBuyable))}
@@ -653,14 +665,15 @@
             <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}${Number(node.item?.power?.use) > 0 || state.off[node.path] ? ` <button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(node.path)}" aria-pressed="${Boolean(state.off[node.path])}">${esc(text(state.off[node.path] ? 'powerOn' : 'powerOff'))}</button>` : ''}</p>
             ${run.length > 1 ? `<p class="loadout-note loadout-runnote">${esc(text('runNote', { count: run.length }))}</p>` : ''}
             ${siblings.length + 1 > run.length ? `<label class="loadout-bulk"><input type="checkbox" id="loadout-bulk" ${state.pickerBulk ? 'checked' : ''}> ${esc(text('bulkApply', { count: siblings.length + 1 }))}</label>` : ''}
-            <ul class="loadout-options">${shown.map(([id, item]) => `<li class="${id === currentId ? 'is-current' : ''}">
-                <div class="loadout-option-main">
-                    <strong title="${esc(item.name)}">${esc(itemName(id, item))}</strong>
-                    <span class="loadout-meta">${esc(itemMeta(item))}</span>${drawPrice(id, item)}
-                </div>
-                ${drawCompareCells(item, node.item, id === currentId)}
-                <button type="button" class="btn btn-secondary loadout-equip" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === currentId ? 'disabled' : ''}>${esc(id === currentId ? text('selected') : text('select'))}</button>
-            </li>`).join('') || `<li class="loadout-note">${esc(text('pickerEmpty'))}</li>`}</ul>
+            <div class="loadout-optwrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-opttable">
+                <thead><tr>${head('name', text('colPart'), true)}${columns.map((metric, index) => head(`m${index}`, metric.label)).join('')}${head('price', text('colPrice'))}<th scope="col"></th></tr></thead>
+                <tbody class="loadout-optrows">${shown.map(([id, item]) => `<tr class="${id === currentId ? 'is-current' : ''}">
+                    <th scope="row" class="loadout-option-main"><strong title="${esc(item.name)}">${esc(itemName(id, item))}</strong><span class="loadout-meta">${esc(itemMeta(item))}</span></th>
+                    ${columns.map((column) => cell(item, column, id === currentId)).join('')}
+                    <td class="loadout-optprice">${drawPrice(id, item)}</td>
+                    <td class="loadout-optact"><button type="button" class="btn btn-secondary loadout-equip" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === currentId ? 'disabled' : ''}>${esc(id === currentId ? text('selected') : text('select'))}</button></td>
+                </tr>`).join('') || `<tr><td class="loadout-note" colspan="${columns.length + 3}">${esc(text('pickerEmpty'))}</td></tr>`}</tbody>
+            </table></div>
         </div>`;
     }
 
@@ -1044,7 +1057,7 @@
         if (!container) return;
         const focusId = document.activeElement?.id;
         const caret = document.activeElement?.selectionStart;
-        const scrolled = container.querySelector('.loadout-options')?.scrollTop || 0;
+        const scrolled = container.querySelector('.loadout-optwrap')?.scrollTop || 0;
         let body = '';
         if (state.error) body = `<div class="loadout-error" role="alert"><p>${esc(state.error)}</p><button type="button" class="btn btn-secondary" data-loadout-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.index) body = `<p class="loadout-note" role="status">${esc(text('loading'))}</p>`;
@@ -1063,9 +1076,9 @@
                 body += `${drawShipHead(totals, stock)}
                     ${drawShipPicker()}
                     ${drawTabs()}
-                    <div class="loadout-columns${state.tab === 'slots' ? ' is-edit' : ''}">
+                    <div class="loadout-columns">
                         <div class="loadout-slots">${main}</div>
-                        ${openNode ? drawPicker(openNode, nodes) : state.tab === 'slots' ? `<div class="loadout-pickhint"><p class="loadout-note">${esc(text('pickSlotHint'))}</p></div>` : ''}
+                        ${openNode ? drawPicker(openNode, nodes) : ''}
                         ${drawSummary(totals, cost, stock)}
                     </div>`;
             }
@@ -1079,7 +1092,7 @@
         container.classList.toggle('has-drawer', Boolean(state.openPath && state.ship));
         // 함선을 고른 뒤에는 큰 제목·설명을 접어 편집 화면이 바로 보이게 한다.
         document.getElementById('loadout')?.classList.toggle('has-ship', Boolean(state.ship));
-        const options = container.querySelector('.loadout-options');
+        const options = container.querySelector('.loadout-optwrap');
         if (options && scrolled) options.scrollTop = scrolled;
         if (focusId) {
             const target = document.getElementById(focusId);
@@ -1089,7 +1102,7 @@
 
     // ---- 동작 -------------------------------------------------------------
     function closePicker() {
-        state.openPath = ''; state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerBuyable = false; state.pickerBulk = false;
+        state.openPath = ''; state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerDamage = ''; state.pickerKind = ''; state.pickerBuyable = false; state.pickerBulk = false;
     }
 
     // 부품 선택 창을 닫고, 창을 열었던 "변경" 버튼으로 초점을 돌려보낸다.
@@ -1161,6 +1174,12 @@
         }
         const grade = target.getAttribute('data-loadout-grade');
         if (grade !== null) { state.pickerGrade = state.pickerGrade === grade ? '' : grade; draw(); return; }
+        const sortKey = target.getAttribute('data-loadout-sort');
+        if (sortKey !== null) { state.pickerSort = sortKey; draw(); return; }
+        const dmg = target.getAttribute('data-loadout-dmg');
+        if (dmg !== null) { state.pickerDamage = state.pickerDamage === dmg ? '' : dmg; draw(); return; }
+        const kind = target.getAttribute('data-loadout-kind');
+        if (kind !== null) { state.pickerKind = state.pickerKind === kind ? '' : kind; draw(); return; }
         const klass = target.getAttribute('data-loadout-class');
         if (klass !== null) { state.pickerClass = state.pickerClass === klass ? '' : klass; draw(); return; }
         if (target.hasAttribute('data-loadout-buyable')) { state.pickerBuyable = !state.pickerBuyable; draw(); return; }
@@ -1172,7 +1191,7 @@
             if (next[powerPath]) delete next[powerPath]; else next[powerPath] = true;
             state.off = next;
             // 화면을 덮는 선택 창에서 눌렀으면 창을 닫아 결과가 바로 보이게 한다.
-            if (target.closest('.loadout-picker') && isOverlayPicker()) closePicker();
+            if (target.closest('.loadout-picker')) closePicker();
             writeStored(); draw(); return;
         }
         const splitParent = target.getAttribute('data-loadout-split');
