@@ -291,6 +291,53 @@ function main() {
         return out;
     }
 
+    // 선체: 함선 구조 XML의 부위별 내구도 합과 전체 질량.
+    function hullStats(xml) {
+        if (!xml) return {};
+        let hull = 0; let mass = 0;
+        const walk = (node) => {
+            if (node.tag === 'Part') { hull += Number(node.attrs.damageMax) || 0; mass += Number(node.attrs.mass) || 0; }
+            for (const child of node.children) walk(child);
+        };
+        walk(xml);
+        return { hull: round(hull, 0) || undefined, mass: round(mass, 0) || undefined };
+    }
+
+    // 바꿀 수 없는 기본 장비에서 읽는 수치: 비행 제어기(속도·선회), 연료 탱크, 장갑.
+    function fixedEquipment(entries) {
+        const out = {}; let hydrogen = 0; let quantumFuel = 0;
+        for (const entry of entries || []) {
+            const record = entry.entityClassReference?.__record ? df.recordById.get(entry.entityClassReference.__record)
+                : (entry.entityClassName ? recordByClass.get(String(entry.entityClassName).toLowerCase()) : null);
+            if (!record) continue;
+            const entity = entityOf(record);
+            const ifcs = component(entity, 'IFCSParams');
+            if (ifcs && !out.flight) {
+                out.flight = prune({
+                    scm: round(ifcs.scmSpeed, 0), boost: round(ifcs.boostSpeedForward, 0), boostBack: round(ifcs.boostSpeedBackward, 0), max: round(ifcs.maxSpeed, 0),
+                    pitch: round(ifcs.maxAngularVelocity?.x, 1), yaw: round(ifcs.maxAngularVelocity?.z, 1), roll: round(ifcs.maxAngularVelocity?.y, 1),
+                });
+            }
+            const armor = component(entity, 'SCItemVehicleArmorParams');
+            if (armor && !out.armor) {
+                out.armor = prune({
+                    hp: round(component(entity, 'SHealthComponentParams')?.Health, 0),
+                    physical: round(armor.damageMultiplier?.DamagePhysical, 3), energy: round(armor.damageMultiplier?.DamageEnergy, 3), distortion: round(armor.damageMultiplier?.DamageDistortion, 3),
+                    ir: round(armor.signalInfrared, 3), em: round(armor.signalElectromagnetic, 3), cs: round(armor.signalCrossSection, 3),
+                });
+            }
+            if (component(entity, 'SCItemFuelTankParams')) {
+                const tank = component(entity, 'ResourceContainer');
+                const amount = Number(tank?.capacity?.standardCargoUnits) || 0;
+                const kinds = (tank?.inclusiveResources || []).map((resource) => String(resource?.name || ''));
+                if (kinds.some((kind) => /QuantumFuel/i.test(kind))) quantumFuel += amount;
+                else if (kinds.some((kind) => /Hydrogen|PlasmaFuel/i.test(kind))) hydrogen += amount;
+            }
+        }
+        if (hydrogen || quantumFuel) out.fuel = prune({ h2: round(hydrogen, 2) || undefined, qt: round(quantumFuel, 2) || undefined });
+        return out;
+    }
+
     const voltIds = (() => {
         const text = readFileSync(resolve(ROOT, 'data/ship-live-stats.js'), 'utf8');
         const marker = 'window.VOLT_SHIP_LIVE_STATS = ';
@@ -318,14 +365,16 @@ function main() {
         const xml = game.xml.get(xmlFile) ? parseCryXml(game.xml.get(xmlFile)) : null;
         const ports = xml ? xmlPorts(xml) : new Map();
         for (const port of compactPorts(entity)) if (!ports.has(port.name.toLowerCase())) ports.set(port.name.toLowerCase(), port);
-        const slots = buildSlots(component(entity, 'SEntityComponentDefaultLoadoutParams')?.loadout?.entries, ports);
+        const defaultEntries = component(entity, 'SEntityComponentDefaultLoadoutParams')?.loadout?.entries;
+        const slots = buildSlots(defaultEntries, ports);
         if (!slots.length) continue;
+        const base = prune({ crew: vehicle.crewSize, ...hullStats(xml), ...fixedEquipment(defaultEntries) });
         const manufacturer = manufacturerOf(vehicle.manufacturer);
         ships.set(cls.toLowerCase(), prune({
             cls: cls.toLowerCase(), ref: record.id, name: name.replace(/\s+/g, ' '), mfr: manufacturer.name, mfrCode: manufacturer.code,
             size: Number(xml?.attrs.size) || undefined, role: localize(vehicle.vehicleRole) || undefined,
             volt: voltIds.get(cls.toLowerCase()), ground: /\/groundvehicles\//i.test(record.file) ? true : undefined,
-            tags: tagList(xml?.attrs.itemPortTags), base: { crew: vehicle.crewSize },
+            tags: tagList(xml?.attrs.itemPortTags), base,
             slots,
         }));
     }
@@ -334,7 +383,8 @@ function main() {
     const shipList = [...ships.values()].map((ship) => prune({ cls: ship.cls, name: ship.name, mfr: ship.mfr, size: ship.size, role: ship.role, volt: ship.volt, ground: ship.ground }))
         .sort((a, b) => a.name.localeCompare(b.name));
     const version = [game.build.Branch?.replace(/^sc-alpha-/, ''), game.build.RequestedP4ChangeNum].filter(Boolean).join('-LIVE.') || 'unknown';
-    rmSync(OUT, { recursive: true, force: true });
+    // 함선 파일만 비우고 다시 쓴다. 한국어 표기(ko.json)는 다른 생성기(loadout:ko)의 결과물이라 지우지 않는다.
+    rmSync(resolve(OUT, 'ships'), { recursive: true, force: true });
     mkdirSync(resolve(OUT, 'ships'), { recursive: true });
     const write = (file, value) => writeFileSync(resolve(OUT, file), `${JSON.stringify(value)}\n`);
     write('items.json', { version, items });

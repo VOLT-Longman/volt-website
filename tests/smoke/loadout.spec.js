@@ -305,4 +305,53 @@ test.describe('로드아웃 편집기', () => {
         expect(input).toBeGreaterThanOrEqual(16);
         await ctx.close();
     });
+
+    test('비행 성능·선체·장갑·퀀텀 항속과 이동 시간을 보여준다', async ({ page }) => {
+        await openAsgard(page);
+        await expect(stat(page, 'SCM 속도')).toContainText('203');
+        await expect(stat(page, '최고 속도 (NAV)')).toContainText('1,075');
+        await expect(stat(page, '롤')).toContainText('95');
+        await expect(stat(page, '선체 내구도')).toHaveText('77,000');
+        const hull = page.locator('.loadout-hull');
+        await expect(hull).toContainText(/물리 피해 받는 비율\s*70%/);
+        await expect(hull).toContainText(/에너지 피해 받는 비율\s*50%/);
+        const quantum = page.locator('.loadout-panel-section', { hasText: '퀀텀 속도' });
+        await expect(quantum).toContainText(/항속 거리\s*706 Gm/);
+        await expect(quantum).toContainText(/퀀텀 연료\s*7\.7 SCU/);
+        // 거리를 바꾸면 예상 이동 시간이 바로 바뀌고, 입력 중인 칸은 그대로 유지된다.
+        await expect(page.locator('#loadout-qt-time')).toHaveText('2분 40초');
+        await page.locator('#loadout-qt-distance').fill('60');
+        await expect(page.locator('#loadout-qt-time')).toHaveText('4분 46초');
+        await expect(page.locator('#loadout-qt-distance')).toBeFocused();
+    });
+
+    test('무기 상세에 미사일 표가 나오고, 저장한 구성과 지금 구성을 나란히 비교한다', async ({ page }) => {
+        await openAsgard(page);
+        await page.locator('[data-loadout-tab="weapons"]').click();
+        const missiles = page.locator('.loadout-missiletable');
+        await expect(missiles.locator('tbody tr')).not.toHaveCount(0);
+        await expect(missiles.locator('thead')).toContainText('락온');
+
+        // 저장한 구성이 없으면 비교 탭이 방법을 안내한다.
+        await page.locator('[data-loadout-tab="compare"]').click();
+        await expect(page.locator('.loadout-view')).toContainText('먼저 구성을 하나 저장해 보세요');
+
+        // 기본 장착을 저장해 두고, 기총을 바꾼 뒤 비교한다.
+        await page.locator('#loadout-build-name').fill('기본형');
+        await page.locator('[data-loadout-build-save]').click();
+        await page.locator('[data-loadout-tab="slots"]').click();
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        await page.locator('#loadout-bulk').check();
+        await pick(page, MANTIS).click();
+        await page.locator('[data-loadout-build-compare="0"]').click();
+        const table = page.locator('.loadout-comparetable');
+        await expect(table.locator('thead')).toContainText('기본형');
+        const dpsRow = table.locator('tbody tr').first();
+        await expect(dpsRow.locator('td').nth(1)).toHaveText('5,313');
+        await expect(dpsRow.locator('td').nth(0)).not.toHaveText('5,313');
+        await expect(dpsRow.locator('.loadout-change')).toBeVisible();
+        await expect(table.locator('tbody tr', { hasText: '선체 내구도' })).toContainText('동일');
+        await page.locator('[data-loadout-compare-clear]').click();
+        await expect(page.locator('.loadout-comparetable')).toHaveCount(0);
+    });
 });

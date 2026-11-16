@@ -171,12 +171,27 @@
                     speed: Number(item.qd.speed) || 0,
                     spool: Number(item.qd.spool) || 0,
                     cooldown: Number(item.qd.cool) || 0,
-                    // 항속 거리는 싣지 않는다: 연료량÷요구량으로 구한 값이 원본 계산값과 맞지 않아
-                    // (179척 중 11척만 일치) 검증되기 전까지 틀린 숫자를 보여주지 않는다.
+                    accel: Number(item.qd.s2) || Number(item.qd.s1) || 0,
+                    fuelUse: Number(item.qd.fuel) || 0,
+                    // 항속 거리(Gm): 퀀텀 연료 탱크 용량(SCU) ÷ 드라이브의 연료 요구량. 게임 파일 수치로 계산한 어림값.
+                    range: ship.base?.fuel?.qt && Number(item.qd.fuel) ? ship.base.fuel.qt / Number(item.qd.fuel) : 0,
                 };
             }
         });
         return totals;
+    }
+
+    // 퀀텀 이동 시간(초) 어림: 스풀링 → 가속 → 최고 속도 순항 → 감속.
+    // 가속·감속을 같은 값으로 본 단순 계산이라 실제 게임과 조금 다를 수 있다.
+    function quantumTravelTime(quantum, distanceGm) {
+        const distance = (Number(distanceGm) || 0) * 1e9;
+        const speed = Number(quantum?.speed) || 0;
+        const accel = Number(quantum?.accel) || 0;
+        if (!distance || !speed) return 0;
+        const spool = Number(quantum.spool) || 0;
+        if (!accel) return spool + distance / speed;
+        const rampDistance = speed * speed / accel;
+        return spool + (distance >= rampDistance ? distance / speed + speed / accel : 2 * Math.sqrt(distance / accel));
     }
 
     // 공유용 문자열: 바꾼 슬롯만 "경로=부품id"로 이어 붙인다. 기본 장착은 담지 않는다.
@@ -216,5 +231,5 @@
         return valid;
     }
 
-    return { DAMAGE_TYPES, sumDamage, weaponStats, weaponRange, fitsSlot, normalizeTag, walkLoadout, summarize, encodeOverrides, decodeOverrides, sanitizeOverrides };
+    return { DAMAGE_TYPES, sumDamage, weaponStats, weaponRange, fitsSlot, normalizeTag, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
 });

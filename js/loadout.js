@@ -20,7 +20,7 @@
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(),
-        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40,
+        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null,
     };
 
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
@@ -31,6 +31,11 @@
             equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', changedCount: '{count}곳 변경됨',
             sortLabel: '정렬', sort_best: '성능순', sort_name: '이름순', sort_price: '가격 낮은순', filterLabel: '부품 걸러 보기', buyableOnly: '상점 판매만',
             bulkApply: '같은 부품이 달린 {count}곳을 한 번에 교체', powerShort: '출력', coolingShort: '냉각',
+            flight: '비행 성능', scmSpeed: 'SCM 속도', boostSpeed: '부스트 속도', boostBack: '부스트 후진', navSpeed: '최고 속도 (NAV)', pitch: '피치', yaw: '요', roll: '롤', degPerSec: '°/초',
+            hullArmor: '선체·장갑', hullHp: '선체 내구도', hullNote: '선체 내구도는 부위별 내구도를 모두 더한 값입니다. 장갑 수치는 받는 피해의 비율이라 낮을수록 단단합니다.', armorHp: '장갑 내구도', mass: '질량', armorTaken: '{type} 피해 받는 비율', armorSignal: '장갑 시그니쳐 배율',
+            rangeLabel: '항속 거리', qtFuel: '퀀텀 연료', h2Fuel: '수소 연료', travelFor: '이동 거리 (Gm)', travelTime: '예상 이동 시간', travelNote: '항속 거리와 이동 시간은 게임 파일 수치로 계산한 어림값입니다.', minSec: '{min}분 {sec}초',
+            tab_compare: '구성 비교', compareWith: '비교', compareEmpty: '「저장한 로드아웃」에서 「비교」를 누르면 지금 구성과 나란히 견줘 볼 수 있습니다. 먼저 구성을 하나 저장해 보세요.', compareNow: '지금 구성', compareItem: '항목', compareDiff: '차이 (지금 − 비교 대상)', compareClear: '비교 끝내기',
+            missileTable: '미사일·폭탄', lockShort: '락온', trackShort: '추적 방식', dmgShort: '피해',
             tabsLabel: '로드아웃 화면', tab_slots: '장착', tab_weapons: '무기 상세', tab_finder: '부품 찾기', tab_cart: '장바구니',
             cartEmpty: '장바구니가 비어 있습니다. 부품 찾기나 부품 선택 창에서 「담기」를 눌러 보세요.', cartSummary: '부품 {kinds}종 · {count}개', cartClear: '장바구니 비우기', cartRemove: '빼기',
             cartAdd: '담기', cartAdded: '장바구니에 담았습니다.', inCart: '담음 {count}', cartAddChanged: '바꾼 부품 장바구니에 담기', cartByShop: '상점별로 살 것', qtyLess: '수량 줄이기', qtyMore: '수량 늘리기',
@@ -70,6 +75,11 @@
             equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', changedCount: '{count} slots changed',
             sortLabel: 'Sort', sort_best: 'Best first', sort_name: 'Name', sort_price: 'Lowest price', filterLabel: 'Filter parts', buyableOnly: 'Sold in shops',
             bulkApply: 'Replace all {count} slots with this part', powerShort: 'Output', coolingShort: 'Cooling',
+            flight: 'Flight performance', scmSpeed: 'SCM speed', boostSpeed: 'Boost speed', boostBack: 'Boost reverse', navSpeed: 'Top speed (NAV)', pitch: 'Pitch', yaw: 'Yaw', roll: 'Roll', degPerSec: '°/s',
+            hullArmor: 'Hull & armor', hullHp: 'Hull HP', hullNote: 'Hull HP is the sum of every hull part. Armor values are the share of damage taken, so lower is tougher.', armorHp: 'Armor HP', mass: 'Mass', armorTaken: '{type} damage taken', armorSignal: 'Armor signature multiplier',
+            rangeLabel: 'Range', qtFuel: 'Quantum fuel', h2Fuel: 'Hydrogen fuel', travelFor: 'Distance (Gm)', travelTime: 'Estimated travel time', travelNote: 'Range and travel time are estimates calculated from game file values.', minSec: '{min}m {sec}s',
+            tab_compare: 'Compare', compareWith: 'Compare', compareEmpty: 'Press Compare on a saved loadout to see it next to your current setup. Save a setup first.', compareNow: 'Current setup', compareItem: 'Stat', compareDiff: 'Difference (current − other)', compareClear: 'Stop comparing',
+            missileTable: 'Missiles & bombs', lockShort: 'Lock', trackShort: 'Tracking', dmgShort: 'Damage',
             tabsLabel: 'Loadout views', tab_slots: 'Hardpoints', tab_weapons: 'Weapons', tab_finder: 'Part finder', tab_cart: 'Cart',
             cartEmpty: 'Your cart is empty. Use Add in the part finder or the part picker.', cartSummary: '{kinds} parts · {count} items', cartClear: 'Empty cart', cartRemove: 'Remove',
             cartAdd: 'Add', cartAdded: 'Added to cart.', inCart: 'In cart {count}', cartAddChanged: 'Add changed parts to cart', cartByShop: 'What to buy at each shop', qtyLess: 'Decrease quantity', qtyMore: 'Increase quantity',
@@ -354,6 +364,40 @@
             .map((type) => row(text('resist', { type: table('damage')[type] || type }), `${percent(shield.res[type][0])} – ${percent(shield.res[type][1])}`)).join('');
     }
 
+    function travelText(quantum) {
+        const seconds = Math.round(calc.quantumTravelTime(quantum, state.qtDistance));
+        if (!seconds) return '—';
+        return text('minSec', { min: Math.floor(seconds / 60), sec: seconds % 60 });
+    }
+
+    // 비행 성능: 비행 제어기에 적힌 속도와 선회 속도(부품을 바꿔도 변하지 않는 함선 고유 수치).
+    function drawFlight() {
+        const flight = state.ship.base?.flight;
+        if (!flight) return '';
+        const cell = (title, value, unit) => `<div class="loadout-stat"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value ? num(value, Number.isInteger(value) ? 0 : 1) : '—')}${value ? `<small> ${esc(unit)}</small>` : ''}</strong></div>`;
+        return `<section class="loadout-panel-section loadout-flight"><h4>${esc(text('flight'))}</h4>
+            <div class="loadout-statpair">${cell(text('scmSpeed'), flight.scm, 'm/s')}${cell(text('navSpeed'), flight.max, 'm/s')}</div>
+            <div class="loadout-statpair">${cell(text('boostSpeed'), flight.boost, 'm/s')}${cell(text('boostBack'), flight.boostBack, 'm/s')}</div>
+            <div class="loadout-stattrio">${cell(text('pitch'), flight.pitch, text('degPerSec'))}${cell(text('yaw'), flight.yaw, text('degPerSec'))}${cell(text('roll'), flight.roll, text('degPerSec'))}</div>
+        </section>`;
+    }
+
+    function drawHull(row) {
+        const base = state.ship.base || {}; const armor = base.armor || {};
+        if (!base.hull && !armor.hp) return '';
+        const percent = (value) => `${Math.round(value * 100)}%`;
+        const stat = (title, value) => `<div class="loadout-stat"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value)}</strong></div>`;
+        return `<section class="loadout-panel-section loadout-hull"><h4>${esc(text('hullArmor'))}</h4>
+            <div class="loadout-statpair">${stat(text('hullHp'), base.hull ? num(base.hull) : '—')}${stat(text('armorHp'), armor.hp ? num(armor.hp) : '—')}</div>
+            <dl class="loadout-rows">
+                ${['physical', 'energy', 'distortion'].filter((type) => armor[type] !== undefined).map((type) => row(text('armorTaken', { type: table('damage')[type] || type }), percent(armor[type]))).join('')}
+                ${armor.em !== undefined ? row(text('armorSignal'), `EM ×${num(armor.em, 2)} · IR ×${num(armor.ir ?? 1, 2)} · CS ×${num(armor.cs ?? 1, 2)}`) : ''}
+                ${base.mass ? row(text('mass'), `${num(base.mass)} kg`) : ''}
+            </dl>
+            <p class="loadout-note">${esc(text('hullNote'))}</p>
+        </section>`;
+    }
+
     function drawSummary(totals, cost, stock) {
         const damage = Object.entries(totals.dps.byType).sort((a, b) => b[1] - a[1]);
         const bar = totals.dps.total ? `<span class="loadout-dmgbar" aria-hidden="true">${damage.map(([type, value]) => `<i class="is-${esc(type)}" style="width:${(value / totals.dps.total * 100).toFixed(1)}%"></i>`).join('')}</span>` : '';
@@ -361,7 +405,7 @@
         const stat = (title, value, change = '', tone = '') => `<div class="loadout-stat${tone ? ` is-${tone}` : ''}"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value)}</strong>${change}</div>`;
         const row = (label, value, change = '') => `<div class="loadout-row"><dt>${esc(label)}</dt><dd>${esc(value)}${change}</dd></div>`;
         const section = (title, body) => `<section class="loadout-panel-section"><h4>${esc(title)}</h4>${body}</section>`;
-        const quantum = totals.quantum; const stockQuantum = stock.quantum;
+        const quantum = totals.quantum; const stockQuantum = stock.quantum; const fuel = state.ship.base?.fuel || {};
         const powerShare = totals.power.gen ? Math.min(100, totals.power.use / totals.power.gen * 100) : 0;
         return `<aside class="loadout-panel" aria-label="${esc(text('summary'))}">
             ${section(text('firepower'), `
@@ -398,7 +442,10 @@
                     ${stat(text('qdSpeedLabel'), text('qdSpeed', { value: num(quantum.speed / 1000) }), stockQuantum ? drawChange(quantum.speed / 1000, stockQuantum.speed / 1000) : '')}
                     ${stat(text('spoolLabel'), `${num(quantum.spool, 1)}${text('seconds')}`, stockQuantum ? drawChange(quantum.spool, stockQuantum.spool, 1) : '')}
                 </div>
-                <dl class="loadout-rows">${row(text('equipped'), itemName(quantum.id, quantum))}${row(text('cooldownLabel'), `${num(quantum.cooldown, 1)}${text('seconds')}`)}</dl>` : `<p class="loadout-note">${esc(text('quantumNone'))}</p>`)}
+                <dl class="loadout-rows">${row(text('equipped'), itemName(quantum.id, quantum))}${row(text('cooldownLabel'), `${num(quantum.cooldown, 1)}${text('seconds')}`)}${quantum.range ? row(text('rangeLabel'), `${num(quantum.range)} Gm`, stockQuantum?.range ? drawChange(quantum.range, stockQuantum.range) : '') : ''}${fuel.qt ? row(text('qtFuel'), `${num(fuel.qt, 1)} SCU`) : ''}${fuel.h2 ? row(text('h2Fuel'), `${num(fuel.h2, 1)} SCU`) : ''}</dl>
+                <div class="loadout-travel"><label for="loadout-qt-distance">${esc(text('travelFor'))}</label><input type="number" id="loadout-qt-distance" inputmode="decimal" min="1" max="999" step="1" value="${esc(state.qtDistance)}"><span class="loadout-travel-result"><span class="loadout-stat-label">${esc(text('travelTime'))}</span><strong id="loadout-qt-time">${esc(travelText(quantum))}</strong></span></div>
+                <p class="loadout-note">${esc(text('travelNote'))}</p>` : `<p class="loadout-note">${esc(text('quantumNone'))}</p>`)}
+            ${drawFlight()}${drawHull(row)}
             ${section(text('cost'), `
                 <div class="loadout-statpair">${stat(text('cost'), cost.changed ? credits(cost.total) : '—')}</div>
                 <p class="loadout-note">${esc(cost.changed ? (cost.unknown ? text('costUnknown', { count: cost.unknown }) : text('costAll')) : text('costNone'))}</p>`)}
@@ -705,6 +752,68 @@
                 <td>${esc(row.item.w.ammo ? num(row.item.w.ammo) : (row.item.w.regen ? text('ammoRegen') : '—'))}</td>
             </tr>`).join('')}</tbody>
             <tfoot><tr><th colspan="5">${esc(text('total'))}</th><th colspan="7">${esc(num(total))}</th></tr></tfoot>
+        </table></div>${drawMissiles(nodes)}</div>`;
+    }
+
+    function drawMissiles(nodes) {
+        const groups = new Map();
+        for (const node of nodes) {
+            if (!node.item?.ms) continue;
+            const group = groups.get(node.itemId) || { id: node.itemId, item: node.item, count: 0 };
+            group.count += 1; groups.set(node.itemId, group);
+        }
+        const rows = [...groups.values()].sort((a, b) => (b.item.size || 0) - (a.item.size || 0));
+        if (!rows.length) return '';
+        const damage = (item) => calc.sumDamage(item.ms.dmg);
+        return `<h3 class="loadout-subhead">${esc(text('missileTable'))}</h3><div class="loadout-table-wrap"><table class="loadout-table loadout-missiletable">
+            <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('size'))}</th><th>${esc(text('dmgShort'))}</th><th>${esc(text('speedShort'))}</th><th>${esc(text('lockShort'))}</th><th>${esc(text('rangeShort'))}</th><th>${esc(text('trackShort'))}</th></tr></thead>
+            <tbody>${rows.map((row) => `<tr>
+                <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemName(row.id, row.item) !== row.item.name ? `<span class="loadout-origin">${esc(row.item.name)}</span>` : ''}</td>
+                <td>${row.count}</td><td>S${esc(row.item.size ?? '?')}</td><td>${esc(num(damage(row.item)))}</td>
+                <td>${esc(row.item.ms.speed ? `${num(row.item.ms.speed)} m/s` : '—')}</td><td>${esc(row.item.ms.lock ? `${num(row.item.ms.lock, 1)}${text('seconds')}` : '—')}</td>
+                <td>${esc(row.item.ms.rangeMax ? `${num(row.item.ms.rangeMax)} m` : '—')}</td><td>${esc(table('signals')[row.item.ms.signal] || row.item.ms.signal || '—')}</td>
+            </tr>`).join('')}</tbody>
+            <tfoot><tr><th colspan="3">${esc(text('total'))}</th><th colspan="5">${esc(num(rows.reduce((sum, row) => sum + damage(row.item) * row.count, 0)))}</th></tr></tfoot>
+        </table></div>`;
+    }
+
+    // 구성 비교: 저장해 둔 로드아웃 하나를 지금 구성과 나란히 놓고 본다(다른 함선끼리도 가능).
+    function compareMetrics(ship, totals) {
+        const flight = ship.base?.flight || {};
+        return [
+            ['dps', totals.dps.total], ['pilot', totals.dps.pilot], ['turret', totals.dps.turret], ['alpha', totals.alpha.total], ['missiles', totals.missiles.damage],
+            ['shield', totals.shield.hp], ['regenLabel', totals.shield.regen], ['hullHp', ship.base?.hull || 0], ['armorHp', ship.base?.armor?.hp || 0],
+            ['power', totals.power.gen, 1], ['cooling', totals.cooling.gen, 1], ['signatureEm', totals.signature.em], ['signatureIr', totals.signature.ir],
+            ['qdSpeedLabel', (totals.quantum?.speed || 0) / 1000], ['rangeLabel', totals.quantum?.range || 0], ['scmSpeed', flight.scm || 0], ['navSpeed', flight.max || 0],
+        ];
+    }
+    async function startCompare(index) {
+        const build = readBuilds()[index];
+        if (!build) return;
+        state.compare = { name: build.name, cls: build.ship, overrides: build.overrides || {}, ship: null, failed: false };
+        state.tab = 'compare'; draw();
+        try {
+            const ship = build.ship === state.shipCls ? state.ship : await fetchJson(`${DATA_BASE}/ships/${build.ship}.json?v=${encodeURIComponent(state.meta?.version || '')}`);
+            if (state.compare?.name !== build.name) return;
+            state.compare.ship = ship;
+            state.compare.overrides = calc.sanitizeOverrides(ship, state.items, build.overrides || {});
+        } catch (error) {
+            console.warn('Loadout compare load failed', error);
+            if (state.compare) state.compare.failed = true;
+        }
+        draw();
+    }
+    function drawCompare(totals) {
+        const other = state.compare;
+        if (!other) return `<div class="loadout-view"><p class="loadout-note">${esc(text('compareEmpty'))}</p></div>`;
+        if (other.failed) return `<div class="loadout-view"><p class="loadout-note" role="alert">${esc(text('loadFail'))}</p></div>`;
+        if (!other.ship) return `<div class="loadout-view"><p class="loadout-note" role="status">${esc(text('loading'))}</p></div>`;
+        const mine = compareMetrics(state.ship, totals);
+        const theirs = compareMetrics(other.ship, calc.summarize(other.ship, state.items, other.overrides));
+        return `<div class="loadout-view"><div class="loadout-viewhead"><h3>${esc(text('tab_compare'))}</h3><button type="button" class="btn btn-secondary" data-loadout-compare-clear>${esc(text('compareClear'))}</button></div>
+            <div class="loadout-table-wrap"><table class="loadout-table loadout-comparetable">
+            <thead><tr><th>${esc(text('compareItem'))}</th><th>${esc(text('compareNow'))}<span class="loadout-origin">${esc(shipName(state.ship))}</span></th><th>${esc(other.name)}<span class="loadout-origin">${esc(shipName(other.ship))}</span></th><th>${esc(text('compareDiff'))}</th></tr></thead>
+            <tbody>${mine.map(([key, value, digits = 0], index) => `<tr><th scope="row">${esc(text(key))}</th><td>${esc(num(value, digits))}</td><td>${esc(num(theirs[index][1], digits))}</td><td>${drawChange(value, theirs[index][1], digits) || `<span class="loadout-meta">${esc(text('same'))}</span>`}</td></tr>`).join('')}</tbody>
         </table></div></div>`;
     }
 
@@ -717,7 +826,7 @@
         const builds = readBuilds();
         const row = (build, index) => {
             const ship = state.index.find((entry) => entry.cls === build.ship);
-            return `<li><button type="button" class="loadout-buildload" data-loadout-build-load="${index}"><strong>${esc(build.name)}</strong><span class="loadout-meta">${esc(ship ? shipName(ship) : build.ship)} · ${esc(text('changedCount', { count: Object.keys(build.overrides || {}).length }))}</span></button><button type="button" class="loadout-link" data-loadout-build-delete="${index}">${esc(text('buildDelete'))}</button></li>`;
+            return `<li><button type="button" class="loadout-buildload" data-loadout-build-load="${index}"><strong>${esc(build.name)}</strong><span class="loadout-meta">${esc(ship ? shipName(ship) : build.ship)} · ${esc(text('changedCount', { count: Object.keys(build.overrides || {}).length }))}</span></button><button type="button" class="loadout-link" data-loadout-build-compare="${index}">${esc(text('compareWith'))}</button><button type="button" class="loadout-link" data-loadout-build-delete="${index}">${esc(text('buildDelete'))}</button></li>`;
         };
         return `<section class="loadout-panel-section loadout-builds"><h4>${esc(text('builds'))}</h4>
             <div class="loadout-buildsave"><input type="text" id="loadout-build-name" maxlength="40" placeholder="${esc(text('buildName'))}" aria-label="${esc(text('buildName'))}" value="${esc(state.buildName || '')}"><button type="button" class="btn btn-secondary" data-loadout-build-save>${esc(text('buildSave'))}</button></div>
@@ -726,7 +835,7 @@
     }
 
     function drawTabs() {
-        const tabs = state.ship ? ['slots', 'weapons', 'finder', 'cart'] : ['finder', 'cart'];
+        const tabs = state.ship ? ['slots', 'weapons', 'compare', 'finder', 'cart'] : ['finder', 'cart'];
         const count = cartCount();
         return `<div class="loadout-tabs" role="tablist" aria-label="${esc(text('tabsLabel'))}">${tabs.map((key) => `<button type="button" role="tab" aria-selected="${state.tab === key}" class="loadout-tab${state.tab === key ? ' is-active' : ''}" data-loadout-tab="${key}">${esc(text(`tab_${key}`))}${key === 'cart' && count ? ` <span class="loadout-badge">${count}</span>` : ''}</button>`).join('')}</div>`;
     }
@@ -760,8 +869,8 @@
                 const cost = costSummary();
                 const nodes = allNodes();
                 const openNode = state.openPath ? nodes.find((node) => node.path === state.openPath) : null;
-                if (!['slots', 'weapons', 'finder', 'cart'].includes(state.tab)) state.tab = 'slots';
-                const main = state.tab === 'weapons' ? drawWeapons(nodes) : state.tab === 'finder' ? drawFinder() : state.tab === 'cart' ? drawCart()
+                if (!['slots', 'weapons', 'compare', 'finder', 'cart'].includes(state.tab)) state.tab = 'slots';
+                const main = state.tab === 'weapons' ? drawWeapons(nodes) : state.tab === 'compare' ? drawCompare(totals) : state.tab === 'finder' ? drawFinder() : state.tab === 'cart' ? drawCart()
                     : `${drawSlots(nodes)}<section class="loadout-shopping"><div class="loadout-viewhead"><h3>${esc(text('shopping'))}</h3>${cost.rows.length ? `<button type="button" class="btn btn-secondary" data-loadout-cart-changed>${esc(text('cartAddChanged'))}</button>` : ''}</div>${drawShopping(cost)}</section>`;
                 body += `${drawShipHead(totals)}
                     ${drawTabs()}
@@ -879,6 +988,9 @@
         }
         const buildLoad = target.getAttribute('data-loadout-build-load');
         if (buildLoad !== null) { const build = readBuilds()[Number(buildLoad)]; if (build) { state.tab = 'slots'; closePicker(); selectShip(build.ship, build.overrides || {}); } return; }
+        const buildCompare = target.getAttribute('data-loadout-build-compare');
+        if (buildCompare !== null) { closePicker(); startCompare(Number(buildCompare)); return; }
+        if (target.hasAttribute('data-loadout-compare-clear')) { state.compare = null; state.tab = 'slots'; draw(); return; }
         const buildDelete = target.getAttribute('data-loadout-build-delete');
         if (buildDelete !== null) { writeBuilds(readBuilds().filter((_, index) => index !== Number(buildDelete))); draw(); return; }
         if (target.hasAttribute('data-loadout-share')) {
@@ -894,6 +1006,13 @@
         if (event.target.id === 'loadout-picker-search') { state.pickerQuery = event.target.value; draw(); }
         if (event.target.id === 'loadout-finder-search') { state.finderQuery = event.target.value; state.finderLimit = 40; draw(); }
         if (event.target.id === 'loadout-build-name') { state.buildName = event.target.value; }
+        if (event.target.id === 'loadout-qt-distance') {
+            // 입력 중에는 화면 전체를 다시 그리지 않고 결과 글자만 바꾼다(숫자 입력이 끊기지 않게).
+            state.qtDistance = Math.max(0, Math.min(999, Number(event.target.value) || 0));
+            const output = document.getElementById('loadout-qt-time');
+            const quantum = state.ship ? calc.summarize(state.ship, state.items, state.overrides).quantum : null;
+            if (output) output.textContent = quantum ? travelText(quantum) : '—';
+        }
     }
     function handleChange(event) {
         if (event.target.id === 'loadout-picker-sort') { state.pickerSort = event.target.value; draw(); }

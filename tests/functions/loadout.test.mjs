@@ -175,3 +175,23 @@ test('가격 조회: 업스트림 오류는 캐시하지 않고 오류로 돌려
         assert.equal(upstream.store.size, 0);
     } finally { await upstream.restore(); }
 });
+
+test('함선 고유 수치: 비행·선체·장갑·연료가 게임 파일에서 채워지고, 퀀텀 항속·이동 시간을 계산한다', () => {
+    assert.deepEqual(asgard.base.flight, { scm: 203, boost: 425, boostBack: 240, max: 1075, pitch: 32.5, yaw: 27.5, roll: 95 });
+    assert.equal(asgard.base.hull, 77000);
+    assert.equal(asgard.base.armor.physical, 0.7);
+    assert.equal(asgard.base.armor.energy, 0.5);
+    assert.equal(asgard.base.fuel.qt, 7.7);
+    assert.ok(asgard.base.fuel.h2 > 0, '수소 연료 탱크');
+    const quantum = calc.summarize(asgard, items, {}).quantum;
+    assert.equal(Math.round(quantum.range), 706);
+    // 30Gm: 스풀링 6.9초 + 순항 + 가속·감속
+    assert.equal(Math.round(calc.quantumTravelTime(quantum, 30)), 160);
+    // 아주 짧은 거리는 최고 속도에 닿기 전에 감속한다.
+    assert.ok(calc.quantumTravelTime(quantum, 1) < calc.quantumTravelTime(quantum, 2));
+    assert.equal(calc.quantumTravelTime(quantum, 0), 0);
+    assert.equal(calc.quantumTravelTime(null, 30), 0);
+    // 우주선은 모두 비행 수치가 있어야 한다(지상 차량 제외).
+    const missing = readdirSync(new URL('../../data/loadout/ships/', import.meta.url)).map((file) => read(`data/loadout/ships/${file}`)).filter((ship) => !ship.ground && !ship.base?.flight).map((ship) => ship.cls);
+    assert.deepEqual(missing, []);
+});

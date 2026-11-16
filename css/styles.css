@@ -9494,6 +9494,19 @@ body.nav-trade-open::before {
 .loadout-more { justify-self: center; min-height: 44px; padding: 0 22px; }
 .loadout-weapontable td, .loadout-weapontable th { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .loadout-weapontable td:first-child { white-space: normal; min-width: 180px; }
+.loadout-stattrio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.loadout-flight .loadout-statpair + .loadout-statpair, .loadout-flight .loadout-stattrio { margin-top: 8px; }
+.loadout-stat strong small { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }
+.loadout-travel { display: grid; grid-template-columns: auto 88px minmax(0, 1fr); align-items: center; gap: 8px; margin-top: 10px; }
+.loadout-travel label { font-size: 13px; color: var(--color-text-secondary); }
+.loadout-travel input { min-width: 0; min-height: 40px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--lo-line); background: var(--color-bg-elevated); color: var(--color-text-primary); font: inherit; font-size: 16px; font-variant-numeric: tabular-nums; }
+.loadout-travel-result { display: grid; justify-items: end; gap: 2px; }
+.loadout-travel-result strong { font-size: 16px; font-variant-numeric: tabular-nums; }
+.loadout-subhead { margin: 22px 0 10px; font-size: 16px; }
+.loadout-missiletable td, .loadout-missiletable th, .loadout-comparetable td, .loadout-comparetable th { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.loadout-missiletable td:first-child { white-space: normal; min-width: 180px; }
+.loadout-comparetable tbody th { text-align: left; font-weight: 500; color: var(--color-text-secondary); }
+.loadout-comparetable thead th .loadout-origin { display: block; font-weight: 400; }
 .loadout-buildsave { display: flex; gap: 6px; }
 .loadout-buildsave input { flex: 1 1 auto; min-width: 0; min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--lo-line); background: var(--color-bg-elevated); color: var(--color-text-primary); font: inherit; font-size: 16px; }
 .loadout-buildsave .btn { min-height: 40px; padding: 0 12px; font-size: 13px; white-space: nowrap; }
