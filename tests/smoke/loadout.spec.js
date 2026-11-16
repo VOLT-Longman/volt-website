@@ -15,7 +15,9 @@ async function openAsgard(page, { prices = {} } = {}) {
     await page.locator('[data-loadout-ship="anvl_asgard"]').click();
     await expect(page.locator('#loadout-ship-title')).toHaveText('앤빌 아스가르드');
 }
-const stat = (page, label) => page.locator('.loadout-stat', { hasText: label }).locator('strong');
+// 통계 패널의 수치: 이름표가 정확히 일치하는 칸의 값
+const stat = (page, label) => page.locator('.loadout-stat').filter({ has: page.getByText(label, { exact: true }) }).locator('strong');
+const panel = (page) => page.locator('.loadout-panel');
 const firstGunSlot = (page, name = 'CF-337 판터 리피터') => page.locator('.loadout-slot:not(.is-parent)', { hasText: name }).first();
 const pick = (page, id) => page.locator(`.loadout-options [data-loadout-pick="${id}"]`);
 
@@ -37,7 +39,11 @@ test.describe('로드아웃 편집기', () => {
         await page.locator('[data-loadout-ship="anvl_asgard"]').click();
         await expect(page.locator('#loadout-ship-title')).toHaveText('앤빌 아스가르드');
         await expect(stat(page, DPS)).toHaveText('5,313');
-        await expect(page.locator('.loadout-stat', { hasText: DPS })).toContainText('파일럿 3,274');
+        await expect(panel(page)).toContainText(/파일럿\s*3,274/);
+        // 함선 사진·제조사·크기가 머리 영역에 나온다.
+        await expect(page.locator('.loadout-shiphead img.loadout-shipphoto')).toBeVisible();
+        await expect(page.locator('.loadout-shipfacts')).toContainText('크기 4');
+        await expect(page.locator('.loadout-shipstate')).toHaveText('기본 장착 상태');
         await expect(stat(page, '실드')).not.toHaveText('0');
         // 함선을 고르면 목록은 접히고, "함선 바꾸기"로 다시 펼친다.
         await expect(page.locator('#loadout-ship-results')).toHaveCount(0);
@@ -48,7 +54,7 @@ test.describe('로드아웃 편집기', () => {
         // 용어와 부품 이름은 게임 한국어 패치 표기를 따른다.
         const groups = await page.locator('.loadout-group h4').allInnerTexts();
         for (const term of ['실드 제너레이터', '파워 플랜트', '쿨러', '퀀텀 드라이브']) expect(groups.some((label) => label.includes(term)), term).toBe(true);
-        await expect(page.locator('.loadout-stat', { hasText: '퀀텀 드라이브' })).toContainText('스풀링');
+        await expect(page.locator('.loadout-panel-section', { hasText: '퀀텀 속도' })).toContainText('스풀링');
         await expect(firstGunSlot(page)).toContainText('CF-337 Panther Repeater');
         await expect(page.locator('#loadout-app')).not.toContainText(/양자|동력 장치|냉각기/);
 
@@ -85,6 +91,9 @@ test.describe('로드아웃 편집기', () => {
 
         await expect(page.locator('.loadout-picker')).toHaveCount(0);
         await expect(stat(page, DPS)).not.toHaveText('5,313');
+        // 기본 장착보다 얼마나 달라졌는지 통계 패널에 표시된다.
+        await expect(page.locator('.loadout-stat').filter({ has: page.getByText(DPS, { exact: true }) }).locator('.loadout-change')).toHaveText(/^\+\d/);
+        await expect(page.locator('.loadout-shipstate')).toHaveText('1곳 변경됨');
         const changed = page.locator('.loadout-slot.is-changed');
         await expect(changed).toHaveCount(1);
         await expect(changed).toContainText('맨티스 GT-220 개틀링');
@@ -108,8 +117,39 @@ test.describe('로드아웃 편집기', () => {
         await expect(pick(page, MANTIS)).toBeEnabled();
         await pick(page, MANTIS).click();
         await expect(page.locator('.loadout-slot.is-changed')).toContainText('맨티스 GT-220 개틀링');
-        await expect(page.locator('.loadout-stat', { hasText: '바꾼 부품 구매 비용' })).toContainText('1종은 상점 판매 없음 (파밍 획득)');
+        await expect(panel(page)).toContainText('1종은 상점 판매 없음 (파밍 획득)');
         await expect(page.locator('.loadout-shopping')).toContainText('파밍(전리품)으로 얻는 부품');
+    });
+
+    test('부품 선택 창: 같은 부품 여러 곳을 한 번에 바꾸고, 걸러 보고, Esc로 닫는다', async ({ page }) => {
+        await openAsgard(page, { prices: { [MANTIS]: [{ shop: 'CenterMass', place: 'Area 18', system: 'Stanton', price: 23500 }] } });
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        const picker = page.locator('.loadout-picker');
+        await expect(picker).toHaveAttribute('role', 'dialog');
+        const total = await picker.locator('.loadout-options li').count();
+
+        // 상점에서 파는 것만 걸러 본다 → 가격표에 있는 맨티스만 남는다.
+        await picker.locator('[data-loadout-buyable]').click();
+        await expect(picker.locator('.loadout-options li')).toHaveCount(1);
+        await expect(picker.locator('.loadout-options li')).toContainText('맨티스 GT-220 개틀링');
+        await picker.locator('[data-loadout-buyable]').click();
+        await expect(picker.locator('.loadout-options li')).toHaveCount(total);
+
+        // Esc로 닫으면 아무것도 바뀌지 않는다.
+        await page.keyboard.press('Escape');
+        await expect(page.locator('.loadout-picker')).toHaveCount(0);
+        await expect(page.locator('.loadout-slot.is-changed')).toHaveCount(0);
+
+        // 판터 리피터가 달린 6곳을 한 번에 바꾼다.
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        await expect(page.locator('.loadout-bulk')).toContainText('6곳을 한 번에 교체');
+        await page.locator('#loadout-bulk').check();
+        await pick(page, MANTIS).click();
+        await expect(page.locator('.loadout-slot.is-changed')).toHaveCount(6);
+        await expect(page.locator('.loadout-shipstate')).toHaveText('6곳 변경됨');
+        await expect(page.locator('.loadout-shopping tbody tr')).toHaveCount(1);
+        await expect(page.locator('.loadout-shopping tbody tr')).toContainText('6');
+        await expect(stat(page, '바꾼 부품 구매 비용')).toHaveText('141,000 aUEC');
     });
 
     test('편집 내용은 새로고침 후에도 남고, 공유 링크로 같은 구성이 열린다', async ({ page, context }) => {
@@ -161,7 +201,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('#loadout-app')).not.toContainText(/[가-힣]/);
 
         await page.locator('.nav-lang [data-set-lang="ko"]').click();
-        await expect(page.locator('.loadout-stat', { hasText: DPS })).toBeVisible();
+        await expect(stat(page, DPS)).toBeVisible();
         await expect(page.locator('.loadout-slot.is-changed')).toContainText('맨티스 GT-220 개틀링');
         await ctx.close();
     });
