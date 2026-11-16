@@ -25,27 +25,39 @@
     // - single/rapid/burst: 1발 피해 × 분당 발사 수 ÷ 60
     // - charged(완충 후 발사): 1발 피해 ÷ (충전 시간 + 재사용 대기)
     // - beam: 자료에 적힌 초당 피해를 그대로 쓴다
+    // 발사 방식 하나의 초당 발사 수.
+    // - single/rapid/burst: 분당 발사 수 ÷ 60
+    // - charged(완충 후 발사): 1 ÷ (충전 시간 + 재사용 대기 + 발사 간격)
+    function shotsPerSecond(action) {
+        const interval = action.rpm ? 60 / action.rpm : 0;
+        if (action.kind === 'charged' && (action.charge || action.cooldown)) return 1 / ((action.charge || 0) + (action.cooldown || 0) + interval);
+        return (action.rpm || 0) / 60;
+    }
+
+    // 무기 1정의 1발 피해(alpha)와 초당 피해(dps). 기본 발사 방식 기준이며, 광선은 자료의 초당 피해를 쓴다.
     function weaponStats(item) {
         const w = item?.w;
         if (!w) return { alpha: 0, dps: 0, byType: {} };
-        const perShot = {};
-        for (const type of DAMAGE_TYPES) {
-            const value = (Number(w.dmg?.[type]) || 0) * (w.pellets || 1) * (w.mult ?? 1);
-            if (value) perShot[type] = value;
-        }
-        const alpha = Object.values(perShot).reduce((a, b) => a + b, 0);
-        let shotsPerSecond;
-        if (w.kind === 'beam') {
-            const beamDps = sumDamage(w.beamDps);
-            const share = {};
-            for (const type of DAMAGE_TYPES) if (w.beamDps?.[type]) share[type] = Number(w.beamDps[type]);
-            return { alpha: 0, dps: beamDps, byType: share };
-        }
-        if (w.kind === 'charged' && (w.charge || w.cooldown)) shotsPerSecond = 1 / ((w.charge || 0) + (w.cooldown || 0));
-        else shotsPerSecond = (w.rpm || 0) / 60;
         const byType = {};
-        for (const [type, value] of Object.entries(perShot)) byType[type] = value * shotsPerSecond;
-        return { alpha, dps: alpha * shotsPerSecond, byType };
+        let alpha = 0; let dps = 0;
+        [w].forEach((action, index) => {
+            if (action.kind === 'beam') {
+                for (const type of DAMAGE_TYPES) {
+                    const value = Number(action.beamDps?.[type]) || 0;
+                    if (!value) continue;
+                    byType[type] = (byType[type] || 0) + value; dps += value;
+                }
+                return;
+            }
+            const rate = shotsPerSecond(action);
+            for (const type of DAMAGE_TYPES) {
+                const value = (Number(w.dmg?.[type]) || 0) * (action.pellets || 1) * (action.mult ?? 1);
+                if (!value) continue;
+                if (index === 0) alpha += value;
+                byType[type] = (byType[type] || 0) + value * rate; dps += value * rate;
+            }
+        });
+        return { alpha, dps, byType };
     }
 
     function weaponRange(item) {

@@ -88,15 +88,25 @@ function compactPorts(ports) {
     }));
 }
 
-function compactWeapon(body) {
-    const action = (body?.fireActions || [])[0];
-    const ammo = body?.ammo;
-    if (!action) return undefined;
+function compactAction(action) {
     return prune({
         kind: action.kind, rpm: round(action.fireRate, 2), pellets: action.pelletCount > 1 ? action.pelletCount : undefined,
         mult: action.damageMultiplier !== 1 ? round(action.damageMultiplier) : undefined,
-        charge: round(action.chargeTime), cooldown: round(action.cooldownTime),
+        charge: round(action.chargeTime), cooldown: round(action.cooldownTime), shots: action.shotCount,
         beamDps: compactDamage(action.damagePerSecond),
+    });
+}
+
+function compactWeapon(body) {
+    const actions = body?.fireActions || [];
+    const action = actions[0];
+    const ammo = body?.ammo;
+    if (!action) return undefined;
+    return prune({
+        ...compactAction(action),
+        // 발사 방식이 여럿인 무기는 첫 번째(기본) 방식만 싣는다. 나머지는 대부분 선택형 사격 모드라
+        // 함께 더하면 화력이 2~3배로 부풀려진다(225척 중 68척만 원본과 일치 → 기본 방식만 쓰면 200척 이상).
+        modes: actions.length > 1 ? actions.length : undefined,
         fullRange: round(action.fullDamageRange, 0), zeroRange: round(action.zeroDamageRange, 0),
         speed: round(ammo?.speed, 1), life: round(ammo?.lifetime, 2), dmg: compactDamage(ammo?.damage),
         ammo: ammo?.maxAmmoCount || undefined,

@@ -52,7 +52,7 @@ test('계산식: 기본 장착 화력이 원본의 계산값과 대부분 일치
 test('계산식: 무기 종류별 초당 피해', () => {
     assert.deepEqual(calc.weaponStats({ w: { kind: 'single', rpm: 120, dmg: { energy: 50, physical: 10 } } }), { alpha: 60, dps: 120, byType: { physical: 20, energy: 100 } });
     assert.equal(calc.weaponStats({ w: { kind: 'rapid', rpm: 600, pellets: 8, mult: 0.5, dmg: { physical: 10 } } }).dps, 400);
-    assert.equal(calc.weaponStats({ w: { kind: 'charged', rpm: 999, charge: 1.5, cooldown: 0.5, dmg: { energy: 300 } } }).dps, 150);
+    assert.equal(calc.weaponStats({ w: { kind: 'charged', rpm: 60, charge: 1.5, cooldown: 0.5, dmg: { energy: 300 } } }).dps, 100);
     assert.equal(calc.weaponStats({ w: { kind: 'beam', beamDps: { energy: 700 } } }).dps, 700);
     assert.deepEqual(calc.weaponStats({ name: '무기 아님' }), { alpha: 0, dps: 0, byType: {} });
     assert.equal(calc.weaponRange({ w: { speed: 1200, life: 1.67 } }), 2004);

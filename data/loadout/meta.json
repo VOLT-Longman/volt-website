@@ -6,18 +6,18 @@
   "priceSourceUrl": "https://uexcorp.space/",
   "version": "4.10.3-LIVE.13165946",
   "generatedAt": "2026-11-13T16:53:27.306Z",
-  "builtAt": "2026-11-16T05:19:46.029Z",
+  "builtAt": "2026-11-16T05:32:47.836Z",
   "counts": {
     "items": 1318,
     "ships": 225
   },
   "validation": {
     "ships": 225,
-    "dpsMatch": 209,
+    "dpsMatch": 210,
     "mismatches": [
       {
         "cls": "aegs_idris_m",
-        "ours": 38414,
+        "ours": 37213,
         "reference": 43220
       },
       {
@@ -29,11 +29,6 @@
         "cls": "aegs_vanguard_hoplite",
         "ours": 4133,
         "reference": 5678
-      },
-      {
-        "cls": "banu_defender",
-        "ours": 1620,
-        "reference": 1279
       },
       {
         "cls": "drak_cutlass_blue",
