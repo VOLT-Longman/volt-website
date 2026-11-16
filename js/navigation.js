@@ -14,7 +14,7 @@
 
     let deps = {};
 
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'loadout', 'trade-planner', 'schedule', 'policy', 'faq', 'guide', 'ai', 'comms'];
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'trade-planner', 'schedule', 'policy', 'faq', 'guide', 'ai', 'comms'];
 
     function updateActiveNav(id) {
         document.querySelectorAll('.nav-links [data-section]').forEach((link) => {

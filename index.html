@@ -33,8 +33,8 @@
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
   <link rel="preload" href="assets/images/landing/hercules-hero-1920.webp" as="image" imagesrcset="assets/images/landing/hercules-hero-960.webp 960w, assets/images/landing/hercules-hero-1600.webp 1600w, assets/images/landing/hercules-hero-1920.webp 1920w, assets/images/landing/hercules-hero-2560.webp 2560w, assets/images/landing/hercules-hero-4000.webp 4000w" imagesizes="100vw" fetchpriority="high">
-  <script src="js/theme-init.js?v=20261116-08"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20261116-08">
+  <script src="js/theme-init.js?v=20261116-09"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261116-09">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -73,7 +73,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20261116-08">
+   <link rel="stylesheet" href="css/noscript.css?v=20261116-09">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -99,7 +99,6 @@
     <ul class="nav-links">
      <li><a href="#about" data-section="about" data-i18n="nav.about">소개</a></li>
      <li><a href="#ships" data-section="ships" data-i18n="nav.ships">함선DB</a></li>
-     <li><a href="#loadout" data-section="loadout" data-i18n="nav.loadout">로드아웃</a></li>
       <li class="nav-trade">
        <button class="nav-trade-toggle" id="nav-trade-toggle" type="button" aria-expanded="false" aria-controls="nav-trade-menu" data-i18n="nav.trade">무역</button>
        <ul class="nav-trade-menu" id="nav-trade-menu">
@@ -148,7 +147,6 @@
      <ul class="mobile-menu-primary">
        <li><a href="#about" data-section="about" data-i18n="nav.about">소개</a></li>
        <li><a href="#ships" data-section="ships" data-i18n="nav.ships">함선DB</a></li>
-       <li><a href="#loadout" data-section="loadout" data-i18n="nav.loadout">로드아웃</a></li>
        <li><a href="#notices" data-section="notices" data-i18n="nav.notices">공지</a></li>
        <li><a href="#schedule" data-section="schedule" data-i18n="nav.schedule">일정</a></li>
        <li><a href="#ai" data-section="ai">VOLT AI <span class="nav-soon-tag">BETA</span></a></li>
@@ -617,17 +615,6 @@
    </div>
   </section>
 
-  <!-- Loadout Section -->
-  <section class="section" id="loadout">
-   <div class="section-content">
-    <div class="section-header">
-     <h2 data-i18n-html="loadout.titleHtml">함선 <span class="accent">로드아웃</span></h2>
-     <p data-i18n="loadout.subtitle">함선의 무기·실드·동력 장치를 바꿔 끼워 보고 화력과 방어, 구매처와 비용을 확인합니다.</p>
-    </div>
-    <div class="loadout-app" id="loadout-app"></div>
-   </div>
-  </section>
-
   <!-- Trade Planner Section -->
   <section class="section" id="trade-planner">
    <div class="section-content">
@@ -904,7 +891,6 @@
        <li><a href="#notices" data-section="notices" data-i18n="nav.notices">공지</a></li>
        <li><a href="#schedule" data-section="schedule" data-i18n="nav.schedule">일정</a></li>
        <li><a href="#ships" data-section="ships" data-i18n="nav.ships">함선DB</a></li>
-       <li><a href="#loadout" data-section="loadout" data-i18n="nav.loadout">로드아웃</a></li>
        <li><a href="#gallery" data-section="gallery" data-i18n="nav.gallery">갤러리</a></li>
        <li><a href="#policy" data-section="policy" data-i18n="nav.policy">정책</a></li>
        <li><a href="#faq" data-section="faq">FAQ</a></li>
@@ -962,29 +948,27 @@
    </div>
   </div>
 
-<script src="js/shipdb-manufacturers.js?v=20261116-08" defer></script>
-<script src="js/shipdb-canonical.js?v=20261116-08" defer></script>
-<script src="data/volt-data.js?v=20261116-08" defer></script>
+<script src="js/shipdb-manufacturers.js?v=20261116-09" defer></script>
+<script src="js/shipdb-canonical.js?v=20261116-09" defer></script>
+<script src="data/volt-data.js?v=20261116-09" defer></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20261116-08" defer></script>
-<script src="js/i18n.js?v=20261116-08" defer></script>
-<script src="js/navigation.js?v=20261116-08" defer></script>
-<script src="js/notices.js?v=20261116-08" defer></script>
-<script src="js/schedule.js?v=20261116-08" defer></script>
-<script src="js/leadership.js?v=20261116-08" defer></script>
-<script src="js/landing.js?v=20261116-08" defer></script>
-<script src="js/site-content.js?v=20261116-08" defer></script>
-<script src="js/uex.js?v=20261116-08" defer></script>
-<script src="js/uex-panel.js?v=20261116-08" defer></script>
-<script src="js/trade-planner.js?v=20261116-08" defer></script>
-<script src="js/loadout-calc.js?v=20261116-08" defer></script>
-<script src="js/loadout.js?v=20261116-08" defer></script>
-<script src="js/ship-imagery.js?v=20261116-08" defer></script>
-<script src="js/ships.js?v=20261116-08" defer></script>
-<script src="js/search-modal.js?v=20261116-08" defer></script>
-<script src="js/auth-ui.js?v=20261116-08" defer></script>
-<script src="js/mypage.js?v=20261116-08" defer></script>
-<script src="js/main.js?v=20261116-08" defer></script>
-<script src="js/volt-ai.js?v=20261116-08" defer></script>
+<script src="data/volt-localization.js?v=20261116-09" defer></script>
+<script src="js/i18n.js?v=20261116-09" defer></script>
+<script src="js/navigation.js?v=20261116-09" defer></script>
+<script src="js/notices.js?v=20261116-09" defer></script>
+<script src="js/schedule.js?v=20261116-09" defer></script>
+<script src="js/leadership.js?v=20261116-09" defer></script>
+<script src="js/landing.js?v=20261116-09" defer></script>
+<script src="js/site-content.js?v=20261116-09" defer></script>
+<script src="js/uex.js?v=20261116-09" defer></script>
+<script src="js/uex-panel.js?v=20261116-09" defer></script>
+<script src="js/trade-planner.js?v=20261116-09" defer></script>
+<script src="js/ship-imagery.js?v=20261116-09" defer></script>
+<script src="js/ships.js?v=20261116-09" defer></script>
+<script src="js/search-modal.js?v=20261116-09" defer></script>
+<script src="js/auth-ui.js?v=20261116-09" defer></script>
+<script src="js/mypage.js?v=20261116-09" defer></script>
+<script src="js/main.js?v=20261116-09" defer></script>
+<script src="js/volt-ai.js?v=20261116-09" defer></script>
  </body>
 </html>

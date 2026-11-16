@@ -37,8 +37,6 @@ const BASELINE = {
   'js/search-modal.js': 2,
   'js/trade-planner.js': 2,
   'js/i18n.js': 1,
-  // 로드아웃 편집기: 화면 전체를 한 곳(draw)에서 다시 그린다. 모든 동적 값은 esc()를 거친다.
-  'js/loadout.js': 1,
 };
 
 const SINK_PATTERN = /\.(?:innerHTML|outerHTML)\s*[+]?=|\.insertAdjacentHTML\s*\(|document\.write(?:ln)?\s*\(/g;
