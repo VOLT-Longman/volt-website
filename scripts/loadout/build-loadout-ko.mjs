@@ -44,6 +44,8 @@ const lookup = (...keys) => {
 };
 
 const { items, version } = JSON.parse(readFileSync(resolve(OUT, 'items.json'), 'utf8'));
+// 게임이 실제로 쓰는 이름 문자열 열쇠(내부 변형·새 정의(_gs)도 원래 제품과 같은 열쇠를 가리킨다).
+const nameKeys = (() => { try { return JSON.parse(readFileSync(resolve(OUT, 'namekeys.json'), 'utf8')); } catch (_error) { return { ships: {}, items: {} }; } })();
 const names = {};
 const types = {}; const subs = {}; const manufacturers = {};
 const stats = { items: 0, named: 0 };
@@ -54,7 +56,7 @@ const itemKeys = (cls) => {
 };
 const collect = (id, item) => {
     stats.items += 1;
-    const name = lookup(...itemKeys(item.cls));
+    const name = lookup(...[nameKeys.items[id]].filter(Boolean), ...itemKeys(item.cls));
     // 패치가 원문을 그대로 둔 항목은 따로 싣지 않는다.
     if (name && name !== item.name) { names[id] = name; stats.named += 1; }
     if (item.type && !types[item.type]) { const label = lookup(`item_type${item.type}`); if (label) types[item.type] = label; }
@@ -66,7 +68,7 @@ for (const [id, item] of Object.entries(items)) collect(id, item);
 // 함선 이름도 패치 표기를 쓴다(함선DB 자료가 늦게 뜨거나 함선DB에 없는 함선도 한국어로 보이게).
 const shipNames = {};
 for (const ship of JSON.parse(readFileSync(resolve(OUT, 'index.json'), 'utf8')).ships) {
-    const name = lookup(`vehicle_name${ship.cls}`);
+    const name = lookup(...[nameKeys.ships[ship.cls]].filter(Boolean), `vehicle_name${ship.cls}`);
     if (name && name !== ship.name) shipNames[ship.cls] = name;
 }
 

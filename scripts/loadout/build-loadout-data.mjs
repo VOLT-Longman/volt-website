@@ -88,6 +88,8 @@ function main() {
         const index = line.indexOf('=');
         if (index > 0) strings.set(line.slice(0, index).trim().toLowerCase(), line.slice(index + 1).trim());
     }
+    const nameKeys = { ships: {}, items: {} };
+    const keyOf = (key) => String(key || '').replace(/^@/, '').toLowerCase();
     const localize = (key) => {
         const value = strings.get(String(key || '').replace(/^@/, '').toLowerCase());
         return value && !/^@|^<=|PLACEHOLDER/i.test(value) ? value.replace(/\\n/g, '\n').trim() : '';
@@ -230,6 +232,8 @@ function main() {
             const item = compactItem(record);
             if (!item) return null;
             items[record.id] = item;
+            const nameKey = keyOf(component(entityOf(record), 'SAttachableComponentParams')?.AttachDef?.Localization?.Name);
+            if (nameKey) nameKeys.items[record.id] = nameKey;
         }
         return record.id;
     };
@@ -361,6 +365,7 @@ function main() {
         if (!vehicle) continue;
         const name = localize(vehicle.vehicleName);
         if (!name) continue;
+        nameKeys.ships[cls.toLowerCase()] = keyOf(vehicle.vehicleName);
         const xmlFile = String(vehicle.vehicleDefinition || '').split('/').pop().toLowerCase();
         const xml = game.xml.get(xmlFile) ? parseCryXml(game.xml.get(xmlFile)) : null;
         const ports = xml ? xmlPorts(xml) : new Map();
@@ -380,15 +385,63 @@ function main() {
     }
 
     // ---- 쓰기 ---------------------------------------------------------------
-    const shipList = [...ships.values()].map((ship) => prune({ cls: ship.cls, name: ship.name, mfr: ship.mfr, size: ship.size, role: ship.role, volt: ship.volt, ground: ship.ground }))
-        .sort((a, b) => a.name.localeCompare(b.name));
     const version = [game.build.Branch?.replace(/^sc-alpha-/, ''), game.build.RequestedP4ChangeNum].filter(Boolean).join('-LIVE.') || 'unknown';
     // 함선 파일만 비우고 다시 쓴다. 한국어 표기(ko.json)는 다른 생성기(loadout:ko)의 결과물이라 지우지 않는다.
     rmSync(resolve(OUT, 'ships'), { recursive: true, force: true });
     mkdirSync(resolve(OUT, 'ships'), { recursive: true });
     const write = (file, value) => writeFileSync(resolve(OUT, file), `${JSON.stringify(value)}\n`);
+    // ---- 대표 제품 정리 ------------------------------------------------------
+    // 게임 파일에는 같은 제품의 내부용 변형(_LowPoly, 행사·NPC·환경 전용 등)이 따로 들어 있다.
+    // 원본은 계산·기본 장착 복원을 위해 그대로 두되, 이름·제조사·종류·크기가 같은 묶음마다 대표 하나를 정한다.
+    //   alias  : 대표 제품의 id (이름 표기·검색·이전 저장 자료 해석에 쓴다)
+    //   hidden : 선택 목록에서 숨김 — 대표와 수치가 완전히 같거나, 어떤 함선의 기본 장착에도 쓰이지 않는 변형
+    //   variant: 수치가 다르고 실제 함선에 달려 나오는 전용 변형 — 숨기지 않고 "전용 변형"으로 구분해 보여준다
+    const usage = new Map();
+    for (const ship of ships.values()) {
+        const walk = (slots) => { for (const slot of slots || []) { if (slot.item) usage.set(slot.item, (usage.get(slot.item) || 0) + 1); walk(slot.ch); } };
+        walk(ship.slots);
+    }
+    const productGroups = new Map();
+    for (const [id, item] of Object.entries(items)) {
+        if (item.name === item.cls) continue; // 이름 없는 내장 부품은 묶지 않는다
+        const key = [item.type, item.size, item.name, item.mfrCode].join('|');
+        productGroups.set(key, [...(productGroups.get(key) || []), id]);
+    }
+    // 낱개 제품으로 사고파는 종류만 대표·전용 변형을 가린다. 터렛·마운트·랙처럼 함선마다 따로 만든 구조물은
+    // 이름이 같아도("Remote Turret" 등) 서로 다른 물건이므로, 수치까지 완전히 같고 쓰이지 않는 복사본만 숨긴다.
+    const PRODUCT_TYPES = new Set(['WeaponGun', 'Shield', 'PowerPlant', 'Cooler', 'QuantumDrive', 'JumpDrive', 'Radar', 'Missile', 'Bomb', 'EMP', 'QuantumInterdictionGenerator', 'WeaponMining', 'MiningModifier', 'SalvageModifier', 'SalvageHead', 'TractorBeam']);
+    const sameStats = (a, b) => { const strip = ({ cls: _cls, ...rest }) => JSON.stringify(rest); return strip(a) === strip(b); };
+    const productStats = { groups: 0, hidden: 0, variants: 0 };
+    for (const ids of productGroups.values()) {
+        if (ids.length < 2) continue;
+        productStats.groups += 1;
+        // 대표: 실제 함선에 쓰이는 것 가운데 클래스명이 가장 짧은 일반형(변형은 일반형 이름 뒤에 _LowPoly, _Turret, 함선명 등이 붙는다). 같으면 더 많이 쓰이는 것.
+        const primary = [...ids].sort((a, b) => Number(Boolean(usage.get(b))) - Number(Boolean(usage.get(a))) || items[a].cls.length - items[b].cls.length || (usage.get(b) || 0) - (usage.get(a) || 0) || items[a].cls.localeCompare(items[b].cls))[0];
+        for (const id of ids) {
+            if (id === primary) continue;
+            const identical = sameStats(items[id], items[primary]);
+            if (!PRODUCT_TYPES.has(items[id].type)) {
+                if (identical && !usage.get(id)) { items[id].alias = primary; items[id].hidden = true; productStats.hidden += 1; }
+                continue;
+            }
+            items[id].alias = primary;
+            if (identical || !usage.get(id)) { items[id].hidden = true; productStats.hidden += 1; }
+            else { items[id].variant = true; productStats.variants += 1; }
+        }
+    }
+    // 함선: 같은 함선의 옛 정의와 새 정의(_gs)가 함께 있으면 새 정의만 싣고, 옛 클래스명은 별칭으로 남긴다
+    // (이전에 저장한 구성·공유 링크가 계속 열리게).
+    const shipAliases = {};
+    for (const cls of [...ships.keys()]) {
+        if (ships.has(`${cls}_gs`)) { shipAliases[cls] = `${cls}_gs`; ships.delete(cls); if (!nameKeys.ships[`${cls}_gs`]) nameKeys.ships[`${cls}_gs`] = nameKeys.ships[cls]; delete nameKeys.ships[cls]; }
+    }
+    const shipList = [...ships.values()].map((ship) => prune({ cls: ship.cls, name: ship.name, mfr: ship.mfr, size: ship.size, role: ship.role, volt: ship.volt, ground: ship.ground }))
+        .sort((a, b) => a.name.localeCompare(b.name));
     write('items.json', { version, items });
-    write('index.json', { version, ships: shipList });
+    write('index.json', { version, ships: shipList, aliases: shipAliases });
+    // 이름 문자열 열쇠: 한국어 표기 생성기(loadout:ko)가 같은 열쇠로 한국어 패치를 찾는다. 화면에서는 쓰지 않는다.
+    write('namekeys.json', nameKeys);
+    console.log(`대표 제품 정리: 묶음 ${productStats.groups}개, 숨긴 내부 변형 ${productStats.hidden}종, 전용 변형 ${productStats.variants}종, 함선 별칭 ${Object.keys(shipAliases).length}척`);
     for (const ship of ships.values()) write(`ships/${ship.cls}.json`, ship);
     const sample = (cls) => { const ship = ships.get(cls); return ship ? Math.round(calc.summarize(ship, items, {}).dps.total) : null; };
     const meta = {

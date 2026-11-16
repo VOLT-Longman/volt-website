@@ -9708,6 +9708,20 @@ body.nav-trade-open::before {
     .loadout-slot-main .loadout-origin, .loadout-option-main .loadout-origin { display: block; margin-left: 0; }
 }
 
+/* 넓은 화면: [장비 목록 | 교체 후보 | 성능 요약] 세 칸. 후보를 고르는 동안에도 성능 변화가 보인다. */
+@media (min-width: 1240px) {
+    .loadout-app.has-drawer .loadout-columns { grid-template-columns: minmax(0, 1fr) minmax(400px, 460px) minmax(300px, 340px); }
+    .loadout-app.has-drawer .loadout-drawer-backdrop { display: none; }
+    .loadout-app.has-drawer .loadout-picker { position: sticky; top: 196px; right: auto; bottom: auto; width: auto; height: calc(100vh - 212px); z-index: 1; padding: 12px; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); box-shadow: none; }
+    .loadout-app.has-drawer .loadout-panel { grid-template-columns: minmax(0, 1fr); position: sticky; top: 196px; max-height: calc(100vh - 212px); overflow-y: auto; }
+    .loadout-app.has-drawer .loadout-slots .loadout-facts, .loadout-app.has-drawer .loadout-slot-main .loadout-origin { display: none; }
+    .loadout-app.has-drawer .loadout-slot-actions { min-width: 0; }
+    .loadout-app.has-drawer .loadout-powerbtn { display: none; }
+    .loadout-app.has-drawer .loadout-options li { grid-template-columns: minmax(0, 1fr) auto; }
+    .loadout-app.has-drawer .loadout-option-side { grid-column: 1 / -1; justify-content: flex-end; }
+    .loadout-app.has-drawer .loadout-options { background: var(--lo-bg); }
+}
+
 /* 글자 대비 보완(검수 2026-11-16): 작은 회색 글자는 배경 대비 4.5:1 이상이 되게 한다. */
 .ledger-total-card span, .ledger-total-card small, .ledger-empty { color: var(--color-text-secondary); }
 .loadout-app { --lo-dim: #a3a3a9; }

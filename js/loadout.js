@@ -20,7 +20,7 @@
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(),
-        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '',
+        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [],
     };
 
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
@@ -41,6 +41,7 @@
             kpiLabel: '핵심 수치', kpiShield: '실드', kpiHull: '선체', kpiRange: '항속', kpiAlpha: '알파', superArms: '무장', superDefense: '방어·동력', superTravel: '이동·기타', slotCount: '{count}곳',
             buildSaveFail: '저장하지 못했습니다. 브라우저 저장 공간을 확인한 뒤 다시 시도해 주세요.', priceRetry: '다시 시도',
             tableRegion: '표 (좌우로 넘겨 볼 수 있음)',
+            variantNote: '함선 전용 변형', undo: '직전 변경 취소', undone: '직전 변경을 취소했습니다.', pickSlotHint: '왼쪽 목록에서 바꿀 자리의 「변경」을 누르면 여기에 맞는 부품이 나옵니다.',
             tabsLabel: '로드아웃 화면', tab_slots: '장착', tab_weapons: '무기 상세', tab_finder: '부품 찾기', tab_cart: '장바구니',
             cartEmpty: '장바구니가 비어 있습니다. 부품 찾기나 부품 선택 창에서 「담기」를 눌러 보세요.', cartSummary: '부품 {kinds}종 · {count}개', cartClear: '장바구니 비우기', cartRemove: '빼기',
             cartAdd: '담기', cartAdded: '장바구니에 담았습니다.', inCart: '담음 {count}', cartAddChanged: '바꾼 부품 장바구니에 담기', cartByShop: '상점별로 살 것', qtyLess: '수량 줄이기', qtyMore: '수량 늘리기',
@@ -52,10 +53,10 @@
             summary: '요약', dps: 'DPS (초당 피해)', pilot: '파일럿', turret: '터렛', alpha: '알파 (1회 피해)', weapons: '무기 {count}정',
             missiles: '미사일·폭탄 피해', missileCount: '{count}발 탑재', shield: '실드', shieldRegen: '재생률 {value}/초', power: '파워 플랜트 출력', powerUse: '모든 장비 최대 가동 시 {use} 필요',
             cooling: '쿨러 냉각량', coolingUse: '쿨러 합계', quantum: '퀀텀 드라이브', quantumNone: '퀀텀 드라이브 없음', spool: '스풀링 {value}초', range: '항속 {value} Gm',
-            cost: '바꾼 부품 구매 비용', costUnknown: '{count}종은 상점 판매 없음 (파밍 획득)', costNone: '바꾼 부품이 없습니다', same: '동일', dmgWord: '피해', lootNote: '상점 판매 없음으로 표시된 부품은 상점에서 팔지 않고 파밍(전리품)으로 얻는 부품일 수 있습니다. 합계에는 넣지 않았습니다.',
+            cost: '바꾼 부품 구매 비용', costUnknown: '{count}종은 판매처 정보 없음', costNone: '바꾼 부품이 없습니다', same: '동일', dmgWord: '피해', lootNote: '판매처 정보가 없는 부품은 가격 자료(UEX)에 판매처가 올라와 있지 않은 부품입니다. 상점에서 팔지 않고 파밍(전리품)으로 얻는 부품일 수 있습니다. 합계에는 넣지 않았습니다.',
             part: '부품', slots: '장착 자리', change: '변경', close: '닫기', reset: '기본값', empty: '비어 있음', removeItem: '비우기', fixed: '전용 · 교체 불가',
             changed: '변경됨', defaultMark: '기본', pickerSearch: '부품 이름 검색', pickerEmpty: '이 자리에 맞는 부품이 없습니다.', pickerCount: '맞는 부품 {count}종',
-            select: '선택', selected: '장착 중', priceFrom: '최저 {price}', priceShops: '판매처 {count}곳', priceNone: '상점 판매 없음 · 파밍 획득', priceLoading: '가격 확인 중',
+            select: '선택', selected: '장착 중', priceFrom: '최저 {price}', priceShops: '판매처 {count}곳', priceNone: '판매처 정보 없음', priceLoading: '가격 확인 중',
             priceFail: '가격을 불러오지 못했습니다', shopping: '구매 목록', shoppingEmpty: '부품을 바꾸면 여기에 살 곳과 가격이 정리됩니다.', qty: '수량', cheapest: '가장 싼 곳', subtotal: '소계', total: '합계',
             share: '공유 링크 복사', shareOk: '공유 링크를 복사했습니다.', shareFail: '링크를 복사하지 못했습니다.', resetAll: '전체 기본값으로', resetOk: '기본 장착으로 되돌렸습니다.',
             sourceStats: '함선·부품 수치', sourcePrices: '구매처·가격', sourceTerms: '한국어 표기', sourceGame: 'Star Citizen 게임 파일에서 직접 추출', sourceVersion: '게임 자료 버전 {version}', sourceNote: '비공식 팬 사이트입니다. 수치는 게임 패치에 따라 달라지며, 화력 등은 자체 계산이라 실제 게임과 차이가 있을 수 있습니다.',
@@ -90,6 +91,7 @@
             kpiLabel: 'Key figures', kpiShield: 'Shields', kpiHull: 'Hull', kpiRange: 'Range', kpiAlpha: 'Alpha', superArms: 'Weapons', superDefense: 'Defense & power', superTravel: 'Travel & other', slotCount: '{count} slots',
             buildSaveFail: 'Couldn\'t save. Check your browser storage and try again.', priceRetry: 'Retry',
             tableRegion: 'Table (scrolls sideways)',
+            variantNote: 'Ship-specific variant', undo: 'Undo last change', undone: 'Last change undone.', pickSlotHint: 'Press Change on a slot in the list to see compatible parts here.',
             tabsLabel: 'Loadout views', tab_slots: 'Hardpoints', tab_weapons: 'Weapons', tab_finder: 'Part finder', tab_cart: 'Cart',
             cartEmpty: 'Your cart is empty. Use Add in the part finder or the part picker.', cartSummary: '{kinds} parts · {count} items', cartClear: 'Empty cart', cartRemove: 'Remove',
             cartAdd: 'Add', cartAdded: 'Added to cart.', inCart: 'In cart {count}', cartAddChanged: 'Add changed parts to cart', cartByShop: 'What to buy at each shop', qtyLess: 'Decrease quantity', qtyMore: 'Increase quantity',
@@ -101,10 +103,10 @@
             summary: 'Summary', dps: 'Damage per second', pilot: 'Pilot', turret: 'Turrets', alpha: 'Alpha strike', weapons: '{count} weapons',
             missiles: 'Missiles & bombs', missileCount: '{count} loaded', shield: 'Shields', shieldRegen: 'Regen {value}/s', power: 'Power output', powerUse: '{use} needed with everything at full power',
             cooling: 'Cooling capacity', coolingUse: 'All coolers combined', quantum: 'Quantum travel', quantumNone: 'No quantum drive', spool: 'Spool {value}s', range: 'Range {value} Gm',
-            cost: 'Cost of changed parts', costUnknown: '{count} not sold in shops (loot only)', costNone: 'No parts changed', same: 'Same', dmgWord: 'Damage', lootNote: 'Parts marked as not sold in shops may only be obtained as loot. They are left out of the total.',
+            cost: 'Cost of changed parts', costUnknown: '{count} with no known shop', costNone: 'No parts changed', same: 'Same', dmgWord: 'Damage', lootNote: 'Parts with no known shop are not listed with a seller in the price data (UEX). They may only be obtainable as loot. They are left out of the total.',
             part: 'Part', slots: 'Hardpoints', change: 'Change', close: 'Close', reset: 'Default', empty: 'Empty', removeItem: 'Leave empty', fixed: 'Bespoke · not swappable',
             changed: 'Changed', defaultMark: 'Stock', pickerSearch: 'Search parts', pickerEmpty: 'No compatible parts for this slot.', pickerCount: '{count} compatible parts',
-            select: 'Select', selected: 'Equipped', priceFrom: 'From {price}', priceShops: '{count} shops', priceNone: 'Not sold in shops · loot only', priceLoading: 'Checking prices',
+            select: 'Select', selected: 'Equipped', priceFrom: 'From {price}', priceShops: '{count} shops', priceNone: 'No known shop', priceLoading: 'Checking prices',
             priceFail: 'Couldn\'t load prices', shopping: 'Shopping list', shoppingEmpty: 'Change a part to see where to buy it and what it costs.', qty: 'Qty', cheapest: 'Cheapest shop', subtotal: 'Subtotal', total: 'Total',
             share: 'Copy share link', shareOk: 'Share link copied.', shareFail: 'Couldn\'t copy the link.', resetAll: 'Reset to stock', resetOk: 'Restored the stock loadout.',
             sourceStats: 'Ship & component stats', sourcePrices: 'Shops & prices', sourceTerms: 'Korean terms', sourceGame: 'extracted directly from the Star Citizen game files', sourceVersion: 'Game data version {version}', sourceNote: 'Unofficial fan site. Values change with game patches; firepower figures are our own calculation and may differ from the live game.',
@@ -147,7 +149,7 @@
     // 한국어 화면은 게임 한국어 패치의 표기를 먼저 쓴다(퀀텀 드라이브, 파워 플랜트, 쿨러 …).
     const patch = (group) => (lang() === 'ko' && state.ko?.[group]) || {};
     const typeLabel = (type) => patch('types')[type] || table('types')[type] || type || '';
-    const itemName = (id, item) => patch('names')[id] || item?.name || '';
+    const itemName = (id, item) => patch('names')[id] || (item?.alias && patch('names')[item.alias]) || item?.name || '';
     const mfrName = (item) => patch('manufacturers')[item?.mfrCode] || item?.mfr || '';
     const className = (item) => patch('classes')[item?.klass] || table('classes')[item?.klass] || item?.klass || '';
     const GROUP_TYPE = { shield: 'Shield', power: 'PowerPlant', cooler: 'Cooler', quantum: 'QuantumDrive', radar: 'Radar' };
@@ -187,7 +189,11 @@
             // 한국어 표기(게임 한국어 패치 기준)는 없어도 화면이 동작한다 — 원문으로 표시.
             fetchJson(`${DATA_BASE}/ko.json?v=${stamp}`).catch(() => null),
         ]);
-        state.meta = meta; state.index = index.ships; state.items = items.items; state.ko = ko;
+        state.meta = meta; state.index = index.ships; state.shipAliases = index.aliases || {}; state.items = items.items; state.ko = ko;
+        // 장바구니에 담아 둔 내부 변형도 대표 제품으로 합친다.
+        const cart = {};
+        for (const [id, quantity] of Object.entries(state.cart)) { const key = canonicalItem(id); cart[key] = (cart[key] || 0) + (Number(quantity) || 0); }
+        if (JSON.stringify(cart) !== JSON.stringify(state.cart)) writeCart(cart);
     }
 
     // 전원을 꺼 둔 자리 가운데 지금 구성에 실제로 있는 자리만 남긴다.
@@ -196,15 +202,21 @@
         return Object.fromEntries(Object.keys(off || {}).filter((key) => off[key] && paths.has(key)).map((key) => [key, true]));
     }
 
-    async function selectShip(cls, overrides, off) {
-        if (!/^[a-z0-9_]+$/i.test(cls || '')) return;
+    // 대표 제품 정리 이전에 저장된 id(내부 변형)를 대표 제품 id로 바꿔 읽는다.
+    const canonicalItem = (id) => { const item = state.items?.[id]; return item?.hidden && item.alias && state.items[item.alias] ? item.alias : id; };
+    const canonicalShip = (cls) => state.shipAliases?.[cls] || cls;
+
+    async function selectShip(requested, overrides, off) {
+        if (!/^[a-z0-9_]+$/i.test(requested || '')) return;
+        let cls = requested;
         state.loading = true; state.error = ''; state.openPath = ''; draw();
         try {
             await ensureBase();
+            cls = canonicalShip(cls);
             const ship = await fetchJson(`${DATA_BASE}/ships/${cls}.json?v=${encodeURIComponent(state.meta?.version || '')}`);
-            state.ship = ship; state.shipCls = cls;
-            const stored = overrides ?? readStored().sets?.[cls] ?? {};
-            state.overrides = calc.sanitizeOverrides(ship, state.items, stored);
+            state.ship = ship; state.shipCls = cls; state.history = [];
+            const stored = overrides ?? readStored().sets?.[cls] ?? readStored().sets?.[requested] ?? {};
+            state.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(stored).map(([path, id]) => [path, canonicalItem(id)])));
             state.off = cleanOff(off ?? (overrides === undefined ? readStored().off?.[cls] : {}) ?? {});
             writeStored();
         } catch (error) {
@@ -223,7 +235,7 @@
             const params = new URLSearchParams(window.location.search);
             const shared = params.get('loadout');
             const stored = readStored();
-            const known = (cls) => state.index.some((ship) => ship.cls === cls);
+            const known = (cls) => state.index.some((ship) => ship.cls === canonicalShip(cls));
             // 공유 링크는 처음 한 번만 적용한다(언어 전환 등으로 다시 그릴 때 편집 내용을 덮어쓰지 않게).
             if (shared && known(shared) && !state.sharedApplied) { state.sharedApplied = true; return selectShip(shared, calc.decodeOverrides(params.get('set') || ''), Object.fromEntries((params.get('off') || '').split(',').filter(Boolean).map((key) => [key, true]))); }
             if (state.shipCls && known(state.shipCls)) { state.loading = false; draw(); return undefined; }
@@ -310,6 +322,7 @@
         if (item.grade) parts.push(`${text('grade')} ${item.grade}`);
         if (item.klass) parts.push(className(item));
         if (mfrName(item)) parts.push(mfrName(item));
+        if (item.variant) parts.push(text('variantNote'));
         return parts.join(' · ');
     }
 
@@ -382,6 +395,7 @@
                 </div>
                 <div class="loadout-actions">
                     <button type="button" class="btn btn-primary" data-loadout-browse aria-expanded="${Boolean(state.browsing)}">${esc(state.browsing ? text('hideShips') : text('browseShips'))}</button>
+                    <button type="button" class="btn btn-secondary" data-loadout-undo ${state.history.length ? '' : 'disabled'}>${esc(text('undo'))}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-share>${esc(text('share'))}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-reset-all ${Object.keys(state.overrides).length || Object.keys(state.off).length ? '' : 'disabled'}>${esc(text('resetAll'))}</button>
                 </div>
@@ -562,9 +576,12 @@
         price: (a, b, ida, idb) => (priceInfo(ida, a).min || Infinity) - (priceInfo(idb, b).min || Infinity),
     };
 
+    // 넓은 화면에서는 후보 목록이 가운데 칸에 놓이고(성능 요약이 가려지지 않는다), 좁은 화면에서는 화면을 덮는 창으로 뜬다.
+    const isOverlayPicker = () => window.matchMedia('(max-width: 1239px)').matches;
+
     function drawPicker(node, nodes) {
         const query = state.pickerQuery.trim().toLowerCase();
-        const fitting = Object.entries(state.items).filter(([, item]) => calc.fitsSlot(item, node.slot, { tags: node.tags }));
+        const fitting = Object.entries(state.items).filter(([id, item]) => (!item.hidden || id === node.itemId) && calc.fitsSlot(item, node.slot, { tags: node.tags }));
         const grades = [...new Set(fitting.map(([, item]) => item.grade).filter(Boolean))].sort();
         const classes = [...new Set(fitting.map(([, item]) => item.klass).filter(Boolean))].sort();
         const candidates = fitting
@@ -577,7 +594,7 @@
         const siblings = siblingSlots(node, nodes);
         const chip = (attr, value, label, active) => `<button type="button" class="loadout-chip${active ? ' is-active' : ''}" ${attr}="${esc(value)}" aria-pressed="${active}">${esc(label)}</button>`;
         return `<div class="loadout-drawer-backdrop" data-loadout-close></div>
-        <div class="loadout-picker" role="dialog" aria-modal="true" aria-label="${esc(slotLabel(node.slot, node.item))}">
+        <div class="loadout-picker" role="dialog" aria-modal="${isOverlayPicker()}" aria-label="${esc(slotLabel(node.slot, node.item))}">
             <div class="loadout-picker-title">
                 <div><span class="loadout-slot-label">${esc(slotLabel(node.slot, node.item))}</span><strong>${esc(node.item ? itemName(node.itemId, node.item) : text('empty'))}</strong></div>
                 <button type="button" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button>
@@ -766,7 +783,7 @@
         const type = state.finderType || FINDER_TYPES[0];
         const query = state.finderQuery.trim().toLowerCase();
         // 게임 안 이름이 없는 부품(함선 전용 내장 부품 등)은 찾기 목록에서 뺀다. 장착 화면에서는 그대로 보인다.
-        const ofType = Object.entries(state.items).filter(([, item]) => item.type === type && item.name !== item.cls);
+        const ofType = Object.entries(state.items).filter(([, item]) => item.type === type && item.name !== item.cls && !item.hidden);
         const sizes = [...new Set(ofType.map(([, item]) => item.size).filter((size) => size !== undefined))].sort((a, b) => a - b);
         const list = ofType
             .filter(([, item]) => !state.finderSize || String(item.size) === String(state.finderSize))
@@ -870,10 +887,11 @@
         state.compare = { name: build.name, cls: build.ship, overrides: build.overrides || {}, off: build.off || {}, ship: null, failed: false };
         state.tab = 'compare'; draw();
         try {
-            const ship = build.ship === state.shipCls ? state.ship : await fetchJson(`${DATA_BASE}/ships/${build.ship}.json?v=${encodeURIComponent(state.meta?.version || '')}`);
+            const buildShip = canonicalShip(build.ship);
+            const ship = buildShip === state.shipCls ? state.ship : await fetchJson(`${DATA_BASE}/ships/${buildShip}.json?v=${encodeURIComponent(state.meta?.version || '')}`);
             if (state.compare?.name !== build.name) return;
             state.compare.ship = ship;
-            state.compare.overrides = calc.sanitizeOverrides(ship, state.items, build.overrides || {});
+            state.compare.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(build.overrides || {}).map(([path, id]) => [path, canonicalItem(id)])));
         } catch (error) {
             console.warn('Loadout compare load failed', error);
             if (state.compare) state.compare.failed = true;
@@ -903,7 +921,7 @@
     function drawBuilds() {
         const builds = readBuilds();
         const row = (build, index) => {
-            const ship = state.index.find((entry) => entry.cls === build.ship);
+            const ship = state.index.find((entry) => entry.cls === canonicalShip(build.ship));
             return `<li><button type="button" class="loadout-buildload" data-loadout-build-load="${index}"><strong>${esc(build.name)}</strong><span class="loadout-meta">${esc(ship ? shipName(ship) : build.ship)} · ${esc(text('changedCount', { count: Object.keys(build.overrides || {}).length }))}</span></button><button type="button" class="loadout-link" data-loadout-build-compare="${index}">${esc(text('compareWith'))}</button><button type="button" class="loadout-link" data-loadout-build-delete="${index}">${esc(text('buildDelete'))}</button></li>`;
         };
         return `<section class="loadout-panel-section loadout-builds is-wide"><h4>${esc(text('builds'))}</h4>
@@ -955,9 +973,9 @@
                     ${drawTabs()}
                     <div class="loadout-columns">
                         <div class="loadout-slots">${main}</div>
+                        ${openNode ? drawPicker(openNode, nodes) : ''}
                         ${drawSummary(totals, cost, stock)}
-                    </div>
-                    ${openNode ? drawPicker(openNode, nodes) : ''}`;
+                    </div>`;
             }
             if (!state.ship && !state.loading) {
                 if (!['finder', 'cart'].includes(state.tab)) state.tab = '';
@@ -989,11 +1007,18 @@
         if (path) root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
     }
 
+    // 직전 변경 취소용 기록. 부품 교체·기본값·전원 전환 직전에 지금 상태를 남긴다(최근 30번).
+    function remember() {
+        state.history.push({ overrides: { ...state.overrides }, off: { ...state.off } });
+        if (state.history.length > 30) state.history.shift();
+    }
+
     function setOverride(path, id) {
         const nodes = allNodes();
         const node = nodes.find((entry) => entry.path === path);
         if (!node || node.slot.kind !== 's') return;
         const targets = state.pickerBulk ? [node, ...siblingSlots(node, nodes)] : [node];
+        remember();
         let next = { ...state.overrides };
         for (const target of targets) {
             // 이 자리를 바꾸면 그 아래 자리에 해 둔 변경은 의미가 없어지므로 함께 지운다.
@@ -1049,6 +1074,7 @@
         if (target.hasAttribute('data-loadout-pick')) { setOverride(target.getAttribute('data-loadout-path'), target.getAttribute('data-loadout-pick')); return; }
         const powerPath = target.getAttribute('data-loadout-power');
         if (powerPath !== null) {
+            remember();
             const next = { ...state.off };
             if (next[powerPath]) delete next[powerPath]; else next[powerPath] = true;
             state.off = next; writeStored(); draw(); return;
@@ -1057,11 +1083,17 @@
         if (retryType !== null) { loadCategoryPrices(retryType); draw(); return; }
         const resetPath = target.getAttribute('data-loadout-reset');
         if (resetPath !== null) {
+            remember();
             state.overrides = Object.fromEntries(Object.entries(state.overrides).filter(([key]) => key !== resetPath && !key.startsWith(`${resetPath}/`)));
             state.off = cleanOff(state.off);
             writeStored(); draw(); return;
         }
-        if (target.hasAttribute('data-loadout-reset-all')) { state.overrides = {}; state.off = {}; closePicker(); writeStored(); draw(); deps.showToast?.(text('resetOk')); return; }
+        if (target.hasAttribute('data-loadout-undo')) {
+            const last = state.history.pop();
+            if (last) { state.overrides = calc.sanitizeOverrides(state.ship, state.items, last.overrides); state.off = cleanOff(last.off); closePicker(); writeStored(); draw(); loadPricesForChanged(); deps.showToast?.(text('undone')); }
+            return;
+        }
+        if (target.hasAttribute('data-loadout-reset-all')) { remember(); state.overrides = {}; state.off = {}; closePicker(); writeStored(); draw(); deps.showToast?.(text('resetOk')); return; }
         const tab = target.getAttribute('data-loadout-tab');
         if (tab !== null) { state.tab = tab; closePicker(); if (tab === 'cart') loadPricesForCart(); if (tab === 'finder') loadCategoryPrices(state.finderType || FINDER_TYPES[0]); draw(); return; }
         const cartAdd = target.getAttribute('data-loadout-cart-add');
@@ -1127,8 +1159,8 @@
     function handleKeydown(event) {
         if (!state.openPath || !root()) return;
         if (event.key === 'Escape') { dismissPicker(); return; }
-        if (event.key !== 'Tab') return;
-        // 열려 있는 창 안에서만 Tab이 돌게 한다.
+        if (event.key !== 'Tab' || !isOverlayPicker()) return;
+        // 화면을 덮는 창일 때는 그 안에서만 Tab이 돌게 한다.
         const picker = root().querySelector('.loadout-picker');
         const focusable = picker ? [...picker.querySelectorAll('button:not([disabled]), input, select, a[href]')].filter((el) => el.offsetParent !== null) : [];
         if (!focusable.length) return;

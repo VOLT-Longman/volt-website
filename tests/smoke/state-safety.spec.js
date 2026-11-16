@@ -91,6 +91,8 @@ test.describe('저장·상태 안전', () => {
     });
 
     test('로드아웃: 부품 선택 창 안에서 Tab이 돌고, 닫으면 눌렀던 변경 버튼으로 초점이 돌아온다', async ({ page }) => {
+        // 화면을 덮는 창으로 뜨는 너비(넓은 화면에서는 가운데 칸에 놓여 가두지 않는다).
+        await page.setViewportSize({ width: 1100, height: 800 });
         await mockApi(page);
         await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
         await openAsgard(page);

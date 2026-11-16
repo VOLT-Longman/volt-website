@@ -219,3 +219,46 @@ test('서비스 워커: 로드아웃 버전 확인 파일은 캐시 우선 처�
     assert.ok(bypass > 0, '버전 확인 파일 예외가 있어야 함');
     assert.ok(bypass < cacheFirst, '예외는 캐시 조회보다 먼저 판단해야 함');
 });
+
+test('대표 제품 정리: 내부 변형은 숨기고 원본은 남기며, 같은 이름의 함선·제품이 선택 목록에 겹치지 않는다', () => {
+    const index = read('data/loadout/index.json');
+    // 함선: 같은 이름이 둘 이상 나오지 않고, 옛 클래스명은 새 클래스로 이어진다.
+    const shipNames = index.ships.map((ship) => ship.name);
+    assert.equal(new Set(shipNames).size, shipNames.length, '함선 이름 중복 없음');
+    assert.equal(index.aliases.rsi_constellation_phoenix, 'rsi_constellation_phoenix_gs');
+    assert.equal(index.aliases.rsi_constellation_taurus, 'rsi_constellation_taurus_gs');
+    for (const target of Object.values(index.aliases)) assert.ok(index.ships.some((ship) => ship.cls === target), `별칭 대상 ${target}`);
+
+    // 부품: 레버넌트·올스탑의 내부 변형은 원본을 남긴 채 숨기고 대표 제품을 가리킨다.
+    const byCls = Object.fromEntries(Object.entries(items).map(([id, item]) => [item.cls, { id, ...item }]));
+    for (const [variant, primary] of [['APAR_BallisticGatling_S4_LowPoly', 'APAR_BallisticGatling_S4'], ['SHLD_GODI_S01_AllStop_SCItem_ResistGasclouds', 'SHLD_GODI_S01_AllStop_SCItem']]) {
+        assert.equal(byCls[variant].hidden, true, variant);
+        assert.equal(byCls[variant].alias, byCls[primary].id, variant);
+        assert.equal(byCls[primary].hidden, undefined, primary);
+    }
+    // 숨긴 부품은 어떤 함선의 기본 장착에도 쓰이지 않거나, 대표와 수치가 완전히 같다(기본 수치가 달라지지 않는다).
+    const used = new Set();
+    for (const file of readdirSync(new URL('../../data/loadout/ships/', import.meta.url))) {
+        const walk = (slots) => { for (const slot of slots || []) { if (slot.item) used.add(slot.item); walk(slot.ch); } };
+        walk(read(`data/loadout/ships/${file}`).slots);
+    }
+    const strip = ({ cls: _cls, alias: _alias, hidden: _hidden, variant: _variant, ...rest }) => JSON.stringify(rest);
+    for (const [id, item] of Object.entries(items)) {
+        if (!item.alias) continue;
+        assert.ok(items[item.alias] && !items[item.alias].alias, `${item.cls}의 대표는 실제 대표 제품이어야 함`);
+        if (item.hidden && used.has(id)) assert.equal(strip(item), strip(items[item.alias]), `${item.cls}: 쓰이는 부품을 숨기려면 수치가 같아야 함`);
+        if (item.variant) assert.ok(used.has(id) && strip(item) !== strip(items[item.alias]), `${item.cls}: 전용 변형은 실제로 쓰이고 수치가 달라야 함`);
+    }
+    // 낱개 제품 종류에서는 보이는 것 중 이름·크기·제조사가 같은 것이 "전용 변형" 표시 없이 겹치지 않는다.
+    const seen = new Map();
+    for (const item of Object.values(items)) {
+        if (item.hidden || item.variant || item.name === item.cls) continue;
+        if (!['WeaponGun', 'Shield', 'PowerPlant', 'Cooler', 'QuantumDrive', 'Radar', 'Missile'].includes(item.type)) continue;
+        const key = [item.type, item.size, item.name, item.mfrCode].join('|');
+        assert.equal(seen.get(key), undefined, `겹치는 제품: ${key} (${seen.get(key)} / ${item.cls})`);
+        seen.set(key, item.cls);
+    }
+    // 한국어 표기: 모든 함선에 한국어 이름이 있다.
+    const ko = read('data/loadout/ko.json');
+    assert.deepEqual(index.ships.filter((ship) => !ko.ships[ship.cls]).map((ship) => ship.cls), []);
+});

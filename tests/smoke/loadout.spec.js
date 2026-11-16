@@ -32,8 +32,8 @@ test.describe('로드아웃 편집기', () => {
         await expect(page).toHaveURL(/#loadout$/);
         await expect(page.locator('#loadout .section-header h2')).toContainText('로드아웃');
         // 함선을 고르기 전에는 전체 목록을 바로 훑어볼 수 있다.
-        await expect(page.locator('#loadout-ship-count')).toHaveText('전체 224척');
-        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(224);
+        await expect(page.locator('#loadout-ship-count')).toHaveText('전체 222척');
+        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(222);
 
         await page.locator('#loadout-ship-search').fill('아스가르드');
         await expect(page.locator('#loadout-ship-count')).toHaveText('검색 결과 1척');
@@ -49,7 +49,7 @@ test.describe('로드아웃 편집기', () => {
         // 함선을 고르면 목록은 접히고, "함선 바꾸기"로 다시 펼친다.
         await expect(page.locator('#loadout-ship-results')).toHaveCount(0);
         await page.locator('[data-loadout-browse]').click();
-        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(224);
+        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(222);
         await page.locator('[data-loadout-browse]').click();
 
         // 용어와 부품 이름은 게임 한국어 패치 표기를 따른다.
@@ -114,11 +114,11 @@ test.describe('로드아웃 편집기', () => {
         await openAsgard(page, { prices: {} });
         await firstGunSlot(page).locator('[data-loadout-open]').click();
         const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
-        await expect(option.locator('.loadout-price')).toHaveText('상점 판매 없음 · 파밍 획득');
+        await expect(option.locator('.loadout-price')).toHaveText('판매처 정보 없음');
         await expect(pick(page, MANTIS)).toBeEnabled();
         await pick(page, MANTIS).click();
         await expect(page.locator('.loadout-slot.is-changed')).toContainText('맨티스 GT-220 개틀링');
-        await expect(panel(page)).toContainText('1종은 상점 판매 없음 (파밍 획득)');
+        await expect(panel(page)).toContainText('1종은 판매처 정보 없음');
         await expect(page.locator('.loadout-shopping')).toContainText('파밍(전리품)으로 얻는 부품');
     });
 
@@ -398,7 +398,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('#loadout-ship-count')).toHaveText(/^검색 결과 \d+척$/);
         const anvil = await page.locator('#loadout-ship-results [data-loadout-ship]').count();
         expect(anvil).toBeGreaterThan(5);
-        expect(anvil).toBeLessThan(224);
+        expect(anvil).toBeLessThan(222);
         await page.locator('[data-loadout-ship-kind="ground"]').click();
         expect(await page.locator('#loadout-ship-results [data-loadout-ship]').count()).toBeLessThan(anvil);
         await page.locator('[data-loadout-ship-kind=""]').click();
@@ -431,5 +431,67 @@ test.describe('로드아웃 편집기', () => {
         const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
         await expect(option.locator('.loadout-metric')).toHaveText(/853\s*DPS/);
         await expect(option.locator('.loadout-delta')).toHaveText(/^DPS \+\d/);
+    });
+
+    test('중복 정리: 한영 어느 쪽으로 찾아도 같은 한 항목이 나오고, 이전에 저장한 구성도 계속 열린다', async ({ page }) => {
+        const LOWPOLY = '83671df2-63e6-4683-8125-bdccd7d1cd7e'; // 레버넌트 개틀링의 내부 변형(_LowPoly)
+        const REVENANT = 'df89e9ca-8a11-477c-8abd-f4837a277dbe';
+        await mockApi(page);
+        await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
+        await gotoSection(page, '#loadout');
+        // 함선: 피닉스·타우러스가 한 번씩만, 한국어 이름으로 나온다.
+        for (const [query, cls] of [['phoenix', 'rsi_constellation_phoenix_gs'], ['피닉스', 'rsi_constellation_phoenix_gs'], ['타우러스', 'rsi_constellation_taurus_gs']]) {
+            await page.locator('#loadout-ship-search').fill(query);
+            await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(1);
+            await expect(page.locator(`[data-loadout-ship="${cls}"]`)).toContainText(/피닉스|타우러스/);
+        }
+        // 부품: 영어·한국어 검색이 같은 한 항목으로 이어진다(한국어 이름이 주, 영어 원문이 보조).
+        await page.locator('#loadout-ship-search').fill('asgard');
+        await page.locator('[data-loadout-ship="anvl_asgard"]').click();
+        await firstGunSlot(page, 'CF-447 라이노 리피터').locator('[data-loadout-open]').click();
+        const options = page.locator('.loadout-options li');
+        for (const query of ['Revenant', '레버넌트']) {
+            await page.locator('#loadout-picker-search').fill(query);
+            await expect(options).toHaveCount(1);
+            await expect(options.first()).toContainText('레버넌트 개틀링');
+            await expect(options.first()).toContainText('Revenant Gatling');
+            await expect(options.first().locator(`[data-loadout-pick="${REVENANT}"]`)).toHaveCount(1);
+        }
+        await expect(page.locator(`[data-loadout-pick="${LOWPOLY}"]`)).toHaveCount(0);
+
+        // 정리 이전에 만들어진 공유 링크(옛 함선 클래스 + 내부 변형 id)도 대표 제품으로 열린다.
+        const path = await page.locator('.loadout-slot.is-open').getAttribute('data-loadout-slot');
+        await page.goto(`/?loadout=anvl_asgard&set=${encodeURIComponent(`${encodeURIComponent(path)}=${LOWPOLY}`)}#loadout`);
+        await expect(page.locator('.loadout-shipstate')).toHaveText('1곳 변경됨');
+        await expect(page.locator(`[data-loadout-slot="${path}"]`)).toContainText('레버넌트 개틀링');
+        await page.goto('/?loadout=rsi_constellation_phoenix#loadout');
+        await expect(page.locator('#loadout-ship-title')).toContainText('피닉스');
+    });
+
+    test('세 칸 화면과 되돌리기: 후보를 고르는 동안 성능 요약이 보이고, 직전 변경을 취소할 수 있다', async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 900 });
+        await openAsgard(page);
+        const undo = page.locator('[data-loadout-undo]');
+        await expect(undo).toBeDisabled();
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        // 넓은 화면: 후보 목록이 가운데 칸에 놓이고, 화면을 덮는 막이 없으며, 성능 요약이 그대로 보인다.
+        await expect(page.locator('.loadout-drawer-backdrop')).toBeHidden();
+        const boxes = await Promise.all(['.loadout-slots', '.loadout-picker', '.loadout-panel'].map((selector) => page.locator(selector).boundingBox()));
+        expect(boxes[0].x + boxes[0].width).toBeLessThanOrEqual(boxes[1].x + 1);
+        expect(boxes[1].x + boxes[1].width).toBeLessThanOrEqual(boxes[2].x + 1);
+        await expect(stat(page, DPS)).toBeVisible();
+        await pick(page, MANTIS).click();
+        await expect(stat(page, DPS)).not.toHaveText('5,313');
+        // 되돌리기: 방금 바꾼 것만 취소하고, 더 취소할 것이 없으면 버튼이 꺼진다.
+        await expect(undo).toBeEnabled();
+        await undo.click();
+        await expect(stat(page, DPS)).toHaveText('5,313');
+        await expect(page.locator('.loadout-shipstate')).toHaveText('기본 장착 상태');
+        await expect(undo).toBeDisabled();
+        // 전원 끄기도 되돌릴 수 있다.
+        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await expect(stat(page, '실드')).toContainText('31,680');
+        await undo.click();
+        await expect(stat(page, '실드')).toHaveText('42,240');
     });
 });
