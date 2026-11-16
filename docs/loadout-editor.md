@@ -1,0 +1,66 @@
+# 로드아웃 편집기
+
+함선을 고르고 장착 자리마다 부품을 바꿔 끼우며 화력·방어·동력·양자 항행과 구매 비용을 확인하는 화면이다(`#loadout`).
+2026-11-16 1차 구현 기준.
+
+## 자료 출처 (화면에도 표기)
+
+| 자료 | 출처 | 받는 방식 |
+| --- | --- | --- |
+| 함선 장착 자리, 부품 수치(피해·연사·실드·파워·쿨러·퀀텀) | 설치된 Star Citizen 게임 파일 (`Data.p4k`) | `npm run loadout:build`가 직접 읽어 `data/loadout/`에 저장 |
+| 부품 구매처·가격 | [UEX](https://uexcorp.space/) API 2.0 | 화면이 `/api/uex/loadout-prices?category=<번호>`로 그때그때 조회(1시간 캐시) |
+| 한국어 용어·부품 이름 | 스타 시티즌 한국어 패치 `global.ini` | `npm run loadout:ko -- --ini <경로>`가 `data/loadout/ko.json`으로 추출 |
+
+화면 하단(`#loadout-sources`)에 출처와 게임 자료 버전을 항상 표시한다(`tests/smoke/loadout.spec.js`가 지킨다).
+
+**Erkul Games(DPS Calculator)의 자료·서버는 쓰지 않는다.** 해당 사이트는 서버가 사이트 전용이며 외부 서비스의 자동 접근·사용을
+허용하지 않는다고 명시하고, 사이트 자체는 CC BY-NC-ND 4.0이다. 1차 구현(a3f1e19)은 그 카탈로그를 썼으나 공개 전에 내렸고(51ed54b),
+같은 수치의 원천인 게임 파일에서 직접 추출하도록 다시 만들었다. 계산식과 화면은 자체 구현이다.
+
+## 구성
+
+| 파일 | 역할 |
+| --- | --- |
+| `scripts/gamedata/p4k.mjs` | 게임 자료 묶음(Data.p4k, ZIP64) 읽기와 이진 XML(CryXmlB) 해석 |
+| `scripts/gamedata/dataforge.mjs` | 게임 정의 파일(Game2.dcb, DataForge v6+) 해석기 |
+| `scripts/loadout/build-loadout-data.mjs` | 게임 파일 → `data/loadout/{meta,index,items}.json`, `ships/<class>.json` (네트워크 호출 없음) |
+| `scripts/loadout/build-loadout-ko.mjs` | 한국어 패치 → `data/loadout/ko.json` |
+| `js/loadout-calc.js` | 계산(무기 DPS, 요약, 장착 규칙, 공유 문자열). 브라우저·Node 공용 |
+| `js/loadout.js` | 화면. 함선 검색, 슬롯 목록, 부품 선택, 구매 목록, 공유·저장 |
+| `functions/api/uex/loadout-prices.js` | UEX 품목·가격표를 고유번호(uuid)로 묶은 작은 표로 변환 |
+
+## 자료 갱신 (게임이 설치된 PC에서)
+
+```bash
+npm run loadout:build      # 기본 경로의 Data.p4k를 읽는다. 다른 경로는 --p4k <경로>
+npm run loadout:ko -- --ini "C:/Program Files/Roberts Space Industries/StarCitizen/LIVE/data/Localization/korean_(south_korea)/global.ini"
+npm run test:functions     # 자료 정합성·계산식 검증 포함
+```
+
+게임 패치 후 실행한다. 게임 파일 형식이 바뀌면 해석기가 "layout mismatch"로 멈춘다(조용히 틀린 자료를 만들지 않는다).
+부품 고유번호(GUID)는 게임 정의의 값 그대로라 UEX의 uuid와 일치한다.
+
+## 함선·부품 고르는 기준
+
+- 함선: `entities/spaceships`·`groundvehicles` 정의 중 이름이 있고, AI·임무·행사·도색·교육용 변형이 아닌 것. 소유자의 함선DB 영구 제외 목록(`ship-catalog-policy.js`)도 따른다.
+- 부품: `entities/scitem/ships|vehicles` 정의 중 편집 대상 종류이고 실제 이름이 있는 것 + 함선 기본 장착에 쓰인 것.
+- 장착 자리: 함선 구조 XML의 ItemPort와 정의의 Ports. 기본 장착은 정의의 loadout entries(부품 자신의 기본 하위 장착 포함).
+
+## 계산 방식
+
+- 무기 초당 피해: 1발 피해 × 분당 발사 수 ÷ 60. 충전식은 1발 피해 ÷ (충전 + 재사용 대기), 광선은 자료의 초당 피해.
+- 조종사/터렛 구분: 유인 터렛(TurretBase) 아래의 무기를 터렛으로 센다. 원격 터렛을 조종사가 쓰는 함선은 원본의 구분과 다를 수 있다.
+- 장착 규칙: 슬롯이 받는 종류·크기 범위 + 전용 부품(requiredTags)은 해당 함선·상위 부품에만. `kind: 'f'`(고정) 슬롯은 바꿀 수 없다.
+- 부품을 바꾸면 그 아래 달려 있던 부품(예: 랙의 미사일)은 빠지고, 새 부품의 장착 자리가 빈 슬롯으로 열린다.
+
+## 알려진 한계 (2026-11-16)
+
+- 화력은 자체 계산이다. 게임 안 수치·알려진 값과 표본 대조만 했다(판터 리피터 545.6, 아스가르드 파일럿 3,274, 글라디우스 1,945 등). 전 함선 전수 검증은 아직이다.
+- 문 기총(도어 거너)과 유인 터렛은 터렛 화력으로 센다. 다른 도구는 문 기총을 합계에서 빼기도 하므로 총합이 다를 수 있다.
+- 퀀텀 항속 거리는 표시하지 않는다(계산식 미검증).
+- 함선 변형(modification)의 장착 자리 차이는 기본 구조 XML 기준이라 일부 변형에서 다를 수 있다.
+- 파워는 출력과 "모든 장비 최대 가동 시 필요량"만 보여준다. 게임의 파워 배분은 구현하지 않았다.
+- 한국어 표기는 임의로 번역하지 않고 게임 한국어 패치를 따른다(퀀텀 드라이브, 파워 플랜트, 쿨러, 실드 제너레이터, 기총 …). 부품 이름은 1,575종 중 615종이 패치 표기로 나오고, 패치에 없는 것은 게임 원문(영문)으로 표시한다. 한국어 이름 아래에 원문 이름을 함께 보여준다. 부품 설명문은 싣지 않는다.
+- 상점에서 팔지 않는 부품(군용 등 파밍 전용)도 장착 후보에서 빼지 않는다. "상점 판매 없음 · 파밍 획득"으로 표시하고 구매 합계에서만 제외한다.
+- 구매 목록은 바꾼 부품만 최저가 1곳 기준으로 합산한다. UEX에 판매처가 없는 부품은 "판매처 정보 없음"으로 표시한다.
+- 로그인 계정에 저장하지 않는다. 브라우저 저장(localStorage)과 공유 링크(`?loadout=<함선>&set=<변경>#loadout`)만 지원한다.

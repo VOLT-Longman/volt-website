@@ -3,12 +3,12 @@ import { json, error } from './http.js';
 const DEFAULT_UEX_API_BASE_URL = 'https://api.uexcorp.space/2.0';
 const UEX_REQUEST_TIMEOUT_MS = 10_000;
 
-function getUpstreamUrl(env, upstreamPathWithQuery) {
+export function getUpstreamUrl(env, upstreamPathWithQuery) {
   const baseUrl = (env.UEX_API_BASE_URL || DEFAULT_UEX_API_BASE_URL).replace(/\/+$/, '');
   return `${baseUrl}/${upstreamPathWithQuery}`;
 }
 
-async function fetchUex(url) {
+export async function fetchUex(url) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), UEX_REQUEST_TIMEOUT_MS);
   try {
@@ -21,7 +21,7 @@ async function fetchUex(url) {
   }
 }
 
-async function readUexPayload(response) {
+export async function readUexPayload(response) {
   try {
     const payload = await response.json();
     return payload.status === 'ok' && Array.isArray(payload.data) ? payload : null;

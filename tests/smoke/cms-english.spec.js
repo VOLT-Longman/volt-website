@@ -16,7 +16,7 @@ test('English headings and content use real public CMS response mappings, and sw
     await expect(page.locator('#leadership-grid')).toContainText('Test Leader');
     await expect(page.locator('#leadership-grid')).toContainText('Translated competence');
     const headings = await page.locator('main .section-header h2').allTextContents();
-    expect(headings.length).toBe(18);
+    expect(headings.length).toBe(19);
     for (const heading of headings) expect(heading).not.toMatch(/[가-힣]/);
     await page.locator('#leadership-grid [data-leader-id="ceo"]').click();
     await expect(page.locator('.modal-backdrop')).toContainText('Translated philosophy');

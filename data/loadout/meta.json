@@ -1,0 +1,20 @@
+{
+  "source": "game-files",
+  "sourceName": "Star Citizen 게임 파일",
+  "sourceDetail": "Data.p4k (Game2.dcb · 함선 구조 XML · global.ini)",
+  "priceSource": "UEX",
+  "priceSourceUrl": "https://uexcorp.space/",
+  "version": "4.10.0-LIVE.13165946",
+  "gameVersion": "4.10.200.58746",
+  "builtAt": "2026-11-16T06:05:21.023Z",
+  "counts": {
+    "items": 1575,
+    "ships": 224,
+    "records": 118499
+  },
+  "samples": {
+    "anvl_asgard": 5313,
+    "aegs_gladius": 1945,
+    "anvl_arrow": 1494
+  }
+}
