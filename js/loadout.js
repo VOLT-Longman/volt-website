@@ -650,7 +650,7 @@
                 ${classes.map((klass) => chip('data-loadout-class', klass, className({ klass }), state.pickerClass === klass)).join('')}
                 ${chip('data-loadout-buyable', '1', text('buyableOnly'), Boolean(state.pickerBuyable))}
             </div>
-            <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}</p>
+            <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}${Number(node.item?.power?.use) > 0 || state.off[node.path] ? ` <button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(node.path)}" aria-pressed="${Boolean(state.off[node.path])}">${esc(text(state.off[node.path] ? 'powerOn' : 'powerOff'))}</button>` : ''}</p>
             ${run.length > 1 ? `<p class="loadout-note loadout-runnote">${esc(text('runNote', { count: run.length }))}</p>` : ''}
             ${siblings.length + 1 > run.length ? `<label class="loadout-bulk"><input type="checkbox" id="loadout-bulk" ${state.pickerBulk ? 'checked' : ''}> ${esc(text('bulkApply', { count: siblings.length + 1 }))}</label>` : ''}
             <ul class="loadout-options">${shown.map(([id, item]) => `<li class="${id === currentId ? 'is-current' : ''}">
@@ -731,7 +731,7 @@
                 <div class="loadout-slot-actions">
                     ${changed ? `<button type="button" class="loadout-link" data-loadout-reset="${esc(node.mount?.changed ? node.mount.path : path)}">${esc(text('reset'))}</button>` : ''}
                     ${node.run ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.runParent)}">${esc(text('splitRun'))}</button>` : ''}${node.regroup !== undefined ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.regroup)}">${esc(text('mergeRun'))}</button>` : ''}
-                    ${canPower || off ? `<button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(path)}" aria-pressed="${off}">${esc(text(off ? 'powerOn' : 'powerOff'))}</button>` : ''}
+                    ${off || (canPower && !editable) ? `<button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(path)}" aria-pressed="${off}">${esc(text(off ? 'powerOn' : 'powerOff'))}</button>` : ''}
                     ${editable ? `<button type="button" class="btn btn-secondary" data-loadout-open="${esc(path)}" aria-expanded="${open}">${esc(text('change'))}</button>` : `<span class="loadout-fixed">${esc(text('fixed'))}</span>`}
                 </div>
             </div>
@@ -1170,7 +1170,10 @@
             remember();
             const next = { ...state.off };
             if (next[powerPath]) delete next[powerPath]; else next[powerPath] = true;
-            state.off = next; writeStored(); draw(); return;
+            state.off = next;
+            // 화면을 덮는 선택 창에서 눌렀으면 창을 닫아 결과가 바로 보이게 한다.
+            if (target.closest('.loadout-picker') && isOverlayPicker()) closePicker();
+            writeStored(); draw(); return;
         }
         const splitParent = target.getAttribute('data-loadout-split');
         if (splitParent !== null) {

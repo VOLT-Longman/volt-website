@@ -20,6 +20,11 @@ const openBuilds = (page) => page.locator('[data-loadout-builds-toggle][aria-exp
 const stat = (page, label) => page.locator('.loadout-stat, .loadout-kpi').filter({ has: page.getByText(label, { exact: true }) }).locator('strong');
 const panel = (page) => page.locator('.loadout-panel');
 const firstGunSlot = (page, name = 'CF-337 판터 리피터') => page.locator('.loadout-slot:not(.is-parent)', { hasText: name }).first();
+// 첫 실드의 선택 창을 열어 그 안에서 전원을 끈다.
+const shieldOff = async (page) => {
+    await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-open]').click();
+    await page.locator('.loadout-picker [data-loadout-power]').click();
+};
 const pick = (page, id) => page.locator(`.loadout-options [data-loadout-pick="${id}"]`);
 
 test.describe('로드아웃 편집기', () => {
@@ -375,7 +380,9 @@ test.describe('로드아웃 편집기', () => {
         await openAsgard(page);
         await expect(stat(page, '실드')).toHaveText('42,240');
         const shield = page.locator('.loadout-group.is-shield .loadout-slot').first();
-        await shield.locator('[data-loadout-power]').click();
+        // 켜져 있을 때는 줄에 전원 버튼이 없고, 선택 창 안에서 끈다.
+        await expect(shield.locator('[data-loadout-power]')).toHaveCount(0);
+        await shieldOff(page);
         await expect(stat(page, '실드')).toContainText('31,680');
         await expect(shield).toHaveClass(/is-off/);
         await expect(shield).toContainText('전원 꺼짐');
@@ -387,7 +394,7 @@ test.describe('로드아웃 편집기', () => {
         await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
         await expect(stat(page, '실드')).toHaveText('42,240');
 
-        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await shieldOff(page);
         await page.locator('[data-loadout-reset-all]').click();
         await expect(stat(page, '실드')).toHaveText('42,240');
         await expect(page.locator('.loadout-slot.is-off')).toHaveCount(0);
@@ -501,7 +508,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-shipstate')).toHaveText('기본 장착 상태');
         await expect(undo).toBeDisabled();
         // 전원 끄기도 되돌릴 수 있다.
-        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await shieldOff(page);
         await expect(stat(page, '실드')).toContainText('31,680');
         await undo.click();
         await expect(stat(page, '실드')).toHaveText('42,240');
@@ -546,7 +553,7 @@ test.describe('로드아웃 편집기', () => {
         await flight.locator('summary').click();
         await expect(stat(page, '롤')).toBeVisible();
         // 부품 전원을 꺼서 화면이 다시 그려져도 펼친 채로 남는다.
-        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await shieldOff(page);
         await expect(stat(page, '롤')).toBeVisible();
         await expect(page.locator('.loadout-hull .loadout-fold-body')).toBeHidden();
         // 출처는 한 줄 요약으로 늘 보이고, 누르면 자세한 내용이 펼쳐진다.
@@ -561,7 +568,7 @@ test.describe('로드아웃 편집기', () => {
         await openAsgard(page);
         const row = (label) => page.locator('.loadout-panel .loadout-row').filter({ has: page.getByText(label, { exact: true }) });
         // 실드 하나의 전원을 끄면 실드는 줄어 불리, 소비 전력·EM 시그니쳐는 줄어 유리로 표시된다.
-        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await shieldOff(page);
         await expect(stat(page, '실드').locator('xpath=..').locator('.loadout-change')).toHaveClass(/is-bad/);
         await expect(row('소비 전력').locator('.loadout-change')).toHaveClass(/is-good/);
         await expect(row('소비 전력').locator('.loadout-change')).toContainText('−');
