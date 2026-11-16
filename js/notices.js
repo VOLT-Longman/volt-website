@@ -29,6 +29,18 @@
         return currentLang() === 'en' && en ? en : (announcement[field] || '');
     }
 
+    // 목록 카드용 미리보기. 본문은 '■ 내용' 같은 소제목과 구분선으로 시작하는 경우가 많아
+    // 앞부분을 그대로 자르면 "■ 내용…"만 보인다. 소제목·구분선·빈 줄을 건너뛰고
+    // 실제 문장을 이어 붙여 보여준다(줄 수 제한은 CSS line-clamp가 담당).
+    const EXCERPT_MAX_LENGTH = 220;
+    function noticeExcerpt(content) {
+        const lines = String(content || '').split(/\r?\n/).map((line) => line.trim()).filter((line) => (
+            line && !/^[■□◆◇●○▶▷※#]/u.test(line) && !/^[\s⸻─━—–=_*·.-]+$/u.test(line)
+        ));
+        const text = lines.join(' ').replace(/\s+/g, ' ');
+        return text.length > EXCERPT_MAX_LENGTH ? `${text.slice(0, EXCERPT_MAX_LENGTH).trimEnd()}…` : text;
+    }
+
     function getNoticeTags() {
         const announcements = getAnnouncements();
         if (!Array.isArray(announcements)) return [];
@@ -113,7 +125,7 @@
                     <span class="notice-date">${escapeHtml(formatDisplayDate(announcement.date))}</span>
                 </div>
                 <h3 class="notice-title">${escapeHtml(noticeField(announcement, 'title'))}</h3>
-                <p class="notice-content notice-excerpt">${formatMultilineText(noticeField(announcement, 'content'))}</p>
+                <p class="notice-content notice-excerpt">${escapeHtml(noticeExcerpt(noticeField(announcement, 'content')))}</p>
                 <span class="notice-more" aria-hidden="true">${escapeHtml(i18nT('notices.readMore', '자세히 보기 →'))}</span>
             </button>`).join('') || `<div class="notice-empty"><span class="notice-empty-mark" aria-hidden="true">↗</span>
                 <h3>${escapeHtml(i18nT('notices.emptyTitle', '표시할 공지가 없습니다.'))}</h3>

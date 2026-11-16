@@ -713,6 +713,17 @@
         refreshProfitSelection();
     }
 
+    // 상태 문구는 한 번 써 두면 언어를 바꿔도 이전 언어로 남는다(예: 한국어 화면에
+    // "Loaded 204 commodities."). 언어 전환 시 현재 상태에 맞는 문구로 다시 쓴다.
+    function refreshStatusForLanguage() {
+        const status = document.getElementById('uex-status');
+        const placeholder = document.querySelector('#uex-commodity-select option[value=""]');
+        if (placeholder) placeholder.textContent = t('planner.uex.selectCommodity', '상품 선택');
+        if (!status) return;
+        if (currentUexModel) status.textContent = formatUexLastUpdated(currentUexModel);
+        else if (availableUexCommodities.length) status.textContent = t('planner.uex.loadedCommodities', '상품 {count}종을 불러왔습니다.', { count: availableUexCommodities.length });
+    }
+
     window.VOLT_UEX_PANEL = {
         init,
         setup: setupUexLivePanel,
@@ -720,6 +731,6 @@
         formatLocation: formatUexLocation,
         refreshForPlannerInputs: refreshUexModelForPlannerInputs,
         // 언어 토글 시 항성계 칩 라벨 재번역(모델이 있을 때만).
-        onLanguageChange: () => { if (currentUexModel) renderUexSystemChips(currentUexModel); refreshProfitSelection(); },
+        onLanguageChange: () => { if (currentUexModel) renderUexSystemChips(currentUexModel); refreshProfitSelection(); refreshStatusForLanguage(); },
     };
 })();

@@ -9284,8 +9284,10 @@ body.nav-trade-open::before {
     .fleet-section-photo { border-radius: 20px; }
 }
 
-.join-cta .btn-primary { background: #f5f5f7; border-color: #f5f5f7; color: #1d1d1f; }
-.join-cta .btn-primary:hover { background: #dedee3; border-color: #dedee3; }
+.join-cta .btn-primary, .join-buttons-top .btn-primary { background: #f5f5f7; border-color: #f5f5f7; color: #1d1d1f; }
+.join-cta .btn-primary:hover, .join-buttons-top .btn-primary:hover { background: #dedee3; border-color: #dedee3; }
+/* 제목 바로 아래 가입 버튼: 설명을 다 읽기 전에도 바로 지원할 수 있게 한다. */
+.join-buttons-top { justify-content: flex-start; margin-top: 28px; }
 
 /* Reviewed ship photos are optional; specifications remain usable without them. */
 .ship-photo { margin: 0; min-width: 0; overflow: hidden; border-radius: 14px; background: var(--surface-canvas); }
