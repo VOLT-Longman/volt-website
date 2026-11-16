@@ -500,7 +500,17 @@
             container.innerHTML = `<div class="ships-empty">${escapeHtml(i18nT('ships.empty', '검색 결과가 없습니다.'))}</div>`;
             return;
         }
-        container.innerHTML = ships.map((ship) => `
+        // 휴대폰 폭에서는 한 번에 SHIP_PAGE_SIZE척만 그리고 '더 보기'로 이어 붙인다.
+        // 246척을 한 줄로 모두 그리면 화면 길이가 약 10만 px이 되어 탐색이 어렵다.
+        // 검색·필터·정렬로 결과 목록이 바뀌면 처음 묶음부터 다시 보여준다.
+        const listKey = ships.map((ship) => ship.id).join('|');
+        if (listKey !== shipPaging.key) shipPaging = { key: listKey, count: SHIP_PAGE_SIZE };
+        const shownShips = compactShipList.matches ? ships.slice(0, shipPaging.count) : ships;
+        const remaining = ships.length - shownShips.length;
+        const moreButton = remaining > 0
+            ? `<div class="ships-more"><button class="btn btn-secondary" type="button" data-ships-more>${escapeHtml(i18nT('ships.showMore', '더 보기 ({count}척 남음)').replace('{count}', String(remaining)))}</button></div>`
+            : '';
+        container.innerHTML = shownShips.map((ship) => `
             <article class="ship-card reveal${isRsiOfficialShip(ship) ? ' ship-card--rsi-official' : ''}" data-ship-id="${escapeHtml(ship.id)}" data-canonical-role="${escapeHtml(canonicalRole(ship) || '')}"${isRsiOfficialShip(ship) ? ` data-rsi-status="${escapeHtml(canonicalShip(ship).catalogStatus || 'concept')}"` : ''}>
                     ${renderShipPhoto(ship)}
                     <div class="ship-card-header">
@@ -524,9 +534,20 @@
                         ${escapeHtml(shipCompareState.has(ship.id) ? i18nT('ships.compareRemove', '비교 제거') : i18nT('ships.compareAdd', '비교 추가'))}
                     </button>
                 </div>
-            </article>`).join('');
+            </article>`).join('') + moreButton;
         renderShipCompareBar();
         observeNewReveals(container);
+    }
+    const SHIP_PAGE_SIZE = 24;
+    const compactShipList = window.matchMedia('(max-width: 768px)');
+    let shipPaging = { key: '', count: SHIP_PAGE_SIZE };
+    function showMoreShips() {
+        const container = document.getElementById('ships-grid');
+        const previousCount = container ? container.querySelectorAll('.ship-card').length : 0;
+        shipPaging.count += SHIP_PAGE_SIZE;
+        renderShips();
+        // 새로 나타난 첫 함선으로 초점을 옮겨 키보드·화면 낭독기 사용자가 이어서 볼 수 있게 한다.
+        container?.querySelectorAll('.ship-card')[previousCount]?.querySelector('.ship-name-btn')?.focus({ preventScroll: true });
     }
     function renderShipCompareBar() {
         const bar = document.getElementById('ship-compare-bar');
@@ -570,6 +591,9 @@
         //   ON 필터는 canonical role 칩으로 대체된다(재구성은 새 VOLT 편집을 낳아 계약 위반). OFF는 완전 불변.
         (purpose.closest('.ship-advanced-row') || purpose).hidden = true;
         shipState.purpose = '';
+        grid.addEventListener('click', (event) => { if (event.target.closest('[data-ships-more]')) showMoreShips(); });
+        // 화면 폭이 휴대폰↔넓은 화면으로 바뀌면(회전 등) 목록 방식을 다시 맞춘다.
+        compactShipList.addEventListener('change', () => renderShips());
         tagFilters?.addEventListener('click', handleShipTagFilterClick);
         // ON 전용 역할 콤보박스: 위임 리스너(빌드는 renderRoleSelect가 1회). 타이핑=옵션 필터만(그리드 재렌더 없음).
         if (tagFilters) {

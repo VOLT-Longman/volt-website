@@ -69,6 +69,46 @@ test.describe('화면 평가 보완', () => {
         await ctx.close();
     });
 
+    test('함선DB 모바일: 24척씩 보여주고 더 보기로 이어 붙이며, 검색하면 처음부터 다시 센다', async ({ browser }) => {
+        const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+        const page = await ctx.newPage();
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        const cards = page.locator('#ships-grid .ship-card');
+        const more = page.locator('#ships-grid [data-ships-more]');
+        await expect(cards).toHaveCount(24);
+        await expect(page.locator('#ship-results-summary')).toContainText('246');
+        await expect(more).toHaveText('더 보기 (222척 남음)');
+        const firstId = await cards.first().getAttribute('data-ship-id');
+
+        await more.click();
+        await expect(cards).toHaveCount(48);
+        await expect(more).toHaveText('더 보기 (198척 남음)');
+        // 앞서 보던 목록은 그대로 유지된다.
+        await expect(cards.first()).toHaveAttribute('data-ship-id', firstId);
+
+        // 격납고 추가처럼 목록이 그대로인 다시 그리기는 펼친 개수를 유지한다.
+        await cards.first().locator('.hangar-toggle-btn').click();
+        await expect(cards).toHaveCount(48);
+
+        // 검색으로 결과가 바뀌면 첫 묶음부터 다시 보여주고, 남은 것이 없으면 버튼이 사라진다.
+        await page.locator('#ship-search').fill('Hercules');
+        await expect(more).toHaveCount(0);
+        expect(await cards.count()).toBeLessThanOrEqual(24);
+        await page.locator('#ship-search').fill('');
+        await expect(cards).toHaveCount(24);
+        const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+        expect(pageHeight).toBeLessThan(20000);
+        await ctx.close();
+    });
+
+    test('함선DB 데스크톱: 전체 목록을 그대로 보여주고 더 보기 버튼이 없다', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#ships');
+        await expect(page.locator('#ships-grid .ship-card')).toHaveCount(246);
+        await expect(page.locator('#ships-grid [data-ships-more]')).toHaveCount(0);
+    });
+
     test('가입: 제목 바로 아래에서 지원서·Discord 버튼을 바로 누를 수 있다', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#join');

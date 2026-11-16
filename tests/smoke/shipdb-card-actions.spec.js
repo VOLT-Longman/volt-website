@@ -129,6 +129,8 @@ test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
         expect(heights.every((h) => h === 48)).toBe(true);
         const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
         expect(noOverflow).toBe(true);
+        // 휴대폰 폭은 24척씩 보여주므로(더 보기), 대상 함선을 검색으로 불러온다.
+        await page.locator('#ship-search').fill('E1');
         const e1 = page.locator('[data-ship-id="e1-spirit"]');
         await e1.scrollIntoViewIfNeeded();
         const mobileHeader = await e1.evaluate((card) => {
