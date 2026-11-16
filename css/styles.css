@@ -9494,6 +9494,10 @@ body.nav-trade-open::before {
 .loadout-more { justify-self: center; min-height: 44px; padding: 0 22px; }
 .loadout-weapontable td, .loadout-weapontable th { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .loadout-weapontable td:first-child { white-space: normal; min-width: 180px; }
+.loadout-slot.is-off .loadout-slot-main { opacity: 0.5; }
+.loadout-offmark { color: var(--color-text-secondary); }
+.loadout-powerbtn[aria-pressed="true"] { color: var(--color-text-primary); font-weight: 600; }
+.loadout-offnote { margin-top: 6px; }
 .loadout-stattrio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .loadout-flight .loadout-statpair + .loadout-statpair, .loadout-flight .loadout-stattrio { margin-top: 8px; }
 .loadout-stat strong small { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }

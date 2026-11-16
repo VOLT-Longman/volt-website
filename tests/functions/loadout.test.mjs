@@ -195,3 +195,19 @@ test('함선 고유 수치: 비행·선체·장갑·연료가 게임 파일에�
     const missing = readdirSync(new URL('../../data/loadout/ships/', import.meta.url)).map((file) => read(`data/loadout/ships/${file}`)).filter((ship) => !ship.ground && !ship.base?.flight).map((ship) => ship.cls);
     assert.deepEqual(missing, []);
 });
+
+test('전원 끄기: 꺼 둔 부품과 그 아래 부품은 화력·실드·소비 전력·시그니쳐에서 빠진다', () => {
+    const stock = calc.summarize(asgard, items, {});
+    const shields = []; const guns = [];
+    calc.walkLoadout(asgard, items, {}, (node) => { if (node.item?.sh) shields.push(node.path); if (node.item?.w && node.depth > 0) guns.push(node.path); });
+    const oneOff = calc.summarize(asgard, items, {}, { off: { [shields[0]]: true } });
+    assert.equal(oneOff.off, 1);
+    assert.equal(oneOff.shield.count, stock.shield.count - 1);
+    assert.ok(oneOff.shield.hp < stock.shield.hp && oneOff.power.use < stock.power.use && oneOff.signature.em < stock.signature.em);
+    assert.equal(oneOff.dps.total, stock.dps.total);
+    // 상위 부품(마운트·터렛)을 끄면 그 아래 무기도 함께 빠진다.
+    const parent = guns[0].split('/').slice(0, -1).join('/');
+    assert.ok(calc.summarize(asgard, items, {}, { off: { [parent]: true } }).dps.total < stock.dps.total);
+    // false 값과 빈 옵션은 영향을 주지 않는다.
+    assert.deepEqual(calc.summarize(asgard, items, {}, { off: { [shields[0]]: false } }), stock);
+});

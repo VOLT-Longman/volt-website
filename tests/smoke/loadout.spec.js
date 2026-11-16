@@ -354,4 +354,26 @@ test.describe('로드아웃 편집기', () => {
         await page.locator('[data-loadout-compare-clear]').click();
         await expect(page.locator('.loadout-comparetable')).toHaveCount(0);
     });
+
+    test('부품 전원을 끄면 실드·소비 전력이 줄고, 새로고침과 전체 기본값에서 올바르게 유지·해제된다', async ({ page }) => {
+        await openAsgard(page);
+        await expect(stat(page, '실드')).toHaveText('42,240');
+        const shield = page.locator('.loadout-group.is-shield .loadout-slot').first();
+        await shield.locator('[data-loadout-power]').click();
+        await expect(stat(page, '실드')).toContainText('31,680');
+        await expect(shield).toHaveClass(/is-off/);
+        await expect(shield).toContainText('전원 꺼짐');
+        await expect(panel(page)).toContainText('부품 1개의 전원을 꺼 둔 상태입니다');
+        await expect(panel(page)).toContainText(/남는 출력|출력 부족/);
+
+        await page.reload();
+        await expect(stat(page, '실드')).toContainText('31,680');
+        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await expect(stat(page, '실드')).toHaveText('42,240');
+
+        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await page.locator('[data-loadout-reset-all]').click();
+        await expect(stat(page, '실드')).toHaveText('42,240');
+        await expect(page.locator('.loadout-slot.is-off')).toHaveCount(0);
+    });
 });

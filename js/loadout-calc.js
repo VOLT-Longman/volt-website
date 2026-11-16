@@ -129,16 +129,21 @@
             signature: { em: 0, ir: 0 },
             mass: 0,
             changed: 0,
+            off: 0,
         };
     }
 
     // 로드아웃 전체 요약: 화력·미사일·실드·동력·냉각·양자 항행·신호.
-    function summarize(ship, items, overrides) {
+    // options.off: 전원을 꺼 둔 자리(경로 → true). 꺼진 부품과 그 아래 부품은 수치에 넣지 않는다.
+    function summarize(ship, items, overrides, options) {
         const totals = emptyTotals();
-        walkLoadout(ship, items, overrides, ({ item, itemId, changed, turret }) => {
+        const offPaths = Object.keys(options?.off || {}).filter((key) => options.off[key]);
+        const isOff = (path) => offPaths.some((key) => path === key || path.startsWith(`${key}/`));
+        walkLoadout(ship, items, overrides, ({ item, itemId, changed, turret, path }) => {
             if (changed) totals.changed += 1;
             if (!item) return;
             totals.mass += Number(item.mass) || 0;
+            if (offPaths.length && isOff(path)) { if (offPaths.includes(path)) totals.off += 1; return; }
             totals.power.gen += Number(item.power?.gen) || 0;
             totals.power.use += Number(item.power?.use) || 0;
             totals.cooling.gen += Number(item.cool?.gen) || 0;

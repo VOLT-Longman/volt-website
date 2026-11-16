@@ -20,7 +20,7 @@
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(),
-        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null,
+        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {},
     };
 
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
@@ -36,6 +36,7 @@
             rangeLabel: '항속 거리', qtFuel: '퀀텀 연료', h2Fuel: '수소 연료', travelFor: '이동 거리 (Gm)', travelTime: '예상 이동 시간', travelNote: '항속 거리와 이동 시간은 게임 파일 수치로 계산한 어림값입니다.', minSec: '{min}분 {sec}초',
             tab_compare: '구성 비교', compareWith: '비교', compareEmpty: '「저장한 로드아웃」에서 「비교」를 누르면 지금 구성과 나란히 견줘 볼 수 있습니다. 먼저 구성을 하나 저장해 보세요.', compareNow: '지금 구성', compareItem: '항목', compareDiff: '차이 (지금 − 비교 대상)', compareClear: '비교 끝내기',
             missileTable: '미사일·폭탄', lockShort: '락온', trackShort: '추적 방식', dmgShort: '피해',
+            powerOff: '전원 끄기', powerOn: '전원 켜기', poweredOff: '전원 꺼짐', powerSpare: '남는 출력', powerShort2: '출력 부족', offCount: '부품 {count}개의 전원을 꺼 둔 상태입니다. 꺼진 부품은 화력·실드·소비 전력·시그니쳐 계산에서 빠집니다.', capacitor: '축전 {load}발 · 초당 {rate}발 재생',
             tabsLabel: '로드아웃 화면', tab_slots: '장착', tab_weapons: '무기 상세', tab_finder: '부품 찾기', tab_cart: '장바구니',
             cartEmpty: '장바구니가 비어 있습니다. 부품 찾기나 부품 선택 창에서 「담기」를 눌러 보세요.', cartSummary: '부품 {kinds}종 · {count}개', cartClear: '장바구니 비우기', cartRemove: '빼기',
             cartAdd: '담기', cartAdded: '장바구니에 담았습니다.', inCart: '담음 {count}', cartAddChanged: '바꾼 부품 장바구니에 담기', cartByShop: '상점별로 살 것', qtyLess: '수량 줄이기', qtyMore: '수량 늘리기',
@@ -80,6 +81,7 @@
             rangeLabel: 'Range', qtFuel: 'Quantum fuel', h2Fuel: 'Hydrogen fuel', travelFor: 'Distance (Gm)', travelTime: 'Estimated travel time', travelNote: 'Range and travel time are estimates calculated from game file values.', minSec: '{min}m {sec}s',
             tab_compare: 'Compare', compareWith: 'Compare', compareEmpty: 'Press Compare on a saved loadout to see it next to your current setup. Save a setup first.', compareNow: 'Current setup', compareItem: 'Stat', compareDiff: 'Difference (current − other)', compareClear: 'Stop comparing',
             missileTable: 'Missiles & bombs', lockShort: 'Lock', trackShort: 'Tracking', dmgShort: 'Damage',
+            powerOff: 'Power off', powerOn: 'Power on', poweredOff: 'Powered off', powerSpare: 'Spare output', powerShort2: 'Output shortfall', offCount: '{count} parts are powered off. They are left out of firepower, shields, power draw and signatures.', capacitor: 'Capacitor {load} · {rate}/s regen',
             tabsLabel: 'Loadout views', tab_slots: 'Hardpoints', tab_weapons: 'Weapons', tab_finder: 'Part finder', tab_cart: 'Cart',
             cartEmpty: 'Your cart is empty. Use Add in the part finder or the part picker.', cartSummary: '{kinds} parts · {count} items', cartClear: 'Empty cart', cartRemove: 'Remove',
             cartAdd: 'Add', cartAdded: 'Added to cart.', inCart: 'In cart {count}', cartAddChanged: 'Add changed parts to cart', cartByShop: 'What to buy at each shop', qtyLess: 'Decrease quantity', qtyMore: 'Increase quantity',
@@ -160,6 +162,8 @@
             stored.ship = state.shipCls;
             stored.sets = { ...(stored.sets || {}) };
             if (Object.keys(state.overrides).length) stored.sets[state.shipCls] = state.overrides; else delete stored.sets[state.shipCls];
+            stored.off = { ...(stored.off || {}) };
+            if (Object.keys(state.off).length) stored.off[state.shipCls] = state.off; else delete stored.off[state.shipCls];
             localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
         } catch (_error) { /* 저장 공간을 쓸 수 없어도 편집은 계속된다 */ }
     }
@@ -178,7 +182,13 @@
         state.meta = meta; state.index = index.ships; state.items = items.items; state.ko = ko;
     }
 
-    async function selectShip(cls, overrides) {
+    // 전원을 꺼 둔 자리 가운데 지금 구성에 실제로 있는 자리만 남긴다.
+    function cleanOff(off) {
+        const paths = new Set(); calc.walkLoadout(state.ship, state.items, state.overrides, (node) => { if (node.item) paths.add(node.path); });
+        return Object.fromEntries(Object.keys(off || {}).filter((key) => off[key] && paths.has(key)).map((key) => [key, true]));
+    }
+
+    async function selectShip(cls, overrides, off) {
         if (!/^[a-z0-9_]+$/i.test(cls || '')) return;
         state.loading = true; state.error = ''; state.openPath = ''; draw();
         try {
@@ -187,6 +197,7 @@
             state.ship = ship; state.shipCls = cls;
             const stored = overrides ?? readStored().sets?.[cls] ?? {};
             state.overrides = calc.sanitizeOverrides(ship, state.items, stored);
+            state.off = cleanOff(off ?? (overrides === undefined ? readStored().off?.[cls] : {}) ?? {});
             writeStored();
         } catch (error) {
             console.warn('Loadout load failed', error);
@@ -206,7 +217,7 @@
             const stored = readStored();
             const known = (cls) => state.index.some((ship) => ship.cls === cls);
             // 공유 링크는 처음 한 번만 적용한다(언어 전환 등으로 다시 그릴 때 편집 내용을 덮어쓰지 않게).
-            if (shared && known(shared) && !state.sharedApplied) { state.sharedApplied = true; return selectShip(shared, calc.decodeOverrides(params.get('set') || '')); }
+            if (shared && known(shared) && !state.sharedApplied) { state.sharedApplied = true; return selectShip(shared, calc.decodeOverrides(params.get('set') || ''), Object.fromEntries((params.get('off') || '').split(',').filter(Boolean).map((key) => [key, true]))); }
             if (state.shipCls && known(state.shipCls)) { state.loading = false; draw(); return undefined; }
             if (stored.ship && known(stored.ship)) return selectShip(stored.ship);
         } catch (error) {
@@ -343,7 +354,7 @@
             </div>
             <div class="loadout-actions">
                 <button type="button" class="btn btn-secondary" data-loadout-share>${esc(text('share'))}</button>
-                <button type="button" class="btn btn-secondary" data-loadout-reset-all ${Object.keys(state.overrides).length ? '' : 'disabled'}>${esc(text('resetAll'))}</button>
+                <button type="button" class="btn btn-secondary" data-loadout-reset-all ${Object.keys(state.overrides).length || Object.keys(state.off).length ? '' : 'disabled'}>${esc(text('resetAll'))}</button>
             </div>
         </header>`;
     }
@@ -433,7 +444,9 @@
                 </div>
                 <div class="loadout-meter${powerShare >= 100 ? ' is-over' : ''}" role="img" aria-label="${esc(text('powerUse', { use: num(totals.power.use, 1) }))}"><i style="width:${powerShare.toFixed(1)}%"></i></div>
                 <p class="loadout-note">${esc(text('powerUse', { use: num(totals.power.use, 1) }))}</p>
+                ${totals.off ? `<p class="loadout-note loadout-offnote">${esc(text('offCount', { count: totals.off }))}</p>` : ''}
                 <dl class="loadout-rows">
+                    ${row(text(totals.power.gen >= totals.power.use ? 'powerSpare' : 'powerShort2'), num(Math.abs(totals.power.gen - totals.power.use), 1))}
                     ${row(text('signatureEm'), num(totals.signature.em), drawChange(totals.signature.em, stock.signature.em))}
                     ${row(text('signatureIr'), num(totals.signature.ir), drawChange(totals.signature.ir, stock.signature.ir))}
                 </dl>`)}
@@ -557,19 +570,22 @@
         const { slot, item, itemId, path, changed } = node;
         const editable = slot.kind === 's';
         const open = state.openPath === path;
+        const off = Boolean(state.off[path]);
+        const canPower = item && Number(item.power?.use) > 0;
         const size = slot.max !== undefined ? (slot.min === slot.max || !slot.min ? `S${slot.max}` : `S${slot.min}-${slot.max}`) : (item?.size !== undefined ? `S${item.size}` : '');
-        return `<li class="loadout-slot${changed ? ' is-changed' : ''}${open ? ' is-open' : ''}${editable ? '' : ' is-fixed'}${item ? '' : ' is-empty'}" data-loadout-slot="${esc(path)}">
+        return `<li class="loadout-slot${changed ? ' is-changed' : ''}${open ? ' is-open' : ''}${editable ? '' : ' is-fixed'}${item ? '' : ' is-empty'}${off ? ' is-off' : ''}" data-loadout-slot="${esc(path)}">
             <div class="loadout-slot-row">
                 <span class="loadout-size" aria-hidden="true">${esc(size)}</span>
                 <div class="loadout-slot-main">
                     ${node.crumb ? `<span class="loadout-crumb">${esc(node.crumb)}</span>` : ''}
-                    <span class="loadout-slot-label">${esc(slotPlace(slot, item))}${changed ? ` <em>${esc(text('changed'))}</em>` : ''}</span>
+                    <span class="loadout-slot-label">${esc(slotPlace(slot, item))}${changed ? ` <em>${esc(text('changed'))}</em>` : ''}${off ? ` <em class="loadout-offmark">${esc(text('poweredOff'))}</em>` : ''}</span>
                     <strong class="loadout-item-name">${item ? esc(itemName(itemId, item)) : esc(text('empty'))}</strong>
                     ${item ? `${itemName(itemId, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}${drawFacts(item, 3)}` : ''}
                 </div>
                 <div class="loadout-slot-actions">
                     ${editable ? `<button type="button" class="btn btn-secondary" data-loadout-open="${esc(path)}" aria-expanded="${open}">${esc(text('change'))}</button>` : `<span class="loadout-fixed">${esc(text('fixed'))}</span>`}
                     ${changed ? `<button type="button" class="loadout-link" data-loadout-reset="${esc(path)}">${esc(text('reset'))}</button>` : ''}
+                    ${canPower || off ? `<button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(path)}" aria-pressed="${off}">${esc(text(off ? 'powerOn' : 'powerOff'))}</button>` : ''}
                 </div>
             </div>
         </li>`;
@@ -749,7 +765,7 @@
                 <td>${esc(num(row.stats.dps))}</td><td>${esc(num(row.stats.dps * row.count))}</td><td>${esc(num(row.stats.alpha, 1))}</td>
                 <td>${esc(row.item.w.rpm ? num(row.item.w.rpm) : '—')}</td><td>${esc(row.item.w.speed ? `${num(row.item.w.speed)} m/s` : '—')}</td>
                 <td>${esc(calc.weaponRange(row.item) ? `${num(calc.weaponRange(row.item))} m` : '—')}</td><td>${esc(kind(row.item))}</td>
-                <td>${esc(row.item.w.ammo ? num(row.item.w.ammo) : (row.item.w.regen ? text('ammoRegen') : '—'))}</td>
+                <td>${esc(row.item.w.ammo ? num(row.item.w.ammo) : (row.item.w.regen ? (row.item.w.regen.load ? text('capacitor', { load: num(row.item.w.regen.load), rate: num(row.item.w.regen.perSec || 0, 1) }) : text('ammoRegen')) : '—'))}</td>
             </tr>`).join('')}</tbody>
             <tfoot><tr><th colspan="5">${esc(text('total'))}</th><th colspan="7">${esc(num(total))}</th></tr></tfoot>
         </table></div>${drawMissiles(nodes)}</div>`;
@@ -790,7 +806,7 @@
     async function startCompare(index) {
         const build = readBuilds()[index];
         if (!build) return;
-        state.compare = { name: build.name, cls: build.ship, overrides: build.overrides || {}, ship: null, failed: false };
+        state.compare = { name: build.name, cls: build.ship, overrides: build.overrides || {}, off: build.off || {}, ship: null, failed: false };
         state.tab = 'compare'; draw();
         try {
             const ship = build.ship === state.shipCls ? state.ship : await fetchJson(`${DATA_BASE}/ships/${build.ship}.json?v=${encodeURIComponent(state.meta?.version || '')}`);
@@ -809,7 +825,7 @@
         if (other.failed) return `<div class="loadout-view"><p class="loadout-note" role="alert">${esc(text('loadFail'))}</p></div>`;
         if (!other.ship) return `<div class="loadout-view"><p class="loadout-note" role="status">${esc(text('loading'))}</p></div>`;
         const mine = compareMetrics(state.ship, totals);
-        const theirs = compareMetrics(other.ship, calc.summarize(other.ship, state.items, other.overrides));
+        const theirs = compareMetrics(other.ship, calc.summarize(other.ship, state.items, other.overrides, { off: other.off }));
         return `<div class="loadout-view"><div class="loadout-viewhead"><h3>${esc(text('tab_compare'))}</h3><button type="button" class="btn btn-secondary" data-loadout-compare-clear>${esc(text('compareClear'))}</button></div>
             <div class="loadout-table-wrap"><table class="loadout-table loadout-comparetable">
             <thead><tr><th>${esc(text('compareItem'))}</th><th>${esc(text('compareNow'))}<span class="loadout-origin">${esc(shipName(state.ship))}</span></th><th>${esc(other.name)}<span class="loadout-origin">${esc(shipName(other.ship))}</span></th><th>${esc(text('compareDiff'))}</th></tr></thead>
@@ -864,7 +880,7 @@
             body = drawShipPicker();
             if (state.loading) body += `<p class="loadout-note" role="status">${esc(text('loading'))}</p>`;
             else if (state.ship) {
-                const totals = calc.summarize(state.ship, state.items, state.overrides);
+                const totals = calc.summarize(state.ship, state.items, state.overrides, { off: state.off });
                 const stock = calc.summarize(state.ship, state.items, {});
                 const cost = costSummary();
                 const nodes = allNodes();
@@ -913,6 +929,7 @@
             if (id !== (target.slot.item || '')) next[target.path] = id;
         }
         state.overrides = calc.sanitizeOverrides(state.ship, state.items, next);
+        state.off = cleanOff(Object.fromEntries(Object.keys(state.off).filter((key) => !targets.some((entry) => key === entry.path || key.startsWith(`${entry.path}/`))).map((key) => [key, true])));
         closePicker();
         writeStored(); draw(); loadPricesForChanged();
     }
@@ -923,6 +940,7 @@
         url.searchParams.set('loadout', state.shipCls);
         const encoded = calc.encodeOverrides(state.overrides);
         if (encoded) url.searchParams.set('set', encoded);
+        if (Object.keys(state.off).length) url.searchParams.set('off', Object.keys(state.off).sort().join(','));
         return url.toString();
     }
 
@@ -954,12 +972,19 @@
         if (klass !== null) { state.pickerClass = state.pickerClass === klass ? '' : klass; draw(); return; }
         if (target.hasAttribute('data-loadout-buyable')) { state.pickerBuyable = !state.pickerBuyable; draw(); return; }
         if (target.hasAttribute('data-loadout-pick')) { setOverride(target.getAttribute('data-loadout-path'), target.getAttribute('data-loadout-pick')); return; }
+        const powerPath = target.getAttribute('data-loadout-power');
+        if (powerPath !== null) {
+            const next = { ...state.off };
+            if (next[powerPath]) delete next[powerPath]; else next[powerPath] = true;
+            state.off = next; writeStored(); draw(); return;
+        }
         const resetPath = target.getAttribute('data-loadout-reset');
         if (resetPath !== null) {
             state.overrides = Object.fromEntries(Object.entries(state.overrides).filter(([key]) => key !== resetPath && !key.startsWith(`${resetPath}/`)));
+            state.off = cleanOff(state.off);
             writeStored(); draw(); return;
         }
-        if (target.hasAttribute('data-loadout-reset-all')) { state.overrides = {}; closePicker(); writeStored(); draw(); deps.showToast?.(text('resetOk')); return; }
+        if (target.hasAttribute('data-loadout-reset-all')) { state.overrides = {}; state.off = {}; closePicker(); writeStored(); draw(); deps.showToast?.(text('resetOk')); return; }
         const tab = target.getAttribute('data-loadout-tab');
         if (tab !== null) { state.tab = tab; closePicker(); if (tab === 'cart') loadPricesForCart(); if (tab === 'finder') loadCategoryPrices(state.finderType || FINDER_TYPES[0]); draw(); return; }
         const cartAdd = target.getAttribute('data-loadout-cart-add');
@@ -983,11 +1008,11 @@
         if (target.hasAttribute('data-loadout-finder-more')) { state.finderLimit += 40; draw(); return; }
         if (target.hasAttribute('data-loadout-build-save')) {
             const name = (document.getElementById('loadout-build-name')?.value || '').trim() || `${shipName(state.ship)} ${new Date().toLocaleDateString(lang() === 'en' ? 'en-US' : 'ko-KR')}`;
-            writeBuilds([{ name: name.slice(0, 40), ship: state.shipCls, overrides: state.overrides, at: Date.now() }, ...readBuilds().filter((build) => !(build.name === name && build.ship === state.shipCls))]);
+            writeBuilds([{ name: name.slice(0, 40), ship: state.shipCls, overrides: state.overrides, off: state.off, at: Date.now() }, ...readBuilds().filter((build) => !(build.name === name && build.ship === state.shipCls))]);
             state.buildName = ''; deps.showToast?.(text('buildSaved')); draw(); return;
         }
         const buildLoad = target.getAttribute('data-loadout-build-load');
-        if (buildLoad !== null) { const build = readBuilds()[Number(buildLoad)]; if (build) { state.tab = 'slots'; closePicker(); selectShip(build.ship, build.overrides || {}); } return; }
+        if (buildLoad !== null) { const build = readBuilds()[Number(buildLoad)]; if (build) { state.tab = 'slots'; closePicker(); selectShip(build.ship, build.overrides || {}, build.off || {}); } return; }
         const buildCompare = target.getAttribute('data-loadout-build-compare');
         if (buildCompare !== null) { closePicker(); startCompare(Number(buildCompare)); return; }
         if (target.hasAttribute('data-loadout-compare-clear')) { state.compare = null; state.tab = 'slots'; draw(); return; }
@@ -1010,7 +1035,7 @@
             // 입력 중에는 화면 전체를 다시 그리지 않고 결과 글자만 바꾼다(숫자 입력이 끊기지 않게).
             state.qtDistance = Math.max(0, Math.min(999, Number(event.target.value) || 0));
             const output = document.getElementById('loadout-qt-time');
-            const quantum = state.ship ? calc.summarize(state.ship, state.items, state.overrides).quantum : null;
+            const quantum = state.ship ? calc.summarize(state.ship, state.items, state.overrides, { off: state.off }).quantum : null;
             if (output) output.textContent = quantum ? travelText(quantum) : '—';
         }
     }
