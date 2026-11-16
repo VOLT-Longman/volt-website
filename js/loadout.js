@@ -20,7 +20,7 @@
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(),
-        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [],
+        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [], split: {},
     };
 
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
@@ -41,6 +41,8 @@
             kpiLabel: '핵심 수치', kpiShield: '실드', kpiHull: '선체', kpiRange: '항속', kpiAlpha: '알파', superArms: '무장', superDefense: '방어·동력', superTravel: '이동·기타', slotCount: '{count}곳',
             buildSaveFail: '저장하지 못했습니다. 브라우저 저장 공간을 확인한 뒤 다시 시도해 주세요.', priceRetry: '다시 시도',
             tableRegion: '표 (좌우로 넘겨 볼 수 있음)',
+            splitRun: '하나씩 보기', mergeRun: '묶어 보기', runNote: '같은 부품이 달린 이 줄의 {count}곳을 함께 바꿉니다.', powerUseLabel: '소비 전력', better: '유리', worse: '불리',
+            sourceBrief: '자료 출처 · 게임 파일 {version} · 가격 UEX · 한국어 패치 표기', role: '역할',
             variantNote: '함선 전용 변형', undo: '직전 변경 취소', undone: '직전 변경을 취소했습니다.', pickSlotHint: '왼쪽 목록에서 바꿀 자리의 「변경」을 누르면 여기에 맞는 부품이 나옵니다.',
             tabsLabel: '로드아웃 화면', tab_slots: '장착', tab_weapons: '무기 상세', tab_finder: '부품 찾기', tab_cart: '장바구니',
             cartEmpty: '장바구니가 비어 있습니다. 부품 찾기나 부품 선택 창에서 「담기」를 눌러 보세요.', cartSummary: '부품 {kinds}종 · {count}개', cartClear: '장바구니 비우기', cartRemove: '빼기',
@@ -68,7 +70,7 @@
                 GroundVehicleMissileLauncher: '차량 미사일 랙', Missile: '미사일', Bomb: '폭탄', Shield: '실드 제너레이터', PowerPlant: '파워 플랜트', Cooler: '쿨러',
                 QuantumDrive: '퀀텀 드라이브', JumpDrive: '점프 모듈', Radar: '레이더', WeaponMining: '채광 레이저 헤드', WeaponDefensive: '디펜시브', EMP: 'EMP',
                 QuantumInterdictionGenerator: '퀀텀 차단기', SalvageHead: '샐비징 빔', SalvageModifier: '샐비징 모듈', MiningModifier: '채광 모듈', TractorBeam: '트랙터 빔',
-                TowingBeam: '견인 빔', ToolArm: '채광 암', Module: '모듈', Container: '컨테이너', Misc: '기타',
+                TowingBeam: '견인 빔', ToolArm: '채광 암', WeaponMount: '무기 마운트', Module: '모듈', Container: '컨테이너', Misc: '기타',
             },
             classes: { Military: '군용', Civilian: '시민', Industrial: '산업', Stealth: '스텔스', Competition: '경쟁' },
             damage: { physical: '물리', energy: '에너지', distortion: '디스토션', thermal: '열', biochemical: '생화학', stun: '스턴' },
@@ -91,6 +93,8 @@
             kpiLabel: 'Key figures', kpiShield: 'Shields', kpiHull: 'Hull', kpiRange: 'Range', kpiAlpha: 'Alpha', superArms: 'Weapons', superDefense: 'Defense & power', superTravel: 'Travel & other', slotCount: '{count} slots',
             buildSaveFail: 'Couldn\'t save. Check your browser storage and try again.', priceRetry: 'Retry',
             tableRegion: 'Table (scrolls sideways)',
+            splitRun: 'Show each', mergeRun: 'Group', runNote: 'Changes all {count} slots in this row together.', powerUseLabel: 'Power draw', better: 'better', worse: 'worse',
+            sourceBrief: 'Sources · game files {version} · prices from UEX', role: 'Role',
             variantNote: 'Ship-specific variant', undo: 'Undo last change', undone: 'Last change undone.', pickSlotHint: 'Press Change on a slot in the list to see compatible parts here.',
             tabsLabel: 'Loadout views', tab_slots: 'Hardpoints', tab_weapons: 'Weapons', tab_finder: 'Part finder', tab_cart: 'Cart',
             cartEmpty: 'Your cart is empty. Use Add in the part finder or the part picker.', cartSummary: '{kinds} parts · {count} items', cartClear: 'Empty cart', cartRemove: 'Remove',
@@ -118,7 +122,7 @@
                 GroundVehicleMissileLauncher: 'Vehicle missile rack', Missile: 'Missile', Bomb: 'Bomb', Shield: 'Shield generator', PowerPlant: 'Power plant', Cooler: 'Cooler',
                 QuantumDrive: 'Quantum drive', JumpDrive: 'Jump module', Radar: 'Radar', WeaponMining: 'Mining laser', WeaponDefensive: 'Countermeasure', EMP: 'EMP generator',
                 QuantumInterdictionGenerator: 'Quantum dampener', SalvageHead: 'Salvage head', SalvageModifier: 'Salvage module', MiningModifier: 'Mining module', TractorBeam: 'Tractor beam',
-                TowingBeam: 'Towing beam', ToolArm: 'Tool arm', Module: 'Module', Container: 'Cargo module', Misc: 'Other',
+                TowingBeam: 'Towing beam', ToolArm: 'Tool arm', WeaponMount: 'Weapon mount', Module: 'Module', Container: 'Cargo module', Misc: 'Other',
             },
             classes: { Military: 'Military', Civilian: 'Civilian', Industrial: 'Industrial', Stealth: 'Stealth', Competition: 'Competition' },
             damage: { physical: 'Physical', energy: 'Energy', distortion: 'Distortion', thermal: 'Thermal', biochemical: 'Biochemical', stun: 'Stun' },
@@ -151,6 +155,8 @@
     const typeLabel = (type) => patch('types')[type] || table('types')[type] || type || '';
     const itemName = (id, item) => patch('names')[id] || (item?.alias && patch('names')[item.alias]) || item?.name || '';
     const mfrName = (item) => patch('manufacturers')[item?.mfrCode] || item?.mfr || '';
+    const makerName = (ship) => patch('manufacturers')[ship?.mfrCode] || ship?.mfr || '';
+    const roleName = (ship) => patch('roles')[ship?.role] || ship?.role || '';
     const className = (item) => patch('classes')[item?.klass] || table('classes')[item?.klass] || item?.klass || '';
     const GROUP_TYPE = { shield: 'Shield', power: 'PowerPlant', cooler: 'Cooler', quantum: 'QuantumDrive', radar: 'Radar' };
     const groupLabel = (key) => patch('types')[GROUP_TYPE[key]] || table('groups')[key];
@@ -338,16 +344,16 @@
             if (state.shipKind === 'ship' && ship.ground) return false;
             if (state.shipKind === 'ground' && !ship.ground) return false;
             if (!query) return true;
-            return [ship.name, ship.mfr, shipName(ship)].some((value) => String(value || '').toLowerCase().includes(query));
+            return [ship.name, ship.mfr, shipName(ship), makerName(ship), roleName(ship), ship.role].some((value) => String(value || '').toLowerCase().includes(query));
         });
         // 함선을 고른 뒤에는 목록을 접어 두고, 상단의 "함선 바꾸기"를 누르면 다시 펼친다.
         const expanded = !state.ship || state.browsing;
         if (!expanded) return '';
         const filtered = Boolean(query || state.shipMfr || state.shipKind);
-        const makers = [...new Set(all.map((ship) => ship.mfr).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+        const makers = [...new Map(all.filter((ship) => ship.mfr).map((ship) => [ship.mfr, makerName(ship)])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
         const card = (ship) => {
             const image = ship.volt ? window.VOLT_SHIP_IMAGERY?.get?.(ship.volt) : null;
-            const facts = [ship.mfr, ship.size ? `S${ship.size}` : '', ship.role].filter(Boolean).join(' · ');
+            const facts = [makerName(ship), ship.size ? `S${ship.size}` : '', roleName(ship)].filter(Boolean).join(' · ');
             return `<button type="button" class="loadout-shipcard" role="option" aria-selected="${ship.cls === state.shipCls}" data-loadout-ship="${esc(ship.cls)}">
                 ${image ? `<img src="${esc(image.thumbnail.path)}" width="${image.thumbnail.width}" height="${image.thumbnail.height}" alt="" loading="lazy" decoding="async">` : '<span class="loadout-shipcard-blank" aria-hidden="true"></span>'}
                 <span class="loadout-shipcard-text"><strong>${esc(shipName(ship))}</strong><span>${esc(facts)}</span></span>
@@ -358,7 +364,7 @@
             <div class="loadout-shipsearch">
                 <label class="visually-hidden" for="loadout-ship-search">${esc(text('pickShip'))}</label>
                 <input id="loadout-ship-search" type="search" autocomplete="off" placeholder="${esc(text('searchShip'))}" value="${esc(state.query)}" aria-controls="loadout-ship-results">
-                <select id="loadout-ship-mfr" aria-label="${esc(text('makerFilter'))}"><option value="">${esc(text('allMakers'))}</option>${makers.map((name) => `<option value="${esc(name)}" ${state.shipMfr === name ? 'selected' : ''}>${esc(name)}</option>`).join('')}</select>
+                <select id="loadout-ship-mfr" aria-label="${esc(text('makerFilter'))}"><option value="">${esc(text('allMakers'))}</option>${makers.map(([name, label]) => `<option value="${esc(name)}" ${state.shipMfr === name ? 'selected' : ''}>${esc(label)}</option>`).join('')}</select>
                 <div class="loadout-filters" role="group" aria-label="${esc(text('kindFilter'))}">${kind('', 'kindAll')}${kind('ship', 'kindShip')}${kind('ground', 'kindGround')}</div>
             </div>
             <p class="loadout-note" id="loadout-ship-count">${esc(text(filtered ? 'shipFound' : 'shipCount', { count: matches.length }))}</p>
@@ -383,7 +389,7 @@
     function drawShipHead(totals, stock) {
         const ship = state.ship;
         const image = ship.volt ? window.VOLT_SHIP_IMAGERY?.get?.(ship.volt) : null;
-        const facts = [mfrName({ mfrCode: ship.mfrCode, mfr: ship.mfr }), ship.size ? `${text('size')} ${ship.size}` : '', ship.base?.crew ? text('crew', { count: ship.base.crew }) : ''].filter(Boolean);
+        const facts = [makerName(ship), roleName(ship), ship.size ? `${text('size')} ${ship.size}` : '', ship.base?.crew ? text('crew', { count: ship.base.crew }) : ''].filter(Boolean);
         const spare = totals.power.gen - totals.power.use;
         const kpi = (label, value, change = '', tone = '') => `<div class="loadout-kpi${tone ? ` is-${tone}` : ''}"><span>${esc(label)}</span><strong>${esc(value)}</strong>${change}</div>`;
         return `<header class="loadout-topbar">
@@ -413,10 +419,14 @@
     }
 
     // 기본 장착과 견준 변화량. 바꾼 결과가 이득인지 한눈에 보이게 한다.
-    function drawChange(now, stock, digits = 0) {
+    // better: 'high'(늘면 유리 — 화력·실드), 'low'(줄면 유리 — 소비 전력·시그니쳐·스풀링). 색은 늘고 줄고가 아니라 유리·불리를 따른다.
+    const toneOf = (diff, better) => ((diff > 0) === (better !== 'low') ? 'good' : 'bad');
+    const toneWord = (tone) => `<span class="visually-hidden"> (${esc(text(tone === 'good' ? 'better' : 'worse'))})</span>`;
+    function drawChange(now, stock, digits = 0, better = 'high') {
         const diff = now - stock;
         if (Math.abs(diff) < (digits ? 0.05 : 0.5)) return '';
-        return `<span class="loadout-change ${diff > 0 ? 'is-up' : 'is-down'}">${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff), digits))}</span>`;
+        const tone = toneOf(diff, better);
+        return `<span class="loadout-change is-${tone}">${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff), digits))}${toneWord(tone)}</span>`;
     }
 
     // 실드 저항: 장착된 첫 실드 제너레이터의 피해 종류별 저항 범위(최소~최대).
@@ -435,15 +445,19 @@
     }
 
     // 비행 성능: 비행 제어기에 적힌 속도와 선회 속도(부품을 바꿔도 변하지 않는 함선 고유 수치).
+    // 자주 보지 않는 구역은 접어 둔다. 펼친 상태는 화면을 다시 그려도 유지한다.
+    const folds = new Set();
+    const fold = (key, klass, title, brief, body) => `<details class="loadout-panel-section loadout-fold ${klass}" data-loadout-fold="${key}" ${folds.has(key) ? 'open' : ''}>
+            <summary><h4>${esc(title)}</h4><span class="loadout-fold-brief">${esc(brief)}</span></summary><div class="loadout-fold-body">${body}</div></details>`;
+
     function drawFlight() {
         const flight = state.ship.base?.flight;
         if (!flight) return '';
         const cell = (title, value, unit) => `<div class="loadout-stat"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value ? num(value, Number.isInteger(value) ? 0 : 1) : '—')}${value ? `<small> ${esc(unit)}</small>` : ''}</strong></div>`;
-        return `<section class="loadout-panel-section loadout-flight"><h4>${esc(text('flight'))}</h4>
+        return fold('flight', 'loadout-flight', text('flight'), [flight.scm ? `SCM ${num(flight.scm)}` : '', flight.max ? `NAV ${num(flight.max)} m/s` : ''].filter(Boolean).join(' · '), `
             <div class="loadout-statpair">${cell(text('scmSpeed'), flight.scm, 'm/s')}${cell(text('navSpeed'), flight.max, 'm/s')}</div>
             <div class="loadout-statpair">${cell(text('boostSpeed'), flight.boost, 'm/s')}${cell(text('boostBack'), flight.boostBack, 'm/s')}</div>
-            <div class="loadout-stattrio">${cell(text('pitch'), flight.pitch, text('degPerSec'))}${cell(text('yaw'), flight.yaw, text('degPerSec'))}${cell(text('roll'), flight.roll, text('degPerSec'))}</div>
-        </section>`;
+            <div class="loadout-stattrio">${cell(text('pitch'), flight.pitch, text('degPerSec'))}${cell(text('yaw'), flight.yaw, text('degPerSec'))}${cell(text('roll'), flight.roll, text('degPerSec'))}</div>`);
     }
 
     function drawHull(row) {
@@ -451,15 +465,14 @@
         if (!base.hull && !armor.hp) return '';
         const percent = (value) => `${Math.round(value * 100)}%`;
         const stat = (title, value) => `<div class="loadout-stat"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value)}</strong></div>`;
-        return `<section class="loadout-panel-section loadout-hull"><h4>${esc(text('hullArmor'))}</h4>
+        return fold('hull', 'loadout-hull', text('hullArmor'), base.hull ? `${text('kpiHull')} ${num(base.hull)}` : '', `
             <div class="loadout-statpair">${stat(text('hullHp'), base.hull ? num(base.hull) : '—')}${stat(text('armorHp'), armor.hp ? num(armor.hp) : '—')}</div>
             <dl class="loadout-rows">
                 ${['physical', 'energy', 'distortion'].filter((type) => armor[type] !== undefined).map((type) => row(text('armorTaken', { type: table('damage')[type] || type }), percent(armor[type]))).join('')}
                 ${armor.em !== undefined ? row(text('armorSignal'), `EM ×${num(armor.em, 2)} · IR ×${num(armor.ir ?? 1, 2)} · CS ×${num(armor.cs ?? 1, 2)}`) : ''}
                 ${base.mass ? row(text('mass'), `${num(base.mass)} kg`) : ''}
             </dl>
-            <p class="loadout-note">${esc(text('hullNote'))}</p>
-        </section>`;
+            <p class="loadout-note">${esc(text('hullNote'))}</p>`);
     }
 
     function drawSummary(totals, cost, stock) {
@@ -500,13 +513,14 @@
                 ${totals.off ? `<p class="loadout-note loadout-offnote">${esc(text('offCount', { count: totals.off }))}</p>` : ''}
                 <dl class="loadout-rows">
                     ${row(text(totals.power.gen >= totals.power.use ? 'powerSpare' : 'powerShort2'), num(Math.abs(totals.power.gen - totals.power.use), 1))}
-                    ${row(text('signatureEm'), num(totals.signature.em), drawChange(totals.signature.em, stock.signature.em))}
-                    ${row(text('signatureIr'), num(totals.signature.ir), drawChange(totals.signature.ir, stock.signature.ir))}
+                    ${row(text('powerUseLabel'), num(totals.power.use, 1), drawChange(totals.power.use, stock.power.use, 1, 'low'))}
+                    ${row(text('signatureEm'), num(totals.signature.em), drawChange(totals.signature.em, stock.signature.em, 0, 'low'))}
+                    ${row(text('signatureIr'), num(totals.signature.ir), drawChange(totals.signature.ir, stock.signature.ir, 0, 'low'))}
                 </dl>`)}
             ${section(text('quantum'), quantum ? `
                 <div class="loadout-statpair">
                     ${stat(text('qdSpeedLabel'), text('qdSpeed', { value: num(quantum.speed / 1000) }), stockQuantum ? drawChange(quantum.speed / 1000, stockQuantum.speed / 1000) : '')}
-                    ${stat(text('spoolLabel'), `${num(quantum.spool, 1)}${text('seconds')}`, stockQuantum ? drawChange(quantum.spool, stockQuantum.spool, 1) : '')}
+                    ${stat(text('spoolLabel'), `${num(quantum.spool, 1)}${text('seconds')}`, stockQuantum ? drawChange(quantum.spool, stockQuantum.spool, 1, 'low') : '')}
                 </div>
                 <dl class="loadout-rows">${row(text('equipped'), itemName(quantum.id, quantum))}${row(text('cooldownLabel'), `${num(quantum.cooldown, 1)}${text('seconds')}`)}${quantum.range ? row(text('rangeLabel'), `${num(quantum.range)} Gm`, stockQuantum?.range ? drawChange(quantum.range, stockQuantum.range) : '') : ''}${fuel.qt ? row(text('qtFuel'), `${num(fuel.qt, 1)} SCU`) : ''}${fuel.h2 ? row(text('h2Fuel'), `${num(fuel.h2, 1)} SCU`) : ''}</dl>
                 <div class="loadout-travel"><label for="loadout-qt-distance">${esc(text('travelFor'))}</label><input type="number" id="loadout-qt-distance" inputmode="decimal" min="1" max="999" step="1" value="${esc(state.qtDistance)}"><span class="loadout-travel-result"><span class="loadout-stat-label">${esc(text('travelTime'))}</span><strong id="loadout-qt-time">${esc(travelText(quantum))}</strong></span></div>
@@ -548,8 +562,11 @@
         const next = compareMetric(item); const now = compareMetric(currentItem);
         if (!next || !now || next.label !== now.label) return '';
         const diff = next.value - now.value;
-        if (Math.abs(diff) < 0.5) return `<span class="loadout-delta">${esc(text('same'))}</span>`;
-        return `<span class="loadout-delta ${diff > 0 ? 'is-up' : 'is-down'}">${esc(next.label)} ${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff)))}</span>`;
+        // 소비 전력은 늘면 불리하다 — 대표 수치와 따로, 불리한 색으로 알린다.
+        const draw = (Number(item.power?.use) || 0) - (Number(currentItem?.power?.use) || 0);
+        const drawChip = Math.abs(draw) >= 0.05 ? `<span class="loadout-delta is-${toneOf(draw, 'low')}">${esc(text('powerUseLabel'))} ${draw > 0 ? '+' : '−'}${esc(num(Math.abs(draw), 1))}${toneWord(toneOf(draw, 'low'))}</span>` : '';
+        if (Math.abs(diff) < 0.5) return `<span class="loadout-delta">${esc(text('same'))}</span>${drawChip}`;
+        return `<span class="loadout-delta is-${toneOf(diff)}">${esc(next.label)} ${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff)))}${toneWord(toneOf(diff))}</span>${drawChip}`;
     }
 
     // 대표 수치 한 칸(무기는 DPS, 실드는 내구 …). 목록에서 같은 열에 놓여 위아래로 견주기 쉽다.
@@ -591,12 +608,13 @@
             .filter(([id, item]) => !state.pickerBuyable || priceInfo(id, item).min > 0)
             .sort(([ida, a], [idb, b]) => (SORTS[state.pickerSort] || SORTS.best)(a, b, ida, idb) || String(itemName(ida, a)).localeCompare(String(itemName(idb, b))));
         const shown = candidates.slice(0, 80);
+        const run = runOf(node.path);
         const siblings = siblingSlots(node, nodes);
         const chip = (attr, value, label, active) => `<button type="button" class="loadout-chip${active ? ' is-active' : ''}" ${attr}="${esc(value)}" aria-pressed="${active}">${esc(label)}</button>`;
         return `<div class="loadout-drawer-backdrop" data-loadout-close></div>
         <div class="loadout-picker" role="dialog" aria-modal="${isOverlayPicker()}" aria-label="${esc(slotLabel(node.slot, node.item))}">
             <div class="loadout-picker-title">
-                <div><span class="loadout-slot-label">${esc(slotLabel(node.slot, node.item))}</span><strong>${esc(node.item ? itemName(node.itemId, node.item) : text('empty'))}</strong></div>
+                <div><span class="loadout-slot-label">${esc(slotLabel(node.slot, node.item))}${run.length > 1 ? ` ×${run.length}` : ''}</span><strong>${esc(node.item ? itemName(node.itemId, node.item) : text('empty'))}</strong></div>
                 <button type="button" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button>
             </div>
             <div class="loadout-picker-head">
@@ -613,7 +631,8 @@
                 ${chip('data-loadout-buyable', '1', text('buyableOnly'), Boolean(state.pickerBuyable))}
             </div>
             <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}</p>
-            ${siblings.length ? `<label class="loadout-bulk"><input type="checkbox" id="loadout-bulk" ${state.pickerBulk ? 'checked' : ''}> ${esc(text('bulkApply', { count: siblings.length + 1 }))}</label>` : ''}
+            ${run.length > 1 ? `<p class="loadout-note loadout-runnote">${esc(text('runNote', { count: run.length }))}</p>` : ''}
+            ${siblings.length + 1 > run.length ? `<label class="loadout-bulk"><input type="checkbox" id="loadout-bulk" ${state.pickerBulk ? 'checked' : ''}> ${esc(text('bulkApply', { count: siblings.length + 1 }))}</label>` : ''}
             <ul class="loadout-options">${shown.map(([id, item]) => `<li class="${id === node.itemId ? 'is-current' : ''}">
                 <div class="loadout-option-main">
                     <strong>${esc(itemName(id, item))}</strong>${itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}
@@ -629,6 +648,29 @@
         </div>`;
     }
 
+    // 한 줄로 묶인 자리들: 줄의 첫 자리 경로 → 묶인 모든 자리 경로. 교체·기본값은 묶음 전체에 적용한다.
+    let slotRuns = new Map();
+    const runOf = (path) => slotRuns.get(path) || [path];
+    const splitKey = (parent) => `${state.shipCls}|${parent}`;
+    // 같은 랙에 같은 미사일·폭탄이 나란히 달려 있으면 한 줄(×16)로 묶는다. 「하나씩 보기」로 풀 수 있다.
+    function mergeRuns(list) {
+        const runs = [];
+        for (const node of list) {
+            const parent = node.path.includes('/') ? node.path.slice(0, node.path.lastIndexOf('/')) : '';
+            const ordnance = node.item ? Boolean(node.item.ms) : (node.slot.acc || []).some((rule) => rule.type === 'Missile' || rule.type === 'Bomb');
+            const key = node.hasChildren || node.slot.kind !== 's' || !ordnance ? '' : [parent, node.itemId || '', node.slot.min, node.slot.max, node.changed ? 1 : 0, state.off[node.path] ? 1 : 0].join('|');
+            const last = runs[runs.length - 1];
+            if (key && last?.key === key) last.members.push(node); else runs.push({ key, parent, members: [node] });
+        }
+        return runs.flatMap((run) => {
+            if (run.members.length < 2) return run.members;
+            if (state.split[splitKey(run.parent)]) return run.members.map((node, index) => (index ? node : { ...node, regroup: run.parent }));
+            const paths = run.members.map((node) => node.path);
+            slotRuns.set(paths[0], paths);
+            return [{ ...run.members[0], run: paths, runParent: run.parent }];
+        });
+    }
+
     function drawSlot(node) {
         const { slot, item, itemId, path, changed } = node;
         const editable = slot.kind === 's';
@@ -636,12 +678,12 @@
         const off = Boolean(state.off[path]);
         const canPower = item && Number(item.power?.use) > 0;
         const size = slot.max !== undefined ? (slot.min === slot.max || !slot.min ? `S${slot.max}` : `S${slot.min}-${slot.max}`) : (item?.size !== undefined ? `S${item.size}` : '');
-        const place = [node.crumb, slotPlace(slot, item)].filter(Boolean).join(' › ');
+        const place = [node.crumb, node.run ? slotPlace(slot, item).replace(/ #d+$/, '') : slotPlace(slot, item)].filter(Boolean).join(' › ');
         return `<li class="loadout-slot${changed ? ' is-changed' : ''}${open ? ' is-open' : ''}${editable ? '' : ' is-fixed'}${item ? '' : ' is-empty'}${off ? ' is-off' : ''}${node.hasChildren ? ' is-mount' : ''}${node.level ? ' is-child' : ''}" data-loadout-slot="${esc(path)}" style="--lo-level:${node.level || 0}">
             <div class="loadout-slot-row">
                 <span class="loadout-size" aria-hidden="true">${esc(size)}</span>
                 <div class="loadout-slot-main">
-                    <span class="loadout-slot-label">${esc(place)}${changed ? ` <em>${esc(text('changed'))}</em>` : ''}${off ? ` <em class="loadout-offmark">${esc(text('poweredOff'))}</em>` : ''}</span>
+                    <span class="loadout-slot-label">${esc(place)}${node.run ? ` <b class="loadout-count">×${node.run.length}</b>` : ''}${changed ? ` <em>${esc(text('changed'))}</em>` : ''}${off ? ` <em class="loadout-offmark">${esc(text('poweredOff'))}</em>` : ''}</span>
                     <strong class="loadout-item-name">${item ? esc(itemName(itemId, item)) : esc(text('empty'))}</strong>
                     ${item ? `${itemName(itemId, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}${node.hasChildren ? '' : drawFacts(item, 4)}` : ''}
                 </div>
@@ -649,6 +691,7 @@
                 <div class="loadout-slot-actions">
                     ${editable ? `<button type="button" class="btn btn-secondary" data-loadout-open="${esc(path)}" aria-expanded="${open}">${esc(text('change'))}</button>` : `<span class="loadout-fixed">${esc(text('fixed'))}</span>`}
                     ${changed ? `<button type="button" class="loadout-link" data-loadout-reset="${esc(path)}">${esc(text('reset'))}</button>` : ''}
+                    ${node.run ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.runParent)}">${esc(text('splitRun'))}</button>` : ''}${node.regroup !== undefined ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.regroup)}">${esc(text('mergeRun'))}</button>` : ''}
                     ${canPower || off ? `<button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(path)}" aria-pressed="${off}">${esc(text(off ? 'powerOn' : 'powerOff'))}</button>` : ''}
                 </div>
             </div>
@@ -680,9 +723,10 @@
             groups.get(current).push({ ...node, hasChildren, crumb, level: shown.length });
             if (hasChildren) shown.push({ path: node.path, depth: node.depth });
         });
+        slotRuns = new Map();
         const group = (key) => `<section class="loadout-group is-${key}">
             <h4>${esc(groupLabel(key))} <span>${esc(text('slotCount', { count: groups.get(key).filter((node) => node.slot.kind === 's').length }))}</span></h4>
-            <ul class="loadout-slotlist">${groups.get(key).map(drawSlot).join('')}</ul>
+            <ul class="loadout-slotlist">${mergeRuns(groups.get(key)).map(drawSlot).join('')}</ul>
         </section>`;
         return SUPER_GROUPS.map(([label, keys]) => {
             const filled = keys.filter((key) => groups.get(key).length);
@@ -877,8 +921,8 @@
         return [
             ['dps', totals.dps.total], ['pilot', totals.dps.pilot], ['turret', totals.dps.turret], ['alpha', totals.alpha.total], ['missiles', totals.missiles.damage],
             ['shield', totals.shield.hp], ['regenLabel', totals.shield.regen], ['hullHp', ship.base?.hull || 0], ['armorHp', ship.base?.armor?.hp || 0],
-            ['power', totals.power.gen, 1], ['cooling', totals.cooling.gen, 1], ['signatureEm', totals.signature.em], ['signatureIr', totals.signature.ir],
-            ['qdSpeedLabel', (totals.quantum?.speed || 0) / 1000], ['rangeLabel', totals.quantum?.range || 0], ['scmSpeed', flight.scm || 0], ['navSpeed', flight.max || 0],
+            ['power', totals.power.gen, 1], ['powerUseLabel', totals.power.use, 1, 'low'], ['cooling', totals.cooling.gen, 1], ['signatureEm', totals.signature.em, 0, 'low'], ['signatureIr', totals.signature.ir, 0, 'low'],
+            ['qdSpeedLabel', (totals.quantum?.speed || 0) / 1000], ['spoolLabel', totals.quantum?.spool || 0, 1, 'low'], ['rangeLabel', totals.quantum?.range || 0], ['scmSpeed', flight.scm || 0], ['navSpeed', flight.max || 0],
         ];
     }
     async function startCompare(index) {
@@ -908,7 +952,7 @@
         return `<div class="loadout-view"><div class="loadout-viewhead"><h3>${esc(text('tab_compare'))}</h3><button type="button" class="btn btn-secondary" data-loadout-compare-clear>${esc(text('compareClear'))}</button></div>
             <div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-comparetable">
             <thead><tr><th>${esc(text('compareItem'))}</th><th>${esc(text('compareNow'))}<span class="loadout-origin">${esc(shipName(state.ship))}</span></th><th>${esc(other.name)}<span class="loadout-origin">${esc(shipName(other.ship))}</span></th><th>${esc(text('compareDiff'))}</th></tr></thead>
-            <tbody>${mine.map(([key, value, digits = 0], index) => `<tr><th scope="row">${esc(text(key))}</th><td>${esc(num(value, digits))}</td><td>${esc(num(theirs[index][1], digits))}</td><td>${drawChange(value, theirs[index][1], digits) || `<span class="loadout-meta">${esc(text('same'))}</span>`}</td></tr>`).join('')}</tbody>
+            <tbody>${mine.map(([key, value, digits = 0, better = 'high'], index) => `<tr><th scope="row">${esc(text(key))}</th><td>${esc(num(value, digits))}</td><td>${esc(num(theirs[index][1], digits))}</td><td>${drawChange(value, theirs[index][1], digits, better) || `<span class="loadout-meta">${esc(text('same'))}</span>`}</td></tr>`).join('')}</tbody>
         </table></div></div>`;
     }
 
@@ -938,13 +982,14 @@
 
     function drawSources() {
         const meta = state.meta || {};
-        return `<p class="loadout-sources" id="loadout-sources">
+        return `<details class="loadout-sources loadout-fold" id="loadout-sources" data-loadout-fold="sources" ${folds.has('sources') ? 'open' : ''}>
+            <summary>${esc(text('sourceBrief', { version: meta.version || '' }))}</summary><p>
             <span>${esc(text('sourceStats'))}: ${esc(text('sourceGame'))}</span>
             <span>${esc(text('sourcePrices'))}: <a href="${esc(meta.priceSourceUrl || 'https://uexcorp.space/')}" target="_blank" rel="noopener noreferrer">UEX</a></span>
             ${lang() === 'ko' && state.ko?.source ? `<span>${esc(text('sourceTerms'))}: ${esc(state.ko.source)}</span>` : ''}
             ${meta.version ? `<span>${esc(text('sourceVersion', { version: meta.version }))}</span>` : ''}
             <span>${esc(text('sourceNote'))}</span>
-        </p>`;
+        </p></details>`;
     }
 
     function draw() {
@@ -1017,7 +1062,8 @@
         const nodes = allNodes();
         const node = nodes.find((entry) => entry.path === path);
         if (!node || node.slot.kind !== 's') return;
-        const targets = state.pickerBulk ? [node, ...siblingSlots(node, nodes)] : [node];
+        const wanted = new Set([...runOf(path), ...(state.pickerBulk ? siblingSlots(node, nodes).map((entry) => entry.path) : [])]);
+        const targets = nodes.filter((entry) => wanted.has(entry.path));
         remember();
         let next = { ...state.overrides };
         for (const target of targets) {
@@ -1079,12 +1125,19 @@
             if (next[powerPath]) delete next[powerPath]; else next[powerPath] = true;
             state.off = next; writeStored(); draw(); return;
         }
+        const splitParent = target.getAttribute('data-loadout-split');
+        if (splitParent !== null) {
+            const key = splitKey(splitParent);
+            if (state.split[key]) delete state.split[key]; else state.split[key] = true;
+            closePicker(); draw(); return;
+        }
         const retryType = target.getAttribute('data-loadout-price-retry');
         if (retryType !== null) { loadCategoryPrices(retryType); draw(); return; }
         const resetPath = target.getAttribute('data-loadout-reset');
         if (resetPath !== null) {
             remember();
-            state.overrides = Object.fromEntries(Object.entries(state.overrides).filter(([key]) => key !== resetPath && !key.startsWith(`${resetPath}/`)));
+            const paths = runOf(resetPath);
+            state.overrides = Object.fromEntries(Object.entries(state.overrides).filter(([key]) => !paths.some((path) => key === path || key.startsWith(`${path}/`))));
             state.off = cleanOff(state.off);
             writeStored(); draw(); return;
         }
@@ -1173,6 +1226,12 @@
     document.addEventListener('input', handleInput);
     document.addEventListener('change', handleChange);
     document.addEventListener('keydown', handleKeydown);
+    // toggle은 위로 전달되지 않으므로 잡는 단계에서 듣는다.
+    document.addEventListener('toggle', (event) => {
+        const key = event.target?.getAttribute?.('data-loadout-fold');
+        if (!key || !root()?.contains(event.target)) return;
+        if (event.target.open) folds.add(key); else folds.delete(key);
+    }, true);
 
     window.VOLT_LOADOUT = { init, render, onLanguageChange: draw };
 })();

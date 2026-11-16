@@ -46,6 +46,7 @@ const lookup = (...keys) => {
 const { items, version } = JSON.parse(readFileSync(resolve(OUT, 'items.json'), 'utf8'));
 // 게임이 실제로 쓰는 이름 문자열 열쇠(내부 변형·새 정의(_gs)도 원래 제품과 같은 열쇠를 가리킨다).
 const nameKeys = (() => { try { return JSON.parse(readFileSync(resolve(OUT, 'namekeys.json'), 'utf8')); } catch (_error) { return { ships: {}, items: {} }; } })();
+nameKeys.roles ||= {}; nameKeys.makers ||= {};
 const names = {};
 const types = {}; const subs = {}; const manufacturers = {};
 const stats = { items: 0, named: 0 };
@@ -54,6 +55,12 @@ const itemKeys = (cls) => {
     const bare = base.replace(/_scitem$/, '');
     return [`item_name${base}`, `item_name_${base}`, `item_name${bare}`, `item_name_${bare}`, `item_name${bare}_scitem`];
 };
+// 제조사: 게임이 쓰는 문자열 열쇠를 먼저 찾고, 없으면 제조사 코드로 찾는다.
+const addMaker = (code) => {
+    if (!code || manufacturers[code]) return;
+    const label = lookup(...[nameKeys.makers[code]].filter(Boolean), `manufacturer_name${code}`);
+    if (label) manufacturers[code] = label;
+};
 const collect = (id, item) => {
     stats.items += 1;
     const name = lookup(...[nameKeys.items[id]].filter(Boolean), ...itemKeys(item.cls));
@@ -61,15 +68,19 @@ const collect = (id, item) => {
     if (name && name !== item.name) { names[id] = name; stats.named += 1; }
     if (item.type && !types[item.type]) { const label = lookup(`item_type${item.type}`); if (label) types[item.type] = label; }
     if (item.sub && !subs[item.sub]) { const label = lookup(`item_subtype${item.sub}`); if (label) subs[item.sub] = label; }
-    if (item.mfrCode && !manufacturers[item.mfrCode]) { const label = lookup(`manufacturer_name${item.mfrCode}`); if (label) manufacturers[item.mfrCode] = label; }
+    addMaker(item.mfrCode);
 };
 for (const [id, item] of Object.entries(items)) collect(id, item);
 
 // 함선 이름도 패치 표기를 쓴다(함선DB 자료가 늦게 뜨거나 함선DB에 없는 함선도 한국어로 보이게).
 const shipNames = {};
+const roles = {};
 for (const ship of JSON.parse(readFileSync(resolve(OUT, 'index.json'), 'utf8')).ships) {
     const name = lookup(...[nameKeys.ships[ship.cls]].filter(Boolean), `vehicle_name${ship.cls}`);
     if (name && name !== ship.name) shipNames[ship.cls] = name;
+    addMaker(ship.mfrCode);
+    // 역할(경전투기, 소규모 화물 …)도 패치 표기를 쓴다. 영문 역할명 → 한국어.
+    if (ship.role && !roles[ship.role] && nameKeys.roles[ship.role]) { const label = lookup(nameKeys.roles[ship.role]); if (label && label !== ship.role) roles[ship.role] = label; }
 }
 
 const classes = {};
@@ -96,7 +107,7 @@ const output = {
     dataVersion: version,
     builtAt: new Date().toISOString(),
     counts: { items: stats.items, named: stats.named, ships: Object.keys(shipNames).length, types: Object.keys(types).length, manufacturers: Object.keys(manufacturers).length },
-    names, ships: shipNames, types, subs, classes, manufacturers, terms,
+    names, ships: shipNames, roles, types, subs, classes, manufacturers, terms,
 };
 writeFileSync(resolve(OUT, 'ko.json'), `${JSON.stringify(output)}\n`);
 console.log(`한국어 패치 표기: 함선 이름 ${Object.keys(shipNames).length}, 부품 이름 ${stats.named}/${stats.items}, 종류 ${output.counts.types}, 제조사 ${output.counts.manufacturers}`);

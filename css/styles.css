@@ -9425,8 +9425,8 @@ body.nav-trade-open::before {
 .loadout-stat.is-primary strong { font-size: 30px; }
 .loadout-change { justify-self: start; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; margin-left: 6px; }
 .loadout-stat .loadout-change { margin-left: 0; }
-.loadout-change.is-up { color: var(--lo-up); }
-.loadout-change.is-down { color: var(--lo-down); }
+.loadout-change.is-good { color: var(--lo-up); }
+.loadout-change.is-bad { color: var(--lo-down); }
 .loadout-dmgbar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: var(--color-border); }
 .loadout-dmgbar i { display: block; height: 100%; }
 .loadout-dmgbar .is-energy, .loadout-legend.is-energy::before { background: #ff8a5c; }
@@ -9469,8 +9469,8 @@ body.nav-trade-open::before {
 .loadout-option-main strong { font-size: 15px; overflow-wrap: anywhere; }
 .loadout-option-side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: 0 0 auto; }
 .loadout-delta { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-full); border: 1px solid var(--lo-line); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.loadout-delta.is-up { color: var(--lo-up); border-color: rgba(127, 216, 138, 0.4); }
-.loadout-delta.is-down { color: var(--lo-down); border-color: rgba(255, 143, 122, 0.4); }
+.loadout-delta.is-good { color: var(--lo-up); border-color: rgba(127, 216, 138, 0.4); }
+.loadout-delta.is-bad { color: var(--lo-down); border-color: rgba(255, 143, 122, 0.4); }
 @media (hover: hover) { .loadout-ship-results button:hover, .loadout-options li:hover, .loadout-slot:not(.is-parent):hover { border-color: var(--color-border-hover); } }
 
 /* 탭 · 장바구니 · 부품 찾기 · 무기 상세 · 저장한 로드아웃 */
@@ -9531,7 +9531,8 @@ body.nav-trade-open::before {
 .loadout-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .loadout-table th, .loadout-table td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--lo-line); vertical-align: top; }
 .loadout-table tfoot th { border-bottom: 0; font-size: 14px; }
-.loadout-sources { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; padding-top: 14px; border-top: 1px solid var(--lo-line); font-size: 12px; color: var(--color-text-secondary); }
+.loadout-sources { padding-top: 10px; border-top: 1px solid var(--lo-line); font-size: 12px; color: var(--color-text-secondary); }
+.loadout-sources p { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 8px 0 0; }
 .loadout-sources a { color: var(--color-text-primary); text-decoration: underline; text-underline-offset: 3px; }
 .loadout-error { display: grid; gap: 12px; justify-items: start; }
 
@@ -9728,3 +9729,18 @@ body.nav-trade-open::before {
 .loadout-origin, .loadout-crumb, .loadout-parent-name, .loadout-fixed, .loadout-price.is-muted, .loadout-slot.is-empty .loadout-item-name { color: var(--lo-dim); }
 /* 흰 글자를 올리는 빨강은 한 단계 어두운 값을 쓴다(작은 글자 대비 5.39:1). */
 .loadout-actions .btn-primary, .loadout-tab .loadout-badge, .loadout-tab.is-active .loadout-badge, .loadout-tab:not(.is-active) .loadout-badge { background: var(--volt-orange-dark); border-color: var(--volt-orange-dark); }
+
+/* 로드아웃: 접어 두는 구역(비행 성능·선체·출처)과 한 줄로 묶은 미사일 */
+.loadout-fold > summary { display: flex; align-items: center; gap: 8px; min-height: 32px; cursor: pointer; list-style: none; }
+.loadout-fold > summary::-webkit-details-marker { display: none; }
+.loadout-fold > summary::after { content: '+'; flex: none; width: 16px; text-align: center; font-size: 15px; font-weight: 700; color: var(--color-text-secondary); }
+.loadout-fold[open] > summary::after { content: '−'; }
+.loadout-fold > summary:focus-visible { outline: 2px solid var(--volt-orange-light); outline-offset: 2px; }
+details.loadout-panel-section.loadout-fold { display: block; }
+.loadout-fold > summary h4 { border: 0; padding: 0; }
+.loadout-fold-brief { margin-left: auto; font-size: 12px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; text-align: right; }
+.loadout-fold[open] > summary .loadout-fold-brief { visibility: hidden; }
+.loadout-fold-body { display: grid; gap: 8px; margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--lo-line); }
+.loadout-sources > summary { min-height: 44px; }
+.loadout-count { margin-left: 6px; padding: 1px 7px; border: 1px solid var(--lo-line); border-radius: 6px; color: var(--color-text-primary); font-weight: 700; font-variant-numeric: tabular-nums; }
+.loadout-option-side .loadout-delta + .loadout-delta { margin-top: 4px; }

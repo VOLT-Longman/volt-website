@@ -88,7 +88,7 @@ function main() {
         const index = line.indexOf('=');
         if (index > 0) strings.set(line.slice(0, index).trim().toLowerCase(), line.slice(index + 1).trim());
     }
-    const nameKeys = { ships: {}, items: {} };
+    const nameKeys = { ships: {}, items: {}, roles: {}, makers: {} };
     const keyOf = (key) => String(key || '').replace(/^@/, '').toLowerCase();
     const localize = (key) => {
         const value = strings.get(String(key || '').replace(/^@/, '').toLowerCase());
@@ -115,6 +115,7 @@ function main() {
             const data = followRecord(reference, 3);
             const code = String(reference.name || '').replace(/^SCItemManufacturer\./, '');
             manufacturerCache.set(reference.__record, { code: code.toUpperCase(), name: localize(data?.Localization?.Name) || code });
+            if (data?.Localization?.Name) nameKeys.makers[code.toUpperCase()] = keyOf(data.Localization.Name);
         }
         return manufacturerCache.get(reference.__record);
     };
@@ -366,6 +367,8 @@ function main() {
         const name = localize(vehicle.vehicleName);
         if (!name) continue;
         nameKeys.ships[cls.toLowerCase()] = keyOf(vehicle.vehicleName);
+        // 역할(경전투기 등)의 문자열 열쇠 — 한국어 패치 표기를 찾을 때 쓴다. 영문 역할명 기준으로 모은다.
+        if (localize(vehicle.vehicleRole)) nameKeys.roles[localize(vehicle.vehicleRole)] = keyOf(vehicle.vehicleRole);
         const xmlFile = String(vehicle.vehicleDefinition || '').split('/').pop().toLowerCase();
         const xml = game.xml.get(xmlFile) ? parseCryXml(game.xml.get(xmlFile)) : null;
         const ports = xml ? xmlPorts(xml) : new Map();
@@ -435,7 +438,7 @@ function main() {
     for (const cls of [...ships.keys()]) {
         if (ships.has(`${cls}_gs`)) { shipAliases[cls] = `${cls}_gs`; ships.delete(cls); if (!nameKeys.ships[`${cls}_gs`]) nameKeys.ships[`${cls}_gs`] = nameKeys.ships[cls]; delete nameKeys.ships[cls]; }
     }
-    const shipList = [...ships.values()].map((ship) => prune({ cls: ship.cls, name: ship.name, mfr: ship.mfr, size: ship.size, role: ship.role, volt: ship.volt, ground: ship.ground }))
+    const shipList = [...ships.values()].map((ship) => prune({ cls: ship.cls, name: ship.name, mfr: ship.mfr, mfrCode: ship.mfrCode, size: ship.size, role: ship.role, volt: ship.volt, ground: ship.ground }))
         .sort((a, b) => a.name.localeCompare(b.name));
     write('items.json', { version, items });
     write('index.json', { version, ships: shipList, aliases: shipAliases });

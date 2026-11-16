@@ -87,7 +87,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(option).toContainText('Mantis GT-220 Gatling');
         await expect(option).toContainText('최저 23,500 aUEC');
         // 지금 달린 무기보다 얼마나 센지 고르기 전에 보인다.
-        await expect(option.locator('.loadout-delta')).toHaveText(/^DPS \+\d/);
+        await expect(option.locator('.loadout-delta').first()).toHaveText(/^DPS \+\d/);
         await pick(page, MANTIS).click();
 
         await expect(page.locator('.loadout-picker')).toHaveCount(0);
@@ -430,7 +430,7 @@ test.describe('로드아웃 편집기', () => {
         await gun.locator('[data-loadout-open]').click();
         const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
         await expect(option.locator('.loadout-metric')).toHaveText(/853\s*DPS/);
-        await expect(option.locator('.loadout-delta')).toHaveText(/^DPS \+\d/);
+        await expect(option.locator('.loadout-delta').first()).toHaveText(/^DPS \+\d/);
     });
 
     test('중복 정리: 한영 어느 쪽으로 찾아도 같은 한 항목이 나오고, 이전에 저장한 구성도 계속 열린다', async ({ page }) => {
@@ -493,5 +493,93 @@ test.describe('로드아웃 편집기', () => {
         await expect(stat(page, '실드')).toContainText('31,680');
         await undo.click();
         await expect(stat(page, '실드')).toHaveText('42,240');
+    });
+
+    test('같은 미사일은 한 줄(×16)로 묶이고, 한 번에 바꾸거나 하나씩 풀어 볼 수 있다', async ({ page }) => {
+        const THUNDERBOLT = '9a741b0a-200d-4f1a-92a8-f917510804e1'; // 썬더볼트 III 미사일
+        await openAsgard(page);
+        const missiles = page.locator('.loadout-group.is-missile');
+        const rows = missiles.locator('.loadout-slot', { hasText: '어레스터 III 미사일' });
+        await expect(rows).toHaveCount(1);
+        await expect(rows.locator('.loadout-count')).toHaveText('×16');
+        await expect(missiles.locator('h4')).toContainText('16곳');
+        // 묶인 줄을 바꾸면 16발이 함께 바뀐다.
+        await rows.locator('[data-loadout-open]').click();
+        await expect(page.locator('.loadout-runnote')).toContainText('16곳');
+        await pick(page, THUNDERBOLT).click();
+        const swapped = missiles.locator('.loadout-slot', { hasText: '썬더볼트 III 미사일' });
+        await expect(swapped).toHaveCount(1);
+        await expect(swapped.locator('.loadout-count')).toHaveText('×16');
+        await expect(page.locator('.loadout-shipstate')).toHaveText('16곳 변경됨');
+        await expect(page.locator('.loadout-shopping tbody tr').first()).toContainText('16');
+        // 기본값도 묶음 전체에 적용된다.
+        await swapped.locator('[data-loadout-reset]').click();
+        await expect(page.locator('.loadout-shipstate')).toHaveText('기본 장착 상태');
+        // 하나씩 풀어서 한 발만 바꾸면 남은 15발은 다시 묶을 때 따로 묶인다.
+        await rows.locator('[data-loadout-split]').click();
+        await expect(rows).toHaveCount(16);
+        await rows.nth(1).locator('[data-loadout-open]').click();
+        await pick(page, THUNDERBOLT).click();
+        await expect(page.locator('.loadout-shipstate')).toHaveText('1곳 변경됨');
+        await missiles.locator('[data-loadout-split]').first().click();
+        await expect(missiles.locator('.loadout-count')).toHaveText(['×14']);
+        await expect(missiles.locator('.loadout-slot')).toHaveCount(3);
+    });
+
+    test('자주 안 보는 구역과 출처는 접혀 있고, 펼친 상태는 화면이 바뀌어도 유지된다', async ({ page }) => {
+        await openAsgard(page);
+        const flight = page.locator('.loadout-flight');
+        await expect(flight.locator('summary')).toContainText('SCM 203');
+        await expect(flight.locator('.loadout-fold-body')).toBeHidden();
+        await flight.locator('summary').click();
+        await expect(stat(page, '롤')).toBeVisible();
+        // 부품 전원을 꺼서 화면이 다시 그려져도 펼친 채로 남는다.
+        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await expect(stat(page, '롤')).toBeVisible();
+        await expect(page.locator('.loadout-hull .loadout-fold-body')).toBeHidden();
+        // 출처는 한 줄 요약으로 늘 보이고, 누르면 자세한 내용이 펼쳐진다.
+        const sources = page.locator('#loadout-sources');
+        await expect(sources.locator('summary')).toContainText(/자료 출처 · 게임 파일 \d+\.\d+\.\d+-LIVE.* · 가격 UEX · 한국어 패치 표기/);
+        await expect(sources.locator('a')).toBeHidden();
+        await sources.locator('summary').click();
+        await expect(sources.locator('a')).toBeVisible();
+    });
+
+    test('늘면 불리한 값(소비 전력·시그니쳐)은 늘었을 때 불리한 색으로 표시한다', async ({ page }) => {
+        await openAsgard(page);
+        const row = (label) => page.locator('.loadout-panel .loadout-row').filter({ has: page.getByText(label, { exact: true }) });
+        // 실드 하나의 전원을 끄면 실드는 줄어 불리, 소비 전력·EM 시그니쳐는 줄어 유리로 표시된다.
+        await page.locator('.loadout-group.is-shield .loadout-slot').first().locator('[data-loadout-power]').click();
+        await expect(stat(page, '실드').locator('xpath=..').locator('.loadout-change')).toHaveClass(/is-bad/);
+        await expect(row('소비 전력').locator('.loadout-change')).toHaveClass(/is-good/);
+        await expect(row('소비 전력').locator('.loadout-change')).toContainText('−');
+        await expect(row('소비 전력').locator('.loadout-change')).toContainText('유리');
+        await expect(row('EM 시그니쳐').locator('.loadout-change')).toHaveClass(/is-good/);
+        // 후보 목록: 소비 전력이 늘어나는 부품은 따로 불리한 색으로 알린다.
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        const option = page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) });
+        await expect(option.locator('.loadout-delta', { hasText: '소비 전력' })).toHaveClass(/is-good/);
+        await expect(option.locator('.loadout-delta', { hasText: '소비 전력' })).toContainText('−0.9');
+        // 목록 전체에서 소비 전력이 늘어나는 후보는 모두 불리, 줄어드는 후보는 모두 유리로 표시된다.
+        const chips = await page.locator('.loadout-options .loadout-delta', { hasText: '소비 전력' }).evaluateAll((list) => list.map((el) => [el.textContent.includes('+'), el.classList.contains('is-bad')]));
+        expect(chips.length).toBeGreaterThan(1);
+        expect(chips.every(([up, bad]) => up === bad)).toBe(true);
+    });
+
+    test('함선 목록과 머리 영역의 제조사·역할을 한국어 패치 표기로 보여주고, 한국어로도 찾을 수 있다', async ({ page }) => {
+        await mockApi(page);
+        await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
+        await gotoSection(page, '#loadout');
+        const card = page.locator('[data-loadout-ship="anvl_asgard"]');
+        await expect(card).toContainText('앤빌 에어로스페이스');
+        await expect(card).toContainText('드랍쉽');
+        await expect(page.locator('#loadout-ship-results')).not.toContainText(/Anvil Aerospace|Light Fighter|Dropship/);
+        await expect(page.locator('#loadout-ship-mfr option', { hasText: '앤빌 에어로스페이스' })).toHaveCount(1);
+        await page.locator('#loadout-ship-search').fill('드랍쉽');
+        await expect(card).toBeVisible();
+        await expect(page.locator('#loadout-ship-count')).toHaveText(/검색 결과 \d+척/);
+        await card.click();
+        await expect(page.locator('.loadout-shipfacts')).toContainText('앤빌 에어로스페이스');
+        await expect(page.locator('.loadout-shipfacts')).toContainText('드랍쉽');
     });
 });
