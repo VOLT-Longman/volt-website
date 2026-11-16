@@ -164,6 +164,7 @@
     let userPreferencesLoaded = false;
     let liveMemberCount = null;
     let preferencesSaveTimer = null;
+    let preferencesSaveAttempt = 0;
 
     const RECOMMENDED_TRADE_GROUPS = [
         { titleKey: 'planner.tradeShip.starter', fallback: '입문/소규모 운송 추천', shipIds: ['hull-a', 'cutlass-black', 'zeus-mk2-cl'] },
@@ -1616,10 +1617,32 @@
         if (!authState.loggedIn || !userPreferencesLoaded) return;
         window.clearTimeout(preferencesSaveTimer);
         const account = authState.user?.sub;
-        preferencesSaveTimer = window.setTimeout(() => {
-            if (authState.user?.sub !== account) return;
-            saveUserPreferences().catch((error) => console.warn('Preference save failed', error));
-        }, 800);
+        preferencesSaveAttempt = 0;
+        preferencesSaveTimer = window.setTimeout(() => runPreferenceSave(account), 800);
+    }
+
+    // 저장 실패를 콘솔에만 남기면 사용자는 저장된 줄 알고 떠난다. 실패를 알리고,
+    // 일시적 오류(네트워크·서버·요청 제한)는 간격을 늘려 가며 자동으로 다시 시도한다.
+    const PREFERENCE_RETRY_DELAYS_MS = [4000, 12000, 30000];
+    function runPreferenceSave(account) {
+        if (authState.user?.sub !== account) return;
+        saveUserPreferences().then(() => {
+            if (preferencesSaveAttempt > 0) showToast(i18nT('mypage.preferencesSaved', '설정을 저장했습니다.'));
+            preferencesSaveAttempt = 0;
+        }).catch((error) => {
+            console.warn('Preference save failed', error);
+            const retryable = !error.status || error.status >= 500 || error.status === 429;
+            const delay = retryable ? PREFERENCE_RETRY_DELAYS_MS[preferencesSaveAttempt] : undefined;
+            if (delay === undefined) {
+                preferencesSaveAttempt = 0;
+                showToast(i18nT('mypage.preferencesSaveFailed', '설정을 저장하지 못했습니다. 새로고침 후 다시 시도해 주세요.'));
+                return;
+            }
+            preferencesSaveAttempt += 1;
+            showToast(i18nT('mypage.preferencesSaveRetry', '설정을 저장하지 못했습니다. 잠시 후 자동으로 다시 시도합니다.'));
+            window.clearTimeout(preferencesSaveTimer);
+            preferencesSaveTimer = window.setTimeout(() => runPreferenceSave(account), delay);
+        });
     }
 
     async function saveUserPreferences() {
@@ -1630,7 +1653,7 @@
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
             body: JSON.stringify({ account: authState.user.sub, favorites: getHangar(), planner: getPlannerStateFromStorage() })
         });
-        if (!response.ok) throw new Error(`PREF ${response.status}`);
+        if (!response.ok) throw Object.assign(new Error(`PREF ${response.status}`), { status: response.status });
     }
 
     // 마이페이지 렌더는 js/mypage.js(VOLT_MYPAGE)로 위임한다. main.js는 인증/선호도
@@ -1937,7 +1960,7 @@
         window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml });
         // 마이페이지 렌더 계층 — 공용 유틸·격납고 제거/함선 상세 콜백 주입.
         window.VOLT_MYPAGE?.init?.({
-            i18nT, escapeHtml, trackEvent,
+            i18nT, escapeHtml, trackEvent, currentLang,
             openShipById: (id) => { const ship = shipById.get(id); if (ship) openShipModal(ship); },
             removeFromHangar: (id) => { if (isInHangar(id)) toggleHangar(id); },
         });

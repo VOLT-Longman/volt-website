@@ -27,11 +27,16 @@ async function savePreferences(request, env) {
   if (session instanceof Response) return session;
   const limited = await enforceRateLimit(env, `preferences:${session.sub}`, PREFERENCES_RATE_LIMIT);
   if (limited) return limited;
-  const body = (await readJson(request)) || {};
+  // 깨진 JSON이나 필수 항목이 빠진 요청을 "빈 값 저장"으로 처리하면 기존 격납고·플래너
+  // 설정이 통째로 지워진다. 형식이 맞지 않으면 저장하지 않고 거부한다.
+  const body = await readJson(request);
+  if (!body || typeof body !== 'object' || Array.isArray(body)) return error('Invalid JSON body', 400);
   if (body.account !== undefined && body.account !== session.sub) return error('Account changed; reload before saving', 409);
+  if (!Array.isArray(body.favorites)) return error('favorites must be an array', 422);
+  if (!body.planner || typeof body.planner !== 'object' || Array.isArray(body.planner)) return error('planner must be an object', 422);
   let favoritesJson; let plannerJson;
   try {
-    favoritesJson = serializeJson(Array.isArray(body.favorites) ? body.favorites.map(String).slice(0, 500) : []);
+    favoritesJson = serializeJson(body.favorites.map(String).slice(0, 500));
     plannerJson = serializeJson(sanitizePlanner(body.planner));
   } catch (err) {
     return error(err.message || 'Invalid preferences', 422);

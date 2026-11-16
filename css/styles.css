@@ -5397,6 +5397,16 @@ body.nav-trade-open::before {
     color: var(--color-accent, var(--color-text-primary));
 }
 
+.mypage-hangar-toggle {
+    margin-top: 0.5rem;
+    padding: 0.35rem 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
     .schedule-rsvp-actions,
     .mypage-list li {

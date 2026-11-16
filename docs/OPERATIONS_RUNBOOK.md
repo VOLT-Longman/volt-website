@@ -64,6 +64,7 @@ Cloudflare D1 `migrations` 프레임워크(자동 추적 테이블)를 쓰지 �
 | `0015_cms_history.sql` | 콘텐츠 시작 시점 스냅샷과 변경 이력 트리거 | `CREATE IF NOT EXISTS` + 조건부 `INSERT` | ✅ |
 | `0016_cms_localization_actor.sql` | CMS 영어·작성자 이력·명확한 일정 날짜 보정 | `ALTER` + 트리거 교체 | ❌ |
 | `0017_published_content_english.sql` | 원문 일치·영문 미입력 공개 콘텐츠 번역 | 조건부 `UPDATE` | ✅ |
+| `0018_revoked_admin_sessions.sql` | 로그아웃한 관리자 세션 폐기 목록 (미적용이어도 서버가 첫 요청 때 자동 생성) | `CREATE IF NOT EXISTS` | ✅ |
 
 > **핵심:** `ALTER TABLE ADD COLUMN`(0007·0008·0010)은 **재실행하면 `duplicate column name` 오류로 실패**한다.
 > 이미 적용한 마이그레이션은 다시 실행하지 않는다. `CREATE IF NOT EXISTS`/`INSERT OR IGNORE`류는 재실행해도 무해하다.

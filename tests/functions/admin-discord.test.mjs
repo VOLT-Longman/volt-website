@@ -60,10 +60,25 @@ test('CMS rechecks Discord membership within a minute and fails closed if verifi
 
 test('CMS logout ends CMS access without revoking the public Discord session; password access stays compatible', async () => {
   const flow = await signedIn();
-  const response = logout();
+  const response = await logout({ request: requestFor(flow.cookie), env: flow.env });
   assert.match(response.headers.get('Set-Cookie'), /Max-Age=0/);
+  // 로그아웃한 쿠키를 복사해 다시 보내도 서버가 거부한다 (세션 폐기).
+  assert.equal(await isAuthenticated(requestFor(flow.cookie), flow.env), false);
+  assert.equal((await requireAdmin(requestFor(flow.cookie), flow.env)).status, 401);
   assert.equal(await isAuthenticated(requestFor(flow.userCookie), flow.env), false);
   assert.equal((await getAdminIdentity(requestFor(await adminCookie(flow.env)), flow.env)).method, 'password');
+});
+
+test('비밀번호 로그인 세션도 로그아웃 후에는 복사한 쿠키로 다시 들어올 수 없다', async () => {
+  const env = environment();
+  const cookie = await adminCookie(env);
+  assert.equal(await isAuthenticated(requestFor(cookie), env), true);
+  assert.equal((await logout({ request: requestFor(cookie), env })).status, 200);
+  assert.equal(await isAuthenticated(requestFor(cookie), env), false);
+  // 쿠키 없이 또는 변조된 쿠키로 로그아웃해도 오류 없이 끝나고 폐기 목록을 늘리지 않는다.
+  assert.equal((await logout({ request: requestFor(''), env })).status, 200);
+  assert.equal((await logout({ request: requestFor('volt_admin_session=admin.9999999999.forged'), env })).status, 200);
+  assert.equal((await env.DB.prepare('SELECT count(*) AS n FROM security_revoked_sessions').first()).n, 1);
 });
 
 test('Discord CMS rejects unknown configuration, cross-origin sign-in, expired user and non-numeric expiry', async () => {

@@ -1,4 +1,5 @@
 import { error } from './http.js';
+import { securityDb } from './security-store.js';
 
 const verifiedIdentities = new WeakMap();
 export function getVerifiedAdminIdentity(request) { return verifiedIdentities.get(request) || null; }
@@ -74,7 +75,8 @@ export async function readAdminDiscordUser(request, env) {
   return session;
 }
 
-export async function getAdminIdentity(request, env) {
+// 쿠키 형식·만료·서명을 검증해 { role, expiry, signature }를 돌려준다. 실패 시 null.
+async function readSignedSession(request, env) {
   const value = parseCookies(request)[SESSION_COOKIE];
   if (!value) return null;
   const parts = value.split('.');
@@ -85,6 +87,26 @@ export async function getAdminIdentity(request, env) {
   if (role !== 'admin' && !/^discord:[0-9a-f-]{36}$/u.test(role)) return null;
   const expectedSignature = await hmac(`${role}.${expires}`, getSecret(env));
   if (!constantTimeEqual(signature, expectedSignature)) return null;
+  return { role, expiry, signature };
+}
+
+// 로그아웃 시 호출: 유효한 세션 쿠키를 서버에서 폐기한다. 쿠키는 서명만으로 검증되므로
+// 브라우저에서 지워도 복사해 둔 값은 만료(8시간)까지 통한다 — 폐기 목록으로 막는다.
+export async function revokeSessionCookie(request, env) {
+  const session = await readSignedSession(request, env);
+  if (!session) return false;
+  await (await securityDb(env)).prepare('INSERT OR IGNORE INTO security_revoked_sessions (signature, expires_at) VALUES (?, ?)')
+    .bind(session.signature, session.expiry * 1000).run();
+  return true;
+}
+
+export async function getAdminIdentity(request, env) {
+  const signed = await readSignedSession(request, env);
+  if (!signed) return null;
+  const { role } = signed;
+  // 폐기 여부를 확인할 수 없으면 예외가 전파되어 호출부가 503으로 닫힌다(fail closed).
+  const revoked = await (await securityDb(env)).prepare('SELECT 1 AS revoked FROM security_revoked_sessions WHERE signature = ?').bind(signed.signature).first();
+  if (revoked) return null;
   if (role === 'admin') return { method: 'password', displayName: '공통 관리자', roles: [] };
   const session = await readAdminDiscordUser(request, env);
   if (!session || role !== `discord:${session.sid}`) return null;

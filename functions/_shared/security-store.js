@@ -5,7 +5,9 @@ const ready = new WeakMap();
 export const SECURITY_SCHEMA = [
   `CREATE TABLE IF NOT EXISTS security_limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, reset_at INTEGER NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS security_ai_usage (id INTEGER PRIMARY KEY CHECK (id = 1), day TEXT NOT NULL, month TEXT NOT NULL, day_count INTEGER NOT NULL, day_cost INTEGER NOT NULL, month_cost INTEGER NOT NULL)`,
-  `CREATE TABLE IF NOT EXISTS security_sessions (id TEXT PRIMARY KEY, user_sub TEXT NOT NULL, token TEXT NOT NULL, role_ids TEXT NOT NULL, checked_at INTEGER NOT NULL, expires_at INTEGER NOT NULL)`
+  `CREATE TABLE IF NOT EXISTS security_sessions (id TEXT PRIMARY KEY, user_sub TEXT NOT NULL, token TEXT NOT NULL, role_ids TEXT NOT NULL, checked_at INTEGER NOT NULL, expires_at INTEGER NOT NULL)`,
+  // 로그아웃한 관리자 세션 쿠키의 서명. 만료 시각(ms)까지 재사용을 거부한다.
+  `CREATE TABLE IF NOT EXISTS security_revoked_sessions (signature TEXT PRIMARY KEY, expires_at INTEGER NOT NULL)`
 ];
 export async function securityDb(env) {
   const db = requireDb(env);
@@ -15,6 +17,7 @@ export async function securityDb(env) {
       const now = Date.now();
       await db.prepare('DELETE FROM security_limits WHERE key IN (SELECT key FROM security_limits WHERE reset_at < ? LIMIT 1000)').bind(now).run();
       await db.prepare('DELETE FROM security_sessions WHERE id IN (SELECT id FROM security_sessions WHERE expires_at < ? LIMIT 1000)').bind(now).run();
+      await db.prepare('DELETE FROM security_revoked_sessions WHERE signature IN (SELECT signature FROM security_revoked_sessions WHERE expires_at < ? LIMIT 1000)').bind(now).run();
     })().catch((err) => { ready.delete(db); throw err; }));
   }
   await ready.get(db);

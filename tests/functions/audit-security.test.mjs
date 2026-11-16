@@ -88,6 +88,39 @@ test('A1: pending save from another account cannot overwrite the current session
   assert.equal((await env.DB.prepare('SELECT count(*) AS n FROM user_preferences').first()).n, 0);
 });
 
+test('내 참가 일정은 공개 일정과 같은 영문 필드를 함께 내려준다', async () => {
+  const env = { ...TEST_ENV, DB: database() };
+  env.DB.sqlite.prepare("INSERT INTO events (id,title,date_label,published,translations_json) VALUES ('e1','TSG 작전','2026.05.31',1,?), ('e2','번역 없는 일정','미정',1,'{}')")
+    .run(JSON.stringify({ title: 'TSG operation', dateLabel: '2026-05-31' }));
+  env.DB.sqlite.exec("INSERT INTO event_rsvps (id,event_id,user_sub,status) VALUES ('r1','e1','audit-member','참가'), ('r2','e2','audit-member','대기')");
+  const cookie = await memberCookie(member, env);
+  const items = (await (await myRsvps({ request: requestFor(cookie), env })).json()).items;
+  const byId = Object.fromEntries(items.map((item) => [item.eventId, item]));
+  assert.equal(byId.e1.title, 'TSG 작전');
+  assert.equal(byId.e1.titleEn, 'TSG operation');
+  assert.equal(byId.e1.dateLabelEn, '2026-05-31');
+  assert.equal(byId.e2.titleEn, '');
+});
+
+test('잘못된 저장 요청은 기존 설정을 비우지 않고 거부한다', async () => {
+  const env = { ...TEST_ENV, DB: database() };
+  const cookie = await memberCookie(member, env);
+  const url = 'https://volt.ceo/api/me/preferences';
+  const saved = await preferences({ env, request: jsonRequest(url, { method: 'PUT', cookie, body: { favorites: ['asgard'], planner: { cargo: '96' } } }) });
+  assert.equal(saved.status, 200);
+  const broken = new Request(url, { method: 'PUT', headers: { 'Content-Type': 'application/json', Cookie: cookie }, body: '{"favorites":[' });
+  assert.equal((await preferences({ env, request: broken })).status, 400);
+  for (const body of [{}, { planner: {} }, { favorites: ['asgard'] }, { favorites: 'asgard', planner: {} }, { favorites: [], planner: [] }, []]) {
+    const response = await preferences({ env, request: jsonRequest(url, { method: 'PUT', cookie, body }) });
+    assert.ok([400, 422].includes(response.status), JSON.stringify(body));
+  }
+  const row = await env.DB.prepare('SELECT favorites_json, planner_json FROM user_preferences').first();
+  assert.deepEqual(JSON.parse(row.favorites_json), ['asgard']);
+  assert.deepEqual(JSON.parse(row.planner_json), { cargo: '96' });
+  // 의도적으로 비우는 정상 요청(빈 배열·빈 객체)은 계속 허용한다.
+  assert.equal((await preferences({ env, request: jsonRequest(url, { method: 'PUT', cookie, body: { favorites: [], planner: {} } }) })).status, 200);
+});
+
 test('A11: official Korean aliases match and variant names do not imply their base ship', async () => {
   resetShipCacheForTests();
   const { ships } = await loadShipLayers({ ASSETS: { async fetch(url) {

@@ -12,7 +12,10 @@
 (function () {
     'use strict';
 
-    let i18nT, escapeHtml, trackEvent, openShipById, removeFromHangar;
+    let i18nT, escapeHtml, trackEvent, openShipById, removeFromHangar, currentLang;
+    // 격납고는 기본 12척만 보여 주고, 더 있으면 '전체 보기'로 펼친다.
+    const HANGAR_PREVIEW_COUNT = 12;
+    let hangarExpanded = false;
     let lastState = null;
     let boundContainer = null;
 
@@ -30,6 +33,7 @@
         trackEvent = deps.trackEvent;
         openShipById = deps.openShipById;
         removeFromHangar = deps.removeFromHangar;
+        currentLang = deps.currentLang;
     }
 
     function t(key, fallback) {
@@ -39,6 +43,13 @@
     function statusLabel(status) {
         const key = RSVP_STATUS_KEYS[String(status || '').trim()];
         return key ? t(key) : String(status || '');
+    }
+
+    // 공개 일정과 같은 규칙: 영어 화면이고 영문 값이 있으면 영문, 아니면 한국어 원문.
+    function localized(item, field) {
+        const en = item[`${field}En`] || item[`${field}_en`];
+        const lang = typeof currentLang === 'function' ? currentLang() : 'ko';
+        return lang === 'en' && en ? en : item[field];
     }
 
     // main.js에서 조립한 state(loggedIn/profile/hangarShips/planner)를 받아 렌더한다.
@@ -88,11 +99,15 @@
             </div>`;
         }
         const removeLabel = t('mypage.hangarRemove');
-        return `<ul class="mypage-list">${ships.slice(0, 12).map((ship) => `<li>
+        const visible = hangarExpanded ? ships : ships.slice(0, HANGAR_PREVIEW_COUNT);
+        const toggle = ships.length > HANGAR_PREVIEW_COUNT
+            ? `<button type="button" class="mypage-retry mypage-hangar-toggle" data-mypage-hangar-toggle aria-expanded="${hangarExpanded ? 'true' : 'false'}">${escapeHtml(hangarExpanded ? t('mypage.hangarShowLess') : t('mypage.hangarShowAll').replace('{count}', String(ships.length)))}</button>`
+            : '';
+        return `<ul class="mypage-list">${visible.map((ship) => `<li>
             <button type="button" class="mypage-ship-name" data-mypage-ship-id="${escapeHtml(ship.id)}">${escapeHtml(ship.name)}</button>
             <span>${escapeHtml(ship.cargo || '0 SCU')}</span>
             <button type="button" class="mypage-ship-remove" data-mypage-hangar-remove="${escapeHtml(ship.id)}" aria-label="${escapeHtml(`${ship.name} · ${removeLabel}`)}" title="${escapeHtml(removeLabel)}">×</button>
-        </li>`).join('')}</ul>`;
+        </li>`).join('')}</ul>${toggle}`;
     }
 
     function renderPlanner(planner) {
@@ -113,7 +128,7 @@
             const payload = await response.json();
             const items = payload.items || [];
             list.innerHTML = items.length
-                ? items.map((item) => `<li><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(statusLabel(item.status))} · ${escapeHtml(item.dateLabel || t('mypage.rsvpNoDate'))}</span></li>`).join('')
+                ? items.map((item) => `<li><strong>${escapeHtml(localized(item, 'title'))}</strong><span>${escapeHtml(statusLabel(item.status))} · ${escapeHtml(localized(item, 'dateLabel') || t('mypage.rsvpNoDate'))}</span></li>`).join('')
                 : `<li class="mypage-empty"><strong>${escapeHtml(t('mypage.rsvpEmptyTitle'))}</strong><p>${escapeHtml(t('mypage.rsvpEmptyBody'))}</p></li>`;
         } catch (error) {
             console.warn('My RSVP load failed', error);
@@ -136,6 +151,13 @@
                 removeFromHangar(shipId);
                 if (typeof trackEvent === 'function') trackEvent('mypage_hangar_remove', { shipId });
             }
+            return;
+        }
+        const toggleBtn = event.target.closest('[data-mypage-hangar-toggle]');
+        if (toggleBtn) {
+            event.preventDefault();
+            hangarExpanded = !hangarExpanded;
+            if (lastState) renderMyPage(lastState);
             return;
         }
         const shipBtn = event.target.closest('[data-mypage-ship-id]');
