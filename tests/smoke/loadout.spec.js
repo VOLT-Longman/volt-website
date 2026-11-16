@@ -206,6 +206,92 @@ test.describe('로드아웃 편집기', () => {
         await ctx.close();
     });
 
+    test('장바구니: 부품을 담고 수량을 바꾸면 상점별 합계가 정리되고, 새로고침 후에도 남는다', async ({ page }) => {
+        const prices = { [MANTIS]: [{ shop: 'CenterMass', place: 'Area 18', system: 'Stanton', price: 23500 }, { shop: 'Ship Weapons', place: 'MIC-L2', system: 'Stanton', price: 25000 }] };
+        await openAsgard(page, { prices });
+        await expect(page.locator('[data-loadout-tab="cart"] .loadout-badge')).toHaveCount(0);
+
+        // 부품 선택 창에서 바꾸지 않고 담기만 한다.
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        await page.locator('.loadout-options li', { has: page.locator(`[data-loadout-pick="${MANTIS}"]`) }).locator('[data-loadout-cart-add]').click();
+        await expect(page.locator('#toast')).toContainText('장바구니에 담았습니다');
+        await page.keyboard.press('Escape');
+        await expect(page.locator('.loadout-slot.is-changed')).toHaveCount(0);
+        await expect(page.locator('[data-loadout-tab="cart"] .loadout-badge')).toHaveText('1');
+
+        await page.locator('[data-loadout-tab="cart"]').click();
+        const row = page.locator(`[data-loadout-cart-row="${MANTIS}"]`);
+        await expect(row).toContainText('맨티스 GT-220 개틀링');
+        await expect(row).toContainText('CenterMass');
+        await row.locator('[data-loadout-cart-inc]').click();
+        await row.locator('[data-loadout-cart-inc]').click();
+        await expect(row.locator('.loadout-qty b')).toHaveText('3');
+        await expect(page.locator('.loadout-carttable tfoot')).toContainText('70,500 aUEC');
+        await expect(page.locator('.loadout-shoplist li')).toHaveCount(1);
+        await expect(page.locator('.loadout-shoplist li')).toContainText('맨티스 GT-220 개틀링 ×3');
+        await row.locator('[data-loadout-cart-dec]').click();
+        await expect(page.locator('.loadout-carttable tfoot')).toContainText('47,000 aUEC');
+
+        await page.reload();
+        await page.waitForSelector('#loading-splash', { state: 'hidden' });
+        await expect(page.locator('[data-loadout-tab="cart"] .loadout-badge')).toHaveText('2');
+        await page.locator('[data-loadout-tab="cart"]').click();
+        await page.locator(`[data-loadout-cart-row="${MANTIS}"] [data-loadout-cart-remove]`).click();
+        await expect(page.locator('.loadout-view')).toContainText('장바구니가 비어 있습니다');
+    });
+
+    test('바꾼 부품을 장바구니에 담고, 무기 상세 표와 부품 찾기를 쓴다', async ({ page }) => {
+        await openAsgard(page, { prices: { [MANTIS]: [{ shop: 'CenterMass', place: 'Area 18', system: 'Stanton', price: 23500 }] } });
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        await page.locator('#loadout-bulk').check();
+        await pick(page, MANTIS).click();
+        await page.locator('[data-loadout-cart-changed]').click();
+        await expect(page.locator('[data-loadout-tab="cart"] .loadout-badge')).toHaveText('6');
+
+        // 무기 상세: 같은 무기를 묶어 수량과 DPS 합을 보여준다.
+        await page.locator('[data-loadout-tab="weapons"]').click();
+        const table = page.locator('.loadout-weapontable');
+        const mantisRow = table.locator('tbody tr', { hasText: '맨티스 GT-220 개틀링' });
+        await expect(mantisRow).toContainText('파일럿');
+        await expect(mantisRow.locator('td').nth(2)).toHaveText('6');
+        await expect(table.locator('tbody tr', { hasText: 'CF-447 라이노 리피터' })).toContainText('터렛');
+        const total = await table.locator('tfoot th').last().innerText();
+        expect(total).toBe(await stat(page, DPS).innerText());
+
+        // 부품 찾기: 종류·크기로 훑어보고 담는다.
+        await page.locator('[data-loadout-tab="finder"]').click();
+        await page.locator('[data-loadout-finder-type="Shield"]').click();
+        await expect(page.locator('#loadout-finder-count')).toHaveText(/^\d+종$/);
+        await page.locator('[data-loadout-finder-size="2"]').click();
+        const metas = await page.locator('.loadout-finderlist .loadout-meta').allInnerTexts();
+        expect(metas.length).toBeGreaterThan(0);
+        expect(metas.every((line) => line.startsWith('S2'))).toBe(true);
+        await page.locator('.loadout-finderlist li').first().locator('[data-loadout-cart-add]').click();
+        await expect(page.locator('[data-loadout-tab="cart"] .loadout-badge')).toHaveText('7');
+        await expect(page.locator('.loadout-finderlist li').first().locator('.loadout-delta')).toHaveText('담음 1');
+    });
+
+    test('로드아웃을 이름 붙여 저장하고 다시 불러온다', async ({ page }) => {
+        await openAsgard(page);
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        await pick(page, MANTIS).click();
+        const changedDps = await stat(page, DPS).innerText();
+        await page.locator('#loadout-build-name').fill('맨티스 시험');
+        await page.locator('[data-loadout-build-save]').click();
+        await expect(page.locator('.loadout-buildlist li')).toHaveCount(1);
+        await expect(page.locator('.loadout-buildlist li')).toContainText('맨티스 시험');
+        await expect(page.locator('.loadout-buildlist li')).toContainText('1곳 변경됨');
+
+        await page.locator('[data-loadout-reset-all]').click();
+        await expect(stat(page, DPS)).toHaveText('5,313');
+        await page.locator('[data-loadout-build-load="0"]').click();
+        await expect(stat(page, DPS)).toHaveText(changedDps);
+        await page.locator('[data-loadout-build-delete="0"]').click();
+        await expect(page.locator('.loadout-buildlist li')).toHaveCount(0);
+        // 실드 저항이 방어 구역에 표시된다.
+        await expect(panel(page)).toContainText('물리 저항');
+    });
+
     test('모바일 390px: 가로 넘침 없이 부품을 바꿀 수 있다', async ({ browser }) => {
         const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
         const page = await ctx.newPage();

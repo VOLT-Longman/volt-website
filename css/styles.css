@@ -9378,6 +9378,9 @@ body.nav-trade-open::before {
 
 /* 보드 + 통계 패널 */
 .loadout-columns { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
+/* 넓은 표가 들어가도 옆 통계 패널을 밀어내지 않게 한다. */
+.loadout-columns > * { min-width: 0; }
+.loadout-slots { display: grid; gap: 16px; align-content: start; }
 .loadout-columns h3, .loadout-shopping h3 { font-size: 18px; margin: 0 0 12px; }
 .loadout-group { margin-bottom: 18px; }
 .loadout-group h4 { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; margin: 0 0 8px; padding-left: 10px; border-left: 3px solid var(--volt-orange); }
@@ -9468,6 +9471,41 @@ body.nav-trade-open::before {
 .loadout-delta.is-up { color: var(--lo-up); border-color: rgba(127, 216, 138, 0.4); }
 .loadout-delta.is-down { color: var(--lo-down); border-color: rgba(255, 143, 122, 0.4); }
 @media (hover: hover) { .loadout-ship-results button:hover, .loadout-options li:hover, .loadout-slot:not(.is-parent):hover { border-color: var(--color-border-hover); } }
+
+/* 탭 · 장바구니 · 부품 찾기 · 무기 상세 · 저장한 로드아웃 */
+.loadout-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px; border: 1px solid var(--lo-line); border-radius: 14px; background: var(--lo-card); width: fit-content; max-width: 100%; }
+.loadout-tab { min-height: 42px; padding: 0 18px; border: 0; border-radius: 10px; background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.loadout-tab.is-active { background: var(--volt-orange); color: #fff; }
+.loadout-badge { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: rgba(255, 255, 255, 0.22); font-size: 12px; font-variant-numeric: tabular-nums; }
+.loadout-tab:not(.is-active) .loadout-badge { background: var(--volt-orange); color: #fff; }
+.loadout-view { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--lo-line); border-radius: 14px; background: var(--lo-card); }
+.loadout-viewhead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.loadout-viewhead h3 { margin: 0; }
+.loadout-viewhead .btn { min-height: 40px; padding: 0 14px; font-size: 13px; }
+.loadout-subhead { margin: 6px 0 0; font-size: 14px; }
+.loadout-app .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.loadout-qty { display: inline-flex; align-items: center; gap: 2px; border: 1px solid var(--lo-line); border-radius: 10px; }
+.loadout-qty button { width: 34px; height: 34px; border: 0; background: transparent; color: var(--color-text-primary); font-size: 18px; cursor: pointer; }
+.loadout-qty b { min-width: 28px; text-align: center; font-variant-numeric: tabular-nums; }
+.loadout-shoplist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.loadout-shoplist li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto; gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--lo-line); border-radius: 10px; font-size: 13px; }
+.loadout-shopitems { color: var(--color-text-secondary); }
+.loadout-finderlist { max-height: none; overflow: visible; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); padding: 0; }
+.loadout-more { justify-self: center; min-height: 44px; padding: 0 22px; }
+.loadout-weapontable td, .loadout-weapontable th { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.loadout-weapontable td:first-child { white-space: normal; min-width: 180px; }
+.loadout-buildsave { display: flex; gap: 6px; }
+.loadout-buildsave input { flex: 1 1 auto; min-width: 0; min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--lo-line); background: var(--color-bg-elevated); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.loadout-buildsave .btn { min-height: 40px; padding: 0 12px; font-size: 13px; white-space: nowrap; }
+.loadout-buildlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.loadout-buildlist li { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.loadout-buildload { flex: 1 1 auto; min-width: 0; display: grid; gap: 1px; text-align: left; padding: 8px 10px; border: 1px solid var(--lo-line); border-radius: 10px; background: transparent; color: var(--color-text-primary); font: inherit; cursor: pointer; }
+@media (max-width: 720px) {
+    .loadout-tabs { width: 100%; }
+    .loadout-tab { flex: 1 1 auto; justify-content: center; padding: 0 10px; }
+    .loadout-shoplist li { grid-template-columns: minmax(0, 1fr); }
+    .loadout-finderlist { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* 구매 목록 · 출처 */
 .loadout-shopping { padding: 16px; border: 1px solid var(--lo-line); border-radius: 14px; background: var(--lo-card); }

@@ -13,12 +13,14 @@
 
     const calc = window.VOLT_LOADOUT_CALC;
     const STORAGE_KEY = 'volt-loadout-v1';
+    const CART_KEY = 'volt-loadout-cart-v1';
     const DATA_BASE = 'data/loadout';
     let deps = {};
     const state = {
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(),
+        tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40,
     };
 
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
@@ -29,6 +31,12 @@
             equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', changedCount: '{count}곳 변경됨',
             sortLabel: '정렬', sort_best: '성능순', sort_name: '이름순', sort_price: '가격 낮은순', filterLabel: '부품 걸러 보기', buyableOnly: '상점 판매만',
             bulkApply: '같은 부품이 달린 {count}곳을 한 번에 교체', powerShort: '출력', coolingShort: '냉각',
+            tabsLabel: '로드아웃 화면', tab_slots: '장착', tab_weapons: '무기 상세', tab_finder: '부품 찾기', tab_cart: '장바구니',
+            cartEmpty: '장바구니가 비어 있습니다. 부품 찾기나 부품 선택 창에서 「담기」를 눌러 보세요.', cartSummary: '부품 {kinds}종 · {count}개', cartClear: '장바구니 비우기', cartRemove: '빼기',
+            cartAdd: '담기', cartAdded: '장바구니에 담았습니다.', inCart: '담음 {count}', cartAddChanged: '바꾼 부품 장바구니에 담기', cartByShop: '상점별로 살 것', qtyLess: '수량 줄이기', qtyMore: '수량 늘리기',
+            finderType: '부품 종류', finderCount: '{count}종', finderMore: '더 보기 ({count}종 남음)',
+            weaponsNone: '장착된 무기가 없습니다.', whoFires: '사수', dpsSum: 'DPS 합', alphaShort: '알파', rpmShort: '분당 발사', speedShort: '탄속', rangeShort: '사거리', dmgKind: '피해 종류', ammoShort: '탄약', ammoRegen: '재생식',
+            resist: '{type} 저항', builds: '저장한 로드아웃', buildName: '이름 (비우면 함선명+날짜)', buildSave: '현재 구성 저장', buildSaved: '로드아웃을 저장했습니다.', buildDelete: '삭제', buildsEmpty: '저장한 로드아웃이 없습니다. 이 브라우저에만 저장됩니다.',
             pickShip: '함선 선택', searchShip: '함선명 또는 제조사 검색', noShip: '검색 결과가 없습니다.', shipCount: '전체 {count}척', shipFound: '검색 결과 {count}척', browseShips: '함선 바꾸기', hideShips: '목록 접기',
             loading: '자료를 불러오는 중입니다.', loadFail: '로드아웃 자료를 불러오지 못했습니다.', retry: '다시 시도',
             summary: '요약', dps: 'DPS (초당 피해)', pilot: '파일럿', turret: '터렛', alpha: '알파 (1회 피해)', weapons: '무기 {count}정',
@@ -62,6 +70,12 @@
             equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', changedCount: '{count} slots changed',
             sortLabel: 'Sort', sort_best: 'Best first', sort_name: 'Name', sort_price: 'Lowest price', filterLabel: 'Filter parts', buyableOnly: 'Sold in shops',
             bulkApply: 'Replace all {count} slots with this part', powerShort: 'Output', coolingShort: 'Cooling',
+            tabsLabel: 'Loadout views', tab_slots: 'Hardpoints', tab_weapons: 'Weapons', tab_finder: 'Part finder', tab_cart: 'Cart',
+            cartEmpty: 'Your cart is empty. Use Add in the part finder or the part picker.', cartSummary: '{kinds} parts · {count} items', cartClear: 'Empty cart', cartRemove: 'Remove',
+            cartAdd: 'Add', cartAdded: 'Added to cart.', inCart: 'In cart {count}', cartAddChanged: 'Add changed parts to cart', cartByShop: 'What to buy at each shop', qtyLess: 'Decrease quantity', qtyMore: 'Increase quantity',
+            finderType: 'Part type', finderCount: '{count} parts', finderMore: 'Show more ({count} left)',
+            weaponsNone: 'No weapons equipped.', whoFires: 'Fired by', dpsSum: 'Total DPS', alphaShort: 'Alpha', rpmShort: 'RPM', speedShort: 'Velocity', rangeShort: 'Range', dmgKind: 'Damage', ammoShort: 'Ammo', ammoRegen: 'Regen',
+            resist: '{type} resistance', builds: 'Saved loadouts', buildName: 'Name (blank = ship + date)', buildSave: 'Save current setup', buildSaved: 'Loadout saved.', buildDelete: 'Delete', buildsEmpty: 'No saved loadouts. They are stored in this browser only.',
             pickShip: 'Choose a ship', searchShip: 'Search ship or manufacturer', noShip: 'No ships found.', shipCount: 'All {count} ships', shipFound: '{count} ships found', browseShips: 'Change ship', hideShips: 'Hide list',
             loading: 'Loading data.', loadFail: 'Couldn\'t load loadout data.', retry: 'Retry',
             summary: 'Summary', dps: 'Damage per second', pilot: 'Pilot', turret: 'Turrets', alpha: 'Alpha strike', weapons: '{count} weapons',
@@ -142,6 +156,7 @@
 
     async function ensureBase() {
         if (state.items && state.index) return;
+        state.cart = readCart();
         // meta는 항상 새로 확인하고, 나머지는 자료 버전을 주소에 붙여 패치 후 옛 캐시가 섞이지 않게 한다.
         const meta = await fetchJson(`${DATA_BASE}/meta.json`, { cache: 'no-cache' });
         const stamp = encodeURIComponent(meta.version || '');
@@ -330,6 +345,15 @@
         return `<span class="loadout-change ${diff > 0 ? 'is-up' : 'is-down'}">${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff), digits))}</span>`;
     }
 
+    // 실드 저항: 장착된 첫 실드 제너레이터의 피해 종류별 저항 범위(최소~최대).
+    function shieldResistRows(row) {
+        const shield = allNodes().find((node) => node.item?.sh)?.item?.sh;
+        if (!shield?.res) return '';
+        const percent = (value) => `${Math.round(value * 100)}%`;
+        return ['physical', 'energy', 'distortion'].filter((type) => shield.res[type])
+            .map((type) => row(text('resist', { type: table('damage')[type] || type }), `${percent(shield.res[type][0])} – ${percent(shield.res[type][1])}`)).join('');
+    }
+
     function drawSummary(totals, cost, stock) {
         const damage = Object.entries(totals.dps.byType).sort((a, b) => b[1] - a[1]);
         const bar = totals.dps.total ? `<span class="loadout-dmgbar" aria-hidden="true">${damage.map(([type, value]) => `<i class="is-${esc(type)}" style="width:${(value / totals.dps.total * 100).toFixed(1)}%"></i>`).join('')}</span>` : '';
@@ -357,7 +381,7 @@
                     ${stat(text('shield'), num(totals.shield.hp), drawChange(totals.shield.hp, stock.shield.hp), 'primary')}
                     ${stat(text('regenLabel'), `${num(totals.shield.regen)}${text('perSecond')}`, drawChange(totals.shield.regen, stock.shield.regen))}
                 </div>
-                <dl class="loadout-rows">${row(text('shieldCount'), text('unitCount', { count: totals.shield.count }))}</dl>`)}
+                <dl class="loadout-rows">${row(text('shieldCount'), text('unitCount', { count: totals.shield.count }))}${shieldResistRows(row)}</dl>`)}
             ${section(text('systems'), `
                 <div class="loadout-statpair">
                     ${stat(text('power'), num(totals.power.gen, 1), drawChange(totals.power.gen, stock.power.gen, 1))}
@@ -378,6 +402,7 @@
             ${section(text('cost'), `
                 <div class="loadout-statpair">${stat(text('cost'), cost.changed ? credits(cost.total) : '—')}</div>
                 <p class="loadout-note">${esc(cost.changed ? (cost.unknown ? text('costUnknown', { count: cost.unknown }) : text('costAll')) : text('costNone'))}</p>`)}
+            ${drawBuilds()}
         </aside>`;
     }
 
@@ -475,6 +500,7 @@
                 <div class="loadout-option-side">
                     ${id === node.itemId ? '' : drawDelta(item, node.item)}
                     <button type="button" class="btn btn-secondary" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === node.itemId ? 'disabled' : ''}>${esc(id === node.itemId ? text('selected') : text('select'))}</button>
+                    <button type="button" class="loadout-link" data-loadout-cart-add="${esc(id)}">${esc(state.cart[id] ? text('inCart', { count: state.cart[id] }) : text('cartAdd'))}</button>
                 </div>
             </li>`).join('') || `<li class="loadout-note">${esc(text('pickerEmpty'))}</li>`}</ul>
         </div>`;
@@ -538,6 +564,173 @@
         </table></div>${cost.unknown ? `<p class="loadout-note">${esc(text('lootNote'))}</p>` : ''}`;
     }
 
+    // ---- 장바구니 · 부품 찾기 · 무기 상세 · 저장한 로드아웃 ----------------------
+    // 장바구니: 편집과 따로, 사고 싶은 부품을 수량과 함께 담아 두고 어디서 얼마에 사는지 모아 본다.
+    function readCart() {
+        try { const cart = JSON.parse(localStorage.getItem(CART_KEY) || '{}'); return cart && typeof cart === 'object' && !Array.isArray(cart) ? cart : {}; } catch (_error) { return {}; }
+    }
+    function writeCart(cart) {
+        try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (_error) { /* 저장 공간을 쓸 수 없으면 이번 화면에서만 유지 */ }
+        state.cart = cart;
+    }
+    function addToCart(id, quantity = 1) {
+        if (!state.items?.[id]) return;
+        const cart = { ...state.cart };
+        cart[id] = Math.min(99, (Number(cart[id]) || 0) + quantity);
+        writeCart(cart);
+        loadCategoryPrices(state.items[id].type);
+    }
+    function setCartQuantity(id, quantity) {
+        const cart = { ...state.cart };
+        if (quantity > 0) cart[id] = Math.min(99, quantity); else delete cart[id];
+        writeCart(cart);
+    }
+    const cartCount = () => Object.values(state.cart).reduce((total, quantity) => total + (Number(quantity) || 0), 0);
+    function cartRows() {
+        return Object.entries(state.cart).map(([id, quantity]) => ({ id, item: state.items?.[id], qty: Number(quantity) || 0 }))
+            .filter((row) => row.item && row.qty > 0).map((row) => ({ ...row, info: priceInfo(row.id, row.item) }));
+    }
+    function loadPricesForCart() {
+        for (const id of Object.keys(state.cart)) if (state.items?.[id]) loadCategoryPrices(state.items[id].type);
+    }
+
+    function drawCart() {
+        const rows = cartRows();
+        if (!rows.length) return `<div class="loadout-view"><p class="loadout-note">${esc(text('cartEmpty'))}</p></div>`;
+        const total = rows.reduce((sum, row) => sum + (row.info.min || 0) * row.qty, 0);
+        const unknown = rows.filter((row) => !row.info.min).length;
+        // 가장 싼 곳 기준으로 상점별로 묶어, 한 번 들를 때 살 것을 모아 보여준다.
+        const byShop = new Map();
+        for (const row of rows) {
+            const shop = row.info.shops[0];
+            if (!shop) continue;
+            const key = `${shop.shop}|${shop.place}|${shop.system}`;
+            const group = byShop.get(key) || { shop, rows: [], total: 0 };
+            group.rows.push(row); group.total += shop.price * row.qty; byShop.set(key, group);
+        }
+        return `<div class="loadout-view">
+            <div class="loadout-viewhead">
+                <p class="loadout-note">${esc(text('cartSummary', { kinds: rows.length, count: cartCount() }))}</p>
+                <button type="button" class="loadout-link" data-loadout-cart-clear>${esc(text('cartClear'))}</button>
+            </div>
+            <div class="loadout-table-wrap"><table class="loadout-table loadout-carttable">
+                <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('cheapest'))}</th><th>${esc(text('subtotal'))}</th><th><span class="visually-hidden">${esc(text('cartRemove'))}</span></th></tr></thead>
+                <tbody>${rows.map((row) => {
+        const shop = row.info.shops[0];
+        return `<tr data-loadout-cart-row="${esc(row.id)}">
+                    <td><strong>${esc(itemName(row.id, row.item))}</strong><span class="loadout-meta">${esc(`${typeLabel(row.item.type)} · ${itemMeta(row.item)}`)}</span></td>
+                    <td><span class="loadout-qty"><button type="button" data-loadout-cart-dec="${esc(row.id)}" aria-label="${esc(text('qtyLess'))}">−</button><b>${row.qty}</b><button type="button" data-loadout-cart-inc="${esc(row.id)}" aria-label="${esc(text('qtyMore'))}">+</button></span></td>
+                    <td>${shop ? `${esc(shop.shop)}<span class="loadout-meta">${esc([shop.place, shop.system].filter(Boolean).join(', '))} · ${esc(credits(shop.price))}</span>` : drawPrice(row.id, row.item)}</td>
+                    <td>${shop ? esc(credits(shop.price * row.qty)) : '—'}</td>
+                    <td><button type="button" class="loadout-link" data-loadout-cart-remove="${esc(row.id)}">${esc(text('cartRemove'))}</button></td>
+                </tr>`;
+    }).join('')}</tbody>
+                <tfoot><tr><th colspan="3">${esc(text('total'))}</th><th colspan="2">${esc(credits(total))}</th></tr></tfoot>
+            </table></div>
+            ${unknown ? `<p class="loadout-note">${esc(text('lootNote'))}</p>` : ''}
+            ${byShop.size ? `<h4 class="loadout-subhead">${esc(text('cartByShop'))}</h4>
+            <ul class="loadout-shoplist">${[...byShop.values()].sort((a, b) => b.total - a.total).map((group) => `<li>
+                <div><strong>${esc(group.shop.shop)}</strong><span class="loadout-meta">${esc([group.shop.place, group.shop.system].filter(Boolean).join(', '))}</span></div>
+                <span class="loadout-shopitems">${group.rows.map((row) => `${esc(itemName(row.id, row.item))} ×${row.qty}`).join(', ')}</span>
+                <b>${esc(credits(group.total))}</b>
+            </li>`).join('')}</ul>` : ''}
+        </div>`;
+    }
+
+    // 부품 찾기: 함선과 상관없이 전체 부품을 종류·크기로 훑어보고 장바구니에 담는다.
+    const FINDER_TYPES = ['WeaponGun', 'Missile', 'MissileLauncher', 'Turret', 'Shield', 'PowerPlant', 'Cooler', 'QuantumDrive', 'Radar', 'WeaponMining', 'MiningModifier', 'EMP', 'QuantumInterdictionGenerator'];
+    function drawFinder() {
+        const type = state.finderType || FINDER_TYPES[0];
+        const query = state.finderQuery.trim().toLowerCase();
+        // 게임 안 이름이 없는 부품(함선 전용 내장 부품 등)은 찾기 목록에서 뺀다. 장착 화면에서는 그대로 보인다.
+        const ofType = Object.entries(state.items).filter(([, item]) => item.type === type && item.name !== item.cls);
+        const sizes = [...new Set(ofType.map(([, item]) => item.size).filter((size) => size !== undefined))].sort((a, b) => a - b);
+        const list = ofType
+            .filter(([, item]) => !state.finderSize || String(item.size) === String(state.finderSize))
+            .filter(([id, item]) => !query || [item.name, itemName(id, item), item.mfr, mfrName(item)].some((value) => String(value || '').toLowerCase().includes(query)))
+            .filter(([id, item]) => !state.finderBuyable || priceInfo(id, item).min > 0)
+            .sort(([ida, a], [idb, b]) => (SORTS[state.finderSort] || SORTS.best)(a, b, ida, idb) || String(itemName(ida, a)).localeCompare(String(itemName(idb, b))));
+        const shown = list.slice(0, state.finderLimit);
+        const chip = (attr, value, label, active) => `<button type="button" class="loadout-chip${active ? ' is-active' : ''}" ${attr}="${esc(value)}" aria-pressed="${active}">${esc(label)}</button>`;
+        return `<div class="loadout-view">
+            <div class="loadout-filters" role="group" aria-label="${esc(text('finderType'))}">${FINDER_TYPES.map((key) => chip('data-loadout-finder-type', key, typeLabel(key), key === type)).join('')}</div>
+            <div class="loadout-picker-head">
+                <input type="search" id="loadout-finder-search" autocomplete="off" placeholder="${esc(text('pickerSearch'))}" value="${esc(state.finderQuery)}" aria-label="${esc(text('pickerSearch'))}">
+                <label class="loadout-sort"><span>${esc(text('sortLabel'))}</span>
+                    <select id="loadout-finder-sort" aria-label="${esc(text('sortLabel'))}">${['best', 'name', 'price'].map((key) => `<option value="${key}" ${state.finderSort === key ? 'selected' : ''}>${esc(text(`sort_${key}`))}</option>`).join('')}</select>
+                </label>
+            </div>
+            <div class="loadout-filters" role="group" aria-label="${esc(text('filterLabel'))}">
+                ${sizes.map((size) => chip('data-loadout-finder-size', size, `S${size}`, String(state.finderSize) === String(size))).join('')}
+                ${chip('data-loadout-finder-buyable', '1', text('buyableOnly'), Boolean(state.finderBuyable))}
+            </div>
+            <p class="loadout-note" id="loadout-finder-count">${esc(text('finderCount', { count: list.length }))}</p>
+            <ul class="loadout-options loadout-finderlist">${shown.map(([id, item]) => `<li>
+                <div class="loadout-option-main">
+                    <strong>${esc(itemName(id, item))}</strong>${itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}
+                    <span class="loadout-meta">${esc(itemMeta(item))}</span>${drawFacts(item)}${drawPrice(id, item)}
+                </div>
+                <div class="loadout-option-side">
+                    ${state.cart[id] ? `<span class="loadout-delta is-up">${esc(text('inCart', { count: state.cart[id] }))}</span>` : ''}
+                    <button type="button" class="btn btn-secondary" data-loadout-cart-add="${esc(id)}">${esc(text('cartAdd'))}</button>
+                </div>
+            </li>`).join('') || `<li class="loadout-note">${esc(text('pickerEmpty'))}</li>`}</ul>
+            ${list.length > shown.length ? `<button type="button" class="btn btn-secondary loadout-more" data-loadout-finder-more>${esc(text('finderMore', { count: list.length - shown.length }))}</button>` : ''}
+        </div>`;
+    }
+
+    // 무기 상세: 지금 달린 무기를 같은 것끼리 묶어 한 표로 견준다.
+    function drawWeapons(nodes) {
+        const groups = new Map();
+        for (const node of nodes) {
+            if (!node.item?.w) continue;
+            const stats = calc.weaponStats(node.item);
+            if (!stats.dps && !stats.alpha) continue;
+            const key = `${node.itemId}|${node.turret ? 't' : 'p'}`;
+            const group = groups.get(key) || { id: node.itemId, item: node.item, turret: node.turret, count: 0, stats };
+            group.count += 1; groups.set(key, group);
+        }
+        const rows = [...groups.values()].sort((a, b) => Number(a.turret) - Number(b.turret) || b.stats.dps * b.count - a.stats.dps * a.count);
+        if (!rows.length) return `<div class="loadout-view"><p class="loadout-note">${esc(text('weaponsNone'))}</p></div>`;
+        const kind = (item) => Object.keys(item.w.dmg || item.w.beamDps || {}).map((type) => table('damage')[type] || type).join('·');
+        const total = rows.reduce((sum, row) => sum + row.stats.dps * row.count, 0);
+        return `<div class="loadout-view"><div class="loadout-table-wrap"><table class="loadout-table loadout-weapontable">
+            <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('whoFires'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('size'))}</th><th>DPS</th><th>${esc(text('dpsSum'))}</th><th>${esc(text('alphaShort'))}</th><th>${esc(text('rpmShort'))}</th><th>${esc(text('speedShort'))}</th><th>${esc(text('rangeShort'))}</th><th>${esc(text('dmgKind'))}</th><th>${esc(text('ammoShort'))}</th></tr></thead>
+            <tbody>${rows.map((row) => `<tr>
+                <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemName(row.id, row.item) !== row.item.name ? `<span class="loadout-origin">${esc(row.item.name)}</span>` : ''}</td>
+                <td>${esc(row.turret ? text('turret') : text('pilot'))}</td><td>${row.count}</td><td>S${esc(row.item.size ?? '?')}</td>
+                <td>${esc(num(row.stats.dps))}</td><td>${esc(num(row.stats.dps * row.count))}</td><td>${esc(num(row.stats.alpha, 1))}</td>
+                <td>${esc(row.item.w.rpm ? num(row.item.w.rpm) : '—')}</td><td>${esc(row.item.w.speed ? `${num(row.item.w.speed)} m/s` : '—')}</td>
+                <td>${esc(calc.weaponRange(row.item) ? `${num(calc.weaponRange(row.item))} m` : '—')}</td><td>${esc(kind(row.item))}</td>
+                <td>${esc(row.item.w.ammo ? num(row.item.w.ammo) : (row.item.w.regen ? text('ammoRegen') : '—'))}</td>
+            </tr>`).join('')}</tbody>
+            <tfoot><tr><th colspan="5">${esc(text('total'))}</th><th colspan="7">${esc(num(total))}</th></tr></tfoot>
+        </table></div></div>`;
+    }
+
+    // 저장한 로드아웃: 이름을 붙여 여러 구성을 보관하고 다시 불러온다(이 브라우저에만 저장).
+    function readBuilds() { const builds = readStored().builds; return Array.isArray(builds) ? builds : []; }
+    function writeBuilds(builds) {
+        try { const stored = readStored(); stored.builds = builds.slice(0, 40); localStorage.setItem(STORAGE_KEY, JSON.stringify(stored)); } catch (_error) { /* 저장 실패는 조용히 넘긴다 */ }
+    }
+    function drawBuilds() {
+        const builds = readBuilds();
+        const row = (build, index) => {
+            const ship = state.index.find((entry) => entry.cls === build.ship);
+            return `<li><button type="button" class="loadout-buildload" data-loadout-build-load="${index}"><strong>${esc(build.name)}</strong><span class="loadout-meta">${esc(ship ? shipName(ship) : build.ship)} · ${esc(text('changedCount', { count: Object.keys(build.overrides || {}).length }))}</span></button><button type="button" class="loadout-link" data-loadout-build-delete="${index}">${esc(text('buildDelete'))}</button></li>`;
+        };
+        return `<section class="loadout-panel-section loadout-builds"><h4>${esc(text('builds'))}</h4>
+            <div class="loadout-buildsave"><input type="text" id="loadout-build-name" maxlength="40" placeholder="${esc(text('buildName'))}" aria-label="${esc(text('buildName'))}" value="${esc(state.buildName || '')}"><button type="button" class="btn btn-secondary" data-loadout-build-save>${esc(text('buildSave'))}</button></div>
+            ${builds.length ? `<ul class="loadout-buildlist">${builds.map(row).join('')}</ul>` : `<p class="loadout-note">${esc(text('buildsEmpty'))}</p>`}
+        </section>`;
+    }
+
+    function drawTabs() {
+        const tabs = state.ship ? ['slots', 'weapons', 'finder', 'cart'] : ['finder', 'cart'];
+        const count = cartCount();
+        return `<div class="loadout-tabs" role="tablist" aria-label="${esc(text('tabsLabel'))}">${tabs.map((key) => `<button type="button" role="tab" aria-selected="${state.tab === key}" class="loadout-tab${state.tab === key ? ' is-active' : ''}" data-loadout-tab="${key}">${esc(text(`tab_${key}`))}${key === 'cart' && count ? ` <span class="loadout-badge">${count}</span>` : ''}</button>`).join('')}</div>`;
+    }
+
     function drawSources() {
         const meta = state.meta || {};
         return `<p class="loadout-sources" id="loadout-sources">
@@ -567,13 +760,20 @@
                 const cost = costSummary();
                 const nodes = allNodes();
                 const openNode = state.openPath ? nodes.find((node) => node.path === state.openPath) : null;
+                if (!['slots', 'weapons', 'finder', 'cart'].includes(state.tab)) state.tab = 'slots';
+                const main = state.tab === 'weapons' ? drawWeapons(nodes) : state.tab === 'finder' ? drawFinder() : state.tab === 'cart' ? drawCart()
+                    : `${drawSlots(nodes)}<section class="loadout-shopping"><div class="loadout-viewhead"><h3>${esc(text('shopping'))}</h3>${cost.rows.length ? `<button type="button" class="btn btn-secondary" data-loadout-cart-changed>${esc(text('cartAddChanged'))}</button>` : ''}</div>${drawShopping(cost)}</section>`;
                 body += `${drawShipHead(totals)}
+                    ${drawTabs()}
                     <div class="loadout-columns">
-                        <div class="loadout-slots"><h3>${esc(text('slots'))}</h3>${drawSlots(nodes)}</div>
+                        <div class="loadout-slots">${main}</div>
                         ${drawSummary(totals, cost, stock)}
                     </div>
-                    <section class="loadout-shopping"><h3>${esc(text('shopping'))}</h3>${drawShopping(cost)}</section>
                     ${openNode ? drawPicker(openNode, nodes) : ''}`;
+            }
+            if (!state.ship && !state.loading) {
+                if (!['finder', 'cart'].includes(state.tab)) state.tab = '';
+                body += `${drawTabs()}${state.tab === 'finder' ? drawFinder() : state.tab === 'cart' ? drawCart() : ''}`;
             }
             body += drawSources();
         }
@@ -651,6 +851,36 @@
             writeStored(); draw(); return;
         }
         if (target.hasAttribute('data-loadout-reset-all')) { state.overrides = {}; closePicker(); writeStored(); draw(); deps.showToast?.(text('resetOk')); return; }
+        const tab = target.getAttribute('data-loadout-tab');
+        if (tab !== null) { state.tab = tab; closePicker(); if (tab === 'cart') loadPricesForCart(); if (tab === 'finder') loadCategoryPrices(state.finderType || FINDER_TYPES[0]); draw(); return; }
+        const cartAdd = target.getAttribute('data-loadout-cart-add');
+        if (cartAdd !== null) { addToCart(cartAdd); deps.showToast?.(text('cartAdded')); draw(); return; }
+        if (target.hasAttribute('data-loadout-cart-changed')) {
+            for (const row of costSummary().rows) addToCart(row.id, row.qty);
+            deps.showToast?.(text('cartAdded')); draw(); return;
+        }
+        const inc = target.getAttribute('data-loadout-cart-inc');
+        if (inc !== null) { setCartQuantity(inc, (Number(state.cart[inc]) || 0) + 1); draw(); return; }
+        const dec = target.getAttribute('data-loadout-cart-dec');
+        if (dec !== null) { setCartQuantity(dec, (Number(state.cart[dec]) || 0) - 1); draw(); return; }
+        const remove = target.getAttribute('data-loadout-cart-remove');
+        if (remove !== null) { setCartQuantity(remove, 0); draw(); return; }
+        if (target.hasAttribute('data-loadout-cart-clear')) { writeCart({}); draw(); return; }
+        const finderType = target.getAttribute('data-loadout-finder-type');
+        if (finderType !== null) { state.finderType = finderType; state.finderSize = ''; state.finderLimit = 40; loadCategoryPrices(finderType); draw(); return; }
+        const finderSize = target.getAttribute('data-loadout-finder-size');
+        if (finderSize !== null) { state.finderSize = String(state.finderSize) === finderSize ? '' : finderSize; state.finderLimit = 40; draw(); return; }
+        if (target.hasAttribute('data-loadout-finder-buyable')) { state.finderBuyable = !state.finderBuyable; draw(); return; }
+        if (target.hasAttribute('data-loadout-finder-more')) { state.finderLimit += 40; draw(); return; }
+        if (target.hasAttribute('data-loadout-build-save')) {
+            const name = (document.getElementById('loadout-build-name')?.value || '').trim() || `${shipName(state.ship)} ${new Date().toLocaleDateString(lang() === 'en' ? 'en-US' : 'ko-KR')}`;
+            writeBuilds([{ name: name.slice(0, 40), ship: state.shipCls, overrides: state.overrides, at: Date.now() }, ...readBuilds().filter((build) => !(build.name === name && build.ship === state.shipCls))]);
+            state.buildName = ''; deps.showToast?.(text('buildSaved')); draw(); return;
+        }
+        const buildLoad = target.getAttribute('data-loadout-build-load');
+        if (buildLoad !== null) { const build = readBuilds()[Number(buildLoad)]; if (build) { state.tab = 'slots'; closePicker(); selectShip(build.ship, build.overrides || {}); } return; }
+        const buildDelete = target.getAttribute('data-loadout-build-delete');
+        if (buildDelete !== null) { writeBuilds(readBuilds().filter((_, index) => index !== Number(buildDelete))); draw(); return; }
         if (target.hasAttribute('data-loadout-share')) {
             const url = shareUrl();
             (navigator.clipboard?.writeText ? navigator.clipboard.writeText(url) : Promise.reject(new Error('no clipboard')))
@@ -662,9 +892,12 @@
     function handleInput(event) {
         if (event.target.id === 'loadout-ship-search') { state.query = event.target.value; draw(); }
         if (event.target.id === 'loadout-picker-search') { state.pickerQuery = event.target.value; draw(); }
+        if (event.target.id === 'loadout-finder-search') { state.finderQuery = event.target.value; state.finderLimit = 40; draw(); }
+        if (event.target.id === 'loadout-build-name') { state.buildName = event.target.value; }
     }
     function handleChange(event) {
         if (event.target.id === 'loadout-picker-sort') { state.pickerSort = event.target.value; draw(); }
+        if (event.target.id === 'loadout-finder-sort') { state.finderSort = event.target.value; draw(); }
         if (event.target.id === 'loadout-bulk') { state.pickerBulk = event.target.checked; }
     }
     function handleKeydown(event) {

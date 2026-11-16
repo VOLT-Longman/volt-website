@@ -44,6 +44,8 @@ test.describe('화면 평가 보완', () => {
     });
 
     test('모바일 360px: 입력창은 16px 이상(자동 확대 방지), 주요 버튼은 44px 이상, 가로 넘침 없음', async ({ browser }) => {
+        // 화면 5곳을 차례로 여는 검사라, 전체 검사가 동시에 돌 때 기본 제한 시간(30초)을 넘길 수 있다.
+        test.setTimeout(90000);
         const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, hasTouch: true, isMobile: true });
         const page = await ctx.newPage();
         await mockApi(page);
