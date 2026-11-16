@@ -9707,3 +9707,10 @@ body.nav-trade-open::before {
     .loadout-slot-actions .btn { flex: 0 0 auto; width: auto; min-width: 88px; }
     .loadout-slot-main .loadout-origin, .loadout-option-main .loadout-origin { display: block; margin-left: 0; }
 }
+
+/* 글자 대비 보완(검수 2026-11-16): 작은 회색 글자는 배경 대비 4.5:1 이상이 되게 한다. */
+.ledger-total-card span, .ledger-total-card small, .ledger-empty { color: var(--color-text-secondary); }
+.loadout-app { --lo-dim: #a3a3a9; }
+.loadout-origin, .loadout-crumb, .loadout-parent-name, .loadout-fixed, .loadout-price.is-muted, .loadout-slot.is-empty .loadout-item-name { color: var(--lo-dim); }
+/* 흰 글자를 올리는 빨강은 한 단계 어두운 값을 쓴다(작은 글자 대비 5.39:1). */
+.loadout-actions .btn-primary, .loadout-tab .loadout-badge, .loadout-tab.is-active .loadout-badge, .loadout-tab:not(.is-active) .loadout-badge { background: var(--volt-orange-dark); border-color: var(--volt-orange-dark); }

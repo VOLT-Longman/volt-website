@@ -165,6 +165,11 @@
     let liveMemberCount = null;
     let preferencesSaveTimer = null;
     let preferencesSaveAttempt = 0;
+    // 서버 설정을 불러오는 동안 사용자가 고친 항목. 늦게 도착한 서버 값으로 덮어쓰지 않고, 도착 후 저장한다.
+    let preferencesEditedWhileLoading = { hangar: false, planner: false };
+    // 저장 요청은 한 번에 하나만 보낸다(먼저 보낸 요청이 늦게 도착해 최신 값을 되돌리는 일을 막는다).
+    let preferencesSaveInFlight = false;
+    let preferencesSaveQueued = false;
 
     const RECOMMENDED_TRADE_GROUPS = [
         { titleKey: 'planner.tradeShip.starter', fallback: '입문/소규모 운송 추천', shipIds: ['hull-a', 'cutlass-black', 'zeus-mk2-cl'] },
@@ -254,7 +259,7 @@
 
     function setHangar(hangar, options = {}) {
         localStorage.setItem(preferenceKey(HANGAR_KEY), JSON.stringify([...new Set(hangar)]));
-        if (options.sync !== false) schedulePreferenceSave();
+        if (options.sync !== false) { markPreferenceEdited('hangar'); schedulePreferenceSave(); }
         renderMyPage();
     }
 
@@ -278,6 +283,7 @@
             cargo: document.getElementById('logistics-cargo')?.value || ''
         };
         localStorage.setItem(preferenceKey(PLANNER_STORAGE_KEY), JSON.stringify(state));
+        markPreferenceEdited('planner');
         schedulePreferenceSave();
         renderMyPage();
     }
@@ -1479,6 +1485,7 @@
                     window.VOLT_SCHEDULE?.clearRsvpCache?.();
                     authState = normalizeAuthState(payload.user);
                     userPreferencesLoaded = false;
+                    preferencesEditedWhileLoading = { hangar: false, planner: false };
                     restorePlannerState();
                     renderMyPage();
                     window.VOLT_SCHEDULE?.loadScheduleRsvps?.();
@@ -1579,6 +1586,10 @@
         return roles.some((role) => authState.roles.includes(role));
     }
 
+    function markPreferenceEdited(kind) {
+        if (authState.loggedIn && !userPreferencesLoaded) preferencesEditedWhileLoading[kind] = true;
+    }
+
     async function loadUserPreferences() {
         const account = authState.user?.sub;
         if (!authState.loggedIn || !account) return;
@@ -1590,11 +1601,17 @@
         if (!payload.preferences || typeof payload.preferences !== 'object') throw new Error('Invalid preferences');
         // The account's server state is authoritative; never upload another account/guest's local data.
         const preferences = payload.preferences;
-        setHangar(Array.isArray(preferences.favorites) ? preferences.favorites.map(String) : [], { sync: false });
-        const planner = preferences.planner && typeof preferences.planner === 'object' ? preferences.planner : {};
-        localStorage.setItem(preferenceKey(PLANNER_STORAGE_KEY), JSON.stringify(planner));
-        restorePlannerState();
+        // 불러오는 사이 사용자가 직접 고친 항목은 그대로 두고, 손대지 않은 항목만 서버 값으로 맞춘다.
+        const edited = preferencesEditedWhileLoading;
+        preferencesEditedWhileLoading = { hangar: false, planner: false };
+        if (!edited.hangar) setHangar(Array.isArray(preferences.favorites) ? preferences.favorites.map(String) : [], { sync: false });
+        if (!edited.planner) {
+            const planner = preferences.planner && typeof preferences.planner === 'object' ? preferences.planner : {};
+            localStorage.setItem(preferenceKey(PLANNER_STORAGE_KEY), JSON.stringify(planner));
+            restorePlannerState();
+        }
         userPreferencesLoaded = true;
+        if (edited.hangar || edited.planner) schedulePreferenceSave();
         renderMyPage();
         if (renderedLazySections.has('ships')) renderShips();
     }
@@ -1626,7 +1643,13 @@
     const PREFERENCE_RETRY_DELAYS_MS = [4000, 12000, 30000];
     function runPreferenceSave(account) {
         if (authState.user?.sub !== account) return;
-        saveUserPreferences().then(() => {
+        // 앞선 저장이 끝나지 않았으면 겹쳐 보내지 않고, 끝난 뒤 최신 값으로 한 번 더 저장한다.
+        if (preferencesSaveInFlight) { preferencesSaveQueued = true; return; }
+        preferencesSaveInFlight = true;
+        saveUserPreferences().finally(() => {
+            preferencesSaveInFlight = false;
+        }).then(() => {
+            if (preferencesSaveQueued) { preferencesSaveQueued = false; schedulePreferenceSave(); }
             if (preferencesSaveAttempt > 0) showToast(i18nT('mypage.preferencesSaved', '설정을 저장했습니다.'));
             preferencesSaveAttempt = 0;
         }).catch((error) => {

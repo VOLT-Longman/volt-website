@@ -26,7 +26,9 @@ async function listRsvps(request, env, eventId) {
   const result = await db.prepare('SELECT * FROM event_rsvps WHERE event_id = ? ORDER BY updated_at DESC').bind(eventId).all();
   const items = result.results || [];
   const counts = countRsvps(items);
-  return json({ items: items.map(mapRsvp), counts });
+  // mine: 요청한 본인의 선택(없으면 null). 화면을 다시 열어도 눌렀던 버튼을 표시하기 위해 내려준다.
+  const mine = items.find((item) => item.user_sub === session.sub)?.status || null;
+  return json({ items: items.map(mapRsvp), counts, mine: VALID_STATUSES.includes(mine) ? mine : null });
 }
 
 function countRsvps(items) {

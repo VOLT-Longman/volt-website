@@ -24,7 +24,7 @@ async function assertNoNewViolations(page, allowlist) {
 }
 
 test.describe('접근성(axe) 래칫', () => {
-    for (const section of ['about', 'join', 'schedule', 'gallery', 'leadership', 'hub', 'guide']) {
+    for (const section of ['about', 'join', 'schedule', 'gallery', 'leadership', 'hub', 'guide', 'trade-planner', 'loadout']) {
         test(`${section}: 콘텐츠 화면의 글자 대비와 접근성`, async ({ page }) => {
             await mockApi(page);
             if (section === 'gallery') {
@@ -35,6 +35,25 @@ test.describe('접근성(axe) 래칫', () => {
             await assertNoNewViolations(page, []);
         });
     }
+
+    test('로드아웃 편집 화면과 부품 선택 창: 글자 대비와 접근성', async ({ page }) => {
+        await mockApi(page);
+        await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
+        await gotoSection(page, '#loadout');
+        await page.locator('#loadout-ship-search').fill('asgard');
+        await page.locator('[data-loadout-ship="anvl_asgard"]').click();
+        await expect(page.locator('.loadout-panel')).toBeVisible();
+        await page.addStyleTag({ content: '* { animation: none !important; transition: none !important; } .reveal { opacity: 1 !important; transform: none !important; }' });
+        await assertNoNewViolations(page, []);
+        for (const tab of ['weapons', 'finder', 'cart']) {
+            await page.locator(`[data-loadout-tab="${tab}"]`).click();
+            await assertNoNewViolations(page, []);
+        }
+        await page.locator('[data-loadout-tab="slots"]').click();
+        await page.locator('.loadout-slot [data-loadout-open]').first().click();
+        await expect(page.locator('.loadout-picker')).toBeVisible();
+        await assertNoNewViolations(page, []);
+    });
 
     test('홈: 새 critical/serious 위반 없음', async ({ page }) => {
         await mockApi(page);

@@ -39,6 +39,8 @@
             powerOff: '전원 끄기', powerOn: '전원 켜기', poweredOff: '전원 꺼짐', powerSpare: '남는 출력', powerShort2: '출력 부족', offCount: '부품 {count}개의 전원을 꺼 둔 상태입니다. 꺼진 부품은 화력·실드·소비 전력·시그니쳐 계산에서 빠집니다.', capacitor: '축전 {load}발 · 초당 {rate}발 재생',
             allMakers: '제조사 전체', makerFilter: '제조사', kindAll: '전체', kindShip: '우주선', kindGround: '지상 차량', kindFilter: '종류',
             kpiLabel: '핵심 수치', kpiShield: '실드', kpiHull: '선체', kpiRange: '항속', kpiAlpha: '알파', superArms: '무장', superDefense: '방어·동력', superTravel: '이동·기타', slotCount: '{count}곳',
+            buildSaveFail: '저장하지 못했습니다. 브라우저 저장 공간을 확인한 뒤 다시 시도해 주세요.', priceRetry: '다시 시도',
+            tableRegion: '표 (좌우로 넘겨 볼 수 있음)',
             tabsLabel: '로드아웃 화면', tab_slots: '장착', tab_weapons: '무기 상세', tab_finder: '부품 찾기', tab_cart: '장바구니',
             cartEmpty: '장바구니가 비어 있습니다. 부품 찾기나 부품 선택 창에서 「담기」를 눌러 보세요.', cartSummary: '부품 {kinds}종 · {count}개', cartClear: '장바구니 비우기', cartRemove: '빼기',
             cartAdd: '담기', cartAdded: '장바구니에 담았습니다.', inCart: '담음 {count}', cartAddChanged: '바꾼 부품 장바구니에 담기', cartByShop: '상점별로 살 것', qtyLess: '수량 줄이기', qtyMore: '수량 늘리기',
@@ -86,6 +88,8 @@
             powerOff: 'Power off', powerOn: 'Power on', poweredOff: 'Powered off', powerSpare: 'Spare output', powerShort2: 'Output shortfall', offCount: '{count} parts are powered off. They are left out of firepower, shields, power draw and signatures.', capacitor: 'Capacitor {load} · {rate}/s regen',
             allMakers: 'All manufacturers', makerFilter: 'Manufacturer', kindAll: 'All', kindShip: 'Ships', kindGround: 'Ground vehicles', kindFilter: 'Type',
             kpiLabel: 'Key figures', kpiShield: 'Shields', kpiHull: 'Hull', kpiRange: 'Range', kpiAlpha: 'Alpha', superArms: 'Weapons', superDefense: 'Defense & power', superTravel: 'Travel & other', slotCount: '{count} slots',
+            buildSaveFail: 'Couldn\'t save. Check your browser storage and try again.', priceRetry: 'Retry',
+            tableRegion: 'Table (scrolls sideways)',
             tabsLabel: 'Loadout views', tab_slots: 'Hardpoints', tab_weapons: 'Weapons', tab_finder: 'Part finder', tab_cart: 'Cart',
             cartEmpty: 'Your cart is empty. Use Add in the part finder or the part picker.', cartSummary: '{kinds} parts · {count} items', cartClear: 'Empty cart', cartRemove: 'Remove',
             cartAdd: 'Add', cartAdded: 'Added to cart.', inCart: 'In cart {count}', cartAddChanged: 'Add changed parts to cart', cartByShop: 'What to buy at each shop', qtyLess: 'Decrease quantity', qtyMore: 'Increase quantity',
@@ -235,7 +239,9 @@
     // ---- 가격 (UEX) -------------------------------------------------------
     function loadCategoryPrices(type) {
         const category = UEX_CATEGORY[type];
-        if (!category || state.priceState.has(category)) return;
+        // 불러오는 중이거나 이미 받은 분류만 건너뛴다. 실패한 분류는 다시 요청한다.
+        const known = state.priceState.get(category);
+        if (!category || known === 'loading' || known === 'ready') return;
         state.priceState.set(category, 'loading');
         fetchJson(`/api/uex/loadout-prices?category=${category}`).then((payload) => {
             for (const [uuid, shops] of Object.entries(payload?.data || {})) state.prices.set(uuid.toLowerCase(), shops);
@@ -504,7 +510,7 @@
         const info = priceInfo(id, item);
         if (info.min) return `<span class="loadout-price">${esc(text('priceFrom', { price: credits(info.min) }))} · ${esc(text('priceShops', { count: info.shops.length }))}</span>`;
         if (info.status === 'loading') return `<span class="loadout-price is-muted">${esc(text('priceLoading'))}</span>`;
-        if (info.status === 'error') return `<span class="loadout-price is-muted">${esc(text('priceFail'))}</span>`;
+        if (info.status === 'error') return `<span class="loadout-price is-muted">${esc(text('priceFail'))} <button type="button" class="loadout-link" data-loadout-price-retry="${esc(item.type)}">${esc(text('priceRetry'))}</button></span>`;
         return `<span class="loadout-price is-loot">${esc(text('priceNone'))}</span>`;
     }
 
@@ -669,7 +675,7 @@
 
     function drawShopping(cost) {
         if (!cost.rows.length) return `<p class="loadout-note">${esc(text('shoppingEmpty'))}</p>`;
-        return `<div class="loadout-table-wrap"><table class="loadout-table">
+        return `<div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table">
             <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('cheapest'))}</th><th>${esc(text('subtotal'))}</th></tr></thead>
             <tbody>${cost.rows.map((row) => {
         const shop = row.info.shops[0];
@@ -730,7 +736,7 @@
                 <p class="loadout-note">${esc(text('cartSummary', { kinds: rows.length, count: cartCount() }))}</p>
                 <button type="button" class="loadout-link" data-loadout-cart-clear>${esc(text('cartClear'))}</button>
             </div>
-            <div class="loadout-table-wrap"><table class="loadout-table loadout-carttable">
+            <div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-carttable">
                 <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('cheapest'))}</th><th>${esc(text('subtotal'))}</th><th><span class="visually-hidden">${esc(text('cartRemove'))}</span></th></tr></thead>
                 <tbody>${rows.map((row) => {
         const shop = row.info.shops[0];
@@ -812,7 +818,7 @@
         if (!rows.length) return `<div class="loadout-view"><p class="loadout-note">${esc(text('weaponsNone'))}</p></div>`;
         const kind = (item) => Object.keys(item.w.dmg || item.w.beamDps || {}).map((type) => table('damage')[type] || type).join('·');
         const total = rows.reduce((sum, row) => sum + row.stats.dps * row.count, 0);
-        return `<div class="loadout-view"><div class="loadout-table-wrap"><table class="loadout-table loadout-weapontable">
+        return `<div class="loadout-view"><div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-weapontable">
             <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('whoFires'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('size'))}</th><th>DPS</th><th>${esc(text('dpsSum'))}</th><th>${esc(text('alphaShort'))}</th><th>${esc(text('rpmShort'))}</th><th>${esc(text('speedShort'))}</th><th>${esc(text('rangeShort'))}</th><th>${esc(text('dmgKind'))}</th><th>${esc(text('ammoShort'))}</th></tr></thead>
             <tbody>${rows.map((row) => `<tr>
                 <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemName(row.id, row.item) !== row.item.name ? `<span class="loadout-origin">${esc(row.item.name)}</span>` : ''}</td>
@@ -836,7 +842,7 @@
         const rows = [...groups.values()].sort((a, b) => (b.item.size || 0) - (a.item.size || 0));
         if (!rows.length) return '';
         const damage = (item) => calc.sumDamage(item.ms.dmg);
-        return `<h3 class="loadout-subhead">${esc(text('missileTable'))}</h3><div class="loadout-table-wrap"><table class="loadout-table loadout-missiletable">
+        return `<h3 class="loadout-subhead">${esc(text('missileTable'))}</h3><div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-missiletable">
             <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('size'))}</th><th>${esc(text('dmgShort'))}</th><th>${esc(text('speedShort'))}</th><th>${esc(text('lockShort'))}</th><th>${esc(text('rangeShort'))}</th><th>${esc(text('trackShort'))}</th></tr></thead>
             <tbody>${rows.map((row) => `<tr>
                 <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemName(row.id, row.item) !== row.item.name ? `<span class="loadout-origin">${esc(row.item.name)}</span>` : ''}</td>
@@ -882,7 +888,7 @@
         const mine = compareMetrics(state.ship, totals);
         const theirs = compareMetrics(other.ship, calc.summarize(other.ship, state.items, other.overrides, { off: other.off }));
         return `<div class="loadout-view"><div class="loadout-viewhead"><h3>${esc(text('tab_compare'))}</h3><button type="button" class="btn btn-secondary" data-loadout-compare-clear>${esc(text('compareClear'))}</button></div>
-            <div class="loadout-table-wrap"><table class="loadout-table loadout-comparetable">
+            <div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-comparetable">
             <thead><tr><th>${esc(text('compareItem'))}</th><th>${esc(text('compareNow'))}<span class="loadout-origin">${esc(shipName(state.ship))}</span></th><th>${esc(other.name)}<span class="loadout-origin">${esc(shipName(other.ship))}</span></th><th>${esc(text('compareDiff'))}</th></tr></thead>
             <tbody>${mine.map(([key, value, digits = 0], index) => `<tr><th scope="row">${esc(text(key))}</th><td>${esc(num(value, digits))}</td><td>${esc(num(theirs[index][1], digits))}</td><td>${drawChange(value, theirs[index][1], digits) || `<span class="loadout-meta">${esc(text('same'))}</span>`}</td></tr>`).join('')}</tbody>
         </table></div></div>`;
@@ -891,7 +897,8 @@
     // 저장한 로드아웃: 이름을 붙여 여러 구성을 보관하고 다시 불러온다(이 브라우저에만 저장).
     function readBuilds() { const builds = readStored().builds; return Array.isArray(builds) ? builds : []; }
     function writeBuilds(builds) {
-        try { const stored = readStored(); stored.builds = builds.slice(0, 40); localStorage.setItem(STORAGE_KEY, JSON.stringify(stored)); } catch (_error) { /* 저장 실패는 조용히 넘긴다 */ }
+        // 성공 여부를 돌려준다 — 저장되지 않았는데 저장됐다고 안내하지 않기 위해서다.
+        try { const stored = readStored(); stored.builds = builds.slice(0, 40); localStorage.setItem(STORAGE_KEY, JSON.stringify(stored)); return true; } catch (error) { console.warn('Loadout build save failed', error); return false; }
     }
     function drawBuilds() {
         const builds = readBuilds();
@@ -975,6 +982,13 @@
         state.openPath = ''; state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerBuyable = false; state.pickerBulk = false;
     }
 
+    // 부품 선택 창을 닫고, 창을 열었던 "변경" 버튼으로 초점을 돌려보낸다.
+    function dismissPicker() {
+        const path = state.openPath;
+        closePicker(); draw();
+        if (path) root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
+    }
+
     function setOverride(path, id) {
         const nodes = allNodes();
         const node = nodes.find((entry) => entry.path === path);
@@ -990,6 +1004,7 @@
         state.off = cleanOff(Object.fromEntries(Object.keys(state.off).filter((key) => !targets.some((entry) => key === entry.path || key.startsWith(`${entry.path}/`))).map((key) => [key, true])));
         closePicker();
         writeStored(); draw(); loadPricesForChanged();
+        root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
     }
 
     function shareUrl() {
@@ -1004,7 +1019,7 @@
 
     function handleClick(event) {
         if (!root()?.contains(event.target)) return;
-        if (event.target.closest('[data-loadout-close]')) { closePicker(); draw(); return; }
+        if (event.target.closest('[data-loadout-close]')) { dismissPicker(); return; }
         const target = event.target.closest('button');
         if (!target) return;
         if (target.hasAttribute('data-loadout-retry')) { state.error = ''; render(); return; }
@@ -1038,6 +1053,8 @@
             if (next[powerPath]) delete next[powerPath]; else next[powerPath] = true;
             state.off = next; writeStored(); draw(); return;
         }
+        const retryType = target.getAttribute('data-loadout-price-retry');
+        if (retryType !== null) { loadCategoryPrices(retryType); draw(); return; }
         const resetPath = target.getAttribute('data-loadout-reset');
         if (resetPath !== null) {
             state.overrides = Object.fromEntries(Object.entries(state.overrides).filter(([key]) => key !== resetPath && !key.startsWith(`${resetPath}/`)));
@@ -1068,7 +1085,9 @@
         if (target.hasAttribute('data-loadout-finder-more')) { state.finderLimit += 40; draw(); return; }
         if (target.hasAttribute('data-loadout-build-save')) {
             const name = (document.getElementById('loadout-build-name')?.value || '').trim() || `${shipName(state.ship)} ${new Date().toLocaleDateString(lang() === 'en' ? 'en-US' : 'ko-KR')}`;
-            writeBuilds([{ name: name.slice(0, 40), ship: state.shipCls, overrides: state.overrides, off: state.off, at: Date.now() }, ...readBuilds().filter((build) => !(build.name === name && build.ship === state.shipCls))]);
+            const saved = writeBuilds([{ name: name.slice(0, 40), ship: state.shipCls, overrides: state.overrides, off: state.off, at: Date.now() }, ...readBuilds().filter((build) => !(build.name === name && build.ship === state.shipCls))]);
+            // 실패하면 입력한 이름과 편집 내용을 그대로 두고 알린다.
+            if (!saved) { deps.showToast?.(text('buildSaveFail')); return; }
             state.buildName = ''; deps.showToast?.(text('buildSaved')); draw(); return;
         }
         const buildLoad = target.getAttribute('data-loadout-build-load');
@@ -1077,7 +1096,7 @@
         if (buildCompare !== null) { closePicker(); startCompare(Number(buildCompare)); return; }
         if (target.hasAttribute('data-loadout-compare-clear')) { state.compare = null; state.tab = 'slots'; draw(); return; }
         const buildDelete = target.getAttribute('data-loadout-build-delete');
-        if (buildDelete !== null) { writeBuilds(readBuilds().filter((_, index) => index !== Number(buildDelete))); draw(); return; }
+        if (buildDelete !== null) { if (!writeBuilds(readBuilds().filter((_, index) => index !== Number(buildDelete)))) deps.showToast?.(text('buildSaveFail')); draw(); return; }
         if (target.hasAttribute('data-loadout-share')) {
             const url = shareUrl();
             (navigator.clipboard?.writeText ? navigator.clipboard.writeText(url) : Promise.reject(new Error('no clipboard')))
@@ -1106,7 +1125,16 @@
         if (event.target.id === 'loadout-bulk') { state.pickerBulk = event.target.checked; }
     }
     function handleKeydown(event) {
-        if (event.key === 'Escape' && state.openPath && root()) { closePicker(); draw(); }
+        if (!state.openPath || !root()) return;
+        if (event.key === 'Escape') { dismissPicker(); return; }
+        if (event.key !== 'Tab') return;
+        // 열려 있는 창 안에서만 Tab이 돌게 한다.
+        const picker = root().querySelector('.loadout-picker');
+        const focusable = picker ? [...picker.querySelectorAll('button:not([disabled]), input, select, a[href]')].filter((el) => el.offsetParent !== null) : [];
+        if (!focusable.length) return;
+        const first = focusable[0]; const last = focusable[focusable.length - 1];
+        if (!picker.contains(document.activeElement)) { event.preventDefault(); first.focus(); return; }
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     }
 
     document.addEventListener('click', handleClick);

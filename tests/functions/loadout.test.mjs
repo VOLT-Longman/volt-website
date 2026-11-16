@@ -211,3 +211,11 @@ test('전원 끄기: 꺼 둔 부품과 그 아래 부품은 화력·실드·소�
     // false 값과 빈 옵션은 영향을 주지 않는다.
     assert.deepEqual(calc.summarize(asgard, items, {}, { off: { [shields[0]]: false } }), stock);
 });
+
+test('서비스 워커: 로드아웃 버전 확인 파일은 캐시 우선 처리에서 빠진다', () => {
+    const source = readFileSync(new URL('../../sw.js', import.meta.url), 'utf8');
+    const bypass = source.indexOf("url.pathname === '/data/loadout/meta.json'");
+    const cacheFirst = source.indexOf('cache.match(request)');
+    assert.ok(bypass > 0, '버전 확인 파일 예외가 있어야 함');
+    assert.ok(bypass < cacheFirst, '예외는 캐시 조회보다 먼저 판단해야 함');
+});

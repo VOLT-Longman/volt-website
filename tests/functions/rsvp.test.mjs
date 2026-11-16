@@ -84,3 +84,19 @@ test('RSVP: 허용되지 않은 메서드 → 405', async () => {
     const response = await onRequest({ request: rsvpRequest({ method: 'DELETE' }), env, params: { id: 'evt-1' } });
     assert.equal(response.status, 405);
 });
+
+test('RSVP: 조회 응답에 본인의 선택(mine)이 들어가고, 남의 선택은 내 것으로 나오지 않는다', async () => {
+    const rows = [
+        { id: 'rsvp-1', event_id: 'evt-1', user_sub: 'someone-else', display_name: '다른 사람', status: '참가', updated_at: '2026-06-10T00:00:00Z' },
+        { id: 'rsvp-2', event_id: 'evt-1', user_sub: MEMBER.sub, display_name: '테스터', status: '대기', updated_at: '2026-06-09T00:00:00Z' },
+    ];
+    const env = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV(), DB: createMockDb(eventDbHandler({ rsvps: rows })) };
+    const cookie = await memberCookie(MEMBER, env);
+    const mine = await (await onRequest({ request: jsonRequest('https://volt.ceo/api/events/evt-1/rsvp', { method: 'GET', cookie }), env, params: { id: 'evt-1' } })).json();
+    assert.equal(mine.mine, '대기');
+    assert.deepEqual(mine.counts, { 참가: 1, 대기: 1, 불참: 0 });
+
+    const other = { ...TEST_ENV, RATE_LIMIT_KV: createMockKV(), DB: createMockDb(eventDbHandler({ rsvps: [rows[0]] })) };
+    const none = await (await onRequest({ request: jsonRequest('https://volt.ceo/api/events/evt-1/rsvp', { method: 'GET', cookie: await memberCookie(MEMBER, other) }), env: other, params: { id: 'evt-1' } })).json();
+    assert.equal(none.mine, null);
+});

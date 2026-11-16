@@ -140,6 +140,16 @@
             .replace('{status}', rsvpStatusLabel(status))
             .replace('{count}', String(Number(counts[status] || 0))));
         if (summary) summary.textContent = parts.join(' · ');
+        // 내 선택(서버가 알려준 값)을 버튼에 표시한다. 처음 불러올 때와 다시 그릴 때 모두 적용된다.
+        if (payload && 'mine' in payload) markOwnRsvp(control, payload.mine);
+    }
+
+    function markOwnRsvp(control, status) {
+        control.querySelectorAll('[data-rsvp-status]').forEach((button) => {
+            const selected = button.getAttribute('data-rsvp-status') === status;
+            button.classList.toggle('is-selected', selected);
+            button.setAttribute('aria-pressed', String(selected));
+        });
     }
 
     async function saveEventRsvp(eventId, status) {
@@ -160,9 +170,7 @@
         const control = document.querySelector(`[data-rsvp-event-id="${CSS.escape(eventId)}"]`);
         if (control) {
             renderRsvpSummary(control, payload);
-            control.querySelectorAll('[data-rsvp-status]').forEach((button) => {
-                button.classList.toggle('is-selected', button.getAttribute('data-rsvp-status') === status);
-            });
+            markOwnRsvp(control, payload?.mine ?? status);
         }
         renderMyPage();
     }
