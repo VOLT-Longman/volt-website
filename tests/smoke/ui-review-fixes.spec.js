@@ -43,6 +43,32 @@ test.describe('화면 평가 보완', () => {
         await ctx.close();
     });
 
+    test('모바일 360px: 입력창은 16px 이상(자동 확대 방지), 주요 버튼은 44px 이상, 가로 넘침 없음', async ({ browser }) => {
+        const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, hasTouch: true, isMobile: true });
+        const page = await ctx.newPage();
+        await mockApi(page);
+        for (const [hash, inputs, targets] of [
+            ['#notices', ['#notice-search'], ['#hamburger']],
+            ['#ships', ['#ship-search'], ['.ship-filter-btn']],
+            ['#trade-planner', ['#uex-commodity-search', '#ledger-qty'], ['#planner-reset']],
+            ['#schedule', [], ['.schedule-rsvp-btn']],
+            ['#policy', [], ['.policy-anchor-copy']],
+        ]) {
+            await gotoSection(page, hash);
+            for (const selector of inputs) {
+                const size = await page.locator(selector).first().evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+                expect(size, `${hash} ${selector} 글자 크기`).toBeGreaterThanOrEqual(16);
+            }
+            for (const selector of targets) {
+                const box = await page.locator(selector).first().boundingBox();
+                expect(box.height, `${hash} ${selector} 높이`).toBeGreaterThanOrEqual(44);
+            }
+            const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+            expect(overflow, `${hash} 가로 넘침`).toBeLessThanOrEqual(1);
+        }
+        await ctx.close();
+    });
+
     test('가입: 제목 바로 아래에서 지원서·Discord 버튼을 바로 누를 수 있다', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#join');

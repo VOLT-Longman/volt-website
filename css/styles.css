@@ -9302,3 +9302,31 @@ body.nav-trade-open::before {
     .ship-photo-card { margin-bottom: 20px; }
     .ship-photo-detail figcaption { font-size: 10px; }
 }
+
+/* ==========================================================================
+   모바일 사용성 보완 (2026-11-16)
+   휴대폰 크기(360/390px) 전 화면 점검 결과. 가로 넘침은 없었고 아래 세 가지를 고친다.
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 1) iOS는 글자 16px 미만 입력창을 누르면 화면을 자동 확대한다. 16px로 맞춘다. */
+    input[type="text"], input[type="search"], input[type="number"], input[type="email"], input[type="url"], input:not([type]),
+    select, textarea,
+    #notice-search, #ship-search, #uex-commodity-search, #ledger-qty, #volt-ai-input, .global-search-input { font-size: 16px; }
+
+    /* 2) 손가락으로 누르기에 작던 버튼·링크의 터치 영역을 44px 안팎으로 넓힌다. */
+    .hamburger { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .lang-btn { min-height: 44px; }
+    .ship-filter-btn, .schedule-rsvp-btn, #planner-reset, #ledger-qty { min-height: 44px; }
+    .policy-anchor-copy { min-width: 44px; min-height: 44px; }
+    .landing-notices-more, #home a[href="#notices"] { display: inline-flex; align-items: center; min-height: 44px; }
+    .footer-section a { display: inline-flex; align-items: center; min-height: 40px; }
+    .trade-secondary-block summary, #guide summary { min-height: 44px; display: flex; align-items: center; }
+    /* 함선 카드 머리글(이름·배지·즐겨찾기)은 간격 계약 테스트가 있어 여기서 건드리지 않는다. */
+    .ship-stats .ship-stat .ship-stat-label { font-size: 12px; }
+
+    /* 3) 9~11px 보조 글씨는 휴대폰에서 읽기 어렵다. 최소 12px로 올린다. */
+    .nav-soon-tag, .info-label, .leader-role, #leadership .leader-role, .streamer-platform,
+    .ship-stat-label, .ship-tag-size, .ship-tag-role, .ship-rsi-status, .ship-name-en,
+    .notice-filter-count, .notice-pin, .landing-notice-tag, .hub-notice-label,
+    .volt-ai-side-title, .volt-ai-chat-badge, .volt-ai-message-meta { font-size: 12px; }
+}
