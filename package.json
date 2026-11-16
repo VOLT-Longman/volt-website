@@ -24,7 +24,8 @@
     "shipdb:erkul:post-apply": "npm run shipdb:erkul:translate-descriptions && npm run shipdb:canonical:build && npm run check",
     "shipdb:erkul:classify-candidates": "node scripts/erkul/classify-new-ship-candidates.mjs",
     "shipdb:imagery:build": "node scripts/build-ship-imagery.mjs",
-    "loadout:build": "node scripts/loadout/build-loadout-data.mjs"
+    "loadout:build": "node scripts/loadout/build-loadout-data.mjs",
+    "loadout:ko": "node scripts/loadout/build-loadout-ko.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",

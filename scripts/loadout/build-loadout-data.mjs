@@ -122,6 +122,7 @@ function compactItem(item, manufacturers) {
         name: item.i18n?.name || item.i18n?.shortName || item.className, short: item.i18n?.shortName,
         desc: item.i18n?.description,
         mfr: manufacturers.get(String(item.manufacturer?.className || '').toLowerCase()),
+        mfrCode: String(item.manufacturer?.className || '').toUpperCase() || undefined,
         hp: item.health?.hp, mass: item.mass, tags: item.tags, req: item.requiredTags,
         power: flows.power, cool: flows.cool, em: round(flows.em, 0), ir: round(flows.ir, 0),
         wclass: item.weaponType ? `${item.weaponType.class || ''} ${item.weaponType.form || ''}`.trim() : undefined,

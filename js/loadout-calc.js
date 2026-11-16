@@ -122,7 +122,7 @@
     // 로드아웃 전체 요약: 화력·미사일·실드·동력·냉각·양자 항행·신호.
     function summarize(ship, items, overrides) {
         const totals = emptyTotals();
-        walkLoadout(ship, items, overrides, ({ item, changed, turret }) => {
+        walkLoadout(ship, items, overrides, ({ item, itemId, changed, turret }) => {
             if (changed) totals.changed += 1;
             if (!item) return;
             totals.mass += Number(item.mass) || 0;
@@ -154,7 +154,7 @@
             }
             if (item.qd && !totals.quantum) {
                 totals.quantum = {
-                    name: item.name,
+                    id: itemId, name: item.name,
                     speed: Number(item.qd.speed) || 0,
                     spool: Number(item.qd.spool) || 0,
                     cooldown: Number(item.qd.cool) || 0,

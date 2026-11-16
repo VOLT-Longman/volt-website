@@ -9,6 +9,7 @@
 | --- | --- | --- |
 | 함선 장착 자리, 부품 수치(피해·연사·실드·동력·냉각·양자) | [Erkul Games](https://www.erkul.games/) LIVE 카탈로그 | `npm run loadout:build`가 내려받아 `data/loadout/`에 저장 |
 | 부품 구매처·가격 | [UEX](https://uexcorp.space/) API 2.0 | 화면이 `/api/uex/loadout-prices?category=<번호>`로 그때그때 조회(1시간 캐시) |
+| 한국어 용어·부품 이름 | 스타 시티즌 한국어 패치 `global.ini` | `npm run loadout:ko -- --ini <경로>`가 `data/loadout/ko.json`으로 추출 |
 
 화면 하단(`#loadout-sources`)에 두 출처의 이름·링크와 게임 자료 버전을 항상 표시한다. 이 표기는 `tests/smoke/loadout.spec.js`가 지킨다.
 Erkul 쪽 허락 기록은 저장소에 없다. 함선DB는 같은 카탈로그를 이미 쓰고 있지만, 편집기는 사용 범위가 더 넓으므로 운영자에게 알리고 양해를 구하는 것을 권장한다.
@@ -26,6 +27,8 @@ Erkul 쪽 허락 기록은 저장소에 없다. 함선DB는 같은 카탈로그�
 
 ```bash
 npm run loadout:build      # Erkul 최신 카탈로그로 data/loadout 재생성
+# 한국어 표기 갱신(게임이 설치된 PC에서): 한국어 패치의 global.ini 경로를 넘긴다
+npm run loadout:ko -- --ini "C:/Program Files/Roberts Space Industries/StarCitizen/LIVE/data/Localization/korean_(south_korea)/global.ini"
 npm run test:functions     # 자료 정합성·계산식 검증 포함
 ```
 
@@ -44,6 +47,7 @@ npm run test:functions     # 자료 정합성·계산식 검증 포함
 - 기본 장착 화력이 원본 값과 ±1% 이내로 일치하는 함선은 225척 중 209척이다. 나머지 16척은 전용 고정 무장·일부 충전식 무기 처리 차이다(`meta.json`에 목록).
 - 양자 항속 거리는 표시하지 않는다. 연료량÷요구량 계산이 원본 값과 맞지 않아(179척 중 11척) 검증 전까지 숨겼다.
 - 동력은 발전량과 "모든 장비 최대 가동 시 필요량"만 보여준다. 게임의 동력 배분(핍)은 구현하지 않았다.
-- 부품 이름은 게임 원문(영문)이다. 종류·등급·수치 이름은 한국어이며, 부품 설명문 번역은 아직 없다.
+- 한국어 표기는 임의로 번역하지 않고 게임 한국어 패치를 따른다(퀀텀 드라이브, 파워 플랜트, 쿨러, 실드 제너레이터, 기총 …). 부품 이름은 1,318종 중 562종이 패치 표기로 나오고, 패치에 없는 것은 게임 원문(영문)으로 표시한다. 한국어 이름 아래에 원문 이름을 함께 보여준다. 부품 설명문은 싣지 않는다.
+- 상점에서 팔지 않는 부품(군용 등 파밍 전용)도 장착 후보에서 빼지 않는다. "상점 판매 없음 · 파밍 획득"으로 표시하고 구매 합계에서만 제외한다.
 - 구매 목록은 바꾼 부품만 최저가 1곳 기준으로 합산한다. UEX에 판매처가 없는 부품은 "판매처 정보 없음"으로 표시한다.
 - 로그인 계정에 저장하지 않는다. 브라우저 저장(localStorage)과 공유 링크(`?loadout=<함선>&set=<변경>#loadout`)만 지원한다.

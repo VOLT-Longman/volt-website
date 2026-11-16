@@ -16,7 +16,7 @@
     const DATA_BASE = 'data/loadout';
     let deps = {};
     const state = {
-        meta: null, index: null, items: null, ship: null, shipCls: '', overrides: {},
+        meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         query: '', openPath: '', pickerQuery: '', error: '', loading: false,
         prices: new Map(), priceState: new Map(),
     };
@@ -24,46 +24,46 @@
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
-            pickShip: '함선 선택', searchShip: '함선명 또는 제조사 검색', noShip: '검색 결과가 없습니다.', shipCount: '{count}척',
+            pickShip: '함선 선택', searchShip: '함선명 또는 제조사 검색', noShip: '검색 결과가 없습니다.', shipCount: '전체 {count}척', shipFound: '검색 결과 {count}척', browseShips: '함선 바꾸기', hideShips: '목록 접기',
             loading: '자료를 불러오는 중입니다.', loadFail: '로드아웃 자료를 불러오지 못했습니다.', retry: '다시 시도',
-            summary: '요약', dps: '초당 화력', pilot: '조종사', turret: '터렛', alpha: '1회 일제 사격', weapons: '무기 {count}정',
-            missiles: '미사일·폭탄', missileCount: '{count}발', shield: '실드', shieldRegen: '재생 {value}/초', power: '동력 발전량', powerUse: '모든 장비 최대 가동 시 {use} 필요',
-            cooling: '냉각 능력', coolingUse: '냉각기 합계', quantum: '양자 항행', quantumNone: '양자 드라이브 없음', spool: '준비 {value}초', range: '항속 {value} Gm',
-            cost: '바꾼 부품 구매 비용', costUnknown: '{count}종은 판매처 정보 없음', costNone: '바꾼 부품이 없습니다',
+            summary: '요약', dps: 'DPS (초당 피해)', pilot: '파일럿', turret: '터렛', alpha: '알파 (1회 피해)', weapons: '무기 {count}정',
+            missiles: '미사일·폭탄 피해', missileCount: '{count}발 탑재', shield: '실드', shieldRegen: '재생률 {value}/초', power: '파워 플랜트 출력', powerUse: '모든 장비 최대 가동 시 {use} 필요',
+            cooling: '쿨러 냉각량', coolingUse: '쿨러 합계', quantum: '퀀텀 드라이브', quantumNone: '퀀텀 드라이브 없음', spool: '스풀링 {value}초', range: '항속 {value} Gm',
+            cost: '바꾼 부품 구매 비용', costUnknown: '{count}종은 상점 판매 없음 (파밍 획득)', costNone: '바꾼 부품이 없습니다', same: '동일', dmgWord: '피해', lootNote: '상점 판매 없음으로 표시된 부품은 상점에서 팔지 않고 파밍(전리품)으로 얻는 부품일 수 있습니다. 합계에는 넣지 않았습니다.',
             part: '부품', slots: '장착 자리', change: '변경', close: '닫기', reset: '기본값', empty: '비어 있음', removeItem: '비우기', fixed: '고정',
             changed: '변경됨', defaultMark: '기본', pickerSearch: '부품 이름 검색', pickerEmpty: '이 자리에 맞는 부품이 없습니다.', pickerCount: '맞는 부품 {count}종',
-            select: '선택', selected: '장착 중', priceFrom: '최저 {price}', priceShops: '판매처 {count}곳', priceNone: '판매처 정보 없음', priceLoading: '가격 확인 중',
+            select: '선택', selected: '장착 중', priceFrom: '최저 {price}', priceShops: '판매처 {count}곳', priceNone: '상점 판매 없음 · 파밍 획득', priceLoading: '가격 확인 중',
             priceFail: '가격을 불러오지 못했습니다', shopping: '구매 목록', shoppingEmpty: '부품을 바꾸면 여기에 살 곳과 가격이 정리됩니다.', qty: '수량', cheapest: '가장 싼 곳', subtotal: '소계', total: '합계',
             share: '공유 링크 복사', shareOk: '공유 링크를 복사했습니다.', shareFail: '링크를 복사하지 못했습니다.', resetAll: '전체 기본값으로', resetOk: '기본 장착으로 되돌렸습니다.',
-            sourceStats: '함선·부품 수치', sourcePrices: '구매처·가격', sourceVersion: '게임 자료 버전 {version}', sourceNote: '수치는 게임 패치에 따라 달라질 수 있으며 실제 게임과 차이가 있을 수 있습니다.',
+            sourceStats: '함선·부품 수치', sourcePrices: '구매처·가격', sourceTerms: '한국어 표기', sourceVersion: '게임 자료 버전 {version}', sourceNote: '수치는 게임 패치에 따라 달라질 수 있으며 실제 게임과 차이가 있을 수 있습니다.',
             size: '크기', grade: '등급', rpm: '분당 {value}발', perShot: '1발 {value}', speed: '탄속 {value}m/s', reach: '사거리 {value}m', hp: '내구 {value}',
-            gen: '발전 {value}', coolGen: '냉각 {value}', qdSpeed: '{value} km/s', dmg: '피해 {value}', lock: '조준 {value}초', signal: '추적 {value}',
-            groups: { weapon: '무기·터렛', missile: '미사일·폭탄', shield: '실드', power: '동력 장치', cooler: '냉각기', quantum: '양자 드라이브', radar: '레이더', other: '기타 장비' },
+            gen: '출력 {value}', coolGen: '냉각 {value}', qdSpeed: '{value} km/s', dmg: '피해 {value}', lock: '락온 {value}초', signal: '{value} 추적',
+            groups: { weapon: '무기·터렛', missile: '미사일·폭탄', shield: '실드 제너레이터', power: '파워 플랜트', cooler: '쿨러', quantum: '퀀텀 드라이브', radar: '레이더', other: '기타 장비' },
             types: {
-                WeaponGun: '무기', Turret: '터렛·마운트', TurretBase: '유인 터렛', UtilityTurret: '장비 터렛', MissileLauncher: '미사일 랙', BombLauncher: '폭탄 랙',
-                GroundVehicleMissileLauncher: '차량 미사일 랙', Missile: '미사일', Bomb: '폭탄', Shield: '실드 발생기', PowerPlant: '동력 장치', Cooler: '냉각기',
-                QuantumDrive: '양자 드라이브', JumpDrive: '점프 모듈', Radar: '레이더', WeaponMining: '채굴 레이저', WeaponDefensive: '대응 수단', EMP: 'EMP 발생기',
-                QuantumInterdictionGenerator: '양자 교란기', SalvageHead: '인양 헤드', SalvageModifier: '인양 모듈', MiningModifier: '채굴 모듈', TractorBeam: '견인 빔',
-                TowingBeam: '예인 빔', ToolArm: '작업 팔', Module: '모듈', Container: '화물 모듈', Misc: '기타',
+                WeaponGun: '기총', Turret: '터렛', TurretBase: '유인 터렛', UtilityTurret: '유틸리티 터렛', MissileLauncher: '미사일 랙', BombLauncher: '폭탄 랙',
+                GroundVehicleMissileLauncher: '차량 미사일 랙', Missile: '미사일', Bomb: '폭탄', Shield: '실드 제너레이터', PowerPlant: '파워 플랜트', Cooler: '쿨러',
+                QuantumDrive: '퀀텀 드라이브', JumpDrive: '점프 모듈', Radar: '레이더', WeaponMining: '채광 레이저 헤드', WeaponDefensive: '디펜시브', EMP: 'EMP',
+                QuantumInterdictionGenerator: '퀀텀 차단기', SalvageHead: '샐비징 빔', SalvageModifier: '샐비징 모듈', MiningModifier: '채광 모듈', TractorBeam: '트랙터 빔',
+                TowingBeam: '견인 빔', ToolArm: '채광 암', Module: '모듈', Container: '컨테이너', Misc: '기타',
             },
-            classes: { Military: '군용', Civilian: '민간', Industrial: '산업', Stealth: '스텔스', Competition: '경기용' },
-            damage: { physical: '물리', energy: '에너지', distortion: '왜곡', thermal: '열', biochemical: '생화학', stun: '기절' },
-            signals: { CrossSection: '단면', Infrared: '적외선', Electromagnetic: '전자기' },
-            tokens: { left: '좌', right: '우', top: '상', bottom: '하', front: '전', rear: '후', nose: '기수', wing: '날개', pilot: '조종사', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사' },
+            classes: { Military: '군용', Civilian: '시민', Industrial: '산업', Stealth: '스텔스', Competition: '경쟁' },
+            damage: { physical: '물리', energy: '에너지', distortion: '디스토션', thermal: '열', biochemical: '생화학', stun: '스턴' },
+            signals: { CrossSection: 'CS', Infrared: 'IR', Electromagnetic: 'EM' },
+            tokens: { left: '좌', right: '우', top: '상', bottom: '하', front: '전', rear: '후', nose: '기수', wing: '날개', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사' },
         },
         en: {
-            pickShip: 'Choose a ship', searchShip: 'Search ship or manufacturer', noShip: 'No ships found.', shipCount: '{count} ships',
+            pickShip: 'Choose a ship', searchShip: 'Search ship or manufacturer', noShip: 'No ships found.', shipCount: 'All {count} ships', shipFound: '{count} ships found', browseShips: 'Change ship', hideShips: 'Hide list',
             loading: 'Loading data.', loadFail: 'Couldn\'t load loadout data.', retry: 'Retry',
             summary: 'Summary', dps: 'Damage per second', pilot: 'Pilot', turret: 'Turrets', alpha: 'Alpha strike', weapons: '{count} weapons',
             missiles: 'Missiles & bombs', missileCount: '{count} loaded', shield: 'Shields', shieldRegen: 'Regen {value}/s', power: 'Power output', powerUse: '{use} needed with everything at full power',
             cooling: 'Cooling capacity', coolingUse: 'All coolers combined', quantum: 'Quantum travel', quantumNone: 'No quantum drive', spool: 'Spool {value}s', range: 'Range {value} Gm',
-            cost: 'Cost of changed parts', costUnknown: '{count} with no shop data', costNone: 'No parts changed',
+            cost: 'Cost of changed parts', costUnknown: '{count} not sold in shops (loot only)', costNone: 'No parts changed', same: 'Same', dmgWord: 'Damage', lootNote: 'Parts marked as not sold in shops may only be obtained as loot. They are left out of the total.',
             part: 'Part', slots: 'Hardpoints', change: 'Change', close: 'Close', reset: 'Default', empty: 'Empty', removeItem: 'Leave empty', fixed: 'Fixed',
             changed: 'Changed', defaultMark: 'Stock', pickerSearch: 'Search parts', pickerEmpty: 'No compatible parts for this slot.', pickerCount: '{count} compatible parts',
-            select: 'Select', selected: 'Equipped', priceFrom: 'From {price}', priceShops: '{count} shops', priceNone: 'No shop data', priceLoading: 'Checking prices',
+            select: 'Select', selected: 'Equipped', priceFrom: 'From {price}', priceShops: '{count} shops', priceNone: 'Not sold in shops · loot only', priceLoading: 'Checking prices',
             priceFail: 'Couldn\'t load prices', shopping: 'Shopping list', shoppingEmpty: 'Change a part to see where to buy it and what it costs.', qty: 'Qty', cheapest: 'Cheapest shop', subtotal: 'Subtotal', total: 'Total',
             share: 'Copy share link', shareOk: 'Share link copied.', shareFail: 'Couldn\'t copy the link.', resetAll: 'Reset to stock', resetOk: 'Restored the stock loadout.',
-            sourceStats: 'Ship & component stats', sourcePrices: 'Shops & prices', sourceVersion: 'Game data version {version}', sourceNote: 'Values change with game patches and may differ from the live game.',
+            sourceStats: 'Ship & component stats', sourcePrices: 'Shops & prices', sourceTerms: 'Korean terms', sourceVersion: 'Game data version {version}', sourceNote: 'Values change with game patches and may differ from the live game.',
             size: 'Size', grade: 'Grade', rpm: '{value} rpm', perShot: '{value} per shot', speed: '{value} m/s', reach: '{value} m range', hp: '{value} HP',
             gen: 'Output {value}', coolGen: 'Cooling {value}', qdSpeed: '{value} km/s', dmg: '{value} damage', lock: 'Lock {value}s', signal: '{value} tracking',
             groups: { weapon: 'Weapons & turrets', missile: 'Missiles & bombs', shield: 'Shields', power: 'Power plants', cooler: 'Coolers', quantum: 'Quantum drive', radar: 'Radar', other: 'Other equipment' },
@@ -100,7 +100,14 @@
     const num = (value, digits = 0) => (Number(value) || 0).toLocaleString(lang() === 'en' ? 'en-US' : 'ko-KR', { maximumFractionDigits: digits });
     const credits = (value) => `${num(value)} aUEC`;
     const root = () => document.getElementById('loadout-app');
-    const typeLabel = (type) => table('types')[type] || type || '';
+    // 한국어 화면은 게임 한국어 패치의 표기를 먼저 쓴다(퀀텀 드라이브, 파워 플랜트, 쿨러 …).
+    const patch = (group) => (lang() === 'ko' && state.ko?.[group]) || {};
+    const typeLabel = (type) => patch('types')[type] || table('types')[type] || type || '';
+    const itemName = (id, item) => patch('names')[id] || item?.name || '';
+    const mfrName = (item) => patch('manufacturers')[item?.mfrCode] || item?.mfr || '';
+    const className = (item) => patch('classes')[item?.klass] || table('classes')[item?.klass] || item?.klass || '';
+    const GROUP_TYPE = { shield: 'Shield', power: 'PowerPlant', cooler: 'Cooler', quantum: 'QuantumDrive', radar: 'Radar' };
+    const groupLabel = (key) => patch('types')[GROUP_TYPE[key]] || table('groups')[key];
     const shipName = (ship) => (deps.shipDisplayName ? deps.shipDisplayName(ship.volt, ship.name) : ship.name) || ship.name;
 
     async function fetchJson(path, options) {
@@ -127,8 +134,12 @@
         // meta는 항상 새로 확인하고, 나머지는 자료 버전을 주소에 붙여 패치 후 옛 캐시가 섞이지 않게 한다.
         const meta = await fetchJson(`${DATA_BASE}/meta.json`, { cache: 'no-cache' });
         const stamp = encodeURIComponent(meta.version || '');
-        const [index, items] = await Promise.all([fetchJson(`${DATA_BASE}/index.json?v=${stamp}`), fetchJson(`${DATA_BASE}/items.json?v=${stamp}`)]);
-        state.meta = meta; state.index = index.ships; state.items = items.items;
+        const [index, items, ko] = await Promise.all([
+            fetchJson(`${DATA_BASE}/index.json?v=${stamp}`), fetchJson(`${DATA_BASE}/items.json?v=${stamp}`),
+            // 한국어 표기(게임 한국어 패치 기준)는 없어도 화면이 동작한다 — 원문으로 표시.
+            fetchJson(`${DATA_BASE}/ko.json?v=${stamp}`).catch(() => null),
+        ]);
+        state.meta = meta; state.index = index.ships; state.items = items.items; state.ko = ko;
     }
 
     async function selectShip(cls, overrides) {
@@ -232,8 +243,8 @@
     function itemMeta(item) {
         const parts = [`S${item.size ?? '?'}`];
         if (item.grade) parts.push(`${text('grade')} ${item.grade}`);
-        if (item.klass) parts.push(table('classes')[item.klass] || item.klass);
-        if (item.mfr) parts.push(item.mfr);
+        if (item.klass) parts.push(className(item));
+        if (mfrName(item)) parts.push(mfrName(item));
         return parts.join(' · ');
     }
 
@@ -244,14 +255,17 @@
             if (!query) return true;
             return [ship.name, ship.mfr, shipName(ship)].some((value) => String(value || '').toLowerCase().includes(query));
         });
-        const shown = query ? matches.slice(0, 40) : [];
+        // 함선을 고른 뒤에는 목록을 접어 두고, 검색하거나 "함선 바꾸기"를 누르면 다시 펼친다.
+        const expanded = Boolean(query) || !state.ship || state.browsing;
+        const option = (ship) => `<button type="button" role="option" aria-selected="${ship.cls === state.shipCls}" data-loadout-ship="${esc(ship.cls)}"><strong>${esc(shipName(ship))}</strong><span>${esc(ship.mfr || '')} · S${esc(ship.size ?? '?')}</span></button>`;
         return `<div class="loadout-shippicker">
             <label for="loadout-ship-search">${esc(text('pickShip'))}</label>
-            <input id="loadout-ship-search" type="search" autocomplete="off" placeholder="${esc(text('searchShip'))}" value="${esc(state.query)}" aria-controls="loadout-ship-results">
-            <div class="loadout-ship-results" id="loadout-ship-results" role="listbox" aria-label="${esc(text('pickShip'))}">${query
-        ? (shown.map((ship) => `<button type="button" role="option" aria-selected="${ship.cls === state.shipCls}" data-loadout-ship="${esc(ship.cls)}"><strong>${esc(shipName(ship))}</strong><span>${esc(ship.mfr || '')} · S${esc(ship.size ?? '?')}</span></button>`).join('')
-            || `<p class="loadout-note">${esc(text('noShip'))}</p>`)
-        : `<p class="loadout-note">${esc(text('shipCount', { count: (state.index || []).length }))}</p>`}</div>
+            <div class="loadout-shipsearch">
+                <input id="loadout-ship-search" type="search" autocomplete="off" placeholder="${esc(text('searchShip'))}" value="${esc(state.query)}" aria-controls="loadout-ship-results">
+                ${state.ship ? `<button type="button" class="btn btn-secondary" data-loadout-browse aria-expanded="${expanded}">${esc(expanded && !query ? text('hideShips') : text('browseShips'))}</button>` : ''}
+            </div>
+            <p class="loadout-note" id="loadout-ship-count">${esc(text(query ? 'shipFound' : 'shipCount', { count: matches.length }))}</p>
+            ${expanded ? `<div class="loadout-ship-results" id="loadout-ship-results" role="listbox" aria-label="${esc(text('pickShip'))}">${matches.map(option).join('') || `<p class="loadout-note">${esc(text('noShip'))}</p>`}</div>` : ''}
         </div>`;
     }
 
@@ -270,36 +284,62 @@
     }
 
     function drawSummary(totals, cost) {
-        const byType = Object.entries(totals.dps.byType).sort((a, b) => b[1] - a[1])
-            .map(([type, value]) => `${table('damage')[type] || type} ${num(value)}`).join(' · ');
-        const card = (title, value, detail) => `<div class="loadout-stat"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value)}</strong>${detail ? `<small>${esc(detail)}</small>` : ''}</div>`;
+        const damage = Object.entries(totals.dps.byType).sort((a, b) => b[1] - a[1]);
+        const bar = totals.dps.total ? `<span class="loadout-dmgbar" aria-hidden="true">${damage.map(([type, value]) => `<i class="is-${esc(type)}" style="width:${(value / totals.dps.total * 100).toFixed(1)}%"></i>`).join('')}</span>` : '';
+        const byType = damage.map(([type, value]) => `${table('damage')[type] || type} ${num(value)}`).join(' · ');
+        const card = (title, value, detail, extra = '', tone = '') => `<div class="loadout-stat${tone ? ` is-${tone}` : ''}"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value)}</strong>${extra}${detail ? `<small>${esc(detail)}</small>` : ''}</div>`;
         const quantum = totals.quantum;
         return `<div class="loadout-summary" aria-label="${esc(text('summary'))}">
-            ${card(text('dps'), num(totals.dps.total), `${text('pilot')} ${num(totals.dps.pilot)} · ${text('turret')} ${num(totals.dps.turret)}${byType ? ` (${byType})` : ''}`)}
+            ${card(text('dps'), num(totals.dps.total), `${text('pilot')} ${num(totals.dps.pilot)} · ${text('turret')} ${num(totals.dps.turret)}${byType ? ` · ${byType}` : ''}`, bar, 'primary')}
             ${card(text('alpha'), num(totals.alpha.total), text('weapons', { count: totals.weapons }))}
             ${card(text('missiles'), num(totals.missiles.damage), text('missileCount', { count: totals.missiles.count }))}
-            ${card(text('shield'), num(totals.shield.hp), text('shieldRegen', { value: num(totals.shield.regen) }))}
+            ${card(text('shield'), num(totals.shield.hp), text('shieldRegen', { value: num(totals.shield.regen) }), '', 'primary')}
             ${card(text('power'), num(totals.power.gen, 1), text('powerUse', { use: num(totals.power.use, 1) }))}
             ${card(text('cooling'), num(totals.cooling.gen, 1), text('coolingUse'))}
-            ${quantum ? card(text('quantum'), text('qdSpeed', { value: num(quantum.speed / 1000) }), `${quantum.name} · ${text('spool', { value: num(quantum.spool, 1) })}`) : card(text('quantum'), '—', text('quantumNone'))}
+            ${quantum ? card(text('quantum'), text('qdSpeed', { value: num(quantum.speed / 1000) }), `${itemName(quantum.id, quantum)} · ${text('spool', { value: num(quantum.spool, 1) })}`) : card(text('quantum'), '—', text('quantumNone'))}
             ${card(text('cost'), cost.changed ? credits(cost.total) : '—', cost.changed ? (cost.unknown ? text('costUnknown', { count: cost.unknown }) : '') : text('costNone'))}
         </div>`;
     }
 
+    // 상점에서 팔지 않는 부품(군용 등 전리품 전용)도 장착 후보에서 빼지 않는다 — 살 수 없다는 사실만 알린다.
     function drawPrice(id, item) {
         const info = priceInfo(id, item);
         if (info.min) return `<span class="loadout-price">${esc(text('priceFrom', { price: credits(info.min) }))} · ${esc(text('priceShops', { count: info.shops.length }))}</span>`;
         if (info.status === 'loading') return `<span class="loadout-price is-muted">${esc(text('priceLoading'))}</span>`;
         if (info.status === 'error') return `<span class="loadout-price is-muted">${esc(text('priceFail'))}</span>`;
-        return `<span class="loadout-price is-muted">${esc(text('priceNone'))}</span>`;
+        return `<span class="loadout-price is-loot">${esc(text('priceNone'))}</span>`;
+    }
+
+    function drawFacts(item) {
+        const facts = itemFacts(item);
+        return facts.length ? `<span class="loadout-facts">${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}</span>` : '';
+    }
+
+    // 지금 달린 부품과 견준 차이(화력·실드·출력·냉각·속도). 고르기 전에 이득인지 바로 보이게 한다.
+    function compareMetric(item) {
+        if (!item) return null;
+        if (item.w) return { value: calc.weaponStats(item).dps, label: 'DPS' };
+        if (item.sh) return { value: Number(item.sh.hp) || 0, label: text('shield') };
+        if (item.power?.gen) return { value: Number(item.power.gen) || 0, label: text('power') };
+        if (item.cool?.gen) return { value: Number(item.cool.gen) || 0, label: text('cooling') };
+        if (item.qd) return { value: (Number(item.qd.speed) || 0) / 1000, label: 'km/s' };
+        if (item.ms) return { value: calc.sumDamage(item.ms.dmg), label: text('dmgWord') };
+        return null;
+    }
+    function drawDelta(item, currentItem) {
+        const next = compareMetric(item); const now = compareMetric(currentItem);
+        if (!next || !now || next.label !== now.label) return '';
+        const diff = next.value - now.value;
+        if (Math.abs(diff) < 0.5) return `<span class="loadout-delta">${esc(text('same'))}</span>`;
+        return `<span class="loadout-delta ${diff > 0 ? 'is-up' : 'is-down'}">${esc(next.label)} ${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff)))}</span>`;
     }
 
     function drawPicker(node) {
         const query = state.pickerQuery.trim().toLowerCase();
         const candidates = Object.entries(state.items)
             .filter(([, item]) => calc.fitsSlot(item, node.slot, { tags: node.tags }))
-            .filter(([, item]) => !query || String(item.name || '').toLowerCase().includes(query) || String(item.mfr || '').toLowerCase().includes(query))
-            .sort(([, a], [, b]) => (b.size || 0) - (a.size || 0) || calc.weaponStats(b).dps - calc.weaponStats(a).dps || String(a.name).localeCompare(String(b.name)));
+            .filter(([id, item]) => !query || [item.name, itemName(id, item), item.mfr, mfrName(item)].some((value) => String(value || '').toLowerCase().includes(query)))
+            .sort(([, a], [, b]) => (b.size || 0) - (a.size || 0) || (compareMetric(b)?.value || 0) - (compareMetric(a)?.value || 0) || String(a.name).localeCompare(String(b.name)));
         const shown = candidates.slice(0, 60);
         return `<div class="loadout-picker" role="region" aria-label="${esc(slotLabel(node.slot, node.item))}">
             <div class="loadout-picker-head">
@@ -308,22 +348,33 @@
                 ${node.itemId ? `<button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}
             </div>
             <ul class="loadout-options">${shown.map(([id, item]) => `<li class="${id === node.itemId ? 'is-current' : ''}">
-                <div><strong>${esc(item.name)}</strong><span class="loadout-meta">${esc(itemMeta(item))}</span><span class="loadout-facts">${esc(itemFacts(item).join(' · '))}</span>${drawPrice(id, item)}</div>
-                <button type="button" class="btn btn-secondary" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === node.itemId ? 'disabled' : ''}>${esc(id === node.itemId ? text('selected') : text('select'))}</button>
+                <div class="loadout-option-main">
+                    <strong>${esc(itemName(id, item))}</strong>${itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}
+                    <span class="loadout-meta">${esc(itemMeta(item))}</span>${drawFacts(item)}${drawPrice(id, item)}
+                </div>
+                <div class="loadout-option-side">
+                    ${id === node.itemId ? '' : drawDelta(item, node.item)}
+                    <button type="button" class="btn btn-secondary" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === node.itemId ? 'disabled' : ''}>${esc(id === node.itemId ? text('selected') : text('select'))}</button>
+                </div>
             </li>`).join('') || `<li class="loadout-note">${esc(text('pickerEmpty'))}</li>`}</ul>
         </div>`;
     }
 
     function drawSlot(node) {
-        const { slot, item, path, changed, depth } = node;
+        const { slot, item, itemId, path, changed, depth } = node;
         const editable = slot.kind === 's';
         const open = state.openPath === path;
-        return `<li class="loadout-slot${changed ? ' is-changed' : ''}${depth > 1 ? ' is-child' : ''}" style="--loadout-depth:${Math.max(0, depth - 1)}" data-loadout-slot="${esc(path)}">
+        const indent = `style="--loadout-depth:${Math.max(0, depth - 1)}"`;
+        // 고정 마운트·터렛처럼 그 자체는 바꿀 수 없고 아래에 자리를 거느린 부품은 얇은 머리글로만 보여준다.
+        if (!editable && node.hasChildren) {
+            return `<li class="loadout-slot is-parent" ${indent} data-loadout-slot="${esc(path)}"><span class="loadout-slot-label">${esc(slotLabel(slot, item))}</span><span class="loadout-parent-name">${item ? esc(itemName(itemId, item)) : ''}</span></li>`;
+        }
+        return `<li class="loadout-slot${changed ? ' is-changed' : ''}" ${indent} data-loadout-slot="${esc(path)}">
             <div class="loadout-slot-row">
                 <div class="loadout-slot-main">
                     <span class="loadout-slot-label">${esc(slotLabel(slot, item))}${changed ? ` <em>${esc(text('changed'))}</em>` : ''}</span>
-                    <strong class="loadout-item-name">${item ? esc(item.name) : esc(text('empty'))}</strong>
-                    ${item ? `<span class="loadout-meta">${esc(itemMeta(item))}</span><span class="loadout-facts">${esc(itemFacts(item).join(' · '))}</span>` : ''}
+                    <strong class="loadout-item-name">${item ? esc(itemName(itemId, item)) : esc(text('empty'))}</strong>
+                    ${item ? `${itemName(itemId, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}<span class="loadout-meta">${esc(itemMeta(item))}</span>${drawFacts(item)}` : ''}
                 </div>
                 <div class="loadout-slot-actions">
                     ${editable ? `<button type="button" class="btn btn-secondary" data-loadout-open="${esc(path)}" aria-expanded="${open}">${esc(open ? text('close') : text('change'))}</button>` : `<span class="loadout-fixed">${esc(text('fixed'))}</span>`}
@@ -337,14 +388,17 @@
     function drawSlots() {
         const groups = new Map(GROUP_ORDER.map((key) => [key, []]));
         let current = 'other';
-        calc.walkLoadout(state.ship, state.items, state.overrides, (node) => {
+        const nodes = [];
+        calc.walkLoadout(state.ship, state.items, state.overrides, (node) => nodes.push(node));
+        nodes.forEach((node, index) => {
             if (node.depth === 0) current = slotGroup(node.slot, node.item);
             // 대응 수단(플레어 등)과 아무것도 달 수 없는 고정 빈자리는 편집 화면에서 숨긴다.
             if (node.item?.type === 'WeaponDefensive' || (!node.item && node.slot.kind !== 's')) return;
-            groups.get(current).push({ ...node, depth: node.depth + 1 });
+            const hasChildren = nodes[index + 1]?.path.startsWith(`${node.path}/`) || false;
+            groups.get(current).push({ ...node, depth: node.depth + 1, hasChildren });
         });
         return GROUP_ORDER.filter((key) => groups.get(key).length).map((key) => `<section class="loadout-group">
-            <h4>${esc(table('groups')[key])}</h4>
+            <h4>${esc(groupLabel(key))} <span>${groups.get(key).filter((node) => node.slot.kind === 's').length}</span></h4>
             <ul class="loadout-slotlist">${groups.get(key).map(drawSlot).join('')}</ul>
         </section>`).join('');
     }
@@ -355,12 +409,12 @@
             <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('cheapest'))}</th><th>${esc(text('subtotal'))}</th></tr></thead>
             <tbody>${cost.rows.map((row) => {
         const shop = row.info.shops[0];
-        return `<tr><td><strong>${esc(row.item.name)}</strong><span class="loadout-meta">${esc(itemMeta(row.item))}</span></td><td>${row.qty}</td>
+        return `<tr><td><strong>${esc(itemName(row.id, row.item))}</strong><span class="loadout-meta">${esc(itemMeta(row.item))}</span></td><td>${row.qty}</td>
                     <td>${shop ? `${esc(shop.shop)}<span class="loadout-meta">${esc([shop.place, shop.system].filter(Boolean).join(', '))}</span>` : drawPrice(row.id, row.item)}</td>
                     <td>${shop ? esc(credits(shop.price * row.qty)) : '—'}</td></tr>`;
     }).join('')}</tbody>
             <tfoot><tr><th colspan="3">${esc(text('total'))}</th><th>${esc(credits(cost.rows.reduce((sum, row) => sum + (row.info.min || 0) * row.qty, 0)))}</th></tr></tfoot>
-        </table></div>`;
+        </table></div>${cost.unknown ? `<p class="loadout-note">${esc(text('lootNote'))}</p>` : ''}`;
     }
 
     function drawSources() {
@@ -368,6 +422,7 @@
         return `<p class="loadout-sources" id="loadout-sources">
             <span>${esc(text('sourceStats'))}: <a href="${esc(meta.sourceUrl || 'https://www.erkul.games/')}" target="_blank" rel="noopener noreferrer">Erkul Games</a></span>
             <span>${esc(text('sourcePrices'))}: <a href="${esc(meta.priceSourceUrl || 'https://uexcorp.space/')}" target="_blank" rel="noopener noreferrer">UEX</a></span>
+            ${lang() === 'ko' && state.ko?.source ? `<span>${esc(text('sourceTerms'))}: ${esc(state.ko.source)}</span>` : ''}
             ${meta.version ? `<span>${esc(text('sourceVersion', { version: meta.version }))}</span>` : ''}
             <span>${esc(text('sourceNote'))}</span>
         </p>`;
@@ -436,8 +491,9 @@
         const target = event.target.closest('button');
         if (!target || !root()?.contains(target)) return;
         if (target.hasAttribute('data-loadout-retry')) { state.error = ''; render(); return; }
+        if (target.hasAttribute('data-loadout-browse')) { state.browsing = !state.browsing; state.query = ''; draw(); return; }
         const shipCls = target.getAttribute('data-loadout-ship');
-        if (shipCls) { state.query = ''; selectShip(shipCls); return; }
+        if (shipCls) { state.query = ''; state.browsing = false; selectShip(shipCls); return; }
         const openPath = target.getAttribute('data-loadout-open');
         if (openPath !== null) {
             state.openPath = state.openPath === openPath ? '' : openPath; state.pickerQuery = '';
