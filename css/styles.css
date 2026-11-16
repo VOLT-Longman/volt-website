@@ -9709,18 +9709,15 @@ body.nav-trade-open::before {
     .loadout-slot-main .loadout-origin, .loadout-option-main .loadout-origin { display: block; margin-left: 0; }
 }
 
-/* 넓은 화면: [장비 목록 | 교체 후보 | 성능 요약] 세 칸. 후보를 고르는 동안에도 성능 변화가 보인다. */
-@media (min-width: 1240px) {
-    .loadout-app.has-drawer .loadout-columns { grid-template-columns: minmax(0, 1fr) minmax(400px, 460px) minmax(300px, 340px); }
-    .loadout-app.has-drawer .loadout-drawer-backdrop { display: none; }
-    .loadout-app.has-drawer .loadout-picker { position: sticky; top: 196px; right: auto; bottom: auto; width: auto; height: calc(100vh - 212px); z-index: 1; padding: 12px; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); box-shadow: none; }
-    .loadout-app.has-drawer .loadout-panel { grid-template-columns: minmax(0, 1fr); position: sticky; top: 196px; max-height: calc(100vh - 212px); overflow-y: auto; }
-    .loadout-app.has-drawer .loadout-slots .loadout-facts, .loadout-app.has-drawer .loadout-slot-main .loadout-origin { display: none; }
-    .loadout-app.has-drawer .loadout-slot-actions { min-width: 0; }
-    .loadout-app.has-drawer .loadout-powerbtn { display: none; }
-    .loadout-app.has-drawer .loadout-options li { grid-template-columns: minmax(0, 1fr) auto; }
-    .loadout-app.has-drawer .loadout-option-side { grid-column: 1 / -1; justify-content: flex-end; }
-    .loadout-app.has-drawer .loadout-options { background: var(--lo-bg); }
+/* 넓은 화면: 장착 탭은 늘 [장비 목록 | 교체 후보 | 성능 요약] 세 칸. 「변경」을 눌러도 칸의 위치와 폭이 바뀌지 않는다. */
+.loadout-pickhint { display: none; }
+@media (min-width: 1360px) {
+    .loadout-columns.is-edit { grid-template-columns: minmax(0, 1fr) minmax(360px, 420px) minmax(280px, 320px); }
+    .loadout-columns.is-edit .loadout-drawer-backdrop { display: none; }
+    .loadout-columns.is-edit .loadout-picker, .loadout-columns.is-edit .loadout-pickhint { position: sticky; top: 196px; right: auto; bottom: auto; width: auto; height: calc(100vh - 212px); z-index: 1; padding: 12px; border: 1px solid var(--lo-line); border-radius: var(--lo-radius); background: var(--lo-card); box-shadow: none; }
+    .loadout-columns.is-edit .loadout-pickhint { display: grid; place-content: center; text-align: center; border-style: dashed; background: none; }
+    .loadout-columns.is-edit .loadout-panel { grid-template-columns: minmax(0, 1fr); position: sticky; top: 196px; max-height: calc(100vh - 212px); overflow-y: auto; }
+    .loadout-columns.is-edit .loadout-options { background: var(--lo-bg); }
 }
 
 /* 글자 대비 보완(검수 2026-11-16): 작은 회색 글자는 배경 대비 4.5:1 이상이 되게 한다. */
@@ -9744,3 +9741,38 @@ details.loadout-panel-section.loadout-fold { display: block; }
 .loadout-sources > summary { min-height: 44px; }
 .loadout-count { margin-left: 6px; padding: 1px 7px; border: 1px solid var(--lo-line); border-radius: 6px; color: var(--color-text-primary); font-weight: 700; font-variant-numeric: tabular-nums; }
 .loadout-option-side .loadout-delta + .loadout-delta { margin-top: 4px; }
+
+/* 로드아웃 단순화(2026-11-16 검토 반영): 위치별 한 줄, 상자 안 상자 줄이기, 후보는 수치 칸으로 견주기 */
+.loadout-super > h3 { font-size: 15px; letter-spacing: 0; color: var(--color-text-primary); }
+.loadout-group { border: 0; border-radius: 0; background: none; overflow: visible; }
+.loadout-group h4 { padding: 6px 0; background: none; font-size: 12px; color: var(--color-text-secondary); }
+.loadout-slot-row { padding-left: calc(4px + var(--lo-level, 0) * 22px); padding-right: 4px; }
+.loadout-slot.is-child .loadout-slot-row::before { left: calc(10px + (var(--lo-level, 1) - 1) * 22px); }
+.loadout-slot-label { font-size: 13px; }
+.loadout-item-name { font-size: 16px; }
+.loadout-slot-actions { min-width: 0; }
+.loadout-kpi > span:first-child small { font-weight: 400; letter-spacing: 0; }
+.loadout-builds { display: grid; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--lo-line); }
+.loadout-buildlist { max-height: 220px; overflow-y: auto; }
+.loadout-actions .loadout-badge { margin-left: 4px; padding: 0 6px; border-radius: 999px; background: var(--lo-card-2); color: var(--color-text-primary); font-size: 11px; }
+.loadout-comparelist { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.loadout-picker { display: flex; flex-direction: column; }
+.loadout-picker > * { flex: none; }
+.loadout-picker > .loadout-options { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.loadout-picker-detail { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 12px; }
+.loadout-picker-detail .loadout-origin { margin: 0; }
+.loadout-picker .loadout-options li { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; padding: 10px 12px; }
+.loadout-picker .loadout-option-main { grid-column: 1 / -1; }
+.loadout-picker .loadout-option-main > strong { font-size: 15px; }
+.loadout-picker .loadout-option-main .loadout-meta, .loadout-picker .loadout-option-main .loadout-price { display: inline; margin-left: 8px; font-size: 12px; }
+.loadout-cmp { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; min-width: 0; }
+.loadout-cmp-cell { display: grid; gap: 0; align-content: start; min-width: 0; font-variant-numeric: tabular-nums; }
+.loadout-cmp-cell small { font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.loadout-cmp-cell b { font-size: 15px; line-height: 1.25; }
+.loadout-cmp-cell .loadout-delta { justify-self: start; padding: 0; border: 0; font-size: 12px; }
+.loadout-equip { align-self: center; min-height: 40px; padding: 0 16px; }
+.loadout-equip[disabled] { border-color: transparent; color: var(--color-text-secondary); }
+@media (max-width: 720px) {
+    .loadout-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .loadout-equip { min-height: 44px; }
+}

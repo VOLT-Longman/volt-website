@@ -53,6 +53,7 @@ test.describe('저장·상태 안전', () => {
         await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
         await openAsgard(page);
         await page.evaluate(() => { Storage.prototype.setItem = () => { throw new DOMException('quota', 'QuotaExceededError'); }; });
+        await page.locator('[data-loadout-builds-toggle]').click();
         await page.locator('#loadout-build-name').fill('내 구성');
         await page.locator('[data-loadout-build-save]').click();
         await expect(page.locator('#toast')).toContainText('저장하지 못했습니다');
