@@ -1,0 +1,100 @@
+{
+  "source": "erkul-live",
+  "sourceName": "Erkul Games",
+  "sourceUrl": "https://www.erkul.games/",
+  "priceSource": "UEX",
+  "priceSourceUrl": "https://uexcorp.space/",
+  "version": "4.10.3-LIVE.13165946",
+  "generatedAt": "2026-11-13T16:53:27.306Z",
+  "builtAt": "2026-11-16T05:04:44.057Z",
+  "counts": {
+    "items": 1318,
+    "ships": 225
+  },
+  "validation": {
+    "ships": 225,
+    "dpsMatch": 209,
+    "mismatches": [
+      {
+        "cls": "aegs_idris_m",
+        "ours": 38414,
+        "reference": 43220
+      },
+      {
+        "cls": "aegs_vanguard",
+        "ours": 4153,
+        "reference": 4528
+      },
+      {
+        "cls": "aegs_vanguard_hoplite",
+        "ours": 4133,
+        "reference": 5678
+      },
+      {
+        "cls": "banu_defender",
+        "ours": 1620,
+        "reference": 1279
+      },
+      {
+        "cls": "drak_cutlass_blue",
+        "ours": 3570,
+        "reference": 3473
+      },
+      {
+        "cls": "drak_ironclad",
+        "ours": 6002,
+        "reference": 7127
+      },
+      {
+        "cls": "drak_ironclad_assault",
+        "ours": 12827,
+        "reference": 15827
+      },
+      {
+        "cls": "glsn_shiv",
+        "ours": 3882,
+        "reference": 4145
+      },
+      {
+        "cls": "grin_mdc",
+        "ours": 0,
+        "reference": 360
+      },
+      {
+        "cls": "krig_l22_alphawolf",
+        "ours": 2125,
+        "reference": 1558
+      },
+      {
+        "cls": "krig_s65_stingray",
+        "ours": 2485,
+        "reference": 2638
+      },
+      {
+        "cls": "orig_300i",
+        "ours": 1434,
+        "reference": 1809
+      },
+      {
+        "cls": "orig_315p",
+        "ours": 750,
+        "reference": 1125
+      },
+      {
+        "cls": "orig_325a",
+        "ours": 1775,
+        "reference": 2150
+      },
+      {
+        "cls": "rsi_meteor",
+        "ours": 4513,
+        "reference": 5469
+      },
+      {
+        "cls": "vncl_scythe",
+        "ours": 3282,
+        "reference": 5134
+      }
+    ]
+  }
+}

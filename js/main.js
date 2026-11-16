@@ -109,7 +109,7 @@
     const SECTION_TITLE_KEYS = Object.freeze({
         about: 'nav.about', timeline: 'nav.history', leadership: 'nav.leadership', 'partner-fleets': 'nav.partners',
         hub: 'nav.tradeHub', streamers: 'nav.streamers', gallery: 'nav.gallery', join: 'nav.join', mypage: 'mypage.title',
-        notices: 'nav.notices', ships: 'nav.ships', 'trade-planner': 'nav.tradePlanner', schedule: 'nav.schedule',
+        notices: 'nav.notices', ships: 'nav.ships', loadout: 'nav.loadout', 'trade-planner': 'nav.tradePlanner', schedule: 'nav.schedule',
         policy: 'nav.policy', faq: 'nav.faq', guide: 'nav.tradeGuide', ai: 'VOLT AI', comms: 'nav.comms',
     });
     function updateDocumentTitle(section) {
@@ -1052,7 +1052,7 @@
             renderShips();
         });
     }
-    const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery };
+    const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery, loadout: () => window.VOLT_LOADOUT?.render?.() };
     const renderedLazySections = new Set();
 
     // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.
@@ -1898,6 +1898,11 @@
         });
         // 무역플래너 수익표 — 공용 포매터·토스트·i18n 주입.
         window.VOLT_TRADE_PLANNER?.init?.({ escapeHtml, formatCredits, i18nT, showToast });
+        // 로드아웃 편집기 — 함선 한국어 표시명은 함선DB와 같은 규칙을 쓴다.
+        window.VOLT_LOADOUT?.init?.({
+            escapeHtml, i18nT, currentLang, showToast, formatCredits,
+            shipDisplayName: (voltId, fallback) => { const ship = voltId ? shipById.get(voltId) : null; return ship ? getShipDisplayName(ship) : fallback; },
+        });
         // 공지 UI 계층 — 데이터 접근·공용 유틸 주입(announcements는 CMS 로드로 재할당되므로 getter).
         window.VOLT_NOTICES?.init?.({
             getAnnouncements: () => data.announcements,
