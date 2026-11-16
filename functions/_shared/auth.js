@@ -49,7 +49,10 @@ export async function createSessionCookie(env, discordSession = null) {
   const expires = Math.floor(Date.now() / 1000) + SESSION_MAX_AGE;
   const role = discordSession ? `discord:${discordSession.sid}` : 'admin';
   if (discordSession && !/^[0-9a-f-]{36}$/u.test(discordSession.sid || '')) throw new Error('Invalid Discord session');
-  const payload = `${role}.${expires}`;
+  // 로그인마다 임의 번호를 넣어 쿠키 값을 서로 다르게 만든다. 없으면 같은 초에 발급된
+  // 세션끼리 값이 같아져, 한쪽 로그아웃(폐기)이 다른 로그인까지 끊는다.
+  const nonce = [...crypto.getRandomValues(new Uint8Array(16))].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+  const payload = `${role}.${expires}.${nonce}`;
   const signature = await hmac(payload, getSecret(env));
   return `${SESSION_COOKIE}=${payload}.${signature}; Path=/; Max-Age=${SESSION_MAX_AGE}; HttpOnly; Secure; SameSite=Lax`;
 }
@@ -80,12 +83,16 @@ async function readSignedSession(request, env) {
   const value = parseCookies(request)[SESSION_COOKIE];
   if (!value) return null;
   const parts = value.split('.');
-  if (parts.length !== 3) return null;
-  const [role, expires, signature] = parts;
+  // 현재 형식: role.expires.nonce.signature. 이전 배포가 발급한 3칸 쿠키(nonce 없음)는
+  // 만료(최대 8시간)까지 그대로 인정한다.
+  if (parts.length !== 3 && parts.length !== 4) return null;
+  const signature = parts[parts.length - 1];
+  const [role, expires] = parts;
   const expiry = Number(expires);
   if (!Number.isSafeInteger(expiry) || expiry <= Math.floor(Date.now() / 1000)) return null;
   if (role !== 'admin' && !/^discord:[0-9a-f-]{36}$/u.test(role)) return null;
-  const expectedSignature = await hmac(`${role}.${expires}`, getSecret(env));
+  if (parts.length === 4 && !/^[0-9a-f]{32}$/u.test(parts[2])) return null;
+  const expectedSignature = await hmac(parts.slice(0, -1).join('.'), getSecret(env));
   if (!constantTimeEqual(signature, expectedSignature)) return null;
   return { role, expiry, signature };
 }

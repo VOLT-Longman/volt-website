@@ -75,10 +75,27 @@ test('비밀번호 로그인 세션도 로그아웃 후에는 복사한 쿠키�
   assert.equal(await isAuthenticated(requestFor(cookie), env), true);
   assert.equal((await logout({ request: requestFor(cookie), env })).status, 200);
   assert.equal(await isAuthenticated(requestFor(cookie), env), false);
+  // 같은 초에 발급된 다른 로그인은 값이 달라 함께 끊기지 않는다 (로그인마다 고유 번호).
+  const [first, second] = await Promise.all([adminCookie(env), adminCookie(env)]);
+  assert.notEqual(first, second);
+  assert.equal((await logout({ request: requestFor(first), env })).status, 200);
+  assert.equal(await isAuthenticated(requestFor(first), env), false);
+  assert.equal(await isAuthenticated(requestFor(second), env), true);
+  assert.equal((await logout({ request: requestFor(second), env })).status, 200);
+  // 이전 형식(고유 번호 없는 3칸) 쿠키는 만료 전까지 인정하고, 로그아웃하면 폐기된다.
+  const legacyPayload = `admin.${Math.floor(Date.now() / 1000) + 600}`;
+  const legacy = `volt_admin_session=${legacyPayload}.${await hmac(legacyPayload, env.ADMIN_SESSION_SECRET)}`;
+  assert.equal(await isAuthenticated(requestFor(legacy), env), true);
+  // 고유 번호 자리를 바꾸거나 형식이 틀리면 거부한다.
+  const [role, expires, nonce, signature] = second.split('=')[1].split('.');
+  assert.equal(await isAuthenticated(requestFor(`volt_admin_session=${role}.${expires}.${'0'.repeat(32)}.${signature}`), env), false);
+  assert.equal(await isAuthenticated(requestFor(`volt_admin_session=${role}.${expires}.${nonce}.x.${signature}`), env), false);
+  const revokedCount = async () => (await env.DB.prepare('SELECT count(*) AS n FROM security_revoked_sessions').first()).n;
+  assert.equal(await revokedCount(), 3);
   // 쿠키 없이 또는 변조된 쿠키로 로그아웃해도 오류 없이 끝나고 폐기 목록을 늘리지 않는다.
   assert.equal((await logout({ request: requestFor(''), env })).status, 200);
   assert.equal((await logout({ request: requestFor('volt_admin_session=admin.9999999999.forged'), env })).status, 200);
-  assert.equal((await env.DB.prepare('SELECT count(*) AS n FROM security_revoked_sessions').first()).n, 1);
+  assert.equal(await revokedCount(), 3);
 });
 
 test('Discord CMS rejects unknown configuration, cross-origin sign-in, expired user and non-numeric expiry', async () => {
