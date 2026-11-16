@@ -1,10 +1,10 @@
 {
   "source": "erkul-live",
-  "syncedAt": "2026-10-18T11:55:00.287Z",
+  "syncedAt": "2026-11-16T04:33:31.506Z",
   "shopsCount": 39,
-  "inventoryRows": 624,
-  "shipMarketRows": 624,
-  "shipsWithPurchase": 172,
+  "inventoryRows": 640,
+  "shipMarketRows": 640,
+  "shipsWithPurchase": 180,
   "shipsWithRentals": 45,
   "shipsWithoutMarket": [
     "aegs_gladius_dunlevy",
@@ -13,7 +13,6 @@
     "aegs_idris_p",
     "aegs_sabre_raven",
     "aegs_sabre_raven_ex",
-    "aegs_tiburon",
     "anvl_carrack_expedition",
     "anvl_hornet_f7a_mk1",
     "anvl_hornet_f7a_mk2",
@@ -25,6 +24,7 @@
     "anvl_hornet_f7cm_mk2_heartseeker",
     "anvl_hornet_f7cr",
     "anvl_hornet_f7cs",
+    "anvl_liberator",
     "anvl_lightning_f8",
     "anvl_lightning_f8c",
     "cnou_mustang_omega",
@@ -32,18 +32,13 @@
     "drak_command_module",
     "drak_dragonfly_pink",
     "drak_dragonfly_yellow",
-    "drak_ironclad",
-    "drak_ironclad_assault",
-    "drak_pitbull",
+    "drak_marauder",
+    "gama_hyun",
     "gama_railen",
-    "gama_tyilui",
-    "glsn_basher",
     "krig_p72_archimedes_emerald",
     "krig_s65_stingray",
-    "misc_starlite",
     "mrai_guardian_qi",
     "orig_600i_executive_edition",
-    "orig_m80",
     "rsi_aurora_gs_cl",
     "rsi_aurora_gs_es",
     "rsi_aurora_gs_ln",
@@ -51,7 +46,7 @@
     "rsi_aurora_gs_mr",
     "rsi_aurora_gs_se",
     "rsi_constellation_mk5_centaurus",
-    "rsi_constellation_phoenix_emerald",
+    "rsi_galaxy",
     "rsi_polaris",
     "rsi_skylark",
     "rsi_ursa_rover_emerald",
@@ -66,27 +61,27 @@
   "topPurchaseLocations": [
     {
       "location": "Lorville",
-      "rows": 117
+      "rows": 119
     },
     {
       "location": "Area 18",
-      "rows": 64
+      "rows": 66
     },
     {
       "location": "Levski",
-      "rows": 36
+      "rows": 39
     },
     {
       "location": "Ruin Station",
-      "rows": 19
+      "rows": 22
     },
     {
       "location": "Checkmate Station",
-      "rows": 19
+      "rows": 22
     },
     {
       "location": "Orbituary",
-      "rows": 19
+      "rows": 22
     },
     {
       "location": "Orison",
@@ -107,18 +102,6 @@
       "rows": 21
     },
     {
-      "location": "Stanton Gateway (Nyx)",
-      "rows": 18
-    },
-    {
-      "location": "Stanton Gateway (Pyro)",
-      "rows": 18
-    },
-    {
-      "location": "Pyro Gateway (Stanton)",
-      "rows": 18
-    },
-    {
       "location": "Terra Gateway (Stanton)",
       "rows": 18
     },
@@ -131,7 +114,19 @@
       "rows": 18
     },
     {
+      "location": "Stanton Gateway (Nyx)",
+      "rows": 18
+    },
+    {
       "location": "Nyx Gateway (Pyro)",
+      "rows": 18
+    },
+    {
+      "location": "Stanton Gateway (Pyro)",
+      "rows": 18
+    },
+    {
+      "location": "Pyro Gateway (Stanton)",
       "rows": 18
     }
   ]

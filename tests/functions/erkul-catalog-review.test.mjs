@@ -42,17 +42,20 @@ test('published review identities, current source versions, and retained histori
     const ctx = createContext({ window: {} });
     runInContext(read('data/ship-live-stats.js'), ctx);
     const live = ctx.window.VOLT_SHIP_LIVE_STATS;
+    // 검토 기록(20261018)의 식별자는 고정이지만, 원본 버전은 이후 Safe Apply로 올라간다.
+    // 버전 일치는 현재 수집 메타(catalog-meta.json)를 기준으로 확인한다.
+    const currentVersion = JSON.parse(read('data/external/erkul/catalog-meta.json')).version;
     for (const row of [...reviewed.migrations, ...reviewed.additions]) {
         if (isExcludedShip(row)) { assert.equal(live[row.id], undefined); continue; }
         assert.equal(live[row.id].erkulLocalName, row.localName);
         assert.equal(live[row.id].erkulRef, row.ref);
-        assert.equal(live[row.id].sourceVersion, reviewed.sourceVersion);
+        assert.equal(live[row.id].sourceVersion, currentVersion);
     }
     for (const id of reviewed.historical) {
-        assert.notEqual(live[id].sourceVersion, reviewed.sourceVersion);
+        assert.notEqual(live[id].sourceVersion, currentVersion);
         assert.ok(live[id].syncedAt < '2026-10-18');
     }
-    assert.equal(Object.values(live).filter(row => row.sourceVersion === reviewed.sourceVersion).length, 214);
+    assert.equal(Object.values(live).filter(row => row.sourceVersion === currentVersion).length, 214);
     assert.equal(new Set(Object.values(live).map(row => row.erkulRef)).size, 217);
     assert.ok(!Object.values(live).some(row => row.erkulLocalName === 'drak_command_module'));
 });

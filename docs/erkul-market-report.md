@@ -2,10 +2,10 @@
 
 `ship-market-normalized.json` 산출 결과 요약. 재현: `npm run shipdb:erkul:market`
 
-- 원천: Erkul live shop (fetch: 2026-10-18T11:55:00.287Z)
-- 상점 39개 / inventory 624행 / 함선 매칭 624행
-- 구매처 확인 함선: **172척** / 렌탈처 확인 함선: **45척**
-- 판매처 없는 함선: 50척 (인게임 비판매 — 픽업 전용/이벤트/컨셉 판매 함선 포함)
+- 원천: Erkul live shop (fetch: 2026-11-16T04:33:31.506Z)
+- 상점 39개 / inventory 640행 / 함선 매칭 640행
+- 구매처 확인 함선: **180척** / 렌탈처 확인 함선: **45척**
+- 판매처 없는 함선: 45척 (인게임 비판매 — 픽업 전용/이벤트/컨셉 판매 함선 포함)
 
 ## 분류 규칙 적용 결과
 
@@ -23,16 +23,16 @@
 
 ## 판매처 없는 함선 목록
 
-`aegs_gladius_dunlevy`, `aegs_gladius_pir`, `aegs_idris_m`, `aegs_idris_p`, `aegs_sabre_raven`, `aegs_sabre_raven_ex`, `aegs_tiburon`, `anvl_carrack_expedition`, `anvl_hornet_f7a_mk1`, `anvl_hornet_f7a_mk2`, `anvl_hornet_f7c`, `anvl_hornet_f7c_wildfire`, `anvl_hornet_f7cm`, `anvl_hornet_f7cm_heartseeker`, `anvl_hornet_f7cm_mk2`, `anvl_hornet_f7cm_mk2_heartseeker`, `anvl_hornet_f7cr`, `anvl_hornet_f7cs`, `anvl_lightning_f8`, `anvl_lightning_f8c`, `cnou_mustang_omega`, `drak_caterpillar_pirate`, `drak_command_module`, `drak_dragonfly_pink`, `drak_dragonfly_yellow`, `drak_ironclad`, `drak_ironclad_assault`, `drak_pitbull`, `gama_railen`, `gama_tyilui`, `glsn_basher`, `krig_p72_archimedes_emerald`, `krig_s65_stingray`, `misc_starlite`, `mrai_guardian_qi`, `orig_600i_executive_edition`, `orig_m80`, `rsi_aurora_gs_cl`, `rsi_aurora_gs_es`, `rsi_aurora_gs_ln`, `rsi_aurora_gs_lx`, `rsi_aurora_gs_mr`, `rsi_aurora_gs_se`, `rsi_constellation_mk5_centaurus`, `rsi_constellation_phoenix_emerald`, `rsi_polaris`, `rsi_skylark`, `rsi_ursa_rover_emerald`, `vncl_glaive`, `vncl_scythe`
+`aegs_gladius_dunlevy`, `aegs_gladius_pir`, `aegs_idris_m`, `aegs_idris_p`, `aegs_sabre_raven`, `aegs_sabre_raven_ex`, `anvl_carrack_expedition`, `anvl_hornet_f7a_mk1`, `anvl_hornet_f7a_mk2`, `anvl_hornet_f7c`, `anvl_hornet_f7c_wildfire`, `anvl_hornet_f7cm`, `anvl_hornet_f7cm_heartseeker`, `anvl_hornet_f7cm_mk2`, `anvl_hornet_f7cm_mk2_heartseeker`, `anvl_hornet_f7cr`, `anvl_hornet_f7cs`, `anvl_liberator`, `anvl_lightning_f8`, `anvl_lightning_f8c`, `cnou_mustang_omega`, `drak_caterpillar_pirate`, `drak_command_module`, `drak_dragonfly_pink`, `drak_dragonfly_yellow`, `drak_marauder`, `gama_hyun`, `gama_railen`, `krig_p72_archimedes_emerald`, `krig_s65_stingray`, `mrai_guardian_qi`, `orig_600i_executive_edition`, `rsi_aurora_gs_cl`, `rsi_aurora_gs_es`, `rsi_aurora_gs_ln`, `rsi_aurora_gs_lx`, `rsi_aurora_gs_mr`, `rsi_aurora_gs_se`, `rsi_constellation_mk5_centaurus`, `rsi_galaxy`, `rsi_polaris`, `rsi_skylark`, `rsi_ursa_rover_emerald`, `vncl_glaive`, `vncl_scythe`
 
 ## top 구매 location
 
-- Lorville: 117행
-- Area 18: 64행
-- Levski: 36행
-- Ruin Station: 19행
-- Checkmate Station: 19행
-- Orbituary: 19행
+- Lorville: 119행
+- Area 18: 66행
+- Levski: 39행
+- Ruin Station: 22행
+- Checkmate Station: 22행
+- Orbituary: 22행
 - Orison: 10행
 
 ## top 렌탈 location
@@ -40,13 +40,13 @@
 - Lorville: 29행
 - Area 18: 21행
 - Orison: 21행
-- Stanton Gateway (Nyx): 18행
-- Stanton Gateway (Pyro): 18행
-- Pyro Gateway (Stanton): 18행
 - Terra Gateway (Stanton): 18행
 - Nyx Gateway (Stanton): 18행
 - Pyro Gateway (Nyx): 18행
+- Stanton Gateway (Nyx): 18행
 - Nyx Gateway (Pyro): 18행
+- Stanton Gateway (Pyro): 18행
+- Pyro Gateway (Stanton): 18행
 
 ## 대표 샘플
 
@@ -117,7 +117,7 @@
 - 렌탈처:
   - 없음
 
-### Anvil Ballista (`anvl_ballista`)
+### Anvil HM6 Ballista (`anvl_ballista`)
 
 - 구매처:
   - Astro Armada - Area 18 @ Area 18 — 1,481,760 aUEC

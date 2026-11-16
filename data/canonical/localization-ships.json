@@ -1,7 +1,7 @@
 {
   "schema": "shipdb-localization/v1",
   "note": "1단계 병렬 localization(KO). D2: Erkul EN+sourceEnHash 기준. 전환 시 missing+stale=0 필수(3.2 게이트).",
-  "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
+  "generatedFromCommit": "45eb4badc6c09a5b7502be7253ddf76af1c58310",
   "count": 217,
   "summary": {
     "ok": 217,
@@ -277,10 +277,10 @@
     },
     {
       "id": "ballista",
-      "ko": "Anvil Ballista로 당신의 영공을 위협으로부터 지켜내십시오. 본래 Vanduul의 공격으로부터 전초기지를 방어하기 위해 설계된 이 기동형 미사일 방어 시스템은 강력한 무장을 갖추고 있어, 공중과 지상 어느 쪽에서 위협이 다가오든 Ballista는 굳건히 맞설 수 있습니다.",
+      "ko": "Anvil HM6 Ballista로 당신의 영공을 위협으로부터 지켜내십시오. 본래 Vanduul의 공격으로부터 전초기지를 방어하기 위해 설계된 이 기동형 미사일 방어 시스템은 강력한 무장을 갖추고 있어, 공중과 지상 어느 쪽에서 위협이 다가오든 Ballista는 굳건히 맞설 수 있습니다.",
       "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "efa0ba71a6d3d8ff",
-      "currentEnHash": "efa0ba71a6d3d8ff",
+      "sourceEnHash": "430f0f2ab7cdac9d",
+      "currentEnHash": "430f0f2ab7cdac9d",
       "status": "ok"
     },
     {
@@ -373,10 +373,10 @@
     },
     {
       "id": "centurion",
-      "ko": "Anvil의 인기 Atlas 플랫폼을 기반으로 제작된 Centurion은 단거리 대공 작전을 위한 전술적 해법을 제시합니다. Centurion의 전용 에너지 기반 대공 터렛 덕분에 상공의 즉각적인 위협을 빠르고 효율적으로 처리하여 아군 지상 우세를 확보할 수 있습니다.",
+      "ko": "Anvil의 인기 HM6 플랫폼을 기반으로 제작된 Centurion은 단거리 대공 작전을 위한 전술적 해법을 제시합니다. Centurion의 전용 에너지 기반 대공 터렛 덕분에 상공의 즉각적인 위협을 빠르고 효율적으로 처리하여 아군 지상 우세를 확보할 수 있습니다.",
       "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "b3e5c3b88c63236a",
-      "currentEnHash": "b3e5c3b88c63236a",
+      "sourceEnHash": "230f959de598d64f",
+      "currentEnHash": "230f959de598d64f",
       "status": "ok"
     },
     {
@@ -1485,10 +1485,10 @@
     },
     {
       "id": "spartan",
-      "ko": "Anvil의 견고한 Atlas Platform, 즉 강력한 Ballista 방공 시스템에 사용된 것과 동일한 섀시를 기반으로 제작된 Spartan은 8개의 점프 시트를 갖춘 완전 장갑 수송 차량입니다. Spartan의 튼튼한 프레임은 모든 종류의 지형에 완벽하게 대응하며, 원격 개틀링 터렛은 주변을 정리해 더욱 수월한 전개를 돕습니다.",
+      "ko": "Anvil의 견고한 HM6 플랫폼, 즉 강력한 Ballista 방공 시스템에 사용된 것과 동일한 섀시를 기반으로 제작된 Spartan은 8개의 점프 시트를 갖춘 완전 장갑 수송 차량입니다. Spartan의 튼튼한 프레임은 모든 종류의 지형에 완벽하게 대응하며, 원격 개틀링 터렛은 주변을 정리해 더욱 수월한 전개를 돕습니다.",
       "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "67b07e6e9b1ae3cb",
-      "currentEnHash": "67b07e6e9b1ae3cb",
+      "sourceEnHash": "c64076f8ee8edcc9",
+      "currentEnHash": "c64076f8ee8edcc9",
       "status": "ok"
     },
     {
@@ -1647,8 +1647,8 @@
       "id": "ursa-medivac",
       "ko": "가장 외딴 행성 지표의 오지에서도 도움의 손길이 필요한 사람들이 있습니다. 가장 험난한 지형도 넘을 수 있도록 RSI가 설계한 Ursa Medivac은 도움이 가장 절실한 곳 어디에서든 치료를 제공하기에 이상적인 3등급 의료 침대를 갖추고 있습니다.",
       "koSource": "translated-from-erkul-en",
-      "sourceEnHash": "fa2d463378713e72",
-      "currentEnHash": "fa2d463378713e72",
+      "sourceEnHash": "a988de43a0bc7ebc",
+      "currentEnHash": "a988de43a0bc7ebc",
       "status": "ok"
     },
     {

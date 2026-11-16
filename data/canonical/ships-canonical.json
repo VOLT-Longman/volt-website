@@ -1,10 +1,10 @@
 {
   "schema": "shipdb-canonical/v1",
   "note": "Erkul live 기본값과 승인된 RSI 공식 필드 보정으로 생성한 canonical 데이터셋.",
-  "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
+  "generatedFromCommit": "45eb4badc6c09a5b7502be7253ddf76af1c58310",
   "sourceHashes": {
-    "data/ship-live-stats.js": "64d88f7556f16411",
-    "data/ship-market.js": "d44dc92a86fa776b",
+    "data/ship-live-stats.js": "0aad7d2965273ae1",
+    "data/ship-market.js": "03d4a3d762aa001d",
     "data/canonical/official-spec-overrides.json": "8bef1e863eb7a665"
   },
   "officialOverrides": [
@@ -2643,7 +2643,7 @@
         "component": 1
       },
       "descriptions": {
-        "en": "Keep your airspace clear of danger with the Anvil Ballista. Originally designed to defend outposts from Vanduul attacks, this mobile missile defense system packs a powerful loadout, allowing the Ballista to stand firm against any threat, whether it arrives by air or land."
+        "en": "Keep your airspace clear of danger with the Anvil HM6 Ballista. Originally designed to defend outposts from Vanduul attacks, this mobile missile defense system packs a powerful loadout, allowing the Ballista to stand firm against any threat, whether it arrives by air or land."
       },
       "market": {
         "purchase": [
@@ -2727,7 +2727,29 @@
         "en": "A testament to making something out of nothing, the Basher comes together to form a beast to be reckoned with. The long development of this ship, due to Greycat's trial-and-error approach to mixing ship parts until they figured out the best combinations, goes to show the work put in to elevate this machine from the scraps it was built from."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "Buy and Fly - Ruin Station",
+            "location": "Ruin Station",
+            "price": 3174190,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Buy and Fly - Checkmate",
+            "location": "Checkmate Station",
+            "price": 3174190,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Buy and Fly - Orbituary",
+            "location": "Orbituary",
+            "price": 3174190,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
@@ -3603,7 +3625,7 @@
         "component": 1
       },
       "descriptions": {
-        "en": "Built on Anvil's popular Atlas Platform, the Centurion presents a tactical solution for short-range anti-aircraft operations. Thanks to the Centurion’s custom energy-based AA turret, your forces can establish ground superiority by assuring immediate threats from above are dealt with quickly and efficiently."
+        "en": "Built on Anvil's popular HM6 Platform, the Centurion presents a tactical solution for short-range anti-aircraft operations. Thanks to the Centurion’s custom energy-based AA turret, your forces can establish ground superiority by assuring immediate threats from above are dealt with quickly and efficiently."
       },
       "market": {
         "purchase": [
@@ -3705,21 +3727,21 @@
           {
             "shop": "Buy and Fly - Ruin Station",
             "location": "Ruin Station",
-            "price": 3810240,
+            "price": 3619730,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Checkmate",
             "location": "Checkmate Station",
-            "price": 3810240,
+            "price": 3619730,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Orbituary",
             "location": "Orbituary",
-            "price": 3810240,
+            "price": 3619730,
             "available": null,
             "unavailable": null
           }
@@ -3747,41 +3769,6 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
-            "price": 95256,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
-            "price": 95256,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
-            "price": 95256,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L1",
-            "location": "HUR-L1 Green Glade Station",
-            "price": 95256,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L2",
-            "location": "HUR-L2 Faithful Dream Station",
-            "price": 95256,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - ARC-L4",
             "location": "ARC-L4 Faint Glen Station",
             "price": 95256,
@@ -3789,36 +3776,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L1",
-            "location": "MIC-L1 Shallow Frontier Station",
-            "price": 95256,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - CRU-L1",
             "location": "CRU-L1 Ambitious Dream Station",
-            "price": 95256,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
-            "location": "Pyro Gateway (Stanton)",
-            "price": 90494,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
-            "price": 95256,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - MIC-L5",
-            "location": "MIC-L5 Modern Icarus Station",
             "price": 95256,
             "available": null,
             "unavailable": null
@@ -3847,6 +3806,69 @@
           {
             "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
             "location": "Stanton Gateway (Nyx)",
+            "price": 95256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L1",
+            "location": "HUR-L1 Green Glade Station",
+            "price": 95256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L2",
+            "location": "HUR-L2 Faithful Dream Station",
+            "price": 95256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L1",
+            "location": "MIC-L1 Shallow Frontier Station",
+            "price": 95256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+            "location": "Pyro Gateway (Stanton)",
+            "price": 90494,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
+            "price": 95256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
+            "price": 95256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 95256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L5",
+            "location": "MIC-L5 Modern Icarus Station",
+            "price": 95256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 95256,
             "available": null,
             "unavailable": null
@@ -4052,7 +4074,7 @@
         }
       },
       "fuel": {
-        "hydrogenScu": 46.8,
+        "hydrogenScu": 32,
         "quantumScu": 8.6
       },
       "insurance": {
@@ -4501,71 +4523,8 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Port Tressler",
-            "location": "Port Tressler",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L1",
-            "location": "HUR-L1 Green Glade Station",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L2",
-            "location": "HUR-L2 Faithful Dream Station",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Seraphim",
-            "location": "Seraphim Station",
             "price": 52920,
             "available": null,
             "unavailable": null
@@ -4578,13 +4537,6 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L1",
-            "location": "MIC-L1 Shallow Frontier Station",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - CRU-L1",
             "location": "CRU-L1 Ambitious Dream Station",
             "price": 52920,
@@ -4592,43 +4544,15 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
-            "location": "Pyro Gateway (Stanton)",
-            "price": 50274,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
-            "location": "Pyro Gateway (Stanton)",
-            "price": 50274,
+            "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+            "location": "Port Tressler",
+            "price": 52920,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
             "location": "Terra Gateway (Stanton)",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
-            "price": 52920,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
-            "location": "Everus Harbor",
-            "price": 50274,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - MIC-L5",
-            "location": "MIC-L5 Modern Icarus Station",
             "price": 52920,
             "available": null,
             "unavailable": null
@@ -4669,6 +4593,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
             "location": "Stanton Gateway (Nyx)",
             "price": 52920,
@@ -4678,6 +4609,97 @@
           {
             "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
             "location": "Nyx Gateway (Pyro)",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L1",
+            "location": "HUR-L1 Green Glade Station",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L2",
+            "location": "HUR-L2 Faithful Dream Station",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Seraphim",
+            "location": "Seraphim Station",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L1",
+            "location": "MIC-L1 Shallow Frontier Station",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+            "location": "Pyro Gateway (Stanton)",
+            "price": 50274,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+            "location": "Pyro Gateway (Stanton)",
+            "price": 50274,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+            "location": "Everus Harbor",
+            "price": 50274,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L5",
+            "location": "MIC-L5 Modern Icarus Station",
+            "price": 52920,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 52920,
             "available": null,
             "unavailable": null
@@ -5051,9 +5073,37 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+            "location": "Baijini Point",
+            "price": 9525,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Port Tressler",
             "location": "Port Tressler",
             "price": 9525,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
+            "price": 9525,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 9525,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
+            "price": 9526,
             "available": null,
             "unavailable": null
           },
@@ -5065,8 +5115,8 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
-            "location": "Baijini Point",
+            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+            "location": "Nyx Gateway (Pyro)",
             "price": 9526,
             "available": null,
             "unavailable": null
@@ -5093,37 +5143,9 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 9526,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
             "location": "Everus Harbor",
             "price": 9050,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 9526,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 9526,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
-            "location": "Nyx Gateway (Pyro)",
-            "price": 9526,
             "available": null,
             "unavailable": null
           }
@@ -7109,21 +7131,21 @@
           {
             "shop": "Buy and Fly - Ruin Station",
             "location": "Ruin Station",
-            "price": 1890000,
+            "price": 1795500,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Checkmate",
             "location": "Checkmate Station",
-            "price": 1890000,
+            "price": 1795500,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Orbituary",
             "location": "Orbituary",
-            "price": 1890000,
+            "price": 1795500,
             "available": null,
             "unavailable": null
           }
@@ -7158,41 +7180,6 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L1",
-            "location": "HUR-L1 Green Glade Station",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L2",
-            "location": "HUR-L2 Faithful Dream Station",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - ARC-L4",
             "location": "ARC-L4 Faint Glen Station",
             "price": 28350,
@@ -7200,36 +7187,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L1",
-            "location": "MIC-L1 Shallow Frontier Station",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - CRU-L1",
             "location": "CRU-L1 Ambitious Dream Station",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
-            "location": "Pyro Gateway (Stanton)",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
-            "price": 28350,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - MIC-L5",
-            "location": "MIC-L5 Modern Icarus Station",
             "price": 28350,
             "available": null,
             "unavailable": null
@@ -7258,6 +7217,69 @@
           {
             "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
             "location": "Stanton Gateway (Nyx)",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L1",
+            "location": "HUR-L1 Green Glade Station",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L2",
+            "location": "HUR-L2 Faithful Dream Station",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L1",
+            "location": "MIC-L1 Shallow Frontier Station",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+            "location": "Pyro Gateway (Stanton)",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L5",
+            "location": "MIC-L5 Modern Icarus Station",
+            "price": 28350,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 28350,
             "available": null,
             "unavailable": null
@@ -7515,8 +7537,36 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+            "location": "Baijini Point",
+            "price": 85050,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Port Tressler",
             "location": "Port Tressler",
+            "price": 85050,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
+            "price": 85050,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 85050,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
             "price": 85050,
             "available": null,
             "unavailable": null
@@ -7529,8 +7579,8 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
-            "location": "Baijini Point",
+            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+            "location": "Nyx Gateway (Pyro)",
             "price": 85050,
             "available": null,
             "unavailable": null
@@ -7557,37 +7607,9 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 85050,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
             "location": "Everus Harbor",
             "price": 80798,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 85050,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 85050,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
-            "location": "Nyx Gateway (Pyro)",
-            "price": 85050,
             "available": null,
             "unavailable": null
           }
@@ -8338,21 +8360,21 @@
           {
             "shop": "Buy and Fly - Ruin Station",
             "location": "Ruin Station",
-            "price": 1058400,
+            "price": 1005480,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Checkmate",
             "location": "Checkmate Station",
-            "price": 1058400,
+            "price": 1005480,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Orbituary",
             "location": "Orbituary",
-            "price": 1058400,
+            "price": 1005480,
             "available": null,
             "unavailable": null
           }
@@ -8387,41 +8409,6 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
-            "price": 15876,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
-            "price": 15876,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
-            "price": 15876,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L1",
-            "location": "HUR-L1 Green Glade Station",
-            "price": 15876,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L2",
-            "location": "HUR-L2 Faithful Dream Station",
-            "price": 15876,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - ARC-L4",
             "location": "ARC-L4 Faint Glen Station",
             "price": 15876,
@@ -8429,36 +8416,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L1",
-            "location": "MIC-L1 Shallow Frontier Station",
-            "price": 15876,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - CRU-L1",
             "location": "CRU-L1 Ambitious Dream Station",
-            "price": 15876,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
-            "location": "Pyro Gateway (Stanton)",
-            "price": 15083,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
-            "price": 15876,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - MIC-L5",
-            "location": "MIC-L5 Modern Icarus Station",
             "price": 15876,
             "available": null,
             "unavailable": null
@@ -8487,6 +8446,69 @@
           {
             "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
             "location": "Stanton Gateway (Nyx)",
+            "price": 15876,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L1",
+            "location": "HUR-L1 Green Glade Station",
+            "price": 15876,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L2",
+            "location": "HUR-L2 Faithful Dream Station",
+            "price": 15876,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L1",
+            "location": "MIC-L1 Shallow Frontier Station",
+            "price": 15876,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+            "location": "Pyro Gateway (Stanton)",
+            "price": 15083,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
+            "price": 15876,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
+            "price": 15876,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 15876,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L5",
+            "location": "MIC-L5 Modern Icarus Station",
+            "price": 15876,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 15876,
             "available": null,
             "unavailable": null
@@ -8574,21 +8596,21 @@
           {
             "shop": "Buy and Fly - Ruin Station",
             "location": "Ruin Station",
-            "price": 1209600,
+            "price": 1149120,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Checkmate",
             "location": "Checkmate Station",
-            "price": 1209600,
+            "price": 1149120,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Orbituary",
             "location": "Orbituary",
-            "price": 1209600,
+            "price": 1149120,
             "available": null,
             "unavailable": null
           }
@@ -9324,8 +9346,36 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+            "location": "Baijini Point",
+            "price": 34020,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Port Tressler",
             "location": "Port Tressler",
+            "price": 34020,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
+            "price": 34220,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 34020,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
             "price": 34020,
             "available": null,
             "unavailable": null
@@ -9338,8 +9388,8 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
-            "location": "Baijini Point",
+            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+            "location": "Nyx Gateway (Pyro)",
             "price": 34020,
             "available": null,
             "unavailable": null
@@ -9366,37 +9416,9 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 34020,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
             "location": "Everus Harbor",
             "price": 32319,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 34020,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 34020,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
-            "location": "Nyx Gateway (Pyro)",
-            "price": 34020,
             "available": null,
             "unavailable": null
           }
@@ -9914,7 +9936,15 @@
         "en": "The universe has steadily grown more dangerous, and simply trying to earn a living has become a potentially lethal affair. That’s why Drake built the hardiest freighter to fly the shipping lanes armed with an intimidating array of turrets, a generous cargo hold, and a convenient tractor beam."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "Teach's Ship Shop - Levski",
+            "location": "Levski",
+            "price": 41773300,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
@@ -9980,7 +10010,29 @@
         "en": "When the special delivery you have to make is a full-blown incursion, you need the Drake Ironclad Assault. Not only can it fit multiple ground vehicles into its hold, it has turrets along its underside to clear the way for landing, and even a fabrication bay for emergency repairs."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "Buy and Fly - Ruin Station",
+            "location": "Ruin Station",
+            "price": 42880200,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Buy and Fly - Checkmate",
+            "location": "Checkmate Station",
+            "price": 42880200,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Buy and Fly - Orbituary",
+            "location": "Orbituary",
+            "price": 42880200,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
@@ -10512,7 +10564,15 @@
         "en": "Embrace elegance without compromising defense with the M80. Featuring Origin's famous sleek and sophisticated design, the ship's hull slyly hides an aggressive weapons systems that can be unfurled and unleashed on assailants at a moment's notice."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "Astro Armada - Area 18",
+            "location": "Area 18",
+            "price": 7938000,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
@@ -10663,21 +10723,21 @@
           {
             "shop": "Buy and Fly - Ruin Station",
             "location": "Ruin Station",
-            "price": 127575,
+            "price": 121197,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Checkmate",
             "location": "Checkmate Station",
-            "price": 127575,
+            "price": 121197,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Orbituary",
             "location": "Orbituary",
-            "price": 127575,
+            "price": 121197,
             "available": null,
             "unavailable": null
           }
@@ -10948,6 +11008,27 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+            "location": "Baijini Point",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L4",
+            "location": "ARC-L4 Faint Glen Station",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - CRU-L1",
+            "location": "CRU-L1 Ambitious Dream Station",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Port Tressler",
             "location": "Port Tressler",
             "price": 223256,
@@ -10955,22 +11036,43 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
+            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
             "price": 223256,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
+            "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
             "price": 223256,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
+            "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
             "price": 223256,
             "available": null,
             "unavailable": null
@@ -10983,9 +11085,16 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
-            "location": "Baijini Point",
-            "price": 223257,
+            "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+            "location": "Nyx Gateway (Pyro)",
+            "price": 223256,
             "available": null,
             "unavailable": null
           },
@@ -11018,22 +11127,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L4",
-            "location": "ARC-L4 Faint Glen Station",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - MIC-L1",
             "location": "MIC-L1 Shallow Frontier Station",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - CRU-L1",
-            "location": "CRU-L1 Ambitious Dream Station",
             "price": 223257,
             "available": null,
             "unavailable": null
@@ -11053,15 +11148,15 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
+            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
             "price": 223257,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
             "price": 223257,
             "available": null,
             "unavailable": null
@@ -11074,6 +11169,13 @@
             "unavailable": null
           },
           {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 223257,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Vantage Rentals - MIC-L5",
             "location": "MIC-L5 Modern Icarus Station",
             "price": 223257,
@@ -11081,50 +11183,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
-            "location": "Nyx Gateway (Pyro)",
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 223257,
             "available": null,
             "unavailable": null
@@ -11215,21 +11275,21 @@
           {
             "shop": "Buy and Fly - Ruin Station",
             "location": "Ruin Station",
-            "price": 8930250,
+            "price": 8483740,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Checkmate",
             "location": "Checkmate Station",
-            "price": 8930250,
+            "price": 8483740,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Orbituary",
             "location": "Orbituary",
-            "price": 8930250,
+            "price": 8483740,
             "available": null,
             "unavailable": null
           }
@@ -11250,22 +11310,43 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
+            "shop": "Vantage Rentals - ARC-L4",
+            "location": "ARC-L4 Faint Glen Station",
             "price": 223256,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
+            "shop": "Vantage Rentals - CRU-L1",
+            "location": "CRU-L1 Ambitious Dream Station",
             "price": 223256,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
+            "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
+            "price": 223256,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
             "price": 223256,
             "available": null,
             "unavailable": null
@@ -11285,22 +11366,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L4",
-            "location": "ARC-L4 Faint Glen Station",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - MIC-L1",
             "location": "MIC-L1 Shallow Frontier Station",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - CRU-L1",
-            "location": "CRU-L1 Ambitious Dream Station",
             "price": 223257,
             "available": null,
             "unavailable": null
@@ -11320,6 +11387,20 @@
             "unavailable": null
           },
           {
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
+            "price": 223257,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 223257,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Vantage Rentals - MIC-L5",
             "location": "MIC-L5 Modern Icarus Station",
             "price": 223257,
@@ -11327,29 +11408,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 223257,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 223257,
             "available": null,
             "unavailable": null
@@ -11599,8 +11659,36 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+            "location": "Baijini Point",
+            "price": 10395,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Port Tressler",
             "location": "Port Tressler",
+            "price": 10395,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
+            "price": 10395,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 10395,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
             "price": 10395,
             "available": null,
             "unavailable": null
@@ -11613,8 +11701,8 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
-            "location": "Baijini Point",
+            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+            "location": "Nyx Gateway (Pyro)",
             "price": 10395,
             "available": null,
             "unavailable": null
@@ -11641,37 +11729,9 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 10395,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
             "location": "Everus Harbor",
             "price": 9876,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 10395,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 10395,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
-            "location": "Nyx Gateway (Pyro)",
-            "price": 10395,
             "available": null,
             "unavailable": null
           }
@@ -11751,21 +11811,21 @@
           {
             "shop": "Buy and Fly - Ruin Station",
             "location": "Ruin Station",
-            "price": 75600,
+            "price": 71820,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Checkmate",
             "location": "Checkmate Station",
-            "price": 75600,
+            "price": 71820,
             "available": null,
             "unavailable": null
           },
           {
             "shop": "Buy and Fly - Orbituary",
             "location": "Orbituary",
-            "price": 75600,
+            "price": 71820,
             "available": null,
             "unavailable": null
           }
@@ -12347,8 +12407,36 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+            "location": "Baijini Point",
+            "price": 30240,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Port Tressler",
             "location": "Port Tressler",
+            "price": 30240,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
+            "price": 30240,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 30240,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
             "price": 30240,
             "available": null,
             "unavailable": null
@@ -12361,8 +12449,8 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
-            "location": "Baijini Point",
+            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+            "location": "Nyx Gateway (Pyro)",
             "price": 30240,
             "available": null,
             "unavailable": null
@@ -12389,37 +12477,9 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 30240,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
             "location": "Everus Harbor",
             "price": 28728,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 30240,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 30240,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
-            "location": "Nyx Gateway (Pyro)",
-            "price": 30240,
             "available": null,
             "unavailable": null
           }
@@ -13085,7 +13145,36 @@
         "en": "A lean, mean fighting machine. The Pitbull combines high speed maneuvering with raw firepower to bring you a hard-hitting juggernaut - all in a small, single pilot package."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "Teach's Ship Shop - Levski",
+            "location": "Levski",
+            "price": 637875,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Buy and Fly - Ruin Station",
+            "location": "Ruin Station",
+            "price": 605982,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Buy and Fly - Checkmate",
+            "location": "Checkmate Station",
+            "price": 605982,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Buy and Fly - Orbituary",
+            "location": "Orbituary",
+            "price": 605982,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
@@ -13256,6 +13345,27 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+            "location": "Baijini Point",
+            "price": 73237,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L4",
+            "location": "ARC-L4 Faint Glen Station",
+            "price": 73237,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - CRU-L1",
+            "location": "CRU-L1 Ambitious Dream Station",
+            "price": 73237,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Traveler Rentals - Cargo Center - Port Tressler",
             "location": "Port Tressler",
             "price": 73237,
@@ -13263,23 +13373,44 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
+            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
             "price": 73237,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
+            "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
             "price": 73237,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
-            "price": 73238,
+            "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 73237,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 73237,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
+            "price": 73237,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
+            "price": 73237,
             "available": null,
             "unavailable": null
           },
@@ -13291,9 +13422,16 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Baijini Point",
-            "location": "Baijini Point",
-            "price": 73238,
+            "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 73237,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+            "location": "Nyx Gateway (Pyro)",
+            "price": 73237,
             "available": null,
             "unavailable": null
           },
@@ -13326,22 +13464,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L4",
-            "location": "ARC-L4 Faint Glen Station",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - MIC-L1",
             "location": "MIC-L1 Shallow Frontier Station",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - CRU-L1",
-            "location": "CRU-L1 Ambitious Dream Station",
             "price": 73238,
             "available": null,
             "unavailable": null
@@ -13361,15 +13485,15 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
+            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
             "price": 73238,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
             "price": 73238,
             "available": null,
             "unavailable": null
@@ -13382,6 +13506,13 @@
             "unavailable": null
           },
           {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 73238,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Vantage Rentals - MIC-L5",
             "location": "MIC-L5 Modern Icarus Station",
             "price": 73238,
@@ -13389,50 +13520,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
-            "price": 73238,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
-            "location": "Nyx Gateway (Pyro)",
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 73238,
             "available": null,
             "unavailable": null
@@ -14907,23 +14996,44 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
-            "price": 2600,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
+            "shop": "Vantage Rentals - ARC-L4",
+            "location": "ARC-L4 Faint Glen Station",
             "price": 2598,
             "available": null,
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
-            "price": 2599,
+            "shop": "Vantage Rentals - CRU-L1",
+            "location": "CRU-L1 Ambitious Dream Station",
+            "price": 2598,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+            "location": "Terra Gateway (Stanton)",
+            "price": 2598,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+            "location": "Nyx Gateway (Stanton)",
+            "price": 2598,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+            "location": "Pyro Gateway (Nyx)",
+            "price": 2598,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 2598,
             "available": null,
             "unavailable": null
           },
@@ -14942,22 +15052,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - ARC-L4",
-            "location": "ARC-L4 Faint Glen Station",
-            "price": 2599,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - MIC-L1",
             "location": "MIC-L1 Shallow Frontier Station",
-            "price": 2599,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - CRU-L1",
-            "location": "CRU-L1 Ambitious Dream Station",
             "price": 2599,
             "available": null,
             "unavailable": null
@@ -14977,6 +15073,20 @@
             "unavailable": null
           },
           {
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
+            "price": 2599,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 2599,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Vantage Rentals - MIC-L5",
             "location": "MIC-L5 Modern Icarus Station",
             "price": 2599,
@@ -14984,29 +15094,8 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - Terra Gateway (Stanton)",
-            "location": "Terra Gateway (Stanton)",
-            "price": 2599,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
-            "location": "Nyx Gateway (Stanton)",
-            "price": 2599,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
-            "location": "Pyro Gateway (Nyx)",
-            "price": 2599,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 2599,
             "available": null,
             "unavailable": null
@@ -15704,71 +15793,8 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Port Tressler",
-            "location": "Port Tressler",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - MIC-L2",
-            "location": "MIC-L2 Long Forest Station",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L1",
-            "location": "ARC-L1 Wide Forest Station",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - ARC-L2",
-            "location": "ARC-L2 Lively Pathway Station",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
-            "location": "Stanton Gateway (Nyx)",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Traveler Rentals - Cargo Center - Baijini Point",
             "location": "Baijini Point",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L1",
-            "location": "HUR-L1 Green Glade Station",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - HUR-L2",
-            "location": "HUR-L2 Faithful Dream Station",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Seraphim",
-            "location": "Seraphim Station",
             "price": 31185,
             "available": null,
             "unavailable": null
@@ -15781,13 +15807,6 @@
             "unavailable": null
           },
           {
-            "shop": "Vantage Rentals - MIC-L1",
-            "location": "MIC-L1 Shallow Frontier Station",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
             "shop": "Vantage Rentals - CRU-L1",
             "location": "CRU-L1 Ambitious Dream Station",
             "price": 31185,
@@ -15795,15 +15814,8 @@
             "unavailable": null
           },
           {
-            "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
-            "location": "Pyro Gateway (Stanton)",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
-            "location": "Pyro Gateway (Stanton)",
+            "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+            "location": "Port Tressler",
             "price": 31185,
             "available": null,
             "unavailable": null
@@ -15811,27 +15823,6 @@
           {
             "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
             "location": "Terra Gateway (Stanton)",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
-            "location": "Stanton Gateway (Pyro)",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
-            "location": "Everus Harbor",
-            "price": 31185,
-            "available": null,
-            "unavailable": null
-          },
-          {
-            "shop": "Vantage Rentals - MIC-L5",
-            "location": "MIC-L5 Modern Icarus Station",
             "price": 31185,
             "available": null,
             "unavailable": null
@@ -15872,6 +15863,13 @@
             "unavailable": null
           },
           {
+            "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+            "location": "Stanton Gateway (Nyx)",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
             "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
             "location": "Stanton Gateway (Nyx)",
             "price": 31185,
@@ -15881,6 +15879,97 @@
           {
             "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
             "location": "Nyx Gateway (Pyro)",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L1",
+            "location": "HUR-L1 Green Glade Station",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - HUR-L2",
+            "location": "HUR-L2 Faithful Dream Station",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Seraphim",
+            "location": "Seraphim Station",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L1",
+            "location": "MIC-L1 Shallow Frontier Station",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+            "location": "Pyro Gateway (Stanton)",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+            "location": "Pyro Gateway (Stanton)",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+            "location": "Stanton Gateway (Pyro)",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L2",
+            "location": "MIC-L2 Long Forest Station",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+            "location": "Everus Harbor",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L1",
+            "location": "ARC-L1 Wide Forest Station",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - MIC-L5",
+            "location": "MIC-L5 Modern Icarus Station",
+            "price": 31185,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "Vantage Rentals - ARC-L2",
+            "location": "ARC-L2 Lively Pathway Station",
             "price": 31185,
             "available": null,
             "unavailable": null
@@ -16382,7 +16471,7 @@
         "component": 1
       },
       "descriptions": {
-        "en": "Built on Anvil’s robust Atlas Platform, the same chassis used for their devastating Ballista air defense system, the Spartan is a fully armored transport outfitted with eight jump seats. The Spartan’s rugged frame makes it perfect for all kinds of terrain, and its remote Gatling turret helps clear the area for easier deployment."
+        "en": "Built on Anvil’s robust HM6 Platform, the same chassis used for their devastating Ballista air defense system, the Spartan is a fully armored transport outfitted with eight jump seats. The Spartan’s rugged frame makes it perfect for all kinds of terrain, and its remote Gatling turret helps clear the area for easier deployment."
       },
       "market": {
         "purchase": [
@@ -16864,7 +16953,22 @@
         "en": "If there’s one constant in the universe, it’s that ships will eventually run out of fuel. That’s where the Starlite come in. Featuring two standard fuel pods and a scaled back, elegant design, the Starlite was meticulously crafted by the engineers at MISC to offer refueling services to ships in need wherever they may be stranded."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "Teach's Ship Shop - Levski",
+            "location": "Levski",
+            "price": 1058400,
+            "available": null,
+            "unavailable": null
+          },
+          {
+            "shop": "New Deal - Teasa Spaceport - Lorville",
+            "location": "Lorville",
+            "price": 1058400,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
@@ -17646,7 +17750,15 @@
         "en": "An evolution of a proven Aegis design, the Tiburon's anti-capital ship configuration comprises a spine mounted forward facing beam weapon, supplemented by side mounted turrets."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "New Deal - Teasa Spaceport - Lorville",
+            "location": "Lorville",
+            "price": 37001700,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
@@ -17712,7 +17824,15 @@
         "en": "True to the nature of the Xi'an, the Tyilui takes innovation to the next level with Gatac's most ambitious ship yet. In addition to hosting several turrets, the mini-carrier's rear-facing hangar is capable of storing multiple snub ships, providing greater operational flexibility in combat scenarios and beyond."
       },
       "market": {
-        "purchase": [],
+        "purchase": [
+          {
+            "shop": "Astro Armada - Area 18",
+            "location": "Area 18",
+            "price": 9436330,
+            "available": null,
+            "unavailable": null
+          }
+        ],
         "rentals": []
       }
     },
@@ -17937,7 +18057,7 @@
         "component": 1
       },
       "descriptions": {
-        "en": "Even in the most remote of planetside destinations, there are people who could use a helping hand. Designed by RSI to cross even the most rugged terrain, the Ursa Medivac features a Tier 3 Medical Bed ideal for offering aid wherever its needed most."
+        "en": "Even in the most remote of planetside destinations, there are people who could use a helping hand. Designed by RSI to cross even the most rugged terrain, the Ursa Medivac features a Tier 3 Medical Bed ideal for offering aid wherever it's needed most."
       },
       "market": {
         "purchase": [
