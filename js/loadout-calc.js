@@ -95,8 +95,18 @@
         return best;
     }
 
+    // 화력에 넣는 무기인지. 채광 레이저·디코이 발사기도 발사 자료(w)가 있지만 전투 화력이 아니다.
+    const isGun = (item) => Boolean(item?.w) && item.type === 'WeaponGun';
+
+    // 미사일 랙·폭탄 랙에 실리는 수와 크기.
+    function rackLoad(item) {
+        const ports = (item?.ports || []).filter((port) => (port.acc || []).some((rule) => rule.type === 'Missile' || rule.type === 'Bomb'));
+        return { count: ports.length, size: ports.reduce((max, port) => Math.max(max, Number(port.max) || 0), 0) };
+    }
+
     function weaponRange(item) {
         const w = item?.w;
+        if (w?.kind === 'beam' && w.zeroRange) return Math.round(w.zeroRange);
         return w?.speed && w?.life ? Math.round(w.speed * w.life) : 0;
     }
 
@@ -158,6 +168,9 @@
             alpha: { total: 0, pilot: 0, turret: 0 },
             weapons: 0,
             missiles: { count: 0, damage: 0 },
+            counter: { decoy: 0, noise: 0 },
+            emp: null,
+            dampener: null,
             shield: { hp: 0, regen: 0, count: 0 },
             power: { gen: 0, use: 0 },
             cooling: { gen: 0, use: 0 },
@@ -186,7 +199,7 @@
             totals.cooling.use += Number(item.cool?.use) || 0;
             totals.signature.em += Number(item.em) || 0;
             totals.signature.ir += Number(item.ir) || 0;
-            if (item.w) {
+            if (isGun(item)) {
                 const stats = weaponStats(item);
                 if (stats.dps || stats.alpha) {
                     totals.weapons += 1;
@@ -200,6 +213,10 @@
                     for (const [type, value] of Object.entries(stats.byType)) totals.dps.byType[type] = (totals.dps.byType[type] || 0) + value;
                 }
             }
+            // 디코이·노이즈: 발사기에 든 수량을 센다.
+            if (item.type === 'WeaponDefensive' && item.w?.ammo) totals.counter[/chaff|noise/i.test(item.cls || '') ? 'noise' : 'decoy'] += item.w.ammo;
+            if (item.emp && !totals.emp) totals.emp = { id: itemId, ...item.emp };
+            if (item.qig && !totals.dampener) totals.dampener = { id: itemId, ...item.qig };
             if (item.ms) {
                 totals.missiles.count += 1;
                 totals.missiles.damage += sumDamage(item.ms.dmg);
@@ -275,5 +292,5 @@
         return valid;
     }
 
-    return { DAMAGE_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, fitsSlot, normalizeTag, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
+    return { DAMAGE_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, isGun, rackLoad, fitsSlot, normalizeTag, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
 });

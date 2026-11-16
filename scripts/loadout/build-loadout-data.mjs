@@ -72,7 +72,15 @@ const prune = (object) => {
 };
 const damageOf = (info) => {
     const out = {};
-    for (const [key, field] of DAMAGE_FIELDS) if (Number(info?.[field])) out[key] = round(info[field]);
+    // 0.0001 같은 자리표시 값은 피해로 치지 않는다(디스토션 무기의 탄체 피해 등).
+    for (const [key, field] of DAMAGE_FIELDS) if (Number(info?.[field]) >= 0.001) out[key] = round(info[field]);
+    return Object.keys(out).length ? out : undefined;
+};
+// 탄이 맞을 때의 피해 + 터질 때의 피해. 디스토션 무기와 로켓은 피해가 폭발 쪽에만 적혀 있다.
+const ammoDamage = (projectile) => {
+    const hit = damageOf(projectile?.damage) || {}; const blast = damageOf(projectile?.detonationParams?.explosionParams?.damage) || {};
+    const out = { ...hit };
+    for (const [key, value] of Object.entries(blast)) out[key] = round((out[key] || 0) + value);
     return Object.keys(out).length ? out : undefined;
 };
 const component = (entity, type) => (entity?.Components || []).find((entry) => entry && entry.__type === type);
@@ -187,6 +195,11 @@ function main() {
         const quantum = component(entity, 'SCItemQuantumDriveParams');
         const missile = component(entity, 'SCItemMissileParams');
         const ammoBox = component(entity, 'SAmmoContainerComponentParams');
+        const bomb = component(entity, 'SCItemBombParams');
+        const emp = component(entity, 'SCItemEMPParams');
+        const dampener = component(entity, 'SCItemQuantumInterdictionGeneratorParams');
+        const mining = component(entity, 'SEntityComponentMiningLaserParams')?.miningLaserModifiers;
+        const percent = (entry) => (entry && Number(entry.value) ? round(entry.value, 1) : undefined);
         let w;
         if (weapon) {
             const action = compactAction(weapon.fireActions?.[0]);
@@ -198,7 +211,7 @@ function main() {
                 w = prune({
                     ...action,
                     modes: weapon.fireActions.length > 1 ? weapon.fireActions.length : undefined,
-                    speed: round(ammo?.speed, 1), life: round(ammo?.lifetime, 2), dmg: damageOf(ammo?.projectileParams?.damage),
+                    speed: round(ammo?.speed, 1), life: round(ammo?.lifetime, 2), dmg: ammoDamage(ammo?.projectileParams),
                     ammo: ammoBox?.maxAmmoCount || undefined,
                     oh: heat && action.heat ? prune({ max: round(heat.overheatTemperature, 2), cool: round(heat.coolingPerSecond, 2), start: round(heat.timeTillCoolingStarts, 3), fix: round(heat.overheatFixTime, 3), after: round(heat.temperatureAfterOverheatFix, 2) || undefined }) : undefined,
                     regen: regen?.maxAmmoLoad ? prune({ load: regen.maxAmmoLoad, perSec: round(regen.maxRegenPerSec, 2), cd: round(regen.regenerationCooldown, 2) }) : undefined,
@@ -226,6 +239,11 @@ function main() {
                 signal: missile.targetingParams?.trackingSignalType, lock: round(missile.targetingParams?.lockTime, 2),
                 rangeMin: round(missile.targetingParams?.lockRangeMin, 0), rangeMax: round(missile.targetingParams?.lockRangeMax, 0),
             } : undefined,
+            // 폭탄도 미사일과 같은 칸(ms)에 싣는다: 피해와 폭발 반경.
+            ...(bomb && !missile ? { ms: prune({ dmg: damageOf(bomb.explosionParams?.damage), radius: round(bomb.explosionParams?.maxRadius, 0) }) } : {}),
+            emp: emp ? prune({ dmg: round(emp.distortionDamage, 0), radius: round(emp.empRadius, 0), charge: round(emp.chargeTime, 1), cool: round(emp.cooldownTime, 1) }) : undefined,
+            qig: dampener ? prune({ range: round(dampener.jammerSettings?.jammerRange, 0), charge: round(dampener.quantumInterdictionPulseSettings?.chargeTimeSecs, 1), radius: dampener.quantumInterdictionPulseSettings?.radiusMeters > 1 ? round(dampener.quantumInterdictionPulseSettings.radiusMeters, 0) : undefined, cool: round(dampener.quantumInterdictionPulseSettings?.cooldownTimeSecs, 1) }) : undefined,
+            mine: mining ? prune({ instab: percent(mining.laserInstability), resist: percent(mining.resistanceModifier), window: percent(mining.optimalChargeWindowSizeModifier), rate: percent(mining.optimalChargeWindowRateModifier) }) : undefined,
             ports: compactPorts(entity),
         });
     }

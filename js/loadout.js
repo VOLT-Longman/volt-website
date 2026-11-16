@@ -29,7 +29,7 @@
             firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
             equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', changedCount: '{count}곳 변경됨',
-            burstDps: '순간 DPS', sustainDps: '지속 DPS', sustainShort: '지속', burstHint: '순간 DPS는 쉬지 않고 쏘는 동안의 값이고, 지속 DPS는 과열되거나 축전 탄창이 비어 쉬는 시간까지 넣어 오래 쏠 때의 평균입니다. 실탄 무기는 과열, 에너지 무기는 축전 탄창이 기준입니다.', limitCol: '오래 쏠 때', limitHeat: '{fire}초 쏘면 과열 · {down}초 뒤 재사격', limitCap: '{fire}초 쏘면 축전 소진 · 재충전 {down}초', limitNone: '제한 없음', ammoTime: '{value}초분', colPart: '부품', colPrice: '최저가', dmg_energy: '에너지', dmg_ballistic: '실탄', dmg_distortion: '디스토션', kind_repeater: '리피터', kind_cannon: '캐논', kind_gatling: '개틀링', kind_scattergun: '스캐터건', kind_beam: '빔', sortHint: '{label} 기준으로 줄 세우기',
+            burstDps: '순간 DPS', laserPower: '레이저 출력', instab: '불안정성', resistMod: '저항성', windowMod: '최적 충전 구간', blastRadius: '폭발 반경', empDmg: '디스토션 피해', radiusShort: '반경', chargeShort: '충전', jamRange: '차단 거리', rackCount: '탑재 수', rackSize: '탄 크기', regenDelay: '피격 뒤 재생 지연', fuelUse: '연료 소모', rackFact: 'S{size} {count}발 탑재', counterLabel: '디코이 · 노이즈', counterValue: '{decoy}발 · {noise}발', empRow: 'EMP', empValue: '디스토션 {dmg} · 반경 {radius}m · 충전 {charge}초', dampRow: '퀀텀 차단기', dampValue: '차단 거리 {range}m', sustainDps: '지속 DPS', sustainShort: '지속', burstHint: '순간 DPS는 쉬지 않고 쏘는 동안의 값이고, 지속 DPS는 과열되거나 축전 탄창이 비어 쉬는 시간까지 넣어 오래 쏠 때의 평균입니다. 실탄 무기는 과열, 에너지 무기는 축전 탄창이 기준입니다.', limitCol: '오래 쏠 때', limitHeat: '{fire}초 쏘면 과열 · {down}초 뒤 재사격', limitCap: '{fire}초 쏘면 축전 소진 · 재충전 {down}초', limitNone: '제한 없음', ammoTime: '{value}초분', colPart: '부품', colPrice: '최저가', dmg_energy: '에너지', dmg_ballistic: '실탄', dmg_distortion: '디스토션', kind_repeater: '리피터', kind_cannon: '캐논', kind_gatling: '개틀링', kind_scattergun: '스캐터건', kind_beam: '빔', sortHint: '{label} 기준으로 줄 세우기',
             sortLabel: '정렬', sort_best: '성능순', sort_name: '이름순', sort_price: '가격 낮은순', filterLabel: '부품 걸러 보기', buyableOnly: '상점 판매만',
             bulkApply: '같은 부품이 달린 {count}곳을 한 번에 교체', powerShort: '출력', coolingShort: '냉각',
             flight: '비행 성능', scmSpeed: 'SCM 속도', boostSpeed: '부스트 속도', boostBack: '부스트 후진', navSpeed: '최고 속도 (NAV)', pitch: '피치', yaw: '요', roll: '롤', degPerSec: '°/초',
@@ -83,7 +83,7 @@
             firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
             equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', changedCount: '{count} slots changed',
-            burstDps: 'Burst DPS', sustainDps: 'Sustained DPS', sustainShort: 'sustained', burstHint: 'Burst DPS is the value while firing without a break. Sustained DPS is the long-run average including the pauses for overheating (ballistic) or an empty capacitor (energy).', limitCol: 'Sustained fire', limitHeat: 'Overheats after {fire}s · fires again after {down}s', limitCap: 'Capacitor empty after {fire}s · recharge {down}s', limitNone: 'No limit', ammoTime: '{value}s of fire', colPart: 'Part', colPrice: 'Lowest price', dmg_energy: 'Energy', dmg_ballistic: 'Ballistic', dmg_distortion: 'Distortion', kind_repeater: 'Repeater', kind_cannon: 'Cannon', kind_gatling: 'Gatling', kind_scattergun: 'Scattergun', kind_beam: 'Beam', sortHint: 'Sort by {label}',
+            burstDps: 'Burst DPS', laserPower: 'Laser power', instab: 'Instability', resistMod: 'Resistance', windowMod: 'Optimal window', blastRadius: 'Blast radius', empDmg: 'Distortion damage', radiusShort: 'Radius', chargeShort: 'Charge', jamRange: 'Jammer range', rackCount: 'Capacity', rackSize: 'Ordnance size', regenDelay: 'Regen delay after hit', fuelUse: 'Fuel use', rackFact: 'Holds {count} × S{size}', counterLabel: 'Decoys · noise', counterValue: '{decoy} · {noise}', empRow: 'EMP', empValue: '{dmg} distortion · {radius} m radius · {charge}s charge', dampRow: 'Quantum dampener', dampValue: '{range} m jammer range', sustainDps: 'Sustained DPS', sustainShort: 'sustained', burstHint: 'Burst DPS is the value while firing without a break. Sustained DPS is the long-run average including the pauses for overheating (ballistic) or an empty capacitor (energy).', limitCol: 'Sustained fire', limitHeat: 'Overheats after {fire}s · fires again after {down}s', limitCap: 'Capacitor empty after {fire}s · recharge {down}s', limitNone: 'No limit', ammoTime: '{value}s of fire', colPart: 'Part', colPrice: 'Lowest price', dmg_energy: 'Energy', dmg_ballistic: 'Ballistic', dmg_distortion: 'Distortion', kind_repeater: 'Repeater', kind_cannon: 'Cannon', kind_gatling: 'Gatling', kind_scattergun: 'Scattergun', kind_beam: 'Beam', sortHint: 'Sort by {label}',
             sortLabel: 'Sort', sort_best: 'Best first', sort_name: 'Name', sort_price: 'Lowest price', filterLabel: 'Filter parts', buyableOnly: 'Sold in shops',
             bulkApply: 'Replace all {count} slots with this part', powerShort: 'Output', coolingShort: 'Cooling',
             flight: 'Flight performance', scmSpeed: 'SCM speed', boostSpeed: 'Boost speed', boostBack: 'Boost reverse', navSpeed: 'Top speed (NAV)', pitch: 'Pitch', yaw: 'Yaw', roll: 'Roll', degPerSec: '°/s',
@@ -316,7 +316,12 @@
     function itemFacts(item) {
         if (!item) return [];
         const facts = [];
-        if (item.w) {
+        if (item.type === 'WeaponMining' && item.w) {
+            facts.push(`${text('laserPower')} ${num(calc.sumDamage(item.w.beamDps))}`);
+            if (calc.weaponRange(item)) facts.push(text('reach', { value: num(calc.weaponRange(item)) }));
+            if (item.mine?.instab) facts.push(`${text('instab')} ${num(item.mine.instab)}%`);
+            if (item.mine?.resist) facts.push(`${text('resistMod')} ${num(item.mine.resist)}%`);
+        } else if (item.w) {
             const stats = calc.weaponStats(item);
             if (stats.dps) facts.push(`DPS ${num(stats.dps)}`);
             const sustained = calc.weaponSustain(item);
@@ -330,8 +335,12 @@
         if (item.power?.gen) facts.push(text('gen', { value: num(item.power.gen) }));
         if (item.cool?.gen) facts.push(text('coolGen', { value: num(item.cool.gen) }));
         if (item.qd) { facts.push(text('qdSpeed', { value: num(item.qd.speed / 1000) })); facts.push(text('spool', { value: num(item.qd.spool, 1) })); }
+        if (item.emp) { facts.push(`${text('empDmg')} ${num(item.emp.dmg)}`); if (item.emp.radius) facts.push(`${text('radiusShort')} ${num(item.emp.radius)}m`); if (item.emp.charge) facts.push(`${text('chargeShort')} ${num(item.emp.charge, 1)}${text('seconds')}`); }
+        if (item.qig) { if (item.qig.range) facts.push(`${text('jamRange')} ${num(item.qig.range)}m`); if (item.qig.charge) facts.push(`${text('chargeShort')} ${num(item.qig.charge, 1)}${text('seconds')}`); }
+        if (!item.w && !item.ms) { const rack = calc.rackLoad(item); if (rack.count) facts.push(text('rackFact', { count: rack.count, size: rack.size })); }
         if (item.ms) {
             facts.push(text('dmg', { value: num(calc.sumDamage(item.ms.dmg)) }));
+            if (item.ms.radius) facts.push(`${text('blastRadius')} ${num(item.ms.radius)}m`);
             if (item.ms.signal) facts.push(text('signal', { value: table('signals')[item.ms.signal] || item.ms.signal }));
             if (item.ms.lock) facts.push(text('lock', { value: num(item.ms.lock, 1) }));
         }
@@ -511,9 +520,11 @@
                     ${row(text('turret'), `${num(totals.dps.turret)} (${text('sustainShort')} ${num(totals.sustain.turret)})`, drawChange(totals.dps.turret, stock.dps.turret))}
                     ${row(text('weaponCount'), text('weapons', { count: totals.weapons }))}
                     ${row(text('missiles'), `${num(totals.missiles.damage)} (${text('missileCount', { count: totals.missiles.count })})`, drawChange(totals.missiles.damage, stock.missiles.damage))}
+                    ${totals.emp ? row(text('empRow'), text('empValue', { dmg: num(totals.emp.dmg), radius: num(totals.emp.radius), charge: num(totals.emp.charge, 1) })) : ''}
+                    ${totals.dampener ? row(text('dampRow'), text('dampValue', { range: num(totals.dampener.range) })) : ''}
                 </dl><p class="loadout-note loadout-dpsnote">${esc(text('burstHint'))}</p>`, true)}
             ${section(text('defense'), `
-                <dl class="loadout-rows">${row(text('regenLabel'), `${num(totals.shield.regen)}${text('perSecond')}`, drawChange(totals.shield.regen, stock.shield.regen))}${row(text('shieldCount'), text('unitCount', { count: totals.shield.count }))}${shieldResistRows(row)}</dl>`)}
+                <dl class="loadout-rows">${row(text('regenLabel'), `${num(totals.shield.regen)}${text('perSecond')}`, drawChange(totals.shield.regen, stock.shield.regen))}${row(text('shieldCount'), text('unitCount', { count: totals.shield.count }))}${shieldResistRows(row)}${totals.counter.decoy || totals.counter.noise ? row(text('counterLabel'), text('counterValue', { decoy: num(totals.counter.decoy), noise: num(totals.counter.noise) })) : ''}</dl>`)}
             ${section(text('systems'), `
                 <div class="loadout-statpair">
                     ${stat(text('power'), num(totals.power.gen, 1), drawChange(totals.power.gen, stock.power.gen, 1))}
@@ -562,12 +573,19 @@
         if (!item) return [];
         const m = (label, value, digits = 0, better = 'high') => ({ label, value: Number(value) || 0, digits, better });
         const list = [];
-        if (item.w) { const stats = calc.weaponStats(item); list.push(m('DPS', stats.dps), m(text('sustainDps'), calc.weaponSustain(item).dps), m(text('alphaShort'), stats.alpha, 1), m(text('rangeShort'), calc.weaponRange(item))); }
-        else if (item.sh) list.push(m(text('shield'), item.sh.hp), m(text('regenShort'), item.sh.regen));
+        const rack = calc.rackLoad(item);
+        const beam = (w) => calc.sumDamage(w?.beamDps);
+        if (item.type === 'WeaponMining' && item.w) list.push(m(text('laserPower'), beam(item.w)), m(text('rangeShort'), calc.weaponRange(item)), m(text('instab'), item.mine?.instab, 0, 'low'), m(text('resistMod'), item.mine?.resist, 0, 'low'), m(text('windowMod'), item.mine?.window));
+        else if (item.emp) list.push(m(text('empDmg'), item.emp.dmg), m(text('radiusShort'), item.emp.radius), m(text('chargeShort'), item.emp.charge, 1, 'low'), m(text('cooldownLabel'), item.emp.cool, 1, 'low'));
+        else if (item.qig) list.push(m(text('jamRange'), item.qig.range), m(text('chargeShort'), item.qig.charge, 1, 'low'));
+        else if (rack.count && !item.w && !item.ms) list.push(m(text('rackCount'), rack.count), m(text('rackSize'), rack.size));
+        else if (item.w) { const stats = calc.weaponStats(item); list.push(m('DPS', stats.dps), m(text('sustainDps'), calc.weaponSustain(item).dps), m(text('alphaShort'), stats.alpha, 1), m(text('rangeShort'), calc.weaponRange(item))); }
+        else if (item.sh) list.push(m(text('shield'), item.sh.hp), m(text('regenShort'), item.sh.regen), m(text('regenDelay'), item.sh.dmgDelay, 1, 'low'));
         else if (item.power?.gen) list.push(m(text('powerShort'), item.power.gen, 1));
         else if (item.cool?.gen) list.push(m(text('coolingShort'), item.cool.gen, 1));
-        else if (item.qd) list.push(m('km/s', (Number(item.qd.speed) || 0) / 1000), m(text('spoolLabel'), item.qd.spool, 1, 'low'));
-        else if (item.ms) list.push(m(text('dmgWord'), calc.sumDamage(item.ms.dmg)), m(text('lockShort'), item.ms.lock, 1, 'low'), m(text('speedShort'), item.ms.speed));
+        else if (item.qd) list.push(m('km/s', (Number(item.qd.speed) || 0) / 1000), m(text('spoolLabel'), item.qd.spool, 1, 'low'), m(text('cooldownLabel'), item.qd.cool, 1, 'low'), m(text('fuelUse'), item.qd.fuel, 3, 'low'));
+        else if (item.ms && item.type === 'Bomb') list.push(m(text('dmgWord'), calc.sumDamage(item.ms.dmg)), m(text('blastRadius'), item.ms.radius));
+        else if (item.ms) list.push(m(text('dmgWord'), calc.sumDamage(item.ms.dmg)), m(text('lockShort'), item.ms.lock, 1, 'low'), m(text('speedShort'), item.ms.speed), m(text('rangeShort'), item.ms.rangeMax));
         if (list.length && !item.power?.gen && Number(item.power?.use) > 0) list.push(m(text('powerUseLabel'), item.power.use, 1, 'low'));
         return list;
     }
@@ -605,8 +623,9 @@
     // 부품 교체창은 어느 화면에서나 화면을 덮는 넓은 창으로 뜬다(후보를 표로 나란히 견주기 위해).
     const isOverlayPicker = () => true;
     // 무기 후보를 거르는 갈래: 피해 종류(에너지·실탄·디스토션)와 무기 형태(캐논·개틀링·리피터 …).
-    const damageOf = (item) => { const type = String(item?.dtype || ''); if (!item?.w || !type) return ''; return /Distortion/.test(type) ? 'distortion' : /Ballistic|Mass Driver|Rocket/.test(type) ? 'ballistic' : /Laser|Neutron|Plasma|Tachyon/.test(type) ? 'energy' : ''; };
-    const kindOf = (item) => { const type = String(item?.dtype || ''); return !item?.w ? '' : /Repeater/.test(type) ? 'repeater' : /Cann?on/.test(type) ? 'cannon' : /Gatling/.test(type) ? 'gatling' : /Scattergun/.test(type) ? 'scattergun' : /Beam/.test(type) ? 'beam' : ''; };
+    // 피해 종류는 실제 피해 수치에서, 형태는 종류 표기(없으면 내부 이름)에서 읽는다.
+    const damageOf = (item) => { if (!item?.w) return ''; const dmg = item.w.dmg || item.w.beamDps || {}; const top = Object.keys(dmg).sort((a, b) => dmg[b] - dmg[a])[0]; return top === 'distortion' ? 'distortion' : top === 'physical' ? 'ballistic' : top ? 'energy' : ''; };
+    const kindOf = (item) => { const type = `${item?.dtype || ''} ${item?.cls || ''}`; return !item?.w ? '' : /Repeater/i.test(type) ? 'repeater' : /Gatling/i.test(type) ? 'gatling' : /Scatter/i.test(type) ? 'scattergun' : /Beam/i.test(type) ? 'beam' : /Cann?on|MassDriver|Mass Driver/i.test(type) ? 'cannon' : ''; };
 
     function drawPicker(node, nodes) {
         const query = state.pickerQuery.trim().toLowerCase();
@@ -933,7 +952,7 @@
     function drawWeapons(nodes) {
         const groups = new Map();
         for (const node of nodes) {
-            if (!node.item?.w) continue;
+            if (!calc.isGun(node.item)) continue;
             const stats = calc.weaponStats(node.item);
             if (!stats.dps && !stats.alpha) continue;
             const key = `${node.itemId}|${node.turret ? 't' : 'p'}`;

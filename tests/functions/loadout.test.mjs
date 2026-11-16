@@ -289,3 +289,27 @@ test('지속 DPS: 실탄은 과열, 에너지는 축전 탄창을 넣어 계산�
     assert.equal(Math.round(stalker.sustain.total), 1460);
     assert.ok(Math.abs(stalker.sustain.pilot + stalker.sustain.turret - stalker.sustain.total) < 1e-6);
 });
+
+test('부품 수치 보강: 디스토션·로켓은 폭발 피해를 쓰고, 폭탄·EMP·퀀텀 차단기·채광 레이저 수치가 채워진다', () => {
+    const byClass = (cls) => Object.values(items).find((item) => item.cls === cls);
+    // 피해가 폭발 쪽에만 적힌 무기도 화력이 0이 아니다.
+    assert.ok(Math.abs(calc.weaponStats(byClass('ASAD_DistortionRepeater_S3')).dps - 337.8) < 0.5);
+    assert.equal(Object.keys(byClass('ASAD_DistortionRepeater_S3').w.dmg).join(), 'distortion');
+    assert.equal(calc.weaponStats(byClass('RPOD_S1_FSKI_3x_S3')).alpha, 150);
+    for (const item of Object.values(items)) {
+        if (item.type === 'WeaponGun' && item.w && !item.hidden) assert.ok(calc.weaponStats(item).dps > 0, `${item.cls} 화력 0`);
+        if (item.type === 'Bomb') assert.ok(calc.sumDamage(item.ms?.dmg) > 0 && item.ms.radius > 0, `${item.cls} 폭탄 수치`);
+        if (item.type === 'EMP') assert.ok(item.emp?.dmg > 0 && item.emp.radius > 0, `${item.cls} EMP 수치`);
+    }
+    assert.ok(byClass('QDMP_WETK_S01_Burke').qig.range > 0);
+    assert.equal(byClass('Mining_Laser_SHIN_Hofstede_S2').mine.resist, -30);
+    // 채광 레이저는 전투 화력에 넣지 않는다(프로스펙터는 S1 리피터 2정만).
+    const prospector = calc.summarize(read('data/loadout/ships/misc_prospector.json'), items, {});
+    assert.equal(prospector.weapons, 2);
+    assert.equal(Math.round(prospector.dps.total), 437);
+    // 미사일 랙의 탑재 수, 디코이·노이즈 수량.
+    const rack = Object.values(items).find((item) => item.cls === 'MRCK_S03_BEHR_Dual_S02');
+    assert.deepEqual(calc.rackLoad(rack), { count: 2, size: 2 });
+    const stalker = calc.summarize(read('data/loadout/ships/aegs_avenger_stalker.json'), items, {});
+    assert.ok(stalker.counter.decoy > 0 && stalker.counter.noise > 0);
+});
