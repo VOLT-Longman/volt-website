@@ -17,7 +17,7 @@ async function openAsgard(page, { prices = {} } = {}) {
 }
 // 상단 핵심 수치·통계 패널의 수치: 이름표가 정확히 일치하는 칸의 값
 const openBuilds = (page) => page.locator('[data-loadout-builds-toggle][aria-expanded="false"]').click();
-const stat = (page, label) => page.locator('.loadout-stat, .loadout-kpi').filter({ has: page.getByText(label, { exact: true }) }).locator('strong');
+const stat = (page, label) => page.locator('.loadout-stat, .loadout-kpi').filter({ has: page.getByText(label, { exact: true }) }).first().locator('strong');
 const panel = (page) => page.locator('.loadout-panel');
 const firstGunSlot = (page, name = 'CF-337 판터 리피터') => page.locator('.loadout-slot:not(.is-parent)', { hasText: name }).first();
 // 첫 실드의 선택 창을 열어 그 안에서 전원을 끈다.
@@ -31,11 +31,19 @@ test('성능 카드와 장비 보드, 이름 클릭 교체 및 변경 슬롯 개
     await openAsgard(page);
     await expect(page.locator('#loadout-app > .loadout-panel')).toBeVisible();
     await expect(page.locator('.loadout-flight .loadout-fold-body')).toBeVisible();
-    const cards = await page.locator('#loadout-app > .loadout-panel > .loadout-panel-section').evaluateAll((els) => els.slice(0, 4).map((el) => ({ x: el.getBoundingClientRect().x, y: el.getBoundingClientRect().y })));
-    expect(new Set(cards.map((card) => Math.round(card.y))).size).toBe(1);
-    expect(new Set(cards.map((card) => Math.round(card.x))).size).toBe(4);
+    const identity = await page.locator('.loadout-identity').boundingBox();
+    const damage = await page.locator('.loadout-overview-column.is-damage').boundingBox();
+    const defense = await page.locator('.loadout-overview-column.is-defense').boundingBox();
+    const operations = await page.locator('.loadout-overview-column.is-operations').boundingBox();
+    expect(Math.abs(identity.y - operations.y)).toBeLessThan(2);
+    expect(damage.y).toBeGreaterThan(identity.y);
+    expect(Math.abs(damage.y - defense.y)).toBeLessThan(2);
+    expect(identity.width).toBeGreaterThan(operations.width * 1.8);
+    const equipment = await page.locator('.loadout-equipment-column').evaluateAll((els) => els.map((el) => el.getBoundingClientRect().width));
+    expect(equipment[0] / equipment[1]).toBeCloseTo(2, 1);
     if (process.env.LOADOUT_SCREENSHOTS) await page.screenshot({ path: `${process.env.LOADOUT_SCREENSHOTS}/loadout-desktop.png`, fullPage: true });
     await firstGunSlot(page).locator('[data-loadout-component-open]').click();
+    await page.locator('.loadout-picker-baseline summary').click();
     await expect(page.locator('.loadout-ship-impact')).toContainText('현재 함선 성능');
     await pick(page, MANTIS).click();
     await page.locator('#loadout-changed-only').check();
@@ -508,7 +516,9 @@ test.describe('로드아웃 편집기', () => {
         await expect(kpis.locator('.loadout-kpi.is-warn')).toContainText('출력 부족');
 
         // 부품은 큰 묶음(무장 / 방어·동력 / 이동·기타) 아래 한 줄씩, 위치 › 부품 순서로 보인다.
-        await expect(page.locator('.loadout-super > h3')).toHaveText(['무장', '방어·동력', '이동·기타']);
+        await expect(page.locator('.loadout-equipment-nav')).toContainText('무장');
+        await expect(page.locator('.loadout-equipment-column.is-primary .loadout-group.is-weapon')).toBeVisible();
+        await expect(page.locator('.loadout-equipment-column.is-systems .loadout-group.is-shield')).toBeVisible();
         const gun = firstGunSlot(page);
         await expect(gun.locator('.loadout-slot-label')).toContainText('›');
         await expect(gun.locator('.loadout-metric')).toHaveText(/546\s*순간 DPS/);
@@ -569,13 +579,13 @@ test.describe('로드아웃 편집기', () => {
         // 편집하지 않을 때 빈 칸을 두지 않는다: 장비 목록과 요약 두 칸뿐이고, 장비는 화면 폭에 맞춰 두 줄로 놓인다.
         await page.keyboard.press('Escape');
         await expect(page.locator('.loadout-pickhint')).toHaveCount(0);
-        const groupX = await page.locator('.loadout-super').first().locator('.loadout-group').evaluateAll((list) => new Set(list.map((el) => Math.round(el.getBoundingClientRect().x))).size);
+        const groupX = await page.locator('.loadout-equipment-board .loadout-group').evaluateAll((list) => new Set(list.map((el) => Math.round(el.getBoundingClientRect().x))).size);
         expect(groupX).toBeGreaterThan(1);
         // 교체창은 화면 대부분을 쓰는 창으로 뜨고, 후보의 같은 수치가 같은 열에 놓인다.
         await firstGunSlot(page).locator('[data-loadout-open]').click();
         const box = await page.locator('.loadout-picker').boundingBox();
         expect(box.width).toBeGreaterThan(1000);
-        await expect(page.locator('.loadout-opttable thead th')).toContainText(['부품', 'DPS', '지속 DPS', '알파', '사거리', '소비 전력', '최저가']);
+        await expect(page.locator('.loadout-opttable thead th')).toContainText(['부품', 'DPS', '지속 DPS', '알파', '사거리', '소비 전력', '분당 발사', '탄속', '탄창', '부품 내구도', '최저가']);
         expect(await page.locator('.loadout-optrows tr').count()).toBeGreaterThan(8);
         const visibleRows = await page.locator('.loadout-optrows tr').evaluateAll((list) => { const wrap = document.querySelector('.loadout-optwrap').getBoundingClientRect(); return list.filter((el) => el.getBoundingClientRect().bottom <= wrap.bottom).length; });
         expect(visibleRows).toBeGreaterThan(7);
@@ -653,7 +663,7 @@ test.describe('로드아웃 편집기', () => {
         // 부품 전원을 꺼서 화면이 다시 그려져도 펼친 채로 남는다.
         await shieldOff(page);
         await expect(stat(page, '롤')).toBeVisible();
-        await expect(page.locator('.loadout-hull .loadout-fold-body')).toBeHidden();
+        await expect(page.locator('.loadout-hull .loadout-fold-body')).toBeVisible();
         // 출처는 한 줄 요약으로 늘 보이고, 누르면 자세한 내용이 펼쳐진다.
         const sources = page.locator('#loadout-sources');
         await expect(sources.locator('summary')).toContainText(/자료 출처 · 게임 파일 \d+\.\d+\.\d+-LIVE.* · 가격 UEX · 한국어 패치 표기/);
@@ -699,7 +709,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(card).toBeVisible();
         await expect(page.locator('#loadout-ship-count')).toHaveText(/검색 결과 \d+척/);
         await card.click();
-        await expect(page.locator('.loadout-shipfacts')).toContainText('앤빌 에어로스페이스');
+        await expect(page.locator('.loadout-maker')).toContainText('앤빌 에어로스페이스');
         await expect(page.locator('.loadout-shipfacts')).toContainText('드랍쉽');
     });
     test('교체해도 줄 구성이 유지되고, 미사일은 랙·탄 크기와 합계 피해를 구분해 보여 준다', async ({ page }) => {
@@ -717,7 +727,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(nose.locator('.loadout-metric b')).toHaveText('1,266');
         await expect(nose.locator('.loadout-slot-facts')).toContainText('지속 879');
         await expect(nose.locator('.loadout-slot-facts')).toContainText('사거리');
-        // 무기를 바꿔도 자리 수·위치 이름·수치가 그대로 유지되고 마운트가 따로 튀어나오지 않는다.
+        // 무기를 바꿔도 자리 수·위치 이름·수치와 연결된 마운트 카드가 유지된다.
         await nose.locator('[data-loadout-open]').click();
         await pick(page, 'e4afc8b4-da61-4efb-af7e-f003d9900d96').click();
         await expect(weapons.locator('h4')).toContainText('3곳');
@@ -726,7 +736,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(swapped).toContainText('AD4B 실탄 개틀링');
         await expect(swapped.locator('.loadout-slot-label')).toContainText('기수');
         await expect(swapped.locator('.loadout-metric b')).toHaveText('1,266');
-        await expect(weapons).not.toContainText('짐벌 마운트');
+        await expect(swapped.locator('.loadout-mount-card')).toContainText('짐벌 마운트');
         // 미사일: 랙 크기와 탄 크기를 따로 적고, 발당 피해와 합계 피해를 구분한다.
         const missile = page.locator('.loadout-group.is-missile .loadout-slot', { hasText: '이그나이트 II' }).first();
         await expect(missile.locator('.loadout-size')).toHaveText('S2');
@@ -759,11 +769,11 @@ test.describe('로드아웃 편집기', () => {
         await expect(table.locator('tbody tr').first().locator('td').nth(1)).toHaveText(before);
         await expect(table.locator('tbody tr').first().locator('.loadout-change')).toBeVisible();
         // A로 돌아가면 원래 구성 그대로이고, 새로고침해도 두 구성이 남는다.
-        await page.locator('.loadout-actions [data-loadout-ab="A"]').click();
+        await page.locator('.loadout-identity [data-loadout-ab="A"]').click();
         await expect(stat(page, DPS)).toHaveText(before);
         await page.reload();
         await expect(page.locator('.loadout-abstate')).toContainText('구성 A');
-        await page.locator('.loadout-actions [data-loadout-ab="B"]').click();
+        await page.locator('.loadout-identity [data-loadout-ab="B"]').click();
         await expect(stat(page, DPS)).not.toHaveText(before);
     });
     test('장비 종류를 전환해도 교체한 구성과 전체 수치를 유지한다', async ({ page }, testInfo) => {
@@ -1017,4 +1027,74 @@ test('스토커 랙 교체에서 임시 폭탄 랙을 숨기고 닫으면 원래
     await expect(pick(page, 'f8d3a1e1-0d75-45bb-a453-898a7cf83382')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(opener).toBeFocused();
+});
+
+for (const width of [1440, 390]) {
+    test(`${width}px 판매처 선택 → 장바구니 패널 → 상점 유지·수량 변경`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 });
+        await openAsgard(page, { prices: { [MANTIS]: [
+            { shop: 'Low price', place: 'Area 18', system: 'Stanton', price: 100 },
+            { shop: 'Chosen shop', place: 'New Babbage', system: 'Stanton', price: 150 },
+        ] } });
+        const before = await stat(page, DPS).textContent();
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        // Clicking a comparison value equips the row, while the detail link still opens inspection.
+        if (width === 390) {
+            const candidate = page.locator(`[data-loadout-candidate="${MANTIS}"]`);
+            const name = await candidate.locator('th').boundingBox();
+            expect(name.width).toBeGreaterThan(260);
+            expect(await page.locator('.loadout-optwrap').evaluate((el) => el.scrollWidth - el.clientWidth)).toBeLessThanOrEqual(1);
+        }
+        await page.locator(`[data-loadout-candidate="${MANTIS}"] .loadout-cmp-cell`).first().click();
+        await expect(page.locator('.loadout-picker')).toHaveCount(0);
+        await expect(stat(page, DPS)).not.toHaveText(before);
+        await firstGunSlot(page, '맨티스').locator('[data-loadout-shop-detail]').click();
+        await expect(page.locator('[data-loadout-detail-buy]')).toBeDisabled();
+        await page.getByRole('button', { name: '이 상점 선택: Chosen shop', exact: true }).click();
+        await page.locator('[data-loadout-detail-buy]').click();
+        const drawer = page.locator('.loadout-cart-drawer');
+        await expect(drawer).toBeVisible();
+        await expect(drawer.locator('.loadout-carttable tfoot')).toContainText('150 aUEC');
+        await expect(drawer.locator('select option:checked')).toContainText('Chosen shop');
+        await drawer.locator('[data-loadout-plan-mode="grouped"]').click();
+        await drawer.locator('[data-loadout-cart-inc]').click();
+        await expect(drawer.locator('.loadout-carttable tfoot')).toContainText('300 aUEC');
+        const box = await drawer.boundingBox();
+        expect(box.x).toBeGreaterThanOrEqual(0); expect(box.x + box.width).toBeLessThanOrEqual(width + 1);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+        await page.keyboard.press('Escape');
+        await expect(page.locator('[data-loadout-cart-open]')).toBeFocused();
+        await page.reload();
+        await page.locator('[data-loadout-cart-open]').click();
+        await expect(drawer.locator('select option:checked')).toContainText('Chosen shop');
+        await expect(drawer.locator('.loadout-carttable tfoot')).toContainText('300 aUEC');
+    });
+}
+
+test('스크롤 중 함선 선택과 성능 줄이 고정되고 원래 위치에서는 요약 카드가 보인다', async ({ page }) => {
+    await openAsgard(page);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(page.locator('.loadout-kpis')).toBeHidden();
+    await page.locator('.loadout-group.is-weapon').scrollIntoViewIfNeeded();
+    await expect(page.locator('.loadout-kpis')).toBeVisible();
+    const box = await page.locator('.loadout-topbar').boundingBox();
+    expect(box.y).toBeGreaterThanOrEqual(55); expect(box.y).toBeLessThan(90);
+    await page.locator('[data-loadout-browse]').click();
+    await expect(page.locator('#loadout-ship-search')).toBeVisible();
+});
+
+test('함선을 고르기 전 부품 찾기에서도 선택한 판매처로 담을 수 있다', async ({ page }) => {
+    await mockApi(page);
+    await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: { [MANTIS]: [{ shop: 'Found shop', place: 'Area 18', system: 'Stanton', price: 100 }] } } }));
+    await gotoSection(page, '#loadout');
+    await page.locator('[data-loadout-tab="finder"]').click();
+    await page.locator('#loadout-finder-search').fill('Mantis');
+    await page.locator(`[data-loadout-detail="${MANTIS}"]`).click();
+    await page.locator('[data-loadout-detail-tab="shops"]').click();
+    await page.getByRole('button', { name: '이 상점 선택: Found shop', exact: true }).click();
+    await page.locator('[data-loadout-detail-buy]').click();
+    await expect(page.locator('.loadout-cart-drawer')).toContainText('맨티스');
+    await expect(page.locator('.loadout-cart-drawer select option:checked')).toContainText('Found shop');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-loadout-tab="cart"]')).toBeFocused();
 });
