@@ -367,3 +367,39 @@ test('추출 정리: 같은 장착 중복은 합치고 서로 다른 중복은 �
     assert.equal(calc.normalizeSlots([{ port: 'unknown', kind: 's' }])[0].kind, 'f');
     assert.equal(calc.fitsSlot({ type: 'Shield', size: 3 }, { min: 3, max: 3 }, {}), false);
 });
+
+test('임시 폭탄 랙은 스토커의 후보·공유 설정에서 제외하고 실제 A2 폭탄은 유지한다', () => {
+    const ship = read('data/loadout/ships/aegs_avenger_stalker.json');
+    const rack = findSlot(ship, node => node.item?.type === 'MissileLauncher');
+    const temporary = '549964bb-a674-41ba-86d5-55a6d3c25931';
+    assert.equal(calc.fitsSlot(items[temporary], rack.slot, rack), false);
+    assert.deepEqual(calc.sanitizeOverrides(ship, items, { [rack.path]: temporary }), {});
+    assert.equal(calc.fitsSlot(items['f8d3a1e1-0d75-45bb-a453-898a7cf83382'], rack.slot, rack), true);
+    const a2 = read('data/loadout/ships/crus_starlifter_a2.json');
+    const bombs = [];
+    calc.walkLoadout(a2, items, {}, node => { if (node.item?.type === 'Bomb') bombs.push(node); });
+    assert.ok(bombs.length > 0);
+    for (const node of bombs) assert.equal(calc.fitsSlot(node.item, node.slot, node), true);
+});
+
+test('프로스펙터 기본 채광 헤드와 교체 헤드에 모듈을 장착하고 복원한다', () => {
+    const ship = read('data/loadout/ships/misc_prospector.json');
+    const head = findSlot(ship, node => node.item?.type === 'WeaponMining');
+    const moduleId = '2ceb0de9-105b-434e-a152-8af1fd1660d0';
+    for (const [id, count] of [[head.itemId, 1], ['81e1a10a-c7bd-401f-92e1-284115dcd6e1', 2]]) {
+        const overrides = { [head.path]: id };
+        const slots = [];
+        calc.walkLoadout(ship, items, overrides, node => { if (node.slot.acc?.some(rule => rule.type === 'MiningModifier')) slots.push(node); });
+        assert.equal(slots.length, count);
+        assert.equal(calc.fitsSlot(items[moduleId], slots[0].slot, slots[0]), true);
+        overrides[slots[0].path] = moduleId;
+        assert.equal(calc.sanitizeOverrides(ship, items, overrides)[slots[0].path], moduleId);
+    }
+    assert.equal(calc.fitsSlot(items[moduleId], { min: 1, max: 1, acc: [{ type: 'WeaponGun' }] }, {}), false);
+});
+
+test('퀀텀 이동 계산에 잘못된 거리를 넣으면 시간이 나오지 않는다', () => {
+    const quantum = { speed: 2e8, accel: 1e7, spool: 4 };
+    for (const distance of [-1, 0, NaN, Infinity]) assert.equal(calc.quantumTravelTime(quantum, distance), 0);
+    assert.ok(calc.quantumTravelTime(quantum, 30) > 0);
+});

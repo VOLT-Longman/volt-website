@@ -20,7 +20,7 @@
     let deps = {};
     const state = {
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
-        equipmentGroup: '', query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
+        equipmentGroup: '', query: '', openPath: '', pickerOrigin: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(), priceNames: new Map(), priceIds: new Map(), plan: { mode: 'cheapest', shops: {}, order: [] }, familyOpen: new Set(), keepPicker: false,
         detailId: '', detailSlot: '', detailReturn: '', detailTab: 'stats', collapsed: new Set(), compact: false, changedOnly: false, redo: [], pickerLimit: 80, pickerReverse: false,
         tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [], split: {}, buildsOpen: false, slot: 'A', alt: null,
@@ -33,7 +33,7 @@
             refreshFailed: '판매처를 새로 확인하지 못했습니다. 이전에 받은 정보가 표시될 수 있습니다.', planMode: '구매 방식', planCheapest: '최저가 우선', planGrouped: '같은 상점에 모으기', planHelp: '직접 지정한 상점은 유지합니다. 자동 배정은 가장 많은 종류를 파는 상점부터 묶고, 종류 수가 같으면 합계가 싼 곳을 고릅니다. 최단 이동 경로를 계산하는 기능은 아닙니다.', planAuto: '자동 배정', planShop: '구매 상점', planReset: '상점 지정 해제', planMissing: '지정한 상점의 판매 정보를 확인할 수 없습니다. 다른 상점을 선택해 주세요.', planRoute: '방문 순서', planStops: '방문 상점 {count}곳', planUp: '앞으로 이동', planDown: '뒤로 이동', planCopy: '구매 계획 복사', planCopied: '구매 계획을 복사했습니다.', planExtra: '최저가 합계보다 {price} 높음', planUnknown: '판매처 미확인 {count}종은 합계에서 제외됩니다.', refreshPrices: '판매처 새로고침', refreshingPrices: '판매처 확인 중', keepPicker: '교체 후 목록 유지', variants: '도색·변종 {count}종', variantBase: '원형', pickerCart: '현재 부품 장바구니에 담기', liveShipsOnly: '출시가 확인된 함선만 표시합니다.',
             equipmentNav: '장비 종류', allEquipment: '전체 장비', clearFilters: '검색·필터 초기화', filteredEmpty: '조건에 맞는 부품이 없습니다. 검색어나 필터를 바꿔 보세요.', firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
-            equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', changedCount: '{count}곳 변경됨',
+            equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', offState: '전원 꺼짐 {count}곳', rangeWarning: '항속 {range} Gm 초과 · 중간 급유가 필요합니다.', distanceInvalid: '1~999 Gm 사이 거리를 입력해 주세요.', miningModuleNote: '모듈은 장착·저장·구매 목록에 반영됩니다. 모듈에 따른 채광 성능 변화는 아직 계산하지 않습니다.', changedCount: '{count}곳 변경됨',
             burstDps: '순간 DPS', laserPower: '레이저 출력', instab: '불안정성', resistMod: '저항성', windowMod: '최적 충전 구간', blastRadius: '폭발 반경', empDmg: '디스토션 피해', radiusShort: '반경', chargeShort: '충전', jamRange: '차단 거리', rackCount: '탑재 수', rackSize: '탄 크기', regenDelay: '피격 뒤 재생 지연', fuelUse: '연료 소모', rackFact: 'S{size} {count}발 탑재', abLabel: '구성 전환', abGo: '구성 {slot}로 전환', abSlot: '구성 {slot}', abStarted: '구성 {slot}를 지금 구성과 같게 만들어 열었습니다. 여기서 바꿔 보고 「구성 비교」에서 견줘 보세요.', abSwitched: '구성 {slot}로 바꿨습니다.', abCompare: '구성 A · B 비교', abHint: '「B」를 누르면 지금 구성을 복제해 바로 다른 부품을 실험할 수 있습니다. 저장은 마음에 드는 구성을 찾은 뒤에 해도 됩니다.', abOpen: '구성 {slot}에서 실험 시작', abCopy: '지금 구성을 {slot}에 덮어쓰기', abCopied: '지금 구성을 구성 {slot}에 복사했습니다.', savedCompare: '저장한 구성과 비교', perShot2: '발당 {value}', totalDmg: '합계 피해', rackOn: 'S{size} {type}', dpsHelp: 'DPS 계산 기준', regenDelayShort: '재생 지연', counterLabel: '디코이 · 노이즈', counterValue: '{decoy}발 · {noise}발', empRow: 'EMP', empValue: '디스토션 {dmg} · 반경 {radius}m · 충전 {charge}초', dampRow: '퀀텀 차단기', dampValue: '차단 거리 {range}m', sustainDps: '지속 DPS', sustainShort: '지속', burstHint: '순간 DPS는 쉬지 않고 쏘는 동안의 값이고, 지속 DPS는 과열되거나 축전 탄창이 비어 쉬는 시간까지 넣어 오래 쏠 때의 평균입니다. 실탄 무기는 과열, 에너지 무기는 축전 탄창이 기준입니다.', limitCol: '오래 쏠 때', limitHeat: '{fire}초 쏘면 과열 · {down}초 뒤 재사격', limitCap: '{fire}초 쏘면 축전 소진 · 재충전 {down}초', limitNone: '제한 없음', ammoTime: '{value}초분', colPart: '부품', colPrice: '최저가', dmg_energy: '에너지', dmg_ballistic: '실탄', dmg_distortion: '디스토션', kind_repeater: '리피터', kind_cannon: '캐논', kind_gatling: '개틀링', kind_scattergun: '스캐터건', kind_beam: '빔', sortHint: '{label} 기준으로 줄 세우기',
             sortLabel: '정렬', sort_best: '성능순', sort_name: '이름순', sort_price: '가격 낮은순', filterLabel: '부품 걸러 보기', buyableOnly: '상점 판매만',
             bulkApply: '같은 부품이 달린 {count}곳을 한 번에 교체', powerShort: '출력', coolingShort: '냉각',
@@ -89,7 +89,7 @@
             refreshFailed: 'Could not refresh shops. Previously fetched offers may still be shown.', planMode: 'Purchase strategy', planCheapest: 'Lowest price', planGrouped: 'Group at shared shops', planHelp: 'Manual shop choices stay fixed. Automatic assignment picks the shop selling the most remaining product types, then the lowest combined cost. This does not calculate the shortest travel route.', planAuto: 'Automatic', planShop: 'Purchase shop', planReset: 'Clear shop choices', planMissing: 'The chosen shop offer is unavailable. Select another shop.', planRoute: 'Visit order', planStops: '{count} shops to visit', planUp: 'Move earlier', planDown: 'Move later', planCopy: 'Copy purchase plan', planCopied: 'Purchase plan copied.', planExtra: '{price} above the lowest-price total', planUnknown: '{count} products without a confirmed shop are excluded from the total.', refreshPrices: 'Refresh shops', refreshingPrices: 'Checking shops', keepPicker: 'Keep list open after equipping', variants: '{count} paints / variants', variantBase: 'Base model', pickerCart: 'Add current part to cart', liveShipsOnly: 'Only ships confirmed as released are listed.',
             equipmentNav: 'Equipment categories', allEquipment: 'All equipment', clearFilters: 'Clear search & filters', filteredEmpty: 'No parts match. Try another search or clear the filters.', firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
-            equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', changedCount: '{count} slots changed',
+            equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', offState: '{count} powered off', rangeWarning: 'Exceeds {range} Gm range · refuelling required.', distanceInvalid: 'Enter a distance between 1 and 999 Gm.', miningModuleNote: 'Modules are included in your loadout, saves and shopping list. Their effects on mining performance are not yet calculated.', changedCount: '{count} slots changed',
             burstDps: 'Burst DPS', laserPower: 'Laser power', instab: 'Instability', resistMod: 'Resistance', windowMod: 'Optimal window', blastRadius: 'Blast radius', empDmg: 'Distortion damage', radiusShort: 'Radius', chargeShort: 'Charge', jamRange: 'Jammer range', rackCount: 'Capacity', rackSize: 'Ordnance size', regenDelay: 'Regen delay after hit', fuelUse: 'Fuel use', rackFact: 'Holds {count} × S{size}', abLabel: 'Switch setup', abGo: 'Switch to setup {slot}', abSlot: 'Setup {slot}', abStarted: 'Opened setup {slot} as a copy of the current setup. Change parts here and use Compare to see the difference.', abSwitched: 'Switched to setup {slot}.', abCompare: 'Setup A vs B', abHint: 'Press B to clone the current setup and try other parts right away. You can save once you find a setup you like.', abOpen: 'Start experimenting in setup {slot}', abCopy: 'Overwrite setup {slot} with the current one', abCopied: 'Copied the current setup to setup {slot}.', savedCompare: 'Compare with a saved setup', perShot2: '{value} each', totalDmg: 'Total damage', rackOn: 'S{size} {type}', dpsHelp: 'How DPS is calculated', regenDelayShort: 'Regen delay', counterLabel: 'Decoys · noise', counterValue: '{decoy} · {noise}', empRow: 'EMP', empValue: '{dmg} distortion · {radius} m radius · {charge}s charge', dampRow: 'Quantum dampener', dampValue: '{range} m jammer range', sustainDps: 'Sustained DPS', sustainShort: 'sustained', burstHint: 'Burst DPS is the value while firing without a break. Sustained DPS is the long-run average including the pauses for overheating (ballistic) or an empty capacitor (energy).', limitCol: 'Sustained fire', limitHeat: 'Overheats after {fire}s · fires again after {down}s', limitCap: 'Capacitor empty after {fire}s · recharge {down}s', limitNone: 'No limit', ammoTime: '{value}s of fire', colPart: 'Part', colPrice: 'Lowest price', dmg_energy: 'Energy', dmg_ballistic: 'Ballistic', dmg_distortion: 'Distortion', kind_repeater: 'Repeater', kind_cannon: 'Cannon', kind_gatling: 'Gatling', kind_scattergun: 'Scattergun', kind_beam: 'Beam', sortHint: 'Sort by {label}',
             sortLabel: 'Sort', sort_best: 'Best first', sort_name: 'Name', sort_price: 'Lowest price', filterLabel: 'Filter parts', buyableOnly: 'Sold in shops',
             bulkApply: 'Replace all {count} slots with this part', powerShort: 'Output', coolingShort: 'Cooling',
@@ -452,7 +452,7 @@
                 ${image ? `<img class="loadout-shipphoto" src="${esc(image.thumbnail.path)}" width="${image.thumbnail.width}" height="${image.thumbnail.height}" alt="" loading="lazy" decoding="async">` : '<div class="loadout-shipphoto is-empty" aria-hidden="true"></div>'}
                 <div class="loadout-shipinfo">
                     <h3 id="loadout-ship-title">${esc(shipName(ship))}</h3>
-                    <p class="loadout-shipfacts">${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}<span class="loadout-abstate">${esc(text('abSlot', { slot: state.slot }))}</span><span class="loadout-shipstate">${esc(totals.changed ? text('changedCount', { count: totals.changed }) : text('stockState'))}</span></p>
+                    <p class="loadout-shipfacts">${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}<span class="loadout-abstate">${esc(text('abSlot', { slot: state.slot }))}</span><span class="loadout-shipstate">${esc(totals.changed ? text('changedCount', { count: totals.changed }) : text('stockState'))}${totals.off ? ` · ${esc(text('offState', { count: totals.off }))}` : ''}</span></p>
                 </div>
                 <div class="loadout-actions">
                     <div class="loadout-ab" role="group" aria-label="${esc(text('abLabel'))}">${['A', 'B'].map((slot) => `<button type="button" class="loadout-abbtn${state.slot === slot ? ' is-active' : ''}" data-loadout-ab="${slot}" aria-pressed="${state.slot === slot}" title="${esc(text('abSlot', { slot }))}"><span class="visually-hidden">${esc(text('abSlot', { slot: '' }))}</span>${slot}</button>`).join('')}</div>
@@ -499,9 +499,15 @@
     }
 
     function travelText(quantum) {
+        if (!(state.qtDistance >= 1 && state.qtDistance <= 999)) return '—';
         const seconds = Math.round(calc.quantumTravelTime(quantum, state.qtDistance));
         if (!seconds) return '—';
         return text('minSec', { min: Math.floor(seconds / 60), sec: seconds % 60 });
+    }
+
+    function travelWarning(quantum) {
+        if (!(state.qtDistance >= 1 && state.qtDistance <= 999)) return text('distanceInvalid');
+        return quantum?.range > 0 && state.qtDistance > quantum.range ? text('rangeWarning', { range: num(quantum.range) }) : '';
     }
 
     // 비행 성능: 비행 제어기에 적힌 속도와 선회 속도(부품을 바꿔도 변하지 않는 함선 고유 수치).
@@ -577,7 +583,7 @@
                     ${stat(text('spoolLabel'), `${num(quantum.spool, 1)}${text('seconds')}`, stockQuantum ? drawChange(quantum.spool, stockQuantum.spool, 1, 'low') : '')}
                 </div>
                 <dl class="loadout-rows">${row(text('equipped'), itemName(quantum.id, quantum))}${row(text('cooldownLabel'), `${num(quantum.cooldown, 1)}${text('seconds')}`)}${quantum.range ? row(text('rangeLabel'), `${num(quantum.range)} Gm`, stockQuantum?.range ? drawChange(quantum.range, stockQuantum.range) : '') : ''}${fuel.qt ? row(text('qtFuel'), `${num(fuel.qt, 1)} SCU`) : ''}${fuel.h2 ? row(text('h2Fuel'), `${num(fuel.h2, 1)} SCU`) : ''}</dl>
-                <div class="loadout-travel"><label for="loadout-qt-distance">${esc(text('travelFor'))}</label><input type="number" id="loadout-qt-distance" inputmode="decimal" min="1" max="999" step="1" value="${esc(state.qtDistance)}"><span class="loadout-travel-result"><span class="loadout-stat-label">${esc(text('travelTime'))}</span><strong id="loadout-qt-time">${esc(travelText(quantum))}</strong></span></div>
+                <div class="loadout-travel"><label for="loadout-qt-distance">${esc(text('travelFor'))}</label><input type="number" id="loadout-qt-distance" inputmode="decimal" min="1" max="999" step="1" value="${esc(state.qtDistance)}"><span class="loadout-travel-result"><span class="loadout-stat-label">${esc(text('travelTime'))}</span><strong id="loadout-qt-time">${esc(travelText(quantum))}</strong></span></div><p id="loadout-qt-warning" class="loadout-travel-warning" role="status" ${travelWarning(quantum) ? '' : 'hidden'}>${esc(travelWarning(quantum))}</p>
                 <p class="loadout-note">${esc(text('travelNote'))}</p>` : `<p class="loadout-note">${esc(text('quantumNone'))}</p>`, true)}
             ${drawFlight()}${drawHull(row)}
             ${section(text('cost'), `
@@ -607,17 +613,17 @@
         const list = [];
         const rack = calc.rackLoad(item);
         const beam = (w) => calc.sumDamage(w?.beamDps);
-        if (item.type === 'WeaponMining' && item.w) list.push(m(text('laserPower'), beam(item.w)), m(text('rangeShort'), calc.weaponRange(item)), m(text('instab'), item.mine?.instab, 0, 'low'), m(text('resistMod'), item.mine?.resist, 0, 'low'), m(text('windowMod'), item.mine?.window));
-        else if (item.emp) list.push(m(text('empDmg'), item.emp.dmg), m(text('radiusShort'), item.emp.radius), m(text('chargeShort'), item.emp.charge, 1, 'low'), m(text('cooldownLabel'), item.emp.cool, 1, 'low'));
-        else if (item.qig) list.push(m(text('jamRange'), item.qig.range), m(text('chargeShort'), item.qig.charge, 1, 'low'));
+        if (item.type === 'WeaponMining' && item.w) list.push(m(text('laserPower'), beam(item.w)), m(`${text('rangeShort')} (m)`, calc.weaponRange(item)), m(`${text('instab')} (%)`, item.mine?.instab, 0, 'low'), m(`${text('resistMod')} (%)`, item.mine?.resist, 0, 'low'), m(`${text('windowMod')} (%)`, item.mine?.window));
+        else if (item.emp) list.push(m(text('empDmg'), item.emp.dmg), m(`${text('radiusShort')} (m)`, item.emp.radius), m(`${text('chargeShort')} (s)`, item.emp.charge, 1, 'low'), m(`${text('cooldownLabel')} (s)`, item.emp.cool, 1, 'low'));
+        else if (item.qig) list.push(m(`${text('jamRange')} (m)`, item.qig.range), m(`${text('chargeShort')} (s)`, item.qig.charge, 1, 'low'));
         else if (rack.count && !item.w && !item.ms) list.push(m(text('rackCount'), rack.count), m(text('rackSize'), rack.size));
-        else if (item.w) { const stats = calc.weaponStats(item); list.push(m(text('burstDps'), stats.dps), m(text('sustainDps'), calc.weaponSustain(item).dps), m(text('alphaShort'), stats.alpha, 1), m(text('rangeShort'), calc.weaponRange(item))); }
-        else if (item.sh) list.push(m(text('shield'), item.sh.hp), m(text('regenShort'), item.sh.regen), m(text('regenDelay'), item.sh.dmgDelay, 1, 'low'));
+        else if (item.w) { const stats = calc.weaponStats(item); list.push(m(text('burstDps'), stats.dps), m(text('sustainDps'), calc.weaponSustain(item).dps), m(text('alphaShort'), stats.alpha, 1), m(`${text('rangeShort')} (m)`, calc.weaponRange(item))); }
+        else if (item.sh) list.push(m(text('shield'), item.sh.hp), m(text('regenShort'), item.sh.regen), m(`${text('regenDelay')} (s)`, item.sh.dmgDelay, 1, 'low'));
         else if (item.power?.gen) list.push(m(text('powerShort'), item.power.gen, 1));
         else if (item.cool?.gen) list.push(m(text('coolingShort'), item.cool.gen, 1));
-        else if (item.qd) list.push(m('km/s', (Number(item.qd.speed) || 0) / 1000), m(text('spoolLabel'), item.qd.spool, 1, 'low'), m(text('cooldownLabel'), item.qd.cool, 1, 'low'), m(text('fuelUse'), item.qd.fuel, 3, 'low'));
-        else if (item.ms && item.type === 'Bomb') list.push(m(text('dmgWord'), calc.sumDamage(item.ms.dmg)), m(text('blastRadius'), item.ms.radius));
-        else if (item.ms) list.push(m(text('dmgWord'), calc.sumDamage(item.ms.dmg)), m(text('lockShort'), item.ms.lock, 1, 'low'), m(text('speedShort'), item.ms.speed), m(text('rangeShort'), item.ms.rangeMax));
+        else if (item.qd) list.push(m('km/s', (Number(item.qd.speed) || 0) / 1000), m(`${text('spoolLabel')} (s)`, item.qd.spool, 1, 'low'), m(`${text('cooldownLabel')} (s)`, item.qd.cool, 1, 'low'), m(`${text('fuelUse')} (SCU/Gm)`, item.qd.fuel, 3, 'low'));
+        else if (item.ms && item.type === 'Bomb') list.push(m(text('dmgWord'), calc.sumDamage(item.ms.dmg)), m(`${text('blastRadius')} (m)`, item.ms.radius));
+        else if (item.ms) list.push(m(text('dmgWord'), calc.sumDamage(item.ms.dmg)), m(`${text('lockShort')} (s)`, item.ms.lock, 1, 'low'), m(`${text('speedShort')} (m/s)`, item.ms.speed), m(`${text('rangeShort')} (m)`, item.ms.rangeMax));
         if (list.length && !item.power?.gen && Number(item.power?.use) > 0) list.push(m(text('powerUseLabel'), item.power.use, 1, 'low'));
         return list;
     }
@@ -769,9 +775,11 @@
             <div class="loadout-picker-title">
                 <div><span class="loadout-slot-label">${esc(where)}${run.length > 1 ? ` ×${run.length}` : ''}</span><strong title="${esc(node.item?.name || '')}">${esc(node.item ? itemName(node.itemId, node.item) : text('empty'))}</strong>
                     ${node.item ? `<span class="loadout-picker-detail"><span class="loadout-meta">${esc(itemMeta(node.item))}</span></span>` : ''}</div>
+            ${metricsOf(node.item).length ? `<div class="loadout-current-metrics" aria-label="${esc(text('previewCompare'))}">${metricsOf(node.item).map((metric) => `<span><small>${esc(metric.label)}</small><b>${esc(num(metric.value, metric.digits))}</b></span>`).join('')}</div>` : ''}
                 <button type="button" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button>
             </div>
             ${mount && mount.slot.kind === 's' ? `<p class="loadout-note loadout-mountnote">${esc(text('mountedOn'))}: ${esc(itemName(mount.itemId, mount.item))} <button type="button" class="loadout-link" data-loadout-open="${esc(mount.path)}">${esc(text(/Launcher$/.test(mount.item?.type || '') ? 'rackChange' : 'mountChange'))}</button></p>` : ''}
+            ${node.slot.acc?.some((rule) => rule.type === 'MiningModifier') ? `<p class="loadout-note">${esc(text('miningModuleNote'))}</p>` : ''}
             <div class="loadout-picker-tools"><label><input type="checkbox" id="loadout-keep-picker" ${state.keepPicker ? 'checked' : ''}> ${esc(text('keepPicker'))}</label>${node.itemId ? `<button type="button" class="loadout-link" data-loadout-cart-add="${esc(node.itemId)}">${esc(text('pickerCart'))}</button>` : ''}</div>
             <div class="loadout-picker-head">
                 <input type="search" id="loadout-picker-search" autocomplete="off" placeholder="${esc(text('pickerSearch'))}" value="${esc(state.pickerQuery)}" aria-label="${esc(text('pickerSearch'))}">
@@ -942,7 +950,8 @@
             const rows = foldMounts(mergeRuns(groups.get(key)));
             // 고정 장비도 실제 장착 자리다. 합친 마운트는 중복하지 않고 묶인 탄은 각각 센다.
             const count = rows.reduce((sum, row) => sum + (row.run?.length || 1), 0);
-            return `<section class="loadout-group is-${key}">
+            const hidden = state.changedOnly && !rows.some((row) => row.changed || row.mount?.changed || state.off[row.path]);
+            return `<section class="loadout-group is-${key}" ${hidden ? 'hidden' : ''}>
             <h4><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>
             <ul id="loadout-rows-${key}" class="loadout-slotlist" ${state.collapsed.has(key) ? 'hidden' : ''}>${rows.map((row) => { const html = drawSlot(row); const changed = row.changed || row.mount?.changed || state.off[row.path]; return state.changedOnly && !changed ? html.replace('<li ', '<li hidden ') : html; }).join('')}</ul>
         </section>`;
@@ -954,7 +963,7 @@
         const controls = `<div class="loadout-view-tools"><button type="button" class="loadout-link" data-loadout-collapse-all>${esc(text(state.collapsed.size ? 'expandAll' : 'collapseAll'))}</button><label><input type="checkbox" id="loadout-compact" ${state.compact ? 'checked' : ''}> ${esc(text('compactView'))}</label><label><input type="checkbox" id="loadout-changed-only" ${state.changedOnly ? 'checked' : ''}> ${esc(text('changedOnly'))}</label></div>${state.changedOnly && !nodes.some((node) => node.changed || state.off[node.path]) ? `<p class="loadout-note">${esc(text('noChanges'))}</p>` : ''}`;
         return navigation + controls + available.map(([label, keys]) => {
             const filled = keys.filter((key) => groups.get(key).length);
-            return `<section class="loadout-super" ${state.equipmentGroup && state.equipmentGroup !== label ? 'hidden' : ''}><h3>${esc(text(label))}</h3>${filled.map(group).join('')}</section>`;
+            return `<section class="loadout-super" ${(state.equipmentGroup && state.equipmentGroup !== label) || (state.changedOnly && !filled.some((key) => groups.get(key).some((row) => row.changed || state.off[row.path]))) ? 'hidden' : ''}><h3>${esc(text(label))}</h3>${filled.map(group).join('')}</section>`;
         }).join('');
     }
 
@@ -1320,7 +1329,8 @@
     // 부품 선택 창을 닫고, 창을 열었던 "변경" 버튼으로 초점을 돌려보낸다.
     function dismissPicker() {
         if (state.detailId) { const id = state.detailReturn; state.detailId = ''; draw(); root()?.querySelector(`[data-loadout-detail="${CSS.escape(id)}"]`)?.focus({ preventScroll: true }); return; }
-        const path = state.openPath;
+        const path = state.pickerOrigin || state.openPath;
+        state.pickerOrigin = '';
         closePicker(); draw();
         if (path) root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
     }
@@ -1420,6 +1430,7 @@
         const openPath = target.getAttribute('data-loadout-open');
         if (openPath !== null) {
             const same = state.openPath === openPath;
+            if (!state.openPath) state.pickerOrigin = openPath;
             closePicker();
             if (!same) {
                 state.openPath = openPath;
@@ -1546,10 +1557,13 @@
         if (event.target.id === 'loadout-build-name') { state.buildName = event.target.value; }
         if (event.target.id === 'loadout-qt-distance') {
             // 입력 중에는 화면 전체를 다시 그리지 않고 결과 글자만 바꾼다(숫자 입력이 끊기지 않게).
-            state.qtDistance = Math.max(0, Math.min(999, Number(event.target.value) || 0));
+            state.qtDistance = Number(event.target.value) || 0;
             const output = document.getElementById('loadout-qt-time');
             const quantum = state.ship ? calc.summarize(state.ship, state.items, state.overrides, { off: state.off }).quantum : null;
             if (output) output.textContent = quantum ? travelText(quantum) : '—';
+            const warning = document.getElementById('loadout-qt-warning');
+            if (warning) { warning.textContent = travelWarning(quantum); warning.hidden = !warning.textContent; }
+            event.target.setAttribute('aria-invalid', String(!(state.qtDistance >= 1 && state.qtDistance <= 999)));
         }
     }
     function handleChange(event) {

@@ -121,6 +121,8 @@
     // - 전용 부품(requiredTags)은 그 태그를 가진 함선·상위 부품에만 달 수 있다
     function fitsSlot(item, slot, context) {
         if (!item || !slot) return false;
+        // Exclude temporary bomb-rack definitions from imports as well as the picker.
+        if (item.type === 'BombLauncher' && /(?:^|_)TEMP(?:_|$)/i.test(item.cls || '')) return false;
         const size = Number(item.size) || 0;
         if (size < (slot.min ?? 0) || size > (slot.max ?? 99)) return false;
         const accepts = slot.acc || [];
@@ -273,7 +275,7 @@
         const distance = (Number(distanceGm) || 0) * 1e9;
         const speed = Number(quantum?.speed) || 0;
         const accel = Number(quantum?.accel) || 0;
-        if (!distance || !speed) return 0;
+        if (!(distance > 0) || !Number.isFinite(distance) || !(speed > 0)) return 0;
         const spool = Number(quantum.spool) || 0;
         if (!accel) return spool + distance / speed;
         const rampDistance = speed * speed / accel;

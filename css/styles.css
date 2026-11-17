@@ -10034,3 +10034,16 @@ details.loadout-panel-section.loadout-fold { display: block; }
 @media (prefers-reduced-motion: reduce) {
     #home .hero-film { display: none; }
 }
+
+/* Keep the equipped part's baseline visible while comparing candidates. */
+.loadout-picker-title .loadout-current-metrics { display: flex; flex: 1; justify-content: flex-end; flex-wrap: wrap; gap: 8px 16px; padding: 8px 12px; border: 1px solid var(--lo-line); border-radius: 12px; background: var(--color-bg-elevated); }
+.loadout-current-metrics > span { display: grid; gap: 4px; min-width: 72px; }
+.loadout-current-metrics small { color: var(--color-text-secondary); font-size: 12px; }
+.loadout-current-metrics b { font-variant-numeric: tabular-nums; font-size: 15px; }
+.loadout-travel-warning { margin: 8px 0 0; color: var(--color-text-primary); border-left: 3px solid var(--volt-orange); padding: 6px 10px; font-size: 13px; }
+
+@media (max-width: 720px) {
+    .loadout-picker-title { flex-wrap: wrap; }
+    .loadout-picker-title > div:first-child { flex: 1; }
+    .loadout-picker-title .loadout-current-metrics { order: 3; flex-basis: 100%; justify-content: flex-start; }
+}

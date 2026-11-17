@@ -916,3 +916,54 @@ test('장착 부품 상세에서 교체창으로 이동하고 열 정렬 방향�
     await expect(page.locator('.loadout-opttable th[aria-sort]')).toHaveAttribute('aria-sort', 'ascending');
     await page.screenshot({ path: 'test-results/loadout-picker-desktop.png' });
 });
+
+test('항속 초과와 잘못된 거리 입력을 즉시 안내한다', async ({ page }) => {
+    await openAsgard(page);
+    const distance = page.locator('#loadout-qt-distance');
+    await distance.fill('999');
+    await expect(page.locator('#loadout-qt-warning')).toContainText('중간 급유');
+    await distance.fill('-1');
+    await expect(distance).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.locator('#loadout-qt-time')).toHaveText('—');
+    await distance.fill('30');
+    await expect(page.locator('#loadout-qt-warning')).toBeHidden();
+    await expect(distance).toHaveAttribute('aria-invalid', 'false');
+});
+
+test('전원 상태와 변경 필터, 교체창 비교 기준을 표시한다', async ({ page }) => {
+    await openAsgard(page);
+    await page.locator('.loadout-group.is-shield [data-loadout-open]').first().click();
+    await expect(page.locator('.loadout-current-metrics')).toContainText('실드');
+    await page.locator('.loadout-picker [data-loadout-power]').click();
+    await expect(page.locator('.loadout-shipstate')).toContainText('전원 꺼짐 1곳');
+    if (await page.locator('.loadout-picker').isVisible()) await page.keyboard.press('Escape');
+    await page.locator('#loadout-changed-only').check();
+    await expect(page.locator('.loadout-group.is-shield')).toBeVisible();
+    await expect(page.locator('.loadout-group.is-weapon')).toBeHidden();
+});
+
+test('기본 채광 헤드의 빈 모듈 슬롯에 실제 모듈을 장착한다', async ({ page }) => {
+    await mockApi(page);
+    await gotoSection(page, '#loadout');
+    await page.locator('#loadout-ship-search').fill('prospector');
+    await page.locator('[data-loadout-ship="misc_prospector"]').click();
+    const moduleSlot = page.locator('[data-loadout-open*="BONE_ItemPort_Consumable_1"]').first();
+    await moduleSlot.click();
+    await expect(page.locator('.loadout-picker-count')).not.toContainText('맞는 부품 0종');
+    await pick(page, '2ceb0de9-105b-434e-a152-8af1fd1660d0').click();
+    await expect(page.locator('[data-loadout-detail="2ceb0de9-105b-434e-a152-8af1fd1660d0"]')).toBeVisible();
+});
+
+test('스토커 랙 교체에서 임시 폭탄 랙을 숨기고 닫으면 원래 버튼으로 돌아간다', async ({ page }) => {
+    await mockApi(page);
+    await gotoSection(page, '#loadout');
+    await page.locator('#loadout-ship-search').fill('stalker');
+    await page.locator('[data-loadout-ship="aegs_avenger_stalker"]').click();
+    const opener = page.locator('.loadout-group.is-missile [data-loadout-open]').first();
+    await opener.click();
+    await page.getByRole('button', { name: '랙 변경', exact: true }).click();
+    await expect(pick(page, '549964bb-a674-41ba-86d5-55a6d3c25931')).toHaveCount(0);
+    await expect(pick(page, 'f8d3a1e1-0d75-45bb-a453-898a7cf83382')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(opener).toBeFocused();
+});
