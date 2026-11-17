@@ -18,7 +18,7 @@
     let deps = {};
     const state = {
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
-        query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
+        equipmentGroup: '', query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(),
         tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [], split: {}, buildsOpen: false, slot: 'A', alt: null,
     };
@@ -26,7 +26,7 @@
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
-            firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
+            equipmentNav: '장비 종류', allEquipment: '전체 장비', clearFilters: '검색·필터 초기화', filteredEmpty: '조건에 맞는 부품이 없습니다. 검색어나 필터를 바꿔 보세요.', firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
             equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', changedCount: '{count}곳 변경됨',
             burstDps: '순간 DPS', laserPower: '레이저 출력', instab: '불안정성', resistMod: '저항성', windowMod: '최적 충전 구간', blastRadius: '폭발 반경', empDmg: '디스토션 피해', radiusShort: '반경', chargeShort: '충전', jamRange: '차단 거리', rackCount: '탑재 수', rackSize: '탄 크기', regenDelay: '피격 뒤 재생 지연', fuelUse: '연료 소모', rackFact: 'S{size} {count}발 탑재', abLabel: '구성 전환', abGo: '구성 {slot}로 전환', abSlot: '구성 {slot}', abStarted: '구성 {slot}를 지금 구성과 같게 만들어 열었습니다. 여기서 바꿔 보고 「구성 비교」에서 견줘 보세요.', abSwitched: '구성 {slot}로 바꿨습니다.', abCompare: '구성 A · B 비교', abHint: '「B」를 누르면 지금 구성을 복제해 바로 다른 부품을 실험할 수 있습니다. 저장은 마음에 드는 구성을 찾은 뒤에 해도 됩니다.', abOpen: '구성 {slot}에서 실험 시작', abCopy: '지금 구성을 {slot}에 덮어쓰기', abCopied: '지금 구성을 구성 {slot}에 복사했습니다.', savedCompare: '저장한 구성과 비교', perShot2: '발당 {value}', totalDmg: '합계 피해', rackOn: 'S{size} {type}', dpsHelp: 'DPS 계산 기준', regenDelayShort: '재생 지연', counterLabel: '디코이 · 노이즈', counterValue: '{decoy}발 · {noise}발', empRow: 'EMP', empValue: '디스토션 {dmg} · 반경 {radius}m · 충전 {charge}초', dampRow: '퀀텀 차단기', dampValue: '차단 거리 {range}m', sustainDps: '지속 DPS', sustainShort: '지속', burstHint: '순간 DPS는 쉬지 않고 쏘는 동안의 값이고, 지속 DPS는 과열되거나 축전 탄창이 비어 쉬는 시간까지 넣어 오래 쏠 때의 평균입니다. 실탄 무기는 과열, 에너지 무기는 축전 탄창이 기준입니다.', limitCol: '오래 쏠 때', limitHeat: '{fire}초 쏘면 과열 · {down}초 뒤 재사격', limitCap: '{fire}초 쏘면 축전 소진 · 재충전 {down}초', limitNone: '제한 없음', ammoTime: '{value}초분', colPart: '부품', colPrice: '최저가', dmg_energy: '에너지', dmg_ballistic: '실탄', dmg_distortion: '디스토션', kind_repeater: '리피터', kind_cannon: '캐논', kind_gatling: '개틀링', kind_scattergun: '스캐터건', kind_beam: '빔', sortHint: '{label} 기준으로 줄 세우기',
@@ -80,7 +80,7 @@
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
         en: {
-            firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
+            equipmentNav: 'Equipment categories', allEquipment: 'All equipment', clearFilters: 'Clear search & filters', filteredEmpty: 'No parts match. Try another search or clear the filters.', firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
             equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', changedCount: '{count} slots changed',
             burstDps: 'Burst DPS', laserPower: 'Laser power', instab: 'Instability', resistMod: 'Resistance', windowMod: 'Optimal window', blastRadius: 'Blast radius', empDmg: 'Distortion damage', radiusShort: 'Radius', chargeShort: 'Charge', jamRange: 'Jammer range', rackCount: 'Capacity', rackSize: 'Ordnance size', regenDelay: 'Regen delay after hit', fuelUse: 'Fuel use', rackFact: 'Holds {count} × S{size}', abLabel: 'Switch setup', abGo: 'Switch to setup {slot}', abSlot: 'Setup {slot}', abStarted: 'Opened setup {slot} as a copy of the current setup. Change parts here and use Compare to see the difference.', abSwitched: 'Switched to setup {slot}.', abCompare: 'Setup A vs B', abHint: 'Press B to clone the current setup and try other parts right away. You can save once you find a setup you like.', abOpen: 'Start experimenting in setup {slot}', abCopy: 'Overwrite setup {slot} with the current one', abCopied: 'Copied the current setup to setup {slot}.', savedCompare: 'Compare with a saved setup', perShot2: '{value} each', totalDmg: 'Total damage', rackOn: 'S{size} {type}', dpsHelp: 'How DPS is calculated', regenDelayShort: 'Regen delay', counterLabel: 'Decoys · noise', counterValue: '{decoy} · {noise}', empRow: 'EMP', empValue: '{dmg} distortion · {radius} m radius · {charge}s charge', dampRow: 'Quantum dampener', dampValue: '{range} m jammer range', sustainDps: 'Sustained DPS', sustainShort: 'sustained', burstHint: 'Burst DPS is the value while firing without a break. Sustained DPS is the long-run average including the pauses for overheating (ballistic) or an empty capacitor (energy).', limitCol: 'Sustained fire', limitHeat: 'Overheats after {fire}s · fires again after {down}s', limitCap: 'Capacitor empty after {fire}s · recharge {down}s', limitNone: 'No limit', ammoTime: '{value}s of fire', colPart: 'Part', colPrice: 'Lowest price', dmg_energy: 'Energy', dmg_ballistic: 'Ballistic', dmg_distortion: 'Distortion', kind_repeater: 'Repeater', kind_cannon: 'Cannon', kind_gatling: 'Gatling', kind_scattergun: 'Scattergun', kind_beam: 'Beam', sortHint: 'Sort by {label}',
@@ -230,7 +230,7 @@
             cls = canonicalShip(cls);
             const ship = await fetchJson(`${DATA_BASE}/ships/${cls}.json?v=${state.meta?.stamp || ''}`);
             const sameShip = cls === state.shipCls;
-            state.ship = ship; state.shipCls = cls; state.history = [];
+            state.ship = ship; state.shipCls = cls; state.history = []; state.equipmentGroup = '';
             const stored = overrides ?? readStored().sets?.[cls] ?? readStored().sets?.[requested] ?? {};
             state.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(stored).map(([path, id]) => [path, canonicalItem(id)])));
             state.off = cleanOff(off ?? (overrides === undefined ? readStored().off?.[cls] : {}) ?? {});
@@ -662,7 +662,9 @@
         const chip = (attr, value, label, active) => `<button type="button" class="loadout-chip${active ? ' is-active' : ''}" ${attr}="${esc(value)}" aria-pressed="${active}">${esc(label)}</button>`;
         const damages = ['energy', 'ballistic', 'distortion'].filter((key) => fitting.some(([, item]) => damageOf(item) === key));
         const kinds = ['cannon', 'repeater', 'gatling', 'scattergun', 'beam'].filter((key) => fitting.some(([, item]) => kindOf(item) === key));
-        const head = (key, label, first) => `<th scope="col" class="${first ? 'is-name' : ''}" ${state.pickerSort === key ? 'aria-sort="descending"' : ''}><button type="button" class="loadout-sortbtn${state.pickerSort === key ? ' is-active' : ''}" data-loadout-sort="${key}" title="${esc(text('sortHint', { label }))}">${esc(label)}</button></th>`;
+        const ascending = (key) => key === 'name' || key === 'price' || (/^m\d$/.test(key) && columns[Number(key.slice(1))]?.better === 'low');
+        const head = (key, label, first) => `<th scope="col" class="${first ? 'is-name' : ''}" ${state.pickerSort === key ? `aria-sort="${ascending(key) ? 'ascending' : 'descending'}"` : ''}><button type="button" class="loadout-sortbtn${state.pickerSort === key ? ' is-active' : ''}" data-direction="${ascending(key) ? 'asc' : 'desc'}" data-loadout-sort="${key}" title="${esc(text('sortHint', { label }))}">${esc(label)}</button></th>`;
+        const filtered = Boolean(query || state.pickerGrade || state.pickerClass || state.pickerDamage || state.pickerKind || state.pickerBuyable);
         const now = new Map(metricsOf(node.item).map((metric) => [metric.label, metric]));
         // 수치 한 칸. 지금 달린 부품과 견준 차이를 유리·불리 색으로 붙인다("동일"은 그 칸의 수치가 같다는 뜻).
         const cell = (item, column, isCurrent) => {
@@ -699,7 +701,7 @@
                 ${chip('data-loadout-buyable', '1', text('buyableOnly'), Boolean(state.pickerBuyable))}
                 </span>
             </div>
-            <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}${Number(node.item?.power?.use) > 0 || state.off[node.path] ? ` <button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(node.path)}" aria-pressed="${Boolean(state.off[node.path])}">${esc(text(state.off[node.path] ? 'powerOn' : 'powerOff'))}</button>` : ''}</p>
+            <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${filtered ? ` <button type="button" class="loadout-link" data-loadout-clear-filters>${esc(text('clearFilters'))}</button>` : ''}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}${Number(node.item?.power?.use) > 0 || state.off[node.path] ? ` <button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(node.path)}" aria-pressed="${Boolean(state.off[node.path])}">${esc(text(state.off[node.path] ? 'powerOn' : 'powerOff'))}</button>` : ''}</p>
             ${run.length > 1 ? `<p class="loadout-note loadout-runnote">${esc(text('runNote', { count: run.length }))}</p>` : ''}
             ${siblings.length + 1 > run.length ? `<label class="loadout-bulk"><input type="checkbox" id="loadout-bulk" ${state.pickerBulk ? 'checked' : ''}> ${esc(text('bulkApply', { count: siblings.length + 1 }))}</label>` : ''}
             <div class="loadout-optwrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-opttable">
@@ -709,7 +711,7 @@
                     ${columns.map((column) => cell(item, column, id === currentId)).join('')}
                     <td class="loadout-optprice">${drawPrice(id, item)}</td>
                     <td class="loadout-optact"><button type="button" class="btn btn-secondary loadout-equip" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === currentId ? 'disabled' : ''}>${esc(id === currentId ? text('selected') : text('select'))}</button></td>
-                </tr>`).join('') || `<tr><td class="loadout-note" colspan="${columns.length + 3}">${esc(text('pickerEmpty'))}</td></tr>`}</tbody>
+                </tr>`).join('') || `<tr><td class="loadout-note" colspan="${columns.length + 3}">${esc(text(filtered ? 'filteredEmpty' : 'pickerEmpty'))}</td></tr>`}</tbody>
             </table></div>
         </div>`;
     }
@@ -854,9 +856,13 @@
             <ul class="loadout-slotlist">${rows.map(drawSlot).join('')}</ul>
         </section>`;
         };
-        return SUPER_GROUPS.map(([label, keys]) => {
+        const available = SUPER_GROUPS.filter(([, keys]) => keys.some((key) => groups.get(key).length));
+        if (!available.some(([label]) => label === state.equipmentGroup)) state.equipmentGroup = '';
+        const navigation = `<div class="loadout-equipment-nav" role="group" aria-label="${esc(text('equipmentNav'))}">${[['', []], ...available].map(([label]) => `<button type="button" id="loadout-category-${label || 'all'}" class="loadout-category${state.equipmentGroup === label ? ' is-active' : ''}" data-loadout-category="${label}" aria-pressed="${state.equipmentGroup === label}">${esc(text(label || 'allEquipment'))}</button>`).join('')}</div>`;
+        // Render every group so slot/mount mappings stay complete while filtering the view.
+        return navigation + available.map(([label, keys]) => {
             const filled = keys.filter((key) => groups.get(key).length);
-            return filled.length ? `<section class="loadout-super"><h3>${esc(text(label))}</h3>${filled.map(group).join('')}</section>` : '';
+            return `<section class="loadout-super" ${state.equipmentGroup && state.equipmentGroup !== label ? 'hidden' : ''}><h3>${esc(text(label))}</h3>${filled.map(group).join('')}</section>`;
         }).join('');
     }
 
@@ -1237,6 +1243,12 @@
         if (event.target.closest('[data-loadout-close]')) { dismissPicker(); return; }
         const target = event.target.closest('button');
         if (!target) return;
+        const category = target.getAttribute('data-loadout-category');
+        if (category !== null && ['', ...SUPER_GROUPS.map(([label]) => label)].includes(category)) { state.equipmentGroup = category; draw(); return; }
+        if (target.hasAttribute('data-loadout-clear-filters')) {
+            state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerDamage = ''; state.pickerKind = ''; state.pickerBuyable = false;
+            draw(); document.getElementById('loadout-picker-search')?.focus({ preventScroll: true }); return;
+        }
         if (target.hasAttribute('data-loadout-retry')) { state.error = ''; render(); return; }
         if (target.hasAttribute('data-loadout-browse')) { state.browsing = !state.browsing; state.query = ''; draw(); if (state.browsing) document.getElementById('loadout-ship-search')?.focus({ preventScroll: true }); return; }
         const shipKind = target.getAttribute('data-loadout-ship-kind');

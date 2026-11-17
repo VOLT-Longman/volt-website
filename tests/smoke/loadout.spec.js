@@ -309,7 +309,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(panel(page)).toContainText('물리 저항');
     });
 
-    test('모바일 390px: 가로 넘침 없이 부품을 바꿀 수 있다', async ({ browser }) => {
+    test('모바일 390px: 가로 넘침 없이 부품을 바꿀 수 있다', async ({ browser }, testInfo) => {
         const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
         const page = await ctx.newPage();
         await openAsgard(page);
@@ -318,6 +318,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-slot.is-changed')).toHaveCount(1);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
         expect(overflow).toBeLessThanOrEqual(1);
+        await page.screenshot({ path: testInfo.outputPath('workspace-mobile.png') });
         // 함선을 고른 뒤에는 검색창이 접혀 있으므로 "함선 바꾸기"로 다시 편다.
         await page.locator('[data-loadout-browse]').click();
         const input = await page.locator('#loadout-ship-search').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
@@ -691,4 +692,39 @@ test.describe('로드아웃 편집기', () => {
         await page.locator('.loadout-actions [data-loadout-ab="B"]').click();
         await expect(stat(page, DPS)).not.toHaveText(before);
     });
+    test('장비 종류를 전환해도 교체한 구성과 전체 수치를 유지한다', async ({ page }, testInfo) => {
+        await openAsgard(page);
+        await page.screenshot({ path: testInfo.outputPath('workspace-desktop.png') });
+        await page.locator('[data-loadout-category="superArms"]').click();
+        await expect(page.locator('.loadout-group.is-shield')).toBeHidden();
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        await pick(page, MANTIS).click();
+        const changed = await stat(page, DPS).innerText();
+        await page.locator('[data-loadout-category="superDefense"]').click();
+        await expect(page.locator('.loadout-group.is-weapon')).toBeHidden();
+        await expect(page.locator('.loadout-group.is-shield')).toBeVisible();
+        await expect(stat(page, DPS)).toHaveText(changed);
+        await page.locator('[data-loadout-category=""]').click();
+        await expect(firstGunSlot(page, '맨티스 GT-220 개틀링')).toBeVisible();
+        await expect(page.locator('.loadout-group.is-shield')).toBeVisible();
+        await expect(stat(page, DPS)).toHaveText(changed);
+    });
+
+    test('후보가 없는 검색을 초기화하고 정렬 방향을 정확히 알린다', async ({ page }) => {
+        await openAsgard(page);
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        const rows = page.locator('.loadout-optrows tr');
+        const count = await rows.count();
+        await page.locator('#loadout-picker-search').fill('no-such-component-xyz');
+        await expect(page.locator('.loadout-picker')).toContainText('조건에 맞는 부품이 없습니다');
+        await page.locator('[data-loadout-clear-filters]').click();
+        await expect(rows).toHaveCount(count);
+        await expect(page.locator('#loadout-picker-search')).toBeFocused();
+        await expect(page.locator('#loadout-picker-search')).toHaveValue('');
+        await page.locator('[data-loadout-sort="name"]').click();
+        await expect(page.locator('.loadout-opttable th[aria-sort]')).toHaveAttribute('aria-sort', 'ascending');
+        await page.locator('[data-loadout-sort="m0"]').click();
+        await expect(page.locator('.loadout-opttable th[aria-sort]')).toHaveAttribute('aria-sort', 'descending');
+    });
+
 });
