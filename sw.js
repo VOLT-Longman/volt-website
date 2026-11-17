@@ -30,6 +30,7 @@ const VERSIONED_ASSETS = [
     '/css/motion.css',
     '/js/motion.js',
     '/js/cinematic-motion.js',
+    '/js/hero-film.js',
     '/assets/vendor/gsap/gsap.min.js',
     '/assets/vendor/gsap/ScrollTrigger.min.js',
     '/js/theme-init.js',

@@ -10007,3 +10007,23 @@ details.loadout-panel-section.loadout-fold { display: block; }
 .community-gate .btn-primary:hover { background: var(--action-primary-hover); }
 @media (max-width: 600px) { .community-gate-actions { flex-direction: column; } .community-gate-actions .btn { width: 100%; } }
 #ships .community-gate, #trade-planner .community-gate, #loadout .community-gate { max-width: 760px; margin-inline: auto; }
+
+/* 첫 화면 항로 영상 (js/hero-film.js): 재생이 실제로 시작된 뒤에만 보인다.
+   움직임 줄이기 설정·데이터 절약·느린 연결에서는 영상을 받지 않고 원래 사진 그대로 둔다. */
+#home .hero-film { position: absolute; top: 56px; left: 0; width: 100%; height: calc(100svh - 56px); min-height: 620px; object-fit: cover; transform: scaleX(-1); mix-blend-mode: screen; opacity: 0; pointer-events: none; z-index: 0; transition: opacity 1.6s ease; -webkit-mask-image: linear-gradient(270deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.55) 30%, #000 62%); mask-image: linear-gradient(270deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.55) 30%, #000 62%); }
+#home.hero-film-on .hero-film { opacity: .95; }
+#home .hero-cine-image { transition: filter 1.6s ease; }
+@media (min-width: 641px) {
+    #home.hero-film-on .hero-cine-image { filter: brightness(.42) saturate(.75) contrast(1.12); }
+}
+@media (min-width: 980px) and (max-height: 760px) {
+    #home .hero-film { height: 760px; }
+}
+@media (max-width: 640px) {
+    /* 휴대폰: 사진 칸은 첫 화면 아래에 있으므로, 영상은 제목 뒤 배경으로 깐다. */
+    #home .hero-film { top: 0; height: min(100svh, 760px); min-height: 0; transform: none; object-position: 72% center; -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 52%, transparent 96%); mask-image: linear-gradient(180deg, #000 0%, #000 52%, transparent 96%); }
+    #home.hero-film-on .hero-film { opacity: .42; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #home .hero-film { display: none; }
+}
