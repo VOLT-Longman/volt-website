@@ -102,3 +102,14 @@ test('Activation deletes only old VOLT caches', async () => {
     assert.ok(!sw.stores.has('volt-runtime-old'));
     assert.equal(sw.stores.size, 3);
 });
+
+test('Ambiguous asset aliases bypass even an existing runtime entry', async () => {
+    const sw = worker();
+    const aliases = ['/data//loadout/items.json', '/data///canonical/ships-canonical.json', '/data//ship-market.js', '/data/%6coadout/items.json', '/d%61ta/loadout/items.json', '/data%2floadout%2fitems.json'];
+    await sw.request('/assets/test.webp');
+    const runtime = [...sw.stores.entries()].find(([name]) => name.startsWith('volt-runtime-'))[1];
+    for (const path of aliases) {
+        runtime.set(new URL(path, 'https://www.volt.ceo').href, new Response('previously cached protected data'));
+        assert.equal(await sw.request(path), undefined, path);
+    }
+});

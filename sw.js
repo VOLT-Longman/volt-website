@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261117-16';
+const CACHE_VERSION = '20261117-17';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -97,6 +97,9 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(request.url);
 
     if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+    // Ambiguous/encoded aliases must always reach server authorization, even if
+    // an older worker once cached a normalized protected asset under that alias.
+    if (url.pathname.includes('//') || url.pathname.includes('%') || url.pathname.includes('\\')) return;
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/') || url.pathname.startsWith('/admin')) return;
     // Membership-protected data must always reach the server, including after logout.
     // Activation deletes the old runtime caches that previously stored these files.

@@ -77,8 +77,43 @@ test('Public landing, CMS, translations and login remain outside the community g
     assert.equal(response.status, 200, path); assert.equal(calls, 1);
   }
   const routes = JSON.parse(readFileSync(new URL('../../_routes.json', import.meta.url)));
-  assert.deepEqual(routes.include, ['/api/*', '/auth/*', '/data/*']);
+  // A leading // or encoded root must not skip middleware before Pages resolves
+  // the static asset. Public paths still pass through without a session lookup.
+  assert.deepEqual(routes.include, ['/*']);
   assert.deepEqual(routes.exclude, []);
+});
+
+test('Static asset aliases cannot bypass membership or use a shared cache', async () => {
+  const env = environment();
+  const wrong = await memberCookie({ sub: 'alias-visitor', roles: ['visitor'] }, env);
+  const allowed = await memberCookie({ sub: 'alias-member', roles: ['community'] }, env);
+  const aliases = [
+    '/data//loadout/items.json', '/data///loadout/index.json', '//data/loadout/index.json',
+    '///data////canonical/ships-canonical.json', '/data//ship-live-stats.js', '/data///ship-market.js',
+    '/%64ata/loadout/items.json', '/d%61ta/loadout/items.json', '/data/%6coadout/items.json',
+    '/data%2floadout%2fitems.json', '/data/%5cloadout/items.json',
+    '/public%2f..%2fdata%2floadout%2fitems.json', '/api//uex/loadout-prices',
+    '/data//loadout/items.json?version=alias'
+  ];
+  for (const path of aliases) for (const method of ['GET', 'HEAD']) {
+    for (const [cookie, status] of [['', 401], [wrong, 403]]) {
+      const { response, calls } = await invoke(env, path, cookie, method);
+      assert.equal(response.status, status, `${method} ${path}`);
+      assert.equal(calls, 0, path);
+      assert.equal(response.headers.get('Cache-Control'), 'private, no-store');
+    }
+    const member = await invoke(env, path, allowed, method);
+    assert.equal(member.calls, 1, path);
+    assert.equal(member.response.headers.get('Cache-Control'), 'private, no-store');
+  }
+});
+
+test('Malformed and recursively encoded paths fail closed before assets', async () => {
+  for (const path of ['/data/%ZZ/loadout', '/data/%256coadout/items.json', '/%2564ata/loadout/items.json', '/data/%00/loadout/items.json', '/data/%3f/loadout/items.json']) {
+    const { response, calls } = await invoke({}, path);
+    assert.equal(response.status, 400, path); assert.equal(calls, 0, path);
+    assert.equal(response.headers.get('Cache-Control'), 'private, no-store');
+  }
 });
 
 test('Auth response carries server-derived access, and refresh detects assignment, revocation, departure and outage', async (t) => {
