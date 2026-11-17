@@ -6,6 +6,11 @@
     const W = 1920; const H = 1080; const DURATION = 10;
     const canvas = document.getElementById('film');
     const ctx = canvas.getContext('2d');
+    // mode: 'reel'(글자 중심 소개 영상) | 'background'(첫 화면 배경용, 글자 없음·이음매 없는 반복)
+    const MODE = window.VOLT_FILM_MODE || new URLSearchParams(location.search).get('mode') || 'reel';
+    const S = MODE === 'background' ? 1280 / 1920 : 1;
+    canvas.width = Math.round(W * S); canvas.height = Math.round(H * S);
+    const base = () => ctx.setTransform(S, 0, 0, S, 0, 0);
     const RED = '#E8482F'; const RED_LIGHT = '#FF5F44'; const BG = '#050505'; const INK = '#f4f1ec'; const GREY = '#8b8a86';
     const LATIN = 'Bahnschrift, "Segoe UI", sans-serif';
     const KOREAN = '"Noto Sans KR", "Malgun Gothic", sans-serif';
@@ -225,7 +230,8 @@
     // ---- 한 장면 그리기 --------------------------------------------------------
     function draw(time) {
         const t = ((time % DURATION) + DURATION) % DURATION;
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        if (MODE === 'background') { drawBackground(t); return; }
+        base();
         ctx.globalAlpha = 1;
         // 천천히 밀고 들어가는 카메라 + 박자마다 짧은 흔들림
         const kick = [2.4, 5.15, 8.05].reduce((n, at) => n + (1 - span(t, at, at + 0.35)) * (t >= at ? 1 : 0), 0);
@@ -252,7 +258,7 @@
         lockup(t);
         hud(t);
 
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        base();
         flash(t, 2.4); flash(t, 5.15, '232,72,47'); flash(t, 8.05);
         // 반복 이음매: 처음과 끝을 검게.
         const edge = Math.max(1 - span(t, 0, 0.45), span(t, 9.55, 10));
@@ -260,6 +266,97 @@
         // 필름 결(가는 가로줄)
         ctx.fillStyle = 'rgba(0,0,0,0.10)';
         for (let y = 0; y < H; y += 4) ctx.fillRect(0, y, W, 1);
+    }
+
+    // ---- 배경판 ---------------------------------------------------------------
+    // 첫 화면 제목 뒤에 까는 용도: 글자 없음, 왼쪽은 어둡게 비움, 10초 뒤 첫 장면과 정확히 이어진다.
+    // 모든 움직임은 10초에 정수 번 도는 주기 함수로만 만든다.
+    const TAU = Math.PI * 2;
+    const cyc = (t, turns, offset = 0) => (((t / DURATION) * turns + offset) % 1 + 1) % 1;
+    const bgNodes = [
+        { x: 760, y: 250 }, { x: 1010, y: 470 }, { x: 1290, y: 210 }, { x: 1560, y: 400 }, { x: 1240, y: 720 },
+        { x: 1720, y: 760 }, { x: 860, y: 800 }, { x: 1830, y: 190 }, { x: 560, y: 560 }, { x: 1480, y: 930 },
+    ];
+    const bgRoutes = [[0, 1], [1, 2], [2, 3], [1, 4], [3, 4], [4, 5], [3, 5], [1, 6], [6, 4], [2, 7], [3, 7], [8, 1], [8, 6], [4, 9], [5, 9], [0, 2]].map(([a, b], i) => {
+        const p = bgNodes[a]; const q = bgNodes[b];
+        return { p, q, c: { x: (p.x + q.x) / 2 + (i % 2 ? 60 : -60), y: (p.y + q.y) / 2 - 70 + (i % 3) * 45 }, turns: 1 + (i % 3), phase: (i * 0.29) % 1 };
+    });
+    function drawBackground(t) {
+        base();
+        ctx.globalAlpha = 1;
+        // 숨 쉬듯 아주 느린 확대(주기 1회)
+        const breathe = 1.02 + 0.012 * Math.sin(TAU * cyc(t, 1));
+        ctx.translate(W / 2, H / 2); ctx.scale(breathe, breathe); ctx.translate(-W / 2 + 10 * Math.sin(TAU * cyc(t, 1, 0.25)), -H / 2);
+        ctx.fillStyle = BG; ctx.fillRect(-40, -40, W + 80, H + 80);
+        const glow = ctx.createRadialGradient(W * 0.68, H * 0.5, 0, W * 0.68, H * 0.5, W * 0.62);
+        glow.addColorStop(0, 'rgba(232,72,47,' + (0.13 + 0.04 * Math.sin(TAU * cyc(t, 2))).toFixed(3) + ')'); glow.addColorStop(0.5, 'rgba(48,20,15,0.10)'); glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow; ctx.fillRect(-40, -40, W + 80, H + 80);
+        // 바닥 격자: 10초에 4칸 흐른다.
+        ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+        const horizon = H * 0.6;
+        for (let i = 0; i < 16; i += 1) {
+            const k = (i + cyc(t, 4)) / 16;
+            ctx.globalAlpha = k;
+            const y = horizon + Math.pow(k, 2.2) * (H - horizon);
+            ctx.beginPath(); ctx.moveTo(-40, y); ctx.lineTo(W + 40, y); ctx.stroke();
+        }
+        ctx.globalAlpha = 0.6;
+        for (let i = -13; i <= 13; i += 1) { ctx.beginPath(); ctx.moveTo(W / 2 + i * 26, horizon); ctx.lineTo(W / 2 + i * 200, H + 40); ctx.stroke(); }
+        ctx.restore();
+        // 별먼지: 제자리에서 반짝이며 작은 원을 그린다.
+        for (const d of dust) {
+            const a = TAU * cyc(t, 1, d.tw);
+            ctx.globalAlpha = (0.3 + 0.7 * Math.abs(Math.sin(TAU * cyc(t, 2, d.tw)))) * d.z * 0.85;
+            ctx.fillStyle = '#fff'; ctx.fillRect(d.x + Math.cos(a) * 9 * d.z, d.y + Math.sin(a) * 5 * d.z, 1.3 + d.z * 1.4, 1.3 + d.z * 1.4);
+        }
+        ctx.globalAlpha = 1; ctx.lineCap = 'round';
+        // 항로와 화물 신호
+        for (const r of bgRoutes) {
+            ctx.strokeStyle = 'rgba(255,255,255,0.16)'; ctx.lineWidth = 1.6;
+            ctx.beginPath(); ctx.moveTo(r.p.x, r.p.y); ctx.quadraticCurveTo(r.c.x, r.c.y, r.q.x, r.q.y); ctx.stroke();
+            const u = cyc(t, r.turns, r.phase);
+            for (let k = 0; k < 18; k += 1) {
+                const v = u - k * 0.011; if (v < 0) break;
+                const pt = bezier(r, v);
+                ctx.globalAlpha = (1 - k / 18) * Math.sin(Math.PI * u);
+                ctx.fillStyle = k === 0 ? '#fff' : RED_LIGHT;
+                ctx.beginPath(); ctx.arc(pt.x, pt.y, k === 0 ? 5 : 3.6 - k * 0.15, 0, TAU); ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        }
+        bgNodes.forEach((n, i) => {
+            const pulse = cyc(t, 2, i * 0.13);
+            ctx.strokeStyle = RED; ctx.lineWidth = 1.6; ctx.globalAlpha = (1 - pulse) * 0.75;
+            ctx.beginPath(); ctx.arc(n.x, n.y, 8 + pulse * 40, 0, TAU); ctx.stroke();
+            ctx.globalAlpha = 0.95; ctx.fillStyle = INK;
+            ctx.beginPath(); ctx.arc(n.x, n.y, 4.5, 0, TAU); ctx.fill();
+        });
+        // 중심 거점의 레이더: 10초에 한 바퀴.
+        const hub = bgNodes[3];
+        ctx.globalAlpha = 0.5; ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 1.5;
+        for (const rad of [90, 150]) { ctx.beginPath(); ctx.arc(hub.x, hub.y, rad, 0, TAU); ctx.stroke(); }
+        const ang = TAU * cyc(t, 1);
+        const cone = ctx.createConicGradient(ang, hub.x, hub.y);
+        cone.addColorStop(0, 'rgba(232,72,47,0.34)'); cone.addColorStop(0.12, 'rgba(232,72,47,0)'); cone.addColorStop(1, 'rgba(232,72,47,0)');
+        ctx.globalAlpha = 1; ctx.fillStyle = cone; ctx.beginPath(); ctx.arc(hub.x, hub.y, 150, 0, TAU); ctx.fill();
+        // 긴 빛줄기 한 번(주기 1회): 오른쪽 위에서 왼쪽 아래로.
+        const s = cyc(t, 1, 0.35);
+        if (s < 0.22) {
+            const p = s / 0.22; const x = lerp(W + 200, W * 0.35, inOut(p)); const y = lerp(60, 520, inOut(p));
+            const g = ctx.createLinearGradient(x, y, x + 520, y - 190);
+            g.addColorStop(0, 'rgba(255,255,255,0.9)'); g.addColorStop(0.15, 'rgba(255,95,68,0.7)'); g.addColorStop(1, 'rgba(232,72,47,0)');
+            ctx.globalAlpha = Math.sin(Math.PI * p); ctx.strokeStyle = g; ctx.lineWidth = 3.5;
+            ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 520, y - 190); ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+        base();
+        // 제목이 놓일 왼쪽과 아래쪽을 어둡게 덮어 글자가 읽히게 한다.
+        const left = ctx.createLinearGradient(0, 0, W * 0.62, 0);
+        left.addColorStop(0, 'rgba(5,5,5,0.94)'); left.addColorStop(0.55, 'rgba(5,5,5,0.55)'); left.addColorStop(1, 'rgba(5,5,5,0)');
+        ctx.fillStyle = left; ctx.fillRect(0, 0, W, H);
+        const bottom = ctx.createLinearGradient(0, H * 0.7, 0, H);
+        bottom.addColorStop(0, 'rgba(5,5,5,0)'); bottom.addColorStop(1, 'rgba(5,5,5,0.85)');
+        ctx.fillStyle = bottom; ctx.fillRect(0, H * 0.7, W, H * 0.3);
     }
 
     // 미리 보기: 페이지를 그냥 열면 반복 재생한다.
@@ -301,5 +398,5 @@
         return { base64: btoa(binary), frames, size: bytes.length };
     }
 
-    window.VOLT_FILM = { draw, record, DURATION, supported: (type) => MediaRecorder.isTypeSupported(type) };
+    window.VOLT_FILM = { draw, record, DURATION, MODE, supported: (type) => MediaRecorder.isTypeSupported(type) };
 })();
