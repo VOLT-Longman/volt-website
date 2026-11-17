@@ -4,6 +4,7 @@
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const running = new Set();
     const snapshots = new WeakMap();
+    const toggledByUser = new WeakSet();
     const ease = 'cubic-bezier(.22, 1, .36, 1)';
 
     function animate(element, frames, options = {}) {
@@ -52,9 +53,17 @@
     }
     // Native details keep their instant semantic state; opening content gets a
     // brief fade. No delayed clicks, height measurements or focus changes.
+    document.addEventListener('click', (event) => {
+        const summary = event.target instanceof Element ? event.target.closest('summary') : null;
+        if (summary?.parentElement instanceof HTMLDetailsElement) toggledByUser.add(summary.parentElement);
+    }, true);
     document.addEventListener('toggle', (event) => {
         const details = event.target;
-        if (!(details instanceof HTMLDetailsElement) || !details.open || details.closest('.loadout-detail')) return;
+        // Inserting an already-open details also emits toggle. Only an explicit
+        // summary activation should animate, never a loadout search/redraw.
+        if (!(details instanceof HTMLDetailsElement) || !toggledByUser.has(details)) return;
+        toggledByUser.delete(details);
+        if (!details.open || details.closest('.loadout-detail')) return;
         [...details.children].filter((child) => child.tagName !== 'SUMMARY').slice(0, 8).forEach((child) => {
             animate(child, [{ opacity: 0.25, translate: '0 -3px' }, { opacity: 1, translate: '0 0' }], { duration: 180 });
         });
