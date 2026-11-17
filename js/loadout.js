@@ -29,6 +29,13 @@
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
+            superUtility: '채광·작업', visibleSlots: '{shown}곳 표시 / 전체 {count}곳',
+            radarSensitivity: '민감도', radarPiercing: '투과 계수', aimMin: '조준 보조 최소 거리', aimMax: '조준 보조 최대 거리',
+            radarNote: '게임 자료의 기본 계수입니다. 실제 탐지 거리나 전력 배분에 따른 변화는 계산하지 않습니다.',
+            modulePower: '레이저 출력 배수', moduleExtraction: '추출 출력 배수', moduleCharge: '최적 구간 충전 속도 보정',
+            passiveModule: '상시 적용 모듈', activeModule: '활성형 모듈', moduleNote: '모듈 자체의 효과입니다. 헤드·여러 모듈의 합산 방식이 검증되지 않아 합계 성능에는 반영하지 않습니다.',
+            shipImpact: '현재 함선 성능', stockComparison: '기본 구성 대비 변화', meteorRack: 'RSI 미티어 기본 랙', cycloneRack: '사이클론 MT 전용 랙',
+            equipmentHint: '부품 이름을 눌러 교체 후보를 비교하세요.',
             capacitorSize: '축전 탄창', capacitorDelay: '축전 재충전 지연', partDetails: '부품 상세', statsTab: '성능', shopsTab: '판매처', backToList: '목록으로', previewCompare: '현재 장착 부품과 비교', collapseAll: '장비 모두 접기', expandAll: '장비 모두 펼치기', compactView: '간결하게 보기', changedOnly: '변경한 장비만', noChanges: '변경한 장비가 없습니다.', redo: '다시 실행', equippedNotice: '{name} 장착 완료', detailMissing: '현재 자료에 없는 수치는 표시하지 않습니다.', detailBasis: '기본 부품 수치입니다. 함선 전력 배분과 운용 조건은 반영하지 않습니다.', hpLabel: '부품 내구도', heatShot: '발당 발열', coolingRate: '초당 냉각', coolingDelay: '냉각 시작 지연', heatCapacity: '과열 온도', regenRate: '초당 축전 충전', magSize: '탄창', perProjectile: '발당 피해', fullCharge: '완전 충전 시간', detailCompare: '비교 부품', noComparable: '같은 종류의 비교 부품이 없습니다.',
             refreshFailed: '판매처를 새로 확인하지 못했습니다. 이전에 받은 정보가 표시될 수 있습니다.', planMode: '구매 방식', planCheapest: '최저가 우선', planGrouped: '같은 상점에 모으기', planHelp: '직접 지정한 상점은 유지합니다. 자동 배정은 가장 많은 종류를 파는 상점부터 묶고, 종류 수가 같으면 합계가 싼 곳을 고릅니다. 최단 이동 경로를 계산하는 기능은 아닙니다.', planAuto: '자동 배정', planShop: '구매 상점', planReset: '상점 지정 해제', planMissing: '지정한 상점의 판매 정보를 확인할 수 없습니다. 다른 상점을 선택해 주세요.', planRoute: '방문 순서', planStops: '방문 상점 {count}곳', planUp: '앞으로 이동', planDown: '뒤로 이동', planCopy: '구매 계획 복사', planCopied: '구매 계획을 복사했습니다.', planExtra: '최저가 합계보다 {price} 높음', planUnknown: '판매처 미확인 {count}종은 합계에서 제외됩니다.', refreshPrices: '판매처 새로고침', refreshingPrices: '판매처 확인 중', keepPicker: '교체 후 목록 유지', variants: '도색·변종 {count}종', variantBase: '원형', pickerCart: '현재 부품 장바구니에 담기', liveShipsOnly: '출시가 확인된 함선만 표시합니다.',
             equipmentNav: '장비 종류', allEquipment: '전체 장비', clearFilters: '검색·필터 초기화', filteredEmpty: '조건에 맞는 부품이 없습니다. 검색어나 필터를 바꿔 보세요.', firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
@@ -71,7 +78,7 @@
             sourceStats: '함선·부품 수치', sourcePrices: '구매처·가격', sourceTerms: '한국어 표기', sourceGame: 'Star Citizen 게임 파일에서 직접 추출', sourceVersion: '게임 자료 버전 {version}', sourceNote: '비공식 팬 사이트입니다. 수치는 게임 패치에 따라 달라지며, 화력 등은 자체 계산이라 실제 게임과 차이가 있을 수 있습니다.',
             size: '크기', grade: '등급', rpm: '분당 {value}발', perShot: '1발 {value}', speed: '탄속 {value}m/s', reach: '사거리 {value}m', hp: '내구 {value}',
             gen: '출력 {value}', coolGen: '냉각 {value}', qdSpeed: '{value} km/s', dmg: '피해 {value}', lock: '락온 {value}초', signal: '{value} 추적',
-            groups: { weapon: '무기·터렛', missile: '미사일·폭탄', shield: '실드 제너레이터', power: '파워 플랜트', cooler: '쿨러', quantum: '퀀텀 드라이브', radar: '레이더', other: '기타 장비' },
+            groups: { weapon: '무기·터렛', missile: '미사일·폭탄', shield: '실드 제너레이터', power: '파워 플랜트', cooler: '쿨러', quantum: '퀀텀 드라이브', radar: '레이더', mining: '채광 장비', utility: '작업 장비', other: '기타 장비' },
             types: {
                 WeaponGun: '기총', Turret: '터렛', TurretBase: '유인 터렛', UtilityTurret: '유틸리티 터렛', MissileLauncher: '미사일 랙', BombLauncher: '폭탄 랙',
                 GroundVehicleMissileLauncher: '차량 미사일 랙', Missile: '미사일', Bomb: '폭탄', Shield: '실드 제너레이터', PowerPlant: '파워 플랜트', Cooler: '쿨러',
@@ -85,6 +92,13 @@
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
         en: {
+            superUtility: 'Mining & utility', visibleSlots: '{shown} shown / {count} total slots',
+            radarSensitivity: 'Sensitivity', radarPiercing: 'Piercing factor', aimMin: 'Minimum aim-assist distance', aimMax: 'Maximum aim-assist distance',
+            radarNote: 'Base game-file coefficients. Detection distance and changes from power allocation are not calculated.',
+            modulePower: 'Laser power multiplier', moduleExtraction: 'Extraction power multiplier', moduleCharge: 'Optimal charge rate modifier',
+            passiveModule: 'Passive module', activeModule: 'Active module', moduleNote: 'Individual module effects. Combined head/module performance is not calculated because the stacking rule is unverified.',
+            shipImpact: 'Current ship performance', stockComparison: 'Change from stock setup', meteorRack: 'RSI Meteor stock rack', cycloneRack: 'Cyclone MT bespoke rack',
+            equipmentHint: 'Select a component name to compare replacements.',
             capacitorSize: 'Capacitor capacity', capacitorDelay: 'Capacitor recharge delay', partDetails: 'Component details', statsTab: 'Stats', shopsTab: 'Shops', backToList: 'Back to list', previewCompare: 'Compare with equipped part', collapseAll: 'Collapse equipment', expandAll: 'Expand equipment', compactView: 'Compact view', changedOnly: 'Changed equipment only', noChanges: 'No equipment has changed.', redo: 'Redo', equippedNotice: '{name} equipped', detailMissing: 'Values missing from the current data are not shown.', detailBasis: 'Base component values; ship power allocation and operating conditions are not applied.', hpLabel: 'Component health', heatShot: 'Heat per shot', coolingRate: 'Cooling per second', coolingDelay: 'Cooling delay', heatCapacity: 'Overheat temperature', regenRate: 'Capacitor regen per second', magSize: 'Magazine', perProjectile: 'Damage per shot', fullCharge: 'Full charge time', detailCompare: 'Comparison part', noComparable: 'No component of the same type to compare.',
             refreshFailed: 'Could not refresh shops. Previously fetched offers may still be shown.', planMode: 'Purchase strategy', planCheapest: 'Lowest price', planGrouped: 'Group at shared shops', planHelp: 'Manual shop choices stay fixed. Automatic assignment picks the shop selling the most remaining product types, then the lowest combined cost. This does not calculate the shortest travel route.', planAuto: 'Automatic', planShop: 'Purchase shop', planReset: 'Clear shop choices', planMissing: 'The chosen shop offer is unavailable. Select another shop.', planRoute: 'Visit order', planStops: '{count} shops to visit', planUp: 'Move earlier', planDown: 'Move later', planCopy: 'Copy purchase plan', planCopied: 'Purchase plan copied.', planExtra: '{price} above the lowest-price total', planUnknown: '{count} products without a confirmed shop are excluded from the total.', refreshPrices: 'Refresh shops', refreshingPrices: 'Checking shops', keepPicker: 'Keep list open after equipping', variants: '{count} paints / variants', variantBase: 'Base model', pickerCart: 'Add current part to cart', liveShipsOnly: 'Only ships confirmed as released are listed.',
             equipmentNav: 'Equipment categories', allEquipment: 'All equipment', clearFilters: 'Clear search & filters', filteredEmpty: 'No parts match. Try another search or clear the filters.', firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
@@ -127,7 +141,7 @@
             sourceStats: 'Ship & component stats', sourcePrices: 'Shops & prices', sourceTerms: 'Korean terms', sourceGame: 'extracted directly from the Star Citizen game files', sourceVersion: 'Game data version {version}', sourceNote: 'Unofficial fan site. Values change with game patches; firepower figures are our own calculation and may differ from the live game.',
             size: 'Size', grade: 'Grade', rpm: '{value} rpm', perShot: '{value} per shot', speed: '{value} m/s', reach: '{value} m range', hp: '{value} HP',
             gen: 'Output {value}', coolGen: 'Cooling {value}', qdSpeed: '{value} km/s', dmg: '{value} damage', lock: 'Lock {value}s', signal: '{value} tracking',
-            groups: { weapon: 'Weapons & turrets', missile: 'Missiles & bombs', shield: 'Shields', power: 'Power plants', cooler: 'Coolers', quantum: 'Quantum drive', radar: 'Radar', other: 'Other equipment' },
+            groups: { weapon: 'Weapons & turrets', missile: 'Missiles & bombs', shield: 'Shields', power: 'Power plants', cooler: 'Coolers', quantum: 'Quantum drive', radar: 'Radar', mining: 'Mining equipment', utility: 'Utility equipment', other: 'Other equipment' },
             types: {
                 WeaponGun: 'Weapon', Turret: 'Turret / mount', TurretBase: 'Manned turret', UtilityTurret: 'Utility turret', MissileLauncher: 'Missile rack', BombLauncher: 'Bomb rack',
                 GroundVehicleMissileLauncher: 'Vehicle missile rack', Missile: 'Missile', Bomb: 'Bomb', Shield: 'Shield generator', PowerPlant: 'Power plant', Cooler: 'Cooler',
@@ -141,9 +155,9 @@
             tokens: { left: 'left', right: 'right', top: 'top', bottom: 'bottom', front: 'front', rear: 'rear', back: 'rear', nose: 'nose', wing: 'wing', wingtip: 'wingtip', pilot: 'pilot', tail: 'tail', center: 'center', upper: 'upper', lower: 'lower', side: 'side', chin: 'chin', remote: 'remote', copilot: 'copilot', door: 'door' },
         },
     };
-    const GROUP_ORDER = ['weapon', 'missile', 'shield', 'power', 'cooler', 'quantum', 'radar', 'other'];
+    const GROUP_ORDER = ['weapon', 'missile', 'shield', 'power', 'cooler', 'quantum', 'radar', 'mining', 'utility', 'other'];
     const GROUP_BY_TYPE = {
-        WeaponGun: 'weapon', Turret: 'weapon', TurretBase: 'weapon', WeaponMining: 'weapon',
+        WeaponGun: 'weapon', Turret: 'weapon', TurretBase: 'weapon', WeaponMining: 'mining', MiningModifier: 'mining', ToolArm: 'utility', UtilityTurret: 'utility', SalvageHead: 'utility', SalvageModifier: 'utility', TractorBeam: 'utility', TowingBeam: 'utility',
         MissileLauncher: 'missile', BombLauncher: 'missile', GroundVehicleMissileLauncher: 'missile', Missile: 'missile', Bomb: 'missile',
         Shield: 'shield', PowerPlant: 'power', Cooler: 'cooler', QuantumDrive: 'quantum', JumpDrive: 'quantum', Radar: 'radar',
     };
@@ -164,7 +178,8 @@
     // 한국어 화면은 게임 한국어 패치의 표기를 먼저 쓴다(퀀텀 드라이브, 파워 플랜트, 쿨러 …).
     const patch = (group) => (lang() === 'ko' && state.ko?.[group]) || {};
     const typeLabel = (type) => patch('types')[type] || table('types')[type] || type || '';
-    const itemName = (id, item) => patch('names')[id] || (item?.alias && patch('names')[item.alias]) || item?.name || '';
+    const internalName = (item) => item?.name === item?.cls && /_/.test(item?.name || '');
+    const itemName = (id, item) => patch('names')[id] || (item?.alias && patch('names')[item.alias]) || (internalName(item) ? [typeLabel(item.type), item.size !== undefined ? 'S' + item.size : '', portHints(item.cls)].filter(Boolean).join(' · ') : item?.name || '');
     const mfrName = (item) => patch('manufacturers')[item?.mfrCode] || item?.mfr || '';
     const makerName = (ship) => patch('manufacturers')[ship?.mfrCode] || ship?.mfr || '';
     const roleName = (ship) => patch('roles')[ship?.role] || ship?.role || '';
@@ -208,13 +223,18 @@
         // 같은 게임 버전에서 자료만 다시 뽑아도 새로 받도록 만든 시각까지 붙인다.
         const stamp = encodeURIComponent(`${meta.version || ''}-${meta.builtAt || ''}`);
         meta.stamp = stamp;
-        const [index, items, ko, availability] = await Promise.all([
+        const [index, items, ko, availability, comparison] = await Promise.all([
             fetchJson(`${DATA_BASE}/index.json?v=${stamp}`), fetchJson(`${DATA_BASE}/items.json?v=${stamp}`),
             // 한국어 표기(게임 한국어 패치 기준)는 없어도 화면이 동작한다 — 원문으로 표시.
             fetchJson(`${DATA_BASE}/ko.json?v=${stamp}`).catch(() => null),
             fetchJson(`${DATA_BASE}/availability.json`, { cache: 'no-cache' }),
+            fetchJson(`${DATA_BASE}/comparison.json?v=${stamp}`).catch(() => null),
         ]);
         state.meta = meta; state.index = index.ships.filter((ship) => availability.released.includes(ship.cls)); state.shipAliases = index.aliases || {}; state.items = items.items; state.ko = ko;
+        // Never apply research from another game build to this catalog.
+        if (comparison?.gameVersion === meta.gameVersion) for (const [id, values] of Object.entries(comparison.items)) {
+            if (state.items[id]) Object.assign(state.items[id], values);
+        }
         state.families = planner.families(state.items);
         // 장바구니에 담아 둔 내부 변형도 대표 제품으로 합친다.
         const cart = {};
@@ -347,6 +367,7 @@
     function itemFacts(item) {
         if (!item) return [];
         const facts = [];
+        if (item.radar || item.miningModule) facts.push(...metricsOf(item).slice(0, 3).map((metric) => `${metric.label} ${num(metric.value, metric.digits)}`));
         if (item.type === 'WeaponMining' && item.w) {
             facts.push(`${text('laserPower')} ${num(calc.sumDamage(item.w.beamDps))}`);
             if (calc.weaponRange(item)) facts.push(text('reach', { value: num(calc.weaponRange(item)) }));
@@ -382,7 +403,10 @@
         if (item.grade) parts.push(`${text('grade')} ${item.grade}`);
         if (item.klass) parts.push(className(item));
         if (mfrName(item)) parts.push(mfrName(item));
-        if (item.variant) parts.push(text('variantNote'));
+        if (/RSI_Meteor$/.test(item.cls || '') && item.type === 'MissileLauncher') parts.push(text('meteorRack'));
+        else if (/Cyclone_MT/.test(item.cls || '') && /Launcher$/.test(item.type)) parts.push(text('cycloneRack'));
+        else if (item.variant || item.req?.length) parts.push(text('variantNote'));
+        if (item.miningModule) parts.push(text(item.miningModule.activation === 'ActivateOnAttach' ? 'passiveModule' : 'activeModule'));
         return parts.join(' · ');
     }
 
@@ -512,7 +536,7 @@
 
     // 비행 성능: 비행 제어기에 적힌 속도와 선회 속도(부품을 바꿔도 변하지 않는 함선 고유 수치).
     // 자주 보지 않는 구역은 접어 둔다. 펼친 상태는 화면을 다시 그려도 유지한다.
-    const folds = new Set();
+    const folds = new Set(['flight']);
     const fold = (key, klass, title, brief, body) => `<details class="loadout-panel-section loadout-fold ${klass}" data-loadout-fold="${key}" ${folds.has(key) ? 'open' : ''}>
             <summary><h4>${esc(title)}</h4><span class="loadout-fold-brief">${esc(brief)}</span></summary><div class="loadout-fold-body">${body}</div></details>`;
 
@@ -563,6 +587,7 @@
                 </dl><details class="loadout-help"><summary>${esc(text('dpsHelp'))}</summary><p class="loadout-note loadout-dpsnote">${esc(text('burstHint'))}</p></details>`, true)}
             ${section(text('defense'), `
                 <dl class="loadout-rows">${row(text('regenLabel'), `${num(totals.shield.regen)}${text('perSecond')}`, drawChange(totals.shield.regen, stock.shield.regen))}${row(text('shieldCount'), text('unitCount', { count: totals.shield.count }))}${shieldResistRows(row)}${totals.counter.decoy || totals.counter.noise ? row(text('counterLabel'), text('counterValue', { decoy: num(totals.counter.decoy), noise: num(totals.counter.noise) })) : ''}</dl>`)}
+            ${drawFlight()}
             ${section(text('systems'), `
                 <div class="loadout-statpair">
                     ${stat(text('power'), num(totals.power.gen, 1), drawChange(totals.power.gen, stock.power.gen, 1))}
@@ -577,7 +602,7 @@
                     ${row(text('signatureEm'), num(totals.signature.em), drawChange(totals.signature.em, stock.signature.em, 0, 'low'))}
                     ${row(text('signatureIr'), num(totals.signature.ir), drawChange(totals.signature.ir, stock.signature.ir, 0, 'low'))}
                 </dl>`)}
-            ${section(text('quantum'), quantum ? `
+            ${fold('quantum', 'loadout-quantum', text('quantum'), quantum?.range ? `${num(quantum.range)} Gm` : text('quantumNone'), quantum ? `
                 <div class="loadout-statpair">
                     ${stat(text('qdSpeedLabel'), text('qdSpeed', { value: num(quantum.speed / 1000) }), stockQuantum ? drawChange(quantum.speed / 1000, stockQuantum.speed / 1000) : '')}
                     ${stat(text('spoolLabel'), `${num(quantum.spool, 1)}${text('seconds')}`, stockQuantum ? drawChange(quantum.spool, stockQuantum.spool, 1, 'low') : '')}
@@ -585,7 +610,7 @@
                 <dl class="loadout-rows">${row(text('equipped'), itemName(quantum.id, quantum))}${row(text('cooldownLabel'), `${num(quantum.cooldown, 1)}${text('seconds')}`)}${quantum.range ? row(text('rangeLabel'), `${num(quantum.range)} Gm`, stockQuantum?.range ? drawChange(quantum.range, stockQuantum.range) : '') : ''}${fuel.qt ? row(text('qtFuel'), `${num(fuel.qt, 1)} SCU`) : ''}${fuel.h2 ? row(text('h2Fuel'), `${num(fuel.h2, 1)} SCU`) : ''}</dl>
                 <div class="loadout-travel"><label for="loadout-qt-distance">${esc(text('travelFor'))}</label><input type="number" id="loadout-qt-distance" inputmode="decimal" min="1" max="999" step="1" value="${esc(state.qtDistance)}"><span class="loadout-travel-result"><span class="loadout-stat-label">${esc(text('travelTime'))}</span><strong id="loadout-qt-time">${esc(travelText(quantum))}</strong></span></div><p id="loadout-qt-warning" class="loadout-travel-warning" role="status" ${travelWarning(quantum) ? '' : 'hidden'}>${esc(travelWarning(quantum))}</p>
                 <p class="loadout-note">${esc(text('travelNote'))}</p>` : `<p class="loadout-note">${esc(text('quantumNone'))}</p>`, true)}
-            ${drawFlight()}${drawHull(row)}
+            ${drawHull(row)}
             ${section(text('cost'), `
                 <div class="loadout-statpair">${stat(text('cost'), cost.changed ? credits(cost.total) : '—')}</div>
                 <p class="loadout-note">${esc(cost.changed ? (cost.unknown ? text('costUnknown', { count: cost.unknown }) : text('costAll')) : text('costNone'))}</p>`, true)}
@@ -614,6 +639,17 @@
         const rack = calc.rackLoad(item);
         const beam = (w) => calc.sumDamage(w?.beamDps);
         if (item.type === 'WeaponMining' && item.w) list.push(m(text('laserPower'), beam(item.w)), m(`${text('rangeShort')} (m)`, calc.weaponRange(item)), m(`${text('instab')} (%)`, item.mine?.instab, 0, 'low'), m(`${text('resistMod')} (%)`, item.mine?.resist, 0, 'low'), m(`${text('windowMod')} (%)`, item.mine?.window));
+        else if (item.radar) {
+            for (const [key, label] of [['Infrared', 'IR'], ['Electromagnetic', 'EM'], ['CrossSection', 'CS']]) {
+                const signature = item.radar.signatures?.[key];
+                if (signature) list.push(m(label + ' ' + text('radarSensitivity'), signature.sensitivity, 2));
+            }
+            if (item.radar.aim?.distanceMaxAssignment !== undefined) list.push(m(text('aimMax') + ' (m)', item.radar.aim.distanceMaxAssignment));
+        }
+        else if (item.miningModule) {
+            const mod = item.miningModule;
+            list.push(m(text('modulePower') + ' ×', mod.power, 2), m(text('moduleExtraction') + ' ×', mod.extraction, 2), m(text('resistMod') + ' (%)', mod.resistance, 1, 'low'), m(text('instab') + ' (%)', mod.instability, 1, 'low'), m(text('windowMod') + ' (%)', mod.window, 1));
+        }
         else if (item.emp) list.push(m(text('empDmg'), item.emp.dmg), m(`${text('radiusShort')} (m)`, item.emp.radius), m(`${text('chargeShort')} (s)`, item.emp.charge, 1, 'low'), m(`${text('cooldownLabel')} (s)`, item.emp.cool, 1, 'low'));
         else if (item.qig) list.push(m(`${text('jamRange')} (m)`, item.qig.range), m(`${text('chargeShort')} (s)`, item.qig.charge, 1, 'low'));
         else if (rack.count && !item.w && !item.ms) list.push(m(text('rackCount'), rack.count), m(text('rackSize'), rack.size));
@@ -631,7 +667,7 @@
     // 대표 수치 한 칸(무기는 DPS, 실드는 내구 …). 목록에서 같은 열에 놓여 위아래로 견주기 쉽다.
     function drawMetric(item) {
         const metric = compareMetric(item);
-        return `<span class="loadout-metric">${metric ? `<b>${esc(num(metric.value))}</b><small>${esc(metric.label)}</small>` : ''}</span>`;
+        return `<span class="loadout-metric">${metric ? `<b>${esc(num(metric.value, metric.digits))}</b><small>${esc(metric.label)}</small>` : ''}</span>`;
     }
 
     function allNodes() {
@@ -703,6 +739,14 @@
             add('capacitorSize', item.w.regen?.load); add('regenRate', item.w.regen?.perSec);
             add('capacitorDelay', item.w.regen?.cd, 's', 'low');
         }
+        if (item.radar) {
+            for (const [key, label] of [['Infrared', 'IR'], ['Electromagnetic', 'EM'], ['CrossSection', 'CS'], ['Resource', 'RS']]) {
+                const signature = item.radar.signatures?.[key];
+                if (signature) rows.push({ label: label + ' ' + text('radarPiercing'), value: signature.piercing, digits: 2, unit: '×', better: 'high' });
+            }
+            add('aimMin', item.radar.aim?.distanceMinAssignment, 'm');
+        }
+        if (item.miningModule) add('moduleCharge', item.miningModule.chargeRate, '%');
         if (item.sh?.regen > 0) add('fullCharge', item.sh.hp / item.sh.regen, 's', 'low');
         return rows;
     }
@@ -716,17 +760,24 @@
         const baseline = new Map(detailMetrics(current).map((m) => [m.label, m]));
         const info = priceInfo(id, item);
         const rows = detailMetrics(item);
-        const stats = `<p class="loadout-note">${esc(text('detailBasis'))}</p>${current ? `<p class="loadout-detail-baseline">${esc(text('previewCompare'))}: <strong>${esc(itemName(node.itemId, current))}</strong></p>` : ''}
+        const stats = `${item.miningModule || item.radar ? `<p class="loadout-note">${esc(text(item.miningModule ? 'moduleNote' : 'radarNote'))}</p>` : ''}<p class="loadout-note">${esc(text('detailBasis'))}</p>${current ? `<p class="loadout-detail-baseline">${esc(text('previewCompare'))}: <strong>${esc(itemName(node.itemId, current))}</strong></p>` : ''}
             <dl class="loadout-detail-stats">${rows.map((m) => `<div><dt>${esc(m.label)}</dt><dd>${esc(num(m.value, m.digits))}${m.unit ? ` <small>${esc(m.unit)}</small>` : ''}${baseline.has(m.label) ? drawChange(m.value, baseline.get(m.label).value, m.digits, m.better) : ''}</dd></div>`).join('')}</dl>
             ${item.w ? `<section><h4>${esc(text('dmgKind'))}</h4><dl class="loadout-detail-stats">${Object.entries(item.w.dmg || item.w.beamDps || {}).map(([key, value]) => `<div><dt>${esc(table('damage')[key] || key)}</dt><dd>${esc(num(value, 2))}</dd></div>`).join('')}</dl></section>` : ''}
             <p class="loadout-note">${esc(text('detailMissing'))}</p>`;
         const shops = `<p class="loadout-note">${esc(text('lootNote'))}</p>${info.shops.length ? `<ul class="loadout-detail-shops">${info.shops.map((shop) => `<li><div><strong>${esc(shop.shop)}</strong><span class="loadout-meta">${esc([shop.system, shop.place].filter(Boolean).join(' / '))}</span></div><b>${esc(credits(shop.price))}</b></li>`).join('')}</ul>` : drawPrice(id, item)}`;
         return `<div class="loadout-drawer-backdrop" data-loadout-close></div><section class="loadout-picker loadout-detail" role="dialog" aria-modal="true" aria-labelledby="loadout-detail-title">
-            <div class="loadout-picker-title"><div><span class="loadout-slot-label">${esc(typeLabel(item.type))} · S${esc(item.size)}</span><h3 id="loadout-detail-title">${esc(itemName(id, item))}</h3><span class="loadout-meta">${esc(itemMeta(item))}</span>${itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}</div><button type="button" id="loadout-detail-close" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button></div>
+            <div class="loadout-picker-title"><div><span class="loadout-slot-label">${esc(typeLabel(item.type))} · S${esc(item.size)}</span><h3 id="loadout-detail-title">${esc(itemName(id, item))}</h3><span class="loadout-meta">${esc(itemMeta(item))}</span>${!internalName(item) && itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}</div><button type="button" id="loadout-detail-close" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button></div>
             <div class="loadout-tabs" role="tablist" aria-label="${esc(text('partDetails'))}">${['stats', 'shops'].map((tab) => `<button type="button" id="loadout-detail-tab-${tab}" class="loadout-tab${state.detailTab === tab ? ' is-active' : ''}" data-loadout-detail-tab="${tab}" role="tab" aria-selected="${state.detailTab === tab}" aria-controls="loadout-detail-content">${esc(text(tab === 'stats' ? 'statsTab' : 'shopsTab'))}${tab === 'shops' && info.shops.length ? ` (${info.shops.length})` : ''}</button>`).join('')}</div>
             <div id="loadout-detail-content" class="loadout-detail-content" role="tabpanel" aria-labelledby="loadout-detail-tab-${state.detailTab}" tabindex="0">${state.detailTab === 'shops' ? shops : stats}</div>
             <footer class="loadout-detail-actions"><button type="button" class="btn btn-secondary" data-loadout-close>${esc(text('backToList'))}</button><button type="button" class="btn btn-secondary" data-loadout-cart-add="${esc(id)}">${esc(text('cartAdd'))}</button>${node?.slot.kind === 's' && !state.openPath ? `<button type="button" class="btn btn-primary" data-loadout-detail-swap>${esc(text('change'))}</button>` : ''}${node && id !== canonicalItem(node.itemId) && calc.fitsSlot(item, node.slot, { tags: node.tags }) ? `<button type="button" class="btn btn-primary" data-loadout-detail-equip="${esc(id)}" data-loadout-path="${esc(node.path)}">${esc(text('equip'))}</button>` : ''}</footer>
         </section>`;
+    }
+
+    function drawShipImpact() {
+        const totals = calc.summarize(state.ship, state.items, state.overrides, { off: state.off });
+        const stock = calc.summarize(state.ship, state.items, {});
+        const values = [[text('burstDps'), totals.dps.total, stock.dps.total], [text('sustainDps'), totals.sustain.total, stock.sustain.total], [text('kpiShield'), totals.shield.hp, stock.shield.hp], [text('powerUseLabel'), totals.power.use, stock.power.use, 'low']];
+        return `<div class="loadout-ship-impact" aria-label="${esc(text('shipImpact'))}"><strong>${esc(text('shipImpact'))}<small>${esc(text('stockComparison'))}</small></strong>${values.map(([label, value, baseline, better]) => `<span><small>${esc(label)}</small><b>${esc(num(value, 1))}</b>${drawChange(value, baseline, 1, better)}</span>`).join('')}</div>`;
     }
 
     function drawPicker(node, nodes) {
@@ -773,13 +824,14 @@
         return `<div class="loadout-drawer-backdrop" data-loadout-close></div>
         <div class="loadout-picker" role="dialog" aria-modal="true" aria-label="${esc(where)}">
             <div class="loadout-picker-title">
-                <div><span class="loadout-slot-label">${esc(where)}${run.length > 1 ? ` ×${run.length}` : ''}</span><strong title="${esc(node.item?.name || '')}">${esc(node.item ? itemName(node.itemId, node.item) : text('empty'))}</strong>
+                <div><span class="loadout-slot-label">${esc(where)}${run.length > 1 ? ` ×${run.length}` : ''}</span><strong title="${esc(itemName(node.itemId, node.item))}">${esc(node.item ? itemName(node.itemId, node.item) : text('empty'))}</strong>
                     ${node.item ? `<span class="loadout-picker-detail"><span class="loadout-meta">${esc(itemMeta(node.item))}</span></span>` : ''}</div>
             ${metricsOf(node.item).length ? `<div class="loadout-current-metrics" aria-label="${esc(text('previewCompare'))}">${metricsOf(node.item).map((metric) => `<span><small>${esc(metric.label)}</small><b>${esc(num(metric.value, metric.digits))}</b></span>`).join('')}</div>` : ''}
                 <button type="button" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button>
             </div>
             ${mount && mount.slot.kind === 's' ? `<p class="loadout-note loadout-mountnote">${esc(text('mountedOn'))}: ${esc(itemName(mount.itemId, mount.item))} <button type="button" class="loadout-link" data-loadout-open="${esc(mount.path)}">${esc(text(/Launcher$/.test(mount.item?.type || '') ? 'rackChange' : 'mountChange'))}</button></p>` : ''}
-            ${node.slot.acc?.some((rule) => rule.type === 'MiningModifier') ? `<p class="loadout-note">${esc(text('miningModuleNote'))}</p>` : ''}
+            ${node.slot.acc?.some((rule) => rule.type === 'MiningModifier') ? `<p class="loadout-note">${esc(text('moduleNote'))}</p>` : ''}${node.item?.type === 'Radar' ? `<p class="loadout-note">${esc(text('radarNote'))}</p>` : ''}
+            ${drawShipImpact()}
             <div class="loadout-picker-tools"><label><input type="checkbox" id="loadout-keep-picker" ${state.keepPicker ? 'checked' : ''}> ${esc(text('keepPicker'))}</label>${node.itemId ? `<button type="button" class="loadout-link" data-loadout-cart-add="${esc(node.itemId)}">${esc(text('pickerCart'))}</button>` : ''}</div>
             <div class="loadout-picker-head">
                 <input type="search" id="loadout-picker-search" autocomplete="off" placeholder="${esc(text('pickerSearch'))}" value="${esc(state.pickerQuery)}" aria-label="${esc(text('pickerSearch'))}">
@@ -804,7 +856,7 @@
             <div class="loadout-optwrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-opttable">
                 <thead><tr>${head('name', text('colPart'), true)}${columns.map((metric, index) => head(`m${index}`, metric.label)).join('')}${head('price', text('colPrice'))}<th scope="col"></th></tr></thead>
                 <tbody class="loadout-optrows">${shown.map(([id, item]) => `<tr class="${id === currentId ? 'is-current' : ''}${state.families.has(id) ? ' is-variant' : ''}">
-                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><button type="button" class="loadout-part-link" data-loadout-detail="${esc(id)}" aria-label="${esc(text('partDetails'))}: ${esc(itemName(id, item))}" title="${esc(text('partDetails'))}"><strong title="${esc(item.name)}">${esc(itemName(id, item))}</strong></button>${familyButton(id)}</div><span class="loadout-meta">${esc(itemMeta(item))}</span></th>
+                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><button type="button" class="loadout-part-link" data-loadout-detail="${esc(id)}" aria-label="${esc(text('partDetails'))}: ${esc(itemName(id, item))}" title="${esc(text('partDetails'))}"><strong title="${esc(internalName(item) ? itemName(id, item) : item.name)}">${esc(itemName(id, item))}</strong></button>${familyButton(id)}</div><span class="loadout-meta">${esc(itemMeta(item))}</span></th>
                     ${columns.map((column) => cell(item, column, id === currentId)).join('')}
                     <td class="loadout-optprice">${drawPrice(id, item)}</td>
                     <td class="loadout-optact"><button type="button" class="btn btn-secondary loadout-equip" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === currentId ? 'disabled' : ''}>${esc(id === currentId ? text('selected') : text('select'))}</button></td>
@@ -862,7 +914,7 @@
     function slotFacts(node) {
         const item = node.item;
         // 아래에 자리를 거느린 부품은 수치를 비워 두되, 퀀텀 드라이브(아래에 점프 모듈)는 예외로 보여 준다.
-        if (!item || (node.hasChildren && !item.qd)) return [];
+        if (!item || (node.hasChildren && !item.qd && item.type !== 'WeaponMining')) return [];
         if (calc.isGun(item)) {
             const sustained = calc.weaponSustain(item); const reach = calc.weaponRange(item);
             return [`${text('sustainShort')} ${num(sustained.dps)}`, item.w.speed ? text('speed', { value: num(item.w.speed) }) : '', reach ? text('reach', { value: num(reach) }) : ''].filter(Boolean);
@@ -880,7 +932,7 @@
     }
     // 오른쪽 대표 수치. 묶인 미사일·폭탄은 묶음 전체의 피해 합계를 보여 준다.
     function slotMetric(node) {
-        if (node.hasChildren && !node.item?.qd) return '<span class="loadout-metric"></span>';
+        if (node.hasChildren && !node.item?.qd && node.item?.type !== 'WeaponMining') return '<span class="loadout-metric"></span>';
         if (node.item?.ms && node.run) return `<span class="loadout-metric"><b>${esc(num(calc.sumDamage(node.item.ms.dmg) * node.run.length))}</b><small>${esc(text('totalDmg'))}</small></span>`;
         return drawMetric(node.item);
     }
@@ -897,7 +949,8 @@
         const sized = ordnanceOnRack ? slot : (node.mount?.slot || slot);
         const facts = slotFacts(node);
         const size = sized.max !== undefined ? (sized.min === sized.max || !sized.min ? `S${sized.max}` : `S${sized.min}-${sized.max}`) : (item?.size !== undefined ? `S${item.size}` : '');
-        const own = node.place || (node.run ? position(slot).replace(/ ?#\d+$/, '') : position(slot)) || slotPlace(slot, item).replace(node.run ? / #\d+$/ : /$^/, '');
+        const modulePlace = (item?.type === 'MiningModifier' || slot.acc?.some((rule) => rule.type === 'MiningModifier')) ? slotPlace(slot, item) : '';
+        const own = modulePlace || node.place || (node.run ? position(slot).replace(/ ?#\d+$/, '') : position(slot)) || slotPlace(slot, item).replace(node.run ? / #\d+$/ : /$^/, '');
         const place = `${[node.crumb, own].filter(Boolean).join(' › ')}${ordnanceOnRack ? ` · ${text('rackOn', { size: node.mount.slot.max ?? node.mount.item?.size ?? '?', type: typeLabel(node.mount.item?.type) })}` : ''}`;
         placeOf.set(path, place);
         return `<li class="loadout-slot${changed ? ' is-changed' : ''}${open ? ' is-open' : ''}${editable ? '' : ' is-fixed'}${item ? '' : ' is-empty'}${off ? ' is-off' : ''}${node.hasChildren ? ' is-mount' : ''}${node.level ? ' is-child' : ''}" data-loadout-slot="${esc(path)}" data-loadout-level="${node.level || 0}">
@@ -905,12 +958,13 @@
                 <span class="loadout-size" aria-hidden="true">${esc(size)}</span>
                 <div class="loadout-slot-main">
                     <span class="loadout-slot-label">${esc(place)}${changed ? ` <em>${esc(text('changed'))}</em>` : ''}${off ? ` <em class="loadout-offmark">${esc(text('poweredOff'))}</em>` : ''}</span>
-                    <strong class="loadout-item-name">${item ? esc(itemName(itemId, item)) : esc(text('empty'))}</strong>${node.run ? ` <b class="loadout-count">×${node.run.length}</b>` : ''}
+                    <strong class="loadout-item-name">${editable ? `<button type="button" class="loadout-component-open" data-loadout-component-open="${esc(path)}" aria-label="${esc(text('change'))}: ${esc(item ? itemName(itemId, item) : slotPlace(slot, item))}">${item ? esc(itemName(itemId, item)) : esc(text('empty'))}</button>` : item ? esc(itemName(itemId, item)) : esc(text('empty'))}</strong>${node.run ? ` <b class="loadout-count">×${node.run.length}</b>` : ''}
                     ${facts.length ? `<span class="loadout-slot-facts">${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}</span>` : ''}
                 </div>
                 ${slotMetric(node)}
                 <div class="loadout-slot-actions">
                     ${item ? `<button type="button" class="loadout-link" data-loadout-detail="${esc(itemId)}" data-loadout-detail-slot="${esc(path)}">${esc(text('partDetails'))}</button>` : ''}
+                    ${item ? `<button type="button" class="loadout-link" data-loadout-shop-detail="${esc(itemId)}" data-loadout-detail-slot="${esc(path)}" data-loadout-shops>${esc(text('shopsTab'))}</button>` : ''}
                     ${changed ? `<button type="button" class="loadout-link" data-loadout-reset="${esc(node.mount?.changed ? node.mount.path : path)}">${esc(text('reset'))}</button>` : ''}
                     ${node.run ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.runParent)}">${esc(text('splitRun'))}</button>` : ''}${node.regroup !== undefined ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.regroup)}">${esc(text('mergeRun'))}</button>` : ''}
                     ${off || canPower ? `<button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(path)}" aria-pressed="${off}">${esc(text(off ? 'powerOn' : 'powerOff'))}</button>` : ''}
@@ -921,7 +975,7 @@
     }
 
     // 큰 묶음(무장 / 방어·동력 / 이동·기타) 안에 종류별 목록을 둔다.
-    const SUPER_GROUPS = [['superArms', ['weapon', 'missile']], ['superDefense', ['shield', 'power', 'cooler']], ['superTravel', ['quantum', 'radar', 'other']]];
+    const SUPER_GROUPS = [['superArms', ['weapon', 'missile']], ['superDefense', ['shield', 'power', 'cooler']], ['superTravel', ['quantum', 'radar', 'other']], ['superUtility', ['mining', 'utility']]];
 
     function drawSlots(nodes) {
         const groups = new Map(GROUP_ORDER.map((key) => [key, []]));
@@ -929,7 +983,12 @@
         const trail = [];
         const shown = []; // 화면에 행으로 나온 상위 부품의 경로(들여쓰기 깊이 계산용)
         nodes.forEach((node, index) => {
-            if (node.depth === 0) current = slotGroup(node.slot, node.item);
+            if (node.depth === 0) {
+                current = slotGroup(node.slot, node.item);
+                const descendants = nodes.slice(index + 1).filter((entry) => entry.path.startsWith(node.path + '/'));
+                if (descendants.some((entry) => ['WeaponMining', 'MiningModifier'].includes(entry.item?.type || entry.slot.acc?.[0]?.type))) current = 'mining';
+                else if (descendants.some((entry) => ['SalvageHead', 'TractorBeam', 'TowingBeam'].includes(entry.item?.type))) current = 'utility';
+            }
             trail.length = node.depth;
             const hasChildren = nodes[index + 1]?.path.startsWith(`${node.path}/`) || false;
             trail[node.depth] = slotPlace(node.slot, node.item);
@@ -950,9 +1009,10 @@
             const rows = foldMounts(mergeRuns(groups.get(key)));
             // 고정 장비도 실제 장착 자리다. 합친 마운트는 중복하지 않고 묶인 탄은 각각 센다.
             const count = rows.reduce((sum, row) => sum + (row.run?.length || 1), 0);
+            const shownCount = rows.filter((row) => !state.changedOnly || row.changed || row.mount?.changed || state.off[row.path]).reduce((sum, row) => sum + (row.run?.length || 1), 0);
             const hidden = state.changedOnly && !rows.some((row) => row.changed || row.mount?.changed || state.off[row.path]);
             return `<section class="loadout-group is-${key}" ${hidden ? 'hidden' : ''}>
-            <h4><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>
+            <h4><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(state.changedOnly ? text('visibleSlots', { shown: shownCount, count }) : text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>
             <ul id="loadout-rows-${key}" class="loadout-slotlist" ${state.collapsed.has(key) ? 'hidden' : ''}>${rows.map((row) => { const html = drawSlot(row); const changed = row.changed || row.mount?.changed || state.off[row.path]; return state.changedOnly && !changed ? html.replace('<li ', '<li hidden ') : html; }).join('')}</ul>
         </section>`;
         };
@@ -961,10 +1021,10 @@
         const navigation = `<div class="loadout-equipment-nav" role="group" aria-label="${esc(text('equipmentNav'))}">${[['', []], ...available].map(([label]) => `<button type="button" id="loadout-category-${label || 'all'}" class="loadout-category${state.equipmentGroup === label ? ' is-active' : ''}" data-loadout-category="${label}" aria-pressed="${state.equipmentGroup === label}">${esc(text(label || 'allEquipment'))}</button>`).join('')}</div>`;
         // Render every group so slot/mount mappings stay complete while filtering the view.
         const controls = `<div class="loadout-view-tools"><button type="button" class="loadout-link" data-loadout-collapse-all>${esc(text(state.collapsed.size ? 'expandAll' : 'collapseAll'))}</button><label><input type="checkbox" id="loadout-compact" ${state.compact ? 'checked' : ''}> ${esc(text('compactView'))}</label><label><input type="checkbox" id="loadout-changed-only" ${state.changedOnly ? 'checked' : ''}> ${esc(text('changedOnly'))}</label></div>${state.changedOnly && !nodes.some((node) => node.changed || state.off[node.path]) ? `<p class="loadout-note">${esc(text('noChanges'))}</p>` : ''}`;
-        return navigation + controls + available.map(([label, keys]) => {
+        return `<p class="loadout-note loadout-equipment-hint">${esc(text('equipmentHint'))}</p>` + navigation + controls + '<div class="loadout-equipment-board">' + available.map(([label, keys]) => {
             const filled = keys.filter((key) => groups.get(key).length);
             return `<section class="loadout-super" ${(state.equipmentGroup && state.equipmentGroup !== label) || (state.changedOnly && !filled.some((key) => groups.get(key).some((row) => row.changed || state.off[row.path]))) ? 'hidden' : ''}><h3>${esc(text(label))}</h3>${filled.map(group).join('')}</section>`;
-        }).join('');
+        }).join('') + '</div>';
     }
 
     function drawShopping(cost) {
@@ -1264,6 +1324,21 @@
 
     let composingInput = null;
 
+    let boardObserver;
+    function layoutEquipmentBoard(container) {
+        boardObserver?.disconnect();
+        const groups = [...container.querySelectorAll('.loadout-equipment-board .loadout-group')];
+        const size = (group) => {
+            const height = group.getBoundingClientRect().height;
+            group.style.gridRowEnd = height ? 'span ' + Math.ceil((height + 16) / 24) : '';
+        };
+        groups.forEach(size);
+        if (typeof ResizeObserver === 'function') {
+            boardObserver = new ResizeObserver((entries) => { entries.forEach(({ target }) => { size(target); }); });
+            groups.forEach((group) => { boardObserver.observe(group); });
+        }
+    }
+
     function draw() {
         const container = root();
         if (!container || !deps.canUse?.() || composingInput) return;
@@ -1288,12 +1363,12 @@
                     : `${drawSlots(nodes)}<section class="loadout-shopping"><div class="loadout-viewhead"><h3>${esc(text('shopping'))}</h3>${cost.rows.length ? `<button type="button" class="btn btn-secondary" data-loadout-cart-changed>${esc(text('cartAddChanged'))}</button>` : ''}</div>${drawShopping(cost)}</section>`;
                 body += `${drawShipHead(totals, stock)}
                     ${drawShipPicker()}
+                    ${state.tab === 'cart' ? '' : drawSummary(totals, cost, stock)}
                     ${drawTabs()}
                     <div class="loadout-columns${state.tab === 'cart' ? ' is-cart' : ''}">
                         <div class="loadout-slots">${main}</div>
                         ${state.detailId ? drawComponentDetail() : openNode ? drawPicker(openNode, nodes) : ''}
-                        ${state.tab === 'cart' ? '' : drawSummary(totals, cost, stock)}
-                    </div>`;
+                        </div>`;
             }
             if (!state.ship && !state.loading) {
                 if (!['finder', 'cart'].includes(state.tab)) state.tab = '';
@@ -1308,6 +1383,7 @@
         for (const slot of container.querySelectorAll('[data-loadout-level]')) slot.style.setProperty('--lo-level', String(Math.max(0, Math.min(12, Number(slot.dataset.loadoutLevel) || 0))));
         container.classList.toggle('has-drawer', Boolean(state.detailId || (state.openPath && state.ship)));
         container.classList.toggle('is-compact', state.compact);
+        layoutEquipmentBoard(container);
         window.VOLT_MOTION?.update(container, { view: state.tab, dialog: state.detailId ? `detail:${state.detailId}` : state.openPath, panel: state.detailId ? state.detailTab : '', identity: state.shipCls, browsing: Boolean(container.querySelector('#loadout-ship-results')) });
         // 함선을 고른 뒤에는 큰 제목·설명을 접어 편집 화면이 바로 보이게 한다.
         document.getElementById('loadout')?.classList.toggle('has-ship', Boolean(state.ship));
@@ -1381,8 +1457,8 @@
         if (!target) return;
         if (target.hasAttribute('data-loadout-detail-swap')) { state.detailId = ''; state.openPath = state.detailSlot; state.pickerLimit = 80; draw(); document.getElementById('loadout-picker-search')?.focus(); return; }
         if (target.hasAttribute('data-loadout-detail-equip')) { state.detailId = ''; setOverride(target.getAttribute('data-loadout-path'), target.getAttribute('data-loadout-detail-equip')); return; }
-        const detail = target.getAttribute('data-loadout-detail');
-        if (detail !== null && state.items[detail]) { state.detailId = detail; state.detailSlot = target.getAttribute('data-loadout-detail-slot') || ''; state.detailReturn = detail; state.detailTab = 'stats'; loadCategoryPrices(state.items[detail].type); draw(); document.getElementById('loadout-detail-close')?.focus(); return; }
+        const detail = target.getAttribute('data-loadout-detail') ?? target.getAttribute('data-loadout-shop-detail');
+        if (detail !== null && state.items[detail]) { state.detailId = detail; state.detailSlot = target.getAttribute('data-loadout-detail-slot') || ''; state.detailReturn = detail; state.detailTab = target.hasAttribute('data-loadout-shops') ? 'shops' : 'stats'; loadCategoryPrices(state.items[detail].type); draw(); document.getElementById('loadout-detail-close')?.focus(); return; }
         const detailTab = target.getAttribute('data-loadout-detail-tab');
         if (['stats', 'shops'].includes(detailTab)) { state.detailTab = detailTab; draw(); root()?.querySelector(`[data-loadout-detail-tab="${detailTab}"]`)?.focus(); return; }
         const collapse = target.getAttribute('data-loadout-collapse');
@@ -1427,7 +1503,7 @@
         if (shipKind !== null) { state.shipKind = shipKind; draw(); return; }
         const shipCls = target.getAttribute('data-loadout-ship');
         if (shipCls) { state.query = ''; state.browsing = false; closePicker(); selectShip(shipCls); return; }
-        const openPath = target.getAttribute('data-loadout-open');
+        const openPath = target.getAttribute('data-loadout-open') ?? target.getAttribute('data-loadout-component-open');
         if (openPath !== null) {
             const same = state.openPath === openPath;
             if (!state.openPath) state.pickerOrigin = openPath;

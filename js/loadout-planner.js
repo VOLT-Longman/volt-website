@@ -52,6 +52,14 @@
         const byClass = new Map(Object.entries(items).map(([id, item]) => [item.cls, id]));
         const parents = new Map();
         for (const [id, item] of Object.entries(items)) {
+            // The Meteor stock rack is a separate game identity, with identical
+            // extracted fitting/performance fields. Group for browsing only;
+            // do not alias IDs or transfer shop offers to this variant.
+            if (item.cls === 'MRCK_S03_BEHR_Dual_S02_RSI_Meteor') {
+                const parent = byClass.get('MRCK_S03_BEHR_Dual_S02');
+                const comparable = ({ cls: _cls, ...rest }) => JSON.stringify(rest);
+                if (parent && comparable(item) === comparable(items[parent])) parents.set(id, parent);
+            }
             if (item.type !== 'WeaponGun' || item.hidden) continue;
             // Explicit cosmetic class suffixes only; never fold bespoke/turret variants.
             const base = item.cls?.replace(/_(?:mr\d+|CleanAir|Shark)$/i, '');

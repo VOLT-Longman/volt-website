@@ -8,6 +8,16 @@ const { plan, shopKey, families } = require('../../js/loadout-planner.js');
 const shop = (name, price, place = 'Area 18') => ({ shop: name, price, place, system: 'Stanton' });
 const row = (id, qty, shops) => ({ id, qty, info: { shops } });
 const basket = [row('a', 2, [shop('A', 10), shop('Hub', 12)]), row('b', 1, [shop('B', 5), shop('Hub', 8)]), row('c', 1, [shop('Hub', 3)])];
+
+test('MSD-322 미티어 변형은 탐색에서 묶되 별도 식별자와 판매처를 유지한다', () => {
+    const { items } = JSON.parse(readFileSync(new URL('../../data/loadout/items.json', import.meta.url)));
+    const parent = '6bea95f5-2898-434c-bffe-4b2b332d6440';
+    const variant = '27b1b667-7374-4f05-8a47-9386d14108b3';
+    assert.equal(families(items).get(variant), parent);
+    const { resolveOffers } = require('../../js/loadout-planner.js');
+    assert.deepEqual(resolveOffers(variant, items, new Map([[parent, [shop('A', 10)]]])), []);
+    assert.equal(families(items).has('9756d84e-0ee1-4536-af14-68b439027ecb'), false);
+});
 test('최저가와 다품종 상점 묶기를 구분하고 수량을 합계에 반영한다', () => {
     const cheap = plan(basket); const grouped = plan(basket, { mode: 'grouped' });
     assert.equal(cheap.total, 28); assert.equal(cheap.groups.length, 3);

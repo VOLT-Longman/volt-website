@@ -1,0 +1,5525 @@
+{
+  "source": "Star Citizen game files / VOLT loadout research",
+  "researchCommit": "d25e75d5c6e1881749779e680177aa8bb22f149c",
+  "sourceFiles": [
+    "data/loadout-research/radar-profiles.json",
+    "data/loadout-research/utility-profiles.json"
+  ],
+  "gameVersion": "4.10.200.58746",
+  "researchedAt": "2026-11-17T02:30:22.108Z",
+  "limitations": {
+    "miningCombination": "unverified",
+    "radarDetectionDistance": "unverified"
+  },
+  "items": {
+    "06de143e-4e28-4cb7-8e1d-e04017aae514": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1400,
+          "distanceMaxAssignment": 1610,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "809c5792-ae9b-4a09-8fd2-0001296dfc9b": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 1062.5,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "62567423-2d97-4515-ab39-b90756c3fe54": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 935,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "28c7f719-37c3-432e-ab94-59dab4c3a0f7": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 0.6,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 845,
+          "distanceMaxAssignment": 879.75,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "fb4c8baa-4d8e-4a2e-8102-675d3bd72640": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 1122,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "7a1e134a-6322-4035-ae65-10af4b0bb545": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 956.25,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "e0750711-1aba-4141-8470-090b1dfc4a6e": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 845,
+          "distanceMaxAssignment": 1326,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "c91b0d85-f839-4450-95a4-f98c00ea5e37": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 1168.75,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "5160f481-ea0d-495a-95b5-5501a03c6112": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 910,
+          "distanceMaxAssignment": 1075.25,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "5b8750fa-a271-4b5a-a8fd-53c8d06841c9": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 879.75,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "1c6c2145-5f0f-4a69-adf6-82339a0b2559": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 1173,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "5fd25232-339f-4a6b-beba-5e0ee1d83cc8": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 1075.25,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "b0ccd135-4424-417c-95e4-594a88d9b72f": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 845,
+          "distanceMaxAssignment": 1105,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "bd38baac-4671-4e84-afb5-6b79f62dfaec": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 845,
+          "distanceMaxAssignment": 1215.5,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "c0cf2b46-a1d9-4f8c-8ff4-1c8550dbe7e4": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 845,
+          "distanceMaxAssignment": 994.5,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "87008b2d-438a-4091-8ae4-303be47190d8": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 845,
+          "distanceMaxAssignment": 977.5,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "05166c08-0e57-47ca-be82-7b8aee16e831": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 910,
+          "distanceMaxAssignment": 977.5,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "ddc4c394-da22-4ecf-8df9-30db6edc7535": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 1028.5,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "22121214-6333-4edd-826a-0d06c15b5636": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.8,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 780,
+          "distanceMaxAssignment": 977.5,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "bf787055-6969-4215-a507-2a3b1dc00eac": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 1449,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "85d23bcf-e781-4321-a4ed-f8cc3e36e299": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1932,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "a5934275-ace9-4d23-b4a4-b890b9f1806f": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1400,
+          "distanceMaxAssignment": 1771,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "c00521d8-7551-4c26-889f-30bf09d9a821": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 1820,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "458ad6a8-b422-412b-b2f4-10ee2a9f5f3b": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1540,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "01d37caa-d580-4443-b3bd-c1f856ec5bf6": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1925,
+          "outsideRangeBufferDistance": 135
+        },
+        "ping": 2.5
+      }
+    },
+    "69b8ba78-889f-4547-97eb-1d477002fedc": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 2184,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "5b0d1308-b34a-4b55-94f5-7270e03ca82a": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1610,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "f2120aaa-2b36-4d5c-9e08-8a5ab0a2802a": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1848,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "8e6d2e32-dce8-4762-9fc5-b9def5e1e2ac": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1694,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "dc56860d-0727-4c69-883c-0606f5307822": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1449,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "42fb9080-c177-466a-b843-d3f0e82e1633": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 1771,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "d048771d-6001-4176-9b48-2788927f5d30": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1750,
+          "outsideRangeBufferDistance": 135
+        },
+        "ping": 2.5
+      }
+    },
+    "913c5d24-0a71-4c92-b94d-73da62915af7": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1771,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "d395fb78-542f-4cb2-afa4-8e787ec15635": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 2002,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "86c8ec89-6fa6-4bbe-852c-d9e98bb41325": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 1638,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "cb302b31-5ba1-48c1-83e7-6f77f3b1476f": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 0.85,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 2002,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "4e802779-f88e-41d0-b3ba-4dcdd352cd75": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 1932,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "3260e018-64ca-42e9-b85a-8b80d24d5375": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 0.85,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1300,
+          "distanceMaxAssignment": 1610,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "55a63f5c-3406-48ef-97fb-b3ced8858069": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.9,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1200,
+          "distanceMaxAssignment": 1575,
+          "outsideRangeBufferDistance": 135
+        },
+        "ping": 2.5
+      }
+    },
+    "c802e513-66a1-462f-bfef-a4faa1ab5f1a": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 3289,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "b3b162b0-e1ac-433c-961b-9494790344d4": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 3718,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "ae505920-b4f2-4a3e-b1fd-ec46fa35ac51": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 2691,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "462c1e37-6259-4942-91e1-9c4de47ef0e4": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1860,
+          "distanceMaxAssignment": 2990,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "5fd1c4a5-853e-4643-ae44-606d03a8edd8": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 4056,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "c2ee37cb-4267-4075-9f50-104c4781e7c6": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1860,
+          "distanceMaxAssignment": 2691,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "d055fbff-ec64-4a81-8d0b-c6ffcbd2b83e": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 2990,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "a212bfbf-a0d3-439e-86c9-c97078bd0720": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 3042,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "6bd2ac52-cb7d-43b8-8f92-efe11079d914": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 3588,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "9793a9fd-a521-48be-92fe-86da036b8e2a": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1860,
+          "distanceMaxAssignment": 3289,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "d3b9d505-5bbc-48cc-b6e3-2ca49ac4a390": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 1860,
+          "distanceMaxAssignment": 3588,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "f86b7845-81c2-49e3-b562-6b551497a1cf": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2170,
+          "distanceMaxAssignment": 3289,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "188ec15a-2fc2-46f4-9679-2b78c86a8a7d": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 3380,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "441e0d9d-f432-4e7a-825f-6c4c5e10d9da": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 3640,
+          "distanceMaxAssignment": 5313,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "ad4f59d3-1fca-470a-bece-a14484e9ff61": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 585,
+          "distanceMaxAssignment": 858,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "a4412aa5-2593-4139-b2d8-88b6bd05df07": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 585,
+          "distanceMaxAssignment": 759,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "f28b4e31-b9a2-4b39-8ede-7023985e6cf9": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 585,
+          "distanceMaxAssignment": 569.25,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "e5bccaed-85de-483b-b4b8-dfb62f085b43": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 585,
+          "distanceMaxAssignment": 632.5,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "5d040910-6c55-453e-970d-842d4b4fd710": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 540,
+          "distanceMaxAssignment": 759,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "6259d636-2086-4555-930f-883dcd491ccf": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 585,
+          "distanceMaxAssignment": 786.5,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "94e97499-375e-4c63-a2ea-c605a4d3f461": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 585,
+          "distanceMaxAssignment": 643.5,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "d8a9b395-4438-4995-a797-9d984c7fd4c0": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 585,
+          "distanceMaxAssignment": 715,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "28e81323-a16a-4995-9da5-1aca23b4044c": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 540,
+          "distanceMaxAssignment": 632.5,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "ad6617d1-ccbf-45e4-9ac3-8bd0bc6b8ff5": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 585,
+          "distanceMaxAssignment": 695.75,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "5b19ed1b-c24b-45ef-975a-70630519ea22": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.75,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 0.5,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 540,
+          "distanceMaxAssignment": 695.75,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "3e11d2f3-0617-4e42-afd7-72ba8302fcdb": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 845,
+          "distanceMaxAssignment": 1105,
+          "outsideRangeBufferDistance": 60
+        },
+        "ping": 2.5
+      }
+    },
+    "1c7cba80-f570-4b4b-ba6d-35a2a121c78c": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 630,
+          "distanceMaxAssignment": 632.5,
+          "outsideRangeBufferDistance": 80
+        },
+        "ping": 2.5
+      }
+    },
+    "a39d0aa5-f1af-49fb-aad0-0c1cde0f133f": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 3920,
+          "distanceMaxAssignment": 4830,
+          "outsideRangeBufferDistance": 120
+        },
+        "ping": 2.5
+      }
+    },
+    "944a73bb-974c-4e4c-ab0f-6f9cd062c5a5": {
+      "radar": {
+        "signatures": {
+          "Infrared": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Electromagnetic": {
+            "sensitivity": 0.95,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CrossSection": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": true
+          },
+          "Decibel": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          },
+          "Resource": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 1,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Identity": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "CommsSignal": {
+            "sensitivity": 1,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": true,
+            "permitActiveDetection": true
+          },
+          "Interactable": {
+            "sensitivity": 0,
+            "deltaSignatureSensitivity": 0,
+            "piercing": 0.25,
+            "deltaSignaturePierce": 0.25,
+            "permitPassiveDetection": false,
+            "permitActiveDetection": false
+          }
+        },
+        "aim": {
+          "distanceMinAssignment": 2015,
+          "distanceMaxAssignment": 3380,
+          "outsideRangeBufferDistance": 90
+        },
+        "ping": 2.5
+      }
+    },
+    "c771d921-e4b1-4e45-85fa-8b517aca3d70": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "e17408e8-e1ad-4402-9cd9-3e05425a291a": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 20,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "1f8f946d-7f09-453c-8b2b-f1fbeb8d11bf": {
+      "miningModule": {
+        "power": 1.15,
+        "extraction": 0.85,
+        "resistance": -15.5,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "37d62503-f13e-4f41-8ba1-7a3a692dd79f": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 0.85,
+        "resistance": 0,
+        "instability": 0,
+        "window": 15,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "d1b1792f-21bc-456f-ae53-20f301920a55": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": -10,
+        "chargeRate": 30,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "fb3be543-707b-4582-a25b-c118325fc024": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 0.85,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "44b6d85a-ad86-479b-8cd9-5b3d9ab9eddc": {
+      "miningModule": {
+        "power": 1.15,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": -10,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "a69721a2-06e7-4fb3-93b4-c94e4faa6820": {
+      "miningModule": {
+        "power": 1.02,
+        "extraction": 0.85,
+        "resistance": -24.8,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "e8864c48-6cd1-49e8-95ba-91912e321f35": {
+      "miningModule": {
+        "power": 0.85,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": 30,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "586a6f24-c94f-4cfc-9370-0df8a5ed3fe2": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1.15,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": -20,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "1bb6ee6d-3930-4c03-b6c6-38aad3a4703b": {
+      "miningModule": {
+        "power": 1.35,
+        "extraction": 0.85,
+        "resistance": 0,
+        "instability": -10,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "a133320c-1cd0-4622-99dd-715924d6f928": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1,
+        "resistance": -15.5,
+        "instability": -20,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "18a62ae8-e1aa-453f-8631-df928a71abda": {
+      "miningModule": {
+        "power": 1.35,
+        "extraction": 1,
+        "resistance": 15.5,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "4af4857b-b564-4448-afbc-820ff288c0af": {
+      "miningModule": {
+        "power": 0.85,
+        "extraction": 1,
+        "resistance": -24.8,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "688d8f8b-b3ca-4f5c-acc5-f71dfaf2f5bd": {
+      "miningModule": {
+        "power": 0.85,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": -10,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "a6e3aeb0-95df-4f63-9ca1-e8ad5df1a783": {
+      "miningModule": {
+        "power": 1.15,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": 30,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "6c072263-8f32-4ca1-b64b-37d820b0786f": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1.5,
+        "resistance": 15.5,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "46643b07-bb39-4ac1-83e4-d428f0c01a75": {
+      "miningModule": {
+        "power": 1.5,
+        "extraction": 1,
+        "resistance": -15.5,
+        "instability": 10,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "47ba04b0-010b-47cd-9f7d-209e2ec190b9": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 60,
+        "activation": "ActivateOnDemand"
+      }
+    },
+    "a0595561-6252-4340-bd02-c9a748e2fe7b": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 0.95,
+        "resistance": 0,
+        "instability": 0,
+        "window": 25,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "79a47fc7-4950-41a8-b58d-aa3a6b7f686e": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 0.9,
+        "resistance": 0,
+        "instability": 0,
+        "window": 22,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "c9944e4b-d911-4f92-9840-1a078659b123": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": -3,
+        "chargeRate": 35,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "54f4471f-592d-49c1-a12f-fb24c4771ab2": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": -1,
+        "chargeRate": 45,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "e2647306-e5d7-452a-8af6-d7141b540a6b": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 0.9,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "6ebc1ebe-3058-4d41-b45b-6022f322d623": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 0.95,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "2ceb0de9-105b-434e-a152-8af1fd1660d0": {
+      "miningModule": {
+        "power": 1.25,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": -1,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "369d2b1b-d42e-41b4-aff4-74de9712ab68": {
+      "miningModule": {
+        "power": 1.2,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": -3,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "bb54a97f-bdfb-4772-91a1-7273d88bec19": {
+      "miningModule": {
+        "power": 0.9,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": 37,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "91417d7d-a6ad-4ce2-9d57-1ae15a7486f9": {
+      "miningModule": {
+        "power": 0.95,
+        "extraction": 1,
+        "resistance": 0,
+        "instability": 0,
+        "window": 40,
+        "chargeRate": 0,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "c60c2615-ec40-491b-9d60-adddf88782f0": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1.2,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": -15,
+        "activation": "ActivateOnAttach"
+      }
+    },
+    "e40337f2-7f52-4160-95eb-0e96752bc3c2": {
+      "miningModule": {
+        "power": 1,
+        "extraction": 1.25,
+        "resistance": 0,
+        "instability": 0,
+        "window": 0,
+        "chargeRate": -5,
+        "activation": "ActivateOnAttach"
+      }
+    }
+  }
+}

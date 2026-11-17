@@ -27,6 +27,53 @@ const shieldOff = async (page) => {
 };
 const pick = (page, id) => page.locator(`.loadout-optrows [data-loadout-pick="${id}"]`);
 
+test('성능 카드와 장비 보드, 이름 클릭 교체 및 변경 슬롯 개수', async ({ page }) => {
+    await openAsgard(page);
+    await expect(page.locator('#loadout-app > .loadout-panel')).toBeVisible();
+    await expect(page.locator('.loadout-flight .loadout-fold-body')).toBeVisible();
+    const cards = await page.locator('#loadout-app > .loadout-panel > .loadout-panel-section').evaluateAll((els) => els.slice(0, 4).map((el) => ({ x: el.getBoundingClientRect().x, y: el.getBoundingClientRect().y })));
+    expect(new Set(cards.map((card) => Math.round(card.y))).size).toBe(1);
+    expect(new Set(cards.map((card) => Math.round(card.x))).size).toBe(4);
+    if (process.env.LOADOUT_SCREENSHOTS) await page.screenshot({ path: `${process.env.LOADOUT_SCREENSHOTS}/loadout-desktop.png`, fullPage: true });
+    await firstGunSlot(page).locator('[data-loadout-component-open]').click();
+    await expect(page.locator('.loadout-ship-impact')).toContainText('현재 함선 성능');
+    await pick(page, MANTIS).click();
+    await page.locator('#loadout-changed-only').check();
+    await expect(page.locator('.loadout-group.is-weapon h4')).toContainText('1곳 표시 / 전체');
+    await firstGunSlot(page, '맨티스').locator('[data-loadout-shop-detail]').click();
+    await expect(page.locator('[data-loadout-detail-tab="shops"]')).toHaveAttribute('aria-selected', 'true');
+});
+
+test('휴대폰에서 성능과 장비 카드는 한 열이며 화면 밖으로 넘치지 않는다', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openAsgard(page);
+    const columns = await page.locator('#loadout-app > .loadout-panel, .loadout-equipment-board').evaluateAll((els) => els.map((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length));
+    expect(columns).toEqual([1, 1]);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+    if (process.env.LOADOUT_SCREENSHOTS) await page.screenshot({ path: `${process.env.LOADOUT_SCREENSHOTS}/loadout-mobile.png`, fullPage: true });
+});
+
+test('레이더는 민감도와 조준 보조를 비교하고 탐지 거리로 부르지 않는다', async ({ page }) => {
+    await openAsgard(page);
+    await page.locator('.loadout-group.is-radar [data-loadout-open]').click();
+    await expect(page.locator('.loadout-opttable thead')).toContainText('IR 민감도');
+    await expect(page.locator('.loadout-opttable thead')).toContainText('조준 보조 최대 거리');
+    await expect(page.locator('.loadout-picker')).toContainText('실제 탐지 거리나 전력 배분에 따른 변화는 계산하지 않습니다');
+});
+
+test('채광은 독립 분류와 모듈 이름, 효과 비교 및 미검증 합산 안내를 제공한다', async ({ page }) => {
+    await mockApi(page);
+    await gotoSection(page, '#loadout');
+    await page.locator('#loadout-ship-search').fill('prospector');
+    await page.locator('[data-loadout-ship="misc_prospector"]').click();
+    await expect(page.locator('.loadout-group.is-mining')).toBeVisible();
+    await expect(page.locator('.loadout-group.is-mining')).toContainText('채광 모듈 #1');
+    await expect(page.locator('.loadout-group.is-mining')).not.toContainText('BONE_ItemPort');
+    await page.locator('[data-loadout-open*="BONE_ItemPort_Consumable_1"]').first().click();
+    await expect(page.locator('.loadout-opttable thead')).toContainText('레이저 출력 배수');
+    await expect(page.locator('.loadout-picker')).toContainText('합산 방식이 검증되지 않아');
+});
+
 test.describe('로드아웃 편집기', () => {
     test('고정 장비도 장착 개수에 포함하고 교체 버튼은 제공하지 않는다', async ({ page }) => {
         await openAsgard(page);
@@ -362,6 +409,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(quantum).toContainText(/퀀텀 연료\s*7\.7 SCU/);
         // 거리를 바꾸면 예상 이동 시간이 바로 바뀌고, 입력 중인 칸은 그대로 유지된다.
         await expect(page.locator('#loadout-qt-time')).toHaveText('2분 40초');
+        await page.locator('.loadout-quantum summary').click();
         await page.locator('#loadout-qt-distance').fill('60');
         await expect(page.locator('#loadout-qt-time')).toHaveText('4분 46초');
         await expect(page.locator('#loadout-qt-distance')).toBeFocused();
@@ -597,6 +645,8 @@ test.describe('로드아웃 편집기', () => {
         await openAsgard(page);
         const flight = page.locator('.loadout-flight');
         await expect(flight.locator('summary')).toContainText('SCM 203');
+        await expect(flight.locator('.loadout-fold-body')).toBeVisible();
+        await flight.locator('summary').click();
         await expect(flight.locator('.loadout-fold-body')).toBeHidden();
         await flight.locator('summary').click();
         await expect(stat(page, '롤')).toBeVisible();
@@ -919,6 +969,7 @@ test('장착 부품 상세에서 교체창으로 이동하고 열 정렬 방향�
 
 test('항속 초과와 잘못된 거리 입력을 즉시 안내한다', async ({ page }) => {
     await openAsgard(page);
+    await page.locator('.loadout-quantum summary').click();
     const distance = page.locator('#loadout-qt-distance');
     await distance.fill('999');
     await expect(page.locator('#loadout-qt-warning')).toContainText('중간 급유');
