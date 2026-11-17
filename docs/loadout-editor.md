@@ -91,3 +91,27 @@ npm run test:functions     # 자료 정합성·계산식 검증 포함
 - 아직 Erkul과 기능 전체가 같지는 않다. 전력 배분 pip 조작, SCM/NAV에 따른 성능 시뮬레이션, 관통·도탄 시뮬레이션, 제작에 따른 부품 수치 조절, 세부 부품 정보 창은 별도의 게임 자료·계산 검증이 필요하다. 이 변경에서는 해당 계산을 임의로 흉내 내지 않았다.
 
 재조회 점검: UEX 12개 분류에서 품목 664개, 판매 기록 2,854개를 다시 받았다. 레이더 판매 품목 56종 중 50종은 UUID가 없었으며, Ecouter의 Omega Pro / New Babbage 판매 기록을 확인했다. 여러 분류에서 한 제품의 판매처가 12곳을 넘었고 파워 플랜트는 최대 34곳이었다. 도색 묶기는 현재 자료에서 원형 9종·변종 12종에 적용된다. 가격 스냅샷을 게임 수치 자료에 고정하지 않고 UEX API로 계속 갱신한다.
+
+## 2026-11-17 interaction review
+
+Erkul's public calculator was used only for interaction research: collapse/expand all,
+component STATS/BUY inspection, and the detail-to-swap comparison flow. No source,
+assets, or numeric reference data were copied. VOLT keeps its own colors and typography.
+
+Implemented: component inspection from hardpoints, candidate rows and the finder;
+base stats with equipped-part deltas; full shop lists and cart actions; inspection-to-swap;
+per-category/all collapse; compact and changed-only views; redo; keyboard tab navigation;
+reversible column sorting; candidate pagination instead of a silent 80-row cap;
+focus return/trapping; reduced-motion-aware feedback. Compact and keep-open preferences
+persist in a separate optional UI storage record. Undo/redo are per-ship session histories.
+
+Shop resolution follows explicit hidden aliases, deduplicates by terminal, and never
+maps visible cosmetics by name. UEX categories 30/67/110 now cover mining modules,
+tractor beams and salvage heads. Conflicting sizes in UUID-less records remain unmatched.
+
+Pending authoritative research (see the separately assigned loadout-research task):
+power allocation curves, NAV state dependencies, radar sensitivities, blade modifiers,
+penetration/deflection, quantum units/stages, heat-cycle discrepancies. These are not
+implemented with invented multipliers. Component details explicitly show base values,
+not simulated operating conditions. Further independent UI work includes more build slots,
+card reordering, saved component comparisons and configurable comparison columns.

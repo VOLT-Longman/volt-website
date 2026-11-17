@@ -22,12 +22,14 @@
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         equipmentGroup: '', query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(), priceNames: new Map(), priceIds: new Map(), plan: { mode: 'cheapest', shops: {}, order: [] }, familyOpen: new Set(), keepPicker: false,
+        detailId: '', detailSlot: '', detailReturn: '', detailTab: 'stats', collapsed: new Set(), compact: false, changedOnly: false, redo: [], pickerLimit: 80, pickerReverse: false,
         tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [], split: {}, buildsOpen: false, slot: 'A', alt: null,
     };
 
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
+            capacitorSize: '축전 탄창', capacitorDelay: '축전 재충전 지연', partDetails: '부품 상세', statsTab: '성능', shopsTab: '판매처', backToList: '목록으로', previewCompare: '현재 장착 부품과 비교', collapseAll: '장비 모두 접기', expandAll: '장비 모두 펼치기', compactView: '간결하게 보기', changedOnly: '변경한 장비만', noChanges: '변경한 장비가 없습니다.', redo: '다시 실행', equippedNotice: '{name} 장착 완료', detailMissing: '현재 자료에 없는 수치는 표시하지 않습니다.', detailBasis: '기본 부품 수치입니다. 함선 전력 배분과 운용 조건은 반영하지 않습니다.', hpLabel: '부품 내구도', heatShot: '발당 발열', coolingRate: '초당 냉각', coolingDelay: '냉각 시작 지연', heatCapacity: '과열 온도', regenRate: '초당 축전 충전', magSize: '탄창', perProjectile: '발당 피해', fullCharge: '완전 충전 시간', detailCompare: '비교 부품', noComparable: '같은 종류의 비교 부품이 없습니다.',
             refreshFailed: '판매처를 새로 확인하지 못했습니다. 이전에 받은 정보가 표시될 수 있습니다.', planMode: '구매 방식', planCheapest: '최저가 우선', planGrouped: '같은 상점에 모으기', planHelp: '직접 지정한 상점은 유지합니다. 자동 배정은 가장 많은 종류를 파는 상점부터 묶고, 종류 수가 같으면 합계가 싼 곳을 고릅니다. 최단 이동 경로를 계산하는 기능은 아닙니다.', planAuto: '자동 배정', planShop: '구매 상점', planReset: '상점 지정 해제', planMissing: '지정한 상점의 판매 정보를 확인할 수 없습니다. 다른 상점을 선택해 주세요.', planRoute: '방문 순서', planStops: '방문 상점 {count}곳', planUp: '앞으로 이동', planDown: '뒤로 이동', planCopy: '구매 계획 복사', planCopied: '구매 계획을 복사했습니다.', planExtra: '최저가 합계보다 {price} 높음', planUnknown: '판매처 미확인 {count}종은 합계에서 제외됩니다.', refreshPrices: '판매처 새로고침', refreshingPrices: '판매처 확인 중', keepPicker: '교체 후 목록 유지', variants: '도색·변종 {count}종', variantBase: '원형', pickerCart: '현재 부품 장바구니에 담기', liveShipsOnly: '출시가 확인된 함선만 표시합니다.',
             equipmentNav: '장비 종류', allEquipment: '전체 장비', clearFilters: '검색·필터 초기화', filteredEmpty: '조건에 맞는 부품이 없습니다. 검색어나 필터를 바꿔 보세요.', firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
@@ -83,6 +85,7 @@
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
         en: {
+            capacitorSize: 'Capacitor capacity', capacitorDelay: 'Capacitor recharge delay', partDetails: 'Component details', statsTab: 'Stats', shopsTab: 'Shops', backToList: 'Back to list', previewCompare: 'Compare with equipped part', collapseAll: 'Collapse equipment', expandAll: 'Expand equipment', compactView: 'Compact view', changedOnly: 'Changed equipment only', noChanges: 'No equipment has changed.', redo: 'Redo', equippedNotice: '{name} equipped', detailMissing: 'Values missing from the current data are not shown.', detailBasis: 'Base component values; ship power allocation and operating conditions are not applied.', hpLabel: 'Component health', heatShot: 'Heat per shot', coolingRate: 'Cooling per second', coolingDelay: 'Cooling delay', heatCapacity: 'Overheat temperature', regenRate: 'Capacitor regen per second', magSize: 'Magazine', perProjectile: 'Damage per shot', fullCharge: 'Full charge time', detailCompare: 'Comparison part', noComparable: 'No component of the same type to compare.',
             refreshFailed: 'Could not refresh shops. Previously fetched offers may still be shown.', planMode: 'Purchase strategy', planCheapest: 'Lowest price', planGrouped: 'Group at shared shops', planHelp: 'Manual shop choices stay fixed. Automatic assignment picks the shop selling the most remaining product types, then the lowest combined cost. This does not calculate the shortest travel route.', planAuto: 'Automatic', planShop: 'Purchase shop', planReset: 'Clear shop choices', planMissing: 'The chosen shop offer is unavailable. Select another shop.', planRoute: 'Visit order', planStops: '{count} shops to visit', planUp: 'Move earlier', planDown: 'Move later', planCopy: 'Copy purchase plan', planCopied: 'Purchase plan copied.', planExtra: '{price} above the lowest-price total', planUnknown: '{count} products without a confirmed shop are excluded from the total.', refreshPrices: 'Refresh shops', refreshingPrices: 'Checking shops', keepPicker: 'Keep list open after equipping', variants: '{count} paints / variants', variantBase: 'Base model', pickerCart: 'Add current part to cart', liveShipsOnly: 'Only ships confirmed as released are listed.',
             equipmentNav: 'Equipment categories', allEquipment: 'All equipment', clearFilters: 'Clear search & filters', filteredEmpty: 'No parts match. Try another search or clear the filters.', firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
@@ -145,7 +148,7 @@
         Shield: 'shield', PowerPlant: 'power', Cooler: 'cooler', QuantumDrive: 'quantum', JumpDrive: 'quantum', Radar: 'radar',
     };
     // 우리 부품 종류 → UEX 분류 번호 (구매처·가격 조회용)
-    const UEX_CATEGORY = { WeaponGun: 32, Missile: 34, MissileLauncher: 33, Turret: 35, Shield: 23, PowerPlant: 21, Cooler: 19, QuantumDrive: 22, Radar: 83, WeaponMining: 29, Bomb: 70, JumpDrive: 86 };
+    const UEX_CATEGORY = { WeaponGun: 32, Missile: 34, MissileLauncher: 33, Turret: 35, Shield: 23, PowerPlant: 21, Cooler: 19, QuantumDrive: 22, Radar: 83, WeaponMining: 29, Bomb: 70, JumpDrive: 86, MiningModifier: 30, TractorBeam: 67, SalvageHead: 110 };
 
     function init(injected) { deps = injected || {}; }
     const lang = () => (typeof deps.currentLang === 'function' && deps.currentLang() === 'en' ? 'en' : 'ko');
@@ -197,6 +200,7 @@
 
     async function ensureBase() {
         if (state.items && state.index) return;
+        try { const ui = JSON.parse(localStorage.getItem('volt-loadout-ui-v1') || '{}'); state.compact = Boolean(ui.compact); state.keepPicker = Boolean(ui.keepPicker); } catch (_error) { /* optional preference */ }
         state.cart = readCart();
         state.plan = readPlan();
         // meta는 항상 새로 확인하고, 나머지는 자료 버전을 주소에 붙여 패치 후 옛 캐시가 섞이지 않게 한다.
@@ -238,7 +242,7 @@
             if (!state.index.some((entry) => entry.cls === cls)) throw new Error('Ship is not released');
             const ship = await fetchJson(`${DATA_BASE}/ships/${cls}.json?v=${state.meta?.stamp || ''}`);
             const sameShip = cls === state.shipCls;
-            state.ship = ship; state.shipCls = cls; state.history = []; state.equipmentGroup = '';
+            state.ship = ship; state.shipCls = cls; state.history = []; state.redo = []; state.detailId = ''; state.changedOnly = false; state.equipmentGroup = '';
             const stored = overrides ?? readStored().sets?.[cls] ?? readStored().sets?.[requested] ?? {};
             state.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(stored).map(([path, id]) => [path, canonicalItem(id)])));
             state.off = cleanOff(off ?? (overrides === undefined ? readStored().off?.[cls] : {}) ?? {});
@@ -299,13 +303,7 @@
     function priceInfo(id, item) {
         const category = UEX_CATEGORY[item?.type];
         const status = category ? state.priceState.get(category) : 'none';
-        let shops = state.prices.get(String(id).toLowerCase()) || [];
-        if (!shops.length && item) {
-            const matches = (state.priceNames.get(category) || []).filter((entry) => planner.nameKey(entry.name) === planner.nameKey(item.name) && (entry.size === null || Number(entry.size) === Number(item.size)));
-            const peers = Object.values(state.items).filter((entry) => !entry.hidden && entry.type === item.type && planner.nameKey(entry.name) === planner.nameKey(item.name) && (matches[0]?.size === null || entry.size === item.size));
-            if (matches.length === 1 && peers.length === 1) shops = matches[0].shops;
-        }
-        shops = [...shops].sort((a, b) => a.price - b.price);
+        const shops = planner.resolveOffers(id, state.items, state.prices, state.priceNames.get(category) || []);
         return { status: shops.length ? 'ready' : status || 'idle', shops, min: shops[0]?.price || 0 };
     }
     function loadPricesForChanged() {
@@ -455,6 +453,7 @@
                     <button type="button" class="btn btn-primary" data-loadout-browse aria-expanded="${Boolean(state.browsing)}">${esc(state.browsing ? text('hideShips') : text('browseShips'))}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-builds-toggle aria-expanded="${Boolean(state.buildsOpen)}">${esc(text('buildsToggle'))}${readBuilds().length ? ` <span class="loadout-badge">${readBuilds().length}</span>` : ''}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-undo ${state.history.length ? '' : 'disabled'}>${esc(text('undo'))}</button>
+                    <button type="button" class="btn btn-secondary" data-loadout-redo ${state.redo.length ? '' : 'disabled'}>${esc(text('redo'))}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-share>${esc(text('share'))}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-reset-all ${Object.keys(state.overrides).length || Object.keys(state.off).length ? '' : 'disabled'}>${esc(text('resetAll'))}</button>
                 </div>
@@ -672,6 +671,52 @@
         return count ? `<button type="button" class="loadout-link loadout-family" data-loadout-family="${esc(id)}" aria-expanded="${state.familyOpen.has(id)}">${esc(text('variants', { count }))}</button>` : '';
     }
 
+    function detailMetrics(item) {
+        if (!item) return [];
+        const rows = metricsOf(item).map((m) => ({ ...m, unit: m.label === text('rangeShort') || m.label === text('radiusShort') ? 'm' : m.label === text('spoolLabel') || m.label === text('cooldownLabel') || m.label === text('regenDelay') ? 's' : '' }));
+        const add = (key, value, unit = '', better = 'high') => {
+            if (value === undefined || value === null || !Number.isFinite(Number(value))) return;
+            const label = text(key);
+            if (!rows.some((r) => r.label === label)) rows.push({ label, value: Number(value), digits: 2, unit, better });
+        };
+        add('hpLabel', item.hp, 'HP'); add('mass', item.mass, 'kg', 'low');
+        add('powerUseLabel', item.power?.use, '', 'low');
+        add('signatureEm', item.em, '', 'low'); add('signatureIr', item.ir, '', 'low');
+        if (item.w) {
+            add('rpmShort', item.w.rpm, 'rpm'); add('speedShort', item.w.speed, 'm/s');
+            add('magSize', item.w.ammo); add('heatShot', item.w.heat, '', 'low');
+            add('heatCapacity', item.w.oh?.max); add('coolingRate', item.w.oh?.cool);
+            add('coolingDelay', item.w.oh?.start, 's', 'low');
+            add('cooldownLabel', item.w.oh?.fix, 's', 'low');
+            add('capacitorSize', item.w.regen?.load); add('regenRate', item.w.regen?.perSec);
+            add('capacitorDelay', item.w.regen?.cd, 's', 'low');
+        }
+        if (item.sh?.regen > 0) add('fullCharge', item.sh.hp / item.sh.regen, 's', 'low');
+        return rows;
+    }
+
+    function drawComponentDetail() {
+        const id = state.detailId; const item = state.items[id];
+        if (!item) return '';
+        const detailPath = state.openPath || state.detailSlot;
+        const node = detailPath && state.ship ? allNodes().find((entry) => entry.path === detailPath) : null;
+        const current = node?.item?.type === item.type && canonicalItem(node.itemId) !== id ? node.item : null;
+        const baseline = new Map(detailMetrics(current).map((m) => [m.label, m]));
+        const info = priceInfo(id, item);
+        const rows = detailMetrics(item);
+        const stats = `<p class="loadout-note">${esc(text('detailBasis'))}</p>${current ? `<p class="loadout-detail-baseline">${esc(text('previewCompare'))}: <strong>${esc(itemName(node.itemId, current))}</strong></p>` : ''}
+            <dl class="loadout-detail-stats">${rows.map((m) => `<div><dt>${esc(m.label)}</dt><dd>${esc(num(m.value, m.digits))}${m.unit ? ` <small>${esc(m.unit)}</small>` : ''}${baseline.has(m.label) ? drawChange(m.value, baseline.get(m.label).value, m.digits, m.better) : ''}</dd></div>`).join('')}</dl>
+            ${item.w ? `<section><h4>${esc(text('dmgKind'))}</h4><dl class="loadout-detail-stats">${Object.entries(item.w.dmg || item.w.beamDps || {}).map(([key, value]) => `<div><dt>${esc(table('damage')[key] || key)}</dt><dd>${esc(num(value, 2))}</dd></div>`).join('')}</dl></section>` : ''}
+            <p class="loadout-note">${esc(text('detailMissing'))}</p>`;
+        const shops = `<p class="loadout-note">${esc(text('lootNote'))}</p>${info.shops.length ? `<ul class="loadout-detail-shops">${info.shops.map((shop) => `<li><div><strong>${esc(shop.shop)}</strong><span class="loadout-meta">${esc([shop.system, shop.place].filter(Boolean).join(' / '))}</span></div><b>${esc(credits(shop.price))}</b></li>`).join('')}</ul>` : drawPrice(id, item)}`;
+        return `<div class="loadout-drawer-backdrop" data-loadout-close></div><section class="loadout-picker loadout-detail" role="dialog" aria-modal="true" aria-labelledby="loadout-detail-title">
+            <div class="loadout-picker-title"><div><span class="loadout-slot-label">${esc(typeLabel(item.type))} · S${esc(item.size)}</span><h3 id="loadout-detail-title">${esc(itemName(id, item))}</h3><span class="loadout-meta">${esc(itemMeta(item))}</span>${itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}</div><button type="button" id="loadout-detail-close" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button></div>
+            <div class="loadout-tabs" role="tablist" aria-label="${esc(text('partDetails'))}">${['stats', 'shops'].map((tab) => `<button type="button" id="loadout-detail-tab-${tab}" class="loadout-tab${state.detailTab === tab ? ' is-active' : ''}" data-loadout-detail-tab="${tab}" role="tab" aria-selected="${state.detailTab === tab}" aria-controls="loadout-detail-content">${esc(text(tab === 'stats' ? 'statsTab' : 'shopsTab'))}${tab === 'shops' && info.shops.length ? ` (${info.shops.length})` : ''}</button>`).join('')}</div>
+            <div id="loadout-detail-content" class="loadout-detail-content" role="tabpanel" aria-labelledby="loadout-detail-tab-${state.detailTab}" tabindex="0">${state.detailTab === 'shops' ? shops : stats}</div>
+            <footer class="loadout-detail-actions"><button type="button" class="btn btn-secondary" data-loadout-close>${esc(text('backToList'))}</button><button type="button" class="btn btn-secondary" data-loadout-cart-add="${esc(id)}">${esc(text('cartAdd'))}</button>${node?.slot.kind === 's' && !state.openPath ? `<button type="button" class="btn btn-primary" data-loadout-detail-swap>${esc(text('change'))}</button>` : ''}${node && id !== canonicalItem(node.itemId) && calc.fitsSlot(item, node.slot, { tags: node.tags }) ? `<button type="button" class="btn btn-primary" data-loadout-detail-equip="${esc(id)}" data-loadout-path="${esc(node.path)}">${esc(text('equip'))}</button>` : ''}</footer>
+        </section>`;
+    }
+
     function drawPicker(node, nodes) {
         const query = state.pickerQuery.trim().toLowerCase();
         // 기본 장착이 내부 변형(숨긴 항목)이면 대표 제품을 "장착 중"으로 보여 준다 — 같은 부품이 두 줄로 나오지 않게.
@@ -686,8 +731,9 @@
             .filter(([, item]) => !state.pickerDamage || damageOf(item) === state.pickerDamage)
             .filter(([, item]) => !state.pickerKind || kindOf(item) === state.pickerKind)
             .filter(([id, item]) => !state.pickerBuyable || priceInfo(id, item).min > 0)
-            .sort(([ida, a], [idb, b]) => sortFn(state.pickerSort)(a, b, ida, idb) || String(itemName(ida, a)).localeCompare(String(itemName(idb, b))));
-        const shown = familyRows(candidates, query, currentId).slice(0, 80);
+            .sort(([ida, a], [idb, b]) => (state.pickerReverse ? -1 : 1) * (sortFn(state.pickerSort)(a, b, ida, idb) || String(itemName(ida, a)).localeCompare(String(itemName(idb, b)))));
+        const grouped = familyRows(candidates, query, currentId);
+        const shown = grouped.slice(0, state.pickerLimit);
         const run = runOf(node.path);
         const siblings = siblingSlots(node, nodes);
         const mount = mountOf.get(node.path);
@@ -698,7 +744,7 @@
         const chip = (attr, value, label, active) => `<button type="button" class="loadout-chip${active ? ' is-active' : ''}" ${attr}="${esc(value)}" aria-pressed="${active}">${esc(label)}</button>`;
         const damages = ['energy', 'ballistic', 'distortion'].filter((key) => fitting.some(([, item]) => damageOf(item) === key));
         const kinds = ['cannon', 'repeater', 'gatling', 'scattergun', 'beam'].filter((key) => fitting.some(([, item]) => kindOf(item) === key));
-        const ascending = (key) => key === 'name' || key === 'price' || (/^m\d$/.test(key) && columns[Number(key.slice(1))]?.better === 'low');
+        const ascending = (key) => Boolean(key === 'name' || key === 'price' || (/^m\d+$/.test(key) && columns[Number(key.slice(1))]?.better === 'low')) !== state.pickerReverse;
         const head = (key, label, first) => `<th scope="col" class="${first ? 'is-name' : ''}" ${state.pickerSort === key ? `aria-sort="${ascending(key) ? 'ascending' : 'descending'}"` : ''}><button type="button" class="loadout-sortbtn${state.pickerSort === key ? ' is-active' : ''}" data-direction="${ascending(key) ? 'asc' : 'desc'}" data-loadout-sort="${key}" title="${esc(text('sortHint', { label }))}">${esc(label)}</button></th>`;
         const filtered = Boolean(query || state.pickerGrade || state.pickerClass || state.pickerDamage || state.pickerKind || state.pickerBuyable);
         const now = new Map(metricsOf(node.item).map((metric) => [metric.label, metric]));
@@ -744,12 +790,13 @@
             <div class="loadout-optwrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-opttable">
                 <thead><tr>${head('name', text('colPart'), true)}${columns.map((metric, index) => head(`m${index}`, metric.label)).join('')}${head('price', text('colPrice'))}<th scope="col"></th></tr></thead>
                 <tbody class="loadout-optrows">${shown.map(([id, item]) => `<tr class="${id === currentId ? 'is-current' : ''}${state.families.has(id) ? ' is-variant' : ''}">
-                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><strong title="${esc(item.name)}">${esc(itemName(id, item))}</strong>${familyButton(id)}</div><span class="loadout-meta">${esc(itemMeta(item))}</span></th>
+                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><button type="button" class="loadout-part-link" data-loadout-detail="${esc(id)}" aria-label="${esc(text('partDetails'))}: ${esc(itemName(id, item))}" title="${esc(text('partDetails'))}"><strong title="${esc(item.name)}">${esc(itemName(id, item))}</strong></button>${familyButton(id)}</div><span class="loadout-meta">${esc(itemMeta(item))}</span></th>
                     ${columns.map((column) => cell(item, column, id === currentId)).join('')}
                     <td class="loadout-optprice">${drawPrice(id, item)}</td>
                     <td class="loadout-optact"><button type="button" class="btn btn-secondary loadout-equip" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === currentId ? 'disabled' : ''}>${esc(id === currentId ? text('selected') : text('select'))}</button></td>
                 </tr>`).join('') || `<tr><td class="loadout-note" colspan="${columns.length + 3}">${esc(text(filtered ? 'filteredEmpty' : 'pickerEmpty'))}</td></tr>`}</tbody>
             </table></div>
+            ${grouped.length > shown.length ? `<button type="button" class="btn btn-secondary" data-loadout-picker-more>${esc(text('finderMore', { count: grouped.length - shown.length }))}</button>` : ''}
         </div>`;
     }
 
@@ -849,9 +896,10 @@
                 </div>
                 ${slotMetric(node)}
                 <div class="loadout-slot-actions">
+                    ${item ? `<button type="button" class="loadout-link" data-loadout-detail="${esc(itemId)}" data-loadout-detail-slot="${esc(path)}">${esc(text('partDetails'))}</button>` : ''}
                     ${changed ? `<button type="button" class="loadout-link" data-loadout-reset="${esc(node.mount?.changed ? node.mount.path : path)}">${esc(text('reset'))}</button>` : ''}
                     ${node.run ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.runParent)}">${esc(text('splitRun'))}</button>` : ''}${node.regroup !== undefined ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.regroup)}">${esc(text('mergeRun'))}</button>` : ''}
-                    ${off || (canPower && !editable) ? `<button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(path)}" aria-pressed="${off}">${esc(text(off ? 'powerOn' : 'powerOff'))}</button>` : ''}
+                    ${off || canPower ? `<button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(path)}" aria-pressed="${off}">${esc(text(off ? 'powerOn' : 'powerOff'))}</button>` : ''}
                     ${editable ? `<button type="button" class="btn btn-secondary" data-loadout-open="${esc(path)}" aria-expanded="${open}">${esc(text('change'))}</button>` : `<span class="loadout-fixed">${esc(text('fixed'))}</span>`}
                 </div>
             </div>
@@ -889,15 +937,16 @@
             // 「N곳」은 사용자가 바꿀 수 있는 줄 기준으로 센다(마운트와 무기를 따로 세지 않는다).
             const count = rows.reduce((sum, row) => sum + (row.slot.kind === 's' ? (row.run?.length || 1) : 0), 0);
             return `<section class="loadout-group is-${key}">
-            <h4>${esc(groupLabel(key))} <span>${esc(text('slotCount', { count }))}</span></h4>
-            <ul class="loadout-slotlist">${rows.map(drawSlot).join('')}</ul>
+            <h4><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>
+            <ul id="loadout-rows-${key}" class="loadout-slotlist" ${state.collapsed.has(key) ? 'hidden' : ''}>${rows.map((row) => { const html = drawSlot(row); const changed = row.changed || row.mount?.changed || state.off[row.path]; return state.changedOnly && !changed ? html.replace('<li ', '<li hidden ') : html; }).join('')}</ul>
         </section>`;
         };
         const available = SUPER_GROUPS.filter(([, keys]) => keys.some((key) => groups.get(key).length));
         if (!available.some(([label]) => label === state.equipmentGroup)) state.equipmentGroup = '';
         const navigation = `<div class="loadout-equipment-nav" role="group" aria-label="${esc(text('equipmentNav'))}">${[['', []], ...available].map(([label]) => `<button type="button" id="loadout-category-${label || 'all'}" class="loadout-category${state.equipmentGroup === label ? ' is-active' : ''}" data-loadout-category="${label}" aria-pressed="${state.equipmentGroup === label}">${esc(text(label || 'allEquipment'))}</button>`).join('')}</div>`;
         // Render every group so slot/mount mappings stay complete while filtering the view.
-        return navigation + available.map(([label, keys]) => {
+        const controls = `<div class="loadout-view-tools"><button type="button" class="loadout-link" data-loadout-collapse-all>${esc(text(state.collapsed.size ? 'expandAll' : 'collapseAll'))}</button><label><input type="checkbox" id="loadout-compact" ${state.compact ? 'checked' : ''}> ${esc(text('compactView'))}</label><label><input type="checkbox" id="loadout-changed-only" ${state.changedOnly ? 'checked' : ''}> ${esc(text('changedOnly'))}</label></div>${state.changedOnly && !nodes.some((node) => node.changed || state.off[node.path]) ? `<p class="loadout-note">${esc(text('noChanges'))}</p>` : ''}`;
+        return navigation + controls + available.map(([label, keys]) => {
             const filled = keys.filter((key) => groups.get(key).length);
             return `<section class="loadout-super" ${state.equipmentGroup && state.equipmentGroup !== label ? 'hidden' : ''}><h3>${esc(text(label))}</h3>${filled.map(group).join('')}</section>`;
         }).join('');
@@ -1009,7 +1058,7 @@
     }
 
     // 부품 찾기: 함선과 상관없이 전체 부품을 종류·크기로 훑어보고 장바구니에 담는다.
-    const FINDER_TYPES = ['WeaponGun', 'Missile', 'MissileLauncher', 'Turret', 'Shield', 'PowerPlant', 'Cooler', 'QuantumDrive', 'Radar', 'WeaponMining', 'MiningModifier', 'EMP', 'QuantumInterdictionGenerator'];
+    const FINDER_TYPES = ['WeaponGun', 'Missile', 'MissileLauncher', 'Turret', 'Shield', 'PowerPlant', 'Cooler', 'QuantumDrive', 'Radar', 'WeaponMining', 'MiningModifier', 'TractorBeam', 'SalvageHead', 'Bomb', 'JumpDrive', 'EMP', 'QuantumInterdictionGenerator'];
     function drawFinder() {
         const type = state.finderType || FINDER_TYPES[0];
         const query = state.finderQuery.trim().toLowerCase();
@@ -1043,7 +1092,7 @@
                     <span class="loadout-meta">${esc(itemMeta(item))}</span>${drawFacts(item)}${drawPrice(id, item)}
                 </div>
                 ${drawMetric(item)}
-                <div class="loadout-option-side">
+                <div class="loadout-option-side"><button type="button" class="loadout-link" data-loadout-detail="${esc(id)}">${esc(text('partDetails'))}</button>
                     ${state.cart[id] ? `<span class="loadout-delta is-up">${esc(text('inCart', { count: state.cart[id] }))}</span>` : ''}
                     <button type="button" class="btn btn-secondary" data-loadout-cart-add="${esc(id)}">${esc(text('cartAdd'))}</button>
                 </div>
@@ -1204,6 +1253,7 @@
         const focusId = document.activeElement?.id;
         const caret = document.activeElement?.selectionStart;
         const scrolled = container.querySelector('.loadout-optwrap')?.scrollTop || 0;
+        const detailScroll = container.querySelector('.loadout-detail-content')?.scrollTop || 0;
         let body = '';
         if (state.error) body = `<div class="loadout-error" role="alert"><p>${esc(state.error)}</p><button type="button" class="btn btn-secondary" data-loadout-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.index) body = `<p class="loadout-note" role="status">${esc(text('loading'))}</p>`;
@@ -1224,7 +1274,7 @@
                     ${drawTabs()}
                     <div class="loadout-columns${state.tab === 'cart' ? ' is-cart' : ''}">
                         <div class="loadout-slots">${main}</div>
-                        ${openNode ? drawPicker(openNode, nodes) : ''}
+                        ${state.detailId ? drawComponentDetail() : openNode ? drawPicker(openNode, nodes) : ''}
                         ${state.tab === 'cart' ? '' : drawSummary(totals, cost, stock)}
                     </div>`;
             }
@@ -1232,14 +1282,18 @@
                 if (!['finder', 'cart'].includes(state.tab)) state.tab = '';
                 body += `${drawTabs()}${state.tab === 'finder' ? drawFinder() : state.tab === 'cart' ? drawCart() : ''}`;
             }
+            if (!state.ship && state.detailId) body += drawComponentDetail();
             body += drawSources();
         }
         container.innerHTML = body;
-        container.classList.toggle('has-drawer', Boolean(state.openPath && state.ship));
+        container.classList.toggle('has-drawer', Boolean(state.detailId || (state.openPath && state.ship)));
+        container.classList.toggle('is-compact', state.compact);
         // 함선을 고른 뒤에는 큰 제목·설명을 접어 편집 화면이 바로 보이게 한다.
         document.getElementById('loadout')?.classList.toggle('has-ship', Boolean(state.ship));
         const options = container.querySelector('.loadout-optwrap');
         if (options && scrolled) options.scrollTop = scrolled;
+        const detailContent = container.querySelector('.loadout-detail-content');
+        if (detailContent && detailScroll) detailContent.scrollTop = detailScroll;
         if (focusId) {
             const target = document.getElementById(focusId);
             if (target) { target.focus({ preventScroll: true }); if (typeof caret === 'number' && target.setSelectionRange) { try { target.setSelectionRange(caret, caret); } catch (_error) { /* search 입력이 아닌 경우 */ } } }
@@ -1248,11 +1302,12 @@
 
     // ---- 동작 -------------------------------------------------------------
     function closePicker() {
-        state.openPath = ''; state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerDamage = ''; state.pickerKind = ''; state.pickerBuyable = false; state.pickerBulk = false;
+        state.openPath = ''; state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerDamage = ''; state.pickerKind = ''; state.pickerBuyable = false; state.pickerBulk = false; state.pickerLimit = 80; state.pickerReverse = false; state.detailId = '';
     }
 
     // 부품 선택 창을 닫고, 창을 열었던 "변경" 버튼으로 초점을 돌려보낸다.
     function dismissPicker() {
+        if (state.detailId) { const id = state.detailReturn; state.detailId = ''; draw(); root()?.querySelector(`[data-loadout-detail="${CSS.escape(id)}"]`)?.focus({ preventScroll: true }); return; }
         const path = state.openPath;
         closePicker(); draw();
         if (path) root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
@@ -1260,6 +1315,7 @@
 
     // 직전 변경 취소용 기록. 부품 교체·기본값·전원 전환 직전에 지금 상태를 남긴다(최근 30번).
     function remember() {
+        state.redo = [];
         state.history.push({ overrides: { ...state.overrides }, off: { ...state.off } });
         if (state.history.length > 30) state.history.shift();
     }
@@ -1282,6 +1338,7 @@
         state.off = cleanOff(Object.fromEntries(Object.keys(state.off).filter((key) => !targets.some((entry) => key === entry.path || key.startsWith(`${entry.path}/`))).map((key) => [key, true])));
         if (!state.keepPicker || !id) closePicker();
         writeStored(); draw(); loadPricesForChanged();
+        deps.showToast?.(text('equippedNotice', { name: id ? itemName(id, state.items[id]) : text('empty') }));
         if (!state.openPath) root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
     }
 
@@ -1300,6 +1357,21 @@
         if (event.target.closest('[data-loadout-close]')) { dismissPicker(); return; }
         const target = event.target.closest('button');
         if (!target) return;
+        if (target.hasAttribute('data-loadout-detail-swap')) { state.detailId = ''; state.openPath = state.detailSlot; state.pickerLimit = 80; draw(); document.getElementById('loadout-picker-search')?.focus(); return; }
+        if (target.hasAttribute('data-loadout-detail-equip')) { state.detailId = ''; setOverride(target.getAttribute('data-loadout-path'), target.getAttribute('data-loadout-detail-equip')); return; }
+        const detail = target.getAttribute('data-loadout-detail');
+        if (detail !== null && state.items[detail]) { state.detailId = detail; state.detailSlot = target.getAttribute('data-loadout-detail-slot') || ''; state.detailReturn = detail; state.detailTab = 'stats'; loadCategoryPrices(state.items[detail].type); draw(); document.getElementById('loadout-detail-close')?.focus(); return; }
+        const detailTab = target.getAttribute('data-loadout-detail-tab');
+        if (['stats', 'shops'].includes(detailTab)) { state.detailTab = detailTab; draw(); root()?.querySelector(`[data-loadout-detail-tab="${detailTab}"]`)?.focus(); return; }
+        const collapse = target.getAttribute('data-loadout-collapse');
+        if (collapse !== null) { if (state.collapsed.has(collapse)) state.collapsed.delete(collapse); else state.collapsed.add(collapse); draw(); root()?.querySelector(`[data-loadout-collapse="${collapse}"]`)?.focus({ preventScroll: true }); return; }
+        if (target.hasAttribute('data-loadout-collapse-all')) { state.collapsed = state.collapsed.size ? new Set() : new Set(GROUP_ORDER); draw(); return; }
+        if (target.hasAttribute('data-loadout-picker-more')) { state.pickerLimit += 80; draw(); return; }
+        if (target.hasAttribute('data-loadout-redo')) {
+            const next = state.redo.pop();
+            if (next) { state.history.push({ overrides: { ...state.overrides }, off: { ...state.off } }); state.overrides = calc.sanitizeOverrides(state.ship, state.items, next.overrides); state.off = cleanOff(next.off); closePicker(); writeStored(); draw(); loadPricesForChanged(); }
+            return;
+        }
         const family = target.getAttribute('data-loadout-family');
         if (family !== null) { if (state.familyOpen.has(family)) state.familyOpen.delete(family); else state.familyOpen.add(family); draw(); return; }
         const strategy = target.getAttribute('data-loadout-plan-mode');
@@ -1349,7 +1421,7 @@
         const grade = target.getAttribute('data-loadout-grade');
         if (grade !== null) { state.pickerGrade = state.pickerGrade === grade ? '' : grade; draw(); return; }
         const sortKey = target.getAttribute('data-loadout-sort');
-        if (sortKey !== null) { state.pickerSort = sortKey; draw(); return; }
+        if (sortKey !== null) { state.pickerReverse = state.pickerSort === sortKey ? !state.pickerReverse : false; state.pickerSort = sortKey; draw(); return; }
         const dmg = target.getAttribute('data-loadout-dmg');
         if (dmg !== null) { state.pickerDamage = state.pickerDamage === dmg ? '' : dmg; draw(); return; }
         const kind = target.getAttribute('data-loadout-kind');
@@ -1392,7 +1464,7 @@
             const current = { overrides: { ...state.overrides }, off: { ...state.off } };
             const fresh = !state.alt;
             const next = state.alt || { overrides: { ...state.overrides }, off: { ...state.off } };
-            state.alt = current; state.slot = abSlot; state.history = [];
+            state.alt = current; state.slot = abSlot; state.history = []; state.redo = [];
             state.overrides = calc.sanitizeOverrides(state.ship, state.items, next.overrides); state.off = cleanOff(next.off);
             closePicker(); writeStored(); draw(); loadPricesForChanged();
             deps.showToast?.(text(fresh ? 'abStarted' : 'abSwitched', { slot: abSlot }));
@@ -1406,6 +1478,7 @@
         }
         if (target.hasAttribute('data-loadout-undo')) {
             const last = state.history.pop();
+            if (last) state.redo.push({ overrides: { ...state.overrides }, off: { ...state.off } });
             if (last) { state.overrides = calc.sanitizeOverrides(state.ship, state.items, last.overrides); state.off = cleanOff(last.off); closePicker(); writeStored(); draw(); loadPricesForChanged(); deps.showToast?.(text('undone')); }
             return;
         }
@@ -1467,6 +1540,9 @@
         }
     }
     function handleChange(event) {
+        if (['loadout-compact', 'loadout-keep-picker'].includes(event.target.id)) { const compact = event.target.id === 'loadout-compact' ? event.target.checked : state.compact; const keepPicker = event.target.id === 'loadout-keep-picker' ? event.target.checked : state.keepPicker; try { localStorage.setItem('volt-loadout-ui-v1', JSON.stringify({ compact, keepPicker })); } catch (_error) { /* optional preference */ } }
+        if (event.target.id === 'loadout-compact') { state.compact = event.target.checked; draw(); }
+        if (event.target.id === 'loadout-changed-only') { state.changedOnly = event.target.checked; draw(); }
         if (event.target.id === 'loadout-keep-picker') state.keepPicker = event.target.checked;
         const shopItem = event.target.getAttribute('data-loadout-cart-shop');
         if (shopItem !== null) {
@@ -1476,19 +1552,31 @@
             else if (row?.info.shops.some((shop) => planner.shopKey(shop) === value)) state.plan.shops[shopItem] = value;
             savePlan(); draw();
         }
-        if (event.target.id === 'loadout-picker-sort') { state.pickerSort = event.target.value; draw(); }
+        if (event.target.id === 'loadout-picker-sort') { state.pickerReverse = false; state.pickerSort = event.target.value; draw(); }
         if (event.target.id === 'loadout-ship-mfr') { state.shipMfr = event.target.value; draw(); }
         if (event.target.id === 'loadout-finder-sort') { state.finderSort = event.target.value; draw(); }
         if (event.target.id === 'loadout-bulk') { state.pickerBulk = event.target.checked; }
         if (event.target.id === 'loadout-compare-pick') { startCompare(Number(event.target.value)); }
     }
     function handleKeydown(event) {
-        if (!state.openPath || !root()) return;
+        if (!root() || (!root().contains(event.target) && !state.openPath && !state.detailId)) return;
+        const tab = event.target.closest('[role="tab"]');
+        if (tab && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+            const tabs = [...tab.parentElement.querySelectorAll('[role="tab"]')];
+            const index = tabs.indexOf(tab); const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+            event.preventDefault(); const id = tabs[next].id; const key = tabs[next].getAttribute('data-loadout-tab'); tabs[next].click();
+            (id ? document.getElementById(id) : root()?.querySelector(`[data-loadout-tab="${key}"]`))?.focus(); return;
+        }
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z' && !event.target.closest('input, textarea, select, [contenteditable="true"]')) {
+            const action = root()?.querySelector(event.shiftKey ? '[data-loadout-redo]' : '[data-loadout-undo]');
+            if (action && !action.disabled) { event.preventDefault(); action.click(); } return;
+        }
+        if ((!state.openPath && !state.detailId) || !root()) return;
         if (event.key === 'Escape') { dismissPicker(); return; }
         if (event.key !== 'Tab' || !isOverlayPicker()) return;
         // 화면을 덮는 창일 때는 그 안에서만 Tab이 돌게 한다.
         const picker = root().querySelector('.loadout-picker');
-        const focusable = picker ? [...picker.querySelectorAll('button:not([disabled]), input, select, a[href]')].filter((el) => el.offsetParent !== null) : [];
+        const focusable = picker ? [...picker.querySelectorAll('button:not([disabled]), input, select, a[href], summary')].filter((el) => el.offsetParent !== null) : [];
         if (!focusable.length) return;
         const first = focusable[0]; const last = focusable[focusable.length - 1];
         if (!picker.contains(document.activeElement)) { event.preventDefault(); first.focus(); return; }

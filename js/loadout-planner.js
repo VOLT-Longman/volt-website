@@ -60,7 +60,24 @@
         }
         return parents;
     }
-    const api = { shopKey, nameKey, plan, families };
+    // Resolve only explicit duplicate aliases, never visible paint/bespoke variants.
+    function resolveOffers(id, items, prices, named = []) {
+        const item = items[id];
+        if (!item) return [];
+        const base = item.hidden && item.alias && items[item.alias] ? item.alias : id;
+        const ids = [base, ...Object.keys(items).filter((key) => items[key].hidden && items[key].alias === base && items[key].type === items[base].type)];
+        let offers = ids.flatMap((key) => prices.get(key.toLowerCase()) || []);
+        if (!offers.length) {
+            const matches = named.filter((row) => nameKey(row.name) === nameKey(item.name) && (row.size === null || Number(row.size) === Number(item.size)));
+            const peers = Object.values(items).filter((row) => !row.hidden && row.type === item.type && nameKey(row.name) === nameKey(item.name) && (matches[0]?.size === null || row.size === item.size));
+            if (matches.length === 1 && peers.length === 1) offers = matches[0].shops;
+        }
+        const seen = new Set();
+        return [...offers].filter((offer) => Number(offer.price) > 0).sort((a, b) => a.price - b.price).filter((offer) => {
+            const key = shopKey(offer); if (seen.has(key)) return false; seen.add(key); return true;
+        });
+    }
+    const api = { shopKey, nameKey, plan, families, resolveOffers };
     if (typeof module !== 'undefined' && module.exports) module.exports = api;
     if (root) root.VOLT_LOADOUT_PLANNER = api;
 })(typeof window === 'undefined' ? null : window);

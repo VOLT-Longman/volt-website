@@ -9945,3 +9945,49 @@ details.loadout-panel-section.loadout-fold { display: block; }
 }
 .loadout-app .loadout-opttable tr.is-variant th { padding-left: 24px; border-left: 2px solid var(--lo-line); }
 .loadout-app .loadout-columns.is-cart { grid-template-columns: minmax(0, 1fr); }
+
+/* Component inspection and reversible editing use the existing VOLT tokens. */
+.loadout-app .loadout-view-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 8px 0 16px; color: var(--lo-dim); font-size: 13px; }
+.loadout-view-tools label { display: inline-flex; gap: 7px; align-items: center; min-height: 36px; cursor: pointer; }
+.loadout-app .loadout-group h4:has(.loadout-group-toggle) { padding: 0; }
+.loadout-group-toggle { width: 100%; min-height: 46px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: transparent; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.loadout-group-toggle > span:last-child { color: var(--lo-dim); font-size: 12px; }
+.loadout-app [hidden] { display: none !important; }
+.loadout-app.is-compact .loadout-slot-facts { display: none; }
+.loadout-app.is-compact .loadout-slot-row { padding-top: 9px; padding-bottom: 9px; }
+.loadout-app .loadout-slot-actions { flex-wrap: wrap; gap: 7px; }
+.loadout-app .loadout-detail { width: min(760px, 96vw); }
+.loadout-detail h3 { margin: 4px 0; font-size: 22px; overflow-wrap: anywhere; }
+.loadout-detail-content { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 8px 4px; }
+.loadout-detail-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; margin: 12px 0 24px; }
+.loadout-detail-stats > div { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--lo-line); }
+.loadout-detail-stats dt { color: var(--lo-dim); font-size: 13px; }
+.loadout-detail-stats dd { margin: 0; text-align: right; font-size: 16px; font-variant-numeric: tabular-nums; }
+.loadout-detail-stats small { color: var(--lo-dim); font-size: 12px; }
+.loadout-detail-stats .loadout-change { display: block; font-size: 12px; }
+.loadout-detail-baseline { padding: 12px; background: var(--lo-card-2); border-left: 2px solid var(--volt-orange); }
+.loadout-detail-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding-top: 12px; border-top: 1px solid var(--lo-line); }
+.loadout-detail-shops { list-style: none; margin: 0; padding: 0; }
+.loadout-detail-shops li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--lo-line); }
+.loadout-detail-shops b { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.loadout-app .loadout-optwrap { min-height: 100px; }
+.loadout-app button:focus-visible, .loadout-app summary:focus-visible { outline: 2px solid var(--volt-orange-light); outline-offset: 3px; }
+.loadout-app .loadout-opttable tbody tr:hover { background: var(--lo-card-2); }
+.loadout-app .loadout-opttable tbody tr.is-current { box-shadow: inset 3px 0 var(--volt-orange); }
+@media (prefers-reduced-motion: no-preference) {
+    .loadout-app .loadout-slot, .loadout-app button { transition: background-color .15s ease, border-color .15s ease; }
+    .loadout-detail-content { animation: loadout-content-in .16s ease-out; }
+    @keyframes loadout-content-in { from { opacity: .5; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (max-width: 720px) {
+    .loadout-app .loadout-detail { width: 100vw; }
+    .loadout-detail-stats { gap: 0 16px; }
+    .loadout-detail-stats > div { display: block; }
+    .loadout-detail-stats dd { text-align: left; margin-top: 5px; }
+    .loadout-detail-actions { padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .loadout-detail-actions .btn { flex: 1; min-height: 44px; }
+    .loadout-app .loadout-slot-actions .loadout-link { min-height: 36px; }
+    .loadout-detail-shops li { align-items: flex-start; flex-direction: column; gap: 6px; }
+}
+.loadout-part-link { border: 0; padding: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; text-decoration: underline dotted var(--lo-dim); text-underline-offset: 4px; }
+.loadout-part-link:hover { color: var(--volt-orange-light); }

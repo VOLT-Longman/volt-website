@@ -6,7 +6,7 @@ import { fetchUex, getUpstreamUrl, readUexPayload } from '../../_shared/uex-prox
 // 작은 표만 내려준다. 원본 가격표는 한 분류가 수백 KB라 그대로 넘기지 않는다.
 const CACHE_TTL_SECONDS = 60 * 60;
 // 편집기가 쓰는 UEX 분류만 허용한다 — 임의 분류 번호로 업스트림을 호출하는 남용을 막는다.
-const ALLOWED_CATEGORIES = new Set([19, 21, 22, 23, 29, 32, 33, 34, 35, 70, 83, 86]);
+const ALLOWED_CATEGORIES = new Set([19, 21, 22, 23, 29, 30, 32, 33, 34, 35, 67, 70, 83, 86, 110]);
 
 
 async function upstream(env, path) {

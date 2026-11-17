@@ -56,3 +56,21 @@ test('함선 선택 자료는 출시 확인 목록과 미확인 목록이 겹치
     assert.ok(data.excluded.every((s) => !data.released.includes(s.cls)));
     assert.equal(new Set(data.released).size, data.released.length);
 });
+
+test('숨긴 중복 제품의 판매처를 대표 제품에 합치되 도색 변종은 분리한다', () => {
+    const { resolveOffers } = require('../../js/loadout-planner.js');
+    const items = { base: { name: 'Gun', type: 'WeaponGun', size: 2 }, alias: { name: 'Gun', type: 'WeaponGun', size: 2, hidden: true, alias: 'base' }, paint: { name: 'Gun Red', type: 'WeaponGun', size: 2 } };
+    const prices = new Map([['alias', [shop('A', 20)]], ['base', [shop('A', 10)]], ['paint', [shop('B', 5)]]]);
+    assert.deepEqual(resolveOffers('base', items, prices), [shop('A', 10)]);
+    assert.deepEqual(resolveOffers('alias', items, prices), [shop('A', 10)]);
+    assert.deepEqual(resolveOffers('paint', items, prices), [shop('B', 5)]);
+    prices.delete('base'); assert.deepEqual(resolveOffers('base', items, prices), [shop('A', 20)]);
+});
+test('번호 없는 판매 기록은 이름과 크기가 확실할 때만 사용한다', () => {
+    const { resolveOffers } = require('../../js/loadout-planner.js');
+    const items = { a: { name: 'Observer-Go', type: 'Radar', size: 0 } };
+    assert.equal(resolveOffers('a', items, new Map(), [{ name: 'Observer-Go', size: 1, shops: [shop('A', 1)] }]).length, 0);
+    assert.equal(resolveOffers('a', items, new Map(), [{ name: 'observer-go', size: 0, shops: [shop('A', 1)] }]).length, 1);
+    items.b = { ...items.a };
+    assert.equal(resolveOffers('a', items, new Map(), [{ name: 'Observer-Go', size: 0, shops: [shop('A', 1)] }]).length, 0);
+});

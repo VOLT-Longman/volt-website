@@ -383,8 +383,8 @@ test.describe('로드아웃 편집기', () => {
         await openAsgard(page);
         await expect(stat(page, '실드')).toHaveText('42,240');
         const shield = page.locator('.loadout-group.is-shield .loadout-slot').first();
-        // 켜져 있을 때는 줄에 전원 버튼이 없고, 선택 창 안에서 끈다.
-        await expect(shield.locator('[data-loadout-power]')).toHaveCount(0);
+        // 장비 줄에서 바로 전원을 끌 수 있고 기존 선택 창 동작도 유지한다.
+        await expect(shield.locator('[data-loadout-power]')).toHaveAttribute('aria-pressed', 'false');
         await shieldOff(page);
         await expect(stat(page, '실드')).toContainText('31,680');
         await expect(shield).toHaveClass(/is-off/);
@@ -807,4 +807,88 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('[data-loadout-ship="anvl_asgard"]')).toBeVisible();
     });
 
+});
+
+test('부품 상세는 후보 비교·판매처·장착으로 이어지고 Escape가 선택 목록으로 돌아간다', async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await openAsgard(page, { prices: { [MANTIS]: [{ shop: 'Test shop', place: 'New Babbage', system: 'Stanton', price: 100 }] } });
+    await firstGunSlot(page).locator('[data-loadout-open]').click();
+    await page.locator('#loadout-picker-search').fill('Mantis');
+    await page.locator(`.loadout-picker [data-loadout-detail="${MANTIS}"]`).click();
+    await expect(page.locator('.loadout-detail')).toContainText('현재 장착 부품과 비교');
+    await page.locator('[data-loadout-detail-tab="shops"]').click();
+    await expect(page.locator('.loadout-detail-shops')).toContainText('New Babbage');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#loadout-picker-search')).toHaveValue('Mantis');
+    await page.locator(`.loadout-picker [data-loadout-detail="${MANTIS}"]`).click();
+    await page.locator('[data-loadout-detail-equip]').click();
+    await expect(page.locator('.loadout-detail')).toHaveCount(0);
+    await expect(page.locator('.loadout-slot.is-changed')).toContainText('맨티스');
+    expect(errors).toEqual([]);
+});
+
+test('장비 접기·간결 보기·변경 필터와 다시 실행을 함께 사용할 수 있다', async ({ page }) => {
+    await openAsgard(page);
+    await page.locator('[data-loadout-collapse="weapon"]').click();
+    await expect(page.locator('#loadout-rows-weapon')).toBeHidden();
+    await page.locator('[data-loadout-collapse-all]').click();
+    await expect(page.locator('#loadout-rows-weapon')).toBeVisible();
+    await page.locator('#loadout-compact').check();
+    await expect(page.locator('#loadout-app')).toHaveClass(/is-compact/);
+    await firstGunSlot(page).locator('[data-loadout-open]').click();
+    await pick(page, MANTIS).click();
+    await page.locator('[data-loadout-undo]').click();
+    await expect(page.locator('[data-loadout-redo]')).toBeEnabled();
+    await page.locator('[data-loadout-redo]').click();
+    await expect(page.locator('.loadout-slot.is-changed')).toContainText('맨티스');
+    await page.locator('#loadout-changed-only').check();
+    await expect(page.locator('.loadout-slot:visible')).toHaveCount(1);
+});
+
+test('모바일 상세창은 넘치지 않고 키보드 초점이 창 안에서 순환한다', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openAsgard(page);
+    await firstGunSlot(page).locator('[data-loadout-detail]').click();
+    await expect(page.locator('#loadout-detail-close')).toBeFocused();
+    await page.keyboard.press('Shift+Tab');
+    await expect(page.locator('.loadout-detail-actions button').last()).toBeFocused();
+    const box = await page.locator('.loadout-detail').boundingBox();
+    expect(box.x).toBeGreaterThanOrEqual(0); expect(box.width).toBeLessThanOrEqual(390);
+    await page.screenshot({ path: 'test-results/loadout-detail-mobile.png' });
+    await page.keyboard.press('Escape');
+    await expect(firstGunSlot(page).locator('[data-loadout-detail]')).toBeFocused();
+});
+
+test('판매처는 숨긴 alias에서 대표 부품으로 복원되고 채광 모듈 분류도 조회한다', async ({ page }) => {
+    await mockApi(page);
+    const types = [];
+    await page.route('**/api/uex/loadout-prices**', (route) => {
+        const category = new URL(route.request().url()).searchParams.get('category'); types.push(category);
+        return route.fulfill({ json: { status: 'ok', data: category === '29' ? { '5b5d11f8-a2b0-4e6e-80c3-2437cc0accae': [{ shop: 'Shubin', place: 'New Babbage', system: 'Stanton', price: 100 }] } : {} } });
+    });
+    await gotoSection(page, '#loadout');
+    await page.locator('[data-loadout-tab="finder"]').click();
+    await page.locator('[data-loadout-finder-type="WeaponMining"]').click();
+    await page.locator('#loadout-finder-search').fill('Arbor MH1');
+    await page.locator('.loadout-finderlist [data-loadout-detail]').click();
+    await page.locator('[data-loadout-detail-tab="shops"]').click();
+    await expect(page.locator('.loadout-detail-shops')).toContainText('New Babbage');
+    await page.keyboard.press('Escape');
+    await page.locator('[data-loadout-finder-type="MiningModifier"]').click();
+    await expect.poll(() => types.includes('30')).toBe(true);
+});
+
+test('장착 부품 상세에서 교체창으로 이동하고 열 정렬 방향을 바꿀 수 있다', async ({ page }) => {
+    await openAsgard(page);
+    await firstGunSlot(page).locator('[data-loadout-detail]').click();
+    await page.locator('#loadout-detail-tab-stats').focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#loadout-detail-tab-shops')).toHaveAttribute('aria-selected', 'true');
+    await page.locator('[data-loadout-detail-swap]').click();
+    await expect(page.locator('#loadout-picker-search')).toBeFocused();
+    await page.locator('[data-loadout-sort="m0"]').click();
+    await expect(page.locator('.loadout-opttable th[aria-sort]')).toHaveAttribute('aria-sort', 'descending');
+    await page.locator('[data-loadout-sort="m0"]').click();
+    await expect(page.locator('.loadout-opttable th[aria-sort]')).toHaveAttribute('aria-sort', 'ascending');
+    await page.screenshot({ path: 'test-results/loadout-picker-desktop.png' });
 });
