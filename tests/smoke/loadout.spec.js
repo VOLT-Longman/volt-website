@@ -1120,7 +1120,7 @@ test('스토커 랙 교체에서 임시 폭탄 랙을 숨기고 닫으면 원래
     await page.locator('[data-loadout-ship="aegs_avenger_stalker"]').click();
     const opener = page.locator('.loadout-group.is-missile [data-loadout-open]').first();
     await opener.click();
-    await page.getByRole('button', { name: '랙 교체', exact: true }).click();
+    await page.locator('.loadout-picker').getByRole('button', { name: '랙 교체', exact: true }).click();
     await expect(pick(page, '549964bb-a674-41ba-86d5-55a6d3c25931')).toHaveCount(0);
     await expect(pick(page, 'f8d3a1e1-0d75-45bb-a453-898a7cf83382')).toBeVisible();
     await page.keyboard.press('Escape');
