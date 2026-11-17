@@ -40,6 +40,12 @@ for (const width of [1440, 390]) test(`${width}px 운영진 피드백: 영문 �
     await expect(power).toContainText('꺼짐');
     await page.locator('[data-loadout-undo]').click();
     await expect(power).toHaveAttribute('aria-pressed', 'true');
+    await shield.locator('[data-loadout-detail]').click();
+    await page.locator('.loadout-detail [data-loadout-cart-add]').click();
+    await page.locator('#loadout-detail-close').click();
+    await page.locator('[data-loadout-cart-open]').click();
+    await expect(page.locator('.loadout-cart-drawer .loadout-origin')).toHaveText('Bulwark');
+    await page.locator('#loadout-cart-close').click();
     await page.locator('[data-loadout-tab="compare"]').click();
     if (width === 390) await expect(page.locator('.loadout-abcompare [data-loadout-ab]')).toBeHidden();
     await page.locator('.loadout-identity [data-loadout-ab="B"]').click();

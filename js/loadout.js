@@ -199,6 +199,10 @@
     const shipName = (ship) => patch('ships')[ship.cls] || ship.name;
     const originalName = (name, display, internal = false) => !internal && name && name !== display ? `<span class="loadout-origin" lang="en">${esc(name)}</span>` : '';
     const itemOriginal = (id, item) => originalName(item?.name, itemName(id, item), internalName(item));
+    const shoppingName = (id, item) => {
+        const name = itemName(id, item);
+        return !internalName(item) && item?.name && item.name !== name ? `${name} (${item.name})` : name;
+    };
     // Explicit design attribution, not an extra compatibility rule. Sources: docs/loadout-feedback.md.
     const BESPOKE_WEAPONS = {
         BEHR_LaserCannon_SF7E_S7: 'crus_starfighter_ion',
@@ -1148,7 +1152,7 @@ ${section(text('cost'), `
             <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('cheapest'))}</th><th>${esc(text('subtotal'))}</th></tr></thead>
             <tbody>${cost.rows.map((row) => {
         const shop = row.info.shops[0];
-        return `<tr><td><strong>${esc(itemName(row.id, row.item))}</strong><span class="loadout-meta">${esc(itemMeta(row.item))}</span></td><td>${row.qty}</td>
+        return `<tr><td><strong>${esc(itemName(row.id, row.item))}</strong>${itemOriginal(row.id, row.item)}<span class="loadout-meta">${esc(itemMeta(row.item))}</span></td><td>${row.qty}</td>
                     <td>${shop ? `${esc(shop.shop)}<span class="loadout-meta">${esc([shop.place, shop.system].filter(Boolean).join(', '))}</span>` : drawPrice(row.id, row.item)}</td>
                     <td>${shop ? esc(credits(shop.price * row.qty)) : '—'}</td></tr>`;
     }).join('')}</tbody>
@@ -1223,7 +1227,7 @@ ${section(text('cost'), `
                     const shop = plan.assigned.get(row.id);
                     const manual = state.plan.shops[row.id];
                     return `<tr data-loadout-cart-row="${esc(row.id)}">
-                        <td><strong>${esc(itemName(row.id, row.item))}</strong><span class="loadout-meta">${esc(`${typeLabel(row.item.type)} · ${itemMeta(row.item)}`)}</span></td>
+                        <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemOriginal(row.id, row.item)}<span class="loadout-meta">${esc(`${typeLabel(row.item.type)} · ${itemMeta(row.item)}`)}</span></td>
                         <td><span class="loadout-qty"><button type="button" data-loadout-cart-dec="${esc(row.id)}" aria-label="${esc(text('qtyLess'))}">−</button><b>${row.qty}</b><button type="button" data-loadout-cart-inc="${esc(row.id)}" aria-label="${esc(text('qtyMore'))}">+</button></span></td>
                         <td><label class="visually-hidden" for="shop-${esc(row.id)}">${esc(text('planShop'))} · ${esc(itemName(row.id, row.item))}</label>
                             <select id="shop-${esc(row.id)}" class="loadout-shop-select" data-loadout-cart-shop="${esc(row.id)}">
@@ -1244,7 +1248,7 @@ ${section(text('cost'), `
             <div class="loadout-viewhead"><h4 class="loadout-subhead">${esc(text('planRoute'))} · ${esc(text('planStops', { count: plan.groups.length }))}</h4><button type="button" class="loadout-link" data-loadout-plan-copy>${esc(text('planCopy'))}</button></div>
             <ol class="loadout-shoplist">${plan.groups.map((group, index) => `<li>
                 <div><strong>${index + 1}. ${esc(group.shop.shop)}</strong><span class="loadout-meta">${esc([group.shop.place, group.shop.system].filter(Boolean).join(', '))}</span></div>
-                <span class="loadout-shopitems">${group.rows.map((row) => `${esc(itemName(row.id, row.item))} ×${row.qty}`).join(', ')}</span>
+                <span class="loadout-shopitems">${group.rows.map((row) => `${esc(shoppingName(row.id, row.item))} ×${row.qty}`).join(', ')}</span>
                 <b>${esc(credits(group.total))}</b>
                 <div class="loadout-route-actions"><button type="button" class="loadout-link" data-loadout-route-key="${esc(group.key)}" data-loadout-route-move="-1" ${index === 0 ? 'disabled' : ''}>${esc(text('planUp'))}</button><button type="button" class="loadout-link" data-loadout-route-key="${esc(group.key)}" data-loadout-route-move="1" ${index === plan.groups.length - 1 ? 'disabled' : ''}>${esc(text('planDown'))}</button></div>
             </li>`).join('')}</ol>
@@ -1643,7 +1647,7 @@ ${section(text('cost'), `
         }
         if (target.hasAttribute('data-loadout-plan-copy')) {
             const plan = planner.plan(cartRows(), state.plan);
-            const lines = plan.groups.map((g, i) => `${i + 1}. ${[g.shop.system, g.shop.place, g.shop.shop].filter(Boolean).join(' / ')}\n${g.rows.map((r) => `${itemName(r.id, r.item)} ×${r.qty}`).join('\n')}\n${credits(g.total)}`);
+            const lines = plan.groups.map((g, i) => `${i + 1}. ${[g.shop.system, g.shop.place, g.shop.shop].filter(Boolean).join(' / ')}\n${g.rows.map((r) => `${shoppingName(r.id, r.item)} ×${r.qty}`).join('\n')}\n${credits(g.total)}`);
             if (plan.unknown.length) lines.push(text('planUnknown', { count: plan.unknown.length }));
             lines.push(`${text('total')}: ${credits(plan.total)}`);
             (navigator.clipboard?.writeText(lines.join('\n\n')) || Promise.reject()).then(() => deps.showToast?.(text('planCopied'))).catch(() => deps.showToast?.(text('shareFail'))); return;
