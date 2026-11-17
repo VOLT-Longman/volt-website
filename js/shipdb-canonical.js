@@ -9,6 +9,7 @@
     'use strict';
 
     var MANIFEST_URL = 'data/canonical/shipdb-manifest.json';
+    var adminSource = false;
     var DATA_FILES = {
         canonical: { path: 'data/canonical/ships-canonical.json', group: 'core' },
         localization: { path: 'data/canonical/localization-ships.json', group: 'core' },
@@ -35,7 +36,8 @@
     }
 
     function rootUrl(path) {
-        return '/' + String(path || '').replace(/^\/+/, '');
+        var normalized = String(path || '').replace(/^\/+/, '');
+        return adminSource ? '/api/admin/ship-source/' + normalized.replace(/^data\//, '') : '/' + normalized;
     }
 
     function validateManifest(manifest) {
@@ -93,7 +95,7 @@
     function fetchVerifiedFile(key, manifest) {
         var entry = manifest.files[key];
         var url = rootUrl(entry.path) + '?v=' + encodeURIComponent(manifest.version);
-        return fetch(url, { headers: { Accept: 'application/json' } })
+        return fetch(url, { cache: 'no-store', headers: { Accept: 'application/json' } })
             .then(function (response) {
                 if (!response.ok) throw makeError(key + ' 데이터를 불러오지 못했습니다 (' + response.status + ').');
                 return response.text();
@@ -127,9 +129,10 @@
         });
     }
 
-    function load() {
+    function load(options) {
         if (state === 'loaded') return Promise.resolve(store);
         if (state === 'loading') return corePromise;
+        if (options?.source === 'admin') adminSource = true;
         state = 'loading';
         lastError = null;
         corePromise = loadGroup('core').then(function (data) {

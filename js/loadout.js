@@ -175,7 +175,7 @@
     const shipName = (ship) => patch('ships')[ship.cls] || ship.name;
 
     async function fetchJson(path, options) {
-        const response = await fetch(path, { headers: { Accept: 'application/json' }, ...options });
+        const response = await fetch(path, { ...options, cache: 'no-store', headers: { Accept: 'application/json' } });
         if (!response.ok) throw new Error(`LOADOUT ${response.status} ${path}`);
         return response.json();
     }
@@ -262,7 +262,7 @@
     }
 
     async function render() {
-        if (!root() || !calc) return;
+        if (!root() || !calc || !deps.canUse?.()) return;
         state.loading = true; draw();
         try {
             await ensureBase();
@@ -1249,7 +1249,7 @@
 
     function draw() {
         const container = root();
-        if (!container) return;
+        if (!container || !deps.canUse?.()) return;
         const focusId = document.activeElement?.id;
         const caret = document.activeElement?.selectionStart;
         const scrolled = container.querySelector('.loadout-optwrap')?.scrollTop || 0;

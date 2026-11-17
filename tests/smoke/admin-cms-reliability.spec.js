@@ -1,4 +1,6 @@
 const { test, expect } = require('@playwright/test');
+const { mockAdminShipSource } = require('./helpers');
+test.beforeEach(async ({ page }) => { await mockAdminShipSource(page); });
 
 const NOTICE = {
     id: 'n1', title: '기존 공지', content: '본문', tag: '공지',

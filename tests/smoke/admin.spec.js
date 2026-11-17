@@ -1,4 +1,6 @@
 const { test, expect } = require('@playwright/test');
+const { mockAdminShipSource } = require('./helpers');
+test.beforeEach(async ({ page }) => { await mockAdminShipSource(page); });
 
 // 관리자 CMS 회귀 가드 (API는 전부 모킹 — 정적 dev 서버에는 Functions가 없음).
 // ① 함선 검색: 타이핑 중 목록 재렌더가 검색 input을 파괴해 포커스(한글 IME)가 끊기던 버그

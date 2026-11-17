@@ -13,12 +13,13 @@ const TEST_USER = {
     username: 'tester',
     display_name: '테스트 사용자',
     avatar_url: '',
-    roles: ['member'],
+    roles: ['member', '커뮤니티 멤버'],
 };
 
-async function mockApi(page, { loggedIn = false } = {}) {
-    await page.route('**/auth/me', (route) => route.fulfill({
-        json: loggedIn ? { logged_in: true, user: TEST_USER } : { logged_in: false },
+// Feature tests default to a community member. Guest/access tests opt out explicitly.
+async function mockApi(page, { loggedIn = true, community = loggedIn, configured = true, roles = TEST_USER.roles } = {}) {
+    await page.route(/\/auth\/me(?:\?.*)?$/, (route) => route.fulfill({
+        json: loggedIn ? { logged_in: true, user: { ...TEST_USER, roles }, features: { communityTools: community, communityConfigured: configured } } : { logged_in: false, features: { communityTools: false } },
     }));
     // 정상 응답과 실패/빈 목록을 구분해 회귀를 검증한다.
     await page.route(/\/api\/(notices|events|gallery|partner-fleets|ship-overrides|leadership|timeline)$/, (route) => route.fulfill({ json: { items: cmsData[cmsProperties[new URL(route.request().url()).pathname.split('/').pop()]] || [] } }));
@@ -30,6 +31,15 @@ async function mockApi(page, { loggedIn = false } = {}) {
     await page.route('**/api/ai/chat', (route) => {
         if (route.request().method() === 'GET') return route.fulfill({ json: { enabled: false, memberOnly: true, dailyLimit: 0 } });
         return route.fulfill({ status: 503, json: { error: 'VOLT AI가 비활성화되어 있습니다.' } });
+    });
+}
+
+// Static dev-server fixture for the separately authenticated CMS source route.
+async function mockAdminShipSource(page) {
+    await page.route('**/api/admin/ship-source/**', (route) => {
+        const file = new URL(route.request().url()).pathname.split('/ship-source/')[1];
+        return route.fulfill({ path: require('node:path').join(__dirname, '../../data', file),
+            contentType: file.endsWith('.json') ? 'application/json' : 'application/javascript' });
     });
 }
 
@@ -47,4 +57,4 @@ async function gotoSection(page, hash) {
     await page.waitForSelector('#loading-splash', { state: 'hidden' });
 }
 
-module.exports = { mockApi, trackConsoleErrors, gotoSection, TEST_USER };
+module.exports = { mockApi, trackConsoleErrors, gotoSection, TEST_USER, mockAdminShipSource };

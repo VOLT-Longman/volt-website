@@ -24,7 +24,7 @@ test.describe('상호작용 흐름 (G3)', () => {
     });
 
     test('RSVP 비로그인: 버튼이 auth 게이트로 비활성', async ({ page }) => {
-        await mockApi(page); // loggedIn: false
+        await mockApi(page, { loggedIn: false });
         await gotoSection(page, '#schedule');
         const button = page.locator('[data-rsvp-status="참가"]').first();
         await expect(button).toBeDisabled();
@@ -33,7 +33,7 @@ test.describe('상호작용 흐름 (G3)', () => {
 
     test('RSVP 비로그인: 보호된 집계 API를 요청하지 않는다', async ({ page }) => {
         let rsvpRequestCount = 0;
-        await mockApi(page); // loggedIn: false
+        await mockApi(page, { loggedIn: false });
         await page.route(/\/api\/events\/[^/]+\/rsvp$/, (route) => {
             rsvpRequestCount += 1;
             return route.fulfill({ status: 401, json: { error: 'Unauthorized' } });

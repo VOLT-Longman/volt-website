@@ -28,6 +28,7 @@
     let shipLiveState = 'idle';
     let shipLivePromise = null;
     function ensureShipLiveData() {
+        if (!canUseCommunityTools()) return Promise.resolve();
         if (shipLiveState === 'loaded') return Promise.resolve();
         if (shipLiveState === 'loading') return shipLivePromise;
         shipLiveState = 'loading';
@@ -133,7 +134,7 @@
     function renderShipManufacturers() { return window.VOLT_SHIPS?.renderShipManufacturers?.(); }
     function setupShipControls() { return window.VOLT_SHIPS?.setupShipControls?.(); }
     function resetShipState() { return window.VOLT_SHIPS?.resetShipState?.(); }
-    function openShipModal(ship) { return window.VOLT_SHIPS?.openShipModal?.(ship); }
+    function openShipModal(ship) { if (!canUseCommunityTools()) { showSection('ships'); return; } return window.VOLT_SHIPS?.openShipModal?.(ship); }
     // 전역 검색 모달은 js/search-modal.js로 분리. 호출부 무변경용 위임 shim.
     function setupSearch() { return window.VOLT_SEARCH?.setup?.(); }
     function invalidateSearchCache() { return window.VOLT_SEARCH?.invalidateCache?.(); }
@@ -160,7 +161,12 @@
     let lastShipOverrides = [];
     let shipById = new Map();
     let deferredInstallPrompt = null;
-    let authState = { loggedIn: false, user: null, roles: [] };
+    let authState = { loggedIn: false, user: null, roles: [], communityTools: false };
+    let authStatus = 'loading';
+    let authRequest = null;
+    let authCheckedAt = 0;
+    let communityPanelSetup = false;
+    let communityAllowed = false;
     let userPreferencesLoaded = false;
     let liveMemberCount = null;
     let preferencesSaveTimer = null;
@@ -891,12 +897,16 @@
     // canonical 데이터를 1회 로드해 공개 목록을 세운다. 실패해도 화면은 빈 목록으로 안전하게 유지된다.
     let canonicalShipsPromise = null;
     function ensureCanonicalShips() {
+        if (!canUseCommunityTools()) return Promise.resolve(false);
         if (canonicalShipsPromise) return canonicalShipsPromise;
         const loader = window.VOLT_SHIPDB_CANONICAL;
         if (!loader) return Promise.resolve(false);
         canonicalShipsPromise = loader.load()
-            .then(() => adoptCanonicalShips())
-            .catch((error) => { console.error('ShipDB canonical 로드 실패', error); return false; });
+            .then(() => {
+                if (!canUseCommunityTools()) { canonicalShipsPromise = null; return false; }
+                return adoptCanonicalShips();
+            })
+            .catch((error) => { canonicalShipsPromise = null; console.warn('ShipDB canonical 로드 실패', error); return false; });
         return canonicalShipsPromise;
     }
 
@@ -1066,6 +1076,10 @@
 
     // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.
     function renderSectionOnShow(id) {
+        if (['ships', 'trade-planner', 'loadout'].includes(id)) {
+            if (Date.now() - authCheckedAt > 60000) setupAuthStatus({ background: true });
+            if (!canUseCommunityTools()) return;
+        }
         const render = LAZY_SECTIONS[id];
         if (!render || renderedLazySections.has(id)) return;
         renderedLazySections.add(id);
@@ -1074,7 +1088,7 @@
 
     // 데이터가 바뀐 뒤(CMS 로드·언어 변경) 이미 표시된 지연 섹션만 다시 렌더한다.
     function refreshRenderedLazySections() {
-        renderedLazySections.forEach((id) => { LAZY_SECTIONS[id]?.(); });
+        renderedLazySections.forEach((id) => { if (id === 'gallery' || canUseCommunityTools()) LAZY_SECTIONS[id]?.(); });
     }
 
     function getFocusableElements(container) {
@@ -1106,6 +1120,7 @@
 
 
     function useShipInPlanner(shipId) {
+        if (!canUseCommunityTools()) { closeModal(); showSection('trade-planner'); return; }
         const ship = shipById.get(shipId);
         closeModal();
         showSection('trade-planner');
@@ -1464,57 +1479,88 @@
     }
 
 
-    function setupAuthStatus() {
-        const desktop = document.getElementById('volt-auth-desktop');
-        const mobile = document.getElementById('volt-auth-mobile');
-        if (!desktop && !mobile) return;
+    function canUseCommunityTools() {
+        return authStatus === 'ready' && authState.loggedIn && authState.communityTools === true;
+    }
 
+    function applyCommunityGates() {
+        const allowed = canUseCommunityTools();
+        const changed = communityAllowed !== allowed;
+        communityAllowed = allowed;
+        const hadFocus = Boolean(activeModal?.querySelector('.ship-reader-header, .ship-compare-table')) || ['ships', 'trade-planner', 'loadout'].some((id) => document.querySelector(`#${id} [data-community-content]`)?.contains(document.activeElement));
+        window.VOLT_COMMUNITY?.render?.({ status: authStatus, loggedIn: authState.loggedIn, allowed, configured: authState.communityConfigured });
+        if (!allowed) {
+            if (activeModal?.querySelector('.ship-reader-header, .ship-compare-table')) closeModal();
+            // A detached/fixed picker must not survive the feature losing access.
+            document.querySelectorAll('#loadout-app .loadout-picker, .uex-location-modal-backdrop').forEach((node) => { node.remove(); });
+            document.body.classList.remove('uex-location-modal-open');
+            if (hadFocus) document.querySelector('.section.active .community-gate .btn')?.focus({ preventScroll: true });
+            return;
+        }
+        if (!changed) return;
+        if (!communityPanelSetup) {
+            communityPanelSetup = true;
+            window.VOLT_UEX_PANEL?.setup?.();
+        }
+        ensureCanonicalShips().then(() => { if (canUseCommunityTools()) scheduleCmsRefresh('canonical-ships'); });
+        renderSectionOnShow(parseRouteFromHash().section);
+        window.VOLT_LOADOUT?.onLanguageChange?.();
+    }
+
+    function setupAuthStatus({ refresh = false, background = false } = {}) {
+        if (authRequest) return authRequest;
         notifyAuthErrorFromQuery();
-        window.VOLT_AUTH_UI?.render?.({ status: 'loading' });
-
-        fetch('/auth/me', {
-            method: 'GET',
-            credentials: 'same-origin',
-            cache: 'no-store',
-            headers: { Accept: 'application/json' }
+        if (!background) {
+            authStatus = 'loading';
+            window.VOLT_AUTH_UI?.render?.({ status: 'loading' });
+            applyCommunityGates();
+        }
+        authRequest = fetch(`/auth/me${refresh ? '?refresh=1' : ''}`, {
+            method: 'GET', credentials: 'same-origin', cache: 'no-store',
+            headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10000)
         })
             .then((response) => {
                 if (!response.ok) throw new Error(`AUTH ${response.status}`);
                 return response.json();
             })
             .then((payload) => {
+                authCheckedAt = Date.now();
+                authStatus = 'ready';
                 if (payload && payload.logged_in && payload.user) {
-                    window.clearTimeout(preferencesSaveTimer);
-                    window.VOLT_SCHEDULE?.clearRsvpCache?.();
-                    authState = normalizeAuthState(payload.user);
-                    userPreferencesLoaded = false;
-                    preferencesEditedWhileLoading = { hangar: false, planner: false };
-                    restorePlannerState();
+                    const changedAccount = authState.user?.sub !== payload.user.sub;
+                    authState = { loggedIn: true, user: payload.user, roles: Array.isArray(payload.user.roles) ? payload.user.roles : [],
+                        communityTools: payload.features?.communityTools === true, communityConfigured: payload.features?.communityConfigured };
+                    if (changedAccount) {
+                        window.clearTimeout(preferencesSaveTimer);
+                        window.VOLT_SCHEDULE?.clearRsvpCache?.();
+                        userPreferencesLoaded = false;
+                        preferencesEditedWhileLoading = { hangar: false, planner: false };
+                        restorePlannerState();
+                        window.VOLT_SCHEDULE?.loadScheduleRsvps?.();
+                        loadUserPreferences().catch((error) => {
+                            console.warn('Preference load failed', error);
+                            userPreferencesLoaded = false;
+                            renderMyPage();
+                        });
+                    }
                     renderMyPage();
-                    window.VOLT_SCHEDULE?.loadScheduleRsvps?.();
                     renderAuthUi();
                     applyRoleGates();
-                    loadUserPreferences().catch((error) => {
-                        console.warn('Preference load failed', error);
-                        userPreferencesLoaded = false;
-                        renderMyPage();
-                    });
                 } else {
                     setLoggedOutState();
                 }
             })
             .catch(() => {
+                authStatus = 'error';
                 window.VOLT_SCHEDULE?.clearRsvpCache?.();
-                authState = { loggedIn: false, user: null, roles: [] };
+                authState = { loggedIn: false, user: null, roles: [], communityTools: false };
                 userPreferencesLoaded = false;
                 window.VOLT_AUTH_UI?.render?.({ status: 'error' });
                 applyRoleGates();
                 renderMyPage();
-            });
-    }
-
-    function normalizeAuthState(user) {
-        return { loggedIn: true, user, roles: Array.isArray(user.roles) ? user.roles : [] };
+            })
+            .finally(() => { authRequest = null; authCheckedAt = Date.now(); });
+        return authRequest;
     }
 
     function setLoggedOutState() {
@@ -1572,6 +1618,7 @@
     }
 
     function applyRoleGates() {
+        applyCommunityGates();
         document.querySelectorAll('[data-requires-auth]').forEach((element) => {
             const locked = !authState.loggedIn;
             element.classList.toggle('is-auth-locked', locked);
@@ -1926,7 +1973,7 @@
         window.VOLT_TRADE_PLANNER?.init?.({ escapeHtml, formatCredits, i18nT, showToast });
         // 로드아웃 편집기 — 함선 한국어 표시명은 함선DB와 같은 규칙을 쓴다.
         window.VOLT_LOADOUT?.init?.({
-            escapeHtml, i18nT, currentLang, showToast, formatCredits,
+            escapeHtml, i18nT, currentLang, showToast, formatCredits, canUse: canUseCommunityTools,
             shipDisplayName: (voltId, fallback) => { const ship = voltId ? shipById.get(voltId) : null; return ship ? getShipDisplayName(ship) : fallback; },
         });
         // 공지 UI 계층 — 데이터 접근·공용 유틸 주입(announcements는 CMS 로드로 재할당되므로 getter).
@@ -1989,6 +2036,7 @@
         });
         // 헤더 인증 UI 렌더 계층 — i18n·escapeHtml 주입(상태 계산은 main.js).
         window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml });
+        window.VOLT_COMMUNITY?.init?.(() => setupAuthStatus({ refresh: true }));
         // 마이페이지 렌더 계층 — 공용 유틸·격납고 제거/함선 상세 콜백 주입.
         window.VOLT_MYPAGE?.init?.({
             i18nT, escapeHtml, trackEvent, currentLang,
@@ -1997,7 +2045,7 @@
         });
         // 언어 변경 시 데이터 기반 About 카드(부서·핵심가치)를 다시 렌더한다.
         if (i18n && i18n.onChange) {
-            i18n.onChange(() => { renderCmsStatus(); updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); window.VOLT_NOTICES?.onLanguageChange?.(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); });
+            i18n.onChange(() => { renderCmsStatus(); updateDocumentTitle(parseRouteFromHash().section); renderDepartments(); renderCoreValues(); renderPolicy(); renderFaq(); renderSchedule(); renderTimeline(); renderJoinSteps(); renderJoinChecklist(); renderHubFeatures(); renderTradeGuide(); renderLeaders(); renderStreamers(); renderPartnerFleets(); renderAnnouncements(); renderNoticeFilters(); window.VOLT_NOTICES?.onLanguageChange?.(); refreshRenderedLazySections(); window.VOLT_UEX_PANEL?.onLanguageChange?.(); window.VOLT_TRADE_PLANNER?.onLanguageChange?.(); window.VOLT_MYPAGE?.onLanguageChange?.(); window.VOLT_AUTH_UI?.onLanguageChange?.(); applyCommunityGates(); });
         }
         setupDynamicStyles();
         setupSplash();
@@ -2014,7 +2062,6 @@
         setupScheduleAccordion();
         setupLogisticsCalculator();
         window.VOLT_TRADE_PLANNER?.setup?.();
-        window.VOLT_UEX_PANEL?.setup?.();
         setupGalleryInteractions();
         setupModalControls();
         setupPolicyAnchors();
@@ -2024,6 +2071,14 @@
         setupScrollEffect();
         setupScrollTop();
         setupAuthStatus();
+        const recheckAccess = () => {
+            if (document.visibilityState === 'visible' && Date.now() - authCheckedAt > 60000
+                && ['ships', 'trade-planner', 'loadout'].includes(parseRouteFromHash().section)) setupAuthStatus({ background: true });
+        };
+        window.addEventListener('focus', recheckAccess);
+        document.addEventListener('visibilitychange', recheckAccess);
+        window.addEventListener('pageshow', (event) => { if (event.persisted) setupAuthStatus(); });
+        window.setInterval(recheckAccess, 60000);
         setupPwaInstallPrompt();
         registerServiceWorker();
         hydrateMemberCount();
@@ -2037,8 +2092,6 @@
         const initial = getInitialRoute();
         history.replaceState({ section: initial.section }, '', initial.url);
         showSection(initial.section, false, initial.anchorId);
-        ensureCanonicalShips().then(() => scheduleCmsRefresh('canonical-ships'))
-            .catch((error) => { console.warn('ShipDB canonical load failed', error); });
         loadCmsContent().catch((error) => { console.warn('CMS content refresh failed', error); });
     }
 

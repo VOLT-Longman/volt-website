@@ -28,6 +28,18 @@ const shieldOff = async (page) => {
 const pick = (page, id) => page.locator(`.loadout-optrows [data-loadout-pick="${id}"]`);
 
 test.describe('로드아웃 편집기', () => {
+    test('레이더 교체 후 내부 배터리 장착칸이 나타나지 않는다', async ({ page }) => {
+        await openAsgard(page);
+        const group = page.locator('.loadout-group.is-radar');
+        await expect(group.locator('.loadout-slot')).toHaveCount(1);
+        await group.locator('[data-loadout-open]').click();
+        const replacement = page.locator('.loadout-optrows [data-loadout-pick]:not([disabled])').filter({ hasNot: page.locator('.loadout-equipped') }).first();
+        await replacement.click();
+        await expect(group.locator('.loadout-slot')).toHaveCount(1);
+        await expect(page.locator('#loadout-app')).not.toContainText('BatteryPort');
+        await expect(page.locator('[data-loadout-open*="BatteryPort"]')).toHaveCount(0);
+    });
+
     test('메뉴에서 들어가 함선을 고르면 기본 장착 요약과 출처가 보인다', async ({ page }) => {
         const errors = trackConsoleErrors(page);
         await mockApi(page);

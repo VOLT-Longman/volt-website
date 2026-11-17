@@ -20,6 +20,20 @@
 
     const STRINGS = {
         ko: {
+            "community.label": "커뮤니티 멤버 전용",
+            "community.description": "Discord 로그인과 VOLT 함대 서버의 커뮤니티 멤버 역할이 필요합니다.",
+            "community.loginStep": "Discord 계정으로 로그인",
+            "community.joinStep": "VOLT 함대 Discord 참여",
+            "community.roleStep": "서버 안내에 따라 커뮤니티 멤버 역할 받기",
+            "community.checking": "로그인과 멤버 권한을 확인하고 있습니다.",
+            "community.error": "권한을 확인하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요.",
+            "community.signedOut": "로그인하면 멤버 권한을 확인하고 이 화면으로 돌아옵니다.",
+            "community.missingRole": "이 계정에서 커뮤니티 멤버 역할이 확인되지 않았습니다. 역할을 받은 뒤 권한을 다시 확인해 주세요.",
+            "community.unconfigured": "서버의 커뮤니티 역할 연결을 준비 중입니다. 운영진에게 문의해 주세요.",
+            "community.login": "Discord 로그인",
+            "community.join": "함대 Discord 참여",
+            "community.refresh": "권한 다시 확인",
+
             "comms.subtitle": "함대 지휘망 PTT 무전기",
             "comms.lead": "Discord와 함께 사용하는 VOLT 전용 음성 통신 앱입니다. 한 번에 한 명씩 말하는 PTT 방식으로, 작전 중 지휘망 혼선을 줄입니다.",
             "comms.download": "Windows 다운로드",
@@ -639,6 +653,20 @@
             'footer.fanDisclaimer': 'VOLT는 Cloud Imperium 그룹과 제휴하지 않은 비공식 Star Citizen 팬 사이트입니다. 운영자·사용자가 제작하지 않은 콘텐츠의 권리는 각 소유자에게 있습니다.'
         },
         en: {
+            "community.label": "Community members only",
+            "community.description": "Sign in with Discord and hold the community member role in the VOLT fleet server.",
+            "community.loginStep": "Sign in with Discord",
+            "community.joinStep": "Join the VOLT fleet Discord",
+            "community.roleStep": "Follow the server instructions to receive the community member role",
+            "community.checking": "Checking your sign-in and membership.",
+            "community.error": "Could not verify access. Check your connection and try again.",
+            "community.signedOut": "After signing in, we will check your access and return you here.",
+            "community.missingRole": "This account does not have the required community member role. Check access again after receiving it.",
+            "community.unconfigured": "The server’s community role connection is being prepared. Please contact the fleet team.",
+            "community.login": "Sign in with Discord",
+            "community.join": "Join the fleet Discord",
+            "community.refresh": "Check access again",
+
             "comms.subtitle": "PTT radio for fleet command",
             "comms.lead": "A VOLT voice app used alongside Discord. Push-to-talk lets one person speak at a time, keeping fleet command communications clear.",
             "comms.download": "Download for Windows",

@@ -33,9 +33,9 @@
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
   <link rel="preload" href="assets/images/landing/hercules-hero-1920.webp" as="image" imagesrcset="assets/images/landing/hercules-hero-960.webp 960w, assets/images/landing/hercules-hero-1600.webp 1600w, assets/images/landing/hercules-hero-1920.webp 1920w, assets/images/landing/hercules-hero-2560.webp 2560w, assets/images/landing/hercules-hero-4000.webp 4000w" imagesizes="100vw" fetchpriority="high">
-  <script src="js/theme-init.js?v=20261117-13"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20261117-13">
-  <link rel="stylesheet" href="css/motion.css?v=20261117-13">
+  <script src="js/theme-init.js?v=20261117-14"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261117-14">
+  <link rel="stylesheet" href="css/motion.css?v=20261117-14">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -74,7 +74,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20261117-13">
+   <link rel="stylesheet" href="css/noscript.css?v=20261117-14">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -467,7 +467,12 @@
 
   <!-- Ships Section -->
   <section class="section" id="ships">
-   <div class="section-content">
+   <div class="section-content community-gate" role="region" aria-label="커뮤니티 멤버 전용">
+    <h2 data-i18n="community.label">커뮤니티 멤버 전용</h2>
+    <p data-i18n="community.description">Discord 로그인과 VOLT 함대 서버의 커뮤니티 멤버 역할이 필요합니다.</p>
+    <a class="btn btn-primary" href="/auth/discord/login?returnTo=%2F%23ships" data-i18n="community.login">Discord 로그인</a>
+   </div>
+   <div class="section-content" data-community-content hidden inert>
     <div class="section-header">
      <h2 data-i18n-html="ships.titleHtml">함선 <span class="accent">데이터베이스</span></h2>
      <p data-i18n="ships.subtitle">Star Citizen 주요 함선 정보</p>
@@ -626,7 +631,12 @@
 
   <!-- Loadout Section -->
   <section class="section" id="loadout">
-   <div class="section-content">
+   <div class="section-content community-gate" role="region" aria-label="커뮤니티 멤버 전용">
+    <h2 data-i18n="community.label">커뮤니티 멤버 전용</h2>
+    <p data-i18n="community.description">Discord 로그인과 VOLT 함대 서버의 커뮤니티 멤버 역할이 필요합니다.</p>
+    <a class="btn btn-primary" href="/auth/discord/login?returnTo=%2F%23loadout" data-i18n="community.login">Discord 로그인</a>
+   </div>
+   <div class="section-content" data-community-content hidden inert>
     <div class="section-header">
      <h2 data-i18n-html="loadout.titleHtml">함선 <span class="accent">로드아웃</span></h2>
      <p data-i18n="loadout.subtitle">함선의 무기·실드·동력 장치를 바꿔 끼워 보고 화력과 방어, 구매처와 비용을 확인합니다.</p>
@@ -637,7 +647,12 @@
 
   <!-- Trade Planner Section -->
   <section class="section" id="trade-planner">
-   <div class="section-content">
+   <div class="section-content community-gate" role="region" aria-label="커뮤니티 멤버 전용">
+    <h2 data-i18n="community.label">커뮤니티 멤버 전용</h2>
+    <p data-i18n="community.description">Discord 로그인과 VOLT 함대 서버의 커뮤니티 멤버 역할이 필요합니다.</p>
+    <a class="btn btn-primary" href="/auth/discord/login?returnTo=%2F%23trade-planner" data-i18n="community.login">Discord 로그인</a>
+   </div>
+   <div class="section-content" data-community-content hidden inert>
      <div class="section-header">
       <h2 data-i18n-html="planner.titleHtml">무역 <span class="accent">플래너</span></h2>
       <p data-i18n="planner.subtitle">함선 적재량과 UEX 거래 후보를 바탕으로 여러 상품의 예상 수익을 한눈에 비교하고 저장하는 도구입니다.</p>
@@ -969,31 +984,32 @@
    </div>
   </div>
 
-<script src="js/shipdb-manufacturers.js?v=20261117-13" defer></script>
-<script src="js/shipdb-canonical.js?v=20261117-13" defer></script>
-<script src="data/volt-data.js?v=20261117-13" defer></script>
+<script src="js/shipdb-manufacturers.js?v=20261117-14" defer></script>
+<script src="js/shipdb-canonical.js?v=20261117-14" defer></script>
+<script src="data/volt-data.js?v=20261117-14" defer></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20261117-13" defer></script>
-<script src="js/i18n.js?v=20261117-13" defer></script>
-<script src="js/motion.js?v=20261117-13" defer></script>
-<script src="js/navigation.js?v=20261117-13" defer></script>
-<script src="js/notices.js?v=20261117-13" defer></script>
-<script src="js/schedule.js?v=20261117-13" defer></script>
-<script src="js/leadership.js?v=20261117-13" defer></script>
-<script src="js/landing.js?v=20261117-13" defer></script>
-<script src="js/site-content.js?v=20261117-13" defer></script>
-<script src="js/uex.js?v=20261117-13" defer></script>
-<script src="js/uex-panel.js?v=20261117-13" defer></script>
-<script src="js/trade-planner.js?v=20261117-13" defer></script>
-<script src="js/loadout-calc.js?v=20261117-13" defer></script>
-<script src="js/loadout-planner.js?v=20261117-13" defer></script>
-<script src="js/loadout.js?v=20261117-13" defer></script>
-<script src="js/ship-imagery.js?v=20261117-13" defer></script>
-<script src="js/ships.js?v=20261117-13" defer></script>
-<script src="js/search-modal.js?v=20261117-13" defer></script>
-<script src="js/auth-ui.js?v=20261117-13" defer></script>
-<script src="js/mypage.js?v=20261117-13" defer></script>
-<script src="js/main.js?v=20261117-13" defer></script>
-<script src="js/volt-ai.js?v=20261117-13" defer></script>
+<script src="data/volt-localization.js?v=20261117-14" defer></script>
+<script src="js/i18n.js?v=20261117-14" defer></script>
+<script src="js/motion.js?v=20261117-14" defer></script>
+<script src="js/navigation.js?v=20261117-14" defer></script>
+<script src="js/notices.js?v=20261117-14" defer></script>
+<script src="js/schedule.js?v=20261117-14" defer></script>
+<script src="js/leadership.js?v=20261117-14" defer></script>
+<script src="js/landing.js?v=20261117-14" defer></script>
+<script src="js/site-content.js?v=20261117-14" defer></script>
+<script src="js/uex.js?v=20261117-14" defer></script>
+<script src="js/uex-panel.js?v=20261117-14" defer></script>
+<script src="js/trade-planner.js?v=20261117-14" defer></script>
+<script src="js/loadout-calc.js?v=20261117-14" defer></script>
+<script src="js/loadout-planner.js?v=20261117-14" defer></script>
+<script src="js/loadout.js?v=20261117-14" defer></script>
+<script src="js/ship-imagery.js?v=20261117-14" defer></script>
+<script src="js/ships.js?v=20261117-14" defer></script>
+<script src="js/search-modal.js?v=20261117-14" defer></script>
+<script src="js/community-access.js?v=20261117-14" defer></script>
+ <script src="js/auth-ui.js?v=20261117-14" defer></script>
+<script src="js/mypage.js?v=20261117-14" defer></script>
+<script src="js/main.js?v=20261117-14" defer></script>
+<script src="js/volt-ai.js?v=20261117-14" defer></script>
  </body>
 </html>

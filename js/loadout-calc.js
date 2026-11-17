@@ -16,6 +16,11 @@
     'use strict';
 
     const DAMAGE_TYPES = ['physical', 'energy', 'distortion', 'thermal', 'biochemical', 'stun'];
+    // Shared with extraction: internal Battery/WeaponBarrel ports are not editor slots.
+    const COMPONENT_TYPES = ['WeaponGun', 'Turret', 'TurretBase', 'MissileLauncher', 'BombLauncher', 'GroundVehicleMissileLauncher', 'Missile', 'Bomb', 'Shield', 'PowerPlant',
+        'Cooler', 'QuantumDrive', 'JumpDrive', 'Radar', 'WeaponMining', 'WeaponDefensive', 'EMP', 'QuantumInterdictionGenerator', 'SalvageHead',
+        'TractorBeam', 'ToolArm', 'Module', 'UtilityTurret', 'MiningModifier', 'SalvageModifier', 'TowingBeam'];
+    const componentTypes = new Set(COMPONENT_TYPES);
 
     function sumDamage(damage) {
         return DAMAGE_TYPES.reduce((total, type) => total + (Number(damage?.[type]) || 0), 0);
@@ -155,7 +160,7 @@
                 // 바꿀 수 없는 내부 부속 자리(총열·전원부 등)는 채울 수 없는 빈자리라 펼치지 않는다 —
                 // 펼치면 무기 한 정이 '하위 자리를 거느린 부품'처럼 보여 목록의 줄 구성이 달라진다.
                 const children = changed
-                    ? (item?.ports || []).filter((port) => port.ed !== false).map((port) => ({ port: port.name, kind: port.ed === false ? 'f' : 's', min: port.min, max: port.max, acc: port.acc, item: '' }))
+                    ? (item?.ports || []).filter((port) => port.ed !== false && port.acc?.some((rule) => componentTypes.has(rule.type))).map((port) => ({ port: port.name, kind: 's', min: port.min, max: port.max, acc: port.acc, item: '' }))
                     : slot.ch;
                 step(children, path, next);
             }
@@ -294,5 +299,5 @@
         return valid;
     }
 
-    return { DAMAGE_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, isGun, rackLoad, fitsSlot, normalizeTag, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
+    return { DAMAGE_TYPES, COMPONENT_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, isGun, rackLoad, fitsSlot, normalizeTag, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
 });

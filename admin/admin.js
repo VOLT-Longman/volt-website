@@ -353,8 +353,8 @@ async function loadErkulSyncStatus() {
       return response.text();
     };
     const [statsText, marketText] = await Promise.all([
-      fetchText('/data/ship-live-stats.js'),
-      fetchText('/data/ship-market.js')
+      fetchText('/api/admin/ship-source/ship-live-stats.js'),
+      fetchText('/api/admin/ship-source/ship-market.js')
     ]);
     erkulStatusCache = {
       statsSyncedAt: statsText.match(/"syncedAt":"([^"]+)"/)?.[1] ?? null,
@@ -572,7 +572,7 @@ async function loadCanonicalShipSource() {
   if (!source) {
     throw new Error('canonical 함선 데이터 로더를 사용할 수 없습니다.');
   }
-  await source.load();
+  await source.load({ source: 'admin' });
   const data = source.data;
   if (!Array.isArray(data.canonical?.ships) || !Array.isArray(data.operational?.records)) {
     throw new Error('canonical 데이터 구조가 올바르지 않습니다.');

@@ -88,7 +88,7 @@ test.describe('VOLT AI (M1)', () => {
     });
 
     test('활성+비로그인: 멤버 전용 안내 + 로그인 링크, 입력은 잠금', async ({ page }) => {
-        await mockApi(page); // loggedIn: false
+        await mockApi(page, { loggedIn: false });
         await mockAiConfig(page);
         await gotoSection(page, '#ai');
 

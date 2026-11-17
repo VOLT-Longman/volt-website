@@ -7,7 +7,7 @@ test('A1: accounts restore only server preferences; remote deletions stay delete
     let deleted = false;
     const writes = [];
     await page.route('**/auth/me', (route) => route.fulfill({ json: {
-        logged_in: true, user: { sub: account, username: account, roles: ['member'] }
+        logged_in: true, user: { sub: account, username: account, roles: ['member'] }, features: { communityTools: true, communityConfigured: true }
     } }));
     await page.route('**/api/me/preferences', (route) => {
         if (route.request().method() === 'PUT') writes.push(route.request().postDataJSON());

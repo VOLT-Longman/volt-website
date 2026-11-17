@@ -78,7 +78,7 @@
             const separator = path.includes('?') ? '&' : '?';
             response = await fetch(`${UEX_API_BASE_URL}/${path}${options.forceRefresh ? `${separator}refresh=1` : ''}`, {
                 headers: { Accept: 'application/json' },
-                ...(options.forceRefresh ? { cache: 'no-store' } : {}),
+                cache: 'no-store',
                 signal: controller.signal,
             });
         } catch (error) {

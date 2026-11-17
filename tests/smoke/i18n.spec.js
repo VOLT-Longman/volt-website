@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { mockApi } = require('./helpers');
 
 // 런타임 i18n(KO/EN) 회귀 가드.
 async function load(ctx, url = '/') {
@@ -117,6 +118,7 @@ test.describe('i18n (KO/EN)', () => {
     test('무역플래너 위치 필터/추천 기준 EN 표기', async ({ browser }) => {
         const ctx = await browser.newContext({ locale: 'en-US' });
         const page = await ctx.newPage();
+        await mockApi(page);
         await page.route(/\/api\/uex\/commodities$/, (r) => r.fulfill({ json: { status: 'ok', data: [{ id: 1, name: 'Gold', code: 'G', category_name: 'Metal', is_visible: 1, is_available_live: 1 }] } }));
         await page.route(/\/api\/uex\/commodities\/1\/prices(?:\?refresh=1)?$/, (r) => r.fulfill({ json: { status: 'ok', data: [
             { terminal_name: 'CRU-L1', space_station_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 100, price_sell: 0, date_modified: 1700000000, scu_buy: 5000 },

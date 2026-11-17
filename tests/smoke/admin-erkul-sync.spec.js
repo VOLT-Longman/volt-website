@@ -1,4 +1,6 @@
 const { test, expect } = require('@playwright/test');
+const { mockAdminShipSource } = require('./helpers');
+test.beforeEach(async ({ page }) => { await mockAdminShipSource(page); });
 
 // A-7: Admin 함선DB 탭의 Erkul Live 동기화 미리보기 (읽기 전용 — apply 버튼 없음).
 // Functions가 없는 정적 dev 서버이므로 API는 전부 모킹한다.
@@ -51,7 +53,7 @@ async function mockLayerFiles(page, {
     marketSyncedAt = '2026-06-01T00:00:00.000Z',
     failStats = false
 } = {}) {
-    await page.route('**/data/ship-live-stats.js', (route) => {
+    await page.route('**/api/admin/ship-source/ship-live-stats.js', (route) => {
         if (failStats) return route.fulfill({ status: 500, body: 'error' });
         return route.fulfill({
             contentType: 'application/javascript',
@@ -59,7 +61,7 @@ async function mockLayerFiles(page, {
         });
     });
     // a = 실제 가격 충돌(warn 대상), b = 렌탈가 미제공 기록(price=0: — info 대상)
-    await page.route('**/data/ship-market.js', (route) => route.fulfill({
+    await page.route('**/api/admin/ship-source/ship-market.js', (route) => route.fulfill({
         contentType: 'application/javascript',
         body: `window.VOLT_SHIP_MARKET = {"a":{"syncedAt":"${marketSyncedAt}","purchase":[],"anomalies":["mapped purchase 충돌로 미병합: New Deal@Lorville"]},"b":{"syncedAt":"${marketSyncedAt}","purchase":[],"anomalies":["price=0: Vantage Rentals@Lorville"]}};`
     }));
@@ -153,7 +155,7 @@ test.describe('Admin Erkul 동기화 미리보기', () => {
         await mockAdmin(page);
         await mockLayerFiles(page);
         // 충돌 없이 렌탈 기록만 있는 레이어로 덮어쓴다 (나중 등록 우선)
-        await page.route('**/data/ship-market.js', (route) => route.fulfill({
+        await page.route('**/api/admin/ship-source/ship-market.js', (route) => route.fulfill({
             contentType: 'application/javascript',
             body: 'window.VOLT_SHIP_MARKET = {"a":{"syncedAt":"2026-06-01T00:00:00.000Z","purchase":[],"anomalies":["price=0: Traveler Rentals@Orison"]},"b":{"syncedAt":"2026-06-01T00:00:00.000Z","purchase":[],"anomalies":[]}};'
         }));

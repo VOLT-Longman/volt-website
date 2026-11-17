@@ -115,3 +115,7 @@ penetration/deflection, quantum units/stages, heat-cycle discrepancies. These ar
 implemented with invented multipliers. Component details explicitly show base values,
 not simulated operating conditions. Further independent UI work includes more build slots,
 card reordering, saved component comparisons and configurable comparison columns.
+
+## 레이더 교체 후 내부 배터리 슬롯 (2026-11-17)
+
+레이더를 교체하면 원본 `ports`를 모두 편집 슬롯으로 만들면서 내부 `BatteryPort`가 빈 사용자 슬롯으로 나타났다. 기본 장착 추출에는 부품 종류 필터가 적용되어 있어 교체 전에는 보이지 않았던 오류다. 동적 하위 슬롯에도 같은 필터(`VOLT_LOADOUT_CALC.COMPONENT_TYPES`)를 적용했다. 68종 레이더의 내부 배터리는 제외하고, 미사일 랙 등 실제 편집 대상 하위 슬롯은 유지한다. 이전 저장값의 빈 배터리 경로도 구성 정리 과정에서 제거한다.

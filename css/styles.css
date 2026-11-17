@@ -9991,3 +9991,19 @@ details.loadout-panel-section.loadout-fold { display: block; }
 }
 .loadout-part-link { border: 0; padding: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; text-decoration: underline dotted var(--lo-dim); text-underline-offset: 4px; }
 .loadout-part-link:hover { color: var(--volt-orange-light); }
+
+/* Access gates use the same surfaces and controls as the tools they protect. */
+[data-community-content][hidden], .community-gate[hidden] { display: none !important; }
+.community-gate { max-width: 760px; margin: 0 auto; padding: clamp(24px, 5vw, 56px); border: 1px solid var(--color-border); border-top: 3px solid var(--volt-orange); border-radius: var(--radius-md); background: var(--color-bg-secondary); }
+.community-gate-label { color: var(--color-text-secondary); font-size: .875rem; margin: 0 0 12px; }
+.community-gate h2 { font-size: clamp(1.75rem, 5vw, 2.5rem); margin: 0 0 18px; }
+.community-gate-description, .community-gate-status { color: var(--color-text-secondary); line-height: 1.75; }
+.community-gate-steps { padding-left: 24px; margin: 28px 0; display: grid; gap: 14px; line-height: 1.6; }
+.community-gate-steps li { padding-left: 8px; }
+.community-gate-status { padding: 18px 0; border-top: 1px solid var(--color-border); }
+.community-gate-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.community-gate-actions .btn { min-height: 48px; }
+.community-gate .btn-primary { background: var(--action-primary); color: #fff; }
+.community-gate .btn-primary:hover { background: var(--action-primary-hover); }
+@media (max-width: 600px) { .community-gate-actions { flex-direction: column; } .community-gate-actions .btn { width: 100%; } }
+#ships .community-gate, #trade-planner .community-gate, #loadout .community-gate { max-width: 760px; margin-inline: auto; }

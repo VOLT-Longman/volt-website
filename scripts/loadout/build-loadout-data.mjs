@@ -55,9 +55,7 @@ function loadGameFiles() {
 }
 
 // ---- 공용 도우미 ------------------------------------------------------------
-const RELEVANT_TYPES = new Set(['WeaponGun', 'Turret', 'TurretBase', 'MissileLauncher', 'BombLauncher', 'GroundVehicleMissileLauncher', 'Missile', 'Bomb', 'Shield', 'PowerPlant',
-    'Cooler', 'QuantumDrive', 'JumpDrive', 'Radar', 'WeaponMining', 'WeaponDefensive', 'EMP', 'QuantumInterdictionGenerator', 'SalvageHead',
-    'TractorBeam', 'ToolArm', 'Module', 'UtilityTurret', 'MiningModifier', 'SalvageModifier', 'TowingBeam']);
+const RELEVANT_TYPES = new Set(calc.COMPONENT_TYPES);
 const DAMAGE_FIELDS = [['physical', 'DamagePhysical'], ['energy', 'DamageEnergy'], ['distortion', 'DamageDistortion'], ['thermal', 'DamageThermal'], ['biochemical', 'DamageBiochemical'], ['stun', 'DamageStun']];
 const DAMAGE_KEYS = DAMAGE_FIELDS.map(([key]) => key);
 const GRADES = ['', 'A', 'B', 'C', 'D', 'E', 'F'];

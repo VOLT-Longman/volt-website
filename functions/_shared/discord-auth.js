@@ -1,5 +1,6 @@
 import { securityDb } from './security-store.js';
 import { constantTimeEqual, hmac, parseCookies } from './auth.js';
+import { communityAccess } from './community-access.js';
 
 const USER_SESSION_COOKIE = 'volt_user_session';
 const OAUTH_STATE_COOKIE = 'volt_oauth_state';
@@ -46,11 +47,20 @@ export function clearOAuthStateCookie() {
 }
 
 export function createOAuthReturnCookie(returnTo) {
-  return createCookie(OAUTH_RETURN_COOKIE, returnTo === '/admin/' ? 'admin' : '', returnTo === '/admin/' ? OAUTH_STATE_MAX_AGE : 0);
+  const key = Object.keys(OAUTH_RETURNS).find((id) => OAUTH_RETURNS[id].input === returnTo) || '';
+  return createCookie(OAUTH_RETURN_COOKIE, key, key ? OAUTH_STATE_MAX_AGE : 0);
 }
 
+const OAUTH_RETURNS = Object.freeze({
+  admin: { input: '/admin/', output: '/admin/?discord=1' },
+  ships: { input: '/#ships', output: '/#ships' },
+  loadout: { input: '/#loadout', output: '/#loadout' },
+  planner: { input: '/#trade-planner', output: '/#trade-planner' }
+});
+
 export function readOAuthReturnPath(request) {
-  return parseCookies(request)[OAUTH_RETURN_COOKIE] === 'admin' ? '/admin/?discord=1' : '/';
+  const key = parseCookies(request)[OAUTH_RETURN_COOKIE];
+  return Object.hasOwn(OAUTH_RETURNS, key) ? OAUTH_RETURNS[key].output : '/';
 }
 
 export function readOAuthState(request) {
@@ -130,7 +140,7 @@ export async function readUserSession(request, env, { membershipTtlMs = MEMBERSH
     roleIds = JSON.parse(latest.role_ids);
   }
   // Apply current role mapping on every request, including configuration revocations.
-  return { ...session, roles: mapRoles(roleIds, env) };
+  return { ...session, roles: mapRoles(roleIds, env), communityAccess: communityAccess(roleIds, env) };
 }
 
 export async function revokeUserSession(request, env) {

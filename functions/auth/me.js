@@ -1,5 +1,6 @@
 import { readUserSession } from '../_shared/discord-auth.js';
 import { json, error } from '../_shared/http.js';
+import { communityAccess } from '../_shared/community-access.js';
 
 function createUserPayload(session) {
   return {
@@ -13,8 +14,17 @@ function createUserPayload(session) {
 
 export async function onRequestGet({ request, env }) {
   let session;
-  try { session = await readUserSession(request, env); }
+  // A short floor lets newly assigned roles be checked without making every
+  // repeated click call Discord. Normal requests retain the five-minute TTL.
+  try { session = await readUserSession(request, env, new URL(request.url).searchParams.get('refresh') === '1' ? { membershipTtlMs: 5000 } : {}); }
   catch (_error) { return error('인증 상태를 확인할 수 없습니다. 잠시 후 다시 시도하세요.', 503); }
-  if (!session) return json({ logged_in: false }, { cacheControl: 'no-store' });
-  return json({ logged_in: true, user: createUserPayload(session) }, { cacheControl: 'no-store' });
+  if (!session) {
+    let configured = false;
+    try { configured = communityAccess([], env).configured; } catch (_error) { /* Malformed configuration never grants access. */ }
+    return json({ logged_in: false, features: { communityTools: false, communityConfigured: configured } }, { cacheControl: 'no-store' });
+  }
+  return json({ logged_in: true, user: createUserPayload(session), features: {
+    communityTools: session.communityAccess.allowed,
+    communityConfigured: session.communityAccess.configured
+  } }, { cacheControl: 'no-store' });
 }

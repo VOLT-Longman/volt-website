@@ -11,6 +11,18 @@ const items = read('data/loadout/items.json').items;
 const meta = read('data/loadout/meta.json');
 const asgard = read('data/loadout/ships/anvl_asgard.json');
 
+test('레이더 전종 교체: 내부 배터리를 편집 슬롯으로 만들지 않고 옛 빈 배터리 설정도 버린다', () => {
+    const radars = Object.entries(items).filter(([, item]) => item.type === 'Radar');
+    assert.ok(radars.length >= 68);
+    for (const [id, radar] of radars) {
+        const ship = { slots: [{ port: 'radar', kind: 's', min: radar.size, max: radar.size, acc: [{ type: 'Radar' }], item: '' }] };
+        const nodes = [];
+        calc.walkLoadout(ship, items, { radar: id }, node => nodes.push(node));
+        assert.deepEqual(nodes.map(node => node.path), ['radar'], radar.name);
+        assert.deepEqual(calc.sanitizeOverrides(ship, items, { radar: id, 'radar/BatteryPort': '' }), { radar: id });
+    }
+});
+
 const findSlot = (ship, predicate) => {
     let found = null;
     calc.walkLoadout(ship, items, {}, (node) => { if (!found && predicate(node)) found = node; });
@@ -212,9 +224,9 @@ test('전원 끄기: 꺼 둔 부품과 그 아래 부품은 화력·실드·소�
     assert.deepEqual(calc.summarize(asgard, items, {}, { off: { [shields[0]]: false } }), stock);
 });
 
-test('서비스 워커: 로드아웃 버전 확인 파일은 캐시 우선 처리에서 빠진다', () => {
+test('서비스 워커: 로드아웃 자료 전체는 캐시 우선 처리에서 빠진다', () => {
     const source = readFileSync(new URL('../../sw.js', import.meta.url), 'utf8');
-    const bypass = source.indexOf("url.pathname === '/data/loadout/meta.json'");
+    const bypass = source.indexOf("url.pathname.startsWith('/data/loadout/')");
     const cacheFirst = source.indexOf('cache.match(request)');
     assert.ok(bypass > 0, '버전 확인 파일 예외가 있어야 함');
     assert.ok(bypass < cacheFirst, '예외는 캐시 조회보다 먼저 판단해야 함');

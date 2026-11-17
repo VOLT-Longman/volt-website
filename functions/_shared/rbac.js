@@ -22,3 +22,10 @@ export async function requireMember(request, env) {
   if (session instanceof Response) return session;
   return isMember(session) ? session : error('Forbidden', 403);
 }
+
+export async function requireCommunityMember(request, env) {
+  const session = await requireUser(request, env);
+  if (session instanceof Response) return session;
+  if (!session.communityAccess.configured) return error('커뮤니티 역할 연결을 준비 중입니다.', 503);
+  return session.communityAccess.allowed ? session : error('함대 Discord의 커뮤니티 멤버 역할이 필요합니다.', 403);
+}
