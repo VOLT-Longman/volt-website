@@ -9,7 +9,7 @@ async function openLoadout(page) {
     await expect(page.locator('#loadout-ship-title')).toBeVisible();
 }
 
-test('카드와 메뉴는 짧게 등장하며 섹션은 고정 모달 좌표를 바꾸지 않는다', async ({ page }) => {
+test('카드와 메뉴가 등장해도 섹션은 고정 모달 좌표를 바꾸지 않는다', async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await mockApi(page); await gotoSection(page, '#about');
     await expect(page.locator('#about')).toHaveCSS('transform', 'none');
@@ -71,8 +71,28 @@ test('교체창은 열 때만 움직이고 검색으로 DOM이 바뀔 때 재생
     await expect(page.locator('.loadout-optrows tr')).toHaveCount(1);
     expect(await count()).toBe(1);
     await page.locator('.loadout-optrows [data-loadout-pick]').click();
-    await expect.poll(() => page.evaluate(() => window.motionCalls.filter(c => c.frames[0]?.scale === '1.045').length)).toBeGreaterThan(0);
+    await expect.poll(() => page.evaluate(() => window.motionCalls.filter(c => /loadout-kpi/.test(c.className)).length)).toBeGreaterThan(0);
+    expect(await page.evaluate(() => window.motionCalls.some(c => /loadout-slot is-changed/.test(c.className)))).toBe(true);
     await expect(page.locator('.loadout-slot.is-changed')).toBeVisible();
+    const exactValues = await page.locator('.loadout-kpi strong').allTextContents();
+    await expect.poll(() => page.locator('.loadout-kpis').evaluate(el => el.getAnimations({ subtree: true }).length)).toBe(0);
+    expect(await page.locator('.loadout-kpi strong').allTextContents()).toEqual(exactValues);
+});
+
+test('히어로의 큰 진입은 모바일에서도 넘치지 않고 끝나며 동작 줄이기로 즉시 멈춘다', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await mockApi(page); await gotoSection(page, '');
+    await expect(page.locator('#home')).toHaveClass(/hero-enter/);
+    await expect(page.locator('.hero-cine-media')).toHaveCSS('animation-name', 'volt-hero-camera');
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(page.locator('.hero-cine-media')).toHaveCSS('transform', 'none');
+    await expect(page.locator('#home h1')).toHaveCSS('opacity', '1');
+    await expect(page.locator('#home h1')).toHaveCSS('filter', 'none');
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await expect.poll(() => page.locator('.hero-cine-media').evaluate(el => el.getAnimations().length)).toBe(0);
+    await expect(page.locator('.hero-cine-media')).toHaveCSS('transform', 'none');
+    await expect(page.locator('#home h1')).toHaveCSS('translate', 'none');
 });
 
 test('펼쳐 둔 요약은 편집 화면을 다시 그릴 때 등장 효과를 반복하지 않는다', async ({ page }) => {

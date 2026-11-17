@@ -1,9 +1,9 @@
 /* Shared public-site motion. All resting states remain visible without JS. */
 :root {
     --motion-ease: cubic-bezier(.22, 1, .36, 1);
-    --motion-fast: 160ms;
-    --motion-ui: 240ms;
-    --motion-enter: 480ms;
+    --motion-fast: 180ms;
+    --motion-ui: 360ms;
+    --motion-enter: 850ms;
 }
 /* Do not transform a whole section: it contains fixed dialogs and tool drawers. */
 .section.active { animation: none; }
@@ -11,14 +11,18 @@
 
 @media (prefers-reduced-motion: no-preference) {
     /* Hide only elements that have a live observer; a missing script stays usable. */
-    .reveal.motion-ready:not(.revealed) { opacity: 0; transform: translateY(16px); }
+    .reveal.motion-ready:not(.revealed) { opacity: 0; transform: translateY(56px) scale(.96); }
+    /* Opacity only: tool pages contain fixed dialogs, so never move their parent. */
+    .section.active > .section-content { animation: volt-page-in 560ms var(--motion-ease); }
     .section.active .section-header,
     .static-guide-hero { animation: volt-heading-in var(--motion-enter) var(--motion-ease) both; }
     .section-header h2 { position: relative; }
     .section.active .section-header h2::after {
-        content: ''; position: absolute; width: 44px; height: 2px;
-        left: calc(50% - 22px); bottom: -9px; background: var(--volt-orange); opacity: 0;
-        transform-origin: center; animation: volt-rule-in 600ms var(--motion-ease) both;
+        content: ''; position: absolute; width: 160px; max-width: 70%; height: 3px;
+        left: 50%; bottom: -12px; background: var(--volt-orange); opacity: 0;
+        translate: -50% 0; transform-origin: left;
+        box-shadow: 0 0 22px rgb(232 72 47 / 40%);
+        animation: volt-rule-in 1100ms var(--motion-ease) both;
     }
     .reveal.revealed,
     .landing-grid .landing-card.revealed {
@@ -26,17 +30,31 @@
         animation-delay: var(--motion-delay, 0ms);
     }
     .landing-briefing.revealed .landing-notice-row,
-    .landing-notices.revealed .landing-notice-row { animation-duration: 360ms; }
-    /* Hero copy is a single entrance, not a looping background animation. */
-    .hero-identity, .hero-title, .hero-copy > p, .hero-buttons { animation-duration: 650ms; }
+    .landing-notices.revealed .landing-notice-row { animation-duration: 700ms; }
+    /* One cinematic entrance. The photograph and type settle into the original layout. */
+    .hero-enter .hero-cine-media { animation: volt-hero-camera 1800ms var(--motion-ease) backwards; }
+    .hero-enter .hero-copy > * { animation: volt-hero-copy 900ms var(--motion-ease) backwards; }
+    .hero-enter .hero-copy > h1 { animation-name: volt-hero-title; animation-duration: 1100ms; animation-delay: 100ms; }
+    .hero-enter .hero-copy > :nth-child(3) { animation-delay: 240ms; }
+    .hero-enter .hero-copy > :nth-child(4) { animation-delay: 340ms; }
+    .hero-enter .hero-copy > :nth-child(5) { animation-delay: 440ms; }
+    .hero-enter .hero-copy > :nth-child(6) { animation-delay: 520ms; }
+    .hero-enter .hero-copy > :nth-child(7) { animation-delay: 600ms; }
+    .hero-enter .hero-tagline { animation: none; }
+    .landing-card.revealed::before { animation: volt-card-rule 1200ms var(--motion-ease) backwards; animation-delay: var(--motion-delay, 0ms); }
+    .landing-card-photo { transition: scale 700ms var(--motion-ease); }
     .nav-more-menu.active, .nav-trade-menu.active {
-        transform-origin: top center; animation: volt-menu-in 220ms var(--motion-ease) both;
+        transform-origin: top center; animation: volt-menu-in 420ms var(--motion-ease) backwards;
     }
-    .mobile-menu { transition: right 300ms var(--motion-ease); }
-    .mobile-menu.active .mobile-menu-header { animation: volt-content-in 300ms var(--motion-ease) both; }
-    .search-overlay.active, .modal-backdrop.active { animation: volt-fade-in 180ms ease-out both; }
+    .mobile-menu { transition: right 480ms var(--motion-ease); }
+    .mobile-menu.active .mobile-menu-header { animation: volt-content-in 500ms var(--motion-ease) backwards; }
+    .mobile-menu.active .mobile-menu-primary > li { animation: volt-menu-link 580ms var(--motion-ease) backwards; animation-delay: 150ms; }
+    .mobile-menu.active .mobile-menu-primary > li:nth-child(2) { animation-delay: 200ms; }
+    .mobile-menu.active .mobile-menu-primary > li:nth-child(3) { animation-delay: 250ms; }
+    .mobile-menu.active .mobile-menu-primary > li:nth-child(n+4) { animation-delay: 300ms; }
+    .search-overlay.active, .modal-backdrop.active { animation: volt-fade-in 300ms ease-out backwards; }
     .search-overlay.active .search-panel,
-    .modal-backdrop.active .modal-card { animation: volt-dialog-in 280ms var(--motion-ease) both; }
+    .modal-backdrop.active .modal-card { animation: volt-dialog-in 560ms var(--motion-ease) backwards; }
     /* The loadout redraws while searching. Its entrances are keyed in motion.js. */
     .loadout-detail-content { animation: none; }
     :is(.btn, .nav-icon-button, .loadout-chip, .loadout-tab, .loadout-category, .ship-filter-chip, .ship-name-btn, .filter-btn) {
@@ -44,31 +62,44 @@
             background-color var(--motion-fast) ease, border-color var(--motion-fast) ease,
             color var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
     }
-    :is(.btn, .nav-icon-button, .loadout-chip, .loadout-tab, .loadout-category, .filter-btn):active:not(:disabled) { scale: .975; }
+    :is(.btn, .nav-icon-button, .loadout-chip, .loadout-tab, .loadout-category, .filter-btn):active:not(:disabled) { scale: .94; }
     .nav-links > li > a, .nav-links > li > button { transition: color 180ms ease, background-color 180ms ease; }
-    :is(.card, .ship-card, .partner-fleet-card, .streamer-card, .gallery-item, .join-checklist-card, .notice-card, .static-guide-card) {
+    :is(.card, .ship-card, .partner-fleet-card, .streamer-card, .gallery-item, .join-checklist-card, .notice-card, .static-guide-card, .landing-card, .loadout-shipcard) {
         transition: translate var(--motion-ui) var(--motion-ease), border-color var(--motion-ui) ease, box-shadow var(--motion-ui) ease;
     }
-    .toast { transition: opacity 200ms ease, transform 280ms var(--motion-ease); }
-    .faq-icon { transition: transform 240ms var(--motion-ease); }
-    .faq-answer { transition-timing-function: var(--motion-ease); transition-duration: 260ms; }
+    .toast { transition: opacity 250ms ease, transform 450ms var(--motion-ease); }
+    .faq-icon { transition: transform 400ms var(--motion-ease); }
+    .faq-answer { transition-timing-function: var(--motion-ease); transition-duration: 420ms; }
     @media (hover: hover) and (pointer: fine) {
-        .btn:hover:not(:disabled), .nav-icon-button:hover:not(:disabled) { translate: 0 -2px; }
-        :is(.card, .ship-card, .partner-fleet-card, .streamer-card, .gallery-item, .join-checklist-card, .notice-card, .static-guide-card):hover {
-            translate: 0 -3px; border-color: var(--color-border-hover); box-shadow: 0 10px 26px rgb(0 0 0 / 14%);
+        .btn:hover:not(:disabled), .nav-icon-button:hover:not(:disabled) { translate: 0 -4px; }
+        :is(.card, .ship-card, .partner-fleet-card, .streamer-card, .gallery-item, .join-checklist-card, .notice-card, .static-guide-card, .landing-card, .loadout-shipcard):hover {
+            translate: 0 -8px; border-color: var(--volt-orange); box-shadow: 0 18px 40px rgb(0 0 0 / 24%);
         }
+        .landing-card:hover .landing-card-photo { scale: 1.06; }
+        .landing-card:hover .landing-card-arrow { transform: translate(5px, -5px); }
+    }
+    @media (max-width: 720px) {
+        /* Keep the same visual rhythm on touch screens, without expensive text blur. */
+        .hero-enter .hero-copy > h1 { animation-name: volt-hero-title-touch; }
     }
 }
-@keyframes volt-heading-in { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
-@keyframes volt-card-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes volt-page-in { from { opacity: .25; } to { opacity: 1; } }
+@keyframes volt-heading-in { from { opacity: 0; translate: 0 40px; } to { opacity: 1; translate: 0 0; } }
+@keyframes volt-card-in { from { opacity: 0; transform: translateY(56px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes volt-hero-camera { from { transform: scale(1.16); opacity: .45; } to { transform: none; opacity: 1; } }
+@keyframes volt-hero-copy { from { opacity: 0; translate: 0 36px; } to { opacity: 1; translate: 0 0; } }
+@keyframes volt-hero-title { from { opacity: 0; translate: 0 64px; filter: blur(8px); } to { opacity: 1; translate: 0 0; filter: none; } }
+@keyframes volt-hero-title-touch { from { opacity: 0; translate: 0 48px; } to { opacity: 1; translate: 0 0; } }
 @keyframes volt-rule-in {
     0% { opacity: 0; transform: scaleX(0); }
-    25%, 70% { opacity: 1; transform: scaleX(1); }
-    100% { opacity: 0; transform: scaleX(1); }
+    25%, 60% { opacity: 1; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(1.25); }
 }
-@keyframes volt-menu-in { from { opacity: 0; translate: 0 -6px; scale: .985; } to { opacity: 1; translate: 0 0; scale: 1; } }
-@keyframes volt-dialog-in { from { opacity: 0; translate: 0 14px; scale: .99; } to { opacity: 1; translate: 0 0; scale: 1; } }
-@keyframes volt-content-in { from { opacity: 0; translate: 0 6px; } to { opacity: 1; translate: 0 0; } }
+@keyframes volt-card-rule { 0% { transform: scaleX(0); } 45% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes volt-menu-in { from { opacity: 0; translate: 0 -18px; scale: .94; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes volt-menu-link { from { opacity: 0; translate: 24px 0; } to { opacity: 1; translate: 0 0; } }
+@keyframes volt-dialog-in { from { opacity: 0; translate: 0 48px; scale: .96; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes volt-content-in { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
 @keyframes volt-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
     .reveal, .reveal.revealed { opacity: 1; transform: none; }

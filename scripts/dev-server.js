@@ -5,7 +5,9 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const port = Number(process.env.PORT) || 8787;
+// Preview hosts pass --port; Playwright keeps the existing default.
+const portFlag = process.argv.indexOf('--port');
+const port = Number(portFlag >= 0 ? process.argv[portFlag + 1] : process.env.PORT) || 8787;
 
 const MIME_TYPES = {
     '.html': 'text/html; charset=utf-8',
