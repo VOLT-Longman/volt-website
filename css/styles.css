@@ -10280,3 +10280,55 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-app .loadout-picker.loadout-detail { width: 100%; padding: 16px; }
     .loadout-detail .loadout-shop-pick { width: 44px; height: 44px; flex-basis: 44px; }
 }
+
+/* Operating controls and parent/child equipment use the same VOLT card language. */
+.loadout-power-budget { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+.loadout-power-budget.is-over strong { color: #ff887c; }
+.loadout-power-channels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 10px; margin: 20px 0; }
+.loadout-power-channel { min-width: 0; display: flex; flex-direction: column; gap: 7px; text-align: center; }
+.loadout-power-channel label { font-size: 12px; font-weight: 700; }
+.loadout-power-pips { height: 100px; display: flex; flex-direction: column; gap: 3px; justify-content: flex-end; }
+.loadout-power-pips button { flex: 1; max-height: 24px; min-height: 3px; border: 1px solid var(--lo-line); border-radius: 2px; background: #24262b; cursor: pointer; padding: 0; }
+.loadout-power-pips button.is-filled { background: var(--color-primary, #db3929); border-color: #ee6757; }
+.loadout-power-pips button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.loadout-power-pips button:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+.loadout-power-channel input { width: 100%; min-width: 0; height: 34px; border: 1px solid var(--lo-line); border-radius: 4px; background: #111216; color: inherit; text-align: center; }
+.loadout-power-channel small { font-size: 10px; line-height: 1.5; color: #a9aab1; }
+.loadout-power-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.loadout-assembly { list-style: none; border: 1px solid var(--lo-line); border-radius: 10px; padding: 12px; background: rgba(255,255,255,.015); min-width: 0; }
+.loadout-assembly-heading { display: flex; gap: 8px 14px; flex-wrap: wrap; align-items: center; padding-bottom: 12px; font-size: 12px; }
+.loadout-assembly-heading > span { color: #acadb3; }
+.loadout-assembly-heading > button { margin-left: auto; }
+.loadout-assembly-tree { display: grid; grid-template-columns: minmax(170px, .32fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.loadout-assembly-parent, .loadout-assembly-children { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; min-width: 0; }
+.loadout-assembly-descendants { position: relative; min-width: 0; }
+.loadout-assembly-descendants::before { content: ''; position: absolute; width: 20px; top: 35px; left: -20px; border-top: 1px solid #c65343; }
+.loadout-app .loadout-assembly .loadout-slot { margin-left: 0; }
+.loadout-app .loadout-assembly-parent .loadout-slot-row { display: flex; flex-wrap: wrap; align-items: start; }
+.loadout-assembly-parent .loadout-slot-main { flex: 1; min-width: 100px; }
+.loadout-assembly-parent .loadout-slot-actions { width: 100%; }
+.loadout-assembly .loadout-assembly-tree { grid-template-columns: 1fr; }
+.loadout-assembly .loadout-assembly-descendants::before { width: 0; height: 20px; top: -20px; left: 24px; border-left: 1px solid #c65343; }
+.loadout-mining-result { border: 1px solid var(--lo-line); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.loadout-mining-output { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.loadout-mining-output > span { display: grid; gap: 4px; font-size: 11px; }
+.loadout-mining-output strong { font-size: 19px; }
+.loadout-mining-output small, .loadout-mining-result details { font-size: 11px; color: #afb0b6; }
+.loadout-mining-result details { margin-top: 12px; }
+.loadout-mining-result summary { cursor: pointer; }
+.loadout-mining-result dt { margin-top: 10px; color: #eee; }
+.loadout-mining-result dd { margin: 4px 0 0; line-height: 1.65; }
+.loadout-app .loadout-assembly [hidden] { display: none; }
+@media (min-width: 1100px) {
+    .loadout-slotlist > .loadout-assembly > .loadout-assembly-tree { grid-template-columns: minmax(170px, .32fr) minmax(0, 1fr); }
+    .loadout-slotlist > .loadout-assembly > .loadout-assembly-tree > .loadout-assembly-descendants::before { width: 20px; height: 0; top: 35px; left: -20px; border-left: 0; border-top: 1px solid #c65343; }
+    .loadout-assembly .loadout-slot.has-mount { grid-template-columns: minmax(120px, .32fr) minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+    .loadout-assembly { padding: 10px; }
+    .loadout-assembly-tree { grid-template-columns: 1fr; }
+    .loadout-assembly-children { padding-left: 12px; border-left: 1px solid #683c36; }
+    .loadout-assembly-heading > span { flex-basis: 100%; }
+    .loadout-power-channels { gap: 16px 8px; }
+    .loadout-power-actions .btn { min-height: 44px; }
+}

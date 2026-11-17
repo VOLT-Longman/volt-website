@@ -72,7 +72,7 @@ test('교체창은 열 때만 움직이고 검색으로 DOM이 바뀔 때 재생
     expect(await count()).toBe(1);
     await page.locator('.loadout-optrows [data-loadout-pick]').click();
     await expect.poll(() => page.evaluate(() => window.motionCalls.filter(c => /loadout-kpi/.test(c.className)).length)).toBeGreaterThan(0);
-    expect(await page.evaluate(() => window.motionCalls.some(c => /loadout-slot is-changed/.test(c.className)))).toBe(true);
+    expect(await page.evaluate(() => window.motionCalls.some(c => /loadout-slot.*is-changed/.test(c.className)))).toBe(true);
     await expect(page.locator('.loadout-slot.is-changed')).toBeVisible();
     const exactValues = await page.locator('.loadout-kpi strong').allTextContents();
     await expect.poll(() => page.locator('.loadout-kpis').evaluate(el => el.getAnimations({ subtree: true }).length)).toBe(0);

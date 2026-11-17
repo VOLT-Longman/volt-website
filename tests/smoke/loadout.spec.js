@@ -27,6 +27,98 @@ const shieldOff = async (page) => {
 };
 const pick = (page, id) => page.locator(`.loadout-optrows [data-loadout-pick="${id}"]`);
 
+test('전력 분배: 예산·실행 취소·A/B·저장·공유를 보존하고 미검증 캐패시터 성능은 만들지 않는다', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await openAsgard(page);
+    await expect(stat(page, DPS)).toHaveText('5,313');
+    const before = '5,313';
+    await page.locator('[data-loadout-power-auto]').click();
+    await expect(page.locator('.loadout-power-budget')).not.toHaveClass(/is-over/);
+    const weapon = page.locator('#loadout-power-weapons');
+    const allocated = await weapon.inputValue();
+    await weapon.fill('0'); await weapon.press('Enter');
+    await expect(weapon).toHaveValue('0');
+    await expect(stat(page, DPS)).toHaveText(before);
+    await page.locator('[data-loadout-undo]').click();
+    await expect(weapon).toHaveValue(allocated);
+    await page.locator('[data-loadout-redo]').click();
+    await expect(weapon).toHaveValue('0');
+    await page.locator('.loadout-identity [data-loadout-ab="B"]').click();
+    await page.locator('[data-loadout-power-rated]').click();
+    await page.locator('.loadout-identity [data-loadout-ab="A"]').click();
+    await expect(weapon).toHaveValue('0');
+    await openBuilds(page);
+    await page.locator('#loadout-build-name').fill('전력 계획');
+    await page.locator('[data-loadout-build-save]').click();
+    await page.locator('[data-loadout-reset-all]').click();
+    await expect(weapon).not.toHaveValue('0');
+    await page.locator('[data-loadout-build-load="0"]').click();
+    await expect(weapon).toHaveValue('0');
+    await page.locator('[data-loadout-share]').click();
+    const url = await page.evaluate(() => navigator.clipboard.readText());
+    expect(new URL(url).searchParams.get('op')).toContain('"weapons":0');
+    await page.reload();
+    await expect(weapon).toHaveValue('0');
+    await page.locator('[data-loadout-reset-all]').click();
+    await page.goto(url);
+    await expect(weapon).toHaveValue('0');
+    await expect(page.locator('.loadout-power-plan')).toContainText('환산식은 미검증');
+});
+
+for (const width of [1440, 390]) test(`${width}px 채광 활성·저장·비교·교체 초기화 및 헤드 성능`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await mockApi(page);
+    await gotoSection(page, '#loadout');
+    await page.locator('#loadout-ship-search').fill('prospector');
+    await page.locator('[data-loadout-ship="misc_prospector"]').click();
+    const output = page.locator('.loadout-mining-output strong').first();
+    const module = '[data-loadout-open*="BONE_ItemPort_Consumable_1"]';
+    await expect(output).toHaveText('2,340');
+    await page.locator(module).click();
+    await pick(page, '44b6d85a-ad86-479b-8cd9-5b3d9ab9eddc').click();
+    await expect(output).toHaveText('2,691');
+    await page.locator(module).click();
+    await pick(page, '46643b07-bb39-4ac1-83e4-d428f0c01a75').click();
+    await expect(output).toHaveText('2,340');
+    await page.locator('[data-loadout-module-active]').click();
+    await expect(output).toHaveText('3,510');
+    await page.reload();
+    await expect(output).toHaveText('3,510');
+    await page.locator('.loadout-identity [data-loadout-ab="B"]').click();
+    await page.locator('[data-loadout-module-active]').click();
+    await expect(output).toHaveText('2,340');
+    await page.locator('[data-loadout-tab="compare"]').click();
+    const row = page.locator('.loadout-abcompare tr').filter({ has: page.getByRole('rowheader', { name: '레이저 출력', exact: true }) });
+    await expect(row).toContainText('2,340'); await expect(row).toContainText('3,510');
+    await page.locator('[data-loadout-tab="slots"]').click();
+    await page.locator('[data-loadout-module-active]').click();
+    await page.locator(module).click();
+    await pick(page, '4af4857b-b564-4448-afbc-820ff288c0af').click();
+    await expect(page.locator('[data-loadout-module-active]')).toHaveAttribute('aria-pressed', 'false');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+});
+
+test('터렛별 상위 카드와 하위 무기: 독립 접기·전원·교체 후 변경 필터', async ({ page }) => {
+    await openAsgard(page);
+    const turret = page.locator('[data-loadout-assembly="hardpoint_turret_bottom"]');
+    const pilot = page.locator('[data-loadout-assembly="hardpoint_turret_pilot"]');
+    await expect(turret.locator('.loadout-component-open')).toHaveCount(2);
+    await expect(turret.locator('.loadout-assembly-heading')).toContainText('무기 2정');
+    await turret.locator('[data-loadout-assembly-toggle]').click();
+    await expect(turret.locator('.loadout-assembly-descendants')).toBeHidden();
+    await expect(pilot.locator('.loadout-assembly-descendants')).toBeVisible();
+    await turret.locator('[data-loadout-assembly-toggle]').click();
+    await turret.locator('[data-loadout-power="hardpoint_turret_bottom"]').click();
+    await expect(turret.locator('.loadout-assembly-heading')).toContainText('DPS 0');
+    await page.locator('[data-loadout-undo]').click();
+    await firstGunSlot(page).locator('[data-loadout-open]').click();
+    await pick(page, MANTIS).click();
+    await page.locator('#loadout-changed-only').check();
+    await expect(pilot).toBeVisible();
+    await expect(turret).toBeHidden();
+    await expect(page.locator('.loadout-group.is-weapon h4')).toContainText('1곳 표시');
+});
+
 test('성능 카드와 장비 보드, 이름 클릭 교체 및 변경 슬롯 개수', async ({ page }) => {
     await openAsgard(page);
     await expect(page.locator('#loadout-app > .loadout-panel')).toBeVisible();
@@ -79,18 +171,19 @@ test('채광은 독립 분류와 모듈 이름, 효과 비교 및 미검증 합�
     await expect(page.locator('.loadout-group.is-mining')).not.toContainText('BONE_ItemPort');
     await page.locator('[data-loadout-open*="BONE_ItemPort_Consumable_1"]').first().click();
     await expect(page.locator('.loadout-opttable thead')).toContainText('레이저 출력 배수');
-    await expect(page.locator('.loadout-picker')).toContainText('합산 방식이 검증되지 않아');
+    await expect(page.locator('.loadout-picker')).toContainText('겹치는 보정의 중첩 결과는 계산하지 않습니다');
 });
 
 test.describe('로드아웃 편집기', () => {
     test('고정 장비도 장착 개수에 포함하고 교체 버튼은 제공하지 않는다', async ({ page }) => {
         await openAsgard(page);
-        const other = page.locator('.loadout-group.is-other');
-        await expect(other.locator('h4')).toContainText('2곳');
-        await expect(other.locator('.loadout-slot.is-fixed')).toHaveCount(2);
+        const other = page.locator('.loadout-group.is-weapon .loadout-slot[data-loadout-slot^="hardpoint_turret_door"]');
+        await expect(other).toHaveCount(2);
+        await expect(other.first()).toHaveClass(/is-fixed/);
+        await expect(other.last()).toHaveClass(/is-fixed/);
         await expect(other.locator('[data-loadout-open]')).toHaveCount(0);
         await page.locator('.nav-lang [data-set-lang="en"]').click();
-        await expect(other.locator('h4')).toContainText('2 slots');
+        await expect(other.locator('.loadout-fixed')).toHaveCount(2);
     });
 
     test('레이더 교체 후 내부 배터리 장착칸이 나타나지 않는다', async ({ page }) => {
@@ -520,7 +613,8 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-equipment-column.is-primary .loadout-group.is-weapon')).toBeVisible();
         await expect(page.locator('.loadout-equipment-column.is-systems .loadout-group.is-shield')).toBeVisible();
         const gun = firstGunSlot(page);
-        await expect(gun.locator('.loadout-slot-label')).toContainText('›');
+        await expect(gun.locator('.loadout-slot-label')).toContainText('왼쪽');
+        await expect(page.locator('[data-loadout-assembly="hardpoint_turret_pilot"]')).toContainText('PC2');
         await expect(gun.locator('.loadout-metric')).toHaveText(/546\s*순간 DPS/);
         // 아래에 부품을 거느린 자리(퀀텀 드라이브 › 점프 모듈)는 들여쓰기로 관계를 보여준다.
         await expect(page.locator('.loadout-group.is-quantum .loadout-slot.is-mount')).toHaveCount(1);
@@ -647,7 +741,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-shipstate')).toHaveText('1곳 변경됨');
         await missiles.locator('[data-loadout-split]').first().click();
         await expect(missiles.locator('.loadout-count')).toHaveText(['×14']);
-        await expect(missiles.locator('.loadout-slot')).toHaveCount(3);
+        await expect(missiles.locator('.loadout-slot:not(.is-mount)')).toHaveCount(3);
         await expect(missiles.locator('h4')).toContainText('16곳');
     });
 
@@ -926,7 +1020,7 @@ test('장비 접기·간결 보기·변경 필터와 다시 실행을 함께 사
     await page.locator('[data-loadout-redo]').click();
     await expect(page.locator('.loadout-slot.is-changed')).toContainText('맨티스');
     await page.locator('#loadout-changed-only').check();
-    await expect(page.locator('.loadout-slot:visible')).toHaveCount(1);
+    await expect(page.locator('.loadout-slot:not(.is-mount):visible')).toHaveCount(1);
 });
 
 test('모바일 상세창은 넘치지 않고 키보드 초점이 창 안에서 순환한다', async ({ page }) => {

@@ -20,6 +20,7 @@
     let deps = {};
     const state = {
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
+        operation: { power: {}, activeModules: {} }, systems: {}, assemblies: new Set(), mining: [],
         equipmentGroup: '', query: '', openPath: '', pickerOrigin: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(), priceNames: new Map(), priceIds: new Map(), plan: { mode: 'cheapest', shops: {}, order: [] }, familyOpen: new Set(), keepPicker: false,
         cartOpen: false, detailShop: '', detailId: '', detailSlot: '', detailReturn: '', detailTab: 'stats', collapsed: new Set(), compact: false, changedOnly: false, redo: [], pickerLimit: 80, pickerReverse: false,
@@ -29,19 +30,22 @@
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
+            powerPlanTitle: '전력·캐패시터 분배', allocation: '배정 전력', minimumPower: '최소 전력', detectionYes: '가능', detectionNo: '불가', radarPing: '핑 재사용 대기', radarPassive: '수동 탐지', radarActive: '능동 탐지', powerBudget: '{used} / {total}칸 배정', powerBudgetHelp: '전력 예산 계획입니다. 부분 전력의 탄창·충전 속도·실드 재생 환산식은 미검증이므로 위 성능 수치는 정격 기준을 유지합니다.', powerAuto: '예산 안에서 배분', powerRated: '정격 요구량', powerReserve: '남은 전력', powerOver: '초과 배정', powerMinimum: '작동 최소 {min} · 최대 {max}칸',
+            power_weapons: '무기', power_engines: '엔진', power_shields: '실드', power_radar: '레이더', power_lifeSupport: '생명 유지', power_coolers: '쿨러', power_quantum: '퀀텀', power_mining: '채광', power_utility: '작업 장비', power_other: '기타',
+            miningResults: '헤드별 채광 성능', extractionPower: '추출 출력', miningBase: '헤드 기본', miningApplied: '적용 출력', unverifiedStack: '출력 계산 미확인', miningOverlap: '겹치는 보정은 합치지 않고 개별 효과로 표시합니다.', engageModule: '효과 활성화', disengageModule: '효과 비활성화', moduleDuration: '지속 시간', moduleCharges: '사용 횟수', activeNow: '활성 상태', inactiveNow: '대기 상태', miningEffects: '보정 출처', aimBuffer: '조준 보조 유지 여유', passiveDetection: '수동 탐지 허용', activeDetection: '능동 탐지 허용', assemblyExpand: '하위 장비 펼치기', assemblyCollapse: '하위 장비 접기', assemblyWeapons: '무기 {count}정', shatterMod: '파편 피해',
             actions: '구성 작업', shipProfile: '함선 정보', pickShop: '이 상점 선택', planHelpTitle: '구매 방식 안내', addAndViewCart: '담고 장바구니 보기', swapPart: '부품 교체',
             superUtility: '채광·작업', visibleSlots: '{shown}곳 표시 / 전체 {count}곳',
             radarSensitivity: '민감도', radarPiercing: '투과 계수', aimMin: '조준 보조 최소 거리', aimMax: '조준 보조 최대 거리',
             radarNote: '게임 자료의 기본 계수입니다. 실제 탐지 거리나 전력 배분에 따른 변화는 계산하지 않습니다.',
             modulePower: '레이저 출력 배수', moduleExtraction: '추출 출력 배수', moduleCharge: '최적 구간 충전 속도 보정',
-            passiveModule: '상시 적용 모듈', activeModule: '활성형 모듈', moduleNote: '모듈 자체의 효과입니다. 헤드·여러 모듈의 합산 방식이 검증되지 않아 합계 성능에는 반영하지 않습니다.',
+            passiveModule: '상시 적용 모듈', activeModule: '활성형 모듈', moduleNote: '헤드별 출력에 확인된 단일 배수를 적용합니다. 활성형은 효과를 켜야 반영됩니다. 겹치는 보정의 중첩 결과는 계산하지 않습니다.',
             shipImpact: '현재 함선 성능', stockComparison: '기본 구성 대비 변화', meteorRack: 'RSI 미티어 기본 랙', cycloneRack: '사이클론 MT 전용 랙',
             equipmentHint: '부품 이름을 눌러 교체 후보를 비교하세요.',
             capacitorSize: '축전 탄창', capacitorDelay: '축전 재충전 지연', partDetails: '부품 상세', statsTab: '성능', shopsTab: '판매처', backToList: '목록으로', previewCompare: '현재 장착 부품과 비교', collapseAll: '장비 모두 접기', expandAll: '장비 모두 펼치기', compactView: '간결하게 보기', changedOnly: '변경한 장비만', noChanges: '변경한 장비가 없습니다.', redo: '다시 실행', equippedNotice: '{name} 장착 완료', detailMissing: '현재 자료에 없는 수치는 표시하지 않습니다.', detailBasis: '기본 부품 수치입니다. 함선 전력 배분과 운용 조건은 반영하지 않습니다.', hpLabel: '부품 내구도', heatShot: '발당 발열', coolingRate: '초당 냉각', coolingDelay: '냉각 시작 지연', heatCapacity: '과열 온도', regenRate: '초당 축전 충전', magSize: '탄창', perProjectile: '발당 피해', fullCharge: '완전 충전 시간', detailCompare: '비교 부품', noComparable: '같은 종류의 비교 부품이 없습니다.',
             refreshFailed: '판매처를 새로 확인하지 못했습니다. 이전에 받은 정보가 표시될 수 있습니다.', planMode: '구매 방식', planCheapest: '최저가 우선', planGrouped: '같은 상점에 모으기', planHelp: '직접 지정한 상점은 유지합니다. 자동 배정은 가장 많은 종류를 파는 상점부터 묶고, 종류 수가 같으면 합계가 싼 곳을 고릅니다. 최단 이동 경로를 계산하는 기능은 아닙니다.', planAuto: '자동 배정', planShop: '구매 상점', planReset: '상점 지정 해제', planMissing: '지정한 상점의 판매 정보를 확인할 수 없습니다. 다른 상점을 선택해 주세요.', planRoute: '방문 순서', planStops: '방문 상점 {count}곳', planUp: '앞으로 이동', planDown: '뒤로 이동', planCopy: '구매 계획 복사', planCopied: '구매 계획을 복사했습니다.', planExtra: '최저가 합계보다 {price} 높음', planUnknown: '판매처 미확인 {count}종은 합계에서 제외됩니다.', refreshPrices: '판매처 새로고침', refreshingPrices: '판매처 확인 중', keepPicker: '교체 후 목록 유지', variants: '도색·변종 {count}종', variantBase: '원형', pickerCart: '현재 부품 장바구니에 담기', liveShipsOnly: '출시가 확인된 함선만 표시합니다.',
             equipmentNav: '장비 종류', allEquipment: '전체 장비', clearFilters: '검색·필터 초기화', filteredEmpty: '조건에 맞는 부품이 없습니다. 검색어나 필터를 바꿔 보세요.', firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
-            equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', offState: '전원 꺼짐 {count}곳', rangeWarning: '항속 {range} Gm 초과 · 중간 급유가 필요합니다.', distanceInvalid: '1~999 Gm 사이 거리를 입력해 주세요.', miningModuleNote: '모듈은 장착·저장·구매 목록에 반영됩니다. 모듈에 따른 채광 성능 변화는 아직 계산하지 않습니다.', changedCount: '{count}곳 변경됨',
+            equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', offState: '전원 꺼짐 {count}곳', rangeWarning: '항속 {range} Gm 초과 · 중간 급유가 필요합니다.', distanceInvalid: '1~999 Gm 사이 거리를 입력해 주세요.', changedCount: '{count}곳 변경됨',
             burstDps: '순간 DPS', laserPower: '레이저 출력', instab: '불안정성', resistMod: '저항성', windowMod: '최적 충전 구간', blastRadius: '폭발 반경', empDmg: '디스토션 피해', radiusShort: '반경', chargeShort: '충전', jamRange: '차단 거리', rackCount: '탑재 수', rackSize: '탄 크기', regenDelay: '피격 뒤 재생 지연', fuelUse: '연료 소모', rackFact: 'S{size} {count}발 탑재', abLabel: '구성 전환', abGo: '구성 {slot}로 전환', abSlot: '구성 {slot}', abStarted: '구성 {slot}를 지금 구성과 같게 만들어 열었습니다. 여기서 바꿔 보고 「구성 비교」에서 견줘 보세요.', abSwitched: '구성 {slot}로 바꿨습니다.', abCompare: '구성 A · B 비교', abHint: '「B」를 누르면 지금 구성을 복제해 바로 다른 부품을 실험할 수 있습니다. 저장은 마음에 드는 구성을 찾은 뒤에 해도 됩니다.', abOpen: '구성 {slot}에서 실험 시작', abCopy: '지금 구성을 {slot}에 덮어쓰기', abCopied: '지금 구성을 구성 {slot}에 복사했습니다.', savedCompare: '저장한 구성과 비교', perShot2: '발당 {value}', totalDmg: '합계 피해', rackOn: 'S{size} {type}', dpsHelp: 'DPS 계산 기준', regenDelayShort: '재생 지연', counterLabel: '디코이 · 노이즈', counterValue: '{decoy}발 · {noise}발', empRow: 'EMP', empValue: '디스토션 {dmg} · 반경 {radius}m · 충전 {charge}초', dampRow: '퀀텀 차단기', dampValue: '차단 거리 {range}m', sustainDps: '지속 DPS', sustainShort: '지속', burstHint: '순간 DPS는 쉬지 않고 쏘는 동안의 값이고, 지속 DPS는 과열되거나 축전 탄창이 비어 쉬는 시간까지 넣어 오래 쏠 때의 평균입니다. 실탄 무기는 과열, 에너지 무기는 축전 탄창이 기준입니다.', limitCol: '오래 쏠 때', limitHeat: '{fire}초 쏘면 과열 · {down}초 뒤 재사격', limitCap: '{fire}초 쏘면 축전 소진 · 재충전 {down}초', limitNone: '제한 없음', ammoTime: '{value}초분', colPart: '부품', colPrice: '최저가', dmg_energy: '에너지', dmg_ballistic: '실탄', dmg_distortion: '디스토션', kind_repeater: '리피터', kind_cannon: '캐논', kind_gatling: '개틀링', kind_scattergun: '스캐터건', kind_beam: '빔', sortHint: '{label} 기준으로 줄 세우기',
             sortLabel: '정렬', sort_best: '성능순', sort_name: '이름순', sort_price: '가격 낮은순', filterLabel: '부품 걸러 보기', buyableOnly: '상점 판매만',
             bulkApply: '같은 부품이 달린 {count}곳을 한 번에 교체', powerShort: '출력', coolingShort: '냉각',
@@ -93,19 +97,22 @@
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
         en: {
+            powerPlanTitle: 'Power & capacitor allocation', allocation: 'Allocated power', minimumPower: 'Minimum power', detectionYes: 'Supported', detectionNo: 'Unsupported', radarPing: 'Ping cooldown', radarPassive: 'Passive detection', radarActive: 'Active detection', powerBudget: '{used} / {total} pips allocated', powerBudgetHelp: 'Power budget plan. Partial-power ammo, recharge and shield-regeneration rules are unverified; performance above remains rated.', powerAuto: 'Fit to budget', powerRated: 'Rated demand', powerReserve: 'Unallocated power', powerOver: 'Over budget', powerMinimum: 'Minimum {min} · maximum {max} pips',
+            power_weapons: 'Weapons', power_engines: 'Engines', power_shields: 'Shields', power_radar: 'Radar', power_lifeSupport: 'Life support', power_coolers: 'Coolers', power_quantum: 'Quantum', power_mining: 'Mining', power_utility: 'Utility', power_other: 'Other',
+            miningResults: 'Mining performance by head', extractionPower: 'Extraction power', miningBase: 'Base head', miningApplied: 'Applied output', unverifiedStack: 'Output unverified', miningOverlap: 'Overlapping modifiers remain separate; no unverified combined value is applied.', engageModule: 'Activate effect', disengageModule: 'Deactivate effect', moduleDuration: 'Duration', moduleCharges: 'Charges', activeNow: 'Active', inactiveNow: 'Standby', miningEffects: 'Modifier sources', aimBuffer: 'Aim-assist retention buffer', passiveDetection: 'Passive detection allowed', activeDetection: 'Active detection allowed', assemblyExpand: 'Expand child equipment', assemblyCollapse: 'Collapse child equipment', assemblyWeapons: '{count} weapons', shatterMod: 'Shatter damage',
             actions: 'Actions', shipProfile: 'Ship information', pickShop: 'Pick this shop', planHelpTitle: 'Purchase planning help', addAndViewCart: 'Add and view cart', swapPart: 'Swap component',
             superUtility: 'Mining & utility', visibleSlots: '{shown} shown / {count} total slots',
             radarSensitivity: 'Sensitivity', radarPiercing: 'Piercing factor', aimMin: 'Minimum aim-assist distance', aimMax: 'Maximum aim-assist distance',
             radarNote: 'Base game-file coefficients. Detection distance and changes from power allocation are not calculated.',
             modulePower: 'Laser power multiplier', moduleExtraction: 'Extraction power multiplier', moduleCharge: 'Optimal charge rate modifier',
-            passiveModule: 'Passive module', activeModule: 'Active module', moduleNote: 'Individual module effects. Combined head/module performance is not calculated because the stacking rule is unverified.',
+            passiveModule: 'Passive module', activeModule: 'Active module', moduleNote: 'Verified single multipliers update the parent head. Active modules require activation. Overlapping modifier composition is not calculated.',
             shipImpact: 'Current ship performance', stockComparison: 'Change from stock setup', meteorRack: 'RSI Meteor stock rack', cycloneRack: 'Cyclone MT bespoke rack',
             equipmentHint: 'Select a component name to compare replacements.',
             capacitorSize: 'Capacitor capacity', capacitorDelay: 'Capacitor recharge delay', partDetails: 'Component details', statsTab: 'Stats', shopsTab: 'Shops', backToList: 'Back to list', previewCompare: 'Compare with equipped part', collapseAll: 'Collapse equipment', expandAll: 'Expand equipment', compactView: 'Compact view', changedOnly: 'Changed equipment only', noChanges: 'No equipment has changed.', redo: 'Redo', equippedNotice: '{name} equipped', detailMissing: 'Values missing from the current data are not shown.', detailBasis: 'Base component values; ship power allocation and operating conditions are not applied.', hpLabel: 'Component health', heatShot: 'Heat per shot', coolingRate: 'Cooling per second', coolingDelay: 'Cooling delay', heatCapacity: 'Overheat temperature', regenRate: 'Capacitor regen per second', magSize: 'Magazine', perProjectile: 'Damage per shot', fullCharge: 'Full charge time', detailCompare: 'Comparison part', noComparable: 'No component of the same type to compare.',
             refreshFailed: 'Could not refresh shops. Previously fetched offers may still be shown.', planMode: 'Purchase strategy', planCheapest: 'Lowest price', planGrouped: 'Group at shared shops', planHelp: 'Manual shop choices stay fixed. Automatic assignment picks the shop selling the most remaining product types, then the lowest combined cost. This does not calculate the shortest travel route.', planAuto: 'Automatic', planShop: 'Purchase shop', planReset: 'Clear shop choices', planMissing: 'The chosen shop offer is unavailable. Select another shop.', planRoute: 'Visit order', planStops: '{count} shops to visit', planUp: 'Move earlier', planDown: 'Move later', planCopy: 'Copy purchase plan', planCopied: 'Purchase plan copied.', planExtra: '{price} above the lowest-price total', planUnknown: '{count} products without a confirmed shop are excluded from the total.', refreshPrices: 'Refresh shops', refreshingPrices: 'Checking shops', keepPicker: 'Keep list open after equipping', variants: '{count} paints / variants', variantBase: 'Base model', pickerCart: 'Add current part to cart', liveShipsOnly: 'Only ships confirmed as released are listed.',
             equipmentNav: 'Equipment categories', allEquipment: 'All equipment', clearFilters: 'Clear search & filters', filteredEmpty: 'No parts match. Try another search or clear the filters.', firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
-            equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', offState: '{count} powered off', rangeWarning: 'Exceeds {range} Gm range · refuelling required.', distanceInvalid: 'Enter a distance between 1 and 999 Gm.', miningModuleNote: 'Modules are included in your loadout, saves and shopping list. Their effects on mining performance are not yet calculated.', changedCount: '{count} slots changed',
+            equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', offState: '{count} powered off', rangeWarning: 'Exceeds {range} Gm range · refuelling required.', distanceInvalid: 'Enter a distance between 1 and 999 Gm.', changedCount: '{count} slots changed',
             burstDps: 'Burst DPS', laserPower: 'Laser power', instab: 'Instability', resistMod: 'Resistance', windowMod: 'Optimal window', blastRadius: 'Blast radius', empDmg: 'Distortion damage', radiusShort: 'Radius', chargeShort: 'Charge', jamRange: 'Jammer range', rackCount: 'Capacity', rackSize: 'Ordnance size', regenDelay: 'Regen delay after hit', fuelUse: 'Fuel use', rackFact: 'Holds {count} × S{size}', abLabel: 'Switch setup', abGo: 'Switch to setup {slot}', abSlot: 'Setup {slot}', abStarted: 'Opened setup {slot} as a copy of the current setup. Change parts here and use Compare to see the difference.', abSwitched: 'Switched to setup {slot}.', abCompare: 'Setup A vs B', abHint: 'Press B to clone the current setup and try other parts right away. You can save once you find a setup you like.', abOpen: 'Start experimenting in setup {slot}', abCopy: 'Overwrite setup {slot} with the current one', abCopied: 'Copied the current setup to setup {slot}.', savedCompare: 'Compare with a saved setup', perShot2: '{value} each', totalDmg: 'Total damage', rackOn: 'S{size} {type}', dpsHelp: 'How DPS is calculated', regenDelayShort: 'Regen delay', counterLabel: 'Decoys · noise', counterValue: '{decoy} · {noise}', empRow: 'EMP', empValue: '{dmg} distortion · {radius} m radius · {charge}s charge', dampRow: 'Quantum dampener', dampValue: '{range} m jammer range', sustainDps: 'Sustained DPS', sustainShort: 'sustained', burstHint: 'Burst DPS is the value while firing without a break. Sustained DPS is the long-run average including the pauses for overheating (ballistic) or an empty capacitor (energy).', limitCol: 'Sustained fire', limitHeat: 'Overheats after {fire}s · fires again after {down}s', limitCap: 'Capacitor empty after {fire}s · recharge {down}s', limitNone: 'No limit', ammoTime: '{value}s of fire', colPart: 'Part', colPrice: 'Lowest price', dmg_energy: 'Energy', dmg_ballistic: 'Ballistic', dmg_distortion: 'Distortion', kind_repeater: 'Repeater', kind_cannon: 'Cannon', kind_gatling: 'Gatling', kind_scattergun: 'Scattergun', kind_beam: 'Beam', sortHint: 'Sort by {label}',
             sortLabel: 'Sort', sort_best: 'Best first', sort_name: 'Name', sort_price: 'Lowest price', filterLabel: 'Filter parts', buyableOnly: 'Sold in shops',
             bulkApply: 'Replace all {count} slots with this part', powerShort: 'Output', coolingShort: 'Cooling',
@@ -209,8 +216,9 @@
             stored.off = { ...(stored.off || {}) };
             if (Object.keys(state.off).length) stored.off[state.shipCls] = state.off; else delete stored.off[state.shipCls];
             // 저장 없이 오가는 두 번째 구성(A/B). 지금 보고 있지 않은 쪽을 따로 둔다.
+            stored.operation = { ...(stored.operation || {}), [state.shipCls]: state.operation };
             stored.alt = { ...(stored.alt || {}) };
-            if (state.alt) stored.alt[state.shipCls] = { slot: state.slot, overrides: state.alt.overrides, off: state.alt.off }; else delete stored.alt[state.shipCls];
+            if (state.alt) stored.alt[state.shipCls] = { slot: state.slot, overrides: state.alt.overrides, off: state.alt.off, operation: state.alt.operation }; else delete stored.alt[state.shipCls];
             localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
         } catch (_error) { /* 저장 공간을 쓸 수 없어도 편집은 계속된다 */ }
     }
@@ -232,6 +240,7 @@
             fetchJson(`${DATA_BASE}/availability.json`, { cache: 'no-cache' }),
             fetchJson(`${DATA_BASE}/comparison.json?v=${stamp}`).catch(() => null),
         ]);
+        state.systems = comparison?.gameVersion === meta.gameVersion ? comparison.ships || {} : {};
         state.meta = meta; state.index = index.ships.filter((ship) => availability.released.includes(ship.cls)); state.shipAliases = index.aliases || {}; state.items = items.items; state.ko = ko;
         // Never apply research from another game build to this catalog.
         if (comparison?.gameVersion === meta.gameVersion) for (const [id, values] of Object.entries(comparison.items)) {
@@ -256,7 +265,7 @@
 
     let shipRequest = 0;
 
-    async function selectShip(requested, overrides, off) {
+    async function selectShip(requested, overrides, off, operation) {
         if (!/^[a-z0-9_]+$/i.test(requested || '')) return;
         const request = ++shipRequest;
         let cls = requested;
@@ -269,15 +278,17 @@
             const ship = await fetchJson(`${DATA_BASE}/ships/${cls}.json?v=${state.meta?.stamp || ''}`);
             if (request !== shipRequest) return;
             const sameShip = cls === state.shipCls;
+            ship.systems = state.systems[cls];
             state.ship = ship; state.shipCls = cls; state.history = []; state.redo = []; state.detailId = ''; state.changedOnly = false; state.equipmentGroup = '';
             const stored = overrides ?? readStored().sets?.[cls] ?? readStored().sets?.[requested] ?? {};
             state.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(stored).map(([path, id]) => [path, canonicalItem(id)])));
             state.off = cleanOff(off ?? (overrides === undefined ? readStored().off?.[cls] : {}) ?? {});
+            state.operation = calc.sanitizeOperation(ship, state.items, state.overrides, operation ?? (overrides === undefined ? readStored().operation?.[cls] : {}));
             // A/B: 저장해 둔 것을 되살리고, 같은 함선에 구성을 불러올 때는 다른 쪽을 그대로 둔다.
             if (overrides === undefined) {
                 const alt = readStored().alt?.[cls];
                 state.slot = alt?.slot === 'B' ? 'B' : 'A';
-                state.alt = alt ? { overrides: calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(alt.overrides || {}).map(([path, id]) => [path, canonicalItem(id)]))), off: alt.off || {} } : null;
+                state.alt = alt ? { overrides: calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(alt.overrides || {}).map(([path, id]) => [path, canonicalItem(id)]))), off: alt.off || {}, operation: calc.sanitizeOperation(ship, state.items, alt.overrides || {}, alt.operation) } : null;
             } else if (!sameShip) { state.slot = 'A'; state.alt = null; }
             writeStored();
         } catch (error) {
@@ -289,6 +300,10 @@
         loadPricesForChanged();
     }
 
+    function readOperation(value) { try { return JSON.parse(value || '{}'); } catch (_error) { return {}; } }
+    const copyOperation = () => ({ power: { ...state.operation.power }, activeModules: { ...state.operation.activeModules } });
+    const cleanOperation = (value) => calc.sanitizeOperation(state.ship, state.items, state.overrides, value);
+
     async function render() {
         if (!root() || !calc || !deps.canUse?.()) return;
         state.loading = true; draw();
@@ -299,7 +314,7 @@
             const stored = readStored();
             const known = (cls) => state.index.some((ship) => ship.cls === canonicalShip(cls));
             // 공유 링크는 처음 한 번만 적용한다(언어 전환 등으로 다시 그릴 때 편집 내용을 덮어쓰지 않게).
-            if (shared && known(shared) && !state.sharedApplied) { state.sharedApplied = true; return selectShip(shared, calc.decodeOverrides(params.get('set') || ''), Object.fromEntries((params.get('off') || '').split(',').filter(Boolean).map((key) => [key, true]))); }
+            if (shared && known(shared) && !state.sharedApplied) { state.sharedApplied = true; return selectShip(shared, calc.decodeOverrides(params.get('set') || ''), Object.fromEntries((params.get('off') || '').split(',').filter(Boolean).map((key) => [key, true])), readOperation(params.get('op'))); }
             if (state.shipCls && known(state.shipCls)) { state.loading = false; draw(); return undefined; }
             if (stored.ship && known(stored.ship)) return selectShip(stored.ship);
         } catch (error) {
@@ -407,7 +422,7 @@
         if (mfrName(item)) parts.push(mfrName(item));
         if (/RSI_Meteor$/.test(item.cls || '') && item.type === 'MissileLauncher') parts.push(text('meteorRack'));
         else if (/Cyclone_MT/.test(item.cls || '') && /Launcher$/.test(item.type)) parts.push(text('cycloneRack'));
-        else if (item.variant || item.req?.length) parts.push(text('variantNote'));
+        else if (item.variant) parts.push(text('variantNote'));
         if (item.miningModule) parts.push(text(item.miningModule.activation === 'ActivateOnAttach' ? 'passiveModule' : 'activeModule'));
         return parts.join(' · ');
     }
@@ -506,7 +521,7 @@
                     <button type="button" class="btn btn-secondary" data-loadout-undo ${state.history.length ? '' : 'disabled'}>${esc(text('undo'))}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-redo ${state.redo.length ? '' : 'disabled'}>${esc(text('redo'))}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-share>${esc(text('share'))}</button>
-                    <button type="button" class="btn btn-secondary" data-loadout-reset-all ${Object.keys(state.overrides).length || Object.keys(state.off).length ? '' : 'disabled'}>${esc(text('resetAll'))}</button>
+                    <button type="button" class="btn btn-secondary" data-loadout-reset-all ${Object.keys(state.overrides).length || Object.keys(state.off).length || Object.keys(state.operation.power).length || Object.keys(state.operation.activeModules).length ? '' : 'disabled'}>${esc(text('resetAll'))}</button>
             <button type="button" class="btn btn-secondary" data-loadout-quick-cart-changed ${cost.rows.length ? '' : 'disabled'}>${esc(text('cartAddChanged'))}</button>
             <button type="button" class="btn btn-secondary" data-loadout-view="compare">${esc(text('tab_compare'))}</button>
         </div>${state.buildsOpen ? drawBuilds() : ''}</section>`;
@@ -608,7 +623,7 @@ ${drawFlight()}${fold('quantum', 'loadout-quantum', text('quantum'), quantum?.ra
                 <div class="loadout-travel"><label for="loadout-qt-distance">${esc(text('travelFor'))}</label><input type="number" id="loadout-qt-distance" inputmode="decimal" min="1" max="999" step="1" value="${esc(state.qtDistance)}"><span class="loadout-travel-result"><span class="loadout-stat-label">${esc(text('travelTime'))}</span><strong id="loadout-qt-time">${esc(travelText(quantum))}</strong></span></div><p id="loadout-qt-warning" class="loadout-travel-warning" role="status" ${travelWarning(quantum) ? '' : 'hidden'}>${esc(travelWarning(quantum))}</p>
                 <p class="loadout-note">${esc(text('travelNote'))}</p>` : `<p class="loadout-note">${esc(text('quantumNone'))}</p>`, true)}
 </div>
-            <div class="loadout-overview-column is-operations"><section class="loadout-panel-section loadout-ship-profile"><h4>${esc(text('shipProfile'))}</h4><p>${esc(shipName(state.ship))} · ${esc(roleName(state.ship))}</p><dl class="loadout-rows">${row(text('makerFilter'), makerName(state.ship))}${row(text('size'), `S${state.ship.size || '—'}`)}${state.ship.base?.mass ? row(text('mass'), `${num(state.ship.base.mass)} kg`) : ''}</dl></section>${drawActions(cost)}${section(text('systems'), `
+            <div class="loadout-overview-column is-operations"><section class="loadout-panel-section loadout-ship-profile"><h4>${esc(text('shipProfile'))}</h4><p>${esc(shipName(state.ship))} · ${esc(roleName(state.ship))}</p><dl class="loadout-rows">${row(text('makerFilter'), makerName(state.ship))}${row(text('size'), `S${state.ship.size || '—'}`)}${state.ship.base?.mass ? row(text('mass'), `${num(state.ship.base.mass)} kg`) : ''}</dl></section>${drawActions(cost)}${drawPowerPlan()}${section(text('systems'), `
                 <div class="loadout-statpair">
                     ${stat(text('power'), num(totals.power.gen, 1), drawChange(totals.power.gen, stock.power.gen, 1))}
                     ${stat(text('cooling'), num(totals.cooling.gen, 1), drawChange(totals.cooling.gen, stock.cooling.gen, 1))}
@@ -652,15 +667,21 @@ ${section(text('cost'), `
         const beam = (w) => calc.sumDamage(w?.beamDps);
         if (item.type === 'WeaponMining' && item.w) list.push(m(text('laserPower'), beam(item.w)), m(`${text('rangeShort')} (m)`, calc.weaponRange(item)), m(`${text('instab')} (%)`, item.mine?.instab, 0, 'low'), m(`${text('resistMod')} (%)`, item.mine?.resist, 0, 'low'), m(`${text('windowMod')} (%)`, item.mine?.window));
         else if (item.radar) {
-            for (const [key, label] of [['Infrared', 'IR'], ['Electromagnetic', 'EM'], ['CrossSection', 'CS']]) {
+            for (const [key, label] of [['Infrared', 'IR'], ['Electromagnetic', 'EM'], ['CrossSection', 'CS'], ['Resource', 'RS']]) {
                 const signature = item.radar.signatures?.[key];
                 if (signature) list.push(m(label + ' ' + text('radarSensitivity'), signature.sensitivity, 2));
             }
             if (item.radar.aim?.distanceMaxAssignment !== undefined) list.push(m(text('aimMax') + ' (m)', item.radar.aim.distanceMaxAssignment));
+            if (item.radar.aim?.distanceMinAssignment !== undefined) list.push(m(text('aimMin') + ' (m)', item.radar.aim.distanceMinAssignment, 0, 'low'));
+            if (item.radar.aim?.outsideRangeBufferDistance !== undefined) list.push(m(text('aimBuffer') + ' (m)', item.radar.aim.outsideRangeBufferDistance));
+            if (item.powerLimits) list.push(m(text('minimumPower'), item.powerLimits.min, 1, 'low'));
         }
         else if (item.miningModule) {
             const mod = item.miningModule;
             list.push(m(text('modulePower') + ' ×', mod.power, 2), m(text('moduleExtraction') + ' ×', mod.extraction, 2), m(text('resistMod') + ' (%)', mod.resistance, 1, 'low'), m(text('instab') + ' (%)', mod.instability, 1, 'low'), m(text('windowMod') + ' (%)', mod.window, 1));
+            list.push(m(text('moduleCharge') + ' (%)', mod.chargeRate, 1));
+            list.push({ label: text('moduleDuration') + ' (s)', value: mod.activation === 'ActivateOnDemand' ? mod.duration ?? null : null, digits: 0 });
+            list.push({ label: text('moduleCharges'), value: mod.activation === 'ActivateOnDemand' ? mod.charges ?? null : null, digits: 0 });
         }
         else if (item.emp) list.push(m(text('empDmg'), item.emp.dmg), m(`${text('radiusShort')} (m)`, item.emp.radius), m(`${text('chargeShort')} (s)`, item.emp.charge, 1, 'low'), m(`${text('cooldownLabel')} (s)`, item.emp.cool, 1, 'low'));
         else if (item.qig) list.push(m(`${text('jamRange')} (m)`, item.qig.range), m(`${text('chargeShort')} (s)`, item.qig.charge, 1, 'low'));
@@ -713,7 +734,7 @@ ${section(text('cost'), `
     const sortFn = (key) => {
         const index = /^m(\d)$/.exec(key)?.[1];
         if (!index) return SORTS[key] || SORTS.best;
-        return (a, b) => { const x = pickerMetrics(a)[index]; const y = pickerMetrics(b)[index]; if (!x || !y) return (y ? 1 : 0) - (x ? 1 : 0); return x.better === 'low' ? x.value - y.value : y.value - x.value; };
+        return (a, b) => { const x = pickerMetrics(a)[index]; const y = pickerMetrics(b)[index]; if (!x || !y || x.value === null || y.value === null) return (y?.value != null ? 1 : 0) - (x?.value != null ? 1 : 0); return x.better === 'low' ? x.value - y.value : y.value - x.value; };
     };
 
     // 부품 교체창은 어느 화면에서나 화면을 덮는 넓은 창으로 뜬다(후보를 표로 나란히 견주기 위해).
@@ -743,7 +764,7 @@ ${section(text('cost'), `
 
     function detailMetrics(item) {
         if (!item) return [];
-        const rows = metricsOf(item).map((m) => ({ ...m, unit: m.label === text('rangeShort') || m.label === text('radiusShort') ? 'm' : m.label === text('spoolLabel') || m.label === text('cooldownLabel') || m.label === text('regenDelay') ? 's' : '' }));
+        const rows = metricsOf(item).filter((m) => m.value !== null).map((m) => ({ ...m, unit: m.label === text('rangeShort') || m.label === text('radiusShort') ? 'm' : m.label === text('spoolLabel') || m.label === text('cooldownLabel') || m.label === text('regenDelay') ? 's' : '' }));
         const add = (key, value, unit = '', better = 'high') => {
             if (value === undefined || value === null || !Number.isFinite(Number(value))) return;
             const label = text(key);
@@ -764,9 +785,12 @@ ${section(text('cost'), `
         if (item.radar) {
             for (const [key, label] of [['Infrared', 'IR'], ['Electromagnetic', 'EM'], ['CrossSection', 'CS'], ['Resource', 'RS']]) {
                 const signature = item.radar.signatures?.[key];
-                if (signature) rows.push({ label: label + ' ' + text('radarPiercing'), value: signature.piercing, digits: 2, unit: '×', better: 'high' });
+                if (signature) {
+                    rows.push({ label: label + ' ' + text('radarPiercing'), value: signature.piercing, digits: 2, unit: '×', better: 'high' });
+                    for (const [key, title] of [['permitPassiveDetection', 'radarPassive'], ['permitActiveDetection', 'radarActive']]) rows.push({ label: label + ' ' + text(title), value: Number(signature[key]), binary: true, digits: 0 });
+                }
             }
-            add('aimMin', item.radar.aim?.distanceMinAssignment, 'm');
+            add('radarPing', item.radar.ping, 's', 'low');
         }
         if (item.miningModule) add('moduleCharge', item.miningModule.chargeRate, '%');
         if (item.sh?.regen > 0) add('fullCharge', item.sh.hp / item.sh.regen, 's', 'low');
@@ -783,7 +807,7 @@ ${section(text('cost'), `
         const info = priceInfo(id, item);
         const rows = detailMetrics(item);
         const stats = `${item.miningModule || item.radar ? `<p class="loadout-note">${esc(text(item.miningModule ? 'moduleNote' : 'radarNote'))}</p>` : ''}<p class="loadout-note">${esc(text('detailBasis'))}</p>${current ? `<p class="loadout-detail-baseline">${esc(text('previewCompare'))}: <strong>${esc(itemName(node.itemId, current))}</strong></p>` : ''}
-            <dl class="loadout-detail-stats">${rows.map((m) => `<div><dt>${esc(m.label)}</dt><dd>${esc(num(m.value, m.digits))}${m.unit ? ` <small>${esc(m.unit)}</small>` : ''}${baseline.has(m.label) ? drawChange(m.value, baseline.get(m.label).value, m.digits, m.better) : ''}</dd></div>`).join('')}</dl>
+            <dl class="loadout-detail-stats">${rows.map((m) => `<div><dt>${esc(m.label)}</dt><dd>${esc(m.binary ? text(m.value ? 'detectionYes' : 'detectionNo') : num(m.value, m.digits))}${m.unit ? ` <small>${esc(m.unit)}</small>` : ''}${!m.binary && baseline.has(m.label) ? drawChange(m.value, baseline.get(m.label).value, m.digits, m.better) : ''}</dd></div>`).join('')}</dl>
             ${item.w ? `<section><h4>${esc(text('dmgKind'))}</h4><dl class="loadout-detail-stats">${Object.entries(item.w.dmg || item.w.beamDps || {}).map(([key, value]) => `<div><dt>${esc(table('damage')[key] || key)}</dt><dd>${esc(num(value, 2))}</dd></div>`).join('')}</dl></section>` : ''}
             <p class="loadout-note">${esc(text('detailMissing'))}</p>`;
         const shops = info.shops.length ? `<div class="loadout-shop-summary"><strong>${esc(credits(info.min))}</strong><span>${esc(text('cheapest'))} · ${esc(text('priceShops', { count: info.shops.length }))}</span></div><ul class="loadout-detail-shops">${info.shops.map((shop) => `<li class="${state.detailShop === planner.shopKey(shop) ? 'is-selected' : ''}"><div><strong>${esc(shop.shop)}</strong><span class="loadout-meta">${esc([shop.system, shop.place].filter(Boolean).join(' / '))}</span><b>${esc(credits(shop.price))}</b></div><button type="button" class="loadout-shop-pick" data-loadout-shop-pick="${esc(planner.shopKey(shop))}" aria-pressed="${state.detailShop === planner.shopKey(shop)}" aria-label="${esc(text('pickShop'))}: ${esc(shop.shop)}">${state.detailShop === planner.shopKey(shop) ? '✓' : '+'}</button></li>`).join('')}</ul>` : `${drawPrice(id, item)}<p class="loadout-note">${esc(text('lootNote'))}</p>`;
@@ -836,8 +860,8 @@ ${section(text('cost'), `
         // 수치 한 칸. 지금 달린 부품과 견준 차이를 유리·불리 색으로 붙인다("동일"은 그 칸의 수치가 같다는 뜻).
         const cell = (item, column, isCurrent) => {
             const metric = pickerMetrics(item).find((entry) => entry.label === column.label);
-            if (!metric) return `<td class="loadout-cmp-cell is-blank">—</td>`;
-            const base = isCurrent ? null : now.get(metric.label);
+            if (!metric || metric.value === null) return `<td class="loadout-cmp-cell is-blank">—</td>`;
+            const base = isCurrent || now.get(metric.label)?.value == null ? null : now.get(metric.label);
             const diff = base ? metric.value - base.value : 0;
             const delta = !base ? '' : Math.abs(diff) < (metric.digits ? 0.05 : 0.5) ? `<span class="loadout-delta">${esc(text('same'))}</span>`
                 : `<span class="loadout-delta is-${toneOf(diff, metric.better)}">${diff > 0 ? '+' : '−'}${esc(num(Math.abs(diff), metric.digits))}${toneWord(toneOf(diff, metric.better))}</span>`;
@@ -954,6 +978,10 @@ ${section(text('cost'), `
     }
     // 오른쪽 대표 수치. 묶인 미사일·폭탄은 묶음 전체의 피해 합계를 보여 준다.
     function slotMetric(node) {
+        if (node.item?.miningHead) {
+            const result = state.mining.find((head) => head.path === node.path);
+            if (result) return `<span class="loadout-metric" data-loadout-mining-power="${esc(node.path)}"><b>${result.power.value === null ? '—' : esc(num(result.power.value))}</b><small>${esc(result.power.verified ? text('laserPower') : text('unverifiedStack'))}</small></span>`;
+        }
         if (node.hasChildren && !node.item?.qd && node.item?.type !== 'WeaponMining') return '<span class="loadout-metric"></span>';
         if (node.item?.ms && node.run) return `<span class="loadout-metric"><b>${esc(num(calc.sumDamage(node.item.ms.dmg) * node.run.length))}</b><small>${esc(text('totalDmg'))}</small></span>`;
         return drawMetric(node.item);
@@ -965,7 +993,7 @@ ${section(text('cost'), `
         const editable = slot.kind === 's';
         const open = state.openPath === path || (node.mount && state.openPath === node.mount.path);
         const off = Boolean(state.off[path]);
-        const canPower = item && Number(item.power?.use) > 0;
+        const canPower = item && (Number(item.power?.use) > 0 || node.hasChildren);
         // 랙에 실린 미사일·폭탄은 탄 자체의 크기를 앞에 보이고, 랙 크기는 위치 설명에 적는다.
         const ordnanceOnRack = Boolean(node.mount && item?.ms);
         const sized = ordnanceOnRack ? slot : (node.mount?.slot || slot);
@@ -976,7 +1004,7 @@ ${section(text('cost'), `
         const place = `${[node.crumb, own].filter(Boolean).join(' › ')}${ordnanceOnRack ? ` · ${text('rackOn', { size: node.mount.slot.max ?? node.mount.item?.size ?? '?', type: typeLabel(node.mount.item?.type) })}` : ''}`;
         placeOf.set(path, place);
         return `<li class="loadout-slot${node.mount ? ' has-mount' : ''}${changed ? ' is-changed' : ''}${open ? ' is-open' : ''}${editable ? '' : ' is-fixed'}${item ? '' : ' is-empty'}${off ? ' is-off' : ''}${node.hasChildren ? ' is-mount' : ''}${node.level ? ' is-child' : ''}" data-loadout-slot="${esc(path)}" data-loadout-level="${node.level || 0}">
-            ${node.mount ? `<div class="loadout-mount-card"><span class="loadout-mount-size">S${esc(node.mount.item?.size ?? node.mount.slot.max ?? '?')}</span><span class="loadout-mount-label">${esc(typeLabel(node.mount.item?.type))}</span><button type="button" class="loadout-component-open" data-loadout-component-open="${esc(node.mount.path)}">${esc(itemName(node.mount.itemId, node.mount.item))}</button>${drawFacts(node.mount.item, 2)}<button type="button" class="loadout-link" data-loadout-mount-detail="${esc(node.mount.itemId)}" data-loadout-detail-slot="${esc(node.mount.path)}">${esc(text('partDetails'))}</button></div>` : ''}
+            ${node.mount ? `<div class="loadout-mount-card"><span class="loadout-mount-size">S${esc(node.mount.item?.size ?? node.mount.slot.max ?? '?')}</span><span class="loadout-mount-label">${esc(typeLabel(node.mount.item?.type))}</span>${node.mount.slot.kind === 's' ? `<button type="button" class="loadout-component-open" data-loadout-component-open="${esc(node.mount.path)}">${esc(itemName(node.mount.itemId, node.mount.item))}</button>` : `<strong>${esc(itemName(node.mount.itemId, node.mount.item))}</strong>`}${drawFacts(node.mount.item, 2)}<button type="button" class="loadout-link" data-loadout-mount-detail="${esc(node.mount.itemId)}" data-loadout-detail-slot="${esc(node.mount.path)}">${esc(text('partDetails'))}</button></div>` : ''}
             <div class="loadout-slot-row">
                 <span class="loadout-size" aria-hidden="true">${esc(size)}</span>
                 <div class="loadout-slot-main">
@@ -985,8 +1013,9 @@ ${section(text('cost'), `
                     ${facts.length ? `<span class="loadout-slot-facts">${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}</span>` : ''}
                 </div>
                 ${slotMetric(node)}
-                ${item?.w ? `<div class="loadout-component-stats"><span>${esc(text('alphaShort'))}<b>${num(calc.weaponStats(item).alpha, 1)}</b></span><span>${esc(text('rpmShort'))}<b>${num(item.w.rpm)}</b></span><span>${esc(text('magSize'))}<b>${num(item.w.ammo || item.w.regen?.load)}</b></span><span>${esc(text('powerUseLabel'))}<b>${num(item.power?.use, 1)}</b></span></div>` : ''}
+                ${calc.isGun(item) ? `<div class="loadout-component-stats"><span>${esc(text('alphaShort'))}<b>${num(calc.weaponStats(item).alpha, 1)}</b></span><span>${esc(text('rpmShort'))}<b>${num(item.w.rpm)}</b></span><span>${esc(text('magSize'))}<b>${num(item.w.ammo || item.w.regen?.load)}</b></span><span>${esc(text('powerUseLabel'))}<b>${num(item.power?.use, 1)}</b></span></div>` : ''}
                 <div class="loadout-slot-actions">
+                    ${item?.miningModule?.activation === 'ActivateOnDemand' ? `<button type="button" class="loadout-link" data-loadout-module-active="${esc(path)}" aria-pressed="${Boolean(state.operation.activeModules[path])}">${esc(text(state.operation.activeModules[path] ? 'disengageModule' : 'engageModule'))}</button>` : ''}
                     ${item ? `<button type="button" class="loadout-link" data-loadout-detail="${esc(itemId)}" data-loadout-detail-slot="${esc(path)}">${esc(text('partDetails'))}</button>` : ''}
                     ${item ? `<button type="button" class="loadout-link" data-loadout-shop-detail="${esc(itemId)}" data-loadout-detail-slot="${esc(path)}" data-loadout-shops>${esc(text('shopsTab'))}</button>` : ''}
                     ${changed ? `<button type="button" class="loadout-link" data-loadout-reset="${esc(node.mount?.changed ? node.mount.path : path)}">${esc(text('reset'))}</button>` : ''}
@@ -1001,6 +1030,47 @@ ${section(text('cost'), `
     // 큰 묶음(무장 / 방어·동력 / 이동·기타) 안에 종류별 목록을 둔다.
     const SUPER_GROUPS = [['superArms', ['weapon', 'missile']], ['superDefense', ['shield', 'power', 'cooler']], ['superTravel', ['quantum', 'radar', 'other']], ['superUtility', ['mining', 'utility']]];
 
+    function drawPowerPlan() {
+        if (!state.ship.systems) return '';
+        const plan = calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off, operation: state.operation });
+        const control = (group) => {
+            const steps = [...new Set(Array.from({ length: Math.min(group.max, 20) }, (_, i) => Math.ceil((i + 1) * group.max / Math.min(group.max, 20))))];
+            return `<div class="loadout-power-channel"><label for="loadout-power-${group.key}">${esc(text(`power_${group.key}`))}</label><div class="loadout-power-pips" role="group" aria-label="${esc(text(`power_${group.key}`))}">${steps.reverse().map((value) => `<button type="button" class="${value <= group.allocated ? 'is-filled' : ''}" data-loadout-pip="${group.key}" data-loadout-value="${value}" aria-label="${esc(text(`power_${group.key}`))} ${value}" aria-pressed="${group.allocated === value}"><span>${value}</span></button>`).join('')}</div><input id="loadout-power-${group.key}" type="number" inputmode="numeric" min="0" max="${group.max}" step="1" value="${group.allocated}" data-loadout-power-value="${group.key}" aria-describedby="loadout-power-hint-${group.key}"><small id="loadout-power-hint-${group.key}">${esc(text('powerMinimum', group))}</small></div>`;
+        };
+        return `<section class="loadout-panel-section loadout-power-plan"><h4>${esc(text('powerPlanTitle'))}</h4><div class="loadout-power-budget${plan.remaining < 0 ? ' is-over' : ''}" role="status">${esc(text('powerBudget', { used: num(plan.allocated), total: num(plan.generation) }))}<strong>${esc(text(plan.remaining < 0 ? 'powerOver' : 'powerReserve'))} ${num(Math.abs(plan.remaining), 1)}</strong></div><div class="loadout-power-channels">${plan.groups.map(control).join('')}</div><div class="loadout-power-actions"><button type="button" class="btn btn-secondary" data-loadout-power-auto>${esc(text('powerAuto'))}</button><button type="button" class="loadout-link" data-loadout-power-rated>${esc(text('powerRated'))}</button></div><p class="loadout-note">${esc(text('powerBudgetHelp'))}</p></section>`;
+    }
+
+    const miningLabels = { laserInstability: 'instab', resistanceModifier: 'resistMod', optimalChargeWindowSizeModifier: 'windowMod', optimalChargeWindowRateModifier: 'moduleCharge', shatterdamageModifier: 'shatterMod' };
+    function drawMiningEffects(head) {
+        if (!head) return '';
+        const effects = (values) => Object.entries(values || {}).filter(([key]) => miningLabels[key]).map(([key, effect]) => `${text(miningLabels[key])} ${effect.value > 0 ? '+' : ''}${num(effect.value, 1)}%`).join(' · ');
+        const output = (result) => result.value === null ? text('unverifiedStack') : num(result.value);
+        return `<section class="loadout-mining-result" aria-label="${esc(text('miningResults'))}"><div class="loadout-mining-output"><span>${esc(text('laserPower'))}<strong>${esc(output(head.power))}</strong><small>${esc(text('miningBase'))} ${head.power.base === null ? '—' : num(head.power.base)}</small></span><span>${esc(text('extractionPower'))}<strong>${esc(output(head.extraction))}</strong><small>${esc(text('miningBase'))} ${head.extraction.base === null ? '—' : num(head.extraction.base)}</small></span></div><details><summary>${esc(text('miningEffects'))}</summary><p>${esc(text('miningOverlap'))}</p><dl><dt>${esc(itemName(head.itemId, head.item))}</dt><dd>${esc(effects(head.item.miningHead.effects)) || '—'}</dd>${head.modules.map((node) => `<dt>${esc(itemName(node.itemId, node.item))} · ${esc(text(node.active ? 'activeNow' : 'inactiveNow'))}</dt><dd>${esc(effects(node.item.miningModule.effects)) || '—'}</dd>`).join('')}</dl></details></section>`;
+    }
+
+    function drawAssemblyRows(rows) {
+        let html = '';
+        for (let i = 0; i < rows.length; i += 1) {
+            const row = rows[i];
+            let end = i + 1;
+            while (row.hasChildren && end < rows.length && rows[end].path.startsWith(`${row.path}/`)) end += 1;
+            const children = rows.slice(i + 1, end);
+            const changed = row.changed || row.mount?.changed || state.off[row.path] || state.operation.activeModules[row.path] || children.some((node) => node.changed || node.mount?.changed || state.off[node.path] || state.operation.activeModules[node.path]);
+            const hidden = state.changedOnly && !changed;
+            if (children.length) {
+                const closed = state.assemblies.has(row.path);
+                const guns = allNodes().filter((node) => node.path.startsWith(`${row.path}/`) && calc.isGun(node.item));
+                const dps = guns.reduce((sum, node) => sum + (Object.keys(state.off).some((path) => state.off[path] && (node.path === path || node.path.startsWith(`${path}/`))) ? 0 : calc.weaponStats(node.item).dps), 0);
+                html += `<li class="loadout-assembly" data-loadout-assembly="${esc(row.path)}" ${hidden ? 'hidden' : ''}><div class="loadout-assembly-heading"><strong>${esc(slotPlace(row.slot, row.item))}</strong>${guns.length ? `<span>${esc(text('assemblyWeapons', { count: guns.length }))} · ${esc(text('burstDps'))} ${num(dps)}</span>` : ''}<button type="button" class="loadout-link" data-loadout-assembly-toggle="${esc(row.path)}" aria-expanded="${!closed}">${esc(text(closed ? 'assemblyExpand' : 'assemblyCollapse'))}</button></div><div class="loadout-assembly-tree"><ul class="loadout-assembly-parent">${drawSlot(row)}</ul><div class="loadout-assembly-descendants" ${closed ? 'hidden' : ''}>${drawMiningEffects(state.mining.find((head) => head.path === row.path))}<ul class="loadout-assembly-children">${drawAssemblyRows(children)}</ul></div></div></li>`;
+                i = end - 1;
+            } else {
+                const rendered = drawSlot(row);
+                html += hidden ? rendered.replace('<li ', '<li hidden ') : rendered;
+            }
+        }
+        return html;
+    }
+
     function drawSlots(nodes) {
         const groups = new Map(GROUP_ORDER.map((key) => [key, []]));
         let current = 'other';
@@ -1012,15 +1082,15 @@ ${section(text('cost'), `
                 const descendants = nodes.slice(index + 1).filter((entry) => entry.path.startsWith(node.path + '/'));
                 if (descendants.some((entry) => ['WeaponMining', 'MiningModifier'].includes(entry.item?.type || entry.slot.acc?.[0]?.type))) current = 'mining';
                 else if (descendants.some((entry) => ['SalvageHead', 'TractorBeam', 'TowingBeam'].includes(entry.item?.type))) current = 'utility';
+                else if (descendants.some((entry) => calc.isGun(entry.item))) current = 'weapon';
             }
             trail.length = node.depth;
             const hasChildren = nodes[index + 1]?.path.startsWith(`${node.path}/`) || false;
             trail[node.depth] = slotPlace(node.slot, node.item);
             // 대응 수단(플레어 등)과 아무것도 달 수 없는 고정 빈자리는 편집 화면에서 숨긴다.
             if (node.item?.type === 'WeaponDefensive' || (!node.item && node.slot.kind !== 's')) return;
-            // 그 자체는 바꿀 수 없고 아래에 자리를 거느린 부품(고정 마운트·터렛)은 행으로 만들지 않고,
-            // 아래 부품의 위치 설명(예: "터렛 상 › 기총 좌")에만 남긴다.
-            if (node.slot.kind !== 's' && hasChildren) return;
+            // 터렛·랙·채광 헤드는 상위 카드로 남겨 각 하위 장비의 소속을 보여 준다.
+            if (node.slot.kind !== 's' && hasChildren && !MOUNT_TYPES.includes(node.item?.type) && node.item?.type !== 'WeaponMining') return;
             while (shown.length && !node.path.startsWith(`${shown[shown.length - 1].path}/`)) shown.pop();
             const parent = shown[shown.length - 1];
             // 화면에 나온 상위 부품 아래에서는 그 부품까지의 위치 설명을 되풀이하지 않는다.
@@ -1032,19 +1102,19 @@ ${section(text('cost'), `
         const group = (key) => {
             const rows = foldMounts(mergeRuns(groups.get(key)));
             // 고정 장비도 실제 장착 자리다. 합친 마운트는 중복하지 않고 묶인 탄은 각각 센다.
-            const count = rows.reduce((sum, row) => sum + (row.run?.length || 1), 0);
-            const shownCount = rows.filter((row) => !state.changedOnly || row.changed || row.mount?.changed || state.off[row.path]).reduce((sum, row) => sum + (row.run?.length || 1), 0);
-            const hidden = state.changedOnly && !rows.some((row) => row.changed || row.mount?.changed || state.off[row.path]);
+            const count = rows.filter((row) => !row.hasChildren).reduce((sum, row) => sum + (row.run?.length || 1), 0);
+            const shownCount = rows.filter((row) => !row.hasChildren && (!state.changedOnly || row.changed || row.mount?.changed || state.off[row.path] || state.operation.activeModules[row.path])).reduce((sum, row) => sum + (row.run?.length || 1), 0);
+            const hidden = state.changedOnly && !rows.some((row) => row.changed || row.mount?.changed || state.off[row.path] || state.operation.activeModules[row.path]);
             return `<section class="loadout-group is-${key}" ${hidden ? 'hidden' : ''}>
             <h4><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(state.changedOnly ? text('visibleSlots', { shown: shownCount, count }) : text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>
-            <ul id="loadout-rows-${key}" class="loadout-slotlist" ${state.collapsed.has(key) ? 'hidden' : ''}>${rows.map((row) => { const html = drawSlot(row); const changed = row.changed || row.mount?.changed || state.off[row.path]; return state.changedOnly && !changed ? html.replace('<li ', '<li hidden ') : html; }).join('')}</ul>
+            <ul id="loadout-rows-${key}" class="loadout-slotlist" ${state.collapsed.has(key) ? 'hidden' : ''}>${drawAssemblyRows(rows)}</ul>
         </section>`;
         };
         const available = SUPER_GROUPS.filter(([, keys]) => keys.some((key) => groups.get(key).length));
         if (!available.some(([label]) => label === state.equipmentGroup)) state.equipmentGroup = '';
         const navigation = `<div class="loadout-equipment-nav" role="group" aria-label="${esc(text('equipmentNav'))}">${[['', []], ...available].map(([label]) => `<button type="button" id="loadout-category-${label || 'all'}" class="loadout-category${state.equipmentGroup === label ? ' is-active' : ''}" data-loadout-category="${label}" aria-pressed="${state.equipmentGroup === label}">${esc(text(label || 'allEquipment'))}</button>`).join('')}</div>`;
         // Render every group so slot/mount mappings stay complete while filtering the view.
-        const controls = `<div class="loadout-view-tools"><button type="button" class="loadout-link" data-loadout-collapse-all>${esc(text(state.collapsed.size ? 'expandAll' : 'collapseAll'))}</button><label><input type="checkbox" id="loadout-compact" ${state.compact ? 'checked' : ''}> ${esc(text('compactView'))}</label><label><input type="checkbox" id="loadout-changed-only" ${state.changedOnly ? 'checked' : ''}> ${esc(text('changedOnly'))}</label></div>${state.changedOnly && !nodes.some((node) => node.changed || state.off[node.path]) ? `<p class="loadout-note">${esc(text('noChanges'))}</p>` : ''}`;
+        const controls = `<div class="loadout-view-tools"><button type="button" class="loadout-link" data-loadout-collapse-all>${esc(text(state.collapsed.size ? 'expandAll' : 'collapseAll'))}</button><label><input type="checkbox" id="loadout-compact" ${state.compact ? 'checked' : ''}> ${esc(text('compactView'))}</label><label><input type="checkbox" id="loadout-changed-only" ${state.changedOnly ? 'checked' : ''}> ${esc(text('changedOnly'))}</label></div>${state.changedOnly && !nodes.some((node) => node.changed || state.off[node.path] || state.operation.activeModules[node.path]) ? `<p class="loadout-note">${esc(text('noChanges'))}</p>` : ''}`;
         const primary = new Set(['weapon', 'missile', 'quantum', 'mining', 'utility']);
         const columns = [[], []];
         for (const [label, keys] of available) {
@@ -1265,26 +1335,32 @@ ${section(text('cost'), `
     }
 
     // 구성 비교: 저장해 둔 로드아웃 하나를 지금 구성과 나란히 놓고 본다(다른 함선끼리도 가능).
-    function compareMetrics(ship, totals) {
+    function compareMetrics(ship, totals, overrides = state.overrides, off = state.off, operation = state.operation) {
+        const plan = calc.powerPlan(ship, state.items, overrides, { off, operation });
+        const heads = calc.miningHeads(ship, state.items, overrides, { off, operation });
+        const mining = (key) => heads.some((head) => head[key].value === null) ? null : heads.reduce((sum, head) => sum + head[key].value, 0);
         const flight = ship.base?.flight || {};
         return [
             ['burstDps', totals.dps.total], ['sustainDps', totals.sustain.total], ['pilot', totals.dps.pilot], ['turret', totals.dps.turret], ['alpha', totals.alpha.total], ['missiles', totals.missiles.damage],
             ['shield', totals.shield.hp], ['regenLabel', totals.shield.regen], ['hullHp', ship.base?.hull || 0], ['armorHp', ship.base?.armor?.hp || 0],
             ['power', totals.power.gen, 1], ['powerUseLabel', totals.power.use, 1, 'low'], ['cooling', totals.cooling.gen, 1], ['signatureEm', totals.signature.em, 0, 'low'], ['signatureIr', totals.signature.ir, 0, 'low'],
             ['qdSpeedLabel', (totals.quantum?.speed || 0) / 1000], ['spoolLabel', totals.quantum?.spool || 0, 1, 'low'], ['rangeLabel', totals.quantum?.range || 0], ['scmSpeed', flight.scm || 0], ['navSpeed', flight.max || 0],
+            ['allocation', plan.allocated], ['powerReserve', plan.remaining], ['laserPower', mining('power')], ['extractionPower', mining('extraction')],
         ];
     }
     async function startCompare(index) {
         const build = readBuilds()[index];
         if (!build) return;
-        state.compare = { name: build.name, cls: build.ship, overrides: build.overrides || {}, off: build.off || {}, ship: null, failed: false };
+        state.compare = { name: build.name, cls: build.ship, overrides: build.overrides || {}, off: build.off || {}, operation: build.operation || {}, ship: null, failed: false };
         state.tab = 'compare'; draw();
         try {
             const buildShip = canonicalShip(build.ship);
             const ship = buildShip === state.shipCls ? state.ship : await fetchJson(`${DATA_BASE}/ships/${buildShip}.json?v=${state.meta?.stamp || ''}`);
             if (state.compare?.name !== build.name) return;
+            ship.systems = state.systems[buildShip];
             state.compare.ship = ship;
             state.compare.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(build.overrides || {}).map(([path, id]) => [path, canonicalItem(id)])));
+            state.compare.operation = calc.sanitizeOperation(ship, state.items, state.compare.overrides, state.compare.operation);
         } catch (error) {
             console.warn('Loadout compare load failed', error);
             if (state.compare) state.compare.failed = true;
@@ -1293,13 +1369,13 @@ ${section(text('cost'), `
     }
     const compareTable = (mineLabel, mineSub, otherLabel, otherSub, mine, theirs) => `<div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-comparetable">
             <thead><tr><th>${esc(text('compareItem'))}</th><th>${esc(mineLabel)}<span class="loadout-origin">${esc(mineSub)}</span></th><th>${esc(otherLabel)}<span class="loadout-origin">${esc(otherSub)}</span></th><th>${esc(text('compareDiff'))}</th></tr></thead>
-            <tbody>${mine.map(([key, value, digits = 0, better = 'high'], index) => `<tr><th scope="row">${esc(text(key))}</th><td>${esc(num(value, digits))}</td><td>${esc(num(theirs[index][1], digits))}</td><td>${drawChange(value, theirs[index][1], digits, better) || `<span class="loadout-meta">${esc(text('same'))}</span>`}</td></tr>`).join('')}</tbody>
+            <tbody>${mine.map(([key, value, digits = 0, better = 'high'], index) => `<tr><th scope="row">${esc(text(key))}</th><td>${value === null ? '—' : esc(num(value, digits))}</td><td>${theirs[index][1] === null ? '—' : esc(num(theirs[index][1], digits))}</td><td>${value === null || theirs[index][1] === null ? esc(text('unverifiedStack')) : drawChange(value, theirs[index][1], digits, better) || `<span class="loadout-meta">${esc(text('same'))}</span>`}</td></tr>`).join('')}</tbody>
         </table></div>`;
     // 저장하지 않고도 지금 구성(A)과 복제해 둔 다른 구성(B)을 바로 견준다.
     function drawAbCompare(totals) {
         const otherSlot = state.slot === 'A' ? 'B' : 'A';
         if (!state.alt) return `<section class="loadout-abcompare"><h3>${esc(text('abCompare'))}</h3><p class="loadout-note">${esc(text('abHint'))}</p><button type="button" class="btn btn-primary" data-loadout-ab="${otherSlot}">${esc(text('abOpen', { slot: otherSlot }))}</button></section>`;
-        const theirs = compareMetrics(state.ship, calc.summarize(state.ship, state.items, state.alt.overrides, { off: state.alt.off }));
+        const theirs = compareMetrics(state.ship, calc.summarize(state.ship, state.items, state.alt.overrides, { off: state.alt.off }), state.alt.overrides, state.alt.off, state.alt.operation);
         return `<section class="loadout-abcompare"><div class="loadout-viewhead"><h3>${esc(text('abCompare'))}</h3><button type="button" class="btn btn-secondary" data-loadout-ab="${otherSlot}">${esc(text('abGo', { slot: otherSlot }))}</button><button type="button" class="btn btn-secondary" data-loadout-ab-copy>${esc(text('abCopy', { slot: otherSlot }))}</button></div>
             ${compareTable(text('abSlot', { slot: state.slot }), text('compareNow'), text('abSlot', { slot: otherSlot }), text('changedCount', { count: Object.keys(state.alt.overrides).length }), compareMetrics(state.ship, totals), theirs)}</section>`;
     }
@@ -1311,11 +1387,11 @@ ${section(text('cost'), `
         if (other.failed) return `<div class="loadout-view"><p class="loadout-note" role="alert">${esc(text('loadFail'))}</p></div>`;
         if (!other.ship) return `<div class="loadout-view"><p class="loadout-note" role="status">${esc(text('loading'))}</p></div>`;
         const mine = compareMetrics(state.ship, totals);
-        const theirs = compareMetrics(other.ship, calc.summarize(other.ship, state.items, other.overrides, { off: other.off }));
+        const theirs = compareMetrics(other.ship, calc.summarize(other.ship, state.items, other.overrides, { off: other.off }), other.overrides, other.off, other.operation);
         return `<div class="loadout-view"><div class="loadout-viewhead"><h3>${esc(text('tab_compare'))}</h3><label class="loadout-sort"><span>${esc(text('comparePick'))}</span><select id="loadout-compare-pick" aria-label="${esc(text('comparePick'))}">${builds.map((build, index) => `<option value="${index}" ${build.name === other.name && canonicalShip(build.ship) === canonicalShip(other.cls) ? 'selected' : ''}>${esc(buildLabel(build))}</option>`).join('')}</select></label><button type="button" class="btn btn-secondary" data-loadout-compare-clear>${esc(text('compareClear'))}</button></div>
             <div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-comparetable">
             <thead><tr><th>${esc(text('compareItem'))}</th><th>${esc(text('compareNow'))}<span class="loadout-origin">${esc(shipName(state.ship))}</span></th><th>${esc(other.name)}<span class="loadout-origin">${esc(shipName(other.ship))}</span></th><th>${esc(text('compareDiff'))}</th></tr></thead>
-            <tbody>${mine.map(([key, value, digits = 0, better = 'high'], index) => `<tr><th scope="row">${esc(text(key))}</th><td>${esc(num(value, digits))}</td><td>${esc(num(theirs[index][1], digits))}</td><td>${drawChange(value, theirs[index][1], digits, better) || `<span class="loadout-meta">${esc(text('same'))}</span>`}</td></tr>`).join('')}</tbody>
+            <tbody>${mine.map(([key, value, digits = 0, better = 'high'], index) => `<tr><th scope="row">${esc(text(key))}</th><td>${value === null ? '—' : esc(num(value, digits))}</td><td>${theirs[index][1] === null ? '—' : esc(num(theirs[index][1], digits))}</td><td>${value === null || theirs[index][1] === null ? esc(text('unverifiedStack')) : drawChange(value, theirs[index][1], digits, better) || `<span class="loadout-meta">${esc(text('same'))}</span>`}</td></tr>`).join('')}</tbody>
         </table></div></div>`;
     }
 
@@ -1361,6 +1437,7 @@ ${section(text('cost'), `
     function draw() {
         const container = root();
         if (!container || !deps.canUse?.() || composingInput) return;
+        state.mining = state.ship ? calc.miningHeads(state.ship, state.items, state.overrides, { off: state.off, operation: state.operation }) : [];
         const focusId = document.activeElement?.id;
         const caret = document.activeElement?.selectionStart;
         const scrolled = container.querySelector('.loadout-optwrap')?.scrollTop || 0;
@@ -1442,7 +1519,7 @@ ${section(text('cost'), `
     // 직전 변경 취소용 기록. 부품 교체·기본값·전원 전환 직전에 지금 상태를 남긴다(최근 30번).
     function remember() {
         state.redo = [];
-        state.history.push({ overrides: { ...state.overrides }, off: { ...state.off } });
+        state.history.push({ overrides: { ...state.overrides }, off: { ...state.off }, operation: copyOperation() });
         if (state.history.length > 30) state.history.shift();
     }
 
@@ -1460,6 +1537,8 @@ ${section(text('cost'), `
             if (id !== (target.slot.item || '') && id !== canonicalItem(target.slot.item || '')) next[target.path] = id;
         }
         state.overrides = calc.sanitizeOverrides(state.ship, state.items, next);
+        state.operation.activeModules = Object.fromEntries(Object.entries(state.operation.activeModules).filter(([key]) => !targets.some((target) => key === target.path || key.startsWith(`${target.path}/`))));
+        state.operation = cleanOperation(state.operation);
         if (id) state.familyOpen.add(state.families.get(id) || id);
         state.off = cleanOff(Object.fromEntries(Object.keys(state.off).filter((key) => !targets.some((entry) => key === entry.path || key.startsWith(`${entry.path}/`))).map((key) => [key, true])));
         if (!state.keepPicker || !id) closePicker();
@@ -1475,6 +1554,7 @@ ${section(text('cost'), `
         const encoded = calc.encodeOverrides(state.overrides);
         if (encoded) url.searchParams.set('set', encoded);
         if (Object.keys(state.off).length) url.searchParams.set('off', Object.keys(state.off).sort().join(','));
+        if (Object.keys(state.operation.power).length || Object.keys(state.operation.activeModules).length) url.searchParams.set('op', JSON.stringify(state.operation));
         return url.toString();
     }
 
@@ -1486,6 +1566,19 @@ ${section(text('cost'), `
             const row = event.target.closest('[data-loadout-candidate]:not(.is-current)');
             if (row) setOverride(row.dataset.loadoutPath, row.dataset.loadoutCandidate);
             return;
+        }
+        if (target.hasAttribute('data-loadout-assembly-toggle')) { const path = target.dataset.loadoutAssemblyToggle; if (state.assemblies.has(path)) state.assemblies.delete(path); else state.assemblies.add(path); draw(); root()?.querySelector(`[data-loadout-assembly-toggle="${CSS.escape(path)}"]`)?.focus({ preventScroll: true }); return; }
+        if (target.hasAttribute('data-loadout-module-active')) {
+            const path = target.dataset.loadoutModuleActive;
+            remember(); state.operation = copyOperation();
+            if (state.operation.activeModules[path]) delete state.operation.activeModules[path]; else state.operation.activeModules[path] = true;
+            state.operation = cleanOperation(state.operation); writeStored(); draw(); root()?.querySelector(`[data-loadout-module-active="${CSS.escape(path)}"]`)?.focus({ preventScroll: true }); return;
+        }
+        if (target.hasAttribute('data-loadout-pip')) { setPowerAllocation(target.dataset.loadoutPip, Number(target.dataset.loadoutValue)); return; }
+        if (target.hasAttribute('data-loadout-power-auto') || target.hasAttribute('data-loadout-power-rated')) {
+            remember(); state.operation = copyOperation();
+            state.operation.power = target.hasAttribute('data-loadout-power-auto') ? calc.autoPowerPlan(calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off })) : {};
+            writeStored(); draw(); return;
         }
         if (target.hasAttribute('data-loadout-cart-open')) { closePicker(); state.cartOpen = true; loadPricesForCart(); draw(); document.getElementById('loadout-cart-close')?.focus(); return; }
         if (target.hasAttribute('data-loadout-detail-swap')) { state.detailId = ''; state.openPath = state.detailSlot; state.pickerLimit = 80; draw(); document.getElementById('loadout-picker-search')?.focus(); return; }
@@ -1509,7 +1602,7 @@ ${section(text('cost'), `
         if (target.hasAttribute('data-loadout-picker-more')) { state.pickerLimit += 80; draw(); return; }
         if (target.hasAttribute('data-loadout-redo')) {
             const next = state.redo.pop();
-            if (next) { state.history.push({ overrides: { ...state.overrides }, off: { ...state.off } }); state.overrides = calc.sanitizeOverrides(state.ship, state.items, next.overrides); state.off = cleanOff(next.off); closePicker(); writeStored(); draw(); loadPricesForChanged(); }
+            if (next) { state.history.push({ overrides: { ...state.overrides }, off: { ...state.off }, operation: copyOperation() }); state.overrides = calc.sanitizeOverrides(state.ship, state.items, next.overrides); state.off = cleanOff(next.off); state.operation = cleanOperation(next.operation); closePicker(); writeStored(); draw(); loadPricesForChanged(); }
             return;
         }
         const family = target.getAttribute('data-loadout-family');
@@ -1595,6 +1688,8 @@ ${section(text('cost'), `
             const paths = runOf(resetPath);
             state.overrides = Object.fromEntries(Object.entries(state.overrides).filter(([key]) => !paths.some((path) => key === path || key.startsWith(`${path}/`))));
             state.off = cleanOff(state.off);
+            state.operation.activeModules = Object.fromEntries(Object.entries(state.operation.activeModules).filter(([key]) => !paths.some((path) => key === path || key.startsWith(`${path}/`))));
+            state.operation = cleanOperation(state.operation);
             writeStored(); draw(); return;
         }
         if (target.hasAttribute('data-loadout-builds-toggle')) { state.buildsOpen = !state.buildsOpen; draw(); if (state.buildsOpen) document.getElementById('loadout-build-name')?.focus({ preventScroll: true }); return; }
@@ -1602,28 +1697,28 @@ ${section(text('cost'), `
         if (abSlot !== null) {
             if (abSlot === state.slot) return;
             // 지금 구성을 넣어 두고 다른 쪽을 꺼낸다. 다른 쪽이 아직 없으면 지금 구성을 복제해 시작한다.
-            const current = { overrides: { ...state.overrides }, off: { ...state.off } };
+            const current = { overrides: { ...state.overrides }, off: { ...state.off }, operation: copyOperation() };
             const fresh = !state.alt;
-            const next = state.alt || { overrides: { ...state.overrides }, off: { ...state.off } };
+            const next = state.alt || { overrides: { ...state.overrides }, off: { ...state.off }, operation: copyOperation() };
             state.alt = current; state.slot = abSlot; state.history = []; state.redo = [];
-            state.overrides = calc.sanitizeOverrides(state.ship, state.items, next.overrides); state.off = cleanOff(next.off);
+            state.overrides = calc.sanitizeOverrides(state.ship, state.items, next.overrides); state.off = cleanOff(next.off); state.operation = cleanOperation(next.operation);
             closePicker(); writeStored(); draw(); loadPricesForChanged();
             deps.showToast?.(text(fresh ? 'abStarted' : 'abSwitched', { slot: abSlot }));
             root()?.querySelector(`[data-loadout-ab="${abSlot}"]`)?.focus({ preventScroll: true });
             return;
         }
         if (target.hasAttribute('data-loadout-ab-copy')) {
-            state.alt = { overrides: { ...state.overrides }, off: { ...state.off } };
+            state.alt = { overrides: { ...state.overrides }, off: { ...state.off }, operation: copyOperation() };
             writeStored(); draw(); deps.showToast?.(text('abCopied', { slot: state.slot === 'A' ? 'B' : 'A' }));
             return;
         }
         if (target.hasAttribute('data-loadout-undo')) {
             const last = state.history.pop();
-            if (last) state.redo.push({ overrides: { ...state.overrides }, off: { ...state.off } });
-            if (last) { state.overrides = calc.sanitizeOverrides(state.ship, state.items, last.overrides); state.off = cleanOff(last.off); closePicker(); writeStored(); draw(); loadPricesForChanged(); deps.showToast?.(text('undone')); }
+            if (last) state.redo.push({ overrides: { ...state.overrides }, off: { ...state.off }, operation: copyOperation() });
+            if (last) { state.overrides = calc.sanitizeOverrides(state.ship, state.items, last.overrides); state.off = cleanOff(last.off); state.operation = cleanOperation(last.operation); closePicker(); writeStored(); draw(); loadPricesForChanged(); deps.showToast?.(text('undone')); }
             return;
         }
-        if (target.hasAttribute('data-loadout-reset-all')) { remember(); state.overrides = {}; state.off = {}; closePicker(); writeStored(); draw(); deps.showToast?.(text('resetOk')); return; }
+        if (target.hasAttribute('data-loadout-reset-all')) { remember(); state.overrides = {}; state.off = {}; state.operation = cleanOperation({}); closePicker(); writeStored(); draw(); deps.showToast?.(text('resetOk')); return; }
         const tab = target.getAttribute('data-loadout-tab') ?? target.getAttribute('data-loadout-view');
         if (tab !== null) { state.tab = tab; closePicker(); if (tab === 'cart') loadPricesForCart(); if (tab === 'finder') loadCategoryPrices(state.finderType || FINDER_TYPES[0]); draw(); return; }
         const cartAdd = target.getAttribute('data-loadout-cart-add');
@@ -1647,13 +1742,13 @@ ${section(text('cost'), `
         if (target.hasAttribute('data-loadout-finder-more')) { state.finderLimit += 40; draw(); return; }
         if (target.hasAttribute('data-loadout-build-save')) {
             const name = (document.getElementById('loadout-build-name')?.value || '').trim() || `${shipName(state.ship)} ${new Date().toLocaleDateString(lang() === 'en' ? 'en-US' : 'ko-KR')}`;
-            const saved = writeBuilds([{ name: name.slice(0, 40), ship: state.shipCls, overrides: state.overrides, off: state.off, at: Date.now() }, ...readBuilds().filter((build) => !(build.name === name && build.ship === state.shipCls))]);
+            const saved = writeBuilds([{ name: name.slice(0, 40), ship: state.shipCls, overrides: state.overrides, off: state.off, operation: copyOperation(), at: Date.now() }, ...readBuilds().filter((build) => !(build.name === name && build.ship === state.shipCls))]);
             // 실패하면 입력한 이름과 편집 내용을 그대로 두고 알린다.
             if (!saved) { deps.showToast?.(text('buildSaveFail')); return; }
             state.buildName = ''; state.buildsOpen = true; deps.showToast?.(text('buildSaved')); draw(); return;
         }
         const buildLoad = target.getAttribute('data-loadout-build-load');
-        if (buildLoad !== null) { const build = readBuilds()[Number(buildLoad)]; if (build) { state.tab = 'slots'; state.buildsOpen = false; closePicker(); selectShip(build.ship, build.overrides || {}, build.off || {}); } return; }
+        if (buildLoad !== null) { const build = readBuilds()[Number(buildLoad)]; if (build) { state.tab = 'slots'; state.buildsOpen = false; closePicker(); selectShip(build.ship, build.overrides || {}, build.off || {}, build.operation); } return; }
         const buildCompare = target.getAttribute('data-loadout-build-compare');
         if (buildCompare !== null) { closePicker(); state.buildsOpen = false; startCompare(Number(buildCompare)); return; }
         if (target.hasAttribute('data-loadout-compare-clear')) { state.compare = null; state.tab = 'slots'; draw(); return; }
@@ -1684,7 +1779,20 @@ ${section(text('cost'), `
             event.target.setAttribute('aria-invalid', String(!(state.qtDistance >= 1 && state.qtDistance <= 999)));
         }
     }
+    function setPowerAllocation(key, value) {
+        if (!Number.isFinite(value)) return;
+        const plan = calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off, operation: state.operation });
+        const group = plan.groups.find((entry) => entry.key === key);
+        if (!group) return;
+        const next = value <= 0 ? 0 : Math.min(group.max, Math.max(group.min, Math.round(value)));
+        if (next === group.allocated) { const input = document.getElementById(`loadout-power-${key}`); if (input) input.value = String(next); return; }
+        if (next > group.allocated && plan.allocated - group.allocated + next > plan.generation) { deps.showToast?.(text('powerOver')); draw(); return; }
+        remember(); state.operation = copyOperation(); state.operation.power[key] = next;
+        writeStored(); draw(); document.getElementById(`loadout-power-${key}`)?.focus({ preventScroll: true });
+    }
+
     function handleChange(event) {
+        if (root()?.contains(event.target) && event.target.hasAttribute('data-loadout-power-value')) { setPowerAllocation(event.target.dataset.loadoutPowerValue, Number(event.target.value)); return; }
         if (['loadout-compact', 'loadout-keep-picker'].includes(event.target.id)) { const compact = event.target.id === 'loadout-compact' ? event.target.checked : state.compact; const keepPicker = event.target.id === 'loadout-keep-picker' ? event.target.checked : state.keepPicker; try { localStorage.setItem('volt-loadout-ui-v1', JSON.stringify({ compact, keepPicker })); } catch (_error) { /* optional preference */ } }
         if (event.target.id === 'loadout-compact') { state.compact = event.target.checked; draw(); }
         if (event.target.id === 'loadout-changed-only') { state.changedOnly = event.target.checked; draw(); }
@@ -1704,6 +1812,9 @@ ${section(text('cost'), `
         if (event.target.id === 'loadout-compare-pick') { startCompare(Number(event.target.value)); }
     }
     function handleKeydown(event) {
+        if (root()?.contains(event.target) && event.target.hasAttribute('data-loadout-power-value') && event.key === 'Enter') {
+            event.preventDefault(); setPowerAllocation(event.target.dataset.loadoutPowerValue, Number(event.target.value)); return;
+        }
         if (!root() || (!root().contains(event.target) && !state.openPath && !state.detailId && !state.cartOpen)) return;
         if (event.key === 'Escape' && state.browsing) { state.browsing = false; draw(); root()?.querySelector('[data-loadout-browse]')?.focus(); return; }
         const tab = event.target.closest('[role="tab"]');
