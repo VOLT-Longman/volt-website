@@ -1,5 +1,5 @@
 import { json, error } from '../../_shared/http.js';
-import { fetchUex, getUpstreamUrl, readUexPayload } from '../../_shared/uex-proxy.js';
+import { busyResponse, fetchUex, getUpstreamUrl, readUexPayload, upstreamBudgetSpent } from '../../_shared/uex-proxy.js';
 
 // 로드아웃 편집기용 부품 구매처·가격 (출처: UEX).
 // UEX의 품목 목록(items)과 가격표(items_prices)를 분류별로 받아, 게임 고유번호(uuid)로 묶은
@@ -70,6 +70,9 @@ export async function onRequestGet({ request, env, waitUntil }) {
     if (!refresh) return cached;
     if (Number.isFinite(age) && age >= 0 && age < 60000) return json(await cached.json(), { cacheControl: 'no-store' });
   }
+
+  // 분류 하나에 원본을 두 번 부른다.
+  if (await upstreamBudgetSpent(env, 2)) return cached ? json(await cached.json(), { cacheControl: 'no-store' }) : busyResponse();
 
   const [items, prices] = await Promise.all([
     upstream(env, `items?id_category=${category}`),

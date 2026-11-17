@@ -1,4 +1,5 @@
 import { json, error } from './http.js';
+import { checkRateLimit } from './rate-limit.js';
 
 const DEFAULT_UEX_API_BASE_URL = 'https://api.uexcorp.space/2.0';
 const UEX_REQUEST_TIMEOUT_MS = 10_000;
@@ -6,6 +7,30 @@ const UEX_REQUEST_TIMEOUT_MS = 10_000;
 export function getUpstreamUrl(env, upstreamPathWithQuery) {
   const baseUrl = (env.UEX_API_BASE_URL || DEFAULT_UEX_API_BASE_URL).replace(/\/+$/, '');
   return `${baseUrl}/${upstreamPathWithQuery}`;
+}
+
+// 사이트 전체가 1분 동안 UEX 원본을 부를 수 있는 횟수. 캐시에 있는 응답은 세지 않는다.
+// 도구가 공개된 동안 누군가 번호를 바꿔 가며 호출해도 UEX 한도를 다 쓰지 못하게 한다.
+export const UEX_UPSTREAM_PER_MINUTE = 120;
+
+// true면 원본 호출을 미룬다. 기록 저장소 장애가 시세 조회를 막지 않도록 실패 시에는 통과시킨다.
+export async function upstreamBudgetSpent(env, cost = 1) {
+  try {
+    for (let i = 0; i < cost; i += 1) {
+      const gate = await checkRateLimit(env, 'uex_upstream:minute', { limit: UEX_UPSTREAM_PER_MINUTE, windowSeconds: 60 });
+      if (gate.limited) return true;
+    }
+    return false;
+  } catch (_error) {
+    return false;
+  }
+}
+
+export function busyResponse() {
+  const response = error('UEX requests are busy. Try again shortly.', 429);
+  response.headers.set('Retry-After', '60');
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
 }
 
 export async function fetchUex(url) {
@@ -51,6 +76,14 @@ export async function proxyUexJson({ request, env, waitUntil }, upstreamPathWith
     }
   }
 
+  if (await upstreamBudgetSpent(env)) {
+    // 한도를 넘으면 가지고 있던 응답을 그대로 주고, 없을 때만 잠시 뒤 다시 시도하게 한다.
+    if (cached) {
+      const stale = await cached.clone().json();
+      return json({ ...stale, meta: { ...stale.meta, cached: true } }, { cacheControl: 'no-store' });
+    }
+    return busyResponse();
+  }
   const upstreamResult = await fetchUex(getUpstreamUrl(env, upstreamPathWithQuery));
   if (upstreamResult.error) return error(upstreamResult.error, 503);
   const { response: upstream } = upstreamResult;
