@@ -817,7 +817,7 @@ test.describe('로드아웃 편집기', () => {
         await page.locator('#loadout-ship-search').fill('stalker');
         await page.locator('[data-loadout-ship="aegs_avenger_stalker"]').click();
         const weapons = page.locator('.loadout-group.is-weapon');
-        await expect(weapons.locator('h4')).toContainText('3곳');
+        await expect(weapons.locator('h4')).toContainText('6곳');
         const nose = weapons.locator('.loadout-slot').first();
         await expect(nose.locator('.loadout-slot-label')).toContainText('기수');
         // 줄 안에서 바로 판단할 수 있게 순간 DPS와 지속 DPS·탄속·사거리가 보인다.
@@ -827,7 +827,7 @@ test.describe('로드아웃 편집기', () => {
         // 무기를 바꿔도 자리 수·위치 이름·수치와 연결된 마운트 카드가 유지된다.
         await nose.locator('[data-loadout-open]').click();
         await pick(page, 'e4afc8b4-da61-4efb-af7e-f003d9900d96').click();
-        await expect(weapons.locator('h4')).toContainText('3곳');
+        await expect(weapons.locator('h4')).toContainText('6곳');
         await expect(weapons.locator('.loadout-slot')).toHaveCount(3);
         const swapped = weapons.locator('.loadout-slot').first();
         await expect(swapped).toContainText('AD4B 실탄 개틀링');
