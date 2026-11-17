@@ -1436,7 +1436,7 @@ ${section(text('cost'), `
         const path = state.pickerOrigin || state.openPath;
         state.pickerOrigin = '';
         closePicker(); draw();
-        if (path) root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
+        if (path) (root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`) || root()?.querySelector(`[data-loadout-component-open="${CSS.escape(path)}"]`))?.focus({ preventScroll: true });
     }
 
     // 직전 변경 취소용 기록. 부품 교체·기본값·전원 전환 직전에 지금 상태를 남긴다(최근 30번).

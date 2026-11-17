@@ -1027,6 +1027,11 @@ test('스토커 랙 교체에서 임시 폭탄 랙을 숨기고 닫으면 원래
     await expect(pick(page, 'f8d3a1e1-0d75-45bb-a453-898a7cf83382')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(opener).toBeFocused();
+    const mountOpener = page.locator('.loadout-group.is-missile .loadout-mount-card [data-loadout-component-open]').first();
+    await mountOpener.click();
+    await expect(page.locator('.loadout-picker')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(mountOpener).toBeFocused();
 });
 
 for (const width of [1440, 390]) {
