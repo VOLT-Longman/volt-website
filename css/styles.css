@@ -10337,7 +10337,8 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .loadout-app .loadout-option-main .loadout-origin,
 .loadout-app .loadout-mount-card .loadout-origin,
 .loadout-app .loadout-ship-select .loadout-origin { display: block; margin: 3px 0 0; line-height: 1.4; font-size: 12px; font-weight: 400; overflow-wrap: anywhere; }
-.loadout-ship-select small { margin-left: 0; }
+.loadout-ship-select small { margin-left: 12px; }
+.loadout-ship-select .loadout-origin + small { display: none; }
 .loadout-shipinfo > .loadout-origin { margin-top: 4px; }
 .loadout-bespoke { display: block; margin-top: 6px; color: #e5af71; font-size: 11px; line-height: 1.5; font-weight: 500; }
 .loadout-app .loadout-powerbtn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; flex-shrink: 0; min-height: 36px; padding: 5px 9px; border: 1px solid #5d8264; border-radius: 5px; background: #29422f44; color: #add2ad; font: inherit; font-size: 12px; cursor: pointer; }

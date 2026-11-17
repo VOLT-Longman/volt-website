@@ -8,6 +8,12 @@ async function loadShip(page, cls, query) {
     await page.locator(`[data-loadout-ship="${cls}"]`).click();
 }
 
+async function changeLanguage(page, language, width) {
+    if (width === 390) await page.locator('#hamburger').click();
+    await page.locator(`${width === 390 ? '.lang-switch-mobile' : '.nav-lang'} [data-set-lang="${language}"]`).click();
+    if (width === 390) await page.locator('#mobileMenuClose').click();
+}
+
 for (const width of [1440, 390]) test(`${width}px 운영진 피드백: 영문 병기·랙 교체·전원 상태·A/B`, async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.setViewportSize({ width, height: 900 });
@@ -75,6 +81,12 @@ for (const width of [1440, 390]) test(`${width}px 함선 대분류에서 세부 
     await expect(page.locator('[data-activity-detail="Light Carrier"]')).toBeVisible();
     await page.locator('[data-activity-detail="Medical"]').click();
     await expect(page.locator('#ships-grid .ship-card')).toHaveCount(6);
+    await changeLanguage(page, 'en', width);
+    await expect(page.locator('[data-activity="support"]')).toHaveText('Support');
+    await expect(page.locator('[data-activity="support"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-activity-detail="Medical"]')).toHaveText('Medical');
+    await expect(page.locator('#ships-grid .ship-card')).toHaveCount(6);
+    await changeLanguage(page, 'ko', width);
     await page.locator('[data-activity="industry"]').click();
     await page.locator('[data-activity-detail="Light Mining"]').click();
     await expect(page.locator('#ships-grid [data-ship-id="prospector"]')).toBeVisible();

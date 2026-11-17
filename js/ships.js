@@ -332,6 +332,10 @@
         if (roles.length === 0 || !t) { container.replaceChildren(); container.hidden = true; return; }
         container.hidden = false;
         container.classList.add('has-role-select'); // overflow 가시화(드롭다운 잘림 방지)
+        if (container.dataset.filterLang !== currentLang()) {
+            container.replaceChildren();
+            container.dataset.filterLang = currentLang();
+        }
         if (!container.querySelector('.ship-filter-axes')) {
             const axes = document.createElement('div');
             axes.className = 'ship-filter-axes';
