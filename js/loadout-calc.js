@@ -132,7 +132,8 @@
         }
         const required = item.req || [];
         if (required.length) {
-            const tags = new Set((context?.tags || []).map(normalizeTag));
+            // 함선·상위 부품의 표지와 자리 자체의 표지를 함께 본다.
+            const tags = new Set([...(context?.tags || []), ...(slot.tags || [])].map(normalizeTag));
             if (!required.some((tag) => tags.has(normalizeTag(tag)))) return false;
         }
         return true;
@@ -177,7 +178,7 @@
                 // 바꿀 수 없는 내부 부속 자리(총열·전원부 등)는 채울 수 없는 빈자리라 펼치지 않는다 —
                 // 펼치면 무기 한 정이 '하위 자리를 거느린 부품'처럼 보여 목록의 줄 구성이 달라진다.
                 const children = changed
-                    ? (item?.ports || []).filter((port) => port.ed !== false && port.acc?.some((rule) => componentTypes.has(rule.type))).map((port) => ({ port: port.name, kind: 's', min: port.min, max: port.max, acc: port.acc, item: '' }))
+                    ? (item?.ports || []).filter((port) => port.ed !== false && port.acc?.some((rule) => componentTypes.has(rule.type))).map((port) => ({ port: port.name, kind: 's', min: port.min, max: port.max, acc: port.acc, tags: port.tags, item: '' }))
                     : slot.ch;
                 step(children, path, next);
             }

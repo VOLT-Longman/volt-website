@@ -174,6 +174,8 @@ function main() {
                 name: port.Name, min: port.MinSize, max: port.MaxSize,
                 acc: (port.Types || []).map((rule) => prune({ type: rule.Type, subs: (rule.SubTypes || []).filter((sub) => sub && sub !== 'UNDEFINED') })),
                 ed: flags.includes('uneditable') ? false : undefined,
+                // 자리 자체가 가진 표지. 전용 부품(req)은 함선·상위 부품의 표지뿐 아니라 이 표지로도 맞춰진다(예: 채광 모듈 자리).
+                tags: tagList(port.PortTags),
             });
         });
     }
@@ -282,6 +284,7 @@ function main() {
                         name: node.attrs.name, min: Number(port.attrs.minSize ?? port.attrs.minsize) || 0, max: Number(port.attrs.maxSize ?? port.attrs.maxsize) || 0,
                         acc: types.map((type) => prune({ type: type.attrs.type, subs: tagList(String(type.attrs.subtypes || '').replace(/,/g, ' ')) })),
                         ed: flags.includes('uneditable') ? false : undefined,
+                        tags: tagList(port.attrs.portTags ?? port.attrs.PortTags),
                     }));
                 }
             }
@@ -291,6 +294,8 @@ function main() {
         return ports;
     }
 
+    // 비어 있어도 편집 자리로 보여 줄 하위 자리의 종류. 넓히면 함선마다 빈 줄이 늘어나므로 모듈류만 둔다.
+    const SPARE_PORT_TYPES = new Set(['MiningModifier', 'SalvageModifier']);
     function buildSlots(entries, portsByName) {
         const out = [];
         for (const entry of entries || []) {
@@ -307,11 +312,15 @@ function main() {
                 // 부품에 기본으로 달려 나오는 하위 부품(예: 짐벌 마운트의 무기)은 그 부품 자신의 기본 장착에 적혀 있다.
                 const own = nested.length ? nested : (component(entityOf(record), 'SEntityComponentDefaultLoadoutParams')?.loadout?.entries || []);
                 children = buildSlots(own, childPorts);
+                const listed = new Set(own.map((child) => String(child.itemPortName || '').toLowerCase()));
+                const spare = [...childPorts.values()].filter((childPort) => !listed.has(childPort.name.toLowerCase()) && childPort.ed !== false
+                    && childPort.acc?.some((rule) => SPARE_PORT_TYPES.has(rule.type)));
+                if (spare.length) children = calc.normalizeSlots([...children, ...spare.map((childPort) => prune({ port: childPort.name, kind: 's', min: childPort.min, max: childPort.max, acc: childPort.acc, tags: childPort.tags }))]);
             }
             const editable = port ? port.ed !== false : false;
             if (!relevant && !children.length && !(editable && accepts.length)) continue;
             const itemId = record && (relevant || children.length) ? ensureItem(record) : undefined;
-            out.push(prune({ port: entry.itemPortName, kind: editable ? 's' : 'f', min: port?.min, max: port?.max, acc: port?.acc, item: itemId || undefined, ch: children }));
+            out.push(prune({ port: entry.itemPortName, kind: editable ? 's' : 'f', min: port?.min, max: port?.max, acc: port?.acc, tags: port?.tags, item: itemId || undefined, ch: children }));
         }
         return calc.normalizeSlots(out);
     }
@@ -423,6 +432,10 @@ function main() {
     for (const ship of ships.values()) {
         const walk = (slots) => { for (const slot of slots || []) { if (slot.item) usage.set(slot.item, (usage.get(slot.item) || 0) + 1); walk(slot.ch); } };
         walk(ship.slots);
+    }
+    // 개발용 임시 정의(클래스명에 _TEMP)는 실제 제품 이름을 빌려 쓰고 있어 이름만으로는 걸러지지 않는다.
+    for (const [id, item] of Object.entries(items)) {
+        if (/(^|_)TEMP(_|$)/.test(item.cls) && !usage.get(id)) item.hidden = true;
     }
     const productGroups = new Map();
     for (const [id, item] of Object.entries(items)) {
