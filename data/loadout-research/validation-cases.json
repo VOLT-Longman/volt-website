@@ -4,10 +4,10 @@
   "gameBranch": "sc-alpha-4.10.0",
   "gameChangelist": "13165946",
   "gameBuildDate": "Wed Nov 11 2026",
-  "researchedAt": "2026-11-17T02:19:00.649Z",
-  "validatedAt": "2026-11-17T02:19:37.701Z",
-  "cases": 13,
-  "checks": 71,
+  "researchedAt": "2026-11-17T02:30:22.108Z",
+  "validatedAt": "2026-11-17T02:33:01.044Z",
+  "cases": 15,
+  "checks": 82,
   "failedChecks": 0,
   "note": "status 는 사례의 근거 상태다: verified = 원본 값과 계산이 한 가지로 정해짐, conflicting = 해석이 둘 이상이라 값이 갈림, unavailable = 자료만으로 확정 불가. pass 는 \"추출값 + 기준 계산이 손계산 예상값을 재현했는가\"이다."
  },
@@ -151,7 +151,13 @@
     "data/loadout-research/weapon-profiles.json",
     "EntityClassDefinition.BEHR_BallisticCannon_S4 → fireActions[0].sequenceEntries[0].{delay,unit} / .weaponAction.fireRate"
    ],
-   "open": "게임이 실제로 쓰는 값이 순차 간격(40)인지 안쪽 fireRate(50)인지는 게임 안 측정이 필요. 다른 계산기와의 162.5 차이는 이 두 값의 차이와 같다.",
+   "open": "원인 확정: 비교 화면은 안쪽 fireRate(50)를 써서 813, VOLT 는 순차 간격(40)을 써서 650. 게임이 실제로 쓰는 값은 10발 사격 시간을 재면 확정된다(40 RPM 13.5초, 50 RPM 10.8초).",
+   "observed": {
+    "screen": "erkul.games/calculator (표시값만 읽음, 2026-11-17)",
+    "rate": 50,
+    "dps": 813,
+    "alpha": 975
+   },
    "pass": true
   },
   {
@@ -287,7 +293,19 @@
    "sources": [
     "data/loadout-research/weapon-profiles.json"
    ],
-   "open": "경계 조건만으로는 17.3(약 1%)까지만 벌어진다. 그보다 큰 차이는 사격 중 충전 여부, 짐벌 모드의 연사 0.85배, 전력 배분에 따른 탄창 크기 중 하나에서 온다.",
+   "open": "원인 확정: 비교 화면은 AD4B 1,083 · Omnisky IX 290 × 2 → 합 1,664. VOLT 는 1,086.95 + 580.62 = 1,667.57. 축전 쪽은 같고(290), 차이 3.6(0.2%)은 과열 주기의 경계(마지막 간격 포함 1,082.24 ↔ 제외 1,086.95)에서 온다. 비교 화면의 과열 값은 포함 쪽에 가깝다(1,083 대 1,082.24, 반올림 차 0.8 은 미해명).",
+   "observed": {
+    "screen": "erkul.games/calculator (표시값만 읽음, 2026-11-17)",
+    "ad4bSustained": 1083,
+    "ad4bFire": "13.1s",
+    "ad4bCool": "2.2s",
+    "omniskySustained": 290,
+    "omniskyFire": "10s",
+    "omniskyRecharge": "8.8s",
+    "totalSustained": 1664,
+    "totalBurst": 2360,
+    "gimbalNote": "읽은 상태의 표시값(연사 900, 순간 1,266)에는 짐벌 모드의 연사 0.85배가 들어 있지 않음"
+   },
    "pass": true
   },
   {
@@ -734,6 +752,7 @@
    "steps": [
     "항속 = 0.6 SCU ÷ 0.0098 = 61.22 Gm",
     "같은 탱크로 120 Gm 이 나오려면 요구량이 0.005 여야 한다(0.6 ÷ 0.005 = 120)",
+    "드라이브의 이동 상태(travellingState) 소비 칸이 QuantumFuel 5 이다. 이를 5 mSCU/Gm 로 읽으면 0.6 ÷ 0.005 = 120 Gm",
     "가속·감속 구간 거리(2단계 가속 기준) = 속도² ÷ 가속 = 1.694 Gm",
     "0.05 Gm: 최고 속도에 못 미침 → 2 × √(5e7 ÷ 21154770) = 3.07초",
     "30 Gm: 30e9 ÷ 189309104 + 189309104 ÷ 21154770 = 158.47 + 8.95 = 167.42초",
@@ -752,6 +771,25 @@
      "actual": 0.005,
      "expected": 0.005,
      "tolerance": 0.00001,
+     "pass": true
+    },
+    {
+     "name": "이동 상태의 퀀텀 연료 소비 칸",
+     "actual": [
+      5,
+      "microResourceUnits"
+     ],
+     "expected": [
+      5,
+      "microResourceUnits"
+     ],
+     "pass": true
+    },
+    {
+     "name": "그 값을 mSCU/Gm 로 읽은 항속(Gm)",
+     "actual": 120,
+     "expected": 120,
+     "tolerance": 0.01,
      "pass": true
     },
     {
@@ -788,7 +826,13 @@
     "EntityClassDefinition.QDRV_TARS_S01_Expedition_SCItem → SCItemQuantumDriveParams",
     "EntityClassDefinition.QTNK_AEGS_Avenger_Stalker → ResourceContainer.capacity.standardCargoUnits"
    ],
-   "open": "이 빌드(4.10.0, 13165946)의 Expedition 요구량은 0.0098 이다. 120 Gm 은 요구량 0.005 또는 탱크 1.176 SCU 일 때만 나오므로 단위·공식이 아니라 원본 값(자료 판 또는 다른 부품) 차이다. 어느 쪽인지는 상대 계산기의 입력값을 봐야 확정된다. 1·2단계 가속의 전환 조건도 미확인.",
+   "open": "원인 확정: 탱크(0.6 SCU)는 같고, 쓰는 칸이 다르다. VOLT 는 quantumFuelRequirement(0.0098), 비교 화면은 이동 상태 소비 칸(5 → 5 mSCU/Gm, 화면 표기 그대로)을 쓴다. 두 칸은 드라이브마다 비율이 달라 서로 환산되지 않는다. 게임이 실제로 어느 칸으로 연료를 깎는지는 일정 거리를 이동한 뒤 연료 감소를 재야 확정된다. 1·2단계 가속의 전환 조건도 미확인.",
+   "observed": {
+    "screen": "erkul.games/calculator (표시값만 읽음, 2026-11-17, 화면의 자료 표기 v4.10.3-LIVE.13165946)",
+    "quantumFuelTank": "0.6 SCU",
+    "fuelConsumption": "5 mSCU/Gm",
+    "range": "120 Gm"
+   },
    "pass": true
   },
   {
@@ -1207,6 +1251,387 @@
     "EntityClassDefinition.SHLD_GODI_S02_CoverAll_SCItem → ItemResourceComponentParams.states[Online].powerRanges"
    ],
    "open": "계수가 곱해지는 대상(실드 재생량·최대 실드량 등)과 구간 사이 보간 여부는 자료에 없다. 게임 안에서 칸 수별 재생량을 재면 확정된다.",
+   "pass": true
+  },
+  {
+   "id": "flight-blades-stalker",
+   "topic": "비행 블레이드 (STD/HND/SPD)",
+   "status": "verified",
+   "inputs": {
+    "ship": "aegs_avenger_stalker",
+    "controller": "Controller_Flight_AEGS_Avenger_Stalker",
+    "blades": {
+     "HND": {
+      "cls": "Controller_Flight_AEGS_Avenger_Stalker_Flight_Blade_HND",
+      "uuid": "c4e95e93-0f73-436b-b70a-98a07fea330c",
+      "modifiers": "SIFCSModifiersLegacy.FlightBlade_HND"
+     },
+     "SPD": {
+      "cls": "Controller_Flight_AEGS_Avenger_Stalker_Flight_Blade_SPD",
+      "uuid": "885e8b70-2d19-4645-a11a-a1fb368be693",
+      "modifiers": "SIFCSModifiersLegacy.FlightBlade_SPD"
+     }
+    },
+    "HND": {
+     "record": "SIFCSModifiersLegacy.FlightBlade_HND",
+     "uuid": "259a3037-6cb0-4e5d-ad62-56a2c2046b1b",
+     "numbers": {
+      "SCMSpeed": {
+       "type": "Additive",
+       "value": -8
+      },
+      "BoostSpeedForward": {
+       "type": "Additive",
+       "value": -10
+      },
+      "BoostSpeedBackward": {
+       "type": "Additive",
+       "value": -10
+      },
+      "MaxSpeed": {
+       "type": "Additive",
+       "value": -25
+      }
+     },
+     "vectors": {
+      "MaxAngularVelocity": {
+       "type": "Additive",
+       "value": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+       }
+      },
+      "PositiveLinearScale": {
+       "type": "Scalar",
+       "value": {
+        "x": 1.01,
+        "y": 0.99,
+        "z": 1.01
+       }
+      },
+      "NegativeLinearScale": {
+       "type": "Scalar",
+       "value": {
+        "x": 1.01,
+        "y": 0.99,
+        "z": 1.01
+       }
+      },
+      "PositiveAngularScale": {
+       "type": "Scalar",
+       "value": {
+        "x": 1.01,
+        "y": 1.01,
+        "z": 1.01
+       }
+      },
+      "NegativeAngularScale": {
+       "type": "Scalar",
+       "value": {
+        "x": 1.01,
+        "y": 1.01,
+        "z": 1.01
+       }
+      }
+     }
+    },
+    "SPD": {
+     "record": "SIFCSModifiersLegacy.FlightBlade_SPD",
+     "uuid": "46cb2fca-924f-496f-b8a9-85d4102325b4",
+     "numbers": {
+      "SCMSpeed": {
+       "type": "Additive",
+       "value": 8
+      },
+      "BoostSpeedForward": {
+       "type": "Additive",
+       "value": 10
+      },
+      "BoostSpeedBackward": {
+       "type": "Additive",
+       "value": 10
+      },
+      "MaxSpeed": {
+       "type": "Additive",
+       "value": 25
+      }
+     },
+     "vectors": {
+      "MaxAngularVelocity": {
+       "type": "Additive",
+       "value": {
+        "x": -1,
+        "y": -2,
+        "z": -1
+       }
+      },
+      "PositiveLinearScale": {
+       "type": "Scalar",
+       "value": {
+        "x": 0.99,
+        "y": 1.01,
+        "z": 0.99
+       }
+      },
+      "NegativeLinearScale": {
+       "type": "Scalar",
+       "value": {
+        "x": 0.99,
+        "y": 1.01,
+        "z": 0.99
+       }
+      },
+      "PositiveAngularScale": {
+       "type": "Scalar",
+       "value": {
+        "x": 0.99,
+        "y": 0.99,
+        "z": 0.99
+       }
+      },
+      "NegativeAngularScale": {
+       "type": "Scalar",
+       "value": {
+        "x": 0.99,
+        "y": 0.99,
+        "z": 0.99
+       }
+      }
+     }
+    }
+   },
+   "steps": [
+    "STD = 기본 비행 제어기(변형 없음)",
+    "SPD: SCM +8, 부스트 전진 +10, 후진 +10, 최고 +25 m/s, 회전 속도 −1/−2/−1 °/s(피치/롤/요), 직선 가속 배율 ×0.99·×1.01·×0.99, 회전 가속 배율 ×0.99",
+    "HND: 부호가 반대 (SCM −8, 최고 −25, 회전 +1/+2/+1, 회전 가속 ×1.01)",
+    "스토커 SPD: SCM 270, 최고 1450, 피치 52 / HND: SCM 254, 최고 1400, 피치 54"
+   ],
+   "checks": [
+    {
+     "name": "블레이드 변형이 있는 함선 수",
+     "actual": 15,
+     "expected": 15,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "SPD 적용 (SCM, 부스트, 최고)",
+     "actual": [
+      270,
+      620,
+      1450
+     ],
+     "expected": [
+      270,
+      620,
+      1450
+     ],
+     "pass": true
+    },
+    {
+     "name": "SPD 적용 (피치, 롤, 요)",
+     "actual": [
+      52,
+      188,
+      47
+     ],
+     "expected": [
+      52,
+      188,
+      47
+     ],
+     "pass": true
+    },
+    {
+     "name": "HND 적용 (SCM, 부스트, 최고)",
+     "actual": [
+      254,
+      600,
+      1400
+     ],
+     "expected": [
+      254,
+      600,
+      1400
+     ],
+     "pass": true
+    },
+    {
+     "name": "HND 적용 (피치, 롤, 요)",
+     "actual": [
+      54,
+      192,
+      49
+     ],
+     "expected": [
+      54,
+      192,
+      49
+     ],
+     "pass": true
+    }
+   ],
+   "tolerance": "정확히",
+   "sources": [
+    "data/loadout-research/flight-profiles.json",
+    "SIFCSModifiersLegacy.FlightBlade_HND / FlightBlade_SPD (배열 칸 = EIFCSModifiableNumbersLegacy, EIFCSModifiableVectorsLegacy)",
+    "EntityClassDefinition.Controller_Flight_<함선>_Flight_Blade_{HND,SPD} → IFCSParams.modifiersLegacy"
+   ],
+   "open": "게임 파일에 블레이드용 제어기 변형이 있는 함선은 15척뿐이다. 나머지 함선에 같은 계수가 공통으로 적용되는지는 자료에 없다.",
+   "pass": true
+  },
+  {
+   "id": "hull-parts-by-depth-stalker",
+   "topic": "선체 부위 구분",
+   "status": "conflicting",
+   "inputs": {
+    "ship": "aegs_avenger_stalker",
+    "parts": [
+     {
+      "name": "Nose",
+      "parent": "AEGS_Avenger",
+      "depth": 2,
+      "damageMax": 2500
+     },
+     {
+      "name": "Canopy",
+      "parent": "Nose",
+      "depth": 3,
+      "damageMax": 1500
+     },
+     {
+      "name": "Body",
+      "parent": "AEGS_Avenger",
+      "depth": 2,
+      "damageMax": 2500
+     },
+     {
+      "name": "Wing_Right",
+      "parent": "Body",
+      "depth": 3,
+      "damageMax": 680
+     },
+     {
+      "name": "Wing_Flap_Right",
+      "parent": "Wing_Right",
+      "depth": 4,
+      "damageMax": 10
+     },
+     {
+      "name": "WingTip_Right",
+      "parent": "Wing_Right",
+      "depth": 4,
+      "damageMax": 1000
+     },
+     {
+      "name": "Wing_Left",
+      "parent": "Body",
+      "depth": 3,
+      "damageMax": 680
+     },
+     {
+      "name": "Wing_Flap_Left",
+      "parent": "Wing_Left",
+      "depth": 4,
+      "damageMax": 10
+     },
+     {
+      "name": "WingTip_Left",
+      "parent": "Wing_Left",
+      "depth": 4,
+      "damageMax": 1000
+     },
+     {
+      "name": "HullTail_Right",
+      "parent": "Body",
+      "depth": 3,
+      "damageMax": 1000
+     },
+     {
+      "name": "Right_Tail_Fin_Flap",
+      "parent": "HullTail_Right",
+      "depth": 4,
+      "damageMax": 10
+     },
+     {
+      "name": "HullTail_Left",
+      "parent": "Body",
+      "depth": 3,
+      "damageMax": 1000
+     },
+     {
+      "name": "Left_Tail_Fin_Flap",
+      "parent": "HullTail_Left",
+      "depth": 4,
+      "damageMax": 10
+     }
+    ]
+   },
+   "steps": [
+    "구조 XML 의 Part 나무에서 내구도가 있는 부위를 깊이별로 묶는다",
+    "맨 위(Nose, Body): 2개 5,000",
+    "그 아래(Canopy, 날개 2, 꼬리 2): 5개 4,860",
+    "가장 끝(날개 끝 2, 플랩 4): 6개 2,040",
+    "합 11,900"
+   ],
+   "checks": [
+    {
+     "name": "맨 위 부위 (개수, 내구도)",
+     "actual": [
+      2,
+      5000
+     ],
+     "expected": [
+      2,
+      5000
+     ],
+     "pass": true
+    },
+    {
+     "name": "둘째 층",
+     "actual": [
+      5,
+      4860
+     ],
+     "expected": [
+      5,
+      4860
+     ],
+     "pass": true
+    },
+    {
+     "name": "셋째 층",
+     "actual": [
+      6,
+      2040
+     ],
+     "expected": [
+      6,
+      2040
+     ],
+     "pass": true
+    },
+    {
+     "name": "합",
+     "actual": 11900,
+     "expected": 11900,
+     "tolerance": 0,
+     "pass": true
+    }
+   ],
+   "tolerance": "정확히",
+   "sources": [
+    "data/loadout-research/defense-profiles.json",
+    "scripts/entities/vehicles/implementations/xml/aegs_avenger.xml → Part@damageMax"
+   ],
+   "open": "비교 화면은 이 세 층을 Vital 5,000 / Secondary 4,860 / Breakable 2,040 으로 부른다(값 일치). 맨 위 부위가 0 이 되면 함선이 파괴된다는 규칙은 게임 파일에 적혀 있지 않아 \"핵심 부위\"라는 이름은 해석이다.",
+   "observed": {
+    "screen": "erkul.games/calculator (표시값만 읽음, 2026-11-17)",
+    "vital": "2 parts · 5 000 hp",
+    "secondary": "5 parts · 4 860 hp",
+    "breakable": "6 parts · 2 040 hp"
+   },
    "pass": true
   }
  ],

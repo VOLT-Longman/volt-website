@@ -64,7 +64,8 @@ function add(def) {
             { name: '사이트 순간 DPS', actual: Number(site.weaponStats(items[g.uuid]).dps.toFixed(2)), expected: 650, tolerance: 0.01 },
         ],
         tolerance: '±0.01', sources: [SRC.weapon, 'EntityClassDefinition.BEHR_BallisticCannon_S4 → fireActions[0].sequenceEntries[0].{delay,unit} / .weaponAction.fireRate'],
-        open: '게임이 실제로 쓰는 값이 순차 간격(40)인지 안쪽 fireRate(50)인지는 게임 안 측정이 필요. 다른 계산기와의 162.5 차이는 이 두 값의 차이와 같다.',
+        open: '원인 확정: 비교 화면은 안쪽 fireRate(50)를 써서 813, VOLT 는 순차 간격(40)을 써서 650. 게임이 실제로 쓰는 값은 10발 사격 시간을 재면 확정된다(40 RPM 13.5초, 50 RPM 10.8초).',
+        observed: { screen: 'erkul.games/calculator (표시값만 읽음, 2026-11-17)', rate: 50, dps: 813, alpha: 975 },
     });
 }
 // 3. 에너지 무기 축전·충전 ----------------------------------------------------
@@ -102,7 +103,8 @@ function add(def) {
             { name: '사격 중 충전 허용', actual: Number((pick(a, 'excludingLastInterval') + 2 * pick(o, 'regenNotInterruptedByFiring')).toFixed(2)), expected: 2180.45, tolerance: 0.1 },
         ],
         tolerance: '±0.1 (사이트 값은 반올림 자료 때문에 ±0.7)', sources: [SRC.weapon],
-        open: '경계 조건만으로는 17.3(약 1%)까지만 벌어진다. 그보다 큰 차이는 사격 중 충전 여부, 짐벌 모드의 연사 0.85배, 전력 배분에 따른 탄창 크기 중 하나에서 온다.',
+        open: '원인 확정: 비교 화면은 AD4B 1,083 · Omnisky IX 290 × 2 → 합 1,664. VOLT 는 1,086.95 + 580.62 = 1,667.57. 축전 쪽은 같고(290), 차이 3.6(0.2%)은 과열 주기의 경계(마지막 간격 포함 1,082.24 ↔ 제외 1,086.95)에서 온다. 비교 화면의 과열 값은 포함 쪽에 가깝다(1,083 대 1,082.24, 반올림 차 0.8 은 미해명).',
+        observed: { screen: 'erkul.games/calculator (표시값만 읽음, 2026-11-17)', ad4bSustained: 1083, ad4bFire: '13.1s', ad4bCool: '2.2s', omniskySustained: 290, omniskyFire: '10s', omniskyRecharge: '8.8s', totalSustained: 1664, totalBurst: 2360, gimbalNote: '읽은 상태의 표시값(연사 900, 순간 1,266)에는 짐벌 모드의 연사 0.85배가 들어 있지 않음' },
     });
 }
 // 5. 충전식 무기 ---------------------------------------------------------------
@@ -192,17 +194,20 @@ function add(def) {
     add({
         id: 'quantum-short-long-expedition', topic: '짧은 거리와 긴 거리 퀀텀 이동 · 항속 61 Gm', status: 'conflicting',
         inputs: { ship: 'aegs_avenger_stalker', drive: d.cls, driveUuid: d.uuid, driveSpeed: p.driveSpeed, stageOneAccelRate: p.stageOneAccelRate, stageTwoAccelRate: p.stageTwoAccelRate, spoolUpTime: p.spoolUpTime, cooldownTime: p.cooldownTime, quantumFuelRequirement: d.quantumFuelRequirement, quantumFuelCapacity: ship.quantumFuelCapacity, capacityUnit: ship.capacityUnit, distancesGm: [0.05, 30] },
-        steps: ['항속 = 0.6 SCU ÷ 0.0098 = 61.22 Gm', '같은 탱크로 120 Gm 이 나오려면 요구량이 0.005 여야 한다(0.6 ÷ 0.005 = 120)', '가속·감속 구간 거리(2단계 가속 기준) = 속도² ÷ 가속 = 1.694 Gm', '0.05 Gm: 최고 속도에 못 미침 → 2 × √(5e7 ÷ 21154770) = 3.07초', '30 Gm: 30e9 ÷ 189309104 + 189309104 ÷ 21154770 = 158.47 + 8.95 = 167.42초', '스풀링 4.6초는 따로 더한다. 쿨다운 11.4초는 도착 뒤 다음 이동까지의 대기라 이동 시간에 넣지 않는다'],
+        steps: ['항속 = 0.6 SCU ÷ 0.0098 = 61.22 Gm', '같은 탱크로 120 Gm 이 나오려면 요구량이 0.005 여야 한다(0.6 ÷ 0.005 = 120)', '드라이브의 이동 상태(travellingState) 소비 칸이 QuantumFuel 5 이다. 이를 5 mSCU/Gm 로 읽으면 0.6 ÷ 0.005 = 120 Gm', '가속·감속 구간 거리(2단계 가속 기준) = 속도² ÷ 가속 = 1.694 Gm', '0.05 Gm: 최고 속도에 못 미침 → 2 × √(5e7 ÷ 21154770) = 3.07초', '30 Gm: 30e9 ÷ 189309104 + 189309104 ÷ 21154770 = 158.47 + 8.95 = 167.42초', '스풀링 4.6초는 따로 더한다. 쿨다운 11.4초는 도착 뒤 다음 이동까지의 대기라 이동 시간에 넣지 않는다'],
         checks: [
             { name: '항속(Gm)', actual: calc.quantumRange(ship.quantumFuelCapacity, d.quantumFuelRequirement), expected: 61.224, tolerance: 0.01 },
             { name: '120 Gm 에 필요한 요구량', actual: Number((ship.quantumFuelCapacity / 120).toFixed(5)), expected: 0.005, tolerance: 0.00001 },
+            { name: '이동 상태의 퀀텀 연료 소비 칸', actual: [p.travellingFuel.value, p.travellingFuel.unit], expected: [5, 'microResourceUnits'] },
+            { name: '그 값을 mSCU/Gm 로 읽은 항속(Gm)', actual: ship.stockRangeGm.fromTravellingStateConsumption, expected: 120, tolerance: 0.01 },
             { name: '짧은 거리: 최고 속도 도달 여부', actual: short.constantA2.reachesTopSpeed, expected: false },
             { name: '짧은 거리 이동 시간', actual: short.constantA2.travel, expected: 3.07, tolerance: 0.01 },
             { name: '긴 거리 이동 시간', actual: long.constantA2.travel, expected: 167.42, tolerance: 0.02 },
             { name: '사이트 계산(긴 거리, 스풀링 포함)', actual: Number(site.quantumTravelTime({ speed: p.driveSpeed, accel: p.stageTwoAccelRate, spool: p.spoolUpTime }, 30).toFixed(2)), expected: 172.02, tolerance: 0.02 },
         ],
         tolerance: '시간 ±0.02초, 항속 ±0.01 Gm', sources: [SRC.quantum, 'EntityClassDefinition.QDRV_TARS_S01_Expedition_SCItem → SCItemQuantumDriveParams', 'EntityClassDefinition.QTNK_AEGS_Avenger_Stalker → ResourceContainer.capacity.standardCargoUnits'],
-        open: '이 빌드(4.10.0, 13165946)의 Expedition 요구량은 0.0098 이다. 120 Gm 은 요구량 0.005 또는 탱크 1.176 SCU 일 때만 나오므로 단위·공식이 아니라 원본 값(자료 판 또는 다른 부품) 차이다. 어느 쪽인지는 상대 계산기의 입력값을 봐야 확정된다. 1·2단계 가속의 전환 조건도 미확인.',
+        open: '원인 확정: 탱크(0.6 SCU)는 같고, 쓰는 칸이 다르다. VOLT 는 quantumFuelRequirement(0.0098), 비교 화면은 이동 상태 소비 칸(5 → 5 mSCU/Gm, 화면 표기 그대로)을 쓴다. 두 칸은 드라이브마다 비율이 달라 서로 환산되지 않는다. 게임이 실제로 어느 칸으로 연료를 깎는지는 일정 거리를 이동한 뒤 연료 감소를 재야 확정된다. 1·2단계 가속의 전환 조건도 미확인.',
+        observed: { screen: 'erkul.games/calculator (표시값만 읽음, 2026-11-17, 화면의 자료 표기 v4.10.3-LIVE.13165946)', quantumFuelTank: '0.6 SCU', fuelConsumption: '5 mSCU/Gm', range: '120 Gm' },
     });
 }
 // 10. UUID 없는 판매 품목 --------------------------------------------------------
@@ -278,6 +283,46 @@ function add(def) {
         ],
         tolerance: '정확히', sources: [SRC.power, `EntityClassDefinition.${sh.cls} → ItemResourceComponentParams.states[Online].powerRanges`],
         open: '계수가 곱해지는 대상(실드 재생량·최대 실드량 등)과 구간 사이 보간 여부는 자료에 없다. 게임 안에서 칸 수별 재생량을 재면 확정된다.',
+    });
+}
+
+// 14. 비행 블레이드 ---------------------------------------------------------------
+{
+    const ship = flight.ships.aegs_avenger_stalker; const c = ship.controller; const b = flight.flightBlades;
+    const apply = (kind) => ({ scm: c.scmSpeed + b[kind].numbers.SCMSpeed.value, boost: c.boostSpeedForward + b[kind].numbers.BoostSpeedForward.value, max: c.maxSpeed + b[kind].numbers.MaxSpeed.value, pitch: c.maxAngularVelocity.x + b[kind].vectors.MaxAngularVelocity.value.x, roll: c.maxAngularVelocity.y + b[kind].vectors.MaxAngularVelocity.value.y, yaw: c.maxAngularVelocity.z + b[kind].vectors.MaxAngularVelocity.value.z });
+    add({
+        id: 'flight-blades-stalker', topic: '비행 블레이드 (STD/HND/SPD)', status: 'verified',
+        inputs: { ship: 'aegs_avenger_stalker', controller: c.cls, blades: ship.blades, HND: b.HND, SPD: b.SPD },
+        steps: ['STD = 기본 비행 제어기(변형 없음)', 'SPD: SCM +8, 부스트 전진 +10, 후진 +10, 최고 +25 m/s, 회전 속도 −1/−2/−1 °/s(피치/롤/요), 직선 가속 배율 ×0.99·×1.01·×0.99, 회전 가속 배율 ×0.99', 'HND: 부호가 반대 (SCM −8, 최고 −25, 회전 +1/+2/+1, 회전 가속 ×1.01)', '스토커 SPD: SCM 270, 최고 1450, 피치 52 / HND: SCM 254, 최고 1400, 피치 54'],
+        checks: [
+            { name: '블레이드 변형이 있는 함선 수', actual: Object.values(flight.ships).filter((x) => x.blades).length, expected: 15, tolerance: 0 },
+            { name: 'SPD 적용 (SCM, 부스트, 최고)', actual: [apply('SPD').scm, apply('SPD').boost, apply('SPD').max], expected: [270, 620, 1450] },
+            { name: 'SPD 적용 (피치, 롤, 요)', actual: [apply('SPD').pitch, apply('SPD').roll, apply('SPD').yaw], expected: [52, 188, 47] },
+            { name: 'HND 적용 (SCM, 부스트, 최고)', actual: [apply('HND').scm, apply('HND').boost, apply('HND').max], expected: [254, 600, 1400] },
+            { name: 'HND 적용 (피치, 롤, 요)', actual: [apply('HND').pitch, apply('HND').roll, apply('HND').yaw], expected: [54, 192, 49] },
+        ],
+        tolerance: '정확히', sources: [SRC.flight, 'SIFCSModifiersLegacy.FlightBlade_HND / FlightBlade_SPD (배열 칸 = EIFCSModifiableNumbersLegacy, EIFCSModifiableVectorsLegacy)', 'EntityClassDefinition.Controller_Flight_<함선>_Flight_Blade_{HND,SPD} → IFCSParams.modifiersLegacy'],
+        open: '게임 파일에 블레이드용 제어기 변형이 있는 함선은 15척뿐이다. 나머지 함선에 같은 계수가 공통으로 적용되는지는 자료에 없다.',
+    });
+}
+// 15. 선체 부위 깊이 --------------------------------------------------------------
+{
+    const parts = defense.ships.aegs_avenger_stalker.hull.parts; const top = Math.min(...parts.map((x) => x.depth));
+    const group = (d) => parts.filter((x) => x.depth - top === d);
+    const hp = (d) => group(d).reduce((n, x) => n + x.damageMax, 0);
+    add({
+        id: 'hull-parts-by-depth-stalker', topic: '선체 부위 구분', status: 'conflicting',
+        inputs: { ship: 'aegs_avenger_stalker', parts: parts.map((x) => ({ name: x.name, parent: x.parent, depth: x.depth, damageMax: x.damageMax })) },
+        steps: ['구조 XML 의 Part 나무에서 내구도가 있는 부위를 깊이별로 묶는다', '맨 위(Nose, Body): 2개 5,000', '그 아래(Canopy, 날개 2, 꼬리 2): 5개 4,860', '가장 끝(날개 끝 2, 플랩 4): 6개 2,040', '합 11,900'],
+        checks: [
+            { name: '맨 위 부위 (개수, 내구도)', actual: [group(0).length, hp(0)], expected: [2, 5000] },
+            { name: '둘째 층', actual: [group(1).length, hp(1)], expected: [5, 4860] },
+            { name: '셋째 층', actual: [group(2).length, hp(2)], expected: [6, 2040] },
+            { name: '합', actual: hp(0) + hp(1) + hp(2), expected: 11900, tolerance: 0 },
+        ],
+        tolerance: '정확히', sources: [SRC.defense, 'scripts/entities/vehicles/implementations/xml/aegs_avenger.xml → Part@damageMax'],
+        open: '비교 화면은 이 세 층을 Vital 5,000 / Secondary 4,860 / Breakable 2,040 으로 부른다(값 일치). 맨 위 부위가 0 이 되면 함선이 파괴된다는 규칙은 게임 파일에 적혀 있지 않아 "핵심 부위"라는 이름은 해석이다.',
+        observed: { screen: 'erkul.games/calculator (표시값만 읽음, 2026-11-17)', vital: '2 parts · 5 000 hp', secondary: '5 parts · 4 860 hp', breakable: '6 parts · 2 040 hp' },
     });
 }
 

@@ -33,7 +33,8 @@
 | 레이더 | `SCItemRadarComponentParams`, `RadarSystemGlobalParams`, `RadarSystemSharedParams.*` |
 | 방향별 CS | 함선 `SSCSignatureSystemParams.radarProperties.crossSectionParams.crossSection` |
 | 비행 | 기본 장착 FlightController 의 `IFCSParams`, 추진기 `SCItemThrusterParams` |
-| 열거형 | DCB 의 enum 표 (`ESignatureType`, `EMasterMode`, `EGimbalMode`, `EAimableUser`, `DamageTypes`, `EThrusterType`) |
+| 비행 블레이드 | `SIFCSModifiersLegacy.FlightBlade_{HND,SPD}`, `Controller_Flight_<함선>_Flight_Blade_{HND,SPD}` |
+| 열거형 | DCB 의 enum 표 (`ESignatureType`, `EMasterMode`, `EGimbalMode`, `EAimableUser`, `DamageTypes`, `EThrusterType`, `EIFCSModifiableNumbersLegacy`, `EIFCSModifiableVectorsLegacy`) |
 
 배열 칸의 의미는 추측하지 않고 열거형 표에서 읽었습니다. 예: 레이더 `signatureDetection[0..7]` = Infrared, Electromagnetic, CrossSection, Decibel, Resource, Identity, CommsSignal, Interactable.
 
@@ -53,7 +54,7 @@
 
 | 자료 | 이유 |
 | --- | --- |
-| Erkul DPS Calculator (화면·API·코드) | 저장소 원칙상 그 사이트의 자료·코드를 가져오지 않습니다. 이번에는 화면도 열지 않았고, 지시문에 적힌 비교 수치만 입력으로 썼습니다. |
+| Erkul DPS Calculator 의 자료 파일·API·코드 | 저장소 원칙상 가져오지 않습니다. **화면에 표시된 수치만** 소유자 승인을 받아 읽었습니다(2026-11-17, 어벤저 스토커 한 척: 항속·연료 소비 표기, C-788 연사·DPS, AD4B·Omnisky IX 지속 DPS, 선체 부위 묶음). 읽은 값은 검증 사례의 `observed` 칸에만 있고 다른 자료 파일에는 쓰지 않았습니다. |
 | RSI 공식 설명 페이지 | 이번 범위의 수치(전력 구간, 과열, 관통)는 공식 문서에 수치로 공개된 것이 없어 인용하지 않았습니다. |
 | 게임 안 실측 | 하지 않았습니다. 실측이 있어야 확정되는 항목은 `formulas.md` 와 `implementation-map.md` 에 표시했습니다. |
 

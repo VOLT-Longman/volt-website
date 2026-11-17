@@ -280,6 +280,25 @@ const gimbalModifiers = Object.fromEntries(recordsOf('WeaponGimbalModeModifierDe
     const data = df.readRecord(r, 8);
     return [r.name.split('.')[1], Object.fromEntries((data.weaponGimbalModeModifiers || []).map((m, i) => [gimbalModes[i] || `index${i}`, m ? nonDefaultStats(m.weaponStats) : null]))];
 }));
+// 비행 블레이드: SIFCSModifiersLegacy.FlightBlade_* 의 배열 칸은 EIFCSModifiableNumbersLegacy / EIFCSModifiableVectorsLegacy 순서다.
+const bladeNumbers = enums.get('EIFCSModifiableNumbersLegacy') || []; const bladeVectors = enums.get('EIFCSModifiableVectorsLegacy') || [];
+const flightBlades = Object.fromEntries(recordsOf('SIFCSModifiersLegacy').filter((r) => /FlightBlade_/.test(r.name)).map((r) => {
+    const data = df.readRecord(r, 6);
+    return [r.name.split('.')[1].replace('FlightBlade_', ''), {
+        record: r.name, uuid: r.id,
+        numbers: Object.fromEntries((data.numbers || []).map((n, i) => [bladeNumbers[i] || `index${i}`, n ? { type: n.type, value: sig(n.value) } : null])),
+        vectors: Object.fromEntries((data.vectors || []).map((v, i) => [bladeVectors[i] || `index${i}`, v ? { type: v.type, value: clean(v.value) } : null])),
+    }];
+}));
+const bladeOf = (controllerCls) => {
+    const out = {};
+    for (const kind of ['HND', 'SPD']) {
+        const found = entityOf(`${controllerCls}_Flight_Blade_${kind}`);
+        const ref = found ? comp(found.entity, 'IFCSParams')?.modifiersLegacy : null;
+        if (found) out[kind] = { cls: game.clsOf(found.record), uuid: found.record.id, modifiers: ref?.name ?? null };
+    }
+    return Object.keys(out).length ? out : null;
+};
 const radarGlobal = clean(df.readRecord(recordsOf('RadarSystemGlobalParams')[0], 8));
 const radarShared = Object.fromEntries(recordsOf('RadarSystemSharedParams').map((r) => [r.name.split('.')[1], clean(df.readRecord(r, 8), { depth: 6 })]));
 
@@ -343,15 +362,15 @@ for (const ship of shipIndex) {
     let parts = null; let hullTotal = null; let massTotal = null;
     if (xmlFiles.has(xmlFile)) {
         parts = []; hullTotal = 0; massTotal = 0;
-        const walk = (node, parent) => {
-            let name = parent;
+        const walk = (node, parent, depth = 0) => {
+            let name = parent; let next = depth;
             if (node.tag === 'Part') {
-                name = node.attrs.name;
+                name = node.attrs.name; next = depth + 1;
                 const damageMax = Number(node.attrs.damageMax) || 0; const mass = Number(node.attrs.mass) || 0;
                 hullTotal += damageMax; massTotal += mass;
-                if (damageMax > 0) parts.push({ name, parent: parent || null, class: node.attrs.class || null, damageMax, mass: mass || null, detachRatio: node.attrs.detachRatio !== undefined ? Number(node.attrs.detachRatio) : null, skipPart: node.attrs.skipPart ?? null });
+                if (damageMax > 0) parts.push({ name, parent: parent || null, depth: next, class: node.attrs.class || null, damageMax, mass: mass || null, detachRatio: node.attrs.detachRatio !== undefined ? Number(node.attrs.detachRatio) : null, skipPart: node.attrs.skipPart ?? null });
             }
-            for (const child of node.children) walk(child, name);
+            for (const child of node.children) walk(child, name, next);
         };
         walk(parseCryXml(readFileSync(xmlFiles.get(xmlFile))), null);
     }
@@ -367,9 +386,11 @@ for (const ship of shipIndex) {
     const mass = shipFile.base?.mass ?? null;
     const thrustByType = {};
     for (const t of thrusters) thrustByType[t.thrusterType] = (thrustByType[t.thrusterType] || 0) + (t.thrustCapacity || 0);
-    shipFlight[ship.cls] = { ...base, massKg: mass, massSource: 'vehicle XML Part@mass 합 (data/loadout/ships/*.json base.mass)', controller: flight[0] || null, thrusters: [...grouped.values()], thrustByType: Object.fromEntries(Object.entries(thrustByType).map(([k, v]) => [k, sig(v)])), derived: calc.flightDerived({ mass, thrustByType, controller: flight[0] }), tanks: tanks.filter((t) => !/Quantum/i.test(t.type || '')), intakes, lifeSupport };
+    shipFlight[ship.cls] = { ...base, massKg: mass, massSource: 'vehicle XML Part@mass 합 (data/loadout/ships/*.json base.mass)', controller: flight[0] || null, blades: flight[0] ? bladeOf(flight[0].cls) : null, thrusters: [...grouped.values()], thrustByType: Object.fromEntries(Object.entries(thrustByType).map(([k, v]) => [k, sig(v)])), derived: calc.flightDerived({ mass, thrustByType, controller: flight[0] }), tanks: tanks.filter((t) => !/Quantum/i.test(t.type || '')), intakes, lifeSupport };
     const qTanks = tanks.filter((t) => /Quantum/i.test(t.type || ''));
-    shipQuantum[ship.cls] = { ...base, quantumFuelTanks: qTanks, quantumFuelCapacity: qTanks.length ? sig(qTanks.reduce((n, t) => n + (t.capacity?.value || 0), 0)) : null, capacityUnit: qTanks[0]?.capacity?.unit || null };
+    const stockDrive = Object.values(drives).find((d) => d.uuid === (function find(slots) { for (const s of slots || []) { if (s.item && drives[s.item]) return s.item; const c = find(s.ch); if (c) return c; } return null; })(shipFile.slots));
+    shipQuantum[ship.cls] = { ...base, stockDrive: stockDrive ? { uuid: stockDrive.uuid, cls: stockDrive.cls } : null, quantumFuelTanks: qTanks, quantumFuelCapacity: qTanks.length ? sig(qTanks.reduce((n, t) => n + (t.capacity?.value || 0), 0)) : null, capacityUnit: qTanks[0]?.capacity?.unit || null,
+        stockRangeGm: stockDrive && qTanks.length ? { fromQuantumFuelRequirement: calc.quantumRange(qTanks.reduce((n, t) => n + (t.capacity?.value || 0), 0), stockDrive.quantumFuelRequirement), fromTravellingStateConsumption: stockDrive.params?.travellingFuel?.value ? calc.quantumRange(qTanks.reduce((n, t) => n + (t.capacity?.value || 0), 0), stockDrive.params.travellingFuel.value / 1000) : null } : null };
     shipRadar[ship.cls] = { ...base, crossSection: shipPower[ship.cls].crossSection, armorSignalMultipliers: shipPower[ship.cls].armorSignalMultipliers };
 }
 void thrusterTypes;
@@ -414,7 +435,7 @@ writeProfile('defense-profiles.json', {
     units: { MaxShieldHealth: '실드량', MaxShieldRegen: '실드량/초', DownedRegenDelay: '초', DamagedRegenDelay: '초', damageMax: '부위 내구도', basePenetrationDistance: 'm (탄약 쪽)', deflectionValue: '게임 내부 단위' },
 }, { shields, ships: shipDefense });
 writeProfile('quantum-profiles.json', {
-    meta, verification: { driveValues: status('verified', 'SCItemQuantumDriveParams 원본'), tankValues: status('verified', 'ResourceContainer.capacity.standardCargoUnits'), fuelUnit: status('conflicting', 'quantumFuelRequirement 의 거리 단위는 자료에 적혀 있지 않음. SCU/Gm 로 읽으면 게임 안 항속과 맞는 크기 (formulas.md 7장)'), travelProfile: status('unavailable', '가속 단계 전환 조건은 실행 코드에 있음') },
+    meta, verification: { driveValues: status('verified', 'SCItemQuantumDriveParams 원본'), tankValues: status('verified', 'ResourceContainer.capacity.standardCargoUnits'), fuelUnit: status('conflicting', '연료 칸이 둘이다: quantumFuelRequirement(예 0.0098)와 travellingState 의 QuantumFuel 소비(예 5). 뒤의 값을 mSCU/Gm 로 읽으면 다른 계산기의 항속(120 Gm)과 같다. 게임이 어느 쪽을 쓰는지는 실측 필요 (formulas.md 7장)'), travelProfile: status('unavailable', '가속 단계 전환 조건은 실행 코드에 있음') },
     fields: { quantumFuelRequirement: 'Components[SCItemQuantumDriveParams].quantumFuelRequirement', params: '….params (일반 퀀텀 이동)', splineJumpParams: '….splineJumpParams (경로 따라 이동)', 'ships.*.quantumFuelTanks': '기본 장착의 QuantumFuelTank → Components[ResourceContainer].capacity' },
     units: { driveSpeed: 'm/s', stageOneAccelRate: 'm/s²', stageTwoAccelRate: 'm/s²', spoolUpTime: '초', cooldownTime: '초', quantumFuelCapacity: 'SCU', quantumFuelRequirement: 'SCU/Gm (해석)' },
 }, { drives, jumpDrives, ships: shipQuantum });
@@ -425,8 +446,9 @@ writeProfile('radar-profiles.json', {
     global: radarGlobal, sharedParams: radarShared, signatureTypes: enums.get('ESignatureType') || null,
 }, { radars, ships: shipRadar });
 writeProfile('flight-profiles.json', {
-    meta, verification: { controllerValues: status('verified', 'IFCSParams 원본'), thrusterValues: status('verified', 'SCItemThrusterParams 원본'), acceleration: status('conflicting', '추력 합 ÷ 질량 값이며 IFCS 축별 배율·추진기 방향을 반영하지 않음 (derived 참조)'), blades: status('unavailable', '이 빌드의 게임 파일에서 교체형 비행 블레이드 부품을 찾지 못함') },
+    meta, verification: { controllerValues: status('verified', 'IFCSParams 원본'), thrusterValues: status('verified', 'SCItemThrusterParams 원본'), acceleration: status('conflicting', '추력 합 ÷ 질량 값이며 IFCS 축별 배율·추진기 방향을 반영하지 않음 (derived 참조)'), blades: status('verified', 'SIFCSModifiersLegacy.FlightBlade_HND/SPD 의 값과, 블레이드용 비행 제어기 변형이 있는 함선 목록. STD 는 변형 없음(기본 제어기)') },
     fields: { controller: '기본 장착의 FlightController → Components[IFCSParams]', thrusters: '기본 장착의 추진기 → Components[SCItemThrusterParams]', tanks: '기본 장착의 FuelTank → Components[ResourceContainer].capacity' },
+    flightBlades, bladeSlots: { numbers: bladeNumbers, vectors: bladeVectors, modifierTypes: enums.get('EIFCSModifierType') || null },
     units: { scmSpeed: 'm/s', maxSpeed: 'm/s (NAV)', maxAngularVelocity: '도/초 (x=피치, y=롤, z=요)', thrustCapacity: 'N', massKg: 'kg', capacitorMax: '부스트 축전량', capacitorRegenPerSec: '/초' },
 }, { ships: shipFlight });
 writeProfile('utility-profiles.json', {

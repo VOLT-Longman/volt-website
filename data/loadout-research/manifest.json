@@ -6,7 +6,7 @@
   "changelist": "13165946",
   "buildDate": "Wed Nov 11 2026"
  },
- "researchedAt": "2026-11-17T02:19:00.649Z",
+ "researchedAt": "2026-11-17T02:30:22.108Z",
  "uex": {
   "api": "https://api.uexcorp.uk/2.0",
   "fetchedAt": {
@@ -42,28 +42,28 @@
   },
   {
    "file": "data/loadout-research/defense-profiles.json",
-   "bytes": 1276251,
-   "sha256": "37cb5315c811b11924d932dddb6de31dbe7397895920a9cdbaf7a2e3355b47c9"
+   "bytes": 1328301,
+   "sha256": "47168498843d2aaa10ec7c7224f3c851276e2559f2a16bf93e740d095fa78fcc"
   },
   {
    "file": "data/loadout-research/flight-profiles.json",
-   "bytes": 1662488,
-   "sha256": "ac9853a1e95c23c51a41ab6f4da100330f371899b0fcc93b3e1cfef757ada184"
+   "bytes": 1673967,
+   "sha256": "95db9c3d43cfeb2fd48269c481e2ef2e9540552bbce62d69811b5de1325533c1"
   },
   {
    "file": "data/loadout-research/power-profiles.json",
    "bytes": 4664774,
-   "sha256": "39d6e56db6ba9694dc0ee4ff78f2072b6eb3cf211ed9d65bcb21b5d805fc8939"
+   "sha256": "ef1fec91765f221c9f2c97cd8b0e0af6ab828ec758ecb452f0400e3766abbade"
   },
   {
    "file": "data/loadout-research/quantum-profiles.json",
-   "bytes": 185357,
-   "sha256": "762d7354506fc403cb67333b09d5dab9f6a2ed4765e4ed582ff1f5e3fca843f3"
+   "bytes": 220263,
+   "sha256": "b527cb2b7067603b7a0b113d4b2ce793d36a9159bb9053eaff0cc12c68d818ae"
   },
   {
    "file": "data/loadout-research/radar-profiles.json",
    "bytes": 274068,
-   "sha256": "fb21c653517e6019927324aba308769060103c30bd3a4661f221736304b5a07f"
+   "sha256": "6a435430ec31c55c5f6485b5c73d5ca5f56e936391ec593f1e79ed0d745872ae"
   },
   {
    "file": "data/loadout-research/shop-coverage.json",
@@ -73,17 +73,17 @@
   {
    "file": "data/loadout-research/utility-profiles.json",
    "bytes": 558328,
-   "sha256": "9fb3248fbedad9a848c1a13f334bde8c9614d1f0587a23e6995a40b9ee049e6f"
+   "sha256": "8ed81e2addccdc5f7b82497bfd6611118d9dab07f27e61e076090befa69144b4"
   },
   {
    "file": "data/loadout-research/validation-cases.json",
-   "bytes": 37345,
-   "sha256": "b3bed537bc940eca87e05d5146c69f5808ad25598f565449f278620afc24e521"
+   "bytes": 47325,
+   "sha256": "411a0654ca23b40ed6bf33a506a8a95ac7591c77d02a8e19566ad03e7d6ee748"
   },
   {
    "file": "data/loadout-research/weapon-profiles.json",
    "bytes": 1196258,
-   "sha256": "64de3277f413d5af1a444846af4c24646397029af9d3c51e3b2e36e18d62a923"
+   "sha256": "70d8dd0294ebe5b9a14a635573d9a316f625117ef9c7002ba0e38c08c46721a6"
   }
  ],
  "stats": {
@@ -313,12 +313,12 @@
    "shopRowsUnlinked": 260
   },
   "validation": {
-   "cases": 13,
-   "checks": 71,
+   "cases": 15,
+   "checks": 82,
    "failedChecks": 0,
    "byStatus": {
-    "verified": 3,
-    "conflicting": 9,
+    "verified": 4,
+    "conflicting": 10,
     "unavailable": 1
    },
    "siteCalculatorDiffering": 12

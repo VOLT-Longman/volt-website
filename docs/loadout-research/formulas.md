@@ -199,7 +199,7 @@ N발을 쏘는 데 걸리는 시간은 첫 발이 0초에 나가므로 `(N − 1
 - 실드(verified): `MaxShieldHealth`, `MaxShieldRegen`, `DamagedRegenDelay`(피격 뒤), `DownedRegenDelay`(파괴 뒤), `DecayRatio`, `ReservePool*`, `stunParams`.
 - 면 구성: 함선의 `SCItemShieldEmitterParams.FaceType` — `Bubble` 181척, `Quadrant` 41척. `MaxReallocation`, `ReconfigurationCooldown`. 면별 실드량 분배식은 없습니다(전체량 ÷ 면 수로 추정, conflicting).
 - 선체: 구조 XML `Part@damageMax` 의 부위별 내구도(이름·부모·`detachRatio`). 사이트의 "선체" 값은 그 합입니다.
-  **핵심 부위·분리 부위·장식 부위를 가르는 칸은 없습니다.** 부모–자식 관계와 `detachRatio` 만 있습니다. 어느 부위가 0 이 되면 함선이 파괴되는지는 자료에 없습니다(`vehicleHullDamageNormalizationValue` 의 쓰임 미확인).
+  **핵심 부위·분리 부위·장식 부위를 가르는 칸은 없습니다.** 부모–자식 관계(`depth`)와 `detachRatio` 만 있습니다. 나무의 층으로 묶으면 스토커는 맨 위 2개 5,000 / 둘째 층 5개 4,860 / 끝 6개 2,040 이고, 다른 계산기는 이 세 층을 Vital / Secondary / Breakable 로 부릅니다(값 일치). 맨 위 부위가 0 이 되면 함선이 파괴된다는 규칙은 자료에 적혀 있지 않습니다(`vehicleHullDamageNormalizationValue` 의 쓰임 미확인).
 - 장갑: 장갑 부품 `Health`, `damageMultiplier`, `DamageResistances`, 위 5.12 의 관통·도탄 값. 장갑이 깎일 때 방어가 어떻게 변하는지의 곡선(`healthCurve`)은 비어 있습니다.
 
 ### 세 질문에 대한 답
@@ -224,7 +224,11 @@ N발을 쏘는 데 걸리는 시간은 첫 발이 0초에 나가므로 `(N − 1
 | 정렬(보정) | `params.{calibrationRate, minCalibrationRequirement, maxCalibrationRequirement, calibrationDelayInSeconds, calibrationProcessAngleLimit}` | — |
 | 경로 이동 | `splineJumpParams.*` (같은 꼴) | — |
 
-- **항속 = 탱크(SCU) ÷ 요구량.** 요구량을 SCU/Gm 로 읽으면 스토커+Expedition 이 61.2 Gm 입니다. SCU/Mm 로 읽으면 61 Mm 이 되어 성계 안 이동(수십 Gm)이 불가능하므로 Gm 해석이 맞습니다(conflicting — 단위가 자료에 적혀 있지는 않음).
+- **항속 = 탱크(SCU) ÷ 거리당 소비.** 거리당 소비로 쓸 수 있는 칸이 둘입니다(conflicting).
+  - (가) `quantumFuelRequirement` 를 SCU/Gm 로 읽음: 스토커+Expedition 0.6 ÷ 0.0098 = **61.2 Gm** (VOLT 현재 방식).
+  - (나) 이동 상태 소비 칸 `travellingState.deltas[QuantumFuel].microResourceUnits` 를 mSCU/Gm 로 읽음: 0.6 ÷ 0.005 = **120 Gm** (다른 계산기의 표기 "5 mSCU/Gm" 와 같음).
+  - 두 칸은 드라이브마다 비율이 달라 서로 환산되지 않습니다(S1 드라이브 20종의 (나) 값은 4 또는 5 뿐이고, (가) 값은 0.0049–0.0216 로 퍼져 있음). 함선별 두 값은 `quantum-profiles.json` → `ships.<cls>.stockRangeGm`.
+  - (나)는 4.x 의 자원망 구조(`ItemResourceDynamicAmountQuantumTravelFuel`)에 달린 칸이라 현재 게임이 쓰는 쪽일 가능성이 높지만, 확정하려면 일정 거리를 이동한 뒤 연료 감소를 한 번 재야 합니다.
 - 이동 시간: 가속 단계의 전환 조건이 자료에 없어 세 모형을 냅니다.
   `constantA2`(사이트 방식, 2단계 가속으로 사다리꼴): 거리가 `속도² ÷ 가속` 보다 짧으면 최고 속도에 못 미치고 `2 × √(거리 ÷ 가속)`, 길면 `거리 ÷ 속도 + 속도 ÷ 가속`.
   `constantA1`(느린 쪽 한계), `cruiseOnly`(빠른 쪽 한계).
@@ -247,7 +251,15 @@ N발을 쏘는 데 걸리는 시간은 첫 발이 0초에 나가므로 `(N − 1
 - 부스트: 배수 `afterburnerNew.afterburn*Multiplier*`, 지속 = `capacitorMax ÷ capacitorAfterburnerIdleCost`, 재충전 = `capacitorRegenDelayAfterUse + capacitorMax ÷ capacitorRegenPerSec`(배분 곡선 적용 전).
 - 가속도: `Σ 추진기 thrustCapacity ÷ 질량`. 이것은 **윗값**입니다 — IFCS 의 축별 배율(`positiveLinearScale` 등)과 추진기 방향을 반영하지 않습니다. 17척은 `thrustCapacityNew` 도 0 이 아니어서 어느 쪽이 쓰이는지 미확인.
 - 연료: 추진기 `fuelBurnRatePer10KNewton`(구식)·`fuelBurnRatePer10KNewtonRN`(SRU), 탱크 `capacity`.
-- **STD/HND/SPD 블레이드: 이 빌드의 게임 파일에 교체형 비행 블레이드 부품이 없습니다.** 계수를 넣지 않았습니다.
+- **STD/HND/SPD 블레이드 (verified):** `SIFCSModifiersLegacy.FlightBlade_HND / FlightBlade_SPD`. 배열 칸은 `EIFCSModifiableNumbersLegacy`(SCMSpeed, BoostSpeedForward, BoostSpeedBackward, MaxSpeed)와 `EIFCSModifiableVectorsLegacy`(MaxAngularVelocity, Positive/NegativeLinearScale, Positive/NegativeAngularScale) 순서입니다.
+
+  | | SCM | 부스트 전·후 | 최고 | 회전 속도(피치/롤/요) | 직선 가속 배율(x/y/z) | 회전 가속 배율 |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | STD | 0 | 0 | 0 | 0 | ×1 | ×1 |
+  | SPD | +8 | +10 | +25 | −1 / −2 / −1 | ×0.99 / ×1.01 / ×0.99 | ×0.99 |
+  | HND | −8 | −10 | −25 | +1 / +2 / +1 | ×1.01 / ×0.99 / ×1.01 | ×1.01 |
+
+  더하는 값(Additive)은 m/s·°/s 그대로, 배율(Scalar)은 곱합니다. 블레이드용 비행 제어기 변형(`Controller_Flight_<함선>_Flight_Blade_{HND,SPD}`)이 게임 파일에 있는 함선은 15척입니다(`flight-profiles.json` → `ships.<cls>.blades`). 나머지 함선에 같은 계수가 적용되는지는 자료에 없습니다.
 
 ### 추가 장비
 

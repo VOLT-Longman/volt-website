@@ -21,7 +21,7 @@ node scripts/loadout-research/build-manifest.mjs
 | --- | --- | --- |
 | `uex-audit.mjs` | UEX 15개 분류의 품목·판매 기록을 `data/loadout/items.json` 과 전수 대조. `--fetch` 가 없으면 UEX 폴더에 저장된 응답을 씀 | `component-identities.json`, `shop-coverage.json` |
 | `extract-profiles.mjs` | 게임 파일에서 전력·무기·방어·퀀텀·레이더·비행·보조 장비 원본 값 추출 | `power-`, `weapon-`, `defense-`, `quantum-`, `radar-`, `flight-`, `utility-profiles.json` |
-| `validate.mjs` | 검증 사례 13건을 검산하고 사이트 계산기(`js/loadout-calc.js`)와 무기 전수 비교. 하나라도 어긋나면 종료 코드 1 | `validation-cases.json` |
+| `validate.mjs` | 검증 사례 15건을 검산하고 사이트 계산기(`js/loadout-calc.js`)와 무기 전수 비교. 하나라도 어긋나면 종료 코드 1 | `validation-cases.json` |
 | `build-manifest.mjs` | 파일 목록·해시·통계 정리 | `manifest.json` |
 | `calc.mjs` | 기준 계산식(과열·축전·발사 주기·퀀텀·전력 구간). 다른 스크립트가 불러 씀 | — |
 | `lib.mjs` | 공용 도구(게임 자료 읽기, 열거형 표, 쓰기) | — |
