@@ -308,7 +308,10 @@
 
     function observeNewReveals(container) {
         if (!revealObserver || !container) return;
-        container.querySelectorAll('.reveal:not(.revealed)').forEach((element) => { revealObserver.observe(element); });
+        container.querySelectorAll('.reveal:not(.revealed)').forEach((element) => {
+            window.VOLT_MOTION?.prepare(element);
+            revealObserver.observe(element);
+        });
     }
 
     // 임원진 UI는 js/leadership.js로 분리(window.VOLT_LEADERSHIP). 호출부 무변경용 위임 shim.
@@ -1439,7 +1442,7 @@
                 return;
             }
             if (event.key === 'Escape') {
-                if (searchOverlay?.classList.contains('active')) closeSearch(searchOverlay, document.getElementById('global-search-input'));
+                if (searchOverlay?.classList.contains('active')) document.getElementById('search-close')?.click();
                 else if (activeModal) closeModal();
                 else {
                     closeMoreMenu();
@@ -1774,7 +1777,7 @@
             });
             ticking = true;
         }, { passive: true });
-        button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }));
     }
 
     function setupScrollEffect() {
@@ -1793,9 +1796,9 @@
 
     function setupRevealObserver() {
         revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('revealed');
+            entries.filter((entry) => entry.isIntersecting).forEach((entry, index) => {
+                if (window.VOLT_MOTION) window.VOLT_MOTION.reveal(entry.target, index);
+                else entry.target.classList.add('revealed');
                 revealObserver.unobserve(entry.target);
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });

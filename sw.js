@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261117-08';
+const CACHE_VERSION = '20261117-09';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -27,6 +27,8 @@ function storeRuntime(request, response) {
 // 프리캐시 키가 실제 요청 URL과 일치하도록 버전 쿼리를 함께 캐시한다.
 const VERSIONED_ASSETS = [
     '/css/styles.css',
+    '/css/motion.css',
+    '/js/motion.js',
     '/js/theme-init.js',
     '/js/i18n.js',
     '/js/navigation.js',

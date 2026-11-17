@@ -134,6 +134,7 @@
             (function tick(now) {
                 // 외부 갱신 감지(예: 라이브 멤버 수) → 카운트업 중단하고 외부 값을 존중한다
                 if (element.textContent !== lastWritten) return;
+                if (prefersReducedMotion()) { element.textContent = raw; return; }
                 const progress = Math.min(1, (now - start) / DURATION);
                 const eased = 1 - (1 - progress) ** 3; // easeOutCubic
                 const value = Math.round(finalValue * eased);
@@ -160,6 +161,7 @@
         if (!fineMotionOk()) return;
         document.querySelectorAll('[data-tilt]').forEach((card) => {
             card.addEventListener('pointermove', (event) => {
+                if (!fineMotionOk()) { card.style.transform = ''; card.classList.remove('is-tilting'); return; }
                 const rect = card.getBoundingClientRect();
                 const px = (event.clientX - rect.left) / rect.width;
                 const py = (event.clientY - rect.top) / rect.height;
@@ -191,13 +193,16 @@
             return;
         }
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('revealed');
+            entries.filter((entry) => entry.isIntersecting).forEach((entry, index) => {
+                if (window.VOLT_MOTION) window.VOLT_MOTION.reveal(entry.target, index);
+                else entry.target.classList.add('revealed');
                 observer.unobserve(entry.target);
             });
         }, { rootMargin: '0px 0px -20% 0px' });
-        targets.forEach((target) => { observer.observe(target); });
+        targets.forEach((target) => {
+            window.VOLT_MOTION?.prepare(target);
+            observer.observe(target);
+        });
     }
 
     function setup() {

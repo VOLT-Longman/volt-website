@@ -161,7 +161,7 @@
         const ship = getShipById(shipId);
         if (!ship) return;
         const card = document.querySelector(`[data-ship-id="${CSS.escape(shipId)}"]`);
-        card?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
         openShipModal(ship);
     }
 

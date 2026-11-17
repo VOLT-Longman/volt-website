@@ -1,0 +1,77 @@
+/* Shared public-site motion. All resting states remain visible without JS. */
+:root {
+    --motion-ease: cubic-bezier(.22, 1, .36, 1);
+    --motion-fast: 160ms;
+    --motion-ui: 240ms;
+    --motion-enter: 480ms;
+}
+/* Do not transform a whole section: it contains fixed dialogs and tool drawers. */
+.section.active { animation: none; }
+.reveal { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+    /* Hide only elements that have a live observer; a missing script stays usable. */
+    .reveal.motion-ready:not(.revealed) { opacity: 0; transform: translateY(16px); }
+    .section.active .section-header,
+    .static-guide-hero { animation: volt-heading-in var(--motion-enter) var(--motion-ease) both; }
+    .section-header h2 { position: relative; }
+    .section.active .section-header h2::after {
+        content: ''; position: absolute; width: 44px; height: 2px;
+        left: calc(50% - 22px); bottom: -9px; background: var(--volt-orange);
+        transform-origin: center; animation: volt-rule-in 600ms var(--motion-ease) both;
+    }
+    .reveal.revealed,
+    .landing-grid .landing-card.revealed {
+        animation: volt-card-in var(--motion-enter) var(--motion-ease) backwards;
+        animation-delay: var(--motion-delay, 0ms);
+    }
+    .landing-briefing.revealed .landing-notice-row,
+    .landing-notices.revealed .landing-notice-row { animation-duration: 360ms; }
+    /* Hero copy is a single entrance, not a looping background animation. */
+    .hero-identity, .hero-title, .hero-copy > p, .hero-buttons { animation-duration: 650ms; }
+    .nav-more-menu.active, .nav-trade-menu.active {
+        transform-origin: top center; animation: volt-menu-in 220ms var(--motion-ease) both;
+    }
+    .mobile-menu { transition: right 300ms var(--motion-ease); }
+    .mobile-menu.active .mobile-menu-header { animation: volt-content-in 300ms var(--motion-ease) both; }
+    .search-overlay.active, .modal-backdrop.active { animation: volt-fade-in 180ms ease-out both; }
+    .search-overlay.active .search-panel,
+    .modal-backdrop.active .modal-card { animation: volt-dialog-in 280ms var(--motion-ease) both; }
+    /* The loadout redraws while searching. Its entrances are keyed in motion.js. */
+    .loadout-detail-content { animation: none; }
+    :is(.btn, .nav-icon-button, .loadout-chip, .loadout-tab, .loadout-category, .ship-filter-chip, .ship-name-btn, .filter-btn) {
+        transition: translate var(--motion-fast) var(--motion-ease), scale var(--motion-fast) var(--motion-ease),
+            background-color var(--motion-fast) ease, border-color var(--motion-fast) ease,
+            color var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
+    }
+    :is(.btn, .nav-icon-button, .loadout-chip, .loadout-tab, .loadout-category, .filter-btn):active:not(:disabled) { scale: .975; }
+    .nav-links > li > a, .nav-links > li > button { transition: color 180ms ease, background-color 180ms ease; }
+    :is(.card, .ship-card, .partner-fleet-card, .streamer-card, .gallery-item, .join-checklist-card, .notice-card, .static-guide-card) {
+        transition: translate var(--motion-ui) var(--motion-ease), border-color var(--motion-ui) ease, box-shadow var(--motion-ui) ease;
+    }
+    .toast { transition: opacity 200ms ease, transform 280ms var(--motion-ease); }
+    .faq-icon { transition: transform 240ms var(--motion-ease); }
+    .faq-answer { transition-timing-function: var(--motion-ease); transition-duration: 260ms; }
+    @media (hover: hover) and (pointer: fine) {
+        .btn:hover:not(:disabled), .nav-icon-button:hover:not(:disabled) { translate: 0 -2px; }
+        :is(.card, .ship-card, .partner-fleet-card, .streamer-card, .gallery-item, .join-checklist-card, .notice-card, .static-guide-card):hover {
+            translate: 0 -3px; border-color: var(--color-border-hover); box-shadow: 0 10px 26px rgb(0 0 0 / 14%);
+        }
+    }
+}
+@keyframes volt-heading-in { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+@keyframes volt-card-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes volt-rule-in { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+@keyframes volt-menu-in { from { opacity: 0; translate: 0 -6px; scale: .985; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes volt-dialog-in { from { opacity: 0; translate: 0 14px; scale: .99; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes volt-content-in { from { opacity: 0; translate: 0 6px; } to { opacity: 1; translate: 0 0; } }
+@keyframes volt-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal.revealed { opacity: 1; transform: none; }
+    .section-header h2::after { display: none; }
+    *, *::before, *::after { scroll-behavior: auto !important; }
+}
+@media print {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+}
