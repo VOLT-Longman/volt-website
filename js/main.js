@@ -151,7 +151,7 @@
         return authState.loggedIn ? `${key}:user:${authState.user?.sub || 'unverified'}` : `${key}:guest`;
     }
     // selectedTags = OFF 레거시 focus/tags 칩. sizeTags·roleTags·detailRole = ON 2축 태그 필터(커밋 C).
-    const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [], sizeTags: [], roleTags: [], detailRole: '' };
+    const shipState = { manufacturer: 'all', hideUnreleased: false, query: '', sort: 'name-asc', purpose: '', cargoMin: 0, hangarOnly: false, marketOnly: false, selectedTags: [], sizeTags: [], roleTags: [], detailRole: '', activity: '' };
     const RSI_SHIP_MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix';
     const UEX_CACHE_TTL_MS = { commodities: 60 * 60 * 1000, prices: 30 * 60 * 1000 };
     // 공개 ShipDB의 유일한 함선 목록(canonical 219 + RSI 공식 30). canonical 로드 전에는 비어 있고,
@@ -472,6 +472,8 @@
         const t = canon && canon.taxonomy();
         const c = canon && canon.getShip(ship.id);
         if (!t || !c) return true; // 지연 로드 전엔 통과(로드 완료 후 재렌더에서 적용)
+        const activity = t.browseGroups?.find((group) => group.key === shipState.activity);
+        if (activity && !activity.roles.includes(c.role)) return false;
         if (shipState.sizeTags.length) {
             const sizeTag = c.platform === 'ground' ? 'ground' : (t.axes.size.map[c.size] || c.size);
             if (!shipState.sizeTags.includes(sizeTag)) return false;

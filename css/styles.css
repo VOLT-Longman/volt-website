@@ -9635,7 +9635,7 @@ body.nav-trade-open::before {
 .loadout-slot.is-mount .loadout-item-name { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); }
 .loadout-slot.is-mount .loadout-size { height: 22px; font-size: 11px; color: var(--color-text-secondary); }
 .loadout-slot.is-mount .loadout-slot-row { padding-top: 5px; padding-bottom: 5px; }
-.loadout-slot.is-mount .loadout-origin { display: none; }
+.loadout-slot.is-mount .loadout-origin { display: block; }
 .loadout-slot.is-changed { background: rgba(232, 72, 47, 0.06); box-shadow: inset 2px 0 0 var(--volt-orange); }
 .loadout-slot.is-open { background: var(--lo-card-2); box-shadow: inset 2px 0 0 var(--volt-orange); }
 .loadout-slot.is-fixed { opacity: 1; }
@@ -10331,4 +10331,35 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-assembly-heading > span { flex-basis: 100%; }
     .loadout-power-channels { gap: 16px 8px; }
     .loadout-power-actions .btn { min-height: 44px; }
+}
+/* Staff feedback: game names, visible equipment controls and role navigation. */
+.loadout-app .loadout-slot-main .loadout-origin,
+.loadout-app .loadout-option-main .loadout-origin,
+.loadout-app .loadout-mount-card .loadout-origin,
+.loadout-app .loadout-ship-select .loadout-origin { display: block; margin: 3px 0 0; line-height: 1.4; font-size: 12px; font-weight: 400; overflow-wrap: anywhere; }
+.loadout-ship-select small { margin-left: 0; }
+.loadout-shipinfo > .loadout-origin { margin-top: 4px; }
+.loadout-bespoke { display: block; margin-top: 6px; color: #e5af71; font-size: 11px; line-height: 1.5; font-weight: 500; }
+.loadout-app .loadout-powerbtn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; flex-shrink: 0; min-height: 36px; padding: 5px 9px; border: 1px solid #5d8264; border-radius: 5px; background: #29422f44; color: #add2ad; font: inherit; font-size: 12px; cursor: pointer; }
+.loadout-app .loadout-powerbtn.is-off { border-color: var(--lo-line); background: var(--lo-bg); color: var(--lo-dim); }
+.loadout-app .loadout-powerbtn svg { flex-shrink: 0; }
+.loadout-app .loadout-swapbtn { min-height: 36px; padding: 6px 12px; border-color: #bb5745; font-size: 12px; }
+.loadout-app .loadout-swapbtn.is-rack { color: #fff; background: #853d32; border-color: #c96550; font-weight: 650; }
+.loadout-app .loadout-powerbtn:hover, .loadout-app .loadout-swapbtn:hover { filter: brightness(1.2); }
+.loadout-app .loadout-powerbtn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+.ship-filter-axis[hidden] { display: none; }
+.ship-activity-details .ship-filter-btn { white-space: nowrap; }
+.ship-filter-axes.has-activity .ship-filter-axis--detail { display: none; }
+@media (max-width: 767px) {
+    .ship-filter-axes.has-activity .ship-filter-axis--detail { display: flex; }
+    .ship-filter-axes.has-activity .ship-filter-axis--detail > .ship-filter-axis-label { display: none; }
+    .loadout-abcompare [data-loadout-ab] { display: none; }
+    .loadout-app .loadout-swapbtn, .loadout-app .loadout-powerbtn { min-height: 44px; }
+    .loadout-app .loadout-ship-select .loadout-origin { font-size: 11px; }
+}
+@media (max-width: 1100px) {
+    .loadout-app .loadout-mount-card .loadout-origin,
+    .loadout-app .loadout-mount-card .loadout-fixed,
+    .loadout-app .loadout-mount-card .loadout-swapbtn { grid-column: 2 / -1; }
+    .loadout-app .loadout-mount-card .loadout-swapbtn { justify-self: start; white-space: nowrap; }
 }

@@ -137,6 +137,20 @@ for (const ship of publicShips) {
 const roleTagMap = {};
 for (const r of distinctRoles) roleTagMap[r] = ROLE_TAGS_MAP[r] || [];
 
+// VOLT navigation groups derived from explicit source roles, not new capability claims.
+const browseGroups = [
+  { key: 'combat', ko: '전투', en: 'Combat', tags: ['combat'] },
+  { key: 'support', ko: '지원', en: 'Support', tags: ['support'], include: ['Snub Carrier', 'Light Carrier', 'Multi-Role / Light Carrier'], exclude: ['Industrial', 'Heavy Construction'] },
+  { key: 'industry', ko: '산업', en: 'Industry', tags: ['cargo', 'mining', 'salvage', 'refining'], include: ['Industrial', 'Heavy Construction'] },
+  { key: 'transport', ko: '운송·여행', en: 'Transport / touring', tags: ['transport'] },
+  { key: 'exploration', ko: '탐사·과학', en: 'Exploration / science', tags: ['exploration', 'science'] },
+  { key: 'racing', ko: '레이싱', en: 'Racing', tags: ['racing'] },
+  { key: 'multipurpose', ko: '다목적', en: 'Multipurpose', tags: ['multipurpose', 'modular'] },
+].map(({ key, ko, en, tags, include = [], exclude = [] }) => ({
+  key, ko, en,
+  roles: distinctRoles.filter((role) => !exclude.includes(role) && (include.includes(role) || tags.some((tag) => roleTagMap[role].includes(tag)))),
+}));
+
 const out = {
   layer: 'ship-filter-taxonomy',
   note: '2축(규모·플랫폼 / 역할) 필터 분류. 사실원=Erkul canonical과 RSI 공식의 명시 size·role·platform만. 레거시 편집분류 미참조.',
@@ -154,6 +168,7 @@ const out = {
     role: { order: ROLE_TAGS.map((t) => t.key), tags: ROLE_TAGS },
   },
   roleTagMap,                        // 원문 role → 역할 태그[]
+  browseGroups,
   unmapped,
   audit: {
     sizeShipCount: sizeCount,

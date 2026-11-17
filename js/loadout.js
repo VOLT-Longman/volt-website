@@ -59,7 +59,7 @@
             kpiLabel: '핵심 수치', kpiShield: '실드', kpiHull: '선체', kpiRange: '항속', kpiAlpha: '알파', superArms: '무장', superDefense: '방어·동력', superTravel: '이동·기타', slotCount: '{count}곳',
             buildSaveFail: '저장하지 못했습니다. 브라우저 저장 공간을 확인한 뒤 다시 시도해 주세요.', priceRetry: '다시 시도',
             tableRegion: '표 (좌우로 넘겨 볼 수 있음)',
-            mountChange: '마운트 변경', rackChange: '랙 변경', mountedOn: '장착 방식', equip: '장착', regenShort: '재생률', sortBy: '{label}순', buildsToggle: '저장·불러오기', comparePick: '비교할 구성', compareChoose: '비교할 저장 구성을 고르세요.', compareNone: '저장한 구성이 없습니다. 위의 「저장·불러오기」에서 지금 구성을 먼저 저장해 보세요.', fullLoad: '최대 가동 기준', detail: '지금 장착',
+            mountChange: '마운트 변경', rackChange: '랙 교체', fixedRack: '고정 랙 · 교체 불가', mountedOn: '장착 방식', equip: '장착', regenShort: '재생률', sortBy: '{label}순', buildsToggle: '저장·불러오기', comparePick: '비교할 구성', compareChoose: '비교할 저장 구성을 고르세요.', compareNone: '저장한 구성이 없습니다. 위의 「저장·불러오기」에서 지금 구성을 먼저 저장해 보세요.', fullLoad: '최대 가동 기준', detail: '지금 장착',
             splitRun: '하나씩 보기', mergeRun: '묶어 보기', runNote: '같은 부품이 달린 이 줄의 {count}곳을 함께 바꿉니다.', powerUseLabel: '소비 전력', better: '유리', worse: '불리',
             sourceBrief: '자료 출처 · 게임 파일 {version} · 가격 UEX · 한국어 패치 표기', role: '역할',
             variantNote: '함선 전용 변형', undo: '직전 변경 취소', undone: '직전 변경을 취소했습니다.', pickSlotHint: '왼쪽 목록에서 바꿀 자리의 「변경」을 누르면 여기에 맞는 부품이 나옵니다.',
@@ -126,7 +126,7 @@
             kpiLabel: 'Key figures', kpiShield: 'Shields', kpiHull: 'Hull', kpiRange: 'Range', kpiAlpha: 'Alpha', superArms: 'Weapons', superDefense: 'Defense & power', superTravel: 'Travel & other', slotCount: '{count} slots',
             buildSaveFail: 'Couldn\'t save. Check your browser storage and try again.', priceRetry: 'Retry',
             tableRegion: 'Table (scrolls sideways)',
-            mountChange: 'Change mount', rackChange: 'Change rack', mountedOn: 'Mounted on', equip: 'Equip', regenShort: 'Regen', sortBy: 'By {label}', buildsToggle: 'Save / load', comparePick: 'Compare with', compareChoose: 'Pick a saved setup to compare.', compareNone: 'No saved setups yet. Save the current setup with Save / load above.', fullLoad: 'at full load', detail: 'Equipped',
+            mountChange: 'Change mount', rackChange: 'Change rack', fixedRack: 'Fixed rack · cannot replace', mountedOn: 'Mounted on', equip: 'Equip', regenShort: 'Regen', sortBy: 'By {label}', buildsToggle: 'Save / load', comparePick: 'Compare with', compareChoose: 'Pick a saved setup to compare.', compareNone: 'No saved setups yet. Save the current setup with Save / load above.', fullLoad: 'at full load', detail: 'Equipped',
             splitRun: 'Show each', mergeRun: 'Group', runNote: 'Changes all {count} slots in this row together.', powerUseLabel: 'Power draw', better: 'better', worse: 'worse',
             sourceBrief: 'Sources · game files {version} · prices from UEX', role: 'Role',
             variantNote: 'Ship-specific variant', undo: 'Undo last change', undone: 'Last change undone.', pickSlotHint: 'Press Change on a slot in the list to see compatible parts here.',
@@ -197,6 +197,23 @@
     const groupLabel = (key) => patch('types')[GROUP_TYPE[key]] || table('groups')[key];
     // 함선 이름: 한국어는 게임 한국어 패치 표기, 없으면 게임 원문. (함선DB 자료 로드 시점에 따라 이름이 바뀌지 않게 한다.)
     const shipName = (ship) => patch('ships')[ship.cls] || ship.name;
+    const originalName = (name, display, internal = false) => !internal && name && name !== display ? `<span class="loadout-origin" lang="en">${esc(name)}</span>` : '';
+    const itemOriginal = (id, item) => originalName(item?.name, itemName(id, item), internalName(item));
+    // Explicit design attribution, not an extra compatibility rule. Sources: docs/loadout-feedback.md.
+    const BESPOKE_WEAPONS = {
+        BEHR_LaserCannon_SF7E_S7: 'crus_starfighter_ion',
+        BEHR_BallisticGatling_S7: 'crus_starfighter_inferno',
+        RSI_Perseus_BallisticCannon_B_S8: 'rsi_perseus',
+    };
+    function weaponAttribution(item) {
+        const cls = BESPOKE_WEAPONS[item?.cls?.replace(/_Collector$/, '')];
+        const ship = cls && state.index.find((entry) => entry.cls === cls);
+        return ship ? `<span class="loadout-bespoke">${esc(shipName(ship))} ${lang() === 'ko' ? '전용 무장' : 'bespoke weapon'}</span>` : '';
+    }
+    function powerButton(path, item, off) {
+        const label = text(off ? 'powerOn' : 'powerOff');
+        return `<button type="button" class="loadout-powerbtn${off ? ' is-off' : ''}" data-loadout-power="${esc(path)}" aria-pressed="${!off}" aria-label="${esc(itemName('', item))} · ${esc(label)}" title="${esc(label)}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10M6.3 5.3a9 9 0 1 0 11.4 0"/></svg><span>${esc(lang() === 'ko' ? (off ? '꺼짐' : '켜짐') : (off ? 'Off' : 'On'))}</span></button>`;
+    }
 
     async function fetchJson(path, options) {
         const response = await fetch(path, { ...options, cache: 'no-store', headers: { Accept: 'application/json' } });
@@ -451,7 +468,7 @@
             const facts = [makerName(ship), ship.size ? `S${ship.size}` : '', roleName(ship)].filter(Boolean).join(' · ');
             return `<button type="button" class="loadout-shipcard" role="option" aria-selected="${ship.cls === state.shipCls}" data-loadout-ship="${esc(ship.cls)}">
                 ${image ? `<img src="${esc(image.thumbnail.path)}" width="${image.thumbnail.width}" height="${image.thumbnail.height}" alt="" loading="lazy" decoding="async">` : '<span class="loadout-shipcard-blank" aria-hidden="true"></span>'}
-                <span class="loadout-shipcard-text"><strong>${esc(shipName(ship))}</strong><span>${esc(facts)}</span></span>
+                <span class="loadout-shipcard-text"><strong>${esc(shipName(ship))}</strong>${originalName(ship.name, shipName(ship))}<span>${esc(facts)}</span></span>
             </button>`;
         };
         const kind = (value, label) => `<button type="button" class="loadout-chip${state.shipKind === value ? ' is-active' : ''}" data-loadout-ship-kind="${value}" aria-pressed="${state.shipKind === value}">${esc(text(label))}</button>`;
@@ -487,7 +504,7 @@
         const spare = totals.power.gen - totals.power.use;
         const kpi = (label, value, change = '', tone = '', hint = '') => `<div class="loadout-kpi${tone ? ` is-${tone}` : ''}"><span>${esc(label)}${hint ? ` <small>${esc(hint)}</small>` : ''}</span><strong>${esc(value)}</strong>${change}</div>`;
         return `<header class="loadout-topbar">
-            <div class="loadout-selector-row"><button type="button" class="loadout-ship-select" data-loadout-browse aria-expanded="${Boolean(state.browsing)}" aria-label="${esc(state.browsing ? text('hideShips') : text('browseShips'))}"><span class="loadout-selector-mark" aria-hidden="true">⌕</span><span>${esc(shipName(ship))}<small>${esc(makerName(ship))}</small></span><span aria-hidden="true">⌄</span></button><button type="button" class="loadout-cart-shortcut" data-loadout-cart-open>${esc(text('tab_cart'))} <b>${cartCount()}</b></button></div>
+            <div class="loadout-selector-row"><button type="button" class="loadout-ship-select" data-loadout-browse aria-expanded="${Boolean(state.browsing)}" aria-label="${esc(state.browsing ? text('hideShips') : text('browseShips'))}"><span class="loadout-selector-mark" aria-hidden="true">⌕</span><span>${esc(shipName(ship))}${originalName(ship.name, shipName(ship))}<small>${esc(makerName(ship))}</small></span><span aria-hidden="true">⌄</span></button><button type="button" class="loadout-cart-shortcut" data-loadout-cart-open>${esc(text('tab_cart'))} <b>${cartCount()}</b></button></div>
             <div class="loadout-kpis" role="group" aria-label="${esc(text('kpiLabel'))}">
                 ${kpi(text('burstDps'), num(totals.dps.total), drawChange(totals.dps.total, stock.dps.total))}
                 ${kpi(text('sustainDps'), num(totals.sustain.total), drawChange(totals.sustain.total, stock.sustain.total))}
@@ -510,7 +527,7 @@
                     <div class="loadout-ab" role="group" aria-label="${esc(text('abLabel'))}">${['A', 'B'].map((slot) => `<button type="button" class="loadout-abbtn${state.slot === slot ? ' is-active' : ''}" data-loadout-ab="${slot}" aria-pressed="${state.slot === slot}" title="${esc(text('abSlot', { slot }))}"><span class="visually-hidden">${esc(text('abSlot', { slot: '' }))}</span>${slot}</button>`).join('')}</div>
             <div class="loadout-shiphead">
                 ${image ? `<img class="loadout-shipphoto" src="${esc(image.thumbnail.path)}" width="${image.thumbnail.width}" height="${image.thumbnail.height}" alt="" decoding="async">` : '<div class="loadout-shipphoto is-empty" aria-hidden="true"></div>'}
-                <div class="loadout-shipinfo"><span class="loadout-maker">${esc(makerName(ship))}</span><h3 id="loadout-ship-title">${esc(shipName(ship))}</h3><p class="loadout-shipfacts"><span class="loadout-abstate">${esc(text('abSlot', { slot: state.slot }))}</span>${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}</p><p class="loadout-shipstate">${esc(totals.changed ? text('changedCount', { count: totals.changed }) : text('stockState'))}${totals.off ? ` · ${esc(text('offState', { count: totals.off }))}` : ''}</p></div>
+                <div class="loadout-shipinfo"><span class="loadout-maker">${esc(makerName(ship))}</span><h3 id="loadout-ship-title">${esc(shipName(ship))}</h3>${originalName(ship.name, shipName(ship))}<p class="loadout-shipfacts"><span class="loadout-abstate">${esc(text('abSlot', { slot: state.slot }))}</span>${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}</p><p class="loadout-shipstate">${esc(totals.changed ? text('changedCount', { count: totals.changed }) : text('stockState'))}${totals.off ? ` · ${esc(text('offState', { count: totals.off }))}` : ''}</p></div>
             </div>
         </div>`;
     }
@@ -523,7 +540,6 @@
                     <button type="button" class="btn btn-secondary" data-loadout-share>${esc(text('share'))}</button>
                     <button type="button" class="btn btn-secondary" data-loadout-reset-all ${Object.keys(state.overrides).length || Object.keys(state.off).length || Object.keys(state.operation.power).length || Object.keys(state.operation.activeModules).length ? '' : 'disabled'}>${esc(text('resetAll'))}</button>
             <button type="button" class="btn btn-secondary" data-loadout-quick-cart-changed ${cost.rows.length ? '' : 'disabled'}>${esc(text('cartAddChanged'))}</button>
-            <button type="button" class="btn btn-secondary" data-loadout-view="compare">${esc(text('tab_compare'))}</button>
         </div>${state.buildsOpen ? drawBuilds() : ''}</section>`;
     }
 
@@ -812,7 +828,7 @@ ${section(text('cost'), `
             <p class="loadout-note">${esc(text('detailMissing'))}</p>`;
         const shops = info.shops.length ? `<div class="loadout-shop-summary"><strong>${esc(credits(info.min))}</strong><span>${esc(text('cheapest'))} · ${esc(text('priceShops', { count: info.shops.length }))}</span></div><ul class="loadout-detail-shops">${info.shops.map((shop) => `<li class="${state.detailShop === planner.shopKey(shop) ? 'is-selected' : ''}"><div><strong>${esc(shop.shop)}</strong><span class="loadout-meta">${esc([shop.system, shop.place].filter(Boolean).join(' / '))}</span><b>${esc(credits(shop.price))}</b></div><button type="button" class="loadout-shop-pick" data-loadout-shop-pick="${esc(planner.shopKey(shop))}" aria-pressed="${state.detailShop === planner.shopKey(shop)}" aria-label="${esc(text('pickShop'))}: ${esc(shop.shop)}">${state.detailShop === planner.shopKey(shop) ? '✓' : '+'}</button></li>`).join('')}</ul>` : `${drawPrice(id, item)}<p class="loadout-note">${esc(text('lootNote'))}</p>`;
         return `<div class="loadout-drawer-backdrop" data-loadout-close></div><section class="loadout-picker loadout-detail" role="dialog" aria-modal="true" aria-labelledby="loadout-detail-title">
-            <div class="loadout-picker-title"><div><span class="loadout-slot-label">${esc(typeLabel(item.type))} · S${esc(item.size)}</span><h3 id="loadout-detail-title">${esc(itemName(id, item))}</h3><span class="loadout-meta">${esc(itemMeta(item))}</span>${!internalName(item) && itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}</div><button type="button" id="loadout-detail-close" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button></div>
+            <div class="loadout-picker-title"><div><span class="loadout-slot-label">${esc(typeLabel(item.type))} · S${esc(item.size)}</span><h3 id="loadout-detail-title">${esc(itemName(id, item))}</h3><span class="loadout-meta">${esc(itemMeta(item))}</span>${itemOriginal(id, item)}${weaponAttribution(item)}</div><button type="button" id="loadout-detail-close" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button></div>
             <div class="loadout-tabs" role="tablist" aria-label="${esc(text('partDetails'))}">${['stats', 'shops'].map((tab) => `<button type="button" id="loadout-detail-tab-${tab}" class="loadout-tab${state.detailTab === tab ? ' is-active' : ''}" data-loadout-detail-tab="${tab}" role="tab" aria-selected="${state.detailTab === tab}" aria-controls="loadout-detail-content">${esc(text(tab === 'stats' ? 'statsTab' : 'shopsTab'))}${tab === 'shops' && info.shops.length ? ` (${info.shops.length})` : ''}</button>`).join('')}</div>
             <div id="loadout-detail-content" class="loadout-detail-content" role="tabpanel" aria-labelledby="loadout-detail-tab-${state.detailTab}" tabindex="0">${state.detailTab === 'shops' ? shops : stats}</div>
             <footer class="loadout-detail-actions">${state.detailTab === 'shops' && info.shops.length ? `<button type="button" class="btn btn-primary loadout-detail-buy" data-loadout-detail-buy ${info.shops.some((shop) => planner.shopKey(shop) === state.detailShop) ? '' : 'disabled'}>${esc(text('addAndViewCart'))}</button>` : ''}<button type="button" class="btn btn-secondary" data-loadout-close>${esc(text('backToList'))}</button><button type="button" class="btn btn-secondary" data-loadout-cart-add="${esc(id)}">${esc(text('cartAdd'))}</button>${node?.slot.kind === 's' && !state.openPath ? `<button type="button" class="btn btn-primary" data-loadout-detail-swap>${esc(text('change'))}</button>` : ''}${node && id !== canonicalItem(node.itemId) && calc.fitsSlot(item, node.slot, { tags: node.tags }) ? `<button type="button" class="btn btn-primary" data-loadout-detail-equip="${esc(id)}" data-loadout-path="${esc(node.path)}">${esc(text('equip'))}</button>` : ''}</footer>
@@ -896,13 +912,13 @@ ${section(text('cost'), `
                 ${chip('data-loadout-buyable', '1', text('buyableOnly'), Boolean(state.pickerBuyable))}
                 </span>
             </div>
-            <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${filtered ? ` <button type="button" class="loadout-link" data-loadout-clear-filters>${esc(text('clearFilters'))}</button>` : ''}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}${Number(node.item?.power?.use) > 0 || state.off[node.path] ? ` <button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(node.path)}" aria-pressed="${Boolean(state.off[node.path])}">${esc(text(state.off[node.path] ? 'powerOn' : 'powerOff'))}</button>` : ''}</p>
+            <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${filtered ? ` <button type="button" class="loadout-link" data-loadout-clear-filters>${esc(text('clearFilters'))}</button>` : ''}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}${Number(node.item?.power?.use) > 0 || state.off[node.path] ? powerButton(node.path, node.item, Boolean(state.off[node.path])) : ''}</p>
             ${run.length > 1 ? `<p class="loadout-note loadout-runnote">${esc(text('runNote', { count: run.length }))}</p>` : ''}
             ${siblings.length + 1 > run.length ? `<label class="loadout-bulk"><input type="checkbox" id="loadout-bulk" ${state.pickerBulk ? 'checked' : ''}> ${esc(text('bulkApply', { count: siblings.length + 1 }))}</label>` : ''}
             <div class="loadout-optwrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-opttable">
                 <thead><tr>${head('name', text('colPart'), true)}${columns.map((metric, index) => head(`m${index}`, metric.label)).join('')}${head('price', text('colPrice'))}<th scope="col"></th></tr></thead>
                 <tbody class="loadout-optrows">${shown.map(([id, item]) => `<tr data-loadout-candidate="${esc(id)}" data-loadout-path="${esc(node.path)}" class="${id === currentId ? 'is-current' : ''}${state.families.has(id) ? ' is-variant' : ''}">
-                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><button type="button" class="loadout-part-link" data-loadout-detail="${esc(id)}" aria-label="${esc(text('partDetails'))}: ${esc(itemName(id, item))}" title="${esc(text('partDetails'))}"><strong title="${esc(internalName(item) ? itemName(id, item) : item.name)}">${esc(itemName(id, item))}</strong></button>${familyButton(id)}</div><span class="loadout-meta">${esc(itemMeta(item))}</span></th>
+                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><button type="button" class="loadout-part-link" data-loadout-detail="${esc(id)}" aria-label="${esc(text('partDetails'))}: ${esc(itemName(id, item))}" title="${esc(text('partDetails'))}"><strong title="${esc(internalName(item) ? itemName(id, item) : item.name)}">${esc(itemName(id, item))}</strong></button>${familyButton(id)}</div>${itemOriginal(id, item)}${weaponAttribution(item)}<span class="loadout-meta">${esc(itemMeta(item))}</span></th>
                     ${columns.map((column) => cell(item, column, id === currentId)).join('')}
                     <td class="loadout-optprice">${drawPrice(id, item)}</td>
                     <td class="loadout-optact"><button type="button" class="btn btn-secondary loadout-equip" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === currentId ? 'disabled' : ''}>${esc(id === currentId ? text('selected') : text('select'))}</button></td>
@@ -1004,12 +1020,12 @@ ${section(text('cost'), `
         const place = `${[node.crumb, own].filter(Boolean).join(' › ')}${ordnanceOnRack ? ` · ${text('rackOn', { size: node.mount.slot.max ?? node.mount.item?.size ?? '?', type: typeLabel(node.mount.item?.type) })}` : ''}`;
         placeOf.set(path, place);
         return `<li class="loadout-slot${node.mount ? ' has-mount' : ''}${changed ? ' is-changed' : ''}${open ? ' is-open' : ''}${editable ? '' : ' is-fixed'}${item ? '' : ' is-empty'}${off ? ' is-off' : ''}${node.hasChildren ? ' is-mount' : ''}${node.level ? ' is-child' : ''}" data-loadout-slot="${esc(path)}" data-loadout-level="${node.level || 0}">
-            ${node.mount ? `<div class="loadout-mount-card"><span class="loadout-mount-size">S${esc(node.mount.item?.size ?? node.mount.slot.max ?? '?')}</span><span class="loadout-mount-label">${esc(typeLabel(node.mount.item?.type))}</span>${node.mount.slot.kind === 's' ? `<button type="button" class="loadout-component-open" data-loadout-component-open="${esc(node.mount.path)}">${esc(itemName(node.mount.itemId, node.mount.item))}</button>` : `<strong>${esc(itemName(node.mount.itemId, node.mount.item))}</strong>`}${drawFacts(node.mount.item, 2)}<button type="button" class="loadout-link" data-loadout-mount-detail="${esc(node.mount.itemId)}" data-loadout-detail-slot="${esc(node.mount.path)}">${esc(text('partDetails'))}</button></div>` : ''}
+            ${node.mount ? `<div class="loadout-mount-card" data-loadout-mount="${esc(node.mount.path)}"><span class="loadout-mount-size">S${esc(node.mount.item?.size ?? node.mount.slot.max ?? '?')}</span><span class="loadout-mount-label">${esc(typeLabel(node.mount.item?.type))}</span>${node.mount.slot.kind === 's' ? `<button type="button" class="loadout-component-open" data-loadout-component-open="${esc(node.mount.path)}">${esc(itemName(node.mount.itemId, node.mount.item))}</button>` : `<strong>${esc(itemName(node.mount.itemId, node.mount.item))}</strong>`}${itemOriginal(node.mount.itemId, node.mount.item)}${drawFacts(node.mount.item, 2)}<button type="button" class="loadout-link" data-loadout-mount-detail="${esc(node.mount.itemId)}" data-loadout-detail-slot="${esc(node.mount.path)}">${esc(text('partDetails'))}</button>${node.mount.slot.kind === 's' && /Launcher$/.test(node.mount.item?.type || '') ? `<button type="button" class="btn btn-secondary loadout-swapbtn${/Launcher$/.test(node.mount.item?.type || '') ? ' is-rack' : ''}" data-loadout-rack-open="${esc(node.mount.path)}" aria-expanded="${state.openPath === node.mount.path}"><span aria-hidden="true">⇄</span> ${esc(text(/Launcher$/.test(node.mount.item?.type || '') ? 'rackChange' : 'mountChange'))}</button>` : node.mount.slot.kind !== 's' && /Launcher$/.test(node.mount.item?.type || '') ? `<span class="loadout-fixed">${esc(text('fixedRack'))}</span>` : ''}</div>` : ''}
             <div class="loadout-slot-row">
                 <span class="loadout-size" aria-hidden="true">${esc(size)}</span>
                 <div class="loadout-slot-main">
                     <span class="loadout-slot-label">${esc(place)}${changed ? ` <em>${esc(text('changed'))}</em>` : ''}${off ? ` <em class="loadout-offmark">${esc(text('poweredOff'))}</em>` : ''}</span>
-                    <strong class="loadout-item-name">${editable ? `<button type="button" class="loadout-component-open" data-loadout-component-open="${esc(path)}" aria-label="${esc(text('change'))}: ${esc(item ? itemName(itemId, item) : slotPlace(slot, item))}">${item ? esc(itemName(itemId, item)) : esc(text('empty'))}</button>` : item ? esc(itemName(itemId, item)) : esc(text('empty'))}</strong>${node.run ? ` <b class="loadout-count">×${node.run.length}</b>` : ''}
+                    <strong class="loadout-item-name">${editable ? `<button type="button" class="loadout-component-open" data-loadout-component-open="${esc(path)}" aria-label="${esc(text('change'))}: ${esc(item ? itemName(itemId, item) : slotPlace(slot, item))}">${item ? esc(itemName(itemId, item)) : esc(text('empty'))}</button>` : item ? esc(itemName(itemId, item)) : esc(text('empty'))}</strong>${node.run ? ` <b class="loadout-count">×${node.run.length}</b>` : ''}${itemOriginal(itemId, item)}${weaponAttribution(item)}
                     ${facts.length ? `<span class="loadout-slot-facts">${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}</span>` : ''}
                 </div>
                 ${slotMetric(node)}
@@ -1020,8 +1036,8 @@ ${section(text('cost'), `
                     ${item ? `<button type="button" class="loadout-link" data-loadout-shop-detail="${esc(itemId)}" data-loadout-detail-slot="${esc(path)}" data-loadout-shops>${esc(text('shopsTab'))}</button>` : ''}
                     ${changed ? `<button type="button" class="loadout-link" data-loadout-reset="${esc(node.mount?.changed ? node.mount.path : path)}">${esc(text('reset'))}</button>` : ''}
                     ${node.run ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.runParent)}">${esc(text('splitRun'))}</button>` : ''}${node.regroup !== undefined ? `<button type="button" class="loadout-link" data-loadout-split="${esc(node.regroup)}">${esc(text('mergeRun'))}</button>` : ''}
-                    ${off || canPower ? `<button type="button" class="loadout-link loadout-powerbtn" data-loadout-power="${esc(path)}" aria-pressed="${off}">${esc(text(off ? 'powerOn' : 'powerOff'))}</button>` : ''}
-                    ${editable ? `<button type="button" class="btn btn-secondary" data-loadout-open="${esc(path)}" aria-expanded="${open}">${esc(text('change'))}</button>` : `<span class="loadout-fixed">${esc(text('fixed'))}</span>`}
+                    ${off || canPower ? powerButton(path, item, off) : ''}
+                    ${editable ? `<button type="button" class="btn btn-secondary loadout-swapbtn${/Launcher$/.test(item?.type || '') ? ' is-rack' : ''}" data-loadout-open="${esc(path)}" aria-expanded="${open}"><span aria-hidden="true">⇄</span> ${esc(text(/Launcher$/.test(item?.type || '') ? 'rackChange' : 'change'))}</button>` : `<span class="loadout-fixed">${esc(text(/Launcher$/.test(item?.type || '') ? 'fixedRack' : 'fixed'))}</span>`}
                 </div>
             </div>
         </li>`;
@@ -1266,7 +1282,7 @@ ${section(text('cost'), `
             <p class="loadout-note" id="loadout-finder-count">${esc(text('finderCount', { count: list.length }))}</p>
             <ul class="loadout-options loadout-finderlist">${shown.map(([id, item]) => `<li>
                 <div class="loadout-option-main">
-                    <strong>${esc(itemName(id, item))}</strong>${familyButton(id)}${itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}
+                    <strong>${esc(itemName(id, item))}</strong>${familyButton(id)}${itemOriginal(id, item)}${weaponAttribution(item)}
                     <span class="loadout-meta">${esc(itemMeta(item))}</span>${drawFacts(item)}${drawPrice(id, item)}
                 </div>
                 ${drawMetric(item)}
@@ -1300,7 +1316,7 @@ ${section(text('cost'), `
         return `<div class="loadout-view"><div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-weapontable">
             <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('whoFires'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('size'))}</th><th>DPS</th><th>${esc(text('sustainDps'))}</th><th>${esc(text('dpsSum'))}</th><th>${esc(text('alphaShort'))}</th><th>${esc(text('rpmShort'))}</th><th>${esc(text('speedShort'))}</th><th>${esc(text('rangeShort'))}</th><th>${esc(text('dmgKind'))}</th><th>${esc(text('ammoShort'))}</th><th>${esc(text('limitCol'))}</th></tr></thead>
             <tbody>${rows.map((row) => `<tr>
-                <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemName(row.id, row.item) !== row.item.name ? `<span class="loadout-origin">${esc(row.item.name)}</span>` : ''}</td>
+                <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemOriginal(row.id, row.item)}</td>
                 <td>${esc(row.turret ? text('turret') : text('pilot'))}</td><td>${row.count}</td><td>S${esc(row.item.size ?? '?')}</td>
                 <td>${esc(num(row.stats.dps))}</td><td>${esc(num(row.sustain.dps))}</td><td>${esc(num(row.stats.dps * row.count))}</td><td>${esc(num(row.stats.alpha, 1))}</td>
                 <td>${esc(row.item.w.rpm ? num(row.item.w.rpm) : '—')}</td><td>${esc(row.item.w.speed ? `${num(row.item.w.speed)} m/s` : '—')}</td>
@@ -1325,7 +1341,7 @@ ${section(text('cost'), `
         return `<h3 class="loadout-subhead">${esc(text('missileTable'))}</h3><div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-missiletable">
             <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('size'))}</th><th>${esc(text('dmgShort'))}</th><th>${esc(text('speedShort'))}</th><th>${esc(text('lockShort'))}</th><th>${esc(text('rangeShort'))}</th><th>${esc(text('trackShort'))}</th></tr></thead>
             <tbody>${rows.map((row) => `<tr>
-                <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemName(row.id, row.item) !== row.item.name ? `<span class="loadout-origin">${esc(row.item.name)}</span>` : ''}</td>
+                <td><strong>${esc(itemName(row.id, row.item))}</strong>${itemOriginal(row.id, row.item)}</td>
                 <td>${row.count}</td><td>S${esc(row.item.size ?? '?')}</td><td>${esc(num(damage(row.item)))}</td>
                 <td>${esc(row.item.ms.speed ? `${num(row.item.ms.speed)} m/s` : '—')}</td><td>${esc(row.item.ms.lock ? `${num(row.item.ms.lock, 1)}${text('seconds')}` : '—')}</td>
                 <td>${esc(row.item.ms.rangeMax ? `${num(row.item.ms.rangeMax)} m` : '—')}</td><td>${esc(table('signals')[row.item.ms.signal] || row.item.ms.signal || '—')}</td>
@@ -1511,12 +1527,18 @@ ${section(text('cost'), `
         if (state.cartOpen) { state.cartOpen = false; draw(); root()?.querySelector('[data-loadout-cart-open], [data-loadout-tab="cart"]')?.focus({ preventScroll: true }); return; }
         if (state.detailId) { const id = CSS.escape(state.detailReturn); state.detailId = ''; draw(); root()?.querySelector(`[data-loadout-detail="${id}"], [data-loadout-shop-detail="${id}"], [data-loadout-mount-detail="${id}"]`)?.focus({ preventScroll: true }); return; }
         const path = state.pickerOrigin || state.openPath;
+        const attribute = state.pickerOriginAttribute || 'data-loadout-open';
         state.pickerOrigin = '';
+        state.pickerOriginAttribute = '';
         closePicker(); draw();
-        if (path) (root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`) || root()?.querySelector(`[data-loadout-component-open="${CSS.escape(path)}"]`))?.focus({ preventScroll: true });
+        if (path) focusSlotControl(path, attribute);
     }
 
     // 직전 변경 취소용 기록. 부품 교체·기본값·전원 전환 직전에 지금 상태를 남긴다(최근 30번).
+    function focusSlotControl(path, attribute = 'data-loadout-open') {
+        const safe = CSS.escape(path);
+        (root()?.querySelector(`[${attribute}="${safe}"]`) || root()?.querySelector(`[data-loadout-open="${safe}"], [data-loadout-component-open="${safe}"], [data-loadout-rack-open="${safe}"]`))?.focus({ preventScroll: true });
+    }
     function remember() {
         state.redo = [];
         state.history.push({ overrides: { ...state.overrides }, off: { ...state.off }, operation: copyOperation() });
@@ -1544,7 +1566,7 @@ ${section(text('cost'), `
         if (!state.keepPicker || !id) closePicker();
         writeStored(); draw(); loadPricesForChanged();
         deps.showToast?.(text('equippedNotice', { name: id ? itemName(id, state.items[id]) : text('empty') }));
-        if (!state.openPath) root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
+        if (!state.openPath) focusSlotControl(path, state.pickerOriginAttribute || 'data-loadout-open');
     }
 
     function shareUrl() {
@@ -1638,10 +1660,11 @@ ${section(text('cost'), `
         if (shipKind !== null) { state.shipKind = shipKind; draw(); return; }
         const shipCls = target.getAttribute('data-loadout-ship');
         if (shipCls) { state.query = ''; state.browsing = false; closePicker(); selectShip(shipCls); return; }
-        const openPath = target.getAttribute('data-loadout-open') ?? target.getAttribute('data-loadout-component-open');
+        const openAttribute = ['data-loadout-open', 'data-loadout-component-open', 'data-loadout-rack-open'].find((attribute) => target.hasAttribute(attribute));
+        const openPath = openAttribute ? target.getAttribute(openAttribute) : null;
         if (openPath !== null) {
             const same = state.openPath === openPath;
-            if (!state.openPath) state.pickerOrigin = openPath;
+            if (!state.openPath) { state.pickerOrigin = openPath; state.pickerOriginAttribute = openAttribute; }
             closePicker();
             if (!same) {
                 state.openPath = openPath;

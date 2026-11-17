@@ -149,6 +149,10 @@
     function taxoTagLabel(axis, key) {
         const t = taxo(); if (!t) return key;
         const en = currentLang() === 'en';
+        if (axis === 'activity') {
+            const group = t.browseGroups?.find((entry) => entry.key === key);
+            return group ? (en ? group.en : group.ko) : key;
+        }
         if (axis === 'size') {
             if (key === 'ground') return en ? t.axes.size.platform.en : t.axes.size.platform.ko;
             const tag = t.axes.size.tags.find((x) => x.key === key);
@@ -271,7 +275,7 @@
             const btn = document.createElement('button');
             btn.type = 'button'; btn.className = 'ship-filter-btn';
             btn.setAttribute(tagAttr, key);
-            btn.textContent = taxoTagLabel(axisKey === 'size' ? 'size' : 'role', key);
+            btn.textContent = taxoTagLabel(axisKey, key);
             options.appendChild(btn);
         }
         row.append(label, options);
@@ -332,13 +336,19 @@
             const axes = document.createElement('div');
             axes.className = 'ship-filter-axes';
             axes.appendChild(buildAxisRow('size', i18nT('ships.axisSize', '규모·플랫폼'), i18nT('ships.allTags', '전체'), sizeAxisTagKeys(), 'data-size-tag'));
+            axes.appendChild(buildAxisRow('activity', i18nT('ships.axisActivity', '대분류'), i18nT('ships.allTags', '전체'), (t.browseGroups || []).map((group) => group.key), 'data-activity'));
             axes.appendChild(buildAxisRow('role', i18nT('ships.axisRole', '역할'), i18nT('ships.allTags', '전체'), roleAxisTagKeys(), 'data-role-tag'));
+            const detail = document.createElement('div');
+            detail.className = 'ship-filter-axis ship-activity-details';
+            detail.setAttribute('role', 'group');
+            axes.appendChild(detail);
             axes.appendChild(buildRoleSelectRow(roles));
             container.replaceChildren(axes);
         }
         syncShipFilters2Axis(container);
     }
     function syncShipFilters2Axis(container) {
+        syncActivityFilters(container);
         const sizeSel = new Set(shipState.sizeTags);
         const roleSel = new Set(shipState.roleTags);
         container.querySelectorAll('[data-size-tag]').forEach((b) => {
@@ -354,6 +364,41 @@
         const roleClear = container.querySelector('[data-axis-clear="role"]');
         if (roleClear) { roleClear.classList.toggle('active', roleSel.size === 0); roleClear.setAttribute('aria-pressed', String(roleSel.size === 0)); }
         syncRoleSelect(container.querySelector('.ship-role-select'));
+    }
+    function syncActivityFilters(container) {
+        const group = taxo()?.browseGroups?.find((entry) => entry.key === shipState.activity);
+        container.querySelectorAll('[data-activity]').forEach((button) => {
+            const selected = button.dataset.activity === shipState.activity;
+            button.classList.toggle('active', selected);
+            button.setAttribute('aria-pressed', String(selected));
+        });
+        const all = container.querySelector('[data-axis-clear="activity"]');
+        if (all) { all.classList.toggle('active', !group); all.setAttribute('aria-pressed', String(!group)); }
+        container.querySelector('[data-axis-clear="role"]')?.closest('.ship-filter-axis').toggleAttribute('hidden', Boolean(group));
+        container.querySelector('.ship-filter-axes')?.classList.toggle('has-activity', Boolean(group));
+        const details = container.querySelector('.ship-activity-details');
+        if (!details) return;
+        details.hidden = !group;
+        if (!group) return;
+        const label = i18nT('ships.detailRoleLabel', '세부 역할');
+        details.setAttribute('aria-label', label);
+        if (details.dataset.activityKey !== group.key) {
+            details.dataset.activityKey = group.key;
+            const heading = document.createElement('span');
+            heading.className = 'ship-filter-axis-label'; heading.textContent = label;
+            const options = document.createElement('div'); options.className = 'ship-filter-axis-options';
+            for (const role of ['', ...group.roles]) {
+                const button = document.createElement('button');
+                button.type = 'button'; button.className = 'ship-filter-btn'; button.dataset.activityDetail = role;
+                button.textContent = role ? roleLabel(role) : i18nT('ships.allTags', '전체');
+                options.appendChild(button);
+            }
+            details.replaceChildren(heading, options);
+        }
+        details.querySelectorAll('[data-activity-detail]').forEach((button) => {
+            const selected = button.dataset.activityDetail === shipState.detailRole;
+            button.classList.toggle('active', selected); button.setAttribute('aria-pressed', String(selected));
+        });
     }
     // 선택 상태만 DOM에 반영(빌드 없음). 열려있을 땐 input을 덮지 않는다(타이핑 보존).
     function syncRoleSelect(root) {
@@ -391,10 +436,12 @@
         const root = roleSelectRoot();
         if (!root) return;
         const q = String(query || '').trim().toLowerCase();
+        const activity = taxo()?.browseGroups?.find((group) => group.key === shipState.activity);
         let firstVisible = null;
         root.querySelectorAll('.ship-role-option').forEach((opt) => {
             const en = opt.getAttribute('data-role-option');
-            const show = !q || en === '' || `${opt.textContent} ${en}`.toLowerCase().includes(q);
+            const allowed = !en || !activity || activity.roles.includes(en);
+            const show = allowed && (!q || en === '' || `${opt.textContent} ${en}`.toLowerCase().includes(q));
             opt.hidden = !show;
             if (show && !firstVisible) firstVisible = opt;
         });
@@ -428,6 +475,14 @@
     }
     // 규모·플랫폼 / 역할 태그 토글(같은 축 OR). 축별 '전체'는 해당 축만 초기화.
     function handleAxisTagClick(event) {
+        const activity = event.target.closest('[data-activity]');
+        const activityDetail = event.target.closest('[data-activity-detail]');
+        if (activity || event.target.closest('[data-axis-clear="activity"]')) {
+            shipState.activity = activity?.dataset.activity || '';
+            shipState.roleTags = []; shipState.detailRole = '';
+            closeRoleListbox(); renderShips(); return true;
+        }
+        if (activityDetail) { shipState.detailRole = activityDetail.dataset.activityDetail; renderShips(); return true; }
         const sizeBtn = event.target.closest('[data-size-tag]');
         const roleBtn = event.target.closest('[data-role-tag]');
         const clearBtn = event.target.closest('[data-axis-clear]');
@@ -760,6 +815,7 @@
         shipState.sizeTags = [];
         shipState.roleTags = [];
         shipState.detailRole = '';
+        shipState.activity = '';
         syncShipControls();
         renderShips();
     }

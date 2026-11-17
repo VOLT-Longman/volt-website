@@ -235,8 +235,8 @@ test.describe('로드아웃 편집기', () => {
         const groups = await page.locator('.loadout-group h4').allInnerTexts();
         for (const term of ['실드 제너레이터', '파워 플랜트', '쿨러', '퀀텀 드라이브']) expect(groups.some((label) => label.includes(term)), term).toBe(true);
         await expect(page.locator('.loadout-panel-section', { hasText: '퀀텀 속도' })).toContainText('스풀링');
-        // 목록은 한국어 이름만, 게임 원문 이름은 선택 창의 상세 줄에 둔다.
-        await expect(firstGunSlot(page)).not.toContainText('CF-337 Panther Repeater');
+        // 고유명사는 장착 목록에서도 한국어 이름 아래에 게임 영문명을 병기한다.
+        await expect(firstGunSlot(page).locator('.loadout-slot-main .loadout-origin')).toHaveText('CF-337 Panther Repeater');
         await expect(page.locator('#loadout-app')).not.toContainText(/양자|동력 장치|냉각기/);
 
         // 자료 출처를 화면에 밝힌다.
@@ -558,7 +558,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(stat(page, '실드')).toHaveText('42,240');
         const shield = page.locator('.loadout-group.is-shield .loadout-slot').first();
         // 장비 줄에서 바로 전원을 끌 수 있고 기존 선택 창 동작도 유지한다.
-        await expect(shield.locator('[data-loadout-power]')).toHaveAttribute('aria-pressed', 'false');
+        await expect(shield.locator('[data-loadout-power]')).toHaveAttribute('aria-pressed', 'true');
         await shieldOff(page);
         await expect(stat(page, '실드')).toContainText('31,680');
         await expect(shield).toHaveClass(/is-off/);
@@ -685,7 +685,8 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-opttable thead th')).toContainText(['부품', 'DPS', '지속 DPS', '알파', '사거리', '소비 전력', '분당 발사', '탄속', '탄창', '부품 내구도', '최저가']);
         expect(await page.locator('.loadout-optrows tr').count()).toBeGreaterThan(8);
         const visibleRows = await page.locator('.loadout-optrows tr').evaluateAll((list) => { const wrap = document.querySelector('.loadout-optwrap').getBoundingClientRect(); return list.filter((el) => el.getBoundingClientRect().bottom <= wrap.bottom).length; });
-        expect(visibleRows).toBeGreaterThan(7);
+        // 한영 이름을 두 줄로 보여 주는 표에서도 최소 다섯 후보를 바로 비교한다.
+        expect(visibleRows).toBeGreaterThan(4);
         // 열 제목을 누르면 그 수치로 줄을 세운다.
         await page.locator('[data-loadout-sort="m2"]').click();
         const alphas = await page.locator('.loadout-optrows tr td:nth-of-type(3) b').allInnerTexts().then((list) => list.map((value) => Number(value.replace(/,/g, ''))));
@@ -1119,7 +1120,7 @@ test('스토커 랙 교체에서 임시 폭탄 랙을 숨기고 닫으면 원래
     await page.locator('[data-loadout-ship="aegs_avenger_stalker"]').click();
     const opener = page.locator('.loadout-group.is-missile [data-loadout-open]').first();
     await opener.click();
-    await page.getByRole('button', { name: '랙 변경', exact: true }).click();
+    await page.getByRole('button', { name: '랙 교체', exact: true }).click();
     await expect(pick(page, '549964bb-a674-41ba-86d5-55a6d3c25931')).toHaveCount(0);
     await expect(pick(page, 'f8d3a1e1-0d75-45bb-a453-898a7cf83382')).toBeVisible();
     await page.keyboard.press('Escape');

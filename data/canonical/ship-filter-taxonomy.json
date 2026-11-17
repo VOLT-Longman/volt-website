@@ -1,7 +1,7 @@
 {
   "layer": "ship-filter-taxonomy",
   "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=Erkul canonical과 RSI 공식의 명시 size·role·platform만. 레거시 편집분류 미참조.",
-  "generatedFromCommit": "45eb4badc6c09a5b7502be7253ddf76af1c58310",
+  "generatedFromCommit": "fee42e06e2e4db4634b93d6a6f0b8f0973919916",
   "source": "ships-canonical.json[].size·role·platform + ships-rsi-official.json[].rsi.size·role",
   "summary": {
     "totalRoles": 67,
@@ -364,6 +364,134 @@
       "transport"
     ]
   },
+  "browseGroups": [
+    {
+      "key": "combat",
+      "ko": "전투",
+      "en": "Combat",
+      "roles": [
+        "Anti-Air",
+        "Anti-Vehicle",
+        "Boarding",
+        "Bomber",
+        "Combat",
+        "Corvette",
+        "Destroyer",
+        "Frigate",
+        "Gunship",
+        "Heavy Bomber",
+        "Heavy Fighter",
+        "Heavy Fighter / Bomber",
+        "Heavy Gunship",
+        "Heavy Tank",
+        "Interceptor",
+        "Interdiction",
+        "Light Carrier",
+        "Light Fighter",
+        "Light Freight / Medium Fighter",
+        "Light Tank",
+        "Medium Fighter",
+        "Medium Freight / Gun Ship",
+        "Military",
+        "Minelayer",
+        "Multi-Role / Light Carrier",
+        "Snub Fighter",
+        "Starter / Light Fighter",
+        "Stealth Bomber",
+        "Stealth Fighter"
+      ]
+    },
+    {
+      "key": "support",
+      "ko": "지원",
+      "en": "Support",
+      "roles": [
+        "Heavy Refueling",
+        "Heavy Repair",
+        "Light Carrier",
+        "Light Refueling",
+        "Medical",
+        "Medium Repair / Medium Refuel",
+        "Multi-Role / Light Carrier",
+        "Recovery",
+        "Snub Carrier"
+      ]
+    },
+    {
+      "key": "industry",
+      "ko": "산업",
+      "en": "Industry",
+      "roles": [
+        "Heavy Construction",
+        "Heavy Freight",
+        "Heavy Mining",
+        "Heavy Salvage",
+        "Industrial",
+        "Light Freight",
+        "Light Freight / Medium Fighter",
+        "Light Mining",
+        "Light Salvage",
+        "Medium Freight",
+        "Medium Freight / Gun Ship",
+        "Medium Mining",
+        "Medium Salvage",
+        "Mining / Refining",
+        "Recovery",
+        "Refinery",
+        "Starter / Light Freight",
+        "Starter / Light Mining",
+        "Starter / Light Salvage"
+      ]
+    },
+    {
+      "key": "transport",
+      "ko": "운송·여행",
+      "en": "Transport / touring",
+      "roles": [
+        "Boarding",
+        "Dropship",
+        "Heavy Dropship",
+        "Light Carrier",
+        "Luxury Touring",
+        "Multi-Role / Light Carrier",
+        "Passenger",
+        "Snub Carrier",
+        "Touring"
+      ]
+    },
+    {
+      "key": "exploration",
+      "ko": "탐사·과학",
+      "en": "Exploration / science",
+      "roles": [
+        "Expedition",
+        "Heavy Science",
+        "Light Science",
+        "Medium Data",
+        "Pathfinder",
+        "Reporting",
+        "Starter / Pathfinder"
+      ]
+    },
+    {
+      "key": "racing",
+      "ko": "레이싱",
+      "en": "Racing",
+      "roles": [
+        "Racing"
+      ]
+    },
+    {
+      "key": "multipurpose",
+      "ko": "다목적",
+      "en": "Multipurpose",
+      "roles": [
+        "Generalist",
+        "Modular",
+        "Multi-Role / Light Carrier"
+      ]
+    }
+  ],
   "unmapped": [],
   "audit": {
     "sizeShipCount": {
