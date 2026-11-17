@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261117-22';
+const CACHE_VERSION = '20261117-23';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -30,7 +30,6 @@ const VERSIONED_ASSETS = [
     '/css/motion.css',
     '/js/motion.js',
     '/js/cinematic-motion.js',
-    '/js/hero-film.js',
     '/assets/vendor/gsap/gsap.min.js',
     '/assets/vendor/gsap/ScrollTrigger.min.js',
     '/js/theme-init.js',
