@@ -102,6 +102,10 @@ test('히어로의 큰 진입은 모바일에서도 넘치지 않고 끝나며 �
 
 test('펼쳐 둔 요약은 편집 화면을 다시 그릴 때 등장 효과를 반복하지 않는다', async ({ page }) => {
     await openLoadout(page);
+    // 비행 카드는 처음부터 펼쳐진다. 닫았다 여는 사용자 조작만 측정한다.
+    await expect(page.locator('[data-loadout-fold="flight"]')).toHaveAttribute('open', '');
+    await page.locator('[data-loadout-fold="flight"] > summary').click();
+    await expect(page.locator('[data-loadout-fold="flight"]')).not.toHaveAttribute('open', '');
     await page.evaluate(() => {
         const original = Element.prototype.animate;
         window.foldAnimations = 0;
