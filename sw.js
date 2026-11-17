@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261117-06';
+const CACHE_VERSION = '20261117-07';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -38,6 +38,7 @@ const VERSIONED_ASSETS = [
     '/js/uex-panel.js',
     '/js/trade-planner.js',
     '/js/loadout-calc.js',
+    '/js/loadout-planner.js',
     '/js/loadout.js',
     '/js/ships.js',
     '/js/ship-imagery.js',
@@ -98,6 +99,7 @@ self.addEventListener('fetch', (event) => {
     // 로드아웃 자료의 버전 확인 파일. 캐시에서 먼저 꺼내면 새 자료가 올라와도 옛 버전으로 보이므로
     // 항상 네트워크에서 받는다(나머지 자료는 이 버전을 주소에 붙여 요청하므로 캐시해도 안전하다).
     if (url.pathname === '/data/loadout/meta.json') return;
+    if (url.pathname === '/data/loadout/availability.json') return;
     // Range 부분 요청(미션 컨트롤 콘솔의 레이어 헤더 조회)은 SW 우회 —
     // Cache API는 206을 저장하지 못하고, cache-first가 응답을 고정하면 syncedAt이 낡는다.
     if (request.headers.get('range')) return;

@@ -161,7 +161,7 @@ test('가격 조회: 허용된 분류만 받고, 같은 분류는 캐시로 한 
         assert.deepEqual(upstream.calls.sort(), ['https://uex.test/2.0/items?id_category=32', 'https://uex.test/2.0/items_prices?id_category=32']);
         await upstream.restore();
         const again = withUpstream(() => { throw new Error('캐시가 있으면 업스트림을 부르지 않는다'); });
-        again.store.set('https://www.volt.ceo/__uex-cache/loadout-prices/32', ok({}));
+        again.store.set('https://www.volt.ceo/__uex-cache/loadout-prices/v2/32', ok({}));
         assert.equal((await again.run('?category=32&x=1')).status, 200);
         assert.equal(again.calls.length, 0);
         await again.restore();
@@ -312,4 +312,18 @@ test('부품 수치 보강: 디스토션·로켓은 폭발 피해를 쓰고, 폭
     assert.deepEqual(calc.rackLoad(rack), { count: 2, size: 2 });
     const stalker = calc.summarize(read('data/loadout/ships/aegs_avenger_stalker.json'), items, {});
     assert.ok(stalker.counter.decoy > 0 && stalker.counter.noise > 0);
+});
+
+test('가격 새로고침: 오래된 캐시는 갱신하고 1분 이내 반복 조회는 공유 캐시를 쓴다', async () => {
+    const upstream = withUpstream((url) => ok(url.includes('items?') ? [{ id: 1, uuid: 'test' }] : [{ id_item: 1, price_buy: 10 }]));
+    try {
+        upstream.store.set('https://www.volt.ceo/__uex-cache/loadout-prices/v2/32', new Response(JSON.stringify({ data: {}, meta: { fetchedAt: new Date(Date.now() - 120000).toISOString() } })));
+        const refreshed = await upstream.run('?category=32&refresh=1');
+        assert.equal(refreshed.status, 200);
+        assert.equal(refreshed.headers.get('cache-control'), 'no-store');
+        assert.equal(upstream.calls.length, 2);
+        const again = await upstream.run('?category=32&refresh=1');
+        assert.equal(again.status, 200); assert.equal(upstream.calls.length, 2);
+        assert.equal(again.headers.get('cache-control'), 'no-store');
+    } finally { await upstream.restore(); }
 });

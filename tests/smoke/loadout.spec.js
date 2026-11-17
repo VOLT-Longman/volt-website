@@ -38,8 +38,8 @@ test.describe('로드아웃 편집기', () => {
         await expect(page).toHaveURL(/#loadout$/);
         await expect(page.locator('#loadout .section-header h2')).toContainText('로드아웃');
         // 함선을 고르기 전에는 전체 목록을 바로 훑어볼 수 있다.
-        await expect(page.locator('#loadout-ship-count')).toHaveText('전체 222척');
-        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(222);
+        await expect(page.locator('#loadout-ship-count')).toHaveText('전체 217척');
+        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(217);
 
         await page.locator('#loadout-ship-search').fill('아스가르드');
         await expect(page.locator('#loadout-ship-count')).toHaveText('검색 결과 1척');
@@ -55,7 +55,7 @@ test.describe('로드아웃 편집기', () => {
         // 함선을 고르면 목록은 접히고, "함선 바꾸기"로 다시 펼친다.
         await expect(page.locator('#loadout-ship-results')).toHaveCount(0);
         await page.locator('[data-loadout-browse]').click();
-        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(222);
+        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(217);
         await page.locator('[data-loadout-browse]').click();
 
         // 용어와 부품 이름은 게임 한국어 패치 표기를 따른다.
@@ -126,7 +126,7 @@ test.describe('로드아웃 편집기', () => {
         await pick(page, MANTIS).click();
         await expect(page.locator('.loadout-slot.is-changed')).toContainText('맨티스 GT-220 개틀링');
         await expect(panel(page)).toContainText('1종은 판매처 정보 없음');
-        await expect(page.locator('.loadout-shopping')).toContainText('파밍(전리품)으로 얻는 부품');
+        await expect(page.locator('.loadout-shopping')).toContainText('UEX 자료 누락·매칭 실패');
     });
 
     test('부품 선택 창: 같은 부품 여러 곳을 한 번에 바꾸고, 걸러 보고, Esc로 닫는다', async ({ page }) => {
@@ -219,9 +219,9 @@ test.describe('로드아웃 편집기', () => {
         await openAsgard(page, { prices });
         await expect(page.locator('[data-loadout-tab="cart"] .loadout-badge')).toHaveCount(0);
 
-        // 선택 창은 「장착」만 한다 — 담기는 부품 찾기에서 한다(교체와 구매 목록을 섞지 않는다).
+        // 현재 장착 부품은 선택 창에서도 구매 목록에 담을 수 있다.
         await firstGunSlot(page).locator('[data-loadout-open]').click();
-        await expect(page.locator('.loadout-picker [data-loadout-cart-add]')).toHaveCount(0);
+        await expect(page.locator('.loadout-picker [data-loadout-cart-add]')).toHaveCount(1);
         await page.keyboard.press('Escape');
         await page.locator('[data-loadout-tab="finder"]').click();
         await page.locator('#loadout-finder-search').fill('맨티스');
@@ -725,6 +725,86 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-opttable th[aria-sort]')).toHaveAttribute('aria-sort', 'ascending');
         await page.locator('[data-loadout-sort="m0"]').click();
         await expect(page.locator('.loadout-opttable th[aria-sort]')).toHaveAttribute('aria-sort', 'descending');
+    });
+    test('구매 계획: 다품종 상점 묶기·직접 지정·방문 순서를 저장한다', async ({ page }, testInfo) => {
+        const PANTHER = 'bd13235d-1261-4b71-b32f-aed1a8beb526';
+        const prices = {
+            [MANTIS]: [{ shop: 'Cheap M', place: 'Area 18', system: 'Stanton', price: 100 }, { shop: 'Shared Hub', place: 'New Babbage', system: 'Stanton', price: 120 }],
+            [PANTHER]: [{ shop: 'Cheap P', place: 'Orison', system: 'Stanton', price: 200 }, { shop: 'Shared Hub', place: 'New Babbage', system: 'Stanton', price: 220 }],
+        };
+        await page.addInitScript(({ MANTIS, PANTHER }) => {
+            if (!localStorage.getItem('volt-loadout-cart-v1')) localStorage.setItem('volt-loadout-cart-v1', JSON.stringify({ [MANTIS]: 2, [PANTHER]: 1 }));
+        }, { MANTIS, PANTHER });
+        await openAsgard(page, { prices });
+        await page.locator('[data-loadout-tab="cart"]').click();
+        await expect(page.locator('.loadout-shoplist li')).toHaveCount(2);
+        await page.locator('[data-loadout-plan-mode="grouped"]').click();
+        await expect(page.locator('.loadout-shoplist li')).toHaveCount(1);
+        await expect(page.locator('.loadout-shoplist')).toContainText('Shared Hub');
+        await expect(page.locator('.loadout-carttable tfoot')).toContainText('460');
+        const row = page.locator(`[data-loadout-cart-row="${MANTIS}"]`);
+        await row.locator('select').selectOption({ label: 'Stanton / Area 18 / Cheap M · 100 aUEC' });
+        await expect(page.locator('.loadout-shoplist li')).toHaveCount(2);
+        await expect(row.locator('select')).toHaveValue(JSON.stringify(['Stanton', 'Area 18', 'Cheap M']));
+        await page.locator('.loadout-shoplist li').last().locator('[data-loadout-route-move="-1"]').click();
+        await expect(page.locator('.loadout-shoplist li').first()).toContainText('Cheap P');
+        await page.locator('.loadout-view').screenshot({ path: testInfo.outputPath('purchase-plan-desktop.png') });
+        await page.reload();
+        await page.locator('[data-loadout-tab="cart"]').click();
+        await expect(page.locator('[data-loadout-plan-mode="grouped"]')).toHaveAttribute('aria-pressed', 'true');
+        await expect(row.locator('select')).toHaveValue(JSON.stringify(['Stanton', 'Area 18', 'Cheap M']));
+        await expect(page.locator('.loadout-shoplist li').first()).toContainText('Cheap P');
+        await page.setViewportSize({ width: 390, height: 844 });
+        await expect(page.locator('.loadout-shoplist')).toBeVisible();
+        expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+        await page.locator('.loadout-view').screenshot({ path: testInfo.outputPath('purchase-plan-mobile.png') });
+    });
+
+    test('레이더 UUID가 비어 있어도 정확한 이름·크기의 UEX 판매처를 찾고 다시 조회한다', async ({ page }) => {
+        await openAsgard(page);
+        let count = 0;
+        await page.route('**/api/uex/loadout-prices?category=83*', (route) => {
+            count += 1;
+            return route.fulfill({ json: { status: 'ok', data: {}, byName: [{ name: 'Ecouter', size: 1, shops: [{ shop: 'Omega Pro', place: 'New Babbage', system: 'Stanton', price: count === 1 ? 100 : 120 }] }] } });
+        });
+        await page.locator('[data-loadout-tab="finder"]').click();
+        await page.locator('[data-loadout-finder-type="Radar"]').click();
+        await page.locator('#loadout-finder-search').fill('Ecouter');
+        await expect(page.locator('.loadout-finderlist')).toContainText('100 aUEC');
+        await page.locator('.loadout-finderlist [data-loadout-cart-add]').click();
+        await page.locator('[data-loadout-tab="cart"]').click();
+        await expect(page.locator('.loadout-shoplist')).toContainText('New Babbage');
+        await page.locator('[data-loadout-refresh-prices]').click();
+        await expect(page.locator('.loadout-carttable tfoot')).toContainText('120 aUEC');
+        expect(count).toBe(2);
+    });
+
+    test('도색은 원형에서 펼쳐 선택하고, 연속 교체 중 목록과 최신 수치를 유지한다', async ({ page }) => {
+        const PAINT = 'e4870a3c-b2f8-462b-8be2-dd04520551cf';
+        const PANTHER = 'bd13235d-1261-4b71-b32f-aed1a8beb526';
+        await openAsgard(page);
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        await expect(pick(page, PAINT)).toHaveCount(0);
+        await page.locator(`[data-loadout-family="${PANTHER}"]`).click();
+        await expect(pick(page, PAINT)).toBeVisible();
+        await page.locator('#loadout-keep-picker').check();
+        await pick(page, PAINT).click();
+        await expect(page.locator('.loadout-picker')).toBeVisible();
+        await expect(pick(page, PAINT)).toBeDisabled();
+        await expect(page.locator('.loadout-slot.is-changed').first()).toContainText('해저드');
+        await pick(page, MANTIS).click();
+        await expect(pick(page, MANTIS)).toBeDisabled();
+        await page.keyboard.press('Escape');
+        await expect(firstGunSlot(page, '맨티스 GT-220 개틀링')).toBeVisible();
+    });
+
+    test('미출시·출시 미확인 함선은 검색에서 제외한다', async ({ page }) => {
+        await mockApi(page);
+        await gotoSection(page, '#loadout');
+        await page.locator('#loadout-ship-search').fill('javelin');
+        await expect(page.locator('[data-loadout-ship="aegs_javelin"]')).toHaveCount(0);
+        await page.locator('#loadout-ship-search').fill('asgard');
+        await expect(page.locator('[data-loadout-ship="anvl_asgard"]')).toBeVisible();
     });
 
 });

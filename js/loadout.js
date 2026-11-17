@@ -12,6 +12,8 @@
     'use strict';
 
     const calc = window.VOLT_LOADOUT_CALC;
+    const planner = window.VOLT_LOADOUT_PLANNER;
+    const PLAN_KEY = 'volt-loadout-plan-v1';
     const STORAGE_KEY = 'volt-loadout-v1';
     const CART_KEY = 'volt-loadout-cart-v1';
     const DATA_BASE = 'data/loadout';
@@ -19,13 +21,14 @@
     const state = {
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         equipmentGroup: '', query: '', openPath: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
-        prices: new Map(), priceState: new Map(),
+        prices: new Map(), priceState: new Map(), priceNames: new Map(), priceIds: new Map(), plan: { mode: 'cheapest', shops: {}, order: [] }, familyOpen: new Set(), keepPicker: false,
         tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [], split: {}, buildsOpen: false, slot: 'A', alt: null,
     };
 
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
+            refreshFailed: '판매처를 새로 확인하지 못했습니다. 이전에 받은 정보가 표시될 수 있습니다.', planMode: '구매 방식', planCheapest: '최저가 우선', planGrouped: '같은 상점에 모으기', planHelp: '직접 지정한 상점은 유지합니다. 자동 배정은 가장 많은 종류를 파는 상점부터 묶고, 종류 수가 같으면 합계가 싼 곳을 고릅니다. 최단 이동 경로를 계산하는 기능은 아닙니다.', planAuto: '자동 배정', planShop: '구매 상점', planReset: '상점 지정 해제', planMissing: '지정한 상점의 판매 정보를 확인할 수 없습니다. 다른 상점을 선택해 주세요.', planRoute: '방문 순서', planStops: '방문 상점 {count}곳', planUp: '앞으로 이동', planDown: '뒤로 이동', planCopy: '구매 계획 복사', planCopied: '구매 계획을 복사했습니다.', planExtra: '최저가 합계보다 {price} 높음', planUnknown: '판매처 미확인 {count}종은 합계에서 제외됩니다.', refreshPrices: '판매처 새로고침', refreshingPrices: '판매처 확인 중', keepPicker: '교체 후 목록 유지', variants: '도색·변종 {count}종', variantBase: '원형', pickerCart: '현재 부품 장바구니에 담기', liveShipsOnly: '출시가 확인된 함선만 표시합니다.',
             equipmentNav: '장비 종류', allEquipment: '전체 장비', clearFilters: '검색·필터 초기화', filteredEmpty: '조건에 맞는 부품이 없습니다. 검색어나 필터를 바꿔 보세요.', firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
             equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', changedCount: '{count}곳 변경됨',
@@ -57,7 +60,7 @@
             summary: '요약', dps: 'DPS (초당 피해)', pilot: '파일럿', turret: '터렛', alpha: '알파 (1회 피해)', weapons: '무기 {count}정',
             missiles: '미사일·폭탄 피해', missileCount: '{count}발 탑재', shield: '실드', shieldRegen: '재생률 {value}/초', power: '파워 플랜트 출력', powerUse: '모든 장비 최대 가동 시 {use} 필요',
             cooling: '쿨러 냉각량', coolingUse: '쿨러 합계', quantum: '퀀텀 드라이브', quantumNone: '퀀텀 드라이브 없음', spool: '스풀링 {value}초', range: '항속 {value} Gm',
-            cost: '바꾼 부품 구매 비용', costUnknown: '{count}종은 판매처 정보 없음', costNone: '바꾼 부품이 없습니다', same: '동일', dmgWord: '피해', lootNote: '판매처 정보가 없는 부품은 가격 자료(UEX)에 판매처가 올라와 있지 않은 부품입니다. 상점에서 팔지 않고 파밍(전리품)으로 얻는 부품일 수 있습니다. 합계에는 넣지 않았습니다.',
+            cost: '바꾼 부품 구매 비용', costUnknown: '{count}종은 판매처 정보 없음', costNone: '바꾼 부품이 없습니다', same: '동일', dmgWord: '피해', lootNote: '판매처를 확인하지 못한 부품은 합계에서 제외합니다. UEX 자료 누락·매칭 실패 또는 파밍(전리품) 전용 부품일 수 있으므로 실제 판매하지 않는다고 단정할 수 없습니다.',
             part: '부품', slots: '장착 자리', change: '변경', close: '닫기', reset: '기본값', empty: '비어 있음', removeItem: '비우기', fixed: '전용 · 교체 불가',
             changed: '변경됨', defaultMark: '기본', pickerSearch: '부품 이름 검색', pickerEmpty: '이 자리에 맞는 부품이 없습니다.', pickerCount: '맞는 부품 {count}종',
             select: '장착', selected: '장착 중', priceFrom: '최저 {price}', priceShops: '판매처 {count}곳', priceNone: '판매처 정보 없음', priceLoading: '가격 확인 중',
@@ -80,6 +83,7 @@
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
         en: {
+            refreshFailed: 'Could not refresh shops. Previously fetched offers may still be shown.', planMode: 'Purchase strategy', planCheapest: 'Lowest price', planGrouped: 'Group at shared shops', planHelp: 'Manual shop choices stay fixed. Automatic assignment picks the shop selling the most remaining product types, then the lowest combined cost. This does not calculate the shortest travel route.', planAuto: 'Automatic', planShop: 'Purchase shop', planReset: 'Clear shop choices', planMissing: 'The chosen shop offer is unavailable. Select another shop.', planRoute: 'Visit order', planStops: '{count} shops to visit', planUp: 'Move earlier', planDown: 'Move later', planCopy: 'Copy purchase plan', planCopied: 'Purchase plan copied.', planExtra: '{price} above the lowest-price total', planUnknown: '{count} products without a confirmed shop are excluded from the total.', refreshPrices: 'Refresh shops', refreshingPrices: 'Checking shops', keepPicker: 'Keep list open after equipping', variants: '{count} paints / variants', variantBase: 'Base model', pickerCart: 'Add current part to cart', liveShipsOnly: 'Only ships confirmed as released are listed.',
             equipmentNav: 'Equipment categories', allEquipment: 'All equipment', clearFilters: 'Clear search & filters', filteredEmpty: 'No parts match. Try another search or clear the filters.', firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
             equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', changedCount: '{count} slots changed',
@@ -111,7 +115,7 @@
             summary: 'Summary', dps: 'Damage per second', pilot: 'Pilot', turret: 'Turrets', alpha: 'Alpha strike', weapons: '{count} weapons',
             missiles: 'Missiles & bombs', missileCount: '{count} loaded', shield: 'Shields', shieldRegen: 'Regen {value}/s', power: 'Power output', powerUse: '{use} needed with everything at full power',
             cooling: 'Cooling capacity', coolingUse: 'All coolers combined', quantum: 'Quantum travel', quantumNone: 'No quantum drive', spool: 'Spool {value}s', range: 'Range {value} Gm',
-            cost: 'Cost of changed parts', costUnknown: '{count} with no known shop', costNone: 'No parts changed', same: 'Same', dmgWord: 'Damage', lootNote: 'Parts with no known shop are not listed with a seller in the price data (UEX). They may only be obtainable as loot. They are left out of the total.',
+            cost: 'Cost of changed parts', costUnknown: '{count} with no known shop', costNone: 'No parts changed', same: 'Same', dmgWord: 'Damage', lootNote: 'Unconfirmed shop offers are excluded from the total. Missing UEX data, unmatched records or loot-only availability may be the cause; this does not prove a part is unavailable in stores.',
             part: 'Part', slots: 'Hardpoints', change: 'Change', close: 'Close', reset: 'Default', empty: 'Empty', removeItem: 'Leave empty', fixed: 'Bespoke · not swappable',
             changed: 'Changed', defaultMark: 'Stock', pickerSearch: 'Search parts', pickerEmpty: 'No compatible parts for this slot.', pickerCount: '{count} compatible parts',
             select: 'Equip', selected: 'Equipped', priceFrom: 'From {price}', priceShops: '{count} shops', priceNone: 'No known shop', priceLoading: 'Checking prices',
@@ -194,17 +198,20 @@
     async function ensureBase() {
         if (state.items && state.index) return;
         state.cart = readCart();
+        state.plan = readPlan();
         // meta는 항상 새로 확인하고, 나머지는 자료 버전을 주소에 붙여 패치 후 옛 캐시가 섞이지 않게 한다.
         const meta = await fetchJson(`${DATA_BASE}/meta.json`, { cache: 'no-cache' });
         // 같은 게임 버전에서 자료만 다시 뽑아도 새로 받도록 만든 시각까지 붙인다.
         const stamp = encodeURIComponent(`${meta.version || ''}-${meta.builtAt || ''}`);
         meta.stamp = stamp;
-        const [index, items, ko] = await Promise.all([
+        const [index, items, ko, availability] = await Promise.all([
             fetchJson(`${DATA_BASE}/index.json?v=${stamp}`), fetchJson(`${DATA_BASE}/items.json?v=${stamp}`),
             // 한국어 표기(게임 한국어 패치 기준)는 없어도 화면이 동작한다 — 원문으로 표시.
             fetchJson(`${DATA_BASE}/ko.json?v=${stamp}`).catch(() => null),
+            fetchJson(`${DATA_BASE}/availability.json`, { cache: 'no-cache' }),
         ]);
-        state.meta = meta; state.index = index.ships; state.shipAliases = index.aliases || {}; state.items = items.items; state.ko = ko;
+        state.meta = meta; state.index = index.ships.filter((ship) => availability.released.includes(ship.cls)); state.shipAliases = index.aliases || {}; state.items = items.items; state.ko = ko;
+        state.families = planner.families(state.items);
         // 장바구니에 담아 둔 내부 변형도 대표 제품으로 합친다.
         const cart = {};
         for (const [id, quantity] of Object.entries(state.cart)) { const key = canonicalItem(id); cart[key] = (cart[key] || 0) + (Number(quantity) || 0); }
@@ -228,6 +235,7 @@
         try {
             await ensureBase();
             cls = canonicalShip(cls);
+            if (!state.index.some((entry) => entry.cls === cls)) throw new Error('Ship is not released');
             const ship = await fetchJson(`${DATA_BASE}/ships/${cls}.json?v=${state.meta?.stamp || ''}`);
             const sameShip = cls === state.shipCls;
             state.ship = ship; state.shipCls = cls; state.history = []; state.equipmentGroup = '';
@@ -271,13 +279,16 @@
     }
 
     // ---- 가격 (UEX) -------------------------------------------------------
-    function loadCategoryPrices(type) {
+    function loadCategoryPrices(type, refresh = false) {
         const category = UEX_CATEGORY[type];
         // 불러오는 중이거나 이미 받은 분류만 건너뛴다. 실패한 분류는 다시 요청한다.
         const known = state.priceState.get(category);
-        if (!category || known === 'loading' || known === 'ready') return;
+        if (!category || known === 'loading' || (known === 'ready' && !refresh)) return;
         state.priceState.set(category, 'loading');
-        fetchJson(`/api/uex/loadout-prices?category=${category}`).then((payload) => {
+        fetchJson(`/api/uex/loadout-prices?category=${category}${refresh ? '&refresh=1' : ''}`, refresh ? { cache: 'no-store' } : {}).then((payload) => {
+            for (const id of state.priceIds.get(category) || []) state.prices.delete(id);
+            state.priceIds.set(category, Object.keys(payload?.data || {}));
+            state.priceNames.set(category, payload?.byName || []);
             for (const [uuid, shops] of Object.entries(payload?.data || {})) state.prices.set(uuid.toLowerCase(), shops);
             state.priceState.set(category, 'ready');
         }).catch((error) => {
@@ -288,7 +299,13 @@
     function priceInfo(id, item) {
         const category = UEX_CATEGORY[item?.type];
         const status = category ? state.priceState.get(category) : 'none';
-        const shops = state.prices.get(String(id).toLowerCase()) || [];
+        let shops = state.prices.get(String(id).toLowerCase()) || [];
+        if (!shops.length && item) {
+            const matches = (state.priceNames.get(category) || []).filter((entry) => planner.nameKey(entry.name) === planner.nameKey(item.name) && (entry.size === null || Number(entry.size) === Number(item.size)));
+            const peers = Object.values(state.items).filter((entry) => !entry.hidden && entry.type === item.type && planner.nameKey(entry.name) === planner.nameKey(item.name) && (matches[0]?.size === null || entry.size === item.size));
+            if (matches.length === 1 && peers.length === 1) shops = matches[0].shops;
+        }
+        shops = [...shops].sort((a, b) => a.price - b.price);
         return { status: shops.length ? 'ready' : status || 'idle', shops, min: shops[0]?.price || 0 };
     }
     function loadPricesForChanged() {
@@ -394,6 +411,7 @@
         };
         const kind = (value, label) => `<button type="button" class="loadout-chip${state.shipKind === value ? ' is-active' : ''}" data-loadout-ship-kind="${value}" aria-pressed="${state.shipKind === value}">${esc(text(label))}</button>`;
         return `<div class="loadout-shippicker${state.ship ? ' is-overlay' : ''}">
+            <p class="loadout-note">${esc(text('liveShipsOnly'))}</p>
             <div class="loadout-shipsearch">
                 <label class="visually-hidden" for="loadout-ship-search">${esc(text('pickShip'))}</label>
                 <input id="loadout-ship-search" type="search" autocomplete="off" placeholder="${esc(text('searchShip'))}" value="${esc(state.query)}" aria-controls="loadout-ship-results">
@@ -636,6 +654,24 @@
     const damageOf = (item) => { if (!item?.w) return ''; const dmg = item.w.dmg || item.w.beamDps || {}; const top = Object.keys(dmg).sort((a, b) => dmg[b] - dmg[a])[0]; return top === 'distortion' ? 'distortion' : top === 'physical' ? 'ballistic' : top ? 'energy' : ''; };
     const kindOf = (item) => { const type = `${item?.dtype || ''} ${item?.cls || ''}`; return !item?.w ? '' : /Repeater/i.test(type) ? 'repeater' : /Gatling/i.test(type) ? 'gatling' : /Scatter/i.test(type) ? 'scattergun' : /Beam/i.test(type) ? 'beam' : /Cann?on|MassDriver|Mass Driver/i.test(type) ? 'cannon' : ''; };
 
+    function familyRows(entries, query, currentId = '') {
+        if (query) return entries;
+        const ids = new Set(entries.map(([id]) => id));
+        const rows = [];
+        for (const entry of entries) {
+            const [id] = entry;
+            const parent = state.families.get(id);
+            if (parent && ids.has(parent)) continue;
+            rows.push(entry);
+            rows.push(...entries.filter(([child]) => state.families.get(child) === id && (state.familyOpen.has(id) || child === currentId)));
+        }
+        return rows;
+    }
+    function familyButton(id) {
+        const count = [...state.families.values()].filter((parent) => parent === id).length;
+        return count ? `<button type="button" class="loadout-link loadout-family" data-loadout-family="${esc(id)}" aria-expanded="${state.familyOpen.has(id)}">${esc(text('variants', { count }))}</button>` : '';
+    }
+
     function drawPicker(node, nodes) {
         const query = state.pickerQuery.trim().toLowerCase();
         // 기본 장착이 내부 변형(숨긴 항목)이면 대표 제품을 "장착 중"으로 보여 준다 — 같은 부품이 두 줄로 나오지 않게.
@@ -651,7 +687,7 @@
             .filter(([, item]) => !state.pickerKind || kindOf(item) === state.pickerKind)
             .filter(([id, item]) => !state.pickerBuyable || priceInfo(id, item).min > 0)
             .sort(([ida, a], [idb, b]) => sortFn(state.pickerSort)(a, b, ida, idb) || String(itemName(ida, a)).localeCompare(String(itemName(idb, b))));
-        const shown = candidates.slice(0, 80);
+        const shown = familyRows(candidates, query, currentId).slice(0, 80);
         const run = runOf(node.path);
         const siblings = siblingSlots(node, nodes);
         const mount = mountOf.get(node.path);
@@ -684,6 +720,7 @@
                 <button type="button" class="loadout-close" data-loadout-close aria-label="${esc(text('close'))}">×</button>
             </div>
             ${mount && mount.slot.kind === 's' ? `<p class="loadout-note loadout-mountnote">${esc(text('mountedOn'))}: ${esc(itemName(mount.itemId, mount.item))} <button type="button" class="loadout-link" data-loadout-open="${esc(mount.path)}">${esc(text(/Launcher$/.test(mount.item?.type || '') ? 'rackChange' : 'mountChange'))}</button></p>` : ''}
+            <div class="loadout-picker-tools"><label><input type="checkbox" id="loadout-keep-picker" ${state.keepPicker ? 'checked' : ''}> ${esc(text('keepPicker'))}</label>${node.itemId ? `<button type="button" class="loadout-link" data-loadout-cart-add="${esc(node.itemId)}">${esc(text('pickerCart'))}</button>` : ''}</div>
             <div class="loadout-picker-head">
                 <input type="search" id="loadout-picker-search" autocomplete="off" placeholder="${esc(text('pickerSearch'))}" value="${esc(state.pickerQuery)}" aria-label="${esc(text('pickerSearch'))}">
                 <label class="loadout-sort"><span>${esc(text('sortLabel'))}</span>
@@ -706,8 +743,8 @@
             ${siblings.length + 1 > run.length ? `<label class="loadout-bulk"><input type="checkbox" id="loadout-bulk" ${state.pickerBulk ? 'checked' : ''}> ${esc(text('bulkApply', { count: siblings.length + 1 }))}</label>` : ''}
             <div class="loadout-optwrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-opttable">
                 <thead><tr>${head('name', text('colPart'), true)}${columns.map((metric, index) => head(`m${index}`, metric.label)).join('')}${head('price', text('colPrice'))}<th scope="col"></th></tr></thead>
-                <tbody class="loadout-optrows">${shown.map(([id, item]) => `<tr class="${id === currentId ? 'is-current' : ''}">
-                    <th scope="row" class="loadout-option-main"><strong title="${esc(item.name)}">${esc(itemName(id, item))}</strong><span class="loadout-meta">${esc(itemMeta(item))}</span></th>
+                <tbody class="loadout-optrows">${shown.map(([id, item]) => `<tr class="${id === currentId ? 'is-current' : ''}${state.families.has(id) ? ' is-variant' : ''}">
+                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><strong title="${esc(item.name)}">${esc(itemName(id, item))}</strong>${familyButton(id)}</div><span class="loadout-meta">${esc(itemMeta(item))}</span></th>
                     ${columns.map((column) => cell(item, column, id === currentId)).join('')}
                     <td class="loadout-optprice">${drawPrice(id, item)}</td>
                     <td class="loadout-optact"><button type="button" class="btn btn-secondary loadout-equip" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === currentId ? 'disabled' : ''}>${esc(id === currentId ? text('selected') : text('select'))}</button></td>
@@ -882,6 +919,16 @@
 
     // ---- 장바구니 · 부품 찾기 · 무기 상세 · 저장한 로드아웃 ----------------------
     // 장바구니: 편집과 따로, 사고 싶은 부품을 수량과 함께 담아 두고 어디서 얼마에 사는지 모아 본다.
+    function readPlan() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(PLAN_KEY) || '{}');
+            return { mode: saved?.mode === 'grouped' ? 'grouped' : 'cheapest', shops: Object.fromEntries(Object.entries(saved?.shops || {}).filter(([, v]) => typeof v === 'string')), order: Array.isArray(saved?.order) ? saved.order.filter((v) => typeof v === 'string') : [] };
+        } catch (_error) { return { mode: 'cheapest', shops: {}, order: [] }; }
+    }
+    function savePlan() {
+        try { localStorage.setItem(PLAN_KEY, JSON.stringify(state.plan)); } catch (_error) { /* Keep the current plan in memory. */ }
+    }
+
     function readCart() {
         try { const cart = JSON.parse(localStorage.getItem(CART_KEY) || '{}'); return cart && typeof cart === 'object' && !Array.isArray(cart) ? cart : {}; } catch (_error) { return {}; }
     }
@@ -898,6 +945,7 @@
     }
     function setCartQuantity(id, quantity) {
         const cart = { ...state.cart };
+        if (quantity <= 0) { delete state.plan.shops[id]; savePlan(); }
         if (quantity > 0) cart[id] = Math.min(99, quantity); else delete cart[id];
         writeCart(cart);
     }
@@ -913,43 +961,50 @@
     function drawCart() {
         const rows = cartRows();
         if (!rows.length) return `<div class="loadout-view"><p class="loadout-note">${esc(text('cartEmpty'))}</p></div>`;
-        const total = rows.reduce((sum, row) => sum + (row.info.min || 0) * row.qty, 0);
-        const unknown = rows.filter((row) => !row.info.min).length;
-        // 가장 싼 곳 기준으로 상점별로 묶어, 한 번 들를 때 살 것을 모아 보여준다.
-        const byShop = new Map();
-        for (const row of rows) {
-            const shop = row.info.shops[0];
-            if (!shop) continue;
-            const key = `${shop.shop}|${shop.place}|${shop.system}`;
-            const group = byShop.get(key) || { shop, rows: [], total: 0 };
-            group.rows.push(row); group.total += shop.price * row.qty; byShop.set(key, group);
-        }
+        const plan = planner.plan(rows, state.plan);
+        const loading = rows.some((row) => state.priceState.get(UEX_CATEGORY[row.item.type]) === 'loading');
+        const failed = rows.some((row) => state.priceState.get(UEX_CATEGORY[row.item.type]) === 'error');
         return `<div class="loadout-view">
-            <div class="loadout-viewhead">
-                <p class="loadout-note">${esc(text('cartSummary', { kinds: rows.length, count: cartCount() }))}</p>
-                <button type="button" class="loadout-link" data-loadout-cart-clear>${esc(text('cartClear'))}</button>
+            <div class="loadout-viewhead"><p class="loadout-note">${esc(text('cartSummary', { kinds: rows.length, count: cartCount() }))}</p>
+                <button type="button" class="loadout-link" data-loadout-cart-clear>${esc(text('cartClear'))}</button></div>
+            <div class="loadout-plan-controls" role="group" aria-label="${esc(text('planMode'))}">
+                ${['cheapest', 'grouped'].map((mode) => `<button type="button" class="loadout-chip${state.plan.mode === mode ? ' is-active' : ''}" data-loadout-plan-mode="${mode}" aria-pressed="${state.plan.mode === mode}">${esc(text(mode === 'cheapest' ? 'planCheapest' : 'planGrouped'))}</button>`).join('')}
+                <button type="button" class="loadout-link" data-loadout-plan-reset>${esc(text('planReset'))}</button>
+                <button type="button" class="loadout-link" data-loadout-refresh-prices ${loading ? 'disabled' : ''}>${esc(text(loading ? 'refreshingPrices' : 'refreshPrices'))}</button>
             </div>
+            <p class="loadout-note">${esc(text('planHelp'))}</p>
+            ${failed ? `<p class="loadout-note" role="status">${esc(text('refreshFailed'))}</p>` : ''}
             <div class="loadout-table-wrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-table loadout-carttable">
-                <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('cheapest'))}</th><th>${esc(text('subtotal'))}</th><th><span class="visually-hidden">${esc(text('cartRemove'))}</span></th></tr></thead>
+                <thead><tr><th>${esc(text('part'))}</th><th>${esc(text('qty'))}</th><th>${esc(text('planShop'))}</th><th>${esc(text('subtotal'))}</th><th><span class="visually-hidden">${esc(text('cartRemove'))}</span></th></tr></thead>
                 <tbody>${rows.map((row) => {
-        const shop = row.info.shops[0];
-        return `<tr data-loadout-cart-row="${esc(row.id)}">
-                    <td><strong>${esc(itemName(row.id, row.item))}</strong><span class="loadout-meta">${esc(`${typeLabel(row.item.type)} · ${itemMeta(row.item)}`)}</span></td>
-                    <td><span class="loadout-qty"><button type="button" data-loadout-cart-dec="${esc(row.id)}" aria-label="${esc(text('qtyLess'))}">−</button><b>${row.qty}</b><button type="button" data-loadout-cart-inc="${esc(row.id)}" aria-label="${esc(text('qtyMore'))}">+</button></span></td>
-                    <td>${shop ? `${esc(shop.shop)}<span class="loadout-meta">${esc([shop.place, shop.system].filter(Boolean).join(', '))} · ${esc(credits(shop.price))}</span>` : drawPrice(row.id, row.item)}</td>
-                    <td>${shop ? esc(credits(shop.price * row.qty)) : '—'}</td>
-                    <td><button type="button" class="loadout-link" data-loadout-cart-remove="${esc(row.id)}">${esc(text('cartRemove'))}</button></td>
-                </tr>`;
-    }).join('')}</tbody>
-                <tfoot><tr><th colspan="3">${esc(text('total'))}</th><th colspan="2">${esc(credits(total))}</th></tr></tfoot>
+                    const shop = plan.assigned.get(row.id);
+                    const manual = state.plan.shops[row.id];
+                    return `<tr data-loadout-cart-row="${esc(row.id)}">
+                        <td><strong>${esc(itemName(row.id, row.item))}</strong><span class="loadout-meta">${esc(`${typeLabel(row.item.type)} · ${itemMeta(row.item)}`)}</span></td>
+                        <td><span class="loadout-qty"><button type="button" data-loadout-cart-dec="${esc(row.id)}" aria-label="${esc(text('qtyLess'))}">−</button><b>${row.qty}</b><button type="button" data-loadout-cart-inc="${esc(row.id)}" aria-label="${esc(text('qtyMore'))}">+</button></span></td>
+                        <td><label class="visually-hidden" for="shop-${esc(row.id)}">${esc(text('planShop'))} · ${esc(itemName(row.id, row.item))}</label>
+                            <select id="shop-${esc(row.id)}" class="loadout-shop-select" data-loadout-cart-shop="${esc(row.id)}">
+                                <option value="" ${!manual ? 'selected' : ''}>${esc(text('planAuto'))}</option>
+                                ${plan.missing.has(row.id) ? `<option value="${esc(manual)}" selected>${esc(text('planMissing'))}</option>` : ''}
+                                ${row.info.shops.map((offer) => `<option value="${esc(planner.shopKey(offer))}" ${manual === planner.shopKey(offer) ? 'selected' : ''}>${esc([offer.system, offer.place, offer.shop].filter(Boolean).join(' / '))} · ${esc(credits(offer.price))}</option>`).join('')}
+                            </select>
+                            ${shop ? `<span class="loadout-meta">${esc([shop.shop, shop.place, shop.system].filter(Boolean).join(' · '))} · ${esc(credits(shop.price))}</span>` : plan.missing.has(row.id) ? `<span class="loadout-note">${esc(text('planMissing'))}</span>` : drawPrice(row.id, row.item)}
+                        </td>
+                        <td>${shop ? esc(credits(shop.price * row.qty)) : '—'}</td>
+                        <td><button type="button" class="loadout-link" data-loadout-cart-remove="${esc(row.id)}">${esc(text('cartRemove'))}</button></td>
+                    </tr>`;
+                }).join('')}</tbody>
+                <tfoot><tr><th colspan="3">${esc(text('total'))}</th><th colspan="2">${esc(credits(plan.total))}</th></tr></tfoot>
             </table></div>
-            ${unknown ? `<p class="loadout-note">${esc(text('lootNote'))}</p>` : ''}
-            ${byShop.size ? `<h4 class="loadout-subhead">${esc(text('cartByShop'))}</h4>
-            <ul class="loadout-shoplist">${[...byShop.values()].sort((a, b) => b.total - a.total).map((group) => `<li>
-                <div><strong>${esc(group.shop.shop)}</strong><span class="loadout-meta">${esc([group.shop.place, group.shop.system].filter(Boolean).join(', '))}</span></div>
+            ${plan.unknown.length ? `<p class="loadout-note">${esc(text('planUnknown', { count: plan.unknown.length }))}</p>` : ''}
+            ${plan.total > plan.cheapest ? `<p class="loadout-note">${esc(text('planExtra', { price: credits(plan.total - plan.cheapest) }))}</p>` : ''}
+            <div class="loadout-viewhead"><h4 class="loadout-subhead">${esc(text('planRoute'))} · ${esc(text('planStops', { count: plan.groups.length }))}</h4><button type="button" class="loadout-link" data-loadout-plan-copy>${esc(text('planCopy'))}</button></div>
+            <ol class="loadout-shoplist">${plan.groups.map((group, index) => `<li>
+                <div><strong>${index + 1}. ${esc(group.shop.shop)}</strong><span class="loadout-meta">${esc([group.shop.place, group.shop.system].filter(Boolean).join(', '))}</span></div>
                 <span class="loadout-shopitems">${group.rows.map((row) => `${esc(itemName(row.id, row.item))} ×${row.qty}`).join(', ')}</span>
                 <b>${esc(credits(group.total))}</b>
-            </li>`).join('')}</ul>` : ''}
+                <div class="loadout-route-actions"><button type="button" class="loadout-link" data-loadout-route-key="${esc(group.key)}" data-loadout-route-move="-1" ${index === 0 ? 'disabled' : ''}>${esc(text('planUp'))}</button><button type="button" class="loadout-link" data-loadout-route-key="${esc(group.key)}" data-loadout-route-move="1" ${index === plan.groups.length - 1 ? 'disabled' : ''}>${esc(text('planDown'))}</button></div>
+            </li>`).join('')}</ol>
         </div>`;
     }
 
@@ -966,7 +1021,8 @@
             .filter(([id, item]) => !query || [item.name, itemName(id, item), item.mfr, mfrName(item)].some((value) => String(value || '').toLowerCase().includes(query)))
             .filter(([id, item]) => !state.finderBuyable || priceInfo(id, item).min > 0)
             .sort(([ida, a], [idb, b]) => (SORTS[state.finderSort] || SORTS.best)(a, b, ida, idb) || String(itemName(ida, a)).localeCompare(String(itemName(idb, b))));
-        const shown = list.slice(0, state.finderLimit);
+        const grouped = familyRows(list, query);
+        const shown = grouped.slice(0, state.finderLimit);
         const chip = (attr, value, label, active) => `<button type="button" class="loadout-chip${active ? ' is-active' : ''}" ${attr}="${esc(value)}" aria-pressed="${active}">${esc(label)}</button>`;
         return `<div class="loadout-view">
             <div class="loadout-filters" role="group" aria-label="${esc(text('finderType'))}">${FINDER_TYPES.map((key) => chip('data-loadout-finder-type', key, typeLabel(key), key === type)).join('')}</div>
@@ -983,7 +1039,7 @@
             <p class="loadout-note" id="loadout-finder-count">${esc(text('finderCount', { count: list.length }))}</p>
             <ul class="loadout-options loadout-finderlist">${shown.map(([id, item]) => `<li>
                 <div class="loadout-option-main">
-                    <strong>${esc(itemName(id, item))}</strong>${itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}
+                    <strong>${esc(itemName(id, item))}</strong>${familyButton(id)}${itemName(id, item) !== item.name ? `<span class="loadout-origin">${esc(item.name)}</span>` : ''}
                     <span class="loadout-meta">${esc(itemMeta(item))}</span>${drawFacts(item)}${drawPrice(id, item)}
                 </div>
                 ${drawMetric(item)}
@@ -992,7 +1048,7 @@
                     <button type="button" class="btn btn-secondary" data-loadout-cart-add="${esc(id)}">${esc(text('cartAdd'))}</button>
                 </div>
             </li>`).join('') || `<li class="loadout-note">${esc(text('pickerEmpty'))}</li>`}</ul>
-            ${list.length > shown.length ? `<button type="button" class="btn btn-secondary loadout-more" data-loadout-finder-more>${esc(text('finderMore', { count: list.length - shown.length }))}</button>` : ''}
+            ${grouped.length > shown.length ? `<button type="button" class="btn btn-secondary loadout-more" data-loadout-finder-more>${esc(text('finderMore', { count: grouped.length - shown.length }))}</button>` : ''}
         </div>`;
     }
 
@@ -1166,10 +1222,10 @@
                 body += `${drawShipHead(totals, stock)}
                     ${drawShipPicker()}
                     ${drawTabs()}
-                    <div class="loadout-columns">
+                    <div class="loadout-columns${state.tab === 'cart' ? ' is-cart' : ''}">
                         <div class="loadout-slots">${main}</div>
                         ${openNode ? drawPicker(openNode, nodes) : ''}
-                        ${drawSummary(totals, cost, stock)}
+                        ${state.tab === 'cart' ? '' : drawSummary(totals, cost, stock)}
                     </div>`;
             }
             if (!state.ship && !state.loading) {
@@ -1222,10 +1278,11 @@
             if (id !== (target.slot.item || '') && id !== canonicalItem(target.slot.item || '')) next[target.path] = id;
         }
         state.overrides = calc.sanitizeOverrides(state.ship, state.items, next);
+        if (id) state.familyOpen.add(state.families.get(id) || id);
         state.off = cleanOff(Object.fromEntries(Object.keys(state.off).filter((key) => !targets.some((entry) => key === entry.path || key.startsWith(`${entry.path}/`))).map((key) => [key, true])));
-        closePicker();
+        if (!state.keepPicker || !id) closePicker();
         writeStored(); draw(); loadPricesForChanged();
-        root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
+        if (!state.openPath) root()?.querySelector(`[data-loadout-open="${CSS.escape(path)}"]`)?.focus({ preventScroll: true });
     }
 
     function shareUrl() {
@@ -1243,6 +1300,27 @@
         if (event.target.closest('[data-loadout-close]')) { dismissPicker(); return; }
         const target = event.target.closest('button');
         if (!target) return;
+        const family = target.getAttribute('data-loadout-family');
+        if (family !== null) { if (state.familyOpen.has(family)) state.familyOpen.delete(family); else state.familyOpen.add(family); draw(); return; }
+        const strategy = target.getAttribute('data-loadout-plan-mode');
+        if (['cheapest', 'grouped'].includes(strategy)) { state.plan.mode = strategy; savePlan(); draw(); return; }
+        if (target.hasAttribute('data-loadout-plan-reset')) { state.plan.shops = {}; savePlan(); draw(); return; }
+        if (target.hasAttribute('data-loadout-refresh-prices')) { for (const type of new Set(cartRows().map((r) => r.item.type))) loadCategoryPrices(type, true); draw(); return; }
+        const move = target.getAttribute('data-loadout-route-move');
+        if (move !== null) {
+            const keys = planner.plan(cartRows(), state.plan).groups.map((group) => group.key);
+            const index = keys.indexOf(target.getAttribute('data-loadout-route-key'));
+            const next = index + Number(move);
+            if (index >= 0 && next >= 0 && next < keys.length) { [keys[index], keys[next]] = [keys[next], keys[index]]; state.plan.order = keys; savePlan(); draw(); }
+            return;
+        }
+        if (target.hasAttribute('data-loadout-plan-copy')) {
+            const plan = planner.plan(cartRows(), state.plan);
+            const lines = plan.groups.map((g, i) => `${i + 1}. ${[g.shop.system, g.shop.place, g.shop.shop].filter(Boolean).join(' / ')}\n${g.rows.map((r) => `${itemName(r.id, r.item)} ×${r.qty}`).join('\n')}\n${credits(g.total)}`);
+            if (plan.unknown.length) lines.push(text('planUnknown', { count: plan.unknown.length }));
+            lines.push(`${text('total')}: ${credits(plan.total)}`);
+            (navigator.clipboard?.writeText(lines.join('\n\n')) || Promise.reject()).then(() => deps.showToast?.(text('planCopied'))).catch(() => deps.showToast?.(text('shareFail'))); return;
+        }
         const category = target.getAttribute('data-loadout-category');
         if (category !== null && ['', ...SUPER_GROUPS.map(([label]) => label)].includes(category)) { state.equipmentGroup = category; draw(); return; }
         if (target.hasAttribute('data-loadout-clear-filters')) {
@@ -1346,7 +1424,7 @@
         if (dec !== null) { setCartQuantity(dec, (Number(state.cart[dec]) || 0) - 1); draw(); return; }
         const remove = target.getAttribute('data-loadout-cart-remove');
         if (remove !== null) { setCartQuantity(remove, 0); draw(); return; }
-        if (target.hasAttribute('data-loadout-cart-clear')) { writeCart({}); draw(); return; }
+        if (target.hasAttribute('data-loadout-cart-clear')) { writeCart({}); state.plan.shops = {}; state.plan.order = []; savePlan(); draw(); return; }
         const finderType = target.getAttribute('data-loadout-finder-type');
         if (finderType !== null) { state.finderType = finderType; state.finderSize = ''; state.finderLimit = 40; loadCategoryPrices(finderType); draw(); return; }
         const finderSize = target.getAttribute('data-loadout-finder-size');
@@ -1389,6 +1467,15 @@
         }
     }
     function handleChange(event) {
+        if (event.target.id === 'loadout-keep-picker') state.keepPicker = event.target.checked;
+        const shopItem = event.target.getAttribute('data-loadout-cart-shop');
+        if (shopItem !== null) {
+            const value = event.target.value;
+            const row = cartRows().find((entry) => entry.id === shopItem);
+            if (!value) delete state.plan.shops[shopItem];
+            else if (row?.info.shops.some((shop) => planner.shopKey(shop) === value)) state.plan.shops[shopItem] = value;
+            savePlan(); draw();
+        }
         if (event.target.id === 'loadout-picker-sort') { state.pickerSort = event.target.value; draw(); }
         if (event.target.id === 'loadout-ship-mfr') { state.shipMfr = event.target.value; draw(); }
         if (event.target.id === 'loadout-finder-sort') { state.finderSort = event.target.value; draw(); }

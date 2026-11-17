@@ -7,7 +7,7 @@ import { fetchUex, getUpstreamUrl, readUexPayload } from '../../_shared/uex-prox
 const CACHE_TTL_SECONDS = 60 * 60;
 // 편집기가 쓰는 UEX 분류만 허용한다 — 임의 분류 번호로 업스트림을 호출하는 남용을 막는다.
 const ALLOWED_CATEGORIES = new Set([19, 21, 22, 23, 29, 32, 33, 34, 35, 70, 83, 86]);
-const MAX_SHOPS_PER_ITEM = 12;
+
 
 async function upstream(env, path) {
   const result = await fetchUex(getUpstreamUrl(env, path));
@@ -31,13 +31,28 @@ export function buildPriceTable(items, prices) {
       place: String(row.city_name || row.space_station_name || row.outpost_name || row.moon_name || row.planet_name || ''),
       system: String(row.star_system_name || ''),
       price,
+      ...(row.id_terminal ? { terminalId: Number(row.id_terminal) } : {}),
     });
   }
   for (const uuid of Object.keys(table)) {
     table[uuid].sort((a, b) => a.price - b.price);
-    table[uuid] = table[uuid].slice(0, MAX_SHOPS_PER_ITEM);
+    const seen = new Set();
+    table[uuid] = table[uuid].filter((shop) => {
+      const key = shop.terminalId || JSON.stringify([shop.shop, shop.place, shop.system]);
+      if (seen.has(key)) return false;
+      seen.add(key); return true;
+    });
   }
   return table;
+}
+
+// UEX radar records often have no game UUID. Keep exact names and sizes for a
+// conservative client-side match; never guess from a translated or partial name.
+export function buildNamedPrices(items, prices) {
+  return items.filter((item) => !item.uuid && item.name).map((item) => ({
+    name: item.name, size: item.size === null || item.size === '' ? null : Number(item.size),
+    shops: buildPriceTable([{ ...item, uuid: 'match' }], prices).match || [],
+  })).filter((item) => item.shops.length);
 }
 
 export async function onRequestGet({ request, env, waitUntil }) {
@@ -47,9 +62,14 @@ export async function onRequestGet({ request, env, waitUntil }) {
   const category = Number(raw);
   const cache = caches.default;
   // 캐시 키는 검증된 분류 번호로만 만든다 (uex-proxy.js와 같은 이유).
-  const cacheKey = new Request(new URL(`/__uex-cache/loadout-prices/${category}`, url.origin));
+  const cacheKey = new Request(new URL(`/__uex-cache/loadout-prices/v2/${category}`, url.origin));
   const cached = await cache.match(cacheKey);
-  if (cached) return cached;
+  const refresh = url.searchParams.get('refresh') === '1';
+  if (cached) {
+    const age = Date.now() - Date.parse((await cached.clone().json()).meta?.fetchedAt);
+    if (!refresh) return cached;
+    if (Number.isFinite(age) && age >= 0 && age < 60000) return json(await cached.json(), { cacheControl: 'no-store' });
+  }
 
   const [items, prices] = await Promise.all([
     upstream(env, `items?id_category=${category}`),
@@ -60,8 +80,9 @@ export async function onRequestGet({ request, env, waitUntil }) {
 
   const response = json({
     status: 'ok', category, data: buildPriceTable(items.data, prices.data),
+    byName: buildNamedPrices(items.data, prices.data),
     meta: { source: 'uex', ttlSeconds: CACHE_TTL_SECONDS, fetchedAt: new Date().toISOString() },
   }, { cacheControl: `public, max-age=${CACHE_TTL_SECONDS}` });
   waitUntil(cache.put(cacheKey, response.clone()));
-  return response;
+  return refresh ? json(await response.json(), { cacheControl: 'no-store' }) : response;
 }
