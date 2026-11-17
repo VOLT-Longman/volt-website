@@ -152,8 +152,10 @@
                 visit({ slot, path, item, itemId: itemId || '', changed, turret: next.turret, tags: state.tags, depth: state.depth });
                 // 부품을 바꾸면 그 아래에 달려 있던 기본 부품(예: 랙의 미사일)은 더 이상 유효하지 않다.
                 // 새 부품이 가진 장착 자리(ports)를 빈 슬롯으로 펼쳐, 이어서 채울 수 있게 한다.
+                // 바꿀 수 없는 내부 부속 자리(총열·전원부 등)는 채울 수 없는 빈자리라 펼치지 않는다 —
+                // 펼치면 무기 한 정이 '하위 자리를 거느린 부품'처럼 보여 목록의 줄 구성이 달라진다.
                 const children = changed
-                    ? (item?.ports || []).map((port) => ({ port: port.name, kind: port.ed === false ? 'f' : 's', min: port.min, max: port.max, acc: port.acc, item: '' }))
+                    ? (item?.ports || []).filter((port) => port.ed !== false).map((port) => ({ port: port.name, kind: port.ed === false ? 'f' : 's', min: port.min, max: port.max, acc: port.acc, item: '' }))
                     : slot.ch;
                 step(children, path, next);
             }

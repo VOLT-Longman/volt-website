@@ -9817,3 +9817,29 @@ details.loadout-panel-section.loadout-fold { display: block; }
     .loadout-opttable tbody th strong { font-size: 15px; }
 }
 .loadout-dpsnote { margin: 8px 0 0; font-size: 12px; }
+
+/* 로드아웃 기본 편집 화면 보완(2026-11-17 2차 검토): 장착 줄 핵심 수치, A/B 구성, 요약 폭 */
+.loadout-slot-facts { display: flex; flex-wrap: wrap; gap: 2px 12px; margin-top: 3px; font-size: 12px; line-height: 1.45; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+.loadout-ab { display: inline-flex; align-items: stretch; border: 1px solid var(--lo-line); border-radius: 8px; overflow: hidden; }
+.loadout-abbtn { min-width: 44px; min-height: 40px; padding: 0 14px; border: 0; background: transparent; color: var(--color-text-secondary); font-weight: 800; font-size: 14px; cursor: pointer; }
+.loadout-abbtn + .loadout-abbtn { border-left: 1px solid var(--lo-line); }
+.loadout-abbtn.is-active { background: var(--volt-orange); color: #fff; }
+.loadout-abbtn:focus-visible { outline: 2px solid var(--volt-orange); outline-offset: -2px; }
+.loadout-abcompare { display: grid; gap: 10px; margin-bottom: 22px; justify-items: start; }
+.loadout-abcompare > .loadout-viewhead, .loadout-abcompare > .loadout-table-wrap { justify-self: stretch; }
+.loadout-abcompare h3 { margin: 0; }
+.loadout-filtergroup { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; padding-right: 12px; margin-right: 6px; border-right: 1px solid var(--lo-line); }
+.loadout-filtergroup:last-child { border-right: 0; padding-right: 0; margin-right: 0; }
+.loadout-filtergroup small { font-size: 11px; color: var(--color-text-secondary); }
+.loadout-help { margin-top: 6px; font-size: 12px; }
+.loadout-help summary { cursor: pointer; color: var(--color-text-secondary); min-height: 28px; display: flex; align-items: center; gap: 6px; }
+.loadout-help summary:hover { color: var(--color-text-primary); }
+@media (min-width: 1360px) {
+    /* 오른쪽 요약은 폭이 340px뿐이라 두 칸으로 쪼개면 글자가 꺾인다 — 한 칸으로 쌓는다. */
+    .loadout-columns > .loadout-panel { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 720px) {
+    .loadout-ab { grid-column: 1 / -1; justify-self: start; }
+    .loadout-filtergroup { border-right: 0; padding-right: 0; }
+}
+.loadout-abstate { font-weight: 700; color: var(--color-text-primary); }

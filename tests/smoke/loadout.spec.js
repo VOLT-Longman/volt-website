@@ -440,7 +440,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-super > h3')).toHaveText(['무장', '방어·동력', '이동·기타']);
         const gun = firstGunSlot(page);
         await expect(gun.locator('.loadout-slot-label')).toContainText('›');
-        await expect(gun.locator('.loadout-metric')).toHaveText(/546\s*DPS/);
+        await expect(gun.locator('.loadout-metric')).toHaveText(/546\s*순간 DPS/);
         // 아래에 부품을 거느린 자리(퀀텀 드라이브 › 점프 모듈)는 들여쓰기로 관계를 보여준다.
         await expect(page.locator('.loadout-group.is-quantum .loadout-slot.is-mount')).toHaveCount(1);
         await expect(page.locator('.loadout-group.is-quantum .loadout-slot.is-child')).toHaveCount(1);
@@ -626,5 +626,69 @@ test.describe('로드아웃 편집기', () => {
         await card.click();
         await expect(page.locator('.loadout-shipfacts')).toContainText('앤빌 에어로스페이스');
         await expect(page.locator('.loadout-shipfacts')).toContainText('드랍쉽');
+    });
+    test('교체해도 줄 구성이 유지되고, 미사일은 랙·탄 크기와 합계 피해를 구분해 보여 준다', async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 900 });
+        await mockApi(page);
+        await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
+        await gotoSection(page, '#loadout');
+        await page.locator('#loadout-ship-search').fill('stalker');
+        await page.locator('[data-loadout-ship="aegs_avenger_stalker"]').click();
+        const weapons = page.locator('.loadout-group.is-weapon');
+        await expect(weapons.locator('h4')).toContainText('3곳');
+        const nose = weapons.locator('.loadout-slot').first();
+        await expect(nose.locator('.loadout-slot-label')).toContainText('기수');
+        // 줄 안에서 바로 판단할 수 있게 순간 DPS와 지속 DPS·탄속·사거리가 보인다.
+        await expect(nose.locator('.loadout-metric b')).toHaveText('1,266');
+        await expect(nose.locator('.loadout-slot-facts')).toContainText('지속 879');
+        await expect(nose.locator('.loadout-slot-facts')).toContainText('사거리');
+        // 무기를 바꿔도 자리 수·위치 이름·수치가 그대로 유지되고 마운트가 따로 튀어나오지 않는다.
+        await nose.locator('[data-loadout-open]').click();
+        await pick(page, 'e4afc8b4-da61-4efb-af7e-f003d9900d96').click();
+        await expect(weapons.locator('h4')).toContainText('3곳');
+        await expect(weapons.locator('.loadout-slot')).toHaveCount(3);
+        const swapped = weapons.locator('.loadout-slot').first();
+        await expect(swapped).toContainText('AD4B 실탄 개틀링');
+        await expect(swapped.locator('.loadout-slot-label')).toContainText('기수');
+        await expect(swapped.locator('.loadout-metric b')).toHaveText('1,266');
+        await expect(weapons).not.toContainText('짐벌 마운트');
+        // 미사일: 랙 크기와 탄 크기를 따로 적고, 발당 피해와 합계 피해를 구분한다.
+        const missile = page.locator('.loadout-group.is-missile .loadout-slot', { hasText: '이그나이트 II' }).first();
+        await expect(missile.locator('.loadout-size')).toHaveText('S2');
+        await expect(missile.locator('.loadout-slot-label')).toContainText('S3 미사일 랙');
+        await expect(missile.locator('.loadout-slot-facts')).toContainText('S2 미사일');
+        await expect(missile.locator('.loadout-slot-facts')).toContainText('발당 1,440');
+        await expect(missile.locator('.loadout-metric')).toContainText('2,880');
+        await expect(missile.locator('.loadout-metric')).toContainText('합계 피해');
+    });
+
+    test('구성 A/B: 저장하지 않고 복제한 구성에서 실험하고 바로 견준다', async ({ page }) => {
+        await openAsgard(page);
+        await expect(page.locator('.loadout-abstate')).toContainText('구성 A');
+        // 저장한 구성이 없어도 비교 화면에서 바로 B를 시작할 수 있다.
+        await page.locator('[data-loadout-tab="compare"]').click();
+        await page.locator('.loadout-abcompare [data-loadout-ab="B"]').click();
+        await expect(page.locator('.loadout-abstate')).toContainText('구성 B');
+        await expect(page.locator('[data-loadout-ab="B"]').first()).toHaveAttribute('aria-pressed', 'true');
+        // B에서만 무기를 바꾼다.
+        await page.locator('[data-loadout-tab="slots"]').click();
+        const before = await stat(page, DPS).innerText();
+        await firstGunSlot(page).locator('[data-loadout-open]').click();
+        await pick(page, MANTIS).click();
+        await expect(stat(page, DPS)).not.toHaveText(before);
+        // 비교 화면: B(지금)와 A가 나란히 나오고 차이가 표시된다.
+        await page.locator('[data-loadout-tab="compare"]').click();
+        const table = page.locator('.loadout-abcompare .loadout-comparetable');
+        await expect(table.locator('thead')).toContainText('구성 B');
+        await expect(table.locator('thead')).toContainText('구성 A');
+        await expect(table.locator('tbody tr').first().locator('td').nth(1)).toHaveText(before);
+        await expect(table.locator('tbody tr').first().locator('.loadout-change')).toBeVisible();
+        // A로 돌아가면 원래 구성 그대로이고, 새로고침해도 두 구성이 남는다.
+        await page.locator('.loadout-actions [data-loadout-ab="A"]').click();
+        await expect(stat(page, DPS)).toHaveText(before);
+        await page.reload();
+        await expect(page.locator('.loadout-abstate')).toContainText('구성 A');
+        await page.locator('.loadout-actions [data-loadout-ab="B"]').click();
+        await expect(stat(page, DPS)).not.toHaveText(before);
     });
 });
