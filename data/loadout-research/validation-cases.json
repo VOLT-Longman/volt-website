@@ -1,0 +1,1352 @@
+{
+ "meta": {
+  "gameBuild": "4.10.200.58746",
+  "gameBranch": "sc-alpha-4.10.0",
+  "gameChangelist": "13165946",
+  "gameBuildDate": "Wed Nov 11 2026",
+  "researchedAt": "2026-11-17T02:19:00.649Z",
+  "validatedAt": "2026-11-17T02:19:37.701Z",
+  "cases": 13,
+  "checks": 71,
+  "failedChecks": 0,
+  "note": "status 는 사례의 근거 상태다: verified = 원본 값과 계산이 한 가지로 정해짐, conflicting = 해석이 둘 이상이라 값이 갈림, unavailable = 자료만으로 확정 불가. pass 는 \"추출값 + 기준 계산이 손계산 예상값을 재현했는가\"이다."
+ },
+ "cases": [
+  {
+   "id": "ballistic-overheat-ad4b",
+   "topic": "실탄 무기 과열",
+   "status": "verified",
+   "inputs": {
+    "uuid": "e4afc8b4-da61-4efb-af7e-f003d9900d96",
+    "cls": "BEHR_BallisticGatling_S4",
+    "fireRate": 900,
+    "heatPerShot": 0.5080645,
+    "overheatTemperature": 100,
+    "coolingPerSecond": 31.7,
+    "timeTillCoolingStarts": 0.485,
+    "overheatFixTime": 2.23,
+    "temperatureAfterOverheatFix": 0,
+    "damagePerShot": 84.4,
+    "spinUpTime": 0.198
+   },
+   "steps": [
+    "발사 간격 = 60 ÷ 900 = 0.066667초",
+    "발 사이 식는 양 = max(0, 0.066667 − 0.485) × 31.7 = 0 (식기 시작 전에 다음 발)",
+    "과열까지 발사 수 = ceil((100 − 0.5080645) ÷ 0.5080645) + 1 = 197발",
+    "사격 시간(마지막 간격 제외) = 196 × 0.066667 = 13.0667초",
+    "주기 = 13.0667 + 2.23 = 15.2967초",
+    "지속 DPS = 84.4 × 197 ÷ 15.2967 = 1086.95",
+    "순간 DPS = 84.4 × 15 = 1266"
+   ],
+   "checks": [
+    {
+     "name": "과열까지 발사 수",
+     "actual": 197,
+     "expected": 197,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "순간 DPS",
+     "actual": 1266,
+     "expected": 1266,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "지속 DPS (마지막 간격 제외)",
+     "actual": 1086.9534,
+     "expected": 1086.95,
+     "tolerance": 0.05,
+     "pass": true
+    },
+    {
+     "name": "지속 DPS (마지막 간격 포함)",
+     "actual": 1082.2414,
+     "expected": 1082.24,
+     "tolerance": 0.05,
+     "pass": true
+    },
+    {
+     "name": "지속 DPS (회전 시작 시간 포함)",
+     "actual": 1073.0637,
+     "expected": 1073.06,
+     "tolerance": 0.05,
+     "pass": true
+    },
+    {
+     "name": "사이트 계산과 일치",
+     "actual": 1086.96,
+     "expected": 1086.95,
+     "tolerance": 0.6,
+     "pass": true
+    }
+   ],
+   "tolerance": "발사 수는 정확히, DPS는 ±0.05 (사이트 자료는 열을 소수 4자리로 반올림하므로 ±0.6)",
+   "sources": [
+    "data/loadout-research/weapon-profiles.json",
+    "EntityClassDefinition.BEHR_BallisticGatling_S4 → SCItemWeaponComponentParams.connectionParams.simplifiedHeatParams, fireActions[0]"
+   ],
+   "pass": true
+  },
+  {
+   "id": "ballistic-fire-rate-source-c788",
+   "topic": "실탄 무기 과열 · C788 순간 DPS",
+   "status": "conflicting",
+   "inputs": {
+    "uuid": "6635dc5f-dfcd-4b72-9d9d-8d3620820352",
+    "cls": "BEHR_BallisticCannon_S4",
+    "sequenceDelayRpm": 40,
+    "innerFireRate": 50,
+    "damagePerShot": 975,
+    "heatPerShot": 12,
+    "coolingPerSecond": 25.4,
+    "timeTillCoolingStarts": 0.84
+   },
+   "steps": [
+    "fireActions[0] 은 순차 사격(Sequence)이고 항목 간격이 40 RPM, 안쪽 동작의 fireRate 는 50",
+    "40 RPM 기준: 순간 DPS = 975 × 40 ÷ 60 = 650",
+    "50 RPM 기준: 순간 DPS = 975 × 50 ÷ 60 = 812.5",
+    "40 RPM 에서는 발 사이 식는 양 (1.5 − 0.84) × 25.4 = 16.764 > 발당 열 12 → 과열하지 않음",
+    "50 RPM 에서는 (1.2 − 0.84) × 25.4 = 9.144 < 12 → 32발째에 과열"
+   ],
+   "checks": [
+    {
+     "name": "순간 DPS (순차 간격 40 RPM)",
+     "actual": 650.0003,
+     "expected": 650,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "순간 DPS (안쪽 fireRate 50)",
+     "actual": 812.5,
+     "expected": 812.5,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "40 RPM 에서 과열 여부",
+     "actual": false,
+     "expected": false,
+     "pass": true
+    },
+    {
+     "name": "50 RPM 에서 과열까지 발사 수",
+     "actual": 32,
+     "expected": 32,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "사이트 순간 DPS",
+     "actual": 650,
+     "expected": 650,
+     "tolerance": 0.01,
+     "pass": true
+    }
+   ],
+   "tolerance": "±0.01",
+   "sources": [
+    "data/loadout-research/weapon-profiles.json",
+    "EntityClassDefinition.BEHR_BallisticCannon_S4 → fireActions[0].sequenceEntries[0].{delay,unit} / .weaponAction.fireRate"
+   ],
+   "open": "게임이 실제로 쓰는 값이 순차 간격(40)인지 안쪽 fireRate(50)인지는 게임 안 측정이 필요. 다른 계산기와의 162.5 차이는 이 두 값의 차이와 같다.",
+   "pass": true
+  },
+  {
+   "id": "energy-capacitor-omnisky-ix",
+   "topic": "에너지 무기 축전·충전",
+   "status": "conflicting",
+   "inputs": {
+    "uuid": "95c85f25-ccd9-402e-b02a-522f5a97a654",
+    "cls": "AMRS_LaserCannon_S3",
+    "fireRate": 150,
+    "damagePerShot": 218.7,
+    "maxAmmoLoad": 25,
+    "maxRegenPerSec": 3,
+    "regenerationCooldown": 0.5,
+    "requestedAmmoLoad": 20200,
+    "regenerationCostPerBullet": 202
+   },
+   "steps": [
+    "발사 간격 = 60 ÷ 150 = 0.4초 < 충전 지연 0.5초 → 쏘는 동안 충전되지 않음",
+    "탄창 25발을 비우는 시간: 마지막 간격 포함 10초 / 제외 9.6초",
+    "재충전 = 0.5 + 25 ÷ 3 = 8.8333초",
+    "지속 DPS(포함) = 25 × 218.7 ÷ 18.8333 = 290.31",
+    "지속 DPS(제외) = 25 × 218.7 ÷ 18.4333 = 296.61",
+    "쏘는 중에도 충전된다고 보면 초당 3발 ≥ 2.5발 → 546.75(순간 DPS 와 같음)"
+   ],
+   "checks": [
+    {
+     "name": "순간 DPS",
+     "actual": 546.75,
+     "expected": 546.75,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "지속 DPS (마지막 간격 포함)",
+     "actual": 290.3102,
+     "expected": 290.31,
+     "tolerance": 0.02,
+     "pass": true
+    },
+    {
+     "name": "지속 DPS (마지막 간격 제외)",
+     "actual": 296.6099,
+     "expected": 296.61,
+     "tolerance": 0.02,
+     "pass": true
+    },
+    {
+     "name": "지속 DPS (사격 중 충전 허용)",
+     "actual": 546.75,
+     "expected": 546.75,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "사이트 계산(포함 방식)",
+     "actual": 290.31,
+     "expected": 290.31,
+     "tolerance": 0.05,
+     "pass": true
+    }
+   ],
+   "tolerance": "±0.02",
+   "sources": [
+    "data/loadout-research/weapon-profiles.json",
+    "EntityClassDefinition.AMRS_LaserCannon_S3 → SCItemWeaponComponentParams.weaponRegenConsumerParams"
+   ],
+   "open": "사격 중 충전이 끊기는지(regenerationCooldown 이 매 발 다시 시작하는지)는 실행 규칙. 세 값 사이 어느 쪽인지 게임 안 측정 필요.",
+   "pass": true
+  },
+  {
+   "id": "stalker-ad4b-omnisky-sustained",
+   "topic": "지속 DPS 차이 원인 (어벤저 스토커 · AD4B + Omnisky IX 2정)",
+   "status": "conflicting",
+   "inputs": {
+    "ship": "aegs_avenger_stalker",
+    "guns": [
+     {
+      "cls": "BEHR_BallisticGatling_S4",
+      "count": 1
+     },
+     {
+      "cls": "AMRS_LaserCannon_S3",
+      "count": 2
+     }
+    ]
+   },
+   "steps": [
+    "순간 DPS = 1266 + 2 × 546.75 = 2359.5",
+    "사이트 방식(과열=마지막 간격 제외, 축전=포함) = 1086.95 + 2 × 290.31 = 1667.57",
+    "둘 다 마지막 간격 포함 = 1082.24 + 2 × 290.31 = 1662.86",
+    "둘 다 제외 = 1086.95 + 2 × 296.61 = 1680.17",
+    "사격 중 충전 허용 = 1086.95 + 2 × 546.75 = 2180.45"
+   ],
+   "checks": [
+    {
+     "name": "순간 DPS 합",
+     "actual": 2359.5,
+     "expected": 2359.5,
+     "tolerance": 0.02,
+     "pass": true
+    },
+    {
+     "name": "사이트 방식",
+     "actual": 1667.58,
+     "expected": 1667.57,
+     "tolerance": 0.7,
+     "pass": true
+    },
+    {
+     "name": "둘 다 포함",
+     "actual": 1662.86,
+     "expected": 1662.86,
+     "tolerance": 0.1,
+     "pass": true
+    },
+    {
+     "name": "둘 다 제외",
+     "actual": 1680.17,
+     "expected": 1680.17,
+     "tolerance": 0.1,
+     "pass": true
+    },
+    {
+     "name": "사격 중 충전 허용",
+     "actual": 2180.45,
+     "expected": 2180.45,
+     "tolerance": 0.1,
+     "pass": true
+    }
+   ],
+   "tolerance": "±0.1 (사이트 값은 반올림 자료 때문에 ±0.7)",
+   "sources": [
+    "data/loadout-research/weapon-profiles.json"
+   ],
+   "open": "경계 조건만으로는 17.3(약 1%)까지만 벌어진다. 그보다 큰 차이는 사격 중 충전 여부, 짐벌 모드의 연사 0.85배, 전력 배분에 따른 탄창 크기 중 하나에서 온다.",
+   "pass": true
+  },
+  {
+   "id": "charged-singe-s2",
+   "topic": "충전식 무기",
+   "status": "conflicting",
+   "inputs": {
+    "uuid": "40b94722-48be-406a-9843-5c77772e4ab4",
+    "cls": "BANU_TachyonCannon_S2",
+    "chargeTime": 1.75,
+    "cooldownTime": 0,
+    "fireRate": 90,
+    "damagePerShot": 472.5,
+    "regenerationCooldown": 1.73,
+    "maxRegenPerSec": 3
+   },
+   "steps": [
+    "주기(충전 + 대기 + 발사 간격) = 1.75 + 0 + 0.6667 = 2.4167초 → 초당 0.41379발 → 195.52 DPS",
+    "주기(충전만) = 1.75초 → 초당 0.57143발 → 270.0 DPS",
+    "발 사이 2.4167초 > 충전 지연 1.73초 → 사이에 (2.4167 − 1.73) × 3 = 2.06발 충전 ≥ 1발 → 탄창이 줄지 않음 → 지속 = 순간"
+   ],
+   "checks": [
+    {
+     "name": "순간 DPS (충전+간격)",
+     "actual": 195.5172,
+     "expected": 195.52,
+     "tolerance": 0.02,
+     "pass": true
+    },
+    {
+     "name": "순간 DPS (충전만)",
+     "actual": 270,
+     "expected": 270,
+     "tolerance": 0.02,
+     "pass": true
+    },
+    {
+     "name": "탄창이 비지 않음",
+     "actual": true,
+     "expected": true,
+     "pass": true
+    },
+    {
+     "name": "지속 DPS(기준)",
+     "actual": 195.5172,
+     "expected": 195.52,
+     "tolerance": 0.02,
+     "pass": true
+    },
+    {
+     "name": "사이트 지속 DPS(발 사이 충전 미반영)",
+     "actual": 167.6,
+     "expected": 167.6,
+     "tolerance": 0.05,
+     "pass": true
+    }
+   ],
+   "tolerance": "±0.02",
+   "sources": [
+    "data/loadout-research/weapon-profiles.json",
+    "EntityClassDefinition.BANU_TachyonCannon_S2 → fireActions[0] (SWeaponActionFireChargedParams)"
+   ],
+   "open": "사이트는 발 사이 충전을 반영하지 않아 167.6 으로 낮게 나온다(수정 대상). 충전 주기에 발사 간격이 더해지는지는 미확인.",
+   "pass": true
+  },
+  {
+   "id": "power-shortage-stalker-default",
+   "topic": "전력 부족과 장비 끄기",
+   "status": "conflicting",
+   "inputs": {
+    "ship": "aegs_avenger_stalker",
+    "powerGeneration": 14,
+    "powerUseMax": 23.1,
+    "powerUseMin": 10.1,
+    "cooler": {
+     "max": 3,
+     "min": 1,
+     "unit": "units"
+    },
+    "shield": {
+     "max": 1,
+     "min": 1,
+     "unit": "units"
+    },
+    "radar": {
+     "max": 5,
+     "min": 2,
+     "unit": "units"
+    },
+    "weaponPool": {
+     "kind": "FixedPowerPool",
+     "itemType": "WeaponGun",
+     "poolSize": 4,
+     "maxItemCount": null
+    }
+   },
+   "steps": [
+    "기본 장착의 발전량 14칸, 모든 장비 최대 요구 합 23.1, 최소 요구 합 10.1",
+    "최대 요구 기준 부족분 = 23.1 − 14 = 9.1 → 전부 최대로는 못 돌림",
+    "최소 요구 합 10.1 ≤ 14 → 모든 장비를 최소로는 켤 수 있음",
+    "냉각기 1대: 최대 3칸, 최소 3 × 0.3333 = 1칸. 끄면 최대 3칸이 남는다",
+    "실드 1대: 1칸(최소 비율 1 → 줄일 수 없음, 켜거나 끄거나)",
+    "무기는 함선의 고정 무기 묶음(4칸)에서 나눠 받는다"
+   ],
+   "checks": [
+    {
+     "name": "발전량",
+     "actual": 14,
+     "expected": 14,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "최대 요구 합",
+     "actual": 23.1,
+     "expected": 23.1,
+     "tolerance": 0.001,
+     "pass": true
+    },
+    {
+     "name": "최소 요구 합",
+     "actual": 10.1,
+     "expected": 10.1,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "최대 기준 부족분",
+     "actual": 9.1,
+     "expected": 9.1,
+     "tolerance": 0.001,
+     "pass": true
+    },
+    {
+     "name": "냉각기 최소 요구",
+     "actual": 1,
+     "expected": 1,
+     "tolerance": 0.001,
+     "pass": true
+    },
+    {
+     "name": "실드 최소 요구",
+     "actual": 1,
+     "expected": 1,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "무기 묶음 크기",
+     "actual": 4,
+     "expected": 4,
+     "tolerance": 0,
+     "pass": true
+    }
+   ],
+   "tolerance": "정확히 (합계는 ±0.01)",
+   "sources": [
+    "data/loadout-research/power-profiles.json",
+    "함선 SItemPortContainerComponentParams.resourceNetworkPowerPools",
+    "각 부품 ItemResourceComponentParams.states[Online].deltas[]"
+   ],
+   "open": "부족할 때 어떤 장비부터 줄이는지(defaultPriority 의 방향), 받은 전력과 성능의 관계(powerRanges 적용식)는 자료에 식이 없어 확정 불가.",
+   "pass": true
+  },
+  {
+   "id": "master-mode-scm-nav",
+   "topic": "SCM/NAV 전환",
+   "status": "verified",
+   "inputs": {
+    "exclusions": [
+     {
+      "itemType": "Shield",
+      "excludedIn": [
+       "Navigation"
+      ]
+     },
+     {
+      "itemType": "QuantumDrive",
+      "excludedIn": [
+       "SCM"
+      ]
+     }
+    ],
+    "ship": "aegs_avenger_stalker",
+    "scmSpeed": 262,
+    "maxSpeed": 1425,
+    "boostSpeedForward": 610
+   },
+   "steps": [
+    "전역 제외 목록: Shield 는 Navigation 에서 꺼짐, QuantumDrive 는 SCM 에서 꺼짐",
+    "무기·미사일은 전역 목록에 없음 → 부품별 masterModeExclusionsOverride 가 없으면 자료상 제한 없음",
+    "스토커: SCM 262 m/s, 부스트 전진 610 m/s, NAV 최고 1425 m/s"
+   ],
+   "checks": [
+    {
+     "name": "NAV 에서 꺼지는 종류",
+     "actual": [
+      "Shield"
+     ],
+     "expected": [
+      "Shield"
+     ],
+     "pass": true
+    },
+    {
+     "name": "SCM 에서 꺼지는 종류",
+     "actual": [
+      "QuantumDrive"
+     ],
+     "expected": [
+      "QuantumDrive"
+     ],
+     "pass": true
+    },
+    {
+     "name": "SCM 속도",
+     "actual": 262,
+     "expected": 262,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "NAV 최고 속도",
+     "actual": 1425,
+     "expected": 1425,
+     "tolerance": 0,
+     "pass": true
+    }
+   ],
+   "tolerance": "정확히",
+   "sources": [
+    "data/loadout-research/power-profiles.json",
+    "MasterModeExclusionGlobalParams.MasterModeExclusionGlobalParams",
+    "data/loadout-research/flight-profiles.json"
+   ],
+   "open": "NAV 에서 무기가 실제로 잠기는 규칙은 이 목록에 없다(실행 코드 또는 다른 자료). 게임 안 확인 필요.",
+   "pass": true
+  },
+  {
+   "id": "shield-armor-states-stalker",
+   "topic": "실드·장갑 조건 변경",
+   "status": "conflicting",
+   "inputs": {
+    "target": "aegs_avenger_stalker",
+    "shield": {
+     "cls": "SHLD_ASAS_S01_Shimmer_SCItem",
+     "count": 2,
+     "MaxShieldHealth": 2244,
+     "MaxShieldRegen": 426,
+     "DamagedRegenDelay": 3.5,
+     "DownedRegenDelay": 7,
+     "absorption": {
+      "physical": {
+       "min": 0,
+       "max": 0.45
+      },
+      "energy": {
+       "min": 1,
+       "max": 1
+      },
+      "distortion": {
+       "min": 1,
+       "max": 1
+      },
+      "thermal": {
+       "min": 1,
+       "max": 1
+      },
+      "biochemical": {
+       "min": 1,
+       "max": 1
+      },
+      "stun": {
+       "min": 1,
+       "max": 1
+      }
+     },
+     "resistance": {
+      "physical": {
+       "min": 0,
+       "max": 0.25
+      },
+      "energy": {
+       "min": 0,
+       "max": 0
+      },
+      "distortion": {
+       "min": 0.75,
+       "max": 0.95
+      },
+      "thermal": {
+       "min": 0,
+       "max": 0
+      },
+      "biochemical": {
+       "min": 0,
+       "max": 0
+      },
+      "stun": {
+       "min": 0,
+       "max": 0
+      }
+     }
+    },
+    "armor": {
+     "cls": "ARMR_AEGS_Avenger_Stalker",
+     "damageMultiplier": {
+      "physical": 0.8,
+      "energy": 0.65,
+      "distortion": 1,
+      "thermal": 1,
+      "biochemical": 1,
+      "stun": 1
+     },
+     "deflectionValue": {
+      "physical": 11,
+      "energy": 9,
+      "distortion": 0,
+      "thermal": 0,
+      "biochemical": 0,
+      "stun": 0
+     },
+     "penetration": {
+      "basePenetrationReduction": 1,
+      "penetrationAbsorptionForType": {
+       "physical": 1,
+       "energy": 1,
+       "distortion": 0,
+       "thermal": 1,
+       "biochemical": 1,
+       "stun": 1
+      }
+     }
+    },
+    "shots": [
+     {
+      "weapon": "BEHR_BallisticCannon_S4",
+      "physical": 975
+     },
+     {
+      "weapon": "AMRS_LaserCannon_S3",
+      "energy": 218.7
+     }
+    ]
+   },
+   "steps": [
+    "실드량 합 = 2 × 2244 = 4488, 재생 합 = 2 × 426 = 852/초, 피격 뒤 3.5초·파괴 뒤 7초 지연",
+    "실탄 975: 실드 흡수율 0–0.45 → 실드를 지나 선체로 가는 양 536.25–975",
+    "선체 쪽은 장갑 배수 0.8 → 429–780",
+    "에너지 218.7: 흡수율 1 → 실드가 있는 동안 선체 피해 0",
+    "실드가 꺼지면: 실탄 975 × 0.8 = 780, 에너지 218.7 × 0.65 = 142.155"
+   ],
+   "checks": [
+    {
+     "name": "실드량 합",
+     "actual": 4488,
+     "expected": 4488,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "실탄 흡수율 범위",
+     "actual": [
+      0,
+      0.45
+     ],
+     "expected": [
+      0,
+      0.45
+     ],
+     "pass": true
+    },
+    {
+     "name": "에너지 흡수율 범위",
+     "actual": [
+      1,
+      1
+     ],
+     "expected": [
+      1,
+      1
+     ],
+     "pass": true
+    },
+    {
+     "name": "실탄·실드 있음·흡수 최대일 때 선체 피해",
+     "actual": 429,
+     "expected": 429,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "실탄·실드 없음 선체 피해",
+     "actual": 780,
+     "expected": 780,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "에너지·실드 있음 선체 피해",
+     "actual": 0,
+     "expected": 0,
+     "tolerance": 0.001,
+     "pass": true
+    },
+    {
+     "name": "에너지·실드 없음 선체 피해",
+     "actual": 142.155,
+     "expected": 142.155,
+     "tolerance": 0.01,
+     "pass": true
+    }
+   ],
+   "tolerance": "±0.01",
+   "sources": [
+    "data/loadout-research/defense-profiles.json",
+    "SCItemShieldGeneratorParams.ShieldAbsorption/ShieldResistance",
+    "SCItemVehicleArmorParams.damageMultiplier"
+   ],
+   "open": "흡수율이 Min–Max 사이에서 무엇에 따라 움직이는지(실드 잔량으로 추정), 도탄 기준(deflectionValue 11/9)과 비교되는 탄 쪽 값, 관통 거리와 부위 두께의 판정은 자료에 식이 없다. 그래서 격파 시간은 계산하지 않는다.",
+   "pass": true
+  },
+  {
+   "id": "quantum-short-long-expedition",
+   "topic": "짧은 거리와 긴 거리 퀀텀 이동 · 항속 61 Gm",
+   "status": "conflicting",
+   "inputs": {
+    "ship": "aegs_avenger_stalker",
+    "drive": "QDRV_TARS_S01_Expedition_SCItem",
+    "driveUuid": "4702547f-fa0f-4f6c-b2ed-9782ee9f518b",
+    "driveSpeed": 189309100,
+    "stageOneAccelRate": 8112136,
+    "stageTwoAccelRate": 21154770,
+    "spoolUpTime": 4.6,
+    "cooldownTime": 11.4,
+    "quantumFuelRequirement": 0.0098,
+    "quantumFuelCapacity": 0.6,
+    "capacityUnit": "standardCargoUnits",
+    "distancesGm": [
+     0.05,
+     30
+    ]
+   },
+   "steps": [
+    "항속 = 0.6 SCU ÷ 0.0098 = 61.22 Gm",
+    "같은 탱크로 120 Gm 이 나오려면 요구량이 0.005 여야 한다(0.6 ÷ 0.005 = 120)",
+    "가속·감속 구간 거리(2단계 가속 기준) = 속도² ÷ 가속 = 1.694 Gm",
+    "0.05 Gm: 최고 속도에 못 미침 → 2 × √(5e7 ÷ 21154770) = 3.07초",
+    "30 Gm: 30e9 ÷ 189309104 + 189309104 ÷ 21154770 = 158.47 + 8.95 = 167.42초",
+    "스풀링 4.6초는 따로 더한다. 쿨다운 11.4초는 도착 뒤 다음 이동까지의 대기라 이동 시간에 넣지 않는다"
+   ],
+   "checks": [
+    {
+     "name": "항속(Gm)",
+     "actual": 61.224,
+     "expected": 61.224,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "120 Gm 에 필요한 요구량",
+     "actual": 0.005,
+     "expected": 0.005,
+     "tolerance": 0.00001,
+     "pass": true
+    },
+    {
+     "name": "짧은 거리: 최고 속도 도달 여부",
+     "actual": false,
+     "expected": false,
+     "pass": true
+    },
+    {
+     "name": "짧은 거리 이동 시간",
+     "actual": 3.07,
+     "expected": 3.07,
+     "tolerance": 0.01,
+     "pass": true
+    },
+    {
+     "name": "긴 거리 이동 시간",
+     "actual": 167.42,
+     "expected": 167.42,
+     "tolerance": 0.02,
+     "pass": true
+    },
+    {
+     "name": "사이트 계산(긴 거리, 스풀링 포함)",
+     "actual": 172.02,
+     "expected": 172.02,
+     "tolerance": 0.02,
+     "pass": true
+    }
+   ],
+   "tolerance": "시간 ±0.02초, 항속 ±0.01 Gm",
+   "sources": [
+    "data/loadout-research/quantum-profiles.json",
+    "EntityClassDefinition.QDRV_TARS_S01_Expedition_SCItem → SCItemQuantumDriveParams",
+    "EntityClassDefinition.QTNK_AEGS_Avenger_Stalker → ResourceContainer.capacity.standardCargoUnits"
+   ],
+   "open": "이 빌드(4.10.0, 13165946)의 Expedition 요구량은 0.0098 이다. 120 Gm 은 요구량 0.005 또는 탱크 1.176 SCU 일 때만 나오므로 단위·공식이 아니라 원본 값(자료 판 또는 다른 부품) 차이다. 어느 쪽인지는 상대 계산기의 입력값을 봐야 확정된다. 1·2단계 가속의 전환 조건도 미확인.",
+   "pass": true
+  },
+  {
+   "id": "uex-item-without-uuid",
+   "topic": "UUID 없는 판매 품목",
+   "status": "unavailable",
+   "inputs": {
+    "totals": {
+     "withoutUuid": 100,
+     "withoutUuidWithShops": 77
+    },
+    "examples": [
+     {
+      "uexItemId": 5548,
+      "uexName": "Observer",
+      "uexSize": 2
+     },
+     {
+      "uexItemId": 5549,
+      "uexName": "Observer-Go",
+      "uexSize": 1
+     }
+    ]
+   },
+   "steps": [
+    "UEX 품목에 uuid 가 비어 있으면 UUID 로 연결할 수 없다",
+    "이름이 정확히 같고 규격·종류가 맞는 게임 부품이 하나뿐이면 \"후보\"로만 적는다(자동 연결 안 함)",
+    "Observer: 후보 1개(RADR_CHCO_S02_Observer, S2)",
+    "Observer-Go: 이름은 같지만 UEX 는 S1, 게임 자료는 S0 → 규격 불일치로 보류"
+   ],
+   "checks": [
+    {
+     "name": "UUID 없는 품목 수",
+     "actual": 100,
+     "expected": 100,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "그중 판매 기록이 있는 품목 수",
+     "actual": 77,
+     "expected": 77,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "Observer 후보",
+     "actual": [
+      "RADR_CHCO_S02_Observer"
+     ],
+     "expected": [
+      "RADR_CHCO_S02_Observer"
+     ],
+     "pass": true
+    },
+    {
+     "name": "Observer 판정",
+     "actual": "single-exact-name-and-size-candidate",
+     "expected": "single-exact-name-and-size-candidate",
+     "pass": true
+    },
+    {
+     "name": "Observer-Go 판정",
+     "actual": "exact-name-but-size-differs",
+     "expected": "exact-name-but-size-differs",
+     "pass": true
+    },
+    {
+     "name": "Observer-Go 규격 (UEX, 게임)",
+     "actual": [
+      1,
+      0
+     ],
+     "expected": [
+      1,
+      0
+     ],
+     "pass": true
+    }
+   ],
+   "tolerance": "정확히 (UEX 자료가 바뀌면 수가 달라진다 — manifest 의 조회 시각 기준)",
+   "sources": [
+    "data/loadout-research/component-identities.json",
+    "https://api.uexcorp.uk/2.0/items?id_category=83"
+   ],
+   "pass": true
+  },
+  {
+   "id": "hidden-duplicate-representative",
+   "topic": "대표 부품과 숨긴 중복 항목",
+   "status": "conflicting",
+   "inputs": {
+    "count": 11,
+    "examples": [
+     {
+      "uexItemId": 240,
+      "uexName": "MSD-543 Missile Rack",
+      "hiddenCls": "MRCK_S05_BEHR_Quad_S03_a",
+      "hiddenUuid": "44c134d1-061f-4642-b4f1-aa05b19191bd",
+      "representativeCls": "MRCK_S05_BEHR_Quad_S03",
+      "representativeUuid": "3510bfe7-fb3e-42bf-88d8-7a6d02822b36",
+      "shops": 22
+     },
+     {
+      "uexItemId": 225,
+      "uexName": "Tempest II Missile",
+      "hiddenCls": "MISL_S02_CS_FSKI_Tempest_CitCon",
+      "hiddenUuid": "a655616b-772f-4760-b6a1-404497eb10ec",
+      "representativeCls": "MISL_S02_CS_FSKI_Tempest",
+      "representativeUuid": "4317f2fc-4044-454e-8400-25c2e3c65136",
+      "shops": 4
+     },
+     {
+      "uexItemId": 108,
+      "uexName": "Arbor MH1 Mining Laser",
+      "hiddenCls": "Mining_Laser_MPUV_Arm",
+      "hiddenUuid": "5b5d11f8-a2b0-4e6e-80c3-2437cc0accae",
+      "representativeCls": "Mining_Laser_GRIN_Arbor_S1",
+      "representativeUuid": "8bfc261a-6c67-4bec-b5b5-71407e086ec9",
+      "shops": 6
+     }
+    ]
+   },
+   "steps": [
+    "UEX 의 UUID 가 사이트에서 숨긴 중복 항목을 가리킨다",
+    "대표 부품은 자기 UUID 로 된 UEX 기록이 없다 → 대표 부품에는 판매처가 안 보인다",
+    "숨긴 항목의 판매 기록을 대표 부품(alias)으로 옮겨 보여야 한다"
+   ],
+   "checks": [
+    {
+     "name": "해당 건수",
+     "actual": 11,
+     "expected": 11,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "대표 부품이 자기 UEX 기록을 가진 건수",
+     "actual": 0,
+     "expected": 0,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "MSD-543 대표",
+     "actual": [
+      "MRCK_S05_BEHR_Quad_S03_a",
+      "MRCK_S05_BEHR_Quad_S03",
+      22
+     ],
+     "expected": [
+      "MRCK_S05_BEHR_Quad_S03_a",
+      "MRCK_S05_BEHR_Quad_S03",
+      22
+     ],
+     "pass": true
+    },
+    {
+     "name": "Tempest II 대표",
+     "actual": [
+      "MISL_S02_CS_FSKI_Tempest_CitCon",
+      "MISL_S02_CS_FSKI_Tempest"
+     ],
+     "expected": [
+      "MISL_S02_CS_FSKI_Tempest_CitCon",
+      "MISL_S02_CS_FSKI_Tempest"
+     ],
+     "pass": true
+    },
+    {
+     "name": "Arbor MH1 대표",
+     "actual": [
+      "Mining_Laser_MPUV_Arm",
+      "Mining_Laser_GRIN_Arbor_S1"
+     ],
+     "expected": [
+      "Mining_Laser_MPUV_Arm",
+      "Mining_Laser_GRIN_Arbor_S1"
+     ],
+     "pass": true
+    }
+   ],
+   "tolerance": "정확히",
+   "sources": [
+    "data/loadout-research/component-identities.json",
+    "data/loadout-research/shop-coverage.json",
+    "scripts/loadout/build-loadout-data.mjs (대표 제품 정리)"
+   ],
+   "pass": true
+  },
+  {
+   "id": "same-name-and-paint-variants",
+   "topic": "같은 이름의 다른 규격 및 도색 변종",
+   "status": "verified",
+   "inputs": {
+    "sameNameGroups": 85,
+    "paintVariants": 12,
+    "shipSpecificVariants": 4,
+    "examples": {
+     "sameName": {
+      "name": "Main Powerplant",
+      "kind": "same-name-different-stats",
+      "members": [
+       {
+        "uuid": "ae9cec5a-0917-441d-802b-3d96d79478cc",
+        "cls": "POWR_AEGS_S04_Reclaimer_SCItem",
+        "type": "PowerPlant",
+        "size": 4,
+        "name": "Main Powerplant",
+        "hidden": false,
+        "variant": true,
+        "alias": "4f29e9ae-6a77-4461-b479-0479b9ecdca0",
+        "statsDifferFromFirst": false,
+        "hasUexRecord": true
+       },
+       {
+        "uuid": "4f29e9ae-6a77-4461-b479-0479b9ecdca0",
+        "cls": "POWR_AEGS_S04_Idris_SCItem",
+        "type": "PowerPlant",
+        "size": 4,
+        "name": "Main Powerplant",
+        "hidden": false,
+        "variant": false,
+        "alias": null,
+        "statsDifferFromFirst": true,
+        "hasUexRecord": false
+       },
+       {
+        "uuid": "87bcad59-966f-4280-b651-1f9a8d92bc32",
+        "cls": "POWR_RSI_S04_Bengal_SCItem",
+        "type": "PowerPlant",
+        "size": 4,
+        "name": "Main Powerplant",
+        "hidden": false,
+        "variant": false,
+        "alias": null,
+        "statsDifferFromFirst": true,
+        "hasUexRecord": true
+       }
+      ]
+     },
+     "paint": {
+      "uuid": "15596dea-2429-41fe-ac84-593bae703686",
+      "cls": "APAR_BallisticScatterGun_S1_Shark",
+      "type": "WeaponGun",
+      "size": 1,
+      "name": "Havoc Scattergun Sharkmouth Edition",
+      "hidden": false,
+      "variant": false,
+      "alias": null,
+      "baseUuid": "2ef5eb91-95ec-442c-a856-79a39f84d365",
+      "baseCls": "APAR_BallisticScatterGun_S1",
+      "baseName": "Havoc Scattergun",
+      "statsIdenticalToBase": false,
+      "hasUexRecord": true,
+      "baseHasUexRecord": true
+     },
+     "sharedUuid": {
+      "uuid": "c7c36fea-dcf5-48b9-9939-bf2771f9f8f4",
+      "game": {
+       "uuid": "c7c36fea-dcf5-48b9-9939-bf2771f9f8f4",
+       "cls": "APAR_BallisticScatterGun_S2",
+       "type": "WeaponGun",
+       "size": 2,
+       "name": "Hellion Scattergun",
+       "hidden": false,
+       "variant": false,
+       "alias": null
+      },
+      "uexItems": [
+       {
+        "uexItemId": 1747,
+        "uexCategory": 32,
+        "uexName": "Hellion Scattergun",
+        "uexSize": 2,
+        "shops": 4,
+        "notes": []
+       },
+       {
+        "uexItemId": 5291,
+        "uexCategory": 32,
+        "uexName": "Hellion Scattergun Sharkmouth Edition",
+        "uexSize": 2,
+        "shops": 0,
+        "notes": [
+         "label-differs"
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "steps": [
+    "\"Main Powerplant\": 이름은 같지만 함선(리클레이머·이드리스·벵갈)마다 다른 S4 발전기 → 이름으로 묶으면 안 됨",
+    "APAR_BallisticScatterGun_S1_Shark: 클래스명 끝의 _Shark 로 기본형(APAR_BallisticScatterGun_S1)의 도색 변종임을 알 수 있다",
+    "UEX \"Hellion Scattergun Sharkmouth Edition\" 은 기본형 Hellion(S2)의 UUID 를 같이 쓴다 → 도색판 판매 기록이 기본형에 붙을 수 있다"
+   ],
+   "checks": [
+    {
+     "name": "Main Powerplant 묶음 종류",
+     "actual": "same-name-different-stats",
+     "expected": "same-name-different-stats",
+     "pass": true
+    },
+    {
+     "name": "Main Powerplant 구성원 수",
+     "actual": 3,
+     "expected": 3,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "도색 변종의 기본형",
+     "actual": "APAR_BallisticScatterGun_S1",
+     "expected": "APAR_BallisticScatterGun_S1",
+     "pass": true
+    },
+    {
+     "name": "도색 변종 수",
+     "actual": 12,
+     "expected": 12,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "UUID 를 함께 쓰는 UEX 품목",
+     "actual": [
+      "Hellion Scattergun",
+      "Hellion Scattergun Sharkmouth Edition"
+     ],
+     "expected": [
+      "Hellion Scattergun",
+      "Hellion Scattergun Sharkmouth Edition"
+     ],
+     "pass": true
+    }
+   ],
+   "tolerance": "정확히",
+   "sources": [
+    "data/loadout-research/component-identities.json"
+   ],
+   "pass": true
+  },
+  {
+   "id": "power-range-steps-shield",
+   "topic": "전력 배분에 따른 성능 (선형이 아님)",
+   "status": "conflicting",
+   "inputs": {
+    "uuid": "b14fb966-10f0-4207-8a41-2317798deccc",
+    "cls": "SHLD_GODI_S02_CoverAll_SCItem",
+    "powerDrawUnits": 4,
+    "minimumConsumptionFraction": 0.25,
+    "powerRanges": {
+     "low": {
+      "start": 1,
+      "modifier": 0.7,
+      "registerRange": true
+     },
+     "medium": {
+      "start": 3,
+      "modifier": 0.85,
+      "registerRange": true
+     },
+     "high": {
+      "start": 4,
+      "modifier": 1,
+      "registerRange": true
+     }
+    }
+   },
+   "steps": [
+    "powerRanges: low 0.7 (1칸부터), medium 0.85 (3칸부터), high 1 (4칸부터)",
+    "1칸 → 0.7, 2칸 → 0.7, 3칸 → 0.85, 4칸 → 1",
+    "절반(2칸)을 배정해도 성능 계수는 0.5 가 아니라 0.7",
+    "최소 요구(요구량 × minimumConsumptionFraction) 미만이면 꺼진다"
+   ],
+   "checks": [
+    {
+     "name": "1칸 계수",
+     "actual": 0.7,
+     "expected": 0.7,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "2칸 계수",
+     "actual": 0.7,
+     "expected": 0.7,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "3칸 계수",
+     "actual": 0.85,
+     "expected": 0.85,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "4칸 계수",
+     "actual": 1,
+     "expected": 1,
+     "tolerance": 0,
+     "pass": true
+    },
+    {
+     "name": "0칸이면 꺼짐",
+     "actual": false,
+     "expected": false,
+     "pass": true
+    }
+   ],
+   "tolerance": "정확히",
+   "sources": [
+    "data/loadout-research/power-profiles.json",
+    "EntityClassDefinition.SHLD_GODI_S02_CoverAll_SCItem → ItemResourceComponentParams.states[Online].powerRanges"
+   ],
+   "open": "계수가 곱해지는 대상(실드 재생량·최대 실드량 등)과 구간 사이 보간 여부는 자료에 없다. 게임 안에서 칸 수별 재생량을 재면 확정된다.",
+   "pass": true
+  }
+ ],
+ "siteCalculatorComparison": {
+  "compared": 192,
+  "differing": 12,
+  "threshold": "0.5%",
+  "rows": [
+   {
+    "uuid": "816aa854-7615-4add-a2ca-2d39ada7fea7",
+    "cls": "VNCL_NeutronCannon_S5",
+    "name": "'WAR' Cannon",
+    "kind": "burst",
+    "siteBurst": 472.5,
+    "referenceBurst": 472.4998,
+    "siteSustained": 365.12,
+    "referenceSustained": 472.4998,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "beabe016-3fb4-4e3f-b464-374076d91f04",
+    "cls": "HRST_LaserScatterGun_S1",
+    "name": "Dominance-1 Scattergun",
+    "kind": "single",
+    "siteBurst": 420,
+    "referenceBurst": 419.9998,
+    "siteSustained": 396.52,
+    "referenceSustained": 419.9998,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "aa41e4d8-6b99-4f63-90d5-b0956e70c1d8",
+    "cls": "AMRS_ScatterGun_S3",
+    "name": "PyroBurst Scattergun",
+    "kind": "single",
+    "siteBurst": 462,
+    "referenceBurst": 462.0001,
+    "siteSustained": 426.44,
+    "referenceSustained": 462.0001,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "5f31f7c2-1383-4d77-892b-24507515ab0b",
+    "cls": "HRST_LaserScatterGun_S3",
+    "name": "Dominance-3 Scattergun",
+    "kind": "single",
+    "siteBurst": 930,
+    "referenceBurst": 929.9996,
+    "siteSustained": 877.73,
+    "referenceSustained": 929.9996,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "76706adf-4687-4a7a-aaf1-c44af0a5d2ca",
+    "cls": "PRAR_DistortionScatterGun_S4",
+    "name": "Salvation Distortion Scattergun",
+    "kind": "single",
+    "siteBurst": 480,
+    "referenceBurst": 480.0008,
+    "siteSustained": 447.87,
+    "referenceSustained": 480.0008,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "2e0a3446-23e2-447b-8f1c-2b01516ca396",
+    "cls": "PRAR_DistortionScatterGun_S5",
+    "name": "Absolution Distortion Scattergun",
+    "kind": "single",
+    "siteBurst": 720,
+    "referenceBurst": 720.0008,
+    "siteSustained": 671.64,
+    "referenceSustained": 720.0008,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "bad19f5c-7249-4d85-9430-040733eb6e4a",
+    "cls": "PRAR_DistortionScatterGun_S6",
+    "name": "Condemnation Distortion Scattergun",
+    "kind": "single",
+    "siteBurst": 1040,
+    "referenceBurst": 1040.0008,
+    "siteSustained": 969.91,
+    "referenceSustained": 1040.0008,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "ac55431a-d662-4d92-bda7-ea44f27ca597",
+    "cls": "HRST_LaserScatterGun_S2",
+    "name": "Dominance-2 Scattergun",
+    "kind": "single",
+    "siteBurst": 660,
+    "referenceBurst": 659.9997,
+    "siteSustained": 622.97,
+    "referenceSustained": 659.9997,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "40b94722-48be-406a-9843-5c77772e4ab4",
+    "cls": "BANU_TachyonCannon_S2",
+    "name": "Singe Cannon (S2)",
+    "kind": "charged",
+    "siteBurst": 195.52,
+    "referenceBurst": 195.5172,
+    "siteSustained": 167.6,
+    "referenceSustained": 195.5172,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "f15b742b-1457-4eb7-b7aa-078816297d29",
+    "cls": "BANU_TachyonCannon_S3",
+    "name": "Singe Cannon (S3)",
+    "kind": "charged",
+    "siteBurst": 319.74,
+    "referenceBurst": 319.7364,
+    "siteSustained": 283.39,
+    "referenceSustained": 319.7364,
+    "cause": "사이트가 발 사이 충전을 반영하지 않음"
+   },
+   {
+    "uuid": "a2c01b55-7c88-4b8a-a45c-c99951ab9e11",
+    "cls": "Bengal_BallisticGatling_S6",
+    "name": "Revenant Gatling",
+    "kind": "rapid",
+    "siteBurst": 2848.5,
+    "referenceBurst": 2848.5,
+    "siteSustained": 57.72,
+    "referenceSustained": 1340.8374,
+    "cause": "사이트가 첫 주기부터 temperatureAfterOverheatFix 를 시작 온도로 씀"
+   },
+   {
+    "uuid": "bbd36fbd-6e56-49b1-aae6-9df8b36b4092",
+    "cls": "GLSN_BallisticGatling_S2",
+    "name": "Deathroll S2 Gatling",
+    "kind": "rapid",
+    "siteBurst": 373.33,
+    "referenceBurst": 373.3333,
+    "siteSustained": 9.16,
+    "referenceSustained": 252.9277,
+    "cause": "사이트가 첫 주기부터 temperatureAfterOverheatFix 를 시작 온도로 씀"
+   }
+  ]
+ }
+}

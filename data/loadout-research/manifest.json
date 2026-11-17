@@ -1,0 +1,338 @@
+{
+ "title": "VOLT 로드아웃 조사 자료",
+ "game": {
+  "build": "4.10.200.58746",
+  "branch": "sc-alpha-4.10.0",
+  "changelist": "13165946",
+  "buildDate": "Wed Nov 11 2026"
+ },
+ "researchedAt": "2026-11-17T02:19:00.649Z",
+ "uex": {
+  "api": "https://api.uexcorp.uk/2.0",
+  "fetchedAt": {
+   "19": "2026-11-17T01:43:13.273Z",
+   "21": "2026-11-17T01:43:16.581Z",
+   "22": "2026-11-17T01:43:19.810Z",
+   "23": "2026-11-17T01:43:22.677Z",
+   "29": "2026-11-17T01:43:25.391Z",
+   "30": "2026-11-17T01:43:27.848Z",
+   "32": "2026-11-17T01:43:30.731Z",
+   "33": "2026-11-17T01:43:33.703Z",
+   "34": "2026-11-17T01:43:36.571Z",
+   "35": "2026-11-17T01:43:39.673Z",
+   "67": "2026-11-17T01:43:42.157Z",
+   "70": "2026-11-17T01:43:44.707Z",
+   "83": "2026-11-17T01:43:47.039Z",
+   "86": "2026-11-17T01:43:49.562Z",
+   "110": "2026-11-17T01:43:51.501Z"
+  }
+ },
+ "statusLegend": {
+  "verified": "원본 값과 계산이 한 가지로 정해짐",
+  "conflicting": "자료끼리 또는 해석끼리 어긋남 — 값을 둘 이상 실음",
+  "unavailable": "이 자료만으로는 확정할 수 없음 — null 로 두고 필요한 후속 자료를 적음"
+ },
+ "keys": "부품·함선 연결은 uuid(게임 레코드 GUID)와 cls(클래스명)로 한다. name 은 표시용이다.",
+ "nullRule": "null = 확인하지 못한 값. 원본에 없는 칸(해당 없음)은 싣지 않는다. 0 은 원본이 실제로 0 일 때만 쓴다.",
+ "files": [
+  {
+   "file": "data/loadout-research/component-identities.json",
+   "bytes": 604632,
+   "sha256": "e7370ab620e9a5c066a33f894f45a54f9ed53b6d3becbefc00f74ba529e136f4"
+  },
+  {
+   "file": "data/loadout-research/defense-profiles.json",
+   "bytes": 1276251,
+   "sha256": "37cb5315c811b11924d932dddb6de31dbe7397895920a9cdbaf7a2e3355b47c9"
+  },
+  {
+   "file": "data/loadout-research/flight-profiles.json",
+   "bytes": 1662488,
+   "sha256": "ac9853a1e95c23c51a41ab6f4da100330f371899b0fcc93b3e1cfef757ada184"
+  },
+  {
+   "file": "data/loadout-research/power-profiles.json",
+   "bytes": 4664774,
+   "sha256": "39d6e56db6ba9694dc0ee4ff78f2072b6eb3cf211ed9d65bcb21b5d805fc8939"
+  },
+  {
+   "file": "data/loadout-research/quantum-profiles.json",
+   "bytes": 185357,
+   "sha256": "762d7354506fc403cb67333b09d5dab9f6a2ed4765e4ed582ff1f5e3fca843f3"
+  },
+  {
+   "file": "data/loadout-research/radar-profiles.json",
+   "bytes": 274068,
+   "sha256": "fb21c653517e6019927324aba308769060103c30bd3a4661f221736304b5a07f"
+  },
+  {
+   "file": "data/loadout-research/shop-coverage.json",
+   "bytes": 1033609,
+   "sha256": "c68dedb33f0f187a0c54c8e458498572345fbb0731a4f05a410dd9dd6b7f6c02"
+  },
+  {
+   "file": "data/loadout-research/utility-profiles.json",
+   "bytes": 558328,
+   "sha256": "9fb3248fbedad9a848c1a13f334bde8c9614d1f0587a23e6995a40b9ee049e6f"
+  },
+  {
+   "file": "data/loadout-research/validation-cases.json",
+   "bytes": 37345,
+   "sha256": "b3bed537bc940eca87e05d5146c69f5808ad25598f565449f278620afc24e521"
+  },
+  {
+   "file": "data/loadout-research/weapon-profiles.json",
+   "bytes": 1196258,
+   "sha256": "64de3277f413d5af1a444846af4c24646397029af9d3c51e3b2e36e18d62a923"
+  }
+ ],
+ "stats": {
+  "power": {
+   "itemsWithResourceData": 903,
+   "fixedItems": 1769,
+   "ships": 222,
+   "powerDrawUnits": {
+    "units": 249,
+    "standardResourceUnits": 250
+   },
+   "minimumConsumptionFractionByType": {
+    "Cooler:0.25": 5,
+    "Cooler:0.33": 1,
+    "Cooler:0.3333333": 4,
+    "Cooler:0.4": 5,
+    "Cooler:0.5": 24,
+    "Cooler:0.6": 2,
+    "Cooler:0.6666667": 13,
+    "Cooler:0.75": 4,
+    "Cooler:0.8": 4,
+    "Cooler:0.8333333": 1,
+    "Cooler:1": 15,
+    "EMP:1": 7,
+    "QuantumDrive:1": 59,
+    "QuantumInterdictionGenerator:1": 5,
+    "Radar:0.125": 1,
+    "Radar:0.16": 1,
+    "Radar:0.1666667": 8,
+    "Radar:0.2": 5,
+    "Radar:0.25": 17,
+    "Radar:0.3": 5,
+    "Radar:0.3333333": 2,
+    "Radar:0.4": 8,
+    "Radar:0.5": 7,
+    "Radar:0.6666667": 4,
+    "Radar:1": 8,
+    "SalvageHead:1": 6,
+    "Shield:0.25": 5,
+    "Shield:0.3333333": 5,
+    "Shield:0.4": 4,
+    "Shield:0.5": 21,
+    "Shield:0.6666667": 10,
+    "Shield:0.75": 4,
+    "Shield:0.8": 4,
+    "Shield:0.8333333": 3,
+    "Shield:1": 11,
+    "TowingBeam:1": 1,
+    "TractorBeam:1": 9,
+    "WeaponGun:0": 128,
+    "WeaponGun:1": 56,
+    "WeaponMining:1": 17
+   },
+   "powerRangesShape": {
+    "TurretBase: low 1@0 / medium 1@0 / high 1@0": 125,
+    "QuantumInterdictionGenerator: low 1@0 / medium 1@0 / high 1@0": 5,
+    "SalvageHead: low 1@0 / medium 1@0 / high 1@0": 6,
+    "Module: low 1@0 / medium 1@0 / high 1@0": 1,
+    "BombLauncher: low 1@0 / medium 1@0 / high 1@0": 14,
+    "EMP: low 1@0 / medium 1@0 / high 1@0": 7,
+    "Radar: low 0.7@0 / medium 0.85@0 / high 1@0": 2,
+    "UtilityTurret: low 1@0 / medium 1@0 / high 1@0": 7,
+    "PowerPlant: low 1@0 / medium 1@0 / high 1@0": 84,
+    "Shield: low 0.7@1 / medium 0.85@3 / high 1@4": 11,
+    "Shield: low 0.7@0 / medium 0.85@0 / high 1@1": 11,
+    "Shield: low 0.7@0 / medium 0.85@1 / high 1@2": 11,
+    "Shield: low 0.7@0 / medium 0.85@1 / high 1@4": 4,
+    "Shield: low 0.7@0 / medium 0.85@1 / high 1@3": 10,
+    "Shield: low 0.7@1 / medium 0.85@4 / high 1@6": 3,
+    "Shield: low 0.7@0 / medium 0.85@1 / high 1@6": 3,
+    "Shield: low 0.7@1 / medium 0.85@2 / high 1@3": 5,
+    "Shield: low 0.7@0 / medium 0.85@1 / high 1@5": 4,
+    "Shield: low 0.7@1 / medium 0.85@3 / high 1@5": 4,
+    "Cooler: low 0.7@1 / medium 0.85@2 / high 1@3": 4,
+    "Cooler: low 0.7@0 / medium 0.85@1 / high 1@3": 14,
+    "Cooler: low 0.7@0 / medium 0.85@0 / high 1@1": 15,
+    "Cooler: low 0.7@0 / medium 0.85@1 / high 1@2": 13,
+    "Cooler: low 0.7@1 / medium 0.85@3 / high 1@5": 4,
+    "Cooler: low 0.7@0 / medium 0.85@1 / high 1@5": 4,
+    "Cooler: low 0.7@1 / medium 0.85@3 / high 1@4": 14,
+    "Cooler: low 0.7@0 / medium 0.85@1 / high 1@4": 4,
+    "Cooler: low 0.7@1 / medium 0.85@4 / high 1@6": 3,
+    "Cooler: low 0.7@0 / medium 0.85@1 / high 1@6": 1,
+    "Cooler: low 0.7@1 / medium 0.85@4 / high 1@5": 2,
+    "MissileLauncher: low 1@0 / medium 1@0 / high 1@0": 146,
+    "QuantumDrive: low 0.7@0 / medium 0.85@0 / high 1@1": 59,
+    "GroundVehicleMissileLauncher: low 1@0 / medium 1@0 / high 1@0": 8,
+    "JumpDrive: low 1@0 / medium 1@0 / high 1@0": 6,
+    "WeaponMining: low 1@0 / medium 1@0 / high 1@0": 17,
+    "Radar: low 0.7@0 / medium 0.85@0 / high 1@1": 66,
+    "WeaponGun: low 1@0 / medium 1@0 / high 1@0": 184,
+    "TractorBeam: low 1@0 / medium 1@0 / high 1@0": 9,
+    "TowingBeam: low 1@0 / medium 1@0 / high 1@0": 1,
+    "Door: low 1@0 / medium 1@0 / high 1@0": 3,
+    "Shield: low 0.7@1 / medium 0.85@4 / high 1@5": 1
+   },
+   "shipsWithWeaponPool": 219,
+   "weaponPoolSizes": {
+    "2": 24,
+    "4": 115,
+    "6": 40,
+    "8": 18,
+    "10": 18,
+    "20": 1,
+    "null": 3
+   },
+   "shipsWithCrossSection": 214,
+   "shipsWhereMinimumDemandExceedsGeneration": 5,
+   "shipsWhereMaximumDemandExceedsGeneration": 161
+  },
+  "weapons": {
+   "guns": 193,
+   "modeKinds": {
+    "single": 156,
+    "beam": 5,
+    "burst": 1,
+    "charged": 9,
+    "rapid": 22
+   },
+   "withSeveralModes": 0,
+   "sequenceRateDiffersFromInnerFireRate": 25,
+   "withHeatLimit": 47,
+   "withCapacitor": 121,
+   "capacitorNeverEmpties": 11,
+   "withSpinUp": 22,
+   "withTemperatureAfterFix": 15,
+   "withPellets": 14,
+   "withDetonation": 22,
+   "withDamageDrop": 0,
+   "withPenetrationData": 172,
+   "gimbalModifierRecords": {
+    "WeaponGimbalModeModifierDef.WeaponGimbalModeModifier_Null": 15,
+    "WeaponGimbalModeModifierDef.WeaponGimbalModeModifier_Default": 164,
+    "WeaponGimbalModeModifierDef.WeaponGimbalModeModifier_Scatterguns": 14
+   },
+   "nonDefaultStatBlocks": {
+    "noPowerStats: fireRateMultiplier,damageMultiplier": 184
+   },
+   "ordnance": 79,
+   "turrets": 417,
+   "turretKinds": {
+    "Turret/GunTurret": 180,
+    "Turret/CanardTurret": 4,
+    "TurretBase/MannedTurret": 134,
+    "Turret/NoseMounted": 4,
+    "Turret/BallTurret": 24,
+    "Turret/Utility": 11,
+    "Turret/TopTurret": 14,
+    "UtilityTurret/BallTurret": 1,
+    "Turret/BottomTurret": 8,
+    "Turret/MissileTurret": 9,
+    "UtilityTurret/GunTurret": 3,
+    "TurretBase/Unmanned": 1,
+    "UtilityTurret/null": 1,
+    "Turret/PDCTurret": 16,
+    "UtilityTurret/MannedTurret": 7
+   }
+  },
+  "defense": {
+   "shields": 67,
+   "ships": 222,
+   "shieldFaceTypes": {
+    "Bubble": 181,
+    "Quadrant": 41
+   },
+   "shipsWithArmor": 222,
+   "shipsWithHullParts": 222,
+   "shipsWithDeflection": 222,
+   "shipsWithDeflectionHealthCurve": 0
+  },
+  "quantum": {
+   "drives": 59,
+   "jumpDrives": 6,
+   "shipsWithQuantumTank": 175,
+   "tankUnits": {
+    "standardCargoUnits": 175
+   }
+  },
+  "radar": {
+   "radars": 68,
+   "signatureTypes": [
+    "Infrared",
+    "Electromagnetic",
+    "CrossSection",
+    "Decibel",
+    "Resource",
+    "Identity",
+    "CommsSignal",
+    "Interactable"
+   ]
+  },
+  "flight": {
+   "ships": 222,
+   "withController": 195,
+   "withThrusters": 195,
+   "withLifeSupport": 194,
+   "afterburnerSource": {
+    "afterburnerNew": 195
+   },
+   "thrustCapacityNewNonZero": 17
+  },
+  "utility": {
+   "MiningModifier": 31,
+   "WeaponDefensive": 196,
+   "SalvageHead": 6,
+   "SalvageModifier": 6,
+   "WeaponMining": 17,
+   "TractorBeam": 9,
+   "TowingBeam": 1
+  },
+  "identities": {
+   "uexItems": 704,
+   "withUuid": 604,
+   "withoutUuid": 100,
+   "withoutUuidWithShops": 77,
+   "linkedByUuid": 592,
+   "uuidNotInLoadoutItems": 12,
+   "hiddenDuplicatesWithShops": 11,
+   "nameConflicts": 29,
+   "nameConflictsWithShops": 5,
+   "labelDiffers": 15,
+   "uexSizeDiffers": 89,
+   "typeOutsideCategory": 2,
+   "uuidsSharedBySeveralUexItems": 17,
+   "gameProductsWithoutUexRecord": 648,
+   "shopRows": 3384,
+   "shopRowsUnlinked": 260
+  },
+  "validation": {
+   "cases": 13,
+   "checks": 71,
+   "failedChecks": 0,
+   "byStatus": {
+    "verified": 3,
+    "conflicting": 9,
+    "unavailable": 1
+   },
+   "siteCalculatorDiffering": 12
+  }
+ },
+ "sourcesNotCommitted": [
+  "Game2.dcb · 함선 구조 XML (게임 원본, 저장소 밖 캐시 폴더)",
+  "UEX API 원본 응답 (저장소 밖 캐시 폴더)"
+ ],
+ "docs": [
+  "docs/loadout-research/README.md",
+  "docs/loadout-research/sources.md",
+  "docs/loadout-research/formulas.md",
+  "docs/loadout-research/discrepancies.md",
+  "docs/loadout-research/implementation-map.md"
+ ]
+}
