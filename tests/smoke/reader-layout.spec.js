@@ -23,6 +23,10 @@ for (const width of [320, 390, 1280]) {
         await page.locator('#ship-search').fill('Asgard');
         await page.locator('.ship-name-btn').first().click();
         await expect(dialog.locator('.ship-reader-actions')).toBeVisible();
+        // Visibility can be true while the entrance still translates the whole
+        // dialog. Measure its resting layout without weakening the viewport bound.
+        await expect.poll(() => dialog.evaluate(el => el.getAnimations({ subtree: true })
+            .filter(animation => animation.playState === 'running' && animation.effect?.getTiming().iterations !== Infinity).length)).toBe(0);
         const actions = await dialog.locator('.ship-reader-actions').boundingBox();
         expect(actions.y + actions.height).toBeLessThanOrEqual(844);
         await dialog.locator('.ship-live-details summary').click();
