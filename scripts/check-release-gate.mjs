@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const REPOSITORY = 'VOLT-Longman/volt-website';
 const WORKFLOW_PATH = '.github/workflows/smoke.yml';
-const DEFAULT_TIMEOUT_MS = 15 * 60 * 1000;
+const DEFAULT_TIMEOUT_MS = 20 * 60 * 1000;
 // GitHub 공개 API는 로그인 없이 시간당 60번까지만 답한다(같은 주소를 쓰는 빌드끼리 한도를 나눠 쓴다).
 // 30초마다 물으면 한 시간에 몇 번만 올려도 한도를 넘겨 배포가 막히므로 60초 간격으로 묻는다.
 const DEFAULT_POLL_MS = 60000;

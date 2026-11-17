@@ -9573,7 +9573,7 @@ body.nav-trade-open::before {
 .loadout-shipsearch input, .loadout-shipsearch select, .loadout-picker-head input { min-height: 44px; border-radius: var(--lo-radius); background: var(--lo-bg); border: 1px solid var(--lo-line); }
 .loadout-shipsearch select { padding: 0 12px; color: var(--color-text-primary); font: inherit; font-size: 16px; min-width: 0; }
 .loadout-shipsearch .loadout-filters { flex-wrap: nowrap; }
-.loadout-ship-results { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; max-height: none; overflow: visible; padding: 0; }
+.loadout-ship-results { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); grid-auto-rows: max-content; align-content: start; gap: 8px; max-height: none; overflow: visible; padding: 0; }
 .loadout-shippicker.is-overlay .loadout-ship-results { max-height: min(56vh, 520px); overflow-y: auto; padding-right: 4px; }
 .loadout-ship-results .loadout-shipcard { display: grid; grid-template-rows: auto 1fr; gap: 0; padding: 0; min-height: 0; overflow: hidden; border-radius: var(--lo-radius); background: var(--lo-bg); border: 1px solid var(--lo-line); text-align: left; }
 .loadout-shipcard img, .loadout-shipcard-blank { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; background: var(--lo-card-2); }

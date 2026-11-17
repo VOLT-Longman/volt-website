@@ -232,15 +232,20 @@
     const canonicalItem = (id) => { const item = state.items?.[id]; return item?.hidden && item.alias && state.items[item.alias] ? item.alias : id; };
     const canonicalShip = (cls) => state.shipAliases?.[cls] || cls;
 
+    let shipRequest = 0;
+
     async function selectShip(requested, overrides, off) {
         if (!/^[a-z0-9_]+$/i.test(requested || '')) return;
+        const request = ++shipRequest;
         let cls = requested;
         state.loading = true; state.error = ''; state.openPath = ''; draw();
         try {
             await ensureBase();
+            if (request !== shipRequest) return;
             cls = canonicalShip(cls);
             if (!state.index.some((entry) => entry.cls === cls)) throw new Error('Ship is not released');
             const ship = await fetchJson(`${DATA_BASE}/ships/${cls}.json?v=${state.meta?.stamp || ''}`);
+            if (request !== shipRequest) return;
             const sameShip = cls === state.shipCls;
             state.ship = ship; state.shipCls = cls; state.history = []; state.redo = []; state.detailId = ''; state.changedOnly = false; state.equipmentGroup = '';
             const stored = overrides ?? readStored().sets?.[cls] ?? readStored().sets?.[requested] ?? {};
@@ -254,6 +259,7 @@
             } else if (!sameShip) { state.slot = 'A'; state.alt = null; }
             writeStored();
         } catch (error) {
+            if (request !== shipRequest) return;
             console.warn('Loadout load failed', error);
             state.error = text('loadFail');
         }
@@ -531,7 +537,7 @@
 
     function drawSummary(totals, cost, stock) {
         const damage = Object.entries(totals.dps.byType).sort((a, b) => b[1] - a[1]);
-        const bar = totals.dps.total ? `<span class="loadout-dmgbar" aria-hidden="true">${damage.map(([type, value]) => `<i class="is-${esc(type)}" style="width:${(value / totals.dps.total * 100).toFixed(1)}%"></i>`).join('')}</span>` : '';
+        const bar = totals.dps.total ? `<span class="loadout-dmgbar" aria-hidden="true">${damage.map(([type, value]) => `<i class="is-${esc(type)}" data-loadout-width="${(value / totals.dps.total * 100).toFixed(1)}"></i>`).join('')}</span>` : '';
         const legend = damage.map(([type, value]) => `<span class="loadout-legend is-${esc(type)}">${esc(table('damage')[type] || type)} ${esc(num(value))}</span>`).join('');
         const stat = (title, value, change = '', tone = '') => `<div class="loadout-stat${tone ? ` is-${tone}` : ''}"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value)}</strong>${change}</div>`;
         const row = (label, value, change = '') => `<div class="loadout-row"><dt>${esc(label)}</dt><dd>${esc(value)}${change}</dd></div>`;
@@ -556,7 +562,7 @@
                     ${stat(text('power'), num(totals.power.gen, 1), drawChange(totals.power.gen, stock.power.gen, 1))}
                     ${stat(text('cooling'), num(totals.cooling.gen, 1), drawChange(totals.cooling.gen, stock.cooling.gen, 1))}
                 </div>
-                <div class="loadout-meter${powerShare >= 100 ? ' is-over' : ''}" role="img" aria-label="${esc(text('powerUse', { use: num(totals.power.use, 1) }))}"><i style="width:${powerShare.toFixed(1)}%"></i></div>
+                <div class="loadout-meter${powerShare >= 100 ? ' is-over' : ''}" role="img" aria-label="${esc(text('powerUse', { use: num(totals.power.use, 1) }))}"><i data-loadout-width="${powerShare.toFixed(1)}"></i></div>
                 <p class="loadout-note">${esc(text('powerUse', { use: num(totals.power.use, 1) }))}</p>
                 ${totals.off ? `<p class="loadout-note loadout-offnote">${esc(text('offCount', { count: totals.off }))}</p>` : ''}
                 <dl class="loadout-rows">
@@ -886,7 +892,7 @@
         const own = node.place || (node.run ? position(slot).replace(/ ?#\d+$/, '') : position(slot)) || slotPlace(slot, item).replace(node.run ? / #\d+$/ : /$^/, '');
         const place = `${[node.crumb, own].filter(Boolean).join(' › ')}${ordnanceOnRack ? ` · ${text('rackOn', { size: node.mount.slot.max ?? node.mount.item?.size ?? '?', type: typeLabel(node.mount.item?.type) })}` : ''}`;
         placeOf.set(path, place);
-        return `<li class="loadout-slot${changed ? ' is-changed' : ''}${open ? ' is-open' : ''}${editable ? '' : ' is-fixed'}${item ? '' : ' is-empty'}${off ? ' is-off' : ''}${node.hasChildren ? ' is-mount' : ''}${node.level ? ' is-child' : ''}" data-loadout-slot="${esc(path)}" style="--lo-level:${node.level || 0}">
+        return `<li class="loadout-slot${changed ? ' is-changed' : ''}${open ? ' is-open' : ''}${editable ? '' : ' is-fixed'}${item ? '' : ' is-empty'}${off ? ' is-off' : ''}${node.hasChildren ? ' is-mount' : ''}${node.level ? ' is-child' : ''}" data-loadout-slot="${esc(path)}" data-loadout-level="${node.level || 0}">
             <div class="loadout-slot-row">
                 <span class="loadout-size" aria-hidden="true">${esc(size)}</span>
                 <div class="loadout-slot-main">
@@ -1247,9 +1253,11 @@
         </p></details>`;
     }
 
+    let composingInput = null;
+
     function draw() {
         const container = root();
-        if (!container || !deps.canUse?.()) return;
+        if (!container || !deps.canUse?.() || composingInput) return;
         const focusId = document.activeElement?.id;
         const caret = document.activeElement?.selectionStart;
         const scrolled = container.querySelector('.loadout-optwrap')?.scrollTop || 0;
@@ -1286,6 +1294,9 @@
             body += drawSources();
         }
         container.innerHTML = body;
+        // CSSOM assignments keep dynamic measurements compatible with strict CSP.
+        for (const bar of container.querySelectorAll('[data-loadout-width]')) bar.style.width = `${Math.max(0, Math.min(100, Number(bar.dataset.loadoutWidth) || 0))}%`;
+        for (const slot of container.querySelectorAll('[data-loadout-level]')) slot.style.setProperty('--lo-level', String(Math.max(0, Math.min(12, Number(slot.dataset.loadoutLevel) || 0))));
         container.classList.toggle('has-drawer', Boolean(state.detailId || (state.openPath && state.ship)));
         container.classList.toggle('is-compact', state.compact);
         window.VOLT_MOTION?.update(container, { view: state.tab, dialog: state.detailId ? `detail:${state.detailId}` : state.openPath, panel: state.detailId ? state.detailTab : '', identity: state.shipCls });
@@ -1528,6 +1539,7 @@
     }
 
     function handleInput(event) {
+        if (event.isComposing || composingInput) return;
         if (event.target.id === 'loadout-ship-search') { state.query = event.target.value; draw(); }
         if (event.target.id === 'loadout-picker-search') { state.pickerQuery = event.target.value; draw(); }
         if (event.target.id === 'loadout-finder-search') { state.finderQuery = event.target.value; state.finderLimit = 40; draw(); }
@@ -1586,6 +1598,14 @@
 
     document.addEventListener('click', handleClick);
     document.addEventListener('input', handleInput);
+    document.addEventListener('compositionstart', (event) => {
+        if (root()?.contains(event.target) && /^(loadout-ship-search|loadout-picker-search|loadout-finder-search)$/.test(event.target.id)) composingInput = event.target;
+    });
+    document.addEventListener('compositionend', (event) => {
+        if (composingInput !== event.target) return;
+        composingInput = null;
+        handleInput(event);
+    });
     document.addEventListener('change', handleChange);
     document.addEventListener('keydown', handleKeydown);
     // toggle은 위로 전달되지 않으므로 잡는 단계에서 듣는다.

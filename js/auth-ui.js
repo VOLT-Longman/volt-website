@@ -87,23 +87,23 @@
         const account = tr('auth.loggedInAs', '{name}님으로 로그인됨', { name: state.displayName || '' });
         return `<div class="volt-auth-user" aria-label="${escapeHtml(account)}">
             ${avatarHtml(state)}
-            <span class="volt-auth-user-text">
+            <a class="volt-auth-user-text" href="#mypage" aria-label="${escapeHtml(tr('mypage.title', '마이페이지'))}">
                 <strong>${escapeHtml(state.displayName || '')}</strong>
                 <small>${escapeHtml(state.roleLabel || '')}</small>
-            </span>
+            </a>
             ${logoutLinkHtml()}
         </div>`;
     }
 
     function loggedInMobileHtml(state) {
         return `<div class="volt-auth-mobile-card" aria-label="${escapeHtml(tr('auth.account', '계정'))}">
-            <div class="volt-auth-mobile-user">
+            <a class="volt-auth-mobile-user" href="#mypage" aria-label="${escapeHtml(tr('mypage.title', '마이페이지'))}">
                 ${avatarHtml(state)}
                 <span>
                     <strong>${escapeHtml(state.displayName || '')}</strong>
                     <small>${escapeHtml(state.roleLabel || '')}</small>
                 </span>
-            </div>
+            </a>
             ${logoutLinkHtml()}
         </div>`;
     }

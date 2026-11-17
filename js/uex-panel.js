@@ -731,6 +731,6 @@
         formatLocation: formatUexLocation,
         refreshForPlannerInputs: refreshUexModelForPlannerInputs,
         // 언어 토글 시 항성계 칩 라벨 재번역(모델이 있을 때만).
-        onLanguageChange: () => { if (currentUexModel) renderUexSystemChips(currentUexModel); refreshProfitSelection(); refreshStatusForLanguage(); },
+        onLanguageChange: () => { refreshUexModelForPlannerInputs(); if (currentUexModel) renderUexSystemChips(currentUexModel); refreshProfitSelection(); refreshStatusForLanguage(); },
     };
 })();

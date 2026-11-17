@@ -171,6 +171,11 @@
     let liveMemberCount = null;
     let preferencesSaveTimer = null;
     let preferencesSaveAttempt = 0;
+    let preferencesLoadRequest = null;
+    let preferencesLoadTimer = null;
+    let preferencesLoadAttempt = 0;
+    let preferencesLoadError = false;
+    let preferencesRevision = 0;
     // 서버 설정을 불러오는 동안 사용자가 고친 항목. 늦게 도착한 서버 값으로 덮어쓰지 않고, 도착 후 저장한다.
     let preferencesEditedWhileLoading = { hangar: false, planner: false };
     // 저장 요청은 한 번에 하나만 보낸다(먼저 보낸 요청이 늦게 도착해 최신 값을 되돌리는 일을 막는다).
@@ -292,6 +297,12 @@
         markPreferenceEdited('planner');
         schedulePreferenceSave();
         renderMyPage();
+        refreshPlannerInputs();
+    }
+
+    function refreshPlannerInputs() {
+        window.VOLT_UEX_PANEL?.refreshForPlannerInputs?.();
+        window.VOLT_TRADE_PLANNER?.onCargoChange?.();
     }
 
     function restorePlannerState() {
@@ -426,7 +437,12 @@
 
     function compareShipField(left, right, field) {
         const sizeOrder = { '초소형': 1, '지상': 2, '소형': 3, '중형': 4, '대형': 5, '캐피탈': 6 };
-        if (field === 'size') return (sizeOrder[shipSizeForSort(left)] || 99) - (sizeOrder[shipSizeForSort(right)] || 99);
+        const sizeRank = (ship) => {
+            const size = shipSizeForSort(ship);
+            const number = String(size || '').match(/^S(\d+)$/i);
+            return number ? Number(number[1]) : (sizeOrder[size] || 99);
+        };
+        if (field === 'size') return sizeRank(left) - sizeRank(right);
         if (field === 'crew') return crewSortValue(left) - crewSortValue(right);
         if (field === 'cargo') return shipCargoValue(left) - shipCargoValue(right);
         if (field === 'price') return 0; // 공개 모델에 USD 가격 없음(레거시 제거)
@@ -1143,8 +1159,8 @@
         const cargo = document.getElementById('logistics-cargo');
         if (!cargo) return;
         document.getElementById('planner-reset')?.addEventListener('click', resetPlannerInputs);
-        cargo.addEventListener('input', () => { savePlannerState(); window.VOLT_TRADE_PLANNER?.onCargoChange?.(); });
-        cargo.addEventListener('change', () => { savePlannerState(); window.VOLT_TRADE_PLANNER?.onCargoChange?.(); });
+        cargo.addEventListener('input', savePlannerState);
+        cargo.addEventListener('change', savePlannerState);
         setupPlannerShipPicker();
         restorePlannerState();
     }
@@ -1164,6 +1180,8 @@
             summary.innerHTML = '';
         }
         localStorage.removeItem(preferenceKey(PLANNER_STORAGE_KEY));
+        markPreferenceEdited('planner');
+        refreshPlannerInputs();
         schedulePreferenceSave();
         renderMyPage();
         showToast(i18nT('planner.resetToast', '무역플래너 입력을 초기화했습니다.'));
@@ -1416,8 +1434,11 @@
     function setupFaqAccordion() {
         const container = document.getElementById('faq-list');
         if (!container) return;
-        container.querySelectorAll('.faq-question').forEach((button) => {
-            button.addEventListener('click', () => toggleFaqItem(container, button));
+        if (container.dataset.accordionBound) return;
+        container.dataset.accordionBound = 'true';
+        container.addEventListener('click', (event) => {
+            const button = event.target.closest('.faq-question');
+            if (button && container.contains(button)) toggleFaqItem(container, button);
         });
     }
 
@@ -1534,14 +1555,13 @@
                         window.clearTimeout(preferencesSaveTimer);
                         window.VOLT_SCHEDULE?.clearRsvpCache?.();
                         userPreferencesLoaded = false;
-                        preferencesEditedWhileLoading = { hangar: false, planner: false };
+                        preferencesEditedWhileLoading = readPreferenceDraft();
+                        preferencesLoadAttempt = 0;
+                        preferencesLoadError = false;
+                        window.clearTimeout(preferencesLoadTimer);
                         restorePlannerState();
                         window.VOLT_SCHEDULE?.loadScheduleRsvps?.();
-                        loadUserPreferences().catch((error) => {
-                            console.warn('Preference load failed', error);
-                            userPreferencesLoaded = false;
-                            renderMyPage();
-                        });
+                        loadUserPreferences();
                     }
                     renderMyPage();
                     renderAuthUi();
@@ -1564,6 +1584,8 @@
     }
 
     function setLoggedOutState() {
+        window.clearTimeout(preferencesLoadTimer);
+        preferencesLoadError = false;
         window.clearTimeout(preferencesSaveTimer);
         window.VOLT_SCHEDULE?.clearRsvpCache?.();
         authState = { loggedIn: false, user: null, roles: [] };
@@ -1636,14 +1658,49 @@
         return roles.some((role) => authState.roles.includes(role));
     }
 
-    function markPreferenceEdited(kind) {
-        if (authState.loggedIn && !userPreferencesLoaded) preferencesEditedWhileLoading[kind] = true;
+    const PREFERENCE_DRAFT_KEY = 'volt-preferences-pending-v1';
+    function readPreferenceDraft() {
+        try { return JSON.parse(localStorage.getItem(preferenceKey(PREFERENCE_DRAFT_KEY)) || '{}'); }
+        catch (_error) { return {}; }
     }
 
-    async function loadUserPreferences() {
+    function markPreferenceEdited(kind) {
+        if (!authState.loggedIn) return;
+        preferencesRevision += 1;
+        if (!userPreferencesLoaded) preferencesEditedWhileLoading[kind] = true;
+        try { localStorage.setItem(preferenceKey(PREFERENCE_DRAFT_KEY), JSON.stringify({ ...readPreferenceDraft(), [kind]: true })); }
+        catch (_error) { /* local persistence may be unavailable */ }
+    }
+
+    function loadUserPreferences() {
         const account = authState.user?.sub;
-        if (!authState.loggedIn || !account) return;
-        const response = await fetch('/api/me/preferences', { credentials: 'same-origin', cache: 'no-store', headers: { Accept: 'application/json' } });
+        if (!authState.loggedIn || !account) return Promise.resolve();
+        if (preferencesLoadRequest?.account === account) return preferencesLoadRequest.promise;
+        window.clearTimeout(preferencesLoadTimer);
+        const request = { account, promise: null };
+        preferencesLoadRequest = request;
+        request.promise = fetchUserPreferences(account).then(() => {
+            if (authState.user?.sub !== account) return;
+            preferencesLoadError = false;
+            preferencesLoadAttempt = 0;
+            renderMyPage();
+        }).catch((error) => {
+            if (authState.user?.sub !== account) return;
+            console.warn('Preference load failed', error);
+            preferencesLoadError = true;
+            userPreferencesLoaded = false;
+            showToast(i18nT('mypage.preferencesLoadFailed'));
+            const delay = PREFERENCE_RETRY_DELAYS_MS[preferencesLoadAttempt++];
+            if (delay !== undefined) preferencesLoadTimer = window.setTimeout(() => {
+                if (authState.user?.sub === account) loadUserPreferences();
+            }, delay);
+            renderMyPage();
+        }).finally(() => { if (preferencesLoadRequest === request) preferencesLoadRequest = null; });
+        return request.promise;
+    }
+
+    async function fetchUserPreferences(account) {
+        const response = await fetch('/api/me/preferences', { credentials: 'same-origin', cache: 'no-store', headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10000) });
         if (!response.ok) throw new Error(`PREF ${response.status}`);
         const payload = await response.json();
         if (!authState.loggedIn || authState.user?.sub !== account) return;
@@ -1652,7 +1709,7 @@
         // The account's server state is authoritative; never upload another account/guest's local data.
         const preferences = payload.preferences;
         // 불러오는 사이 사용자가 직접 고친 항목은 그대로 두고, 손대지 않은 항목만 서버 값으로 맞춘다.
-        const edited = preferencesEditedWhileLoading;
+        const edited = { ...readPreferenceDraft(), ...preferencesEditedWhileLoading };
         preferencesEditedWhileLoading = { hangar: false, planner: false };
         if (!edited.hangar) setHangar(Array.isArray(preferences.favorites) ? preferences.favorites.map(String) : [], { sync: false });
         if (!edited.planner) {
@@ -1720,13 +1777,19 @@
 
     async function saveUserPreferences() {
         if (!authState.loggedIn || !authState.user?.sub || !userPreferencesLoaded) return;
+        const account = authState.user.sub;
+        const revision = preferencesRevision;
         const response = await fetch('/api/me/preferences', {
             method: 'PUT',
+            signal: AbortSignal.timeout(10000),
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
             body: JSON.stringify({ account: authState.user.sub, favorites: getHangar(), planner: getPlannerStateFromStorage() })
         });
         if (!response.ok) throw Object.assign(new Error(`PREF ${response.status}`), { status: response.status });
+        if (authState.user?.sub === account && preferencesRevision === revision) {
+            try { localStorage.removeItem(preferenceKey(PREFERENCE_DRAFT_KEY)); } catch (_error) { /* optional persistence */ }
+        }
     }
 
     // 마이페이지 렌더는 js/mypage.js(VOLT_MYPAGE)로 위임한다. main.js는 인증/선호도
@@ -1747,6 +1810,7 @@
         const plannerShip = planner.shipId ? shipById.get(planner.shipId) : null;
         return {
             loggedIn: true,
+            preferencesLoadError,
             profile: {
                 displayName: getAuthDisplayName(user),
                 roleLabel: getAuthRoleLabel(user),
@@ -2039,6 +2103,7 @@
         window.VOLT_COMMUNITY?.init?.(() => setupAuthStatus({ refresh: true }));
         // 마이페이지 렌더 계층 — 공용 유틸·격납고 제거/함선 상세 콜백 주입.
         window.VOLT_MYPAGE?.init?.({
+            retryPreferences: () => { preferencesLoadAttempt = 0; loadUserPreferences(); },
             i18nT, escapeHtml, trackEvent, currentLang,
             openShipById: (id) => { const ship = shipById.get(id); if (ship) openShipModal(ship); },
             removeFromHangar: (id) => { if (isInHangar(id)) toggleHangar(id); },

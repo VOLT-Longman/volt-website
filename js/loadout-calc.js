@@ -124,6 +124,8 @@
         const size = Number(item.size) || 0;
         if (size < (slot.min ?? 0) || size > (slot.max ?? 99)) return false;
         const accepts = slot.acc || [];
+        // Missing attachment rules are unknown, never an unrestricted socket.
+        if (!accepts.length) return false;
         if (accepts.length) {
             const ok = accepts.some((rule) => rule.type === item.type && (!rule.subs?.length || !item.sub || rule.subs.includes(item.sub)));
             if (!ok) return false;
@@ -138,6 +140,21 @@
 
     function normalizeTag(tag) {
         return String(tag || '').replace(/^\$/, '').toLowerCase();
+    }
+
+    // A port name is its persistent identity. Identical source entries describe
+    // one socket; conflicting entries must be reviewed instead of inventing slots.
+    function normalizeSlots(slots) {
+        const unique = new Map();
+        for (const source of slots || []) {
+            const slot = { ...source };
+            if (slot.ch) slot.ch = normalizeSlots(slot.ch);
+            if (slot.kind === 's' && !slot.acc?.length) slot.kind = 'f';
+            const previous = unique.get(slot.port);
+            if (previous && JSON.stringify(previous) !== JSON.stringify(slot)) throw new Error(`Conflicting loadout port: ${slot.port}`);
+            if (!previous) unique.set(slot.port, slot);
+        }
+        return [...unique.values()];
     }
 
     // 슬롯 트리를 돌며 현재 장착된 부품을 차례로 넘긴다.
@@ -299,5 +316,5 @@
         return valid;
     }
 
-    return { DAMAGE_TYPES, COMPONENT_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, isGun, rackLoad, fitsSlot, normalizeTag, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
+    return { DAMAGE_TYPES, COMPONENT_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, isGun, rackLoad, fitsSlot, normalizeTag, normalizeSlots, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides };
 });

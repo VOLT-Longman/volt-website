@@ -313,7 +313,7 @@ function main() {
             const itemId = record && (relevant || children.length) ? ensureItem(record) : undefined;
             out.push(prune({ port: entry.itemPortName, kind: editable ? 's' : 'f', min: port?.min, max: port?.max, acc: port?.acc, item: itemId || undefined, ch: children }));
         }
-        return out;
+        return calc.normalizeSlots(out);
     }
 
     // 선체: 함선 구조 XML의 부위별 내구도 합과 전체 질량.

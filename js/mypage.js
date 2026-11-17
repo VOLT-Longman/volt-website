@@ -12,7 +12,7 @@
 (function () {
     'use strict';
 
-    let i18nT, escapeHtml, trackEvent, openShipById, removeFromHangar, currentLang;
+    let i18nT, escapeHtml, trackEvent, openShipById, removeFromHangar, currentLang, retryPreferences;
     // 격납고는 기본 12척만 보여 주고, 더 있으면 '전체 보기'로 펼친다.
     const HANGAR_PREVIEW_COUNT = 12;
     let hangarExpanded = false;
@@ -34,6 +34,7 @@
         openShipById = deps.openShipById;
         removeFromHangar = deps.removeFromHangar;
         currentLang = deps.currentLang;
+        retryPreferences = deps.retryPreferences;
     }
 
     function t(key, fallback) {
@@ -63,7 +64,7 @@
             container.innerHTML = renderLoginRequired();
             return;
         }
-        container.innerHTML = `<div class="mypage-grid">
+        container.innerHTML = `${lastState.preferencesLoadError ? `<div class="mypage-card" role="status"><p>${escapeHtml(t('mypage.preferencesLoadFailed'))}</p><button type="button" class="btn btn-secondary" data-mypage-preferences-retry>${escapeHtml(t('mypage.preferencesRetry'))}</button></div>` : ''}<div class="mypage-grid">
             ${renderProfileCard(lastState.profile || {})}
             <article class="mypage-card"><h3>${escapeHtml(t('mypage.hangarTitle'))}</h3>${renderHangar(lastState.hangarShips || [])}</article>
             <article class="mypage-card"><h3>${escapeHtml(t('mypage.plannerTitle'))}</h3>${renderPlanner(lastState.planner)}</article>
@@ -143,6 +144,7 @@
     }
 
     function handleClick(event) {
+        if (event.target.closest('[data-mypage-preferences-retry]')) { retryPreferences?.(); return; }
         const removeBtn = event.target.closest('[data-mypage-hangar-remove]');
         if (removeBtn) {
             event.preventDefault();

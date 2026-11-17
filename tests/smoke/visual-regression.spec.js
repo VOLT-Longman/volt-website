@@ -74,7 +74,7 @@ const SCREENS = [
 ];
 
 test.describe('스크린샷 회귀 (C-4)', () => {
-    // 권위 기준은 CI(ubuntu)의 `-linux.png` — 갱신은 visual-baseline 워크플로(수동 dispatch)로만 (M0).
+    // 권위 기준은 CI(ubuntu)의 `-linux.png` — 작업 브랜치에서 visual-baseline 결과를 검토한 뒤 코드와 함께 반영한다.
     // 로컬 win32 기준은 개발 참고용이며, 세션 간 서브픽셀 차이는 회귀로 취급하지 않는다 (WORK_STATUS 참조).
 
     for (const screen of SCREENS) {

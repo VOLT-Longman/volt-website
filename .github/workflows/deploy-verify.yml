@@ -4,9 +4,9 @@
 #   0 = 동기화 일치(성공) / 1 = 불일치(실패) / 2 = 확인 불가(네트워크·봇 챌린지)
 #
 # Cloudflare 봇 챌린지가 GitHub 러너를 막을 수 있으므로 "확인 불가(2)"는
-# 실패가 아닌 경고(neutral)로 처리한다 — 그 경우 운영자 PC에서
+# 실패로 표시하고 운영자 PC에서
 # `node scripts/check-deploy-sync.mjs`로 직접 확인한다.
-# "불일치(1)"만 실패로 표시해 배포 미반영을 놓치지 않게 한다.
+# 불일치와 확인 불가를 모두 실패로 표시해 배포 미반영을 놓치지 않게 한다.
 
 name: Deploy Verify
 
@@ -53,8 +53,8 @@ jobs:
               exit 0
             fi
             if [ "$code" -eq 2 ]; then
-              echo "::warning::라이브 확인 불가(봇 챌린지/네트워크). 운영자 PC에서 node scripts/check-deploy-sync.mjs 로 확인하세요."
-              exit 0
+              echo "::error::라이브 확인 불가. 성공으로 처리하지 않습니다. 운영자 환경에서 node scripts/check-deploy-sync.mjs 로 확인하세요."
+              exit 1
             fi
             # code 1(불일치): 배포 전파 중일 수 있으므로 재시도
             if [ "$attempt" -lt 6 ]; then

@@ -87,6 +87,12 @@
     }
 
     function setupNavLinks() {
+        document.querySelector('.skip-nav')?.addEventListener('click', (event) => {
+            event.preventDefault();
+            const main = document.getElementById('main-content');
+            main?.focus({ preventScroll: true });
+            main?.scrollIntoView({ block: 'start', behavior: 'instant' });
+        });
         document.querySelectorAll('[data-section]').forEach((link) => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -190,7 +196,7 @@
         menu.addEventListener('click', (event) => {
             if (event.target === menu) close();
         });
-        menu.querySelectorAll('a').forEach((link) => { link.addEventListener('click', close); });
+        menu.addEventListener('click', (event) => { if (event.target.closest('a')) close(); });
         document.addEventListener('keydown', (event) => {
             if (!menu.classList.contains('active')) return;
             if (event.key === 'Escape') close();
@@ -202,7 +208,11 @@
         if (isOpen) {
             closeMoreMenu();
             closeTradeMenu();
+            closeShipsMenu();
         }
+        menu.inert = !isOpen;
+        if (isOpen) { menu.removeAttribute('aria-hidden'); menu.setAttribute('aria-modal', 'true'); }
+        else { menu.setAttribute('aria-hidden', 'true'); menu.removeAttribute('aria-modal'); }
         menu.classList.toggle('active', isOpen);
         button.setAttribute('aria-expanded', String(isOpen));
         document.body.style.overflow = isOpen ? 'hidden' : '';

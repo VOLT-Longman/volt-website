@@ -31,8 +31,8 @@ function extractLiveVersions(html) {
   return set;
 }
 
-function looksLikeBotChallenge(status, html) {
-  return status === 403 || status === 503 || /Just a moment|cf-mitigated|challenges\.cloudflare\.com/i.test(html);
+function looksLikeBotChallenge(html) {
+  return /Just a moment|cf-mitigated|challenges\.cloudflare\.com/i.test(html);
 }
 
 async function main() {
@@ -55,9 +55,14 @@ async function main() {
     return 2;
   }
 
-  if (looksLikeBotChallenge(res.status, html)) {
+  if (looksLikeBotChallenge(html)) {
     console.error(`\n⚠️  확인 불가: 라이브가 Cloudflare 봇 챌린지를 반환했습니다(status ${res.status}).`);
     console.error('   실제 브라우저가 있는 운영자 PC에서 실행하거나, 페이지 소스에서 ?v= 를 직접 확인하세요.');
+    return 2;
+  }
+
+  if (!res.ok) {
+    console.error(`라이브 확인 실패: HTTP ${res.status}`);
     return 2;
   }
 

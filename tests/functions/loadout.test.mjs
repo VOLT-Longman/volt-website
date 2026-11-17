@@ -339,3 +339,31 @@ test('가격 새로고침: 오래된 캐시는 갱신하고 1분 이내 반복 �
         assert.equal(again.headers.get('cache-control'), 'no-store');
     } finally { await upstream.restore(); }
 });
+
+test('모든 함선 슬롯 경로가 유일하고, 장착 규칙 없는 슬롯은 교체를 거절한다', () => {
+    for (const file of readdirSync(new URL('../../data/loadout/ships/', import.meta.url))) {
+        const ship = read(`data/loadout/ships/${file}`); const paths = new Set();
+        calc.walkLoadout(ship, items, {}, ({ path, slot }) => {
+            assert.ok(!paths.has(path), `${file}: duplicate ${path}`); paths.add(path);
+            if (slot.kind === 's') assert.ok(slot.acc?.length, `${file}: unrestricted ${path}`);
+        });
+    }
+    const ship = read('data/loadout/ships/rsi_constellation_mk5_centaurus.json');
+    const shield = Object.values(items).find(item => item.type === 'Shield' && item.size === 3);
+    let checked = 0;
+    calc.walkLoadout(ship, items, {}, ({ slot, path }) => {
+        if (!/^hardpoint_turret_(upper|lower)\/hardpoint_gun_[^/]+$/.test(path)) return;
+        assert.equal(calc.fitsSlot(shield, slot, {}), false); checked++;
+    });
+    assert.equal(checked, 8);
+    const x1 = read('data/loadout/ships/orig_x1_force.json');
+    assert.equal(calc.summarize(x1, items, {}).weapons, 1);
+});
+
+test('추출 정리: 같은 장착 중복은 합치고 서로 다른 중복은 빌드를 중지한다', () => {
+    const slot = { port: 'gun', kind: 's', acc: [{ type: 'WeaponGun' }], item: 'a' };
+    assert.deepEqual(calc.normalizeSlots([slot, { ...slot }]), [slot]);
+    assert.throws(() => calc.normalizeSlots([slot, { ...slot, item: 'b' }]), /Conflicting loadout port/);
+    assert.equal(calc.normalizeSlots([{ port: 'unknown', kind: 's' }])[0].kind, 'f');
+    assert.equal(calc.fitsSlot({ type: 'Shield', size: 3 }, { min: 3, max: 3 }, {}), false);
+});
