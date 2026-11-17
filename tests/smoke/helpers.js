@@ -19,7 +19,7 @@ const TEST_USER = {
 // Feature tests default to a community member. Guest/access tests opt out explicitly.
 async function mockApi(page, { loggedIn = true, community = loggedIn, configured = true, roles = TEST_USER.roles } = {}) {
     await page.route(/\/auth\/me(?:\?.*)?$/, (route) => route.fulfill({
-        json: loggedIn ? { logged_in: true, user: { ...TEST_USER, roles }, features: { communityTools: community, communityConfigured: configured } } : { logged_in: false, features: { communityTools: false } },
+        json: loggedIn ? { logged_in: true, user: { ...TEST_USER, roles }, features: { communityTools: community, communityConfigured: configured } } : { logged_in: false, features: { communityTools: community, communityConfigured: configured } },
     }));
     // 정상 응답과 실패/빈 목록을 구분해 회귀를 검증한다.
     await page.route(/\/api\/(notices|events|gallery|partner-fleets|ship-overrides|leadership|timeline)$/, (route) => route.fulfill({ json: { items: cmsData[cmsProperties[new URL(route.request().url()).pathname.split('/').pop()]] || [] } }));

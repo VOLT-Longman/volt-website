@@ -1,6 +1,6 @@
 import { readUserSession } from '../_shared/discord-auth.js';
 import { json, error } from '../_shared/http.js';
-import { communityAccess } from '../_shared/community-access.js';
+import { communityAccess, communityToolsRequireMembership } from '../_shared/community-access.js';
 
 function createUserPayload(session) {
   return {
@@ -13,6 +13,7 @@ function createUserPayload(session) {
 }
 
 export async function onRequestGet({ request, env }) {
+  const publicTools = !communityToolsRequireMembership(env);
   let session;
   // A short floor lets newly assigned roles be checked without making every
   // repeated click call Discord. Normal requests retain the five-minute TTL.
@@ -21,10 +22,10 @@ export async function onRequestGet({ request, env }) {
   if (!session) {
     let configured = false;
     try { configured = communityAccess([], env).configured; } catch (_error) { /* Malformed configuration never grants access. */ }
-    return json({ logged_in: false, features: { communityTools: false, communityConfigured: configured } }, { cacheControl: 'no-store' });
+    return json({ logged_in: false, features: { communityTools: publicTools, communityConfigured: configured } }, { cacheControl: 'no-store' });
   }
   return json({ logged_in: true, user: createUserPayload(session), features: {
-    communityTools: session.communityAccess.allowed,
+    communityTools: publicTools || session.communityAccess.allowed,
     communityConfigured: session.communityAccess.configured
   } }, { cacheControl: 'no-store' });
 }

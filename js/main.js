@@ -1501,7 +1501,7 @@
 
 
     function canUseCommunityTools() {
-        return authStatus === 'ready' && authState.loggedIn && authState.communityTools === true;
+        return authStatus === 'ready' && authState.communityTools === true;
     }
 
     function applyCommunityGates() {
@@ -1567,7 +1567,7 @@
                     renderAuthUi();
                     applyRoleGates();
                 } else {
-                    setLoggedOutState();
+                    setLoggedOutState(payload?.features);
                 }
             })
             .catch(() => {
@@ -1583,12 +1583,13 @@
         return authRequest;
     }
 
-    function setLoggedOutState() {
+    function setLoggedOutState(features = {}) {
         window.clearTimeout(preferencesLoadTimer);
         preferencesLoadError = false;
         window.clearTimeout(preferencesSaveTimer);
         window.VOLT_SCHEDULE?.clearRsvpCache?.();
-        authState = { loggedIn: false, user: null, roles: [] };
+        authState = { loggedIn: false, user: null, roles: [],
+            communityTools: features.communityTools === true, communityConfigured: features.communityConfigured };
         userPreferencesLoaded = false;
         restorePlannerState();
         window.VOLT_AUTH_UI?.render?.({ status: 'loggedOut' });

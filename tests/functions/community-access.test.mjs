@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { communityAccess } from '../../functions/_shared/community-access.js';
+import { communityAccess, communityToolsRequireMembership } from '../../functions/_shared/community-access.js';
 import { onRequest } from '../../functions/_middleware.js';
 import { onRequestGet as me } from '../../functions/auth/me.js';
 import { createOAuthReturnCookie, readOAuthReturnPath } from '../../functions/_shared/discord-auth.js';
@@ -10,7 +10,7 @@ import { TEST_ENV, memberCookie, adminCookie } from './helpers.mjs';
 import { createSqliteDb } from './sqlite-d1.mjs';
 
 const paths = ['/data/loadout/items.json', '/data/loadout/ships/anvl_asgard.json', '/data/loadout/meta.json', '/data/canonical/manifest.json', '/data/canonical/ships.canonical.json', '/data/ship-market.js', '/data/ship-live-stats.js', '/api/uex/commodities', '/api/uex/loadout-prices?categories=radars', '/api/uex/commodities/1/prices', '/api/uex/location-prices'];
-const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), DISCORD_COMMUNITY_ROLE_ID: 'community', DISCORD_ROLE_MAP: JSON.stringify({ community: '커뮤니티 멤버', visitor: '손님', admin: '대표이사' }) });
+const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'true', DISCORD_COMMUNITY_ROLE_ID: 'community', DISCORD_ROLE_MAP: JSON.stringify({ community: '커뮤니티 멤버', visitor: '손님', admin: '대표이사' }) });
 const request = (path, cookie = '', method = 'GET') => new Request(`https://volt.ceo${path}`, { method, headers: { Cookie: cookie } });
 async function invoke(env, path, cookie = '', method = 'GET') {
   let calls = 0;
@@ -29,6 +29,30 @@ test('Community policy: exact configured role ID only; labels and administrators
   assert.equal(communityAccess(['replacement'], { ...env, DISCORD_COMMUNITY_ROLE_ID: 'replacement' }).allowed, true);
   assert.deepEqual(communityAccess(['community'], { DISCORD_ROLE_MAP: '{"community":"커뮤니티 멤버"}' }), { configured: true, allowed: false });
   assert.deepEqual(communityAccess(['community'], { DISCORD_COMMUNITY_ROLE_ID: '' }), { configured: false, allowed: false });
+});
+
+test('Temporary public mode opens tool data and APIs without a Discord session and retains no-store', async () => {
+  const env = environment(); delete env.COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP;
+  assert.equal(communityToolsRequireMembership(env), false);
+  assert.equal(communityToolsRequireMembership({ COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'false' }), false);
+  for (const value of ['true', '', 'typo']) assert.equal(communityToolsRequireMembership({ COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: value }), true);
+  for (const path of [...paths, '/data//loadout/items.json', '/d%61ta/ship-market.js']) {
+    const { response, calls } = await invoke(env, path);
+    assert.equal(response.status, 200, path); assert.equal(calls, 1);
+    assert.equal(response.headers.get('Cache-Control'), 'private, no-store');
+  }
+  const guest = await (await me({ env, request: request('/auth/me') })).json();
+  assert.equal(guest.logged_in, false);
+  assert.equal(guest.features.communityTools, true);
+  assert.equal(guest.user, undefined);
+  const visitor = await memberCookie({ sub: 'public-mode-visitor', roles: [] }, env);
+  const signedIn = await (await me({ env, request: request('/auth/me', visitor) })).json();
+  assert.equal(signedIn.features.communityTools, true);
+  assert.deepEqual(signedIn.user.roles, []);
+  env.COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP = 'true';
+  assert.equal((await invoke(env, paths[0])).response.status, 401);
+  assert.equal((await invoke(env, paths[0], visitor)).response.status, 403);
+  assert.equal((await (await me({ env, request: request('/auth/me') })).json()).features.communityTools, false);
 });
 
 test('Owner-confirmed default role opens protected routes and reports configured access without environment setup', async () => {

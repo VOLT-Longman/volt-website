@@ -1,4 +1,4 @@
-import { isCommunityResource, privateResponse } from './_shared/community-access.js';
+import { communityToolsRequireMembership, isCommunityResource, privateResponse } from './_shared/community-access.js';
 import { requireCommunityMember } from './_shared/rbac.js';
 
 export async function onRequest(context) {
@@ -19,8 +19,12 @@ export async function onRequest(context) {
   }
   catch (_error) { return privateResponse(new Response('Invalid path', { status: 400 })); }
   if (!isCommunityResource(path)) return context.next();
-  const member = await requireCommunityMember(context.request, context.env);
-  // Authorization runs before either an upstream cache hit or a static asset.
-  if (member instanceof Response) return privateResponse(member);
+  if (communityToolsRequireMembership(context.env)) {
+    const member = await requireCommunityMember(context.request, context.env);
+    // Authorization runs before either an upstream cache hit or a static asset.
+    if (member instanceof Response) return privateResponse(member);
+  }
+  // Keep temporary public responses out of browser/CDN caches so restoring the
+  // gate does not leave newly cached public copies behind.
   return privateResponse(await context.next());
 }

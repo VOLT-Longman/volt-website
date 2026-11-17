@@ -2,6 +2,28 @@ const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
 const { mockApi, gotoSection, TEST_USER } = require('./helpers');
 
+for (const [section, search] of [['ships', '#ship-search'], ['trade-planner', '#logistics-ship-search'], ['loadout', '#loadout-ship-search']]) {
+    test(`Temporary public mode: guest can use ${section} without being signed in`, async ({ page }) => {
+        await mockApi(page, { loggedIn: false, community: true });
+        const privateRequests = [];
+        page.on('request', (req) => { if (/\/api\/me\//.test(req.url())) privateRequests.push(req.url()); });
+        await gotoSection(page, `#${section}`);
+        await expect(page.locator(`#${section} .community-gate`)).toBeHidden();
+        await expect(page.locator(search)).toBeVisible();
+        await page.locator(search).fill('Hull');
+        if (section === 'ships') await expect(page.locator('#ships-grid [data-ship-id]').first()).toBeVisible();
+        if (section === 'trade-planner') {
+            await page.locator('#logistics-ship-results [role="option"]').first().click();
+            await expect(page.locator('#logistics-ship-summary')).toBeVisible();
+        }
+        if (section === 'loadout') {
+            await page.locator('[data-loadout-ship]').first().click();
+            await expect(page.locator('#loadout-ship-title')).toBeVisible();
+        }
+        expect(privateRequests).toEqual([]);
+    });
+}
+
 for (const section of ['ships', 'trade-planner', 'loadout']) {
     test(`Guest: ${section} is locked before any protected data request`, async ({ page }) => {
         await mockApi(page, { loggedIn: false });
