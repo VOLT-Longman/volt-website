@@ -60,6 +60,8 @@
         const mobileMenu = document.getElementById('mobileMenu');
         const hamburger = document.getElementById('hamburger');
         if (mobileMenu && hamburger && mobileMenu.classList.contains('active')) {
+            // 검색을 열면 모바일 메뉴는 숨겨진다. 닫을 때는 화면에 남는 버튼으로 돌아간다.
+            lastSearchTrigger = hamburger;
             setMobileMenuState(mobileMenu, hamburger, false);
         }
         overlay.classList.add('active');
@@ -127,6 +129,17 @@
         return { typeKey, section, title, body, itemId, haystack: `${title} ${body}`.toLowerCase() };
     }
 
+    // 본문 전체는 색인에 남기고, 결과에는 검색어 주변의 짧은 문맥만 보여 준다.
+    function searchExcerpt(body, query) {
+        const text = String(body || '').replace(/\s+/g, ' ').trim();
+        const limit = 160;
+        if (text.length <= limit) return text;
+        const match = query ? text.toLowerCase().indexOf(query.replace(/\s+/g, ' ')) : -1;
+        const start = Math.min(Math.max(0, match - 32), text.length - limit);
+        const end = start + limit;
+        return `${start ? '…' : ''}${text.slice(start, end).trim()}${end < text.length ? '…' : ''}`;
+    }
+
     function renderSearchResults(query) {
         const container = document.getElementById('search-results');
         if (!container) return;
@@ -140,7 +153,7 @@
             <button class="search-result" type="button" data-search-section="${escapeHtml(item.section)}" data-search-item-id="${escapeHtml(item.itemId)}">
                 <span class="search-result-type">${escapeHtml(t(item.typeKey, item.typeKey))}</span>
                 <span class="search-result-title">${escapeHtml(item.title)}</span>
-                <span class="search-result-summary">${escapeHtml(item.body)}</span>
+                <span class="search-result-summary">${escapeHtml(searchExcerpt(item.body, normalized))}</span>
             </button>`).join('');
         container.querySelectorAll('[data-search-section]').forEach((button) => {
             button.addEventListener('click', () => selectSearchResult(button.getAttribute('data-search-section'), button.getAttribute('data-search-item-id')));

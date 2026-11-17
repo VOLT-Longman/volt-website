@@ -28,6 +28,16 @@ const shieldOff = async (page) => {
 const pick = (page, id) => page.locator(`.loadout-optrows [data-loadout-pick="${id}"]`);
 
 test.describe('로드아웃 편집기', () => {
+    test('고정 장비도 장착 개수에 포함하고 교체 버튼은 제공하지 않는다', async ({ page }) => {
+        await openAsgard(page);
+        const other = page.locator('.loadout-group.is-other');
+        await expect(other.locator('h4')).toContainText('2곳');
+        await expect(other.locator('.loadout-slot.is-fixed')).toHaveCount(2);
+        await expect(other.locator('[data-loadout-open]')).toHaveCount(0);
+        await page.locator('.nav-lang [data-set-lang="en"]').click();
+        await expect(other.locator('h4')).toContainText('2 slots');
+    });
+
     test('레이더 교체 후 내부 배터리 장착칸이 나타나지 않는다', async ({ page }) => {
         await openAsgard(page);
         const group = page.locator('.loadout-group.is-radar');
@@ -573,12 +583,14 @@ test.describe('로드아웃 편집기', () => {
         // 하나씩 풀어서 한 발만 바꾸면 남은 15발은 다시 묶을 때 따로 묶인다.
         await rows.locator('[data-loadout-split]').click();
         await expect(rows).toHaveCount(16);
+        await expect(missiles.locator('h4')).toContainText('16곳');
         await rows.nth(1).locator('[data-loadout-open]').click();
         await pick(page, THUNDERBOLT).click();
         await expect(page.locator('.loadout-shipstate')).toHaveText('1곳 변경됨');
         await missiles.locator('[data-loadout-split]').first().click();
         await expect(missiles.locator('.loadout-count')).toHaveText(['×14']);
         await expect(missiles.locator('.loadout-slot')).toHaveCount(3);
+        await expect(missiles.locator('h4')).toContainText('16곳');
     });
 
     test('자주 안 보는 구역과 출처는 접혀 있고, 펼친 상태는 화면이 바뀌어도 유지된다', async ({ page }) => {

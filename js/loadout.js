@@ -940,8 +940,8 @@
         slotRuns = new Map(); mountOf = new Map(); placeOf = new Map();
         const group = (key) => {
             const rows = foldMounts(mergeRuns(groups.get(key)));
-            // 「N곳」은 사용자가 바꿀 수 있는 줄 기준으로 센다(마운트와 무기를 따로 세지 않는다).
-            const count = rows.reduce((sum, row) => sum + (row.slot.kind === 's' ? (row.run?.length || 1) : 0), 0);
+            // 고정 장비도 실제 장착 자리다. 합친 마운트는 중복하지 않고 묶인 탄은 각각 센다.
+            const count = rows.reduce((sum, row) => sum + (row.run?.length || 1), 0);
             return `<section class="loadout-group is-${key}">
             <h4><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>
             <ul id="loadout-rows-${key}" class="loadout-slotlist" ${state.collapsed.has(key) ? 'hidden' : ''}>${rows.map((row) => { const html = drawSlot(row); const changed = row.changed || row.mount?.changed || state.off[row.path]; return state.changedOnly && !changed ? html.replace('<li ', '<li hidden ') : html; }).join('')}</ul>

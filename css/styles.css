@@ -1602,8 +1602,15 @@ body.nav-trade-open::before {
 }
 
 .search-result-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    width: 100%;
     color: var(--color-text-secondary);
     font-size: 14px;
+    line-height: 1.5;
 }
 
 /* ==========================================================================
