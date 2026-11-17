@@ -16,6 +16,12 @@ const { mockApi, gotoSection } = require('./helpers');
 const BLOCKING_IMPACTS = new Set(['critical', 'serious']);
 
 async function assertNoNewViolations(page, allowlist) {
+    // Audit settled colors, including Web Animations (CSS overrides do not stop
+    // those). Motion behavior is covered separately in motion.spec.js. Keep all
+    // axe rules and thresholds; decorative infinite loops must not block audits.
+    await expect.poll(() => page.evaluate(() => document.getAnimations().filter(animation =>
+        animation.playState === 'running' && animation.effect?.getTiming().iterations !== Infinity
+    ).length), { timeout: 5000 }).toBe(0);
     const results = await new AxeBuilder({ page }).analyze();
     const blocking = results.violations.filter((v) => BLOCKING_IMPACTS.has(v.impact));
     const unexpected = blocking.filter((v) => !allowlist.includes(v.id));
