@@ -1,10 +1,11 @@
-// Prefer the immutable Discord role ID. Existing deployments can use an exact
-// DISCORD_ROLE_MAP label; other roles (including administrators) do not qualify.
+// Owner-confirmed VOLT community role. Discord role IDs are public identifiers,
+// not credentials. An explicit environment value overrides this site default;
+// an explicitly empty value disables access. Display labels never grant access.
+const DEFAULT_COMMUNITY_ROLE_ID = '1150059971887771718';
+
 export function communityAccess(roleIds, env) {
-  const explicit = String(env.DISCORD_COMMUNITY_ROLE_ID || '').trim();
-  const ids = explicit ? [explicit] : Object.entries(JSON.parse(env.DISCORD_ROLE_MAP || '{}'))
-    .filter(([, label]) => label === '커뮤니티 멤버').map(([id]) => id);
-  return { configured: ids.length > 0, allowed: ids.some((id) => roleIds.includes(id)) };
+  const id = String(env.DISCORD_COMMUNITY_ROLE_ID ?? DEFAULT_COMMUNITY_ROLE_ID).trim();
+  return { configured: Boolean(id), allowed: Boolean(id) && roleIds.includes(id) };
 }
 
 export function isCommunityResource(path) {

@@ -6,13 +6,14 @@
 
 Cloudflare Pages의 운영/미리보기 환경에서 기존 Discord OAuth 및 D1 설정을 유지한다.
 
-- 권장: `DISCORD_COMMUNITY_ROLE_ID`에 실제 커뮤니티 멤버 **역할 ID 하나**를 등록한다. 이름이 바뀌어도 동일 역할을 확인한다.
-- 이 값이 없으면 `DISCORD_ROLE_MAP`에서 값이 정확히 `커뮤니티 멤버`인 항목의 ID를 사용한다. `member`, `손님`, `VOLT 함대원`, 관리자 역할을 추정해 허용하지 않는다.
-- 둘 다 없으면 기능을 열지 않고 역할 연결 준비 안내를 표시한다. `/auth/me`의 `features.communityConfigured`로 연결 여부만 확인할 수 있다. 역할 ID나 비밀값은 이 응답에 포함하지 않는다.
+- 소유자가 확인해 전달한 커뮤니티 멤버 역할 ID를 서버 기본 설정(`functions/_shared/community-access.js`)에 등록했다. 역할 ID는 비밀값이 아니며, 이름이 바뀌어도 동일 역할을 확인한다.
+- 다른 환경에서 운영할 때는 `DISCORD_COMMUNITY_ROLE_ID`로 기본값을 명시적으로 덮어쓸 수 있다. 값을 명시적으로 비우면 접근을 닫는다.
+- `DISCORD_ROLE_MAP`은 역할 이름 표시에만 쓰며 도구 사용 권한을 부여하지 않는다. 다른 역할이나 비슷한 이름을 가진 역할은 허용하지 않는다.
+- `/auth/me`의 `features.communityConfigured`로 연결 여부만 확인할 수 있다. 역할 ID나 비밀값은 이 응답에 포함하지 않는다.
 - `DISCORD_GUILD_ID`는 VOLT 함대 서버여야 한다. OAuth의 `guilds.members.read` 범위로 **해당 서버** 멤버 정보와 역할을 조회한다.
 - Cloudflare Pages Functions의 요청 한도 초과 동작은 **Fail closed**로 운영해야 한다. Fail open이면 플랫폼이 함수를 실행하지 않고 정적 자료를 제공할 수 있다. 이 설정은 저장소로 확인/변경할 수 없다.
 
-역할 ID/실제 운영 역할 매핑과 Cloudflare Fail closed 설정은 이번 코드 작업에서 직접 확인하지 못했다. 계정의 역할 부여/회수는 사이트가 수행하지 않으며 Discord 서버 운영 절차를 따른다.
+역할 ID는 2026-11-17 소유자 제공값을 사용했다. 실제 Discord 역할 목록 및 Cloudflare Fail closed 설정은 직접 확인하지 못했다. 계정의 역할 부여/회수는 사이트가 수행하지 않으며 Discord 서버 운영 절차를 따른다.
 
 CMS는 기존 관리자 인증을 적용하는 별도 `/api/admin/ship-source/*` 경로로 필요한 함선 원본만 읽는다. 관리자 로그인만으로 공개 도구의 멤버 제한을 통과하지는 않는다.
 
@@ -39,7 +40,7 @@ CMS는 기존 관리자 인증을 적용하는 별도 `/api/admin/ship-source/*`
 
 ## 검증
 
-- `tests/functions/community-access.test.mjs`: 역할 ID 우선, 정확한 역할명, 관리자 예외 없음, 보호 경로 GET/HEAD, 캐시 이전 거절, 공개 경로 유지, 역할 부여/회수/서버 탈퇴/인증 장애, 허용된 OAuth 복귀 주소.
+- `tests/functions/community-access.test.mjs`: 소유자 제공 기본 역할·환경변수 우선·빈 값 차단·역할 이름 및 관리자 예외 없음, 보호 경로 GET/HEAD, 캐시 이전 거절, 공개 경로 유지, 역할 부여/회수/서버 탈퇴/인증 장애, 허용된 OAuth 복귀 주소.
 - `tests/functions/service-worker-cache.test.mjs`: 보호된 자료의 캐시 우회와 이전 캐시 삭제.
 - `tests/smoke/community-access.spec.js`: 세 기능의 비로그인 차단, 보호 자료 요청 없음, 역할 재확인 후 열기, 역할 회수 후 상세 닫기, 오류/미설정 안내, 모바일 영어와 접근성.
 

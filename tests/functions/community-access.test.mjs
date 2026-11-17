@@ -10,7 +10,7 @@ import { TEST_ENV, memberCookie, adminCookie } from './helpers.mjs';
 import { createSqliteDb } from './sqlite-d1.mjs';
 
 const paths = ['/data/loadout/items.json', '/data/loadout/ships/anvl_asgard.json', '/data/loadout/meta.json', '/data/canonical/manifest.json', '/data/canonical/ships.canonical.json', '/data/ship-market.js', '/data/ship-live-stats.js', '/api/uex/commodities', '/api/uex/loadout-prices?categories=radars', '/api/uex/commodities/1/prices', '/api/uex/location-prices'];
-const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), DISCORD_ROLE_MAP: JSON.stringify({ community: '커뮤니티 멤버', visitor: '손님', admin: '대표이사' }) });
+const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), DISCORD_COMMUNITY_ROLE_ID: 'community', DISCORD_ROLE_MAP: JSON.stringify({ community: '커뮤니티 멤버', visitor: '손님', admin: '대표이사' }) });
 const request = (path, cookie = '', method = 'GET') => new Request(`https://volt.ceo${path}`, { method, headers: { Cookie: cookie } });
 async function invoke(env, path, cookie = '', method = 'GET') {
   let calls = 0;
@@ -21,13 +21,27 @@ async function invoke(env, path, cookie = '', method = 'GET') {
   return { response, calls };
 }
 
-test('Community policy: exact role ID or exact mapped label only; administrators do not bypass it', () => {
+test('Community policy: exact configured role ID only; labels and administrators do not bypass it', () => {
   const env = environment();
   for (const roles of [[], ['visitor'], ['admin'], ['Community Member']]) assert.deepEqual(communityAccess(roles, env), { configured: true, allowed: false });
   assert.equal(communityAccess(['community'], env).allowed, true);
   assert.equal(communityAccess(['community'], { ...env, DISCORD_COMMUNITY_ROLE_ID: 'replacement' }).allowed, false);
   assert.equal(communityAccess(['replacement'], { ...env, DISCORD_COMMUNITY_ROLE_ID: 'replacement' }).allowed, true);
-  assert.deepEqual(communityAccess(['community'], { DISCORD_ROLE_MAP: '{"community":"커뮤니티 멤버 후보"}' }), { configured: false, allowed: false });
+  assert.deepEqual(communityAccess(['community'], { DISCORD_ROLE_MAP: '{"community":"커뮤니티 멤버"}' }), { configured: true, allowed: false });
+  assert.deepEqual(communityAccess(['community'], { DISCORD_COMMUNITY_ROLE_ID: '' }), { configured: false, allowed: false });
+});
+
+test('Owner-confirmed default role opens protected routes and reports configured access without environment setup', async () => {
+  const env = environment(); delete env.DISCORD_COMMUNITY_ROLE_ID;
+  const role = '1150059971887771718';
+  const cookie = await memberCookie({ sub: 'configured-community-member', roles: [role] }, env);
+  const guest = await (await me({ env, request: request('/auth/me') })).json();
+  assert.deepEqual(guest.features, { communityTools: false, communityConfigured: true });
+  for (const path of paths) assert.equal((await invoke(env, path, cookie)).response.status, 200, path);
+  const body = await (await me({ env, request: request('/auth/me', cookie) })).json();
+  assert.equal(body.features.communityTools, true);
+  assert.deepEqual(communityAccess([role], { DISCORD_COMMUNITY_ROLE_ID: 'replacement' }), { configured: true, allowed: false });
+  assert.deepEqual(communityAccess([role], { DISCORD_COMMUNITY_ROLE_ID: ' ' }), { configured: false, allowed: false });
 });
 
 test('Every protected API/data route rejects guests and unrelated roles before reaching assets or cache', async () => {
@@ -54,7 +68,7 @@ test('Community member receives data with private/no-store even when the interna
     assert.equal(await response.text(), 'data');
   }
   assert.equal((await invoke({ ...env, DISCORD_COMMUNITY_ROLE_ID: 'other' }, paths[0], cookie)).response.status, 403);
-  assert.equal((await invoke({ ...env, DISCORD_ROLE_MAP: '{}' }, paths[0], cookie)).response.status, 503);
+  assert.equal((await invoke({ ...env, DISCORD_COMMUNITY_ROLE_ID: '' }, paths[0], cookie)).response.status, 503);
 });
 
 test('Public landing, CMS, translations and login remain outside the community gate', async () => {
