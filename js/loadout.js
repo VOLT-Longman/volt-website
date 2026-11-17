@@ -1101,9 +1101,9 @@ ${section(text('cost'), `
         slotRuns = new Map(); mountOf = new Map(); placeOf = new Map();
         const group = (key) => {
             const rows = foldMounts(mergeRuns(groups.get(key)));
-            // 고정 장비도 실제 장착 자리다. 합친 마운트는 중복하지 않고 묶인 탄은 각각 센다.
-            const count = rows.filter((row) => !row.hasChildren).reduce((sum, row) => sum + (row.run?.length || 1), 0);
-            const shownCount = rows.filter((row) => !row.hasChildren && (!state.changedOnly || row.changed || row.mount?.changed || state.off[row.path] || state.operation.activeModules[row.path])).reduce((sum, row) => sum + (row.run?.length || 1), 0);
+            // 화면 묶음과 무관하게 각 실제 경로를 한 번씩 센다(상위 장착 자리 포함).
+            const count = groups.get(key).length;
+            const shownCount = groups.get(key).filter((row) => !state.changedOnly || row.changed || state.off[row.path] || state.operation.activeModules[row.path]).length;
             const hidden = state.changedOnly && !rows.some((row) => row.changed || row.mount?.changed || state.off[row.path] || state.operation.activeModules[row.path]);
             return `<section class="loadout-group is-${key}" ${hidden ? 'hidden' : ''}>
             <h4><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(state.changedOnly ? text('visibleSlots', { shown: shownCount, count }) : text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>

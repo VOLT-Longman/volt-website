@@ -110,6 +110,9 @@ test('터렛별 상위 카드와 하위 무기: 독립 접기·전원·교체 �
     await turret.locator('[data-loadout-assembly-toggle]').click();
     await turret.locator('[data-loadout-power="hardpoint_turret_bottom"]').click();
     await expect(turret.locator('.loadout-assembly-heading')).toContainText('DPS 0');
+    await page.locator('#loadout-changed-only').check();
+    await expect(page.locator('.loadout-group.is-weapon h4')).toContainText('1곳 표시');
+    await page.locator('#loadout-changed-only').uncheck();
     await page.locator('[data-loadout-undo]').click();
     await firstGunSlot(page).locator('[data-loadout-open]').click();
     await pick(page, MANTIS).click();
@@ -719,7 +722,7 @@ test.describe('로드아웃 편집기', () => {
         const rows = missiles.locator('.loadout-slot', { hasText: '어레스터 III 미사일' });
         await expect(rows).toHaveCount(1);
         await expect(rows.locator('.loadout-count')).toHaveText('×16');
-        await expect(missiles.locator('h4')).toContainText('16곳');
+        await expect(missiles.locator('h4')).toContainText('17곳');
         // 묶인 줄을 바꾸면 16발이 함께 바뀐다.
         await rows.locator('[data-loadout-open]').click();
         await expect(page.locator('.loadout-runnote')).toContainText('16곳');
@@ -735,14 +738,14 @@ test.describe('로드아웃 편집기', () => {
         // 하나씩 풀어서 한 발만 바꾸면 남은 15발은 다시 묶을 때 따로 묶인다.
         await rows.locator('[data-loadout-split]').click();
         await expect(rows).toHaveCount(16);
-        await expect(missiles.locator('h4')).toContainText('16곳');
+        await expect(missiles.locator('h4')).toContainText('17곳');
         await rows.nth(1).locator('[data-loadout-open]').click();
         await pick(page, THUNDERBOLT).click();
         await expect(page.locator('.loadout-shipstate')).toHaveText('1곳 변경됨');
         await missiles.locator('[data-loadout-split]').first().click();
         await expect(missiles.locator('.loadout-count')).toHaveText(['×14']);
         await expect(missiles.locator('.loadout-slot:not(.is-mount)')).toHaveCount(3);
-        await expect(missiles.locator('h4')).toContainText('16곳');
+        await expect(missiles.locator('h4')).toContainText('17곳');
     });
 
     test('자주 안 보는 구역과 출처는 접혀 있고, 펼친 상태는 화면이 바뀌어도 유지된다', async ({ page }) => {
