@@ -83,16 +83,21 @@ test('히어로의 큰 진입은 모바일에서도 넘치지 않고 끝나며 �
     await page.setViewportSize({ width: 390, height: 844 });
     await mockApi(page); await gotoSection(page, '');
     await expect(page.locator('#home')).toHaveClass(/hero-enter/);
-    await expect(page.locator('.hero-cine-media')).toHaveCSS('animation-name', 'volt-hero-camera');
+    await expect(page.locator('#home')).toHaveClass(/cinematic-ready/);
+    await expect(page.locator('.hero-cine-media')).toHaveCSS('animation-name', 'none');
+    expect(await page.evaluate(() => window.gsap.getTweensOf('.hero-title-line', true).length)).toBeGreaterThan(0);
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(page.locator('.hero-cine-media')).toHaveCSS('transform', 'none');
     await expect(page.locator('#home h1')).toHaveCSS('opacity', '1');
     await expect(page.locator('#home h1')).toHaveCSS('filter', 'none');
+    await expect(page.locator('.hero-title-line').first()).toHaveCSS('transform', 'none');
+    expect(await page.evaluate(() => window.ScrollTrigger.getAll().length)).toBe(0);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await expect.poll(() => page.locator('.hero-cine-media').evaluate(el => el.getAnimations().length)).toBe(0);
     await expect(page.locator('.hero-cine-media')).toHaveCSS('transform', 'none');
     await expect(page.locator('#home h1')).toHaveCSS('translate', 'none');
+    expect(await page.evaluate(() => window.gsap.getTweensOf('.hero-title-line', true).length)).toBe(0);
 });
 
 test('펼쳐 둔 요약은 편집 화면을 다시 그릴 때 등장 효과를 반복하지 않는다', async ({ page }) => {
@@ -128,4 +133,82 @@ test('모바일 메뉴와 상세창은 터치 환경에서 가로 넘침 없이 
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: 'test-results/motion-mobile.png', animations: 'disabled' });
     await context.close();
+});
+
+
+test('스크롤 모션은 사진만 움직이며 화면 왕복 후 감시자가 쌓이지 않는다', async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await mockApi(page); await gotoSection(page, '');
+    await expect(page.locator('#home')).toHaveClass(/cinematic-ready/);
+    const triggerCount = () => page.evaluate(() => window.ScrollTrigger.getAll().length);
+    const initialCount = await triggerCount();
+    expect(initialCount).toBeGreaterThan(0);
+    const before = await page.locator('.hero-cine-image').evaluate(el => getComputedStyle(el).transform);
+    await page.mouse.wheel(0, 500);
+    await expect.poll(() => page.locator('.hero-cine-image').evaluate(el => getComputedStyle(el).transform)).not.toBe(before);
+    await expect(page.locator('.hero-layout')).toHaveCSS('opacity', '1');
+    await expect(page.locator('.hero-layout')).toHaveCSS('transform', 'none');
+    for (let visit = 0; visit < 3; visit += 1) {
+        await page.locator('.nav-links a[href="#about"]').click();
+        await expect.poll(triggerCount).toBe(0);
+        await expect(page.locator('.hero-cine-image')).toHaveCSS('transform', 'none');
+        await page.locator('.nav-logo').click();
+        await expect(page.locator('#home')).toBeVisible();
+        await expect.poll(triggerCount).toBe(initialCount);
+    }
+    await page.locator('[data-set-lang="en"]').first().click();
+    await expect(page.locator('#home .subtitle')).toContainText('Voyagers');
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    expect(errors).toEqual([]);
+});
+
+for (const asset of ['assets/vendor/gsap/gsap.min.js', 'js/cinematic-motion.js']) {
+    test(`시네마틱 모듈 실패 시에도 원래 화면과 탐색이 유지된다: ${asset}`, async ({ page }) => {
+        await page.route(`**/${asset}*`, route => route.abort());
+        await mockApi(page); await gotoSection(page, '');
+        await expect(page.locator('#home')).not.toHaveClass(/cinematic-ready/);
+        await expect(page.locator('#home h1')).toBeVisible();
+        await expect(page.locator('.hero-cine-media')).toHaveCSS('animation-name', 'volt-hero-camera');
+        await page.locator('.hero-action[href="#join"]').click();
+        await expect(page.locator('#join')).toBeVisible();
+    });
+}
+
+test('시네마틱 모션은 실제 보안 정책을 유지해도 재생된다', async ({ page }) => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const policy = fs.readFileSync(path.join(__dirname, '../../_headers'), 'utf8').split('\n')
+        .find(line => line.trim().startsWith('Content-Security-Policy:')).split('Content-Security-Policy:')[1]
+        .replace('; upgrade-insecure-requests', '').trim();
+    const errors = trackConsoleErrors(page);
+    await mockApi(page);
+    await page.route('http://127.0.0.1:8787/', async route => {
+        const response = await route.fetch();
+        return route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': policy } });
+    });
+    await gotoSection(page, '');
+    await expect(page.locator('#home')).toHaveClass(/cinematic-ready/);
+    await expect.poll(() => page.locator('.hero-title-line').last().evaluate(el => el.style.opacity)).toBe('');
+    await expect(page.locator('.hero-title-line').last()).toHaveCSS('opacity', '1');
+    await page.locator('.landing-cta').scrollIntoViewIfNeeded();
+    await expect(page.locator('.landing-cta-photo')).not.toHaveCSS('transform', 'none');
+    expect(errors).toEqual([]);
+});
+
+test('함선 바꾸기는 카드가 차례로 나타나고 검색 시 다시 흔들리지 않는다', async ({ page }) => {
+    await openLoadout(page);
+    await page.evaluate(() => {
+        const original = Element.prototype.animate;
+        window.shipCardAnimations = 0;
+        Element.prototype.animate = function (...args) {
+            if (this.classList.contains('loadout-shipcard')) window.shipCardAnimations += 1;
+            return original.apply(this, args);
+        };
+    });
+    await page.locator('[data-loadout-browse]').click();
+    await expect.poll(() => page.evaluate(() => window.shipCardAnimations)).toBe(8);
+    await page.locator('#loadout-ship-search').fill('asgard');
+    await expect(page.locator('.loadout-shipcard')).toHaveCount(1);
+    expect(await page.evaluate(() => window.shipCardAnimations)).toBe(8);
+    expect((await page.locator('.loadout-shipcard').boundingBox()).height).toBeGreaterThan(70);
 });

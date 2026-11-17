@@ -110,6 +110,7 @@
     // 히어로 진입 모션 — 스플래시가 걷히는 시점에 main.js가 호출한다.
     function startHeroEntrance() {
         document.getElementById('home')?.classList.add('hero-enter');
+        window.VOLT_CINEMATIC?.start?.();
     }
 
     // ===== 마이크로 인터랙션 (D-③) =====

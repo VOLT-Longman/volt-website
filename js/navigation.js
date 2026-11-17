@@ -39,6 +39,7 @@
             activateSection(id);
         }
         window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+        window.VOLT_CINEMATIC?.onSectionChange?.(id);
         updateActiveNav(id);
         deps.updateDocumentTitle?.(id);
         if (anchorId) scrollToAnchor(anchorId);

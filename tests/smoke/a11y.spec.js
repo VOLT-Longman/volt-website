@@ -22,6 +22,8 @@ async function assertNoNewViolations(page, allowlist) {
     await expect.poll(() => page.evaluate(() => document.getAnimations().filter(animation =>
         animation.playState === 'running' && animation.effect?.getTiming().iterations !== Infinity
     ).length), { timeout: 5000 }).toBe(0);
+    await expect.poll(() => page.evaluate(() => window.gsap?.globalTimeline.getChildren(true, true, false)
+        .filter(tween => tween.isActive() && tween.repeat() !== -1).length || 0), { timeout: 5000 }).toBe(0);
     const results = await new AxeBuilder({ page }).analyze();
     const blocking = results.violations.filter((v) => BLOCKING_IMPACTS.has(v.impact));
     const unexpected = blocking.filter((v) => !allowlist.includes(v.id));

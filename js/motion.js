@@ -29,7 +29,7 @@
     }
     // A component may rebuild its DOM while typing. Animate logical changes only,
     // not every render. Never tween live numeric values through invented numbers.
-    function update(scope, { view = '', dialog = '', panel = '', identity = '' } = {}) {
+    function update(scope, { view = '', dialog = '', panel = '', identity = '', browsing = false } = {}) {
         const previous = snapshots.get(scope);
         const values = new Map();
         const equipment = new Map();
@@ -37,9 +37,16 @@
         const slots = [...scope.querySelectorAll('[data-loadout-slot]')];
         for (const metric of metrics) values.set(metric.querySelector('span')?.textContent, metric.querySelector('strong')?.textContent);
         for (const slot of slots) equipment.set(slot.dataset.loadoutSlot, `${slot.querySelector('.loadout-item-name')?.textContent}|${slot.classList.contains('is-off')}`);
-        snapshots.set(scope, { view, dialog, panel, identity, values, equipment });
+        snapshots.set(scope, { view, dialog, panel, identity, browsing, values, equipment });
         // Release animations attached to DOM replaced by a redraw immediately.
         for (const animation of running) if (!animation.effect?.target?.isConnected) animation.cancel();
+        if (browsing && !previous?.browsing) {
+            // Only the first visible cards enter; a search/filter redraw is immediate.
+            [...scope.querySelectorAll('.loadout-shipcard')].slice(0, 8).forEach((card, index) => {
+                animate(card, [{ opacity: 0, translate: '0 24px' }, { opacity: 1, translate: '0 0' }],
+                    { duration: 500, delay: index * 35, fill: 'backwards' });
+            });
+        }
         if (dialog && previous?.dialog !== dialog) {
             const touchLayout = window.matchMedia('(max-width: 720px)').matches;
             animate(scope.querySelector('.loadout-picker'), [

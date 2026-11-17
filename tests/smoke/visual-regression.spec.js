@@ -25,6 +25,8 @@ const FREEZE_CSS = `
 `;
 
 async function stabilize(page) {
+    // CSS freeze alone cannot stop GSAP's JS ticker. Use the real accessibility path.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addStyleTag({ content: FREEZE_CSS });
     await page.evaluate(() => document.fonts.ready);
     await page.waitForFunction(() => {

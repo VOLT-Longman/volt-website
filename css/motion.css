@@ -8,6 +8,8 @@
 /* Do not transform a whole section: it contains fixed dialogs and tool drawers. */
 .section.active { animation: none; }
 .reveal { opacity: 1; transform: none; }
+/* Preserve the original second line's inherited color after splitting the title. */
+#home h1 .hero-title-line + .hero-title-line { color: inherit; }
 
 @media (prefers-reduced-motion: no-preference) {
     /* Hide only elements that have a live observer; a missing script stays usable. */
@@ -41,6 +43,9 @@
     .hero-enter .hero-copy > :nth-child(6) { animation-delay: 520ms; }
     .hero-enter .hero-copy > :nth-child(7) { animation-delay: 600ms; }
     .hero-enter .hero-tagline { animation: none; }
+    /* The enhancement owns these targets only after GSAP has initialized. */
+    .hero-enter.cinematic-ready .hero-cine-media,
+    .hero-enter.cinematic-ready .hero-copy > * { animation: none; }
     .landing-card.revealed::before { animation: volt-card-rule 1200ms var(--motion-ease) backwards; animation-delay: var(--motion-delay, 0ms); }
     .landing-card-photo { transition: scale 700ms var(--motion-ease); }
     .nav-more-menu.active, .nav-trade-menu.active {

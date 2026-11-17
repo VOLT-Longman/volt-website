@@ -1299,7 +1299,7 @@
         for (const slot of container.querySelectorAll('[data-loadout-level]')) slot.style.setProperty('--lo-level', String(Math.max(0, Math.min(12, Number(slot.dataset.loadoutLevel) || 0))));
         container.classList.toggle('has-drawer', Boolean(state.detailId || (state.openPath && state.ship)));
         container.classList.toggle('is-compact', state.compact);
-        window.VOLT_MOTION?.update(container, { view: state.tab, dialog: state.detailId ? `detail:${state.detailId}` : state.openPath, panel: state.detailId ? state.detailTab : '', identity: state.shipCls });
+        window.VOLT_MOTION?.update(container, { view: state.tab, dialog: state.detailId ? `detail:${state.detailId}` : state.openPath, panel: state.detailId ? state.detailTab : '', identity: state.shipCls, browsing: Boolean(container.querySelector('#loadout-ship-results')) });
         // 함선을 고른 뒤에는 큰 제목·설명을 접어 편집 화면이 바로 보이게 한다.
         document.getElementById('loadout')?.classList.toggle('has-ship', Boolean(state.ship));
         const options = container.querySelector('.loadout-optwrap');
