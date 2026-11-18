@@ -75,7 +75,7 @@ test('함선 DB·로드아웃·플래너 연결은 선택 함선과 플래너 �
     await page.locator('#volt-ai-send').click();
     await expect(page.locator('.volt-ai-review')).toContainText('플래너에 입력한 화물은 7 SCU');
     expect(requests[0].context).toEqual({ kind: 'trade', shipId: 'avenger-titan', cargoScu: 7 });
-    await page.locator('#volt-ai-context').getByRole('button', { name: '맥락 제거' }).click();
+    await page.locator('#volt-ai-context').getByRole('button', { name: '선택 해제' }).click();
     await expect(page.locator('#volt-ai-context')).toBeHidden();
 });
 

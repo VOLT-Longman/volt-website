@@ -46,12 +46,14 @@
         panel.replaceChildren(); panel.hidden = !state.context;
         if (!state.context) return;
         const description = state.context.kind === 'loadout' ? tr(`로드아웃 · 구성 ${state.context.slot}`, `Loadout · build ${state.context.slot}`)
-            : state.context.kind === 'trade' ? tr(`운송 준비 · 입력 ${state.context.cargoScu} SCU`, `Hauling preparation · input ${state.context.cargoScu} SCU`) : tr('함선 DB · 기본 구성', 'ShipDB · stock build');
+            : state.context.kind === 'trade' ? tr(`운송 준비 · 기본 구성 · 입력 ${state.context.cargoScu} SCU`, `Hauling preparation · stock build · input ${state.context.cargoScu} SCU`) : tr('함선 DB · 기본 구성', 'ShipDB · stock build');
         const heading = el('div', 'volt-ai-context-heading');
         heading.append(el('strong', '', state.contextLabel || state.context.shipId || state.context.ship), el('span', '', description));
-        const remove = el('button', 'loadout-link', tr('맥락 제거', 'Remove context')); remove.type = 'button'; remove.disabled = state.sending; remove.addEventListener('click', clearContext);
+        const remove = el('button', 'loadout-link', tr('선택 해제', 'Clear selection')); remove.type = 'button'; remove.disabled = state.sending; remove.addEventListener('click', clearContext);
         heading.append(remove); panel.append(heading);
-        panel.append(el('p', '', tr('이동할 때 선택한 구성입니다. 전송하면 장착·전원·A/B 정보를 서버에서 다시 계산합니다. 편집 후 다시 가져오면 최신 구성이 반영됩니다.', 'This is the selection captured when you came here. Sending recalculates equipment, power and A/B choices on the server. Bring it here again after editing.')));
+        panel.append(el('p', '', state.context.kind === 'loadout'
+            ? tr('이동할 때 선택한 구성입니다. 전송하면 장착·전원·A/B 정보를 서버에서 다시 계산합니다. 편집 후 다시 가져오면 최신 구성이 반영됩니다.', 'This is the selection captured when you came here. Sending recalculates equipment, power and A/B choices on the server. Bring it here again after editing.')
+            : tr('선택한 함선의 기본 장비 구성을 검토합니다. 교체한 장비나 A/B 구성은 로드아웃 화면의 AI 버튼으로 가져오세요.', 'Reviews the selected ship’s stock equipment. To review edited equipment or A/B builds, use the AI button in Loadout.')));
         const prompts = el('div', 'volt-ai-context-prompts');
         for (const question of [tr('현재 구성의 장단점 검토', 'Review this build'), tr('현재 전력과 실드 상태 설명', 'Explain current power and shields'), tr('현재 구성과 비교 구성의 차이', 'Compare the current and reference builds')]) {
             const button = el('button', '', question); button.type = 'button'; button.disabled = state.sending || !state.loggedIn;
