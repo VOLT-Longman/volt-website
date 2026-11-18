@@ -1,0 +1,79 @@
+const { test, expect } = require('@playwright/test');
+const AxeBuilder = require('@axe-core/playwright').default;
+const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
+
+async function openMining(page, prices = [{ name: 'Gold', price_sell: 28870 }, { name: 'Quantainium', price_sell: 148409 }, { name: 'Hadanite', price_sell: 2750 }]) {
+    await mockApi(page);
+    await page.route('**/api/uex/commodities', (route) => route.fulfill({ json: { status: 'ok', data: prices } }));
+    await gotoSection(page, '#mining');
+    await expect(page.locator('#mining-app .mining-table').first()).toBeVisible();
+}
+
+test('채광 안내: 광물을 고르면 캐는 곳이 나오고, 장소로 넘어가면 그곳의 광물이 나온다', async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await openMining(page);
+    await expect(page.locator('#mining h2')).toContainText('채광');
+    // 시세가 있는 광물이 위로 온다.
+    const first = page.locator('.mining-list tbody tr').first();
+    await expect(first).toContainText('148,409');
+    await page.locator('[data-mining-mineral="Ore_Gold"]').first().click();
+    const detail = page.locator('.mining-detail');
+    await expect(detail.locator('h3')).toContainText('캐는 곳');
+    await expect(detail.locator('h3')).toBeFocused();
+    await expect(detail).toContainText('28,870');
+    expect(await detail.locator('tbody tr').count()).toBeGreaterThan(3);
+    // 캐는 곳 목록에서 장소로 넘어간다.
+    await detail.locator('[data-mining-location]').first().click();
+    await expect(page.locator('.mining-tab.is-active')).toHaveText('장소별');
+    await expect(page.locator('.mining-detail h3')).toContainText('나오는 광물');
+    await expect(page.locator('.mining-detail .mining-parts li').first()).toBeVisible();
+    expect(errors).toEqual([]);
+});
+
+test('채광 안내: 검색과 방식 필터, 영어 전환', async ({ page }) => {
+    await openMining(page);
+    await page.locator('#mining-search').fill('하다');
+    await expect(page.locator('.mining-list tbody tr')).toHaveCount(1);
+    await expect(page.locator('#mining-search')).toBeFocused();
+    await page.locator('#mining-search').fill('');
+    await page.locator('[data-mining-mode="hand"]').click();
+    for (const tag of await page.locator('.mining-list tbody tr td:nth-child(2)').allTextContents()) expect(tag).toContain('손 채광');
+    await page.locator('#mining-search').fill('없는광물이름');
+    await expect(page.locator('.mining-empty')).toBeVisible();
+    await page.locator('#mining-search').fill('');
+    await page.locator('.nav-lang [data-set-lang="en"]').click();
+    await expect(page.locator('.mining-tab').first()).toHaveText('By mineral');
+    await expect(page.locator('.mining-sources')).toContainText('game files');
+});
+
+test('채광 안내: 시세를 받지 못해도 광물과 장소는 그대로 보인다', async ({ page }) => {
+    await mockApi(page);
+    await page.route('**/api/uex/commodities', (route) => route.fulfill({ status: 503, json: { error: 'down' } }));
+    await gotoSection(page, '#mining');
+    await expect(page.locator('.mining-list tbody tr').first()).toBeVisible();
+    await expect(page.locator('.mining-sources')).toContainText('시세를 불러오지 못했습니다');
+    await page.locator('[data-mining-view="location"]').click();
+    await expect(page.locator('.mining-place').first()).toBeVisible();
+});
+
+test('채광 안내: 자료를 받지 못하면 다시 시도할 수 있다', async ({ page }) => {
+    await mockApi(page);
+    let fail = true;
+    await page.route('**/data/mining/mining.json*', (route) => (fail ? route.fulfill({ status: 500, body: 'x' }) : route.continue()));
+    await gotoSection(page, '#mining');
+    await expect(page.locator('#mining-app [role="alert"]')).toBeVisible();
+    fail = false;
+    await page.locator('[data-mining-retry]').click();
+    await expect(page.locator('.mining-list tbody tr').first()).toBeVisible();
+});
+
+for (const width of [1280, 390]) {
+    test(`채광 안내: ${width}px 에서 넘치지 않고 접근성 위반이 없다`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 844 });
+        await openMining(page);
+        await page.locator('[data-mining-mineral="Ore_Gold"]').first().click();
+        await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+        const results = await new AxeBuilder({ page }).include('#mining').analyze();
+        expect(results.violations.filter((v) => ['critical', 'serious'].includes(v.impact)).map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
+    });
+}
