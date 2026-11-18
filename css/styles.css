@@ -10601,7 +10601,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .loadout-power-pips.has-devices { height: auto; min-height: 156px; }
 .loadout-power-pips.has-devices > button:not(.loadout-power-device) { flex: 0 0 14px; min-height: 14px; }
 .loadout-power-pips button.loadout-power-device { min-height: 64px; max-height: none; flex: 0 0 auto; padding: 6px 2px; }
-.loadout-power-pips .loadout-power-device span { max-width: 100%; overflow-wrap: anywhere; }
+.loadout-power-pips button.loadout-power-device span { max-width: 100%; overflow-wrap: anywhere; font-size: 12px; margin: 0; }
 .loadout-power-pips .loadout-power-device.is-device-off { border-style: dashed; background: #171a20; color: #c8cdd7; }
 .loadout-power-pips .loadout-power-device.is-unfunded { border-color: #c5a765; background: #302b20; color: #f3dfb0; }
 .volt-tool-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
