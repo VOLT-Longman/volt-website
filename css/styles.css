@@ -10679,3 +10679,11 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .gear-table th .gear-icon { float: left; }
 @media (min-width: 1101px) { .gear-side { position: sticky; top: 88px; max-height: calc(100vh - 104px); overflow-y: auto; border-radius: 12px; } }
 @media (max-width: 900px) { .gear-fit { grid-template-columns: minmax(0, 1fr); } .gear-fit-body { position: static; } }
+
+/* 개인 장비 이미지 (Star Citizen Wiki 사본) */
+.gear-thumb { float: left; width: 64px; height: 48px; margin-right: 10px; object-fit: cover; object-position: center 20%; border-radius: 6px; background: #0d0e11; }
+.gear-figure { margin: 0; display: grid; gap: 6px; }
+.gear-figure img { display: block; width: 100%; height: auto; max-height: 360px; object-fit: contain; border-radius: 10px; background: #0d0e11; }
+.gear-figure figcaption { font-size: 11px; line-height: 1.5; color: var(--color-text-secondary); }
+.gear-figure a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.gear-table th::after { content: ''; display: block; clear: both; }

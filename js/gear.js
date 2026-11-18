@@ -7,7 +7,7 @@
  */
 (function () {
     'use strict';
-    const DATA = { weapon: '/data/gear/weapons.json', armor: '/data/gear/armor.json', body: '/data/gear/body.json', icons: '/data/gear/icons.json' };
+    const DATA = { weapon: '/data/gear/weapons.json', armor: '/data/gear/armor.json', body: '/data/gear/body.json', icons: '/data/gear/icons.json', images: '/data/gear/images.json' };
     const CART_KEY = 'volt.gear.cart.v1';
     const FIT_KEY = 'volt.gear.fit.v1';
     const BODY_PARTS = ['head', 'torso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
@@ -53,7 +53,8 @@
             upperNote: '이 발사 방식의 연사는 최대 한도라, 실제 걸리는 시간은 더 길 수 있습니다.', summaryCut: '물리 피해 감소', summaryTemp: '견디는 온도', summaryStore: '수납 합계', summaryMass: '방어구 무게',
             cartEmpty: '담은 장비가 없습니다. 무기나 방어구의 변종 목록에서 「담기」를 누르세요.', item: '품목', qty: '수량', unitPrice: '단가', subtotal: '소계', total: '합계', remove: '빼기', clearCart: '장바구니 비우기',
             byShop: '상점별로 살 것', unknownPrice: '가격 미확인 {count}종은 합계에 넣지 않았습니다.', cartNote: '가격은 UEX 기준 최저가입니다. 장바구니는 이 브라우저에만 저장됩니다.', decrease: '수량 줄이기', increase: '수량 늘리기',
-            iconCredit: '무기 아이콘 © Cloud Imperium Games',
+            iconCredit: '무기 아이콘 © Cloud Imperium Games', imageBy: '이미지: {author}', imageWiki: 'Star Citizen Wiki', imageCig: '© Cloud Imperium Games', imageSource: '원본 보기',
+            imageCredit: '장비 이미지: Star Citizen Wiki 기여자들 (이미지마다 만든 사람과 이용 조건 표시)', imageAlt: '{name} 게임 화면',
         },
         en: {
             loading: 'Loading personal gear…', loadError: 'Personal gear data could not be loaded.', retry: 'Retry',
@@ -89,7 +90,8 @@
             upperNote: 'The rate of this fire mode is an upper bound, so the real time can be longer.', summaryCut: 'Physical reduction', summaryTemp: 'Temperature range', summaryStore: 'Total storage', summaryMass: 'Armor mass',
             cartEmpty: 'Nothing in the cart. Use “Add” in the variant list of a weapon or armor piece.', item: 'Item', qty: 'Qty', unitPrice: 'Unit price', subtotal: 'Subtotal', total: 'Total', remove: 'Remove', clearCart: 'Empty the cart',
             byShop: 'What to buy at each shop', unknownPrice: '{count} items without a known price are left out of the total.', cartNote: 'Prices are the lowest known on UEX. The cart is stored in this browser only.', decrease: 'Decrease quantity', increase: 'Increase quantity',
-            iconCredit: 'Weapon icons © Cloud Imperium Games',
+            iconCredit: 'Weapon icons © Cloud Imperium Games', imageBy: 'Image: {author}', imageWiki: 'Star Citizen Wiki', imageCig: '© Cloud Imperium Games', imageSource: 'View original',
+            imageCredit: 'Gear images: Star Citizen Wiki contributors (author and licence shown with each image)', imageAlt: 'In-game view of {name}',
         },
     };
     const state = { view: 'weapon', data: {}, error: {}, loading: {}, query: '', kind: '', slot: '', cls: '', sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {} };
@@ -114,6 +116,17 @@
         return null;
     }
     const cartTotal = () => Object.values(state.cart).reduce((sum, count) => sum + count, 0);
+    const photoOf = (group) => state.data.images?.images?.[group.id] || null;
+    const thumbOf = (group) => { const photo = photoOf(group); return photo ? `<img class="gear-thumb" src="/${esc(photo.file)}" width="${esc(photo.width)}" height="${esc(photo.height)}" alt="" loading="lazy" decoding="async">` : (state.view === 'weapon' ? iconOf(group) : ''); };
+    // 상세의 큰 그림과 출처: 만든 사람 · 이용 조건 · 원본 주소를 함께 보여 준다.
+    function figureOf(group) {
+        const photo = photoOf(group); if (!photo) return '';
+        const cig = /Cloud Imperium/i.test(photo.license);
+        const credit = [cig ? text('imageCig') : (photo.author ? text('imageBy', { author: photo.author }) : ''), cig ? '' : photo.license, text('imageWiki')].filter(Boolean).map(esc).join(' · ');
+        const safe = /^https:\/\/starcitizen\.tools\//.test(photo.source || '') ? photo.source : '';
+        return `<figure class="gear-figure"><img src="/${esc(photo.file)}" width="${esc(photo.width)}" height="${esc(photo.height)}" alt="${esc(text('imageAlt', { name: label(group.name) }))}" loading="lazy" decoding="async">
+            <figcaption>${credit}${safe ? ` · <a href="${esc(safe)}" target="_blank" rel="noopener noreferrer">${esc(text('imageSource'))}</a>` : ''}</figcaption></figure>`;
+    }
     const iconOf = (group) => { const icon = state.data.icons?.icons?.[group.id]; return icon ? `<img class="gear-icon" src="/${esc(icon.file)}" width="${esc(icon.width)}" height="${esc(icon.height)}" alt="" loading="lazy" decoding="async">` : ''; };
 
     // ---- 수치 ---------------------------------------------------------------
@@ -198,7 +211,7 @@
         </div>`;
     }
     const variantsTag = (group) => `<small class="gear-muted">${esc(group.variants.length > 1 ? text('variantsCount', { count: group.variants.length }) : text('oneVariant'))}</small>`;
-    const rowButton = (group) => `${state.view === 'weapon' ? iconOf(group) : ''}<button type="button" class="gear-rowbtn" data-gear-pick="${esc(group.id)}" aria-pressed="${state.selected[state.view] === group.id}">${esc(label(group.name))}</button> ${variantsTag(group)}`;
+    const rowButton = (group) => `${thumbOf(group)}<button type="button" class="gear-rowbtn" data-gear-pick="${esc(group.id)}" aria-pressed="${state.selected[state.view] === group.id}">${esc(label(group.name))}</button> ${variantsTag(group)}`;
     function rateCell(mode) {
         if (!mode) return text('unknown');
         if (mode.beam) return esc(text('beam'));
@@ -285,7 +298,8 @@
         if (!group) return `<p class="gear-hint">${esc(text('pick'))}</p>`;
         return `<section class="gear-detail" aria-labelledby="gear-detail-title">
             <header class="gear-detail-head"><h3 id="gear-detail-title" tabindex="-1">${esc(label(group.name))}</h3>${lang() === 'ko' && group.name.ko ? `<span class="gear-muted">${esc(group.name.en)}</span>` : ''}</header>
-            <div class="gear-actions">${state.view === 'weapon' ? `${iconOf(group)}<button type="button" class="btn btn-secondary" data-gear-shoot="${esc(group.id)}">${esc(text('shootWith'))}</button>` : (group.slot ? `<button type="button" class="btn btn-secondary" data-gear-wear="${esc(group.id)}">${esc(text('wear'))}</button>` : '')}</div>
+            ${figureOf(group)}
+            <div class="gear-actions">${state.view === 'weapon' ? `${photoOf(group) ? '' : iconOf(group)}<button type="button" class="btn btn-secondary" data-gear-shoot="${esc(group.id)}">${esc(text('shootWith'))}</button>` : (group.slot ? `<button type="button" class="btn btn-secondary" data-gear-wear="${esc(group.id)}">${esc(text('wear'))}</button>` : '')}</div>
             ${state.view === 'weapon' ? weaponDetail(group) : armorDetail(group)}
             ${variants(group)}
         </section>`;
@@ -427,7 +441,7 @@
     function special() {
         const version = state.data.weapon?.version || state.data.armor?.version || '';
         return `${toolbar()}<div class="gear-special">${state.view === 'fit' ? fitView() : cartView()}</div>
-            <p class="gear-sources">${esc(text('sourceGame', { version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
+            <p class="gear-sources">${esc(text('sourceGame', { version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
     }
 
     function draw(focus) {
@@ -439,7 +453,7 @@
         else if (state.error[state.view]) html = `${toolbar()}<div class="gear-status" role="alert"><p>${esc(text('loadError'))}</p><button type="button" class="btn btn-secondary" data-gear-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.data[state.view]) html = `${toolbar()}<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
         else html = `${toolbar()}<div class="gear-columns"><div class="gear-list">${list()}</div><div class="gear-side">${detail()}</div></div>
-            <p class="gear-sources">${esc(text('sourceGame', { version: state.data[state.view].version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
+            <p class="gear-sources">${esc(text('sourceGame', { version: state.data[state.view].version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
         root.innerHTML = html;
         const target = focus ? root.querySelector(focus) : (active && /^gear-/.test(active) ? document.getElementById(active) : null);
         target?.focus();
@@ -500,6 +514,7 @@
         const savedFit = readStored(FIT_KEY, null);
         if (savedFit) state.fit = { wear: savedFit.wear && typeof savedFit.wear === 'object' ? savedFit.wear : {}, weapon: String(savedFit.weapon || ''), mode: Number(savedFit.mode) || 0, distance: Number(savedFit.distance) || 0 };
         // 아이콘은 없어도 화면이 동작한다.
+        fetch(DATA.images, { cache: 'no-cache' }).then((response) => (response.ok ? response.json() : null)).then((images) => { if (images) { state.data.images = images; draw(); } }).catch(() => {});
         fetch(DATA.icons, { cache: 'no-cache' }).then((response) => (response.ok ? response.json() : null)).then((icons) => { if (icons) { state.data.icons = icons; draw(); } }).catch(() => {});
         load(state.view);
     }

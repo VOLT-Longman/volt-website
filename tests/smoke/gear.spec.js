@@ -212,3 +212,28 @@ test('착용 시험: 빠른 세트 단추로 등급별 방어구를 한 번에 �
     await page.locator('[data-gear-preset=""]').click();
     await expect(page.locator('.gear-body-part.is-covered')).toHaveCount(0);
 });
+
+test('개인 장비: 위키 이미지는 만든 사람·이용 조건·원본 링크와 함께 나온다', async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await openGear(page);
+    await page.locator('#gear-search').fill('P4-AR');
+    const row = page.locator('.gear-list tbody tr').first();
+    await expect(row.locator('img.gear-thumb')).toHaveAttribute('src', /^\/assets\/images\/gear\/wiki\/.+\.webp$/);
+    await row.locator('button').first().click();
+    const figure = page.locator('.gear-detail .gear-figure');
+    await expect(figure.locator('img')).toHaveAttribute('alt', /P4-AR/);
+    await expect(figure.locator('figcaption')).toContainText('Star Citizen Wiki');
+    await expect(figure.locator('figcaption')).toContainText(/CC|Cloud Imperium/);
+    await expect(figure.locator('a')).toHaveAttribute('href', /^https:\/\/starcitizen\.tools\//);
+    await expect(figure.locator('a')).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(page.locator('.gear-sources')).toContainText('Star Citizen Wiki');
+    expect(errors).toEqual([]);
+});
+
+test('개인 장비: 이미지 목록을 받지 못해도 목록과 수치는 그대로 나온다', async ({ page }) => {
+    await page.route('**/data/gear/images.json**', (route) => route.fulfill({ status: 404, body: '' }));
+    await openGear(page);
+    await page.locator('#gear-search').fill('P4-AR');
+    await expect(page.locator('.gear-list tbody tr').first()).toContainText('P4-AR 소총');
+    await expect(page.locator('.gear-thumb')).toHaveCount(0);
+});
