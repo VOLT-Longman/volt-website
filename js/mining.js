@@ -214,6 +214,7 @@
             state.data = await response.json();
         } catch (_error) { state.error = true; }
         draw();
+        applyPending();
         if (state.data && state.priceState === 'loading') loadPrices();
     }
 
@@ -227,5 +228,19 @@
         load();
     }
 
-    window.VOLT_MINING = { render };
+    // 다른 화면(로드아웃의 제작 재료)에서 광물을 지정해 연다. 정제 상품 id 로 와도 원광을 찾아 준다.
+    function open(resourceId) {
+        state.pending = resourceId;
+        applyPending();
+    }
+    function applyPending() {
+        if (!state.pending || !state.data) return;
+        const mineral = state.data.minerals.find((item) => item.id === state.pending || item.refined?.id === state.pending);
+        state.pending = '';
+        if (!mineral) return;
+        state.view = 'mineral'; state.query = ''; state.mode = ''; state.mineral = mineral.id;
+        draw(true);
+    }
+
+    window.VOLT_MINING = { render, open };
 })();

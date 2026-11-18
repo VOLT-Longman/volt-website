@@ -46,6 +46,7 @@ const VERSIONED_ASSETS = [
     '/js/loadout-planner.js',
     '/js/loadout.js',
     '/js/mining.js',
+    '/js/hauling.js',
     '/js/ships.js',
     '/js/ship-imagery.js',
     '/js/shipdb-manufacturers.js',
