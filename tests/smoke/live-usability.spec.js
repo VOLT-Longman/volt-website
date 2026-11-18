@@ -26,7 +26,7 @@ for (const width of [1440, 375]) test(`로드아웃 ${width}px: 최대 가동 �
         await expect(flight).toHaveAttribute('open');
     } else {
         await expect(flight).toHaveAttribute('open');
-        await expect(hull).toHaveAttribute('open');
+        await expect(hull).not.toHaveAttribute('open');
     }
     await page.locator('[data-loadout-jump="equipment"]').click();
     const tiny = () => page.locator('#loadout').evaluate(el => [...el.querySelectorAll('*')].filter(e => !e.children.length && e.textContent.trim() && e.offsetParent && parseFloat(getComputedStyle(e).fontSize) < 11).map(e => e.textContent.trim()));
