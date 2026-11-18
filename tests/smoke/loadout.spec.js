@@ -584,7 +584,7 @@ test.describe('로드아웃 편집기', () => {
         // 함선 DB와 함선 로드아웃은 「함선」 묶음 안에 있다(무역 메뉴와 같은 방식).
         await expect(page.locator('#nav-ships-menu')).toBeHidden();
         await page.locator('#nav-ships-toggle').click();
-        await expect(page.locator('#nav-ships-menu a')).toHaveText(['함선DB', '함선 로드아웃']);
+        await expect(page.locator('#nav-ships-menu a')).toHaveText(['함선DB', '함선 로드아웃', '개인 장비']);
         await page.locator('#nav-ships-menu a[href="#loadout"]').click();
         await expect(page.locator('#nav-ships-menu')).toBeHidden();
         await expect(page.locator('#nav-ships-toggle')).toHaveClass(/nav-active/);

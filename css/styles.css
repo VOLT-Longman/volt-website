@@ -10575,3 +10575,46 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-power-adjust input { grid-column: 1 / -1; grid-row: 1; }
     .loadout-power-adjust button { grid-row: 2; }
 }
+
+/* 개인 장비 안내 (js/gear.js) */
+.gear-app { display: grid; gap: 16px; --ge-card: #1a1b1f; --ge-card-2: #212329; --ge-line: rgba(255, 255, 255, 0.09); }
+.gear-app .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.gear-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 14px; }
+.gear-tabs { display: inline-flex; border: 1px solid var(--ge-line); border-radius: 10px; overflow: hidden; }
+.gear-tab { min-height: 44px; padding: 0 20px; border: 0; background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.gear-tab.is-active { background: var(--volt-orange); color: #111; }
+.gear-search { flex: 1 1 220px; min-width: 0; }
+.gear-search input, .gear-select select { width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--ge-line); background: var(--ge-card); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.gear-select { display: grid; gap: 4px; flex: 0 1 170px; min-width: 0; font-size: 12px; color: var(--color-text-secondary); }
+.gear-columns { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 16px; align-items: start; }
+.gear-list, .gear-side, .gear-detail { min-width: 0; }
+.gear-count { margin: 0 0 8px; font-size: 13px; color: var(--color-text-secondary); }
+.gear-tablewrap { overflow-x: auto; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
+.gear-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.gear-table th, .gear-table td { padding: 9px 12px; text-align: left; border-top: 1px solid var(--ge-line); vertical-align: middle; font-weight: 400; }
+.gear-table thead th { border-top: 0; background: var(--ge-card-2); font-size: 12px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; }
+.gear-table .is-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gear-table tbody tr.is-selected { background: rgba(232, 72, 47, 0.1); box-shadow: inset 3px 0 0 var(--volt-orange); }
+.gear-table small { color: var(--color-text-secondary); }
+.gear-rowbtn { min-height: 32px; padding: 2px 0; border: 0; background: none; color: var(--color-text-primary); font: inherit; font-weight: 600; text-align: left; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.3); text-underline-offset: 3px; cursor: pointer; }
+.gear-rowbtn:hover { text-decoration-color: var(--volt-orange); }
+.gear-table th .gear-muted { display: block; font-size: 12px; font-weight: 400; }
+.gear-tag { display: inline-block; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--ge-line); font-size: 12px; white-space: nowrap; }
+.gear-muted { color: var(--color-text-secondary); }
+.gear-detail { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
+.gear-detail-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.gear-detail-head h3 { margin: 0; font-size: 18px; }
+.gear-detail h4 { margin: 0 0 8px; font-size: 14px; }
+.gear-detail .gear-tablewrap { background: transparent; }
+.gear-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 0; }
+.gear-stats > div { padding: 8px 10px; border: 1px solid var(--ge-line); border-radius: 8px; background: var(--ge-card-2); min-width: 0; }
+.gear-stats dt { font-size: 12px; color: var(--color-text-secondary); }
+.gear-stats dd { margin: 2px 0 0; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.gear-note { margin: 0; font-size: 12px; line-height: 1.6; color: var(--color-text-secondary); }
+.gear-more { justify-self: center; margin-top: 10px; }
+.gear-list { display: grid; }
+.gear-hint, .gear-empty, .gear-status { margin: 0; padding: 24px 16px; border: 1px dashed var(--ge-line); border-radius: 12px; color: var(--color-text-secondary); text-align: center; }
+.gear-sources { margin: 0; padding-top: 10px; border-top: 1px solid var(--ge-line); font-size: 12px; line-height: 1.7; color: var(--color-text-secondary); }
+@media (hover: hover) { .gear-table tbody tr:hover { background: var(--ge-card-2); } }
+@media (max-width: 1100px) { .gear-columns { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) { .gear-tabs { width: 100%; } .gear-tab { flex: 1 1 auto; } .gear-select { flex: 1 1 140px; } .gear-table th, .gear-table td { padding: 8px 10px; } }

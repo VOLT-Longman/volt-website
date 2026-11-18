@@ -111,7 +111,7 @@
         about: 'nav.about', timeline: 'nav.history', leadership: 'nav.leadership', 'partner-fleets': 'nav.partners',
         hub: 'nav.tradeHub', streamers: 'nav.streamers', gallery: 'nav.gallery', join: 'nav.join', mypage: 'mypage.title',
         notices: 'nav.notices', ships: 'nav.ships', loadout: 'nav.loadout', 'trade-planner': 'nav.tradePlanner', schedule: 'nav.schedule',
-        policy: 'nav.policy', faq: 'nav.faq', guide: 'nav.tradeGuide', mining: 'nav.mining', hauling: 'nav.hauling', ai: 'VOLT AI', comms: 'nav.comms',
+        policy: 'nav.policy', faq: 'nav.faq', guide: 'nav.tradeGuide', mining: 'nav.mining', hauling: 'nav.hauling', gear: 'nav.gear', ai: 'VOLT AI', comms: 'nav.comms',
     });
     function updateDocumentTitle(section) {
         const baseTitle = i18nT('meta.title', 'VOLT - Voyagers of Logistics and Trade');
@@ -1089,7 +1089,7 @@
             renderShips();
         });
     }
-    const LAZY_SECTIONS = { ships: renderShipsSection, gallery: renderGallery, loadout: () => window.VOLT_LOADOUT?.render?.(), mining: () => window.VOLT_MINING?.render?.(), hauling: () => window.VOLT_HAULING?.render?.() };
+    const LAZY_SECTIONS = { gear: () => window.VOLT_GEAR?.render?.(), ships: renderShipsSection, gallery: renderGallery, loadout: () => window.VOLT_LOADOUT?.render?.(), mining: () => window.VOLT_MINING?.render?.(), hauling: () => window.VOLT_HAULING?.render?.() };
     const renderedLazySections = new Set();
 
     // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.

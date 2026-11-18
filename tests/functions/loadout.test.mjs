@@ -163,7 +163,7 @@ test('가격 조회: 허용된 분류만 받고, 같은 분류는 캐시로 한 
         ? [{ id_item: 7, price_buy: 15461, terminal_name: 'CenterMass', city_name: 'Area 18', star_system_name: 'Stanton' }]
         : [{ id: 7, uuid: '26838ca7-418a-47d2-8429-7339ebbb8993' }]));
     try {
-        for (const bad of ['', '?category=abc', '?category=1', '?category=32%20OR%201', '?category=9999']) assert.equal((await upstream.run(bad)).status, 400, bad);
+        for (const bad of ['', '?category=abc', '?category=6', '?category=32%20OR%201', '?category=9999']) assert.equal((await upstream.run(bad)).status, 400, bad);
         assert.equal(upstream.calls.length, 0);
         const first = await upstream.run('?category=32');
         assert.equal(first.status, 200);

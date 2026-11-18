@@ -43,6 +43,8 @@ const BASELINE = {
   'js/mining.js': 1,
   // 운송 계약 안내: 같은 방식 (draw 한 곳, 모든 동적 값 esc()).
   'js/hauling.js': 1,
+  // 개인 장비 안내: 같은 방식 (draw 한 곳, 모든 동적 값 esc()).
+  'js/gear.js': 1,
 };
 
 const SINK_PATTERN = /\.(?:innerHTML|outerHTML)\s*[+]?=|\.insertAdjacentHTML\s*\(|document\.write(?:ln)?\s*\(/g;

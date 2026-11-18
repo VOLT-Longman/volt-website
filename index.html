@@ -104,6 +104,7 @@
        <ul class="nav-trade-menu" id="nav-ships-menu">
         <li><a href="#ships" data-section="ships" data-i18n="nav.ships">함선DB</a></li>
         <li><a href="#loadout" data-section="loadout" data-i18n="nav.loadout">함선 로드아웃</a></li>
+        <li><a href="#gear" data-section="gear" data-i18n="nav.gear">개인 장비</a></li>
        </ul>
       </li>
       <li class="nav-trade">
@@ -162,6 +163,7 @@
        <li class="mobile-menu-group-label" data-i18n="nav.shipsGroup">함선</li>
        <li><a href="#ships" data-section="ships" data-i18n="nav.ships">함선DB</a></li>
        <li><a href="#loadout" data-section="loadout" data-i18n="nav.loadout">함선 로드아웃</a></li>
+       <li><a href="#gear" data-section="gear" data-i18n="nav.gear">개인 장비</a></li>
        <li class="mobile-menu-group-label" data-i18n="nav.trade">무역</li>
        <li><a href="#trade-planner" data-section="trade-planner" data-i18n="nav.tradePlanner">무역플래너</a></li>
        <li><a href="#hub" data-section="hub" data-i18n="nav.tradeHub">무역허브</a></li>
@@ -634,6 +636,16 @@
   </section>
 
   <!-- Loadout Section -->
+  <section class="section" id="gear">
+   <div class="section-content">
+    <div class="section-header">
+     <h2 data-i18n-html="gear.titleHtml">개인 <span class="accent">장비</span></h2>
+     <p data-i18n="gear.subtitle">개인 무기와 방어구의 수치를 견주고, 색상 변종과 판매처를 확인합니다.</p>
+    </div>
+    <div class="gear-app" id="gear-app"></div>
+   </div>
+  </section>
+
   <section class="section" id="mining">
    <div class="section-content">
     <div class="section-header">
@@ -1031,6 +1043,7 @@
 <script src="js/loadout-planner.js?v=20261118-11" defer></script>
 <script src="js/loadout.js?v=20261118-11" defer></script>
 <script src="js/mining.js?v=20261118-11" defer></script>
+<script src="js/gear.js?v=20261118-11" defer></script>
 <script src="js/hauling.js?v=20261118-11" defer></script>
 <script src="js/ship-imagery.js?v=20261118-11" defer></script>
 <script src="js/ships.js?v=20261118-11" defer></script>
