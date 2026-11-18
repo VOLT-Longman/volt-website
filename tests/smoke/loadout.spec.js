@@ -564,7 +564,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(shield).toHaveClass(/is-off/);
         await expect(shield).toContainText('전원 꺼짐');
         await expect(panel(page)).toContainText('부품 1개의 전원을 꺼 둔 상태입니다');
-        await expect(panel(page)).toContainText(/남는 출력|출력 부족/);
+        await expect(panel(page)).toContainText(/최대 가동 후 여유|최대 가동 시 부족/);
 
         await page.reload();
         await expect(stat(page, '실드')).toContainText('31,680');
@@ -608,8 +608,11 @@ test.describe('로드아웃 편집기', () => {
         await expect(kpis).toContainText(/실드\s*42,240/);
         await expect(kpis).toContainText(/선체\s*77,000/);
         await expect(kpis).toContainText(/항속\s*706 Gm/);
-        // 출력이 모자라면 경고색과 문구로 구별한다.
-        await expect(kpis.locator('.loadout-kpi.is-warn')).toContainText('출력 부족');
+        // 최대 가동 수요는 현재 배정 상태의 고장 경고로 표시하지 않는다.
+        const fullLoad = kpis.locator('.loadout-kpi', { hasText: '최대 가동 시 부족' });
+        await page.locator('[data-loadout-jump="equipment"]').click();
+        await expect(fullLoad).toBeVisible();
+        await expect(fullLoad).not.toHaveClass(/is-warn/);
 
         // 부품은 큰 묶음(무장 / 방어·동력 / 이동·기타) 아래 한 줄씩, 위치 › 부품 순서로 보인다.
         await expect(page.locator('.loadout-equipment-nav')).toContainText('무장');
@@ -776,9 +779,9 @@ test.describe('로드아웃 편집기', () => {
         // 실드 하나의 전원을 끄면 실드는 줄어 불리, 소비 전력·EM 시그니쳐는 줄어 유리로 표시된다.
         await shieldOff(page);
         await expect(stat(page, '실드').locator('xpath=..').locator('.loadout-change')).toHaveClass(/is-bad/);
-        await expect(row('소비 전력').locator('.loadout-change')).toHaveClass(/is-good/);
-        await expect(row('소비 전력').locator('.loadout-change')).toContainText('−');
-        await expect(row('소비 전력').locator('.loadout-change')).toContainText('유리');
+        await expect(row('최대 소비 전력').locator('.loadout-change')).toHaveClass(/is-good/);
+        await expect(row('최대 소비 전력').locator('.loadout-change')).toContainText('−');
+        await expect(row('최대 소비 전력').locator('.loadout-change')).toContainText('유리');
         await expect(row('EM 시그니쳐').locator('.loadout-change')).toHaveClass(/is-good/);
         // 후보 목록: 소비 전력이 늘어나는 부품은 따로 불리한 색으로 알린다.
         await firstGunSlot(page).locator('[data-loadout-open]').click();
