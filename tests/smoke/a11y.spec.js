@@ -45,6 +45,8 @@ test.describe('접근성(axe) 래칫', () => {
     }
 
     test('로드아웃 편집 화면과 부품 선택 창: 글자 대비와 접근성', async ({ page }) => {
+        // 화면 전체 접근성 검사를 다섯 번 돌려 기본 30초에 아슬아슬하다(느린 CI 에서 시간 초과). 제한만 늘린다.
+        test.slow();
         await mockApi(page);
         await page.route('**/api/uex/loadout-prices**', (route) => route.fulfill({ json: { status: 'ok', data: {} } }));
         await gotoSection(page, '#loadout');
