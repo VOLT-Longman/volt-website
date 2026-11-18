@@ -224,8 +224,10 @@ test('개인 장비: 위키 이미지는 만든 사람·이용 조건·원본 �
     await expect(figure.locator('img')).toHaveAttribute('alt', /P4-AR/);
     await expect(figure.locator('figcaption')).toContainText('Star Citizen Wiki');
     await expect(figure.locator('figcaption')).toContainText(/CC|Cloud Imperium/);
-    await expect(figure.locator('a')).toHaveAttribute('href', /^https:\/\/starcitizen\.tools\//);
-    await expect(figure.locator('a')).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(figure.getByRole('link', { name: '원본 보기' })).toHaveAttribute('href', /^https:\/\/starcitizen\.tools\//);
+    await expect(figure.getByRole('link', { name: '원본 보기' })).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(figure).toContainText('이미지 예시');
+    await expect(figure.getByRole('link', { name: 'CC BY-SA 4.0', exact: true })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by-sa/4.0/');
     await expect(page.locator('.gear-sources')).toContainText('Star Citizen Wiki');
     expect(errors).toEqual([]);
 });
@@ -236,4 +238,46 @@ test('개인 장비: 이미지 목록을 받지 못해도 목록과 수치는 �
     await page.locator('#gear-search').fill('P4-AR');
     await expect(page.locator('.gear-list tbody tr').first()).toContainText('P4-AR 소총');
     await expect(page.locator('.gear-thumb')).toHaveCount(0);
+});
+
+test('개인 장비: 미검증 피해와 도구 공격력을 구분하고 상세에서 목록으로 돌아간다', async ({ page }) => {
+    await openGear(page);
+    await page.locator('#gear-search').fill('맥스리프트');
+    await page.locator('[data-gear-pick]').click();
+    await expect(page.locator('.gear-detail')).toContainText('공격 수치를 표시하지 않습니다');
+    await expect(page.locator('[data-gear-shoot]')).toHaveCount(0);
+    await page.locator('[data-gear-back]').click();
+    await expect(page.locator('[data-gear-pick]')).toBeFocused();
+    await page.locator('#gear-search').fill('카르나');
+    await page.locator('[data-gear-pick]').click();
+    await page.locator('[data-gear-shoot]').click();
+    await expect(page.locator('.gear-assumption')).toContainText('실전 피해가 아닙니다');
+    await page.locator('#gear-fit-mode').selectOption('1');
+    await expect(page.locator('.gear-fit-headline')).toContainText('계산 제외');
+    await expect(page.locator('.gear-fit-table tbody tr').first().locator('td').nth(1)).toHaveText('—');
+});
+
+test('개인 장비: 최저가 이외 판매처도 펼쳐서 가격을 확인한다', async ({ page }) => {
+    await openGear(page);
+    await page.locator('#gear-search').fill('P4-AR');
+    await page.locator('[data-gear-pick]').click();
+    const shops = page.locator('.gear-shops').first();
+    await shops.locator('summary').click();
+    await expect(shops.locator('ul')).toBeVisible();
+    await expect(shops).toContainText('Port Tressler');
+    await expect(shops).toContainText('5,400');
+});
+
+test('개인 장비: 장바구니를 먼저 열어도 늦게 도착한 가격이 합계에 반영된다', async ({ page }) => {
+    await openGear(page);
+    await page.locator('#gear-search').fill('P4-AR');
+    await page.locator('[data-gear-pick]').click();
+    await page.locator(`[data-gear-add="${P4AR}"]`).click();
+    let release;
+    const ready = new Promise(resolve => { release = resolve; });
+    await page.route('**/api/uex/loadout-prices?category=18', async route => { await ready; await route.fulfill({ json: { status: 'ok', data: { [P4AR]: [{ shop: 'Cubby Blast', price: 5130 }] } } }); });
+    await page.reload();
+    await page.locator('[data-gear-view="cart"]').click();
+    release();
+    await expect(page.locator('.gear-cart-total')).toContainText('5,130');
 });

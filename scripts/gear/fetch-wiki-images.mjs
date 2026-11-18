@@ -18,6 +18,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const API = 'https://starcitizen.tools/api.php';
 const AGENT = 'fleet-site-gear-images/1.0 (one-time thumbnail copy with attribution)';
 const WIDTH = Number(process.argv[process.argv.indexOf('--width') + 1]) || 400;
+const previous = existsSync(resolve(ROOT, 'data/gear/images.json')) ? JSON.parse(readFileSync(resolve(ROOT, 'data/gear/images.json'), 'utf8')) : { images: {} };
 const ALLOWED = /^(CC0|CC BY 4\.0|CC BY SA 4\.0|CC BY-SA 4\.0|Cloud Imperium IP)$/i;
 const sleep = (ms) => new Promise((done) => setTimeout(done, ms));
 const headers = { 'User-Agent': AGENT };
@@ -38,12 +39,14 @@ const groups = [
 const pageImage = new Map();
 for (const batch of chunk([...new Set(groups.map((group) => group.name))], 50)) {
     const data = await api({ action: 'query', redirects: '1', titles: batch.join('|'), prop: 'pageimages', piprop: 'name' });
-    const alias = new Map([...(data.query.normalized || []), ...(data.query.redirects || [])].map((entry) => [entry.to, entry.from]));
-    for (const page of data.query.pages || []) {
+    const alias = new Map([...(data.query.normalized || []), ...(data.query.redirects || [])].map((entry) => [entry.from, entry.to]));
+    const pages = new Map((data.query.pages || []).map((page) => [page.title, page]));
+    for (const requested of batch) {
+        let title = requested; for (let i = 0; i < 8 && alias.has(title); i += 1) title = alias.get(title);
+        const page = pages.get(title); if (!page) continue;
         if (page.missing || !page.pageimage) continue;
-        let name = page.title; for (let i = 0; i < 3 && alias.has(name); i += 1) name = alias.get(name);
         const entry = { file: flat(`File:${page.pageimage}`), page: page.title };
-        pageImage.set(name, entry); pageImage.set(page.title, entry);
+        pageImage.set(requested, entry);
     }
     await sleep(400);
 }
@@ -57,7 +60,7 @@ for (const batch of chunk([...new Set([...pageImage.values()].map((entry) => ent
         const meta = image.extmetadata || {};
         info.set(flat(page.title), {
             thumb: image.thumburl, width: image.thumbwidth, height: image.thumbheight, source: image.descriptionurl,
-            license: meta.LicenseShortName?.value || '', author: String(meta.Artist?.value || image.user || '').replace(/<[^>]+>/g, '').replace(/^User:/, '').trim().slice(0, 60),
+            license: meta.LicenseShortName?.value || '', author: String(meta.Artist?.value || image.user || '').replace(/<[^>]+>/g, '').replace(/^User:/, '').trim(),
         });
     }
     await sleep(400);
@@ -72,7 +75,7 @@ for (const group of groups) {
     if (!ALLOWED.test(image.license)) { skipped.noLicense += 1; continue; }
     const file = `assets/images/gear/wiki/${group.id.replace(/[^a-z0-9_-]+/gi, '-')}.webp`;
     const target = resolve(ROOT, file);
-    if (!existsSync(target) || !statSync(target).size) {
+    if (!existsSync(target) || !statSync(target).size || previous.width !== WIDTH || previous.images?.[group.id]?.source !== image.source) {
         try {
             const response = await fetch(image.thumb, { headers });
             if (!response.ok) throw new Error(String(response.status));
@@ -83,7 +86,9 @@ for (const group of groups) {
             await sleep(250);
         } catch (_error) { skipped.failed += 1; continue; }
     }
-    images[group.id] = { file, width: image.width, height: image.height, license: image.license.replace('CC BY SA', 'CC BY-SA'), author: image.author || undefined, source: image.source, page: page.page };
+    const license = image.license.replace('CC BY SA', 'CC BY-SA');
+    const licenseUrl = { 'CC0': 'https://creativecommons.org/publicdomain/zero/1.0/', 'CC BY 4.0': 'https://creativecommons.org/licenses/by/4.0/', 'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/' }[license];
+    images[group.id] = { file, width: image.width, height: image.height, license, licenseUrl, author: image.author || undefined, source: image.source, page: page.page, modification: 'wiki-thumbnail' };
 }
 writeFileSync(resolve(ROOT, 'data/gear/images.json'), `${JSON.stringify({ origin: 'Star Citizen Wiki (https://starcitizen.tools)', fetchedAt: new Date().toISOString(), width: WIDTH, note: '파일마다 만든 사람(author)·이용 조건(license)·원본 주소(source)를 싣는다. 화면에 함께 표시한다.', images })}\n`);
 const licenses = Object.values(images).reduce((out, image) => { out[image.license] = (out[image.license] || 0) + 1; return out; }, {});

@@ -44,17 +44,19 @@
             uec: 'aUEC', unknown: '—',
             preset: '빠르게 입히기', presetBare: '맨몸', presetLight: '경장갑 세트', presetMedium: '중장갑 세트', presetHeavy: '중(重)장갑 세트', headShots: '머리에 맞으면', torsoShots: '몸통에 맞으면', limbShots: '팔다리에 맞으면', legend: '색 구분', legendLow: '6발 이상', legendMid: '3~5발', legendHigh: '2발 이하', legendCovered: '실선 = 방어구로 덮임',
             fit: '착용 시험', cart: '장바구니', cartCount: '장바구니 {count}', wear: '착용 시험에 입히기', shootWith: '이 무기로 쏴 보기', addCart: '담기', inCart: '담김 {count}',
-            fitIntro: '방어구를 부위별로 입히고 무기를 골라, 한 발에 얼마나 피해가 들어가는지 봅니다.', mannequin: '착용 상태', wearing: '입힌 장비', attacker: '쏘는 무기', none: '없음', noWeapon: '무기를 고르세요',
+            fitIntro: '가정 계산 · 실전 피해가 아닙니다. 같은 부위에 모두 명중하고 방어구 한 겹만 적용한다고 가정합니다. 아래 발 수는 전체 체력을 단순히 나눈 참고값이며, 실제 기절·사망을 예측하지 않습니다.', mannequin: '착용 상태', wearing: '입힌 장비', attacker: '쏘는 무기', none: '없음', noWeapon: '무기를 고르세요',
             distance: '거리 (m)', fireMode: '발사 방식', head: '머리', torso: '몸통', leftArm: '왼팔', rightArm: '오른팔', leftLeg: '왼다리', rightLeg: '오른다리',
-            bodyPart: '부위', cover: '덮은 장비', bare: '맨몸', perShot: '한 발 피해', shotsToDown: '쓰러질 때까지', shots: '{count}발', timeToDown: '걸리는 시간', seconds: '{time}초', partHealth: '부위 체력',
+            bodyPart: '부위', cover: '덮은 장비', bare: '맨몸', perShot: '가정한 한 발 피해', shotsToDown: '체력 단순 환산', shots: '{count}발', timeToDown: '이론 시간', seconds: '{time}초', partHealth: '부위 체력',
             reduction: '받는 배율', takesAll: '피해 없음', poolLine: '전체 체력 {pool} 기준', clearFit: '모두 벗기기', pickSlot: '{slot} 고르기',
             fitNote: '계산 방식: 한 발 피해 × 부위 배율 × 방어구의 피해 종류별 감소. 방어구가 덮지 않은 부위는 맨몸 배율을 씁니다. 방어구 조각이 없고 언더수트만 있으면 언더수트 값을 씁니다.',
-            fitLimits: '반영하지 않은 것: 방어구 내구도 저하, 출혈, 기절, 관통, 탄퍼짐, 빗나감. 게임 파일 값으로 계산한 추정이며 게임 안에서 확인한 값이 아닙니다.',
+            fitLimits: '게임 내 검증 전입니다. 방어구와 언더수트의 중첩, 내구도 저하, 출혈, 기절, 관통, 탄퍼짐, 빗나감은 반영하지 않습니다. 충전·폭발·기절·디스토션 피해는 이 시험에서 계산하지 않습니다. 시간은 일정한 자동 연사만 단순 환산하며 재장전을 제외합니다.',
             upperNote: '이 발사 방식의 연사는 최대 한도라, 실제 걸리는 시간은 더 길 수 있습니다.', summaryCut: '물리 피해 감소', summaryTemp: '견디는 온도', summaryStore: '수납 합계', summaryMass: '방어구 무게',
             cartEmpty: '담은 장비가 없습니다. 무기나 방어구의 변종 목록에서 「담기」를 누르세요.', item: '품목', qty: '수량', unitPrice: '단가', subtotal: '소계', total: '합계', remove: '빼기', clearCart: '장바구니 비우기',
             byShop: '상점별로 살 것', unknownPrice: '가격 미확인 {count}종은 합계에 넣지 않았습니다.', cartNote: '가격은 UEX 기준 최저가입니다. 장바구니는 이 브라우저에만 저장됩니다.', decrease: '수량 줄이기', increase: '수량 늘리기',
             iconCredit: '무기 아이콘 © Cloud Imperium Games', imageBy: '이미지: {author}', imageWiki: 'Star Citizen Wiki', imageCig: '© Cloud Imperium Games', imageSource: '원본 보기',
             imageCredit: '장비 이미지: Star Citizen Wiki 기여자들 (이미지마다 만든 사람과 이용 조건 표시)', imageAlt: '{name} 게임 화면',
+            imageExample: '이미지 예시: {name} · 선택한 변종과 색상이 다를 수 있습니다.', imageResize: '위키가 제공한 축소 사본', backList: '목록으로 돌아가기', pricePartial: '일부 분류의 가격을 불러오지 못했습니다.', excluded: '계산 제외',
+            toolNote: '도구의 기본 탄약 참조는 실제 기능의 성능으로 검증되지 않아 공격 수치를 표시하지 않습니다.', specialMode: '별도 게임 모드 설정',
         },
         en: {
             loading: 'Loading personal gear…', loadError: 'Personal gear data could not be loaded.', retry: 'Retry',
@@ -81,17 +83,19 @@
             uec: 'aUEC', unknown: '—',
             preset: 'Quick sets', presetBare: 'Bare', presetLight: 'Light set', presetMedium: 'Medium set', presetHeavy: 'Heavy set', headShots: 'Hit in the head', torsoShots: 'Hit in the torso', limbShots: 'Hit in a limb', legend: 'Colours', legendLow: '6+ shots', legendMid: '3–5 shots', legendHigh: '2 or fewer', legendCovered: 'Solid outline = covered by armor',
             fit: 'Fitting test', cart: 'Cart', cartCount: 'Cart {count}', wear: 'Put on the mannequin', shootWith: 'Shoot with this weapon', addCart: 'Add', inCart: 'In cart {count}',
-            fitIntro: 'Dress the mannequin slot by slot, pick a weapon and see how much damage one shot does.', mannequin: 'Fitting', wearing: 'Equipped', attacker: 'Attacking weapon', none: 'None', noWeapon: 'Pick a weapon',
+            fitIntro: 'Hypothetical calculation, not in-game damage. Assumes every shot hits the same part and applies one armor layer only. Shot counts simply divide the health pool; they do not predict incapacitation or death.', mannequin: 'Fitting', wearing: 'Equipped', attacker: 'Attacking weapon', none: 'None', noWeapon: 'Pick a weapon',
             distance: 'Distance (m)', fireMode: 'Fire mode', head: 'Head', torso: 'Torso', leftArm: 'Left arm', rightArm: 'Right arm', leftLeg: 'Left leg', rightLeg: 'Right leg',
-            bodyPart: 'Body part', cover: 'Covered by', bare: 'Bare', perShot: 'Damage per shot', shotsToDown: 'Shots to down', shots: '{count} shots', timeToDown: 'Time', seconds: '{time} s', partHealth: 'Part health',
+            bodyPart: 'Body part', cover: 'Covered by', bare: 'Bare', perShot: 'Hypothetical damage/shot', shotsToDown: 'Health-pool equivalent', shots: '{count} shots', timeToDown: 'Theoretical time', seconds: '{time} s', partHealth: 'Part health',
             reduction: 'Multiplier', takesAll: 'No damage', poolLine: 'Against a health pool of {pool}', clearFit: 'Remove everything', pickSlot: 'Pick {slot}',
             fitNote: 'How it is computed: damage per shot × body part multiplier × the armor reduction for each damage type. Uncovered parts use the bare multiplier. With no armor piece but an undersuit, the undersuit values apply.',
-            fitLimits: 'Not included: armor wear, bleeding, stun, penetration, spread and misses. This is an estimate from game file values, not confirmed in game.',
+            fitLimits: 'Not verified in game. Armor/undersuit stacking, wear, bleeding, stun, penetration, spread and misses are not modeled. Charged, explosive, stun and distortion damage are excluded. Time is shown only for constant automatic fire, without reloads.',
             upperNote: 'The rate of this fire mode is an upper bound, so the real time can be longer.', summaryCut: 'Physical reduction', summaryTemp: 'Temperature range', summaryStore: 'Total storage', summaryMass: 'Armor mass',
             cartEmpty: 'Nothing in the cart. Use “Add” in the variant list of a weapon or armor piece.', item: 'Item', qty: 'Qty', unitPrice: 'Unit price', subtotal: 'Subtotal', total: 'Total', remove: 'Remove', clearCart: 'Empty the cart',
             byShop: 'What to buy at each shop', unknownPrice: '{count} items without a known price are left out of the total.', cartNote: 'Prices are the lowest known on UEX. The cart is stored in this browser only.', decrease: 'Decrease quantity', increase: 'Increase quantity',
             iconCredit: 'Weapon icons © Cloud Imperium Games', imageBy: 'Image: {author}', imageWiki: 'Star Citizen Wiki', imageCig: '© Cloud Imperium Games', imageSource: 'View original',
             imageCredit: 'Gear images: Star Citizen Wiki contributors (author and licence shown with each image)', imageAlt: 'In-game view of {name}',
+            imageExample: 'Example image: {name}. Colour may differ from the selected variant.', imageResize: 'Thumbnail provided by the wiki', backList: 'Back to list', pricePartial: 'Prices for some categories could not be loaded.', excluded: 'Not modeled',
+            toolNote: 'The default ammo references on tools are not verified as functional performance, so combat stats are not shown.', specialMode: 'Separate game-mode configuration',
         },
     };
     const state = { view: 'weapon', data: {}, error: {}, loading: {}, query: '', kind: '', slot: '', cls: '', sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {} };
@@ -122,10 +126,12 @@
     function figureOf(group) {
         const photo = photoOf(group); if (!photo) return '';
         const cig = /Cloud Imperium/i.test(photo.license);
-        const credit = [cig ? text('imageCig') : (photo.author ? text('imageBy', { author: photo.author }) : ''), cig ? '' : photo.license, text('imageWiki')].filter(Boolean).map(esc).join(' · ');
+        const licenseUrl = /^https:\/\/creativecommons\.org\/(licenses|publicdomain)\//.test(photo.licenseUrl || '') ? photo.licenseUrl : '';
+        const license = licenseUrl ? `<a href="${esc(licenseUrl)}" target="_blank" rel="noopener noreferrer">${esc(photo.license)}</a>` : esc(photo.license);
+        const credit = [cig ? text('imageCig') : (photo.author ? text('imageBy', { author: photo.author }) : ''), text('imageWiki'), text('imageResize')].filter(Boolean).map(esc).join(' · ');
         const safe = /^https:\/\/starcitizen\.tools\//.test(photo.source || '') ? photo.source : '';
         return `<figure class="gear-figure"><img src="/${esc(photo.file)}" width="${esc(photo.width)}" height="${esc(photo.height)}" alt="${esc(text('imageAlt', { name: label(group.name) }))}" loading="lazy" decoding="async">
-            <figcaption>${credit}${safe ? ` · <a href="${esc(safe)}" target="_blank" rel="noopener noreferrer">${esc(text('imageSource'))}</a>` : ''}</figcaption></figure>`;
+            <figcaption>${esc(text('imageExample', { name: photo.page || group.name.en }))}<br>${credit}${cig ? '' : ` · ${license}`}${safe ? ` · <a href="${esc(safe)}" target="_blank" rel="noopener noreferrer">${esc(text('imageSource'))}</a>` : ''}</figcaption></figure>`;
     }
     const iconOf = (group) => { const icon = state.data.icons?.icons?.[group.id]; return icon ? `<img class="gear-icon" src="/${esc(icon.file)}" width="${esc(icon.width)}" height="${esc(icon.height)}" alt="" loading="lazy" decoding="async">` : ''; };
 
@@ -133,8 +139,9 @@
     const totalDamage = (damage) => Object.values(damage || {}).reduce((sum, value) => sum + value, 0);
     // 대표 발사 방식: 연사가 가장 높은 것. 빔은 초당 피해를 그대로 쓴다.
     function bestMode(group) {
+        if (group.combatVerified === false) return null;
         const modes = (group.modes || []).filter((mode) => mode.rpm || mode.beam);
-        return modes.sort((a, b) => (b.rpm || 0) - (a.rpm || 0))[0] || null;
+        return modes.sort((a, b) => Number(a.k === 'charged') - Number(b.k === 'charged') || (b.rpm || 0) - (a.rpm || 0))[0] || null;
     }
     function dpsOf(group) {
         const mode = bestMode(group); if (!mode) return 0;
@@ -156,6 +163,7 @@
     function priceCell(group) {
         const status = state.priceState[state.view];
         if (status === 'loading') return `<span class="gear-muted">${esc(text('priceLoading'))}</span>`;
+        if (status === 'failed') return `<span class="gear-muted">${esc(text('priceFailed'))}</span>`;
         const shop = cheapest(group);
         return shop ? `<strong>${esc(num(shop.price))}</strong> <small>${esc(text('uec'))}</small>` : `<span class="gear-muted">${esc(text('noShop'))}</span>`;
     }
@@ -163,7 +171,8 @@
         if (state.priceState[view]) return;
         state.priceState[view] = 'loading';
         const byUuid = new Map(); const byName = new Map(); let failed = 0;
-        await Promise.all(PRICE_CATEGORIES[view].map(async (category) => {
+        // One category at a time: each server miss already needs two upstream calls.
+        for (const category of PRICE_CATEGORIES[view]) {
             try {
                 const response = await fetch(`/api/uex/loadout-prices?category=${category}`, { headers: { Accept: 'application/json' } });
                 if (!response.ok) throw new Error(String(response.status));
@@ -171,10 +180,10 @@
                 for (const [uuid, shops] of Object.entries(payload.data || {})) byUuid.set(uuid.toLowerCase(), shops);
                 for (const item of payload.byName || []) byName.set(norm(item.name), item.shops);
             } catch (_error) { failed += 1; }
-        }));
+        }
         state.prices[view] = { byUuid, byName };
-        state.priceState[view] = failed === PRICE_CATEGORIES[view].length ? 'failed' : 'ready';
-        if (state.view === view) draw();
+        state.priceState[view] = failed === PRICE_CATEGORIES[view].length ? 'failed' : failed ? 'partial' : 'ready';
+        if (state.view === view || state.view === 'cart') draw();
     }
 
     // ---- 목록 ---------------------------------------------------------------
@@ -210,8 +219,8 @@
             <label class="gear-select"><span>${esc(text('sort'))}</span><select id="gear-sort">${sorts.map(([value, key]) => option(value, text(key), state.sort)).join('')}</select></label>
         </div>`;
     }
-    const variantsTag = (group) => `<small class="gear-muted">${esc(group.variants.length > 1 ? text('variantsCount', { count: group.variants.length }) : text('oneVariant'))}</small>`;
-    const rowButton = (group) => `${thumbOf(group)}<button type="button" class="gear-rowbtn" data-gear-pick="${esc(group.id)}" aria-pressed="${state.selected[state.view] === group.id}">${esc(label(group.name))}</button> ${variantsTag(group)}`;
+    const variantsTag = (group) => `<small class="gear-muted">${esc(group.variants.length > 1 ? text('variantsCount', { count: group.variants.length }) : text('oneVariant'))}${group.specialMode ? ` · ${esc(text('specialMode'))}` : ''}</small>`;
+    const rowButton = (group) => `<div class="gear-item-name">${thumbOf(group)}<div><button type="button" class="gear-rowbtn" data-gear-pick="${esc(group.id)}" aria-pressed="${state.selected[state.view] === group.id}">${esc(label(group.name))}</button>${lang() === 'ko' && group.name.ko ? `<small class="gear-english">${esc(group.name.en)}</small>` : ''}${variantsTag(group)}</div></div>`;
     function rateCell(mode) {
         if (!mode) return text('unknown');
         if (mode.beam) return esc(text('beam'));
@@ -219,14 +228,14 @@
     }
     function weaponRows(list) {
         return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col">${esc(text('kind'))}</th><th scope="col" class="is-num">${esc(text('damage'))}</th><th scope="col" class="is-num">${esc(text('rate'))}</th><th scope="col" class="is-num">${esc(text('dps'))}</th><th scope="col" class="is-num">${esc(text('mag'))}</th><th scope="col" class="is-num">${esc(text('speed'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th></tr></thead>
-            <tbody>${list.map((group) => { const mode = bestMode(group); const damage = totalDamage(group.ammo?.dmg); const dps = dpsOf(group); return `<tr class="${state.selected.weapon === group.id ? 'is-selected' : ''}">
+            <tbody>${list.map((group) => { const mode = bestMode(group); const damage = group.combatVerified === false ? 0 : totalDamage(group.ammo?.dmg); const dps = dpsOf(group); return `<tr class="${state.selected.weapon === group.id ? 'is-selected' : ''}">
                 <th scope="row">${rowButton(group)}</th>
                 <td><span class="gear-tag">${esc(text(group.kind))}</span></td>
                 <td class="is-num">${damage ? `${esc(num(damage, 1))}${mode?.pellets ? ` × ${esc(mode.pellets)}` : ''}` : esc(text('unknown'))}</td>
                 <td class="is-num">${rateCell(mode)}</td>
                 <td class="is-num">${dps ? `${mode?.basis === 'upperBound' ? '≤ ' : ''}${esc(num(dps))}` : esc(text('unknown'))}</td>
-                <td class="is-num">${group.mag ? esc(num(group.mag)) : esc(text('unknown'))}</td>
-                <td class="is-num">${group.ammo?.speed ? `${esc(num(group.ammo.speed))} m/s` : esc(text('unknown'))}</td>
+                <td class="is-num">${group.combatVerified !== false && group.mag ? esc(num(group.mag)) : esc(text('unknown'))}</td>
+                <td class="is-num">${group.combatVerified !== false && group.ammo?.speed ? `${esc(num(group.ammo.speed))} m/s` : esc(text('unknown'))}</td>
                 <td class="is-num">${priceCell(group)}</td></tr>`; }).join('')}</tbody>`;
     }
     function armorRows(list) {
@@ -254,13 +263,14 @@
     const damageLine = (damage) => DAMAGE.filter((key) => damage?.[key]).map((key) => `${esc(text(key))} ${esc(num(damage[key], 2))}`).join(' · ');
     const BASIS = { sequence: 'basisSequence', automatic: 'basisAutomatic', upperBound: 'basisUpper' };
     function weaponDetail(group) {
+        if (group.combatVerified === false) return `<p class="gear-note">${esc(text('toolNote'))}</p><dl class="gear-stats">${stat(text('kind'), esc(text(group.kind)))}${group.mass ? stat(text('mass'), `${esc(num(group.mass, 2))} kg`) : ''}${group.mfr ? stat(text('maker'), esc(group.mfr)) : ''}</dl>`;
         const ammo = group.ammo || {};
         const modes = (group.modes || []).map((mode) => `<tr><th scope="row">${esc(text(mode.k))}${mode.name ? ` <small class="gear-muted">${esc(mode.name)}</small>` : ''}</th>
             <td class="is-num">${mode.beam ? esc(damageLine(mode.beam)) : rateCell(mode)}</td>
             <td>${[mode.pulls ? text('pulls', { shots: mode.shots, pulls: mode.pulls }) : '', mode.burst ? text('burstShots', { count: mode.burst }) : '', mode.pellets ? text('pellets', { count: mode.pellets }) : '', mode.charge?.time ? text('chargeTime', { time: num(mode.charge.time, 2) }) : ''].filter(Boolean).map(esc).join(' · ')}</td>
             <td><small>${mode.basis ? esc(text(BASIS[mode.basis])) : ''}</small></td></tr>`).join('');
         const slots = ['optics', 'barrel', 'under'].filter((key) => group.slots?.[key]).map((key) => stat(text(key), esc(text('upTo', { size: group.slots[key] })))).join('');
-        return `<dl class="gear-stats">
+        return `${group.specialMode ? `<p class="gear-assumption">${esc(text('specialMode'))}</p>` : ''}<dl class="gear-stats">
                 ${stat(text('kind'), esc(text(group.kind)))}${group.mfr ? stat(text('maker'), esc(group.mfr)) : ''}${stat(text('size'), `S${esc(group.size ?? '?')}`)}${group.mass ? stat(text('mass'), `${esc(num(group.mass, 2))} kg`) : ''}
                 ${group.mag ? stat(text('mag'), esc(num(group.mag))) : ''}${ammo.dmg ? stat(text('damage'), damageLine(ammo.dmg)) : ''}${ammo.speed ? stat(text('speed'), `${esc(num(ammo.speed))} m/s`) : ''}${ammo.range ? stat(text('range'), `${esc(num(ammo.range))} m`) : ''}
                 ${dpsOf(group) ? stat(text('dps'), `${bestMode(group)?.basis === 'upperBound' ? '≤ ' : ''}${esc(num(dpsOf(group)))}`) : ''}
@@ -285,21 +295,22 @@
             const shops = shopsOf(variant) || []; const best = shops[0];
             return `<tr><th scope="row">${esc(variantName(variant))}</th>
                 <td class="is-num">${status === 'loading' ? `<span class="gear-muted">${esc(text('priceLoading'))}</span>` : best ? `<strong>${esc(num(best.price))}</strong> <small>${esc(text('uec'))}</small>` : `<span class="gear-muted">${esc(text('noShop'))}</span>`}</td>
-                <td>${best ? `${esc([best.shop, best.place, best.system].filter(Boolean).join(' · '))}${shops.length > 1 ? ` <small class="gear-muted">${esc(text('shopsCount', { count: shops.length }))}</small>` : ''}` : ''}</td>
+                <td>${best ? (shops.length > 1 ? `<details class="gear-shops"><summary>${esc([best.shop, best.place, best.system].filter(Boolean).join(' · '))} · ${esc(text('shopsCount', { count: shops.length }))}</summary><ul>${shops.map((shop) => `<li>${esc([shop.shop, shop.place, shop.system].filter(Boolean).join(' · '))} <strong>${esc(num(shop.price))} ${esc(text('uec'))}</strong></li>`).join('')}</ul></details>` : esc([best.shop, best.place, best.system].filter(Boolean).join(' · '))) : ''}</td>
                 <td class="is-num"><button type="button" class="gear-add" data-gear-add="${esc(variant[0])}" aria-label="${esc(variantName(variant))} ${esc(text('addCart'))}">${esc(state.cart[variant[0]] ? text('inCart', { count: state.cart[variant[0]] }) : text('addCart'))}</button></td></tr>`;
         }).join('');
         return `<section class="gear-variants"><h4>${esc(text('variants'))} <small class="gear-muted">${esc(group.variants.length > 1 ? text('variantsCount', { count: group.variants.length }) : text('oneVariant'))}</small></h4>
             ${group.variants.length > 1 ? `<p class="gear-note">${esc(text('variantsNote'))}</p>` : ''}
             <div class="gear-tablewrap" tabindex="0" role="region" aria-label="${esc(text('variants'))}"><table class="gear-table"><thead><tr><th scope="col">${esc(text('variantName'))}</th><th scope="col" class="is-num">${esc(text('cheapest'))}</th><th scope="col">${esc(text('shops'))}</th><th scope="col" class="is-num">${esc(text('cart'))}</th></tr></thead><tbody>${rows}</tbody></table></div>
-            <p class="gear-note">${esc(status === 'failed' ? text('priceFailed') : text('noShopNote'))}</p></section>`;
+            <p class="gear-note">${esc(status === 'failed' ? text('priceFailed') : status === 'partial' ? text('pricePartial') : text('noShopNote'))}</p></section>`;
     }
     function detail() {
         const group = (state.data[state.view]?.groups || []).find((item) => item.id === state.selected[state.view]);
         if (!group) return `<p class="gear-hint">${esc(text('pick'))}</p>`;
         return `<section class="gear-detail" aria-labelledby="gear-detail-title">
+            <button type="button" class="gear-add gear-back" data-gear-back>${esc(text('backList'))}</button>
             <header class="gear-detail-head"><h3 id="gear-detail-title" tabindex="-1">${esc(label(group.name))}</h3>${lang() === 'ko' && group.name.ko ? `<span class="gear-muted">${esc(group.name.en)}</span>` : ''}</header>
             ${figureOf(group)}
-            <div class="gear-actions">${state.view === 'weapon' ? `${photoOf(group) ? '' : iconOf(group)}<button type="button" class="btn btn-secondary" data-gear-shoot="${esc(group.id)}">${esc(text('shootWith'))}</button>` : (group.slot ? `<button type="button" class="btn btn-secondary" data-gear-wear="${esc(group.id)}">${esc(text('wear'))}</button>` : '')}</div>
+            <div class="gear-actions">${state.view === 'weapon' ? `${photoOf(group) ? '' : iconOf(group)}${group.combatVerified === false ? '' : `<button type="button" class="btn btn-secondary" data-gear-shoot="${esc(group.id)}">${esc(text('shootWith'))}</button>`}` : (group.slot ? `<button type="button" class="btn btn-secondary" data-gear-wear="${esc(group.id)}">${esc(text('wear'))}</button>` : '')}</div>
             ${state.view === 'weapon' ? weaponDetail(group) : armorDetail(group)}
             ${variants(group)}
         </section>`;
@@ -315,9 +326,9 @@
     }
     function coverOf(part) {
         const body = state.data.body; if (!body) return null;
-        for (const slot of ['helmet', 'core', 'arms', 'legs']) { const group = findGroup('armor', state.fit.wear[slot]); if (group && body.covers[slot].includes(part)) return group; }
+        for (const slot of ['helmet', 'core', 'arms', 'legs']) { const group = findGroup('armor', state.fit.wear[slot]); if (group && (group.covers || body.covers[slot]).includes(part)) return group; }
         const undersuit = findGroup('armor', state.fit.wear.undersuit);
-        return undersuit && body.covers.undersuit.includes(part) ? undersuit : null;
+        return undersuit && (undersuit.covers || body.covers.undersuit).includes(part) ? undersuit : null;
     }
     function fitRows() {
         const body = state.data.body; const weapon = findGroup('weapon', state.fit.weapon);
@@ -327,10 +338,11 @@
         return BODY_PARTS.map((id) => {
             const part = body.parts.find((item) => item.id === id); const cover = coverOf(id);
             const raw = DAMAGE.reduce((sum, key) => sum + (base[key] || 0), 0) * (mode?.pellets || 1);
-            const taken = DAMAGE.reduce((sum, key, index) => sum + (base[key] || 0) * (cover ? part.armored * (1 - (cover.cut?.[index] ?? 0) / 100) : part.naked), 0) * (mode?.pellets || 1);
+            const supported = weapon && mode?.k !== 'charged' && !weapon.ammo?.blast && !base.stun && !base.distortion && (!cover || cover.cut);
+            const taken = supported ? DAMAGE.reduce((sum, key, index) => sum + (base[key] || 0) * (cover ? part.armored * (1 - (cover.cut[index] ?? 0) / 100) : part.naked), 0) * (mode?.pellets || 1) : null;
             const hits = taken > 0 ? Math.ceil(body.pool / taken) : null;
             // 빔은 초당 피해라 발 수 대신 시간으로 보여 준다.
-            const seconds = mode?.beam ? (taken > 0 ? body.pool / taken : null) : (hits && mode?.rpm ? (hits - 1) * 60 / mode.rpm : null);
+            const seconds = mode?.beam ? (taken > 0 ? body.pool / taken : null) : (hits && mode?.k === 'rapid' && mode.rpm ? (hits - 1) * 60 / mode.rpm : null);
             return { part, cover, raw, taken, hits, seconds, beam: Boolean(mode?.beam), mode };
         });
     }
@@ -372,6 +384,7 @@
     }
     function fitView() {
         const body = state.data.body; const armor = state.data.armor; const weapons = state.data.weapon;
+        if (['weapon', 'armor', 'body'].some((key) => state.error[key])) return `<div class="gear-status" role="alert">${esc(text('loadError'))} <button type="button" class="gear-add" data-gear-retry>${esc(text('retry'))}</button></div>`;
         if (!body || !armor || !weapons) return `<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
         const rows = fitRows(); const weapon = findGroup('weapon', state.fit.weapon);
         const modes = (weapon?.modes || []).filter((mode) => mode.rpm || mode.beam); const mode = rows[0].mode;
@@ -386,17 +399,17 @@
             <thead><tr><th scope="col">${esc(text('bodyPart'))}</th><th scope="col">${esc(text('cover'))}</th><th scope="col" class="is-num">${esc(text('perShot'))}</th><th scope="col" class="is-num">${esc(text('reduction'))}</th><th scope="col" class="is-num">${esc(text('shotsToDown'))}</th><th scope="col" class="is-num">${esc(text('timeToDown'))}</th><th scope="col">${esc(text('partHealth'))}</th></tr></thead>
             <tbody>${rows.map((row) => `<tr><th scope="row">${esc(text(row.part.id))}</th>
                 <td>${row.cover ? esc(label(row.cover.name)) : `<span class="gear-muted">${esc(text('bare'))}</span>`}</td>
-                <td class="is-num">${weapon ? `<strong>${esc(num(row.taken, 1))}</strong>` : esc(text('unknown'))}</td>
-                <td class="is-num">${weapon && row.raw > 0 ? `×${esc(num(row.taken / row.raw, 2))}` : esc(text('unknown'))}</td>
-                <td class="is-num">${!weapon ? esc(text('unknown')) : row.beam ? esc(text('beam')) : row.hits ? esc(text('shots', { count: num(row.hits) })) : esc(text('takesAll'))}</td>
+                <td class="is-num">${weapon && row.taken !== null ? `<strong>${esc(num(row.taken, 1))}</strong>` : esc(text('unknown'))}</td>
+                <td class="is-num">${weapon && row.taken !== null && row.raw > 0 ? `×${esc(num(row.taken / row.raw, 2))}` : esc(text('unknown'))}</td>
+                <td class="is-num">${!weapon ? esc(text('unknown')) : row.taken === null ? esc(text('excluded')) : row.beam ? esc(text('beam')) : row.hits ? esc(text('shots', { count: num(row.hits) })) : esc(text('takesAll'))}</td>
                 <td class="is-num">${weapon && row.seconds !== null ? `${row.mode?.basis === 'upperBound' ? '≥ ' : ''}${esc(text('seconds', { time: num(row.seconds, 1) }))}` : esc(text('unknown'))}</td>
                 <td><meter class="gear-meter" min="0" max="${esc(row.part.health)}" value="${esc(Math.max(0, row.part.health - (weapon ? row.taken : 0)))}" aria-label="${esc(text(row.part.id))} ${esc(text('partHealth'))}"></meter> <small class="gear-muted">${esc(num(row.part.health))}</small></td></tr>`).join('')}</tbody></table></div>`;
-        return `<p class="gear-note">${esc(text('fitIntro'))}</p>
+        return `<p class="gear-assumption" role="note">${esc(text('fitIntro'))}</p>
             <div class="gear-fit">
                 <div class="gear-fit-body">${mannequin(rows)}
                     <ul class="gear-legend" aria-label="${esc(text('legend'))}"><li class="is-low">${esc(text('legendLow'))}</li><li class="is-mid">${esc(text('legendMid'))}</li><li class="is-high">${esc(text('legendHigh'))}</li><li class="is-covered">${esc(text('legendCovered'))}</li></ul></div>
                 <div class="gear-fit-main">
-                    ${weapon ? `<dl class="gear-stats gear-fit-headline">${[['headShots', 'head'], ['torsoShots', 'torso'], ['limbShots', 'leftArm']].map(([key, id]) => { const item = rows.find((entry) => entry.part.id === id); return stat(text(key), item.beam ? `${esc(num(item.seconds, 1))}${esc(lang() === 'ko' ? '초' : ' s')}` : item.hits ? esc(text('shots', { count: num(item.hits) })) : esc(text('takesAll'))); }).join('')}</dl>` : ''}
+                    ${weapon ? `<dl class="gear-stats gear-fit-headline">${[['headShots', 'head'], ['torsoShots', 'torso'], ['limbShots', 'leftArm']].map(([key, id]) => { const item = rows.find((entry) => entry.part.id === id); return stat(text(key), item.taken === null ? esc(text('excluded')) : item.beam ? `${esc(num(item.seconds, 1))}${esc(lang() === 'ko' ? '초' : ' s')}` : item.hits ? esc(text('shots', { count: num(item.hits) })) : esc(text('takesAll'))); }).join('')}</dl>` : ''}
                     <section><h3>${esc(text('wearing'))}</h3>
                         <div class="gear-presets" role="group" aria-label="${esc(text('preset'))}">${[['', 'presetBare'], ['light', 'presetLight'], ['medium', 'presetMedium'], ['heavy', 'presetHeavy']].map(([cls, key]) => `<button type="button" class="gear-add" data-gear-preset="${cls}">${esc(text(key))}</button>`).join('')}</div>
                         <div class="gear-fit-slots">${SLOTS.filter((slot) => slot !== 'backpack').map(slotSelect).join('')}</div>${summary}
@@ -482,8 +495,9 @@
         root.addEventListener('click', (event) => {
             const target = event.target.closest('button'); if (!target || !root.contains(target)) return;
             if (target.hasAttribute('data-gear-retry')) { load(state.view); return; }
+            if (target.hasAttribute('data-gear-back')) { root.querySelector(`[data-gear-pick="${CSS.escape(state.selected[state.view])}"]`)?.focus(); return; }
             if (target.dataset.gearView) { state.view = target.dataset.gearView; state.query = ''; state.sort = ''; state.limit = PAGE; draw(`[data-gear-view="${state.view}"]`); load(state.view); return; }
-            if (target.dataset.gearAdd) { const uuid = target.dataset.gearAdd; state.cart[uuid] = (state.cart[uuid] || 0) + 1; store(CART_KEY, state.cart); draw(`[data-gear-add="${uuid}"]`); return; }
+            if (target.dataset.gearAdd) { const uuid = target.dataset.gearAdd; state.cart[uuid] = Math.min(99, (state.cart[uuid] || 0) + 1); store(CART_KEY, state.cart); draw(`[data-gear-add="${uuid}"]`); return; }
             if (target.dataset.gearQty) { const uuid = target.dataset.gearQty; const next = (state.cart[uuid] || 0) + Number(target.dataset.step); if (next > 0) state.cart[uuid] = Math.min(next, 99); else delete state.cart[uuid]; store(CART_KEY, state.cart); draw(state.cart[uuid] ? `[data-gear-qty="${uuid}"][data-step="${target.dataset.step}"]` : '[data-gear-view="cart"]'); return; }
             if (target.dataset.gearRemove) { delete state.cart[target.dataset.gearRemove]; store(CART_KEY, state.cart); draw('[data-gear-view="cart"]'); return; }
             if (target.hasAttribute('data-gear-clear-cart')) { state.cart = {}; store(CART_KEY, state.cart); draw('[data-gear-view="cart"]'); return; }
@@ -510,7 +524,7 @@
             state[key] = event.target.value; state.limit = PAGE; draw(`#${event.target.id}`);
         });
         window.VOLT_I18N?.onChange?.(() => draw());
-        state.cart = readStored(CART_KEY, {});
+        state.cart = Object.fromEntries(Object.entries(readStored(CART_KEY, {})).filter(([key, count]) => /^[a-f0-9-]{36}$/i.test(key) && Number.isSafeInteger(count) && count > 0).map(([key, count]) => [key, Math.min(99, count)]));
         const savedFit = readStored(FIT_KEY, null);
         if (savedFit) state.fit = { wear: savedFit.wear && typeof savedFit.wear === 'object' ? savedFit.wear : {}, weapon: String(savedFit.weapon || ''), mode: Number(savedFit.mode) || 0, distance: Number(savedFit.distance) || 0 };
         // 아이콘은 없어도 화면이 동작한다.

@@ -10576,6 +10576,67 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-power-adjust button { grid-row: 2; }
 }
 
+/* Keep related systems together without adding another large overview card. */
+.loadout-system-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--lo-line); }
+.loadout-system-facts .loadout-stat-label { font-size: 12px; }
+.loadout-system-facts .loadout-stat strong { font-size: 20px; font-variant-numeric: tabular-nums; }
+.loadout-system-facts .loadout-rows { grid-column: 1 / -1; margin: 0; }
+.loadout-system-facts .loadout-row { padding: 6px 0; }
+.loadout-signatures { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--lo-line); }
+.loadout-signatures h5 { margin: 0 0 8px; color: #e5e7ed; font-size: 13px; font-weight: 600; }
+.loadout-signatures .loadout-rows { margin: 0; }
+.loadout-ship-sellers { list-style: none; padding: 0; margin: 0; }
+.loadout-ship-sellers li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; padding: 12px 0; border-bottom: 1px solid var(--lo-line); }
+.loadout-ship-sellers strong { display: block; font-size: 14px; color: #f3f4f7; overflow-wrap: anywhere; }
+.loadout-ship-sellers span, .loadout-ship-sellers small { display: block; margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--lo-dim); overflow-wrap: anywhere; }
+.loadout-ship-sellers b { color: #ffb29a; font-size: 14px; font-variant-numeric: tabular-nums; text-align: right; }
+.loadout-ship-market > .loadout-note { margin: 10px 0 0; }
+.loadout-ship-market summary { min-height: 44px; display: list-item; align-content: center; cursor: pointer; }
+@media (max-width: 1100px) {
+    .loadout-ship-sellers li { grid-template-columns: minmax(0, 1fr); }
+    .loadout-ship-sellers b { text-align: left; }
+}
+
+/* Individual device power and context-preserving tool navigation. */
+.loadout-power-channel { display: grid; grid-template-rows: 24px minmax(156px, 1fr) auto minmax(34px, auto); }
+.loadout-power-pips, .loadout-power-pips.has-devices { height: auto; min-height: 156px; justify-content: flex-end; align-self: stretch; }
+.loadout-power-pips.has-devices > button:not(.loadout-power-device) { flex: 0 0 14px; min-height: 14px; }
+.loadout-power-pips button.loadout-power-device { min-height: 64px; max-height: none; flex: 0 0 auto; padding: 6px 2px; }
+.loadout-power-pips button.loadout-power-device span { max-width: 100%; overflow-wrap: anywhere; font-size: 12px; margin: 0; }
+.loadout-power-pips .loadout-power-device.is-device-off { border-style: dashed; background: #171a20; color: #c8cdd7; }
+.loadout-power-pips .loadout-power-device.is-unfunded { border-color: #c5a765; background: #302b20; color: #f3dfb0; }
+.volt-tool-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.loadout-identity > .volt-tool-links { padding: 0 16px 16px; }
+.volt-tool-links button, .volt-ai-context-prompts button { min-height: 44px; padding: 9px 13px; border: 1px solid #535967; border-radius: 6px; background: #252932; color: #f1f3f8; font: inherit; font-size: 13px; cursor: pointer; }
+.volt-tool-links .is-ai { border-color: #b36b55; background: #503326; color: #ffcfb9; }
+.volt-tool-links button:hover, .volt-ai-context-prompts button:hover { border-color: #eea183; background: #413027; }
+.volt-tool-links button:focus-visible, .volt-ai-context button:focus-visible { outline: 2px solid #ffb496; outline-offset: 3px; }
+.volt-ai-context { padding: 16px 20px; border-block: 1px solid #664b40; background: #25201d; }
+.volt-ai-context[hidden] { display: none; }
+.volt-ai-context-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; color: #ffe0cb; }
+.volt-ai-context-heading > span, .volt-ai-context p { color: #d6ccd0; font-size: 13px; line-height: 1.6; }
+.volt-ai-context-heading button { margin-left: auto; min-height: 32px; }
+.volt-ai-context p { margin: 10px 0; }
+.volt-ai-context-prompts { display: flex; flex-wrap: wrap; gap: 8px; }
+.volt-ai-context-prompts button:disabled { opacity: .65; cursor: default; }
+.volt-ai-review { margin-top: 20px; --lo-up: #a3d7ad; --lo-down: #ffab9c; }
+.volt-ai-review h4 { margin: 16px 0 10px; font-size: 16px; color: #fff0e6; }
+.volt-ai-review-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.volt-ai-review-metrics > div { padding: 12px; border: 1px solid #424854; border-radius: 7px; background: #20242b; }
+.volt-ai-review-metrics dt, .volt-ai-review-metrics small { display: block; color: #c6cbd5; font-size: 12px; line-height: 1.5; }
+.volt-ai-review-metrics dd { margin: 5px 0; font-size: 20px; font-weight: 650; color: #f4f5f8; font-variant-numeric: tabular-nums; }
+.volt-ai-review-metrics .loadout-change { display: block; margin: 5px 0 0; }
+.volt-ai-review-checks { padding: 0; list-style: none; }
+.volt-ai-review-checks li { margin: 10px 0; padding: 12px 14px; border-left: 3px solid #686f7b; background: #20242b; }
+.volt-ai-review-checks li.is-warning { border-color: #e8ac65; }
+.volt-ai-review-checks strong { color: #ffe5c7; }
+.volt-ai-review-checks p { margin: 6px 0 0; line-height: 1.65; color: #d9dce2; }
+@media (max-width: 540px) {
+    .volt-tool-links button { flex: 1 1 auto; }
+    .volt-ai-context { padding: 14px; }
+    .volt-ai-review-metrics { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* 개인 장비 안내 (js/gear.js) */
 .gear-app { display: grid; gap: 16px; --ge-card: #1a1b1f; --ge-card-2: #212329; --ge-line: rgba(255, 255, 255, 0.09); }
 .gear-app .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -10676,12 +10737,25 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .gear-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .gear-special section { padding: 14px; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
 .gear-tabs { background: var(--ge-card); }
-.gear-table th .gear-icon { float: left; }
+.gear-item-name { display: grid; grid-template-columns: 64px minmax(140px, 1fr); align-items: center; gap: 10px; }
+.gear-item-name:not(:has(img)) { grid-template-columns: minmax(140px, 1fr); }
+.gear-item-name .gear-icon { margin: 0; }
+.gear-item-name > div { min-width: 0; }
+.gear-rowbtn { min-height: 44px; overflow-wrap: anywhere; }
+.gear-english { display: block; max-width: 260px; margin: 2px 0 4px; color: #b7bcc5; line-height: 1.4; }
+.gear-back { justify-self: start; }
+.gear-shops summary { cursor: pointer; min-height: 36px; padding: 6px 0; }
+.gear-shops ul { margin: 8px 0 0; padding-left: 18px; min-width: 180px; }
+.gear-shops li { margin-top: 6px; line-height: 1.5; }
+.gear-shops strong { display: block; font-variant-numeric: tabular-nums; }
+.gear-assumption { margin: 0; padding: 14px 16px; border: 1px solid #aa8652; border-left-width: 4px; border-radius: 8px; background: #29241c; color: #f1d9b4; font-size: 14px; line-height: 1.7; }
+.gear-columns:has(.gear-hint) { grid-template-columns: minmax(0, 1fr); }
+.gear-columns:has(.gear-hint) .gear-side { display: none; }
 @media (min-width: 1101px) { .gear-side { position: sticky; top: 88px; max-height: calc(100vh - 104px); overflow-y: auto; border-radius: 12px; } }
 @media (max-width: 900px) { .gear-fit { grid-template-columns: minmax(0, 1fr); } .gear-fit-body { position: static; } }
 
 /* 개인 장비 이미지 (Star Citizen Wiki 사본) */
-.gear-thumb { float: left; width: 64px; height: 48px; margin-right: 10px; object-fit: cover; object-position: center 20%; border-radius: 6px; background: #0d0e11; }
+.gear-thumb { width: 64px; height: 64px; margin: 0; object-fit: contain; border-radius: 6px; background: #0d0e11; }
 .gear-figure { margin: 0; display: grid; gap: 6px; }
 .gear-figure img { display: block; width: 100%; height: auto; max-height: 360px; object-fit: contain; border-radius: 10px; background: #0d0e11; }
 .gear-figure figcaption { font-size: 11px; line-height: 1.5; color: var(--color-text-secondary); }

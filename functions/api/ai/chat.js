@@ -3,6 +3,7 @@ import { json, error, readJson } from '../../_shared/http.js';
 import { requireMember } from '../../_shared/rbac.js';
 import { checkRateLimit } from '../../_shared/rate-limit.js';
 import { runModel } from '../../_shared/ai-model.js';
+import { validateAiContext, wantsLoadoutReview, toolReviewLoadout } from '../../_shared/ai-loadout.js';
 import {
   loadShipLayers, matchShipIds, extractRecommendParams,
   toolRecommendShips, toolCompareShips, toolMarketInfo, toolUpcomingEvents, toolRecentNotices
@@ -162,6 +163,7 @@ async function modelIntent(env, message) {
 
 async function executeTool(env, request, route, lang) {
   switch (route.intent) {
+    case 'loadout': return toolReviewLoadout(env, route.context, lang);
     case 'recommend': return toolRecommendShips(env, route.params || {});
     case 'compare': return toolCompareShips(env, route.shipIds || []);
     case 'market': return toolMarketInfo(env, request, route.query || '');
@@ -195,6 +197,7 @@ export function validateModelNote(toolData, text, lang = 'ko') {
 // 항상 서버 확정 답변(도구 데이터 기반 템플릿)을 기준으로 노출한다 (M1.1).
 // 모델 문장은 aiNote(보조 설명)로 분리되며 사실을 추가할 수 없다.
 function templateAnswer(route, tool, lang) {
+  if (tool.answer) return tool.answer;
   if (lang === 'en') return englishAnswer(route, tool.data);
   const data = tool.data;
   if (data.status === 'unavailable') return '지금은 해당 데이터 원본에 연결할 수 없어 최신 정보를 안내할 수 없습니다. 잠시 후 다시 시도해 주세요.';
@@ -243,6 +246,9 @@ export async function onRequestPost({ request, env, waitUntil }) {
   const lang = body.lang === 'en' ? 'en' : 'ko';
   const history = body.history ?? [];
   if (!Array.isArray(history) || history.length > 3 || history.some((item) => typeof item !== 'string' || item.length > config.maxInputChars)) return error('Invalid conversation context.', 400);
+  let selectedContext;
+  try { selectedContext = validateAiContext(body.context); }
+  catch (_error) { return error('Invalid selected tool context.', 400); }
 
   const keys = dateKeys();
   const reserved = await reserveAiUsage(env, keys, config);
@@ -253,7 +259,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   let failed = false;
   let route = null;
   try {
-    route = await contextualRoute(env, message, history);
+    route = selectedContext && wantsLoadoutReview(message) ? { intent: 'loadout', context: selectedContext } : await contextualRoute(env, message, history);
     if (!route && config.generative) route = await modelIntent(env, message);
 
     if (!route) {
@@ -270,8 +276,11 @@ export async function onRequestPost({ request, env, waitUntil }) {
     const answer = templateAnswer(route, tool, lang);
     let aiNote = null;
 
-    // 데이터가 정상일 때만 모델 해설을 시도한다 — unavailable/stale이면 상태 그대로 전달.
-    if (config.generative && (tool.data.status === undefined || tool.data.status === 'ok')) {
+    // Loadout checks already explain the verified trade-offs. A free-form model
+    // verdict can call a power-starved build "good" without evidence, so these
+    // reviews use only the computed comparison and checks. Other tools retain
+    // their existing optional commentary.
+    if (config.generative && !tool.review && (tool.data.status === undefined || tool.data.status === 'ok')) {
       const system = '너는 한국 Star Citizen 함대 VOLT의 안내 도우미다. '
         + (lang === 'en' ? 'Write only two short sentences in English explaining VERIFIED_ANSWER. ' : 'VERIFIED_ANSWER를 설명하는 짧은 한국어 두 문장만 작성한다. ')
         + 'VERIFIED_ANSWER는 이미 검증된 조회 결과이며 다시 필터링하거나 부정하지 않는다. 최소 화물량은 하한, 승무원 수는 상한이다. 모든 ships 항목은 조건에 일치한다. '
@@ -287,8 +296,9 @@ export async function onRequestPost({ request, env, waitUntil }) {
     commitUsage(env, waitUntil, keys, usage, route.intent, config.estCostPerReq, false);
     return json({
       ok: true, intent: route.intent, answer, aiNote, mode: aiNote ? 'assisted' : 'data',
-      sources: lang === 'en' ? tool.sources.map((source) => ({ ...source, label: SOURCE_EN[route.intent], detail: '' })) : tool.sources,
-      freshness: lang === 'en' ? { ...tool.freshness, label: SOURCE_EN[route.intent] } : tool.freshness,
+      ...(tool.review ? { review: tool.review, actions: tool.actions } : {}),
+      sources: lang === 'en' && SOURCE_EN[route.intent] ? tool.sources.map((source) => ({ ...source, label: SOURCE_EN[route.intent], detail: '' })) : tool.sources,
+      freshness: lang === 'en' && SOURCE_EN[route.intent] ? { ...tool.freshness, label: SOURCE_EN[route.intent] } : tool.freshness,
       usage: { dayCount: usage.day.count + 1, dayLimit: config.dailyLimit }
     });
   } catch (caught) {

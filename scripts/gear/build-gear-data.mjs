@@ -19,14 +19,17 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { DataForge } from '../gamedata/dataforge.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const arg = (name) => { const index = process.argv.indexOf(name); return index > -1 ? process.argv[index + 1] : null; };
 const CACHE = arg('--cache-dir');
 if (!CACHE || !existsSync(resolve(CACHE, 'Game2.dcb'))) { console.error('--cache-dir <Game2.dcb 가 있는 폴더> 가 필요합니다.'); process.exit(2); }
-const df = new DataForge(readFileSync(resolve(CACHE, 'Game2.dcb')));
-const build = JSON.parse(readFileSync(resolve(CACHE, 'build.json'), 'utf8'));
+const dcb = readFileSync(resolve(CACHE, 'Game2.dcb'));
+const df = new DataForge(dcb);
+const manifest = JSON.parse(readFileSync(resolve(CACHE, existsSync(resolve(CACHE, 'build.json')) ? 'build.json' : 'build_manifest.id'), 'utf8'));
+const build = manifest.Data || manifest;
 function loadIni(path) {
     const map = new Map();
     for (const line of readFileSync(path, 'utf8').split(/\r?\n/)) { const at = line.indexOf('='); if (at > 0) map.set(line.slice(0, at).replace(/^﻿/, '').replace(/,P$/i, '').trim().toLowerCase(), line.slice(at + 1).trim()); }
@@ -68,15 +71,16 @@ function modesOf(actions, out = []) {
         const name = (lookup(en, action.localisedName) || action.name || '').replace(/[[\]]/g, '') || undefined;
         if (type === 'Sequence') {
             const entries = (action.sequenceEntries || []).filter((entry) => entry?.weaponAction);
-            const seconds = entries.reduce((sum, entry) => sum + (entry.unit === 'RPM' ? (entry.delay > 0 ? 60 / entry.delay : 0) : Number(entry.delay) || 0), 0);
+            const seconds = entries.reduce((sum, entry) => sum + (entry.unit === 'RPM' ? (entry.delay > 0 ? 60 / entry.delay : 0) : Number(entry.delay) || 0) * Math.max(1, entry.repetitions || 1), 0);
             const simple = entries.every((entry) => /FireSingle/.test(entry.weaponAction.__type));
-            const shots = entries.filter((entry) => (entry.weaponAction.launchParams?.ammoCost ?? 1) > 0).length;
+            const shots = entries.reduce((sum, entry) => sum + ((entry.weaponAction.launchParams?.ammoCost ?? 1) > 0 ? Math.max(1, entry.repetitions || 1) : 0), 0);
             const inner = entries.map((entry) => entry.weaponAction.fireRate).filter(Boolean);
             const cap = inner.length ? Math.max(...inner) : undefined;
             const first = entries[0]?.weaponAction;
             out.push(prune({
                 k: 'sequence', name, rpm: simple && seconds > 0 ? round(Math.min(shots * 60 / seconds, cap ?? Infinity), 0) : (seconds > 0 ? round(60 / seconds, 0) : round(cap, 0)),
-                raw: round(cap, 0), shots: shots > 1 ? shots : undefined, pulls: shots > 1 && seconds > 0 && action.mode !== 'Looping' ? round(60 / seconds, 0) : undefined,
+                raw: round(cap, 0), shots: shots > 1 ? shots : undefined, pulls: shots > 1 && seconds > 0 && action.mode === 'Automatically' ? round(60 / seconds, 0) : undefined,
+                sequenceMode: action.mode, cycleSeconds: round(seconds, 3),
                 burst: first?.shotCount || undefined, pellets: first?.launchParams?.pelletCount > 1 ? first.launchParams.pelletCount : undefined, basis: 'sequence',
             }));
             continue;
@@ -109,7 +113,7 @@ const TOOLS = new Set(['multitool', 'tractor', 'medgun', 'salvage', 'fire', 'bin
 const KIND_ALIASES = { melee: 'knife', gren: 'grenade', glauncher: 'launcher', special: 'launcher', toy: 'pistol' };
 const weaponFamily = (cls) => ((cls.match(/^([a-z]+_[a-z]+_[a-z]+_\d+)/i) || cls.match(/^([a-z]+_[a-z]+_\d+)/i) || [])[1] || cls).toLowerCase();
 const armorFamily = (cls) => ((cls.match(/^(.+?_(?:core|arms|legs|helmet|undersuit|backpack|flightsuit|suit)_\d+)/i) || [])[1] || cls.replace(/(_\d+){1,2}$/, '')).toLowerCase();
-const INTERNAL = /_ai$|_AI_|_npc|_template|_test|placeholder|_prop$|_dev|gungame/i;
+const INTERNAL = /_ai$|_AI_|_npc|_template|_test|placeholder|_prop$|_dev|gungame|^mannequin_/i;
 
 const weapons = []; const armor = [];
 for (const record of df.recordsOfType('EntityClassDefinition')) {
@@ -119,7 +123,7 @@ for (const record of df.recordsOfType('EntityClassDefinition')) {
     const cls = idOf(record); if (INTERNAL.test(cls)) continue;
     const entity = df.readRecord(record, 12);
     const def = component(entity, 'SAttachableComponentParams')?.AttachDef; if (!def) continue;
-    const name = lookup(en, def.Localization?.Name); if (!name) continue;
+    const name = lookup(en, def.Localization?.Name); if (!name || /^(PH|TBD|PLACEHOLDER)$/i.test(name)) continue;
     const nameKo = lookup(ko, def.Localization?.Name);
     const base = { uuid: record.id, cls, en: name, ko: nameKo && nameKo !== name ? nameKo : undefined, mfr: manufacturerOf(def.Manufacturer), mass: round(component(entity, 'SEntityPhysicsControllerParams')?.PhysType?.Mass, 2) };
     if (isWeapon && def.Type === 'WeaponPersonal') {
@@ -127,7 +131,7 @@ for (const record of df.recordsOfType('EntityClassDefinition')) {
         const magazine = follow(weapon?.ammoContainerRecord);
         const container = magazine ? component(magazine.data, 'SAmmoContainerComponentParams') : component(entity, 'SAmmoContainerComponentParams');
         const token = cls.split('_')[1]?.toLowerCase(); const kind = TOOLS.has(token) ? 'tool' : KIND_ALIASES[token] || token;
-        weapons.push({ ...base, family: weaponFamily(cls), stats: prune({ kind, size: def.Size, modes: modesOf(weapon?.fireActions), mag: container?.maxAmmoCount || undefined, ammo: ammoOf(container?.ammoParamsRecord), slots: slotsOf(entity) }) });
+        weapons.push({ ...base, family: weaponFamily(cls), stats: prune({ kind, size: def.Size, specialMode: /_ea_elim$/i.test(cls) ? 'elimination' : undefined, combatVerified: kind === 'tool' ? false : undefined, modes: modesOf(weapon?.fireActions), mag: container?.maxAmmoCount || undefined, ammo: ammoOf(container?.ammoParamsRecord), slots: slotsOf(entity) }) });
     } else if (isArmor && /^Char_Armor_/.test(def.Type)) {
         const suit = component(entity, 'SCItemSuitArmorParams'); const clothing = component(entity, 'SCItemClothingParams');
         const resistance = follow(suit?.damageResistance, 4)?.data?.damageResistance;
@@ -138,6 +142,7 @@ for (const record of df.recordsOfType('EntityClassDefinition')) {
         const cut = (key) => (resistance?.[key]?.Multiplier !== undefined ? Math.round((1 - resistance[key].Multiplier) * 100) : undefined);
         armor.push({ ...base, family: armorFamily(cls), stats: prune({
             slot: slot === 'torso' ? 'core' : slot, cls: ['Light', 'Medium', 'Heavy'].includes(def.SubType) ? def.SubType.toLowerCase() : undefined,
+            covers: [...new Set((suit?.protectedBodyParts || []).map((part) => String(part.name || '').split('.').pop()))].sort(),
             // 피해 감소율(%): 물리·에너지·디스토션·열·생화학·기절
             cut: resistance ? [cut('PhysicalResistance'), cut('EnergyResistance'), cut('DistortionResistance'), cut('ThermalResistance'), cut('BiochemicalResistance'), cut('StunResistance')].map((v) => v ?? 0) : undefined,
             temp: clothing?.TemperatureResistance ? [Math.round(clothing.TemperatureResistance.MinResistance), Math.round(clothing.TemperatureResistance.MaxResistance)] : undefined,
@@ -151,15 +156,16 @@ for (const record of df.recordsOfType('EntityClassDefinition')) {
 // 변종 묶기: 같은 기본형 + 수치가 완전히 같은 것.
 function group(list, rankOf, commonNames = false) {
     const map = new Map();
-    for (const item of list) { const key = `${item.family}|${JSON.stringify(item.stats)}`; map.set(key, [...(map.get(key) || []), item]); }
+    for (const item of list) { const key = `${item.family}|${item.mass}|${JSON.stringify(item.stats)}`; map.set(key, [...(map.get(key) || []), item]); }
     const used = new Map();
     return [...map.values()].map((items) => {
-        const sorted = [...items].sort((a, b) => Number(b.cls.toLowerCase() === b.family) - Number(a.cls.toLowerCase() === a.family) || a.en.length - b.en.length || a.en.localeCompare(b.en));
+        const slotWord = { helmet: /\bhelmet\b/i, core: /\bcore\b/i, arms: /\barms\b/i, legs: /\blegs\b/i, backpack: /\bbackpack\b/i }[items[0].stats.slot];
+        const sorted = [...items].sort((a, b) => Number(slotWord?.test(b.en) || false) - Number(slotWord?.test(a.en) || false) || Number(b.cls.toLowerCase() === b.family) - Number(a.cls.toLowerCase() === a.family) || a.en.length - b.en.length || a.en.localeCompare(b.en));
         const head = sorted[0]; const n = used.get(head.family) || 0; used.set(head.family, n + 1);
         // 방어구는 변종 이름의 공통 앞부분(제품군 이름)을 묶음 이름으로 쓴다. 예: "ADP-mk4 Core Exec/Woodland" → "ADP-mk4 Core".
         const common = (names) => { const words = names.map((value) => value.split(' ')); const out = []; for (let i = 0; i < words[0].length; i += 1) { if (words.every((list) => list[i] === words[0][i])) out.push(words[0][i]); else break; } return out.join(' '); };
         const line = commonNames && sorted.length > 1 ? { en: common(sorted.map((item) => item.en)), ko: sorted.every((item) => item.ko) ? common(sorted.map((item) => item.ko)) : '' } : null;
-        const title = line && line.en.split(' ').length >= 2 ? prune({ en: line.en, ko: line.ko && line.ko.split(' ').length >= 2 ? line.ko : undefined }) : prune({ en: head.en, ko: head.ko });
+        const title = line && line.en.split(' ').length >= 2 && (!slotWord || slotWord.test(line.en)) ? prune({ en: line.en, ko: line.ko && line.ko.split(' ').length >= 2 ? line.ko : undefined }) : prune({ en: head.en, ko: head.ko });
         return prune({
             id: n ? `${head.family}~${n + 1}` : head.family, name: title, mfr: head.mfr, mass: head.mass, ...head.stats,
             variants: sorted.map((item) => (item.ko ? [item.uuid, item.en, item.ko] : [item.uuid, item.en])),
@@ -170,8 +176,12 @@ const WEAPON_ORDER = ['pistol', 'smg', 'rifle', 'lmg', 'hmg', 'shotgun', 'sniper
 const ARMOR_ORDER = ['helmet', 'core', 'arms', 'legs', 'undersuit', 'backpack'];
 const weaponGroups = group(weapons, (g) => { const i = WEAPON_ORDER.indexOf(g.kind); return i < 0 ? 99 : i; });
 const armorGroups = group(armor, (g) => { const i = ARMOR_ORDER.indexOf(g.slot); return (i < 0 ? 99 : i) * 10 + ['light', 'medium', 'heavy'].indexOf(g.cls); }, true);
+// 같은 묶음 이름이라도 수치·기본형이 다르면 합치지 않는다. 대표 변종의 정식 이름으로 구분한다.
+const titleCounts = new Map();
+for (const g of armorGroups) titleCounts.set(`${g.slot}|${g.name.en}`, (titleCounts.get(`${g.slot}|${g.name.en}`) || 0) + 1);
+for (const g of armorGroups) if (titleCounts.get(`${g.slot}|${g.name.en}`) > 1) g.name = prune({ en: g.variants[0][1], ko: g.variants[0][2] });
 
-const meta = { version: `${String(build.Branch || '').replace(/^sc-alpha-/, '')}.${build.RequestedP4ChangeNum || ''}`, gameVersion: build.Version, builtAt: new Date().toISOString(), source: 'game-files', koSource: ko ? 'korean-patch' : undefined };
+const meta = { version: `${String(build.Branch || '').replace(/^sc-alpha-/, '')}.${build.RequestedP4ChangeNum || ''}`, gameVersion: build.Version, builtAt: new Date().toISOString(), source: 'game-files', sourceSha256: createHash('sha256').update(dcb).digest('hex'), koSource: ko ? 'korean-patch' : undefined };
 mkdirSync(resolve(ROOT, 'data/gear'), { recursive: true });
 writeFileSync(resolve(ROOT, 'data/gear/weapons.json'), `${JSON.stringify({ ...meta, note: 'variants = [고유번호, 영어 이름, 한글 이름]. modes[].basis: sequence(계산) | automatic(원본) | upperBound(원본·최대 한도).', groups: weaponGroups })}\n`);
 writeFileSync(resolve(ROOT, 'data/gear/armor.json'), `${JSON.stringify({ ...meta, note: 'cut = 피해 감소율(%) [물리, 에너지, 디스토션, 열, 생화학, 기절]. temp = 견디는 온도 [최저, 최고]. rad = [방사선 용량, 해소율]. store = 수납(µSCU).', groups: armorGroups })}\n`);
