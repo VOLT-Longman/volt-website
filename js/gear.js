@@ -47,7 +47,7 @@
             fitIntro: '가정 계산 · 실전 피해가 아닙니다. 같은 부위에 모두 명중하고 방어구 한 겹만 적용한다고 가정합니다. 아래 발 수는 전체 체력을 단순히 나눈 참고값이며, 실제 기절·사망을 예측하지 않습니다.', mannequin: '착용 상태', wearing: '착용 장비', attacker: '공격 무기', none: '없음', noWeapon: '무기를 고르세요',
             distance: '거리 (m)', fireMode: '발사 방식', head: '머리', torso: '몸통', leftArm: '왼팔', rightArm: '오른팔', leftLeg: '왼다리', rightLeg: '오른다리',
             bodyPart: '부위', cover: '착용 장비', bare: '맨몸', perShot: '예상 한 발 피해', shotsToDown: '전체 체력 기준 발 수', shots: '{count}발', timeToDown: '이론 시간', seconds: '{time}초', partHealth: '부위 체력',
-            reduction: '받는 피해 배율', takesAll: '피해 없음', poolLine: '전체 체력 {pool}로 계산', clearFit: '모두 벗기기', pickSlot: '{slot} 고르기',
+            reduction: '받는 피해 배율', takesAll: '피해 없음', poolLine: '계산 기준: 전체 체력 {pool}', clearFit: '모두 벗기기', pickSlot: '{slot} 고르기',
             fitNote: '계산 방식: 한 발 피해 × 부위 배율 × 방어구의 피해 종류별 감소. 방어구가 덮지 않은 부위는 맨몸 배율을 씁니다. 방어구 조각이 없고 언더수트만 있으면 언더수트 값을 씁니다.',
             fitLimits: '게임 내 검증 전입니다. 방어구와 언더수트의 중첩, 내구도 저하, 출혈, 기절, 관통, 탄퍼짐, 빗나감은 반영하지 않습니다. 충전·폭발·기절·디스토션 피해는 이 시험에서 계산하지 않습니다. 시간은 일정한 자동 연사만 단순 환산하며 재장전을 제외합니다.',
             upperNote: '이 발사 방식의 연사는 최대 한도라, 실제 걸리는 시간은 더 길 수 있습니다.', summaryCut: '물리 피해 감소', summaryTemp: '견디는 온도', summaryStore: '총 수납공간', summaryMass: '방어구 무게',

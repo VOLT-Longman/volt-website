@@ -62,7 +62,7 @@ test('전력 분배: 예산·실행 취소·A/B·저장·공유를 보존하고 
     await page.locator('[data-loadout-reset-all]').click();
     await page.goto(url);
     await expect(weapon).toHaveValue('0');
-    await expect(page.locator('.loadout-power-plan')).toContainText('환산식은 미검증');
+    await expect(page.locator('.loadout-power-plan')).toContainText('얼마나 달라지는지는 확인되지 않아');
 });
 
 for (const width of [1440, 390]) test(`${width}px 채광 활성·저장·비교·교체 초기화 및 헤드 성능`, async ({ page }) => {
@@ -177,7 +177,7 @@ test('채광은 독립 분류와 모듈 이름, 효과 비교 및 미검증 합�
     await expect(page.locator('.loadout-group.is-mining')).not.toContainText('BONE_ItemPort');
     await page.locator('[data-loadout-open*="BONE_ItemPort_Consumable_1"]').first().click();
     await expect(page.locator('.loadout-opttable thead')).toContainText('레이저 출력 배수');
-    await expect(page.locator('.loadout-picker')).toContainText('겹치는 보정의 중첩 결과는 계산하지 않습니다');
+    await expect(page.locator('.loadout-picker')).toContainText('여러 효과를 함께 썼을 때의 결과는 계산하지 않습니다');
 });
 
 test.describe('로드아웃 편집기', () => {
@@ -512,7 +512,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(hull).toContainText(/물리 피해 받는 비율\s*70%/);
         await expect(hull).toContainText(/에너지 피해 받는 비율\s*50%/);
         const quantum = page.locator('.loadout-panel-section', { hasText: '퀀텀 속도' });
-        await expect(quantum).toContainText(/항속 거리\s*706 Gm/);
+        await expect(quantum).toContainText(/최대 이동 거리\s*706 Gm/);
         await expect(quantum).toContainText(/퀀텀 연료\s*7\.7 SCU/);
         // 거리를 바꾸면 예상 이동 시간이 바로 바뀌고, 입력 중인 칸은 그대로 유지된다.
         await expect(page.locator('#loadout-qt-time')).toHaveText('2분 40초');
@@ -610,7 +610,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(kpis.locator('.loadout-kpi').first()).toHaveText(/DPS\s*5,313/);
         await expect(kpis).toContainText(/실드\s*42,240/);
         await expect(kpis).toContainText(/선체\s*77,000/);
-        await expect(kpis).toContainText(/항속\s*706 Gm/);
+        await expect(kpis).toContainText(/이동 거리\s*706 Gm/);
         // 최대 가동 수요는 현재 배정 상태의 고장 경고로 표시하지 않는다.
         const fullLoad = page.locator('.loadout-power-plan .loadout-row', { hasText: '최대 가동 시 부족' });
         await page.locator('[data-loadout-jump="equipment"]').click();

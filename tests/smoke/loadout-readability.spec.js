@@ -49,7 +49,7 @@ for (const width of [1440, 390, 320]) test(`${width}px 최소 전력 묶음을 �
     await page.getByRole('button', { name: '실드 배정 줄이기', exact: true }).click();
     await expect(page.locator('#loadout-power-shields')).toHaveValue('0');
     await expect(minimum.first()).toHaveClass(/is-unfunded/);
-    await expect(minimum.first()).toContainText('미배정');
+    await expect(minimum.first()).toContainText('배정 안 됨');
     const accessibility = await new AxeBuilder({ page }).include('.loadout-power-plan').analyze();
     expect(accessibility.violations.filter((v) => ['serious', 'critical'].includes(v.impact))).toEqual([]);
     await page.locator('[data-loadout-jump="equipment"]').click();
