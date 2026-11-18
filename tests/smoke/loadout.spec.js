@@ -413,7 +413,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(row.locator('.loadout-qty b')).toHaveText('3');
         await expect(page.locator('.loadout-carttable tfoot')).toContainText('70,500 aUEC');
         await expect(page.locator('.loadout-shoplist li')).toHaveCount(1);
-        await expect(page.locator('.loadout-shoplist li')).toContainText('맨티스 GT-220 개틀링 ×3');
+        await expect(page.locator('.loadout-shoplist li')).toContainText('맨티스 GT-220 개틀링 (Mantis GT-220 Gatling) ×3');
         await row.locator('[data-loadout-cart-dec]').click();
         await expect(page.locator('.loadout-carttable tfoot')).toContainText('47,000 aUEC');
 
