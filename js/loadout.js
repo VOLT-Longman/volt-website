@@ -30,7 +30,7 @@
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
-            powerPlanTitle: '전력·캐패시터 분배', allocation: '배정 전력', minimumPower: '최소 전력', detectionYes: '가능', detectionNo: '불가', radarPing: '핑 재사용 대기', radarPassive: '수동 탐지', radarActive: '능동 탐지', powerBudget: '{used} / {total}칸 배정', powerBudgetHelp: '전력 예산 계획입니다. 부분 전력의 탄창·충전 속도·실드 재생 환산식은 미검증이므로 위 성능 수치는 정격 기준을 유지합니다.', powerAuto: '예산 안에서 배분', powerRated: '정격 요구량', powerReserve: '남은 전력', powerOver: '초과 배정', powerMinimum: '작동 최소 {min} · 최대 {max}칸',
+            powerPlanTitle: '전력·캐패시터 분배', allocation: '배정 전력', minimumPower: '최소 전력', detectionYes: '가능', detectionNo: '불가', radarPing: '핑 재사용 대기', radarPassive: '수동 탐지', radarActive: '능동 탐지', powerBudget: '{used} / {total}칸 배정', powerBudgetHelp: '장착한 파워플랜트 출력 안에서 배정합니다. 다른 계통을 늘리려면 먼저 칸을 비워 주세요. 부분 전력의 탄창·충전 속도·실드 재생 환산식은 미검증이므로 성능은 정격 기준입니다.', powerAuto: '자동 배분', powerRated: '배정 초기화', powerClear: '모두 비우기', powerSupply: '파워플랜트 공급 {total}칸', powerLess: '{name} 배정 줄이기', powerMore: '{name} 배정 늘리기', powerAvailable: '지금 배정 가능 {max}칸', powerReserve: '남은 전력', powerOver: '초과 배정', powerMinimum: '작동 최소 {min} · 최대 {max}칸',
             power_weapons: '무기', power_engines: '엔진', power_shields: '실드', power_radar: '레이더', power_lifeSupport: '생명 유지', power_coolers: '쿨러', power_quantum: '퀀텀', power_mining: '채광', power_utility: '작업 장비', power_other: '기타',
             miningResults: '헤드별 채광 성능', extractionPower: '추출 출력', miningBase: '헤드 기본', miningApplied: '적용 출력', unverifiedStack: '출력 계산 미확인', miningOverlap: '겹치는 보정은 합치지 않고 개별 효과로 표시합니다.', engageModule: '효과 활성화', disengageModule: '효과 비활성화', moduleDuration: '지속 시간', moduleCharges: '사용 횟수', activeNow: '활성 상태', inactiveNow: '대기 상태', miningEffects: '보정 출처', aimBuffer: '조준 보조 유지 여유', passiveDetection: '수동 탐지 허용', activeDetection: '능동 탐지 허용', assemblyExpand: '하위 장비 펼치기', assemblyCollapse: '하위 장비 접기', assemblyWeapons: '무기 {count}정', shatterMod: '파편 피해',
             actions: '구성 작업', shipProfile: '함선 정보', pickShop: '이 상점 선택', planHelpTitle: '구매 방식 안내', addAndViewCart: '담고 장바구니 보기', swapPart: '부품 교체',
@@ -97,7 +97,7 @@
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
         en: {
-            powerPlanTitle: 'Power & capacitor allocation', allocation: 'Allocated power', minimumPower: 'Minimum power', detectionYes: 'Supported', detectionNo: 'Unsupported', radarPing: 'Ping cooldown', radarPassive: 'Passive detection', radarActive: 'Active detection', powerBudget: '{used} / {total} pips allocated', powerBudgetHelp: 'Power budget plan. Partial-power ammo, recharge and shield-regeneration rules are unverified; performance above remains rated.', powerAuto: 'Fit to budget', powerRated: 'Rated demand', powerReserve: 'Unallocated power', powerOver: 'Over budget', powerMinimum: 'Minimum {min} · maximum {max} pips',
+            powerPlanTitle: 'Power & capacitor allocation', allocation: 'Allocated power', minimumPower: 'Minimum power', detectionYes: 'Supported', detectionNo: 'Unsupported', radarPing: 'Ping cooldown', radarPassive: 'Passive detection', radarActive: 'Active detection', powerBudget: '{used} / {total} pips allocated', powerBudgetHelp: 'Allocation is limited to the installed power plants. Free pips in another system before adding more. Partial-power ammo, recharge and shield-regeneration rules are unverified; performance remains rated.', powerAuto: 'Auto allocate', powerRated: 'Reset allocation', powerClear: 'Clear allocation', powerSupply: 'Power plants supply {total} pips', powerLess: 'Reduce {name} allocation', powerMore: 'Increase {name} allocation', powerAvailable: 'Available now: {max} pips', powerReserve: 'Unallocated power', powerOver: 'Over budget', powerMinimum: 'Minimum {min} · maximum {max} pips',
             power_weapons: 'Weapons', power_engines: 'Engines', power_shields: 'Shields', power_radar: 'Radar', power_lifeSupport: 'Life support', power_coolers: 'Coolers', power_quantum: 'Quantum', power_mining: 'Mining', power_utility: 'Utility', power_other: 'Other',
             miningResults: 'Mining performance by head', extractionPower: 'Extraction power', miningBase: 'Base head', miningApplied: 'Applied output', unverifiedStack: 'Output unverified', miningOverlap: 'Overlapping modifiers remain separate; no unverified combined value is applied.', engageModule: 'Activate effect', disengageModule: 'Deactivate effect', moduleDuration: 'Duration', moduleCharges: 'Charges', activeNow: 'Active', inactiveNow: 'Standby', miningEffects: 'Modifier sources', aimBuffer: 'Aim-assist retention buffer', passiveDetection: 'Passive detection allowed', activeDetection: 'Active detection allowed', assemblyExpand: 'Expand child equipment', assemblyCollapse: 'Collapse child equipment', assemblyWeapons: '{count} weapons', shatterMod: 'Shatter damage',
             actions: 'Actions', shipProfile: 'Ship information', pickShop: 'Pick this shop', planHelpTitle: 'Purchase planning help', addAndViewCart: 'Add and view cart', swapPart: 'Swap component',
@@ -304,12 +304,12 @@
             const stored = overrides ?? readStored().sets?.[cls] ?? readStored().sets?.[requested] ?? {};
             state.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(stored).map(([path, id]) => [path, canonicalItem(id)])));
             state.off = cleanOff(off ?? (overrides === undefined ? readStored().off?.[cls] : {}) ?? {});
-            state.operation = calc.sanitizeOperation(ship, state.items, state.overrides, operation ?? (overrides === undefined ? readStored().operation?.[cls] : {}));
+            state.operation = calc.sanitizeOperation(ship, state.items, state.overrides, operation ?? (overrides === undefined ? readStored().operation?.[cls] : {}), { off: state.off });
             // A/B: 저장해 둔 것을 되살리고, 같은 함선에 구성을 불러올 때는 다른 쪽을 그대로 둔다.
             if (overrides === undefined) {
                 const alt = readStored().alt?.[cls];
                 state.slot = alt?.slot === 'B' ? 'B' : 'A';
-                state.alt = alt ? { overrides: calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(alt.overrides || {}).map(([path, id]) => [path, canonicalItem(id)]))), off: alt.off || {}, operation: calc.sanitizeOperation(ship, state.items, alt.overrides || {}, alt.operation) } : null;
+                state.alt = alt ? { overrides: calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(alt.overrides || {}).map(([path, id]) => [path, canonicalItem(id)]))), off: alt.off || {}, operation: calc.sanitizeOperation(ship, state.items, alt.overrides || {}, alt.operation, { off: alt.off }) } : null;
             } else if (!sameShip) { state.slot = 'A'; state.alt = null; }
             writeStored();
         } catch (error) {
@@ -322,8 +322,8 @@
     }
 
     function readOperation(value) { try { return JSON.parse(value || '{}'); } catch (_error) { return {}; } }
-    const copyOperation = () => ({ power: { ...state.operation.power }, activeModules: { ...state.operation.activeModules } });
-    const cleanOperation = (value) => calc.sanitizeOperation(state.ship, state.items, state.overrides, value);
+    const copyOperation = () => ({ power: Object.fromEntries(calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off, operation: state.operation }).groups.map((group) => [group.key, group.allocated])), activeModules: { ...state.operation.activeModules } });
+    const cleanOperation = (value) => calc.sanitizeOperation(state.ship, state.items, state.overrides, value, { off: state.off });
 
     async function render() {
         if (!root() || !calc || !deps.canUse?.()) return;
@@ -1054,10 +1054,14 @@ ${section(text('cost'), `
         if (!state.ship.systems) return '';
         const plan = calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off, operation: state.operation });
         const control = (group) => {
+            const available = powerAllocationLimit(group, plan.remaining);
+            const name = text(`power_${group.key}`);
+            const increase = Math.max(group.min, group.allocated + 1);
+            const decrease = group.allocated <= Math.max(1, group.min) ? 0 : group.allocated - 1;
             const steps = [...new Set(Array.from({ length: Math.min(group.max, 20) }, (_, i) => Math.ceil((i + 1) * group.max / Math.min(group.max, 20))))];
-            return `<div class="loadout-power-channel"><label for="loadout-power-${group.key}">${esc(text(`power_${group.key}`))}</label><div class="loadout-power-pips" role="group" aria-label="${esc(text(`power_${group.key}`))}">${steps.reverse().map((value) => `<button type="button" class="${value <= group.allocated ? 'is-filled' : ''}" data-loadout-pip="${group.key}" data-loadout-value="${value}" aria-label="${esc(text(`power_${group.key}`))} ${value}" aria-pressed="${group.allocated === value}"><span>${value}</span></button>`).join('')}</div><input id="loadout-power-${group.key}" type="number" inputmode="numeric" min="0" max="${group.max}" step="1" value="${group.allocated}" data-loadout-power-value="${group.key}" aria-describedby="loadout-power-hint-${group.key}"><small id="loadout-power-hint-${group.key}">${esc(text('powerMinimum', group))}</small></div>`;
+            return `<div class="loadout-power-channel"><label for="loadout-power-${group.key}">${esc(name)}</label><div class="loadout-power-pips" role="group" aria-label="${esc(name)}">${steps.reverse().map((value) => `<button type="button" class="${value <= group.allocated ? 'is-filled' : ''}" data-loadout-pip="${group.key}" data-loadout-value="${value}" aria-label="${esc(name)} ${value}" aria-pressed="${group.allocated === value}" ${value > available || value < group.min ? 'disabled' : ''} title="${esc(text('powerAvailable', { max: available }))}"><span>${value}</span></button>`).join('')}</div><div class="loadout-power-adjust"><button type="button" data-loadout-pip="${group.key}" data-loadout-value="${decrease}" aria-label="${esc(text('powerLess', { name }))}" ${group.allocated === 0 ? 'disabled' : ''}>−</button><input id="loadout-power-${group.key}" type="number" inputmode="numeric" min="0" max="${available}" step="1" value="${group.allocated}" data-loadout-power-value="${group.key}" aria-describedby="loadout-power-hint-${group.key}"><button type="button" data-loadout-pip="${group.key}" data-loadout-value="${increase}" aria-label="${esc(text('powerMore', { name }))}" ${increase > available ? 'disabled' : ''}>+</button></div><small id="loadout-power-hint-${group.key}">${esc(text('powerMinimum', group))}<br>${esc(text('powerAvailable', { max: available }))}</small></div>`;
         };
-        return `<section class="loadout-panel-section loadout-power-plan"><h4>${esc(text('powerPlanTitle'))}</h4><div class="loadout-power-budget${plan.remaining < 0 ? ' is-over' : ''}" role="status">${esc(text('powerBudget', { used: num(plan.allocated), total: num(plan.generation) }))}<strong>${esc(text(plan.remaining < 0 ? 'powerOver' : 'powerReserve'))} ${num(Math.abs(plan.remaining), 1)}</strong></div><div class="loadout-power-channels">${plan.groups.map(control).join('')}</div><div class="loadout-power-actions"><button type="button" class="btn btn-secondary" data-loadout-power-auto>${esc(text('powerAuto'))}</button><button type="button" class="loadout-link" data-loadout-power-rated>${esc(text('powerRated'))}</button></div><p class="loadout-note">${esc(text('powerBudgetHelp'))}</p></section>`;
+        return `<section class="loadout-panel-section loadout-power-plan"><h4>${esc(text('powerPlanTitle'))}</h4><div class="loadout-power-supply"><strong>${esc(text('powerSupply', { total: num(plan.capacity) }))}</strong><span>${plan.plants.map((plant) => `${esc(shoppingName(plant.itemId, plant.item))} · ${num(plant.generation)}`).join(' / ')}</span></div><div class="loadout-power-budget" role="status">${esc(text('powerBudget', { used: num(plan.allocated), total: num(plan.capacity) }))}<strong>${esc(text('powerReserve'))} ${num(plan.remaining)}</strong></div><meter class="loadout-power-meter" min="0" max="${plan.capacity || 1}" value="${plan.allocated}" aria-label="${esc(text('powerBudget', { used: plan.allocated, total: plan.capacity }))}"></meter><div class="loadout-power-channels">${plan.groups.map(control).join('')}</div><div class="loadout-power-actions"><button type="button" class="btn btn-secondary" data-loadout-power-auto>${esc(text('powerAuto'))}</button><button type="button" class="loadout-link" data-loadout-power-clear>${esc(text('powerClear'))}</button><button type="button" class="loadout-link" data-loadout-power-rated>${esc(text('powerRated'))}</button></div><p class="loadout-note">${esc(text('powerBudgetHelp'))}</p></section>`;
     }
 
     const miningLabels = { laserInstability: 'instab', resistanceModifier: 'resistMod', optimalChargeWindowSizeModifier: 'windowMod', optimalChargeWindowRateModifier: 'moduleCharge', shatterdamageModifier: 'shatterMod' };
@@ -1380,7 +1384,7 @@ ${section(text('cost'), `
             ship.systems = state.systems[buildShip];
             state.compare.ship = ship;
             state.compare.overrides = calc.sanitizeOverrides(ship, state.items, Object.fromEntries(Object.entries(build.overrides || {}).map(([path, id]) => [path, canonicalItem(id)])));
-            state.compare.operation = calc.sanitizeOperation(ship, state.items, state.compare.overrides, state.compare.operation);
+            state.compare.operation = calc.sanitizeOperation(ship, state.items, state.compare.overrides, state.compare.operation, { off: state.compare.off });
         } catch (error) {
             console.warn('Loadout compare load failed', error);
             if (state.compare) state.compare.failed = true;
@@ -1556,6 +1560,7 @@ ${section(text('cost'), `
         const wanted = new Set([...runOf(path), ...(state.pickerBulk ? siblingSlots(node, nodes).map((entry) => entry.path) : [])]);
         const targets = nodes.filter((entry) => wanted.has(entry.path));
         remember();
+        state.operation = copyOperation();
         let next = { ...state.overrides };
         for (const target of targets) {
             // 이 자리를 바꾸면 그 아래 자리에 해 둔 변경은 의미가 없어지므로 함께 지운다.
@@ -1564,9 +1569,9 @@ ${section(text('cost'), `
         }
         state.overrides = calc.sanitizeOverrides(state.ship, state.items, next);
         state.operation.activeModules = Object.fromEntries(Object.entries(state.operation.activeModules).filter(([key]) => !targets.some((target) => key === target.path || key.startsWith(`${target.path}/`))));
-        state.operation = cleanOperation(state.operation);
         if (id) state.familyOpen.add(state.families.get(id) || id);
         state.off = cleanOff(Object.fromEntries(Object.keys(state.off).filter((key) => !targets.some((entry) => key === entry.path || key.startsWith(`${entry.path}/`))).map((key) => [key, true])));
+        state.operation = cleanOperation(state.operation);
         if (!state.keepPicker || !id) closePicker();
         writeStored(); draw(); loadPricesForChanged();
         deps.showToast?.(text('equippedNotice', { name: id ? itemName(id, state.items[id]) : text('empty') }));
@@ -1601,9 +1606,11 @@ ${section(text('cost'), `
             state.operation = cleanOperation(state.operation); writeStored(); draw(); root()?.querySelector(`[data-loadout-module-active="${CSS.escape(path)}"]`)?.focus({ preventScroll: true }); return;
         }
         if (target.hasAttribute('data-loadout-pip')) { setPowerAllocation(target.dataset.loadoutPip, Number(target.dataset.loadoutValue)); return; }
-        if (target.hasAttribute('data-loadout-power-auto') || target.hasAttribute('data-loadout-power-rated')) {
+        if (target.hasAttribute('data-loadout-power-auto') || target.hasAttribute('data-loadout-power-rated') || target.hasAttribute('data-loadout-power-clear')) {
             remember(); state.operation = copyOperation();
-            state.operation.power = target.hasAttribute('data-loadout-power-auto') ? calc.autoPowerPlan(calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off })) : {};
+            const plan = calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off });
+            state.operation.power = target.hasAttribute('data-loadout-power-clear') ? Object.fromEntries(plan.groups.map((group) => [group.key, 0])) : target.hasAttribute('data-loadout-power-auto') ? calc.autoPowerPlan(plan) : {};
+            state.operation = cleanOperation(state.operation);
             writeStored(); draw(); return;
         }
         if (target.hasAttribute('data-loadout-cart-open')) { closePicker(); state.cartOpen = true; loadPricesForCart(); draw(); document.getElementById('loadout-cart-close')?.focus(); return; }
@@ -1694,9 +1701,11 @@ ${section(text('cost'), `
         const powerPath = target.getAttribute('data-loadout-power');
         if (powerPath !== null) {
             remember();
+            state.operation = copyOperation();
             const next = { ...state.off };
             if (next[powerPath]) delete next[powerPath]; else next[powerPath] = true;
             state.off = next;
+            state.operation = cleanOperation(state.operation);
             // 화면을 덮는 선택 창에서 눌렀으면 창을 닫아 결과가 바로 보이게 한다.
             if (target.closest('.loadout-picker')) closePicker();
             writeStored(); draw(); return;
@@ -1712,6 +1721,7 @@ ${section(text('cost'), `
         const resetPath = target.getAttribute('data-loadout-reset');
         if (resetPath !== null) {
             remember();
+            state.operation = copyOperation();
             const paths = runOf(resetPath);
             state.overrides = Object.fromEntries(Object.entries(state.overrides).filter(([key]) => !paths.some((path) => key === path || key.startsWith(`${path}/`))));
             state.off = cleanOff(state.off);
@@ -1806,15 +1816,20 @@ ${section(text('cost'), `
             event.target.setAttribute('aria-invalid', String(!(state.qtDistance >= 1 && state.qtDistance <= 999)));
         }
     }
+    function powerAllocationLimit(group, remaining) {
+        const available = Math.min(group.max, group.allocated + remaining);
+        return available < group.min ? 0 : available;
+    }
     function setPowerAllocation(key, value) {
         if (!Number.isFinite(value)) return;
         const plan = calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off, operation: state.operation });
         const group = plan.groups.find((entry) => entry.key === key);
         if (!group) return;
-        const next = value <= 0 ? 0 : Math.min(group.max, Math.max(group.min, Math.round(value)));
+        const next = value <= 0 ? 0 : Math.min(powerAllocationLimit(group, plan.remaining), Math.max(group.min, Math.round(value)));
         if (next === group.allocated) { const input = document.getElementById(`loadout-power-${key}`); if (input) input.value = String(next); return; }
-        if (next > group.allocated && plan.allocated - group.allocated + next > plan.generation) { deps.showToast?.(text('powerOver')); draw(); return; }
-        remember(); state.operation = copyOperation(); state.operation.power[key] = next;
+        remember(); state.operation = copyOperation();
+        state.operation.power = Object.fromEntries(plan.groups.map((entry) => [entry.key, entry.allocated]));
+        state.operation.power[key] = next;
         writeStored(); draw(); document.getElementById(`loadout-power-${key}`)?.focus({ preventScroll: true });
     }
 

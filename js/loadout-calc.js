@@ -200,9 +200,15 @@
             group.min += min; group.max += max; groups.set(key, group);
         };
         let generation = 0;
-        walkLoadout(ship, items, overrides, ({ item, path }) => {
+        const plants = [];
+        walkLoadout(ship, items, overrides, ({ item, itemId, path }) => {
             if (!item || off.some((key) => path === key || path.startsWith(`${key}/`))) return;
-            generation += Number(item.power?.gen) || 0;
+            if (item.type === 'PowerPlant') {
+                const output = Number(item.power?.gen);
+                const supplied = Number.isFinite(output) ? Math.max(0, output) : 0;
+                generation += supplied;
+                plants.push({ item, itemId, path, generation: supplied });
+            }
             if (item.powerLimits) add(item.type, item.powerLimits.min, item.powerLimits.max);
         });
         for (const item of ship.systems?.fixed || []) add(item.type, item.min, item.max);
@@ -216,8 +222,16 @@
             const allocated = Number.isFinite(chosen) ? Math.max(0, Math.min(max, Math.round(chosen))) : max;
             return { ...group, min, max, allocated: allocated > 0 ? Math.max(min, allocated) : 0 };
         });
+        // Every displayed/saved plan fits the installed plants, including old links
+        // and plans loaded after a smaller plant is installed. Keep zero allocations
+        // and never raise an existing request when reducing an over-budget plan.
+        const capacity = Math.floor(generation);
+        if (rows.reduce((sum, row) => sum + row.allocated, 0) > capacity) {
+            const bounded = autoPowerPlan({ generation: capacity, groups: rows.map((row) => ({ ...row, max: row.allocated, min: Math.min(row.min, row.allocated) })) });
+            for (const row of rows) row.allocated = bounded[row.key];
+        }
         const allocated = rows.reduce((sum, row) => sum + row.allocated, 0);
-        return { groups: rows, generation, allocated, remaining: generation - allocated, maximum: rows.reduce((sum, row) => sum + row.max, 0) };
+        return { groups: rows, plants, generation, capacity, allocated, remaining: capacity - allocated, maximum: rows.reduce((sum, row) => sum + row.max, 0) };
     }
 
     function autoPowerPlan(plan) {
@@ -235,12 +249,10 @@
         return power;
     }
 
-    function sanitizeOperation(ship, items, overrides, input) {
-        const power = {};
-        for (const group of powerPlan(ship, items, overrides).groups) {
-            const value = input?.power?.[group.key];
-            if (typeof value === 'number' && Number.isFinite(value)) power[group.key] = value <= 0 ? 0 : Math.min(group.max, Math.max(group.min, Math.round(value)));
-        }
+    function sanitizeOperation(ship, items, overrides, input, options = {}) {
+        const plan = powerPlan(ship, items, overrides, { ...options, operation: input });
+        const explicit = plan.groups.some((group) => Number.isFinite(input?.power?.[group.key]));
+        const power = explicit ? Object.fromEntries(plan.groups.map((group) => [group.key, group.allocated])) : {};
         const activeModules = {};
         walkLoadout(ship, items, overrides, ({ path, item }) => {
             if (input?.activeModules?.[path] === true && item?.miningModule?.activation === 'ActivateOnDemand') activeModules[path] = true;

@@ -10283,6 +10283,14 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 
 /* Operating controls and parent/child equipment use the same VOLT card language. */
 .loadout-power-budget { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+.loadout-power-budget strong { color: #a0cfb1; }
+.loadout-power-supply { display: grid; gap: 6px; margin-bottom: 14px; }
+.loadout-power-supply strong { font-size: 15px; }
+.loadout-power-supply span { font-size: 11px; color: var(--lo-dim); overflow-wrap: anywhere; }
+.loadout-power-meter { display: block; width: 100%; height: 10px; margin-top: 10px; }
+.loadout-power-meter::-webkit-meter-bar { background: #292c31; border: 0; border-radius: 3px; }
+.loadout-power-meter::-webkit-meter-optimum-value { background: var(--color-primary, #db3929); border-radius: 3px; }
+.loadout-power-meter::-moz-meter-bar { background: var(--color-primary, #db3929); }
 .loadout-power-budget.is-over strong { color: #ff887c; }
 .loadout-power-channels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 10px; margin: 20px 0; }
 .loadout-power-channel { min-width: 0; display: flex; flex-direction: column; gap: 7px; text-align: center; }
@@ -10290,9 +10298,17 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .loadout-power-pips { height: 100px; display: flex; flex-direction: column; gap: 3px; justify-content: flex-end; }
 .loadout-power-pips button { flex: 1; max-height: 24px; min-height: 3px; border: 1px solid var(--lo-line); border-radius: 2px; background: #24262b; cursor: pointer; padding: 0; }
 .loadout-power-pips button.is-filled { background: var(--color-primary, #db3929); border-color: #ee6757; }
+.loadout-power-pips button:disabled { cursor: not-allowed; }
+.loadout-power-pips button:disabled:not(.is-filled) { opacity: .35; }
 .loadout-power-pips button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .loadout-power-pips button:focus-visible { outline: 2px solid white; outline-offset: 2px; }
 .loadout-power-channel input { width: 100%; min-width: 0; height: 34px; border: 1px solid var(--lo-line); border-radius: 4px; background: #111216; color: inherit; text-align: center; }
+.loadout-power-adjust { display: grid; grid-template-columns: 24px minmax(0, 1fr) 24px; gap: 2px; }
+.loadout-power-adjust input { appearance: textfield; }
+.loadout-power-adjust input::-webkit-inner-spin-button, .loadout-power-adjust input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.loadout-power-adjust button { border: 1px solid var(--lo-line); border-radius: 4px; background: #202227; color: inherit; cursor: pointer; font-size: 16px; }
+.loadout-power-adjust button:disabled { opacity: .3; cursor: not-allowed; }
+.loadout-power-adjust button:focus-visible { outline: 2px solid white; outline-offset: 2px; }
 .loadout-power-channel small { font-size: 10px; line-height: 1.5; color: #a9aab1; }
 .loadout-power-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
 .loadout-assembly { list-style: none; border: 1px solid var(--lo-line); border-radius: 10px; padding: 12px; background: rgba(255,255,255,.015); min-width: 0; }
@@ -10329,7 +10345,9 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-assembly-tree { grid-template-columns: 1fr; }
     .loadout-assembly-children { padding-left: 12px; border-left: 1px solid #683c36; }
     .loadout-assembly-heading > span { flex-basis: 100%; }
-    .loadout-power-channels { gap: 16px 8px; }
+    .loadout-power-channels { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+    .loadout-power-adjust { grid-template-columns: 44px minmax(0, 1fr) 44px; }
+    .loadout-power-adjust input, .loadout-power-adjust button { height: 44px; }
     .loadout-power-actions .btn { min-height: 44px; }
 }
 /* Staff feedback: game names, visible equipment controls and role navigation. */

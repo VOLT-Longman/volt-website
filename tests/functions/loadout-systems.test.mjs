@@ -57,6 +57,7 @@ test('전력 계획: 모든 함선의 자동 분배는 공급량과 최소 작�
     for (const cls of Object.keys(systems.ships)) {
         const model = ship(cls);
         const plan = calc.powerPlan(model, items, {});
+        assert.ok(plan.allocated <= plan.capacity && plan.remaining >= 0, `${cls}: default`);
         const operation = { power: calc.autoPowerPlan(plan) };
         const allocated = calc.powerPlan(model, items, {}, { operation });
         assert.ok(allocated.remaining >= 0, cls);
@@ -74,11 +75,59 @@ test('전력 계획은 캐패시터 환산식을 추정하지 않으며 공유 �
     assert.equal(plan.groups.find((g) => g.key === 'weapons').max, 4);
     const operation = calc.sanitizeOperation(stalker, items, {}, { power: { weapons: -500, engines: Infinity, bogus: 99 }, activeModules: { fake: true } });
     assert.equal(operation.power.weapons, 0);
-    assert.equal(operation.power.engines, undefined);
+    assert.deepEqual(operation.power, calc.sanitizeOperation(stalker, items, {}, { power: { weapons: 0 } }).power);
     assert.equal(operation.power.bogus, undefined);
     assert.deepEqual(operation.activeModules, {});
     assert.deepEqual(calc.summarize(stalker, items, {}, { operation }), calc.summarize(stalker, items, {}));
     assert.deepEqual(calc.sanitizeOperation(prospector, items, { [modulePath]: rieger }, { activeModules: { [modulePath]: true } }).activeModules, {});
+});
+
+test('파워플랜트 교체·제거: 기본/저장 배정은 현재 장착 출력에 맞고 기존 0 배정을 보존한다', () => {
+    const titan = ship('aegs_avenger_titan');
+    let path;
+    calc.walkLoadout(titan, items, {}, (node) => { if (node.item?.type === 'PowerPlant') path = node.path; });
+    const stock = calc.powerPlan(titan, items, {});
+    assert.equal(stock.capacity, 15);
+    assert.equal(stock.allocated, 15);
+    const requested = Object.fromEntries(stock.groups.map((group) => [group.key, group.max]));
+    requested.weapons = 0;
+    const original = { power: requested };
+    const snapshot = JSON.stringify(original);
+    const low = { [path]: '0a713a9d-7e70-4586-87a6-ce08c337a8ea' }; // DeltaMax 13
+    const saved = calc.sanitizeOperation(titan, items, low, original);
+    const reduced = calc.powerPlan(titan, items, low, { operation: saved });
+    assert.equal(reduced.capacity, 13);
+    assert.ok(reduced.allocated <= 13);
+    assert.equal(saved.power.weapons, 0);
+    assert.equal(JSON.stringify(original), snapshot);
+    const high = { [path]: 'd89b535f-8187-4840-b5f4-3230c789dfd1' }; // QuadraCell 17
+    const increased = calc.powerPlan(titan, items, high, { operation: saved });
+    assert.equal(increased.capacity, 17);
+    assert.equal(increased.allocated, reduced.allocated);
+    assert.deepEqual(increased.groups.map((g) => g.allocated), reduced.groups.map((g) => g.allocated));
+    for (const options of [{ overrides: { [path]: '' } }, { off: { [path]: true } }]) {
+        const plan = calc.powerPlan(titan, items, options.overrides || {}, { off: options.off, operation: original });
+        assert.equal(plan.capacity, 0);
+        assert.equal(plan.allocated, 0);
+        assert.equal(plan.remaining, 0);
+    }
+});
+
+test('공급 칸: 복수 파워플랜트만 합산하고 소수 출력과 부족한 최소 배정을 안전하게 처리한다', () => {
+    const model = { slots: [{ port: 'p1', item: 'p1' }, { port: 'p2', item: 'p2' }, { port: 'shield', item: 'shield' }] };
+    const catalog = {
+        p1: { type: 'PowerPlant', power: { gen: 2.5 } },
+        p2: { type: 'PowerPlant', power: { gen: 2.25 } },
+        shield: { type: 'Shield', power: { gen: 100 }, powerLimits: { min: 4, max: 6 } },
+    };
+    const plan = calc.powerPlan(model, catalog, {});
+    assert.equal(plan.generation, 4.75);
+    assert.equal(plan.capacity, 4);
+    assert.equal(plan.allocated, 4);
+    assert.equal(plan.plants.length, 2);
+    const operation = calc.sanitizeOperation(model, catalog, {}, { power: { shields: 6 } }, { off: { p1: true } });
+    assert.equal(operation.power.shields, 0);
+    assert.equal(calc.powerPlan(model, catalog, {}, { off: { p1: true }, operation }).remaining, 2);
 });
 
 test('레이더: 8종 시그니처·조준 보조·전력 요구량은 같은 게임 빌드의 원본 값이다', () => {
