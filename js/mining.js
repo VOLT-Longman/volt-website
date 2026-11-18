@@ -241,17 +241,19 @@
     }
 
     // 다른 화면(로드아웃의 제작 재료)에서 광물을 지정해 연다. 정제 상품 id 로 와도 원광을 찾아 준다.
-    function open(resourceId) {
+    function open(resourceId, locationId = '') {
         state.pending = resourceId;
+        state.pendingLocation = locationId;
         applyPending();
     }
     function applyPending() {
-        if (!state.pending || !state.data) return;
+        if ((!state.pending && !state.pendingLocation) || !state.data) return;
         const mineral = state.data.minerals.find((item) => item.id === state.pending || item.refined?.id === state.pending);
-        state.pending = '';
-        if (!mineral) return;
-        state.view = 'mineral'; state.query = ''; state.mode = ''; state.mineral = mineral.id;
-        window.VOLT_JOURNEY?.miningSelection?.(mineral.id, '');
+        const location = state.data.locations.find(item => item.id === state.pendingLocation);
+        state.pending = ''; state.pendingLocation = '';
+        if (!mineral && !location) return;
+        state.view = location ? 'location' : 'mineral'; state.query = ''; state.mode = ''; state.mineral = mineral?.id || ''; state.location = location?.id || '';
+        window.VOLT_JOURNEY?.miningSelection?.(state.mineral, state.location);
         draw(true);
     }
 

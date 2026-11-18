@@ -125,3 +125,23 @@ test('다음 출발지 가격이 없어지면 더 싼 다른 장소로 몰래 �
     await expect(page.locator('#uex-results')).toContainText('선택한 출발지의 구매 가격 자료가 없습니다');
     await expect(page.locator('.journey-totals')).toHaveCount(0);
 });
+
+test('채광 장소와 광물 선택을 AI 왕복 후에도 유지하고 운송 화면을 영어로 바꾼다', async ({ page }) => {
+    const requests = []; await setup(page, requests); await gotoSection(page, '#mining');
+    await page.getByRole('button', { name: '철 (광석)', exact: true }).click();
+    const place = page.locator('.mining-detail [data-mining-location]').first();
+    const locationId = await place.getAttribute('data-mining-location');
+    await place.click();
+    const title = await page.locator('.mining-detail h3').innerText();
+    await page.locator('#journey-mining').getByRole('button', { name: 'AI로 현재 계획 검토' }).click();
+    await page.locator('#volt-ai-send').click();
+    await expect(page.locator('.volt-ai-review')).toContainText('선택한 채광 장소');
+    expect(requests[0].context.locationId).toBe(locationId);
+    await page.locator('.volt-ai-review').getByRole('button', { name: '채광 안내로 돌아가기' }).click();
+    await expect(page.locator('.mining-detail h3')).toHaveText(title);
+    await expect(page.locator('#mining-view-location')).toHaveAttribute('aria-selected', 'true');
+    await page.locator('#journey-mining').getByRole('button', { name: '무역', exact: true }).click();
+    await page.locator('.nav-lang [data-set-lang="en"]').click();
+    await expect(page.locator('#journey-trade-plan h3')).toHaveText('This trip');
+    await expect(page.locator('#journey-trade-mode')).toContainText('Sell cargo already held');
+});

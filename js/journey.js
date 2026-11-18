@@ -34,7 +34,7 @@
     }
     function open(section) {
         if (section === 'craft') { window.VOLT_APP?.showSection?.('mining'); showCrafts(); return; }
-        if (section === 'mining') { window.VOLT_APP?.showSection?.('mining'); if (state.mineralId) window.VOLT_MINING?.open?.(state.mineralId); return; }
+        if (section === 'mining') { window.VOLT_APP?.showSection?.('mining'); if (state.mineralId || state.locationId) window.VOLT_MINING?.open?.(state.mineralId, state.locationId); return; }
         if (section === 'planner' && document.getElementById('logistics-ship')?.value) { window.VOLT_APP?.showSection?.('trade-planner'); renderBars(); return; }
         if (section === 'planner' && state.shipId && !window.VOLT_TOOLS?.canPlan?.(state.shipId)) {
             window.VOLT_APP?.showSection?.('trade-planner');

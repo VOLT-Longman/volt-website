@@ -10,8 +10,8 @@
     const english = () => window.VOLT_I18N?.getLang() === 'en';
     const tr = (ko, en) => english() ? en : ko;
     const intro = () => state.assisted
-        ? tr(INTRO_MEMBER + ' Cloudflare AI가 참고용 해설을 덧붙입니다. 한도·연결 상태에 따라 데이터 답변만 제공할 수 있습니다. 질문과 조회 결과가 Cloudflare AI로 전달되니 개인정보·비밀번호는 입력하지 마세요. 대화는 새로고침하면 초기화됩니다.', 'VOLT AI looks up ships, UEX prices, events and notices with sources. Bring your selection from Loadout, ShipDB or Trade Planner to review equipment, power and A/B differences. Cloudflare AI adds optional commentary; limits or connection issues may leave data-only answers. Questions and retrieved records are sent to Cloudflare AI. Do not enter personal information or passwords. Conversations reset on refresh.')
-        : tr(INTRO_MEMBER + ' 데이터 기반 베타이며 자유 대화나 생성형 답변은 지원하지 않습니다. 대화는 새로고침하면 초기화됩니다.', 'VOLT AI is a data-based beta for ship recommendations, comparisons, UEX prices, events and notices. Bring your selection from Loadout, ShipDB or Trade Planner to review equipment, power and A/B differences. Answers include sources and timestamps. Generative chat is not connected. Conversations reset on refresh.');
+        ? tr(INTRO_MEMBER + ' Cloudflare AI가 참고용 해설을 덧붙입니다. 한도·연결 상태에 따라 데이터 답변만 제공할 수 있습니다. 질문과 조회 결과가 Cloudflare AI로 전달되니 개인정보·비밀번호는 입력하지 마세요. 대화는 새로고침하면 초기화됩니다.', 'VOLT AI looks up ships, UEX prices, events and notices with sources. Bring your selection from ShipDB, Loadout, Trade, Mining or Crafting to review equipment, A/B differences, budgets and material requirements. Cloudflare AI adds optional commentary; limits or connection issues may leave data-only answers. Questions and retrieved records are sent to Cloudflare AI. Do not enter personal information or passwords. Conversations reset on refresh.')
+        : tr(INTRO_MEMBER + ' 데이터 기반 베타이며 자유 대화나 생성형 답변은 지원하지 않습니다. 대화는 새로고침하면 초기화됩니다.', 'VOLT AI is a data-based beta for ship recommendations, comparisons, UEX prices, events and notices. Bring your selection from ShipDB, Loadout, Trade, Mining or Crafting to review equipment, A/B differences, budgets and material requirements. Answers include sources and timestamps. Generative chat is not connected. Conversations reset on refresh.');
 
     function el(tag, className, text) {
         const node = document.createElement(tag);
@@ -159,7 +159,7 @@
         appendMessage('ai', introText);
     }
 
-    const INTRO_MEMBER = 'VOLT AI입니다. 함선 추천(역할·화물량·인원), 함선 비교, UEX 시세, 일정·공지 안내를 도와드립니다. 로드아웃·함선 DB·무역플래너의 AI 버튼으로 선택한 함선을 가져오면 구성과 전력, A/B 차이를 검토할 수 있습니다. '
+    const INTRO_MEMBER = 'VOLT AI입니다. 함선 추천(역할·화물량·인원), 함선 비교, UEX 시세, 일정·공지 안내를 도와드립니다. 함선 DB·로드아웃·무역·채광·제작의 AI 버튼으로 현재 선택을 가져오면 장착 구성, A/B 차이, 운송 자금과 재료 확보 계획을 검토할 수 있습니다. '
         + '모든 수치는 VOLT 데이터와 UEX 조회 결과만 사용하며, 답변에 출처와 기준 시각이 함께 표시됩니다.';
 
     function setControlsEnabled(enabled) {
