@@ -14,11 +14,13 @@
 
 # Vendored files are checked byte-for-byte against the installed package on every OS.
 assets/vendor/gsap/*.js text eol=lf
+assets/vendor/three-*/** text eol=lf
 
 # 바이너리 — 어떤 변환도 하지 않는다.
 # 시각 회귀 기준선(-linux.png)이 여기 포함된다. 바이트가 바뀌면 기준선이 깨진다.
 *.png  binary
 *.webp binary
 *.ico  binary
+*.glb  binary
 *.woff binary
 *.woff2 binary

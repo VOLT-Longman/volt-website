@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261119-01';
+const CACHE_VERSION = '20261119-02';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -109,10 +109,14 @@ self.addEventListener('fetch', (event) => {
     // Membership-protected data must always reach the server, including after logout.
     // Activation deletes the old runtime caches that previously stored these files.
     if (url.pathname.startsWith('/data/canonical/') || url.pathname.startsWith('/data/loadout/')
-        || url.pathname === '/data/ship-live-stats.js' || url.pathname === '/data/ship-market.js') return;
+        || url.pathname === '/data/ship-live-stats.js' || url.pathname === '/data/ship-market.js'
+        || url.pathname === '/data/gear/models.json' || url.pathname === '/data/gear/attachments.json') return;
     // Range 부분 요청(미션 컨트롤 콘솔의 레이어 헤더 조회)은 SW 우회 —
     // Cache API는 206을 저장하지 못하고, cache-first가 응답을 고정하면 syncedAt이 낡는다.
     if (request.headers.get('range')) return;
+    // 개조 화면의 3D 모형·그림(.glb, .webp, .png)은 개수가 많고 크다. 런타임 캐시에 넣으면 80개 한도를
+    // 금방 채워 다른 항목을 밀어내고 큰 응답을 한 번 더 복사하게 되므로, 브라우저 HTTP 캐시에 맡긴다.
+    if (url.pathname.startsWith('/assets/models/')) return;
 
     const isHTML = request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html');
 

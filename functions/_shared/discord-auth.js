@@ -1,6 +1,7 @@
 import { securityDb } from './security-store.js';
 import { constantTimeEqual, hmac, parseCookies } from './auth.js';
 import { communityAccess } from './community-access.js';
+import { fleetAccess } from './fleet-access.js';
 
 const USER_SESSION_COOKIE = 'volt_user_session';
 const OAUTH_STATE_COOKIE = 'volt_oauth_state';
@@ -47,6 +48,8 @@ export function clearOAuthStateCookie() {
 }
 
 export function createOAuthReturnCookie(returnTo) {
+  const gear = gearReturnPath(returnTo);
+  if (gear) return createCookie(OAUTH_RETURN_COOKIE, encodeURIComponent(gear), OAUTH_STATE_MAX_AGE);
   const key = Object.keys(OAUTH_RETURNS).find((id) => OAUTH_RETURNS[id].input === returnTo) || '';
   return createCookie(OAUTH_RETURN_COOKIE, key, key ? OAUTH_STATE_MAX_AGE : 0);
 }
@@ -60,7 +63,23 @@ const OAUTH_RETURNS = Object.freeze({
 
 export function readOAuthReturnPath(request) {
   const key = parseCookies(request)[OAUTH_RETURN_COOKIE];
+  try { const gear = gearReturnPath(decodeURIComponent(key || '')); if (gear) return gear; } catch (_error) { /* Invalid cookie: return home. */ }
   return Object.hasOwn(OAUTH_RETURNS, key) ? OAUTH_RETURNS[key].output : '/';
+}
+
+// A bounded local fragment, not an arbitrary return URL. Only known slot keys
+// and class identifiers can survive login; no URLs or nested escapes are accepted.
+export function gearReturnPath(value) {
+  if (value === '/#gear' || value === '/#gear?view=mod') return value;
+  if (typeof value !== 'string' || value.length > 500 || !/^\/#gear\?mod=/.test(value)) return null;
+  const query = new URLSearchParams(value.slice('/#gear?'.length));
+  const seen = new Set();
+  for (const [key, entry] of query) {
+    if (!['mod', 'optics', 'barrel', 'underbarrel'].includes(key) || seen.has(key)
+        || !/^[\w~-]{1,80}$/.test(entry)) return null;
+    seen.add(key);
+  }
+  return query.get('mod') && query.get('mod') !== '-' ? `/#gear?${query}` : null;
 }
 
 export function readOAuthState(request) {
@@ -140,7 +159,7 @@ export async function readUserSession(request, env, { membershipTtlMs = MEMBERSH
     roleIds = JSON.parse(latest.role_ids);
   }
   // Apply current role mapping on every request, including configuration revocations.
-  return { ...session, roles: mapRoles(roleIds, env), communityAccess: communityAccess(roleIds, env) };
+  return { ...session, roles: mapRoles(roleIds, env), communityAccess: communityAccess(roleIds, env), fleetAccess: fleetAccess(roleIds, env) };
 }
 
 export async function revokeUserSession(request, env) {

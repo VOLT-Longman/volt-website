@@ -29,3 +29,14 @@ export async function requireCommunityMember(request, env) {
   if (!session.communityAccess.configured) return error('커뮤니티 역할 연결을 준비 중입니다.', 503);
   return session.communityAccess.allowed ? session : error('함대 Discord의 커뮤니티 멤버 역할이 필요합니다.', 403);
 }
+
+export async function requireFleetMember(request, env) {
+  let session;
+  // Many textures arrive together. Reuse a verified role list for at most five
+  // seconds, rather than extending the normal community five-minute window.
+  try { session = await readUserSession(request, env, { membershipTtlMs: 5000 }); }
+  catch (_error) { return error('인증 상태를 확인할 수 없습니다. 잠시 후 다시 시도하세요.', 503); }
+  if (!session) return error('Unauthorized', 401);
+  if (!session.fleetAccess.configured) return error('함대원 역할 연결을 준비 중입니다.', 503);
+  return session.fleetAccess.allowed ? session : error('함대원 역할이 필요합니다.', 403);
+}

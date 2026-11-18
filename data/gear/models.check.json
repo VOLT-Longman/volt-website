@@ -1,0 +1,720 @@
+{
+ "version": 1,
+ "gameBuild": "4.10.200.58746",
+ "generatedAt": "2026-11-18T14:26:04.737Z",
+ "summary": {
+  "guns": 62,
+  "exported": 61,
+  "clean": 50,
+  "withFailures": 11,
+  "notExported": 1,
+  "checks": 8937,
+  "failures": 11
+ },
+ "weapons": {
+  "klwe_pistol_energy_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 41,
+   "checks": 173,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 0.7,
+   "notes": [],
+   "failures": []
+  },
+  "ksar_pistol_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 43,
+   "checks": 181,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.5,
+   "notes": [],
+   "failures": []
+  },
+  "gmni_pistol_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 43,
+   "checks": 181,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.3,
+   "notes": [
+    "body part(s) on a port bone: ironsight_attachment on sight_attachment (optics_attach)"
+   ],
+   "failures": []
+  },
+  "volt_pistol_energy_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 34,
+   "checks": 143,
+   "boreFrom": "helper bone muzzle_flash_01",
+   "worstSeatGapMm": 3.9,
+   "notes": [],
+   "failures": []
+  },
+  "behr_pistol_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 43,
+   "checks": 181,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.8,
+   "notes": [],
+   "failures": []
+  },
+  "hdgw_pistol_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 43,
+   "checks": 181,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1,
+   "notes": [],
+   "failures": []
+  },
+  "none_pistol_ballistic_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 34,
+   "checks": 143,
+   "boreFrom": "helper bone muzzle_flash_01",
+   "worstSeatGapMm": 1.1,
+   "notes": [],
+   "failures": []
+  },
+  "sasu_pistol_toy_01": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0.1,
+   "notes": [],
+   "failures": []
+  },
+  "sasu_pistol_toy_01~2": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0.1,
+   "notes": [],
+   "failures": []
+  },
+  "lbco_pistol_energy_cen01": {
+   "ok": false,
+   "skipped": "the model file named in the game database is not in the game archive (objects/fps_weapons/weapons_v7/lbco/pistol/yubarev/epst_fps_lbco_yubarev_subscriber_01.cdf)"
+  },
+  "lbco_pistol_energy_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 34,
+   "checks": 143,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 1.4,
+   "notes": [],
+   "failures": []
+  },
+  "gmni_smg_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 43,
+   "checks": 181,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.6,
+   "notes": [],
+   "failures": []
+  },
+  "ksar_smg_energy_01": {
+   "ok": false,
+   "ports": 4,
+   "parts": 41,
+   "checks": 173,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.9,
+   "notes": [],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "part": "ksar_smg_energy_01_mag",
+     "check": "magazine-below",
+     "detail": "magazine centre is 45.5 mm above the bore line (barrel port barrel_attach)"
+    }
+   ]
+  },
+  "klwe_smg_energy_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 41,
+   "checks": 173,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 3.1,
+   "notes": [],
+   "failures": []
+  },
+  "behr_smg_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 43,
+   "checks": 181,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 0.6,
+   "notes": [],
+   "failures": []
+  },
+  "volt_smg_energy_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 34,
+   "checks": 143,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 3.4,
+   "notes": [],
+   "failures": []
+  },
+  "none_smg_energy_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 34,
+   "checks": 143,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 1.2,
+   "notes": [],
+   "failures": []
+  },
+  "hdgw_rifle_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 53,
+   "checks": 221,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 6.7,
+   "notes": [],
+   "failures": []
+  },
+  "behr_rifle_ballistic_03": {
+   "ok": true,
+   "ports": 4,
+   "parts": 53,
+   "checks": 221,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.2,
+   "notes": [],
+   "failures": []
+  },
+  "klwe_rifle_energy_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 50,
+   "checks": 209,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 0.8,
+   "notes": [],
+   "failures": []
+  },
+  "ksar_rifle_energy_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 50,
+   "checks": 209,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.2,
+   "notes": [],
+   "failures": []
+  },
+  "none_rifle_multi_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 53,
+   "checks": 221,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 7.6,
+   "notes": [],
+   "failures": []
+  },
+  "behr_rifle_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 53,
+   "checks": 221,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.5,
+   "notes": [],
+   "failures": []
+  },
+  "behr_rifle_ballistic_02": {
+   "ok": true,
+   "ports": 4,
+   "parts": 53,
+   "checks": 221,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 2,
+   "notes": [],
+   "failures": []
+  },
+  "volt_rifle_energy_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 43,
+   "checks": 179,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 4.9,
+   "notes": [],
+   "failures": []
+  },
+  "gmni_rifle_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 53,
+   "checks": 221,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.8,
+   "notes": [
+    "body part(s) on a port bone: grip_attachment on underbarrel_attachment (underbarrel_attach)"
+   ],
+   "failures": []
+  },
+  "lbco_rifle_energy_01": {
+   "ok": false,
+   "ports": 4,
+   "parts": 50,
+   "checks": 209,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 12.3,
+   "notes": [],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "part": "lbco_rifle_energy_01_mag",
+     "check": "magazine-below",
+     "detail": "magazine centre is 0.2 mm above the bore line (barrel port barrel_attach)"
+    }
+   ]
+  },
+  "klwe_lmg_energy_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 50,
+   "checks": 209,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.5,
+   "notes": [],
+   "failures": []
+  },
+  "gmni_lmg_ballistic_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 43,
+   "checks": 179,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 1.6,
+   "notes": [],
+   "failures": []
+  },
+  "volt_lmg_energy_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 63,
+   "checks": 259,
+   "boreFrom": "helper bone muzzle_flash_01",
+   "worstSeatGapMm": 5.9,
+   "notes": [],
+   "failures": []
+  },
+  "behr_lmg_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 53,
+   "checks": 221,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 7,
+   "notes": [],
+   "failures": []
+  },
+  "none_lmg_ballistic_01": {
+   "ok": true,
+   "ports": 2,
+   "parts": 33,
+   "checks": 137,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 1.2,
+   "notes": [],
+   "failures": []
+  },
+  "ksar_lmg_energy_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 50,
+   "checks": 209,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.3,
+   "notes": [],
+   "failures": []
+  },
+  "apar_hmg_ballistic_01": {
+   "ok": true,
+   "ports": 0,
+   "parts": 0,
+   "checks": 1,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0,
+   "notes": [],
+   "failures": []
+  },
+  "behr_shotgun_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 42,
+   "checks": 177,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 2.7,
+   "notes": [],
+   "failures": []
+  },
+  "none_shotgun_ballistic_01": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash_R",
+   "worstSeatGapMm": 0.9,
+   "notes": [],
+   "failures": []
+  },
+  "ksar_shotgun_energy_01": {
+   "ok": false,
+   "ports": 4,
+   "parts": 40,
+   "checks": 169,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 2.1,
+   "notes": [],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "part": "ksar_shotgun_energy_01_mag",
+     "check": "magazine-below",
+     "detail": "magazine centre is 9.4 mm above the bore line (barrel port barrel_attach)"
+    }
+   ]
+  },
+  "volt_shotgun_energy_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 43,
+   "checks": 179,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 5.3,
+   "notes": [],
+   "failures": []
+  },
+  "gmni_shotgun_ballistic_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 34,
+   "checks": 143,
+   "boreFrom": "helper bone muzzle_light",
+   "worstSeatGapMm": 1.5,
+   "notes": [],
+   "failures": []
+  },
+  "ksar_shotgun_ballistic_01": {
+   "ok": false,
+   "ports": 3,
+   "parts": 34,
+   "checks": 143,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 1.4,
+   "notes": [],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "part": "ksar_shotgun_ballistic_01_mag",
+     "check": "magazine-below",
+     "detail": "magazine centre is 32.1 mm above the bore line (helper bone muzzle_flash)"
+    }
+   ]
+  },
+  "gmni_sniper_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 73,
+   "checks": 301,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 9.7,
+   "notes": [],
+   "failures": []
+  },
+  "klwe_sniper_energy_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 70,
+   "checks": 289,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 1.4,
+   "notes": [],
+   "failures": []
+  },
+  "lbco_sniper_energy_imp01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 63,
+   "checks": 259,
+   "boreFrom": "helper bone muzzle_flash_01",
+   "worstSeatGapMm": 2.3,
+   "notes": [
+    "body part(s) on a port bone: ironsight_attachment on sight_attachment (optics_attach)"
+   ],
+   "failures": []
+  },
+  "lbco_sniper_energy_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 63,
+   "checks": 259,
+   "boreFrom": "helper bone muzzle_flash_01",
+   "worstSeatGapMm": 2.3,
+   "notes": [
+    "body part(s) on a port bone: ironsight_attachment on sight_attachment (optics_attach)"
+   ],
+   "failures": []
+  },
+  "behr_sniper_ballistic_01": {
+   "ok": true,
+   "ports": 4,
+   "parts": 73,
+   "checks": 301,
+   "boreFrom": "barrel port barrel_attach",
+   "worstSeatGapMm": 2.2,
+   "notes": [],
+   "failures": []
+  },
+  "ksar_sniper_ballistic_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 63,
+   "checks": 259,
+   "boreFrom": "helper bone muzzle_flash_01",
+   "worstSeatGapMm": 1.6,
+   "notes": [],
+   "failures": []
+  },
+  "volt_sniper_energy_01": {
+   "ok": false,
+   "ports": 3,
+   "parts": 63,
+   "checks": 259,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 2,
+   "notes": [],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "part": "volt_sniper_energy_01_mag",
+     "check": "magazine-below",
+     "detail": "magazine centre is 0.5 mm above the bore line (helper bone muzzle_flash)"
+    }
+   ]
+  },
+  "apar_special_ballistic_02": {
+   "ok": false,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash_01",
+   "worstSeatGapMm": 0.9,
+   "notes": [],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "part": "apar_special_ballistic_02_mag",
+     "check": "magazine-below",
+     "detail": "magazine centre is 0.0 mm above the bore line (helper bone muzzle_flash_01)"
+    }
+   ]
+  },
+  "none_special_ballistic_01": {
+   "ok": false,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash_01",
+   "worstSeatGapMm": 2.9,
+   "notes": [],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "part": "none_special_ballistic_01_rocket",
+     "check": "magazine-below",
+     "detail": "magazine centre is 3.1 mm above the bore line (helper bone muzzle_flash_01)"
+    }
+   ]
+  },
+  "behr_glauncher_ballistic_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 43,
+   "checks": 179,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 5,
+   "notes": [],
+   "failures": []
+  },
+  "apar_special_ballistic_01": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0.7,
+   "notes": [],
+   "failures": []
+  },
+  "utfl_crossbow_ballistic_01": {
+   "ok": true,
+   "ports": 3,
+   "parts": 63,
+   "checks": 259,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 2.3,
+   "notes": [],
+   "failures": []
+  },
+  "kegr_fire_extinguisher_01": {
+   "ok": false,
+   "ports": 0,
+   "parts": 0,
+   "checks": 1,
+   "boreFrom": null,
+   "worstSeatGapMm": 0,
+   "notes": [
+    "the body's longest side is not front-to-back (151.2 mm x 220.3 mm x 484.5 mm); the barrel axis is still taken as the model's forward axis",
+    "no barrel port and no muzzle helper: above / below the bore line was not checked"
+   ],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "check": "port-resolved",
+     "detail": "magazine_attach: helper \"magAttach\" is not a bone or node of the weapon model"
+    }
+   ]
+  },
+  "kegr_fire_extinguisher_01~2": {
+   "ok": false,
+   "ports": 0,
+   "parts": 0,
+   "checks": 1,
+   "boreFrom": null,
+   "worstSeatGapMm": 0,
+   "notes": [
+    "the body's longest side is not front-to-back (151.2 mm x 220.3 mm x 484.5 mm); the barrel axis is still taken as the model's forward axis",
+    "no barrel port and no muzzle helper: above / below the bore line was not checked"
+   ],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "check": "port-resolved",
+     "detail": "magazine_attach: helper \"magAttach\" is not a bone or node of the weapon model"
+    }
+   ]
+  },
+  "grin_salvage_repair_01~2": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0.6,
+   "notes": [],
+   "failures": []
+  },
+  "grin_salvage_repair_01": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0.6,
+   "notes": [],
+   "failures": []
+  },
+  "grin_salvage_repair_iasi": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0.6,
+   "notes": [],
+   "failures": []
+  },
+  "grin_tractor_01": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0.3,
+   "notes": [],
+   "failures": []
+  },
+  "crlf_medgun_01": {
+   "ok": false,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0.1,
+   "notes": [],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "part": "crlf_medgun_vial_01",
+     "check": "magazine-below",
+     "detail": "magazine centre is 0.8 mm above the bore line (helper bone muzzle_flash)"
+    }
+   ]
+  },
+  "grin_multitool_01": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0,
+   "notes": [],
+   "failures": []
+  },
+  "grin_multitool_01~2": {
+   "ok": true,
+   "ports": 1,
+   "parts": 1,
+   "checks": 7,
+   "boreFrom": "helper bone muzzle_flash",
+   "worstSeatGapMm": 0,
+   "notes": [],
+   "failures": []
+  },
+  "behr_binoculars_01": {
+   "ok": false,
+   "ports": 0,
+   "parts": 0,
+   "checks": 1,
+   "boreFrom": null,
+   "worstSeatGapMm": 0,
+   "notes": [
+    "no barrel port and no muzzle helper: above / below the bore line was not checked"
+   ],
+   "failures": [
+    {
+     "port": "magazine_attach",
+     "check": "port-resolved",
+     "detail": "magazine_attach: helper \"magAttach\" is not a bone or node of the weapon model"
+    }
+   ]
+  }
+ }
+}

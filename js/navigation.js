@@ -60,7 +60,8 @@
     }
 
     function parseRouteFromHash() {
-        const hash = window.location.hash.replace('#', '');
+        // '#gear?mod=…'처럼 섹션 뒤에 붙은 값은 그 섹션이 직접 읽는다. 여기서는 섹션 이름만 본다.
+        const hash = window.location.hash.replace('#', '').split('?')[0];
         if (hash === 'comms-usage') return { section: 'comms', anchorId: hash };
         const policyMatch = hash.match(/^policy-section-(\d+)$/);
         if (policyMatch) return { section: 'policy', anchorId: hash };

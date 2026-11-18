@@ -11176,3 +11176,54 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-app .loadout-swap .loadout-opttable .loadout-optprice { grid-column: 1; align-self: center; }
     .loadout-app .loadout-swap .loadout-opttable .loadout-optact { grid-column: 2; justify-self: end; min-width: 80px; }
 }
+/* 개인 장비: 개조 화면 (.gear-mod-*) — 자리 목록 · 부품 목록 · 수치 · 3D 보기 */
+.gear-mod { display: grid; gap: 14px; min-width: 0; }
+.gear-mod-bar { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; }
+.gear-mod-bar .gear-select { flex: 1 1 240px; max-width: 420px; }
+.gear-mod-bar .gear-add { min-height: 44px; }
+.gear-mod-notice { flex: 1 1 100%; min-height: 1.6em; }
+.gear-mod-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); grid-template-areas: "show slots" "show parts" "stats parts"; grid-template-rows: auto auto 1fr; gap: 16px; align-items: start; }
+.gear-mod-panel { display: grid; gap: 10px; min-width: 0; padding: 14px; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
+.gear-mod-panel > * { min-width: 0; }
+.gear-mod-panel h3 { margin: 0; font-size: 16px; }
+.gear-mod-panel h4 { margin: 4px 0 0; font-size: 13px; color: var(--color-text-secondary); }
+.gear-mod-show { grid-area: show; }
+.gear-mod-slots { grid-area: slots; }
+.gear-mod-parts { grid-area: parts; }
+.gear-mod-stats { grid-area: stats; }
+.gear-mod-stage { position: relative; display: grid; place-items: center; min-height: 220px; border-radius: 10px; background: radial-gradient(circle at 50% 40%, #2a2e36, #131417 75%); overflow: hidden; }
+.gear-mod-stage.is-3d { aspect-ratio: 16 / 10; min-height: 320px; }
+.gear-mod-stage .gear-figure { margin: 0; padding: 10px; }
+.gear-mod-still .gear-icon { width: 160px; height: 160px; margin: 0; }
+.gear-mod-view { position: absolute; inset: 0; }
+.gear-mod-canvas { display: block; width: 100%; height: 100%; outline-offset: -3px; }
+.gear-mod-canvas:focus-visible { outline: 2px solid var(--volt-orange); }
+.gear-mod-wait { position: relative; margin: 0; padding: 8px 14px; border-radius: 8px; background: rgba(0, 0, 0, 0.55); font-size: 13px; color: var(--color-text-primary); pointer-events: none; }
+.gear-mod-viewbar { display: flex; flex-wrap: wrap; gap: 6px; }
+.gear-mod-viewbar .gear-add[aria-pressed="true"] { border-color: var(--volt-orange); background: rgba(232, 72, 47, 0.14); }
+.gear-mod-slotlist, .gear-mod-partlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.gear-mod-slot { display: flex; align-items: stretch; gap: 6px; min-width: 0; }
+.gear-mod-slot .gear-add { flex: 0 0 auto; min-height: 44px; }
+.gear-mod-slot .gear-add:disabled { opacity: 0.45; cursor: default; }
+.gear-mod-slotbtn { flex: 1 1 auto; display: grid; gap: 2px; min-width: 0; min-height: 44px; padding: 8px 10px; border: 1px solid var(--ge-line); border-radius: 8px; background: var(--ge-card-2); color: var(--color-text-primary); font: inherit; font-size: 14px; text-align: left; overflow-wrap: anywhere; }
+button.gear-mod-slotbtn { cursor: pointer; }
+button.gear-mod-slotbtn:hover, .gear-mod-part:hover { border-color: var(--volt-orange); }
+.gear-mod-slot.is-selected .gear-mod-slotbtn { border-color: var(--volt-orange); box-shadow: inset 3px 0 0 var(--volt-orange); }
+.gear-mod-slot.is-fixed .gear-mod-slotbtn { background: transparent; border-style: dashed; }
+.gear-mod-slotname { font-size: 12px; color: var(--color-text-secondary); }
+.gear-mod-slotname small { margin-left: 4px; padding: 1px 6px; border: 1px solid var(--ge-line); border-radius: 6px; font-size: 11px; }
+.gear-mod-slotbtn small.gear-muted { font-size: 12px; }
+.gear-mod-parts > ul { max-height: 460px; overflow-y: auto; padding-right: 2px; }
+.gear-mod-part { display: grid; gap: 3px; width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid var(--ge-line); border-radius: 8px; background: var(--ge-card-2); color: var(--color-text-primary); font: inherit; font-size: 14px; text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+.gear-mod-part.is-fitted { border-color: var(--volt-orange); background: rgba(232, 72, 47, 0.1); }
+.gear-mod-partname { font-weight: 600; }
+.gear-mod-part small { font-size: 12px; }
+.gear-mod-chips { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+.gear-mod-chip { padding: 1px 7px; border: 1px solid var(--ge-line); border-radius: 6px; font-size: 12px; color: var(--color-text-secondary); }
+.gear-mod-chip strong { color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
+.gear-mod-desc { display: grid; gap: 6px; padding-top: 8px; border-top: 1px solid var(--ge-line); }
+.gear-mod-desc ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.6; }
+.gear-mod-stats .gear-tablewrap { background: transparent; }
+.gear-mod-table th[scope="row"] { font-weight: 600; }
+@media (max-width: 1100px) { .gear-mod-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "show" "slots" "parts" "stats"; grid-template-rows: none; } .gear-mod-parts > ul { max-height: 360px; } }
+@media (max-width: 640px) { .gear-mod-bar .gear-select { max-width: none; flex-basis: 100%; } .gear-mod-bar .gear-add { flex: 1 1 auto; } .gear-mod-panel { padding: 12px; } .gear-mod-table { font-size: 13px; } }

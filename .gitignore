@@ -21,3 +21,6 @@ data/external/erkul/ships.raw.json
 data/external/erkul/shop.raw.json
 data/external/erkul/r2-snapshot-stage-manifest.json
 data/rsi-ship-matrix-index.json
+
+# Private game models: upload to the fleet-only R2 bucket, never Git.
+/assets/models/gear/
