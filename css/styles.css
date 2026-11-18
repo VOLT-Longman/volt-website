@@ -10919,6 +10919,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .loadout-dashboard .loadout-group { border-radius: 12px; background: #1b1d22; }
 .loadout-dashboard .loadout-group h4 { background: none; }
 .loadout-dashboard .loadout-group-toggle { padding: 12px 16px; min-height: 50px; color: #c4c5cb; }
+.loadout-dashboard .loadout-group-toggle > span:first-child { font-size: inherit; font-weight: 700; color: inherit; }
 .loadout-dashboard .loadout-group-toggle > span:first-child::before { content: '◇'; display: inline-block; color: #ffab8a; margin-right: 10px; }
 .loadout-dashboard .loadout-slotlist { padding: 0 14px 14px; }
 .loadout-dashboard .loadout-slot-row { padding: 12px; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 8px; border-radius: 10px; background: #282a30; }
