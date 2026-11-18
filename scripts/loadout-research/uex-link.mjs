@@ -13,7 +13,6 @@ const game = loadGame(cacheDir);
 const { df } = game;
 const uex = (name) => JSON.parse(readFileSync(resolve(uexDir, `${name}.json`), 'utf8')).data || [];
 const fetchedAt = (name) => statSync(resolve(uexDir, `${name}.json`)).mtime.toISOString();
-const short = (ref) => (ref?.name ? String(ref.name).split('.').slice(1).join('.') : undefined);
 const norm = (value) => String(value || '').toLowerCase().replace(/\(r\)/g, '(raw)').replace(/[^a-z0-9]+/g, '');
 const ini = new Map();
 for (const line of readFileSync(resolve(cacheDir, 'global.ini'), 'utf8').split(/\r?\n/)) {

@@ -1,0 +1,5096 @@
+{
+ "gameBuild": "4.10.200.58746",
+ "gameBranch": "sc-alpha-4.10.0",
+ "gameChangelist": "13165946",
+ "gameBuildDate": "Wed Nov 11 2026",
+ "researchedAt": "2026-11-18T04:31:30.044Z",
+ "attachments": [
+  {
+   "id": "6bbaa189-c154-4524-b2c1-6df305bb9533",
+   "cls": "nvtc_ubarrel_lasr_s1",
+   "name": "250-E Laser Pointer",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "c12a76b1-80b2-4db5-9648-20a1cd0f4d67",
+   "cls": "gmni_sniper_ballistic_01_mag",
+   "name": "A03 Sniper Rifle Magazine (15 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 1.15,
+   "tags": [
+    "gmni_sniper_ballistic_01"
+   ],
+   "magazineSize": 15,
+   "ammo": {
+    "id": "gmni_sniper_ballistic_01_ammo_7mm",
+    "speed": 800,
+    "lifetime": 2,
+    "range": 1600,
+    "damage": {
+     "physical": 42.5
+    },
+    "damageTotal": 42.5,
+    "drop": {
+     "start": {
+      "physical": 150
+     },
+     "perMeter": {
+      "physical": 0.02
+     },
+     "floor": {
+      "physical": 35
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "ccaa28df-74dd-4ecb-87ae-40e04195a4aa",
+   "cls": "apar_special_ballistic_02_missile",
+   "name": "Animus Missile",
+   "type": "WeaponAttachment",
+   "sub": "Missile",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "name": "Aopoa"
+   },
+   "mass": 2.83,
+   "tags": [
+    "apar_special_ballistic_02",
+    "SM_RestrictedWep",
+    "flightReady"
+   ]
+  },
+  {
+   "id": "2308fcbc-cc02-41c1-9a5e-3a14507fc4f4",
+   "cls": "apar_special_ballistic_02_mag",
+   "name": "Animus Missile Launcher Magazine (3 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "APAR",
+    "name": "Apocalypse Arms"
+   },
+   "mass": 0.25,
+   "tags": [
+    "apar_special_ballistic_02",
+    "SM_RestrictedWep"
+   ],
+   "ammo": {
+    "id": "apar_special_ballistic_02_ammo_rockets",
+    "speed": 700,
+    "lifetime": 3,
+    "range": 2100,
+    "damageTotal": 0,
+    "pierceability": 15,
+    "explosion": {
+     "damage": {
+      "physical": 150
+     },
+     "radius": 4
+    }
+   }
+  },
+  {
+   "id": "a205d0b4-7157-4e5a-9e40-57bb6b4fbb55",
+   "cls": "kegr_fire_extinguisher_01_mag",
+   "name": "APX Fire Extinguisher Canister",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 10,
+   "tags": [
+    "kegr_fire_extinguisher_01"
+   ],
+   "magazineSize": 3000,
+   "ammo": {
+    "id": "kegr_FE_Igniter_thermal_01_ammo_thermal",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "thermal": 18
+    },
+    "damageTotal": 18,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "e15e874d-a0c1-4f91-939b-b04bf7a9e839",
+   "cls": "klwe_pistol_energy_01_mag",
+   "name": "Arclight Pistol Battery (30 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 0.63,
+   "tags": [
+    "klwe_pistol_energy_01"
+   ],
+   "magazineSize": 30,
+   "ammo": {
+    "id": "klwe_pistol_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 18
+    },
+    "damageTotal": 18,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "94b9bfce-d88c-4433-b45e-28feef36a266",
+   "cls": "hdgw_rifle_ballistic_01_mag",
+   "name": "Arlington Rifle Magazine (20 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "HDGW",
+    "name": "Hedeby Gunworks"
+   },
+   "mass": 0.88,
+   "tags": [
+    "hdgw_rifle_ballistic_01"
+   ],
+   "magazineSize": 20,
+   "ammo": {
+    "id": "hdgw_rifle_ballistic_01_ammo_44mm",
+    "speed": 550,
+    "lifetime": 2,
+    "range": 1100,
+    "damage": {
+     "physical": 80
+    },
+    "damageTotal": 80,
+    "drop": {
+     "start": {
+      "physical": 50
+     },
+     "perMeter": {
+      "physical": 0.1
+     },
+     "floor": {
+      "physical": 35
+     }
+    },
+    "pierceability": 0
+   }
+  },
+  {
+   "id": "66f0410b-bcd9-4be5-96ed-aab6f65f3420",
+   "cls": "klwe_sniper_energy_01_mag",
+   "name": "Arrowhead Sniper Rifle Battery (16 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 1.26,
+   "tags": [
+    "klwe_sniper_energy_01"
+   ],
+   "magazineSize": 16,
+   "ammo": {
+    "id": "klwe_sniper_energy_01_ammo_laser",
+    "speed": 1000,
+    "lifetime": 4,
+    "range": 4000,
+    "damage": {
+     "energy": 50
+    },
+    "damageTotal": 50,
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "7624b16b-96ba-4c51-ae7a-a2d34f266626",
+   "cls": "asad_rifle_energy_01_mag",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ASD",
+    "name": "PH Associated Science and Development"
+   },
+   "mass": 0.5,
+   "tags": [
+    "asad_rifle_energy_01"
+   ],
+   "internal": true,
+   "magazineSize": 55,
+   "ammo": {
+    "id": "asad_rifle_energy_01_ammo",
+    "speed": 550,
+    "lifetime": 2,
+    "range": 1100,
+    "damage": {
+     "physical": 16.5
+    },
+    "damageTotal": 16.5,
+    "drop": {
+     "start": {
+      "physical": 40
+     },
+     "perMeter": {
+      "physical": 0.05
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 0
+   }
+  },
+  {
+   "id": "8177489f-ed83-44ac-afd4-2b32a80fa0a6",
+   "cls": "lbco_sniper_energy_01_mag",
+   "name": "Atzkav Sniper Rifle Battery (8 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "mass": 1.28,
+   "tags": [
+    "lbco_sniper_energy_01"
+   ],
+   "magazineSize": 8,
+   "ammo": {
+    "id": "lbco_sniper_energy_01_ammo_electron",
+    "speed": 500,
+    "lifetime": 2,
+    "range": 1000,
+    "damage": {
+     "energy": 120,
+     "distortion": 35,
+     "stun": 10
+    },
+    "damageTotal": 165,
+    "drop": {
+     "start": {
+      "energy": 350,
+      "distortion": 350,
+      "stun": 350
+     },
+     "perMeter": {
+      "energy": 0.01,
+      "distortion": 0.01,
+      "stun": 0.01
+     },
+     "floor": {
+      "energy": 30,
+      "distortion": 20,
+      "stun": 6
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "38dc4dac-d7c2-4c1e-b142-07f987d77fb0",
+   "cls": "Barrel_Attachment",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 0,
+   "grade": 1,
+   "mass": 0.1,
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "71aac893-8957-42e2-8956-61985ab2c4a5",
+   "cls": "ksar_optics_tsco_x8_s3",
+   "name": "Black Prism (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 8,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "2f4ed822-21bb-4b47-8d9b-ef75114222f6",
+   "cls": "none_special_ballistic_01_rocket",
+   "name": "Boomtube Rocket",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "UNKN",
+    "name": "Unknown"
+   },
+   "mass": 4.21,
+   "tags": [
+    "none_special_ballistic_01_rocket"
+   ],
+   "magazineSize": 1,
+   "ammo": {
+    "id": "None_special_ballistic_01_AMMO_FPS",
+    "speed": 135,
+    "lifetime": 16,
+    "range": 2160,
+    "damage": {
+     "physical": 20
+    },
+    "damageTotal": 20,
+    "drop": {
+     "start": {
+      "physical": 2000
+     },
+     "floor": {
+      "physical": 15
+     }
+    },
+    "pierceability": 10,
+    "explosion": {
+     "damage": {
+      "physical": 20000,
+      "energy": 21000
+     },
+     "radius": 1.5
+    }
+   }
+  },
+  {
+   "id": "38555f2d-975f-4e3c-8d04-8196b59b17c6",
+   "cls": "behr_shotgun_ballistic_01_mag",
+   "name": "BR-2 Shotgun Magazine (12 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.72,
+   "tags": [
+    "behr_shotgun_ballistic_01"
+   ],
+   "magazineSize": 12,
+   "ammo": {
+    "id": "behr_shotgun_ballistic_01_ammo_12g",
+    "speed": 225,
+    "lifetime": 2,
+    "range": 450,
+    "damage": {
+     "physical": 11
+    },
+    "damageTotal": 11,
+    "drop": {
+     "start": {
+      "physical": 12
+     },
+     "perMeter": {
+      "physical": 0.05
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 9
+   }
+  },
+  {
+   "id": "8ff2bb56-65e6-43b6-8516-c172efbe14bc",
+   "cls": "vlk_spewgun_ballistic_01_mag",
+   "name": "BR-2 Shotgun Magazine (12 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.98,
+   "tags": [
+    "behr_shotgun_ballistic_01"
+   ],
+   "magazineSize": 99999,
+   "ammo": {
+    "id": "vlk_spewgun_ballistic_01_ammo_special",
+    "speed": 550,
+    "lifetime": 8,
+    "range": 4400,
+    "damage": {
+     "physical": 9500
+    },
+    "damageTotal": 9500,
+    "pierceability": 9,
+    "explosion": {
+     "damage": {
+      "physical": 35
+     },
+     "radius": 10
+    }
+   }
+  },
+  {
+   "id": "85172716-2759-4dba-9c99-a9c64dd06143",
+   "cls": "vlk_spewgun_ballistic_01_mag_adult",
+   "name": "BR-2 Shotgun Magazine (12 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.98,
+   "tags": [
+    "behr_shotgun_ballistic_01"
+   ],
+   "magazineSize": 99999,
+   "ammo": {
+    "id": "vlk_spewgun_ballistic_01_ammo_special_adult",
+    "speed": 70,
+    "lifetime": 8,
+    "range": 560,
+    "damage": {
+     "physical": 25
+    },
+    "damageTotal": 25,
+    "pierceability": 9,
+    "explosion": {
+     "damage": {
+      "physical": 10
+     },
+     "radius": 2
+    }
+   }
+  },
+  {
+   "id": "ab85897c-940f-426e-962b-b3a2d459036c",
+   "cls": "vlk_spewgun_ballistic_01_mag_juvi",
+   "name": "BR-2 Shotgun Magazine (12 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.98,
+   "tags": [
+    "behr_shotgun_ballistic_01"
+   ],
+   "magazineSize": 99999,
+   "ammo": {
+    "id": "vlk_spewgun_ballistic_01_ammo_special_juvi",
+    "speed": 100,
+    "lifetime": 8,
+    "range": 800,
+    "damage": {
+     "physical": 5
+    },
+    "damageTotal": 5,
+    "pierceability": 9,
+    "explosion": {
+     "damage": {
+      "physical": 35
+     },
+     "radius": 0
+    }
+   }
+  },
+  {
+   "id": "9f4969d2-074c-448b-ae6b-0697c49cff81",
+   "cls": "klwe_ubarrel_flsh_s1",
+   "name": "Brightspot Flashlight Purple",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "3f4a69ef-0bcf-4cd6-a272-782f6641c242",
+   "cls": "gmni_smg_ballistic_01_mag",
+   "name": "C54 SMG Magazine (50 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 1.1,
+   "tags": [
+    "gmni_smg_ballistic_01"
+   ],
+   "magazineSize": 50,
+   "ammo": {
+    "id": "gmni_smg_ballistic_01_ammo_10mm",
+    "speed": 500,
+    "lifetime": 1.9,
+    "range": 950,
+    "damage": {
+     "physical": 11.5
+    },
+    "damageTotal": 11.5,
+    "drop": {
+     "start": {
+      "physical": 15
+     },
+     "perMeter": {
+      "physical": 0.2
+     },
+     "floor": {
+      "physical": 7.5
+     }
+    },
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "891a1422-3980-4756-84b2-04dd07ad7177",
+   "cls": "grin_tool_resource_salvage_repair_01",
+   "name": "Cambio SRT Canister",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.75,
+   "tags": [
+    "grin_tool_salvage_01_canister"
+   ],
+   "magazineSize": 750,
+   "ammo": {
+    "id": "klwe_rifle_energy_01_ammo_laser",
+    "speed": 1200,
+    "lifetime": 4,
+    "range": 4800,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "100037d0-d9c1-400d-a29a-c2ea3b621753",
+   "cls": "grin_tool_resource_salvage_repair_01_filled",
+   "name": "Cambio SRT Canister",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.75,
+   "tags": [
+    "grin_tool_salvage_01_canister"
+   ],
+   "magazineSize": 750,
+   "ammo": {
+    "id": "klwe_rifle_energy_01_ammo_laser",
+    "speed": 1200,
+    "lifetime": 4,
+    "range": 4800,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "99379aa0-7240-4014-813a-0ab460f885f5",
+   "cls": "grin_multitool_01_salvage_repair",
+   "name": "Cambio-Lite SRT Attachment",
+   "type": "WeaponAttachment",
+   "sub": "Utility",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.375,
+   "tags": [
+    "grin_multitool_01"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "5ea0d020-8e9c-4a33-8fad-757651e1088d",
+   "cls": "grin_multitool_resource_salvage_repair_01",
+   "name": "Cambio-Lite SRT Canister",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.25,
+   "tags": [
+    "grin_multitool_01",
+    "multitool_resource"
+   ],
+   "magazineSize": 250,
+   "ammo": {
+    "id": "klwe_rifle_energy_01_ammo_laser",
+    "speed": 1200,
+    "lifetime": 4,
+    "range": 4800,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "c1de56e1-e20f-4c8c-bbb8-c0584e38725d",
+   "cls": "grin_multitool_resource_salvage_repair_01_filled",
+   "name": "Cambio-Lite SRT Canister",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.25,
+   "tags": [
+    "grin_multitool_01",
+    "multitool_resource"
+   ],
+   "magazineSize": 250,
+   "ammo": {
+    "id": "klwe_rifle_energy_01_ammo_laser",
+    "speed": 1200,
+    "lifetime": 4,
+    "range": 4800,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "680e69e1-4bf5-4647-92bc-989d1e4a5faa",
+   "cls": "grin_tool_01_mag",
+   "name": "Cambrio SRT Battery",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.75,
+   "tags": [
+    "grin_salvage_repair_01"
+   ],
+   "magazineSize": 50,
+   "ammo": {
+    "id": "klwe_rifle_energy_01_ammo_laser",
+    "speed": 1200,
+    "lifetime": 4,
+    "range": 4800,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "90b873da-1d15-48ba-86f5-f5633e958c33",
+   "cls": "ksar_pistol_ballistic_01_mag",
+   "name": "Coda Pistol Magazine (6 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 0.36,
+   "tags": [
+    "ksar_pistol_ballistic_01"
+   ],
+   "magazineSize": 6,
+   "ammo": {
+    "id": "ksar_pistol_ballistic_01_ammo_50cal",
+    "speed": 550,
+    "lifetime": 2,
+    "range": 1100,
+    "damage": {
+     "physical": 60
+    },
+    "damageTotal": 60,
+    "drop": {
+     "start": {
+      "physical": 55
+     },
+     "perMeter": {
+      "physical": 0.2
+     },
+     "floor": {
+      "physical": 35
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "dbd68e25-d363-46ad-a924-be7337fd8305",
+   "cls": "behr_rifle_ballistic_03_mag",
+   "name": "CQ7 Rifle Magazine (40 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.5,
+   "tags": [
+    "behr_rifle_ballistic_01"
+   ],
+   "magazineSize": 40,
+   "ammo": {
+    "id": "behr_rifle_ballistic_03_ammo_7mm",
+    "speed": 550,
+    "lifetime": 2,
+    "range": 1100,
+    "damage": {
+     "physical": 18
+    },
+    "damageTotal": 18,
+    "drop": {
+     "start": {
+      "physical": 65
+     },
+     "perMeter": {
+      "physical": 0.06
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 0
+   }
+  },
+  {
+   "id": "31b73bfe-da55-4cb0-a19d-1c6543ca1fb9",
+   "cls": "ksar_smg_energy_01_mag",
+   "name": "Custodian SMG Magazine (60 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 1.26,
+   "tags": [
+    "ksar_smg_energy_01"
+   ],
+   "magazineSize": 60,
+   "ammo": {
+    "id": "ksar_smg_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 13
+    },
+    "damageTotal": 13,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "1b00b884-79eb-4b3b-916f-1b3ebe4c7c76",
+   "cls": "none_shotgun_ballistic_01_mag",
+   "name": "Deadrig Shotgun Magazine (8 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "UNKN",
+    "name": "Unknown"
+   },
+   "mass": 0.68,
+   "tags": [
+    "none_shotgun_ballistic_01"
+   ],
+   "magazineSize": 8,
+   "ammo": {
+    "id": "none_shotgun_ballistic_01_ammo_12g",
+    "speed": 300,
+    "lifetime": 2,
+    "range": 600,
+    "damage": {
+     "physical": 9
+    },
+    "damageTotal": 9,
+    "drop": {
+     "start": {
+      "physical": 7
+     },
+     "perMeter": {
+      "physical": 0.05
+     },
+     "floor": {
+      "physical": 6
+     }
+    },
+    "pierceability": 9
+   }
+  },
+  {
+   "id": "d4d27d5f-3c80-4b31-bc34-2de8357b79d7",
+   "cls": "nvtc_optics_rdot_x1_s1_firerats01",
+   "name": "Delta \"Scorched\" (1x Reflex)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.025
+   }
+  },
+  {
+   "id": "28fa64a1-2a7b-4bcc-9581-9b86c6ccae16",
+   "cls": "nvtc_optics_rdot_x1_s1",
+   "name": "Delta (1x Reflex)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "495e07f0-3b09-49a7-857b-dccefca9f5d1",
+   "cls": "nvtc_optics_rdot_x1_s1_LAMP",
+   "name": "Delta LL (1x Reflex)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "b62224ba-5c56-4306-857a-70de7d570767",
+   "cls": "klwe_lmg_energy_01_mag",
+   "name": "Demeco LMG Battery (100 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 2.1,
+   "tags": [
+    "klwe_lmg_energy_01"
+   ],
+   "magazineSize": 100,
+   "ammo": {
+    "id": "klwe_lmg_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 4,
+    "range": 2400,
+    "damage": {
+     "energy": 11.5
+    },
+    "damageTotal": 11.5,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "86eec5f7-3dd0-40f2-a433-3dc143c0d231",
+   "cls": "ksar_shotgun_energy_01_mag",
+   "name": "Devastator Shotgun Battery (12 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 0.9,
+   "tags": [
+    "ksar_shotgun_energy_01"
+   ],
+   "magazineSize": 12,
+   "ammo": {
+    "id": "ksar_shotgun_energy_01_ammo_plasma",
+    "speed": 300,
+    "lifetime": 2,
+    "range": 600,
+    "damage": {
+     "energy": 10
+    },
+    "damageTotal": 10,
+    "drop": {
+     "start": {
+      "energy": 14
+     },
+     "perMeter": {
+      "energy": 0.1
+     },
+     "floor": {
+      "energy": 5.5
+     }
+    },
+    "pierceability": 9
+   }
+  },
+  {
+   "id": "a392c30b-5798-4b35-a70c-01264c6a083e",
+   "cls": "behr_optics_tsco_x4_s2",
+   "name": "EE04 (4x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1.25
+   }
+  },
+  {
+   "id": "0dabf62d-9b3e-4968-a371-ae0cb44057a1",
+   "cls": "behr_optics_tsco_x8_s3",
+   "name": "EE08 (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 8,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "49d638ae-c9ca-4391-b0c7-2043d9ab4f42",
+   "cls": "behr_binoculars_01_FakeOptic",
+   "name": "EE16 (16x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 10,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "7b3e9ad7-45f2-4ee5-b17a-8b8b8bb0112c",
+   "cls": "behr_binoculars_01_FakeOptic_Collector",
+   "name": "EE16 (16x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 10,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "77521326-082c-44f9-a5b2-09dfb87f3f14",
+   "cls": "behr_optics_tsco_x16_s3",
+   "name": "EE16 (16x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 16,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "6086430f-6a76-4768-8baa-6e09bc56140e",
+   "cls": "arma_barrel_stab_s1_firerats01",
+   "name": "Emod \"Scorched\" Stabilizer1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 0.875,
+    "recoil": 1.4,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "bf838dcb-31d5-4c8d-8550-90f09a581619",
+   "cls": "arma_barrel_stab_s2_contestedzonereward",
+   "name": "Emod \"Tweaker\" Stabilizer2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1.125,
+    "projectileSpeed": 1,
+    "recoil": 0.85,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "0ff25cf5-6f7b-47e8-8842-f12d8abfe68b",
+   "cls": "arma_barrel_stab_s1",
+   "name": "Emod Stabilizer1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "ecbc4c11-95f3-4bd3-9fad-49bba798a942",
+   "cls": "arma_barrel_stab_s2",
+   "name": "Emod Stabilizer2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "dc7a1310-5e36-445c-90a9-4acf61194d0c",
+   "cls": "arma_barrel_stab_s3",
+   "name": "Emod Stabilizer3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "4834c09b-1e6b-486f-a05e-68859be4e229",
+   "cls": "arma_barrel_stab_s1_02",
+   "name": "Escalate Stabilizer1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1.3,
+    "damage": 0.9,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "9691ce72-fcb8-4e1c-a99f-09bde8bf3ca0",
+   "cls": "arma_barrel_stab_s2_02",
+   "name": "Escalate Stabilizer2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1.1,
+    "damage": 0.95,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "5da14fc0-f1df-4f42-a510-1b6d1a54d8ad",
+   "cls": "arma_barrel_stab_s3_02",
+   "name": "Escalate Stabilizer3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1.1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "daa0fe47-d6f7-44eb-a3d6-e3e13724a6ba",
+   "cls": "gmni_lmg_ballistic_01_mag",
+   "name": "F55 LMG Magazine (150 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 2.5,
+   "tags": [
+    "gmni_lmg_ballistic_01"
+   ],
+   "magazineSize": 150,
+   "ammo": {
+    "id": "gmni_lmg_ballistic_01_ammo_5mm",
+    "speed": 550,
+    "lifetime": 2,
+    "range": 1100,
+    "damage": {
+     "physical": 10
+    },
+    "damageTotal": 10,
+    "drop": {
+     "start": {
+      "physical": 30
+     },
+     "perMeter": {
+      "physical": 0.014
+     },
+     "floor": {
+      "physical": 5
+     }
+    },
+    "pierceability": 6
+   }
+  },
+  {
+   "id": "ec7eb40a-d88c-44f8-8f3b-0f20025adbd2",
+   "cls": "volt_optics_tsco_x8_s3_tint01",
+   "name": "FarSight \"Darkwave\" (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "201f58e3-7c17-4217-8edf-6f6a097e5ff8",
+   "cls": "volt_optics_tsco_x8_s3_store01",
+   "name": "FarSight \"Golden Blossom\" (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "32eba44b-1373-4843-b797-d19f4d28b539",
+   "cls": "volt_optics_tsco_x8_s3_tint02",
+   "name": "FarSight \"Landslide\" (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "6645ee2e-5a58-4db0-a3d7-5cdad7bf8d8a",
+   "cls": "volt_optics_tsco_x8_s3_collector01",
+   "name": "FarSight \"Snow Camo\" (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "4df44fd1-acd3-4bb4-bc56-eee0cccc4834",
+   "cls": "volt_optics_tsco_x8_s3_tint03",
+   "name": "FarSight \"Thunderstrike\" (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "7b02ea9f-ba9a-48a9-89c4-e557155bd471",
+   "cls": "volt_optics_tsco_x8_s3",
+   "name": "FarSight (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "ba30701c-bec0-4345-b5d9-ae869f34c126",
+   "cls": "nvtc_ubarrel_flsh_s1_firerats01",
+   "name": "FieldLite \"Scorched\" Flashlight",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "60fab7a8-617c-4962-8391-69221ed761d6",
+   "cls": "nvtc_ubarrel_flsh_s1",
+   "name": "FieldLite Flashlight",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "30c2a2e9-fba9-40b5-830c-0f9ad43b18ad",
+   "cls": "nvtc_ubarrel_flsh_s1_02",
+   "name": "FieldLite Flashlight Blue",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "d7d93249-f0ef-4b50-803b-781a904a2cef",
+   "cls": "nvtc_ubarrel_flsh_s1_04",
+   "name": "FieldLite Flashlight Red",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "1d6b428a-33a8-4074-bd41-fbc6a16c72d1",
+   "cls": "nvtc_ubarrel_flsh_s1_03",
+   "name": "FieldLite Flashlight Yellow",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "fadb8d2f-ae39-4ca1-8d64-3fc7423d2154",
+   "cls": "volt_optics_holo_x1_s1",
+   "name": "FocalWave-10 (1x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.08
+   }
+  },
+  {
+   "id": "bfa300f0-cd7c-4ba4-b786-b3da26932622",
+   "cls": "volt_optics_holo_x2_s1",
+   "name": "FocalWave-20 (2x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 2,
+    "zoomTime": 1.08
+   }
+  },
+  {
+   "id": "1f799599-a91a-410f-848e-eca2bd41ae5d",
+   "cls": "volt_optics_holo_x3_s1",
+   "name": "FocalWave-30 (3x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 3,
+    "zoomTime": 1.08
+   }
+  },
+  {
+   "id": "923fcb3c-ad02-4a9a-96c2-1fb61fb6c794",
+   "cls": "volt_lmg_energy_01_mag",
+   "name": "Fresnel Energy LMG Battery (165 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 2.75,
+   "tags": [
+    "volt_lmg_energy_01"
+   ],
+   "magazineSize": 165,
+   "ammo": {
+    "id": "volt_lmg_energy_01_ammo_laser",
+    "speed": 1100,
+    "lifetime": 4,
+    "range": 4400,
+    "damage": {
+     "energy": 9
+    },
+    "damageTotal": 9,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "b5f37920-ba9a-4a07-85e9-4d09f8e2f5ad",
+   "cls": "behr_lmg_ballistic_01_mag",
+   "name": "FS-9 Magazine (75 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 1.75,
+   "tags": [
+    "behr_lmg_ballistic_01"
+   ],
+   "magazineSize": 75,
+   "ammo": {
+    "id": "behr_lmg_ballistic_01_ammo_5mm",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "physical": 14.5
+    },
+    "damageTotal": 14.5,
+    "drop": {
+     "start": {
+      "physical": 50
+     },
+     "perMeter": {
+      "physical": 0.014
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 6
+   }
+  },
+  {
+   "id": "0988e9ce-5f5d-4eb8-83a7-dc70f187579d",
+   "cls": "klwe_rifle_energy_01_mag",
+   "name": "Gallant Rifle Battery (45 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 1.11,
+   "tags": [
+    "klwe_rifle_energy_01"
+   ],
+   "magazineSize": 45,
+   "ammo": {
+    "id": "klwe_rifle_energy_01_ammo_laser",
+    "speed": 1200,
+    "lifetime": 4,
+    "range": 4800,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "a81a2546-385a-409b-92bf-38749702b50f",
+   "cls": "nvtc_optics_holo_x1_s1_tint01",
+   "name": "Gamma \"Black Op\" (1x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "e812e76a-4068-4e91-8511-45a26039aa12",
+   "cls": "nvtc_optics_holo_x1_s1",
+   "name": "Gamma (1x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "048facd2-32e2-419a-81e9-e9f7a6e971f7",
+   "cls": "weaponMount_nvtc_optics_holo_x1_s1",
+   "name": "Gamma (1x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 4,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "a9d588a7-1023-410e-a001-73a973700faa",
+   "cls": "nvtc_optics_holo_x2_s1",
+   "name": "Gamma Duo (2x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 2,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "c1d28932-267f-4867-9d29-2d6f0aa50dd2",
+   "cls": "nvtc_optics_holo_x2_s1_LAMP",
+   "name": "Gamma Duo LL (2x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 2,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "d5da6ad7-8013-4db0-a75e-3060f7d987db",
+   "cls": "nvtc_optics_holo_x1_s1_LAMP",
+   "name": "Gamma LL (1x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "b6f797fe-9c44-4eb1-b719-9271d7c69de8",
+   "cls": "nvtc_optics_holo_x3_s1_tint01",
+   "name": "Gamma Plus \"Lumen\" (3x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 3,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "fd9d06a9-5cf8-4325-9149-538d576e5146",
+   "cls": "nvtc_optics_holo_x3_s1",
+   "name": "Gamma Plus (3x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 3,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "009b533f-e818-4dc8-a81c-fafd40bb21ba",
+   "cls": "nvtc_optics_holo_x3_s1_LAMP",
+   "name": "Gamma Plus LL (3x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 3,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "3d478cf8-b28f-4c19-99fc-3f270108ce01",
+   "cls": "GATS_BallisticGatling_Mounted_Barrel_S1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GAT",
+    "name": "Gallenson Tactical Systems"
+   },
+   "mass": 0,
+   "tags": [
+    "uneditable"
+   ],
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "97f48d42-0642-4183-81f0-78eeb6bdc2d5",
+   "cls": "GATS_BallisticGatling_Mounted_Barrel_S1_FakeHologram",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GAT",
+    "name": "Gallenson Tactical Systems"
+   },
+   "mass": 0,
+   "tags": [
+    "uneditable"
+   ],
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "d1035606-ed3b-415d-9a67-081b8810f87d",
+   "cls": "GATS_BallisticGatling_Mounted_FiringMechanism_S1",
+   "type": "WeaponAttachment",
+   "sub": "FiringMechanism",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GAT",
+    "name": "Gallenson Tactical Systems"
+   },
+   "mass": 0,
+   "tags": [
+    "uneditable"
+   ],
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "f2479c83-b1bf-44fc-9a13-4ff4b9f5c057",
+   "cls": "GATS_BallisticGatling_Mounted_PowerArray_S1",
+   "type": "WeaponAttachment",
+   "sub": "PowerArray",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GAT",
+    "name": "Gallenson Tactical Systems"
+   },
+   "mass": 0,
+   "tags": [
+    "uneditable"
+   ],
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "22da60a6-5f4f-4ba2-84da-c96f9f47d273",
+   "cls": "GATS_BallisticGatling_Mounted_Ventilation_S1",
+   "type": "WeaponAttachment",
+   "sub": "Ventilation",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GAT",
+    "name": "Gallenson Tactical Systems"
+   },
+   "mass": 0,
+   "tags": [
+    "uneditable"
+   ],
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "0b501ac3-57ff-4fe1-be90-faed3467c4b8",
+   "cls": "glsn_shotgun_ballistic_01_mag",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 0.78,
+   "tags": [
+    "glsn_shotgun_ballistic_01"
+   ],
+   "internal": true,
+   "magazineSize": 5,
+   "ammo": {
+    "id": "glsn_shotgun_ballistic_01_ammo_12g",
+    "speed": 300,
+    "lifetime": 2,
+    "range": 600,
+    "damage": {
+     "physical": 2.35
+    },
+    "damageTotal": 2.35,
+    "drop": {
+     "start": {
+      "physical": 12
+     },
+     "perMeter": {
+      "physical": 0.15
+     },
+     "floor": {
+      "physical": 1.25
+     }
+    },
+    "pierceability": 9
+   }
+  },
+  {
+   "id": "aff2521e-2e7a-40d5-98a1-9a6a379a2f01",
+   "cls": "behr_glauncher_ballistic_01_mag",
+   "name": "GP-33 MOD Grenade Launcher Magazine (6 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 2.86,
+   "tags": [
+    "behr_glauncher_ballistic_01"
+   ],
+   "magazineSize": 6,
+   "ammo": {
+    "id": "behr_glauncher_ballistic_ammo_01_40mm",
+    "speed": 50,
+    "lifetime": 4,
+    "range": 200,
+    "damage": {
+     "physical": 5
+    },
+    "damageTotal": 5,
+    "drop": {
+     "floor": {
+      "physical": 2
+     }
+    },
+    "pierceability": 5,
+    "explosion": {
+     "damage": {
+      "physical": 75
+     },
+     "radius": 5
+    }
+   }
+  },
+  {
+   "id": "73e2eda1-b0a5-46ba-ab12-cb170b3d0b84",
+   "cls": "klwe_optics_holo_x1_5_s1",
+   "name": "HG-15 Jaeger (1.5x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1.5,
+    "zoomTime": 1.05
+   }
+  },
+  {
+   "id": "484cc311-5ef6-4d07-ab75-a75452e7d244",
+   "cls": "klwe_optics_holo_x2_s1",
+   "name": "HG-2 Jaeger (2x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 2,
+    "zoomTime": 1.05
+   }
+  },
+  {
+   "id": "f6254ea2-d108-430d-8a9e-eb0135bfd521",
+   "cls": "klwe_optics_holo_x3_s1",
+   "name": "HG-3 Jaeger (3x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 3,
+    "zoomTime": 1.05
+   }
+  },
+  {
+   "id": "91cfb7dc-660b-4505-b86a-6028c9a3f54d",
+   "cls": "ksar_rifle_energy_01_mag",
+   "name": "Karna Rifle Battery (35 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 1.13,
+   "tags": [
+    "ksar_rifle_energy_01"
+   ],
+   "magazineSize": 35,
+   "ammo": {
+    "id": "ksar_rifle_energy_01_ammo_plasma",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 17.5
+    },
+    "damageTotal": 17.5,
+    "drop": {
+     "start": {
+      "energy": 20
+     },
+     "perMeter": {
+      "energy": 0.11
+     },
+     "floor": {
+      "energy": 14.5
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "c40b7e8e-0f04-43d7-ac3a-7ffb8df071d8",
+   "cls": "none_rifle_multi_01_mag",
+   "name": "Killshot Rifle Magazine (45 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "UNKN",
+    "name": "Unknown"
+   },
+   "mass": 1.11,
+   "tags": [
+    "none_rifle_multi_01"
+   ],
+   "magazineSize": 45,
+   "ammo": {
+    "id": "none_rifle_ballistic_01_ammo_7mm",
+    "speed": 875,
+    "lifetime": 2,
+    "range": 1750,
+    "damage": {
+     "physical": 22
+    },
+    "damageTotal": 22,
+    "drop": {
+     "start": {
+      "physical": 60
+     },
+     "perMeter": {
+      "physical": 0.05
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "1a26b6d2-ea68-4da9-a421-b7c399bf441f",
+   "cls": "ksar_lmg_energy_01_mag",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 1.62,
+   "tags": [
+    "ksar_lmg_energy_01"
+   ],
+   "internal": true,
+   "magazineSize": 75,
+   "ammo": {
+    "id": "ksar_lmg_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 4,
+    "range": 2400,
+    "damage": {
+     "energy": 14.35
+    },
+    "damageTotal": 14.35,
+    "drop": {
+     "start": {
+      "energy": 40
+     },
+     "perMeter": {
+      "energy": 0.01
+     },
+     "floor": {
+      "energy": 10
+     }
+    },
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "70bd691d-13ce-4261-a3f1-640697baaf3e",
+   "cls": "ksar_optics_tsco_x8_s3_sf01",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 0.1,
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 8,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "f8c2296c-d000-42d0-9b69-a7259689119a",
+   "cls": "ksar_pistol_energy_01_mag",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 0.3,
+   "tags": [
+    "ksar_pistol_ballistic_01"
+   ],
+   "internal": true,
+   "magazineSize": 1,
+   "ammo": {
+    "id": "ksar_pistol_energy_01_ammo_plasma",
+    "speed": 75,
+    "lifetime": 2,
+    "range": 150,
+    "damage": {
+     "energy": 32.5,
+     "distortion": 7.5,
+     "stun": 1
+    },
+    "damageTotal": 41,
+    "drop": {
+     "start": {
+      "energy": 20,
+      "distortion": 25,
+      "stun": 25
+     },
+     "perMeter": {
+      "energy": 0.1,
+      "distortion": 0.05,
+      "stun": 0.05
+     },
+     "floor": {
+      "energy": 1.5,
+      "distortion": 1,
+      "stun": 1
+     }
+    },
+    "pierceability": 7,
+    "explosion": {
+     "damage": {
+      "physical": 1
+     },
+     "radius": 5
+    }
+   }
+  },
+  {
+   "id": "068c28b8-3ea3-409a-b08d-1d53ae1e3303",
+   "cls": "gmni_pistol_ballistic_01_mag",
+   "name": "LH86 Pistol Magazine (25 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 0.55,
+   "tags": [
+    "gmni_pistol_ballistic_01"
+   ],
+   "magazineSize": 25,
+   "ammo": {
+    "id": "gmni_pistol_ballistic_01_ammo_10mm",
+    "speed": 500,
+    "lifetime": 1.9,
+    "range": 950,
+    "damage": {
+     "physical": 13
+    },
+    "damageTotal": 13,
+    "drop": {
+     "start": {
+      "physical": 20
+     },
+     "perMeter": {
+      "physical": 0.1
+     },
+     "floor": {
+      "physical": 5
+     }
+    },
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "5c19c75e-fe9c-438b-862a-3639cf187763",
+   "cls": "grin_multitool_01_healing",
+   "name": "LifeGuard Medical Attachment",
+   "type": "WeaponAttachment",
+   "sub": "Utility",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.125,
+   "tags": [
+    "grin_multitool_01"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "03fc4136-a491-4713-b278-ef7e4333431d",
+   "cls": "grin_multitool_resource_healing_01",
+   "name": "LifeGuard Refill",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.25,
+   "tags": [
+    "grin_multitool_01",
+    "multitool_resource"
+   ],
+   "magazineSize": 300,
+   "ammo": {
+    "id": "klwe_pistol_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 18
+    },
+    "damageTotal": 18,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "1d1e4e17-9258-4ee8-8461-fc866b6d332f",
+   "cls": "klwe_smg_energy_01_mag",
+   "name": "Lumin V SMG Battery (45 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 1.11,
+   "tags": [
+    "klwe_smg_energy_01"
+   ],
+   "magazineSize": 45,
+   "ammo": {
+    "id": "klwe_smg_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "01ad699f-cf07-4775-b363-75b915094740",
+   "cls": "volt_ubarrel_flsh_s1",
+   "name": "Lux Flashlight",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "c3ba088f-3a92-412b-90a8-de468d76ec2c",
+   "cls": "grin_tractor_01_mag",
+   "name": "MaxLift Tractor Beam Battery",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.75,
+   "tags": [
+    "grin_tractor_01"
+   ],
+   "magazineSize": 60,
+   "ammo": {
+    "id": "klwe_rifle_energy_01_ammo_laser",
+    "speed": 1200,
+    "lifetime": 4,
+    "range": 4800,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "753e218d-6368-4005-aee9-60f821aeebaa",
+   "cls": "Multitool_Attachment",
+   "type": "WeaponAttachment",
+   "sub": "Utility",
+   "size": 0,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.1,
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "9a1d74cd-6a70-4fcf-a215-eb1180f2953d",
+   "cls": "hdgw_optics_tsco_x4_s2",
+   "name": "Myers (4x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "HDGW",
+    "name": "Hedeby Gunworks"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1.25
+   }
+  },
+  {
+   "id": "73267ade-62c9-4ea3-9aaf-9469bf878d31",
+   "cls": "utfl_crossbow_ballistic_01_mag",
+   "name": "Novian Bolt Magazine (5 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "UTFL",
+    "name": "UltiFlex"
+   },
+   "mass": 1,
+   "tags": [
+    "utfl_crossbow_ballistic_01"
+   ],
+   "magazineSize": 5,
+   "ammo": {
+    "id": "utfl_crossbow_ballistic_01_ammo_ballistic",
+    "speed": 185,
+    "lifetime": 10,
+    "range": 1850,
+    "damage": {
+     "energy": 123,
+     "stun": 10
+    },
+    "damageTotal": 133,
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "60cf7fd7-9e89-4e00-be45-74afc00890a2",
+   "cls": "lbco_optics_tsco_x16_s3_imp01",
+   "name": "Omarof \"Deadeye\" (16x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 16,
+    "zoomTime": 0.75
+   }
+  },
+  {
+   "id": "713a8022-1cf8-4c21-a216-d536df291e99",
+   "cls": "lbco_optics_tsco_x16_s3_sunset01",
+   "name": "Omarof \"Igniter\" (16x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 16,
+    "zoomTime": 0.75
+   }
+  },
+  {
+   "id": "ab80732a-c829-45e7-92c0-2f4893a8f1f8",
+   "cls": "lbco_optics_tsco_x16_s3_chromic01",
+   "name": "Omarof \"Mirage\" (16x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 16,
+    "zoomTime": 0.75
+   }
+  },
+  {
+   "id": "aa2f5010-7252-47d8-84aa-b3be259149fa",
+   "cls": "lbco_optics_tsco_x16_s3_acid01",
+   "name": "Omarof \"Venom\" (16x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 16,
+    "zoomTime": 0.75
+   }
+  },
+  {
+   "id": "1ba4ebda-fa61-45e7-928f-a543161c9276",
+   "cls": "lbco_optics_tsco_x16_s3",
+   "name": "Omarof (16x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 16,
+    "zoomTime": 0.75
+   }
+  },
+  {
+   "id": "cf29c82b-f4a2-4749-a368-6e3bae4434ac",
+   "cls": "Optics_TEMPLATE",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 0,
+   "grade": 1,
+   "mass": 0.1,
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "da55ce5e-25dd-4160-9f04-fee8796c0b43",
+   "cls": "grin_multitool_01_mining",
+   "name": "OreBit Mining Attachment",
+   "type": "WeaponAttachment",
+   "sub": "Utility",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.25,
+   "tags": [
+    "grin_multitool_01"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "bbea3063-5ca5-4d78-9327-95cceb638eb9",
+   "cls": "gmni_optics_tsco_x4_s2_firerats01",
+   "name": "OT4-RF \"Scorched\" (4x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1.05
+   }
+  },
+  {
+   "id": "718aca95-c774-4266-a0e2-50ba2a56088e",
+   "cls": "gmni_optics_tsco_x4_s2",
+   "name": "OT4-RF (4x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1.25
+   }
+  },
+  {
+   "id": "8335d320-36ee-48a0-8ca8-600ad88b7a1f",
+   "cls": "gmni_optics_tsco_x8_s3_store01",
+   "name": "OT8-RF \"HighSec\" (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 8,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "70a1857b-69b1-4456-b29e-36c505f09eca",
+   "cls": "gmni_optics_tsco_x8_s3_firerats01",
+   "name": "OT8-RF \"Scorched\" (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 8,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "278fafef-c4e3-44d5-9b85-a225f6e97cb2",
+   "cls": "gmni_optics_tsco_x8_s3",
+   "name": "OT8-RF (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 8,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "81d120b2-d7a4-413a-8f9e-a1ebbb8ae1e2",
+   "cls": "grin_multitool_01_cutter",
+   "name": "OxyTorch Cutter Attachment",
+   "type": "WeaponAttachment",
+   "sub": "Utility",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.1,
+   "tags": [
+    "grin_multitool_01"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "1f8845fb-22de-4c73-b6e6-ed1d1b066808",
+   "cls": "behr_rifle_ballistic_01_mag",
+   "name": "P4-AR Magazine (40 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 1,
+   "tags": [
+    "behr_rifle_ballistic_01"
+   ],
+   "magazineSize": 40,
+   "ammo": {
+    "id": "behr_rifle_ballistic_01_ammo_5mm",
+    "speed": 550,
+    "lifetime": 2,
+    "range": 1100,
+    "damage": {
+     "physical": 12
+    },
+    "damageTotal": 12,
+    "drop": {
+     "start": {
+      "physical": 40
+     },
+     "perMeter": {
+      "physical": 0.05
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "b038fea7-2e2f-4b47-b90d-4bb39bde3229",
+   "cls": "behr_sniper_ballistic_01_mag",
+   "name": "P6-LR Magazine (8 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 1.08,
+   "tags": [
+    "behr_sniper_ballistic_01"
+   ],
+   "magazineSize": 8,
+   "ammo": {
+    "id": "behr_sniper_ballistic_01_ammo_50cal",
+    "speed": 725,
+    "lifetime": 2,
+    "range": 1450,
+    "damage": {
+     "physical": 100
+    },
+    "damageTotal": 100,
+    "drop": {
+     "start": {
+      "physical": 550
+     },
+     "perMeter": {
+      "physical": 10
+     },
+     "floor": {
+      "physical": 90
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "dd21edb8-a0ba-42ab-a02a-bec325e96c87",
+   "cls": "behr_rifle_ballistic_02_mag_civilian",
+   "name": "P8-AR Rifle Magazine (15 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.75,
+   "tags": [
+    "behr_rifle_ballistic_02_civilian"
+   ],
+   "magazineSize": 15,
+   "ammo": {
+    "id": "behr_rifle_ballistic_02_ammo_civilian",
+    "speed": 1150,
+    "lifetime": 2,
+    "range": 2300,
+    "damage": {
+     "physical": 45
+    },
+    "damageTotal": 45,
+    "drop": {
+     "start": {
+      "physical": 50
+     },
+     "perMeter": {
+      "physical": 0.1
+     },
+     "floor": {
+      "physical": 40
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "62c58bdb-c65c-4883-82c6-83e50c37d40d",
+   "cls": "behr_rifle_ballistic_02_mag",
+   "name": "P8-ARM Rifle Magazine (30 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.75,
+   "tags": [
+    "behr_rifle_ballistic_02"
+   ],
+   "magazineSize": 30,
+   "ammo": {
+    "id": "behr_rifle_ballistic_02_ammo_7mm",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "physical": 18
+    },
+    "damageTotal": 18,
+    "drop": {
+     "start": {
+      "physical": 50
+     },
+     "perMeter": {
+      "physical": 0.1
+     },
+     "floor": {
+      "physical": 1.5
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "90adb28a-049e-4357-8000-a4bb75bb7f6f",
+   "cls": "behr_smg_ballistic_01_mag",
+   "name": "P8-SC SMG Magazine (45 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 1.05,
+   "tags": [
+    "behr_smg_ballistic_01"
+   ],
+   "magazineSize": 45,
+   "ammo": {
+    "id": "behr_smg_ballistic_01_ammo_10mm",
+    "speed": 500,
+    "lifetime": 1.9,
+    "range": 950,
+    "damage": {
+     "physical": 13.75
+    },
+    "damageTotal": 13.75,
+    "drop": {
+     "start": {
+      "physical": 15
+     },
+     "perMeter": {
+      "physical": 0.06
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "3efb1be1-8935-4124-8bf0-aec410297785",
+   "cls": "volt_rifle_energy_01_mag",
+   "name": "Parallax Rifle Battery (80 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "mass": 1.52,
+   "tags": [
+    "volt_rifle_energy_01"
+   ],
+   "magazineSize": 80,
+   "ammo": {
+    "id": "volt_rifle_energy_01_ammo_electron",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 13,
+     "distortion": 5,
+     "stun": 3
+    },
+    "damageTotal": 21,
+    "drop": {
+     "start": {
+      "energy": 200,
+      "distortion": 200,
+      "stun": 200
+     },
+     "perMeter": {
+      "energy": 0.01,
+      "distortion": 0.01,
+      "stun": 0.01
+     },
+     "floor": {
+      "physical": 10,
+      "energy": 10,
+      "distortion": 5,
+      "stun": 6
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "f10cba0e-bb94-4438-a628-5128913bb995",
+   "cls": "crlf_medgun_vial_01",
+   "name": "ParaMed Refill",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "CUR",
+    "name": "Curelife"
+   },
+   "mass": 0.75,
+   "tags": [
+    "crlf_medgun_01"
+   ],
+   "magazineSize": 200,
+   "ammo": {
+    "id": "klwe_pistol_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 18
+    },
+    "damageTotal": 18,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "14e12fed-37fd-4c75-b61e-1b21d1bbade7",
+   "cls": "volt_shotgun_energy_01_mag",
+   "name": "Prism Laser Shotgun Battery (20 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "mass": 0.98,
+   "tags": [
+    "volt_shotgun_energy_01"
+   ],
+   "magazineSize": 20,
+   "ammo": {
+    "id": "volt_shotgun_energy_01_ammo_plasma",
+    "speed": 300,
+    "lifetime": 2,
+    "range": 600,
+    "damage": {
+     "energy": 5.75
+    },
+    "damageTotal": 5.75,
+    "pierceability": 9
+   }
+  },
+  {
+   "id": "4505b54f-0e2b-4dfa-8c15-3c9073561f93",
+   "cls": "behr_optics_holo_x1_s1",
+   "name": "PT1 (1x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "208281d5-412b-46c3-b0b3-bea4c33bb17c",
+   "cls": "behr_optics_holo_x2_s1",
+   "name": "PT2 (2x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 2,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "01828239-6f9b-40a0-80ff-a3dc6370c526",
+   "cls": "behr_optics_holo_x3_s1_tint01",
+   "name": "PT3 \"Deadfall\" (3x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 3,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "cafb725f-9ccf-4ec3-959d-1a94ac0512b6",
+   "cls": "behr_optics_holo_x3_s1",
+   "name": "PT3 (3x Holographic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 3,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "b76f9795-28fe-40a3-9a60-ffdbc4e8c713",
+   "cls": "volt_pistol_energy_01_mag",
+   "name": "Pulse Laser Pistol Battery (60 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "mass": 0.93,
+   "tags": [
+    "volt_pistol_energy_01"
+   ],
+   "magazineSize": 60,
+   "ammo": {
+    "id": "volt_pistol_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 11.75
+    },
+    "damageTotal": 11.75,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "b4df80a2-7aa6-412c-b1ff-67467bcf43ec",
+   "cls": "none_lmg_ballistic_01_mag",
+   "name": "Pulverizer LMG Magazine (120 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "UNKN",
+    "name": "Unknown"
+   },
+   "mass": 2.2,
+   "tags": [
+    "none_lmg_ballistic_01"
+   ],
+   "magazineSize": 120,
+   "ammo": {
+    "id": "none_lmg_ballistic_01_ammo_50cal",
+    "speed": 1050,
+    "lifetime": 2,
+    "range": 2100,
+    "damage": {
+     "physical": 27
+    },
+    "damageTotal": 27,
+    "drop": {
+     "start": {
+      "physical": 50
+     },
+     "perMeter": {
+      "physical": 0.011
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 6
+   }
+  },
+  {
+   "id": "f1073c2c-900c-4c62-a866-46aa402ee1b2",
+   "cls": "grin_multitool_energy_01_mag",
+   "name": "Pyro RYT Multi-Tool Battery",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.25,
+   "tags": [
+    "grin_multitool_energy_01"
+   ],
+   "magazineSize": 100,
+   "ammo": {
+    "id": "klwe_pistol_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 18
+    },
+    "damageTotal": 18,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "83ac5196-05d0-45a1-8982-aa549650f9d9",
+   "cls": "volt_smg_energy_01_mag",
+   "name": "Quartz Energy SMG Battery (45 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "mass": 1.11,
+   "tags": [
+    "volt_smg_energy_01"
+   ],
+   "magazineSize": 45,
+   "ammo": {
+    "id": "volt_smg_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 5
+    },
+    "damageTotal": 5,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "64922909-1036-4fbf-a55f-2388fe03e865",
+   "cls": "arma_barrel_supp_s1_02",
+   "name": "Quell Suppressor1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 0.95,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "121af95d-f791-42f8-bf26-c4ec73d65db4",
+   "cls": "arma_barrel_supp_s2_02",
+   "name": "Quell Suppressor2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "66cba05f-9d37-4725-add1-d77f4ae36c87",
+   "cls": "arma_barrel_supp_s3_02",
+   "name": "Quell Suppressor3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "b4ef17b2-60b9-4617-a6a4-60dd053a9e73",
+   "cls": "gmni_shotgun_ballistic_01_mag",
+   "name": "R97 Shotgun Magazine (18 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 0.78,
+   "tags": [
+    "gmni_shotgun_ballistic_01"
+   ],
+   "magazineSize": 18,
+   "ammo": {
+    "id": "gmni_shotgun_ballistic_01_ammo_12g",
+    "speed": 225,
+    "lifetime": 2,
+    "range": 450,
+    "damage": {
+     "physical": 4
+    },
+    "damageTotal": 4,
+    "drop": {
+     "start": {
+      "physical": 12
+     },
+     "perMeter": {
+      "physical": 0.05
+     },
+     "floor": {
+      "physical": 1.25
+     }
+    },
+    "pierceability": 9
+   }
+  },
+  {
+   "id": "3326f182-d089-45d5-b090-f438d6f65f17",
+   "cls": "ksar_shotgun_ballistic_01_mag",
+   "name": "Ravager-212 Twin Shotgun Magazine (16 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 0.76,
+   "tags": [
+    "ksar_shotgun_ballistic_01"
+   ],
+   "magazineSize": 16,
+   "ammo": {
+    "id": "ksar_shotgun_ballistic_01_ammo_12g",
+    "speed": 300,
+    "lifetime": 2,
+    "range": 600,
+    "damage": {
+     "physical": 6.5
+    },
+    "damageTotal": 6.5,
+    "drop": {
+     "start": {
+      "physical": 12
+     },
+     "perMeter": {
+      "physical": 0.05
+     },
+     "floor": {
+      "physical": 6
+     }
+    },
+    "pierceability": 9
+   }
+  },
+  {
+   "id": "b886d522-04ca-493e-9373-daa8a4f8066e",
+   "cls": "klwe_optics_rdot_x1_s1",
+   "name": "RD-1 Jaeger (1x Red Dot)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.05
+   }
+  },
+  {
+   "id": "46e37a2b-36d3-48d9-9a77-f51ef4689943",
+   "cls": "behr_optics_rdot_x1_s1",
+   "name": "RF1 (1x Reflex)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "3468f853-8bcc-450c-a4fe-f70f6e391301",
+   "cls": "none_smg_energy_01_mag",
+   "name": "Ripper SMG Battery (60 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "UNKN",
+    "name": "Unknown"
+   },
+   "mass": 1.26,
+   "tags": [
+    "none_smg_energy_01"
+   ],
+   "magazineSize": 60,
+   "ammo": {
+    "id": "klwe_smg_energy_01_ammo_laser",
+    "speed": 600,
+    "lifetime": 2,
+    "range": 1200,
+    "damage": {
+     "energy": 21
+    },
+    "damageTotal": 21,
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "8ec810e2-2d9e-4bbf-9b64-c603aaef01db",
+   "cls": "behr_pistol_ballistic_01_mag",
+   "name": "S-38 Magazine (20 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "BEH",
+    "name": "Behring"
+   },
+   "mass": 0.5,
+   "tags": [
+    "behr_pistol_ballistic_01"
+   ],
+   "magazineSize": 20,
+   "ammo": {
+    "id": "behr_pistol_ballistic_01_ammo_10mm",
+    "speed": 500,
+    "lifetime": 1.9,
+    "range": 950,
+    "damage": {
+     "physical": 22.5
+    },
+    "damageTotal": 22.5,
+    "drop": {
+     "start": {
+      "physical": 20
+     },
+     "perMeter": {
+      "physical": 0.25
+     },
+     "floor": {
+      "physical": 16
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "1fc5d1dc-1fbd-480b-9b1a-a5121963de78",
+   "cls": "gmni_rifle_ballistic_01_mag",
+   "name": "S71 Rifle Magazine (30 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GEM",
+    "name": "Gemini"
+   },
+   "mass": 0.9,
+   "tags": [
+    "gmni_rifle_ballistic_01"
+   ],
+   "magazineSize": 30,
+   "ammo": {
+    "id": "gmni_rifle_ballistic_01_ammo_7mm",
+    "speed": 1200,
+    "lifetime": 2,
+    "range": 2400,
+    "damage": {
+     "physical": 21.5
+    },
+    "damageTotal": 21.5,
+    "drop": {
+     "start": {
+      "physical": 100
+     },
+     "perMeter": {
+      "physical": 0.1
+     },
+     "floor": {
+      "physical": 17.5
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "aa9edf82-8a45-4088-b5de-14c646252f79",
+   "cls": "hdgw_pistol_ballistic_01_mag",
+   "name": "Salvo Frag Pistol Magazine (8 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "HDGW",
+    "name": "Hedeby Gunworks"
+   },
+   "mass": 0.38,
+   "tags": [
+    "hdgw_pistol_ballistic_01"
+   ],
+   "magazineSize": 8,
+   "ammo": {
+    "id": "hdgw_pistol_ballistic_01_ammo_50cal",
+    "speed": 550,
+    "lifetime": 2,
+    "range": 1100,
+    "damage": {
+     "physical": 45
+    },
+    "damageTotal": 45,
+    "drop": {
+     "start": {
+      "physical": 30
+     },
+     "perMeter": {
+      "physical": 0.08
+     },
+     "floor": {
+      "physical": 25
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "d84a7601-c246-4384-88c3-b3be0fe10680",
+   "cls": "ksar_sniper_ballistic_01_mag",
+   "name": "Scalpel Sniper Rifle Magazine (12 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KSAR",
+    "name": "Kastak Arms"
+   },
+   "mass": 1.12,
+   "tags": [
+    "ksar_sniper_ballistic_01"
+   ],
+   "magazineSize": 12,
+   "ammo": {
+    "id": "ksar_sniper_ballistic_01_ammo_7mm",
+    "speed": 875,
+    "lifetime": 2,
+    "range": 1750,
+    "damage": {
+     "physical": 45
+    },
+    "damageTotal": 45,
+    "drop": {
+     "start": {
+      "physical": 335
+     },
+     "floor": {
+      "physical": 45
+     }
+    },
+    "pierceability": 10
+   }
+  },
+  {
+   "id": "92f958c7-71c5-4997-a575-d6ea3a6e304b",
+   "cls": "apar_special_ballistic_01_mag",
+   "name": "Scourge Railgun Magazine (5 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "APAR",
+    "name": "Apocalypse Arms"
+   },
+   "mass": 2.05,
+   "tags": [
+    "apar_special_ballistic_01",
+    "SM_RestrictedWep"
+   ],
+   "magazineSize": 5,
+   "ammo": {
+    "id": "apar_special_ballistic_01_ammo_20mm",
+    "speed": 50,
+    "lifetime": 4,
+    "range": 200,
+    "damage": {
+     "physical": 20
+    },
+    "damageTotal": 20,
+    "drop": {
+     "floor": {
+      "physical": 2
+     }
+    },
+    "pierceability": 5,
+    "explosion": {
+     "damage": {
+      "physical": 60
+     },
+     "radius": 8
+    }
+   }
+  },
+  {
+   "id": "10831736-4bdf-4465-b517-94281261d317",
+   "cls": "arma_barrel_comp_s2_firerats01",
+   "name": "Sion \"Scorched\" Compensator2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 0.9,
+    "projectileSpeed": 0.875,
+    "recoil": 0.6,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "ff8fbeaa-66d6-4ed0-8d9a-3a9394e6df79",
+   "cls": "arma_barrel_comp_s1_contestedzonereward",
+   "name": "Sion \"Tweaker\" Compensator1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1.125,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "c2a12467-36a7-4e10-8de5-39b59f8922c6",
+   "cls": "arma_barrel_comp_s2_contestedzonereward",
+   "name": "Sion \"Tweaker\" Compensator2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 0.9,
+    "projectileSpeed": 1,
+    "recoil": 0.3,
+    "zoom": 1,
+    "zoomTime": 1.25
+   }
+  },
+  {
+   "id": "2d559b31-cf5f-4963-b276-c687f49601de",
+   "cls": "arma_barrel_comp_s1",
+   "name": "Sion Compensator1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "5867f3cf-e248-405c-b2fb-6e1abe579c82",
+   "cls": "arma_barrel_comp_s2",
+   "name": "Sion Compensator2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "f739108f-7720-4a5e-b173-a65e07b314da",
+   "cls": "arma_barrel_comp_s3",
+   "name": "Sion Compensator3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "62c5b91c-fd3e-4a9b-8ee6-a35e59cf82c3",
+   "cls": "lbco_rifle_energy_01_mag",
+   "name": "Skarnov Rifle Battery (30 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "mass": 1.05,
+   "tags": [
+    "lbco_rifle_energy_01"
+   ],
+   "magazineSize": 30,
+   "ammo": {
+    "id": "lbco_rifle_energy_01_ammo_electron",
+    "speed": 500,
+    "lifetime": 2,
+    "range": 1000,
+    "damage": {
+     "energy": 30,
+     "distortion": 35,
+     "stun": 2
+    },
+    "damageTotal": 67,
+    "drop": {
+     "start": {
+      "energy": 350,
+      "distortion": 350,
+      "stun": 350
+     },
+     "perMeter": {
+      "energy": 0.01,
+      "distortion": 0.01,
+      "stun": 0.01
+     },
+     "floor": {
+      "energy": 20
+     }
+    },
+    "pierceability": 0
+   }
+  },
+  {
+   "id": "986d275f-f847-4b0a-86de-68ad47820ff8",
+   "cls": "arma_barrel_comp_s1_04",
+   "name": "Stark Compensator1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 0.8,
+    "damage": 1.175,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "cabb860f-f1f0-4477-90f6-39268ad74812",
+   "cls": "arma_barrel_comp_s2_04",
+   "name": "Stark Compensator2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.075
+   }
+  },
+  {
+   "id": "b72f4a2e-6609-4ee3-80a1-1d6a02490c75",
+   "cls": "arma_barrel_comp_s3_04",
+   "name": "Stark Compensator3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1.15,
+    "damage": 1.075,
+    "projectileSpeed": 1.075,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "003db92d-65ad-496e-baa8-e061ab6f1392",
+   "cls": "arma_barrel_supp_s1_03",
+   "name": "Stoic Suppressor1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "4ef9f8dd-6229-4c86-bc8e-025c6cc87c2c",
+   "cls": "arma_barrel_supp_s2_03",
+   "name": "Stoic Suppressor2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.125
+   }
+  },
+  {
+   "id": "a3d3ce39-37f1-41a7-827d-ae83aded1285",
+   "cls": "arma_barrel_supp_s3_03",
+   "name": "Stoic Suppressor3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 0.9
+   }
+  },
+  {
+   "id": "1217e61b-1a57-4d94-8aa4-16d5fcb59adf",
+   "cls": "arma_barrel_supp_s1",
+   "name": "Tacit Suppressor1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 0.92,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "dffa4527-2748-4f52-a7da-e57aae1c293c",
+   "cls": "arma_barrel_supp_s2",
+   "name": "Tacit Suppressor2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 0.92,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "d292ae90-a9bb-4a37-8651-27dd81b67ead",
+   "cls": "arma_barrel_supp_s3",
+   "name": "Tacit Suppressor3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 0.92,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "be792212-0662-4351-95cb-31b4d3fe9a0d",
+   "cls": "nvtc_optics_tsco_x4_s2_firerats01",
+   "name": "Tau Plus \"Scorched\" (4x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1.05
+   }
+  },
+  {
+   "id": "845dc675-ab4c-4bd5-8b14-11e9c29f3399",
+   "cls": "nvtc_optics_tsco_x4_s2",
+   "name": "Tau Plus (4x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1.25
+   }
+  },
+  {
+   "id": "98dc4abb-8518-479e-a56d-f15d98e037df",
+   "cls": "nvtc_optics_tsco_x4_s2_LAMP",
+   "name": "Tau Plus LL (4x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 4,
+    "zoomTime": 1.25
+   }
+  },
+  {
+   "id": "fb88b0a1-b9f3-40cb-a683-509cf0e3641c",
+   "cls": "nvtc_optics_tsco_x8_s3",
+   "name": "Theta Pro (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 6,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "89ed520d-5514-49a5-bd11-2620f725b509",
+   "cls": "nvtc_optics_tsco_x8_s3_LAMP",
+   "name": "Theta Pro LL (8x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 6,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "c1cf140f-dcdc-41ec-9199-f7c8a5227b39",
+   "cls": "arma_barrel_comp_s1_03",
+   "name": "Torrent Compensator1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1.075,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "88dcee19-a914-4624-8100-45a2ac913731",
+   "cls": "arma_barrel_comp_s2_03",
+   "name": "Torrent Compensator2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1.05,
+    "projectileSpeed": 1.35,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.15
+   }
+  },
+  {
+   "id": "ef61d89b-7471-4a26-a4f9-7b5f476b850c",
+   "cls": "arma_barrel_comp_s3_03",
+   "name": "Torrent Compensator3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.7,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "c75282e6-8b92-4398-ac27-bd6f56d627b2",
+   "cls": "klwe_optics_disp_x8_s3",
+   "name": "Touchstone (8x Monitor)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 8,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "14bc8a2c-10f2-4f6e-a45e-eec476367d45",
+   "cls": "klwe_ubarrel_lasr_s1_02",
+   "name": "Tracer Laser Pointer Green",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "cdf4adaa-de1e-42cf-8b50-0fd3ad138a10",
+   "cls": "klwe_ubarrel_lasr_s1",
+   "name": "Tracer Laser Pointer Orange",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "02f5904f-62ef-48e7-b63c-4ea3d4a7385f",
+   "cls": "none_pistol_ballistic_01_mag",
+   "name": "Tripledown Pistol Magazine (12 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "UNKN",
+    "name": "Unknown"
+   },
+   "mass": 0.42,
+   "tags": [
+    "none_pistol_ballistic_01"
+   ],
+   "magazineSize": 12,
+   "ammo": {
+    "id": "none_pistol_ballistic_01_ammo_6g",
+    "speed": 550,
+    "lifetime": 2,
+    "range": 1100,
+    "damage": {
+     "physical": 12
+    },
+    "damageTotal": 12,
+    "drop": {
+     "start": {
+      "physical": 10
+     },
+     "perMeter": {
+      "physical": 0.2
+     },
+     "floor": {
+      "physical": 9
+     }
+    },
+    "pierceability": 5
+   }
+  },
+  {
+   "id": "03b3db91-0063-4da2-99f7-16b20ede4209",
+   "cls": "grin_multitool_01_tractorbeam",
+   "name": "TruHold Tractor Beam Attachment",
+   "type": "WeaponAttachment",
+   "sub": "Utility",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "GRIN",
+    "name": "Greycat Industrial"
+   },
+   "mass": 0.25,
+   "tags": [
+    "grin_multitool_01"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "d2da6df5-7f4f-4ef3-ada2-92de87d7487a",
+   "cls": "klwe_optics_tsco_2_5x_s2",
+   "name": "TS-25 Basara (2.5x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 2,
+    "zoomTime": 1.05
+   }
+  },
+  {
+   "id": "a157dbe5-2ae5-4206-a975-55af6ecd39a6",
+   "cls": "klwe_optics_tsco_3_5x_s2",
+   "name": "TS-35 Basara (3.5x Telescopic)",
+   "type": "WeaponAttachment",
+   "sub": "IronSight",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "KLA",
+    "name": "Klaus & Werner"
+   },
+   "mass": 0.1,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 3,
+    "zoomTime": 1.05
+   }
+  },
+  {
+   "id": "fe5a7a59-7748-435b-9889-985127353223",
+   "cls": "Underbarrel_TEMPLATE",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 0,
+   "grade": 1,
+   "mass": 0.1,
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "04f546d6-651a-47f4-b0ae-64ed2b37557b",
+   "cls": "arma_barrel_flhd_s1",
+   "name": "Veil Flash Hider1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.85,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "156f6405-7fdc-40e4-a783-703e807d9f88",
+   "cls": "arma_barrel_flhd_s2",
+   "name": "Veil Flash Hider2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.85,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "678aae5b-0d55-42fb-bfe2-ce9973715529",
+   "cls": "arma_barrel_flhd_s3",
+   "name": "Veil Flash Hider3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach",
+    "energy_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 0.85,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "b601c979-1a7e-41a9-b4f4-7e74d954d186",
+   "cls": "apar_hmg_ballistic_01_mag",
+   "name": "Vendetta HMG Magazine (1000 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "APAR",
+    "name": "Apocalypse Arms"
+   },
+   "mass": 5.5,
+   "tags": [
+    "apar_hmg_ballistic_01",
+    "apar_hmg_ballistic_01_mag"
+   ],
+   "magazineSize": 1000,
+   "ammo": {
+    "id": "apar_hmg_ballistic_01_ammo_5mm",
+    "speed": 800,
+    "lifetime": 2,
+    "range": 1600,
+    "damage": {
+     "physical": 18.5
+    },
+    "damageTotal": 18.5,
+    "drop": {
+     "start": {
+      "physical": 50
+     },
+     "perMeter": {
+      "physical": 0.01
+     },
+     "floor": {
+      "physical": 10
+     }
+    },
+    "pierceability": 6
+   }
+  },
+  {
+   "id": "e3d211f4-3381-4ba1-9807-f96c446866de",
+   "cls": "arma_barrel_comp_s1_02",
+   "name": "Vera Compensator1",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1.2
+   }
+  },
+  {
+   "id": "9e8ce68b-7f29-48cb-87a0-5c5db4c72b91",
+   "cls": "arma_barrel_comp_s2_02",
+   "name": "Vera Compensator2",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 2,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1.06,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "e52d18bc-740e-4057-9ae9-9a1c27d088eb",
+   "cls": "arma_barrel_comp_s3_02",
+   "name": "Vera Compensator3",
+   "type": "WeaponAttachment",
+   "sub": "Barrel",
+   "size": 3,
+   "grade": 1,
+   "manufacturer": {
+    "code": "ARMA",
+    "name": "ArmaMod"
+   },
+   "mass": 0.1,
+   "tags": [
+    "FPS_Barrel",
+    "ballistic_attach"
+   ],
+   "modifier": {
+    "fireRate": 1.15,
+    "damage": 1,
+    "projectileSpeed": 0.85,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 0.65
+   }
+  },
+  {
+   "id": "f9eefee3-9687-4f89-a54b-5e5cbe0bf0e4",
+   "cls": "volt_ubarrel_flsh_s1_Sniperglint",
+   "type": "WeaponAttachment",
+   "sub": "BottomAttachment",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "NVTC",
+    "name": "NV-TAC"
+   },
+   "mass": 0.1,
+   "internal": true,
+   "modifier": {
+    "fireRate": 1,
+    "damage": 1,
+    "projectileSpeed": 1,
+    "recoil": 1,
+    "zoom": 1,
+    "zoomTime": 1
+   }
+  },
+  {
+   "id": "db3a7de3-3e4c-49f6-98fd-7541c963f380",
+   "cls": "sasu_pistol_toy_01_mag",
+   "name": "WowBlast Desperado Toy Pistol Magazine (10 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "SASU",
+    "name": "Sakura Sun"
+   },
+   "mass": 0.11,
+   "tags": [
+    "sasu_pistol_toy_01"
+   ],
+   "magazineSize": 10,
+   "ammo": {
+    "id": "toy_pistol",
+    "speed": 20,
+    "lifetime": 15,
+    "range": 300,
+    "damageTotal": 0
+   }
+  },
+  {
+   "id": "2a509aec-7439-4416-881d-59d30568ff6c",
+   "cls": "sasu_pistol_toy_01_mag_ea_elim",
+   "name": "WowBlast Desperado Toy Pistol Magazine (10 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "manufacturer": {
+    "code": "SASU",
+    "name": "Sakura Sun"
+   },
+   "mass": 0.11,
+   "tags": [
+    "sasu_pistol_toy_01"
+   ],
+   "magazineSize": 100,
+   "ammo": {
+    "id": "toy_pistol_ea_elim",
+    "speed": 15,
+    "lifetime": 10,
+    "range": 150,
+    "damage": {
+     "physical": 1200
+    },
+    "damageTotal": 1200,
+    "pierceability": 15
+   }
+  },
+  {
+   "id": "9dc383ba-2686-46d0-abf9-1bc764aec0b6",
+   "cls": "lbco_pistol_energy_01_mag",
+   "name": "Yubarev Pistol Battery (10 cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "mass": 0.46,
+   "tags": [
+    "lbco_pistol_energy_01"
+   ],
+   "magazineSize": 10,
+   "ammo": {
+    "id": "lbco_pistol_energy_01_ammo_electron",
+    "speed": 500,
+    "lifetime": 2,
+    "range": 1000,
+    "damage": {
+     "energy": 32.5,
+     "distortion": 7.5,
+     "stun": 1
+    },
+    "damageTotal": 41,
+    "drop": {
+     "start": {
+      "energy": 20,
+      "distortion": 25,
+      "stun": 25
+     },
+     "perMeter": {
+      "energy": 0.1,
+      "distortion": 0.05,
+      "stun": 0.05
+     },
+     "floor": {
+      "energy": 1.5,
+      "distortion": 1,
+      "stun": 1
+     }
+    },
+    "pierceability": 7
+   }
+  },
+  {
+   "id": "fa12a7a5-6fdd-4e7b-9237-1f2e131a43c4",
+   "cls": "volt_sniper_energy_01_mag",
+   "name": "Zenith Laser Sniper Rifle Battery (22 Cap)",
+   "type": "WeaponAttachment",
+   "sub": "Magazine",
+   "size": 1,
+   "grade": 1,
+   "mass": 1.42,
+   "tags": [
+    "volt_sniper_energy_01"
+   ],
+   "magazineSize": 22,
+   "ammo": {
+    "id": "volt_sniper_energy_01_ammo_electron",
+    "speed": 700,
+    "lifetime": 2,
+    "range": 1400,
+    "damage": {
+     "energy": 42.5
+    },
+    "damageTotal": 42.5,
+    "drop": {
+     "start": {
+      "energy": 500
+     }
+    },
+    "pierceability": 5
+   }
+  }
+ ]
+}
