@@ -1,0 +1,41 @@
+const { test, expect } = require('@playwright/test');
+const { AxeBuilder } = require('@axe-core/playwright');
+const { mockApi, gotoSection } = require('./helpers');
+
+for (const width of [1440, 390]) test(`${width}px 최소 전력 묶음을 한 번에 배정하고 바로가기로 장비를 편집한다`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await mockApi(page);
+    await gotoSection(page, '#loadout');
+    await page.locator('#loadout-ship-search').fill('titan');
+    await page.locator('[data-loadout-ship="aegs_avenger_titan"]').click();
+    await page.locator('[data-loadout-jump="power"]').click();
+    await expect(page.locator('#loadout-power-title')).toBeFocused();
+    expect((await page.locator('#loadout-power-title').boundingBox()).y).toBeGreaterThan(100);
+    const pips = page.getByRole('group', { name: '실드', exact: true });
+    const minimum = pips.locator('.is-minimum');
+    await expect(minimum).toHaveCount(1);
+    await expect(minimum).toContainText('4');
+    await expect(pips.locator('button')).toHaveCount(3); // one 4-pip block, then 5 and 6
+    const sizes = await pips.locator('button').evaluateAll((buttons) => buttons.map((b) => ({ minimum: b.classList.contains('is-minimum'), height: b.getBoundingClientRect().height })));
+    expect(sizes.find((b) => b.minimum).height).toBeGreaterThan(sizes.find((b) => !b.minimum).height * 2);
+    await page.locator('[data-loadout-power-clear]').click();
+    await minimum.press('Enter');
+    await expect(page.locator('#loadout-power-shields')).toHaveValue('4');
+    await expect(minimum).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.loadout-power-meter')).toHaveAttribute('value', '4');
+    await page.getByRole('button', { name: '실드 배정 늘리기', exact: true }).click();
+    await expect(page.locator('#loadout-power-shields')).toHaveValue('5');
+    await page.getByRole('button', { name: '실드 배정 줄이기', exact: true }).click();
+    await page.getByRole('button', { name: '실드 배정 줄이기', exact: true }).click();
+    await expect(page.locator('#loadout-power-shields')).toHaveValue('0');
+    const accessibility = await new AxeBuilder({ page }).include('.loadout-power-plan').analyze();
+    expect(accessibility.violations.filter((v) => ['serious', 'critical'].includes(v.impact))).toEqual([]);
+    await page.locator('[data-loadout-jump="equipment"]').click();
+    await expect(page.locator('[data-loadout-tab="slots"]')).toBeFocused();
+    const top = await page.locator('[data-loadout-tab="slots"]').boundingBox();
+    expect(top.y).toBeGreaterThan(50);
+    expect(top.y + top.height).toBeLessThan(900);
+    await page.locator('.loadout-slot [data-loadout-open]').first().click();
+    await expect(page.locator('.loadout-picker')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+});
