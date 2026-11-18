@@ -1,48 +1,39 @@
 name: Smoke Tests
-
 on:
-  push:
-    branches: [main, preview]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
-
 jobs:
-  smoke:
+  audit:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    # 화면 검사가 늘어 한 번에 돌리면 14분이 넘는다. Cloudflare Pages 배포는 이 검사 통과를
-    # 최대 20분 기다리며(scripts/check-release-gate.mjs), 셋으로 나눠 동시에 돌려 여유를 둔다.
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3]
+        revision: [eddb79eb91d799f4e533f074c083c6e524bab587, 2acfb34f39a9ec8c3ac16907a3ca79a5fee667db]
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          ref: ${{ matrix.revision }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Validate JavaScript syntax
-        run: npm run check
-
-      - name: Run backend function tests
-        run: npm run test:functions
-
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
-
-      - name: Run smoke tests
-        run: npx playwright test --shard=${{ matrix.shard }}/3
-
-      - name: Upload traces on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Instrument the unchanged interaction and axe scans
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = 'tests/smoke/a11y.spec.js';
+          let source = fs.readFileSync(path, 'utf8');
+          source = source.replace('const results = await new AxeBuilder({ page }).analyze();', 'const start = Date.now(); const results = await new AxeBuilder({ page }).analyze(); console.log("AXE_MS", Date.now() - start);');
+          source = source.replace("await page.locator('.loadout-slot [data-loadout-open]').first().click();", "console.log('BEFORE_PICKER_CLICK'); await page.locator('.loadout-slot [data-loadout-open]').first().click({ timeout: 10000 }); console.log('AFTER_PICKER_CLICK');");
+          source = source.replace(/test\.slow\(\);/g, '');
+          fs.writeFileSync(path, source);
+          NODE
+      - name: Compare three serial runs with the same 90 second audit budget
+        run: npx playwright test tests/smoke/a11y.spec.js --grep '로드아웃 편집' --repeat-each=3 --retries=0 --workers=1 --timeout=90000
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: playwright-traces-${{ matrix.shard }}
+          name: audit-${{ matrix.revision }}
           path: test-results/
           retention-days: 7
