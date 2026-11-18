@@ -27,6 +27,8 @@
 
 CI는 잠긴 Playwright 버전의 headless shell만 설치하고 브라우저·npm 캐시를 사용한다. 3분할, 작업당 15분 제한, 배포 전 20분 게이트는 유지한다. GSAP는 원본 바이트 검사를 유지하며 `.gitattributes`로 해당 배포 파일의 LF를 고정한다. Windows 화면을 Linux 기준 이미지로 승인하지 않는다.
 
+인계 실행 `44218546096`의 첫 시도 설치 로그에서 `us-east-2.ec2.archive.ubuntu.com`의 시스템 의존성 32.1 MB 다운로드가 6분 38초(80.5 kB/s) 걸린 것을 확인했다. Chromium 자체 다운로드는 수초였다. 수정 후 첫 전체 실행 `44231699282`에서도 한 runner의 설치 지연이 재발해 실행을 취소하고, 임시 runner의 apt mirror 목록을 Ubuntu 기본 archive로 고정했다. 패키지 서명 검증·설치 버전·검사 범위는 바꾸지 않는다.
+
 ## 자료 근거와 한계
 
 - 실제 `Game2.dcb`, 영문 global.ini, 게임 한국어 패치 global.ini로 세 자료를 재생성했다. 게임 빌드 `4.10.0.13165946`, 내부 gameVersion `4.10.200.58746`.

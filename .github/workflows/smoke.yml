@@ -40,7 +40,14 @@ jobs:
           key: playwright-shell-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browser
-        run: npx playwright install --with-deps --only-shell chromium
+        run: |
+          # Some hosted runners select an EC2 regional mirror that takes several
+          # minutes to serve 32 MB of fonts. Keep the signed Ubuntu packages and
+          # use the primary archive for this disposable runner instead.
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf '%s\n' 'http://archive.ubuntu.com/ubuntu/' | sudo tee /etc/apt/apt-mirrors.txt
+          fi
+          npx playwright install --with-deps --only-shell chromium
 
       - name: Run smoke tests
         run: npx playwright test --shard=${{ matrix.shard }}/3
