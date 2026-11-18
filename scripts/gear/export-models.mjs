@@ -28,6 +28,7 @@ import { TextureBaker } from './models/textures.mjs';
 import { WebpEncoder } from './models/webp.mjs';
 import { Rig } from './models/rig.mjs';
 import { checkWeapon } from './models/check.mjs';
+import { syncModelVersion } from './sync-model-version.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..').split('\\').join('/');
 const arg = (name) => { const index = process.argv.indexOf(name); return index > -1 ? process.argv[index + 1] : null; };
@@ -358,11 +359,12 @@ for (const [cls, d] of partData) partsOut[cls] = d.ok ? { ok: true, file: d.file
 const allWeapons = order({ ...previous.weapons, ...weaponsOut }, site.groups.map((g) => g.id));
 const folderBytes = (dir) => (existsSync(dir) ? readdirSync(dir, { withFileTypes: true }).reduce((sum, e) => sum + (e.isDirectory() ? folderBytes(`${dir}/${e.name}`) : statSync(`${dir}/${e.name}`).size), 0) : 0);
 const totals = { bytes: folderBytes(OUT), weaponBytes: folderBytes(`${OUT}/weapons`), partBytes: folderBytes(`${OUT}/parts`), textureBytes: folderBytes(`${OUT}/tex`) };
-// assetVersion: goes into every model / picture address as ?v=… (the screen passes it to the viewer). Files under
-// /assets/ are cached for a year, so each export needs a new stamp or visitors would mix old and new files.
+// assetVersion selects the matching private R2 folder and goes into model URLs.
+// Each export needs a new stamp so old and new files never share a release.
 const stampedAt = new Date();
 const models = { version: VERSION, gameBuild: build.Version || null, generatedAt: stampedAt.toISOString(), assetVersion: `${String(build.Version || 'build').replace(/[^\w.-]/g, '')}-${stampedAt.getTime().toString(36)}`, compatibilityFrom: compat.source, totals, weapons: allWeapons, parts: Object.fromEntries(Object.entries(partsOut).sort(([a], [b]) => a.localeCompare(b))) };
 writeFileSync(modelsFile, `${JSON.stringify(models, null, 1)}\n`);
+syncModelVersion(models.assetVersion);
 const allChecks = order({ ...previousCheck.weapons, ...checksOut }, site.groups.map((g) => g.id));
 const list = Object.values(allChecks);
 const check = { version: VERSION, gameBuild: build.Version || null, generatedAt: models.generatedAt,

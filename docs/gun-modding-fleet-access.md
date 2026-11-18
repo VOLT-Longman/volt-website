@@ -3,7 +3,7 @@
 ## 운영자 설정이 필요한 항목
 
 1. **비공개 R2 버킷 `volt-fleet-gear`** 생성. `r2.dev` 공개 접근과 사용자 지정 도메인을 모두 연결하지 않는다. 기존 공개 `volt-gallery`를 사용하지 않는다.
-2. Pages 프로젝트 `volt-ceo`의 Production 및 검수에 사용할 Preview 환경에 R2 바인딩 **`FLEET_GEAR_MODELS` → `volt-fleet-gear`** 추가.
+2. Pages 프로젝트 **`volt-website`**(기본 호스트 `volt-ceo.pages.dev`)의 Production 및 검수에 사용할 Preview 환경에 R2 바인딩 **`FLEET_GEAR_MODELS` → `volt-fleet-gear`** 추가. 프로젝트 이름과 기본 호스트 이름은 다르며 2026-11-19 대시보드에서 확인했다.
 3. `DISCORD_FLEET_ROLE_ID`는 생략하면 운영자가 확정한 `1120508650520330310`을 사용한다. 다른 값은 기본값을 대체하며, 빈 값은 접근을 차단한다. 기존 커뮤니티 역할 `1150059971887771718`과 공개 전환 스위치는 이 기능에 영향을 주지 않는다.
 4. 업로드 전용 R2 자격 증명은 이 버킷에만 한정한다. 실행 환경에 `CLOUDFLARE_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`를 설정한다. 키를 Git·대화·명령 인수에 넣지 않는다. 다른 버킷 이름이면 `FLEET_GEAR_BUCKET`도 설정한다.
 
@@ -23,6 +23,8 @@ node scripts/gear/upload-models.mjs --verify
 인수가 없는 실행은 로컬 파일 검사만 한다. `--upload`는 현재 `models.json`의 `assetVersion` 폴더 아래 올리고, 매 파일을 다시 받아 SHA-256을 확인한다. 같은 버전의 다른 파일은 덮어쓰지 않는다. 마지막에 `_release.json`에 파일별 해시와 `models.json` 해시를 기록한다. `--verify`는 업로드 없이 모든 원격 파일과 목록을 다시 비교한다. 내보내기로 버전이 바뀌면 새 폴더에 다시 업로드하고 확인한 뒤 코드와 함께 배포한다.
 
 현재 로컬 준비물: `4.10.200.58746-mwm7s08x`, 531개 파일, 79,116,473바이트. 실제 R2 업로드 여부와는 별도다.
+
+내보내기는 서버용 `gear-model-version.js`도 자동 생성한다. `npm run check`에서 `models.json`과 일치를 검사한다. Cloudflare Pages가 사용하는 Wrangler 3.114.17은 JSON의 `with` import 문법을 읽지 못하므로, 서버는 생성된 일반 JS 파일에서 버전만 가져온다.
 
 ## 접근 제어
 
