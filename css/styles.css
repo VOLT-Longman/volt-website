@@ -10570,3 +10570,8 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-app .loadout-swap .loadout-picker-tools { font-size: 12px; }
     .loadout-app .loadout-swap .loadout-chip { min-height: 40px; }
 }
+@media (max-width: 360px) {
+    .loadout-power-adjust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .loadout-power-adjust input { grid-column: 1 / -1; grid-row: 1; }
+    .loadout-power-adjust button { grid-row: 2; }
+}

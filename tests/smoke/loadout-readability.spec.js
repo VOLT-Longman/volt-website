@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { AxeBuilder } = require('@axe-core/playwright');
 const { mockApi, gotoSection } = require('./helpers');
 
-for (const width of [1440, 390]) test(`${width}px 최소 전력 묶음을 한 번에 배정하고 바로가기로 장비를 편집한다`, async ({ page }) => {
+for (const width of [1440, 390, 320]) test(`${width}px 최소 전력 묶음을 한 번에 배정하고 바로가기로 장비를 편집한다`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await mockApi(page);
     await gotoSection(page, '#loadout');
@@ -13,6 +13,7 @@ for (const width of [1440, 390]) test(`${width}px 최소 전력 묶음을 한 �
     expect((await page.locator('#loadout-power-title').boundingBox()).y).toBeGreaterThan(100);
     const pips = page.getByRole('group', { name: '실드', exact: true });
     const minimum = pips.locator('.is-minimum');
+    expect((await page.locator('#loadout-power-shields').boundingBox()).width).toBeGreaterThanOrEqual(24);
     await expect(minimum).toHaveCount(1);
     await expect(minimum).toContainText('4');
     await expect(pips.locator('button')).toHaveCount(3); // one 4-pip block, then 5 and 6
