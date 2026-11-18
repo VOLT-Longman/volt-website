@@ -23,6 +23,7 @@
         operation: { power: {}, activeModules: {} }, systems: {}, assemblies: new Set(), mining: [],
         equipmentGroup: '', query: '', openPath: '', pickerOrigin: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(), priceNames: new Map(), priceIds: new Map(), plan: { mode: 'cheapest', shops: {}, order: [] }, familyOpen: new Set(), keepPicker: false,
+        shipMarket: { status: 'idle', data: [], fetchedAt: '' },
         cartOpen: false, detailShop: '', detailId: '', detailSlot: '', detailReturn: '', detailTab: 'stats', collapsed: new Set(), compact: false, changedOnly: false, redo: [], pickerLimit: 80, pickerReverse: false,
         tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [], split: {}, buildsOpen: false, slot: 'A', alt: null,
     };
@@ -30,6 +31,7 @@
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
+            shipMarketTitle: '함선 판매처', shipMarketLoading: '함선 판매처 확인 중…', shipMarketEmpty: 'UEX에서 확인된 인게임 판매처가 없습니다.', shipMarketUnmatched: 'UEX에서 같은 함선을 확인하지 못했습니다.', shipMarketError: '함선 판매처를 불러오지 못했습니다.', shipMarketMore: '다른 판매처 {count}곳', shipMarketSource: 'UEX 커뮤니티 제보 · 실시간 재고가 아닙니다.', shipMarketNameMatch: '영문 이름 일치 기준 · UEX 고유번호 없음', shipMarketDate: '가격 제보', shipMarketFetched: '자료 조회', signatures: '시그니처', powerSummary: '정격 출력·냉각',
             powerPlanTitle: '전력·캐패시터 분배', allocation: '배정 전력', minimumPower: '최소 전력', detectionYes: '가능', detectionNo: '불가', radarPing: '핑 재사용 대기', radarPassive: '수동 탐지', radarActive: '능동 탐지', powerBudget: '{used} / {total}칸 배정', powerBudgetHelp: '장착한 파워플랜트 출력 안에서 배정합니다. 다른 계통을 늘리려면 먼저 칸을 비워 주세요. 부분 전력의 탄창·충전 속도·실드 재생 환산식은 미검증이므로 성능은 정격 기준입니다.', powerAuto: '자동 배분', powerRated: '배정 초기화', powerClear: '모두 비우기', powerSupply: '파워플랜트 공급 {total}칸', powerLess: '{name} 배정 줄이기', powerMore: '{name} 배정 늘리기', powerAvailable: '지금 배정 가능 {max}칸', powerReserve: '남은 전력', powerOver: '초과 배정', powerMinimum: '작동 최소 {min} · 최대 {max}칸',
             power_weapons: '무기', power_engines: '엔진', power_shields: '실드', power_radar: '레이더', power_lifeSupport: '생명 유지', power_coolers: '쿨러', power_quantum: '퀀텀', power_mining: '채광', power_utility: '작업 장비', power_other: '기타',
             jumpEquipment: '장비 편집', jumpPower: '전력 분배', powerBase: '최소 {min}칸', powerPip: '{name} {value}칸 배정', powerGuide: '큰 칸은 작동 최소 전력, 작은 칸은 추가 전력입니다. 성능 수치는 정격 기준입니다.', powerHelp: '전력 분배·계산 기준', powerEmpty: '미배정', powerLimitShort: '최대 {max}칸',
@@ -98,6 +100,7 @@
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
         en: {
+            shipMarketTitle: 'Ship purchase locations', shipMarketLoading: 'Checking ship sellers…', shipMarketEmpty: 'No in-game sellers reported by UEX.', shipMarketUnmatched: 'No matching ship could be verified in UEX.', shipMarketError: 'Could not load ship sellers.', shipMarketMore: '{count} more sellers', shipMarketSource: 'UEX community reports · not live stock.', shipMarketNameMatch: 'Exact English name match · UEX UUID missing', shipMarketDate: 'Price reported', shipMarketFetched: 'Data fetched', signatures: 'Signatures', powerSummary: 'Rated power & cooling',
             powerPlanTitle: 'Power & capacitor allocation', allocation: 'Allocated power', minimumPower: 'Minimum power', detectionYes: 'Supported', detectionNo: 'Unsupported', radarPing: 'Ping cooldown', radarPassive: 'Passive detection', radarActive: 'Active detection', powerBudget: '{used} / {total} pips allocated', powerBudgetHelp: 'Allocation is limited to the installed power plants. Free pips in another system before adding more. Partial-power ammo, recharge and shield-regeneration rules are unverified; performance remains rated.', powerAuto: 'Auto allocate', powerRated: 'Reset allocation', powerClear: 'Clear allocation', powerSupply: 'Power plants supply {total} pips', powerLess: 'Reduce {name} allocation', powerMore: 'Increase {name} allocation', powerAvailable: 'Available now: {max} pips', powerReserve: 'Unallocated power', powerOver: 'Over budget', powerMinimum: 'Minimum {min} · maximum {max} pips',
             power_weapons: 'Weapons', power_engines: 'Engines', power_shields: 'Shields', power_radar: 'Radar', power_lifeSupport: 'Life support', power_coolers: 'Coolers', power_quantum: 'Quantum', power_mining: 'Mining', power_utility: 'Utility', power_other: 'Other',
             jumpEquipment: 'Edit equipment', jumpPower: 'Power allocation', powerBase: 'Minimum {min}', powerPip: 'Allocate {value} pips to {name}', powerGuide: 'Large blocks are minimum operating power; small blocks add power. Performance values remain rated.', powerHelp: 'Allocation & calculation notes', powerEmpty: 'Unallocated', powerLimitShort: 'Max {max}',
@@ -322,6 +325,42 @@
         }
         state.loading = false; draw();
         loadPricesForChanged();
+        loadShipMarket();
+    }
+
+    async function loadShipMarket(retry = false) {
+        if (state.shipMarket.status === 'loading' || (!retry && state.shipMarket.status !== 'idle')) return;
+        state.shipMarket.status = 'loading';
+        if (retry) draw();
+        try {
+            const result = await fetchJson('/api/uex/ship-prices');
+            if (result.status !== 'ok' || !Array.isArray(result.data)) throw new Error('Invalid ship sellers');
+            state.shipMarket = { status: 'ready', data: result.data, fetchedAt: result.meta?.fetchedAt || '' };
+        } catch (_error) { state.shipMarket.status = 'error'; }
+        // A shared catalog is matched to the current ship at render time. A slow
+        // request cannot replace the next ship's sellers with the previous one's.
+        if (state.ship && !state.loading && !state.openPath && !state.detailId && !state.cartOpen && !state.browsing) draw();
+    }
+
+    function drawShipMarket() {
+        const market = state.shipMarket;
+        let body;
+        if (market.status === 'error') body = `<p class="loadout-note">${esc(text('shipMarketError'))}</p><button type="button" class="loadout-link" data-loadout-ship-market-retry>${esc(text('priceRetry'))}</button>`;
+        else if (market.status !== 'ready') body = `<p class="loadout-note" role="status">${esc(text('shipMarketLoading'))}</p>`;
+        else {
+            const exact = market.data.filter((entry) => entry.uuid && entry.uuid.toLowerCase() === state.ship.ref?.toLowerCase());
+            // Never match a variant by substring or override a conflicting UUID.
+            const named = exact.length ? [] : market.data.filter((entry) => !entry.uuid && entry.name === state.ship.name);
+            const matches = exact.length ? exact : named;
+            const match = matches.length === 1 ? matches[0] : null;
+            const offers = (match?.shops || []).filter((offer) => Number.isFinite(offer.price) && offer.price > 0);
+            const date = (value) => { const parsed = new Date(value); return Number.isFinite(parsed.getTime()) ? parsed.toISOString().slice(0, 10) : ''; };
+            const seller = (offer) => `<li><div><strong>${esc(offer.shop)}</strong><span>${esc([offer.system, offer.place].filter(Boolean).join(' / '))}</span>${offer.updatedAt > 0 && offer.updatedAt * 1000 <= Date.now() ? `<small>${esc(text('shipMarketDate'))} · ${esc(date(offer.updatedAt * 1000))}</small>` : ''}</div><b>${esc(credits(offer.price))}</b></li>`;
+            body = !match ? `<p class="loadout-note">${esc(text('shipMarketUnmatched'))}</p>` : !offers.length ? `<p class="loadout-note">${esc(text('shipMarketEmpty'))}</p>` : `<ul class="loadout-ship-sellers">${seller(offers[0])}</ul>${offers.length > 1 ? `<details class="loadout-help" data-loadout-fold="ship-sellers" ${folds.has('ship-sellers') ? 'open' : ''}><summary>${esc(text('shipMarketMore', { count: offers.length - 1 }))}</summary><ul class="loadout-ship-sellers">${offers.slice(1).map(seller).join('')}</ul></details>` : ''}`;
+            if (match && named.length) body += `<p class="loadout-note">${esc(text('shipMarketNameMatch'))}</p>`;
+            if (date(market.fetchedAt)) body += `<p class="loadout-note">${esc(text('shipMarketFetched'))} · ${esc(date(market.fetchedAt))}</p>`;
+        }
+        return `<section class="loadout-panel-section loadout-ship-market"><h4>${esc(text('shipMarketTitle'))}</h4>${body}<p class="loadout-note">${esc(text('shipMarketSource'))}</p></section>`;
     }
 
     function readOperation(value) { try { return JSON.parse(value || '{}'); } catch (_error) { return {}; } }
@@ -598,9 +637,8 @@
             <div class="loadout-stattrio">${cell(text('pitch'), flight.pitch, text('degPerSec'))}${cell(text('yaw'), flight.yaw, text('degPerSec'))}${cell(text('roll'), flight.roll, text('degPerSec'))}</div>`);
     }
 
-    function drawHull(row) {
+    function drawHull(row, totals, stock) {
         const base = state.ship.base || {}; const armor = base.armor || {};
-        if (!base.hull && !armor.hp) return '';
         const percent = (value) => `${Math.round(value * 100)}%`;
         const stat = (title, value) => `<div class="loadout-stat"><span class="loadout-stat-label">${esc(title)}</span><strong>${esc(value)}</strong></div>`;
         return fold('hull', 'loadout-hull', text('hullArmor'), base.hull ? `${text('kpiHull')} ${num(base.hull)}` : '', `
@@ -610,7 +648,7 @@
                 ${armor.em !== undefined ? row(text('armorSignal'), `EM ×${num(armor.em, 2)} · IR ×${num(armor.ir ?? 1, 2)} · CS ×${num(armor.cs ?? 1, 2)}`) : ''}
                 ${base.mass ? row(text('mass'), `${num(base.mass)} kg`) : ''}
             </dl>
-            <p class="loadout-note">${esc(text('hullNote'))}</p>`);
+            <p class="loadout-note">${esc(text('hullNote'))}</p><div class="loadout-signatures"><h5>${esc(text('signatures'))}</h5><dl class="loadout-rows">${row(text('signatureEm'), num(totals.signature.em), drawChange(totals.signature.em, stock.signature.em, 0, 'low'))}${row(text('signatureIr'), num(totals.signature.ir), drawChange(totals.signature.ir, stock.signature.ir, 0, 'low'))}</dl></div>`);
     }
 
     function drawSummary(totals, cost, stock) {
@@ -621,7 +659,6 @@
         const row = (label, value, change = '') => `<div class="loadout-row"><dt>${esc(label)}</dt><dd>${esc(value)}${change}</dd></div>`;
         const section = (title, body, wide) => `<section class="loadout-panel-section${wide ? ' is-wide' : ''}"><h4>${esc(title)}</h4>${body}</section>`;
         const quantum = totals.quantum; const stockQuantum = stock.quantum; const fuel = state.ship.base?.fuel || {};
-        const powerShare = totals.power.gen ? Math.min(100, totals.power.use / totals.power.gen * 100) : 0;
         return `<aside class="loadout-panel loadout-overview" aria-label="${esc(text('summary'))}">
             ${drawShipIdentity(totals)}
             <div class="loadout-overview-column is-damage">${section(text('firepower'), `
@@ -634,7 +671,7 @@
                     ${totals.emp ? row(text('empRow'), text('empValue', { dmg: num(totals.emp.dmg), radius: num(totals.emp.radius), charge: num(totals.emp.charge, 1) })) : ''}
                     ${totals.dampener ? row(text('dampRow'), text('dampValue', { range: num(totals.dampener.range) })) : ''}
                 </dl><details class="loadout-help"><summary>${esc(text('dpsHelp'))}</summary><p class="loadout-note loadout-dpsnote">${esc(text('burstHint'))}</p></details>`, true)}
-${drawHull(row)}</div>
+${drawHull(row, totals, stock)}</div>
             <div class="loadout-overview-column is-defense">${section(text('defense'), `
                 <div class="loadout-summary-numbers">${stat(text('kpiShield'), num(totals.shield.hp), drawChange(totals.shield.hp, stock.shield.hp))}</div><dl class="loadout-rows">${row(text('regenLabel'), `${num(totals.shield.regen)}${text('perSecond')}`, drawChange(totals.shield.regen, stock.shield.regen))}${row(text('shieldCount'), text('unitCount', { count: totals.shield.count }))}${shieldResistRows(row)}${totals.counter.decoy || totals.counter.noise ? row(text('counterLabel'), text('counterValue', { decoy: num(totals.counter.decoy), noise: num(totals.counter.noise) })) : ''}</dl>`)}
 ${drawFlight()}${fold('quantum', 'loadout-quantum', text('quantum'), quantum?.range ? `${num(quantum.range)} Gm` : text('quantumNone'), quantum ? `
@@ -645,21 +682,9 @@ ${drawFlight()}${fold('quantum', 'loadout-quantum', text('quantum'), quantum?.ra
                 <dl class="loadout-rows">${row(text('equipped'), itemName(quantum.id, quantum))}${row(text('cooldownLabel'), `${num(quantum.cooldown, 1)}${text('seconds')}`)}${quantum.range ? row(text('rangeLabel'), `${num(quantum.range)} Gm`, stockQuantum?.range ? drawChange(quantum.range, stockQuantum.range) : '') : ''}${fuel.qt ? row(text('qtFuel'), `${num(fuel.qt, 1)} SCU`) : ''}${fuel.h2 ? row(text('h2Fuel'), `${num(fuel.h2, 1)} SCU`) : ''}</dl>
                 <div class="loadout-travel"><label for="loadout-qt-distance">${esc(text('travelFor'))}</label><input type="number" id="loadout-qt-distance" inputmode="decimal" min="1" max="999" step="1" value="${esc(state.qtDistance)}"><span class="loadout-travel-result"><span class="loadout-stat-label">${esc(text('travelTime'))}</span><strong id="loadout-qt-time">${esc(travelText(quantum))}</strong></span></div><p id="loadout-qt-warning" class="loadout-travel-warning" role="status" ${travelWarning(quantum) ? '' : 'hidden'}>${esc(travelWarning(quantum))}</p>
                 <p class="loadout-note">${esc(text('travelNote'))}</p>` : `<p class="loadout-note">${esc(text('quantumNone'))}</p>`, true)}
+${drawShipMarket()}
 </div>
-            <div class="loadout-overview-column is-operations">${drawPowerPlan()}${drawActions(cost)}${fold('profile', 'loadout-ship-profile', text('shipProfile'), roleName(state.ship), `<dl class="loadout-rows">${row(text('makerFilter'), makerName(state.ship))}${row(text('size'), `S${state.ship.size || '—'}`)}${state.ship.base?.mass ? row(text('mass'), `${num(state.ship.base.mass)} kg`) : ''}</dl>`)}${section(text('systems'), `
-                <div class="loadout-statpair">
-                    ${stat(text('power'), num(totals.power.gen, 1), drawChange(totals.power.gen, stock.power.gen, 1))}
-                    ${stat(text('cooling'), num(totals.cooling.gen, 1), drawChange(totals.cooling.gen, stock.cooling.gen, 1))}
-                </div>
-                <div class="loadout-meter${powerShare >= 100 ? ' is-over' : ''}" role="img" aria-label="${esc(text('powerUse', { use: num(totals.power.use, 1) }))}"><i data-loadout-width="${powerShare.toFixed(1)}"></i></div>
-                <p class="loadout-note">${esc(text('powerUse', { use: num(totals.power.use, 1) }))}</p>
-                ${totals.off ? `<p class="loadout-note loadout-offnote">${esc(text('offCount', { count: totals.off }))}</p>` : ''}
-                <dl class="loadout-rows">
-                    ${row(text(totals.power.gen >= totals.power.use ? 'powerSpare' : 'powerShort2'), num(Math.abs(totals.power.gen - totals.power.use), 1))}
-                    ${row(text('powerUseLabel'), num(totals.power.use, 1), drawChange(totals.power.use, stock.power.use, 1, 'low'))}
-                    ${row(text('signatureEm'), num(totals.signature.em), drawChange(totals.signature.em, stock.signature.em, 0, 'low'))}
-                    ${row(text('signatureIr'), num(totals.signature.ir), drawChange(totals.signature.ir, stock.signature.ir, 0, 'low'))}
-                </dl>`)}
+            <div class="loadout-overview-column is-operations">${drawPowerPlan(totals, stock)}${drawActions(cost)}${fold('profile', 'loadout-ship-profile', text('shipProfile'), roleName(state.ship), `<dl class="loadout-rows">${row(text('makerFilter'), makerName(state.ship))}${row(text('size'), `S${state.ship.size || '—'}`)}${state.ship.base?.mass ? row(text('mass'), `${num(state.ship.base.mass)} kg`) : ''}</dl>`)}
 ${section(text('cost'), `
                 <div class="loadout-statpair">${stat(text('cost'), cost.changed ? credits(cost.total) : '—')}</div>
                 <p class="loadout-note">${esc(cost.changed ? (cost.unknown ? text('costUnknown', { count: cost.unknown }) : text('costAll')) : text('costNone'))}</p>`, true)}
@@ -1062,8 +1087,14 @@ ${section(text('cost'), `
     // 큰 묶음(무장 / 방어·동력 / 이동·기타) 안에 종류별 목록을 둔다.
     const SUPER_GROUPS = [['superArms', ['weapon', 'missile']], ['superDefense', ['shield', 'power', 'cooler']], ['superTravel', ['quantum', 'radar', 'other']], ['superUtility', ['mining', 'utility']]];
 
-    function drawPowerPlan() {
-        if (!state.ship.systems) return '';
+    function drawPowerSummary(totals, stock) {
+        const stat = (key, value, change = '') => `<div class="loadout-stat"><span class="loadout-stat-label">${esc(text(key))}</span><strong>${esc(num(value, 1))}</strong>${change}</div>`;
+        const row = (key, value, change = '') => `<div class="loadout-row"><dt>${esc(text(key))}</dt><dd>${esc(num(value, 1))}${change}</dd></div>`;
+        return `<div class="loadout-system-facts" role="group" aria-label="${esc(text('powerSummary'))}">${stat('power', totals.power.gen, drawChange(totals.power.gen, stock.power.gen, 1))}${stat('cooling', totals.cooling.gen, drawChange(totals.cooling.gen, stock.cooling.gen, 1))}<dl class="loadout-rows">${row('powerUseLabel', totals.power.use, drawChange(totals.power.use, stock.power.use, 1, 'low'))}${row(totals.power.gen >= totals.power.use ? 'powerSpare' : 'powerShort2', Math.abs(totals.power.gen - totals.power.use))}</dl></div><p class="loadout-note">${esc(text('powerUse', { use: num(totals.power.use, 1) }))}</p>${totals.off ? `<p class="loadout-note loadout-offnote">${esc(text('offCount', { count: totals.off }))}</p>` : ''}`;
+    }
+
+    function drawPowerPlan(totals, stock) {
+        if (!state.ship.systems) return `<section class="loadout-panel-section"><h4>${esc(text('powerSummary'))}</h4>${drawPowerSummary(totals, stock)}</section>`;
         const plan = calc.powerPlan(state.ship, state.items, state.overrides, { off: state.off, operation: state.operation });
         const control = (group) => {
             const available = powerAllocationLimit(group, plan.remaining);
@@ -1082,7 +1113,7 @@ ${section(text('cost'), `
             });
             return `<div class="loadout-power-channel${group.allocated === 0 ? ' is-empty' : ''}"><label for="loadout-power-${group.key}">${esc(name)}</label><div class="loadout-power-pips" role="group" aria-label="${esc(name)}">${blocks.reverse().join('')}</div><div class="loadout-power-adjust"><button type="button" data-loadout-pip="${group.key}" data-loadout-value="${decrease}" aria-label="${esc(text('powerLess', { name }))}" ${group.allocated === 0 ? 'disabled' : ''}>−</button><input id="loadout-power-${group.key}" type="number" inputmode="numeric" min="0" max="${available}" step="1" value="${group.allocated}" data-loadout-power-value="${group.key}" aria-describedby="loadout-power-hint-${group.key}"><button type="button" data-loadout-pip="${group.key}" data-loadout-value="${increase}" aria-label="${esc(text('powerMore', { name }))}" ${increase > available ? 'disabled' : ''}>+</button></div><small id="loadout-power-hint-${group.key}" title="${esc(text('powerMinimum', group))} · ${esc(text('powerAvailable', { max: available }))}">${esc(group.allocated === 0 ? text('powerEmpty') : text('powerLimitShort', group))}</small></div>`;
         };
-        return `<section class="loadout-panel-section loadout-power-plan"><h4 id="loadout-power-title" tabindex="-1">${esc(text('powerPlanTitle'))}</h4><div class="loadout-power-budget" role="status"><span>${esc(text('powerBudget', { used: num(plan.allocated), total: num(plan.capacity) }))}</span><strong>${esc(text('powerReserve'))} <b>${num(plan.remaining)}</b></strong></div><meter class="loadout-power-meter" min="0" max="${plan.capacity || 1}" value="${plan.allocated}" aria-label="${esc(text('powerBudget', { used: plan.allocated, total: plan.capacity }))}"></meter><div class="loadout-power-channels">${plan.groups.map(control).join('')}</div><p class="loadout-note loadout-power-guide">${esc(text('powerGuide'))}</p><div class="loadout-power-actions"><button type="button" class="btn btn-secondary" data-loadout-power-auto>${esc(text('powerAuto'))}</button><button type="button" class="loadout-link" data-loadout-power-clear>${esc(text('powerClear'))}</button><button type="button" class="loadout-link" data-loadout-power-rated>${esc(text('powerRated'))}</button></div><div class="loadout-power-supply"><strong>${esc(text('powerSupply', { total: num(plan.capacity) }))}</strong><span>${plan.plants.map((plant) => `${esc(shoppingName(plant.itemId, plant.item))} · ${num(plant.generation)}`).join(' / ')}</span></div><details class="loadout-help"><summary>${esc(text('powerHelp'))}</summary><p class="loadout-note">${esc(text('powerBudgetHelp'))}</p></details></section>`;
+        return `<section class="loadout-panel-section loadout-power-plan"><h4 id="loadout-power-title" tabindex="-1">${esc(text('powerPlanTitle'))}</h4><div class="loadout-power-budget" role="status"><span>${esc(text('powerBudget', { used: num(plan.allocated), total: num(plan.capacity) }))}</span><strong>${esc(text('powerReserve'))} <b>${num(plan.remaining)}</b></strong></div><meter class="loadout-power-meter" min="0" max="${plan.capacity || 1}" value="${plan.allocated}" aria-label="${esc(text('powerBudget', { used: plan.allocated, total: plan.capacity }))}"></meter><div class="loadout-power-channels">${plan.groups.map(control).join('')}</div><p class="loadout-note loadout-power-guide">${esc(text('powerGuide'))}</p><div class="loadout-power-actions"><button type="button" class="btn btn-secondary" data-loadout-power-auto>${esc(text('powerAuto'))}</button><button type="button" class="loadout-link" data-loadout-power-clear>${esc(text('powerClear'))}</button><button type="button" class="loadout-link" data-loadout-power-rated>${esc(text('powerRated'))}</button></div>${drawPowerSummary(totals, stock)}<div class="loadout-power-supply"><strong>${esc(text('powerSupply', { total: num(plan.capacity) }))}</strong><span>${plan.plants.map((plant) => `${esc(shoppingName(plant.itemId, plant.item))} · ${num(plant.generation)}`).join(' / ')}</span></div><details class="loadout-help"><summary>${esc(text('powerHelp'))}</summary><p class="loadout-note">${esc(text('powerBudgetHelp'))}</p></details></section>`;
     }
 
     const miningLabels = { laserInstability: 'instab', resistanceModifier: 'resistMod', optimalChargeWindowSizeModifier: 'windowMod', optimalChargeWindowRateModifier: 'moduleCharge', shatterdamageModifier: 'shatterMod' };
@@ -1624,6 +1655,7 @@ ${section(text('cost'), `
             if (row) setOverride(row.dataset.loadoutPath, row.dataset.loadoutCandidate);
             return;
         }
+        if (target.hasAttribute('data-loadout-ship-market-retry')) { loadShipMarket(true); return; }
         if (target.hasAttribute('data-loadout-jump')) {
             closePicker(); state.tab = 'slots'; draw();
             const destination = target.dataset.loadoutJump === 'power' ? document.getElementById('loadout-power-title') : root()?.querySelector('[data-loadout-tab="slots"]');

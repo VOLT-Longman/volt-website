@@ -10575,3 +10575,24 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-power-adjust input { grid-column: 1 / -1; grid-row: 1; }
     .loadout-power-adjust button { grid-row: 2; }
 }
+
+/* Keep related systems together without adding another large overview card. */
+.loadout-system-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--lo-line); }
+.loadout-system-facts .loadout-stat-label { font-size: 12px; }
+.loadout-system-facts .loadout-stat strong { font-size: 20px; font-variant-numeric: tabular-nums; }
+.loadout-system-facts .loadout-rows { grid-column: 1 / -1; margin: 0; }
+.loadout-system-facts .loadout-row { padding: 6px 0; }
+.loadout-signatures { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--lo-line); }
+.loadout-signatures h5 { margin: 0 0 8px; color: #e5e7ed; font-size: 13px; font-weight: 600; }
+.loadout-signatures .loadout-rows { margin: 0; }
+.loadout-ship-sellers { list-style: none; padding: 0; margin: 0; }
+.loadout-ship-sellers li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; padding: 12px 0; border-bottom: 1px solid var(--lo-line); }
+.loadout-ship-sellers strong { display: block; font-size: 14px; color: #f3f4f7; overflow-wrap: anywhere; }
+.loadout-ship-sellers span, .loadout-ship-sellers small { display: block; margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--lo-dim); overflow-wrap: anywhere; }
+.loadout-ship-sellers b { color: #ffb29a; font-size: 14px; font-variant-numeric: tabular-nums; text-align: right; }
+.loadout-ship-market > .loadout-note { margin: 10px 0 0; }
+.loadout-ship-market summary { min-height: 44px; display: list-item; align-content: center; cursor: pointer; }
+@media (max-width: 1100px) {
+    .loadout-ship-sellers li { grid-template-columns: minmax(0, 1fr); }
+    .loadout-ship-sellers b { text-align: left; }
+}
