@@ -10627,18 +10627,12 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .gear-add:hover { border-color: var(--volt-orange); }
 .gear-special { display: grid; gap: 14px; }
 .gear-special h3 { margin: 0 0 8px; font-size: 15px; }
-.gear-fit { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; align-items: start; }
 .gear-fit-main { display: grid; gap: 14px; min-width: 0; }
 .gear-fit-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 10px; }
 .gear-fit-slots .gear-select { flex: none; }
 .gear-fit-slots input { width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--ge-line); background: var(--ge-card); color: var(--color-text-primary); font: inherit; font-size: 16px; }
 .gear-fit-body { padding: 12px; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
 .gear-mannequin { display: block; width: 100%; height: auto; }
-.gear-body-part circle, .gear-body-part rect { fill: #2a2c33; stroke: rgba(255, 255, 255, 0.28); stroke-width: 2; stroke-dasharray: 5 5; transition: fill var(--transition-fast); }
-.gear-body-part.is-covered circle, .gear-body-part.is-covered rect { stroke: #f5f5f7; stroke-dasharray: none; stroke-width: 3; }
-.gear-body-part.is-low circle, .gear-body-part.is-low rect { fill: #2f5d3a; }
-.gear-body-part.is-mid circle, .gear-body-part.is-mid rect { fill: #8a6a1f; }
-.gear-body-part.is-high circle, .gear-body-part.is-high rect { fill: #9a2f1f; }
 .gear-meter { width: 90px; height: 10px; vertical-align: middle; }
 .gear-cart-total { margin: 0; font-size: 16px; text-align: right; }
 .gear-cart-total strong { font-size: 22px; font-variant-numeric: tabular-nums; }
@@ -10647,4 +10641,41 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .gear-shoplist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
 .gear-shoplist > li { padding: 12px; border: 1px solid var(--ge-line); border-radius: 10px; background: var(--ge-card); }
 .gear-shoplist ul { margin: 6px 0 0; padding-left: 18px; font-size: 14px; }
-@media (max-width: 760px) { .gear-fit { grid-template-columns: minmax(0, 1fr); } .gear-fit-body { max-width: 200px; justify-self: center; } }
+
+/* 개인 장비 다듬기: 마네킹, 착용 시험 배치, 고정 상세 */
+.gear-fit { display: grid; grid-template-columns: minmax(320px, 440px) minmax(0, 1fr); gap: 20px; align-items: start; }
+.gear-fit-body { position: sticky; top: 88px; display: grid; gap: 10px; background: radial-gradient(circle at 50% 30%, #23262d, #131417 70%); }
+.gear-body-part .gear-plate { fill: url(#gear-bare); stroke: rgba(255, 255, 255, 0.3); stroke-width: 1.5; stroke-dasharray: 4 4; stroke-linejoin: round; transition: fill var(--transition-fast); }
+.gear-body-part .gear-visor { fill: #0d0e11; stroke: rgba(255, 255, 255, 0.35); stroke-width: 1.5; }
+.gear-body-part .gear-line { fill: none; stroke: rgba(255, 255, 255, 0.16); stroke-width: 1.5; stroke-linecap: round; }
+.gear-body-part.is-covered .gear-plate { fill: url(#gear-steel); stroke: #f5f5f7; stroke-width: 2; stroke-dasharray: none; }
+.gear-body-part.is-covered.is-heavy .gear-plate { stroke-width: 3.2; }
+.gear-body-part.is-covered.is-light .gear-plate, .gear-body-part.is-covered.is-under .gear-plate { stroke-width: 1.4; }
+.gear-body-part.is-low .gear-plate { fill: url(#gear-low); }
+.gear-body-part.is-mid .gear-plate { fill: url(#gear-mid); }
+.gear-body-part.is-high .gear-plate { fill: url(#gear-high); }
+.gear-body-part.is-covered .gear-visor { fill: #101318; stroke: #f5f5f7; }
+.gear-tag-line { fill: none; stroke: rgba(255, 255, 255, 0.28); stroke-width: 1; }
+.gear-tag-box { fill: rgba(20, 21, 25, 0.92); stroke: rgba(255, 255, 255, 0.16); stroke-width: 1; }
+.gear-tag.is-high .gear-tag-box { stroke: #e8482f; }
+.gear-tag.is-mid .gear-tag-box { stroke: #d7a63a; }
+.gear-tag.is-low .gear-tag-box { stroke: #4f9a63; }
+.gear-tag-name { fill: #a1a1a6; font-size: 12px; font-weight: 600; }
+.gear-tag-value { fill: #f5f5f7; font-size: 14px; font-weight: 700; }
+.gear-tag-track { fill: rgba(255, 255, 255, 0.12); }
+.gear-tag-fill { fill: #7fd88a; }
+.gear-tag.is-high .gear-tag-fill { fill: #ff8f7a; }
+.gear-tag.is-mid .gear-tag-fill { fill: #ffd27a; }
+.gear-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--color-text-secondary); }
+.gear-legend li::before { content: ''; display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 3px; background: #4f9a63; vertical-align: -1px; }
+.gear-legend .is-mid::before { background: #d7a63a; }
+.gear-legend .is-high::before { background: #e8482f; }
+.gear-legend .is-covered::before { background: transparent; border: 2px solid #f5f5f7; box-sizing: border-box; }
+.gear-fit-headline > div { border-color: rgba(232, 72, 47, 0.45); }
+.gear-fit-headline dd { font-size: 22px; }
+.gear-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.gear-special section { padding: 14px; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
+.gear-tabs { background: var(--ge-card); }
+.gear-table th .gear-icon { float: left; }
+@media (min-width: 1101px) { .gear-side { position: sticky; top: 88px; max-height: calc(100vh - 104px); overflow-y: auto; border-radius: 12px; } }
+@media (max-width: 900px) { .gear-fit { grid-template-columns: minmax(0, 1fr); } .gear-fit-body { position: static; } }

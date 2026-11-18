@@ -42,6 +42,7 @@
             dpsNote: '이론 DPS = 피해 × 산탄 수 × 연사 ÷ 60. 재장전·반동·거리 감소를 뺀 값입니다.',
             sourceGame: '수치: Star Citizen 게임 파일 {version}', sourcePrice: '판매처·가격: UEX', sourceNote: '게임 파일에 적힌 값이며 게임 안에서 실측한 값이 아닙니다. UEX와 수치가 다르면 게임 파일 값을 따릅니다.',
             uec: 'aUEC', unknown: '—',
+            preset: '빠르게 입히기', presetBare: '맨몸', presetLight: '경장갑 세트', presetMedium: '중장갑 세트', presetHeavy: '중(重)장갑 세트', headShots: '머리에 맞으면', torsoShots: '몸통에 맞으면', limbShots: '팔다리에 맞으면', legend: '색 구분', legendLow: '6발 이상', legendMid: '3~5발', legendHigh: '2발 이하', legendCovered: '실선 = 방어구로 덮임',
             fit: '착용 시험', cart: '장바구니', cartCount: '장바구니 {count}', wear: '착용 시험에 입히기', shootWith: '이 무기로 쏴 보기', addCart: '담기', inCart: '담김 {count}',
             fitIntro: '방어구를 부위별로 입히고 무기를 골라, 한 발에 얼마나 피해가 들어가는지 봅니다.', mannequin: '착용 상태', wearing: '입힌 장비', attacker: '쏘는 무기', none: '없음', noWeapon: '무기를 고르세요',
             distance: '거리 (m)', fireMode: '발사 방식', head: '머리', torso: '몸통', leftArm: '왼팔', rightArm: '오른팔', leftLeg: '왼다리', rightLeg: '오른다리',
@@ -77,6 +78,7 @@
             dpsNote: 'Theoretical DPS = damage × pellets × rate ÷ 60. Reloads, recoil and range drop-off are not included.',
             sourceGame: 'Stats: Star Citizen game files {version}', sourcePrice: 'Shops and prices: UEX', sourceNote: 'These are the values written in the game files, not measured in game. Where UEX differs, the game file value is used.',
             uec: 'aUEC', unknown: '—',
+            preset: 'Quick sets', presetBare: 'Bare', presetLight: 'Light set', presetMedium: 'Medium set', presetHeavy: 'Heavy set', headShots: 'Hit in the head', torsoShots: 'Hit in the torso', limbShots: 'Hit in a limb', legend: 'Colours', legendLow: '6+ shots', legendMid: '3–5 shots', legendHigh: '2 or fewer', legendCovered: 'Solid outline = covered by armor',
             fit: 'Fitting test', cart: 'Cart', cartCount: 'Cart {count}', wear: 'Put on the mannequin', shootWith: 'Shoot with this weapon', addCart: 'Add', inCart: 'In cart {count}',
             fitIntro: 'Dress the mannequin slot by slot, pick a weapon and see how much damage one shot does.', mannequin: 'Fitting', wearing: 'Equipped', attacker: 'Attacking weapon', none: 'None', noWeapon: 'Pick a weapon',
             distance: 'Distance (m)', fireMode: 'Fire mode', head: 'Head', torso: 'Torso', leftArm: 'Left arm', rightArm: 'Right arm', leftLeg: 'Left leg', rightLeg: 'Right leg',
@@ -318,17 +320,40 @@
             return { part, cover, raw, taken, hits, seconds, beam: Boolean(mode?.beam), mode };
         });
     }
+    // 마네킹 그림(정면). 화면 왼쪽이 대상의 오른쪽이다. 좌우는 같은 조각을 뒤집어 쓴다.
+    const FIGURE = {
+        head: '<path class="gear-plate" d="M260 16c-23 0-38 17-38 40v15c0 15 10 27 23 31h30c13-4 23-16 23-31V56c0-23-15-40-38-40z"/><path class="gear-visor" d="M232 52h56v11c0 9-8 16-17 16h-22c-9 0-17-7-17-16z"/><path class="gear-line" d="M260 16v24M238 92h44"/>',
+        torso: '<path class="gear-plate" d="M246 102h28v14h-28z"/><path class="gear-plate" d="M212 118h96l16 18v54l-12 16H208l-12-16v-54z"/><path class="gear-plate" d="M214 212h92l-5 42h-82z"/><path class="gear-plate" d="M218 260h84l8 28-32 14h-36l-32-14z"/><path class="gear-line" d="M260 118v88M226 150h68M222 232h76M260 260v40"/>',
+        arm: '<path class="gear-plate" d="M204 120h-16c-18 0-30 13-32 30v16h46z"/><path class="gear-plate" d="M158 172h42l-4 70h-34z"/><circle class="gear-plate" cx="179" cy="252" r="13"/><path class="gear-plate" d="M164 268h32l-4 68h-24z"/><path class="gear-plate" d="M166 342h26v20c0 9-6 14-13 14s-13-5-13-14z"/><path class="gear-line" d="M164 200h34M170 300h22"/>',
+        leg: '<path class="gear-plate" d="M214 298l40 12v96h-34z"/><rect class="gear-plate" x="218" y="412" width="36" height="24" rx="9"/><path class="gear-plate" d="M220 442h32l-2 78h-26z"/><path class="gear-plate" d="M218 526h36v22h-48c0-11 5-18 12-22z"/><path class="gear-line" d="M222 350h30M226 480h24"/>',
+    };
+    // 이름표 자리: [x, y, 연결선 끝 x, 연결선 끝 y]
+    const TAGS = { head: [10, 14, 222, 56], rightArm: [10, 170, 158, 210], rightLeg: [10, 400, 216, 430], torso: [398, 100, 324, 160], leftArm: [398, 230, 362, 250], leftLeg: [398, 400, 304, 430] };
     function mannequin(rows) {
-        const level = (row) => (!state.fit.weapon || !row.taken ? 'idle' : row.beam ? (row.seconds <= 1 ? 'high' : row.seconds <= 3 ? 'mid' : 'low') : row.hits <= 2 ? 'high' : row.hits <= 5 ? 'mid' : 'low');
+        const armed = Boolean(state.fit.weapon);
+        const level = (row) => (!armed || !row.taken ? 'idle' : row.beam ? (row.seconds <= 1 ? 'high' : row.seconds <= 3 ? 'mid' : 'low') : row.hits <= 2 ? 'high' : row.hits <= 5 ? 'mid' : 'low');
         const row = (id) => rows.find((item) => item.part.id === id);
-        const shape = (id, element) => `<g class="gear-body-part is-${level(row(id))}${row(id).cover ? ' is-covered' : ''}">${element}<title>${esc(text(id))}</title></g>`;
-        return `<svg class="gear-mannequin" viewBox="0 0 200 420" role="img" aria-label="${esc(text('mannequin'))}">
-            ${shape('head', '<circle cx="100" cy="42" r="30"></circle>')}
-            ${shape('torso', '<rect x="62" y="80" width="76" height="140" rx="16"></rect>')}
-            ${shape('rightArm', '<rect x="22" y="84" width="30" height="150" rx="14"></rect>')}
-            ${shape('leftArm', '<rect x="148" y="84" width="30" height="150" rx="14"></rect>')}
-            ${shape('rightLeg', '<rect x="62" y="230" width="34" height="176" rx="14"></rect>')}
-            ${shape('leftLeg', '<rect x="104" y="230" width="34" height="176" rx="14"></rect>')}
+        const part = (id, shape, mirrored) => { const data = row(id); return `<g class="gear-body-part is-${level(data)}${data.cover ? ` is-covered is-${esc(data.cover.cls || 'under')}` : ''}"${mirrored ? ' transform="translate(520 0) scale(-1 1)"' : ''}>${shape}</g>`; };
+        const tag = (id) => {
+            const data = row(id); const [x, y, lx, ly] = TAGS[id]; const left = x < 200;
+            const remain = Math.max(0, data.part.health - (armed ? data.taken : 0)); const width = Math.round(96 * remain / data.part.health);
+            const line = armed && data.taken ? (data.beam ? `${num(data.taken, 1)}${text('perSecond')}` : `${num(data.taken, 1)} · ${data.hits ? text('shots', { count: num(data.hits) }) : text('takesAll')}`) : (data.cover ? label(data.cover.name) : text('bare'));
+            return `<g class="gear-tag is-${level(data)}"><path class="gear-tag-line" d="M${left ? x + 112 : x} ${y + 26}L${lx} ${ly}"/><rect class="gear-tag-box" x="${x}" y="${y}" width="112" height="58" rx="9"/>
+                <text class="gear-tag-name" x="${x + 8}" y="${y + 18}">${esc(text(id))}</text><text class="gear-tag-value" x="${x + 8}" y="${y + 36}">${esc(String(line).slice(0, 15))}</text>
+                <rect class="gear-tag-track" x="${x + 8}" y="${y + 44}" width="96" height="6" rx="3"/><rect class="gear-tag-fill" x="${x + 8}" y="${y + 44}" width="${width}" height="6" rx="3"/></g>`;
+        };
+        return `<svg class="gear-mannequin" viewBox="0 0 520 560" role="img" aria-label="${esc(text('mannequin'))}">
+            <defs>
+                <linearGradient id="gear-steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a4e58"/><stop offset="1" stop-color="#24262c"/></linearGradient>
+                <linearGradient id="gear-bare" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3530"/><stop offset="1" stop-color="#201d1b"/></linearGradient>
+                <linearGradient id="gear-low" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f9a63"/><stop offset="1" stop-color="#1f4a2c"/></linearGradient>
+                <linearGradient id="gear-mid" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7a63a"/><stop offset="1" stop-color="#6b4d12"/></linearGradient>
+                <linearGradient id="gear-high" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8482f"/><stop offset="1" stop-color="#6e1d12"/></linearGradient>
+                <radialGradient id="gear-floor" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="rgba(255,255,255,0.16)"/><stop offset="1" stop-color="rgba(255,255,255,0)"/></radialGradient>
+            </defs>
+            <ellipse cx="260" cy="548" rx="120" ry="10" fill="url(#gear-floor)"/>
+            ${part('rightArm', FIGURE.arm)}${part('leftArm', FIGURE.arm, true)}${part('rightLeg', FIGURE.leg)}${part('leftLeg', FIGURE.leg, true)}${part('torso', FIGURE.torso)}${part('head', FIGURE.head)}
+            ${BODY_PARTS.map(tag).join('')}
         </svg>`;
     }
     function fitView() {
@@ -354,9 +379,13 @@
                 <td><meter class="gear-meter" min="0" max="${esc(row.part.health)}" value="${esc(Math.max(0, row.part.health - (weapon ? row.taken : 0)))}" aria-label="${esc(text(row.part.id))} ${esc(text('partHealth'))}"></meter> <small class="gear-muted">${esc(num(row.part.health))}</small></td></tr>`).join('')}</tbody></table></div>`;
         return `<p class="gear-note">${esc(text('fitIntro'))}</p>
             <div class="gear-fit">
-                <div class="gear-fit-body">${mannequin(rows)}</div>
+                <div class="gear-fit-body">${mannequin(rows)}
+                    <ul class="gear-legend" aria-label="${esc(text('legend'))}"><li class="is-low">${esc(text('legendLow'))}</li><li class="is-mid">${esc(text('legendMid'))}</li><li class="is-high">${esc(text('legendHigh'))}</li><li class="is-covered">${esc(text('legendCovered'))}</li></ul></div>
                 <div class="gear-fit-main">
-                    <section><h3>${esc(text('wearing'))}</h3><div class="gear-fit-slots">${SLOTS.filter((slot) => slot !== 'backpack').map(slotSelect).join('')}</div>${summary}
+                    ${weapon ? `<dl class="gear-stats gear-fit-headline">${[['headShots', 'head'], ['torsoShots', 'torso'], ['limbShots', 'leftArm']].map(([key, id]) => { const item = rows.find((entry) => entry.part.id === id); return stat(text(key), item.beam ? `${esc(num(item.seconds, 1))}${esc(lang() === 'ko' ? '초' : ' s')}` : item.hits ? esc(text('shots', { count: num(item.hits) })) : esc(text('takesAll'))); }).join('')}</dl>` : ''}
+                    <section><h3>${esc(text('wearing'))}</h3>
+                        <div class="gear-presets" role="group" aria-label="${esc(text('preset'))}">${[['', 'presetBare'], ['light', 'presetLight'], ['medium', 'presetMedium'], ['heavy', 'presetHeavy']].map(([cls, key]) => `<button type="button" class="gear-add" data-gear-preset="${cls}">${esc(text(key))}</button>`).join('')}</div>
+                        <div class="gear-fit-slots">${SLOTS.filter((slot) => slot !== 'backpack').map(slotSelect).join('')}</div>${summary}
                         <button type="button" class="gear-add" data-gear-clear-fit>${esc(text('clearFit'))}</button></section>
                     <section><h3>${esc(text('attacker'))}</h3><div class="gear-fit-slots">
                         <label class="gear-select"><span>${esc(text('weapon'))}</span><select id="gear-fit-weapon">${option('', text('noWeapon'), state.fit.weapon)}${KINDS.filter((kind) => kind !== 'tool').map((kind) => { const list = groupsOf('weapon').filter((group) => group.kind === kind && (group.ammo?.dmg || group.modes?.some((item) => item.beam))); return list.length ? `<optgroup label="${esc(text(kind))}">${list.map((group) => option(group.id, label(group.name), state.fit.weapon)).join('')}</optgroup>` : ''; }).join('')}</select></label>
@@ -444,6 +473,12 @@
             if (target.dataset.gearQty) { const uuid = target.dataset.gearQty; const next = (state.cart[uuid] || 0) + Number(target.dataset.step); if (next > 0) state.cart[uuid] = Math.min(next, 99); else delete state.cart[uuid]; store(CART_KEY, state.cart); draw(state.cart[uuid] ? `[data-gear-qty="${uuid}"][data-step="${target.dataset.step}"]` : '[data-gear-view="cart"]'); return; }
             if (target.dataset.gearRemove) { delete state.cart[target.dataset.gearRemove]; store(CART_KEY, state.cart); draw('[data-gear-view="cart"]'); return; }
             if (target.hasAttribute('data-gear-clear-cart')) { state.cart = {}; store(CART_KEY, state.cart); draw('[data-gear-view="cart"]'); return; }
+            if (target.hasAttribute('data-gear-preset')) {
+                // 등급별 저항은 제품이 달라도 같다. 부위마다 그 등급의 첫 제품을 입힌다(언더수트는 그대로 둔다).
+                const cls = target.getAttribute('data-gear-preset'); const undersuit = state.fit.wear.undersuit; state.fit.wear = undersuit ? { undersuit } : {};
+                if (cls) for (const slot of ['helmet', 'core', 'arms', 'legs']) { const first = groupsOf('armor').find((group) => group.slot === slot && group.cls === cls); if (first) state.fit.wear[slot] = first.id; }
+                store(FIT_KEY, state.fit); draw(`[data-gear-preset="${cls}"]`); return;
+            }
             if (target.hasAttribute('data-gear-clear-fit')) { state.fit.wear = {}; store(FIT_KEY, state.fit); draw('[data-gear-view="fit"]'); return; }
             if (target.dataset.gearWear) { const group = findGroup('armor', target.dataset.gearWear); if (group?.slot) { state.fit.wear[group.slot] = group.id; store(FIT_KEY, state.fit); state.view = 'fit'; draw('[data-gear-view="fit"]'); load('fit'); } return; }
             if (target.dataset.gearShoot) { state.fit.weapon = target.dataset.gearShoot; state.fit.mode = 0; store(FIT_KEY, state.fit); state.view = 'fit'; draw('[data-gear-view="fit"]'); load('fit'); return; }

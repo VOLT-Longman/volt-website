@@ -196,3 +196,19 @@ for (const width of [1280, 390]) {
         }
     });
 }
+
+test('착용 시험: 빠른 세트 단추로 등급별 방어구를 한 번에 입히고 마네킹 이름표가 바뀐다', async ({ page }) => {
+    await openGear(page);
+    await page.locator('#gear-search').fill('P4-AR');
+    await page.locator('.gear-list [data-gear-pick]').first().click();
+    await page.locator('[data-gear-shoot]').click();
+    await expect(page.locator('.gear-mannequin .gear-tag')).toHaveCount(6);
+    await expect(page.locator('.gear-fit-headline')).toContainText('2발'); // 맨몸 머리: 48씩, 체력 70
+    await page.locator('[data-gear-preset="heavy"]').click();
+    await expect(page.locator('[data-gear-preset="heavy"]')).toBeFocused();
+    await expect(page.locator('.gear-body-part.is-covered')).toHaveCount(6);
+    for (const slot of ['helmet', 'core', 'arms', 'legs']) await expect(page.locator(`[data-gear-slot="${slot}"]`)).not.toHaveValue('');
+    await expect(page.locator('.gear-fit-headline')).toContainText('7발'); // 중(重)장갑 머리: 12 × 1.5 × 0.6 = 10.8
+    await page.locator('[data-gear-preset=""]').click();
+    await expect(page.locator('.gear-body-part.is-covered')).toHaveCount(0);
+});
