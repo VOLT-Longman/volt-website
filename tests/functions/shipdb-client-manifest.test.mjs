@@ -41,13 +41,14 @@ test('ShipDB client manifest pins every canonical asset to its exact source hash
   }
 });
 
-test('Safe Apply and post-apply rebuild the canonical layers before deployment', async () => {
+test('retired Safe Apply cannot overwrite the game-file catalog; new build refreshes the manifest', async () => {
   const applySource = await readFile(join(ROOT, 'scripts/erkul/apply-erkul-live-data.mjs'), 'utf8');
   const packageJson = JSON.parse(await readFile(join(ROOT, 'package.json'), 'utf8'));
-  assert.match(applySource, /CANONICAL_BUILD_SCRIPTS/);
-  assert.match(applySource, /build-canonical-manifest\.mjs/);
-  assert.match(applySource, /recordReproducibleInputs/);
-  assert.match(applySource, /INPUT_REBUILD_SCRIPTS/);
-  assert.match(applySource, /build-ship-live-data\.mjs.*--record-manifest/s);
-  assert.match(packageJson.scripts['shipdb:erkul:post-apply'], /shipdb:canonical:build/);
+  assert.match(applySource, /process.exitCode = 1/);
+  assert.doesNotMatch(applySource, /writeFile|fetch\(/);
+  const buildSource = await readFile(join(ROOT, 'scripts/shipdb-rewrite/build-canonical.mjs'), 'utf8');
+  assert.match(buildSource, /build-game-ships/);
+  assert.match(buildSource, /build-canonical-manifest/);
+  assert.equal(packageJson.scripts['shipdb:erkul:post-apply'], undefined);
+  assert.match(packageJson.scripts['shipdb:canonical:build'], /build-canonical/);
 });

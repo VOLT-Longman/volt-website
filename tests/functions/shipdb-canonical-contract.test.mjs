@@ -116,6 +116,11 @@ test('공개 canonical ID 집합 = 동결 기준선 + 검토된 신규 identity 
   const data = JSON.parse(await readFile(abs, 'utf8'));
   const records = Array.isArray(data) ? data : Array.isArray(data.ships) ? data.ships : Object.values(data);
   const actual = new Set(records.map((r) => r.id));
+  for (const id of ['galaxy', 'liberator', 'marauder', 'hyun']) expected.add(id);
+  const identities = JSON.parse(await readRoot('data/canonical/ship-identities.json'));
+  assert.deepEqual(identities.records.map(r => r.id).sort(), [...actual].sort());
+  assert.equal(data.source, 'game-files');
+  assert.match(data.sourceSha256, /^[a-f0-9]{64}$/);
   for (const id of expected) if (isExcludedShip(id)) expected.delete(id);
   const missing = [...expected].filter((id) => !actual.has(id));
   const extra = [...actual].filter((id) => !expected.has(id));
@@ -153,7 +158,7 @@ test('canonical 생성기가 금지 입력을 참조하지 않는다 (fail-close
   }
   const src = await readRoot(CANONICAL_GENERATOR_PATH);
   const offenders = CANONICAL_FORBIDDEN_INPUTS.filter((p) => src.includes(p));
-  assert.equal(offenders.length, 0, `canonical 생성기가 금지 입력을 사실원으로 참조: ${offenders.join(', ')} — Erkul live 레이어만 읽어야 함`);
+  assert.equal(offenders.length, 0, `canonical 생성기가 금지 입력을 사실원으로 참조: ${offenders.join(', ')} — 게임 파일에서 성능을 읽어야 함`);
 });
 
 // PM step4: RSI 공식 카탈로그는 RSI 비제공 게임플레이 값을 갖지 않고, rsi{}는 허용 필드만 가진다.

@@ -2,7 +2,7 @@
   "schema": "shipdb-presentation/v1",
   "note": "표시 계층: canonical 함선의 영문 표시명·공식 RSI URL만. 게임플레이 사실값은 canonical이 소유한다.",
   "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
-  "count": 217,
+  "count": 221,
   "records": [
     {
       "id": "100i",
@@ -251,7 +251,8 @@
     },
     {
       "id": "constellation-mk5-centaurus",
-      "name": "Constellation Mk V Centaurus"
+      "name": "Constellation Mk V Centaurus",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/constellation-mk-v/Constellation-Mk-V-Centaurus"
     },
     {
       "id": "constellation-phoenix",
@@ -464,6 +465,11 @@
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/fury/Fury-MX"
     },
     {
+      "id": "galaxy",
+      "name": "Galaxy",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/galaxy/Galaxy"
+    },
+    {
       "id": "gladiator",
       "name": "Gladiator",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/anvil-gladiator/Gladiator"
@@ -559,6 +565,11 @@
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/hurricane/Hurricane"
     },
     {
+      "id": "hyun",
+      "name": "Hyun",
+      "rsiUrl": null
+    },
+    {
       "id": "idris-m",
       "name": "Idris-M",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/aegis-idris/Idris-M"
@@ -599,6 +610,11 @@
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/wolf/L-22-Alpha-Wolf"
     },
     {
+      "id": "liberator",
+      "name": "Liberator",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/liberator/Liberator"
+    },
+    {
       "id": "lynx",
       "name": "Lynx ",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/ursa/Lynx"
@@ -622,6 +638,11 @@
       "id": "mantis",
       "name": "Mantis",
       "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/rsi-mantis/Mantis"
+    },
+    {
+      "id": "marauder",
+      "name": "Marauder",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/marauder/Marauder"
     },
     {
       "id": "mdc",
@@ -855,7 +876,8 @@
     },
     {
       "id": "s65-stingray",
-      "name": "S-65 Stingray"
+      "name": "S-65 Stingray",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/s-65-stingray/S-65-Stingray"
     },
     {
       "id": "sabre",
@@ -884,7 +906,8 @@
     },
     {
       "id": "sabre-raven-ex",
-      "name": "Sabre Raven EX"
+      "name": "Sabre Raven EX",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Raven-EX"
     },
     {
       "id": "salvation",
@@ -918,7 +941,8 @@
     },
     {
       "id": "skylark",
-      "name": "Skylark"
+      "name": "Skylark",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/skylark/Skylark"
     },
     {
       "id": "spartan",
@@ -952,7 +976,8 @@
     },
     {
       "id": "starlite",
-      "name": "Starlite"
+      "name": "Starlite",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/starlite/Starlite"
     },
     {
       "id": "stinger",
@@ -1001,11 +1026,13 @@
     },
     {
       "id": "tiburon",
-      "name": "Tiburon"
+      "name": "Tiburon",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/tiburon/Tiburon"
     },
     {
       "id": "tyilui",
-      "name": "Tyilui"
+      "name": "Tyilui",
+      "rsiUrl": "https://robertsspaceindustries.com/pledge/ships/tyilui/Tyilui"
     },
     {
       "id": "ursa",

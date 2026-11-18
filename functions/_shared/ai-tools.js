@@ -40,10 +40,10 @@ export async function loadShipLayers(env) {
     const op = opsById.get(s.id) || {};
     ships[s.id] = {
       name: presentation.get(s.id)?.name || s.id,
-      aliases: localized[presentation.get(s.id)?.name] || [],
+      aliases: [s.nameKo, ...[].concat(localized[presentation.get(s.id)?.name] || [])].filter(Boolean),
       manufacturer: s.manufacturer, role: s.role, career: s.career, size: s.size,
       crewSize: s.crewSize, cargoScu: s.cargoScu, hp: s.hp,
-      erkulLocalName: op.erkulLocalName || ''
+      gameClass: op.gameClass || ''
     };
     market[s.id] = s.market || { purchase: [], rentals: [] };
     if (!syncedAt && op.syncedAt) syncedAt = op.syncedAt;
@@ -63,7 +63,7 @@ export function matchShipIds(ships, text, max = 4) {
   const haystack = normalizeToken(text);
   const found = [];
   const candidates = Object.entries(ships).flatMap(([id, ship]) =>
-    [id, ship.name, ...(Array.isArray(ship.aliases) ? ship.aliases : [ship.aliases]), ship.erkulLocalName?.split('_').slice(1).join('')]
+    [id, ship.name, ...(Array.isArray(ship.aliases) ? ship.aliases : [ship.aliases]), ship.gameClass?.split('_').slice(1).join('')]
       .map((name) => ({ id, token: normalizeToken(name) })).filter((item) => item.token.length >= 3 || /^[가-힣]{2,}$/.test(item.token)))
     .sort((a, b) => b.token.length - a.token.length);
   const occupied = [];
@@ -126,7 +126,7 @@ function shipSummary(id, entry, marketEntry) {
 }
 
 function shipSources(syncedAt) {
-  return [{ label: 'VOLT ShipDB — Erkul canonical 데이터셋', detail: `동기화 ${syncedAt || '알 수 없음'}`, url: '#ships' }];
+  return [{ label: 'VOLT ShipDB — 게임 파일 사양 · UEX 가격', detail: `동기화 ${syncedAt || '알 수 없음'}`, url: '#ships' }];
 }
 
 export async function toolRecommendShips(env, params) {

@@ -6,7 +6,7 @@ test('영구 제외 8종: CMS 표시 요청에도 검색·공개 ID·플래너 �
     await mockApi(page);
     await page.route('**/api/ship-overrides', route => route.fulfill({ json: { items: excluded.map(row => ({ shipId: row.id, hidden: false, name: row.catalogName })) } }));
     await gotoSection(page, '#ships');
-    await expect(page.locator('#ships-grid .ship-card')).toHaveCount(246);
+    await expect(page.locator('#ships-grid .ship-card')).toHaveCount(248);
     const state = await page.evaluate(ids => ({
         publicIds: window.VOLT_SHIPDB_CANONICAL.publicShips().map(ship => ship.id),
         removed: ids.map(id => window.VOLT_SHIPDB_CANONICAL.getShip(id)),

@@ -1,9 +1,9 @@
 {
   "schema": "volt-ship-imagery-review/v1",
   "reviewedAt": "2026-10-18",
-  "catalogCountAtReview": 254,
+  "catalogCountAtReview": 256,
   "verifiedCount": 246,
-  "heldCount": 0,
+  "heldCount": 2,
   "records": [
     {
       "id": "100i",
@@ -2774,6 +2774,20 @@
       "originalSha256": "4093e24d7236624b1710c57a98bf2767f43b90940ead078cd5dd118020b20248",
       "pageSha256": "3ec655a0aedc2c5a03b2e4e6c242a51dfe7d922204dbbe788a239bc57dfa7167",
       "reviewNote": "Official product name, variant, source page and representative scene visually reviewed"
+    },
+    {
+      "id": "marauder",
+      "catalogName": "Marauder",
+      "status": "held",
+      "reviewedAt": "2026-11-18",
+      "reviewNote": "New game-file identity; exact official product photo not yet verified. No other model image substituted."
+    },
+    {
+      "id": "hyun",
+      "catalogName": "Hyun",
+      "status": "held",
+      "reviewedAt": "2026-11-18",
+      "reviewNote": "New game-file identity; exact official product photo not yet verified. No other model image substituted."
     }
   ],
   "excludedCount": 8

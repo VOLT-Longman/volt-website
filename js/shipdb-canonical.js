@@ -205,7 +205,7 @@
     function toCanonicalPublicShip(ship, presentation, koDescription) {
         var operational = store.operational && store.operational.records.find(function (entry) { return entry.id === ship.id; });
         var merged = Object.assign({}, ship, {
-            source: 'erkul-canonical',
+            source: ship.source || 'erkul-canonical',
             syncedAt: operational ? operational.syncedAt : null,
             sourceVersion: operational ? operational.sourceVersion : null,
             sourceGeneratedAt: operational ? operational.sourceGeneratedAt : null,

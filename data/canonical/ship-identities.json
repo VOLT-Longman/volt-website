@@ -1,0 +1,903 @@
+{
+  "schema": "ship-identities/v1",
+  "note": "Stable website IDs mapped to game class names. Identity only; no gameplay values.",
+  "records": [
+    {
+      "id": "100i",
+      "cls": "orig_100i"
+    },
+    {
+      "id": "125a",
+      "cls": "orig_125a"
+    },
+    {
+      "id": "135c",
+      "cls": "orig_135c"
+    },
+    {
+      "id": "300i",
+      "cls": "orig_300i"
+    },
+    {
+      "id": "315p",
+      "cls": "orig_315p"
+    },
+    {
+      "id": "325a",
+      "cls": "orig_325a"
+    },
+    {
+      "id": "350r",
+      "cls": "orig_350r"
+    },
+    {
+      "id": "400i",
+      "cls": "orig_400i"
+    },
+    {
+      "id": "600i-explorer",
+      "cls": "orig_600i"
+    },
+    {
+      "id": "600i-touring",
+      "cls": "orig_600i_touring"
+    },
+    {
+      "id": "85x",
+      "cls": "orig_85x"
+    },
+    {
+      "id": "890-jump",
+      "cls": "orig_890jump"
+    },
+    {
+      "id": "a1-spirit",
+      "cls": "crus_spirit_a1"
+    },
+    {
+      "id": "a2-hercules",
+      "cls": "crus_starlifter_a2"
+    },
+    {
+      "id": "anvil-ballista-dunestalker",
+      "cls": "anvl_ballista_dunestalker"
+    },
+    {
+      "id": "anvil-ballista-snowblind",
+      "cls": "anvl_ballista_snowblind"
+    },
+    {
+      "id": "apollo-medivac",
+      "cls": "rsi_apollo_medivac"
+    },
+    {
+      "id": "apollo-triage",
+      "cls": "rsi_apollo_triage"
+    },
+    {
+      "id": "ares-inferno",
+      "cls": "crus_starfighter_inferno"
+    },
+    {
+      "id": "ares-ion",
+      "cls": "crus_starfighter_ion"
+    },
+    {
+      "id": "arrow",
+      "cls": "anvl_arrow"
+    },
+    {
+      "id": "asgard",
+      "cls": "anvl_asgard"
+    },
+    {
+      "id": "aurora-cl",
+      "cls": "rsi_aurora_gs_cl",
+      "rsiName": "Aurora Mk I CL"
+    },
+    {
+      "id": "aurora-es",
+      "cls": "rsi_aurora_gs_es",
+      "rsiName": "Aurora Mk I ES"
+    },
+    {
+      "id": "aurora-ln",
+      "cls": "rsi_aurora_gs_ln",
+      "rsiName": "Aurora Mk I LN"
+    },
+    {
+      "id": "aurora-lx",
+      "cls": "rsi_aurora_gs_lx",
+      "rsiName": "Aurora Mk I LX"
+    },
+    {
+      "id": "aurora-mk1-se",
+      "cls": "rsi_aurora_gs_se",
+      "rsiName": "Aurora Mk I SE"
+    },
+    {
+      "id": "aurora-mk2",
+      "cls": "rsi_aurora_mk2",
+      "rsiName": "Aurora Mk II"
+    },
+    {
+      "id": "aurora-mr",
+      "cls": "rsi_aurora_gs_mr",
+      "rsiName": "Aurora Mk I MR"
+    },
+    {
+      "id": "avenger-stalker",
+      "cls": "aegs_avenger_stalker"
+    },
+    {
+      "id": "avenger-titan",
+      "cls": "aegs_avenger_titan"
+    },
+    {
+      "id": "avenger-titan-renegade",
+      "cls": "aegs_avenger_titan_renegade"
+    },
+    {
+      "id": "avenger-warlock",
+      "cls": "aegs_avenger_warlock"
+    },
+    {
+      "id": "ballista",
+      "cls": "anvl_ballista"
+    },
+    {
+      "id": "basher",
+      "cls": "glsn_basher"
+    },
+    {
+      "id": "blade",
+      "cls": "vncl_blade"
+    },
+    {
+      "id": "buccaneer",
+      "cls": "drak_buccaneer"
+    },
+    {
+      "id": "c1-spirit",
+      "cls": "crus_spirit_c1"
+    },
+    {
+      "id": "c2-hercules",
+      "cls": "crus_starlifter_c2"
+    },
+    {
+      "id": "c8-pisces",
+      "cls": "anvl_c8_pisces"
+    },
+    {
+      "id": "c8r-pisces",
+      "cls": "anvl_c8r_pisces"
+    },
+    {
+      "id": "c8x-pisces-expedition",
+      "cls": "anvl_c8x_pisces_expedition"
+    },
+    {
+      "id": "carrack",
+      "cls": "anvl_carrack"
+    },
+    {
+      "id": "carrack-expedition",
+      "cls": "anvl_carrack_expedition"
+    },
+    {
+      "id": "caterpillar",
+      "cls": "drak_caterpillar"
+    },
+    {
+      "id": "centurion",
+      "cls": "anvl_centurion"
+    },
+    {
+      "id": "clipper",
+      "cls": "drak_clipper"
+    },
+    {
+      "id": "constellation-andromeda",
+      "cls": "rsi_constellation_andromeda_gs",
+      "rsiName": "Constellation Mk IV Andromeda"
+    },
+    {
+      "id": "constellation-aquila",
+      "cls": "rsi_constellation_aquila_gs",
+      "rsiName": "Constellation Mk IV Aquila"
+    },
+    {
+      "id": "constellation-mk5-centaurus",
+      "cls": "rsi_constellation_mk5_centaurus"
+    },
+    {
+      "id": "constellation-phoenix",
+      "cls": "rsi_constellation_phoenix_gs",
+      "rsiName": "Constellation Mk IV Phoenix"
+    },
+    {
+      "id": "constellation-taurus",
+      "cls": "rsi_constellation_taurus_gs",
+      "rsiName": "Constellation Mk IV Taurus"
+    },
+    {
+      "id": "corsair",
+      "cls": "drak_corsair"
+    },
+    {
+      "id": "csv-sm",
+      "cls": "argo_csv_cargo"
+    },
+    {
+      "id": "cutlass-black",
+      "cls": "drak_cutlass_black"
+    },
+    {
+      "id": "cutlass-blue",
+      "cls": "drak_cutlass_blue"
+    },
+    {
+      "id": "cutlass-red",
+      "cls": "drak_cutlass_red"
+    },
+    {
+      "id": "cutlass-steel",
+      "cls": "drak_cutlass_steel"
+    },
+    {
+      "id": "cutter",
+      "cls": "drak_cutter"
+    },
+    {
+      "id": "cutter-rambler",
+      "cls": "drak_cutter_rambler"
+    },
+    {
+      "id": "cutter-scout",
+      "cls": "drak_cutter_scout"
+    },
+    {
+      "id": "cyclone",
+      "cls": "tmbl_cyclone"
+    },
+    {
+      "id": "cyclone-aa",
+      "cls": "tmbl_cyclone_aa"
+    },
+    {
+      "id": "cyclone-mt",
+      "cls": "tmbl_cyclone_mt"
+    },
+    {
+      "id": "cyclone-rc",
+      "cls": "tmbl_cyclone_rc"
+    },
+    {
+      "id": "cyclone-rn",
+      "cls": "tmbl_cyclone_rn"
+    },
+    {
+      "id": "cyclone-tr",
+      "cls": "tmbl_cyclone_tr"
+    },
+    {
+      "id": "defender",
+      "cls": "banu_defender"
+    },
+    {
+      "id": "dragonfly-black",
+      "cls": "drak_dragonfly"
+    },
+    {
+      "id": "dragonfly-yellowjacket",
+      "cls": "drak_dragonfly_yellow"
+    },
+    {
+      "id": "eclipse",
+      "cls": "aegs_eclipse"
+    },
+    {
+      "id": "f7a-hornet-mk-i",
+      "cls": "anvl_hornet_f7a_mk1"
+    },
+    {
+      "id": "f7a-hornet-mk-ii",
+      "cls": "anvl_hornet_f7a_mk2"
+    },
+    {
+      "id": "f7c-hornet-mk-i",
+      "cls": "anvl_hornet_f7c"
+    },
+    {
+      "id": "f7c-hornet-mk-ii",
+      "cls": "anvl_hornet_f7c_mk2"
+    },
+    {
+      "id": "f7c-hornet-wildfire-mk-i",
+      "cls": "anvl_hornet_f7c_wildfire"
+    },
+    {
+      "id": "f7c-m-super-hornet-heartseeker-mk-i",
+      "cls": "anvl_hornet_f7cm_heartseeker"
+    },
+    {
+      "id": "f7c-m-super-hornet-mk-i",
+      "cls": "anvl_hornet_f7cm"
+    },
+    {
+      "id": "f7c-m-super-hornet-mk-ii",
+      "cls": "anvl_hornet_f7cm_mk2"
+    },
+    {
+      "id": "f7c-r-hornet-tracker-mk-i",
+      "cls": "anvl_hornet_f7cr"
+    },
+    {
+      "id": "f7c-r-hornet-tracker-mk-ii",
+      "cls": "anvl_hornet_f7cr_mk2"
+    },
+    {
+      "id": "f7c-s-hornet-ghost-mk-i",
+      "cls": "anvl_hornet_f7cs"
+    },
+    {
+      "id": "f7c-s-hornet-ghost-mk-ii",
+      "cls": "anvl_hornet_f7cs_mk2"
+    },
+    {
+      "id": "f8c-lightning",
+      "cls": "anvl_lightning_f8c"
+    },
+    {
+      "id": "fortune",
+      "cls": "misc_fortune"
+    },
+    {
+      "id": "freelancer",
+      "cls": "misc_freelancer"
+    },
+    {
+      "id": "freelancer-dur",
+      "cls": "misc_freelancer_dur"
+    },
+    {
+      "id": "freelancer-max",
+      "cls": "misc_freelancer_max"
+    },
+    {
+      "id": "freelancer-mis",
+      "cls": "misc_freelancer_mis"
+    },
+    {
+      "id": "fury",
+      "cls": "misc_fury"
+    },
+    {
+      "id": "fury-lx",
+      "cls": "misc_fury_lx"
+    },
+    {
+      "id": "fury-mx",
+      "cls": "misc_fury_miru"
+    },
+    {
+      "id": "galaxy",
+      "cls": "rsi_galaxy"
+    },
+    {
+      "id": "gladiator",
+      "cls": "anvl_gladiator"
+    },
+    {
+      "id": "gladius",
+      "cls": "aegs_gladius"
+    },
+    {
+      "id": "gladius-pirate-edition",
+      "cls": "aegs_gladius_pir"
+    },
+    {
+      "id": "gladius-valiant",
+      "cls": "aegs_gladius_valiant"
+    },
+    {
+      "id": "glaive",
+      "cls": "vncl_glaive"
+    },
+    {
+      "id": "golem",
+      "cls": "drak_golem"
+    },
+    {
+      "id": "golem-ox",
+      "cls": "drak_golem_ox"
+    },
+    {
+      "id": "guardian",
+      "cls": "mrai_guardian"
+    },
+    {
+      "id": "guardian-mx",
+      "cls": "mrai_guardian_mx"
+    },
+    {
+      "id": "guardian-qi",
+      "cls": "mrai_guardian_qi"
+    },
+    {
+      "id": "hammerhead",
+      "cls": "aegs_hammerhead_gs"
+    },
+    {
+      "id": "hawk",
+      "cls": "anvl_hawk"
+    },
+    {
+      "id": "herald",
+      "cls": "drak_herald"
+    },
+    {
+      "id": "hermes",
+      "cls": "rsi_hermes"
+    },
+    {
+      "id": "hoverquad",
+      "cls": "cnou_hoverquad"
+    },
+    {
+      "id": "hull-a",
+      "cls": "misc_hull_a"
+    },
+    {
+      "id": "hull-b",
+      "cls": "misc_hull_b"
+    },
+    {
+      "id": "hull-c",
+      "cls": "misc_hull_c"
+    },
+    {
+      "id": "hurricane",
+      "cls": "anvl_hurricane"
+    },
+    {
+      "id": "hyun",
+      "cls": "gama_hyun"
+    },
+    {
+      "id": "idris-m",
+      "cls": "aegs_idris_m"
+    },
+    {
+      "id": "idris-p",
+      "cls": "aegs_idris_p"
+    },
+    {
+      "id": "intrepid",
+      "cls": "crus_intrepid"
+    },
+    {
+      "id": "ironclad",
+      "cls": "drak_ironclad"
+    },
+    {
+      "id": "ironclad-assault",
+      "cls": "drak_ironclad_assault"
+    },
+    {
+      "id": "khartu-al",
+      "cls": "xian_scout"
+    },
+    {
+      "id": "l-21-wolf",
+      "cls": "krig_l21_wolf"
+    },
+    {
+      "id": "l-22-alpha-wolf",
+      "cls": "krig_l22_alphawolf"
+    },
+    {
+      "id": "liberator",
+      "cls": "anvl_liberator"
+    },
+    {
+      "id": "lynx",
+      "cls": "rsi_lynx"
+    },
+    {
+      "id": "m2-hercules",
+      "cls": "crus_starlifter_m2"
+    },
+    {
+      "id": "m50",
+      "cls": "orig_m50"
+    },
+    {
+      "id": "m80",
+      "cls": "orig_m80"
+    },
+    {
+      "id": "mantis",
+      "cls": "rsi_mantis"
+    },
+    {
+      "id": "marauder",
+      "cls": "drak_marauder"
+    },
+    {
+      "id": "mdc",
+      "cls": "grin_mdc"
+    },
+    {
+      "id": "mercury",
+      "cls": "crus_star_runner"
+    },
+    {
+      "id": "meteor",
+      "cls": "rsi_meteor"
+    },
+    {
+      "id": "mole",
+      "cls": "argo_mole"
+    },
+    {
+      "id": "moth",
+      "cls": "argo_moth"
+    },
+    {
+      "id": "mpuv-cargo",
+      "cls": "argo_mpuv"
+    },
+    {
+      "id": "mpuv-personnel",
+      "cls": "argo_mpuv_transport"
+    },
+    {
+      "id": "mpuv-tractor",
+      "cls": "argo_mpuv_1t"
+    },
+    {
+      "id": "mtc",
+      "cls": "grin_mtc"
+    },
+    {
+      "id": "mule",
+      "cls": "drak_mule"
+    },
+    {
+      "id": "mustang-alpha",
+      "cls": "cnou_mustang_alpha"
+    },
+    {
+      "id": "mustang-beta",
+      "cls": "cnou_mustang_beta"
+    },
+    {
+      "id": "mustang-delta",
+      "cls": "cnou_mustang_delta"
+    },
+    {
+      "id": "mustang-gamma",
+      "cls": "cnou_mustang_gamma"
+    },
+    {
+      "id": "mustang-omega",
+      "cls": "cnou_mustang_omega"
+    },
+    {
+      "id": "nomad",
+      "cls": "cnou_nomad"
+    },
+    {
+      "id": "nova",
+      "cls": "tmbl_nova"
+    },
+    {
+      "id": "nox",
+      "cls": "xian_nox"
+    },
+    {
+      "id": "nox-kue",
+      "cls": "xian_nox_kue"
+    },
+    {
+      "id": "p-52-merlin",
+      "cls": "krig_p52_merlin"
+    },
+    {
+      "id": "p-72-archimedes",
+      "cls": "krig_p72_archimedes"
+    },
+    {
+      "id": "p-72-archimedes-emerald",
+      "cls": "krig_p72_archimedes_emerald"
+    },
+    {
+      "id": "paladin",
+      "cls": "anvl_paladin"
+    },
+    {
+      "id": "perseus",
+      "cls": "rsi_perseus"
+    },
+    {
+      "id": "pitbull",
+      "cls": "drak_pitbull"
+    },
+    {
+      "id": "polaris",
+      "cls": "rsi_polaris"
+    },
+    {
+      "id": "prospector",
+      "cls": "misc_prospector"
+    },
+    {
+      "id": "prowler",
+      "cls": "espr_prowler"
+    },
+    {
+      "id": "prowler-utility",
+      "cls": "espr_prowler_utility"
+    },
+    {
+      "id": "ptv",
+      "cls": "grin_ptv"
+    },
+    {
+      "id": "pulse",
+      "cls": "mrai_pulse"
+    },
+    {
+      "id": "pulse-lx",
+      "cls": "mrai_pulse_lx"
+    },
+    {
+      "id": "raft",
+      "cls": "argo_raft"
+    },
+    {
+      "id": "railen",
+      "cls": "gama_railen"
+    },
+    {
+      "id": "razor",
+      "cls": "misc_razor"
+    },
+    {
+      "id": "razor-ex",
+      "cls": "misc_razor_ex"
+    },
+    {
+      "id": "razor-lx",
+      "cls": "misc_razor_lx"
+    },
+    {
+      "id": "reclaimer",
+      "cls": "aegs_reclaimer"
+    },
+    {
+      "id": "redeemer",
+      "cls": "aegs_redeemer"
+    },
+    {
+      "id": "reliant-kore",
+      "cls": "misc_reliant"
+    },
+    {
+      "id": "reliant-mako",
+      "cls": "misc_reliant_mako"
+    },
+    {
+      "id": "reliant-sen",
+      "cls": "misc_reliant_sen"
+    },
+    {
+      "id": "reliant-tana",
+      "cls": "misc_reliant_tana"
+    },
+    {
+      "id": "retaliator",
+      "cls": "aegs_retaliator"
+    },
+    {
+      "id": "roc",
+      "cls": "grin_roc"
+    },
+    {
+      "id": "roc-ds",
+      "cls": "grin_roc_ds"
+    },
+    {
+      "id": "s65-stingray",
+      "cls": "krig_s65_stingray"
+    },
+    {
+      "id": "sabre",
+      "cls": "aegs_sabre"
+    },
+    {
+      "id": "sabre-comet",
+      "cls": "aegs_sabre_comet"
+    },
+    {
+      "id": "sabre-firebird",
+      "cls": "aegs_sabre_firebird"
+    },
+    {
+      "id": "sabre-peregrine",
+      "cls": "aegs_sabre_peregrine"
+    },
+    {
+      "id": "sabre-raven",
+      "cls": "aegs_sabre_raven"
+    },
+    {
+      "id": "sabre-raven-ex",
+      "cls": "aegs_sabre_raven_ex"
+    },
+    {
+      "id": "salvation",
+      "cls": "rsi_salvation"
+    },
+    {
+      "id": "san-tok-y-i",
+      "cls": "xnaa_santokyai"
+    },
+    {
+      "id": "scorpius",
+      "cls": "rsi_scorpius"
+    },
+    {
+      "id": "scorpius-antares",
+      "cls": "rsi_scorpius_antares"
+    },
+    {
+      "id": "scythe",
+      "cls": "vncl_scythe"
+    },
+    {
+      "id": "shiv",
+      "cls": "glsn_shiv"
+    },
+    {
+      "id": "skylark",
+      "cls": "rsi_skylark"
+    },
+    {
+      "id": "spartan",
+      "cls": "anvl_spartan"
+    },
+    {
+      "id": "srv",
+      "cls": "argo_srv"
+    },
+    {
+      "id": "starfarer",
+      "cls": "misc_starfarer"
+    },
+    {
+      "id": "starfarer-gemini",
+      "cls": "misc_starfarer_gemini"
+    },
+    {
+      "id": "starlancer-max",
+      "cls": "misc_starlancer_max"
+    },
+    {
+      "id": "starlancer-tac",
+      "cls": "misc_starlancer_tac"
+    },
+    {
+      "id": "starlite",
+      "cls": "misc_starlite"
+    },
+    {
+      "id": "stinger",
+      "cls": "vncl_stinger"
+    },
+    {
+      "id": "storm",
+      "cls": "tmbl_storm"
+    },
+    {
+      "id": "storm-aa",
+      "cls": "tmbl_storm_aa"
+    },
+    {
+      "id": "stv",
+      "cls": "grin_stv"
+    },
+    {
+      "id": "syulen",
+      "cls": "gama_syulen"
+    },
+    {
+      "id": "talon",
+      "cls": "espr_talon"
+    },
+    {
+      "id": "talon-shrike",
+      "cls": "espr_talon_shrike"
+    },
+    {
+      "id": "terrapin",
+      "cls": "anvl_terrapin"
+    },
+    {
+      "id": "terrapin-medic",
+      "cls": "anvl_terrapin_medic"
+    },
+    {
+      "id": "tiburon",
+      "cls": "aegs_tiburon"
+    },
+    {
+      "id": "tyilui",
+      "cls": "gama_tyilui"
+    },
+    {
+      "id": "ursa",
+      "cls": "rsi_ursa_rover"
+    },
+    {
+      "id": "ursa-fortuna",
+      "cls": "rsi_ursa_rover_emerald"
+    },
+    {
+      "id": "ursa-medivac",
+      "cls": "rsi_ursa_medivac"
+    },
+    {
+      "id": "utv",
+      "cls": "grin_utv"
+    },
+    {
+      "id": "valkyrie",
+      "cls": "anvl_valkyrie"
+    },
+    {
+      "id": "vanguard-harbinger",
+      "cls": "aegs_vanguard_harbinger"
+    },
+    {
+      "id": "vanguard-hoplite",
+      "cls": "aegs_vanguard_hoplite"
+    },
+    {
+      "id": "vanguard-sentinel",
+      "cls": "aegs_vanguard_sentinel"
+    },
+    {
+      "id": "vanguard-warden",
+      "cls": "aegs_vanguard"
+    },
+    {
+      "id": "vulture",
+      "cls": "drak_vulture"
+    },
+    {
+      "id": "x1",
+      "cls": "orig_x1"
+    },
+    {
+      "id": "x1-force",
+      "cls": "orig_x1_force"
+    },
+    {
+      "id": "x1-velocity",
+      "cls": "orig_x1_velocity"
+    },
+    {
+      "id": "zeus-mk2-cl",
+      "cls": "rsi_zeus_cl",
+      "rsiName": "Zeus Mk II CL"
+    },
+    {
+      "id": "zeus-mk2-es",
+      "cls": "rsi_zeus_es",
+      "rsiName": "Zeus Mk II ES"
+    }
+  ]
+}

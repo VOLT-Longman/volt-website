@@ -99,7 +99,7 @@
     function cargoDisplay(ship) {
         const c = canonicalShip(ship);
         if (c?.source === 'rsi-official') return Number.isFinite(c.cargoScu) ? `${c.cargoScu.toLocaleString('en-US')} SCU` : officialMissingValue();
-        return c && c.cargoScu != null ? `${c.cargoScu.toLocaleString('en-US')} SCU` : ship.cargo;
+        return c && c.cargoScu != null ? `${c.cargoScu.toLocaleString('en-US')} SCU` : '—';
     }
     function cargoValueNum(ship) {
         const c = canonicalShip(ship);
@@ -176,6 +176,7 @@
     // 카드 태그(ON): 규모·플랫폼 1 + 역할군 최대 2. 세부 역할은 별도 메타 행에서 렌더한다.
     function renderCardTags(ship) {
         const parts = [];
+        if (canonicalShip(ship)?.catalogStatus === 'unconfirmed') parts.push(`<span class="ship-rsi-status">${currentLang() === 'en' ? 'Release unconfirmed · game files' : '출시 미확인 · 게임 파일 수록'}</span>`);
         if (isRsiOfficialShip(ship)) {
             const status = canonicalShip(ship).catalogStatus || 'concept';
             const fullLabel = rsiStatusLabel(ship);
@@ -1017,6 +1018,7 @@
         // 둘 다 없으면 기존 volt-data 설명(legacy)으로 폴백한다.
         if (currentLang() === 'en' && live?.descriptions?.en) return live.descriptions.en;
         if (currentLang() !== 'en' && live?.descriptions?.ko) return live.descriptions.ko;
+        if (live?.source === 'game-files') return (currentLang() === 'en' ? live.descriptions?.en : '한국어 패치에 설명이 없어 영문을 표시합니다.\n' + (live.descriptions?.en || '')) || '';
         return tx(ship, 'description');
     }
     // 카드(외부)·모달(내부) 설명을 하나로 통합. live 레이어가 로드돼 있으면 Erkul 번역 설명,
@@ -1045,7 +1047,7 @@
         return `<section class="ship-live-summary">
                 <div class="ship-live-heading">
                     <h3>${escapeHtml(i18nT('ships.live.title', 'Live 상세 정보'))}</h3>
-                    <span class="ship-live-meta">${escapeHtml(i18nT('ships.live.source', 'Erkul live'))} · ${escapeHtml(version)}${synced ? ` · ${escapeHtml(synced)}` : ''}</span>
+                    <span class="ship-live-meta">${escapeHtml(live.source === 'game-files' ? (currentLang() === 'en' ? 'Star Citizen game files · prices: UEX' : 'Star Citizen 게임 파일 · 가격: UEX') : i18nT('ships.live.source', 'Erkul live'))} · ${escapeHtml(version)}${synced ? ` · ${escapeHtml(synced)}` : ''}</span>
                 </div>
                 <div class="ship-modal-grid ship-live-grid">${items}</div>
                 <p class="ship-live-meta">${escapeHtml(i18nT('ships.live.cargoScope', '화물량은 일반 화물칸 기준이며 채굴용 광석 저장량과는 다릅니다.'))}</p>

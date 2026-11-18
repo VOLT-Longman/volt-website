@@ -49,8 +49,7 @@ test('ShipDB: 승인된 Erkul 선체 중 유지된 4종은 전체 데이터 레�
 test('ShipDB: 최신 원본에 없는 구형 Aurora ES 가격을 판매 중인 가격으로 재사용하지 않는다', async () => {
     const { market } = await readShipData();
     const auroraEs = market['aurora-es'];
-    const catalog = JSON.parse(await readFile(new URL('../../data/external/erkul/catalog-meta.json', import.meta.url), 'utf8'));
-    assert.equal(auroraEs.sourceVersion, catalog.version);
+    assert.equal(auroraEs.source, 'uex');
     assert.equal(auroraEs.purchase.length, 0);
     assert.equal(auroraEs.rentals.length, 0);
 });

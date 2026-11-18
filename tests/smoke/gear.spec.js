@@ -138,7 +138,7 @@ test('착용 시험: 방어구를 입히면 부위별 한 발 피해가 게임 �
     await expect(page.locator('[data-gear-slot="core"]')).toBeFocused();
     await expect(row('몸통').locator('td').nth(1)).toHaveText('7.2');
     await expect(row('몸통')).toContainText('10발');
-    await expect(page.locator('.gear-body-part.is-covered')).toHaveCount(1);
+    await expect(page.locator('.gear-silhouette-part.is-protected')).toHaveCount(1);
     // 거리 60m: 40m부터 미터당 0.05 감소 → 11. 몸통 6.6.
     await page.locator('#gear-fit-distance').fill('60');
     await page.locator('#gear-fit-distance').dispatchEvent('change');
@@ -207,15 +207,15 @@ test('착용 시험: 빠른 세트 단추로 등급별 방어구를 한 번에 �
     await page.locator('#gear-search').fill('P4-AR');
     await page.locator('.gear-list [data-gear-pick]').first().click();
     await page.locator('[data-gear-shoot]').click();
-    await expect(page.locator('.gear-mannequin .gear-tag')).toHaveCount(6);
+    await expect(page.locator('.gear-body-card')).toHaveCount(6);
     await expect(page.locator('.gear-fit-headline')).toContainText('2발'); // 맨몸 머리: 48씩, 체력 70
     await page.locator('[data-gear-preset="heavy"]').click();
     await expect(page.locator('[data-gear-preset="heavy"]')).toBeFocused();
-    await expect(page.locator('.gear-body-part.is-covered')).toHaveCount(6);
+    await expect(page.locator('.gear-silhouette-part.is-protected')).toHaveCount(6);
     for (const slot of ['helmet', 'core', 'arms', 'legs']) await expect(page.locator(`[data-gear-slot="${slot}"]`)).not.toHaveValue('');
     await expect(page.locator('.gear-fit-headline')).toContainText('7발'); // 중(重)장갑 머리: 12 × 1.5 × 0.6 = 10.8
     await page.locator('[data-gear-preset=""]').click();
-    await expect(page.locator('.gear-body-part.is-covered')).toHaveCount(0);
+    await expect(page.locator('.gear-silhouette-part.is-protected')).toHaveCount(0);
 });
 
 test('개인 장비: 위키 이미지는 만든 사람·이용 조건·원본 링크와 함께 나온다', async ({ page }) => {
@@ -285,4 +285,58 @@ test('개인 장비: 장바구니를 먼저 열어도 늦게 도착한 가격이
     await page.locator('[data-gear-view="cart"]').click();
     release();
     await expect(page.locator('.gear-cart-total')).toContainText('5,130');
+});
+
+
+test('개인 장비 DB: 구매 가능·제조사·피해·탄창 필터를 조합하고 초기화한다', async ({ page }) => {
+    await openGear(page);
+    await page.locator('#gear-shop-only').check();
+    await expect(page.locator('.gear-list tbody tr')).toHaveCount(1);
+    await page.locator('#gear-maker').selectOption('Behring');
+    await page.locator('#gear-kind').selectOption('rifle');
+    await page.locator('#gear-damage-type').selectOption('physical');
+    await page.locator('#gear-fire-mode').selectOption('rapid');
+    await page.locator('#gear-min-mag').fill('40');
+    await page.locator('#gear-min-mag').press('Tab');
+    await expect(page.locator('.gear-list tbody tr')).toHaveCount(1);
+    await expect(page.locator('.gear-list')).toContainText('P4-AR');
+    await page.locator('#gear-min-mag').fill('41');
+    await page.locator('#gear-min-mag').press('Tab');
+    await expect(page.locator('.gear-empty')).toBeVisible();
+    await page.locator('.gear-empty [data-gear-reset-filters]').click();
+    await expect(page.locator('#gear-shop-only')).not.toBeChecked();
+    await expect(page.locator('#gear-maker')).toHaveValue('');
+    expect(await page.locator('.gear-list tbody tr').count()).toBeGreaterThan(40);
+});
+
+test('개인 장비 DB: 구매 자료 실패를 품절로 단정하지 않고 다시 불러온다', async ({ page }) => {
+    await mockApi(page);
+    let failed = true;
+    await page.route('**/api/uex/loadout-prices**', route => failed ? route.fulfill({status:503,json:{error:'down'}}) : route.fulfill({json:{data:{[P4AR]:[{shop:'Test shop',price:5000}]},byName:[]}}));
+    await gotoSection(page, '#gear');
+    await expect(page.locator('[data-gear-price-retry]')).toBeVisible();
+    await page.locator('#gear-shop-only').check();
+    await expect(page.locator('.gear-filters')).toContainText('가격을 불러오지 못했습니다');
+    failed = false;
+    await page.locator('[data-gear-price-retry]').click();
+    await expect(page.locator('.gear-list tbody tr')).toHaveCount(1);
+    await expect(page.locator('.gear-list')).toContainText('5,000');
+});
+
+test('개인 장비 DB: 휴대폰 필터를 펼쳐 조작하고 부위 선택으로 보호 장비를 확인한다', async ({ page }) => {
+    await page.setViewportSize({width:375,height:812});
+    await openGear(page);
+    await expect(page.locator('.gear-filters')).not.toHaveAttribute('open');
+    await page.locator('.gear-filters summary').click();
+    await page.locator('#gear-shop-only').check();
+    await expect(page.locator('.gear-list tbody tr')).toHaveCount(1);
+    await expect(page.locator('.gear-list tbody td:last-child')).toBeVisible();
+    await page.locator('[data-gear-view="fit"]').click();
+    await page.locator('[data-gear-preset="heavy"]').click();
+    await page.locator('[data-gear-part="head"]').click();
+    await expect(page.locator('[data-gear-part="head"]')).toHaveAttribute('aria-pressed','true');
+    await expect(page.locator('.gear-body-inspector')).toContainText('머리');
+    await expect(page.locator('.gear-body-inspector')).toContainText('헬멧');
+    await expect(page.locator('.gear-body-card')).toHaveCount(6);
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

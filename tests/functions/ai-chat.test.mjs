@@ -213,7 +213,7 @@ test('AI 추천(모델 없음 fallback): 도구 수치 + 출처·동기화 시�
     assert.equal(body.intent, 'recommend');
     assert.match(body.answer, /asgard/);
     assert.match(body.answer, /220/);
-    assert.match(body.sources[0].label, /Erkul/);
+    assert.match(body.sources[0].label, /게임 파일/);
     assert.equal(body.freshness.at, '2026-07-08T12:00:00.000Z');
     // 대화 원문은 KV 어디에도 저장되지 않는다 — 사용량·도구 종류 카운터만 존재
     const keys = [...env.RATE_LIMIT_KV.store.keys()];
@@ -313,7 +313,7 @@ test('AI 모델 사용(M1.1): 확정 답변은 템플릿, 모델 문장은 aiNot
     assert.equal(calls.length, 1);
     assert.match(calls[0].payload.messages[1].content, /TOOL_DATA/);
     assert.match(calls[0].payload.messages[0].content, /무시한다/); // 주입 방어 시스템 프롬프트
-    assert.match(body.sources[0].label, /Erkul/);
+    assert.match(body.sources[0].label, /게임 파일/);
 });
 
 test('AI aiNote 검증(M1.1): 도구에 없는 수치를 말하면 노트 폐기 + 확정 답변 유지', async () => {

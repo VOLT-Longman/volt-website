@@ -92,7 +92,7 @@ function main() {
     const strings = new Map();
     for (const line of game.ini.replace(/^\uFEFF/, '').split(/\r?\n/)) {
         const index = line.indexOf('=');
-        if (index > 0) strings.set(line.slice(0, index).trim().toLowerCase(), line.slice(index + 1).trim());
+        if (index > 0) strings.set(line.slice(0, index).trim().replace(/,P$/i, '').toLowerCase(), line.slice(index + 1).trim());
     }
     const nameKeys = { ships: {}, items: {}, roles: {}, makers: {} };
     const keyOf = (key) => String(key || '').replace(/^@/, '').toLowerCase();
@@ -373,10 +373,8 @@ function main() {
     }
 
     const voltIds = (() => {
-        const text = readFileSync(resolve(ROOT, 'data/ship-live-stats.js'), 'utf8');
-        const marker = 'window.VOLT_SHIP_LIVE_STATS = ';
-        const stats = JSON.parse(text.slice(text.indexOf(marker) + marker.length).trim().replace(/;$/, ''));
-        return new Map(Object.entries(stats).map(([id, row]) => [String(row.erkulLocalName || '').toLowerCase(), id]));
+        const identities = JSON.parse(readFileSync(resolve(ROOT, 'data/canonical/ship-identities.json'), 'utf8'));
+        return new Map(identities.records.map(({ id, cls }) => [cls.toLowerCase(), id]));
     })();
 
     // 플레이어가 타는 함선·차량만 고른다: 함선 폴더에 있고, 실제 이름이 있으며, AI·임무·견본 변형이 아닌 것.

@@ -73,7 +73,7 @@ function commitUsage(env, waitUntil, keys, usage, intent, estCost, failed) {
 const INTENTS = new Set(['recommend', 'compare', 'market', 'events', 'notices']);
 
 const HELP_EN = 'VOLT AI is a data-based beta. Try “recommend cargo ships with 96 SCU”, “asgard vs aurora-es”, “Gold prices”, “upcoming events”, or “recent notices”. Answers use VOLT and UEX records; this is not a general-purpose generative chat.';
-const SOURCE_EN = { recommend: 'VOLT ShipDB · Erkul data', compare: 'VOLT ShipDB · Erkul data', market: 'UEX prices · records updated within 60 minutes', events: 'VOLT public events', notices: 'VOLT public notices' };
+const SOURCE_EN = { recommend: 'VOLT ShipDB · game files', compare: 'VOLT ShipDB · game files', market: 'UEX prices · records updated within 60 minutes', events: 'VOLT public events', notices: 'VOLT public notices' };
 
 async function contextualRoute(env, message, history) {
   const followup = /^(그럼|그러면|그중|대신|then\b|what about\b|instead\b|and\b)/i;

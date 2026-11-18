@@ -1,0 +1,1548 @@
+{
+  "source": "https://robertsspaceindustries.com/ship-matrix/index",
+  "checkedAt": "2026-11-18",
+  "ships": [
+    {
+      "name": "Aurora Mk I ES",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-ES"
+    },
+    {
+      "name": "Aurora Mk I LX",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-LX"
+    },
+    {
+      "name": "Aurora Mk I MR",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-MR"
+    },
+    {
+      "name": "Aurora Mk I CL",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-CL"
+    },
+    {
+      "name": "Aurora Mk I LN",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-LN"
+    },
+    {
+      "name": "Aurora Mk I SE",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-aurora/Aurora-Mk-I-SE"
+    },
+    {
+      "name": "300i",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-300/300i"
+    },
+    {
+      "name": "315p",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-300/315p"
+    },
+    {
+      "name": "325a",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-300/325a"
+    },
+    {
+      "name": "350r",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-300/350r"
+    },
+    {
+      "name": "F7C Hornet Mk I",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-Hornet-Mk-I"
+    },
+    {
+      "name": "F7C Hornet Wildfire Mk I",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-Hornet-Wildfire-Mk-I"
+    },
+    {
+      "name": "F7A Hornet Mk I",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7A-Hornet-Mk-I"
+    },
+    {
+      "name": "F7C-S Hornet Ghost Mk I",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-S-Hornet-Ghost-Mk-I"
+    },
+    {
+      "name": "F7C-R Hornet Tracker Mk I",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-R-Hornet-Tracker-Mk-I"
+    },
+    {
+      "name": "F7C-M Super Hornet Mk I",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-M-Super-Hornet-Mk-I"
+    },
+    {
+      "name": "F7C-M Super Hornet Heartseeker Mk I",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet/F7C-M-Super-Hornet-Heartseeker-Mk-I"
+    },
+    {
+      "name": "Constellation Mk IV Aquila",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Mk-IV-Aquila"
+    },
+    {
+      "name": "Constellation Mk IV Andromeda",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Mk-IV-Andromeda"
+    },
+    {
+      "name": "Constellation Mk IV Taurus",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Mk-IV-Taurus"
+    },
+    {
+      "name": "Constellation Mk IV Phoenix",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-constellation/Constellation-Mk-IV-Phoenix"
+    },
+    {
+      "name": "Freelancer",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/misc-freelancer/Freelancer"
+    },
+    {
+      "name": "Freelancer DUR",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/misc-freelancer/Freelancer-DUR"
+    },
+    {
+      "name": "Freelancer MAX",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/misc-freelancer/Freelancer-MAX"
+    },
+    {
+      "name": "Freelancer MIS",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/misc-freelancer/Freelancer-MIS"
+    },
+    {
+      "name": "Cutlass Black",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-cutlass/Cutlass-Black"
+    },
+    {
+      "name": "Cutlass Red",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-cutlass/Cutlass-Red"
+    },
+    {
+      "name": "Cutlass Blue",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-cutlass/Cutlass-Blue"
+    },
+    {
+      "name": "Cutlass Steel",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-cutlass/Cutlass-Steel"
+    },
+    {
+      "name": "Avenger Stalker",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-avenger/Avenger-Stalker"
+    },
+    {
+      "name": "Avenger Titan Renegade",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-avenger/Avenger-Titan-Renegade"
+    },
+    {
+      "name": "Avenger Warlock",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-avenger/Avenger-Warlock"
+    },
+    {
+      "name": "Avenger Titan",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-avenger/Avenger-Titan"
+    },
+    {
+      "name": "Gladiator",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-gladiator/Gladiator"
+    },
+    {
+      "name": "M50",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-m50/M50"
+    },
+    {
+      "name": "Starfarer",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/misc-starfarer/Starfarer"
+    },
+    {
+      "name": "Starfarer Gemini",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/misc-starfarer/Starfarer-Gemini"
+    },
+    {
+      "name": "Caterpillar",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-caterpillar/Caterpillar"
+    },
+    {
+      "name": "Retaliator",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-retaliator/Retaliator"
+    },
+    {
+      "name": "Scythe",
+      "manufacturer": "Vanduul",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/scythe/Scythe"
+    },
+    {
+      "name": "Idris-M",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-idris/Idris-M"
+    },
+    {
+      "name": "Idris-P",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-idris/Idris-P"
+    },
+    {
+      "name": "P-52 Merlin",
+      "manufacturer": "Kruger Intergalactic",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/p52-merlin/P-52-Merlin"
+    },
+    {
+      "name": "Mustang Alpha",
+      "manufacturer": "Consolidated Outland",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Alpha"
+    },
+    {
+      "name": "Mustang Beta",
+      "manufacturer": "Consolidated Outland",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Beta"
+    },
+    {
+      "name": "Mustang Gamma",
+      "manufacturer": "Consolidated Outland",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Gamma"
+    },
+    {
+      "name": "Mustang Delta",
+      "manufacturer": "Consolidated Outland",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Delta"
+    },
+    {
+      "name": "Mustang Omega",
+      "manufacturer": "Consolidated Outland",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Omega"
+    },
+    {
+      "name": "Mustang Alpha Vindicator",
+      "manufacturer": "Consolidated Outland",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mustang/Mustang-Alpha-Vindicator"
+    },
+    {
+      "name": "Redeemer",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/redeemer/Redeemer"
+    },
+    {
+      "name": "Gladius",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/gladius/Gladius"
+    },
+    {
+      "name": "Gladius Valiant",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/gladius/Gladius-Valiant"
+    },
+    {
+      "name": "Gladius Pirate Edition",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/gladius/Gladius-Pirate-Edition"
+    },
+    {
+      "name": "Khartu-al",
+      "manufacturer": "Aopoa",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/khartu/Khartu-Al"
+    },
+    {
+      "name": "Merchantman",
+      "manufacturer": "Banu",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/merchantman/Merchantman"
+    },
+    {
+      "name": "890 Jump",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/890-jump/890-Jump"
+    },
+    {
+      "name": "Carrack",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/carrack/Carrack"
+    },
+    {
+      "name": "Carrack w/C8X",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/carrack/Carrack-W-C8X"
+    },
+    {
+      "name": "Carrack Expedition w/C8X",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/carrack/Carrack-Expedition-W-C8X"
+    },
+    {
+      "name": "Carrack Expedition",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/carrack/Carrack-Expedition"
+    },
+    {
+      "name": "Herald",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/herald/Herald"
+    },
+    {
+      "name": "Hull C",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-C"
+    },
+    {
+      "name": "Hull A",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-A"
+    },
+    {
+      "name": "Hull B",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-B"
+    },
+    {
+      "name": "Hull D",
+      "manufacturer": "MISC",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-D"
+    },
+    {
+      "name": "Hull E",
+      "manufacturer": "MISC",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hull/Hull-E"
+    },
+    {
+      "name": "Orion",
+      "manufacturer": "Roberts Space Industries",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/orion/Orion"
+    },
+    {
+      "name": "Reclaimer",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/reclaimer/Reclaimer"
+    },
+    {
+      "name": "Javelin",
+      "manufacturer": "Aegis Dynamics",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-javelin/Javelin"
+    },
+    {
+      "name": "Vanguard Warden",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/vanguard/Vanguard-Warden"
+    },
+    {
+      "name": "Vanguard Harbinger",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/vanguard/Vanguard-Harbinger"
+    },
+    {
+      "name": "Vanguard Sentinel",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/vanguard/Vanguard-Sentinel"
+    },
+    {
+      "name": "Vanguard Hoplite",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/vanguard/Vanguard-Hoplite"
+    },
+    {
+      "name": "Reliant Kore",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/reliant/Reliant-Kore"
+    },
+    {
+      "name": "Reliant Mako",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/reliant/Reliant-Mako"
+    },
+    {
+      "name": "Reliant Sen",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/reliant/Reliant-Sen"
+    },
+    {
+      "name": "Reliant Tana",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/reliant/Reliant-Tana"
+    },
+    {
+      "name": "Genesis",
+      "manufacturer": "Crusader Industries",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/starliner/Genesis"
+    },
+    {
+      "name": "Glaive",
+      "manufacturer": "Esperia",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/esperia-glaive/Glaive"
+    },
+    {
+      "name": "Endeavor",
+      "manufacturer": "MISC",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/misc-endeavor/Endeavor"
+    },
+    {
+      "name": "Sabre",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre"
+    },
+    {
+      "name": "Sabre Comet",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Comet"
+    },
+    {
+      "name": "Sabre Raven",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Raven"
+    },
+    {
+      "name": "Sabre Firebird",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Firebird"
+    },
+    {
+      "name": "Sabre Peregrine",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Peregrine"
+    },
+    {
+      "name": "Sabre Raven EX",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Raven-EX"
+    },
+    {
+      "name": "Crucible",
+      "manufacturer": "Anvil Aerospace",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/crucible/Crucible"
+    },
+    {
+      "name": "P-72 Archimedes",
+      "manufacturer": "Kruger Intergalactic",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/p72-archimedes/P-72-Archimedes"
+    },
+    {
+      "name": "P-72 Archimedes Emerald",
+      "manufacturer": "Kruger Intergalactic",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/p72-archimedes/P-72-Archimedes-Emerald"
+    },
+    {
+      "name": "Blade",
+      "manufacturer": "Esperia",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/vanduul-blade/Blade"
+    },
+    {
+      "name": "Prospector",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/misc-prospector/Prospector"
+    },
+    {
+      "name": "Buccaneer",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-buccaneer/Buccaneer"
+    },
+    {
+      "name": "Dragonfly Yellowjacket",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-dragonfly/Dragonfly-Yellowjacket"
+    },
+    {
+      "name": "Dragonfly Black",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-dragonfly/Dragonfly-Black"
+    },
+    {
+      "name": "MPUV Personnel",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/argo/MPUV-Personnel"
+    },
+    {
+      "name": "MPUV Cargo",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/argo/MPUV-Cargo"
+    },
+    {
+      "name": "MPUV Tractor",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/argo/MPUV-Tractor"
+    },
+    {
+      "name": "Terrapin",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/terrapin/Terrapin"
+    },
+    {
+      "name": "Terrapin Medic",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/terrapin/Terrapin-Medic"
+    },
+    {
+      "name": "Polaris",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/polaris/Polaris"
+    },
+    {
+      "name": "Prowler",
+      "manufacturer": "Esperia",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/prowler/Prowler"
+    },
+    {
+      "name": "Prowler Utility",
+      "manufacturer": "Esperia",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/prowler/Prowler-Utility"
+    },
+    {
+      "name": "85X",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/85x/85X"
+    },
+    {
+      "name": "Razor",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/razor/Razor"
+    },
+    {
+      "name": "Razor EX",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/razor/Razor-EX"
+    },
+    {
+      "name": "Razor LX",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/razor/Razor-LX"
+    },
+    {
+      "name": "Hurricane",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hurricane/Hurricane"
+    },
+    {
+      "name": "Defender",
+      "manufacturer": "Banu",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/defender/Defender"
+    },
+    {
+      "name": "Eclipse",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/eclipse/Eclipse"
+    },
+    {
+      "name": "Nox",
+      "manufacturer": "Aopoa",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/nox/Nox"
+    },
+    {
+      "name": "Nox Kue",
+      "manufacturer": "Aopoa",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/nox/Nox-Kue"
+    },
+    {
+      "name": "Cyclone",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone"
+    },
+    {
+      "name": "Cyclone TR",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-TR"
+    },
+    {
+      "name": "Cyclone RC",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-RC"
+    },
+    {
+      "name": "Cyclone RN",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-RN"
+    },
+    {
+      "name": "Cyclone AA",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-AA"
+    },
+    {
+      "name": "Cyclone MT",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cyclone/Cyclone-MT"
+    },
+    {
+      "name": "Ursa",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/ursa/Ursa"
+    },
+    {
+      "name": "Ursa Fortuna",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/ursa/Ursa-Fortuna"
+    },
+    {
+      "name": "Lynx ",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/ursa/Lynx"
+    },
+    {
+      "name": "Ursa Medivac",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/ursa/Ursa-Medivac"
+    },
+    {
+      "name": "600i Touring",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/600i/600i-Touring"
+    },
+    {
+      "name": "600i Explorer",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/600i/600i-Explorer"
+    },
+    {
+      "name": "X1",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/x1/X1"
+    },
+    {
+      "name": "X1 Velocity",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/x1/X1-Velocity"
+    },
+    {
+      "name": "X1 Force",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/x1/X1-Force"
+    },
+    {
+      "name": "Pioneer",
+      "manufacturer": "Consolidated Outland",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/pioneer/Pioneer"
+    },
+    {
+      "name": "Hawk",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hawk/Hawk"
+    },
+    {
+      "name": "Hammerhead",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hammerhead/Hammerhead"
+    },
+    {
+      "name": "Nova",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/nova-tank/Nova"
+    },
+    {
+      "name": "Vulcan",
+      "manufacturer": "Aegis Dynamics",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/vulcan/Vulcan"
+    },
+    {
+      "name": "100i",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-100/100i"
+    },
+    {
+      "name": "125a",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-100/125a"
+    },
+    {
+      "name": "135c",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-100/135c"
+    },
+    {
+      "name": "C2 Hercules",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/crusader-starlifter/C2-Hercules"
+    },
+    {
+      "name": "M2 Hercules",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/crusader-starlifter/M2-Hercules"
+    },
+    {
+      "name": "A2 Hercules",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/crusader-starlifter/A2-Hercules"
+    },
+    {
+      "name": "Vulture",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-vulture/Vulture"
+    },
+    {
+      "name": "Apollo Triage",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-apollo/Apollo-Triage"
+    },
+    {
+      "name": "Apollo Medivac",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-apollo/Apollo-Medivac"
+    },
+    {
+      "name": "Mercury",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/crusader-mercury-star-runner/Mercury"
+    },
+    {
+      "name": "Valkyrie",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-valkyrie/Valkyrie"
+    },
+    {
+      "name": "Valkyrie Liberator Edition",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-valkyrie/Valkyrie-Liberator-Edition"
+    },
+    {
+      "name": "Kraken",
+      "manufacturer": "Drake Interplanetary",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-kraken/Kraken"
+    },
+    {
+      "name": "Kraken Privateer",
+      "manufacturer": "Drake Interplanetary",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-kraken/Kraken-Privateer"
+    },
+    {
+      "name": "Arrow",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-arrow/Arrow"
+    },
+    {
+      "name": "San'tok.yāi",
+      "manufacturer": "Aopoa",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aopoa-santokyai/Santoky-i"
+    },
+    {
+      "name": "SRV",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/argo-srv/SRV"
+    },
+    {
+      "name": "Corsair",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/drake-corsair/Corsair"
+    },
+    {
+      "name": "Ranger RC",
+      "manufacturer": "Tumbril",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-RC"
+    },
+    {
+      "name": "Ranger TR",
+      "manufacturer": "Tumbril",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-TR"
+    },
+    {
+      "name": "Ranger CV",
+      "manufacturer": "Tumbril",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/tumbril-ranger/Ranger-CV"
+    },
+    {
+      "name": "Ballista ",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-ballista/Ballista"
+    },
+    {
+      "name": "Anvil Ballista Snowblind",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-ballista/Anvil-Ballista-Snowblind"
+    },
+    {
+      "name": "Anvil Ballista Dunestalker",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-ballista/Anvil-Ballista-Dunestalker"
+    },
+    {
+      "name": "Nautilus ",
+      "manufacturer": "Aegis Dynamics",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-nautilus/Nautilus"
+    },
+    {
+      "name": "Nautilus Solstice Edition",
+      "manufacturer": "Aegis Dynamics",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aegis-nautilus/Nautilus-Solstice-Edition"
+    },
+    {
+      "name": "Mantis",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-mantis/Mantis"
+    },
+    {
+      "name": "C8 Pisces",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-pisces/C8-Pisces"
+    },
+    {
+      "name": "C8X Pisces Expedition ",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-pisces/C8X-Pisces-Expedition"
+    },
+    {
+      "name": "C8R Pisces",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-pisces/C8R-Pisces"
+    },
+    {
+      "name": "Ares Inferno ",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/crusader-ares/Ares-Inferno"
+    },
+    {
+      "name": "Ares Ion",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/crusader-ares/Ares-Ion"
+    },
+    {
+      "name": "MOLE",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/argo-mole/MOLE"
+    },
+    {
+      "name": "Argo Mole Carbon Edition",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/argo-mole/Argo-Mole-Carbon-Edition"
+    },
+    {
+      "name": "Argo Mole Talus Edition",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/argo-mole/Argo-Mole-Talus-Edition"
+    },
+    {
+      "name": "G12",
+      "manufacturer": "Origin Jumpworks",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12"
+    },
+    {
+      "name": "G12r",
+      "manufacturer": "Origin Jumpworks",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12r"
+    },
+    {
+      "name": "G12a",
+      "manufacturer": "Origin Jumpworks",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/origin-g12/G12a"
+    },
+    {
+      "name": "Talon",
+      "manufacturer": "Esperia",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/talon/Talon"
+    },
+    {
+      "name": "Talon Shrike",
+      "manufacturer": "Esperia",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/talon/Talon-Shrike"
+    },
+    {
+      "name": "ROC-DS",
+      "manufacturer": "Greycat Industrial",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/roc/ROC-DS"
+    },
+    {
+      "name": "ROC",
+      "manufacturer": "Greycat Industrial",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/roc/ROC"
+    },
+    {
+      "name": "PTV",
+      "manufacturer": "Greycat Industrial",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/ptv/PTV"
+    },
+    {
+      "name": "Nomad",
+      "manufacturer": "Consolidated Outland",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/nomad/Nomad"
+    },
+    {
+      "name": "Perseus",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/perseus/Perseus"
+    },
+    {
+      "name": "Scorpius",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/scorpius/Scorpius"
+    },
+    {
+      "name": "Scorpius Antares",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/scorpius/Scorpius-Antares"
+    },
+    {
+      "name": "Railen",
+      "manufacturer": "Gatac Manufacture",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/railen/Railen"
+    },
+    {
+      "name": "400i",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/400i/400i"
+    },
+    {
+      "name": "Liberator",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/liberator/Liberator"
+    },
+    {
+      "name": "Odyssey",
+      "manufacturer": "MISC",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/odyssey/Odyssey"
+    },
+    {
+      "name": "RAFT",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/raft/RAFT"
+    },
+    {
+      "name": "Spartan",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/spartan/Spartan"
+    },
+    {
+      "name": "HoverQuad",
+      "manufacturer": "Consolidated Outland",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hoverquad/HoverQuad"
+    },
+    {
+      "name": "Expanse",
+      "manufacturer": "MISC",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/expanse/Expanse"
+    },
+    {
+      "name": "Legionnaire",
+      "manufacturer": "Anvil Aerospace",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/legionnaire/Legionnaire"
+    },
+    {
+      "name": "Mule",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mule/Mule"
+    },
+    {
+      "name": "Centurion",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/centurion/Centurion"
+    },
+    {
+      "name": "C1 Spirit",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/spirit/C1-Spirit"
+    },
+    {
+      "name": "A1 Spirit ",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/spirit/A1-Spirit"
+    },
+    {
+      "name": "E1 Spirit",
+      "manufacturer": "Crusader Industries",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/spirit/E1-Spirit"
+    },
+    {
+      "name": "STV",
+      "manufacturer": "Greycat Industrial",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/stv/STV"
+    },
+    {
+      "name": "Cutter",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cutter/Cutter"
+    },
+    {
+      "name": "Cutter Scout",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cutter/Cutter-Scout"
+    },
+    {
+      "name": "Cutter Rambler",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/cutter/Cutter-Rambler"
+    },
+    {
+      "name": "Galaxy",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/galaxy/Galaxy"
+    },
+    {
+      "name": "Fury",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/fury/Fury"
+    },
+    {
+      "name": "Fury MX",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/fury/Fury-MX"
+    },
+    {
+      "name": "Fury LX",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/fury/Fury-LX"
+    },
+    {
+      "name": "Storm",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/storm/Storm"
+    },
+    {
+      "name": "Storm AA",
+      "manufacturer": "Tumbril",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/storm/Storm-AA"
+    },
+    {
+      "name": "Zeus Mk II ES",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/zeus-mk-ii/Zeus-Mk-II-ES"
+    },
+    {
+      "name": "Zeus Mk II MR",
+      "manufacturer": "Roberts Space Industries",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/zeus-mk-ii/Zeus-Mk-II-MR"
+    },
+    {
+      "name": "Zeus Mk II CL",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/zeus-mk-ii/Zeus-Mk-II-CL"
+    },
+    {
+      "name": "Arrastra",
+      "manufacturer": "Roberts Space Industries",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/arrastra/Arrastra"
+    },
+    {
+      "name": "F8C Lightning",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/lightning/F8C-Lightning"
+    },
+    {
+      "name": "F8C Lightning Executive Edition",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/lightning/F8C-Lightning-Executive-Edition"
+    },
+    {
+      "name": "Syulen",
+      "manufacturer": "Gatac Manufacture",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/syulen/Syulen"
+    },
+    {
+      "name": "F7A Hornet Mk II",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7A-Hornet-Mk-II"
+    },
+    {
+      "name": "F7C Hornet Mk II",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-Hornet-Mk-II"
+    },
+    {
+      "name": "F7C-R Hornet Tracker Mk II",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-R-Hornet-Tracker-Mk-II"
+    },
+    {
+      "name": "F7C-S Hornet Ghost Mk II",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-S-Hornet-Ghost-Mk-II"
+    },
+    {
+      "name": "F7C-M Super Hornet Mk II ",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-hornet-mkii/F7C-M-Super-Hornet-Mk-II"
+    },
+    {
+      "name": "Pulse",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mirai-pulse/Pulse"
+    },
+    {
+      "name": "Pulse LX",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mirai-pulse/Pulse-LX"
+    },
+    {
+      "name": "Ironclad",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/ironclad/Ironclad"
+    },
+    {
+      "name": "Ironclad Assault",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/ironclad/Ironclad-Assault"
+    },
+    {
+      "name": "ATLS",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/atls/ATLS"
+    },
+    {
+      "name": "ATLS GEO",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/atls/ATLS-GEO"
+    },
+    {
+      "name": "ATLS IKTI Akuma",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/atls/ATLS-IKTI-Akuma"
+    },
+    {
+      "name": "Starlancer MAX",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/starlancer/Starlancer-MAX"
+    },
+    {
+      "name": "Starlancer TAC",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/starlancer/Starlancer-TAC"
+    },
+    {
+      "name": "Intrepid",
+      "manufacturer": "Crusader Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/intrepid/Intrepid"
+    },
+    {
+      "name": "CSV-SM",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/csv/CSV-SM"
+    },
+    {
+      "name": "Paladin",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/paladin/Paladin"
+    },
+    {
+      "name": "Guardian",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/guardian/Guardian"
+    },
+    {
+      "name": "Guardian QI",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/guardian/Guardian-QI"
+    },
+    {
+      "name": "Guardian MX",
+      "manufacturer": "Mirai",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/guardian/Guardian-MX"
+    },
+    {
+      "name": "Fortune",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/fortune/Fortune"
+    },
+    {
+      "name": "Golem",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/golem/Golem"
+    },
+    {
+      "name": "Golem OX",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/golem/Golem-OX"
+    },
+    {
+      "name": "MTC",
+      "manufacturer": "Greycat Industrial",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mtc/MTC"
+    },
+    {
+      "name": "Asgard",
+      "manufacturer": "Anvil Aerospace",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/anvil-asgard/Asgard"
+    },
+    {
+      "name": "Meteor",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/rsi-meteor/Meteor"
+    },
+    {
+      "name": "L-21 Wolf",
+      "manufacturer": "Kruger Intergalactic",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/wolf/L-21-Wolf"
+    },
+    {
+      "name": "L-22 Alpha Wolf",
+      "manufacturer": "Kruger Intergalactic",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/wolf/L-22-Alpha-Wolf"
+    },
+    {
+      "name": "Stinger",
+      "manufacturer": "Esperia",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/stinger/Stinger"
+    },
+    {
+      "name": "Shiv",
+      "manufacturer": "Grey's Market",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/shiv/Shiv"
+    },
+    {
+      "name": "MDC",
+      "manufacturer": "Greycat Industrial",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/mdc/MDC"
+    },
+    {
+      "name": "Salvation",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/salvation/Salvation"
+    },
+    {
+      "name": "Clipper",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/clipper/Clipper"
+    },
+    {
+      "name": "Hermes",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/hermes/Hermes"
+    },
+    {
+      "name": "MOTH",
+      "manufacturer": "Argo Astronautics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/moth/MOTH"
+    },
+    {
+      "name": "Aurora Mk II",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/aurora-mk-ii/Aurora-Mk-II"
+    },
+    {
+      "name": "UTV",
+      "manufacturer": "Greycat Industrial",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/utv/UTV"
+    },
+    {
+      "name": "M80",
+      "manufacturer": "Origin Jumpworks",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/m80/M80"
+    },
+    {
+      "name": "Tiburon",
+      "manufacturer": "Aegis Dynamics",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/tiburon/Tiburon"
+    },
+    {
+      "name": "Odin",
+      "manufacturer": "Anvil Aerospace",
+      "status": "in-concept",
+      "url": "https://robertsspaceindustries.com/pledge/ships/odin/Odin"
+    },
+    {
+      "name": "Pitbull",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/pitbull/Pitbull"
+    },
+    {
+      "name": "Starlite",
+      "manufacturer": "MISC",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/starlite/Starlite"
+    },
+    {
+      "name": "Tyilui",
+      "manufacturer": "Gatac Manufacture",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/tyilui/Tyilui"
+    },
+    {
+      "name": "Basher",
+      "manufacturer": "Grey's Market",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/basher/Basher"
+    },
+    {
+      "name": "S-65 Stingray",
+      "manufacturer": "Kruger Intergalactic",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/s-65-stingray/S-65-Stingray"
+    },
+    {
+      "name": "Constellation Mk V Centaurus",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/constellation-mk-v/Constellation-Mk-V-Centaurus"
+    },
+    {
+      "name": "Skylark",
+      "manufacturer": "Roberts Space Industries",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/skylark/Skylark"
+    },
+    {
+      "name": "Marauder",
+      "manufacturer": "Drake Interplanetary",
+      "status": "flight-ready",
+      "url": "https://robertsspaceindustries.com/pledge/ships/marauder/Marauder"
+    }
+  ]
+}

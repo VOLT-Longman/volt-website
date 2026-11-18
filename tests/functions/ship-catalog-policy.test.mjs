@@ -47,7 +47,7 @@ test('reviewed catalog reconciliation cannot re-add an excluded ship even with a
   assert.deepEqual(result.changes, []);
 });
 
-test('all active catalog layers exclude the eight entries and every remaining ship has a reviewed photo', async () => {
+test('all active catalog layers exclude the eight entries and each remaining ship has a verified photo or an explicit held review', async () => {
   const read = async (file) => JSON.parse(await readFile(new URL(`../../${file}`, import.meta.url), 'utf8'));
   for (const file of ['ships-canonical', 'presentation-ships', 'ships-rsi-official', 'localization-ships', 'localization-rsi-official', 'operational-ships']) {
     const layer = await read(`data/canonical/${file}.json`);
@@ -55,12 +55,15 @@ test('all active catalog layers exclude the eight entries and every remaining sh
   }
   for (const [file, variable] of [['ship-live-stats', 'VOLT_SHIP_LIVE_STATS'], ['ship-market', 'VOLT_SHIP_MARKET']]) {
     const layer = parseDataLayerJs(await readFile(new URL(`../../data/${file}.js`, import.meta.url), 'utf8'), variable);
-    assert.equal(Object.keys(layer).length, 217);
+    assert.equal(Object.keys(layer).length, 221);
     for (const [id, row] of Object.entries(layer)) assert.equal(isExcludedShip(id, row), false, id);
   }
   const live = await read('data/canonical/ships-canonical.json');
   const official = await read('data/canonical/ships-rsi-official.json');
   const imagery = await read('data/ship-imagery.json');
-  assert.equal(live.count + official.count, 246);
-  assert.deepEqual([...live.ships, ...official.records].map(row => row.id).sort(), imagery.records.map(row => row.id).sort());
+  assert.equal(live.count + official.count, 248);
+  const reviews = await read('data/ship-imagery-review.json');
+  const held = reviews.records.filter(r => r.status === 'held');
+  assert.deepEqual(held.map(r => r.id).sort(), ['hyun', 'marauder']);
+  assert.deepEqual([...live.ships, ...official.records].map(row => row.id).sort(), [...imagery.records, ...held].map(row => row.id).sort());
 });

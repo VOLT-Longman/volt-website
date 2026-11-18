@@ -1,7 +1,7 @@
 {
   "layer": "ship-filter-taxonomy",
   "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=Erkul canonical과 RSI 공식의 명시 size·role·platform만. 레거시 편집분류 미참조.",
-  "generatedFromCommit": "fee42e06e2e4db4634b93d6a6f0b8f0973919916",
+  "generatedFromCommit": "db40f9b1704ac49286f6ce6a5a89f4e0e13b4399",
   "source": "ships-canonical.json[].size·role·platform + ships-rsi-official.json[].rsi.size·role",
   "summary": {
     "totalRoles": 67,
@@ -9,7 +9,7 @@
     "unmapped": 0,
     "platformCount": {
       "ground": 35,
-      "space": 211,
+      "space": 213,
       "unknown": 0
     }
   },
@@ -495,13 +495,13 @@
   "unmapped": [],
   "audit": {
     "sizeShipCount": {
-      "small": 116,
+      "small": 117,
       "medium": 37,
       "large": 45,
-      "capital": 13
+      "capital": 14
     },
     "roleTagShipCount": {
-      "combat": 104,
+      "combat": 105,
       "cargo": 37,
       "transport": 31,
       "salvage": 6,
@@ -512,7 +512,7 @@
       "exploration": 27,
       "science": 4,
       "racing": 19,
-      "multipurpose": 3,
+      "multipurpose": 4,
       "modular": 2,
       "support": 15
     },

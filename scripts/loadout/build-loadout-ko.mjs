@@ -30,7 +30,7 @@ const table = new Map();
 for (const line of readFileSync(resolve(process.argv[iniArg + 1]), 'utf8').replace(/^﻿/, '').split(/\r?\n/)) {
     const index = line.indexOf('=');
     if (index <= 0) continue;
-    const key = line.slice(0, index).trim().toLowerCase();
+    const key = line.slice(0, index).trim().replace(/,P$/i, '').toLowerCase();
     if (!table.has(key)) table.set(key, line.slice(index + 1).trim());
 }
 // 게임 문자열의 서식 표지와 "[English Name]" 병기를 걷어낸 표시용 이름.

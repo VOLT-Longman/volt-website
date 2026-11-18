@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { deflateRawSync } from 'node:zlib';
 
 import { onRequest as previewHandler } from '../../functions/api/admin/ships/erkul-sync/preview.js';
-import { parseDataLayerJs, buildSyncPreview, buildNextLayers, computePreviewHash, normalizeErkulShip, normalizeMarketOnlyMappings } from '../../functions/_shared/erkul-sync.js';
+import { parseDataLayerJs, buildSyncPreview, buildNextLayers, normalizeErkulShip, normalizeMarketOnlyMappings } from '../../functions/_shared/erkul-sync.js';
 import { TEST_ENV, adminCookie } from './helpers.mjs';
 
 // Erkul sync preview는 읽기 전용이다: ASSETS에서 현재 레이어를 읽고,
@@ -179,113 +179,16 @@ test('비관리자 접근 → 401 차단 + Erkul fetch 미발생', async () => {
     }
 });
 
-test('관리자 preview: 변경 없음 → summary 0 + diff 스키마 + GET 전용', async () => {
-    const { ships, shops } = fixtureFleet();
-    const restore = mockErkulFetch({ ships, shops });
+test('retired preview requires admin, returns 410 and makes no upstream request', async () => {
+    const previous = globalThis.fetch;
+    globalThis.fetch = async () => { throw Error('Retired source must not be fetched'); };
     try {
-        const layers = currentLayersFromFixture();
-        const assets = mockAssets(layers);
-        const response = await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: assets } });
-        assert.equal(response.status, 200);
-        const body = await response.json();
-
-        assert.equal(body.source, 'erkul-live');
-        for (const key of ['erkulShips', 'erkulShops', 'matched', 'statsChanged', 'marketChanged', 'newErkulCandidates', 'unmatchedVolt', 'marketOnlyUnmatched', 'priceChanges', 'purchaseLocationChanges', 'rentalChanges']) {
-            assert.ok(key in body.summary, `summary.${key} 누락`);
-        }
-        for (const key of ['stats', 'market', 'descriptions', 'newCandidates', 'unmatched', 'marketOnly']) {
-            assert.ok(Array.isArray(body.changes[key]), `changes.${key}는 배열이어야 함`);
-        }
-        // 현재 레이어와 동일한 데이터 → 변경 0
-        assert.equal(body.summary.statsChanged, 0);
-        assert.equal(body.summary.priceChanges, 0);
-        // 레이어에 없는 함선은 신규 후보로만 잡히고 자동 추가되지 않음
-        assert.ok(body.summary.newErkulCandidates >= 1);
-        assert.ok(body.changes.newCandidates.some((c) => c.localName === 'anvl_newship'));
-        // 읽기 전용: ASSETS는 GET 조회만 발생
-        assert.ok(assets.requests.every((r) => r.method === 'GET'));
-
-        const postResponse = await previewHandler({
-            request: new Request('https://volt.ceo/api/admin/ships/erkul-sync/preview', { method: 'POST', headers: { cookie: await adminCookie() } }),
-            env: { ...TEST_ENV, ASSETS: mockAssets(layers) }
-        });
-        assert.equal(postResponse.status, 405);
-    } finally {
-        restore();
-    }
-});
-
-test('관리자 preview: 가격/스펙 변경 감지', async () => {
-    const { ships, shops } = fixtureFleet();
-    // 가격 +1000, cargo 180→200으로 바꾼 최신 데이터
-    const changedShips = ships.map((s) => (s.localName === 'anvl_asgard'
-        ? { ...s, data: { ...s.data, cargo: 200 } }
-        : s));
-    const changedShops = shops.map((s) => (s.data.name === 'Astro Armada'
-        ? { ...s, data: { ...s.data, inventory: [{ localName: 'anvl_asgard', price: 18000000, ref: 'ref-asgard', available: 3 }] } }
-        : s));
-    const restore = mockErkulFetch({ ships: changedShips, shops: changedShops });
-    try {
-        const response = await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: mockAssets(currentLayersFromFixture()) } });
-        const body = await response.json();
-        assert.equal(body.summary.statsChanged, 1);
-        assert.equal(body.summary.priceChanges, 1);
-        const statRow = body.changes.stats.find((r) => r.field === 'cargoScu');
-        assert.deepEqual({ current: statRow.current, incoming: statRow.incoming, voltId: statRow.voltId }, { current: 180, incoming: 200, voltId: 'asgard' });
-        const priceRow = body.changes.market.find((r) => r.type === 'price');
-        assert.equal(priceRow.current, 17860500);
-        assert.equal(priceRow.incoming, 18000000);
-    } finally {
-        restore();
-    }
-});
-
-test('Erkul fetch 실패(403) → 502 + 명확한 에러', async () => {
-    const { ships, shops } = fixtureFleet();
-    const restore = mockErkulFetch({ ships, shops, failShips: true });
-    try {
-        const response = await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: mockAssets(currentLayersFromFixture()) } });
-        assert.equal(response.status, 502);
-        const body = await response.json();
-        assert.match(body.error, /Erkul/);
-    } finally {
-        restore();
-    }
-});
-
-test('previewHash: 응답 포함 + sha256 형식 + 같은 데이터 → 같은 hash (A-8)', async () => {
-    const { ships, shops } = fixtureFleet();
-    const restore = mockErkulFetch({ ships, shops });
-    try {
-        const layers = currentLayersFromFixture();
-        const first = await (await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: mockAssets(layers) } })).json();
-        const second = await (await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: mockAssets(layers) } })).json();
-        assert.match(first.previewHash, /^[0-9a-f]{64}$/);
-        assert.equal(first.previewHash, second.previewHash, '같은 데이터면 hash가 안정적이어야 함');
-        assert.match(first.apply.command, /npm run shipdb:erkul:apply -- --confirm-preview-hash [0-9a-f]{64}/);
-        assert.equal(first.apply.method, 'local-script');
-    } finally {
-        restore();
-    }
-});
-
-test('previewHash: 데이터가 다르면 hash도 달라짐 + 실패 응답에는 hash 없음 (A-8)', async () => {
-    const { ships, shops } = fixtureFleet();
-    const layers = currentLayersFromFixture();
-    const base = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: ships, erkulShopsRaw: shops });
-    const changedShips = ships.map((s) => (s.localName === 'anvl_asgard' ? { ...s, data: { ...s.data, cargo: 999 } } : s));
-    const changed = buildNextLayers({ currentStats: layers.stats, currentMarket: layers.market, erkulShipsRaw: changedShips, erkulShopsRaw: shops });
-    assert.notEqual(await computePreviewHash(base), await computePreviewHash(changed));
-
-    const restore = mockErkulFetch({ ships, shops, failShips: true });
-    try {
-        const response = await previewHandler({ request: previewRequest(await adminCookie()), env: { ...TEST_ENV, ASSETS: mockAssets(layers) } });
-        assert.equal(response.status, 502);
-        const body = await response.json();
-        assert.equal(body.previewHash, undefined, '실패 응답에는 previewHash가 없어야 함');
-    } finally {
-        restore();
-    }
+        const response = await previewHandler({ request: previewRequest(await adminCookie()), env: TEST_ENV });
+        assert.equal(response.status, 410);
+        assert.match((await response.json()).error, /게임 파일/);
+        const post = new Request('https://volt.ceo/api/admin/ships/erkul-sync/preview', { method: 'POST', headers: { cookie: await adminCookie() } });
+        assert.equal((await previewHandler({ request: post, env: TEST_ENV })).status, 405);
+    } finally { globalThis.fetch = previous; }
 });
 
 test('buildNextLayers: 현재 key만 갱신 + 신규/사라진 함선 처리 (A-8 Safe Apply 핵심)', () => {

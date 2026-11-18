@@ -24,7 +24,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(existing).toBeVisible();
         await existing.click();
         await expect(page.locator('#global-modal .ship-live-summary')).toContainText('103,004');
-        await expect(page.locator('#global-modal .ship-live-summary')).toContainText('4.10.3-LIVE');
+        await expect(page.locator('#global-modal .ship-live-summary')).toContainText('4.10.0-LIVE');
         await page.keyboard.press('Escape');
         const modal = await openShipModalByName(page, '센타우루스');
         await expect(modal.locator('.ship-live-summary')).toContainText('170,500');
@@ -44,7 +44,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(summary).toContainText('203 m/s');
         await expect(summary).toContainText('1075 m/s');
         await expect(summary).toContainText('17,860,500 aUEC');
-        await expect(summary.locator('.ship-live-heading .ship-live-meta')).toContainText('4.10.3-LIVE');
+        await expect(summary.locator('.ship-live-heading .ship-live-meta')).toContainText('4.10.0-LIVE');
     });
 
     test('Asgard 모달: 구매처 Astro Armada/Area18/가격/재고 표시', async ({ page }) => {
@@ -71,7 +71,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(market.locator('.ship-market-row:not(.is-rental)')).toHaveCount(2);
         const rental = market.locator('.ship-market-row.is-rental');
         await expect(rental).toHaveCount(1);
-        await expect(rental).toContainText('Regal Luxury Rentals');
+        await expect(rental).toContainText('Regal NBIS');
         await expect(rental).toContainText('28,665 aUEC');
     });
 
@@ -125,7 +125,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await details.locator('summary').click();
         await expect(details.locator('.ship-live-detail-groups')).toBeVisible();
         // 보험/속도/회전 값은 동기화로 바뀔 수 있어 표시 형식만 검증
-        await expect(details).toContainText(/\d{2}:\d{2}:\d{2}/);
+        await expect(details).not.toContainText('보험'); // Claim timing has not been extracted from this build.
         await expect(details).toContainText(/\d+ m\/s/);
         await expect(details).toContainText(/[\d.]+ °\/s/);
     });
@@ -150,7 +150,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
 
         const desc = modal.locator('.modal-body > p').first();
         // Erkul EN의 한국어 번역본이 기존 VOLT 설명("중형급 수송선...")을 대체한다
-        await expect(desc).toContainText('Anvil Aerospace');
+        await expect(desc).toContainText('앤빌');
         await expect(desc).toContainText(/[가-힣]/);
         await expect(desc).not.toContainText('중형급 수송선');
         await expect(desc).not.toContainText('As the battles of today');
@@ -164,7 +164,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(card).toBeVisible();
         // live 로드 후 재렌더로 카드 설명이 Erkul 번역으로 갱신된다(기존 legacy 설명 대체).
         await expect.poll(() => card.locator('.ship-desc').textContent(), { timeout: 10000 })
-            .toContain('Anvil Aerospace');
+            .toContain('앤빌');
         await expect(card.locator('.ship-desc')).not.toContainText('중형급 수송선');
         // 카드(외부) 설명과 모달(내부) 설명이 동일해야 한다.
         const cardDesc = (await card.locator('.ship-desc').textContent())?.trim();

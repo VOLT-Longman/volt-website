@@ -2,6 +2,24 @@ import { communityToolsRequireMembership, isCommunityResource, privateResponse }
 import { requireCommunityMember } from './_shared/rbac.js';
 
 export async function onRequest(context) {
+  const url = new URL(context.request.url);
+  // The production Pages hostname must not expose an alternate API/auth origin.
+  // Changing only the origin preserves encoded paths and query parameters.
+  if (url.hostname === 'volt-ceo.pages.dev') {
+    url.protocol = 'https:';
+    url.host = 'www.volt.ceo';
+    return new Response(null, { status: 308, headers: { Location: url.href } });
+  }
+  const response = await serveRequest(context);
+  if (/^[a-z0-9-]+\.volt-ceo\.pages\.dev$/.test(url.hostname)) {
+    const headers = new Headers(response.headers);
+    headers.set('X-Robots-Tag', 'noindex');
+    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  }
+  return response;
+}
+
+async function serveRequest(context) {
   let path;
   try {
     const decoded = decodeURIComponent(new URL(context.request.url).pathname);

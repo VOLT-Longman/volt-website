@@ -1,21 +1,21 @@
 {
   "schema": "shipdb-client-manifest/v1",
-  "version": "8072dcbcb68360ea",
+  "version": "36d60031b0c05a22",
   "files": {
     "canonical": {
       "path": "data/canonical/ships-canonical.json",
       "group": "core",
-      "sha256": "116f5795a1262a07adbe3217427e8d8ef9b72db186c29413902e4b723529f81b"
+      "sha256": "638ebce1dee441b1885a564ead3b30506061039fcf4c4429d1c997c73acc3eb6"
     },
     "localization": {
       "path": "data/canonical/localization-ships.json",
       "group": "core",
-      "sha256": "2d9fb5b10e1137c7554ade27fc935d60aa6b6e2bbc58256b50806d2accdd99e4"
+      "sha256": "1243c7f2eb859e269b3ff9be03fe848f1a6a66486b6b446bc2c3c8b3465fad2c"
     },
     "operational": {
       "path": "data/canonical/operational-ships.json",
       "group": "core",
-      "sha256": "962066cf1799b305afa2096ef8414e1400916b3636a2e81cf3bb947431cbcdc4"
+      "sha256": "a4282662c6554d4ae1502f01133ebcd3b3f38f5ab52ea66f788818fbfc8edbfd"
     },
     "editionAliases": {
       "path": "data/canonical/edition-aliases.json",
@@ -25,27 +25,27 @@
     "roleLocalization": {
       "path": "data/canonical/localization-roles.json",
       "group": "core",
-      "sha256": "ce499a9c779decef2384b12bf63aa569e344a53d697a9e8b8ef4643f52c99aae"
+      "sha256": "077b4ccc766d24d71bb0666e26f23ba45a05f83c50f58997da541821b4dda8b6"
     },
     "filterTaxonomy": {
       "path": "data/canonical/ship-filter-taxonomy.json",
       "group": "core",
-      "sha256": "e0c54756ccb1e09db4f8401b79e3b5e188e46a3433d1f55e067d7100af6bb87c"
+      "sha256": "fc6ff246c2479515e614e98c5e24c6df01c5fda16015fa05defb5982ddd140f7"
     },
     "rsiOfficial": {
       "path": "data/canonical/ships-rsi-official.json",
       "group": "core",
-      "sha256": "efce1b3b10fe3e4c8d5928ec1a4a21f2d7b17a587d97430dfed88b0344332b21"
+      "sha256": "3bc82ff3c4f9999c4e4e1e48bddd910083ce99bfcccfd95f08d8d0e9c11e07c3"
     },
     "rsiLocalization": {
       "path": "data/canonical/localization-rsi-official.json",
       "group": "core",
-      "sha256": "8158deddd69114fcc5dbb911352d1f7d214ba3f67e5edce48c3ee7b08a62764b"
+      "sha256": "32202be5709b8c0ebea1de89519e18932c58324fa45db96831bbb7afd74427ae"
     },
     "presentation": {
       "path": "data/canonical/presentation-ships.json",
       "group": "core",
-      "sha256": "3d55951d4c2ea4a4f481b97f18244a21985fb9ba31d04867f3e179907ba530c6"
+      "sha256": "6cb1cb4239079a48e8099741a77e2b23d87e87b365146fde57e56ab8ac2a4446"
     }
   }
 }

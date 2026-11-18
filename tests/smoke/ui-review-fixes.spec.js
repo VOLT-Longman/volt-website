@@ -79,7 +79,7 @@ test.describe('화면 평가 보완', () => {
         const cards = page.locator('#ships-grid .ship-card');
         const more = page.locator('#ships-grid [data-ships-more]');
         await expect(cards).toHaveCount(24);
-        await expect(page.locator('#ship-results-summary')).toContainText('246');
+        await expect(page.locator('#ship-results-summary')).toContainText('248');
         await expect(more).toHaveText('더 보기 (222척 남음)');
         const firstId = await cards.first().getAttribute('data-ship-id');
 
@@ -107,7 +107,7 @@ test.describe('화면 평가 보완', () => {
     test('함선DB 데스크톱: 전체 목록을 그대로 보여주고 더 보기 버튼이 없다', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect(page.locator('#ships-grid .ship-card')).toHaveCount(246);
+        await expect(page.locator('#ships-grid .ship-card')).toHaveCount(248);
         await expect(page.locator('#ships-grid [data-ships-more]')).toHaveCount(0);
     });
 

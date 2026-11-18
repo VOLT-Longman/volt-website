@@ -2,11 +2,11 @@
   "schema": "shipdb-rsi-official-localization/v1",
   "note": "RSI 공식 카탈로그 KO. 번역 원천=RSI EN(적대검증 통과). no-en(expanse)은 \"RSI 공식 설명 미제공\" 상태. sourceEnHash=카탈로그 EN 해시.",
   "generatedFromCommit": "74fd971d358c404e29f8ed85e021dd0066fe73ed",
-  "count": 29,
+  "count": 27,
   "summary": {
-    "ok": 28,
-    "noEn": 1,
-    "missing": 0
+    "ok": 26,
+    "missing": 0,
+    "noEn": 1
   },
   "cutoverReady": true,
   "records": [
@@ -81,13 +81,6 @@
       "status": "ok"
     },
     {
-      "id": "galaxy",
-      "ko": "완전한 모듈식 설계와 소형 함선을 전개할 수 있는 선내 격납고를 갖춘 최첨단 Galaxy는 다재다능함을 DNA에 새긴 함선입니다. 자유자재로 구성할 수 있는 메인 데크에는 화물, 의료, 정제 작업을 지원하는 종합 설비를 탑재할 수 있어, 폭넓은 상황에 대응합니다.",
-      "koSource": "translated-from-rsi-en",
-      "sourceEnHash": "9f3c02efe447554b",
-      "status": "ok"
-    },
-    {
       "id": "genesis",
       "ko": "Genesis는 Crusader Industries의 자랑스러운 수송선 설계 역사에 또 하나의 이정표를 세운 함선입니다. 이 함선은 수상 경력에 빛나는 제조 기법과 최고 품질의 부품을 활용하여 단 하나의 목표, 즉 예산에 부담을 주지 않는 가격의 차세대 여객선을 실현합니다. Crusader Industries의 독자적인 NeoG 엔진 기술은 이 정도 크기의 함선으로서는 손꼽히는 효율적인 비행을 제공합니다.",
       "koSource": "translated-from-rsi-en",
@@ -134,13 +127,6 @@
       "ko": "Anvil Legionnaire는 다양한 크기와 승무원, 수용 능력의 함선을 제압할 수 있는 군용 스타일의 강습 승선함을 민간 시장에 선보입니다. 고성능 점프 시트는 최대 열 명으로 구성된 승선조를 전투 현장으로 안전하게 실어 나르며, 통합 시스템은 부조종사가 표적 함선의 보안 프로토콜을 우회할 수 있도록 지원하여 그 어느 때보다 위험을 낮춰 줍니다.",
       "koSource": "translated-from-rsi-en",
       "sourceEnHash": "b01597d767e00977",
-      "status": "ok"
-    },
-    {
-      "id": "liberator",
-      "ko": "Anvil은 개방형 차량 운반선인 Liberator로 탁월함의 전통을 이어갑니다. Liberator는 장거리 운송의 전통을 보다 작은 규모에 적용한 함선입니다. 군용 사양의 운반선 및 개척선과 동일한 quantum drive와 장거리 운항 능력을 갖추도록 설계되었으나 민간 시장에 맞게 다듬어진 Liberator는, 여러분의 함대를 어떠한 작전에서든 최전선에 세워줍니다.",
-      "koSource": "translated-from-rsi-en",
-      "sourceEnHash": "26d2bfc43a867794",
       "status": "ok"
     },
     {

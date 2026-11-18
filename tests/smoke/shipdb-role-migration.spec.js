@@ -5,16 +5,16 @@ const { mockApi, gotoSection } = require('./helpers');
 //  OFF: 카드 focus 배지, role=레거시 VOLT 수기, 필터=focus/tags 카테고리, purpose 노출 — 완전 불변.
 //  ON: 카드 canonical role 배지(EN 로케일=Erkul EN, KO=roleKo), focus 배지 제거,
 //      필터=canonical role 칩(집합에서만), purpose 숨김, 비교·모달·검색 role=canonical.
-//  검증 함선: freelancer = Erkul role "Light Freight" → KO "경 화물선".
+//  검증 함선: freelancer = Erkul role "Light Freight" → KO "소규모 화물".
 const CARD = (id) => `[data-ship-id="${id}"]`;
 
 test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     test('ON: 카드 role 배지=canonical KO · focus 배지 제거 · purpose 숨김', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
-        // 카드: role 배지=경 화물선, focus 배지 없음
-        await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('경 화물선');
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(248);
+        // 카드: role 배지=소규모 화물, focus 배지 없음
+        await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('소규모 화물');
         expect(await page.locator(`${CARD('freelancer')} .ship-focus-badge`).count()).toBe(0);
         // purpose(VOLT 편집 프리셋) 행 자체가 ON에서 숨김(hidden 속성 + 실제 렌더링 모두 확인 —
         // hidden 속성만 참이고 CSS가 [hidden]을 못 덮으면 화면엔 계속 노출되는 회귀가 있었다).
@@ -26,11 +26,11 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
     test('ON 필터(콤보박스): 옵션 키=Erkul EN·라벨=KO · 선택 시 해당 role만 노출', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(248);
         // 옵션: 키=Erkul EN role, 라벨=roleKo
         const opt = page.locator('#ship-tag-filters [data-role-option="Light Freight"]');
-        await expect(opt).toHaveText('경 화물선');
-        // 콤보박스 열고 옵션 선택 → 보이는 모든 카드의 role 배지가 경 화물선(= Light Freight)만
+        await expect(opt).toHaveText('소규모 화물');
+        // 콤보박스 열고 옵션 선택 → 보이는 모든 카드의 role 배지가 소규모 화물(= Light Freight)만
         // textContent로 검증(reveal 애니메이션 미노출 카드도 정확 포착 — innerText는 '' 반환).
         await page.locator('#ship-role-search').click();
         await opt.click();
@@ -43,23 +43,23 @@ test.describe('role 원자 이관 (OFF=레거시, ON=canonical role)', () => {
         expect(await page.locator(CARD('freelancer')).count()).toBe(1);
         expect(await page.locator(CARD('caterpillar')).count()).toBe(0);
         // 선택 라벨이 입력에 반영
-        await expect(page.locator('#ship-role-search')).toHaveValue('경 화물선');
+        await expect(page.locator('#ship-role-search')).toHaveValue('소규모 화물');
     });
 
-    test('ON 모달: 역할 = canonical KO(경 화물선)', async ({ page }) => {
+    test('ON 모달: 역할 = canonical KO(소규모 화물)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(248);
         await page.locator(`${CARD('freelancer')} .ship-name-btn`).click();
         await page.waitForSelector('.ship-modal-grid');
         const grid = await page.locator('.ship-modal-grid').first().innerText();
-        expect(grid).toContain('경 화물선');
+        expect(grid).toContain('소규모 화물');
     });
 
     test('ON EN 로케일: role 배지 = Erkul EN 원문(Light Freight)', async ({ page }) => {
         await mockApi(page);
         await gotoSection(page, '#ships');
-        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
+        await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(248);
         await page.locator('.nav-lang [data-set-lang="en"]').click();
         await expect(page.locator(`${CARD('freelancer')} .ship-card-role-detail`)).toHaveText('Light Freight');
     });

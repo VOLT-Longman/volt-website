@@ -5,7 +5,7 @@ const { mockApi, gotoSection } = require('./helpers');
 async function onShips(page) {
     await mockApi(page);
     await gotoSection(page, '#ships');
-    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(246);
+    await expect.poll(async () => page.locator('#ships-grid [data-compare-ship-id]').count()).toBe(248);
 }
 // 보이는 카드가 특정 태그(클래스+라벨)를 가졌는지: card 텍스트로 판별
 async function visibleCardTagTexts(page, sel) {
@@ -99,7 +99,7 @@ test.describe('2축 태그 필터 (규모·플랫폼 + 역할, 커밋 C)', () =>
         const card = page.locator('[data-ship-id="freelancer"]');
         expect(await card.locator('.ship-tag-size').count()).toBe(1);
         expect(await card.locator('.ship-tag-role').count()).toBeLessThanOrEqual(2);
-        await expect(card.locator('.ship-card-role-detail')).toHaveText('경 화물선');
+        await expect(card.locator('.ship-card-role-detail')).toHaveText('소규모 화물');
     });
 
     test('ON 모바일 390px: 축 가로 스크롤 + 태그 선택 동작', async ({ page }) => {

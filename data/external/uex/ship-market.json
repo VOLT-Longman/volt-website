@@ -1,0 +1,4911 @@
+{
+  "source": "UEX",
+  "sources": [
+    "https://www.volt.ceo/api/uex/ship-prices",
+    "https://api.uexcorp.space/2.0/vehicles_rentals_prices_all",
+    "https://api.uexcorp.space/2.0/terminals"
+  ],
+  "checkedAt": "2026-11-18T09:08:02.169Z",
+  "ships": [
+    {
+      "uuid": "6135a874-4cb1-4f49-9f29-5781e5991f2b",
+      "name": "Origin 100i",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1089270
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1146600
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 28665
+        }
+      ]
+    },
+    {
+      "uuid": "e7eeba8d-b108-48a1-a332-d9edbab2b9c1",
+      "name": "Origin 125a",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1508220
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "2f231daa-95e5-4cb2-a32e-4db8f29a30d6",
+      "name": "Origin 135c",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1490580
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "ce937681-caa2-4cfa-ab80-f5bf2a5b9a6c",
+      "name": "Origin 300i",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1375920
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 34398
+        }
+      ]
+    },
+    {
+      "uuid": "dc537d66-2abb-43aa-9d37-4e963fc6e9e2",
+      "name": "Origin 315p",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1490580
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "039a2768-1aff-4969-b2a4-ed8aeb21dae1",
+      "name": "Origin 325a",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1852200
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 46305
+        }
+      ]
+    },
+    {
+      "uuid": "316c6601-b405-4a3a-abac-394c655718f8",
+      "name": "Origin 350r",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 3748500
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "718f4435-628b-4436-bb80-bf9cfef9a945",
+      "name": "Origin 400i",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 8398060
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 8840070
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Origin 600i Executive Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "f8ac4c26-8f4d-4cb3-9be2-7d867a95a877",
+      "name": "Origin 600i Explorer",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 27231800
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 680794
+        }
+      ]
+    },
+    {
+      "uuid": "11b660a2-c77c-490b-9e85-ee70400c5cf8",
+      "name": "Origin 600i Touring",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 24938600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "9dc9c257-c413-416a-ab9b-06fbadf18d1e",
+      "name": "Origin 85X",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 544635
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "50ddaf5e-a8e3-42fe-a1d3-7267f39b39b0",
+      "name": "Origin 890 Jump",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 62088400
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 65356200
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Crusader A2 Hercules Starlifter",
+      "purchase": [
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 37800200
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 37800200
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "RSI Apollo Medivac",
+      "purchase": [
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 8295210
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 218295
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 218295
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 218295
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 218295
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "RSI Apollo Triage",
+      "purchase": [
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 7541100
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 198450
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 198450
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 198450
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 198450
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Crusader Ares Star Fighter Inferno",
+      "purchase": [
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 4725000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Crusader Ares Star Fighter Ion",
+      "purchase": [
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 4725000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "eaeb562d-d4ac-43bd-a843-e8a6d69fad82",
+      "name": "Anvil Arrow",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1984500
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1984500
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "7cab9bbc-3d67-4ee7-99ef-fe41991f8a3b",
+      "name": "RSI Aurora Mk I CL",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "42b72b92-7880-446d-8770-b158e4b0fd10",
+      "name": "RSI Aurora Mk I ES",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "984283ce-dd5f-4807-a7b0-f6fbf053716c",
+      "name": "RSI Aurora Mk I LN",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "bb8e3cdf-7f35-4bdb-bc2d-a15b8b859359",
+      "name": "RSI Aurora Mk I LX",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "c596f592-1196-4378-8583-18ff13962b85",
+      "name": "RSI Aurora Mk I MR",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "97648869-5fa5-42da-b804-4d9314289539",
+      "name": "Aegis Avenger Stalker",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1508220
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "0079c5d5-1678-4f8c-85ba-18ca8f642af6",
+      "name": "Aegis Avenger Titan",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1290370
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1358280
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 27166
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 27165
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 27165
+        }
+      ]
+    },
+    {
+      "uuid": "d9bc09ce-4c74-4f72-892e-a833c094f4e6",
+      "name": "Aegis Avenger Titan Renegade",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1759590
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "9474f571-8467-4d83-b1fe-f64103d363f4",
+      "name": "Aegis Avenger Warlock",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2136640
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "a04a1503-ac5c-4520-bc22-4b1a1a198eff",
+      "name": "Anvil HM6 Ballista",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1407670
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1481760
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Anvil Ballista Dunestalker",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Anvil Ballista Snowblind",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "0d4c5000-ffdb-41f5-9de1-d64252dfef21",
+      "name": "Esperia Blade",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 7796250
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "efec4d48-77ab-4cba-9add-a3d96c5be8d8",
+      "name": "Drake Buccaneer",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1580040
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 1663200
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 1663200
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 1663200
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 39501
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Crusader C2 Hercules Starlifter",
+      "purchase": [
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 18900000
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 18900000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "20d5f617-147a-4530-a753-a7afd1875fd1",
+      "name": "Anvil C8 Pisces",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 745290
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 18633
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 18632
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Anvil C8R Pisces Rescue",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 555660
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 13892
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 13891
+        }
+      ]
+    },
+    {
+      "uuid": "831fdcfc-337a-4350-967d-e693d19efeee",
+      "name": "Anvil C8X Pisces Expedition",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 515970
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "f6d606c9-b324-4efa-814f-15a59047a6a5",
+      "name": "Anvil Carrack",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 34398000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "f1b224dd-273e-488f-9dee-fbf73f44f462",
+      "name": "Anvil Carrack Expedition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "dc39ca6b-1d76-4db5-9346-356f49954978",
+      "name": "Drake Caterpillar",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 11850300
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Drake Caterpillar Best In Show Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "565d8121-50a9-4920-af50-f176caef0431",
+      "name": "Drake Caterpillar Pirate Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "27515ffd-04df-413f-8533-34612d906c7d",
+      "name": "Anvil HM6 Centurion",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1106030
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1164240
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "d95fb013-60d5-43ac-ab2d-daa082f45411",
+      "name": "RSI Constellation Mk IV Andromeda",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 9652610
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "e7b40f5c-4099-4aa6-b226-b5b08bd68413",
+      "name": "RSI Constellation Mk IV Aquila",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 11577400
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "ecadf2b2-a404-4776-9289-04af91538d76",
+      "name": "RSI Constellation Mk IV Phoenix",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 14076700
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "daf936a1-689f-4edb-980a-96947e2727c4",
+      "name": "RSI Constellation Mk IV Phoenix Emerald",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "d1c3fa10-b2d9-421e-8301-97dbf4d0c115",
+      "name": "RSI Constellation Mk IV Taurus",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 7641650
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 7641650
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "e1afb014-fe71-4da9-89ae-c30fcf9c0782",
+      "name": "Drake Corsair",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 6224400
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 155610
+        }
+      ]
+    },
+    {
+      "uuid": "b58f7735-9454-4a0a-b724-2bc8d61961d7",
+      "name": "Drake Cutlass Black",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2010960
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 50274
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 50274
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 50274
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 52920
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 52920
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 50274
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Drake Cutlass Black Best In Show Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "13c3f610-7bbd-4464-bd36-d716de49a125",
+      "name": "Drake Cutlass Blue",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 3519180
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "7780e93d-1cc3-43b4-9b32-9923af19775a",
+      "name": "Drake Cutlass Red",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2714800
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 2857680
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 2857680
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 2857680
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 67869
+        }
+      ]
+    },
+    {
+      "uuid": "384d7e27-daec-4554-a8e9-6920a10a86c1",
+      "name": "Drake Cutlass Steel",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 3797480
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "3ea9bcd8-1ddd-4714-a537-7b2675e8c2d2",
+      "name": "Drake Cutter",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 603288
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 635040
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 9526
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 9525
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 9526
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 9050
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 9050
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 9525
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 9526
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 9526
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 9526
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 9525
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 9525
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 9525
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 9525
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 15082
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 9525
+        }
+      ]
+    },
+    {
+      "uuid": "887cd720-7337-44ae-9708-828ccf808649",
+      "name": "Drake Cutter Scout",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 670320
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "93b13680-9aa6-4c21-b998-e4f8880f7c12",
+      "name": "Drake Cutter Rambler",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 703836
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "8dbb42e4-e127-4153-9694-2845142c3e51",
+      "name": "Tumbril Cyclone",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 98753
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 103950
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 103950
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 103950
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 2468
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 2598
+        }
+      ]
+    },
+    {
+      "uuid": "0194943d-1164-4b5f-a85e-79ebc0ebe621",
+      "name": "Tumbril Cyclone AA",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 143640
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "bda93768-c01f-40b4-a92e-f31876cd33d0",
+      "name": "Tumbril Cyclone MT",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 134663
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "064951d7-3dd0-49c2-8b88-d2d7f809633e",
+      "name": "Tumbril Cyclone RC",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 116708
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "b389839d-fdf9-4c41-850a-4e7461250304",
+      "name": "Tumbril Cyclone RN",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 116708
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "f80914cf-643e-4b7e-b715-eaf9aa572954",
+      "name": "Tumbril Cyclone TR",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 116708
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "081236f5-9549-4a60-9123-6ae21f0cd261",
+      "name": "Banu Defender",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 6237000
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 155925
+        }
+      ]
+    },
+    {
+      "uuid": "37659ff0-a803-4a4f-97ff-ad59822061ed",
+      "name": "Drake Dragonfly Black",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 325584
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 342720
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 342720
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 342720
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 8568
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 8139
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 8568
+        }
+      ]
+    },
+    {
+      "uuid": "533b9b62-33eb-4b34-95eb-d43fe3e020ff",
+      "name": "Drake Dragonfly Yellowjacket",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "c9b3ef78-9c47-4052-bf70-ecf32c55c001",
+      "name": "Aegis Eclipse",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 7541100
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "8b7e0d33-21c1-4057-8e5b-bf391b5091b2",
+      "name": "Anvil F7A Hornet Mk I",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "fb231ba1-dba1-4c9f-823a-746c772ae92f",
+      "name": "Anvil F7C Hornet Mk II",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4650340
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "0af2064a-c02d-4801-a434-09d802ba6573",
+      "name": "Anvil F7C Hornet Wildfire Mk I",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "4f83f89d-480b-4d1b-867a-13772742d828",
+      "name": "Anvil F7C-M Super Hornet Mk I",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Anvil F7C-M Super Hornet Heartseeker Mk I",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "95b11c76-31ea-4bf3-9894-fb29caecb927",
+      "name": "Anvil F7C-R Hornet Tracker Mk I",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "63b90c8d-459c-4a27-8cf6-db706ffc49ae",
+      "name": "Anvil F7C-S Hornet Ghost Mk I",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "663b6047-5b06-489c-a906-bc91fb7d6e63",
+      "name": "Anvil F8C Lightning",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "b4791030-9d64-4f98-85cb-ca106f868c5e",
+      "name": "MISC Freelancer",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2962580
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 59251
+        }
+      ]
+    },
+    {
+      "uuid": "34821163-e32e-42bf-99df-8f42ba66ef34",
+      "name": "MISC Freelancer DUR",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 3151100
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 3316950
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "6c6e9731-3d70-4f1b-84c2-9dbf3c1f97c7",
+      "name": "MISC Freelancer MAX",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4039880
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 85050
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 85050
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 80798
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 80798
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 85050
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 85050
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 85050
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 85050
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 85050
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 85050
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 85050
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 80797
+        }
+      ]
+    },
+    {
+      "uuid": "4b6700e5-38bd-4d8d-9281-ef82996b135f",
+      "name": "MISC Freelancer MIS",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4713190
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "96b11061-68ce-4896-9424-fc8804a410ae",
+      "name": "Mirai Fury",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 691268
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 727650
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "83a450d1-e6b1-437e-9aee-18316ed34c29",
+      "name": "Mirai Fury LX",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 824670
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "469d850e-b86b-47fc-9ee2-df81d775ccc8",
+      "name": "Mirai Fury MX",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 691268
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "RSI Galaxy",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "f3f7b2e8-1e11-4649-82c6-3106ec966655",
+      "name": "Anvil Gladiator",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 4365900
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "b6b59889-7226-458e-a6b0-1c9392128a3c",
+      "name": "Aegis Gladius",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2262330
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 2381400
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Gladius Pirate",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "d6cb3db3-b1e0-47a5-8c62-a64285dbb675",
+      "name": "Aegis Gladius Valiant",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2765070
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "e379e38c-459a-4705-be7d-49a5f5d7a928",
+      "name": "Esperia Glaive",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "d46f4de1-8dc1-473b-9739-88c9ba7e75a6",
+      "name": "Aegis Hammerhead",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 34466600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Hammerhead Best In Show Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "c0f1d217-388c-453a-b6c1-3cb5c2cfc4d8",
+      "name": "Anvil Hawk",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 2646000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "36726a9f-7e14-4942-bc4f-1a398b5bef6a",
+      "name": "Drake Herald",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1220940
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "16ff4365-ac34-4b09-a132-d52d51f688d4",
+      "name": "C.O. HoverQuad",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 53865
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 56700
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "6ec72f64-2002-481c-b7c9-b132476ba6aa",
+      "name": "MISC Hull A",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1615950
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1701000
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 34020
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 34020
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 32319
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 32319
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 34020
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 34020
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 34020
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 34020
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 68040
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 34020
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 34020
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 34220
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 32319
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "MISC Hull B",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 7541100
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 7938000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "c4ceff45-d851-44b1-921b-bfef93a6cd6a",
+      "name": "MISC Hull C",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 15710600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "3a586d52-4829-4504-8e3a-4ee300bb40cc",
+      "name": "Anvil Hurricane",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 5556600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "797201fa-ca9a-48b1-abcb-48b6d4d86a37",
+      "name": "Aegis Idris-M",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Idris-P",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aopoa Khartu-al",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 7229250
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Anvil Liberator",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "4c034eef-329c-4336-850e-49bfb1f06a15",
+      "name": "RSI Lynx",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 129276
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Crusader M2 Hercules Starlifter",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 28009800
+        },
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 29484000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "1b57cdac-693b-410b-8343-68fa194c94ae",
+      "name": "Origin M50",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1424430
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1499400
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 37485
+        }
+      ]
+    },
+    {
+      "uuid": "43f4f9c3-70ad-4549-8a10-0045afbbda10",
+      "name": "RSI Mantis",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 3231900
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Crusader Mercury Star Runner",
+      "purchase": [
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 12285000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "ecdfd0df-6c5f-4183-a24b-9e1546e00a4e",
+      "name": "Argo MOLE",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 8483740
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 8483740
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 8483740
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 8483740
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 9376760
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 223257
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 223257
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 223257
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 223257
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 223256
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 223256
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 223257
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 223256
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 223256
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 234419
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 223256
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 223256
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 223256
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Argo MOLE Carbon Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Argo MOLE Talus Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Argo MPUV Cargo",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 314213
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Argo MPUV Personnel",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 359100
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Drake MULE",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 64638
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 68040
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "a852bb00-e395-468f-9adc-78b3df9c82f6",
+      "name": "C.O. Mustang Alpha",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 610470
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 642600
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 9639
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 9157
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 9639
+        }
+      ]
+    },
+    {
+      "uuid": "439c5671-acad-4eb6-9f09-ba54165d1cb5",
+      "name": "C.O. Mustang Alpha Vindicator",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "973bc147-4422-48a6-99c8-6ff0ead25bdf",
+      "name": "C.O. Mustang Beta",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 622440
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "f8c8fe5c-1aa3-41d7-86b0-6bb54b249541",
+      "name": "C.O. Mustang Delta",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1228500
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "968249b2-ca7c-4b41-8f58-730673fefc8c",
+      "name": "C.O. Mustang Gamma",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1178100
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 29453
+        }
+      ]
+    },
+    {
+      "uuid": "1164be4d-623e-4ef7-bc3d-4cdb45c22ec5",
+      "name": "C.O. Mustang Omega",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "34506e83-b7b8-4804-a7bb-f31f11bb9214",
+      "name": "C.O. Nomad",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1436400
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1587600
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 28728
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 28728
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 30240
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 30240
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Tumbril Nova Tank",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 861840
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 907200
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 907200
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 907200
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "daddeefa-fef0-4146-b630-a33d6e8904d3",
+      "name": "Aopoa Nox",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 722925
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "204a6ce4-1634-4f87-9955-04c70e44c8af",
+      "name": "Aopoa Nox Kue",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "a5a8e4e5-939c-4f7b-ab48-5f7db556d5a4",
+      "name": "Kruger P-52 Merlin",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 283500
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "70580bce-2347-4e96-9260-dee6394f483d",
+      "name": "Kruger P-72 Archimedes",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 449820
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "ebee8a7f-8e4a-4bed-9e5d-76822724c9f0",
+      "name": "Kruger P-72 Archimedes Emerald",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "RSI Perseus",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 39690000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "565ffdd6-8122-4c24-a690-85aa5aade0ff",
+      "name": "RSI Polaris",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "f68ee841-88d1-46f3-a1e2-5dc71d9d5d97",
+      "name": "MISC Prospector",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2783020
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 2929500
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 2929500
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 2929500
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 73238
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 73237
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 73238
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 73238
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 73238
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 73238
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 73238
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 73238
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 73238
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 73238
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 73238
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 69576
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 69576
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 69576
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 73237
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 73237
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 73237
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 73237
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 73238
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 73237
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 73237
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 73237
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 73237
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 73237
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 73237
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 73237
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 73237
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 69575
+        }
+      ]
+    },
+    {
+      "uuid": "087b2253-2fc7-4fae-9f9d-97f64b7c43db",
+      "name": "Esperia Prowler",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 18711000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "41ff82e7-ce4e-4dbc-ad7c-7ef52fbe569c",
+      "name": "Greycat PTV",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 28350
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 28350
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "cf9aa91e-15bf-435c-a22d-f2cadc4485ce",
+      "name": "Argo RAFT",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 3366560
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 3543750
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 67331
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Gatac Railen",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "cec2111b-4c71-4968-8035-634de6561cf3",
+      "name": "Mirai Razor",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1770360
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 46589
+        }
+      ]
+    },
+    {
+      "uuid": "b17ef3ab-9518-40fd-803f-c2468175ccf6",
+      "name": "Mirai Razor EX",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1669820
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1757700
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "203cb135-4f12-4a23-bd53-30910134bac8",
+      "name": "Mirai Razor LX",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1831410
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1927800
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "f05b74b2-06cf-44d0-8607-c09487359384",
+      "name": "Aegis Reclaimer",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 30164400
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 33339600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Reclaimer Best In Show Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "9a25d006-5706-4c70-9ac6-df795688fe09",
+      "name": "Aegis Redeemer",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 9803430
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "3c9af040-d919-4afc-b768-45821a5b913c",
+      "name": "MISC Reliant Kore",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1633900
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1719900
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 40847
+        }
+      ]
+    },
+    {
+      "uuid": "c6cfa4d9-e794-4bb6-8da9-54cb779ea109",
+      "name": "MISC Reliant Mako",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2388020
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "e32d125f-a3f8-4bc7-b0e6-cb7edf22b7ac",
+      "name": "MISC Reliant Sen",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2136640
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "c2956880-b82a-42d0-962b-eb736dac1536",
+      "name": "MISC Reliant Tana",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1885280
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Retaliator",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 7541100
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "93e1a434-f4fa-43ee-a40c-71bcae5073bc",
+      "name": "Aegis Retaliator Bomber",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "62e33393-5d68-4191-aba5-3b81ce4f3bf9",
+      "name": "Greycat ROC",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 98753
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 103950
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 2599
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 2469
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 2598
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 2598
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 2598
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 2598
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 2598
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 2598
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 2598
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 2468
+        }
+      ]
+    },
+    {
+      "uuid": "14d6ba03-86ad-47f8-b940-e8a82d2d52b6",
+      "name": "Greycat ROC-DS",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 134663
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 141750
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "17276ad3-7636-40b8-969a-877a2b439b37",
+      "name": "Aegis Sabre",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4273290
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "9e4b2b2b-1b5a-4d53-84a2-fe6ed1e43172",
+      "name": "Aegis Sabre Comet",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4650340
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "34615358-6b8e-4c27-b29e-f936e254e2a3",
+      "name": "Aegis Sabre Raven",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aopoa San'tok.yāi",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 9355500
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "edc1421b-59ee-4233-b292-abc2c3ea0a1a",
+      "name": "RSI Scorpius",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 5171040
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "2f88be37-7825-4fe1-afae-2ca9d2b01114",
+      "name": "RSI Scorpius Antares",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4955580
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "28f22bb8-9f1c-4a46-9a39-20bcb1e5000e",
+      "name": "Vanduul Scythe",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "9c26b25a-9285-4074-94d1-163db2aa8cbb",
+      "name": "Anvil HM6 Spartan",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 804384
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 846720
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "c0b86c69-55ac-4af3-a722-d46282813e91",
+      "name": "Crusader A1 Spirit",
+      "purchase": [
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 4961250
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "9611b8ed-cc96-4b5c-aa1e-baefe7d5bb1c",
+      "name": "Crusader C1 Spirit",
+      "purchase": [
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 3118500
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 62370
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 62370
+        }
+      ]
+    },
+    {
+      "uuid": "1810d1a7-61e3-4d95-bafb-0f11758c7683",
+      "name": "Argo SRV",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 3770550
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 3969000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "13a02a6d-7d67-4d22-8530-d4d2c8443f66",
+      "name": "MISC Starfarer",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 12568500
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 13891500
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "c989caf2-84a5-4c01-b99e-5fc9f8d0ce8e",
+      "name": "MISC Starfarer Gemini",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 14244300
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "515269d2-fea4-473f-b416-5f6677a54b55",
+      "name": "Tumbril Storm",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 430920
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "8bbcd2cd-1e4b-4b0b-a65c-385bb2a02c32",
+      "name": "Tumbril Storm AA",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 452466
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "d4662193-10ab-4912-8ca4-d64ead0e6f3b",
+      "name": "Greycat STV",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 75600
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 1890
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 1795
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 1890
+        }
+      ]
+    },
+    {
+      "uuid": "11ebc47d-4763-4faa-9020-171cf6c2651f",
+      "name": "Gatac Syulen",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 2082500
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "41a84db8-062b-4359-ad16-611ad540fbdb",
+      "name": "Esperia Talon",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 3260250
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "2000c8d9-f151-4148-babe-6d9e413e2114",
+      "name": "Esperia Talon Shrike",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 3260250
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "0920e187-515d-466a-9c6a-a7dde9d2b1bc",
+      "name": "Anvil Terrapin",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 5433120
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 5433120
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "8c375d7e-0e44-42e8-b84b-c8d6b2e1256c",
+      "name": "RSI Ursa",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 107730
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 2835
+        },
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 2835
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 2835
+        }
+      ]
+    },
+    {
+      "uuid": "953f8277-43a5-4f88-b139-ee997ee5c482",
+      "name": "RSI Ursa Fortuna",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "881e3879-a186-44da-8b47-1d8f0a846438",
+      "name": "Anvil Valkyrie",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 19845000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "4e62ae95-d173-4b94-8b91-9d85bc963ba1",
+      "name": "Anvil Valkyrie Liberator Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "34295443-da9b-4e6c-9335-69d5f3b29a88",
+      "name": "Aegis Vanguard Harbinger",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 8200400
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "f80d39f3-50fc-4fca-ada1-76de4c237e3f",
+      "name": "Aegis Vanguard Hoplite",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 6645250
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "8aa6a16e-6c06-4db8-ac6d-165f97bf2565",
+      "name": "Aegis Vanguard Sentinel",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 7776700
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "a8208d11-32d4-4a4a-82c4-fd7f498b2ae6",
+      "name": "Aegis Vanguard Warden",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 7354900
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "34077e67-5e2c-4903-a17c-2d0e163751c7",
+      "name": "Drake Vulture",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 2513700
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 2646000
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 2646000
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 2646000
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 2778300
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 69457
+        }
+      ]
+    },
+    {
+      "uuid": "829d0525-e67e-4e57-9f52-b4e572a4f73d",
+      "name": "Origin X1",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 105840
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "b416dbbf-53f2-489e-a9dc-456286aa6c70",
+      "name": "Origin X1 Force",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 125685
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 132300
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "58e25524-8bd3-450f-8442-7b58fdfc8a50",
+      "name": "Origin X1 Velocity",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 113117
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 119070
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "e4770804-b43a-4c2d-a4e4-fedd410e50fb",
+      "name": "RSI Zeus Mk II ES",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4201470
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "02fe3279-3598-4ce6-96dc-0bc5cb90dfdc",
+      "name": "RSI Zeus Mk II CL",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 6463800
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Retaliator Cargo Module - Stern",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Retaliator Cargo Module - Bow",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Retaliator Torpedo Module – Bow",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "b67123fd-72b3-43e7-bfb3-069d59ba6190",
+      "name": "Anvil F8C Lightning Executive Edition",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "26c25ff6-fd3c-48f5-babc-4018ef780031",
+      "name": "Anvil F7A Hornet Mk II",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "933ca746-3c36-470f-8245-a247a3776455",
+      "name": "Anvil F7C Hornet Mk I",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "48415834-ac12-4c28-ad01-7c210f30c2da",
+      "name": "Mirai Pulse",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 175959
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 185220
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "d1f27f85-90db-4b5d-8ac2-09a9e9ee1315",
+      "name": "Mirai Pulse LX",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 201096
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 211680
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Argo MPUV Tractor",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 395010
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 415800
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 10395
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 10395
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 9876
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 9876
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 10395
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 10395
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 10395
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 10395
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 10395
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 10395
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 10395
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 9875
+        }
+      ]
+    },
+    {
+      "uuid": "b9bc6679-81ad-472b-8b98-866c72fe6a89",
+      "name": "Aegis Sabre Firebird",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 5580410
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "RSI Ursa Medivac",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 118503
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 118503
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 3118
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Drake Ironclad",
+      "purchase": [
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 41773300
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Drake Ironclad Assault",
+      "purchase": [
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 42880200
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 42880200
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 42880200
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "ac7ec306-b272-432e-8284-491da614419c",
+      "name": "Aegis Sabre Peregrine",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 3845960
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Argo ATLS",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 71820
+        },
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 75600
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 75600
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 75600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "3d371fd4-50e2-4b5e-859f-1086e905c946",
+      "name": "MISC Fortune",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1795500
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 1795500
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 1795500
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 1795500
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1984500
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 28350
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 28350
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 28350
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 28350
+        }
+      ]
+    },
+    {
+      "uuid": "16aa514f-12ac-43a4-b51d-44447252186e",
+      "name": "Crusader Intrepid",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1173060
+        },
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 1234800
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 1234800
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "30e0f7ac-26fc-4d31-a231-af625511e37e",
+      "name": "Mirai Guardian",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 6284250
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 6615000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "e98521b6-ea2f-4c10-9050-abc29d89d0e8",
+      "name": "Mirai Guardian QI",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Argo CSV-SM",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 359100
+        },
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 378000
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 378000
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 378000
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 378000
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 378000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "14b8caeb-d5e1-4816-9537-86ef19afada8",
+      "name": "MISC Starlancer TAC",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 13381200
+        },
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 13381200
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "ff873dda-2b79-4fa3-b3ce-535b8adff5e2",
+      "name": "MISC Starlancer MAX",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 8379000
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 8820000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "3fbff8f5-90f0-4c97-93f2-62d180aa8736",
+      "name": "Anvil F7C-R Hornet Tracker Mk II",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4882860
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "6fa37a02-3d65-448c-a989-02d42d9574dc",
+      "name": "Anvil F7C-S Hornet Ghost Mk II",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 5115370
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "35f6ad71-01c6-4762-a18b-99c7fdde9760",
+      "name": "Anvil Terrapin Medic",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 5704770
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Anvil Paladin",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 15876000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "8c2eefb6-d880-47c9-8fd0-1f88865d5511",
+      "name": "Anvil F7C-M Super Hornet Mk II",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Drake Golem",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1005480
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 1005480
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 1005480
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 1005480
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1111320
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 15083
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 15876
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 27783
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 15876
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 15082
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 15876
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Argo ATLS GEO",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 86184
+        },
+        {
+          "shop": "New Deal - Crusader Showroom - Orison",
+          "location": "Orison",
+          "price": 90720
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 90720
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 90720
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 90720
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 90720
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 90720
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Retaliator Torpedo Module – Stern",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "8ffde65b-ee9b-4a50-b386-3111175736b2",
+      "name": "Anvil Asgard",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 17860500
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "91c9418e-6240-4fb1-a18a-1e22ebfb7747",
+      "name": "Greycat MTC",
+      "purchase": [
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 71820
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 71820
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 71820
+        },
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 75600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "e98521b6-ea2f-4c10-9050-abc29d89d0e8",
+      "name": "Mirai Guardian MX",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 7038360
+        },
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 7408800
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "087b2253-2fc7-4fae-9f9d-97f64b7c43db",
+      "name": "Esperia Prowler Utility",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 16839000
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 336780
+        },
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 336780
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 336780
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 336780
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 336780
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "RSI Meteor",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 4309200
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Kruger L-21 Wolf",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 2381400
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Esperia Stinger",
+      "purchase": [
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 8930250
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Grey's Market Shiv",
+      "purchase": [
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 5556600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Kruger L-22 Alpha Wolf",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 4536000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Drake Clipper",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 3619730
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 3619730
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 3619730
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 3619730
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 3810240
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 90494
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 95256
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 90493
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 95256
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Drake Golem Ox",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1149120
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 1149120
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 1149120
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 1149120
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Greycat MDC",
+      "purchase": [
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 121197
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 121197
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 121197
+        },
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 127575
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "RSI Salvation",
+      "purchase": [
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1185030
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Everus Harbor",
+          "location": "Everus Harbor",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Baijini Point",
+          "location": "Baijini Point",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Seraphim",
+          "location": "Seraphim Station",
+          "price": 31185
+        },
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 31185
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Port Tressler",
+          "location": "Port Tressler",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - Cargo Center - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 31185
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 31185
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 31185
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Kruger S-65 Stingray",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "RSI Hermes",
+      "purchase": [
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 7110180
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 187110
+        },
+        {
+          "shop": "Regal Luxury Rentals - New Babbage Interstellar Spaceport - New Babbage",
+          "location": "New Babbage",
+          "price": 187110
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 187110
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 187110
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "Argo MOTH",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 8483740
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 8483740
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 8483740
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 8483740
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 8930250
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Vantage Rentals - HUR-L1",
+          "location": "HUR-L1 Green Glade Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L1",
+          "location": "MIC-L1 Shallow Frontier Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L2",
+          "location": "MIC-L2 Long Forest Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - MIC-L5",
+          "location": "MIC-L5 Modern Icarus Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - HUR-L2",
+          "location": "HUR-L2 Faithful Dream Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Pyro)",
+          "location": "Stanton Gateway (Pyro)",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Pyro)",
+          "location": "Nyx Gateway (Pyro)",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L2",
+          "location": "ARC-L2 Lively Pathway Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L1",
+          "location": "ARC-L1 Wide Forest Station",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Stanton)",
+          "location": "Pyro Gateway (Stanton)",
+          "price": 223257
+        },
+        {
+          "shop": "Vantage Rentals - CRU-L1",
+          "location": "CRU-L1 Ambitious Dream Station",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - ARC-L4",
+          "location": "ARC-L4 Faint Glen Station",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Stanton Gateway (Nyx)",
+          "location": "Stanton Gateway (Nyx)",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Pyro Gateway (Nyx)",
+          "location": "Pyro Gateway (Nyx)",
+          "price": 223256
+        },
+        {
+          "shop": "Teach's Rentals - Levski",
+          "location": "Levski",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Nyx Gateway (Stanton)",
+          "location": "Nyx Gateway (Stanton)",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Terra Gateway (Stanton)",
+          "location": "Terra Gateway (Stanton)",
+          "price": 223256
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 223256
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "RSI Aurora Mk II",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 904932
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 904932
+        }
+      ],
+      "rentals": [
+        {
+          "shop": "Traveler Rentals - Riker Memorial Spaceport - Area 18",
+          "location": "Area 18",
+          "price": 23814
+        },
+        {
+          "shop": "Vantage Rentals - Lorville",
+          "location": "Lorville",
+          "price": 22623
+        },
+        {
+          "shop": "Traveler Rentals - August Dunlow Spaceport - Orison",
+          "location": "Orison",
+          "price": 23814
+        }
+      ]
+    },
+    {
+      "uuid": "",
+      "name": "RSI Aurora Mk I SE",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Greycat UTV",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 75600
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 75600
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Drake Pitbull",
+      "purchase": [
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 605982
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 605982
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 605982
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 637875
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Origin M80",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 7938000
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "MISC Starlite",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 1058400
+        },
+        {
+          "shop": "Teach's Ship Shop - Levski",
+          "location": "Levski",
+          "price": 1058400
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Tiburon",
+      "purchase": [
+        {
+          "shop": "New Deal - Teasa Spaceport - Lorville",
+          "location": "Lorville",
+          "price": 37001700
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Gatac Tyilui",
+      "purchase": [
+        {
+          "shop": "Astro Armada - Area 18",
+          "location": "Area 18",
+          "price": 9436330
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "0e11d3df-88cc-4e4a-8ba0-c2e6943a2802",
+      "name": "Grey's Market Basher",
+      "purchase": [
+        {
+          "shop": "Buy and Fly - Ruin Station",
+          "location": "Ruin Station",
+          "price": 3174190
+        },
+        {
+          "shop": "Buy and Fly - Checkmate",
+          "location": "Checkmate Station",
+          "price": 3174190
+        },
+        {
+          "shop": "Buy and Fly - Orbituary",
+          "location": "Orbituary",
+          "price": 3174190
+        }
+      ],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Sabre Raven EX",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "Aegis Sabre Raven EX",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "",
+      "name": "RSI Constellation Mk V Centaurus",
+      "purchase": [],
+      "rentals": []
+    },
+    {
+      "uuid": "6a77c8c6-87ef-4d01-9401-024e1b3fcc74",
+      "name": "Roberts Space Industries Skylark",
+      "purchase": [],
+      "rentals": []
+    }
+  ]
+}

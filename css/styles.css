@@ -10788,3 +10788,87 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .gear-figure figcaption { font-size: 11px; line-height: 1.5; color: var(--color-text-secondary); }
 .gear-figure a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .gear-table th::after { content: ''; display: block; clear: both; }
+
+/* Equipment database: stable filters, comparison workspace and body status. */
+#gear .section-header { margin-bottom: 28px; }
+.gear-toolbar { padding: 12px; border: 1px solid var(--ge-line); border-radius: 12px; background: #14161a; }
+.gear-toolbar .gear-tabs { flex: 0 0 auto; }
+.gear-workspace { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px; align-items: start; }
+.gear-filters { position: sticky; top: 88px; border: 1px solid var(--ge-line); border-radius: 12px; background: #14161a; }
+.gear-filters summary { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 16px; cursor: pointer; font-size: 14px; font-weight: 700; }
+.gear-filters summary span { color: var(--color-text-secondary); font-size: 12px; font-weight: 400; }
+.gear-filter-fields { display: grid; gap: 14px; padding: 0 14px 16px; }
+.gear-filter-fields .gear-select { width: 100%; }
+.gear-filter-fields input[type=number] { width: 100%; min-height: 40px; padding: 8px 12px; border: 1px solid var(--ge-line); border-radius: 8px; background: var(--ge-card); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.gear-shop-filter { display: flex; align-items: start; gap: 9px; padding: 12px 0; border-block: 1px solid var(--ge-line); font-size: 13px; line-height: 1.5; cursor: pointer; }
+.gear-shop-filter input { width: 18px; height: 18px; flex: 0 0 auto; margin-top: 3px; accent-color: var(--volt-orange); }
+.gear-shop-filter small { display: block; margin-top: 5px; color: var(--color-text-secondary); font-size: 12px; }
+.gear-columns { grid-template-columns: minmax(0, 1fr); }
+.gear-side { position: static; max-height: none; }
+.gear-count { padding: 4px 0; color: #c5cbd3; font-variant-numeric: tabular-nums; }
+.gear-table thead th { padding-block: 12px; }
+.gear-figure figcaption { font-size: 12px; }
+.gear-fit { grid-template-columns: minmax(420px, 1fr) minmax(0, 1.2fr); }
+.gear-fit-body { padding: 18px; gap: 12px; background: radial-gradient(ellipse at 50% 45%, #26303a, #11161c 65%); }
+.gear-body-heading { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.gear-body-heading h3 { margin: 0; font-size: 18px; }
+.gear-body-heading > span { color: #bfc7d0; font-size: 12px; }
+.gear-body-map { display: grid; grid-template-columns: minmax(0, 1fr) minmax(100px, 0.85fr) minmax(0, 1fr); align-items: center; gap: 8px; }
+.gear-body-cards { display: grid; align-content: space-between; gap: 18px; height: 90%; }
+.gear-body-card { position: relative; display: grid; align-content: start; gap: 7px; min-width: 0; padding: 10px; border: 1px solid #444e5a; border-radius: 6px; background: #161c23; color: #ecf0f4; text-align: left; font: inherit; cursor: pointer; }
+.gear-body-card.is-selected { border-color: var(--volt-orange); box-shadow: inset 3px 0 0 var(--volt-orange); background: #29221f; }
+.gear-body-card:hover { border-color: #aab3bf; }
+.gear-body-label { display: flex; align-items: baseline; justify-content: space-between; gap: 5px; font-size: 13px; font-weight: 600; }
+.gear-body-label strong { font-size: 17px; font-variant-numeric: tabular-nums; }
+.gear-body-label small { font-size: 11px; color: #bfc7d0; }
+.gear-body-card meter { display: block; width: 100%; height: 8px; accent-color: #83bc99; }
+.gear-body-card meter::-webkit-meter-bar { background: #313b44; border: 0; border-radius: 2px; }
+.gear-body-card meter::-webkit-meter-optimum-value { background: #83bc99; }
+.gear-body-equipment { color: #d4dae1; font-size: 12px; line-height: 1.45; overflow-wrap: anywhere; }
+.gear-body-damage { color: #b5bec9; font-size: 12px; line-height: 1.4; }
+.gear-body-damage strong { color: #ffac94; }
+.gear-silhouette-part { fill: url(#gear-suit); stroke: #84909b; stroke-width: 1; }
+.gear-silhouette-part.is-protected { fill: #596b73; stroke: #b6c7cd; }
+.gear-silhouette-part.is-selected { fill: #755245; stroke: #ff9b79; stroke-width: 2; }
+.gear-suit-seams { fill: none; stroke: #171f27; stroke-width: 1.6; opacity: 0.8; }
+.gear-body-axis { stroke: #667480; stroke-width: 0.5; stroke-dasharray: 2 7; opacity: 0.35; }
+.gear-body-inspector { display: grid; gap: 8px; margin: 0; padding-top: 14px; border-top: 1px solid #3a444f; }
+.gear-body-inspector > div { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+.gear-body-inspector dt { flex: 0 0 auto; color: #bfc7d0; }
+.gear-body-inspector dd { margin: 0; text-align: right; }
+@media (min-width: 1600px) {
+    .gear-columns { grid-template-columns: minmax(0, 1.6fr) minmax(330px, 1fr); }
+    .gear-side { position: sticky; top: 88px; max-height: calc(100vh - 104px); }
+}
+@media (max-width: 1100px) {
+    .gear-fit { grid-template-columns: minmax(0, 1fr); }
+    .gear-fit-body { position: static; }
+    .gear-body-map { max-width: 650px; width: 100%; margin-inline: auto; }
+}
+@media (max-width: 700px) {
+    .gear-workspace { grid-template-columns: minmax(0, 1fr); }
+    .gear-filters { position: static; }
+    .gear-filter-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gear-shop-filter, .gear-filter-fields > .gear-note, .gear-filter-fields > button { grid-column: 1 / -1; }
+    .gear-toolbar { padding: 8px; gap: 8px; }
+    .gear-toolbar .gear-tabs { width: 100%; }
+    .gear-toolbar .gear-search { flex: 1 1 150px; }
+    .gear-toolbar > .gear-select { flex: 1 1 120px; }
+    .gear-tab { padding-inline: 12px; }
+    .gear-item-name { grid-template-columns: 44px minmax(100px, 1fr); gap: 8px; }
+    .gear-thumb { width: 44px; height: 52px; }
+    .gear-table th, .gear-table td { padding: 8px; }
+    .gear-list[data-gear-type=weapon] tr > :nth-child(2), .gear-list[data-gear-type=weapon] tr > :nth-child(3), .gear-list[data-gear-type=weapon] tr > :nth-child(4), .gear-list[data-gear-type=weapon] tr > :nth-child(6), .gear-list[data-gear-type=weapon] tr > :nth-child(7), .gear-list[data-gear-type=armor] tr > :nth-child(2), .gear-list[data-gear-type=armor] tr > :nth-child(5), .gear-list[data-gear-type=armor] tr > :nth-child(6) { display: none; }
+    .gear-list .gear-scroll-hint { display: none; }
+    .gear-fit-body { padding: 12px; }
+    .gear-body-map { grid-template-columns: minmax(0, 1fr) 82px minmax(0, 1fr); gap: 4px; }
+    .gear-body-cards { height: auto; gap: 8px; }
+    .gear-body-card { padding: 8px 6px; }
+    .gear-body-label { flex-wrap: wrap; }
+    .gear-body-label strong { font-size: 15px; }
+    .gear-body-heading { flex-wrap: wrap; gap: 4px; }
+}
+
+.gear-filter-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.gear-filter-chips:empty { display: none; }
+.gear-filter-chips .gear-add { border-color: rgba(255, 92, 64, .35); font-size: 12px; }

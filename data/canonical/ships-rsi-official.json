@@ -4,9 +4,9 @@
   "source": "RSI Ship Matrix (robertsspaceindustries.com/ship-matrix/index)",
   "retrievedAt": "2026-07-18",
   "generatedFromCommit": "1693ccdca05713b35d877970a0f361156e2182c3",
-  "count": 29,
+  "count": 27,
   "byStatus": {
-    "concept": 27,
+    "concept": 25,
     "flight-ready": 2
   },
   "records": [
@@ -211,26 +211,6 @@
       "descriptionEnHash": "1a8e91d88316917c"
     },
     {
-      "id": "galaxy",
-      "name": "Galaxy",
-      "catalogStatus": "concept",
-      "rsiProductionStatus": "in-concept",
-      "source": "rsi-official",
-      "sourceType": "ship-matrix",
-      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/galaxy/Galaxy",
-      "retrievedAt": "2026-07-18",
-      "rsi": {
-        "manufacturer": "Roberts Space Industries",
-        "role": "Modular",
-        "size": "large",
-        "crewMin": 1,
-        "crewMax": 6,
-        "cargo": 64,
-        "descriptionEn": "Featuring a fully modular design and an onboard hangar capable of deploying small ships, the cutting-edge Galaxy has versatility built into its DNA with a highly configurable main deck that can be outfitted with comprehensive facilities to support cargo, medical, or refining operations."
-      },
-      "descriptionEnHash": "9f3c02efe447554b"
-    },
-    {
       "id": "genesis",
       "name": "Genesis",
       "catalogStatus": "concept",
@@ -369,26 +349,6 @@
         "descriptionEn": "The Anvil Legionnaire presents the civilian market with a military style boarding vessel capable of occupying ships of varying sizes, crews, and capacities. High-performance jump seats safely transport a boarding party of up to ten into the action, while integrated systems let your copilot bypass security protocols on the target vessel, mitigating risk like never before."
       },
       "descriptionEnHash": "b01597d767e00977"
-    },
-    {
-      "id": "liberator",
-      "name": "Liberator",
-      "catalogStatus": "concept",
-      "rsiProductionStatus": "in-concept",
-      "source": "rsi-official",
-      "sourceType": "ship-matrix",
-      "sourceUrl": "https://robertsspaceindustries.com/pledge/ships/liberator/Liberator",
-      "retrievedAt": "2026-07-18",
-      "rsi": {
-        "manufacturer": "Anvil Aerospace",
-        "role": "Light Carrier",
-        "size": "large",
-        "crewMin": 1,
-        "crewMax": 2,
-        "cargo": 400,
-        "descriptionEn": "Anvil continues its tradition of excellence with the Liberator, an open-air vehicle carrier that applies the tradition of long-range transport to a smaller scale. Designed with the same quantum drive and long-distance capabilities of military-spec carriers and pathfinders but tailored to the civilian market, the Liberator puts your fleet on the front lines of any operation."
-      },
-      "descriptionEnHash": "26d2bfc43a867794"
     },
     {
       "id": "merchantman",

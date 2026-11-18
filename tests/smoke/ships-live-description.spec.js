@@ -23,8 +23,8 @@ test.describe('함선 설명 KO 번역 (A-9)', () => {
 
         // Erkul EN("As the battles of today...")의 번역본 — 한국어 + 고유명사 영문 유지
         await expect(desc).toContainText(/[가-힣]/);
-        await expect(desc).toContainText('Anvil Aerospace');
-        await expect(desc).toContainText('Asgard');
+        await expect(desc).toContainText('앤빌');
+        await expect(desc).toContainText('아스가르드');
         // 기존 VOLT 큐레이션 설명은 legacy로 밀려나 표시되지 않는다
         await expect(desc).not.toContainText('중형급 수송선');
     });
@@ -46,7 +46,7 @@ test.describe('함선 설명 KO 번역 (A-9)', () => {
         const desc = await openShipModalByName(page, 'Carrack');
 
         await expect(desc).toContainText(/[가-힣]/);
-        await expect(desc).toContainText('Anvil Aerospace');
+        await expect(desc).toContainText('앤빌');
     });
 
     test('모바일 390px: 긴 한국어 번역 설명 overflow 없음', async ({ page }) => {

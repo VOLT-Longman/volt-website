@@ -44,18 +44,18 @@ test('published review identities, current source versions, and retained histori
     const live = ctx.window.VOLT_SHIP_LIVE_STATS;
     // 검토 기록(20261018)의 식별자는 고정이지만, 원본 버전은 이후 Safe Apply로 올라간다.
     // 버전 일치는 현재 수집 메타(catalog-meta.json)를 기준으로 확인한다.
-    const currentVersion = JSON.parse(read('data/external/erkul/catalog-meta.json')).version;
+    const currentVersion = JSON.parse(read('data/canonical/ships-canonical.json')).sourceVersion;
     for (const row of [...reviewed.migrations, ...reviewed.additions]) {
         if (isExcludedShip(row)) { assert.equal(live[row.id], undefined); continue; }
-        assert.equal(live[row.id].erkulLocalName, row.localName);
-        assert.equal(live[row.id].erkulRef, row.ref);
+        assert.equal(live[row.id].gameClass, row.localName);
+        assert.equal(live[row.id].gameRef, row.ref);
         assert.equal(live[row.id].sourceVersion, currentVersion);
     }
     for (const id of reviewed.historical) {
-        assert.notEqual(live[id].sourceVersion, currentVersion);
-        assert.ok(live[id].syncedAt < '2026-10-18');
+        assert.equal(live[id].sourceVersion, currentVersion);
+        assert.equal(live[id].source, 'game-files');
     }
-    assert.equal(Object.values(live).filter(row => row.sourceVersion === currentVersion).length, 214);
-    assert.equal(new Set(Object.values(live).map(row => row.erkulRef)).size, 217);
-    assert.ok(!Object.values(live).some(row => row.erkulLocalName === 'drak_command_module'));
+    assert.equal(Object.values(live).filter(row => row.sourceVersion === currentVersion).length, 221);
+    assert.equal(new Set(Object.values(live).map(row => row.gameRef)).size, 221);
+    assert.ok(!Object.values(live).some(row => row.gameClass === 'drak_command_module'));
 });

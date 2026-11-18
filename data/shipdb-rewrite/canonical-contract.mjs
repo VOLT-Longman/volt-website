@@ -9,7 +9,7 @@ export const OFFICIAL_SPEC_OVERRIDE_FIELDS = ['cargoScu'];
 export const OFFICIAL_SPEC_OVERRIDE_SOURCE = 'rsi-official';
 
 // 1단계 canonical 생성기 경로. 존재하면 아래 CANONICAL_FORBIDDEN_INPUTS를 참조하지 않아야 한다.
-export const CANONICAL_GENERATOR_PATH = 'scripts/shipdb-rewrite/build-canonical.mjs';
+export const CANONICAL_GENERATOR_PATH = 'scripts/shipdb-rewrite/build-game-ships.mjs';
 
 // 0단계 기준선. canonical 선정 기준(hasLive)과 제외/별칭 집합의 권위 소스.
 export const BASELINE_PATH = 'data/shipdb-rewrite-baseline.json';
@@ -62,7 +62,11 @@ export const RSI_OFFICIAL_FORBIDDEN_FIELDS = ['hp', 'speed', 'speeds', 'scm', 'd
 
 // canonical 생성기가 사실원으로 읽어서는 안 되는 입력(PM 보강 2).
 // canonical의 사실원은 Erkul live 레이어(ship-live-stats.js·ship-market.js)뿐이다.
+// 2026-11-18 owner decision: game files own performance.
 export const CANONICAL_FORBIDDEN_INPUTS = [
+  'data/external/erkul/',
+  "read('data/ship-live-stats.js')",
+  "read('data/ship-market.js')",
   'data/volt-data.js',            // VOLT 편집 혼재 DB
   'data/ship-prices-usd.json',    // SC Wiki 외부 시세
   'data/rsi-ship-matrix-index.json', // RSI matrix — focus/tags 파생 원천
