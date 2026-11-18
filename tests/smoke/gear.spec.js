@@ -22,7 +22,7 @@ test('개인 장비: 무기를 고르면 수치와 발사 방식, 변종별 판�
     await page.locator('#gear-search').fill('P4-AR');
     const row = page.locator('.gear-list tbody tr').first();
     await expect(row).toContainText('P4-AR 소총');
-    await expect(row).toContainText('변종');
+    await expect(row).toContainText('스킨·버전');
     await expect(row).toContainText('5,130');
     await row.locator('[data-gear-pick]').click();
     const detail = page.locator('.gear-detail');
@@ -47,11 +47,11 @@ test('개인 장비: 변종 이름으로 찾아도 그 묶음이 나오고, 순�
     expect(await page.locator('.gear-list tbody tr').count()).toBeLessThan(15);
     await page.locator('#gear-search').fill('스칼펠');
     await page.locator('.gear-list [data-gear-pick]').first().click();
-    await expect(page.locator('.gear-detail')).toContainText('한 번 당겨 2발');
+    await expect(page.locator('.gear-detail')).toContainText('방아쇠 한 번에 2발');
     await expect(page.locator('.gear-detail')).toContainText('발사 순서의 대기 시간으로 계산한 값');
     await page.locator('#gear-search').fill('');
     await page.locator('#gear-kind').selectOption('sniper');
-    for (const cell of await page.locator('.gear-list tbody td:nth-child(2)').allTextContents()) expect(cell).toContain('저격소총');
+    for (const cell of await page.locator('.gear-list tbody td:nth-child(2)').allTextContents()) expect(cell).toContain('스나이퍼');
     await page.locator('#gear-sort').selectOption('dps');
     await expect(page.locator('#gear-sort')).toBeFocused();
 });
@@ -63,7 +63,7 @@ test('개인 장비: 방어구는 부위·등급으로 거르고 피해 감소�
     await expect(page.locator('.gear-list tbody tr').first()).toBeVisible();
     await page.locator('#gear-slot').selectOption('core');
     await page.locator('#gear-class').selectOption('heavy');
-    for (const cell of await page.locator('.gear-list tbody td:nth-child(3)').allTextContents()) expect(cell).toBe('중(重)장갑');
+    for (const cell of await page.locator('.gear-list tbody td:nth-child(3)').allTextContents()) expect(cell).toBe('헤비 아머');
     await page.locator('#gear-search').fill('ADP-mk4');
     await page.locator('.gear-list [data-gear-pick]').first().click();
     const detail = page.locator('.gear-detail');
@@ -124,7 +124,7 @@ test('착용 시험: 방어구를 입히면 부위별 한 발 피해가 게임 �
     await page.locator('#gear-search').fill('P4-AR');
     await page.locator('.gear-list [data-gear-pick]').first().click();
     await page.locator('[data-gear-shoot]').click();
-    await expect(page.locator('.gear-tab.is-active')).toHaveText('착용 시험');
+    await expect(page.locator('.gear-tab.is-active')).toHaveText('착용·피해 테스트');
     await expect(page.locator('#gear-fit-weapon')).toHaveValue('behr_rifle_ballistic_01');
     const row = (name) => page.locator('.gear-fit-table tbody tr').filter({ has: page.getByRole('rowheader', { name, exact: true }) });
     // 맨몸, 거리 10m: P4-AR 한 발 12. 머리 ×4 = 48, 몸통 ×2 = 24, 팔다리 ×1.5 = 18. 전체 체력 70.
@@ -159,7 +159,7 @@ test('방어구 상세에서 착용 시험으로 입히고, 장바구니에 담�
     await page.locator('#gear-slot').selectOption('core');
     await page.locator('.gear-list [data-gear-pick]').first().click();
     await page.locator('[data-gear-wear]').click();
-    await expect(page.locator('.gear-tab.is-active')).toHaveText('착용 시험');
+    await expect(page.locator('.gear-tab.is-active')).toHaveText('착용·피해 테스트');
     await expect(page.locator('[data-gear-slot="core"]')).not.toHaveValue('');
     // 장바구니: 가격이 있는 P4-AR 기본형 두 개와 가격을 모르는 변종 하나.
     await page.locator('[data-gear-view="weapon"]').click();
