@@ -4884,6 +4884,8 @@ body.nav-trade-open::before {
     min-width: 0;
 }
 
+body:has(.loadout-picker[aria-modal="true"]) .pwa-install-prompt { display: none; }
+
 .pwa-install-prompt strong {
     font-size: 15px;
     letter-spacing: var(--tracking-snug);

@@ -43,13 +43,18 @@ test('375px 장비 바로가기는 전력 패널을 지나 실제 장비에 도�
     const device = page.getByRole('group', { name: '실드', exact: true }).locator('.loadout-power-device').first();
     await expect(device.locator('span').first()).toHaveText('#1');
     await expect(device.locator('span').first()).toBeVisible();
+    await page.evaluate(() => window.dispatchEvent(new Event('beforeinstallprompt', { cancelable: true })));
+    await expect(page.locator('#pwa-install-prompt')).toBeVisible();
     await page.locator('.loadout-group.is-weapon [data-loadout-component-open]').first().click();
+    await expect(page.locator('#pwa-install-prompt')).toBeHidden();
     const row = page.locator('.loadout-optrows tr').first();
     await expect(row.locator('.loadout-cmp-cell:visible')).toHaveCount(4);
     await page.getByLabel('상세 수치·변화량', { exact: true }).check();
     expect(await row.locator('.loadout-cmp-cell:visible').count()).toBeGreaterThan(4);
     await page.getByLabel('상세 수치·변화량', { exact: true }).uncheck();
     await expect(row.locator('.loadout-cmp-cell:visible')).toHaveCount(4);
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#pwa-install-prompt')).toBeVisible();
 });
 
 test('같은 랙을 펼쳐도 각각 교체하며 다른 랙의 미사일은 유지한다', async ({ page }) => {
