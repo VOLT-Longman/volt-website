@@ -31,10 +31,21 @@ const byName = new Map(); for (const item of game) { const key = norm(item.name)
 // 게임 값에서 UEX 속성과 견줄 수 있는 것만 뽑는다.
 function gameValues(item) {
     if (item.kind === 'weapon') {
-        const rates = (item.modes || []).map((mode) => mode.rpm).filter(Boolean);
+        // 순차 발사 무기는 한 바퀴 시간으로 구한 실제 연사를 쓴다. 한 번 당겨 여러 발이 나가면 UEX 표기에 맞춰 "당김 횟수"로 견준다.
+        const rates = (item.modes || []).map((mode) => (mode.kind === 'Sequence' ? (mode.shotsPerCycle > 1 && mode.sequence !== 'Looping' ? mode.cyclesPerMinute : mode.rpmEffective ?? mode.cyclesPerMinute) ?? mode.rpm : mode.rpm)).filter(Boolean);
         return { rateOfFire: rates.length ? Math.max(...rates) : undefined, magazineSize: item.magazineSize };
     }
-    if (item.kind === 'attachment') return { magazineSize: item.magazineSize, };
+    return armorValues(item);
+}
+// 연사 값의 믿을 만한 정도: sequence = 발사 순서의 대기 시간으로 계산, automatic = 연사·점사의 원본 값,
+// upperBound = 단발·충전식의 원본 값(장전 동작·충전 시간이 빠져 있어 실제는 더 느릴 수 있다).
+function rateBasis(item) {
+    const kinds = (item.modes || []).map((mode) => mode.kind);
+    if (kinds.includes('Sequence')) return 'sequence';
+    return kinds.some((kind) => kind === 'Rapid' || kind === 'Burst') ? 'automatic' : 'upperBound';
+}
+function armorValues(item) {
+    if (item.kind === 'attachment') return { magazineSize: item.magazineSize };
     // 배율은 견주지 않는다: 원본의 zoomScale 이 제품 이름의 배율과 같은 값인지 확인하지 못했다.
     return {
         damageReduction: item.takes?.physical !== undefined ? Math.round((1 - item.takes.physical) * 100) : undefined,
@@ -73,7 +84,7 @@ for (const [category, kind] of Object.entries(CATEGORIES)) {
                 // UEX 가 용량을 SCU 로 적은 경우(8.0, 6.4 등)는 µSCU 로 맞춘다.
                 if (field === 'capacity' && other < 1000 && value >= 1000) other *= 1000;
                 if (Math.abs(other - value) <= (TOLERANCE[field] ?? 0.5)) bump(field, 'same');
-                else { bump(field, 'different'); differences.push({ field, game: value, uex: other, adopted: value }); }
+                else { bump(field, 'different'); differences.push({ field, game: value, uex: other, adopted: value, basis: field === 'rateOfFire' ? rateBasis(match) : undefined }); }
             }
             if (differences.length) entry.differences = differences;
         }

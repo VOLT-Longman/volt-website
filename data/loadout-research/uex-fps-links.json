@@ -60,7 +60,7 @@
     "uex": 391,
     "linked": 369,
     "withShops": 76,
-    "withDifferences": 199
+    "withDifferences": 196
    },
    "undersuit": {
     "uex": 205,
@@ -106,8 +106,8 @@
     "uexMissing": 148
    },
    "rateOfFire": {
-    "same": 52,
-    "different": 179,
+    "same": 55,
+    "different": 176,
     "uexMissing": 72
    }
   },
@@ -27908,7 +27908,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -27927,7 +27928,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -27946,7 +27948,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -27965,7 +27968,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -27984,7 +27988,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -28003,7 +28008,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -28044,7 +28050,8 @@
      "field": "rateOfFire",
      "game": 810,
      "uex": 550,
-     "adopted": 810
+     "adopted": 810,
+     "basis": "automatic"
     }
    ]
   },
@@ -28063,7 +28070,8 @@
      "field": "rateOfFire",
      "game": 90,
      "uex": 75,
-     "adopted": 90
+     "adopted": 90,
+     "basis": "upperBound"
     }
    ]
   },
@@ -28082,7 +28090,8 @@
      "field": "rateOfFire",
      "game": 925,
      "uex": 1100,
-     "adopted": 925
+     "adopted": 925,
+     "basis": "automatic"
     }
    ]
   },
@@ -28112,7 +28121,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -28131,7 +28141,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 300,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -28148,9 +28159,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 700,
+     "game": 625,
      "uex": 562.5,
-     "adopted": 700
+     "adopted": 625,
+     "basis": "sequence"
     }
    ]
   },
@@ -28177,7 +28189,8 @@
      "field": "rateOfFire",
      "game": 810,
      "uex": 550,
-     "adopted": 810
+     "adopted": 810,
+     "basis": "automatic"
     }
    ]
   },
@@ -28196,7 +28209,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -28215,7 +28229,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -28232,9 +28247,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 455,
+     "game": 375,
      "uex": 120,
-     "adopted": 455
+     "adopted": 375,
+     "basis": "sequence"
     }
    ]
   },
@@ -28275,7 +28291,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 800,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28343,7 +28360,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -28362,7 +28380,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 30,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -28414,7 +28433,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 800,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28452,7 +28472,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -28479,7 +28500,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 30,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -28498,7 +28520,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 30,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -28517,7 +28540,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 450,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28536,7 +28560,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 450,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28555,7 +28580,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 450,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28574,7 +28600,8 @@
      "field": "rateOfFire",
      "game": 810,
      "uex": 550,
-     "adopted": 810
+     "adopted": 810,
+     "basis": "automatic"
     }
    ]
   },
@@ -28593,7 +28620,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 800,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28612,7 +28640,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 450,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28639,7 +28668,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 500,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     },
     {
      "field": "magazineSize",
@@ -28675,7 +28705,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 30,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -28694,7 +28725,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 450,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28713,7 +28745,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 450,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28730,9 +28763,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 800,
+     "game": 175,
      "uex": 105,
-     "adopted": 800
+     "adopted": 175,
+     "basis": "sequence"
     }
    ]
   },
@@ -28751,7 +28785,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 800,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28770,7 +28805,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -28789,7 +28825,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 30,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -28808,7 +28845,8 @@
      "field": "rateOfFire",
      "game": 810,
      "uex": 550,
-     "adopted": 810
+     "adopted": 810,
+     "basis": "automatic"
     }
    ]
   },
@@ -28827,7 +28865,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 800,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -28846,7 +28885,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 30,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -28904,7 +28944,8 @@
      "field": "rateOfFire",
      "game": 650,
      "uex": 800,
-     "adopted": 650
+     "adopted": 650,
+     "basis": "automatic"
     }
    ]
   },
@@ -28922,7 +28963,8 @@
      "field": "rateOfFire",
      "game": 55,
      "uex": 20,
-     "adopted": 55
+     "adopted": 55,
+     "basis": "upperBound"
     }
    ]
   },
@@ -28940,7 +28982,8 @@
      "field": "rateOfFire",
      "game": 225,
      "uex": 120,
-     "adopted": 225
+     "adopted": 225,
+     "basis": "upperBound"
     }
    ]
   },
@@ -28958,7 +29001,8 @@
      "field": "rateOfFire",
      "game": 170,
      "uex": 140,
-     "adopted": 170
+     "adopted": 170,
+     "basis": "upperBound"
     }
    ]
   },
@@ -28976,7 +29020,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -29000,7 +29045,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -29024,7 +29070,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -29136,7 +29183,8 @@
      "field": "rateOfFire",
      "game": 225,
      "uex": 120,
-     "adopted": 225
+     "adopted": 225,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29166,7 +29214,8 @@
      "field": "rateOfFire",
      "game": 63,
      "uex": 450,
-     "adopted": 63
+     "adopted": 63,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29191,7 +29240,8 @@
      "field": "rateOfFire",
      "game": 60,
      "uex": 40,
-     "adopted": 60
+     "adopted": 60,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29209,7 +29259,8 @@
      "field": "rateOfFire",
      "game": 500,
      "uex": 300,
-     "adopted": 500
+     "adopted": 500,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29227,7 +29278,8 @@
      "field": "rateOfFire",
      "game": 500,
      "uex": 300,
-     "adopted": 500
+     "adopted": 500,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29245,7 +29297,8 @@
      "field": "rateOfFire",
      "game": 925,
      "uex": 1100,
-     "adopted": 925
+     "adopted": 925,
+     "basis": "automatic"
     }
    ]
   },
@@ -29261,9 +29314,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 800,
+     "game": 175,
      "uex": 105,
-     "adopted": 800
+     "adopted": 175,
+     "basis": "sequence"
     }
    ]
   },
@@ -29281,7 +29335,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 800,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -29319,7 +29374,8 @@
      "field": "rateOfFire",
      "game": 500,
      "uex": 300,
-     "adopted": 500
+     "adopted": 500,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29337,7 +29393,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 500,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -29353,9 +29410,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 800,
+     "game": 175,
      "uex": 105,
-     "adopted": 800
+     "adopted": 175,
+     "basis": "sequence"
     }
    ]
   },
@@ -29373,7 +29431,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -29391,7 +29450,8 @@
      "field": "rateOfFire",
      "game": 225,
      "uex": 120,
-     "adopted": 225
+     "adopted": 225,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29409,7 +29469,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 450,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -29427,7 +29488,8 @@
      "field": "rateOfFire",
      "game": 800,
      "uex": 400,
-     "adopted": 800
+     "adopted": 800,
+     "basis": "automatic"
     }
    ]
   },
@@ -29445,7 +29507,8 @@
      "field": "rateOfFire",
      "game": 55,
      "uex": 20,
-     "adopted": 55
+     "adopted": 55,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29463,7 +29526,8 @@
      "field": "rateOfFire",
      "game": 225,
      "uex": 120,
-     "adopted": 225
+     "adopted": 225,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29481,7 +29545,8 @@
      "field": "rateOfFire",
      "game": 225,
      "uex": 120,
-     "adopted": 225
+     "adopted": 225,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29499,7 +29564,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 500,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     },
     {
      "field": "magazineSize",
@@ -29521,9 +29587,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 455,
+     "game": 375,
      "uex": 120,
-     "adopted": 455
+     "adopted": 375,
+     "basis": "sequence"
     }
    ]
   },
@@ -29551,7 +29618,8 @@
      "field": "rateOfFire",
      "game": 650,
      "uex": 800,
-     "adopted": 650
+     "adopted": 650,
+     "basis": "automatic"
     }
    ]
   },
@@ -29597,7 +29665,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 300,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -29635,7 +29704,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 30,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -29653,7 +29723,8 @@
      "field": "rateOfFire",
      "game": 60,
      "uex": 40,
-     "adopted": 60
+     "adopted": 60,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29681,7 +29752,8 @@
      "field": "rateOfFire",
      "game": 650,
      "uex": 800,
-     "adopted": 650
+     "adopted": 650,
+     "basis": "automatic"
     }
    ]
   },
@@ -29699,7 +29771,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -29717,7 +29790,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -29783,7 +29857,8 @@
      "field": "rateOfFire",
      "game": 170,
      "uex": 140,
-     "adopted": 170
+     "adopted": 170,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29801,7 +29876,8 @@
      "field": "rateOfFire",
      "game": 170,
      "uex": 140,
-     "adopted": 170
+     "adopted": 170,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29819,7 +29895,8 @@
      "field": "rateOfFire",
      "game": 700,
      "uex": 30,
-     "adopted": 700
+     "adopted": 700,
+     "basis": "automatic"
     }
    ]
   },
@@ -29893,7 +29970,8 @@
      "field": "rateOfFire",
      "game": 63,
      "uex": 450,
-     "adopted": 63
+     "adopted": 63,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29911,7 +29989,8 @@
      "field": "rateOfFire",
      "game": 63,
      "uex": 450,
-     "adopted": 63
+     "adopted": 63,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29929,7 +30008,8 @@
      "field": "rateOfFire",
      "game": 63,
      "uex": 450,
-     "adopted": 63
+     "adopted": 63,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29947,7 +30027,8 @@
      "field": "rateOfFire",
      "game": 60,
      "uex": 400,
-     "adopted": 60
+     "adopted": 60,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29965,7 +30046,8 @@
      "field": "rateOfFire",
      "game": 60,
      "uex": 400,
-     "adopted": 60
+     "adopted": 60,
+     "basis": "upperBound"
     }
    ]
   },
@@ -29983,7 +30065,8 @@
      "field": "rateOfFire",
      "game": 60,
      "uex": 400,
-     "adopted": 60
+     "adopted": 60,
+     "basis": "upperBound"
     }
    ]
   },
@@ -30048,7 +30131,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -30072,7 +30156,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -30096,7 +30181,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 60,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     }
    ]
   },
@@ -30134,7 +30220,8 @@
      "field": "rateOfFire",
      "game": 55,
      "uex": 20,
-     "adopted": 55
+     "adopted": 55,
+     "basis": "upperBound"
     }
    ]
   },
@@ -30152,7 +30239,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 60,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     }
    ]
   },
@@ -30170,7 +30258,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -30188,7 +30277,16 @@
    "shops": 0,
    "cls": "apar_special_ballistic_02",
    "gameKind": "weapon",
-   "gameName": "Animus Missile Launcher"
+   "gameName": "Animus Missile Launcher",
+   "differences": [
+    {
+     "field": "rateOfFire",
+     "game": 42.9,
+     "uex": 300,
+     "adopted": 42.9,
+     "basis": "sequence"
+    }
+   ]
   },
   {
    "uexId": 2723,
@@ -30205,7 +30303,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -30223,15 +30322,7 @@
    "shops": 0,
    "cls": "ksar_sniper_ballistic_01_white_blue_01",
    "gameKind": "weapon",
-   "gameName": "Scalpel \"Permafrost\" Sniper Rifle",
-   "differences": [
-    {
-     "field": "rateOfFire",
-     "game": 600,
-     "uex": 50,
-     "adopted": 600
-    }
-   ]
+   "gameName": "Scalpel \"Permafrost\" Sniper Rifle"
   },
   {
    "uexId": 2740,
@@ -30247,7 +30338,8 @@
      "field": "rateOfFire",
      "game": 800,
      "uex": 400,
-     "adopted": 800
+     "adopted": 800,
+     "basis": "automatic"
     }
    ]
   },
@@ -30265,7 +30357,8 @@
      "field": "rateOfFire",
      "game": 1200,
      "uex": 1000,
-     "adopted": 1200
+     "adopted": 1200,
+     "basis": "automatic"
     }
    ]
   },
@@ -30310,7 +30403,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -30328,15 +30422,7 @@
    "shops": 0,
    "cls": "none_shotgun_ballistic_01",
    "gameKind": "weapon",
-   "gameName": "Deadrig Shotgun",
-   "differences": [
-    {
-     "field": "rateOfFire",
-     "game": 50,
-     "uex": 120,
-     "adopted": 50
-    }
-   ]
+   "gameName": "Deadrig Shotgun"
   },
   {
    "uexId": 2801,
@@ -30352,7 +30438,8 @@
      "field": "rateOfFire",
      "game": 925,
      "uex": 1100,
-     "adopted": 925
+     "adopted": 925,
+     "basis": "automatic"
     }
    ]
   },
@@ -30368,9 +30455,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 700,
+     "game": 625,
      "uex": 562.5,
-     "adopted": 700
+     "adopted": 625,
+     "basis": "sequence"
     }
    ]
   },
@@ -30399,7 +30487,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -30437,7 +30526,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 50,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -30461,7 +30551,8 @@
      "field": "rateOfFire",
      "game": 650,
      "uex": 800,
-     "adopted": 650
+     "adopted": 650,
+     "basis": "automatic"
     }
    ]
   },
@@ -30489,7 +30580,8 @@
      "field": "rateOfFire",
      "game": 1200,
      "uex": 1000,
-     "adopted": 1200
+     "adopted": 1200,
+     "basis": "automatic"
     }
    ]
   },
@@ -30507,7 +30599,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 60,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     }
    ]
   },
@@ -30566,7 +30659,8 @@
      "field": "rateOfFire",
      "game": 1200,
      "uex": 1000,
-     "adopted": 1200
+     "adopted": 1200,
+     "basis": "automatic"
     }
    ]
   },
@@ -30594,7 +30688,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -30612,7 +30707,8 @@
      "field": "rateOfFire",
      "game": 800,
      "uex": 300,
-     "adopted": 800
+     "adopted": 800,
+     "basis": "automatic"
     },
     {
      "field": "magazineSize",
@@ -30636,7 +30732,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 800,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -30664,7 +30761,8 @@
      "field": "rateOfFire",
      "game": 235,
      "uex": 475,
-     "adopted": 235
+     "adopted": 235,
+     "basis": "upperBound"
     }
    ]
   },
@@ -30682,7 +30780,8 @@
      "field": "rateOfFire",
      "game": 900,
      "uex": 800,
-     "adopted": 900
+     "adopted": 900,
+     "basis": "automatic"
     }
    ]
   },
@@ -30709,9 +30808,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 600,
+     "game": 50,
      "uex": 300,
-     "adopted": 600
+     "adopted": 50,
+     "basis": "sequence"
     },
     {
      "field": "magazineSize",
@@ -30745,7 +30845,8 @@
      "field": "rateOfFire",
      "game": 925,
      "uex": 1100,
-     "adopted": 925
+     "adopted": 925,
+     "basis": "automatic"
     }
    ]
   },
@@ -30763,7 +30864,8 @@
      "field": "rateOfFire",
      "game": 1200,
      "uex": 1000,
-     "adopted": 1200
+     "adopted": 1200,
+     "basis": "automatic"
     }
    ]
   },
@@ -30791,7 +30893,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 500,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     },
     {
      "field": "magazineSize",
@@ -30815,7 +30918,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -30843,7 +30947,8 @@
      "field": "rateOfFire",
      "game": 90,
      "uex": 75,
-     "adopted": 90
+     "adopted": 90,
+     "basis": "upperBound"
     }
    ]
   },
@@ -30880,9 +30985,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 800,
+     "game": 175,
      "uex": 105,
-     "adopted": 800
+     "adopted": 175,
+     "basis": "sequence"
     }
    ]
   },
@@ -30900,7 +31006,8 @@
      "field": "rateOfFire",
      "game": 925,
      "uex": 1100,
-     "adopted": 925
+     "adopted": 925,
+     "basis": "automatic"
     }
    ]
   },
@@ -30928,7 +31035,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -30946,7 +31054,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -30964,7 +31073,8 @@
      "field": "rateOfFire",
      "game": 925,
      "uex": 1100,
-     "adopted": 925
+     "adopted": 925,
+     "basis": "automatic"
     }
    ]
   },
@@ -30982,7 +31092,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -31010,7 +31121,8 @@
      "field": "rateOfFire",
      "game": 235,
      "uex": 475,
-     "adopted": 235
+     "adopted": 235,
+     "basis": "upperBound"
     }
    ]
   },
@@ -31046,7 +31158,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -31064,7 +31177,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -31143,7 +31257,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -31168,7 +31283,8 @@
      "field": "rateOfFire",
      "game": 385,
      "uex": 120,
-     "adopted": 385
+     "adopted": 385,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -31192,7 +31308,8 @@
      "field": "rateOfFire",
      "game": 385,
      "uex": 120,
-     "adopted": 385
+     "adopted": 385,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -31216,7 +31333,8 @@
      "field": "rateOfFire",
      "game": 385,
      "uex": 120,
-     "adopted": 385
+     "adopted": 385,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -31240,7 +31358,8 @@
      "field": "rateOfFire",
      "game": 385,
      "uex": 120,
-     "adopted": 385
+     "adopted": 385,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -31310,7 +31429,8 @@
      "field": "rateOfFire",
      "game": 385,
      "uex": 120,
-     "adopted": 385
+     "adopted": 385,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -31372,7 +31492,8 @@
      "field": "rateOfFire",
      "game": 385,
      "uex": 120,
-     "adopted": 385
+     "adopted": 385,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -31396,7 +31517,8 @@
      "field": "rateOfFire",
      "game": 385,
      "uex": 120,
-     "adopted": 385
+     "adopted": 385,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -31545,7 +31667,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -31563,7 +31686,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -31581,7 +31705,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -31599,7 +31724,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -31617,7 +31743,8 @@
      "field": "rateOfFire",
      "game": 325,
      "uex": 60,
-     "adopted": 325
+     "adopted": 325,
+     "basis": "upperBound"
     }
    ]
   },
@@ -31645,7 +31772,8 @@
      "field": "rateOfFire",
      "game": 325,
      "uex": 60,
-     "adopted": 325
+     "adopted": 325,
+     "basis": "upperBound"
     }
    ]
   },
@@ -31664,7 +31792,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -31682,7 +31811,8 @@
      "field": "rateOfFire",
      "game": 325,
      "uex": 60,
-     "adopted": 325
+     "adopted": 325,
+     "basis": "upperBound"
     }
    ]
   },
@@ -31780,7 +31910,8 @@
      "field": "rateOfFire",
      "game": 70,
      "uex": 60,
-     "adopted": 70
+     "adopted": 70,
+     "basis": "upperBound"
     }
    ]
   },
@@ -31806,9 +31937,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 600,
+     "game": 535,
      "uex": 525,
-     "adopted": 600
+     "adopted": 535,
+     "basis": "sequence"
     }
    ]
   },
@@ -31877,7 +32009,8 @@
      "field": "rateOfFire",
      "game": 1200,
      "uex": 1000,
-     "adopted": 1200
+     "adopted": 1200,
+     "basis": "automatic"
     }
    ]
   },
@@ -31895,7 +32028,8 @@
      "field": "rateOfFire",
      "game": 500,
      "uex": 20,
-     "adopted": 500
+     "adopted": 500,
+     "basis": "upperBound"
     }
    ]
   },
@@ -31923,9 +32057,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 600,
+     "game": 535,
      "uex": 525,
-     "adopted": 600
+     "adopted": 535,
+     "basis": "sequence"
     }
    ]
   },
@@ -31938,15 +32073,7 @@
    "minPrice": 3780,
    "cls": "none_shotgun_ballistic_01_green01",
    "gameKind": "weapon",
-   "gameName": "Deadrig 'Noxious' Shotgun",
-   "differences": [
-    {
-     "field": "rateOfFire",
-     "game": 50,
-     "uex": 120,
-     "adopted": 50
-    }
-   ]
+   "gameName": "Deadrig 'Noxious' Shotgun"
   },
   {
    "uexId": 5174,
@@ -31973,7 +32100,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -32011,7 +32139,8 @@
      "field": "rateOfFire",
      "game": 500,
      "uex": 300,
-     "adopted": 500
+     "adopted": 500,
+     "basis": "upperBound"
     }
    ]
   },
@@ -32065,7 +32194,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 200,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -32083,7 +32213,8 @@
      "field": "rateOfFire",
      "game": 385,
      "uex": 120,
-     "adopted": 385
+     "adopted": 385,
+     "basis": "upperBound"
     },
     {
      "field": "magazineSize",
@@ -32137,7 +32268,8 @@
      "field": "rateOfFire",
      "game": 500,
      "uex": 20,
-     "adopted": 500
+     "adopted": 500,
+     "basis": "upperBound"
     }
    ]
   },
@@ -32155,7 +32287,8 @@
      "field": "rateOfFire",
      "game": 500,
      "uex": 20,
-     "adopted": 500
+     "adopted": 500,
+     "basis": "upperBound"
     }
    ]
   },
@@ -32255,7 +32388,8 @@
      "field": "rateOfFire",
      "game": 55,
      "uex": 20,
-     "adopted": 55
+     "adopted": 55,
+     "basis": "upperBound"
     }
    ]
   },
@@ -32280,7 +32414,8 @@
      "field": "rateOfFire",
      "game": 650,
      "uex": 800,
-     "adopted": 650
+     "adopted": 650,
+     "basis": "automatic"
     }
    ]
   },
@@ -32298,7 +32433,8 @@
      "field": "rateOfFire",
      "game": 600,
      "uex": 500,
-     "adopted": 600
+     "adopted": 600,
+     "basis": "automatic"
     }
    ]
   },
@@ -32323,7 +32459,8 @@
      "field": "rateOfFire",
      "game": 325,
      "uex": 60,
-     "adopted": 325
+     "adopted": 325,
+     "basis": "upperBound"
     }
    ]
   },
@@ -32341,7 +32478,8 @@
      "field": "rateOfFire",
      "game": 325,
      "uex": 60,
-     "adopted": 325
+     "adopted": 325,
+     "basis": "upperBound"
     }
    ]
   },
@@ -32359,7 +32497,8 @@
      "field": "rateOfFire",
      "game": 500,
      "uex": 300,
-     "adopted": 500
+     "adopted": 500,
+     "basis": "upperBound"
     }
    ]
   },
@@ -32387,7 +32526,8 @@
      "field": "rateOfFire",
      "game": 925,
      "uex": 1100,
-     "adopted": 925
+     "adopted": 925,
+     "basis": "automatic"
     }
    ]
   },
@@ -32476,7 +32616,8 @@
      "field": "rateOfFire",
      "game": 42,
      "uex": 60,
-     "adopted": 42
+     "adopted": 42,
+     "basis": "automatic"
     }
    ]
   },
@@ -32574,7 +32715,8 @@
      "field": "rateOfFire",
      "game": 325,
      "uex": 60,
-     "adopted": 325
+     "adopted": 325,
+     "basis": "upperBound"
     }
    ]
   },
@@ -32742,7 +32884,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },
@@ -32770,7 +32913,8 @@
      "field": "rateOfFire",
      "game": 810,
      "uex": 550,
-     "adopted": 810
+     "adopted": 810,
+     "basis": "automatic"
     }
    ]
   },
@@ -32858,7 +33002,8 @@
      "field": "rateOfFire",
      "game": 810,
      "uex": 550,
-     "adopted": 810
+     "adopted": 810,
+     "basis": "automatic"
     }
    ]
   },
@@ -32896,7 +33041,8 @@
      "field": "rateOfFire",
      "game": 42,
      "uex": 60,
-     "adopted": 42
+     "adopted": 42,
+     "basis": "automatic"
     }
    ]
   },
@@ -32974,7 +33120,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -32992,7 +33139,8 @@
      "field": "rateOfFire",
      "game": 950,
      "uex": 1200,
-     "adopted": 950
+     "adopted": 950,
+     "basis": "automatic"
     }
    ]
   },
@@ -33104,15 +33252,7 @@
    "shops": 0,
    "cls": "none_shotgun_ballistic_01_tint01",
    "gameKind": "weapon",
-   "gameName": "Deadrig \"Smudge\" Shotgun",
-   "differences": [
-    {
-     "field": "rateOfFire",
-     "game": 50,
-     "uex": 120,
-     "adopted": 50
-    }
-   ]
+   "gameName": "Deadrig \"Smudge\" Shotgun"
   },
   {
    "uexId": 7670,
@@ -33229,7 +33369,8 @@
      "field": "rateOfFire",
      "game": 680,
      "uex": 600,
-     "adopted": 680
+     "adopted": 680,
+     "basis": "sequence"
     }
    ]
   },
@@ -33247,7 +33388,8 @@
      "field": "rateOfFire",
      "game": 85,
      "uex": 320,
-     "adopted": 85
+     "adopted": 85,
+     "basis": "upperBound"
     }
    ]
   },
@@ -33295,7 +33437,8 @@
      "field": "rateOfFire",
      "game": 85,
      "uex": 320,
-     "adopted": 85
+     "adopted": 85,
+     "basis": "upperBound"
     }
    ]
   },
@@ -33313,7 +33456,8 @@
      "field": "rateOfFire",
      "game": 85,
      "uex": 320,
-     "adopted": 85
+     "adopted": 85,
+     "basis": "upperBound"
     }
    ]
   },
@@ -33331,7 +33475,8 @@
      "field": "rateOfFire",
      "game": 85,
      "uex": 320,
-     "adopted": 85
+     "adopted": 85,
+     "basis": "upperBound"
     }
    ]
   },
@@ -33357,9 +33502,10 @@
    "differences": [
     {
      "field": "rateOfFire",
-     "game": 700,
+     "game": 625,
      "uex": 562.5,
-     "adopted": 700
+     "adopted": 625,
+     "basis": "sequence"
     }
    ]
   },
@@ -33387,7 +33533,8 @@
      "field": "rateOfFire",
      "game": 810,
      "uex": 550,
-     "adopted": 810
+     "adopted": 810,
+     "basis": "automatic"
     }
    ]
   },
@@ -33405,7 +33552,8 @@
      "field": "rateOfFire",
      "game": 680,
      "uex": 600,
-     "adopted": 680
+     "adopted": 680,
+     "basis": "sequence"
     }
    ]
   },
@@ -33423,7 +33571,8 @@
      "field": "rateOfFire",
      "game": 680,
      "uex": 600,
-     "adopted": 680
+     "adopted": 680,
+     "basis": "sequence"
     }
    ]
   },
@@ -33441,7 +33590,8 @@
      "field": "rateOfFire",
      "game": 680,
      "uex": 600,
-     "adopted": 680
+     "adopted": 680,
+     "basis": "sequence"
     }
    ]
   },
@@ -33459,7 +33609,8 @@
      "field": "rateOfFire",
      "game": 810,
      "uex": 550,
-     "adopted": 810
+     "adopted": 810,
+     "basis": "automatic"
     }
    ]
   },
@@ -33494,7 +33645,8 @@
      "field": "rateOfFire",
      "game": 850,
      "uex": 800,
-     "adopted": 850
+     "adopted": 850,
+     "basis": "automatic"
     }
    ]
   },

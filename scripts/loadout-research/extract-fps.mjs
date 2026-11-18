@@ -21,6 +21,15 @@ for (const line of readFileSync(resolve(cacheDir, 'global.ini'), 'utf8').split(/
     ini.set(line.slice(0, at).replace(/^﻿/, '').replace(/,P$/i, '').trim().toLowerCase(), line.slice(at + 1).trim());
 }
 const text = (key) => { if (!key || !String(key).startsWith('@')) return undefined; const value = ini.get(String(key).slice(1).toLowerCase()); return value && !/LOC_|PLACEHOLDER/.test(value) ? value.replace(/\\n/g, ' ').trim() : undefined; };
+// 한글 이름: 게임 한국어 패치의 global.ini (--ko-ini). 없으면 비워 둔다. 영어와 같으면 싣지 않는다.
+const koIni = new Map();
+if (a['ko-ini'] && a['ko-ini'] !== true) {
+    for (const line of readFileSync(a['ko-ini'], 'utf8').split(/\r?\n/)) {
+        const at = line.indexOf('='); if (at < 1) continue;
+        koIni.set(line.slice(0, at).replace(/^﻿/, '').replace(/,P$/i, '').trim().toLowerCase(), line.slice(at + 1).trim());
+    }
+}
+const textKo = (key) => { if (!key || !String(key).startsWith('@')) return undefined; const value = koIni.get(String(key).slice(1).toLowerCase()); return value && !/LOC_|PLACEHOLDER/.test(value) && value !== text(key) ? value.replace(/\\n/g, ' ').trim() : undefined; };
 const manufacturers = new Map(df.recordsOfType('SCItemManufacturer').map((record) => [record.id, df.readRecord(record, 3)]));
 const manufacturerOf = (ref) => { const m = ref?.__record ? manufacturers.get(ref.__record) : null; return m ? prune({ code: m.Code, name: text(m.Localization?.Name) }) : undefined; };
 const recordById = new Map(df.records.map((record) => [record.id, record]));
@@ -48,7 +57,29 @@ function ammoOf(ref) {
 function modesOf(actions, out = []) {
     for (const action of (actions || []).filter(Boolean)) {
         const type = action.__type.replace(/^SWeaponAction/, '').replace(/Params$/, '');
-        if (/^(Sequence|Parallel|DynamicCondition)$/.test(type)) {
+        // 순차 발사: 항목마다 "다음 항목까지의 대기"가 적혀 있다(초 또는 분당 횟수). 한 바퀴 시간과 그 안의 발사 수로
+        // 실제 연사를 구한다. 볼트액션·쌍열처럼 안쪽 fireRate 가 실제보다 큰 무기가 여기에 해당한다.
+        if (type === 'Sequence') {
+            const entries = (action.sequenceEntries || []).filter((entry) => entry?.weaponAction);
+            const seconds = entries.reduce((sum, entry) => sum + (entry.unit === 'RPM' ? (entry.delay > 0 ? 60 / entry.delay : 0) : Number(entry.delay) || 0), 0);
+            const simple = entries.every((entry) => /FireSingle/.test(entry.weaponAction.__type));
+            const shots = entries.filter((entry) => (entry.weaponAction.launchParams?.ammoCost ?? 1) > 0).length;
+            const first = entries[0]?.weaponAction; const launch = first?.launchParams || {};
+            const inner = entries.map((entry) => entry.weaponAction.fireRate).filter(Boolean);
+            out.push(prune({
+                kind: 'Sequence', sequence: action.mode, name: text(action.localisedName) || action.name,
+                rpm: inner.length ? round(Math.max(...inner), 0) : undefined,
+                shotsPerCycle: shots, cycleSeconds: round(seconds, 3) || undefined,
+                // 한 바퀴 시간으로 구한 값이 안쪽 fireRate 한도보다 크면 한도를 따른다.
+                rpmEffective: simple && seconds > 0 ? round(Math.min(shots * 60 / seconds, inner.length ? Math.max(...inner) : Infinity), 1) : undefined,
+                cyclesPerMinute: seconds > 0 ? round(60 / seconds, 1) : undefined,
+                innerKind: first ? first.__type.replace(/^SWeaponActionFire/, '').replace(/Params$/, '') : undefined, burst: first?.shotCount || undefined,
+                pellets: launch.pelletCount > 1 ? launch.pelletCount : undefined,
+                spread: launch.spreadParams ? [round(launch.spreadParams.min, 2), round(launch.spreadParams.max, 2)] : undefined,
+            }));
+            continue;
+        }
+        if (/^(Parallel|DynamicCondition)$/.test(type)) {
             const inner = action.sequenceEntries?.map((entry) => entry.weaponAction) || action.weaponActions || action.defaultWeaponAction ? [...(action.sequenceEntries?.map((entry) => entry.weaponAction) || []), ...(action.weaponActions || []), action.defaultWeaponAction, ...(action.conditionalWeaponActions || []).map((entry) => entry.weaponAction)] : [];
             modesOf(inner, out); continue;
         }
@@ -75,7 +106,7 @@ const armorFamily = (cls) => ((cls.match(/^(.+?_(?:core|arms|legs|helmet|undersu
 const variantNote = (cls, family) => (family ? cls.slice(family.length).replace(/^_/, '') : '') || undefined;
 
 function common(record, entity, def) {
-    return { id: record.id, cls: game.clsOf(record), name: text(def.Localization?.Name), type: def.Type, sub: def.SubType !== 'UNDEFINED' ? def.SubType : undefined, size: def.Size, grade: def.Grade,
+    return { id: record.id, cls: game.clsOf(record), name: text(def.Localization?.Name), nameKo: textKo(def.Localization?.Name), type: def.Type, sub: def.SubType !== 'UNDEFINED' ? def.SubType : undefined, size: def.Size, grade: def.Grade,
         manufacturer: manufacturerOf(def.Manufacturer), mass: round(game.component(entity, 'SEntityPhysicsControllerParams')?.PhysType?.Mass, 3), tags: String(def.Tags || '').split(/\s+/).filter(Boolean) };
 }
 
