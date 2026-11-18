@@ -175,5 +175,23 @@ const meta = { version: `${String(build.Branch || '').replace(/^sc-alpha-/, '')}
 mkdirSync(resolve(ROOT, 'data/gear'), { recursive: true });
 writeFileSync(resolve(ROOT, 'data/gear/weapons.json'), `${JSON.stringify({ ...meta, note: 'variants = [고유번호, 영어 이름, 한글 이름]. modes[].basis: sequence(계산) | automatic(원본) | upperBound(원본·최대 한도).', groups: weaponGroups })}\n`);
 writeFileSync(resolve(ROOT, 'data/gear/armor.json'), `${JSON.stringify({ ...meta, note: 'cut = 피해 감소율(%) [물리, 에너지, 디스토션, 열, 생화학, 기절]. temp = 견디는 온도 [최저, 최고]. rad = [방사선 용량, 해소율]. store = 수납(µSCU).', groups: armorGroups })}\n`);
+// ---- 신체: 부위별 체력과 피해 배율 (착용·피해 시험용) -----------------------------
+// 출처: BodyHealthConfig.HealthConfig_Player (부위별 피해 배율), ActorStatusComponent.PlayerStatus (체력 수치).
+const healthConfig = df.readRecord(df.recordsOfType('BodyHealthConfig').find((record) => idOf(record) === 'HealthConfig_Player'), 6);
+const playerStatus = df.readRecord(df.recordsOfType('ActorStatusComponent').find((record) => idOf(record) === 'PlayerStatus'), 4);
+const statMax = new Map((playerStatus.actorStats || []).map((stat) => [stat.statType, stat.maximumStatValue]));
+const partRecords = new Map(df.recordsOfType('BodyPart').map((record) => [idOf(record), df.readRecord(record, 2)]));
+const parts = [];
+for (const config of healthConfig.bodyPartConfigs || []) {
+    for (const ref of config.bodyParts || []) {
+        const id = String(ref.name || '').split('.').pop();
+        parts.push({ id, health: statMax.get(partRecords.get(id)?.partHealthStat), armored: round(config.damageMultiplier, 3) ?? 0, naked: round(config.nakedDamageMultiplier, 3) ?? 0, head: config.isHeadShot || undefined });
+    }
+}
+// 방어구 부위가 덮는 신체 부위 (SCItemSuitArmorParams.protectedBodyParts 를 부위 종류별로 확인한 결과와 같다).
+const covers = { helmet: ['head'], core: ['torso'], arms: ['leftArm', 'rightArm'], legs: ['leftLeg', 'rightLeg'], undersuit: ['torso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'], backpack: [] };
+writeFileSync(resolve(ROOT, 'data/gear/body.json'), `${JSON.stringify({ ...meta, note: 'pool = 전체 체력(HealthPool). parts[].health = 부위 체력, armored = 방어구로 덮인 부위의 피해 배율, naked = 덮이지 않은 부위의 피해 배율. 게임 파일 값.', pool: statMax.get('HealthPool'), parts, covers })}
+`);
 const size = (file) => Math.round(readFileSync(resolve(ROOT, file)).length / 1024);
+console.log(`신체: 체력 ${statMax.get('HealthPool')}, 부위 ${parts.length}곳`);
 console.log(`개인 장비: 무기 ${weapons.length}종 → ${weaponGroups.length}묶음(${size('data/gear/weapons.json')}KB), 방어구 ${armor.length}종 → ${armorGroups.length}묶음(${size('data/gear/armor.json')}KB)`);

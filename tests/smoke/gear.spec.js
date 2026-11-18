@@ -112,3 +112,87 @@ for (const width of [1280, 390]) {
         expect(results.violations.filter((v) => ['critical', 'serious'].includes(v.impact)).map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
     });
 }
+
+test('착용 시험: 방어구를 입히면 부위별 한 발 피해가 게임 파일 배율대로 바뀐다', async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await openGear(page);
+    await page.locator('#gear-search').fill('P4-AR');
+    await page.locator('.gear-list [data-gear-pick]').first().click();
+    await page.locator('[data-gear-shoot]').click();
+    await expect(page.locator('.gear-tab.is-active')).toHaveText('착용 시험');
+    await expect(page.locator('#gear-fit-weapon')).toHaveValue('behr_rifle_ballistic_01');
+    const row = (name) => page.locator('.gear-fit-table tbody tr').filter({ has: page.getByRole('rowheader', { name, exact: true }) });
+    // 맨몸, 거리 10m: P4-AR 한 발 12. 머리 ×4 = 48, 몸통 ×2 = 24, 팔다리 ×1.5 = 18. 전체 체력 70.
+    await expect(row('머리')).toContainText('맨몸');
+    await expect(row('머리').locator('td').nth(1)).toHaveText('48');
+    await expect(row('몸통').locator('td').nth(1)).toHaveText('24');
+    await expect(row('몸통')).toContainText('3발');
+    await expect(row('왼팔').locator('td').nth(1)).toHaveText('18');
+    // 중(重)장갑 코어(피해 감소 40%)를 입히면 몸통은 12 × 1 × 0.6 = 7.2, 10발.
+    await page.locator('[data-gear-slot="core"]').selectOption('cds_armor_heavy_core_01');
+    await expect(page.locator('[data-gear-slot="core"]')).toBeFocused();
+    await expect(row('몸통').locator('td').nth(1)).toHaveText('7.2');
+    await expect(row('몸통')).toContainText('10발');
+    await expect(page.locator('.gear-body-part.is-covered')).toHaveCount(1);
+    // 거리 60m: 40m부터 미터당 0.05 감소 → 11. 몸통 6.6.
+    await page.locator('#gear-fit-distance').fill('60');
+    await page.locator('#gear-fit-distance').dispatchEvent('change');
+    await expect(row('몸통').locator('td').nth(1)).toHaveText('6.6');
+    // 다시 열어도 입힌 상태가 남는다.
+    await page.reload();
+    await page.locator('[data-gear-view="fit"]').click();
+    await expect(page.locator('[data-gear-slot="core"]')).toHaveValue('cds_armor_heavy_core_01');
+    await page.locator('[data-gear-clear-fit]').click();
+    await expect(page.locator('[data-gear-slot="core"]')).toHaveValue('');
+    expect(errors).toEqual([]);
+});
+
+test('방어구 상세에서 착용 시험으로 입히고, 장바구니에 담아 합계와 상점별 목록을 본다', async ({ page }) => {
+    await openGear(page);
+    await page.locator('[data-gear-view="armor"]').click();
+    await page.locator('#gear-search').fill('ADP-mk4');
+    await page.locator('#gear-slot').selectOption('core');
+    await page.locator('.gear-list [data-gear-pick]').first().click();
+    await page.locator('[data-gear-wear]').click();
+    await expect(page.locator('.gear-tab.is-active')).toHaveText('착용 시험');
+    await expect(page.locator('[data-gear-slot="core"]')).not.toHaveValue('');
+    // 장바구니: 가격이 있는 P4-AR 기본형 두 개와 가격을 모르는 변종 하나.
+    await page.locator('[data-gear-view="weapon"]').click();
+    await page.locator('#gear-search').fill('P4-AR');
+    await page.locator('.gear-list [data-gear-pick]').first().click();
+    const priced = page.locator('.gear-variants tbody tr').filter({ hasText: 'Cubby Blast' }).locator('[data-gear-add]');
+    await priced.click();
+    await expect(priced).toBeFocused();
+    await priced.click();
+    await expect(priced).toHaveText('담김 2');
+    await page.locator('.gear-variants tbody tr').filter({ hasText: '판매처 정보 없음' }).first().locator('[data-gear-add]').click();
+    await expect(page.locator('[data-gear-view="cart"]')).toHaveText('장바구니 3');
+    await page.locator('[data-gear-view="cart"]').click();
+    await expect(page.locator('.gear-cart-total')).toContainText('10,260');
+    await expect(page.locator('.gear-special')).toContainText('가격 미확인 1종');
+    await expect(page.locator('.gear-shoplist')).toContainText('Cubby Blast');
+    await page.locator('[data-gear-qty][data-step="-1"]').first().click();
+    await expect(page.locator('.gear-cart-total')).toContainText('5,130');
+    await page.reload();
+    await expect(page.locator('[data-gear-view="cart"]')).toHaveText('장바구니 2');
+    await page.locator('[data-gear-view="cart"]').click();
+    await page.locator('[data-gear-clear-cart]').click();
+    await expect(page.locator('.gear-empty')).toBeVisible();
+});
+
+for (const width of [1280, 390]) {
+    test(`착용 시험·장바구니: ${width}px 에서 넘치지 않고 접근성 위반이 없다`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 844 });
+        await openGear(page);
+        await page.locator('.gear-list [data-gear-pick]').first().click();
+        await page.locator('[data-gear-add]').first().click();
+        await page.locator('[data-gear-shoot]').click();
+        await expect(page.locator('.gear-fit-table')).toBeVisible();
+        for (const view of ['fit', 'cart']) {
+            await page.locator(`[data-gear-view="${view}"]`).click();
+            await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+            const results = await new AxeBuilder({ page }).include('#gear').analyze();
+            expect(results.violations.filter((v) => ['critical', 'serious'].includes(v.impact)).map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
+        }
+    });
+}

@@ -10618,3 +10618,33 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 @media (hover: hover) { .gear-table tbody tr:hover { background: var(--ge-card-2); } }
 @media (max-width: 1100px) { .gear-columns { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 640px) { .gear-tabs { width: 100%; } .gear-tab { flex: 1 1 auto; } .gear-select { flex: 1 1 140px; } .gear-table th, .gear-table td { padding: 8px 10px; } }
+
+/* 개인 장비: 착용 시험 · 장바구니 · 아이콘 */
+.gear-icon { width: 40px; height: 40px; object-fit: contain; vertical-align: middle; margin-right: 8px; opacity: .92; }
+.gear-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.gear-actions .gear-icon { width: 56px; height: 56px; }
+.gear-add { min-height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--ge-line); background: transparent; color: var(--color-text-primary); font: inherit; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.gear-add:hover { border-color: var(--volt-orange); }
+.gear-special { display: grid; gap: 14px; }
+.gear-special h3 { margin: 0 0 8px; font-size: 15px; }
+.gear-fit { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; align-items: start; }
+.gear-fit-main { display: grid; gap: 14px; min-width: 0; }
+.gear-fit-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 10px; }
+.gear-fit-slots .gear-select { flex: none; }
+.gear-fit-slots input { width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--ge-line); background: var(--ge-card); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.gear-fit-body { padding: 12px; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
+.gear-mannequin { display: block; width: 100%; height: auto; }
+.gear-body-part circle, .gear-body-part rect { fill: #2a2c33; stroke: rgba(255, 255, 255, 0.28); stroke-width: 2; stroke-dasharray: 5 5; transition: fill var(--transition-fast); }
+.gear-body-part.is-covered circle, .gear-body-part.is-covered rect { stroke: #f5f5f7; stroke-dasharray: none; stroke-width: 3; }
+.gear-body-part.is-low circle, .gear-body-part.is-low rect { fill: #2f5d3a; }
+.gear-body-part.is-mid circle, .gear-body-part.is-mid rect { fill: #8a6a1f; }
+.gear-body-part.is-high circle, .gear-body-part.is-high rect { fill: #9a2f1f; }
+.gear-meter { width: 90px; height: 10px; vertical-align: middle; }
+.gear-cart-total { margin: 0; font-size: 16px; text-align: right; }
+.gear-cart-total strong { font-size: 22px; font-variant-numeric: tabular-nums; }
+.gear-qty { display: inline-flex; align-items: center; gap: 8px; }
+.gear-qty button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--ge-line); background: transparent; color: var(--color-text-primary); font: inherit; font-size: 16px; cursor: pointer; }
+.gear-shoplist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.gear-shoplist > li { padding: 12px; border: 1px solid var(--ge-line); border-radius: 10px; background: var(--ge-card); }
+.gear-shoplist ul { margin: 6px 0 0; padding-left: 18px; font-size: 14px; }
+@media (max-width: 760px) { .gear-fit { grid-template-columns: minmax(0, 1fr); } .gear-fit-body { max-width: 200px; justify-self: center; } }
