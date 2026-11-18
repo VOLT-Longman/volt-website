@@ -93,6 +93,7 @@
 .journey-bar, .journey-crafts, .journey-trade-plan { background: var(--surface-card); border: 1px solid var(--color-border-hover); border-radius: 12px; padding: 16px; margin: 0 0 18px; min-width: 0; color: var(--color-text-primary); }
 .journey-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 .journey-bar[hidden], .journey-crafts[hidden] { display: none; }
+.journey-loadout-links { display: contents; }
 .journey-selection { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; min-width: 0; }
 .journey-selection > span, .journey-selection > small, .journey-note { color: var(--text-muted-bright); font-size: 12px; line-height: 1.65; }
 .journey-selection > strong { font-size: 14px; overflow-wrap: anywhere; }

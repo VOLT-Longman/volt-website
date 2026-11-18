@@ -47,6 +47,13 @@
     function renderBars() {
         for (const [section, hostId] of [['loadout', 'loadout-app'], ['mining', 'mining-app'], ['trade', 'logistics-ship-summary']]) {
             const host = document.getElementById(hostId); if (!host) continue;
+            if (section === 'loadout') {
+                const links = host.querySelector('.loadout-identity > .volt-tool-links'); if (!links) continue;
+                let bar = document.getElementById('journey-loadout');
+                if (!bar) { bar = el('span', undefined, 'journey-loadout-links'); bar.id = 'journey-loadout'; links.append(bar); }
+                bar.replaceChildren(button(tr('채광', 'Mining'), () => open('mining')), button(tr(`제작 계획${state.crafts.length ? ` (${state.crafts.length})` : ''}`, `Craft plan${state.crafts.length ? ` (${state.crafts.length})` : ''}`), () => open('craft')));
+                continue;
+            }
             let bar = document.getElementById(`journey-${section}`);
             if (!bar) { bar = el('nav', undefined, 'journey-bar'); bar.id = `journey-${section}`; host.before(bar); }
             bar.setAttribute('aria-label', tr('선택한 정보로 이어서 보기', 'Continue with your selection'));
