@@ -1,0 +1,3790 @@
+{
+ "gameBuild": "4.10.200.58746",
+ "gameBranch": "sc-alpha-4.10.0",
+ "gameChangelist": "13165946",
+ "gameBuildDate": "Wed Nov 11 2026",
+ "researchedAt": "2026-11-18T00:38:59.779Z",
+ "note": "scu = 치수를 1.25m 칸으로 나눈 값. 함선 전체 적재량은 그 함선에 달린 화물칸들의 합이다.",
+ "grids": [
+  {
+   "cls": "AEGS_Avenger_CargoGrid_Stalker",
+   "container": "AEGS_Avenger_CargoGrid_Stalker",
+   "dimensions": [
+    1.25,
+    5,
+    1.25
+   ],
+   "cells": [
+    1,
+    4,
+    1
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Avenger_CargoGrid_Titan",
+   "container": "AEGS_Avenger_CargoGrid_Titan",
+   "dimensions": [
+    2.5,
+    5,
+    1.25
+   ],
+   "cells": [
+    2,
+    4,
+    1
+   ],
+   "scu": 8,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Hammerhead_CargoGrid_Main",
+   "container": "AEGS_Hammerhead_CargoGrid",
+   "dimensions": [
+    5,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    4,
+    5,
+    2
+   ],
+   "scu": 40,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Hammerhead_GS_CargoGrid_Main",
+   "container": "AEGS_Hammerhead_GS_CargoGrid_IC",
+   "dimensions": [
+    5,
+    10,
+    2.5
+   ],
+   "cells": [
+    4,
+    8,
+    2
+   ],
+   "scu": 64,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Idris_CargoGrid",
+   "container": "AEGS_Idris_CargoGrid_Hangar",
+   "dimensions": [
+    5,
+    5,
+    5
+   ],
+   "cells": [
+    4,
+    4,
+    4
+   ],
+   "scu": 64,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Idris_CargoGrid_AdditionalStorage",
+   "container": "AEGS_Idris_CargoGrid_AdditionalStorage",
+   "dimensions": [
+    3.75,
+    2.5,
+    2.5
+   ],
+   "cells": [
+    3,
+    2,
+    2
+   ],
+   "scu": 12,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Idris_CargoGrid_CargoRoom_Back",
+   "container": "AEGS_Idris_CargoGrid_Cargo_Room_Back",
+   "dimensions": [
+    22.5,
+    5,
+    2.5
+   ],
+   "cells": [
+    18,
+    4,
+    2
+   ],
+   "scu": 144,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Idris_CargoGrid_CargoRoom_Front",
+   "container": "AEGS_Idris_CargoGrid_Cargo_Room_Front",
+   "dimensions": [
+    17.5,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    14,
+    5,
+    2
+   ],
+   "scu": 140,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Idris_CargoGrid_CargoRoom_Medium",
+   "container": "AEGS_Idris_CargoGrid_Cargo_Room_Medium",
+   "dimensions": [
+    1.25,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    1,
+    5,
+    2
+   ],
+   "scu": 10,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Idris_CargoGrid_CargoRoom_Small",
+   "container": "AEGS_Idris_CargoGrid_Cargo_Room_Small",
+   "dimensions": [
+    1.25,
+    2.5,
+    2.5
+   ],
+   "cells": [
+    1,
+    2,
+    2
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Idris_CargoGrid_MissileRoom_Back",
+   "container": "AEGS_Idris_CargoGrid_Missile_Room_Back",
+   "dimensions": [
+    20,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    16,
+    3,
+    2
+   ],
+   "scu": 96,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Idris_CargoGrid_MissileRoom_Front",
+   "container": "AEGS_Idris_CargoGrid_Missile_Room_Front",
+   "dimensions": [
+    17.5,
+    5,
+    2.5
+   ],
+   "cells": [
+    14,
+    4,
+    2
+   ],
+   "scu": 112,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Reclaimer_CargoGrid_Large",
+   "container": "AEGS_Reclaimer_CargoGrid",
+   "dimensions": [
+    3.75,
+    3.75,
+    3.75
+   ],
+   "cells": [
+    3,
+    3,
+    3
+   ],
+   "scu": 27,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Reclaimer_CargoGrid_Salvage_Front_TEMP",
+   "container": "AEGS_Reclaimer_CargoGrid_Salvage_Front_TEMP",
+   "dimensions": [
+    8.75,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    7,
+    5,
+    2
+   ],
+   "scu": 70,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Reclaimer_CargoGrid_Salvage_Rear_TEMP",
+   "container": "AEGS_Reclaimer_CargoGrid_Salvage_Rear_TEMP",
+   "dimensions": [
+    6.25,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    5,
+    5,
+    2
+   ],
+   "scu": 50,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Reclaimer_CargoGrid_Small",
+   "container": "AEGS_Reclaimer_CargoGrid_Small",
+   "dimensions": [
+    3.75,
+    2.5,
+    3.75
+   ],
+   "cells": [
+    3,
+    2,
+    3
+   ],
+   "scu": 18,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "AEGS_Redeemer_CargoGrid",
+   "container": "AEGS_Redeemer_CargoGrid",
+   "dimensions": [
+    1.25,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    1,
+    1,
+    2
+   ],
+   "scu": 2,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Retaliator_CargoGrid_Front",
+   "container": "AEGS_Retaliator_Front_CargoGrid_Template",
+   "dimensions": [
+    2.5,
+    8.75,
+    2.5
+   ],
+   "cells": [
+    2,
+    7,
+    2
+   ],
+   "scu": 28,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Retaliator_CargoGrid_Front_left",
+   "container": "AEGS_Retaliator_Front_CargoGrid_Left",
+   "dimensions": [
+    2.5,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    2,
+    1,
+    2
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Retaliator_CargoGrid_Front_Main",
+   "container": "AEGS_Retaliator_Front_CargoGrid_Main",
+   "dimensions": [
+    3.75,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    3,
+    5,
+    2
+   ],
+   "scu": 30,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Retaliator_CargoGrid_Front_Right",
+   "container": "AEGS_Retaliator_Front_CargoGrid_Right",
+   "dimensions": [
+    2.5,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    2,
+    1,
+    2
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "AEGS_Retaliator_CargoGrid_Rear_main",
+   "container": "AEGS_Retaliator_Rear_CargoGrid",
+   "dimensions": [
+    3.75,
+    7.5,
+    2.5
+   ],
+   "cells": [
+    3,
+    6,
+    2
+   ],
+   "scu": 36,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ANVL_Asgard_CargoGrid",
+   "container": "ANVL_Asgard_CargoGrid_IC",
+   "dimensions": [
+    6.25,
+    11.25,
+    5
+   ],
+   "cells": [
+    5,
+    9,
+    4
+   ],
+   "scu": 180,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    10
+   ]
+  },
+  {
+   "cls": "ANVL_Carrack_CargoGrid",
+   "container": "ANVL_Carrack_CargoGrid_Large",
+   "dimensions": [
+    5,
+    5,
+    5
+   ],
+   "cells": [
+    4,
+    4,
+    4
+   ],
+   "scu": 64,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ANVL_Carrack_CargoGrid_Mid",
+   "container": "ANVL_Carrack_CargoGrid_Medium",
+   "dimensions": [
+    5,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    4,
+    3,
+    2
+   ],
+   "scu": 24,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ANVL_Hornet_CargoGrid_F7C_Mk2",
+   "container": "ANVL_Hornet_F7C_Mk2_CargoGrid",
+   "dimensions": [
+    2.5,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    2,
+    1,
+    1
+   ],
+   "scu": 2,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ANVL_Liberator_CargoGrid",
+   "container": "ANVL_Liberator_CargoGrid_Garage_A",
+   "dimensions": [
+    7.5,
+    10,
+    5
+   ],
+   "cells": [
+    6,
+    8,
+    4
+   ],
+   "scu": 192,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "ANVL_Liberator_CargoGrid_Garage",
+   "container": "ANVL_Liberator_CargoGrid_Garage_B",
+   "dimensions": [
+    5,
+    10,
+    5
+   ],
+   "cells": [
+    4,
+    8,
+    4
+   ],
+   "scu": 128,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "ANVL_Liberator_CargoGrid_Hangar",
+   "container": "ANVL_Liberator_CargoGrid_Hangar",
+   "dimensions": [
+    5,
+    6.25,
+    5
+   ],
+   "cells": [
+    4,
+    5,
+    4
+   ],
+   "scu": 80,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ANVL_Paladin_CargoGrid",
+   "container": "ANVL_Paladin_CargoGrid",
+   "dimensions": [
+    1.25,
+    5,
+    1.25
+   ],
+   "cells": [
+    1,
+    4,
+    1
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ANVL_Pisces_CargoGrid",
+   "container": "ANVL_C8_Pisces_CargoGrid",
+   "dimensions": [
+    1.25,
+    2.5,
+    1.25
+   ],
+   "cells": [
+    1,
+    2,
+    1
+   ],
+   "scu": 2,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "ANVL_Valkyrie_CargoGrid",
+   "container": "ANVL_Valkyrie_CargoGrid",
+   "dimensions": [
+    6.25,
+    7.5,
+    3.75
+   ],
+   "cells": [
+    5,
+    6,
+    3
+   ],
+   "scu": 90,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    7.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ARGO_CSV_CargoGrid_Main",
+   "container": "ARGO_CSV_CargoGrid_Cargo_Main",
+   "dimensions": [
+    2.5,
+    2.5,
+    1.25
+   ],
+   "cells": [
+    2,
+    2,
+    1
+   ],
+   "scu": 4,
+   "minItem": [
+    2.5,
+    2.5,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "ARGO_CSV_CargoGrid_Rear",
+   "container": "ARGO_CSV_CargoGrid_Cargo_Rear",
+   "dimensions": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    1,
+    1,
+    1
+   ],
+   "scu": 1,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ARGO_MOTH_CargoGrid",
+   "container": "ARGO_MOTH_CargoGrid_Template",
+   "dimensions": [
+    5,
+    7.5,
+    5
+   ],
+   "cells": [
+    4,
+    6,
+    4
+   ],
+   "scu": 96,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ARGO_MOTH_CargoGrid_RearLift",
+   "container": "ARGO_MOTH_CargoGrid_Elevator",
+   "dimensions": [
+    5,
+    5,
+    2.5
+   ],
+   "cells": [
+    4,
+    4,
+    2
+   ],
+   "scu": 32,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ARGO_MOTH_CargoGrid_Side",
+   "container": "ARGO_MOTH_CargoGrid_Side",
+   "dimensions": [
+    5,
+    7.5,
+    5
+   ],
+   "cells": [
+    4,
+    6,
+    4
+   ],
+   "scu": 96,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ARGO_MOTH_CargoGrid_Side_Right",
+   "container": "ARGO_MOTH_CargoGrid_Right",
+   "dimensions": [
+    7.5,
+    5,
+    5
+   ],
+   "cells": [
+    6,
+    4,
+    4
+   ],
+   "scu": 96,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ARGO_MPUV_1T_CargoGrid_Main",
+   "container": "ARGO_MPUV-1T_CargoGrid",
+   "dimensions": [
+    2.5,
+    5,
+    2.5
+   ],
+   "cells": [
+    2,
+    4,
+    2
+   ],
+   "scu": 16,
+   "minItem": [
+    2.5,
+    5,
+    2.5
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ARGO_MPUV_CargoGrid_Main",
+   "container": "ARGO_MPUV_CargoGrid",
+   "dimensions": [
+    1.25,
+    2.5,
+    1.25
+   ],
+   "cells": [
+    1,
+    2,
+    1
+   ],
+   "scu": 2,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "ARGO_RAFT_CargoGrid_192",
+   "container": "ARGO_RAFT_CargoGridIC_192",
+   "dimensions": [
+    10,
+    15,
+    2.5
+   ],
+   "cells": [
+    8,
+    12,
+    2
+   ],
+   "scu": 192,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "ARGO_RAFT_CargoGrid_Main",
+   "container": "ARGO_RAFT_CargoGrid",
+   "dimensions": [
+    2.5,
+    10,
+    2.5
+   ],
+   "cells": [
+    2,
+    8,
+    2
+   ],
+   "scu": 32,
+   "minItem": [
+    2.5,
+    10,
+    2.5
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "ARGO_SRV_CargoGrid_Main",
+   "container": "ARGO_SRV_CargoGrid",
+   "dimensions": [
+    5,
+    3.75,
+    1.25
+   ],
+   "cells": [
+    4,
+    3,
+    1
+   ],
+   "scu": 12,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "BaseBuilding_FPSCraftingBench_CargoGridEntity",
+   "container": "BaseBuilding_CargoGrid_FPSCraftingBench",
+   "dimensions": [
+    2.5,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    2,
+    1,
+    1
+   ],
+   "scu": 2,
+   "minItem": [
+    0,
+    0,
+    0
+   ],
+   "maxItem": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "cls": "CargoGrid_ActorMovable_Trolley_Hover_TEMPLATE_ugf",
+   "container": "trolley_hover_CargoGrid_Template",
+   "dimensions": [
+    2.5,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    2,
+    3,
+    2
+   ],
+   "scu": 12,
+   "minItem": [
+    0,
+    0,
+    0
+   ],
+   "maxItem": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "cls": "CNOU_Mustang_CargoGrid_Main",
+   "container": "CNOU_Mustang_CargoGrid",
+   "dimensions": [
+    5,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    4,
+    1,
+    1
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "CNOU_Nomad_CargoGrid_Main",
+   "container": "CNOU_Nomad_CargoGrid",
+   "dimensions": [
+    3.75,
+    5,
+    2.5
+   ],
+   "cells": [
+    3,
+    4,
+    2
+   ],
+   "scu": 24,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "CRUS_Intrepid_CargoGrid",
+   "container": "CRUS_Intrepid_CargoGrid",
+   "dimensions": [
+    1.25,
+    5,
+    1.25
+   ],
+   "cells": [
+    1,
+    4,
+    1
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "CRUS_Spirit_C1_CargoGrid",
+   "container": "CRUS_Spirit_C1_CargoGrid",
+   "dimensions": [
+    2.5,
+    10,
+    2.5
+   ],
+   "cells": [
+    2,
+    8,
+    2
+   ],
+   "scu": 32,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "CRUS_Star_Runner_CargoGrid_Large",
+   "container": "CRUS_Star_Runner_CargoGrid_Large",
+   "dimensions": [
+    7.5,
+    7.5,
+    3.75
+   ],
+   "cells": [
+    6,
+    6,
+    3
+   ],
+   "scu": 108,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    7.5,
+    7.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "CRUS_Star_Runner_CargoGrid_Small",
+   "container": "CRUS_Star_Runner_CargoGrid_Small",
+   "dimensions": [
+    1.25,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    1,
+    3,
+    2
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "CRUS_Starlifter_CargoGrid_Large",
+   "container": "CRUS_Starlifter_CargoGrid_Large_C2",
+   "dimensions": [
+    10,
+    18.75,
+    5
+   ],
+   "cells": [
+    8,
+    15,
+    4
+   ],
+   "scu": 480,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    10,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "CRUS_Starlifter_CargoGrid_Large_M2",
+   "container": "CRUS_Starlifter_CargoGrid_Large_M2",
+   "dimensions": [
+    10,
+    18.75,
+    3.75
+   ],
+   "cells": [
+    8,
+    15,
+    3
+   ],
+   "scu": 360,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    10,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "CRUS_Starlifter_CargoGrid_Personal_Armory_Large",
+   "container": "Ship_CRUS_Starlifter_PersonalInventory",
+   "dimensions": [
+    1.75,
+    1.75,
+    1
+   ],
+   "cells": [
+    1,
+    1,
+    0
+   ],
+   "scu": 0
+  },
+  {
+   "cls": "CRUS_Starlifter_CargoGrid_Personal_Armory_Small",
+   "container": "Ship_CRUS_Starlifter_PersonalInventory",
+   "dimensions": [
+    1.75,
+    1.75,
+    1
+   ],
+   "cells": [
+    1,
+    1,
+    0
+   ],
+   "scu": 0
+  },
+  {
+   "cls": "CRUS_Starlifter_CargoGrid_Personal_Large",
+   "container": "Ship_CRUS_Starlifter_PersonalInventory",
+   "dimensions": [
+    1.75,
+    1.75,
+    1
+   ],
+   "cells": [
+    1,
+    1,
+    0
+   ],
+   "scu": 0
+  },
+  {
+   "cls": "CRUS_Starlifter_CargoGrid_Small",
+   "container": "CRUS_Starlifter_CargoGrid_Small_C2",
+   "dimensions": [
+    7.5,
+    11.25,
+    5
+   ],
+   "cells": [
+    6,
+    9,
+    4
+   ],
+   "scu": 216,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    7.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "CRUS_Starlifter_CargoGrid_Small_A2",
+   "container": "CRUS_Starlifter_CargoGrid_Small_A2",
+   "dimensions": [
+    7.5,
+    22.5,
+    2.5
+   ],
+   "cells": [
+    6,
+    18,
+    2
+   ],
+   "scu": 216,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    7.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "CRUS_Starlifter_CargoGrid_Small_M2",
+   "container": "CRUS_Starlifter_CargoGrid_Small_M2",
+   "dimensions": [
+    7.5,
+    11.25,
+    3.75
+   ],
+   "cells": [
+    6,
+    9,
+    3
+   ],
+   "scu": 162,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    7.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "DRAK_Caterpillar_CargoGrid_Module",
+   "container": "DRAK_Caterpillar_CargoInventory_Module",
+   "dimensions": [
+    5,
+    7.5,
+    5
+   ],
+   "cells": [
+    4,
+    6,
+    4
+   ],
+   "scu": 96,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    7.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "DRAK_Caterpillar_CargoGrid_Module_Ladder",
+   "container": "DRAK_Caterpillar_CargoInventory_Module_Ladder",
+   "dimensions": [
+    1.25,
+    6.25,
+    5
+   ],
+   "cells": [
+    1,
+    5,
+    4
+   ],
+   "scu": 20,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Caterpillar_CargoGrid_Module_Walkway",
+   "container": "DRAK_Caterpillar_CargoInventory_Module_Walkway",
+   "dimensions": [
+    5,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    4,
+    1,
+    2
+   ],
+   "scu": 8,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Caterpillar_CargoGrid_Nose",
+   "container": "DRAK_Caterpillar_CargoInventory_Nose",
+   "dimensions": [
+    6.25,
+    5,
+    3.75
+   ],
+   "cells": [
+    5,
+    4,
+    3
+   ],
+   "scu": 60,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "DRAK_Caterpillar_CargoGrid_Nose_Access",
+   "container": "DRAK_Caterpillar_CargoInventory_Nose_Access",
+   "dimensions": [
+    6.25,
+    2.5,
+    2.5
+   ],
+   "cells": [
+    5,
+    2,
+    2
+   ],
+   "scu": 20,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "DRAK_Clipper_CargoGrid_Main",
+   "container": "DRAK_Clipper_CargoGrid",
+   "dimensions": [
+    2.5,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    2,
+    3,
+    2
+   ],
+   "scu": 12,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Corsair_CargoGrid_Main",
+   "container": "DRAK_Corsair_CargoGrid",
+   "dimensions": [
+    5,
+    11.25,
+    2.5
+   ],
+   "cells": [
+    4,
+    9,
+    2
+   ],
+   "scu": 72,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    5,
+    7.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "DRAK_Cutlass_CargoGrid_Main",
+   "container": "DRAK_Cutlass_CargoGrid_Main",
+   "dimensions": [
+    5,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    4,
+    5,
+    2
+   ],
+   "scu": 40,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Cutlass_CargoGrid_Rear",
+   "container": "DRAK_Cutlass_CargoGrid_Rear",
+   "dimensions": [
+    1.25,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    1,
+    3,
+    2
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Cutlass_Red_CargoGrid_Left",
+   "container": "DRAK_Cutlass_Red_CargoGrid_Left",
+   "dimensions": [
+    1.25,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    1,
+    3,
+    2
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Cutlass_Red_CargoGrid_Right",
+   "container": "DRAK_Cutlass_Red_CargoGrid_Right",
+   "dimensions": [
+    1.25,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    1,
+    3,
+    2
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Cutter_CargoGrid_2Stack",
+   "container": "DRAK_Cutter_CargoGrid_2SCU",
+   "dimensions": [
+    1.25,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    1,
+    1,
+    2
+   ],
+   "scu": 2,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Cutter_CargoGrid_4Stack",
+   "container": "DRAK_Cutter_CargoGrid_4SCU",
+   "dimensions": [
+    2.5,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    2,
+    1,
+    2
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Golem_OX_CargoGrid_Main",
+   "container": "DRAK_Golem_OX_CargoGrid",
+   "dimensions": [
+    5,
+    10,
+    2.5
+   ],
+   "cells": [
+    4,
+    8,
+    2
+   ],
+   "scu": 64,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Ironclad_CargoGrid_Hold",
+   "container": "Drak_Ironclad_CargoGrid_Hold",
+   "dimensions": [
+    7.5,
+    12.5,
+    7.5
+   ],
+   "cells": [
+    6,
+    10,
+    6
+   ],
+   "scu": 360,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Ironclad_CargoGrid_Hold_Center",
+   "container": "Drak_Ironclad_CargoGrid_Hold_Center",
+   "dimensions": [
+    7.5,
+    25,
+    7.5
+   ],
+   "cells": [
+    6,
+    20,
+    6
+   ],
+   "scu": 720,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Ironclad_CargoGrid_SecureHold",
+   "container": "Drak_Ironclad_CargoGrid_SecureHold",
+   "dimensions": [
+    2.5,
+    2.5,
+    2.5
+   ],
+   "cells": [
+    2,
+    2,
+    2
+   ],
+   "scu": 8,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Ironclad_CargoGrid_SecureHold_Center",
+   "container": "Drak_Ironclad_CargoGrid_SecureHold_Center",
+   "dimensions": [
+    2.5,
+    2.5,
+    2.5
+   ],
+   "cells": [
+    2,
+    2,
+    2
+   ],
+   "scu": 8,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Mule_CargoGrid_Front",
+   "container": "DRAK_Mule_CargoGrid_Template",
+   "dimensions": [
+    2,
+    1,
+    1
+   ],
+   "cells": [
+    1,
+    0,
+    0
+   ],
+   "scu": 0
+  },
+  {
+   "cls": "DRAK_Mule_CargoGrid_Rear",
+   "container": "DRAK_Mule_CargoGrid_Rear",
+   "dimensions": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    1,
+    1,
+    1
+   ],
+   "scu": 1,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "DRAK_Mule_CargoGrid_Side",
+   "container": "DRAK_Mule_CargoGrid_Template",
+   "dimensions": [
+    2,
+    1,
+    1
+   ],
+   "cells": [
+    1,
+    0,
+    0
+   ],
+   "scu": 0
+  },
+  {
+   "cls": "DRAK_Vulture_CargoGrid_Main",
+   "container": "DRAK_Vulture_CargoInventory_Main",
+   "dimensions": [
+    2.5,
+    3.75,
+    2.5
+   ],
+   "cells": [
+    2,
+    3,
+    2
+   ],
+   "scu": 12,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ESPR_Prowler_Utility_CargoGrid_Main",
+   "container": "ESPR_Prowler_Utility_CargoGrid_Main",
+   "dimensions": [
+    2.5,
+    5,
+    2.5
+   ],
+   "cells": [
+    2,
+    4,
+    2
+   ],
+   "scu": 16,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "Exterior_FreightElevator_CargoGrid",
+   "container": "FreightElevator_CargoGrid_Exterior",
+   "dimensions": [
+    40,
+    25,
+    10
+   ],
+   "cells": [
+    32,
+    20,
+    8
+   ],
+   "scu": 5120,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "cls": "GAMA_Hyun_CargoGrid",
+   "container": "GAMA_Hyun_CargoGrid",
+   "dimensions": [
+    5,
+    5,
+    2.5
+   ],
+   "cells": [
+    4,
+    4,
+    2
+   ],
+   "scu": 32,
+   "minItem": [
+    2.5,
+    2.5,
+    2.5
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "GAMA_Railen_CargoGrid_Large",
+   "container": "GAMA_Railen_CargoGrid_IS_128",
+   "dimensions": [
+    5,
+    10,
+    5
+   ],
+   "cells": [
+    4,
+    8,
+    4
+   ],
+   "scu": 128,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "GAMA_Railen_CargoGrid_Small",
+   "container": "GAMA_Railen_CargoGrid_IS_64",
+   "dimensions": [
+    5,
+    10,
+    2.5
+   ],
+   "cells": [
+    4,
+    8,
+    2
+   ],
+   "scu": 64,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "GAMA_Syulen_CargoGrid_Main",
+   "container": "GAMA_Syulen_CargoGrid",
+   "dimensions": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    1,
+    1,
+    1
+   ],
+   "scu": 1,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "GAMA_Tyilui_CargoGrid",
+   "container": "GAMA_Tyilui_CargoGrid_IS_48",
+   "dimensions": [
+    5,
+    7.5,
+    2.5
+   ],
+   "cells": [
+    4,
+    6,
+    2
+   ],
+   "scu": 48,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    7.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "GLSN_Shiv_CargoGrid_Main",
+   "container": "GLSN_Shiv_CargoGrid_Main_IC",
+   "dimensions": [
+    2.5,
+    10,
+    2.5
+   ],
+   "cells": [
+    2,
+    8,
+    2
+   ],
+   "scu": 32,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "GRIN_MTC_CargoGrid",
+   "container": "Grin_MTC_CargoGrid",
+   "dimensions": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "cells": [
+    0,
+    0,
+    0
+   ],
+   "scu": 0,
+   "minItem": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "maxItem": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  {
+   "cls": "GRIN_ROC_CargoGrid_Main",
+   "container": "GRIN_ROC_CargoGrid_ROC",
+   "dimensions": [
+    2,
+    1,
+    1
+   ],
+   "cells": [
+    1,
+    0,
+    0
+   ],
+   "scu": 0
+  },
+  {
+   "cls": "GRIN_ROC_DS_CargoGrid_Main",
+   "container": "GRIN_ROC_CargoGrid_DS",
+   "dimensions": [
+    2.5,
+    1,
+    1
+   ],
+   "cells": [
+    2,
+    0,
+    0
+   ],
+   "scu": 0
+  },
+  {
+   "cls": "GRIN_UTV_CargoGrid",
+   "container": "GRIN_UTV_CargoGrid",
+   "dimensions": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    1,
+    1,
+    1
+   ],
+   "scu": 1,
+   "minItem": [
+    0,
+    0,
+    0
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "Hangar_FreightElevator_CargoGrid_Large",
+   "container": "FreightElevator_CargoGrid_Large",
+   "dimensions": [
+    20,
+    17.5,
+    5
+   ],
+   "cells": [
+    16,
+    14,
+    4
+   ],
+   "scu": 896,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "Hangar_FreightElevator_CargoGrid_Medium",
+   "container": "FreightElevator_CargoGrid_Medium",
+   "dimensions": [
+    10,
+    8.75,
+    5
+   ],
+   "cells": [
+    8,
+    7,
+    4
+   ],
+   "scu": 224,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "Hangar_FreightElevator_CargoGrid_Small",
+   "container": "FreightElevator_CargoGrid_Small",
+   "dimensions": [
+    7.5,
+    6.25,
+    5
+   ],
+   "cells": [
+    6,
+    5,
+    4
+   ],
+   "scu": 120,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "Hangar_FreightElevator_CargoGrid_XL",
+   "container": "FreightElevator_CargoGrid_XL",
+   "dimensions": [
+    25,
+    17.5,
+    5
+   ],
+   "cells": [
+    20,
+    14,
+    4
+   ],
+   "scu": 1120,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Fortune_CargoGrid_Main",
+   "container": "MISC_Fortune_CargoGrid_Side",
+   "dimensions": [
+    2.5,
+    3.75,
+    1.25
+   ],
+   "cells": [
+    2,
+    3,
+    1
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "MISC_Fortune_CargoGrid_Secondary",
+   "container": "MISC_Fortune_CargoGrid_Lift",
+   "dimensions": [
+    2.5,
+    2.5,
+    1.25
+   ],
+   "cells": [
+    2,
+    2,
+    1
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "MISC_Freelancer_CargoGrid_Mid",
+   "container": "MISC_Freelancer_CargoGrid_Mid",
+   "dimensions": [
+    2.5,
+    1.25,
+    3.75
+   ],
+   "cells": [
+    2,
+    1,
+    3
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "MISC_Freelancer_CargoGrid_Rear",
+   "container": "MISC_Freelancer_CargoGrid_Rear",
+   "dimensions": [
+    2.5,
+    11.25,
+    3.75
+   ],
+   "cells": [
+    2,
+    9,
+    3
+   ],
+   "scu": 54,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Freelancer_CargoGrid_Rear_DUR",
+   "container": "MISC_Freelancer_CargoGrid_DUR_Rear",
+   "dimensions": [
+    2.5,
+    5,
+    3.75
+   ],
+   "cells": [
+    2,
+    4,
+    3
+   ],
+   "scu": 24,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Freelancer_CargoGrid_Rear_MAX",
+   "container": "MISC_Freelancer_CargoGrid_MAX_Rear",
+   "dimensions": [
+    5,
+    11.25,
+    3.75
+   ],
+   "cells": [
+    4,
+    9,
+    3
+   ],
+   "scu": 108,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Hull_A_CargoGrid",
+   "container": "MISC_Hull_A_CargoGrid",
+   "dimensions": [
+    2.5,
+    5,
+    2.5
+   ],
+   "cells": [
+    2,
+    4,
+    2
+   ],
+   "scu": 16,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Hull_B_CargoGrid",
+   "container": "MISC_Hull_B_CargoGrid",
+   "dimensions": [
+    2.5,
+    10,
+    2.5
+   ],
+   "cells": [
+    2,
+    8,
+    2
+   ],
+   "scu": 32,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Hull_C_CargoGrid",
+   "container": "MISC_Hull_C_CargoGrid",
+   "dimensions": [
+    10,
+    10,
+    7.5
+   ],
+   "cells": [
+    8,
+    8,
+    6
+   ],
+   "scu": 384,
+   "minItem": [
+    2.5,
+    10,
+    2.5
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Hull_C_CargoGrid_Outer",
+   "container": "MISC_Hull_C_CargoGrid_Outer",
+   "dimensions": [
+    5,
+    10,
+    7.5
+   ],
+   "cells": [
+    4,
+    8,
+    6
+   ],
+   "scu": 192,
+   "minItem": [
+    2.5,
+    10,
+    2.5
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Reliant_CargoGrid_Kore",
+   "container": "MISC_Reliant_CargoGrid_KORE",
+   "dimensions": [
+    3.75,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    3,
+    1,
+    1
+   ],
+   "scu": 3,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "MISC_Reliant_CargoGrid_Tana",
+   "container": "MISC_Reliant_CargoGrid_TANA",
+   "dimensions": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    1,
+    1,
+    1
+   ],
+   "scu": 1,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "MISC_Starfarer_CargoGrid_Center",
+   "container": "MISC_Starfarer_CargoGrid_Center",
+   "dimensions": [
+    6.25,
+    8.75,
+    6.25
+   ],
+   "cells": [
+    5,
+    7,
+    5
+   ],
+   "scu": 175,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    5
+   ]
+  },
+  {
+   "cls": "MISC_Starfarer_CargoGrid_Side",
+   "container": "MISC_Starfarer_CargoGrid_Side",
+   "dimensions": [
+    6.25,
+    2.5,
+    6.25
+   ],
+   "cells": [
+    5,
+    2,
+    5
+   ],
+   "scu": 50,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    5
+   ]
+  },
+  {
+   "cls": "MISC_Starfarer_CargoGrid_Side_Alcove",
+   "container": "MISC_Starfarer_CargoGrid_Side_Alcove",
+   "dimensions": [
+    2.5,
+    2.5,
+    2.5
+   ],
+   "cells": [
+    2,
+    2,
+    2
+   ],
+   "scu": 8,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Starlancer_CargoGrid",
+   "container": "MISC_Starlancer_CargoGrid_Template",
+   "dimensions": [
+    2.5,
+    10,
+    3.75
+   ],
+   "cells": [
+    2,
+    8,
+    3
+   ],
+   "scu": 48,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "MISC_Starlancer_CargoGrid_Max",
+   "container": "MISC_Starlancer_CargoGrid_Max_Template",
+   "dimensions": [
+    2.5,
+    20,
+    2.5
+   ],
+   "cells": [
+    2,
+    16,
+    2
+   ],
+   "scu": 64,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    10
+   ]
+  },
+  {
+   "cls": "MISC_Starlancer_CargoGrid_Small",
+   "container": "MISC_Starlancer_CargoGrid_Small_Template",
+   "dimensions": [
+    2.5,
+    5,
+    2.5
+   ],
+   "cells": [
+    2,
+    4,
+    2
+   ],
+   "scu": 16,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ORIG_100i_CargoGrid",
+   "container": "ORIG_100i_CargoGrid",
+   "dimensions": [
+    1.25,
+    2.5,
+    1.25
+   ],
+   "cells": [
+    1,
+    2,
+    1
+   ],
+   "scu": 2,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ORIG_135c_CargoGrid",
+   "container": "ORIG_135c_CargoGrid",
+   "dimensions": [
+    1.25,
+    5,
+    1.25
+   ],
+   "cells": [
+    1,
+    4,
+    1
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ORIG_300i_CargoGrid_Front",
+   "container": "ORIG_300i_CargoGrid_Front",
+   "dimensions": [
+    2.5,
+    5,
+    1.25
+   ],
+   "cells": [
+    2,
+    4,
+    1
+   ],
+   "scu": 8,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ORIG_300i_CargoGrid_Rear",
+   "container": "ORIG_300i_CargoGrid_Rear",
+   "dimensions": [
+    2.5,
+    2.5,
+    1.25
+   ],
+   "cells": [
+    2,
+    2,
+    1
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "ORIG_400i_CargoGrid",
+   "container": "ORIG_400i_CargoGrid",
+   "dimensions": [
+    3.75,
+    8.75,
+    2.5
+   ],
+   "cells": [
+    3,
+    7,
+    2
+   ],
+   "scu": 42,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ORIG_600_CargoGrid_Main",
+   "container": "ORIG_600i_CargoGrid_Main",
+   "dimensions": [
+    5,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    4,
+    1,
+    2
+   ],
+   "scu": 8,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "ORIG_600_CargoGrid_Main_Small",
+   "container": "ORIG_600i_CargoGrid_Main_Small",
+   "dimensions": [
+    1.25,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    1,
+    1,
+    2
+   ],
+   "scu": 2,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ORIG_600_CargoGrid_Module_Large",
+   "container": "ORIG_600i_CargoGrid_Module_Large",
+   "dimensions": [
+    5,
+    1.25,
+    3.75
+   ],
+   "cells": [
+    4,
+    1,
+    3
+   ],
+   "scu": 12,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ORIG_600_CargoGrid_Module_Small",
+   "container": "ORIG_600i_CargoGrid_Module_Small",
+   "dimensions": [
+    2.5,
+    1.25,
+    3.75
+   ],
+   "cells": [
+    2,
+    1,
+    3
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "ORIG_890Jump_CargoGrid_Hangar",
+   "container": "ORIG_890Jump_CargoGrid_Hangar",
+   "dimensions": [
+    1.25,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    1,
+    5,
+    2
+   ],
+   "scu": 10,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ORIG_890Jump_CargoGrid_Hangar_Wide",
+   "container": "ORIG_890Jump_CargoGrid_Hangar_Wide",
+   "dimensions": [
+    3.75,
+    6.25,
+    2.5
+   ],
+   "cells": [
+    3,
+    5,
+    2
+   ],
+   "scu": 30,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "ORIG_890Jump_CargoGrid_Rear",
+   "container": "ORIG_890Jump_CargoGrid_Rear",
+   "dimensions": [
+    7.5,
+    15,
+    5
+   ],
+   "cells": [
+    6,
+    12,
+    4
+   ],
+   "scu": 288,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "orig_m80_CargoGrid",
+   "container": "Orig_m80_CargoGrid",
+   "dimensions": [
+    1.25,
+    2.5,
+    1.25
+   ],
+   "cells": [
+    1,
+    2,
+    1
+   ],
+   "scu": 2,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Apollo_CargoGrid_Main",
+   "container": "RSI_Apollo_CargoInventory_Main",
+   "dimensions": [
+    2.5,
+    5,
+    2.5
+   ],
+   "cells": [
+    2,
+    4,
+    2
+   ],
+   "scu": 16,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Aurora_CL_CargoGrid_Main",
+   "container": "RSI_Aurora_CL_CargoInventory_Main",
+   "dimensions": [
+    1.25,
+    7.5,
+    1.25
+   ],
+   "cells": [
+    1,
+    6,
+    1
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Aurora_ES_CargoGrid_Main",
+   "container": "RSI_Aurora_ES_CargoInventory_Main",
+   "dimensions": [
+    1.25,
+    3.75,
+    1.25
+   ],
+   "cells": [
+    1,
+    3,
+    1
+   ],
+   "scu": 3,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Aurora_Mk2_CargoGrid_LeftRight",
+   "container": "RSI_Aurora_Mk2_CargoGrid",
+   "dimensions": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    1,
+    1,
+    1
+   ],
+   "scu": 1,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Aurora_Mk2_CargoGrid_MissionBox_Interior",
+   "container": "RSI_Aurora_Mk2_CargoGrid_MissionBox",
+   "dimensions": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "cells": [
+    0,
+    0,
+    0
+   ],
+   "scu": 0,
+   "minItem": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "maxItem": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  {
+   "cls": "RSI_Aurora_Mk2_Module_CargoGrid_RightLeft",
+   "container": "RSI_Aurora_Mk2_Module_CargoGrid",
+   "dimensions": [
+    1.25,
+    3.75,
+    1.25
+   ],
+   "cells": [
+    1,
+    3,
+    1
+   ],
+   "scu": 3,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Constellation_CargoGrid_Main",
+   "container": "RSI_Constellation_CargoGrid_Main",
+   "dimensions": [
+    5,
+    10,
+    3.75
+   ],
+   "cells": [
+    4,
+    8,
+    3
+   ],
+   "scu": 96,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Constellation_Mk5_CargoGrid_Main",
+   "container": "RSI_Constellation_Mk5_CargoGrid_Main",
+   "dimensions": [
+    7.5,
+    12.5,
+    5
+   ],
+   "cells": [
+    6,
+    10,
+    4
+   ],
+   "scu": 240,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Constellation_Phoenix_CargoGrid_Main",
+   "container": "RSI_Constellation_Phoenix_CargoGrid_Main",
+   "dimensions": [
+    6.25,
+    10,
+    2.5
+   ],
+   "cells": [
+    5,
+    8,
+    2
+   ],
+   "scu": 80,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Constellation_Taurus_CargoGrid_Main",
+   "container": "RSI_Constellation_Taurus_CargoGrid_Main",
+   "dimensions": [
+    5,
+    17.5,
+    3.75
+   ],
+   "cells": [
+    4,
+    14,
+    3
+   ],
+   "scu": 168,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Constellation_Taurus_CargoGrid_Tail",
+   "container": "RSI_Constellation_Taurus_CargoGrid_Tail",
+   "dimensions": [
+    2.5,
+    3.75,
+    1.25
+   ],
+   "cells": [
+    2,
+    3,
+    1
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Constellation_Taurus_GS_CargoGrid_Tail",
+   "container": "RSI_Constellation_Taurus_CargoGrid_Tail",
+   "dimensions": [
+    2.5,
+    3.75,
+    1.25
+   ],
+   "cells": [
+    2,
+    3,
+    1
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Galaxy_CargoGrid_Lift",
+   "container": "RSI_Galaxy_CargoGrid_CargoLift",
+   "dimensions": [
+    7.5,
+    15,
+    2.5
+   ],
+   "cells": [
+    6,
+    12,
+    2
+   ],
+   "scu": 144,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Galaxy_CargoGrid_Module",
+   "container": "RSI_Galaxy_CargoGrid_Cargo_Module",
+   "dimensions": [
+    5,
+    20,
+    5
+   ],
+   "cells": [
+    4,
+    16,
+    4
+   ],
+   "scu": 256,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Galaxy_CargoGrid_Module_Medical",
+   "container": "RSI_Galaxy_CargoGrid_Medical_Module",
+   "dimensions": [
+    1.25,
+    2.5,
+    2.5
+   ],
+   "cells": [
+    1,
+    2,
+    2
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    1.25,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Galaxy_CargoGrid_Rear_Hangar",
+   "container": "RSI_Galaxy_CargoGrid",
+   "dimensions": [
+    2.5,
+    5,
+    5
+   ],
+   "cells": [
+    2,
+    4,
+    4
+   ],
+   "scu": 32,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    5,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Hermes_CargoGrid_Main",
+   "container": "RSI_Hermes_CargoInventory_Main",
+   "dimensions": [
+    5,
+    22.5,
+    2.5
+   ],
+   "cells": [
+    4,
+    18,
+    2
+   ],
+   "scu": 144,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Perseus_CargoGrid_Main",
+   "container": "RSI_Perseus_CargoGrid",
+   "dimensions": [
+    10,
+    7.5,
+    2.5
+   ],
+   "cells": [
+    8,
+    6,
+    2
+   ],
+   "scu": 96,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    10,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Polaris_CargoGrid_CargoElevator",
+   "container": "RSI_Polaris_CargoGrid_CargoElevator_IS",
+   "dimensions": [
+    2.5,
+    2.5,
+    2.5
+   ],
+   "cells": [
+    2,
+    2,
+    2
+   ],
+   "scu": 8,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    2.5
+   ]
+  },
+  {
+   "cls": "RSI_Polaris_CargoGrid_Main",
+   "container": "RSI_Polaris_CargoGrid_Main",
+   "dimensions": [
+    7.5,
+    15,
+    5
+   ],
+   "cells": [
+    6,
+    12,
+    4
+   ],
+   "scu": 288,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    10
+   ]
+  },
+  {
+   "cls": "RSI_Salvation_CargoGrid",
+   "container": "RSI_Salvation_CargoGrid_Template",
+   "dimensions": [
+    2.5,
+    3.75,
+    1.25
+   ],
+   "cells": [
+    2,
+    3,
+    1
+   ],
+   "scu": 6,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Zeus_Cargo_CargoGrid_Left",
+   "container": "RSI_Zeus_CargoGrid_Cargo_Left",
+   "dimensions": [
+    2.5,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    2,
+    1,
+    2
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Zeus_Cargo_CargoGrid_Main",
+   "container": "RSI_Zeus_CargoGrid_Cargo_Main",
+   "dimensions": [
+    6.25,
+    10,
+    3.75
+   ],
+   "cells": [
+    5,
+    8,
+    3
+   ],
+   "scu": 120,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    10
+   ]
+  },
+  {
+   "cls": "RSI_Zeus_Cargo_CargoGrid_Right",
+   "container": "RSI_Zeus_CargoGrid_Cargo_Right",
+   "dimensions": [
+    2.5,
+    1.25,
+    2.5
+   ],
+   "cells": [
+    2,
+    1,
+    2
+   ],
+   "scu": 4,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    1.25
+   ]
+  },
+  {
+   "cls": "RSI_Zeus_CargoGrid_Main",
+   "container": "RSI_Zeus_CargoGrid_Base_Main",
+   "dimensions": [
+    5,
+    5,
+    2.5
+   ],
+   "cells": [
+    4,
+    4,
+    2
+   ],
+   "scu": 32,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    2.5,
+    2.5,
+    5
+   ]
+  },
+  {
+   "cls": "TMBL_Cyclone_CargoGrid_Main",
+   "container": "TMBL_Cyclone_CargoGrid_Rear",
+   "dimensions": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "cells": [
+    1,
+    1,
+    1
+   ],
+   "scu": 1,
+   "minItem": [
+    1.25,
+    1.25,
+    1.25
+   ],
+   "maxItem": [
+    1.25,
+    1.25,
+    1.25
+   ]
+  }
+ ]
+}

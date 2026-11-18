@@ -1,0 +1,2994 @@
+{
+ "gameBuild": "4.10.200.58746",
+ "gameBranch": "sc-alpha-4.10.0",
+ "gameChangelist": "13165946",
+ "gameBuildDate": "Wed Nov 11 2026",
+ "researchedAt": "2026-11-18T00:38:59.779Z",
+ "commodities": [
+  {
+   "id": "AceInterceptorHelmet",
+   "name": "Ace Interceptor Helmet",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Agricium",
+   "name": "Agricium",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "AgriculturalSupplies",
+   "name": "Agricultural Supplies",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "AltruciaToxin",
+   "name": "Altruciatoxin",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "AltruciaToxin_unprocessed",
+   "name": "Revenant Tree Pollen",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Aluminum",
+   "name": "Aluminum",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "AmioshiPlague",
+   "name": "Amioshi Plague",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ammonia",
+   "name": "Ammonia",
+   "group": "Gas",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Aphorite",
+   "name": "Aphorite",
+   "group": "Mineral",
+   "density": 1.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Argon",
+   "name": "Argon",
+   "group": "Gas",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Armillaria",
+   "name": "Bluemoon Fungus",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Aslarite",
+   "name": "Aslarite",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Astatine",
+   "name": "Astatine",
+   "group": "Halogen",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Atlassium",
+   "name": "Atlasium",
+   "group": "Alloy",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Beradom",
+   "name": "Beradom",
+   "group": "Mineral",
+   "density": 1.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Beryl",
+   "name": "Beryl",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Bexalite",
+   "name": "Bexalite",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "BiologicalSamples",
+   "name": "Biological Samples",
+   "group": "Natural Materials",
+   "density": 1
+  },
+  {
+   "id": "Bioplastic",
+   "name": "Bioplastic",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "BlueBilva",
+   "name": "Blue Bilva",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Borase",
+   "name": "Borase",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "CadmiumAllinide",
+   "name": "Cadmium Allinide",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Carbon",
+   "name": "Carbon",
+   "group": "Nonmetals",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "CarbonDioxide",
+   "name": "CO<font size=\"%d\">2</font>",
+   "group": "Gas",
+   "density": 1
+  },
+  {
+   "id": "Carbonsilk",
+   "name": "Carbon-Silk",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Carinite",
+   "name": "Carinite",
+   "group": "Mineral",
+   "density": 0.65,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "CarinitePure",
+   "name": "Carinite (Pure)",
+   "group": "Mineral",
+   "density": 0.65,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Chlorine",
+   "name": "Chlorine",
+   "group": "Halogen",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "CK13SeedBlend",
+   "name": "CK13-GID Seed Blend",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Cobalt",
+   "name": "Cobalt",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "cold",
+   "name": "Cooler",
+   "group": "HeatPlaceholder",
+   "density": 1
+  },
+  {
+   "id": "CompBoard",
+   "name": "Compboard",
+   "group": "Waste",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ConstructionMaterialChunks",
+   "name": "Construction Salvage",
+   "group": "Processed Goods",
+   "density": 2.7,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ConstructionMaterialPowder",
+   "name": "Construction Rubble",
+   "group": "Processed Goods",
+   "density": 3.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ConstructionMaterials",
+   "name": "Construction Materials",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ConstructionMaterialScrap",
+   "name": "Construction Pieces",
+   "group": "Processed Goods",
+   "density": 2.9,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Copper",
+   "name": "Copper",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Corundum",
+   "name": "Corundum",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "DecariPod",
+   "name": "Decari Pod",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "DegnousRoot",
+   "name": "Degnous Root",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Detatrine",
+   "name": "Detatrine",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Diamond",
+   "name": "Diamond",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "DiamondLaminate",
+   "name": "Diamond Laminate",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "DistilledSpirits",
+   "name": "Distilled Spirits",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Dolivine",
+   "name": "Dolivine",
+   "group": "Mineral",
+   "density": 1.4,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Dopple",
+   "name": "Dopple",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Dymantium",
+   "name": "Dymantium",
+   "group": "Alloy",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Dynaflex",
+   "name": "DynaFlex",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Electricity",
+   "name": "Power:",
+   "group": "PowerPlaceholder",
+   "density": 1
+  },
+  {
+   "id": "ElectronicsEquipment",
+   "name": "Audio-Visual Equipment",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Elespo",
+   "name": "Elespo",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Etam",
+   "name": "E'tam",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "EVAFuel",
+   "name": "EVA Fuel",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "EvidenceBox",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Feynmaline",
+   "name": "Feynmaline",
+   "group": "Mineral",
+   "density": 1.4,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Flourine",
+   "name": "Fluorine",
+   "group": "Halogen",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Fotia",
+   "name": "Fotia Seedpod",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Freeze",
+   "name": "Freeze",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "FreshFood",
+   "name": "Fresh Food",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "GaspingWeevilEggs",
+   "name": "Gasping Weevil Eggs",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Genmod Seeds",
+   "name": "Genmod Seeds",
+   "group": "Natural Materials",
+   "density": 1
+  },
+  {
+   "id": "Glacosite",
+   "name": "Glacosite",
+   "group": "Mineral",
+   "density": 1.4,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Glow",
+   "name": "Glow",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Gold",
+   "name": "Gold",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "GoldenMedmon",
+   "name": "Golden Medmon",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Hadanite",
+   "name": "Hadanite",
+   "group": "Mineral",
+   "density": 2.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "HeartOfTheWoods",
+   "name": "Heart of the Woods",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Helium",
+   "name": "Helium",
+   "group": "Gas",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Hephaestanite",
+   "name": "Hephaestanite",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "HLX99Hyperprocessors",
+   "name": "HLX99 Hyperprocessors",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "HolidayBox",
+   "name": "Luminalia Gift",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "HolidayLetter",
+   "name": "Year of the Rat Envelope",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "hot",
+   "name": "Heat",
+   "group": "HeatPlaceholder",
+   "density": 1
+  },
+  {
+   "id": "HPMC",
+   "name": "HexaPolyMesh Coating",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "HumanFoodBars",
+   "name": "Human Food Bars",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Hydrogen",
+   "name": "Hydrogen",
+   "group": "Gas",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "InertMaterials",
+   "name": "Inert Materials",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Iodine",
+   "name": "Iodine",
+   "group": "Halogen",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Iron",
+   "name": "Iron",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Janalite",
+   "name": "Janalite",
+   "group": "Mineral",
+   "density": 1.4,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "JumpingLimes",
+   "name": "Jumping Limes",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "KopionHorn",
+   "name": "Kopion Horn",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Laranite",
+   "name": "Laranite",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Lastaprene",
+   "name": "Lastaprene",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "LifeCureMedsticks",
+   "name": "LifeCure Medsticks",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "LifeSupport",
+   "name": "Life Support",
+   "group": "LifeSupportPlaceholder",
+   "density": 1
+  },
+  {
+   "id": "Lindinium",
+   "name": "Lindinium",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Lycara",
+   "name": "Lycara",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Mala",
+   "name": "Mala",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "MarokPearl",
+   "name": "Marok Gem",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Maze",
+   "name": "Maze",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "MedGel",
+   "name": "MedGel",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "MedicalSupplies",
+   "name": "Medical Supplies",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Mercury",
+   "name": "Mercury",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Methane",
+   "name": "Methane",
+   "group": "Gas",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "MilitarySupplies",
+   "name": "Combat Supplies",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "MixedMining",
+   "name": "Mixed Mining",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "mobyGlassPersonalComputers",
+   "name": "mobyGlass Personal Computers",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "MoldSample",
+   "name": "Molina Mold Samples",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "MoldTreatment",
+   "name": "Molina Mold Treatment",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "MolinaMold",
+   "name": "Molina Mold",
+   "group": "CleanAir",
+   "density": 1
+  },
+  {
+   "id": "Neograph",
+   "name": "Neograph",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Neon",
+   "name": "Neon",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Nitrogen",
+   "name": "Nitrogen",
+   "group": "Gas",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Omnapoxy",
+   "name": "Omnapoxy",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Agricium",
+   "name": "Agricium (Ore)",
+   "group": "UnrefinedOres",
+   "density": 7.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Aluminum",
+   "name": "Aluminum (Ore)",
+   "group": "UnrefinedOres",
+   "density": 2.7,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Borase",
+   "name": "Borase (Ore)",
+   "group": "UnrefinedOres",
+   "density": 4.5,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Copper",
+   "name": "Copper (Ore)",
+   "group": "UnrefinedOres",
+   "density": 8.96,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Gold",
+   "name": "Gold (Ore)",
+   "group": "UnrefinedOres",
+   "density": 19.32,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Iron",
+   "name": "Iron (Ore)",
+   "group": "UnrefinedOres",
+   "density": 7.874,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Jaclium",
+   "name": "Jaclium (Ore)",
+   "group": "UnrefinedOres",
+   "density": 1.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Lindinium",
+   "name": "Lindinium (Ore)",
+   "group": "UnrefinedOres",
+   "density": 10.7,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Riccite",
+   "name": "Riccite (Ore)",
+   "group": "UnrefinedOres",
+   "density": 1.6,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Saldynium",
+   "name": "Saldynium (Ore)",
+   "group": "UnrefinedOres",
+   "density": 2.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Savrilium",
+   "name": "Savrilium (Ore)",
+   "group": "UnrefinedOres",
+   "density": 18.06,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Stileron",
+   "name": "Stileron (Ore)",
+   "group": "UnrefinedOres",
+   "density": 4.75,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Tin",
+   "name": "Tin (Ore)",
+   "group": "UnrefinedOres",
+   "density": 5.769,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Titanium",
+   "name": "Titanium (Ore)",
+   "group": "UnrefinedOres",
+   "density": 4.5,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Torite",
+   "name": "Torite (Ore)",
+   "group": "UnrefinedOres",
+   "density": 2.8,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ore_Tungsten",
+   "name": "Tungsten (Ore)",
+   "group": "UnrefinedOres",
+   "density": 19.3,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "OrganHarvesting",
+   "name": "Organs",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "OrganiMass",
+   "name": "Organics",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "OsoianHides",
+   "name": "Osoian Hides",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Ouratite",
+   "name": "Ouratite",
+   "group": "Nonmetals",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Oxygen",
+   "name": "Oxygen",
+   "group": "Gas",
+   "density": 1
+  },
+  {
+   "id": "Oza",
+   "name": "Oza",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Partiullium",
+   "name": "Partillium",
+   "group": "Gas",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "PartyFavors",
+   "name": "Party Favors",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Pingala",
+   "name": "Pingala Seeds",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Pitambu",
+   "name": "Pitambu",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "PlasmaFuel",
+   "name": "Hydrogen Fuel",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Potassium",
+   "name": "Potassium",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Pressurized_Ice",
+   "name": "Pressurized Ice",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ProcessedFood",
+   "name": "Processed Food",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ProcyonCanister_Damage",
+   "name": "AcryliPlex Composite",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ProcyonCanister_Quantum",
+   "name": "Diluthermex",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ProcyonCanister_Time",
+   "name": "Zeta-Prolanide",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Prota",
+   "name": "Prota",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Quantanium",
+   "name": "Quantainium",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "QuantumFuel",
+   "name": "Quantum Fuel",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Quartz",
+   "name": "Quartz",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "QuasiEgg",
+   "name": "Desert Quasi Grazer Egg",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "RantaDung",
+   "name": "Ranta Dung",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Aslarite",
+   "name": "Aslarite (Raw)",
+   "group": "Raw_Minerals",
+   "density": 2.3,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Beryl",
+   "name": "Beryl (Raw)",
+   "group": "Raw_Minerals",
+   "density": 2.75,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Bexalite",
+   "name": "Bexalite (Raw)",
+   "group": "Raw_Minerals",
+   "density": 6.9,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Corundum",
+   "name": "Corundum (Raw)",
+   "group": "Raw_Minerals",
+   "density": 4.02,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Diamond",
+   "name": "Diamond (Raw)",
+   "group": "Raw_Minerals",
+   "density": 3.52,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Hephaestanite",
+   "name": "Hephaestanite (R)",
+   "group": "Raw_Minerals",
+   "density": 3.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Ice",
+   "name": "Raw Ice",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Laranite",
+   "name": "Laranite (Raw)",
+   "group": "Raw_Minerals",
+   "density": 11.5,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Quantainium",
+   "name": "Quantainium (Raw)",
+   "group": "Raw_Minerals",
+   "density": 20.45,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Quartz",
+   "name": "Quartz (Raw)",
+   "group": "Raw_Minerals",
+   "density": 2.65,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Raw_Taranite",
+   "name": "Taranite (Raw)",
+   "group": "Raw_Minerals",
+   "density": 10.2,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "RawOuratite",
+   "name": "Raw Ouratite",
+   "group": "Nonmetals",
+   "density": 1.1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "RawSilicon",
+   "name": "Raw Silicon",
+   "group": "Nonmetals",
+   "density": 2.336,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "RedfinEnergyModulator",
+   "name": "Redfin Energy Modulators",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "RevenantPod",
+   "name": "Revenant Pod",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Riccite",
+   "name": "Riccite",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "RMC",
+   "name": "Recycled Material Composite",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "RS1OdyseySpacesuits",
+   "name": "RS1 Odysey Spacesuits",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Sadaryx",
+   "name": "Sadaryx",
+   "group": "Mineral",
+   "density": 2.1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Sarilus",
+   "name": "Sarilus",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Savrilium",
+   "name": "Savrilium",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Scrap",
+   "name": "Scrap",
+   "group": "Waste",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize1",
+   "name": "Ship Ammunition - Size 1",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize2",
+   "name": "Ship Ammunition - Size 2",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize3",
+   "name": "Ship Ammunition - Size 3",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize4",
+   "name": "Ship Ammunition - Size 4",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize5",
+   "name": "Ship Ammunition - Size 5",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize6",
+   "name": "Ship Ammunition - Size 6",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize7",
+   "name": "Ship Ammunition - Size 7",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize8",
+   "name": "Ship Ammunition - Size 8",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmoSize9",
+   "name": "Ship Ammunition - Size 9",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipAmmunition",
+   "name": "Ship Ammunition",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipCountermeasuresDecoy",
+   "name": "Ship Decoy Countermeasures",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "ShipCountermeasuresNoise",
+   "name": "Ship Noise Countermeasures",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Silicon",
+   "name": "Silicon",
+   "group": "Nonmetals",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Silnex",
+   "name": "Silnex",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Slam",
+   "name": "SLAM",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Slam_Unprocessed",
+   "name": "DCSR2",
+   "group": "Natural Materials",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "SlamUncut",
+   "name": "Uncut SLAM",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Souvenirs",
+   "name": "Souvenirs",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "SpiralFruit",
+   "name": "Lunes (Spiral Fruit)",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Steel",
+   "name": "Steel",
+   "group": "Alloy",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Stileron",
+   "name": "Stileron",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Stims",
+   "name": "Stims",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "SunsetBerry",
+   "name": "Sunset Berries",
+   "group": "Food",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Taranite",
+   "name": "Taranite",
+   "group": "Mineral",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Thermalfoam",
+   "name": "ThermalFoam",
+   "group": "Man-made",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Thrust",
+   "name": "Thrust",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Tin",
+   "name": "Tin",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Titanium",
+   "name": "Titanium",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Torite",
+   "name": "Torite",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Tritium",
+   "name": "Tritium",
+   "group": "Gas",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Tungsten",
+   "name": "Tungsten",
+   "group": "Metal",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "VentFilters",
+   "name": "Molina Ventilation Filters",
+   "group": "Processed Goods",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "VIPCryopod",
+   "group": "CleanAir",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "VirusCultures",
+   "name": "Virus Cultures",
+   "group": "Natural Materials",
+   "density": 1
+  },
+  {
+   "id": "Vlk_Fang",
+   "name": "Valakkar Fang",
+   "group": "Natural Materials",
+   "density": 1
+  },
+  {
+   "id": "Vlk_Limpet",
+   "group": "Natural Materials",
+   "density": 0.25
+  },
+  {
+   "id": "Waste",
+   "name": "Waste",
+   "group": "Waste",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Widow",
+   "name": "WiDoW",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "Xapyen",
+   "name": "Xa'Pyen",
+   "group": "Alloy",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  },
+  {
+   "id": "YormandiEye",
+   "name": "Yormandi Eye",
+   "group": "Natural Materials",
+   "density": 1
+  },
+  {
+   "id": "Zip",
+   "name": "Zip",
+   "group": "Vice",
+   "density": 1,
+   "boxes": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+   ]
+  }
+ ]
+}

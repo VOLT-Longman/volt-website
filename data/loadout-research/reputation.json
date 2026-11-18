@@ -1,0 +1,2363 @@
+{
+ "gameBuild": "4.10.200.58746",
+ "gameBranch": "sc-alpha-4.10.0",
+ "gameChangelist": "13165946",
+ "gameBuildDate": "Wed Nov 11 2026",
+ "researchedAt": "2026-11-18T00:38:59.779Z",
+ "scopes": [
+  {
+   "id": "ReputationScope_Emergency",
+   "scope": "Emergency",
+   "name": "Emergency Support",
+   "ceiling": 320000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Emergency_NotEligible",
+     "min": -320000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Emergency_Probation",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Emergency_Junior",
+     "min": 5000,
+     "name": "First Responder Trainee"
+    },
+    {
+     "id": "ReputationStanding_Emergency_MidLevel",
+     "min": 20000,
+     "name": "First Responder"
+    },
+    {
+     "id": "ReputationStanding_Emergency_Senior",
+     "min": 80000,
+     "name": "Veteran First Responder"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Hauling",
+   "scope": "Hauling",
+   "name": "Hauling",
+   "ceiling": 367601,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Hauling_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank0",
+     "min": 0,
+     "name": "Trainee"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank1",
+     "min": 50,
+     "name": "Rookie"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank2",
+     "min": 250,
+     "name": "Junior"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank3",
+     "min": 5250,
+     "name": "Member"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank4",
+     "min": 27750,
+     "name": "Experienced"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank5",
+     "min": 77750,
+     "name": "Senior"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank6",
+     "min": 237750,
+     "name": "Master"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Wikelo",
+   "scope": "Wikelo",
+   "name": "Barter & Trade",
+   "ceiling": 1000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Wikelo_000",
+     "min": 0,
+     "name": "New Customer"
+    },
+    {
+     "id": "ReputationStanding_Wikelo_001",
+     "min": 340,
+     "name": "Very Good Customer"
+    },
+    {
+     "id": "ReputationStanding_Wikelo_002",
+     "min": 999,
+     "name": "Very Best Customer"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Faction_Band_3",
+   "scope": "Faction_Band_3",
+   "ceiling": 0,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Faction_B3_10",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_09",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_08",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_07",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_06",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_05",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_04",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_03",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_02",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_01",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B3_00",
+     "min": 0
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Courier",
+   "scope": "Courier",
+   "name": "Courier",
+   "ceiling": 7500,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Courier_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Courier_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Courier_Rank1",
+     "min": 1,
+     "name": "Jr. Runner"
+    },
+    {
+     "id": "ReputationStanding_Courier_Rank2",
+     "min": 2500,
+     "name": "Runner"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Affinity",
+   "scope": "Affinity",
+   "name": "Affinity",
+   "ceiling": 10000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-100",
+     "min": -10000,
+     "name": "Hated"
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-095",
+     "min": -9500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-090",
+     "min": -9000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-085",
+     "min": -8500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-080",
+     "min": -8000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-075",
+     "min": -7500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-070",
+     "min": -7000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-065",
+     "min": -6500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-060",
+     "min": -6000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-055",
+     "min": -5500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-050",
+     "min": -5000,
+     "name": "Disliked"
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-045",
+     "min": -4500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-040",
+     "min": -4000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-035",
+     "min": -3500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-030",
+     "min": -3000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-025",
+     "min": -2500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-020",
+     "min": -2000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-015",
+     "min": -1500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-010",
+     "min": -1000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Enemy_-005",
+     "min": -500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Neutral_000",
+     "min": 0,
+     "name": "Neutral"
+    },
+    {
+     "id": "ReputationStanding_Affinity_Neutral_005",
+     "min": 500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Neutral_010",
+     "min": 1000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Neutral_015",
+     "min": 1500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Neutral_020",
+     "min": 2000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_025",
+     "min": 2500,
+     "name": "Liked"
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_030",
+     "min": 3000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_035",
+     "min": 3500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_040",
+     "min": 4000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_045",
+     "min": 4500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_050",
+     "min": 5000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_055",
+     "min": 5500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_065",
+     "min": 6500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_060",
+     "min": 6500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_070",
+     "min": 7000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_075",
+     "min": 7500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_080",
+     "min": 8000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_085",
+     "min": 8500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_090",
+     "min": 9000
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_095",
+     "min": 9500
+    },
+    {
+     "id": "ReputationStanding_Affinity_Ally_100",
+     "min": 10000,
+     "name": "Exalted"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Faction_Band_4",
+   "scope": "Faction_Band_4",
+   "ceiling": 0,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Faction_B4_10",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_09",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_08",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_07",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_06",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_05",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_04",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_03",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_02",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_01",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B4_00",
+     "min": 0
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Technician",
+   "scope": "Technician",
+   "name": "Technician",
+   "ceiling": 243000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Technician_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Technician_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Technician_Rank1",
+     "min": 1,
+     "name": "Technician-in-Training"
+    },
+    {
+     "id": "ReputationStanding_Technician_Rank2",
+     "min": 3000,
+     "name": "Jr. Technician"
+    },
+    {
+     "id": "ReputationStanding_Technician_Rank3",
+     "min": 9000,
+     "name": "Technician"
+    },
+    {
+     "id": "ReputationStanding_Technician_Rank4",
+     "min": 27000,
+     "name": "Sr. Technician"
+    },
+    {
+     "id": "ReputationStanding_Technician_Rank5",
+     "min": 81000,
+     "name": "Master Technician"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_HiredMuscle",
+   "scope": "HiredMuscle",
+   "name": "Hired Muscle",
+   "ceiling": 1600001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_HiredMuscle_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_HiredMuscle_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_HiredMuscle_Rank1",
+     "min": 1,
+     "name": "Rank I"
+    },
+    {
+     "id": "ReputationStanding_HiredMuscle_Rank2",
+     "min": 5000,
+     "name": "Rank II"
+    },
+    {
+     "id": "ReputationStanding_HiredMuscle_Rank3",
+     "min": 30000,
+     "name": "Rank III"
+    },
+    {
+     "id": "ReputationStanding_HiredMuscle_Rank4",
+     "min": 120000,
+     "name": "Rank IV"
+    },
+    {
+     "id": "ReputationStanding_HiredMuscle_Rank5",
+     "min": 480000,
+     "name": "Rank V"
+    },
+    {
+     "id": "ReputationStanding_HiredMuscle_Rank6",
+     "min": 1600000,
+     "name": "Rank VI"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Bounty",
+   "scope": "BountyHunter",
+   "name": "Bounty Hunting",
+   "ceiling": 5200000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Bounty_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Applicant",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Probation",
+     "min": 1,
+     "name": "Tracker Trainee"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Junior",
+     "min": 5000,
+     "name": "Associate Tracker"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Agent",
+     "min": 30000,
+     "name": "Tracker"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Senior",
+     "min": 120000,
+     "name": "Advanced Tracker"
+    },
+    {
+     "id": "ReputationStanding_Bounty_VeteranAgent",
+     "min": 480000,
+     "name": "Senior Tracker"
+    },
+    {
+     "id": "ReputationStanding_Bounty_MasterAgent",
+     "min": 1600000,
+     "name": "Master Tracker"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Faction_Band_1",
+   "scope": "Faction_Band_1",
+   "ceiling": 0,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Faction_B1_10",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_09",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_08",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_07",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_06",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_05",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_04",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_03",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_02",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_01",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B1_00",
+     "min": 0
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_NPC_Fired",
+   "scope": "NPC_Fired",
+   "ceiling": 50,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_NPC_UltraFired",
+     "min": -150
+    },
+    {
+     "id": "ReputationStanding_NPC_Fired_Fired",
+     "min": -100
+    },
+    {
+     "id": "ReputationStanding_NPC_Fired_LastWarning",
+     "min": -50
+    },
+    {
+     "id": "ReputationStanding_NPC_Fired_NotFired",
+     "min": 0
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Guild",
+   "scope": "Guild",
+   "ceiling": 1282000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Guild_00",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Guild_01",
+     "min": 513
+    },
+    {
+     "id": "ReputationStanding_Guild_02",
+     "min": 2051
+    },
+    {
+     "id": "ReputationStanding_Guild_03",
+     "min": 4615
+    },
+    {
+     "id": "ReputationStanding_Guild_04",
+     "min": 8205
+    },
+    {
+     "id": "ReputationStanding_Guild_05",
+     "min": 12820
+    },
+    {
+     "id": "ReputationStanding_Guild_06",
+     "min": 18461
+    },
+    {
+     "id": "ReputationStanding_Guild_07",
+     "min": 25127
+    },
+    {
+     "id": "ReputationStanding_Guild_08",
+     "min": 32819
+    },
+    {
+     "id": "ReputationStanding_Guild_09",
+     "min": 41537
+    },
+    {
+     "id": "ReputationStanding_Guild_10",
+     "min": 51280
+    },
+    {
+     "id": "ReputationStanding_Guild_11",
+     "min": 62049
+    },
+    {
+     "id": "ReputationStanding_Guild_12",
+     "min": 73843
+    },
+    {
+     "id": "ReputationStanding_Guild_13",
+     "min": 86663
+    },
+    {
+     "id": "ReputationStanding_Guild_14",
+     "min": 100509
+    },
+    {
+     "id": "ReputationStanding_Guild_15",
+     "min": 115380
+    },
+    {
+     "id": "ReputationStanding_Guild_16",
+     "min": 131277
+    },
+    {
+     "id": "ReputationStanding_Guild_17",
+     "min": 148199
+    },
+    {
+     "id": "ReputationStanding_Guild_18",
+     "min": 166147
+    },
+    {
+     "id": "ReputationStanding_Guild_19",
+     "min": 185121
+    },
+    {
+     "id": "ReputationStanding_Guild_20",
+     "min": 205120
+    },
+    {
+     "id": "ReputationStanding_Guild_21",
+     "min": 226145
+    },
+    {
+     "id": "ReputationStanding_Guild_22",
+     "min": 248195
+    },
+    {
+     "id": "ReputationStanding_Guild_23",
+     "min": 271271
+    },
+    {
+     "id": "ReputationStanding_Guild_24",
+     "min": 295373
+    },
+    {
+     "id": "ReputationStanding_Guild_25",
+     "min": 320500
+    },
+    {
+     "id": "ReputationStanding_Guild_26",
+     "min": 346653
+    },
+    {
+     "id": "ReputationStanding_Guild_27",
+     "min": 373831
+    },
+    {
+     "id": "ReputationStanding_Guild_28",
+     "min": 402035
+    },
+    {
+     "id": "ReputationStanding_Guild_29",
+     "min": 431265
+    },
+    {
+     "id": "ReputationStanding_Guild_30",
+     "min": 461520
+    },
+    {
+     "id": "ReputationStanding_Guild_31",
+     "min": 492801
+    },
+    {
+     "id": "ReputationStanding_Guild_32",
+     "min": 525107
+    },
+    {
+     "id": "ReputationStanding_Guild_33",
+     "min": 558439
+    },
+    {
+     "id": "ReputationStanding_Guild_34",
+     "min": 592797
+    },
+    {
+     "id": "ReputationStanding_Guild_35",
+     "min": 628180
+    },
+    {
+     "id": "ReputationStanding_Guild_36",
+     "min": 664589
+    },
+    {
+     "id": "ReputationStanding_Guild_37",
+     "min": 702023
+    },
+    {
+     "id": "ReputationStanding_Guild_38",
+     "min": 740483
+    },
+    {
+     "id": "ReputationStanding_Guild_39",
+     "min": 779969
+    },
+    {
+     "id": "ReputationStanding_Guild_40",
+     "min": 820480
+    },
+    {
+     "id": "ReputationStanding_Guild_41",
+     "min": 862017
+    },
+    {
+     "id": "ReputationStanding_Guild_42",
+     "min": 904579
+    },
+    {
+     "id": "ReputationStanding_Guild_43",
+     "min": 948167
+    },
+    {
+     "id": "ReputationStanding_Guild_44",
+     "min": 992781
+    },
+    {
+     "id": "ReputationStanding_Guild_45",
+     "min": 1038420
+    },
+    {
+     "id": "ReputationStanding_Guild_46",
+     "min": 1085085
+    },
+    {
+     "id": "ReputationStanding_Guild_47",
+     "min": 1132775
+    },
+    {
+     "id": "ReputationStanding_Guild_48",
+     "min": 1181491
+    },
+    {
+     "id": "ReputationStanding_Guild_49",
+     "min": 1231233
+    },
+    {
+     "id": "ReputationStanding_Guild_50",
+     "min": 1282000
+    }
+   ]
+  },
+  {
+   "id": "MissionProviderReputationScope_Battaglia",
+   "scope": "MissionProviderReputation_Battaglia",
+   "name": "Standing",
+   "ceiling": 69600,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_MissionProviderRep_Battaglia_Rank0",
+     "min": 0,
+     "name": "Prospective Associate"
+    },
+    {
+     "id": "ReputationStanding_MissionProviderRep_Battaglia_Rank1",
+     "min": 2400,
+     "name": "Associate"
+    },
+    {
+     "id": "ReputationStanding_MissionProviderRep_Battaglia_Rank2",
+     "min": 6000,
+     "name": "Trusted Associate"
+    },
+    {
+     "id": "ReputationStanding_MissionProviderRep_Battaglia_Rank3",
+     "min": 10800,
+     "name": "Prestige 1"
+    },
+    {
+     "id": "ReputationStanding_MissionProviderRep_Battaglia_Rank4",
+     "min": 30000,
+     "name": "Prestige 2"
+    },
+    {
+     "id": "ReputationStanding_MissionProviderRep_Battaglia_Rank5",
+     "min": 69600,
+     "name": "Prestige 3"
+    }
+   ]
+  },
+  {
+   "id": "FactionReputationScope",
+   "scope": "FactionReputation",
+   "name": "Standing",
+   "ceiling": 95251,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_FactionRep_Rank0",
+     "min": 0,
+     "name": "Neutral"
+    },
+    {
+     "id": "ReputationStanding_FactionRep_Rank1",
+     "min": 800,
+     "name": "Jr. Contractor"
+    },
+    {
+     "id": "ReputationStanding_FactionRep_Rank2",
+     "min": 2200,
+     "name": "Contractor"
+    },
+    {
+     "id": "ReputationStanding_FactionRep_Rank3",
+     "min": 5800,
+     "name": "Sr. Contractor"
+    },
+    {
+     "id": "ReputationStanding_FactionRep_Rank4",
+     "min": 15000,
+     "name": "Veteran Contractor"
+    },
+    {
+     "id": "ReputationStanding_FactionRep_Rank5",
+     "min": 38000,
+     "name": "Head Contractor"
+    },
+    {
+     "id": "ReputationStanding_FactionRep_Rank6",
+     "min": 95250,
+     "name": "Elite Contractor"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Worker",
+   "scope": "Worker",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Worker_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Worker_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Worker_Rank1",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_NPC_Reliability",
+   "scope": "NPC_Reliability",
+   "name": "Confidence",
+   "ceiling": 10100,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_NPC_Reliability_Fireable",
+     "min": -10000,
+     "name": "Disliked"
+    },
+    {
+     "id": "ReputationStanding_NPC_Reliability_Unreliable",
+     "min": -9000,
+     "name": "Disliked"
+    },
+    {
+     "id": "ReputationStanding_NPC_Reliability_Neutral",
+     "min": 0,
+     "name": "Neutral"
+    },
+    {
+     "id": "ReputationStanding_NPC_Reliability_Reliable",
+     "min": 10000,
+     "name": "Exalted"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Assassination",
+   "scope": "Assassination",
+   "name": "Assassination",
+   "ceiling": 112001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Assassination_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Assassination_Outsider",
+     "min": 0,
+     "name": "Under Review"
+    },
+    {
+     "id": "ReputationStanding_Assassination_Rookie",
+     "min": 1,
+     "name": "Assassin In Training"
+    },
+    {
+     "id": "ReputationStanding_Assassination_Assosciate",
+     "min": 3000,
+     "name": "Low Level Assassin"
+    },
+    {
+     "id": "ReputationStanding_Assassination_Soldier",
+     "min": 8000,
+     "name": "Assassin"
+    },
+    {
+     "id": "ReputationStanding_Assassination_Captain",
+     "min": 24000,
+     "name": "High Value Assassin"
+    },
+    {
+     "id": "ReputationStanding_Assassination_Counsel",
+     "min": 56000,
+     "name": "Elite Assassin"
+    },
+    {
+     "id": "ReputationStanding_Assassination_Underboss",
+     "min": 112000,
+     "name": "Master Assassin"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_HandyMan",
+   "scope": "HandyMan",
+   "name": "Salvage",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_HandyMan_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_HandyMan_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_HandyMan_Rank1",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Security",
+   "scope": "Security",
+   "name": "Security",
+   "ceiling": 5200000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Security_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank1",
+     "min": 1,
+     "name": "Security Trainee"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank2",
+     "min": 5000,
+     "name": "Jr. Security Contractor"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank3",
+     "min": 30000,
+     "name": "Security Contractor"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank4",
+     "min": 120000,
+     "name": "Sr. Security Contractor"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank5",
+     "min": 480000,
+     "name": "Lead Security Contractor"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank6",
+     "min": 1600000,
+     "name": "Elite Security Contractor"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Salvage",
+   "scope": "Salvaging",
+   "name": "Salvaging",
+   "ceiling": 10001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Salvage_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Salvage_Rank1",
+     "min": 1,
+     "name": "Apprentice Salvager"
+    },
+    {
+     "id": "ReputationStanding_Salvage_Rank2",
+     "min": 100,
+     "name": "Associate Salvager"
+    },
+    {
+     "id": "ReputationStanding_Salvage_Rank3",
+     "min": 500,
+     "name": "Salvager"
+    },
+    {
+     "id": "ReputationStanding_Salvage_Rank4",
+     "min": 1500,
+     "name": "Senior Salvager"
+    },
+    {
+     "id": "ReputationStanding_Salvage_Rank5",
+     "min": 5000,
+     "name": "Master Salvager"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Theft",
+   "scope": "Theft",
+   "name": "Theft",
+   "ceiling": 320000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Theft_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Theft_Rank1",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Theft_Rank2",
+     "min": 3000,
+     "name": "Rank I"
+    },
+    {
+     "id": "ReputationStanding_Theft_Rank3",
+     "min": 17000,
+     "name": "Rank II"
+    },
+    {
+     "id": "ReputationStanding_Theft_Rank4",
+     "min": 40000,
+     "name": "Rank III"
+    },
+    {
+     "id": "ReputationStanding_Theft_Rank5",
+     "min": 100000,
+     "name": "Rank IV"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Maintenance",
+   "scope": "Maintenance",
+   "name": "Maintenance",
+   "ceiling": 0,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Maintenance_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Maintenance_Rank0",
+     "min": 0,
+     "name": "Apprentice"
+    },
+    {
+     "id": "ReputationStanding_Maintenance_Rank1",
+     "min": 1,
+     "name": "Mechanic-in-Training"
+    },
+    {
+     "id": "ReputationStanding_Maintenance_Rank2",
+     "min": 3000,
+     "name": "Jr. Mechanic"
+    },
+    {
+     "id": "ReputationStanding_Maintenance_Rank3",
+     "min": 10000,
+     "name": "Mechanic"
+    },
+    {
+     "id": "ReputationStanding_Maintenance_Rank4",
+     "min": 40000,
+     "name": "Sr. Mechanic"
+    },
+    {
+     "id": "ReputationStanding_Maintenance_Rank5",
+     "min": 200000,
+     "name": "Master Mechanic"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Faction_Band_2",
+   "scope": "Faction_Band_2",
+   "ceiling": 0,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Faction_B2_10",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_09",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_08",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_07",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_06",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_05",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_04",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_03",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_02",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_01",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B2_00",
+     "min": 0
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Smuggling",
+   "scope": "Smuggling",
+   "name": "Hired Muscle",
+   "ceiling": 320000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Smuggling_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Smuggling_Rank1",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Smuggling_Rank2",
+     "min": 1000,
+     "name": "Rank I"
+    },
+    {
+     "id": "ReputationStanding_Smuggling_Rank3",
+     "min": 2000,
+     "name": "Rank II"
+    },
+    {
+     "id": "ReputationStanding_Smuggling_Rank4",
+     "min": 3000,
+     "name": "Rank III"
+    },
+    {
+     "id": "ReputationStanding_Smuggling_Rank5",
+     "min": 4000,
+     "name": "Rank IV"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Faction_Band_0",
+   "scope": "Faction_Band_0",
+   "ceiling": 0,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Faction_B0_10",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_09",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_08",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_07",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_06",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_05",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_04",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_03",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_02",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_01",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Faction_B0_00",
+     "min": 0
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_ShipCombat",
+   "scope": "ShipCombat",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_ShipCombat_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank1",
+     "min": 1,
+     "name": "Rank I"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank2",
+     "min": 5000,
+     "name": "Rank II"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank3",
+     "min": 30000,
+     "name": "Rank III"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank4",
+     "min": 120000,
+     "name": "Rank IV"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank5",
+     "min": 480000,
+     "name": "Rank V"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank6",
+     "min": 1600000,
+     "name": "Rank VI"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_FPSCombat",
+   "scope": "FPS_Combat",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_FPSCombat_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank0",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank1",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Racing_WheeledTimeTrial",
+   "scope": "WheeledTimeTrial",
+   "ceiling": 640000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Racing_Ground_NotEligible",
+     "min": -1000
+    },
+    {
+     "id": "ReputationStanding_Racing_Ground_Rank0",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Racing_Ground_Rank1",
+     "min": 1
+    },
+    {
+     "id": "ReputationStanding_Racing_Ground_Rank2",
+     "min": 1000
+    },
+    {
+     "id": "ReputationStanding_Racing_Ground_Rank3",
+     "min": 2000
+    },
+    {
+     "id": "ReputationStanding_Racing_Ground_Rank4",
+     "min": 4000
+    },
+    {
+     "id": "ReputationStanding_Racing_Ground_Rank5",
+     "min": 8000
+    },
+    {
+     "id": "ReputationStanding_Racing_Ground_Rank6",
+     "min": 16000
+    },
+    {
+     "id": "ReputationStanding_Racing_Ground_Rank7",
+     "min": 32000
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Racing_GravLevTimeTrial",
+   "scope": "HoverTimeTrial",
+   "ceiling": 640000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Racing_GravLev_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Racing_GravLev_Rank0",
+     "min": 0
+    },
+    {
+     "id": "ReputationStanding_Racing_GravLev_Rank1",
+     "min": 1
+    },
+    {
+     "id": "ReputationStanding_Racing_GravLev_Rank2",
+     "min": 1000
+    },
+    {
+     "id": "ReputationStanding_Racing_GravLev_Rank3",
+     "min": 2000
+    },
+    {
+     "id": "ReputationStanding_Racing_GravLev_Rank4",
+     "min": 4000
+    },
+    {
+     "id": "ReputationStanding_Racing_GravLev_Rank5",
+     "min": 8000
+    },
+    {
+     "id": "ReputationStanding_Racing_GravLev_Rank6",
+     "min": 16000
+    },
+    {
+     "id": "ReputationStanding_Racing_GravLev_Rank7",
+     "min": 32000
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Racing_ShipTimeTrial",
+   "scope": "RacingShip",
+   "name": "Spaceship",
+   "ceiling": 640000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Racing_Ship_NotEligible",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Racing_Ship_Rank0",
+     "min": 0,
+     "name": "Racing Enthusiast"
+    },
+    {
+     "id": "ReputationStanding_Racing_Ship_Rank1",
+     "min": 1,
+     "name": "Novice Racer"
+    },
+    {
+     "id": "ReputationStanding_Racing_Ship_Rank2",
+     "min": 1000,
+     "name": "Rookie Racer"
+    },
+    {
+     "id": "ReputationStanding_Racing_Ship_Rank3",
+     "min": 2000,
+     "name": "Racer"
+    },
+    {
+     "id": "ReputationStanding_Racing_Ship_Rank4",
+     "min": 4000,
+     "name": "Practiced Racer"
+    },
+    {
+     "id": "ReputationStanding_Racing_Ship_Rank5",
+     "min": 8000,
+     "name": "Dedicated Racer"
+    },
+    {
+     "id": "ReputationStanding_Racing_Ship_Rank6",
+     "min": 16000,
+     "name": "Experienced Racer"
+    },
+    {
+     "id": "ReputationStanding_Racing_Ship_Rank7",
+     "min": 32000,
+     "name": "Skilled Racer"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Racing_HeadHunter",
+   "scope": "Racing_HeadHunter",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Racing_NotEligible_HeadHunter",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Racing_Rank0_HeadHunter",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Racing_Rank1_HeadHunter",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Delivery_CitizensForPyro",
+   "scope": "Delivery_CitizensForPyro",
+   "name": "Courier",
+   "ceiling": 367601,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Delivery_NotEligible_CitizensForPyro",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Delivery_Rank0_CitizensForPyro",
+     "min": 0,
+     "name": "Trainee"
+    },
+    {
+     "id": "ReputationStanding_Delivery_Rank1_CitizensForPyro",
+     "min": 50,
+     "name": "Rookie"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank2",
+     "min": 250,
+     "name": "Junior"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank3",
+     "min": 5250,
+     "name": "Member"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank4",
+     "min": 27750,
+     "name": "Experienced"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank5",
+     "min": 77750,
+     "name": "Senior"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank6",
+     "min": 237750,
+     "name": "Master"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Delivery_RoughAndReady",
+   "scope": "Delivery_RoughAndReady",
+   "name": "Courier",
+   "ceiling": 367601,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Delivery_NotEligible_RoughAndReady",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Delivery_Rank0_RoughAndReady",
+     "min": 0,
+     "name": "Trainee"
+    },
+    {
+     "id": "ReputationStanding_Delivery_Rank1_RoughAndReady",
+     "min": 50,
+     "name": "Rookie"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank2",
+     "min": 250,
+     "name": "Junior"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank3",
+     "min": 5250,
+     "name": "Member"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank4",
+     "min": 27750,
+     "name": "Experienced"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank5",
+     "min": 77750,
+     "name": "Senior"
+    },
+    {
+     "id": "ReputationStanding_Hauling_Rank6",
+     "min": 237750,
+     "name": "Master"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Courier_TransportGuild",
+   "scope": "Courier_TransportGuild",
+   "name": "Courier",
+   "ceiling": 7500,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Courier_NotEligible_TransportGuild",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Courier_Rank0_TransportGuild",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Courier_Rank1_TransportGuild",
+     "min": 1,
+     "name": "Jr. Runner"
+    },
+    {
+     "id": "ReputationStanding_Courier_Rank2_TransportGuild",
+     "min": 2500,
+     "name": "Runner"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Bounty_BountyHuntersGuild",
+   "scope": "BountyHunter_BountyHuntersGuild",
+   "name": "Bounty Hunting",
+   "ceiling": 480001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Bounty_NotEligible_BountyHuntersGuild",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Applicant_BountyHuntersGuild",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Probation_BountyHuntersGuild",
+     "min": 1,
+     "name": "Probationary Guild Member"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Junior_BountyHuntersGuild",
+     "min": 3000,
+     "name": "Junior Guild Member"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Agent_BountyHuntersGuild",
+     "min": 10000,
+     "name": "Guild Member"
+    },
+    {
+     "id": "ReputationStanding_Bounty_Senior_BountyHuntersGuild",
+     "min": 40000,
+     "name": "Senior Guild Member"
+    },
+    {
+     "id": "ReputationStanding_Bounty_VeteranAgent_BountyHuntersGuild",
+     "min": 200000,
+     "name": "Veteran Guild Member"
+    },
+    {
+     "id": "ReputationStanding_Bounty_MasterAgent_BountyHuntersGuild",
+     "min": 480000,
+     "name": "Guild Steward"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Worker_RoughAndReady",
+   "scope": "Worker_RoughAndReady",
+   "name": "Hired Muscle",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Worker_NotEligible_RoughAndReady",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Worker_Rank0_RoughAndReady",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Worker_Rank1_RoughAndReady",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_HandyMan_CitizensForPyro",
+   "scope": "HandyMan_CitizensForPyro",
+   "name": "Hired Muscle",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_HandyMan_NotEligible_CitizensForPyro",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_HandyMan_Rank0_CitizensForPyro",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_HandyMan_Rank1_CitizensForPyro",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_Security_MercenaryGuild",
+   "scope": "Security_MercenaryGuild",
+   "name": "Security",
+   "ceiling": 5200000,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_Security_NotEligible_MercenaryGuild",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank0_MercenaryGuild",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank1_MercenaryGuild",
+     "min": 1,
+     "name": "Security Trainee"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank2_MercenaryGuild",
+     "min": 5000,
+     "name": "Jr. Security Contractor"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank3_MercenaryGuild",
+     "min": 30000,
+     "name": "Security Contractor"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank4_MercenaryGuild",
+     "min": 120000,
+     "name": "Sr. Security Contractor"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank5",
+     "min": 480000,
+     "name": "Lead Security Contractor"
+    },
+    {
+     "id": "ReputationStanding_Security_Rank6",
+     "min": 1600000,
+     "name": "Elite Security Contractor"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_ShipCombat_RoughAndReady",
+   "scope": "ShipCombat_RoughAndReady",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_ShipCombat_NotEligible_RoughAndReady",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank0_RoughAndReady",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank1_RoughAndReady",
+     "min": 1,
+     "name": "Rank I"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank2",
+     "min": 5000,
+     "name": "Rank II"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank3",
+     "min": 30000,
+     "name": "Rank III"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank4",
+     "min": 120000,
+     "name": "Rank IV"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank5",
+     "min": 480000,
+     "name": "Rank V"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank6",
+     "min": 1600000,
+     "name": "Rank VI"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_ShipCombat_HeadHunters",
+   "scope": "ShipCombat_HeadHunters",
+   "ceiling": 480001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_ShipCombat_NotEligible_HeadHunters",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank0_HeadHunters",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank1_HeadHunters",
+     "min": 1,
+     "name": "Rank I"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank2_HeadHunters",
+     "min": 3000,
+     "name": "Rank II"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank3_HeadHunters",
+     "min": 10000,
+     "name": "Rank III"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank4_HeadHunters",
+     "min": 40000,
+     "name": "Rank IV"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank5_HeadHunters",
+     "min": 200000,
+     "name": "Rank V"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank6_HeadHunters",
+     "min": 480000,
+     "name": "Rank VI"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_ShipCombat_XenoThreat",
+   "scope": "ShipCombat_XenoThreat",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_ShipCombat_NotEligible_XenoThreat",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank0_XenoThreat",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank1_XenoThreat",
+     "min": 1,
+     "name": "Rank I"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank2",
+     "min": 5000,
+     "name": "Rank II"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank3",
+     "min": 30000,
+     "name": "Rank III"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank4",
+     "min": 120000,
+     "name": "Rank IV"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank5",
+     "min": 480000,
+     "name": "Rank V"
+    },
+    {
+     "id": "ReputationStanding_ShipCombat_Rank6",
+     "min": 1600000,
+     "name": "Rank VI"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_FPSCombat_CitizensForPyro",
+   "scope": "FPS_Combat_CitizensForPyro",
+   "name": "Mercenary",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_FPSCombat_NotEligible_CitizensForPyro",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank0_CitizensForPyro",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank1_CitizensForPyro",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_FPSCombat_XenoThreat",
+   "scope": "FPS_Combat_XenoThreat",
+   "name": "Mercenary",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_FPSCombat_NotEligible_XenoThreat",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank0_XenoThreat",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank1_XenoThreat",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_FPSCombat_RoughAndReady",
+   "scope": "FPS_Combat_RoughAndReady",
+   "name": "Mercenary",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_FPSCombat_NotEligible_RoughAndReady",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank0_RoughAndReady",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank1_RoughAndReady",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  },
+  {
+   "id": "ReputationScope_FPSCombat_HeadHunter",
+   "scope": "FPS_Combat_HeadHunter",
+   "name": "Mercenary",
+   "ceiling": 1001,
+   "initial": 0,
+   "standings": [
+    {
+     "id": "ReputationStanding_FPSCombat_NotEligible_HeadHunter",
+     "min": -1000,
+     "name": "Not Eligible"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank0_HeadHunter",
+     "min": 0,
+     "name": "Applicant"
+    },
+    {
+     "id": "ReputationStanding_FPSCombat_Rank1_HeadHunter",
+     "min": 1000,
+     "name": "Rank I"
+    }
+   ]
+  }
+ ],
+ "rewardAmounts": [
+  {
+   "id": "ReputationRewardAmount_Negative_XXXXXXL",
+   "amount": -640000
+  },
+  {
+   "id": "RepuationRewardAmount_Negative_BigDrop",
+   "amount": -190500
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XXXXXL",
+   "amount": -160000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XXXXL",
+   "amount": -64000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XXXL2",
+   "amount": -40000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XXXL",
+   "amount": -32000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XXL",
+   "amount": -16000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XL2",
+   "amount": -10000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XL",
+   "amount": -8000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_L",
+   "amount": -4000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_M",
+   "amount": -2000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_S",
+   "amount": -1000
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XS",
+   "amount": -500
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XXS",
+   "amount": -250
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XXXS",
+   "amount": -100
+  },
+  {
+   "id": "ReputationRewardAmount_Negative_XXXXS",
+   "amount": -50
+  },
+  {
+   "id": "ReputationRewardAmount_Zero",
+   "amount": 0
+  },
+  {
+   "id": "Wikelo_10",
+   "amount": 10
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_020",
+   "amount": 20
+  },
+  {
+   "id": "Wikelo_20",
+   "amount": 20
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_25",
+   "amount": 25
+  },
+  {
+   "id": "Wikelo_25",
+   "amount": 25
+  },
+  {
+   "id": "Wikelo_30",
+   "amount": 30
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_040",
+   "amount": 40
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_XXXXS",
+   "amount": 50
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_50",
+   "amount": 50
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_060",
+   "amount": 60
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_75",
+   "amount": 75
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_080",
+   "amount": 80
+  },
+  {
+   "id": "Wikelo_100",
+   "amount": 100
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_100",
+   "amount": 100
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_XXXS",
+   "amount": 100
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_150",
+   "amount": 150
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_200",
+   "amount": 200
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_250",
+   "amount": 250
+  },
+  {
+   "id": "Wikelo_250",
+   "amount": 250
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_XXS",
+   "amount": 250
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_300",
+   "amount": 300
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_400",
+   "amount": 400
+  },
+  {
+   "id": "Wikelo_500",
+   "amount": 500
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_XS",
+   "amount": 500
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_600",
+   "amount": 600
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_800",
+   "amount": 800
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_S",
+   "amount": 1000
+  },
+  {
+   "id": "Wikelo_1000",
+   "amount": 1000
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_1200",
+   "amount": 1200
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_1500",
+   "amount": 1500
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_Align",
+   "amount": 1500
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_1600",
+   "amount": 1500
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_M",
+   "amount": 2000
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_BigBoost",
+   "amount": 2251
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_2400",
+   "amount": 2400
+  },
+  {
+   "id": "RepuationRewardAmount_Positive_3200",
+   "amount": 3200
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_L",
+   "amount": 4000
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_XL",
+   "amount": 8000
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_XXL",
+   "amount": 16000
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_XXXL",
+   "amount": 32000
+  },
+  {
+   "id": "ReputationRewardAmount_Positive_XXXXL",
+   "amount": 64000
+  }
+ ]
+}
