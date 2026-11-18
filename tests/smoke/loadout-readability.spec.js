@@ -53,8 +53,9 @@ for (const width of [1440, 390, 320]) test(`${width}px 최소 전력 묶음을 �
     const accessibility = await new AxeBuilder({ page }).include('.loadout-power-plan').analyze();
     expect(accessibility.violations.filter((v) => ['serious', 'critical'].includes(v.impact))).toEqual([]);
     await page.locator('[data-loadout-jump="equipment"]').click();
-    await expect(page.locator('[data-loadout-tab="slots"]')).toBeFocused();
-    const top = await page.locator('[data-loadout-tab="slots"]').boundingBox();
+    const equipment = page.locator('.loadout-group.is-weapon .loadout-group-toggle');
+    await expect(equipment).toBeFocused();
+    const top = await equipment.boundingBox();
     expect(top.y).toBeGreaterThan(50);
     expect(top.y + top.height).toBeLessThan(900);
     await page.locator('.loadout-slot [data-loadout-open]').first().click();

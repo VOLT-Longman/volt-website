@@ -132,11 +132,12 @@ test('성능 카드와 장비 보드, 이름 클릭 교체 및 변경 슬롯 개
     const operations = await page.locator('.loadout-control-column').boundingBox();
     const systems = await page.locator('.loadout-systems-column').boundingBox();
     expect(operations.x).toBeGreaterThan(systems.x);
-    expect(Math.abs(systems.y - operations.y)).toBeLessThan(2);
+    // At laptop widths, systems follow the wide equipment column, beside controls.
+    expect(systems.y).toBeGreaterThan(operations.y);
     expect(damage.y).toBeGreaterThan(identity.y);
     expect(Math.abs(damage.y - defense.y)).toBeLessThan(2);
     expect(identity.width).toBeGreaterThan(operations.width);
-    expect(systems.x).toBeGreaterThan(identity.x + identity.width);
+    expect(systems.x).toBe(identity.x);
     expect(operations.y).toBeLessThan(150);
     if (process.env.LOADOUT_SCREENSHOTS) await page.screenshot({ path: `${process.env.LOADOUT_SCREENSHOTS}/loadout-desktop.png`, fullPage: true });
     await firstGunSlot(page).locator('[data-loadout-component-open]').click();
