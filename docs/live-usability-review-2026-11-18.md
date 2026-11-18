@@ -37,4 +37,8 @@
 - 이번 Chrome 검사에서 수집된 오류 기록은 비어 있었다. 기존 Cloudflare 삽입 스크립트 CSP 제보 때문에 사이트 보안 규칙을 변경하지 않았다. 운영자는 Cloudflare의 JavaScript Detections 설정과 요금제를 확인해야 한다. Bot Fight Mode에서는 해당 탐지만 따로 끌 수 없다는 공식 문서의 제한이 있다.
   - https://developers.cloudflare.com/cloudflare-challenges/challenge-types/javascript-detections/
 
-배포 전 전체 Linux 화면 검사를 통과한 뒤 캐시 번호를 올린다. 배포 뒤 운송 기본 목록·지역명·로드아웃 전력 표현을 다시 확인한다.
+## 배포 전 전체 검사
+
+- 첫 전체 실행에서 예전 “소비 전력/출력 부족” 문구와 경고색을 기대하던 기존 검사 3개가 실패했다. 새 표현에 맞추고, 고정 요약이 실제로 나타나는 스크롤 상태에서 확인하도록 수정했다. 나머지 기능 검사는 제거하거나 완화하지 않았다.
+- 수정 후 전체 Linux 검사: [44263702149](https://github.com/VOLT-Longman/volt-website/actions/runs/44263702149), 화면 **559개(187+186+186)**와 서버 **339개** 모두 통과. 재시도로만 통과한 검사 없음.
+- 전체 통과 후 캐시 번호를 `20261118-16`으로 올렸다. 배포 뒤 운송 기본 목록·지역명·로드아웃 전력 표현을 다시 확인한다.
