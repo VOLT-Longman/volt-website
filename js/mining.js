@@ -189,6 +189,10 @@
             </div>
             <p class="mining-sources">${esc(text('sourceGame', { version: state.data.version }))} · ${esc(state.priceState === 'failed' ? text('priceFailed') : text('sourcePrice'))}<br>${esc(text('sourceNote'))}<br>${esc(text('priceUnitNote'))}</p>`;
         root.innerHTML = html;
+        if (state.data) {
+            const selected = state.data.minerals.find(item => item.id === state.mineral);
+            window.VOLT_JOURNEY?.drawMiningActions?.(state.view === 'mineral' ? selected : null);
+        }
         if (active) { const input = document.getElementById('mining-search'); input?.focus(); if (caret !== null) input?.setSelectionRange(caret, caret); }
         else if (focusId) document.getElementById(focusId)?.focus({ preventScroll: true });
         if (focusDetail) document.getElementById('mining-detail-title')?.focus({ preventScroll: false });
@@ -199,8 +203,8 @@
         if (target.hasAttribute('data-mining-retry')) { state.error = false; load(); return; }
         if (target.dataset.miningView) { if (state.view !== target.dataset.miningView) state.query = ''; state.view = target.dataset.miningView; draw(); return; }
         if (target.hasAttribute('data-mining-mode')) { state.mode = target.dataset.miningMode; draw(); return; }
-        if (target.dataset.miningMineral) { if (state.view !== 'mineral') state.query = ''; state.view = 'mineral'; state.mineral = target.dataset.miningMineral; draw(true); return; }
-        if (target.dataset.miningLocation) { if (state.view !== 'location') state.query = ''; state.view = 'location'; state.location = target.dataset.miningLocation; draw(true); }
+        if (target.dataset.miningMineral) { if (state.view !== 'mineral') state.query = ''; state.view = 'mineral'; state.mineral = target.dataset.miningMineral; window.VOLT_JOURNEY?.miningSelection?.(state.mineral, state.location); draw(true); return; }
+        if (target.dataset.miningLocation) { if (state.view !== 'location') state.query = ''; state.view = 'location'; state.location = target.dataset.miningLocation; window.VOLT_JOURNEY?.miningSelection?.(state.mineral, state.location); draw(true); }
     }
 
     async function loadPrices() {
@@ -247,6 +251,7 @@
         state.pending = '';
         if (!mineral) return;
         state.view = 'mineral'; state.query = ''; state.mode = ''; state.mineral = mineral.id;
+        window.VOLT_JOURNEY?.miningSelection?.(mineral.id, '');
         draw(true);
     }
 

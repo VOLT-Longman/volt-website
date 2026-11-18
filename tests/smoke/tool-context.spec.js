@@ -6,11 +6,12 @@ const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
 async function aiBackend(page, requests) {
     const { validateAiContext, toolReviewLoadout } = await import('../../functions/_shared/ai-loadout.js');
+    const { validateJourneyContext, toolReviewJourney } = await import('../../functions/_shared/ai-journey.js');
     const env = { ASSETS: { fetch: async url => new Response(await readFile(path.join(__dirname, '../..', new URL(url).pathname))) } };
     await page.route('**/api/ai/chat', async route => {
         if (route.request().method() === 'GET') return route.fulfill({ json: { enabled: true, mode: 'data', memberOnly: true } });
         const body = route.request().postDataJSON(); requests.push(body);
-        const result = await toolReviewLoadout(env, validateAiContext(body.context), body.lang);
+        const result = body.context?.kind === 'journey' ? await toolReviewJourney(env, new Request(route.request().url()), validateJourneyContext(body.context), body.lang) : await toolReviewLoadout(env, validateAiContext(body.context), body.lang);
         return route.fulfill({ json: { ok: true, intent: 'loadout', ...result } });
     });
 }
@@ -74,7 +75,7 @@ test('함선 DB·로드아웃·플래너 연결은 선택 함선과 플래너 �
     await expect(page.locator('#volt-ai-context')).toContainText('입력 7 SCU');
     await page.locator('#volt-ai-send').click();
     await expect(page.locator('.volt-ai-review')).toContainText('플래너에 입력한 화물은 7 SCU');
-    expect(requests[0].context).toEqual({ kind: 'trade', shipId: 'avenger-titan', cargoScu: 7 });
+    expect(requests[0].context).toMatchObject({ kind: 'journey', origin: 'trade', shipId: 'avenger-titan', cargoScu: 7, loadout: { ship: 'aegs_avenger_titan', slot: 'A' } });
     await page.locator('#volt-ai-context').getByRole('button', { name: '선택 해제' }).click();
     await expect(page.locator('#volt-ai-context')).toBeHidden();
 });

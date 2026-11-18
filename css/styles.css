@@ -89,6 +89,60 @@
     --color-warning: #ffb300;
 }
 
+/* Connected tools: a compact shared selection and explicit next actions. */
+.journey-bar, .journey-crafts, .journey-trade-plan { background: var(--surface-card); border: 1px solid var(--color-border-hover); border-radius: 12px; padding: 16px; margin: 0 0 18px; min-width: 0; color: var(--color-text-primary); }
+.journey-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.journey-bar[hidden], .journey-crafts[hidden] { display: none; }
+.journey-selection { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.journey-selection > span, .journey-selection > small, .journey-note { color: var(--text-muted-bright); font-size: 12px; line-height: 1.65; }
+.journey-selection > strong { font-size: 14px; overflow-wrap: anywhere; }
+.journey-links { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.journey-bar button, .journey-crafts button, .journey-trade-plan button, .journey-mining-next button { min-height: 40px; padding: 8px 12px; border: 1px solid var(--color-border-hover); border-radius: 8px; background: var(--surface-hover); color: var(--color-text-primary); font: inherit; font-size: 13px; cursor: pointer; }
+.journey-bar button:hover, .journey-crafts button:hover, .journey-trade-plan button:hover, .journey-mining-next button:hover { border-color: var(--volt-orange); }
+.journey-bar button[aria-current], button.journey-primary { background: var(--action-primary); border-color: var(--action-primary); color: #fff; }
+.journey-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+.journey-heading h3, .journey-trade-plan h3 { font-size: 18px; margin: 0 0 12px; }
+.journey-craft-items, .journey-materials { display: grid; gap: 10px; margin-bottom: 14px; }
+.journey-craft-item { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--color-border); padding: 10px 0; }
+.journey-craft-item > strong { flex: 1; min-width: 0; font-size: 14px; overflow-wrap: anywhere; }
+.journey-craft-item input { width: 72px; }
+.journey-crafts input, .journey-trade-controls input, .journey-trade-controls select { min-height: 44px; max-width: 100%; padding: 8px 10px; border: 1px solid var(--color-border-hover); border-radius: 8px; color: var(--color-text-primary); background: var(--color-bg-secondary); font: inherit; font-size: 14px; }
+.journey-materials { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.journey-material { border: 1px solid var(--color-border); border-radius: 8px; padding: 12px; display: grid; gap: 8px; }
+.journey-material > b { font-size: 22px; font-variant-numeric: tabular-nums; }
+.journey-note { margin: 8px 0 12px; }
+.has-trip-plan #uex-results .uex-summary-grid, .has-trip-plan #uex-results .uex-capacity-estimate { display: none; }
+.journey-recipe-list { margin-top: 16px; border-top: 1px solid var(--color-border); padding-top: 12px; }
+.journey-recipe-list summary { cursor: pointer; margin-bottom: 12px; }
+.journey-recipe-list button { display: block; margin: 6px 0; text-align: left; }
+.journey-mining-next { margin: 14px 0; padding: 14px; border-left: 3px solid var(--volt-orange); background: var(--surface-hover); border-radius: 6px; }
+.journey-trade-controls { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; margin-bottom: 16px; }
+.journey-trade-controls label { font-size: 12px; display: grid; gap: 6px; }
+.journey-trade-controls input { width: 100%; min-width: 0; }
+.journey-trade-controls input:disabled { opacity: .5; }
+.journey-steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0; counter-reset: journey-step; }
+.journey-steps li { display: grid; align-content: start; gap: 8px; padding: 12px; background: var(--surface-hover); border-radius: 8px; min-width: 0; }
+.journey-steps span { font-size: 12px; color: var(--text-muted-bright); }
+.journey-steps span::before { counter-increment: journey-step; content: counter(journey-step) " · "; color: var(--volt-orange-light); }
+.journey-steps strong { font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.journey-totals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+.journey-totals dt { color: var(--text-muted-bright); font-size: 12px; }
+.journey-totals dd { margin: 6px 0 0; font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.journey-next-cargo { border-top: 1px solid var(--color-border); margin-top: 16px; padding-top: 12px; }
+.journey-next-cargo button { margin: 4px; }
+@media (max-width: 700px) {
+    .journey-bar, .journey-crafts, .journey-trade-plan { padding: 12px; }
+    .journey-bar { display: grid; }
+    .journey-bar .journey-links { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+    .journey-bar .journey-links button { flex-shrink: 0; }
+    .journey-trade-controls { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .journey-trade-controls > select { grid-column: 1 / -1; }
+    .journey-steps { grid-template-columns: minmax(0, 1fr); }
+    .journey-steps li { grid-template-columns: 54px minmax(0, 1fr); }
+    .journey-totals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .journey-materials { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* ==========================================================================
    2. Reset & Base
    ========================================================================== */

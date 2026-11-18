@@ -881,6 +881,7 @@ ${section(text('cost'), `
         const craftDuration = (seconds) => (seconds >= 3600 ? text('craftHours', { h: Math.floor(seconds / 3600), m: Math.round((seconds % 3600) / 60) }) : text('craftMinutes', { m: Math.floor(seconds / 60), s: seconds % 60 }));
         const craftRows = (list, amount) => `<ul class="loadout-craft-list">${list.map(([key, value]) => `<li><span>${esc(resourceName(key))}</span><strong>${esc(amount(value))}</strong>${state.crafting.miningResources?.includes(key) ? `<button type="button" class="loadout-link" data-loadout-mining="${esc(key)}">${esc(text('craftWhere'))}</button>` : `<small class="loadout-meta">${esc(text('craftUnmapped'))}</small>`}</li>`).join('')}</ul>`;
         const craft = recipe ? `<p class="loadout-note">${esc(text('craftNote'))}</p>
+            <button type="button" class="btn btn-primary" data-loadout-craft-plan="${esc(item.cls)}">${esc(lang() === 'ko' ? '제작 계획에 추가 · 재료 모으기' : 'Add to craft plan · gather materials')}</button>
             ${recipe.s ? `<dl class="loadout-detail-stats"><div><dt>${esc(text('craftTime'))}</dt><dd>${esc(craftDuration(recipe.s))}</dd></div></dl>` : ''}
             ${recipe.m ? `<section><h4>${esc(text('craftMaterials'))}</h4>${craftRows(recipe.m, (value) => `${num(value, 3)} SCU`)}</section>` : ''}
             ${recipe.p ? `<section><h4>${esc(text('craftPieces'))}</h4>${craftRows(recipe.p, (value) => text('craftCount', { count: num(value) }))}</section>` : ''}` : '';
@@ -1616,6 +1617,7 @@ ${section(text('cost'), `
             body += drawSources();
         }
         container.innerHTML = body;
+        if (state.ship?.volt && !state.loading && document.getElementById('loadout')?.classList.contains('active')) window.VOLT_JOURNEY?.ship?.(state.ship.volt, shipName(state.ship), aiContext());
         summaryObserver?.disconnect();
         const toolbar = container.querySelector('.loadout-topbar');
         const identity = container.querySelector('.loadout-identity');
@@ -1763,6 +1765,7 @@ ${section(text('cost'), `
             closePicker(); state.cartOpen = true; draw(); document.getElementById('loadout-cart-close')?.focus(); return;
         }
         const detailTab = target.getAttribute('data-loadout-detail-tab');
+        if (target.hasAttribute('data-loadout-craft-plan')) { const id = target.getAttribute('data-loadout-craft-plan'); closePicker(); draw(); window.VOLT_JOURNEY?.addCraft?.(id); return; }
         if (target.hasAttribute('data-loadout-mining')) { const resource = target.getAttribute('data-loadout-mining'); closePicker(); draw(); window.VOLT_APP?.showSection?.('mining'); window.VOLT_MINING?.open?.(resource); return; }
         if (['stats', 'shops', 'craft'].includes(detailTab)) { state.detailTab = detailTab; draw(); root()?.querySelector(`[data-loadout-detail-tab="${detailTab}"]`)?.focus(); return; }
         const collapse = target.getAttribute('data-loadout-collapse');

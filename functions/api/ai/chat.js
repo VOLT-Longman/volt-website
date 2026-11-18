@@ -4,6 +4,7 @@ import { requireMember } from '../../_shared/rbac.js';
 import { checkRateLimit } from '../../_shared/rate-limit.js';
 import { runModel } from '../../_shared/ai-model.js';
 import { validateAiContext, wantsLoadoutReview, toolReviewLoadout } from '../../_shared/ai-loadout.js';
+import { validateJourneyContext, wantsJourneyReview, toolReviewJourney } from '../../_shared/ai-journey.js';
 import {
   loadShipLayers, matchShipIds, extractRecommendParams,
   toolRecommendShips, toolCompareShips, toolMarketInfo, toolUpcomingEvents, toolRecentNotices
@@ -164,6 +165,7 @@ async function modelIntent(env, message) {
 async function executeTool(env, request, route, lang) {
   switch (route.intent) {
     case 'loadout': return toolReviewLoadout(env, route.context, lang);
+    case 'journey': return toolReviewJourney(env, request, route.context, lang);
     case 'recommend': return toolRecommendShips(env, route.params || {});
     case 'compare': return toolCompareShips(env, route.shipIds || []);
     case 'market': return toolMarketInfo(env, request, route.query || '');
@@ -247,7 +249,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   const history = body.history ?? [];
   if (!Array.isArray(history) || history.length > 3 || history.some((item) => typeof item !== 'string' || item.length > config.maxInputChars)) return error('Invalid conversation context.', 400);
   let selectedContext;
-  try { selectedContext = validateAiContext(body.context); }
+  try { selectedContext = body.context?.kind === 'journey' ? validateJourneyContext(body.context) : validateAiContext(body.context); }
   catch (_error) { return error('Invalid selected tool context.', 400); }
 
   const keys = dateKeys();
@@ -259,7 +261,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
   let failed = false;
   let route = null;
   try {
-    route = selectedContext && wantsLoadoutReview(message) ? { intent: 'loadout', context: selectedContext } : await contextualRoute(env, message, history);
+    route = selectedContext?.kind === 'journey' && wantsJourneyReview(message) ? { intent: 'journey', context: selectedContext }
+      : selectedContext && selectedContext.kind !== 'journey' && wantsLoadoutReview(message) ? { intent: 'loadout', context: selectedContext } : await contextualRoute(env, message, history);
     if (!route && config.generative) route = await modelIntent(env, message);
 
     if (!route) {

@@ -35,7 +35,7 @@
         renderContext();
         if (state.loggedIn && !state.sending) clearLog(intro());
         const input = document.getElementById('volt-ai-input');
-        if (input && !state.sending) input.value = tr('현재 구성의 장단점과 전력 상태를 검토해 줘', 'Review the current build, its trade-offs and power state');
+        if (input && !state.sending) input.value = context.kind === 'journey' ? tr('현재 계획의 선택 조건과 다음 단계를 검토해 줘', 'Review the current plan, its inputs and next steps') : tr('현재 구성의 장단점과 전력 상태를 검토해 줘', 'Review the current build, its trade-offs and power state');
     }
     function renderContext() {
         let panel = document.getElementById('volt-ai-context');
@@ -45,17 +45,28 @@
         }
         panel.replaceChildren(); panel.hidden = !state.context;
         if (!state.context) return;
-        const description = state.context.kind === 'loadout' ? tr(`로드아웃 · 구성 ${state.context.slot}`, `Loadout · build ${state.context.slot}`)
+        const journey = state.context.kind === 'journey';
+        const description = journey ? tr(`연결된 계획 · ${state.context.origin === 'trade' ? `운송 입력 ${state.context.cargoScu ?? '—'} SCU` : state.context.origin === 'craft' ? '제작 재료' : state.context.origin === 'mining' ? '채광 장소' : '함선·장착 구성'}`, `Connected plan · ${state.context.origin} · ${state.context.cargoScu ?? '—'} SCU`)
+            : state.context.kind === 'loadout' ? tr(`로드아웃 · 구성 ${state.context.slot}`, `Loadout · build ${state.context.slot}`)
             : state.context.kind === 'trade' ? tr(`운송 준비 · 기본 구성 · 입력 ${state.context.cargoScu} SCU`, `Hauling preparation · stock build · input ${state.context.cargoScu} SCU`) : tr('함선 DB · 기본 구성', 'ShipDB · stock build');
         const heading = el('div', 'volt-ai-context-heading');
         heading.append(el('strong', '', state.contextLabel || state.context.shipId || state.context.ship), el('span', '', description));
         const remove = el('button', 'loadout-link', tr('선택 해제', 'Clear selection')); remove.type = 'button'; remove.disabled = state.sending; remove.addEventListener('click', clearContext);
         heading.append(remove); panel.append(heading);
-        panel.append(el('p', '', state.context.kind === 'loadout'
+        panel.append(el('p', '', journey ? tr('가져온 함선·장착 구성·자금·상품·채광·제작 선택입니다. 전송하면 게임 자료와 시세를 서버에서 다시 확인합니다. 화면에서 조건을 바꿨다면 AI 버튼으로 다시 가져오세요.', 'This snapshot includes ship, equipment, budget, commodity, mining and crafting choices. Sending rechecks game data and prices on the server. Bring it here again after changing your choices.') : state.context.kind === 'loadout'
             ? tr('이동할 때 선택한 구성입니다. 전송하면 장착·전원·A/B 정보를 서버에서 다시 계산합니다. 편집 후 다시 가져오면 최신 구성이 반영됩니다.', 'This is the selection captured when you came here. Sending recalculates equipment, power and A/B choices on the server. Bring it here again after editing.')
             : tr('선택한 함선의 기본 장비 구성을 검토합니다. 교체한 장비나 A/B 구성은 로드아웃 화면의 AI 버튼으로 가져오세요.', 'Reviews the selected ship’s stock equipment. To review edited equipment or A/B builds, use the AI button in Loadout.')));
         const prompts = el('div', 'volt-ai-context-prompts');
-        for (const question of [tr('현재 구성의 장단점 검토', 'Review this build'), tr('현재 전력과 실드 상태 설명', 'Explain current power and shields'), tr('현재 구성과 비교 구성의 차이', 'Compare the current and reference builds')]) {
+        const questions = journey ? [tr('현재 계획과 다음 단계 검토', 'Review the plan and next steps'), tr('현재 계획에서 확인이 필요한 부분', 'What needs checking in this plan?')] : [tr('현재 구성의 장단점 검토', 'Review this build'), tr('현재 전력과 실드 상태 설명', 'Explain current power and shields'), tr('현재 구성과 비교 구성의 차이', 'Compare the current and reference builds')];
+        if (journey) {
+            const summary = [];
+            if (state.context.loadout) summary.push(tr(`장착 구성 ${state.context.loadout.slot}`, `Equipment build ${state.context.loadout.slot}`));
+            if (state.context.budget !== null) summary.push(`${Number(state.context.budget).toLocaleString()} aUEC`);
+            if (state.context.quantity !== null) summary.push(`${Number(state.context.quantity).toLocaleString()} SCU`);
+            if (state.context.crafts?.length) summary.push(tr(`제작 부품 ${state.context.crafts.length}종`, `${state.context.crafts.length} craft items`));
+            panel.append(el('p', '', summary.join(' · ')));
+        }
+        for (const question of questions) {
             const button = el('button', '', question); button.type = 'button'; button.disabled = state.sending || !state.loggedIn;
             button.addEventListener('click', () => { const input = document.getElementById('volt-ai-input'); input.value = question; input.focus(); });
             prompts.append(button);
@@ -70,11 +81,11 @@
         const metrics = el('dl', 'volt-ai-review-metrics');
         for (const metric of review.metrics.slice(0, 12)) {
             // Match the loadout cards' display precision; keep raw server values.
-            const digits = metric.key === 'power' ? 1 : 0;
+            const digits = metric.digits ?? (metric.key === 'power' ? 1 : 0);
             const number = value => Number.isFinite(value) ? value.toLocaleString(english() ? 'en-US' : 'ko-KR', { maximumFractionDigits: digits }) : '—';
             const cell = el('div'); cell.append(el('dt', '', metric.label));
             const value = el('dd', '', `${number(metric.value)} ${metric.unit || ''}`);
-            value.append(el('small', '', `${review.comparisonLabel}: ${number(metric.baseline)} ${metric.unit || ''}`));
+            if (review.comparisonLabel) value.append(el('small', '', `${review.comparisonLabel}: ${number(metric.baseline)} ${metric.unit || ''}`));
             if (Number.isFinite(metric.value) && Number.isFinite(metric.baseline) && Math.abs(metric.value - metric.baseline) >= .5 * 10 ** -digits) {
                 const diff = metric.value - metric.baseline;
                 const favorable = metric.better === 'low' ? diff < 0 : diff > 0;
@@ -85,18 +96,25 @@
         }
         section.append(metrics, el('h4', '', tr('확인할 점', 'Things to check')));
         const checks = el('ul', 'volt-ai-review-checks');
-        for (const check of review.checks.slice(0, 12)) {
+        for (const check of review.checks.slice(0, 24)) {
             const li = el('li', check.kind === 'warning' ? 'is-warning' : '');
             li.append(el('strong', '', check.title), el('p', '', check.detail)); checks.append(li);
         }
         section.append(checks);
         const links = el('div', 'volt-tool-links');
         for (const action of (actions || []).slice(0, 4)) {
+            if (['trade', 'mining', 'craft'].includes(action.action)) {
+                links.append(buttonForJourney(action)); continue;
+            }
             if (!['loadout', 'ship', 'planner'].includes(action.action) || !/^[a-z0-9_-]{1,100}$/.test(action.shipId || '')) continue;
             const button = el('button', '', action.label); button.type = 'button';
             button.addEventListener('click', () => window.VOLT_TOOLS?.open?.(action.action, action.shipId)); links.append(button);
         }
         section.append(links); bubble.append(section);
+    }
+    function buttonForJourney(action) {
+        const button = el('button', '', action.label); button.type = 'button';
+        button.addEventListener('click', () => window.VOLT_JOURNEY?.open?.(action.action === 'trade' ? 'planner' : action.action)); return button;
     }
 
     function appendMessage(who, text) {
@@ -247,7 +265,7 @@
     async function init() {
         try {
             const saved = JSON.parse(sessionStorage.getItem(CONTEXT_KEY) || 'null');
-            if (saved?.context && ['loadout', 'ship', 'trade'].includes(saved.context.kind) && JSON.stringify(saved.context).length <= 96000) { state.context = saved.context; state.contextLabel = String(saved.label || '').slice(0, 150); }
+            if (saved?.context && ['loadout', 'ship', 'trade', 'journey'].includes(saved.context.kind) && JSON.stringify(saved.context).length <= 100000) { state.context = saved.context; state.contextLabel = String(saved.label || '').slice(0, 150); }
         } catch (_error) { /* optional handoff */ }
         renderContext();
         // 범위 외 컨트롤(이미지/음성/기록/설정)은 MVP에서 비활성 유지

@@ -27,6 +27,7 @@
     let currentUexSystemFilter = [];
     let availableUexCommodities = [];
     let locationModalTrigger = null;
+    let commodityLoad = null;
 
     function init(deps) {
         ({
@@ -65,6 +66,7 @@
         if (window.VOLT_TRADE_PLANNER?.refreshSelectionSummary) {
             window.VOLT_TRADE_PLANNER.refreshSelectionSummary();
         }
+        window.VOLT_JOURNEY?.tradeSelection?.(currentUexModel);
     }
 
     function setupUexLivePanel() {
@@ -126,7 +128,8 @@
             });
         }
         updateUexLocFilterButtons();
-        loadUexCommodities();
+        commodityLoad = loadUexCommodities();
+        commodityLoad.then(() => window.VOLT_JOURNEY?.restoreTrade?.());
     }
 
     function updateUexLocFilterButtons() {
@@ -323,10 +326,20 @@
             const systems = uex.listStarSystems ? uex.listStarSystems(prices) : [];
             currentUexSystemFilter = currentUexSystemFilter.filter((name) => systems.includes(name));
             const model = uex.buildUexCandidateModel(prices, selectedCommodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter);
-            currentUexModel = model;
-            renderUexSystemChips(model);
-            results.innerHTML = renderUexCandidateCards(model);
-            status.textContent = formatUexLastUpdated(model);
+            if (options.buyTerminal) {
+                const departure = model.buyOptions.find(row => String(row.id_terminal) === String(options.buyTerminal));
+                if (departure) currentUexSelection.buyKey = departure.uexKey;
+                else { currentUexModel = null; results.textContent = t('planner.uex.noBuyAtDeparture', '선택한 출발지의 구매 가격 자료가 없습니다.'); refreshProfitSelection(); return; }
+            }
+            if (options.sellTerminal) {
+                const destination = model.sellOptions.find(row => String(row.id_terminal) === String(options.sellTerminal));
+                if (destination) currentUexSelection.sellKey = destination.uexKey;
+                else { currentUexModel = null; results.textContent = t('planner.uex.noSellAtDestination', '선택한 도착지의 판매 가격 자료가 없습니다.'); refreshProfitSelection(); return; }
+            }
+            currentUexModel = options.buyTerminal || options.sellTerminal ? uex.buildUexCandidateModel(prices, selectedCommodity, currentUexSelection, currentUexLocationFilter, currentUexSystemFilter) : model;
+            renderUexSystemChips(currentUexModel);
+            results.innerHTML = renderUexCandidateCards(currentUexModel);
+            status.textContent = formatUexLastUpdated(currentUexModel);
             refreshProfitSelection();
         } catch (error) {
             if (!isCurrent()) return;
@@ -367,13 +380,13 @@
         const stale = renderUexStaleBanner(model);
         if (!model.buyOptions.length && !model.sellOptions.length) return `${stale}<div class="uex-empty">${escapeHtml(t('planner.uex.emptyCandidates', '현재 표시할 매수·매도 후보가 없습니다.'))}</div>`;
         const warning = model.bestBuy && model.bestSell && model.profitPerScu <= 0
-            ? `<p class="uex-warning">${escapeHtml(t('planner.uex.lossWarning', '현재 선택 조합은 수익이 없거나 손실이 발생할 수 있습니다.'))}</p>`
+            ? `<p class="uex-warning uex-capacity-estimate">${escapeHtml(t('planner.uex.lossWarning', '현재 선택 조합은 수익이 없거나 손실이 발생할 수 있습니다.'))}</p>`
             : '';
         return `
             ${stale}
             ${renderUexSummaryGrid(model)}
             ${warning}
-            <p class="uex-warning">${escapeHtml(t('planner.uex.quantityEstimate', '입력 {cargo} SCU · 재고·수요 반영 {usable} SCU. 미보고 수량은 제한에 포함하지 않습니다. 가격·수량은 보고 시점의 참고값입니다.', { cargo: formatCount(model.cargoTarget), usable: formatCount(model.usableScu) }))}</p>
+            <p class="uex-warning uex-capacity-estimate">${escapeHtml(t('planner.uex.quantityEstimate', '입력 {cargo} SCU · 재고·수요 반영 {usable} SCU. 미보고 수량은 제한에 포함하지 않습니다. 가격·수량은 보고 시점의 참고값입니다.', { cargo: formatCount(model.cargoTarget), usable: formatCount(model.usableScu) }))}</p>
             <div class="uex-candidate-layout">
                 ${renderUexCandidateColumn(model, 'buy')}
                 ${renderUexCandidateColumn(model, 'sell')}
@@ -728,6 +741,18 @@
         init,
         setup: setupUexLivePanel,
         getCurrentModel: () => currentUexModel,
+        openCommodity: async ({ id, name, buyTerminal, sellTerminal, focus = true } = {}) => {
+            if (commodityLoad) await commodityLoad;
+            if (!availableUexCommodities.length) { commodityLoad = loadUexCommodities(); await commodityLoad; }
+            const normalize = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const matches = availableUexCommodities.filter(row => id ? String(row.id) === String(id) : normalize(row.name) === normalize(name));
+            if (matches.length !== 1) return false;
+            currentUexLocationFilter = 'all'; currentUexSystemFilter = []; updateUexLocFilterButtons();
+            selectCommodity(matches[0].id);
+            await renderUexCommodityCandidates(matches[0].id, { buyTerminal, sellTerminal });
+            if (focus) document.getElementById('journey-trade-mode')?.focus({ preventScroll: false });
+            return true;
+        },
         formatLocation: formatUexLocation,
         refreshForPlannerInputs: refreshUexModelForPlannerInputs,
         // 언어 토글 시 항성계 칩 라벨 재번역(모델이 있을 때만).

@@ -303,6 +303,7 @@
     function refreshPlannerInputs() {
         window.VOLT_UEX_PANEL?.refreshForPlannerInputs?.();
         window.VOLT_TRADE_PLANNER?.onCargoChange?.();
+        window.VOLT_JOURNEY?.renderTrade?.();
     }
 
     function restorePlannerState() {
@@ -794,6 +795,7 @@
         const shouldUseShipCargo = setCargo || !Number(cargoInput?.value);
         if (shouldUseShipCargo) setPlannerControlValue('logistics-cargo', String(shipCargoValue(ship)));
         renderPlannerShipSummary(ship);
+        window.VOLT_JOURNEY?.transport?.(ship.id, getShipDisplayName(ship));
         announcePickerSelection(i18nT('planner.shipSelectedAnnounce', '{name} 함선을 선택했습니다.').replace('{name}', getShipDisplayName(ship)));
         closePicker(input, document.getElementById('logistics-ship-results'));
         savePlannerState();
@@ -1144,7 +1146,7 @@
         showSection('trade-planner');
         window.requestAnimationFrame(() => {
             if (ship && isPlannerEligibleShip(ship)) {
-                selectPlannerShip(ship.id, true);
+                selectPlannerShip(ship.id, document.getElementById('logistics-ship')?.value !== ship.id);
                 savePlannerState();
                 showToast(i18nT('planner.shipAppliedToast', '{name}\uc744 \ubb34\uc5ed \ud50c\ub798\ub108\uc5d0 \uc801\uc6a9\ud588\uc2b5\ub2c8\ub2e4.').replace('{name}', getShipDisplayName(ship)));
             } else {
@@ -1155,6 +1157,7 @@
 
     async function openTool(action, shipId, contextKind) {
         const ship = shipById.get(shipId);
+        if (ship && action !== 'ai' && action !== 'planner') window.VOLT_JOURNEY?.ship?.(ship.id, getShipDisplayName(ship));
         if (action === 'loadout') {
             try {
                 const opened = await window.VOLT_LOADOUT?.openShip?.(shipId);
@@ -1164,6 +1167,7 @@
         } else if (action === 'ship' && ship) { showSection('ships'); openShipModal(ship); }
         else if (action === 'planner' && ship) useShipInPlanner(ship.id);
         else if (action === 'ai') {
+            if (contextKind === 'trade' && window.VOLT_JOURNEY) { window.VOLT_JOURNEY.ask('trade'); return; }
             const context = contextKind === 'loadout' ? window.VOLT_LOADOUT?.aiContext?.()
                 : ship ? { kind: contextKind === 'trade' ? 'trade' : 'ship', shipId: ship.id,
                     ...(contextKind === 'trade' ? { cargoScu: Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0) } : {}) } : null;
@@ -1179,7 +1183,7 @@
         event.preventDefault();
         openTool(button.dataset.voltOpen, button.dataset.voltShipId, button.dataset.voltContext);
     });
-    window.VOLT_TOOLS = { open: openTool };
+    window.VOLT_TOOLS = { open: openTool, canPlan: (id) => Boolean(shipById.has(id) && isPlannerEligibleShip(shipById.get(id))) };
 
 
 
@@ -2159,6 +2163,7 @@
         setupScheduleAccordion();
         setupLogisticsCalculator();
         window.VOLT_TRADE_PLANNER?.setup?.();
+        window.VOLT_JOURNEY?.init?.({ toast: showToast });
         setupGalleryInteractions();
         setupModalControls();
         setupPolicyAnchors();
