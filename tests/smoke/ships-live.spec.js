@@ -29,7 +29,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         const modal = await openShipModalByName(page, '센타우루스');
         await expect(modal.locator('.ship-live-summary')).toContainText('170,500');
         await expect(modal).toContainText('240');
-        await expect(modal).toContainText('컨스텔레이션 Mk V');
+        await expect(modal).toContainText('컨스틸레이션 Mk V');
     });
 
     test('Asgard 모달: Live 요약 표시 (Size/HP/SCM/최저가)', async ({ page }) => {
@@ -71,7 +71,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(market.locator('.ship-market-row:not(.is-rental)')).toHaveCount(2);
         const rental = market.locator('.ship-market-row.is-rental');
         await expect(rental).toHaveCount(1);
-        await expect(rental).toContainText('Regal NBIS');
+        await expect(rental).toContainText('Regal Luxury Rentals - New Babbage Interstellar Spaceport');
         await expect(rental).toContainText('28,665 aUEC');
     });
 

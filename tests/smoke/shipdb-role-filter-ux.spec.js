@@ -50,10 +50,10 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         await onShips(page);
         const input = page.locator('#ship-role-search');
         await input.click();
-        await input.fill('중형 화물'); // KO 라벨 검색
+        await input.fill('중규모 화물'); // 게임 한국어 패치 라벨 검색
         await input.press('ArrowDown');
         await input.press('Enter');
-        await expect(input).toHaveValue('중형 화물선'); // Medium Freight
+        await expect(input).toHaveValue('중규모 화물'); // Medium Freight
         await expect.poll(async () => {
             const roles = await allCanonicalRoles(page);
             return roles.length > 0 && roles.every((role) => role === 'Medium Freight');
@@ -84,7 +84,7 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         await input.click();
         await input.fill('의료');
         await page.locator('[data-role-option="Medical"]').click();
-        await expect(input).toHaveValue('의료선');
+        await expect(input).toHaveValue('의료');
         await expect.poll(async () => {
             const roles = await allCanonicalRoles(page);
             return roles.length > 0 && roles.every((role) => role === 'Medical');

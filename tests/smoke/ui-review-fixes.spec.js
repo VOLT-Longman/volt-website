@@ -80,12 +80,12 @@ test.describe('화면 평가 보완', () => {
         const more = page.locator('#ships-grid [data-ships-more]');
         await expect(cards).toHaveCount(24);
         await expect(page.locator('#ship-results-summary')).toContainText('248');
-        await expect(more).toHaveText('더 보기 (222척 남음)');
+        await expect(more).toHaveText('더 보기 (224척 남음)');
         const firstId = await cards.first().getAttribute('data-ship-id');
 
         await more.click();
         await expect(cards).toHaveCount(48);
-        await expect(more).toHaveText('더 보기 (198척 남음)');
+        await expect(more).toHaveText('더 보기 (200척 남음)');
         // 앞서 보던 목록은 그대로 유지된다.
         await expect(cards.first()).toHaveAttribute('data-ship-id', firstId);
 
