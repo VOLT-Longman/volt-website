@@ -27,7 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+        run: |
+          # Use the same signed Ubuntu packages and primary mirror as smoke.yml.
+          # Regional mirrors can stall font downloads before screenshots start.
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf '%s\n' 'http://archive.ubuntu.com/ubuntu/' | sudo tee /etc/apt/apt-mirrors.txt
+          fi
+          npx playwright install --with-deps --only-shell chromium
       - name: Regenerate linux baselines
         run: npx playwright test visual-regression --update-snapshots
       - name: Upload baselines for review
