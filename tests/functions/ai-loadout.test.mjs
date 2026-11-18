@@ -58,6 +58,9 @@ test('AI does not combine mismatched game versions or invent output for unavaila
 
 test('AI endpoint keeps member access, returns contextual review and validates context without model fallback', async () => {
     const environment = env();
+    let modelCalls = 0;
+    environment.VOLT_AI_GENERATIVE_ENABLED = 'true';
+    environment.AI = { run: async () => { modelCalls += 1; return { response: '이 구성은 여러 측면에서 좋습니다.' }; } };
     const body = { message: '현재 구성과 전력 검토', context: choice };
     const unauthenticated = await onRequestPost({ request: jsonRequest('https://volt.ceo/api/ai/chat', { body }), env: environment, waitUntil: () => {} });
     assert.equal(unauthenticated.status, 401);
@@ -68,6 +71,7 @@ test('AI endpoint keeps member access, returns contextual review and validates c
     const result = await response.json();
     assert.equal(result.intent, 'loadout'); assert.equal(result.review.metrics.find(metric => metric.key === 'shield').value, 2160);
     assert.equal(result.mode, 'data'); assert.equal(result.aiNote, null);
+    assert.equal(modelCalls, 0, 'Loadout recommendations must come from verified comparisons, not free-form verdicts');
     await Promise.all(pending);
     const invalid = await onRequestPost({ request: jsonRequest('https://volt.ceo/api/ai/chat', { body: { ...body, context: { kind: 'arbitrary' } }, cookie }), env: environment, waitUntil: () => {} });
     assert.equal(invalid.status, 400);
