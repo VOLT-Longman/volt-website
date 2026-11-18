@@ -10629,6 +10629,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .loadout-power-pips button.loadout-power-device span { max-width: 100%; overflow-wrap: anywhere; font-size: 12px; margin: 0; }
 .loadout-power-pips .loadout-power-device.is-device-off { border-style: dashed; background: #171a20; color: #c8cdd7; }
 .loadout-power-pips .loadout-power-device.is-unfunded { border-color: #c5a765; background: #302b20; color: #f3dfb0; }
+
 .volt-tool-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .loadout-identity > .volt-tool-links { padding: 0 16px 16px; }
 .volt-tool-links button, .volt-ai-context-prompts button { min-height: 44px; padding: 9px 13px; border: 1px solid #535967; border-radius: 6px; background: #252932; color: #f1f3f8; font: inherit; font-size: 13px; cursor: pointer; }
@@ -10876,4 +10877,198 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 @media (max-width: 700px) {
     .gear-body-label { flex-direction: column; align-items: flex-start; gap: 3px; }
     .gear-body-label strong { font-size: 16px; white-space: nowrap; }
+}
+
+/* Loadout cockpit: summary / equipment / controls share the first viewport.
+   Original markup and VOLT palette; no reference assets or calculation changes. */
+#loadout.has-ship { padding: 88px 24px 40px; }
+#loadout .section-content { max-width: none; }
+.loadout-dashboard { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(290px, .6fr); gap: 18px; align-items: start; }
+.loadout-main-column, .loadout-systems-column, .loadout-control-column { display: grid; gap: 18px; min-width: 0; align-content: start; }
+.loadout-dashboard.is-secondary { grid-template-columns: minmax(0, 2.5fr) minmax(290px, .6fr); }
+.loadout-dashboard.is-cart { grid-template-columns: minmax(0, 1fr); }
+.loadout-main-column .loadout-topbar { top: 76px; margin: 0; border: 0; background: var(--lo-bg); }
+.loadout-main-column .loadout-selector-row { grid-template-columns: minmax(0, 1fr) auto auto auto; }
+.loadout-main-column .loadout-jump { padding: 6px 8px; font-size: 12px; }
+.loadout-main-column .loadout-ship-select { min-height: 48px; }
+.loadout-main-column .loadout-ship-select small, .loadout-main-column .loadout-ship-select .loadout-origin { display: none; }
+.loadout-main-column .loadout-overview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; position: static; padding: 0; border: 0; background: none; }
+.loadout-main-column .loadout-identity { grid-column: 1 / -1; grid-row: auto; gap: 8px; }
+.loadout-main-column .loadout-overview-column { grid-column: auto; grid-row: auto; gap: 14px; }
+.loadout-main-column .loadout-shiphead { grid-template-columns: minmax(110px, .8fr) minmax(0, 1.2fr); gap: 14px; }
+.loadout-main-column .loadout-shipphoto { height: 150px; }
+.loadout-main-column .loadout-shipinfo h3 { font-size: clamp(20px, 1.3vw, 34px); margin-bottom: 6px; }
+.loadout-main-column .loadout-identity .volt-tool-links { margin: 0; }
+.loadout-dashboard .loadout-panel-section { display: block; padding: 14px; border-radius: 12px; background: #1b1d22; }
+.loadout-dashboard .loadout-panel-section > h4 { border: 0; margin: 0 0 12px; padding: 0; line-height: 1.4; color: #c4c5cb; }
+.loadout-dashboard .loadout-summary-numbers { gap: 7px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.loadout-dashboard .is-defense .loadout-summary-numbers { grid-template-columns: minmax(0, 1fr); }
+.loadout-dashboard .loadout-summary-numbers .loadout-stat { padding: 10px 8px; border: 0; background: #292b31; display: flex; flex-direction: column; gap: 6px; }
+.loadout-dashboard .loadout-summary-numbers .loadout-stat:nth-child(2) { background: #46342f; box-shadow: inset 0 0 0 1px #8d5b4c; }
+.loadout-dashboard .loadout-summary-numbers strong { font-size: clamp(21px, 1.45vw, 34px); order: -1; white-space: nowrap; }
+.loadout-dashboard .loadout-summary-numbers .loadout-stat-label { font-size: 11px; }
+.loadout-dashboard .loadout-firepower-table { margin: 8px 0; font-size: 12px; }
+.loadout-dashboard .loadout-firepower-table th, .loadout-dashboard .loadout-firepower-table td { padding: 9px 3px; }
+.loadout-dashboard .loadout-row { font-size: 12px; padding-block: 7px; }
+.loadout-dashboard .loadout-tabs { margin: 0; min-width: 0; gap: 0; }
+.loadout-dashboard .loadout-tab { padding: 8px; font-size: 12px; min-height: 38px; }
+.loadout-dashboard .loadout-slots { display: grid; gap: 14px; min-width: 0; }
+.loadout-dashboard .loadout-equipment-nav { gap: 4px; margin: 0; flex-wrap: wrap; }
+.loadout-dashboard .loadout-category { padding: 5px 8px; min-height: 30px; font-size: 12px; }
+.loadout-dashboard .loadout-view-tools { margin: 0; gap: 8px; font-size: 12px; }
+.loadout-dashboard .loadout-group { border-radius: 12px; background: #1b1d22; }
+.loadout-dashboard .loadout-group h4 { background: none; }
+.loadout-dashboard .loadout-group-toggle { padding: 12px 16px; min-height: 50px; color: #c4c5cb; }
+.loadout-dashboard .loadout-group-toggle > span:first-child::before { content: '◇'; display: inline-block; color: #ffab8a; margin-right: 10px; }
+.loadout-dashboard .loadout-slotlist { padding: 0 14px 14px; }
+.loadout-dashboard .loadout-slot-row { padding: 12px; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 8px; border-radius: 10px; background: #282a30; }
+.loadout-dashboard .loadout-size, .loadout-dashboard .loadout-mount-size { background: #eb765b; color: #170e0b; border: 0; font-weight: 750; height: 34px; width: 34px; }
+.loadout-dashboard .loadout-item-name { font-size: 16px; line-height: 1.3; }
+.loadout-dashboard .loadout-slot-label { font-size: 11px; color: #c0c1c7; }
+.loadout-dashboard .loadout-slot-facts { gap: 5px 12px; margin-top: 5px; color: #c2c3c9; }
+.loadout-dashboard .loadout-metric b { color: #f6f6f8; font-size: 26px; }
+.loadout-dashboard .loadout-component-stats { display: flex; flex-wrap: wrap; padding: 8px 0; gap: 7px 16px; border-top: 0; }
+.loadout-dashboard .loadout-component-stats span { display: flex; align-items: baseline; gap: 5px; }
+.loadout-dashboard .loadout-slot-actions { gap: 5px; }
+.loadout-dashboard .loadout-slot-actions .loadout-link, .loadout-dashboard .loadout-slot-actions .btn { min-height: 30px; font-size: 12px; padding: 4px 8px; }
+.loadout-dashboard .loadout-slot-actions .loadout-iconbtn { width: 30px; padding: 5px; display: inline-grid; place-items: center; }
+.loadout-dashboard .loadout-powerbtn { min-height: 30px; padding: 4px 7px; }
+.loadout-dashboard .loadout-powerbtn > span { display: none; }
+.loadout-dashboard .loadout-slot.has-mount { grid-template-columns: minmax(100px, .55fr) minmax(0, 1.5fr); gap: 18px; }
+.loadout-dashboard .loadout-mount-card { padding: 10px; gap: 5px; border-radius: 10px; }
+.loadout-dashboard .loadout-mount-card::after { width: 18px; }
+.loadout-dashboard .loadout-assembly { border: 0; padding: 0; background: none; }
+.loadout-dashboard .loadout-assembly-heading { padding: 8px 0 0; }
+.loadout-dashboard .loadout-assembly-parent .loadout-slot-row { padding: 10px; }
+.loadout-dashboard .loadout-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.loadout-dashboard .loadout-actions .btn { min-width: 0; min-height: 34px; padding: 7px; font-size: 12px; }
+.loadout-dashboard .loadout-actions [data-loadout-quick-cart-changed] { grid-column: 1 / -1; }
+.loadout-dashboard .loadout-power-plan { border-top: 1px solid var(--lo-line) !important; }
+.loadout-dashboard .loadout-power-channels { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; margin: 18px 0 10px; }
+.loadout-dashboard .loadout-power-channel { padding: 0; border: 0; background: none; grid-template-rows: 30px minmax(156px, 1fr) auto 30px; gap: 5px; }
+.loadout-dashboard .loadout-power-channel label { font-size: 11px; line-height: 1.3; overflow-wrap: anywhere; }
+.loadout-dashboard .loadout-power-pips button.loadout-power-device { padding: 2px; min-height: 64px; }
+.loadout-dashboard .loadout-power-device > span:first-child { display: none; }
+.loadout-dashboard .loadout-power-device > span:last-child { font-size: 11px; }
+.loadout-dashboard .loadout-power-adjust { grid-template-columns: 1fr; gap: 2px; }
+.loadout-dashboard .loadout-power-adjust input { grid-row: 1; height: 28px; font-size: 14px; }
+.loadout-dashboard .loadout-power-adjust button { height: 24px; width: 100%; }
+.loadout-dashboard .loadout-power-channel small { font-size: 11px; line-height: 1.3; }
+.loadout-dashboard .loadout-power-guide { font-size: 11px; }
+.loadout-dashboard .loadout-power-budget { font-size: 12px; }
+.loadout-dashboard .loadout-power-budget strong b { font-size: 22px; }
+.loadout-dashboard .loadout-power-actions { flex-wrap: wrap; }
+.loadout-dashboard .loadout-power-actions .btn, .loadout-dashboard .loadout-power-actions .loadout-link { font-size: 12px; min-height: 32px; }
+.loadout-dashboard .loadout-power-supply span { font-size: 11px; }
+.loadout-dashboard .loadout-kpis { flex-wrap: nowrap; }
+.loadout-dashboard .loadout-kpi { min-width: 90px; padding: 8px; }
+.loadout-dashboard .loadout-kpi:nth-child(n+5) { display: none; }
+.loadout-dashboard .loadout-kpi strong { font-size: 21px; }
+.loadout-dashboard .loadout-kpi > span:first-child { font-size: 11px; }
+.loadout-dashboard .loadout-fold:not([open]) > summary { margin: 0; padding: 0; border: 0; }
+@media (min-width: 2200px) {
+    #loadout.has-ship { padding-inline: 48px; }
+    .loadout-dashboard { gap: 24px; }
+    .loadout-systems-column { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .loadout-systems-column > .is-missile, .loadout-systems-column > .is-quantum { grid-column: 1 / -1; }
+    .loadout-dashboard .loadout-panel-section { padding: 20px; }
+    .loadout-dashboard .loadout-main-column .loadout-shipphoto { height: 148px; }
+    .loadout-dashboard .loadout-slotlist > .loadout-assembly > .loadout-assembly-tree { grid-template-columns: minmax(160px, .3fr) minmax(0, 1fr); }
+}
+@media (max-width: 1200px) {
+    .loadout-dashboard { grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); }
+    .loadout-main-column { grid-column: 1; grid-row: 1 / 3; }
+    .loadout-control-column { grid-column: 2; grid-row: 1; }
+    .loadout-systems-column { grid-column: 2; grid-row: 2; }
+    .loadout-dashboard .loadout-overview { grid-template-columns: 1fr; }
+    .loadout-dashboard .loadout-identity { grid-column: 1; }
+}
+@media (max-width: 800px) {
+    #loadout.has-ship { padding: 80px 12px 32px; }
+    .loadout-dashboard, .loadout-dashboard.is-secondary, .loadout-dashboard.is-cart { display: flex; flex-direction: column; gap: 14px; }
+    .loadout-main-column, .loadout-control-column { display: contents; }
+    .loadout-dashboard .loadout-topbar { width: 100%; order: 0; top: 66px; }
+    .loadout-main-column .loadout-selector-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .loadout-main-column .loadout-jump { display: block; }
+    .loadout-main-column .loadout-ship-select { grid-column: 1 / -1; }
+    .loadout-dashboard .loadout-overview { width: 100%; order: 1; }
+    .loadout-dashboard .loadout-tabs { width: 100%; order: 2; }
+    .loadout-dashboard .loadout-work-actions { width: 100%; order: 3; }
+    .loadout-dashboard .loadout-power-plan { width: 100%; order: 4; }
+    .loadout-dashboard .loadout-slots { width: 100%; order: 5; }
+    .loadout-dashboard .loadout-systems-column { width: 100%; order: 6; }
+    .loadout-control-column > .loadout-panel-section:not(.loadout-work-actions):not(.loadout-power-plan) { width: 100%; order: 7; }
+    .loadout-dashboard .loadout-slot.has-mount { grid-template-columns: 1fr; gap: 12px; }
+    .loadout-dashboard .loadout-mount-card::after { display: none; }
+    .loadout-dashboard .loadout-slot-row { padding: 12px; }
+    .loadout-dashboard .loadout-slot-actions .loadout-link, .loadout-dashboard .loadout-slot-actions .btn, .loadout-dashboard .loadout-powerbtn { min-height: 40px; }
+    .loadout-dashboard .loadout-slot-actions .loadout-iconbtn { width: 40px; }
+    .loadout-dashboard .loadout-power-channels { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 10px; }
+    .loadout-dashboard .loadout-power-adjust { grid-template-columns: 22px minmax(24px, 1fr) 22px; }
+    .loadout-dashboard .loadout-power-adjust input { grid-column: 2; }
+    .loadout-dashboard .loadout-power-adjust button { height: 32px; }
+    .loadout-dashboard .loadout-power-channel { grid-template-rows: 24px minmax(156px, 1fr) auto 20px; }
+    .loadout-dashboard .loadout-power-device > span:first-child { display: block; font-size: 11px; }
+}
+.loadout-dashboard .loadout-identity .volt-tool-links { padding: 0; gap: 6px; }
+.loadout-dashboard .volt-tool-links button { min-height: 28px; padding: 4px 9px; font-size: 12px; }
+.loadout-dashboard .loadout-shipinfo { padding: 10px 12px 10px 0; }
+.loadout-dashboard .loadout-slot-row { height: auto; align-self: center; align-content: start; }
+.loadout-dashboard .loadout-summary-numbers { padding-bottom: 8px; }
+.loadout-dashboard .loadout-legends { margin: 6px 0; }
+.loadout-dashboard .loadout-rows { margin: 0; }
+.loadout-dashboard .loadout-fold > summary { min-height: 26px; }
+.loadout-dashboard .loadout-fold > summary h4 { margin: 0; }
+.loadout-dashboard .loadout-equipment-hint { margin: 0; }
+.loadout-dashboard .loadout-panel-section > .loadout-help { margin-top: 8px; }
+.loadout-dashboard .loadout-power-budget { margin-bottom: 10px; }
+.loadout-dashboard .loadout-tabs { scroll-margin-block: 180px 24px; }
+.loadout-dashboard .loadout-shipphoto { height: 128px; }
+.loadout-dashboard .loadout-shipinfo { padding-block: 6px; }
+.loadout-dashboard .loadout-summary-numbers .loadout-stat strong { line-height: 1.15; }
+.loadout-dashboard .loadout-summary-numbers .loadout-stat { padding: 10px 8px; gap: 5px; }
+.loadout-dashboard .loadout-firepower-table th, .loadout-dashboard .loadout-firepower-table td { padding-block: 6px; line-height: 1.4; }
+.loadout-dashboard .loadout-row { padding-block: 5px; line-height: 1.4; }
+.loadout-dashboard .loadout-help { font-size: 11px; }
+.loadout-dashboard .loadout-help > summary { min-height: 22px; padding: 0; }
+.loadout-dashboard .loadout-work-actions .loadout-actions { margin: 0; }
+.loadout-board-tools { display: grid; gap: 8px; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--lo-line); }
+.loadout-dashboard .loadout-mount-card { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-content: start; align-items: center; gap: 4px 8px; }
+.loadout-dashboard .loadout-mount-card .loadout-mount-size { grid-column: 1; grid-row: 1 / 3; }
+.loadout-dashboard .loadout-mount-card .loadout-mount-label { grid-column: 2; grid-row: 1; }
+.loadout-dashboard .loadout-mount-card > .loadout-component-open, .loadout-dashboard .loadout-mount-card > strong { grid-column: 2; grid-row: 2; }
+.loadout-dashboard .loadout-mount-card .loadout-origin, .loadout-dashboard .loadout-mount-card .loadout-facts { grid-column: 1 / -1; }
+.loadout-dashboard .loadout-mount-card .loadout-link { grid-column: 1 / -1; min-height: 26px; font-size: 11px; }
+.loadout-dashboard .loadout-mount-card .loadout-swapbtn { grid-column: 1 / -1; min-height: 30px; padding: 4px 8px; }
+@media (min-width: 801px) {
+    .loadout-dashboard .loadout-group.is-quantum .loadout-assembly-tree { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+    .loadout-dashboard .loadout-group.is-quantum .loadout-assembly-parent .loadout-slot-row { display: grid; grid-template-columns: 34px minmax(0, 1fr); }
+    .loadout-dashboard .loadout-group.is-quantum .loadout-assembly-parent .loadout-metric { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 8px; }
+    .loadout-dashboard .loadout-group.is-quantum .loadout-assembly-parent .loadout-slot-actions { width: auto; }
+}
+.loadout-dashboard .loadout-board-tools .loadout-category { font-size: 11px; padding: 4px 5px; }
+.loadout-dashboard .loadout-board-tools .loadout-view-tools { font-size: 11px; }
+@media (min-width: 2200px) {
+    .loadout-dashboard { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) 440px; }
+    .loadout-dashboard .loadout-overview-column.is-defense { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .loadout-dashboard .loadout-overview-column.is-defense > :first-child { grid-column: 1 / -1; }
+    .loadout-dashboard .loadout-item-name { font-size: 20px; }
+    .loadout-dashboard .loadout-group-toggle { font-size: 18px; }
+    .loadout-dashboard .loadout-metric b { font-size: 30px; }
+    .loadout-dashboard .loadout-row, .loadout-dashboard .loadout-firepower-table { font-size: 15px; }
+    .loadout-dashboard .loadout-slot-facts { font-size: 14px; }
+    .loadout-dashboard .loadout-mount-card .loadout-component-open { font-size: 16px; }
+    .loadout-dashboard .loadout-component-stats span, .loadout-dashboard .loadout-component-stats b { font-size: 14px; }
+}
+@media (min-width: 1800px) {
+    .loadout-systems-column { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .loadout-systems-column > .is-missile, .loadout-systems-column > .is-quantum { grid-column: 1 / -1; }
+    .loadout-systems-column > :not(.is-missile):not(.is-quantum) .loadout-slot-row { grid-template-columns: 30px minmax(0, 1fr); }
+    .loadout-systems-column > :not(.is-missile):not(.is-quantum) .loadout-metric { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: flex-end; gap: 8px; }
+}
+@media (max-width: 800px) {
+    .loadout-dashboard .loadout-tabs { scroll-margin-block: 250px 24px; }
+    .loadout-dashboard .loadout-identity .volt-tool-links button { min-height: 40px; }
+    .loadout-dashboard .loadout-selector-row .loadout-jump { min-height: 40px; }
+    .loadout-dashboard .loadout-metric { grid-column: 3; }
 }

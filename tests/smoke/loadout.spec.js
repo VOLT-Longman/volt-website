@@ -18,7 +18,7 @@ async function openAsgard(page, { prices = {} } = {}) {
 // 상단 핵심 수치·통계 패널의 수치: 이름표가 정확히 일치하는 칸의 값
 const openBuilds = (page) => page.locator('[data-loadout-builds-toggle][aria-expanded="false"]').click();
 const stat = (page, label) => page.locator('.loadout-stat, .loadout-kpi').filter({ has: page.getByText(label, { exact: true }) }).first().locator('strong');
-const panel = (page) => page.locator('.loadout-panel');
+const panel = (page) => page.locator('.loadout-dashboard');
 const firstGunSlot = (page, name = 'CF-337 판터 리피터') => page.locator('.loadout-slot:not(.is-parent)', { hasText: name }).first();
 // 첫 실드의 선택 창을 열어 그 안에서 전원을 끈다.
 const shieldOff = async (page) => {
@@ -124,18 +124,20 @@ test('터렛별 상위 카드와 하위 무기: 독립 접기·전원·교체 �
 
 test('성능 카드와 장비 보드, 이름 클릭 교체 및 변경 슬롯 개수', async ({ page }) => {
     await openAsgard(page);
-    await expect(page.locator('#loadout-app > .loadout-panel')).toBeVisible();
+    await expect(page.locator('.loadout-overview')).toBeVisible();
     await expect(page.locator('.loadout-flight .loadout-fold-body')).toBeVisible();
     const identity = await page.locator('.loadout-identity').boundingBox();
     const damage = await page.locator('.loadout-overview-column.is-damage').boundingBox();
     const defense = await page.locator('.loadout-overview-column.is-defense').boundingBox();
-    const operations = await page.locator('.loadout-overview-column.is-operations').boundingBox();
-    expect(Math.abs(identity.y - operations.y)).toBeLessThan(2);
+    const operations = await page.locator('.loadout-control-column').boundingBox();
+    const systems = await page.locator('.loadout-systems-column').boundingBox();
+    expect(operations.x).toBeGreaterThan(systems.x);
+    expect(Math.abs(systems.y - operations.y)).toBeLessThan(2);
     expect(damage.y).toBeGreaterThan(identity.y);
     expect(Math.abs(damage.y - defense.y)).toBeLessThan(2);
-    expect(identity.width).toBeGreaterThan(operations.width * 1.8);
-    const equipment = await page.locator('.loadout-equipment-column').evaluateAll((els) => els.map((el) => el.getBoundingClientRect().width));
-    expect(equipment[0] / equipment[1]).toBeCloseTo(2, 1);
+    expect(identity.width).toBeGreaterThan(operations.width);
+    expect(systems.x).toBeGreaterThan(identity.x + identity.width);
+    expect(operations.y).toBeLessThan(150);
     if (process.env.LOADOUT_SCREENSHOTS) await page.screenshot({ path: `${process.env.LOADOUT_SCREENSHOTS}/loadout-desktop.png`, fullPage: true });
     await firstGunSlot(page).locator('[data-loadout-component-open]').click();
     await page.locator('.loadout-picker-baseline summary').click();
@@ -150,7 +152,7 @@ test('성능 카드와 장비 보드, 이름 클릭 교체 및 변경 슬롯 개
 test('휴대폰에서 성능과 장비 카드는 한 열이며 화면 밖으로 넘치지 않는다', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openAsgard(page);
-    const columns = await page.locator('#loadout-app > .loadout-panel, .loadout-equipment-board').evaluateAll((els) => els.map((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length));
+    const columns = await page.locator('.loadout-overview, .loadout-systems-column').evaluateAll((els) => els.map((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length));
     expect(columns).toEqual([1, 1]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
     if (process.env.LOADOUT_SCREENSHOTS) await page.screenshot({ path: `${process.env.LOADOUT_SCREENSHOTS}/loadout-mobile.png`, fullPage: true });
@@ -252,7 +254,7 @@ test.describe('로드아웃 편집기', () => {
     test('무기를 바꾸면 화력·구매 목록이 바뀌고, 기본값으로 되돌릴 수 있다', async ({ page }) => {
         await openAsgard(page, { prices: { [MANTIS]: [{ shop: 'CenterMass', place: 'Area 18', system: 'Stanton', price: 23500 }, { shop: 'Ship Weapons', place: 'MIC-L2', system: 'Stanton', price: 25000 }] } });
         await expect(stat(page, DPS)).toHaveText('5,313');
-        await expect(page.locator('.loadout-shopping')).toContainText('부품을 바꾸면');
+        await expect(page.locator('.loadout-shopping')).toHaveCount(0);
 
         await firstGunSlot(page).locator('[data-loadout-open]').click();
         const picker = page.locator('.loadout-picker');
@@ -609,7 +611,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(kpis).toContainText(/선체\s*77,000/);
         await expect(kpis).toContainText(/항속\s*706 Gm/);
         // 최대 가동 수요는 현재 배정 상태의 고장 경고로 표시하지 않는다.
-        const fullLoad = kpis.locator('.loadout-kpi', { hasText: '최대 가동 시 부족' });
+        const fullLoad = page.locator('.loadout-power-plan .loadout-row', { hasText: '최대 가동 시 부족' });
         await page.locator('[data-loadout-jump="equipment"]').click();
         await expect(fullLoad).toBeVisible();
         await expect(fullLoad).not.toHaveClass(/is-warn/);
@@ -679,7 +681,7 @@ test.describe('로드아웃 편집기', () => {
         // 편집하지 않을 때 빈 칸을 두지 않는다: 장비 목록과 요약 두 칸뿐이고, 장비는 화면 폭에 맞춰 두 줄로 놓인다.
         await page.keyboard.press('Escape');
         await expect(page.locator('.loadout-pickhint')).toHaveCount(0);
-        const groupX = await page.locator('.loadout-equipment-board .loadout-group').evaluateAll((list) => new Set(list.map((el) => Math.round(el.getBoundingClientRect().x))).size);
+        const groupX = await page.locator('.loadout-dashboard .loadout-group').evaluateAll((list) => new Set(list.map((el) => Math.round(el.getBoundingClientRect().x))).size);
         expect(groupX).toBeGreaterThan(1);
         // 교체창은 화면 대부분을 쓰는 창으로 뜨고, 후보의 같은 수치가 같은 열에 놓인다.
         await firstGunSlot(page).locator('[data-loadout-open]').click();
@@ -761,6 +763,9 @@ test.describe('로드아웃 편집기', () => {
         await expect(flight.locator('.loadout-fold-body')).toBeHidden();
         await flight.locator('summary').click();
         await expect(stat(page, '롤')).toBeVisible();
+        const hull = page.locator('.loadout-hull');
+        await expect(hull.locator('.loadout-fold-body')).toBeHidden();
+        await hull.locator('summary').click();
         // 부품 전원을 꺼서 화면이 다시 그려져도 펼친 채로 남는다.
         await shieldOff(page);
         await expect(stat(page, '롤')).toBeVisible();
@@ -775,7 +780,7 @@ test.describe('로드아웃 편집기', () => {
 
     test('늘면 불리한 값(소비 전력·시그니쳐)은 늘었을 때 불리한 색으로 표시한다', async ({ page }) => {
         await openAsgard(page);
-        const row = (label) => page.locator('.loadout-panel .loadout-row').filter({ has: page.getByText(label, { exact: true }) });
+        const row = (label) => page.locator('.loadout-dashboard .loadout-row').filter({ has: page.getByText(label, { exact: true }) });
         // 실드 하나의 전원을 끄면 실드는 줄어 불리, 소비 전력·EM 시그니쳐는 줄어 유리로 표시된다.
         await shieldOff(page);
         await expect(stat(page, '실드').locator('xpath=..').locator('.loadout-change')).toHaveClass(/is-bad/);
