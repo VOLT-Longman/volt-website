@@ -57,6 +57,7 @@
             imageCredit: '장비 이미지: Star Citizen Wiki 기여자들 (이미지마다 만든 사람과 이용 조건 표시)', imageAlt: '{name} 게임 화면',
             imageExample: '이미지 예시: {name} · 선택한 변종과 색상이 다를 수 있습니다.', imageResize: '위키가 제공한 축소 사본', backList: '목록으로 돌아가기', pricePartial: '일부 분류의 가격을 불러오지 못했습니다.', excluded: '계산 제외',
             toolNote: '도구의 기본 탄약 참조는 실제 기능의 성능으로 검증되지 않아 공격 수치를 표시하지 않습니다.', specialMode: '별도 게임 모드 설정',
+            scrollHint: '표를 좌우로 밀어 나머지 수치와 가격을 비교하세요.',
         },
         en: {
             loading: 'Loading personal gear…', loadError: 'Personal gear data could not be loaded.', retry: 'Retry',
@@ -96,6 +97,7 @@
             imageCredit: 'Gear images: Star Citizen Wiki contributors (author and licence shown with each image)', imageAlt: 'In-game view of {name}',
             imageExample: 'Example image: {name}. Colour may differ from the selected variant.', imageResize: 'Thumbnail provided by the wiki', backList: 'Back to list', pricePartial: 'Prices for some categories could not be loaded.', excluded: 'Not modeled',
             toolNote: 'The default ammo references on tools are not verified as functional performance, so combat stats are not shown.', specialMode: 'Separate game-mode configuration',
+            scrollHint: 'Swipe the table sideways to compare the remaining stats and prices.',
         },
     };
     const state = { view: 'weapon', data: {}, error: {}, loading: {}, query: '', kind: '', slot: '', cls: '', sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {} };
@@ -254,6 +256,7 @@
         if (!rows.length) return `<p class="gear-empty">${esc(text('noResult'))}</p>`;
         const shown = rows.slice(0, state.limit);
         return `<p class="gear-count" role="status">${esc(text('count', { count: num(rows.length) }))}</p>
+            <p class="gear-scroll-hint">${esc(text('scrollHint'))}</p>
             <div class="gear-tablewrap" tabindex="0" role="region" aria-label="${esc(text(state.view))}"><table class="gear-table">${state.view === 'weapon' ? weaponRows(shown) : armorRows(shown)}</table></div>
             ${rows.length > shown.length ? `<button type="button" class="btn btn-secondary gear-more" data-gear-more>${esc(text('more', { count: num(Math.min(PAGE, rows.length - shown.length)) }))}</button>` : ''}`;
     }

@@ -10662,7 +10662,10 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .gear-table th .gear-muted { display: block; font-size: 12px; font-weight: 400; }
 .gear-tag { display: inline-block; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--ge-line); font-size: 12px; white-space: nowrap; }
 .gear-muted { color: var(--color-text-secondary); }
-.gear-detail { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
+.gear-detail { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 16px; border: 1px solid var(--ge-line); border-radius: 12px; background: var(--ge-card); }
+.gear-detail > *, .gear-special > *, .gear-fit-main > * { min-width: 0; }
+.gear-scroll-hint { display: none; }
+@media (max-width: 640px) { .gear-scroll-hint { display: block; margin: 0 0 8px; font-size: 12px; color: var(--color-text-secondary); } }
 .gear-detail-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
 .gear-detail-head h3 { margin: 0; font-size: 18px; }
 .gear-detail h4 { margin: 0 0 8px; font-size: 14px; }

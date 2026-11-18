@@ -108,6 +108,11 @@ for (const width of [1280, 390]) {
         await openGear(page);
         await page.locator('.gear-list [data-gear-pick]').first().click();
         await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+        const detail = await page.locator('.gear-detail').boundingBox();
+        for (const child of await page.locator('.gear-detail > *').all()) {
+            const bounds = await child.boundingBox();
+            if (bounds) expect(bounds.x + bounds.width).toBeLessThanOrEqual(detail.x + detail.width + 1);
+        }
         const results = await new AxeBuilder({ page }).include('#gear').analyze();
         expect(results.violations.filter((v) => ['critical', 'serious'].includes(v.impact)).map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
     });
