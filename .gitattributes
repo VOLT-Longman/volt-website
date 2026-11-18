@@ -12,6 +12,9 @@
 #   앞으로도 LF로 유지돼야 manifest 검증이 통과한다.
 * text=auto
 
+# Vendored files are checked byte-for-byte against the installed package on every OS.
+assets/vendor/gsap/*.js text eol=lf
+
 # 바이너리 — 어떤 변환도 하지 않는다.
 # 시각 회귀 기준선(-linux.png)이 여기 포함된다. 바이트가 바뀌면 기준선이 깨진다.
 *.png  binary

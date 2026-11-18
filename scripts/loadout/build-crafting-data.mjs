@@ -11,6 +11,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DataForge } from '../gamedata/dataforge.mjs';
+import { createHash } from 'node:crypto';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const arg = (name) => { const index = process.argv.indexOf(name); return index > -1 ? process.argv[index + 1] : null; };
@@ -62,9 +63,12 @@ for (const record of df.recordsOfType('CraftingBlueprintRecord')) {
         return [cls, node.quantity];
     });
     if (!materials.length && !pieces.length) continue;
-    recipes[output] = { s: seconds || undefined, m: materials.length ? materials : undefined, p: pieces.length ? pieces : undefined };
+    recipes[output] = { blueprint: idOf(record), tier: 0, s: seconds || undefined, m: materials.length ? materials : undefined, p: pieces.length ? pieces : undefined };
 }
 const build = JSON.parse(readFileSync(resolve(CACHE, 'build.json'), 'utf8'));
-const out = { version: `${String(build.Branch || '').replace(/^sc-alpha-/, '')}.${build.RequestedP4ChangeNum || ''}`, builtAt: new Date().toISOString(), note: 'm = [상품, SCU], p = [낱개 재료, 개수], s = 제작 시간(초). 게임 파일 값.', resources, recipes };
+const mining = JSON.parse(readFileSync(resolve(ROOT, 'data/mining/mining.json'), 'utf8'));
+if (mining.gameVersion !== build.Version) throw new Error('Mining and crafting game builds must match. Rebuild mining data first.');
+const miningResources = [...new Set(mining.minerals.flatMap((mineral) => [mineral.id, mineral.refined?.id]).filter((id) => id && resources[id]))];
+const out = { version: `${String(build.Branch || '').replace(/^sc-alpha-/, '')}.${build.RequestedP4ChangeNum || ''}`, gameVersion: build.Version, source: 'game-files', sourceHash: createHash('sha256').update(df.buffer).digest('hex'), builtAt: new Date().toISOString(), note: '설계도 첫 단계(tier 0)만 포함. m = [상품, SCU], p = [낱개 재료, 개수], s = 제작 시간(초). 게임 파일 값.', miningResources, resources, recipes };
 writeFileSync(resolve(ROOT, 'data/loadout/crafting.json'), `${JSON.stringify(out)}\n`);
 console.log(`제작 재료: 설계도 ${Object.keys(recipes).length}개, 재료 ${Object.keys(resources).length}종, ${Math.round(JSON.stringify(out).length / 1024)}KB`);

@@ -35,6 +35,7 @@ test('운송 계약: 의뢰처·종류 필터, 더 보기, 영어 전환', async
     const before = await page.locator('.hauling-table tbody tr').count();
     await page.locator('[data-hauling-more]').click();
     expect(await page.locator('.hauling-table tbody tr').count()).toBeGreaterThan(before);
+    await expect(page.locator('.hauling-table tbody tr').nth(before).locator('th')).toBeFocused();
     await page.locator('#hauling-by').selectOption({ index: 1 });
     await page.locator('#hauling-kind').selectOption('local');
     await page.locator('#hauling-rank').selectOption('6');
@@ -60,6 +61,10 @@ for (const width of [1280, 390]) {
         await page.setViewportSize({ width, height: 844 });
         await openHauling(page);
         await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+        for (const selector of ['.hauling-ranks', '.hauling-filters', '.hauling-tablewrap']) {
+            const bounds = await page.locator(selector).boundingBox();
+            expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
+        }
         const results = await new AxeBuilder({ page }).include('#hauling').analyze();
         expect(results.violations.filter((v) => ['critical', 'serious'].includes(v.impact)).map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
     });

@@ -16,6 +16,7 @@ test('채광 안내: 광물을 고르면 캐는 곳이 나오고, 장소로 넘�
     // 시세가 있는 광물이 위로 온다.
     const first = page.locator('.mining-list tbody tr').first();
     await expect(first).toContainText('148,409');
+    await page.locator('#mining-search').fill('gold');
     await page.locator('[data-mining-mineral="Ore_Gold"]').first().click();
     const detail = page.locator('.mining-detail');
     await expect(detail.locator('h3')).toContainText('캐는 곳');
@@ -25,6 +26,7 @@ test('채광 안내: 광물을 고르면 캐는 곳이 나오고, 장소로 넘�
     // 캐는 곳 목록에서 장소로 넘어간다.
     await detail.locator('[data-mining-location]').first().click();
     await expect(page.locator('.mining-tab.is-active')).toHaveText('장소별');
+    await expect(page.locator('#mining-search')).toHaveValue('');
     await expect(page.locator('.mining-detail h3')).toContainText('나오는 광물');
     await expect(page.locator('.mining-detail .mining-parts li').first()).toBeVisible();
     expect(errors).toEqual([]);

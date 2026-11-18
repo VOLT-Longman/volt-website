@@ -20,9 +20,12 @@
             whereTitle: '{name} — 캐는 곳', place: '장소', rock: '암석', rockShare: '암석 비중', content: '함량', chance: '포함 확률',
             placesCount: '{count}곳', system: '성계', whatTitle: '{name} — 나오는 광물', rocksCount: '암석 {count}종',
             areaNote: '이 이름은 게임에 표시되는 이름이 아니라 내부 구분을 풀어 쓴 것입니다.',
-            traits: '채광 특성', window: '최적 구간 위치', windowThinness: '최적 구간 좁기', explosion: '폭발 배율',
+            traits: '채광 특성', window: '최적 구간 위치', windowThinness: '최적 구간 좁기', explosion: '폭발 보정값',
             sourceGame: '광물·암석·장소: Star Citizen 게임 파일 {version}', sourcePrice: '시세: UEX', sourceNote: '비중·함량·확률은 게임 파일에 적힌 값이며, 게임 안에서 실측한 값이 아닙니다.',
-            perScu: 'aUEC/SCU', backToList: '목록으로',
+            perScu: 'aUEC/SCU', backToList: '목록으로', unofficial: '임시 구분명',
+            priceUnitNote: '시세는 SCU당 값입니다. 손 채광 광물 한 개의 판매 가격이 아닙니다.',
+            detailNote: '같은 광물이 여러 줄이면 원본의 별도 구성 항목입니다. 함량·확률을 합산하지 않습니다. 암석 비중순으로 표시하며 실제 수율 순위가 아닙니다.',
+            traitsVary: '암석에 따라 특성 정의가 다릅니다. 하나로 확정할 수 없는 값은 —로 표시합니다.',
         },
         en: {
             loading: 'Loading mining data…', loadError: 'Mining data could not be loaded.', retry: 'Retry',
@@ -34,9 +37,12 @@
             whereTitle: '{name} — where to mine', place: 'Location', rock: 'Rock', rockShare: 'Rock share', content: 'Content', chance: 'Chance',
             placesCount: '{count} locations', system: 'System', whatTitle: '{name} — minerals found', rocksCount: '{count} rock types',
             areaNote: 'This name is not shown in game; it spells out an internal label.',
-            traits: 'Mining traits', window: 'Optimal window position', windowThinness: 'Optimal window thinness', explosion: 'Explosion multiplier',
+            traits: 'Mining traits', window: 'Optimal window position', windowThinness: 'Optimal window thinness', explosion: 'Explosion modifier',
             sourceGame: 'Minerals, rocks and locations: Star Citizen game files {version}', sourcePrice: 'Prices: UEX', sourceNote: 'Shares, content and chances are the values written in the game files, not rates measured in game.',
-            perScu: 'aUEC/SCU', backToList: 'Back to list',
+            perScu: 'aUEC/SCU', backToList: 'Back to list', unofficial: 'Descriptive label',
+            priceUnitNote: 'Prices are per SCU, not the sale price of one hand-mined gem.',
+            detailNote: 'Repeated minerals are separate entries in the source composition. Content and chances are not added together. Sorted by rock share, not measured yield.',
+            traitsVary: 'Traits vary between rock definitions. Values without a single confirmed definition are shown as —.',
         },
     };
     const MODES = ['ship', 'vehicle', 'hand'];
@@ -48,7 +54,7 @@
     const text = (key, values) => String(TEXT[lang()][key] ?? TEXT.ko[key] ?? key).replace(/\{(\w+)\}/g, (_, name) => values?.[name] ?? '');
     const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
     const label = (name) => (lang() === 'ko' && name?.ko ? name.ko : name?.en || '');
-    const num = (value, digits = 0) => (Number(value) || 0).toLocaleString(lang() === 'en' ? 'en-US' : 'ko-KR', { maximumFractionDigits: digits });
+    const num = (value, digits = 0) => Number.isFinite(value) ? value.toLocaleString(lang() === 'en' ? 'en-US' : 'ko-KR', { maximumFractionDigits: digits }) : '—';
     const norm = (value) => String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
     const haystack = (name) => `${name?.ko || ''} ${name?.en || ''}`.toLowerCase();
 
@@ -64,23 +70,22 @@
         return price ? `<strong>${esc(num(price))}</strong> <small>${esc(text('perScu'))}</small>` : `<span class="mining-muted">${esc(text('priceUnknown'))}</span>`;
     }
 
-    // 광물 하나가 나오는 자리 전부. 기대값(암석 비중 × 포함 확률 × 평균 함량) 순으로 늘어놓는다.
+    // Preserve every composition entry; no unverified yield formula or merging.
     function sourcesOf(mineralId) {
         const rows = [];
         for (const location of state.data.locations) {
             for (const group of location.groups) {
                 for (const rock of group.rocks) {
-                    const part = rock.minerals.find((mineral) => mineral.id === mineralId);
-                    if (part) rows.push({ location, mode: group.mode, rock, part, score: (rock.share || 0) * (part.chance || 0) * ((part.min + part.max) / 2) });
+                    for (const part of rock.minerals.filter((mineral) => mineral.id === mineralId)) rows.push({ location, mode: group.mode, rock, part });
                 }
             }
         }
-        return rows.sort((a, b) => b.score - a.score);
+        return rows.sort((a, b) => (b.rock.share || 0) - (a.rock.share || 0) || label(a.location.name).localeCompare(label(b.location.name)));
     }
 
     function toolbar() {
-        const tab = (view, key) => `<button type="button" role="tab" class="mining-tab${state.view === view ? ' is-active' : ''}" aria-selected="${state.view === view}" data-mining-view="${view}">${esc(text(key))}</button>`;
-        const chip = (mode, key) => `<button type="button" class="mining-chip${state.mode === mode ? ' is-active' : ''}" aria-pressed="${state.mode === mode}" data-mining-mode="${mode}">${esc(text(key))}</button>`;
+        const tab = (view, key) => `<button type="button" id="mining-view-${view}" role="tab" aria-controls="mining-list-panel" class="mining-tab${state.view === view ? ' is-active' : ''}" aria-selected="${state.view === view}" data-mining-view="${view}">${esc(text(key))}</button>`;
+        const chip = (mode, key) => `<button type="button" id="mining-mode-${mode || 'all'}" class="mining-chip${state.mode === mode ? ' is-active' : ''}" aria-pressed="${state.mode === mode}" data-mining-mode="${mode}">${esc(text(key))}</button>`;
         return `<div class="mining-toolbar">
             <div class="mining-tabs" role="tablist" aria-label="${esc(text('views'))}">${tab('mineral', 'byMineral')}${tab('location', 'byLocation')}</div>
             <label class="mining-search"><span class="visually-hidden">${esc(text('searchLabel'))}</span><input type="search" id="mining-search" value="${esc(state.query)}" placeholder="${esc(text('search'))}" autocomplete="off"></label>
@@ -94,11 +99,11 @@
             && (!query || haystack(mineral.name).includes(query) || haystack(mineral.refined?.name).includes(query)));
         if (!list.length) return `<p class="mining-empty">${esc(text('noResult'))}</p>`;
         const sorted = [...list].sort((a, b) => (priceOf(b) || 0) - (priceOf(a) || 0) || label(a.name).localeCompare(label(b.name)));
-        return `<div class="mining-tablewrap"><table class="mining-table">
+        return `<p class="mining-note">${esc(text('priceUnitNote'))}</p><div class="mining-tablewrap"><table class="mining-table">
             <thead><tr><th scope="col">${esc(text('mineral'))}</th><th scope="col">${esc(text('method'))}</th><th scope="col">${esc(text('refined'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th><th scope="col" class="is-num">${esc(text('instability'))}</th><th scope="col" class="is-num">${esc(text('resistance'))}</th></tr></thead>
             <tbody>${sorted.map((mineral) => `<tr class="${state.mineral === mineral.id ? 'is-selected' : ''}">
                 <th scope="row"><button type="button" class="mining-rowbtn" data-mining-mineral="${esc(mineral.id)}" aria-pressed="${state.mineral === mineral.id}">${esc(label(mineral.name))}</button></th>
-                <td>${mineral.modes.map((mode) => `<span class="mining-tag is-${mode}">${esc(text(mode))}</span>`).join(' ')}</td>
+                <td>${mineral.modes.map((mode) => `<span class="mining-tag is-${esc(mode)}">${esc(text(mode))}</span>`).join(' ')}</td>
                 <td>${mineral.refined ? esc(label(mineral.refined.name)) : `<span class="mining-muted">${esc(text('noRefine'))}</span>`}</td>
                 <td class="is-num">${priceCell(mineral)}</td>
                 <td class="is-num">${esc(num(mineral.instability, 1))}</td>
@@ -113,6 +118,7 @@
         const places = new Set(rows.map((row) => row.location.id)).size;
         return `<section class="mining-detail" aria-labelledby="mining-detail-title">
             <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whereTitle', { name: label(mineral.name) }))}</h3><span class="mining-muted">${esc(text('placesCount', { count: places }))}</span></header>
+            <p class="mining-note">${esc(text('detailNote'))}</p>${mineral.traitsVary ? `<p class="mining-note">${esc(text('traitsVary'))}</p>` : ''}
             <dl class="mining-traits" aria-label="${esc(text('traits'))}">
                 <div><dt>${esc(text('instability'))}</dt><dd>${esc(num(mineral.instability, 1))}</dd></div>
                 <div><dt>${esc(text('resistance'))}</dt><dd>${esc(num(mineral.resistance, 2))}</dd></div>
@@ -124,12 +130,12 @@
             ${rows.length ? `<div class="mining-tablewrap"><table class="mining-table">
                 <thead><tr><th scope="col">${esc(text('place'))}</th><th scope="col">${esc(text('method'))}</th><th scope="col">${esc(text('rock'))}</th><th scope="col" class="is-num">${esc(text('rockShare'))}</th><th scope="col" class="is-num">${esc(text('content'))}</th><th scope="col" class="is-num">${esc(text('chance'))}</th></tr></thead>
                 <tbody>${rows.map((row) => `<tr>
-                    <th scope="row"><button type="button" class="mining-rowbtn" data-mining-location="${esc(row.location.id)}">${esc(label(row.location.name))}</button> <small class="mining-muted">${esc(row.location.system || '')}</small></th>
-                    <td><span class="mining-tag is-${row.mode}">${esc(text(row.mode))}</span></td>
+                    <th scope="row"><button type="button" class="mining-rowbtn" data-mining-location="${esc(row.location.id)}">${esc(label(row.location.name))}</button>${!row.location.named ? ` <small class="mining-muted">${esc(text('unofficial'))}</small>` : ''} <small class="mining-muted">${esc(row.location.system || '')}</small></th>
+                    <td><span class="mining-tag is-${esc(row.mode)}">${esc(text(row.mode))}</span></td>
                     <td>${esc(label(row.rock.name) || row.rock.id)}</td>
                     <td class="is-num">${esc(num(row.rock.share, 1))}%</td>
-                    <td class="is-num">${esc(num(row.part.min))}–${esc(num(row.part.max))}%</td>
-                    <td class="is-num">${esc(num((row.part.chance || 0) * 100))}%</td>
+                    <td class="is-num">${esc(num(row.part.min, 1))}–${esc(num(row.part.max, 1))}%</td>
+                    <td class="is-num">${esc(num(Number.isFinite(row.part.chance) ? row.part.chance * 100 : undefined))}%</td>
                 </tr>`).join('')}</tbody></table></div>` : `<p class="mining-empty">${esc(text('noResult'))}</p>`}
         </section>`;
     }
@@ -142,8 +148,8 @@
         const systems = [...new Set(list.map((location) => location.system || ''))];
         return systems.map((system) => `<section class="mining-system"><h3>${esc(system)}</h3><ul class="mining-places">${list.filter((location) => (location.system || '') === system).map((location) => `<li>
             <button type="button" class="mining-place${state.location === location.id ? ' is-selected' : ''}" data-mining-location="${esc(location.id)}" aria-pressed="${state.location === location.id}">
-                <strong>${esc(label(location.name))}</strong>
-                <span>${location.groups.map((group) => `<span class="mining-tag is-${group.mode}">${esc(text(group.mode))}</span>`).join(' ')}</span>
+                <strong>${esc(label(location.name))}</strong>${!location.named ? `<small class="mining-muted">${esc(text('unofficial'))}</small>` : ''}
+                <span>${location.groups.map((group) => `<span class="mining-tag is-${esc(group.mode)}">${esc(text(group.mode))}</span>`).join(' ')}</span>
             </button></li>`).join('')}</ul></section>`).join('');
     }
 
@@ -155,13 +161,13 @@
         return `<section class="mining-detail" aria-labelledby="mining-detail-title">
             <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whatTitle', { name: label(location.name) }))}</h3><span class="mining-muted">${esc(location.system || '')}</span></header>
             ${location.kind === 'area' && !location.named ? `<p class="mining-note">${esc(text('areaNote'))}</p>` : ''}
-            ${groups.map((group) => `<div class="mining-group"><h4><span class="mining-tag is-${group.mode}">${esc(text(group.mode))}</span> <span class="mining-muted">${esc(text('rocksCount', { count: group.rocks.length }))}</span></h4>
+            ${groups.map((group) => `<div class="mining-group"><h4><span class="mining-tag is-${esc(group.mode)}">${esc(text(group.mode))}</span> <span class="mining-muted">${esc(text('rocksCount', { count: group.rocks.length }))}</span></h4>
                 <div class="mining-tablewrap"><table class="mining-table">
                 <thead><tr><th scope="col">${esc(text('rock'))}</th><th scope="col" class="is-num">${esc(text('rockShare'))}</th><th scope="col">${esc(text('mineral'))} · ${esc(text('content'))} · ${esc(text('chance'))}</th></tr></thead>
                 <tbody>${group.rocks.map((rock) => `<tr>
                     <th scope="row">${esc(label(rock.name) || rock.id)}</th>
                     <td class="is-num">${esc(num(rock.share, 1))}%</td>
-                    <td><ul class="mining-parts">${rock.minerals.map((part) => `<li><button type="button" class="mining-rowbtn" data-mining-mineral="${esc(part.id)}">${esc(mineralName(part.id))}</button> <small>${esc(num(part.min))}–${esc(num(part.max))}% · ${esc(num((part.chance || 0) * 100))}%</small></li>`).join('')}</ul></td>
+                    <td><ul class="mining-parts">${rock.minerals.map((part) => `<li><button type="button" class="mining-rowbtn" data-mining-mineral="${esc(part.id)}">${esc(mineralName(part.id))}</button> <small>${esc(num(part.min, 1))}–${esc(num(part.max, 1))}% · ${esc(num(Number.isFinite(part.chance) ? part.chance * 100 : undefined))}%</small></li>`).join('')}</ul></td>
                 </tr>`).join('')}</tbody></table></div></div>`).join('') || `<p class="mining-empty">${esc(text('noResult'))}</p>`}
         </section>`;
     }
@@ -169,7 +175,8 @@
     function draw(focusDetail) {
         if (!root) return;
         // 화면 전체를 이 한 곳에서 다시 그린다. 모든 동적 값은 esc()를 거친다.
-        const active = document.activeElement?.id === 'mining-search';
+        const focusId = root.contains(document.activeElement) ? document.activeElement.id : '';
+        const active = focusId === 'mining-search';
         const caret = active ? document.activeElement.selectionStart : null;
         const mineralView = state.view === 'mineral';
         let html;
@@ -177,22 +184,23 @@
         else if (!state.data) html = `<p class="mining-status" role="status">${esc(text('loading'))}</p>`;
         else html = `${toolbar()}
             <div class="mining-columns">
-                <div class="mining-list" role="tabpanel">${mineralView ? mineralList() : locationList()}</div>
+                <div class="mining-list" id="mining-list-panel" role="tabpanel" aria-labelledby="mining-view-${state.view}">${mineralView ? mineralList() : locationList()}</div>
                 <div class="mining-side">${mineralView ? mineralDetail() : locationDetail()}</div>
             </div>
-            <p class="mining-sources">${esc(text('sourceGame', { version: state.data.version }))} · ${esc(state.priceState === 'failed' ? text('priceFailed') : text('sourcePrice'))}<br>${esc(text('sourceNote'))}</p>`;
+            <p class="mining-sources">${esc(text('sourceGame', { version: state.data.version }))} · ${esc(state.priceState === 'failed' ? text('priceFailed') : text('sourcePrice'))}<br>${esc(text('sourceNote'))}<br>${esc(text('priceUnitNote'))}</p>`;
         root.innerHTML = html;
         if (active) { const input = document.getElementById('mining-search'); input?.focus(); if (caret !== null) input?.setSelectionRange(caret, caret); }
+        else if (focusId) document.getElementById(focusId)?.focus({ preventScroll: true });
         if (focusDetail) document.getElementById('mining-detail-title')?.focus({ preventScroll: false });
     }
 
     function onClick(event) {
         const target = event.target.closest('button'); if (!target || !root.contains(target)) return;
         if (target.hasAttribute('data-mining-retry')) { state.error = false; load(); return; }
-        if (target.dataset.miningView) { state.view = target.dataset.miningView; draw(); return; }
+        if (target.dataset.miningView) { if (state.view !== target.dataset.miningView) state.query = ''; state.view = target.dataset.miningView; draw(); return; }
         if (target.hasAttribute('data-mining-mode')) { state.mode = target.dataset.miningMode; draw(); return; }
-        if (target.dataset.miningMineral) { state.view = 'mineral'; state.mineral = target.dataset.miningMineral; draw(true); return; }
-        if (target.dataset.miningLocation) { state.view = 'location'; state.location = target.dataset.miningLocation; draw(true); }
+        if (target.dataset.miningMineral) { if (state.view !== 'mineral') state.query = ''; state.view = 'mineral'; state.mineral = target.dataset.miningMineral; draw(true); return; }
+        if (target.dataset.miningLocation) { if (state.view !== 'location') state.query = ''; state.view = 'location'; state.location = target.dataset.miningLocation; draw(true); }
     }
 
     async function loadPrices() {

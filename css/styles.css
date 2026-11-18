@@ -10080,6 +10080,8 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .loadout-cart-shortcut b { margin-left: 8px; color: var(--volt-orange-light); }
 .loadout-app .loadout-kpis { position: absolute; top: 100%; left: 0; right: 0; display: flex; border: 1px solid var(--lo-line); border-radius: 0 0 6px 6px; overflow-x: auto; background: var(--lo-card); }
 .loadout-app .loadout-topbar:not(.is-scrolled) .loadout-kpis { visibility: hidden; pointer-events: none; }
+/* With no overview (cart), reserve the KPI row's real height so it cannot cover the tabs. */
+.loadout-app > .loadout-topbar:has(+ .loadout-tabs) .loadout-kpis { position: static; }
 .loadout-app .loadout-kpi { flex: 1 0 auto; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; min-width: 90px; padding: 8px 12px; border: 0; border-right: 1px solid var(--lo-line); }
 .loadout-app .loadout-kpi strong { font-size: 17px; }
 .loadout-app .loadout-kpi > span:first-child { font-size: 10px; }
@@ -10468,3 +10470,9 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .hauling-empty, .hauling-status { margin: 0; padding: 24px 16px; border: 1px dashed var(--ha-line); border-radius: 12px; color: var(--color-text-secondary); text-align: center; }
 .hauling-sources { margin: 0; padding-top: 10px; border-top: 1px solid var(--ha-line); font-size: 12px; line-height: 1.7; color: var(--color-text-secondary); }
 @media (hover: hover) { .hauling-table tbody tr:hover { background: var(--ha-card-2); } .hauling-rank:hover { border-color: var(--color-border-hover); } }
+
+/* A wide table must scroll within its own panel, not size the guide's grid track. */
+.mining-app, .hauling-app { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.hauling-app > *, .hauling-filters label { min-width: 0; }
+.hauling-filters select { min-width: 0; max-width: 100%; }
+.hauling-note { margin: 0; font-size: 13px; line-height: 1.7; color: var(--color-text-secondary); }

@@ -17,6 +17,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DataForge } from '../gamedata/dataforge.mjs';
+import { miningTraits } from '../gamedata/guide-extract.mjs';
+import { createHash } from 'node:crypto';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const arg = (name) => { const index = process.argv.indexOf(name); return index > -1 ? process.argv[index + 1] : null; };
@@ -41,7 +43,7 @@ const names = (key) => { const english = lookup(en, key); const korean = lookup(
 
 const short = (ref) => (ref?.name ? String(ref.name).split('.').slice(1).join('.') : undefined);
 const idOf = (record) => record.name.split('.').slice(1).join('.');
-const round = (value, digits = 1) => (Number.isFinite(Number(value)) ? Number(Number(value).toFixed(digits)) : undefined);
+const round = (value, digits = 1) => (Number.isFinite(value) ? Number(value.toFixed(digits)) : undefined);
 const prune = (object) => Object.fromEntries(Object.entries(object).filter(([, v]) => v !== undefined && v !== null && v !== '' && !(Array.isArray(v) && !v.length)));
 const component = (entity, type) => (entity.Components || []).find((c) => c && c.__type === type);
 
@@ -88,6 +90,7 @@ const SKIP_LOCATION = /ResourceRush|^AsteroidCluster_|ShipGraveyard|SpaceDerelic
 const MODES = { SpaceShip_Mineables: 'ship', GroundVehicle_Mineables: 'vehicle', FPS_Mineables: 'hand' };
 
 const usedMinerals = new Set();
+const usedElements = new Map();
 const locations = [];
 for (const record of df.recordsOfType('HarvestableProviderPreset')) {
     const key = idOf(record).replace(/^HPP_/, '');
@@ -97,15 +100,18 @@ for (const record of df.recordsOfType('HarvestableProviderPreset')) {
     for (const group of data.harvestableGroups || []) {
         const mode = MODES[group.groupName]; if (!mode) continue;
         const rows = (group.harvestables || []).filter((row) => presetComposition.has(short(row.harvestable)));
-        const total = rows.reduce((sum, row) => sum + (Number(row.relativeProbability) || 0), 0);
+        const total = rows.every((row) => Number.isFinite(row.relativeProbability) && row.relativeProbability >= 0)
+            ? rows.reduce((sum, row) => sum + row.relativeProbability, 0) : undefined;
         const rocks = rows.map((row) => {
             const compositionId = presetComposition.get(short(row.harvestable)); const composition = compositions.get(compositionId);
             const minerals = (composition.compositionArray || []).map((part) => {
                 const ore = short(elements.get(short(part.mineableElement))?.resourceType); if (!ore) return null;
                 usedMinerals.add(ore);
+                if (!usedElements.has(ore)) usedElements.set(ore, new Set());
+                usedElements.get(ore).add(short(part.mineableElement));
                 return prune({ id: ore, min: round(part.minPercentage), max: round(part.maxPercentage), chance: round(part.probability, 2) });
             }).filter(Boolean);
-            return prune({ id: compositionId, name: names(composition.depositName), share: total ? round((Number(row.relativeProbability) || 0) / total * 100) : undefined, minerals });
+            return prune({ id: compositionId, name: names(composition.depositName), share: total > 0 ? round(row.relativeProbability / total * 100) : undefined, minerals });
         }).sort((x, y) => (y.share || 0) - (x.share || 0));
         if (rocks.length) groups.push({ mode, rocks });
     }
@@ -121,23 +127,22 @@ const SYSTEM_ORDER = ['Stanton', 'Pyro', 'Nyx'];
 locations.sort((x, y) => SYSTEM_ORDER.indexOf(x.system) - SYSTEM_ORDER.indexOf(y.system) || (x.kind === y.kind ? x.id.localeCompare(y.id, 'en', { numeric: true }) : x.kind === 'body' ? -1 : 1));
 
 // ---- 광물 --------------------------------------------------------------------
-const elementByOre = new Map([...elements].map(([, element]) => [short(element.resourceType), element]));
 const minerals = [...usedMinerals].map((ore) => {
-    const resource = resourceTypes.get(ore); const element = elementByOre.get(ore);
+    const resource = resourceTypes.get(ore);
     const refinedId = short(resource?.refinedVersion); const refined = refinedId ? resourceTypes.get(refinedId) : null;
     const modes = [...new Set(locations.flatMap((location) => location.groups.filter((group) => group.rocks.some((rock) => rock.minerals.some((m) => m.id === ore))).map((group) => group.mode)))];
     return prune({
         id: ore, name: names(resource?.displayName) || { en: ore },
         refined: refinedId ? prune({ id: refinedId, name: names(refined?.displayName) || { en: refinedId } }) : undefined,
         modes,
-        instability: round(element?.elementInstability, 1), resistance: round(element?.elementResistance, 2),
-        window: round(element?.elementOptimalWindowMidpoint, 2), windowThinness: round(element?.elementOptimalWindowThinness, 2), explosion: round(element?.elementExplosionMultiplier, 1),
+        elementSources: [...usedElements.get(ore)],
+        ...miningTraits([...usedElements.get(ore)].map((id) => elements.get(id))),
     });
 }).sort((x, y) => x.name.en.localeCompare(y.name.en));
 
 const out = {
     version: `${build.Branch || ''}.${build.RequestedP4ChangeNum || ''}`.replace(/^sc-alpha-/, ''), gameVersion: build.Version, builtAt: new Date().toISOString(),
-    source: 'game-files', koSource: ko ? 'korean-patch' : undefined,
+    source: 'game-files', sourceHash: createHash('sha256').update(df.buffer).digest('hex'), koSource: ko ? 'korean-patch' : undefined,
     note: '비중과 함량은 게임 파일 값이며 게임 안 실측값이 아니다.',
     minerals, locations,
 };

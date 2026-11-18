@@ -13,6 +13,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DataForge } from '../gamedata/dataforge.mjs';
+import { haulingCargo } from '../gamedata/guide-extract.mjs';
+import { createHash } from 'node:crypto';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const arg = (name) => { const index = process.argv.indexOf(name); return index > -1 ? process.argv[index + 1] : null; };
@@ -81,20 +83,17 @@ for (const record of df.recordsOfType('ContractGenerator')) {
             if (contract.notForRelease || contract.workInProgress) continue;
             const template = short(contract.template) || '';
             const kind = generatorKind || (/RecoverCargo/i.test(template) ? 'recover' : /Interstellar/i.test(contract.debugName) ? 'interstellar' : /Solar/i.test(contract.debugName) ? 'solar' : /Planetary/i.test(contract.debugName) ? 'planetary' : /Local/i.test(contract.debugName) ? 'local' : 'other');
-            // 같은 주문이 받는 곳마다 되풀이해 적혀 있어, 상품·상자·양이 같은 줄은 하나로 합친다.
-            const seen = new Set(); const cargo = [];
-            for (const order of findAll(contract, (node) => node.resource?.name && node.maxSCU !== undefined)) {
-                const scu = order.maxSCU || order.minSCU; const key = `${short(order.resource)}|${order.maxContainerSize}|${scu}`;
-                if (!scu || seen.has(key)) continue; seen.add(key);
-                cargo.push([useResource(short(order.resource)), scu, order.maxContainerSize || undefined]);
-            }
+            // Different dropoffs can request identical cargo. Preserve each order,
+            // its minimum/maximum and its source instead of merging by quantity.
+            const cargo = haulingCargo(contract);
+            for (const row of cargo) useResource(row.resource);
             const places = [...new Set([...generatorPlaces, ...findAll(contract, (node) => node.localityAvailable?.name).map((node) => short(node.localityAvailable))])].map(useLocality);
             const reputation = findAll(contract.contractResults, (node) => node.reward?.name && short(node.reputationScope) === HAULING_SCOPE).map((node) => rewardAmounts.get(short(node.reward))?.reputationAmount).filter((amount) => amount > 0);
             contracts.push(prune({
                 id: contract.debugName, by: faction, kind,
                 min: rankIndex.get(short(contract.minStanding)), max: rankIndex.get(short(contract.maxStanding)),
                 minutes: contract.contractResults?.timeToComplete || undefined, cooldown: intParam(contract.paramOverrides, 'PersonalCooldownTime'),
-                places, cargo, scu: cargo.reduce((sum, row) => sum + row[1], 0) || undefined, maxBox: cargo.length ? Math.max(...cargo.map((row) => row[2] || 0)) || undefined : undefined,
+                places, cargo, maxBox: cargo.length ? Math.max(...cargo.map((row) => row.box || 0)) || undefined : undefined,
                 rep: reputation.length ? Math.max(...reputation) : undefined, combat: /Combat/i.test(template) || undefined,
             }));
         }
@@ -108,11 +107,12 @@ for (const record of df.recordsOfType('ContractGenerator')) {
         }
     }
 }
-contracts.sort((a, b) => a.by.localeCompare(b.by) || (a.min ?? 99) - (b.min ?? 99) || (a.scu || 0) - (b.scu || 0) || a.id.localeCompare(b.id));
+contracts.sort((a, b) => a.by.localeCompare(b.by) || (a.min ?? 99) - (b.min ?? 99) || a.id.localeCompare(b.id));
 
 const out = {
     version: `${String(build.Branch || '').replace(/^sc-alpha-/, '')}.${build.RequestedP4ChangeNum || ''}`, gameVersion: build.Version, builtAt: new Date().toISOString(),
-    note: 'cargo = [상품, SCU, 가장 큰 상자]. min/max = 필요 등급(ranks 의 순번). 게임 파일 값.',
+    source: 'game-files', sourceHash: createHash('sha256').update(df.buffer).digest('hex'),
+    note: 'cargo = 원본 주문별 resource, order, min/max SCU, box. max 0은 상한 미확인으로 표시. 계약 min/max = 필요 등급(ranks 순번). 중복 주문을 합치거나 총 화물량을 추정하지 않음.',
     scope: names(scope.displayName, 'Hauling'), ranks, contractors, localities, resources, contracts,
 };
 mkdirSync(resolve(ROOT, 'data/contracts'), { recursive: true });
