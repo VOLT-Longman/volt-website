@@ -68,12 +68,14 @@
         const section = el('section', 'volt-ai-review');
         section.append(el('h4', '', review.title));
         const metrics = el('dl', 'volt-ai-review-metrics');
-        const number = value => Number.isFinite(value) ? Number(value.toFixed(1)).toLocaleString(english() ? 'en-US' : 'ko-KR') : '—';
         for (const metric of review.metrics.slice(0, 12)) {
+            // Match the loadout cards' display precision; keep raw server values.
+            const digits = metric.key === 'power' ? 1 : 0;
+            const number = value => Number.isFinite(value) ? value.toLocaleString(english() ? 'en-US' : 'ko-KR', { maximumFractionDigits: digits }) : '—';
             const cell = el('div'); cell.append(el('dt', '', metric.label));
             const value = el('dd', '', `${number(metric.value)} ${metric.unit || ''}`);
             value.append(el('small', '', `${review.comparisonLabel}: ${number(metric.baseline)} ${metric.unit || ''}`));
-            if (Number.isFinite(metric.value) && Number.isFinite(metric.baseline) && Math.abs(metric.value - metric.baseline) >= .05) {
+            if (Number.isFinite(metric.value) && Number.isFinite(metric.baseline) && Math.abs(metric.value - metric.baseline) >= .5 * 10 ** -digits) {
                 const diff = metric.value - metric.baseline;
                 const favorable = metric.better === 'low' ? diff < 0 : diff > 0;
                 value.append(el('span', `loadout-change is-${favorable ? 'good' : 'bad'}`, `${diff > 0 ? '+' : '−'}${number(Math.abs(diff))} · ${favorable ? tr('유리', 'favorable') : tr('불리', 'unfavorable')}`));
