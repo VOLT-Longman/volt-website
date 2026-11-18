@@ -342,8 +342,8 @@
         if (!container.querySelector('.ship-filter-axes')) {
             const axes = document.createElement('div');
             axes.className = 'ship-filter-axes';
-            axes.appendChild(buildAxisRow('size', i18nT('ships.axisSize', '규모·플랫폼'), i18nT('ships.allTags', '전체'), sizeAxisTagKeys(), 'data-size-tag'));
-            axes.appendChild(buildAxisRow('activity', i18nT('ships.axisActivity', '대분류'), i18nT('ships.allTags', '전체'), (t.browseGroups || []).map((group) => group.key), 'data-activity'));
+            axes.appendChild(buildAxisRow('size', i18nT('ships.axisSize', '크기·종류'), i18nT('ships.allTags', '전체'), sizeAxisTagKeys(), 'data-size-tag'));
+            axes.appendChild(buildAxisRow('activity', i18nT('ships.axisActivity', '활동 종류'), i18nT('ships.allTags', '전체'), (t.browseGroups || []).map((group) => group.key), 'data-activity'));
             axes.appendChild(buildAxisRow('role', i18nT('ships.axisRole', '역할'), i18nT('ships.allTags', '전체'), roleAxisTagKeys(), 'data-role-tag'));
             const detail = document.createElement('div');
             detail.className = 'ship-filter-axis ship-activity-details';
