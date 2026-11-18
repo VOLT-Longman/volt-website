@@ -3,7 +3,7 @@
  "gameBranch": "sc-alpha-4.10.0",
  "gameChangelist": "13165946",
  "gameBuildDate": "Wed Nov 11 2026",
- "researchedAt": "2026-11-18T00:42:59.342Z",
+ "researchedAt": "2026-11-18T00:47:55.249Z",
  "uexApi": "https://api.uexcorp.uk/2.0",
  "uexFetchedAt": {
   "commodities": "2026-11-18T00:41:22.939Z",
@@ -17,10 +17,11 @@
  "matchRule": "UUID 가 같으면 verified, 이름만 같으면 name, 여러 개가 걸리면 ambiguous. name·ambiguous 는 사람이 확인하기 전에는 확정이 아니다.",
  "summary": {
   "commodities": {
-   "none": 40,
-   "name": 167
+   "none": 34,
+   "name": 167,
+   "alias": 6
   },
-  "uexOnlyCommodities": 38,
+  "uexOnlyCommodities": 32,
   "miningLocations": {
    "none": 24,
    "name": 25
@@ -32,9 +33,10 @@
   },
   "vehicles": {
    "verified": 159,
-   "none": 125,
-   "sameScu": 140,
-   "differentScu": 19
+   "name": 62,
+   "none": 63,
+   "sameScu": 182,
+   "differentScu": 39
   }
  },
  "commodities": [
@@ -1745,7 +1747,17 @@
    "id": "Raw_Ice",
    "uuid": "d9653427-af7f-4fea-bbd6-ae89393524b7",
    "name": "Raw Ice",
-   "link": "none"
+   "link": "alias",
+   "uex": {
+    "id": 125,
+    "name": "Ice (Raw)",
+    "code": "ICEW",
+    "kind": "Liquid",
+    "illegal": false,
+    "raw": true,
+    "buyable": true,
+    "sellable": true
+   }
   },
   {
    "id": "KopionHorn",
@@ -1973,7 +1985,17 @@
    "id": "RawSilicon",
    "uuid": "d137b905-b3bc-4721-a790-830499263c0c",
    "name": "Raw Silicon",
-   "link": "none"
+   "link": "alias",
+   "uex": {
+    "id": 161,
+    "name": "Silicon (Raw)",
+    "code": "SILI",
+    "kind": "Raw Materials",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
   },
   {
    "id": "Silicon",
@@ -1997,7 +2019,17 @@
    "id": "RawOuratite",
    "uuid": "ca3ae4c1-3483-4985-ba61-50412994dc83",
    "name": "Raw Ouratite",
-   "link": "none"
+   "link": "alias",
+   "uex": {
+    "id": 210,
+    "name": "Ouratite (Raw)",
+    "code": "OURW",
+    "kind": "Minteral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
   },
   {
    "id": "Ouratite",
@@ -2366,7 +2398,17 @@
    "id": "Lastaprene",
    "uuid": "16314a82-085d-415f-a4ae-f0a0c077022f",
    "name": "Lastaprene",
-   "link": "none"
+   "link": "alias",
+   "uex": {
+    "id": 137,
+    "name": "Lastaphrene",
+    "code": "LAST",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
   },
   {
    "id": "Lycara",
@@ -3018,7 +3060,17 @@
    "id": "ConstructionMaterialPowder",
    "uuid": "344b54b4-e1c3-4863-b605-f4498b0a8a27",
    "name": "Construction Rubble",
-   "link": "none"
+   "link": "alias",
+   "uex": {
+    "id": 181,
+    "name": "Construction Material Rubble",
+    "code": "CMATR",
+    "kind": "Scrap",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": false
+   }
   },
   {
    "id": "ConstructionMaterialScrap",
@@ -3040,7 +3092,17 @@
    "id": "ConstructionMaterialChunks",
    "uuid": "ebacf963-517e-4b05-b6cd-ee135e04a1ae",
    "name": "Construction Salvage",
-   "link": "none"
+   "link": "alias",
+   "uex": {
+    "id": 183,
+    "name": "Construction Material Salvage",
+    "code": "CMATS",
+    "kind": "Scrap",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": false
+   }
   },
   {
    "id": "VentFilters",
@@ -3193,22 +3255,6 @@
    "available": true
   },
   {
-   "id": 125,
-   "name": "Ice (Raw)",
-   "code": "ICEW",
-   "kind": "Liquid",
-   "visible": true,
-   "available": true
-  },
-  {
-   "id": 137,
-   "name": "Lastaphrene",
-   "code": "LAST",
-   "kind": "Man-made",
-   "visible": true,
-   "available": true
-  },
-  {
    "id": 140,
    "name": "Krypton",
    "code": "KRYP",
@@ -3305,14 +3351,6 @@
    "available": true
   },
   {
-   "id": 161,
-   "name": "Silicon (Raw)",
-   "code": "SILI",
-   "kind": "Raw Materials",
-   "visible": true,
-   "available": true
-  },
-  {
    "id": 162,
    "name": "Stileron (Raw)",
    "code": "STIL",
@@ -3377,25 +3415,9 @@
    "available": true
   },
   {
-   "id": 181,
-   "name": "Construction Material Rubble",
-   "code": "CMATR",
-   "kind": "Scrap",
-   "visible": true,
-   "available": true
-  },
-  {
    "id": 182,
    "name": "Construction Material Pebbles",
    "code": "CMATP",
-   "kind": "Scrap",
-   "visible": true,
-   "available": true
-  },
-  {
-   "id": 183,
-   "name": "Construction Material Salvage",
-   "code": "CMATS",
    "kind": "Scrap",
    "visible": true,
    "available": true
@@ -3413,14 +3435,6 @@
    "name": "Wuotan Seed",
    "code": "WUOT",
    "kind": "Organic",
-   "visible": true,
-   "available": true
-  },
-  {
-   "id": 210,
-   "name": "Ouratite (Raw)",
-   "code": "OURW",
-   "kind": "Minteral",
    "visible": true,
    "available": true
   },
@@ -6330,8 +6344,12 @@
   {
    "uexId": 9,
    "name": "Origin 600i Executive Edition",
-   "link": "none",
-   "uexScu": 40
+   "cls": "ORIG_600i_Executive_Edition",
+   "link": "name",
+   "uexScu": 40,
+   "gameScu": 44,
+   "same": false,
+   "grids": 7
   },
   {
    "uexId": 10,
@@ -6379,38 +6397,60 @@
   {
    "uexId": 14,
    "name": "Crusader A2 Hercules Starlifter",
-   "link": "none",
-   "uexScu": 234
+   "cls": "CRUS_Starlifter_A2",
+   "link": "name",
+   "uexScu": 234,
+   "gameScu": 216,
+   "same": false,
+   "grids": 4,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 15,
    "name": "RSI Apollo Medivac",
-   "link": "none",
-   "uexScu": 32
+   "cls": "RSI_Apollo_Medivac",
+   "link": "name",
+   "uexScu": 32,
+   "gameScu": 32,
+   "same": true,
+   "grids": 2
   },
   {
    "uexId": 16,
    "name": "RSI Apollo Triage",
-   "link": "none",
-   "uexScu": 32
+   "cls": "RSI_Apollo_Triage",
+   "link": "name",
+   "uexScu": 32,
+   "gameScu": 32,
+   "same": true,
+   "grids": 2
   },
   {
    "uexId": 17,
    "name": "Crusader Ares Star Fighter Inferno",
-   "link": "none",
-   "uexScu": 0
+   "cls": "CRUS_Starfighter_Inferno",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 18,
    "name": "Crusader Ares Star Fighter Ion",
-   "link": "none",
-   "uexScu": 0
+   "cls": "CRUS_Starfighter_Ion",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 19,
    "name": "RSI Arrastra",
    "link": "none",
-   "uexScu": 576
+   "uexScu": 576,
+   "concept": true
   },
   {
    "uexId": 20,
@@ -6425,32 +6465,57 @@
   {
    "uexId": 21,
    "name": "RSI Aurora Mk I CL",
-   "link": "none",
-   "uexScu": 6
+   "cls": "RSI_Aurora_GS_CL",
+   "link": "name",
+   "uexScu": 6,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
   },
   {
    "uexId": 22,
    "name": "RSI Aurora Mk I ES",
-   "link": "none",
-   "uexScu": 3
+   "cls": "RSI_Aurora_GS_ES",
+   "link": "name",
+   "uexScu": 3,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
   },
   {
    "uexId": 23,
    "name": "RSI Aurora Mk I LN",
-   "link": "none",
-   "uexScu": 3
+   "cls": "RSI_Aurora_GS_LN",
+   "link": "name",
+   "uexScu": 3,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
   },
   {
    "uexId": 24,
    "name": "RSI Aurora Mk I LX",
-   "link": "none",
-   "uexScu": 3
+   "cls": "RSI_Aurora_GS_LX",
+   "link": "name",
+   "uexScu": 3,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
   },
   {
    "uexId": 25,
    "name": "RSI Aurora Mk I MR",
-   "link": "none",
-   "uexScu": 3
+   "cls": "RSI_Aurora_GS_MR",
+   "link": "name",
+   "uexScu": 3,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
   },
   {
    "uexId": 26,
@@ -6539,8 +6604,13 @@
   {
    "uexId": 35,
    "name": "Crusader C2 Hercules Starlifter",
-   "link": "none",
-   "uexScu": 696
+   "cls": "CRUS_Starlifter_C2",
+   "link": "name",
+   "uexScu": 696,
+   "gameScu": 696,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 36,
@@ -6556,8 +6626,12 @@
   {
    "uexId": 37,
    "name": "Anvil C8R Pisces Rescue",
-   "link": "none",
-   "uexScu": 0
+   "cls": "ANVL_C8R_Pisces",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 38,
@@ -6633,14 +6707,24 @@
   {
    "uexId": 45,
    "name": "RSI Constellation Mk IV Andromeda",
-   "link": "none",
-   "uexScu": 96
+   "cls": "RSI_Constellation_Andromeda_GS",
+   "link": "name",
+   "uexScu": 96,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 46,
    "name": "RSI Constellation Mk IV Aquila",
-   "link": "none",
-   "uexScu": 96
+   "cls": "RSI_Constellation_Aquila_GS",
+   "link": "name",
+   "uexScu": 96,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 47,
@@ -6685,7 +6769,8 @@
    "uexId": 51,
    "name": "Anvil Crucible",
    "link": "none",
-   "uexScu": 240
+   "uexScu": 240,
+   "concept": true
   },
   {
    "uexId": 52,
@@ -6874,13 +6959,15 @@
    "uexId": 70,
    "name": "MISC Endeavor",
    "link": "none",
-   "uexScu": 500
+   "uexScu": 500,
+   "concept": true
   },
   {
    "uexId": 71,
    "name": "MISC Expanse",
    "link": "none",
-   "uexScu": 128
+   "uexScu": 128,
+   "concept": true
   },
   {
    "uexId": 72,
@@ -7037,31 +7124,39 @@
    "uexId": 87,
    "name": "Origin G12",
    "link": "none",
-   "uexScu": 2
+   "uexScu": 2,
+   "concept": true
   },
   {
    "uexId": 88,
    "name": "Origin G12-A",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 89,
    "name": "Origin G12-R",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 90,
    "name": "RSI Galaxy",
-   "link": "none",
-   "uexScu": 64
+   "cls": "RSI_Galaxy",
+   "link": "name",
+   "uexScu": 64,
+   "gameScu": 64,
+   "same": true,
+   "grids": 2
   },
   {
    "uexId": 91,
    "name": "Crusader Genesis Starliner",
    "link": "none",
-   "uexScu": 300
+   "uexScu": 300,
+   "concept": true
   },
   {
    "uexId": 92,
@@ -7086,8 +7181,12 @@
   {
    "uexId": 94,
    "name": "Aegis Gladius Pirate",
-   "link": "none",
-   "uexScu": 0
+   "cls": "AEGS_Gladius_PIR",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 95,
@@ -7112,8 +7211,13 @@
   {
    "uexId": 97,
    "name": "Aegis Hammerhead",
-   "link": "none",
-   "uexScu": 40
+   "cls": "AEGS_Hammerhead_GS",
+   "link": "name",
+   "uexScu": 40,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4,8,16"
   },
   {
    "uexId": 98,
@@ -7165,8 +7269,13 @@
   {
    "uexId": 103,
    "name": "MISC Hull B",
-   "link": "none",
-   "uexScu": 512
+   "cls": "MISC_Hull_B",
+   "link": "name",
+   "uexScu": 512,
+   "gameScu": 512,
+   "same": true,
+   "grids": 16,
+   "uexBoxes": "1,2,4,6,8,12,16,32"
   },
   {
    "uexId": 104,
@@ -7183,13 +7292,15 @@
    "uexId": 105,
    "name": "MISC Hull D",
    "link": "none",
-   "uexScu": 6912
+   "uexScu": 6912,
+   "concept": true
   },
   {
    "uexId": 106,
    "name": "MISC Hull E",
    "link": "none",
-   "uexScu": 12288
+   "uexScu": 12288,
+   "concept": true
   },
   {
    "uexId": 107,
@@ -7204,14 +7315,23 @@
   {
    "uexId": 108,
    "name": "Aegis Idris-M",
-   "link": "none",
-   "uexScu": 1326
+   "cls": "AEGS_Idris_M",
+   "link": "name",
+   "uexScu": 1326,
+   "gameScu": 1326,
+   "same": true,
+   "grids": 21,
+   "uexBoxes": "1,2,4,8,16"
   },
   {
    "uexId": 109,
    "name": "Aegis Idris-P",
-   "link": "none",
-   "uexScu": 1374
+   "cls": "AEGS_Idris_P",
+   "link": "name",
+   "uexScu": 1374,
+   "gameScu": 1374,
+   "same": true,
+   "grids": 25
   },
   {
    "uexId": 110,
@@ -7226,32 +7346,43 @@
   {
    "uexId": 111,
    "name": "Aopoa Khartu-al",
-   "link": "none",
-   "uexScu": 0
+   "cls": "XIAN_Scout",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 112,
    "name": "Drake Kraken",
    "link": "none",
-   "uexScu": 3792
+   "uexScu": 3792,
+   "concept": true
   },
   {
    "uexId": 113,
    "name": "Drake Kraken Privateer",
    "link": "none",
-   "uexScu": 768
+   "uexScu": 768,
+   "concept": true
   },
   {
    "uexId": 114,
    "name": "Anvil Legionnaire",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 115,
    "name": "Anvil Liberator",
-   "link": "none",
-   "uexScu": 400
+   "cls": "ANVL_Liberator",
+   "link": "name",
+   "uexScu": 400,
+   "gameScu": 400,
+   "same": true,
+   "grids": 3
   },
   {
    "uexId": 116,
@@ -7266,8 +7397,13 @@
   {
    "uexId": 117,
    "name": "Crusader M2 Hercules Starlifter",
-   "link": "none",
-   "uexScu": 522
+   "cls": "CRUS_Starlifter_M2",
+   "link": "name",
+   "uexScu": 522,
+   "gameScu": 522,
+   "same": true,
+   "grids": 5,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 118,
@@ -7293,13 +7429,19 @@
    "uexId": 120,
    "name": "Banu Merchantman",
    "link": "none",
-   "uexScu": 2880
+   "uexScu": 2880,
+   "concept": true
   },
   {
    "uexId": 121,
    "name": "Crusader Mercury Star Runner",
-   "link": "none",
-   "uexScu": 114
+   "cls": "CRUS_Star_Runner",
+   "link": "name",
+   "uexScu": 114,
+   "gameScu": 114,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4,8,16,24"
   },
   {
    "uexId": 122,
@@ -7326,20 +7468,34 @@
   {
    "uexId": 125,
    "name": "Argo MPUV Cargo",
-   "link": "none",
-   "uexScu": 2
+   "cls": "ARGO_MPUV",
+   "link": "name",
+   "uexScu": 2,
+   "gameScu": 2,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2"
   },
   {
    "uexId": 126,
    "name": "Argo MPUV Personnel",
-   "link": "none",
-   "uexScu": 0
+   "cls": "ARGO_MPUV_Transport",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 127,
    "name": "Drake MULE",
-   "link": "none",
-   "uexScu": 2
+   "cls": "DRAK_Mule",
+   "link": "name",
+   "uexScu": 2,
+   "gameScu": 1,
+   "same": false,
+   "grids": 1,
+   "uexBoxes": "1"
   },
   {
    "uexId": 128,
@@ -7407,13 +7563,15 @@
    "uexId": 134,
    "name": "Aegis Nautilus",
    "link": "none",
-   "uexScu": 64
+   "uexScu": 64,
+   "concept": true
   },
   {
    "uexId": 135,
    "name": "Aegis Nautilus Solstice Edition",
    "link": "none",
-   "uexScu": 64
+   "uexScu": 64,
+   "concept": true
   },
   {
    "uexId": 136,
@@ -7456,13 +7614,15 @@
    "uexId": 140,
    "name": "MISC Odyssey",
    "link": "none",
-   "uexScu": 252
+   "uexScu": 252,
+   "concept": true
   },
   {
    "uexId": 141,
    "name": "RSI Orion",
    "link": "none",
-   "uexScu": 384
+   "uexScu": 384,
+   "concept": true
   },
   {
    "uexId": 142,
@@ -7497,20 +7657,31 @@
   {
    "uexId": 145,
    "name": "RSI Perseus",
-   "link": "none",
-   "uexScu": 96
+   "cls": "RSI_Perseus",
+   "link": "name",
+   "uexScu": 96,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 146,
    "name": "C.O. Pioneer",
    "link": "none",
-   "uexScu": 1000
+   "uexScu": 1000,
+   "concept": true
   },
   {
    "uexId": 147,
    "name": "RSI Polaris",
-   "link": "none",
-   "uexScu": 576
+   "cls": "RSI_Polaris",
+   "link": "name",
+   "uexScu": 576,
+   "gameScu": 576,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 148,
@@ -7556,26 +7727,34 @@
   {
    "uexId": 152,
    "name": "Gatac Railen",
-   "link": "none",
-   "uexScu": 640
+   "cls": "GAMA_Railen",
+   "link": "name",
+   "uexScu": 640,
+   "gameScu": 640,
+   "same": true,
+   "grids": 6,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 153,
    "name": "Tumbril Ranger CV",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 154,
    "name": "Tumbril Ranger RC",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 155,
    "name": "Tumbril Ranger TR",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 156,
@@ -7680,8 +7859,12 @@
   {
    "uexId": 166,
    "name": "Aegis Retaliator",
-   "link": "none",
-   "uexScu": 74
+   "cls": "AEGS_Retaliator",
+   "link": "name",
+   "uexScu": 74,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0
   },
   {
    "uexId": 167,
@@ -7746,8 +7929,12 @@
   {
    "uexId": 173,
    "name": "Aopoa San'tok.yāi",
-   "link": "none",
-   "uexScu": 0
+   "cls": "XNAA_SanTokYai",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 174,
@@ -7814,7 +8001,8 @@
    "uexId": 180,
    "name": "Crusader E1 Spirit",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 181,
@@ -8006,7 +8194,8 @@
    "uexId": 200,
    "name": "Aegis Vulcan",
    "link": "none",
-   "uexScu": 12
+   "uexScu": 12,
+   "concept": true
   },
   {
    "uexId": 201,
@@ -8064,7 +8253,8 @@
    "uexId": 206,
    "name": "RSI Zeus Mk II MR",
    "link": "none",
-   "uexScu": 16
+   "uexScu": 16,
+   "concept": true
   },
   {
    "uexId": 207,
@@ -8081,49 +8271,57 @@
    "uexId": 208,
    "name": "MISC Endeavor Landing Bay Pod",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 209,
    "name": "MISC Endeavor General Research Pod",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 210,
    "name": "MISC Endeavor Medical Bay Pod",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 211,
    "name": "MISC Endeavor Telescope Array Bay Pod",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 212,
    "name": "MISC Endeavor Fuel Bay Pod",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 213,
    "name": "RSI Galaxy Cargo Module",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 214,
    "name": "RSI Galaxy Medical Module",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 215,
    "name": "RSI Galaxy Refinery Module",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 216,
@@ -8141,13 +8339,15 @@
    "uexId": 218,
    "name": "Aegis Retaliator Living Front Module",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 219,
    "name": "Aegis Retaliator Living Rear Module",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 220,
@@ -8159,7 +8359,8 @@
    "uexId": 221,
    "name": "Aegis Retaliator Dropship Front Module",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 222,
@@ -8174,8 +8375,12 @@
   {
    "uexId": 223,
    "name": "Anvil F7A Hornet Mk II",
-   "link": "none",
-   "uexScu": 0
+   "cls": "ANVL_Hornet_F7A_Mk2",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 224,
@@ -8210,8 +8415,13 @@
   {
    "uexId": 227,
    "name": "Argo MPUV Tractor",
-   "link": "none",
-   "uexScu": 16
+   "cls": "ARGO_MPUV_1T",
+   "link": "name",
+   "uexScu": 16,
+   "gameScu": 16,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4,8,16"
   },
   {
    "uexId": 228,
@@ -8226,20 +8436,34 @@
   {
    "uexId": 229,
    "name": "RSI Ursa Medivac",
-   "link": "none",
-   "uexScu": 0
+   "cls": "RSI_Ursa_Medivac",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 230,
    "name": "Drake Ironclad",
-   "link": "none",
-   "uexScu": 2200
+   "cls": "DRAK_Ironclad",
+   "link": "name",
+   "uexScu": 2200,
+   "gameScu": 2200,
+   "same": true,
+   "grids": 9,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 231,
    "name": "Drake Ironclad Assault",
-   "link": "none",
-   "uexScu": 1440
+   "cls": "DRAK_Ironclad_Assault",
+   "link": "name",
+   "uexScu": 1440,
+   "gameScu": 1440,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 232,
@@ -8330,13 +8554,15 @@
    "uexId": 243,
    "name": "MISC Starlancer BLD",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 244,
    "name": "Argo CSV-FM",
    "link": "none",
-   "uexScu": 4
+   "uexScu": 4,
+   "concept": true
   },
   {
    "uexId": 246,
@@ -8371,8 +8597,12 @@
   {
    "uexId": 249,
    "name": "Anvil Paladin",
-   "link": "none",
-   "uexScu": 4
+   "cls": "ANVL_Paladin",
+   "link": "name",
+   "uexScu": 4,
+   "gameScu": 4,
+   "same": true,
+   "grids": 1
   },
   {
    "uexId": 250,
@@ -8387,8 +8617,12 @@
   {
    "uexId": 251,
    "name": "Drake Golem",
-   "link": "none",
-   "uexScu": 32
+   "cls": "DRAK_Golem",
+   "link": "name",
+   "uexScu": 32,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0
   },
   {
    "uexId": 252,
@@ -8437,25 +8671,29 @@
    "uexId": 258,
    "name": "Argo ATLS IKTI",
    "link": "none",
-   "uexScu": 0.8
+   "uexScu": 0.8,
+   "concept": true
   },
   {
    "uexId": 259,
    "name": "Argo ATLS IKTI Rad",
    "link": "none",
-   "uexScu": 0.8
+   "uexScu": 0.8,
+   "concept": true
   },
   {
    "uexId": 260,
    "name": "Argo ATLS IKTI GEO",
    "link": "none",
-   "uexScu": 0.8
+   "uexScu": 0.8,
+   "concept": true
   },
   {
    "uexId": 261,
    "name": "Argo ATLS IKTI GEO Rad",
    "link": "none",
-   "uexScu": 0.8
+   "uexScu": 0.8,
+   "concept": true
   },
   {
    "uexId": 262,
@@ -8470,20 +8708,32 @@
   {
    "uexId": 263,
    "name": "RSI Meteor",
-   "link": "none",
-   "uexScu": 0
+   "cls": "RSI_Meteor",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 264,
    "name": "Kruger L-21 Wolf",
-   "link": "none",
-   "uexScu": 0
+   "cls": "KRIG_L21_Wolf",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 265,
    "name": "Esperia Stinger",
-   "link": "none",
-   "uexScu": 0
+   "cls": "VNCL_Stinger",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 266,
@@ -8494,110 +8744,182 @@
   {
    "uexId": 267,
    "name": "Kruger L-22 Alpha Wolf",
-   "link": "none",
-   "uexScu": 0
+   "cls": "KRIG_L22_AlphaWolf",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 268,
    "name": "Drake Clipper",
-   "link": "none",
-   "uexScu": 12
+   "cls": "DRAK_Clipper",
+   "link": "name",
+   "uexScu": 12,
+   "gameScu": 12,
+   "same": true,
+   "grids": 1
   },
   {
    "uexId": 269,
    "name": "Drake Golem Ox",
-   "link": "none",
-   "uexScu": 64
+   "cls": "DRAK_Golem_OX",
+   "link": "name",
+   "uexScu": 64,
+   "gameScu": 64,
+   "same": true,
+   "grids": 1
   },
   {
    "uexId": 270,
    "name": "Greycat MDC",
-   "link": "none",
-   "uexScu": 0
+   "cls": "GRIN_MDC",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 271,
    "name": "RSI Salvation",
-   "link": "none",
-   "uexScu": 6
+   "cls": "RSI_Salvation",
+   "link": "name",
+   "uexScu": 6,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0
   },
   {
    "uexId": 272,
    "name": "Anvil Auxilia",
    "link": "none",
-   "uexScu": 0
+   "uexScu": 0,
+   "concept": true
   },
   {
    "uexId": 274,
    "name": "Kruger S-65 Stingray",
-   "link": "none",
-   "uexScu": 0
+   "cls": "KRIG_S65_Stingray",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 275,
    "name": "RSI Hermes",
-   "link": "none",
-   "uexScu": 288
+   "cls": "RSI_Hermes",
+   "link": "name",
+   "uexScu": 288,
+   "gameScu": 288,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4,8,16,32"
   },
   {
    "uexId": 276,
    "name": "Argo MOTH",
-   "link": "none",
-   "uexScu": 224
+   "cls": "ARGO_MOTH",
+   "link": "name",
+   "uexScu": 224,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0
   },
   {
    "uexId": 278,
    "name": "RSI Aurora Mk II",
-   "link": "none",
-   "uexScu": 0
+   "cls": "RSI_Aurora_Mk2",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 279,
    "name": "RSI Aurora Mk I SE",
-   "link": "none",
-   "uexScu": 6
+   "cls": "RSI_Aurora_GS_SE",
+   "link": "name",
+   "uexScu": 6,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
   },
   {
    "uexId": 280,
    "name": "Greycat UTV",
-   "link": "none",
-   "uexScu": 1
+   "cls": "GRIN_UTV",
+   "link": "name",
+   "uexScu": 1,
+   "gameScu": 1,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1"
   },
   {
    "uexId": 282,
    "name": "Drake Pitbull",
-   "link": "none",
-   "uexScu": 0
+   "cls": "DRAK_Pitbull",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 283,
    "name": "Origin M80",
-   "link": "none",
-   "uexScu": 2
+   "cls": "ORIG_m80",
+   "link": "name",
+   "uexScu": 2,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1"
   },
   {
    "uexId": 284,
    "name": "MISC Starlite",
-   "link": "none",
-   "uexScu": 0
+   "cls": "MISC_Starlite",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 285,
    "name": "Aegis Tiburon",
-   "link": "none",
-   "uexScu": 64
+   "cls": "AEGS_Tiburon",
+   "link": "name",
+   "uexScu": 64,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4,8,16,24,32"
   },
   {
    "uexId": 286,
    "name": "Anvil Odin",
    "link": "none",
-   "uexScu": 6000
+   "uexScu": 6000,
+   "concept": true
   },
   {
    "uexId": 287,
    "name": "Gatac Tyilui",
-   "link": "none",
-   "uexScu": 96
+   "cls": "GAMA_Tyilui",
+   "link": "name",
+   "uexScu": 96,
+   "gameScu": 96,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4,6,8,16,24"
   },
   {
    "uexId": 289,
@@ -8612,20 +8934,32 @@
   {
    "uexId": 290,
    "name": "Aegis Sabre Raven EX",
-   "link": "none",
-   "uexScu": 0
+   "cls": "AEGS_Sabre_Raven_EX",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 291,
    "name": "Aegis Sabre Raven EX",
-   "link": "none",
-   "uexScu": 0
+   "cls": "AEGS_Sabre_Raven_EX",
+   "link": "name",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
   },
   {
    "uexId": 292,
    "name": "RSI Constellation Mk V Centaurus",
-   "link": "none",
-   "uexScu": 240
+   "cls": "RSI_Constellation_Mk5_Centaurus",
+   "link": "name",
+   "uexScu": 240,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0
   },
   {
    "uexId": 293,

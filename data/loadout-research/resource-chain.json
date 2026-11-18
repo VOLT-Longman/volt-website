@@ -1,0 +1,7962 @@
+{
+ "gameBuild": "4.10.200.58746",
+ "gameBranch": "sc-alpha-4.10.0",
+ "gameChangelist": "13165946",
+ "gameBuildDate": "Wed Nov 11 2026",
+ "researchedAt": "2026-11-18T00:47:57.543Z",
+ "note": "places.score = 암석 비중 × 포함 확률 × 최대 함량. 장소끼리 견주는 참고값일 뿐 실제 수율이 아니다. 시세는 UEX 평균값.",
+ "summary": {
+  "ores": 33,
+  "withRefined": 26,
+  "withUexPrice": 33,
+  "usedInBlueprints": 26,
+  "craftMaterialsNotMined": 0
+ },
+ "chain": [
+  {
+   "ore": "Janalite",
+   "uexOre": {
+    "uexId": 46,
+    "name": "Janalite",
+    "sell": 1439540,
+    "link": "name"
+   },
+   "modes": [
+    "hand"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Janalite",
+     "rockShare": 2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 200
+    }
+   ]
+  },
+  {
+   "ore": "Hadanite",
+   "uexOre": {
+    "uexId": 36,
+    "name": "Hadanite",
+    "sell": 524906,
+    "link": "name"
+   },
+   "modes": [
+    "hand"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Hadanite",
+     "rockShare": 6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 600
+    }
+   ]
+  },
+  {
+   "ore": "Feynmaline",
+   "uexOre": {
+    "uexId": 169,
+    "name": "Feynmaline",
+    "sell": 323824,
+    "link": "name"
+   },
+   "modes": [
+    "groundVehicle"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 64,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6400
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 52,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5200
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 40,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 4000
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 37,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3700
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 26.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 2690
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 12,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 1200
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 12,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 1200
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 8,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 800
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 400
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 400
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 400
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 400
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 400
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Feynmaline",
+     "rockShare": 0,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 0
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Quantainium",
+   "refined": "Quantanium",
+   "uexOre": {
+    "uexId": 59,
+    "name": "Quantainium (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 58,
+    "name": "Quantainium",
+    "sell": 148409,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 3,
+    "totalScu": 0.43,
+    "byCategory": {
+     "VehicleWeaponsS1": 1,
+     "VehicleWeaponsS2": 1,
+     "VehicleWeaponsS3": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidLegendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 157
+    }
+   ]
+  },
+  {
+   "ore": "Dolivine",
+   "uexOre": {
+    "uexId": 28,
+    "name": "Dolivine",
+    "sell": 143631,
+    "link": "name"
+   },
+   "modes": [
+    "hand"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 36.9,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3690
+    },
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Dolivine",
+     "rockShare": 35.4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3540
+    }
+   ]
+  },
+  {
+   "ore": "Beradom",
+   "uexOre": {
+    "uexId": 167,
+    "name": "Beradom",
+    "sell": 138116,
+    "link": "name"
+   },
+   "modes": [
+    "groundVehicle"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 64,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6400
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 56,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5600
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 56,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5600
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 50,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5000
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 48,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 4800
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 48,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 4800
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 28,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 2800
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 24,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 2400
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 20,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 2000
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 16,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 1600
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 12,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 1200
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 12,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 1200
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 4,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 400
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 3.8,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 380
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Beradom",
+     "rockShare": 3.7,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 370
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Stileron",
+   "refined": "Stileron",
+   "uexRefined": {
+    "uexId": 122,
+    "name": "Stileron",
+    "sell": 137818,
+    "buy": 122850,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 141,
+    "totalScu": 72.03,
+    "byCategory": {
+     "VehicleWeaponsS1": 1,
+     "VehicleWeaponsS2": 1,
+     "VehicleWeaponsS3": 1,
+     "FPSWeapons": 1,
+     "MissionItem": 1,
+     "FPSArmours": 105,
+     "VehicleComponentS1": 7,
+     "VehicleComponentS2": 8,
+     "VehicleComponentS3": 8,
+     "VehicleComponentS4": 7,
+     "VehicleComponentS0": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidLegendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidLegendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    },
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Savrilium",
+   "refined": "Savrilium",
+   "uexOre": {
+    "uexId": 187,
+    "name": "Savrilium (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 188,
+    "name": "Savrilium",
+    "sell": 121111,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 94,
+    "totalScu": 27.81,
+    "byCategory": {
+     "VehicleWeaponsS3": 2,
+     "FPSWeapons": 16,
+     "VehicleComponentS1": 8,
+     "VehicleComponentS2": 8,
+     "VehicleWeaponsS1": 1,
+     "FPSArmours": 55,
+     "VehicleComponentS3": 2,
+     "VehicleComponentS4": 1,
+     "VehicleWeaponsS2": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidLegendary_Savrilium",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidLegendary_Savrilium",
+     "rockShare": 2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 149
+    }
+   ]
+  },
+  {
+   "ore": "Aphorite",
+   "uexOre": {
+    "uexId": 8,
+    "name": "Aphorite",
+    "sell": 97838,
+    "link": "name"
+   },
+   "modes": [
+    "hand"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 61.1,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6110
+    },
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "hand",
+     "rock": "FPSMining_Aphorite",
+     "rockShare": 58.6,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5860
+    }
+   ]
+  },
+  {
+   "ore": "Glacosite",
+   "uexOre": {
+    "uexId": 168,
+    "name": "Glacosite",
+    "sell": 93536,
+    "link": "name"
+   },
+   "modes": [
+    "groundVehicle"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 100,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 10000
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 88,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 8800
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 84,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 8400
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 69.2,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6920
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 68,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6800
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 68,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6800
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 68,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 6800
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 59.3,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5930
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 50,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 5000
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 48,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 4800
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 40,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 4000
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 32,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3200
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 32,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3200
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 32,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3200
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 32,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 3200
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "groundVehicle",
+     "rock": "GroundVehicleMining_Glacosite",
+     "rockShare": 12,
+     "content": [
+      50,
+      100
+     ],
+     "chance": 1,
+     "score": 1200
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Riccite",
+   "refined": "Riccite",
+   "uexOre": {
+    "uexId": 163,
+    "name": "Riccite (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 124,
+    "name": "Riccite",
+    "sell": 68492,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 96,
+    "totalScu": 88.03,
+    "byCategory": {
+     "FPSWeapons": 11,
+     "VehicleWeaponsS4": 2,
+     "VehicleWeaponsS2": 6,
+     "VehicleWeaponsS1": 4,
+     "VehicleWeaponsS3": 4,
+     "MissionItem": 1,
+     "VehicleComponentS4": 9,
+     "VehicleComponentS1": 8,
+     "VehicleComponentS2": 10,
+     "VehicleComponentS3": 6,
+     "VehicleWeaponsS5": 1,
+     "VehicleWeaponsS6": 1,
+     "FPSArmours": 31,
+     "VehicleComponentS0": 2
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Riccite",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Riccite",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Lindinium",
+   "refined": "Lindinium",
+   "uexOre": {
+    "uexId": 185,
+    "name": "Lindinium (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 184,
+    "name": "Lindinium",
+    "sell": 47579,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 117,
+    "totalScu": 25.45,
+    "byCategory": {
+     "FPSWeapons": 25,
+     "FPSArmours": 62,
+     "VehicleComponentS1": 10,
+     "VehicleComponentS2": 7,
+     "VehicleComponentS3": 6,
+     "VehicleWeaponsS1": 2,
+     "VehicleWeaponsS2": 2,
+     "VehicleWeaponsS3": 2,
+     "VehicleComponentS0": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Lindinium",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Lindinium",
+     "rockShare": 10,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 743
+    }
+   ]
+  },
+  {
+   "ore": "RawOuratite",
+   "refined": "Ouratite",
+   "uexOre": {
+    "uexId": 210,
+    "name": "Ouratite (Raw)",
+    "link": "alias"
+   },
+   "uexRefined": {
+    "uexId": 194,
+    "name": "Ouratite",
+    "sell": 45677,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 506,
+    "totalScu": 36.46,
+    "byCategory": {
+     "VehicleWeaponsS4": 2,
+     "VehicleWeaponsS6": 2,
+     "VehicleWeaponsS5": 1,
+     "MissionItem": 1,
+     "FPSArmours": 476,
+     "VehicleWeaponsS1": 1,
+     "VehicleWeaponsS2": 3,
+     "VehicleWeaponsS3": 1,
+     "VehicleComponentS1": 7,
+     "VehicleComponentS2": 5,
+     "VehicleComponentS3": 3,
+     "FPSWeapons": 4
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Epic_Ouratite",
+     "rockShare": 10,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 832
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Epic_Ouratite",
+     "rockShare": 10,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 832
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Epic_Ouratite",
+     "rockShare": 10,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 832
+    },
+    {
+     "location": "HPP_Stanton2c_Belt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Ouratite",
+     "rockShare": 10,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 832
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Gold",
+   "refined": "Gold",
+   "uexOre": {
+    "uexId": 34,
+    "name": "Gold (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 33,
+    "name": "Gold",
+    "sell": 28870,
+    "buy": 28062,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 64,
+    "totalScu": 18.76,
+    "byCategory": {
+     "VehicleWeaponsS3": 4,
+     "VehicleWeaponsS2": 4,
+     "VehicleWeaponsS1": 3,
+     "FPSWeapons": 29,
+     "VehicleComponentS2": 8,
+     "VehicleComponentS0": 3,
+     "VehicleComponentS3": 6,
+     "VehicleComponentS4": 1,
+     "VehicleComponentS1": 6
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Gold",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Pyro_Warm02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Gold",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 705
+    },
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 9,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 45
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Bexalite",
+   "refined": "Bexalite",
+   "uexOre": {
+    "uexId": 14,
+    "name": "Bexalite (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 13,
+    "name": "Bexalite",
+    "sell": 28535,
+    "buy": 23885,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 25,
+    "totalScu": 40.82,
+    "byCategory": {
+     "VehicleComponentS4": 4,
+     "VehicleComponentS1": 7,
+     "VehicleComponentS2": 7,
+     "VehicleComponentS3": 5,
+     "VehicleComponentS0": 2
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1409
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Bexalite",
+     "rockShare": 9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 705
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Bexalite",
+     "rockShare": 9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 705
+    },
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro_Warm02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Borase",
+   "refined": "Borase",
+   "uexOre": {
+    "uexId": 16,
+    "name": "Borase (Ore)",
+    "buy": 5520,
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 15,
+    "name": "Borase",
+    "sell": 27104,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 83,
+    "totalScu": 142.09,
+    "byCategory": {
+     "VehicleWeaponsS1": 1,
+     "VehicleWeaponsS2": 2,
+     "VehicleWeaponsS3": 1,
+     "VehicleComponentS1": 23,
+     "VehicleComponentS2": 23,
+     "VehicleComponentS3": 19,
+     "VehicleComponentS4": 8,
+     "VehicleComponentS0": 6
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Borase",
+     "rockShare": 18,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1337
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Borase",
+     "rockShare": 18,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1337
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1337
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1337
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 18,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1337
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Borase",
+     "rockShare": 9,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 669
+    },
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro_Warm02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Bexalite",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Gold",
+     "rockShare": 18,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 90
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Rare_Bexalite",
+     "rockShare": 9,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 45
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Taranite",
+   "refined": "Taranite",
+   "uexOre": {
+    "uexId": 74,
+    "name": "Taranite (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 73,
+    "name": "Taranite",
+    "sell": 25895,
+    "buy": 21924,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 145,
+    "totalScu": 17.71,
+    "byCategory": {
+     "FPSWeapons": 36,
+     "FPSArmours": 99,
+     "VehicleComponentS1": 3,
+     "VehicleComponentS2": 3,
+     "VehicleComponentS3": 3,
+     "VehicleComponentS0": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_F",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Taranite",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Pyro_Cool02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Taranite",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Rare_Taranite",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Rare_Taranite",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Rare_Taranite",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Rare_Taranite",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidLegendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidLegendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Stileron",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Beryl",
+   "refined": "Beryl",
+   "uexOre": {
+    "uexId": 12,
+    "name": "Beryl (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 11,
+    "name": "Beryl",
+    "sell": 19806,
+    "buy": 15390,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 33,
+    "totalScu": 22.85,
+    "byCategory": {
+     "FPSWeapons": 6,
+     "VehicleComponentS1": 11,
+     "VehicleComponentS2": 9,
+     "VehicleComponentS3": 6,
+     "VehicleComponentS4": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Beryl",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Lagrange_D",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Beryl",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Lagrange_G",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Beryl",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Lagrange_Occupied",
+     "mode": "ship",
+     "rock": "Mining_AsteroidRare_Beryl",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Rare_Beryl",
+     "rockShare": 18,
+     "content": [
+      38.3,
+      88.3
+     ],
+     "chance": 1,
+     "score": 1589
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Legendary_Quantainium",
+     "rockShare": 2,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 20
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Tungsten",
+   "refined": "Tungsten",
+   "uexOre": {
+    "uexId": 78,
+    "name": "Tungsten (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 77,
+    "name": "Tungsten",
+    "sell": 10358,
+    "buy": 8490,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 266,
+    "totalScu": 104.82,
+    "byCategory": {
+     "VehicleWeaponsS4": 2,
+     "VehicleWeaponsS6": 2,
+     "FPSWeapons": 20,
+     "VehicleWeaponsS1": 4,
+     "VehicleWeaponsS2": 7,
+     "VehicleWeaponsS3": 4,
+     "VehicleWeaponsS5": 1,
+     "FPSArmours": 152,
+     "VehicleComponentS1": 24,
+     "VehicleComponentS2": 24,
+     "VehicleComponentS3": 16,
+     "VehicleComponentS4": 5,
+     "VehicleComponentS0": 5
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_F",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Tungsten",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Pyro_Warm02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Tungsten",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Tungsten",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Tungsten",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Laranite",
+     "rockShare": 28.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 285
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Laranite",
+     "rockShare": 28.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 285
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Laranite",
+     "rockShare": 28.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 285
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Laranite",
+     "rockShare": 28.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 285
+    },
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Lindinium",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Lindinium",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Agricium",
+   "refined": "Agricium",
+   "uexOre": {
+    "uexId": 2,
+    "name": "Agricium (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 1,
+    "name": "Agricium",
+    "sell": 9655,
+    "buy": 8338,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 197,
+    "totalScu": 122.88,
+    "byCategory": {
+     "VehicleWeaponsS1": 8,
+     "VehicleWeaponsS2": 10,
+     "VehicleWeaponsS3": 10,
+     "VehicleWeaponsS4": 5,
+     "VehicleWeaponsS5": 5,
+     "VehicleWeaponsS6": 5,
+     "FPSArmours": 88,
+     "VehicleComponentS1": 18,
+     "VehicleComponentS2": 20,
+     "VehicleComponentS3": 13,
+     "VehicleComponentS4": 2,
+     "VehicleComponentS0": 13
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_D",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Lagrange_G",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Lagrange_Occupied",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 14.2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1055
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 14.2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1055
+    },
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro_Cool02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton2c_Belt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Epic_Ouratite",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Epic_Ouratite",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Aslarite",
+     "rockShare": 14.2,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 71
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Titanium",
+     "rockShare": 14.2,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 71
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Laranite",
+   "refined": "Laranite",
+   "uexOre": {
+    "uexId": 48,
+    "name": "Laranite (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 47,
+    "name": "Laranite",
+    "sell": 8600,
+    "buy": 7344,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 361,
+    "totalScu": 113,
+    "byCategory": {
+     "FPSArmours": 235,
+     "VehicleComponentS1": 38,
+     "VehicleComponentS2": 43,
+     "VehicleComponentS3": 29,
+     "VehicleComponentS4": 4,
+     "VehicleComponentS0": 12
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Laranite",
+     "rockShare": 28.5,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2232
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Laranite",
+     "rockShare": 28.5,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2232
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Laranite",
+     "rockShare": 28.5,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2232
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Laranite",
+     "rockShare": 28.5,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2232
+    },
+    {
+     "location": "HPP_Lagrange_F",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Tungsten",
+     "rockShare": 28.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 285
+    },
+    {
+     "location": "HPP_Pyro_Warm02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Tungsten",
+     "rockShare": 28.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 285
+    },
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Tungsten",
+     "rockShare": 28.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 285
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Tungsten",
+     "rockShare": 28.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 285
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Riccite",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidEpic_Riccite",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Epic_Riccite",
+     "rockShare": 10,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 100
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Titanium",
+   "refined": "Titanium",
+   "uexOre": {
+    "uexId": 76,
+    "name": "Titanium (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 75,
+    "name": "Titanium",
+    "sell": 8153,
+    "buy": 7300,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 111,
+    "totalScu": 64.04,
+    "byCategory": {
+     "VehicleWeaponsS3": 10,
+     "VehicleWeaponsS1": 9,
+     "VehicleWeaponsS2": 12,
+     "VehicleWeaponsS4": 2,
+     "MissionItem": 1,
+     "FPSArmours": 46,
+     "VehicleComponentS1": 7,
+     "VehicleComponentS2": 8,
+     "VehicleComponentS3": 8,
+     "VehicleComponentS4": 1,
+     "VehicleWeaponsS5": 1,
+     "VehicleWeaponsS6": 1,
+     "VehicleComponentS0": 5
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_Stanton2c_Belt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2118
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 14.2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1055
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Titanium",
+     "rockShare": 14.2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1055
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Titanium",
+     "rockShare": 14.2,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1055
+    },
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Lagrange_D",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Lagrange_G",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Lagrange_Occupied",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro_Cool02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 14.2,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 71
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Torite",
+   "refined": "Torite",
+   "uexOre": {
+    "uexId": 189,
+    "name": "Torite (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 190,
+    "name": "Torite",
+    "sell": 7688,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 82,
+    "totalScu": 61.12,
+    "byCategory": {
+     "VehicleWeaponsS1": 2,
+     "VehicleWeaponsS2": 3,
+     "VehicleWeaponsS3": 2,
+     "FPSWeapons": 25,
+     "VehicleComponentS1": 17,
+     "VehicleComponentS2": 17,
+     "VehicleComponentS0": 5,
+     "VehicleComponentS3": 10,
+     "VehicleComponentS4": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Torite",
+     "rockShare": 28.5,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2403
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Torite",
+     "rockShare": 28.5,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2403
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Torite",
+     "rockShare": 28.5,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2403
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Torite",
+     "rockShare": 28.5,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2403
+    },
+    {
+     "location": "HPP_Lagrange_C",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Torite",
+     "rockShare": 28.4,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2394
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Ice",
+   "refined": "Pressurized_Ice",
+   "uexOre": {
+    "uexId": 125,
+    "name": "Ice (Raw)",
+    "link": "alias"
+   },
+   "uexRefined": {
+    "uexId": 101,
+    "name": "Pressurized Ice",
+    "sell": 5150,
+    "buy": 4536,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 92,
+    "totalScu": 88.16,
+    "byCategory": {
+     "VehicleWeaponsS2": 4,
+     "VehicleComponentS1": 23,
+     "VehicleComponentS2": 23,
+     "VehicleComponentS3": 17,
+     "VehicleComponentS4": 6,
+     "VehicleComponentS0": 6,
+     "VehicleWeaponsS1": 3,
+     "VehicleWeaponsS3": 4,
+     "VehicleWeaponsS4": 2,
+     "VehicleWeaponsS5": 2,
+     "VehicleWeaponsS6": 2
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Ice",
+     "rockShare": 40,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 3372
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Ice",
+     "rockShare": 40,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 3372
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Ice",
+     "rockShare": 32.7,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2757
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Ice",
+     "rockShare": 32.6,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2748
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 26.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2259
+    },
+    {
+     "location": "HPP_Pyro_Cool02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 26.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2259
+    },
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 20.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1753
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 20.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1753
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Ice",
+     "rockShare": 20.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1753
+    },
+    {
+     "location": "HPP_Stanton2c_Belt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 20.5,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1728
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 19.6,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1652
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 19.6,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1652
+    },
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 17.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1501
+    },
+    {
+     "location": "HPP_Lagrange_D",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 17.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1501
+    },
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 17.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1501
+    },
+    {
+     "location": "HPP_Lagrange_G",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 17.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1501
+    },
+    {
+     "location": "HPP_Lagrange_Occupied",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 17.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1501
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 14.9,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1256
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Ice",
+     "rockShare": 10.4,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 877
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Aslarite",
+   "refined": "Aslarite",
+   "uexOre": {
+    "uexId": 199,
+    "name": "Aslarite (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 193,
+    "name": "Aslarite",
+    "sell": 5100,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 872,
+    "totalScu": 16.025,
+    "byCategory": {
+     "FPSArmours": 872
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2371
+    },
+    {
+     "location": "HPP_Pyro_Cool02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2371
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2371
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Aslarite",
+     "rockShare": 28.5,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2371
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Aslarite",
+     "rockShare": 14.2,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1181
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Aslarite",
+     "rockShare": 14.2,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1181
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Aslarite",
+     "rockShare": 14.2,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1181
+    },
+    {
+     "location": "HPP_Lagrange_D",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Lagrange_G",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Lagrange_Occupied",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Stanton2c_Belt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidUncommon_Titanium",
+     "rockShare": 28.5,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 143
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Uncommon_Agricium",
+     "rockShare": 14.2,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 71
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Hephaestanite",
+   "refined": "Hephaestanite",
+   "uexOre": {
+    "uexId": 40,
+    "name": "Hephaestanite (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 39,
+    "name": "Hephaestanite",
+    "sell": 4597,
+    "buy": 3982,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 124,
+    "totalScu": 9.25,
+    "byCategory": {
+     "FPSWeapons": 115,
+     "VehicleComponentS1": 3,
+     "VehicleComponentS2": 3,
+     "VehicleComponentS3": 3
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.7,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2721
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.7,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2721
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.6,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2712
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 26.8,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2230
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 26.7,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2221
+    },
+    {
+     "location": "HPP_Lagrange_C",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 23.9,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1988
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 22,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1830
+    },
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 17.8,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1481
+    },
+    {
+     "location": "HPP_Lagrange_F",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 17.8,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1481
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 36,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 180
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 36,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 180
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Quartz",
+     "rockShare": 35,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 175
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 34.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 174
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 26.7,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 134
+    },
+    {
+     "location": "HPP_Pyro_Cool02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 26.7,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 134
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 26.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 134
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 25.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 129
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 25.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 129
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 19.6,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 98
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 19.6,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 98
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 14.9,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 75
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Quartz",
+     "rockShare": 14.9,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 75
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 10.3,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 52
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Quartz",
+   "refined": "Quartz",
+   "uexOre": {
+    "uexId": 61,
+    "name": "Quartz (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 60,
+    "name": "Quartz",
+    "sell": 4284,
+    "buy": 3445,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 28,
+    "totalScu": 5.91,
+    "byCategory": {
+     "FPSWeapons": 9,
+     "VehicleComponentS0": 3,
+     "VehicleComponentS1": 6,
+     "VehicleComponentS2": 6,
+     "VehicleComponentS3": 4
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Quartz",
+     "rockShare": 35,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2741
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Quartz",
+     "rockShare": 34.7,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2717
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Quartz",
+     "rockShare": 25.7,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2012
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Quartz",
+     "rockShare": 25.7,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2012
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Quartz",
+     "rockShare": 14.9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1167
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.7,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 164
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.7,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 164
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.6,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 163
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 26.7,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 134
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 26.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 134
+    },
+    {
+     "location": "HPP_Lagrange_C",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 23.9,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 120
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 22,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 110
+    },
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 17.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 89
+    },
+    {
+     "location": "HPP_Lagrange_F",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 17.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 89
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Tin",
+   "refined": "Tin",
+   "uexOre": {
+    "uexId": 176,
+    "name": "Tin (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 103,
+    "name": "Tin",
+    "sell": 3999,
+    "buy": 3289,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 51,
+    "totalScu": 53.97,
+    "byCategory": {
+     "FPSArmours": 1,
+     "VehicleComponentS1": 16,
+     "VehicleComponentS2": 16,
+     "VehicleComponentS0": 5,
+     "VehicleComponentS3": 13
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 44,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 3269
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 36,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2675
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 34.8,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2586
+    },
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 32.6,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2422
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 32.6,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 2422
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 22,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1635
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Tin",
+     "rockShare": 14.8,
+     "content": [
+      24.3,
+      74.3
+     ],
+     "chance": 1,
+     "score": 1100
+    },
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 40,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 400
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 40,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 400
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 34.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 348
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 26.7,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 267
+    },
+    {
+     "location": "HPP_Pyro_Warm02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 26.7,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 267
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 25.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 258
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 25.7,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 257
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 20.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 208
+    },
+    {
+     "location": "HPP_Stanton2c_Belt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 20.5,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 205
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 19.6,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 196
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 19.6,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 196
+    },
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 178
+    },
+    {
+     "location": "HPP_Lagrange_D",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 178
+    },
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 178
+    },
+    {
+     "location": "HPP_Lagrange_G",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 178
+    },
+    {
+     "location": "HPP_Lagrange_Occupied",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 178
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 14.9,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 149
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 10.3,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 103
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Copper",
+   "refined": "Copper",
+   "uexOre": {
+    "uexId": 21,
+    "name": "Copper (Ore)",
+    "sell": 1200,
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 20,
+    "name": "Copper",
+    "sell": 3712,
+    "buy": 3177,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 102,
+    "totalScu": 6.73,
+    "byCategory": {
+     "VehicleWeaponsS2": 4,
+     "VehicleWeaponsS1": 3,
+     "VehicleWeaponsS3": 3,
+     "FPSWeapons": 65,
+     "VehicleComponentS1": 12,
+     "VehicleComponentS0": 9,
+     "VehicleComponentS2": 6
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Stanton4b",
+     "place": "Clio",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 40,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 3132
+    },
+    {
+     "location": "HPP_Stanton4c",
+     "place": "Euterpe",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 40,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 3132
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 34.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2725
+    },
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 32.6,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2553
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 26.7,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2091
+    },
+    {
+     "location": "HPP_Pyro_Warm02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 26.7,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2091
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 25.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2020
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 25.7,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2012
+    },
+    {
+     "location": "HPP_Pyro6",
+     "place": "Terminus",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Copper",
+     "rockShare": 20.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1629
+    },
+    {
+     "location": "HPP_Stanton2c_Belt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 20.5,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1605
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 19.6,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1535
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 19.6,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1535
+    },
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1394
+    },
+    {
+     "location": "HPP_Lagrange_D",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1394
+    },
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1394
+    },
+    {
+     "location": "HPP_Lagrange_G",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1394
+    },
+    {
+     "location": "HPP_Lagrange_Occupied",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 17.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1394
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 14.9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1167
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Copper",
+     "rockShare": 10.3,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 806
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 44,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 440
+    },
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 36,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 360
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 34.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 348
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 32.6,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 326
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Tin",
+     "rockShare": 22,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 220
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Tin",
+     "rockShare": 14.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 148
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Aluminum",
+   "refined": "Aluminum",
+   "uexOre": {
+    "uexId": 6,
+    "name": "Aluminum (Ore)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 5,
+    "name": "Aluminum",
+    "sell": 3686,
+    "buy": 2989,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 38,
+    "totalScu": 1.26,
+    "byCategory": {
+     "FPSWeapons": 35,
+     "MissionItem": 2,
+     "FPSArmours": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Aluminum",
+     "rockShare": 44,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 3661
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Aluminum",
+     "rockShare": 34.8,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2895
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Aluminum",
+     "rockShare": 34.7,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2887
+    },
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Aluminum",
+     "rockShare": 29.7,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 2471
+    },
+    {
+     "location": "HPP_Lagrange_C",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 23.9,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1988
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Aluminum",
+     "rockShare": 22,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1830
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 20.8,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1731
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 19.6,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1631
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 19.6,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1631
+    },
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 17.9,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1489
+    },
+    {
+     "location": "HPP_Lagrange_F",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 17.8,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1481
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 14.9,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 1240
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 10.3,
+     "content": [
+      39.2,
+      83.2
+     ],
+     "chance": 1,
+     "score": 857
+    }
+   ]
+  },
+  {
+   "ore": "Raw_Corundum",
+   "refined": "Corundum",
+   "uexOre": {
+    "uexId": 23,
+    "name": "Corundum (Raw)",
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 22,
+    "name": "Corundum",
+    "sell": 3668,
+    "buy": 2865,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 74,
+    "totalScu": 16.32,
+    "byCategory": {
+     "FPSArmours": 35,
+     "FPSWeapons": 21,
+     "VehicleComponentS1": 6,
+     "VehicleComponentS2": 6,
+     "VehicleComponentS3": 5,
+     "VehicleComponentS0": 1
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Stanton1b",
+     "place": "Aberdeen",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Corundum",
+     "rockShare": 29.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2333
+    },
+    {
+     "location": "HPP_Lagrange_C",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Corundum",
+     "rockShare": 23.9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1871
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Corundum",
+     "rockShare": 22,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1723
+    },
+    {
+     "location": "HPP_Lagrange_F",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Corundum",
+     "rockShare": 17.9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1402
+    },
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Corundum",
+     "rockShare": 17.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1394
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Corundum",
+     "rockShare": 14.9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1167
+    },
+    {
+     "location": "HPP_Stanton1",
+     "place": "Hurston",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Aluminum",
+     "rockShare": 44,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 440
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Aluminum",
+     "rockShare": 34.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 348
+    },
+    {
+     "location": "HPP_Stanton1d",
+     "place": "Ita",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Aluminum",
+     "rockShare": 34.7,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 347
+    },
+    {
+     "location": "HPP_Nyx_KeegerBelt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 20.8,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 208
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 19.6,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 196
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 19.6,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 196
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Aluminum",
+     "rockShare": 10.3,
+     "content": [
+      5,
+      10
+     ],
+     "chance": 1,
+     "score": 103
+    }
+   ]
+  },
+  {
+   "ore": "Ore_Iron",
+   "refined": "Iron",
+   "uexOre": {
+    "uexId": 45,
+    "name": "Iron (Ore)",
+    "sell": 1000,
+    "link": "name"
+   },
+   "uexRefined": {
+    "uexId": 44,
+    "name": "Iron",
+    "sell": 3393,
+    "buy": 2688,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 259,
+    "totalScu": 154.91,
+    "byCategory": {
+     "VehicleWeaponsS4": 4,
+     "VehicleWeaponsS6": 3,
+     "VehicleWeaponsS2": 7,
+     "VehicleWeaponsS5": 2,
+     "FPSWeapons": 86,
+     "VehicleComponentS0": 25,
+     "VehicleComponentS1": 50,
+     "VehicleComponentS2": 44,
+     "VehicleComponentS3": 30,
+     "VehicleWeaponsS1": 4,
+     "VehicleWeaponsS3": 4
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro5c",
+     "place": "Adir",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 43.5,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 3667
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 36,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 3035
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 35,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2951
+    },
+    {
+     "location": "HPP_Stanton1c",
+     "place": "Magda",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 34.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2934
+    },
+    {
+     "location": "HPP_Stanton3a",
+     "place": "Lyria",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 34.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2934
+    },
+    {
+     "location": "HPP_Pyro1",
+     "place": "Pyro I",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 32.7,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2757
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 32.7,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2757
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 32.6,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2748
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 32.6,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2748
+    },
+    {
+     "location": "HPP_Pyro_Warm01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 26.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2259
+    },
+    {
+     "location": "HPP_Pyro_Warm02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 26.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2259
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 26.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2259
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 26.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2259
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 26.7,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2251
+    },
+    {
+     "location": "HPP_Pyro4",
+     "place": "Pyro IV",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 25.7,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2167
+    },
+    {
+     "location": "HPP_Stanton3b",
+     "place": "Wala",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Iron",
+     "rockShare": 25.7,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 2167
+    },
+    {
+     "location": "HPP_Nyx_GlaciemRing",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 20.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1753
+    },
+    {
+     "location": "HPP_Stanton2c_Belt",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 20.5,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1728
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 19.6,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1652
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 19.6,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1652
+    },
+    {
+     "location": "HPP_Lagrange_B",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 17.9,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1509
+    },
+    {
+     "location": "HPP_Lagrange_D",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 17.9,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1509
+    },
+    {
+     "location": "HPP_Lagrange_E",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 17.9,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1509
+    },
+    {
+     "location": "HPP_Lagrange_G",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 17.9,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1509
+    },
+    {
+     "location": "HPP_Lagrange_Occupied",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 17.9,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1509
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 14.8,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 1248
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Iron",
+     "rockShare": 10.3,
+     "content": [
+      34.3,
+      84.3
+     ],
+     "chance": 1,
+     "score": 868
+    }
+   ]
+  },
+  {
+   "ore": "RawSilicon",
+   "refined": "Silicon",
+   "uexOre": {
+    "uexId": 161,
+    "name": "Silicon (Raw)",
+    "link": "alias"
+   },
+   "uexRefined": {
+    "uexId": 100,
+    "name": "Silicon",
+    "sell": 2406,
+    "buy": 1864,
+    "link": "name"
+   },
+   "blueprints": {
+    "count": 88,
+    "totalScu": 30.54,
+    "byCategory": {
+     "MissionItem": 1,
+     "FPSArmours": 44,
+     "VehicleComponentS1": 13,
+     "VehicleComponentS2": 13,
+     "VehicleComponentS0": 7,
+     "VehicleComponentS3": 10
+    }
+   },
+   "modes": [
+    "ship"
+   ],
+   "places": [
+    {
+     "location": "HPP_Pyro5a",
+     "place": "Ignis",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 36,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2819
+    },
+    {
+     "location": "HPP_Pyro5b",
+     "place": "Vatra",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 36,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2819
+    },
+    {
+     "location": "HPP_Stanton2b",
+     "place": "Daymar",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 34.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2725
+    },
+    {
+     "location": "HPP_Pyro5d",
+     "place": "Fairo",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 26.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2098
+    },
+    {
+     "location": "HPP_Pyro_Cool01",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 26.7,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2091
+    },
+    {
+     "location": "HPP_Pyro_Cool02",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 26.7,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2091
+    },
+    {
+     "location": "HPP_Stanton2a",
+     "place": "Cellin",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 25.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2020
+    },
+    {
+     "location": "HPP_Stanton2c",
+     "place": "Yela",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Silicon",
+     "rockShare": 25.8,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 2020
+    },
+    {
+     "location": "AsteroidCluster_Low_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 19.6,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1535
+    },
+    {
+     "location": "AsteroidCluster_Medium_Yield",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 19.6,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1535
+    },
+    {
+     "location": "HPP_Pyro_AkiroCluster",
+     "place": "Akiro Cluster",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 14.9,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 1167
+    },
+    {
+     "location": "HPP_AaronHalo",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Silicon",
+     "rockShare": 10.3,
+     "content": [
+      28.3,
+      78.3
+     ],
+     "chance": 1,
+     "score": 806
+    },
+    {
+     "location": "HPP_Pyro3",
+     "place": "Bloom",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Quartz",
+     "rockShare": 35,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 175
+    },
+    {
+     "location": "HPP_Pyro2",
+     "place": "Monox",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.7,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 164
+    },
+    {
+     "location": "HPP_Stanton4",
+     "place": "microTech",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.7,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 164
+    },
+    {
+     "location": "HPP_Stanton4a",
+     "place": "Calliope",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 32.6,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 163
+    },
+    {
+     "location": "HPP_Pyro5e",
+     "place": "Fuego",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 26.7,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 134
+    },
+    {
+     "location": "HPP_Pyro5f",
+     "place": "Vuur",
+     "system": "Pyro",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 26.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 134
+    },
+    {
+     "location": "HPP_Lagrange_C",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 23.9,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 120
+    },
+    {
+     "location": "HPP_Stanton1a",
+     "place": "Arial",
+     "system": "Stanton",
+     "mode": "ship",
+     "rock": "Mining_Common_Hephaestanite",
+     "rockShare": 22,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 110
+    },
+    {
+     "location": "HPP_Lagrange_A",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 17.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 89
+    },
+    {
+     "location": "HPP_Lagrange_F",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Hephaestanite",
+     "rockShare": 17.8,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 89
+    },
+    {
+     "location": "HPP_Pyro_DeepSpaceAsteroids",
+     "mode": "ship",
+     "rock": "Mining_AsteroidCommon_Quartz",
+     "rockShare": 14.9,
+     "content": [
+      2,
+      5
+     ],
+     "chance": 1,
+     "score": 75
+    }
+   ]
+  }
+ ],
+ "craftMaterialsNotMined": []
+}

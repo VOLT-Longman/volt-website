@@ -29,3 +29,39 @@ UEX 응답 원본은 저장소에 넣지 않았다. 사이트 코드와 `data/lo
 2. 함선 이름 대조와, 화물칸을 못 찾은 19척의 구조 확인.
 3. 광물 → 정제 후 상품 → UEX 시세 → 그 상품을 쓰는 설계도까지 한 줄로 잇기.
 4. 채광 지역(라그랑주 등)에 사람이 읽을 이름 붙이기.
+
+---
+
+# 2차 (2026-11-18 추가)
+
+## 바뀐 수치
+
+| 대상 | 1차 | 2차 |
+| --- | --- | --- |
+| 상품 | 이름 일치 167 | 이름 167 + 손 대응 6 = 173 (게임에만 34, UEX에만 32) |
+| 함선 | UUID 일치 159 | UUID 159 + 이름 62 = 221 (SCU 같음 182, 다름 39). 못 찾음 63 가운데 44는 UEX가 컨셉으로 표시한 함선 |
+
+손 대응 6건(게임 id → UEX 이름): `Raw_Ice` → Ice (Raw), `RawSilicon` → Silicon (Raw), `RawOuratite` → Ouratite (Raw), `Lastaprene` → Lastaphrene, `ConstructionMaterialPowder` → Construction Material Rubble, `ConstructionMaterialChunks` → Construction Material Salvage. 낱말 순서나 철자만 다르다고 판단한 것이며, 게임 안에서 같은 물건인지 확인하지는 않았다.
+
+함선 이름 대조: 게임 쪽 영어 함선 이름(`vehicleName`)과 UEX 이름이 같을 때 잇는다. 같은 이름의 정의가 여럿이면 클래스명이 가장 짧은 기본형만 고른다.
+
+SCU가 다른 39척은 두 부류다. (1) 게임 쪽이 0이거나 작게 나온 것: 화물칸이 함선의 기본 장착 목록이 아닌 곳에 달려 있어 못 찾음(Aurora, Constellation, Mustang, Nomad 등). (2) 실제 차이로 보이는 것: A2 Hercules(UEX 234 ↔ 게임 216), 600i Executive(40 ↔ 44), 890 Jump, Starlancer MAX, Valkyrie Liberator. (2)는 어느 쪽이 맞는지 게임 안 확인이 필요하다.
+
+아직 못 찾은 비컨셉 함선 19척: 한정판 도색(Best In Show 등), Retaliator 모듈, ATLS 등. UEX는 이것들을 별도 항목으로 두지만 게임에서는 기본형과 같은 정의이거나 함선이 아니다.
+
+## 광물 한 줄 연결 (`resource-chain.json`)
+
+`scripts/loadout-research/resource-chain.mjs` 가 "장소 → 암석 → 광물 → 정제 상품 → UEX 시세 → 그 상품을 쓰는 설계도"를 잇는다.
+
+- 원광 33종, 그중 정제 상품이 있는 것 26종, 설계도에 쓰이는 것 26종. 설계도 재료 가운데 채광으로 얻을 수 없는 것은 없었다.
+- 연결 고리: 채집 목록 항목 → 암석 엔티티의 `MineableParams.composition` → 구성의 광물 → 광물의 `resourceType`(원광) → `refinedVersion`(정제 상품).
+- 예: 퀀타늄 원석 → Quantanium, UEX 판매 시세 148,409, 설계도 3개. 스틸러론 → 137,818, 설계도 141개, 파이로 쪽. 오라타이트 → 45,677, 설계도 506개, 허스턴과 그 위성.
+- `places.score`(암석 비중 × 포함 확률 × 최대 함량)는 장소끼리 견주는 참고값이다. 실제 수율이 아니다.
+- 손 채광·지상 차량 채광 광물 7종(하다나이트, 야날라이트 등)은 정제 상품이 없고 원석 그대로 판다.
+
+## 남은 것
+
+- UEX 시세 숫자의 단위(SCU당인지)를 UEX 문서로 확인.
+- SCU가 다른 함선의 화물칸 위치 확인.
+- 한글 이름.
+- 운송 계약의 상품·출발지·도착지를 UEX 거점과 잇는 작업.

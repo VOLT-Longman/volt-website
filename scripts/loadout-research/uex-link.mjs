@@ -27,11 +27,14 @@ const base = manifestBase(game);
 const uexCommodities = uex('commodities');
 const uexByUuid = new Map(uexCommodities.filter((c) => c.uuid).map((c) => [String(c.uuid).toLowerCase(), c]));
 const uexByName = new Map(); for (const c of uexCommodities) { const key = norm(c.name); uexByName.set(key, [...(uexByName.get(key) || []), c]); }
+// 표기만 다른 상품(게임 id → UEX 이름). 뜻이 같다고 판단한 근거는 docs/loadout-research/uex-world-links.md 에 적는다.
+const COMMODITY_ALIASES = { Raw_Ice: 'Ice (Raw)', RawSilicon: 'Silicon (Raw)', RawOuratite: 'Ouratite (Raw)', Lastaprene: 'Lastaphrene', ConstructionMaterialPowder: 'Construction Material Rubble', ConstructionMaterialChunks: 'Construction Material Salvage' };
 const usedUex = new Set();
 const commodityLinks = df.recordsOfType('ResourceType').map((record) => {
     const r = df.readRecord(record, 2); const id = record.name.split('.').slice(1).join('.'); const name = text(r.displayName);
     let match = uexByUuid.get(record.id.toLowerCase()); let how = match ? 'verified' : undefined;
     if (!match) { const list = uexByName.get(norm(name)) || uexByName.get(norm(id)) || []; if (list.length === 1) { match = list[0]; how = 'name'; } else if (list.length > 1) how = 'ambiguous'; }
+    if (!match && COMMODITY_ALIASES[id]) { const list = uexByName.get(norm(COMMODITY_ALIASES[id])) || []; if (list.length === 1) { match = list[0]; how = 'alias'; } }
     if (match) usedUex.add(match.id);
     return { id, uuid: record.id, name, link: how || 'none', uex: match ? { id: match.id, name: match.name, code: match.code, kind: match.kind, illegal: Boolean(match.is_illegal), raw: Boolean(match.is_raw), buyable: Boolean(match.is_buyable), sellable: Boolean(match.is_sellable), priceBuy: match.price_buy || undefined, priceSell: match.price_sell || undefined } : undefined };
 });
@@ -70,11 +73,26 @@ function shipCargo(record) {
     walk(entries);
     return { scu, grids: used };
 }
+// 게임 함선의 영어 이름 → 레코드. 같은 이름이 둘 이상이면 잇지 않는다.
+const shipByName = new Map();
+for (const record of game.records) {
+    if (!/\/entities\/(spaceships|groundvehicles)\//.test(record.file)) continue;
+    const params = game.component(game.entity(record, 4), 'VehicleComponentParams');
+    const name = text(params?.vehicleName);
+    if (name) shipByName.set(norm(name), [...(shipByName.get(norm(name)) || []), record]);
+}
 const vehicleLinks = uex('vehicles').map((vehicle) => {
-    const record = vehicle.uuid ? game.byId.get(String(vehicle.uuid).toLowerCase()) : undefined;
-    if (!record) return { uexId: vehicle.id, name: vehicle.name_full || vehicle.name, link: 'none', uexScu: vehicle.scu };
+    let record = vehicle.uuid ? game.byId.get(String(vehicle.uuid).toLowerCase()) : undefined;
+    let how = record ? 'verified' : 'none';
+    if (!record) {
+        const hits = shipByName.get(norm(vehicle.name_full)) || shipByName.get(norm(vehicle.name)) || [];
+        // 같은 이름의 정의가 여럿이면(AI·임무용 복사본) 클래스명이 가장 짧은 기본형 하나만 고른다. 가장 짧은 것이 둘이면 잇지 않는다.
+        const sorted = [...hits].sort((x, y) => game.clsOf(x).length - game.clsOf(y).length);
+        if (sorted.length === 1 || (sorted.length > 1 && game.clsOf(sorted[0]).length < game.clsOf(sorted[1]).length)) { record = sorted[0]; how = 'name'; } else if (sorted.length > 1) how = 'ambiguous';
+    }
+    if (!record) return { uexId: vehicle.id, name: vehicle.name_full || vehicle.name, link: how, uexScu: vehicle.scu, concept: Boolean(vehicle.is_concept) || undefined };
     const cargo = shipCargo(record);
-    return { uexId: vehicle.id, name: vehicle.name_full || vehicle.name, cls: game.clsOf(record), link: 'verified', uexScu: vehicle.scu, gameScu: cargo.scu, same: Number(vehicle.scu) === cargo.scu, grids: cargo.grids.length, uexBoxes: vehicle.container_sizes || undefined };
+    return { uexId: vehicle.id, name: vehicle.name_full || vehicle.name, cls: game.clsOf(record), link: how, uexScu: vehicle.scu, gameScu: cargo.scu, same: Number(vehicle.scu) === cargo.scu, grids: cargo.grids.length, uexBoxes: vehicle.container_sizes || undefined };
 });
 
 writeData('uex-world-links.json', {
@@ -83,7 +101,7 @@ writeData('uex-world-links.json', {
     summary: {
         commodities: count(commodityLinks, 'link'), uexOnlyCommodities: uexOnly.length,
         miningLocations: count(miningLinks, 'link'), places: count(placeLinks, 'link'),
-        vehicles: { ...count(vehicleLinks, 'link'), sameScu: vehicleLinks.filter((v) => v.same).length, differentScu: vehicleLinks.filter((v) => v.link === 'verified' && !v.same).length },
+        vehicles: { ...count(vehicleLinks, 'link'), sameScu: vehicleLinks.filter((v) => v.same).length, differentScu: vehicleLinks.filter((v) => v.cls && !v.same).length },
     },
     commodities: commodityLinks, uexOnlyCommodities: uexOnly, miningLocations: miningLinks, places: placeLinks, vehicles: vehicleLinks,
 });
