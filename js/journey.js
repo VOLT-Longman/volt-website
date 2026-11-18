@@ -172,7 +172,7 @@
         await showCrafts(); const panel = document.getElementById('journey-crafts'); if (!crafting || !panel) return;
         const list = el('details', undefined, 'journey-recipe-list'); list.open = true;
         list.append(el('summary', tr(`${resource(id)}을 사용하는 부품`, `Components using ${resource(id)}`)));
-        const found = Object.entries(crafting.recipes).filter(([, row]) => [...row.m, ...row.p].some(([resourceId]) => resourceId === id));
+        const found = Object.entries(crafting.recipes).filter(([, row]) => [...(row.m || []), ...(row.p || [])].some(([resourceId]) => resourceId === id));
         const search = el('input'); search.type = 'search'; search.placeholder = tr('부품 이름 검색', 'Search component names'); search.setAttribute('aria-label', search.placeholder);
         const results = el('div'); const render = () => {
             results.replaceChildren(); const matches = found.filter(([key]) => recipeName(key).toLowerCase().includes(search.value.toLowerCase()));

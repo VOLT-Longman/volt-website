@@ -145,3 +145,14 @@ test('채광 장소와 광물 선택을 AI 왕복 후에도 유지하고 운송 
     await expect(page.locator('#journey-trade-plan h3')).toHaveText('This trip');
     await expect(page.locator('#journey-trade-mode')).toContainText('Sell cargo already held');
 });
+
+test('광물에서 그 재료를 사용하는 부품을 찾아 제작 계획에 추가한다', async ({ page }) => {
+    const errors = trackConsoleErrors(page); await setup(page); await gotoSection(page, '#mining');
+    await page.getByRole('button', { name: '철 (광석)', exact: true }).click();
+    await page.locator('.journey-mining-next').getByRole('button', { name: '제작에 쓰는 부품 보기' }).click();
+    await page.getByRole('searchbox', { name: '부품 이름 검색' }).fill('아버 MH1');
+    await page.locator('.journey-recipe-list').getByRole('button', { name: '아버 MH1 채광 레이저 +' }).click();
+    await expect(page.locator('[data-journey-resource="Iron"]')).toContainText('0.36 SCU');
+    await expect(page.locator('[data-journey-resource="Sadaryx"]')).toContainText('7 개');
+    expect(errors).toEqual([]);
+});
