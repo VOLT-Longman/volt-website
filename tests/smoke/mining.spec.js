@@ -22,7 +22,11 @@ test('채광 안내: 375px에서 가로 스크롤 없이 광물 아래 시세와
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(375);
     await page.route('**/api/uex/commodities', route => route.fulfill({ status: 503, json: { error: 'unavailable' } }));
     await page.reload();
-    await expect(page.locator('.mining-mobile-price').first()).toContainText('시세 정보 없음');
+    // 받지 못한 것과 "UEX에 없는 광물"을 같은 말로 적지 않는다.
+    await expect(page.locator('.mining-mobile-price').first()).toContainText('시세를 불러오지 못했습니다');
+    await expect(page.locator('.mining-mobile-price').first()).not.toContainText('시세 정보 없음');
+    // 좁은 화면의 단위 글자도 12px 이상.
+    expect(await page.locator('.mining-mobile-price').first().evaluate((node) => getComputedStyle(node).fontSize)).toBe('12px');
 });
 
 test('채광 안내: 광물을 고르면 캐는 곳이 나오고, 장소로 넘어가면 그곳의 광물이 나온다', async ({ page }) => {
@@ -95,3 +99,28 @@ for (const width of [1280, 390]) {
         expect(results.violations.filter((v) => ['critical', 'serious'].includes(v.impact)).map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
     });
 }
+
+test('채광 안내: 새 보기 탭이 더해져도 기존 화면이 그대로이고, 출처와 게임 버전, 암석 신호 값을 보여 준다', async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await openMining(page);
+    await expect(page.locator('.mining-tab')).toHaveText(['광물별', '장소별', '신호 찾기', '정제소 찾기']);
+    await expect(page.locator('#mining-view-mineral')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('.mining-chips [data-mining-mode]')).toHaveCount(4);
+    await expect(page.locator('.mining-sources')).toContainText('게임 버전 4.');
+    await expect(page.locator('.mining-sources')).toContainText('자료: 게임 파일');
+    // 버전 번호는 하나만 적는다.
+    expect((await page.locator('.mining-sources').innerText()).match(/\d+\.\d+\.\d+\.\d+/g)).toHaveLength(1);
+    await page.locator('#mining-search').fill('gold');
+    await page.locator('[data-mining-mineral="Ore_Gold"]').first().click();
+    await expect(page.locator('.mining-detail thead')).toContainText('신호 값 (1개)');
+    await expect(page.locator('.mining-detail tbody')).toContainText('3,585');
+    await expect.poll(() => page.evaluate(() => location.hash)).toBe('#mining?m=Ore_Gold&q=gold');
+    // 장소별에서는 채집·잔해 수거 칩이 더해지고, 광물별로 돌아오면 그 선택은 풀린다.
+    await page.locator('[data-mining-view="location"]').click();
+    await expect(page.locator('.mining-chips [data-mining-mode]')).toHaveCount(6);
+    await page.locator('[data-mining-mode="salvage"]').click();
+    await page.locator('[data-mining-view="mineral"]').click();
+    await expect(page.locator('[data-mining-mode=""]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.mining-list tbody tr').first()).toBeVisible();
+    expect(errors).toEqual([]);
+});

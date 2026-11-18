@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261119-01';
+const CACHE_VERSION = '20261119-02';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -28,12 +28,19 @@ function storeRuntime(request, response) {
 const VERSIONED_ASSETS = [
     '/css/styles.css',
     '/css/motion.css',
+    '/css/routes.css',
+    '/css/market.css',
+    '/css/tours.css',
+    '/css/missions.css',
+    '/css/fabricator.css',
+    '/css/mining-extra.css',
     '/js/motion.js',
     '/js/cinematic-motion.js',
     '/assets/vendor/gsap/gsap.min.js',
     '/assets/vendor/gsap/ScrollTrigger.min.js',
     '/js/theme-init.js',
     '/js/i18n.js',
+    '/js/helper-common.js',
     '/js/navigation.js',
     '/js/notices.js',
     '/js/schedule.js',
@@ -43,6 +50,7 @@ const VERSIONED_ASSETS = [
     '/js/uex-panel.js',
     '/js/trade-planner.js',
     '/js/journey-calc.js',
+    '/js/trade-engine.js',
     '/js/journey.js',
     '/js/loadout-calc.js',
     '/js/loadout-planner.js',
@@ -50,6 +58,11 @@ const VERSIONED_ASSETS = [
     '/js/mining.js',
     '/js/gear.js',
     '/js/hauling.js',
+    '/js/routes.js',
+    '/js/market.js',
+    '/js/tours.js',
+    '/js/missions.js',
+    '/js/fabricator.js',
     '/js/ships.js',
     '/js/ship-imagery.js',
     '/js/shipdb-manufacturers.js',

@@ -1,0 +1,166 @@
+/* VOLT 무역 경로 (#routes) — 이 화면 전용 스타일. 모든 선택자는 .routes-app 아래에 둔다.
+   색·간격은 css/styles.css 의 토큰(var(--color-*), var(--radius-*), var(--volt-orange))을 쓴다. */
+.routes-app { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); min-width: 0; --rt-card: #1a1b1f; --rt-card-2: #212329; --rt-line: rgba(255, 255, 255, 0.09); --rt-ok: #7fd88a; --rt-warn: #ffb300; --rt-bad: #ff8f7a; }
+.routes-app > * { min-width: 0; }
+.routes-app [hidden] { display: none !important; }
+/* 화면 구역: 내용이 바뀐 구역만 다시 그린다. 빈 구역은 자리를 차지하지 않는다. */
+.routes-app .routes-zone { min-width: 0; }
+.routes-app .routes-zone:empty { display: none; }
+.routes-app .routes-detail-zone { scroll-margin-top: 96px; }
+.routes-app h3, .routes-app h4, .routes-app p, .routes-app ul, .routes-app ol { margin: 0; }
+.routes-app ul, .routes-app ol { padding: 0; list-style: none; }
+.routes-app small { display: block; font-size: 12px; line-height: 1.5; color: var(--color-text-secondary); }
+
+/* 카드 */
+.routes-app .routes-card { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--rt-line); border-radius: 12px; background: var(--rt-card); }
+.routes-app .routes-card > h3 { font-size: 16px; }
+.routes-app .routes-hint { font-size: 12px; line-height: 1.6; color: var(--color-text-secondary); }
+.routes-app .routes-hint.is-error { color: var(--rt-bad); }
+.routes-app .routes-muted { color: var(--color-text-secondary); }
+.routes-app .routes-good { color: var(--rt-ok); }
+
+/* 입력 칸 */
+.routes-app .routes-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 14px; align-items: start; }
+.routes-app .routes-field { display: grid; gap: 4px; min-width: 0; }
+.routes-app .routes-field.is-wide { grid-column: span 2; }
+.routes-app .routes-field label, .routes-app .routes-boxes legend { font-size: 12px; color: var(--color-text-secondary); }
+.routes-app .routes-field select, .routes-app .routes-field input { width: 100%; min-width: 0; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--rt-line); background: var(--rt-card-2); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.routes-app .routes-field input[aria-invalid="true"] { border-color: var(--rt-bad); }
+.routes-app :is(select, input):disabled { opacity: 0.6; cursor: not-allowed; }
+.routes-app .routes-check:has(input:disabled) { cursor: not-allowed; }
+.routes-app .routes-hold { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+.routes-app .routes-checks { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; }
+.routes-app .routes-check { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; color: var(--color-text-primary); cursor: pointer; }
+.routes-app .routes-check input { flex: none; width: 20px; height: 20px; accent-color: var(--volt-orange); }
+.routes-app .routes-boxes { display: grid; gap: 2px; margin: 0; padding: 0; border: 0; min-width: 0; }
+
+/* 접는 칸 */
+.routes-app .routes-fold > summary { min-height: 44px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--color-text-primary); cursor: pointer; }
+.routes-app .routes-fold > summary::before { content: "+"; display: inline-grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--rt-line); border-radius: 6px; color: var(--volt-orange-light); font-weight: 400; }
+.routes-app .routes-fold[open] > summary::before { content: "−"; }
+.routes-app .routes-fold > summary::-webkit-details-marker { display: none; }
+.routes-app .routes-fold[open] { display: grid; gap: 12px; }
+.routes-app .routes-context .routes-fold { padding-top: 4px; border-top: 1px solid var(--rt-line); }
+
+/* 버튼 */
+.routes-app .routes-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--color-border-hover); background: var(--rt-card-2); color: var(--color-text-primary); font: inherit; font-size: 14px; text-decoration: none; cursor: pointer; }
+.routes-app .routes-btn:hover { border-color: var(--volt-orange); }
+.routes-app .routes-btn.is-primary { background: var(--volt-orange); border-color: var(--volt-orange); color: #111; font-weight: 600; }
+.routes-app .routes-link { display: inline-flex; align-items: center; min-height: 32px; padding: 2px 0; border: 0; background: none; color: var(--volt-orange-light); font: inherit; font-size: 13px; text-align: left; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.routes-app .routes-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.routes-app :is(button, a, input, select, summary, h3):focus-visible { outline: 2px solid var(--volt-orange); outline-offset: 2px; }
+.routes-app h3[tabindex="-1"]:focus { outline: none; }
+
+/* 상품 칩 · 꼬리표 */
+.routes-app .routes-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.routes-app .routes-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 4px 0 10px; border: 1px solid var(--rt-line); border-radius: var(--radius-full); background: var(--rt-card-2); font-size: 13px; color: var(--color-text-primary); }
+.routes-app .routes-chip-x { flex: none; width: 32px; height: 32px; margin: -1px -4px -1px 0; border: 0; border-radius: 50%; background: none; color: var(--color-text-secondary); font: inherit; font-size: 16px; line-height: 1; cursor: pointer; }
+.routes-app .routes-chip-x:hover { color: var(--volt-orange-light); }
+.routes-app button.routes-chip { min-height: 44px; padding: 0 14px; font: inherit; font-size: 13px; cursor: pointer; }
+.routes-app button.routes-chip.is-hidden { border-style: dashed; color: var(--color-text-secondary); }
+.routes-app button.routes-chip.is-mine { border-color: rgba(120, 170, 255, 0.6); color: #b9d2ff; text-align: left; }
+.routes-app .routes-hidden { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding-top: 10px; border-top: 1px solid var(--rt-line); }
+.routes-app .routes-hidden-title { font-size: 13px; font-weight: 600; }
+.routes-app .routes-tag { display: inline-block; padding: 1px 8px; border: 1px solid var(--rt-line); border-radius: 6px; font-size: 12px; white-space: nowrap; color: var(--color-text-primary); }
+.routes-app .routes-tag.is-illegal { border-color: rgba(255, 143, 122, 0.6); color: #ffb3a4; }
+.routes-app .routes-tag.is-mine { border-color: rgba(120, 170, 255, 0.6); color: #b9d2ff; }
+.routes-app .routes-table td .routes-est.is-cell { display: none; }
+.routes-app .routes-est { display: inline-block; padding: 0 6px; border: 1px dashed rgba(255, 179, 0, 0.55); border-radius: 6px; font-size: 11px; font-weight: 400; color: var(--rt-warn); white-space: nowrap; vertical-align: middle; }
+.routes-app .routes-age { white-space: nowrap; }
+.routes-app .routes-age.is-old, .routes-app .routes-age.is-unknown { color: var(--rt-warn); }
+
+/* 순위표 */
+.routes-app .routes-results { display: grid; gap: 10px; }
+.routes-app .routes-count { font-size: 13px; line-height: 1.7; color: var(--color-text-secondary); }
+.routes-app .routes-tablewrap { overflow-x: auto; border: 1px solid var(--rt-line); border-radius: 12px; background: var(--rt-card); }
+.routes-app .routes-table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6; }
+.routes-app .routes-table th, .routes-app .routes-table td { padding: 10px 12px; text-align: left; border-top: 1px solid var(--rt-line); vertical-align: top; font-weight: 400; }
+.routes-app .routes-table thead th { border-top: 0; background: var(--rt-card-2); font-size: 12px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; }
+.routes-app .routes-table .is-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.routes-app .routes-table tbody tr.is-top .routes-rank { color: var(--volt-orange-light); font-weight: 700; }
+.routes-app .routes-table tbody tr.is-selected { background: rgba(232, 72, 47, 0.1); box-shadow: inset 3px 0 0 var(--volt-orange); }
+.routes-app .routes-rank { width: 1%; font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
+.routes-app .routes-back, .routes-app .routes-best { min-width: 150px; font-size: 13px; }
+.routes-app .routes-open { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 4px 10px; width: 100%; min-height: 44px; padding: 2px 0; border: 0; background: none; color: var(--color-text-primary); font: inherit; text-align: left; cursor: pointer; }
+.routes-app .routes-open:hover strong { text-decoration: underline; text-decoration-color: var(--volt-orange); text-underline-offset: 3px; }
+.routes-app .routes-leg { display: grid; min-width: 0; }
+.routes-app .routes-leg strong { font-weight: 600; overflow-wrap: anywhere; }
+.routes-app .routes-arrow { color: var(--volt-orange-light); }
+.routes-app .routes-more-zone { display: grid; justify-items: center; }
+.routes-app .routes-count:focus { outline: none; }
+.routes-app .routes-count:focus-visible { outline: 2px solid var(--volt-orange); outline-offset: 2px; }
+.routes-app .routes-rowacts { white-space: nowrap; }
+.routes-app .routes-rowacts .routes-link { margin-right: 10px; }
+.routes-app .routes-empty { display: grid; gap: 10px; justify-items: center; padding: 24px 16px; border: 1px dashed var(--rt-line); border-radius: 12px; color: var(--color-text-secondary); text-align: center; font-size: 14px; line-height: 1.7; }
+
+/* 경로 자세히 */
+.routes-app .routes-detail { border-color: var(--color-border-accent); gap: 16px; }
+.routes-app .routes-detail-foot { padding-top: 14px; border-top: 1px solid var(--rt-line); }
+.routes-app .routes-detail-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.routes-app .routes-detail-head h3 { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 4px 12px; font-size: 18px; min-width: 0; }
+.routes-app .routes-kicker { flex-basis: 100%; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--volt-orange-light); }
+.routes-app .routes-notice { min-height: 0; font-size: 13px; color: var(--rt-ok); }
+.routes-app .routes-notice:empty { display: none; }
+.routes-app .routes-warn { padding: 10px 12px; border-left: 3px solid var(--rt-warn); border-radius: 6px; background: rgba(255, 179, 0, 0.08); font-size: 13px; line-height: 1.6; color: var(--color-text-primary); }
+.routes-app .routes-split { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.routes-app .routes-part { display: grid; gap: 8px; align-content: start; padding: 14px; border: 1px solid var(--rt-line); border-radius: 10px; background: var(--rt-card-2); min-width: 0; }
+.routes-app .routes-part h4 { font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
+.routes-app .routes-big { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.routes-app .routes-sub { min-height: 20px; font-size: 13px; color: var(--color-text-secondary); }
+.routes-app .routes-lines { display: grid; gap: 8px; padding-top: 8px; border-top: 1px solid var(--rt-line); }
+.routes-app .routes-lines li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; font-size: 13px; }
+.routes-app .routes-lines strong { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.routes-app .routes-why { grid-column: 1 / -1; font-size: 12px; line-height: 1.6; color: var(--color-text-secondary); }
+.routes-app .routes-block { display: grid; gap: 8px; padding-top: 14px; border-top: 1px solid var(--rt-line); min-width: 0; }
+.routes-app .routes-block h4 { font-size: 15px; }
+.routes-app .routes-block > p { font-size: 14px; line-height: 1.6; }
+.routes-app .routes-plan { display: grid; gap: 8px; counter-reset: routes-step; }
+.routes-app .routes-plan > li { padding: 6px 12px 10px; border: 1px solid var(--rt-line); border-radius: 10px; background: var(--rt-card-2); }
+/* 끝낸 단계: 글자를 흐리게 하지 않고(읽기 어려워진다) 테두리와 줄 긋기로 구분한다. */
+.routes-app .routes-plan > li.is-done { border-style: dashed; background: none; }
+.routes-app .routes-plan > li.is-done .routes-step span { text-decoration: line-through; text-decoration-color: var(--color-text-secondary); }
+.routes-app .routes-step span { font-weight: 600; }
+.routes-app .routes-step span::before { counter-increment: routes-step; content: counter(routes-step) ". "; color: var(--volt-orange-light); }
+.routes-app .routes-plan ul { display: grid; gap: 6px; padding-left: 28px; font-size: 13px; line-height: 1.6; }
+.routes-app .routes-plan ul li.is-warn { color: var(--rt-warn); }
+.routes-app .routes-fuel.is-ok { color: var(--rt-ok); }
+.routes-app .routes-fuel.is-short { color: var(--rt-bad); }
+.routes-app .routes-edit { display: grid; gap: 10px; padding: 4px 0; }
+.routes-app .routes-nextlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+.routes-app .routes-next { display: grid; gap: 4px; width: 100%; height: 100%; min-height: 64px; align-content: start; justify-items: start; padding: 10px 12px; border: 1px solid var(--rt-line); border-radius: 10px; background: var(--rt-card-2); color: var(--color-text-primary); font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+.routes-app .routes-next:hover { border-color: var(--volt-orange); }
+.routes-app .routes-next strong { font-size: 14px; }
+.routes-app .routes-assume { display: grid; gap: 4px; padding-left: 18px; list-style: disc; font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+
+/* 시간 설정 · 출처 */
+.routes-app .routes-time > summary { font-size: 16px; }
+.routes-app .routes-time .routes-btn { justify-self: start; }
+.routes-app .routes-sources { padding-top: 10px; border-top: 1px solid var(--rt-line); font-size: 12px; line-height: 1.7; color: var(--color-text-secondary); }
+
+/* 좁은 화면: 표의 한 줄을 카드 하나로 */
+@media (max-width: 860px) {
+    .routes-app .routes-field.is-wide { grid-column: auto; }
+    .routes-app .routes-split { grid-template-columns: minmax(0, 1fr); }
+    .routes-app .routes-tablewrap { overflow: visible; border: 0; background: none; }
+    .routes-app .routes-table, .routes-app .routes-table tbody { display: grid; gap: 10px; }
+    .routes-app .routes-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .routes-app .routes-table tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 12px; padding: 12px; border: 1px solid var(--rt-line); border-radius: 12px; background: var(--rt-card); }
+    .routes-app .routes-table th, .routes-app .routes-table td { display: block; padding: 0; border: 0; min-width: 0; }
+    .routes-app .routes-table .is-num { text-align: left; white-space: normal; }
+    .routes-app .routes-table tbody th, .routes-app .routes-table td.routes-back, .routes-app .routes-table td.routes-best, .routes-app .routes-table td.routes-rowacts, .routes-app .routes-table tr.routes-editrow td, .routes-app .routes-table td[data-label]:nth-child(3) { grid-column: 1 / -1; }
+    .routes-app .routes-table tr.routes-editrow { grid-template-columns: minmax(0, 1fr); }
+    .routes-app .routes-table td[data-label]::before, .routes-app .routes-table th[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 400; color: var(--color-text-tertiary); }
+    .routes-app .routes-table .routes-rank { width: auto; grid-column: 1 / -1; }
+    .routes-app .routes-table.is-small td[data-label]:nth-child(3) { grid-column: auto; }
+    .routes-app .routes-table td .routes-est.is-cell { display: inline-block; margin-left: 6px; }
+    /* 함선 비교: 함선 98척을 모두 펼쳐도 너무 길어지지 않게 한 척을 세 칸짜리 낮은 카드로 */
+    .routes-app .routes-table.is-compare tr { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 10px; padding: 10px 12px; }
+    .routes-app .routes-table.is-compare, .routes-app .routes-table.is-compare tbody { gap: 6px; }
+    .routes-app .routes-table.is-compare td.routes-rowacts { display: flex; flex-wrap: wrap; gap: 0 14px; }
+    .routes-app .routes-table.is-compare td.routes-rowacts:empty { display: none; }
+    .routes-app .routes-back, .routes-app .routes-best { min-width: 0; }
+    .routes-app .routes-rowacts { white-space: normal; }
+    .routes-app .routes-link { min-height: 44px; }
+    .routes-app .routes-chip-x { width: 44px; height: 44px; margin: 0 -6px 0 -6px; }
+    .routes-app .routes-chip { min-height: 44px; }
+}

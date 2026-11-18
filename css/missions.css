@@ -1,0 +1,199 @@
+/* VOLT 임무 찾기 (#missions) — 이 화면 전용 스타일. 모든 선택자는 .missions-app 아래에 둔다.
+   색·간격은 css/styles.css 의 토큰(var(--color-*), var(--radius-*), var(--volt-orange))을 쓴다. */
+.missions-app { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); min-width: 0; --ms-card: #1a1b1f; --ms-card-2: #212329; --ms-line: rgba(255, 255, 255, 0.09); --ms-warn: var(--color-warning); --ms-gain: #7fd88a; --ms-loss: #ff9f8f; }
+.missions-app h3 { margin: 0; font-size: 22px; line-height: 1.35; }
+.missions-app h4 { margin: 0; font-size: 16px; line-height: 1.4; }
+.missions-app h5 { margin: 12px 0 6px; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
+.missions-app small { font-size: 12px; font-weight: 400; color: var(--color-text-secondary); }
+.missions-app a { color: var(--volt-orange-light); text-underline-offset: 3px; }
+.missions-app :focus-visible { outline: 2px solid var(--volt-orange-light); outline-offset: 2px; }
+.missions-app .missions-body { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; }
+/* 자료를 받는 동안에는 높이를 잡아 두어, 목록이 나올 때 아래쪽(바닥글)이 화면 안에서 튀지 않게 한다. */
+.missions-app .missions-body.is-loading { min-height: 100vh; }
+.missions-app .missions-note { margin: 6px 0 0; font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+.missions-app .missions-hint { margin: 0; font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+.missions-app .is-unknown { color: var(--ms-warn); }
+.missions-app .is-gain { color: var(--ms-gain); }
+.missions-app .is-loss { color: var(--ms-loss); }
+.missions-app .missions-token { display: inline-block; padding: 0 6px; border-radius: 6px; border: 1px dashed var(--color-border-hover); font-size: 0.85em; font-weight: 400; color: var(--color-text-secondary); white-space: nowrap; }
+
+/* 탭 · 주소 복사 */
+.missions-app .missions-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; min-width: 0; }
+.missions-app .missions-head:empty { display: none; }
+.missions-app .missions-head.is-loading:empty { display: block; min-height: 44px; }
+.missions-app .missions-tabs { display: inline-flex; border: 1px solid var(--ms-line); border-radius: 10px; overflow: hidden; }
+.missions-app .missions-tab { min-height: 44px; padding: 0 18px; border: 0; background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.missions-app .missions-tab + .missions-tab { border-left: 1px solid var(--ms-line); }
+.missions-app .missions-tab.is-on { background: var(--volt-orange); color: #000; }
+.missions-app .missions-share { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.missions-app .missions-share .btn { min-height: 44px; }
+.missions-app .missions-status { font-size: 13px; color: var(--color-text-secondary); }
+
+/* 검색 · 정렬 · 보기 방식 */
+.missions-app .missions-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 12px; min-width: 0; }
+.missions-app label, .missions-app .missions-range { display: grid; gap: 6px; min-width: 0; font-size: 13px; color: var(--color-text-secondary); }
+.missions-app .missions-search { flex: 1 1 260px; }
+.missions-app .missions-sort { flex: 0 1 220px; }
+.missions-app input, .missions-app select { width: 100%; min-width: 0; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--ms-line); background: var(--ms-card-2); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.missions-app select { appearance: auto; }
+.missions-app select:disabled, .missions-app button:disabled { opacity: 0.5; cursor: not-allowed; }
+.missions-app input::placeholder { color: var(--color-text-tertiary); font-size: 13px; }
+.missions-app .missions-toggle { min-height: 44px; padding: 0 14px; border: 1px solid var(--ms-line); border-radius: 10px; background: var(--ms-card); color: var(--color-text-secondary); font: inherit; font-size: 14px; cursor: pointer; white-space: nowrap; }
+.missions-app .missions-toggle.is-on { border-color: var(--volt-orange); color: var(--color-text-primary); background: rgba(232, 72, 47, 0.14); }
+.missions-app .missions-viewswitch { display: inline-flex; gap: 6px; }
+
+/* 걸러 보기 */
+.missions-app .missions-filters { border: 1px solid var(--ms-line); border-radius: 12px; background: var(--ms-card); min-width: 0; }
+.missions-app .missions-filters > summary { display: flex; align-items: center; min-height: 44px; padding: 0 16px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.missions-app .missions-filters[open] { display: grid; gap: 14px; padding: 0 16px 16px; grid-template-columns: minmax(0, 1fr); }
+.missions-app .missions-filters[open] > summary { padding: 0; border-bottom: 1px solid var(--ms-line); }
+.missions-app .missions-chipset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.missions-app .missions-chipset legend { padding: 0; margin-bottom: 8px; font-size: 13px; color: var(--color-text-secondary); }
+.missions-app .missions-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.missions-app .missions-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: var(--radius-full); border: 1px solid var(--ms-line); background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 13px; cursor: pointer; }
+.missions-app .missions-chip-mark { font-weight: 700; }
+.missions-app .missions-chip.is-include { border-color: var(--volt-orange); color: var(--color-text-primary); background: rgba(232, 72, 47, 0.14); }
+.missions-app .missions-chip.is-exclude { border-style: dashed; border-color: var(--color-text-tertiary); color: var(--color-text-tertiary); text-decoration: line-through; }
+.missions-app .missions-chip.is-exclude .missions-chip-mark { text-decoration: none; }
+.missions-app .missions-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.missions-app .missions-range > div { display: flex; align-items: center; gap: 8px; }
+.missions-app .missions-clear { justify-self: start; min-height: 44px; }
+
+/* 결과: 카드 */
+.missions-app .missions-results { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.missions-app .missions-apart { display: block; margin-top: 2px; font-weight: 400; overflow-wrap: anywhere; }
+.missions-app .missions-count { margin: 0; font-size: 13px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+.missions-app .missions-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.missions-app .missions-tile { position: relative; display: grid; gap: 8px; align-content: start; padding: 14px 16px; border: 1px solid var(--ms-line); border-radius: 12px; background: var(--ms-card); min-width: 0; }
+.missions-app .missions-open { padding: 0; border: 0; background: none; color: var(--color-text-primary); font: inherit; font-weight: 600; text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+.missions-app .missions-tile .missions-open { min-height: 28px; font-size: 16px; }
+.missions-app .missions-tile .missions-open::after { content: ""; position: absolute; inset: 0; border-radius: 12px; }
+.missions-app .missions-tile .missions-open:focus-visible { outline: 0; }
+.missions-app .missions-tile .missions-open:focus-visible::after { outline: 2px solid var(--volt-orange-light); outline-offset: 2px; }
+.missions-app .missions-sub { margin: 0; font-size: 13px; color: var(--color-text-secondary); overflow-wrap: anywhere; }
+.missions-app .missions-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.missions-app .missions-tags:empty { display: none; }
+.missions-app .missions-tag { display: inline-block; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--ms-line); font-size: 12px; font-weight: 400; color: var(--color-text-secondary); white-space: nowrap; }
+.missions-app .missions-tag.is-sys { color: var(--color-text-primary); }
+.missions-app .missions-tag.is-illegal, .missions-app .missions-tag.is-combat { border-color: rgba(255, 143, 122, 0.6); color: #ffb3a4; }
+.missions-app .missions-tag.is-bp { border-color: rgba(127, 216, 138, 0.5); color: var(--ms-gain); }
+.missions-app .missions-tag.is-event { border-color: rgba(255, 179, 0, 0.5); color: var(--ms-warn); }
+.missions-app .missions-facts { margin: 0; display: grid; gap: 4px; font-size: 13px; }
+.missions-app .missions-facts > div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; }
+.missions-app .missions-facts dt { color: var(--color-text-secondary); }
+.missions-app .missions-facts dd { margin: 0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.missions-app .missions-more { justify-self: center; min-height: 44px; }
+.missions-app .missions-empty { margin: 0; }
+
+/* 결과: 표 */
+.missions-app .missions-tablewrap { overflow-x: auto; border: 1px solid var(--ms-line); border-radius: 12px; background: var(--ms-card); min-width: 0; }
+.missions-app .missions-table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6; }
+.missions-app .missions-table th, .missions-app .missions-table td { padding: 9px 12px; text-align: left; border-top: 1px solid var(--ms-line); vertical-align: top; font-weight: 400; }
+.missions-app .missions-table thead th { border-top: 0; background: var(--ms-card-2); font-size: 13px; font-weight: 600; color: #d5d8df; white-space: nowrap; }
+.missions-app .missions-table tbody th { min-width: 200px; font-weight: 600; }
+.missions-app .missions-table .is-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.missions-app .missions-table tbody tr:nth-child(even) { background: #20242b; }
+.missions-app .missions-th { min-height: 32px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 4px; }
+.missions-app .missions-ranktable tbody th { min-width: 0; }
+.missions-app .missions-ranktable td strong { color: var(--color-text-primary); }
+.missions-app .missions-ranktable tr.is-now { box-shadow: inset 3px 0 0 var(--volt-orange); background: #35271f; }
+.missions-app .missions-ranktable tr.is-ref td, .missions-app .missions-ranktable tr.is-ref th { color: var(--color-text-secondary); }
+
+/* 임무 상세 */
+.missions-app .missions-detail { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.missions-app .missions-back { justify-self: start; min-height: 44px; }
+.missions-app .missions-detail-head { display: grid; gap: 8px; min-width: 0; }
+.missions-app .missions-detail-head h3 { overflow-wrap: anywhere; }
+.missions-app .missions-detail-head h3:focus { outline: 0; }
+.missions-app .missions-blocks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.missions-app .missions-block { padding: 14px 16px; border: 1px solid var(--ms-line); border-radius: 12px; background: var(--ms-card); min-width: 0; overflow-wrap: anywhere; }
+.missions-app .missions-block.is-wide { grid-column: 1 / -1; }
+.missions-app .missions-block.is-odd { border-color: rgba(255, 179, 0, 0.4); }
+.missions-app .missions-block > h4 { margin-bottom: 10px; }
+.missions-app .missions-block p { margin: 0 0 6px; font-size: 14px; line-height: 1.7; }
+.missions-app .missions-brief { max-width: 76ch; }
+.missions-app .missions-brief p { margin: 0 0 10px; }
+.missions-app .missions-big { margin: 0 0 6px; font-size: 17px; font-weight: 600; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.missions-app .missions-kv { margin: 0; display: grid; gap: 8px; font-size: 14px; }
+.missions-app .missions-kv > div { display: grid; grid-template-columns: minmax(96px, 34%) minmax(0, 1fr); gap: 10px; }
+.missions-app .missions-kv dt { color: var(--color-text-secondary); }
+.missions-app .missions-kv dd { margin: 0; line-height: 1.6; }
+.missions-app .missions-kv dd small { display: block; }
+.missions-app .missions-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.6; }
+.missions-app .missions-list .missions-list { margin-top: 4px; }
+.missions-app .missions-inline { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; }
+.missions-app .missions-tagline { font-size: 12px; color: var(--color-text-secondary); }
+.missions-app .missions-places { margin: 2px 0 0; font-size: 13px; color: var(--color-text-secondary); }
+.missions-app .missions-bps { list-style: none; margin: 0 0 8px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 4px 14px; font-size: 14px; }
+.missions-app .missions-bps a { display: inline-block; padding: 6px 0; }
+.missions-app .missions-fold > summary { min-height: 32px; padding: 4px 0; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.missions-app details.missions-block > summary { font-size: 15px; font-weight: 600; color: var(--color-text-primary); text-decoration: none; }
+.missions-app .missions-patch { margin-top: 10px; padding-top: 6px; border-top: 1px dashed var(--ms-line); }
+.missions-app .missions-patch .missions-brief { padding: 10px 12px; border-left: 3px solid var(--ms-warn); background: var(--ms-card-2); border-radius: 0 8px 8px 0; font-size: 13px; color: var(--color-text-secondary); }
+.missions-app .missions-patch .missions-brief p:last-child { margin-bottom: 0; }
+.missions-app .missions-fold hr { border: 0; border-top: 1px solid var(--ms-line); margin: 10px 0; }
+
+/* 등급 계산기 · 등급 길잡이 */
+.missions-app .missions-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; align-items: start; padding: 16px; border: 1px solid var(--ms-line); border-radius: 12px; background: var(--ms-card); min-width: 0; }
+.missions-app .missions-chosen, .missions-app .missions-form .missions-search, .missions-app .missions-form [data-ms-pickout] { grid-column: 1 / -1; }
+.missions-app .missions-form [data-ms-pickout]:empty { display: none; }
+.missions-app .missions-chosen { display: grid; gap: 2px; font-size: 13px; color: var(--color-text-secondary); }
+.missions-app .missions-chosen strong { font-size: 17px; overflow-wrap: anywhere; }
+.missions-app .missions-chosen a { display: inline-block; padding: 4px 0; }
+.missions-app .missions-picks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+.missions-app .missions-form [data-ms-pickout] { display: grid; gap: 8px; }
+.missions-app .missions-form [data-ms-pickout] .missions-more { justify-self: start; }
+.missions-app .missions-pick { width: 100%; min-height: 56px; display: grid; gap: 2px; align-content: start; padding: 8px 12px; border: 1px solid var(--ms-line); border-radius: 10px; background: var(--ms-card-2); color: var(--color-text-primary); font: inherit; font-size: 14px; font-weight: 600; text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+.missions-app .missions-out { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.missions-app .missions-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.missions-app .missions-step { padding: 14px 16px; border: 1px solid var(--ms-line); border-left: 3px solid var(--volt-orange); border-radius: 12px; background: var(--ms-card); min-width: 0; overflow-wrap: anywhere; }
+.missions-app .missions-step > h4 { margin-bottom: 8px; }
+.missions-app .missions-step p { margin: 0 0 6px; font-size: 14px; line-height: 1.7; }
+.missions-app .missions-list a, .missions-app .missions-note a, .missions-app .missions-source a { display: inline-block; padding: 3px 0; }
+
+.missions-app .missions-source { padding-top: 10px; border-top: 1px solid var(--ms-line); font-size: 12px; line-height: 1.7; color: var(--color-text-secondary); }
+.missions-app .missions-source p { margin: 0; }
+
+@media (hover: hover) {
+    .missions-app .missions-tile:hover { border-color: var(--color-border-hover); background: var(--ms-card-2); }
+    .missions-app .missions-chip:hover, .missions-app .missions-toggle:hover, .missions-app .missions-pick:hover { border-color: var(--color-border-hover); }
+    .missions-app .missions-table tbody tr:hover { background: var(--ms-card-2); }
+}
+
+@media (max-width: 760px) {
+    .missions-app { gap: 12px; }
+    .missions-app h3 { font-size: 19px; }
+    .missions-app .missions-head.is-loading:empty { min-height: 98px; }
+    .missions-app .missions-tabs { width: 100%; }
+    .missions-app .missions-tab { flex: 1 1 0; padding: 0 8px; font-size: 13px; }
+    .missions-app .missions-share { width: 100%; }
+    .missions-app .missions-toolbar > * { flex: 1 1 100%; }
+    .missions-app .missions-sort { flex: 1 1 150px; }
+    .missions-app .missions-toggle[data-ms-dir] { flex: 0 0 auto; }
+    .missions-app .missions-viewswitch { flex: 1 1 100%; }
+    .missions-app .missions-viewswitch .missions-toggle { flex: 1 1 0; }
+    .missions-app .missions-fields { grid-template-columns: minmax(0, 1fr); }
+    .missions-app .missions-filters[open] { padding: 0 12px 12px; }
+    .missions-app .missions-tiles { grid-template-columns: minmax(0, 1fr); }
+    .missions-app .missions-blocks { grid-template-columns: minmax(0, 1fr); }
+    .missions-app .missions-block, .missions-app .missions-step, .missions-app .missions-form { padding: 12px; }
+    .missions-app .missions-table th, .missions-app .missions-table td { padding: 8px 10px; }
+    .missions-app .missions-bps { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 등급 계산기 표는 좁은 화면에서도 옆으로 밀지 않고 다 보이게 한다 (횟수 칸이 답이다). */
+@media (max-width: 760px) {
+    .missions-app .missions-ranktable { font-size: 13px; }
+    .missions-app .missions-ranktable th, .missions-app .missions-ranktable td { padding: 8px 6px; }
+    .missions-app .missions-ranktable thead th { white-space: normal; }
+    .missions-app .missions-ranktable tbody th { overflow-wrap: anywhere; }
+    .missions-app .missions-ranktable .missions-tag { white-space: normal; }
+}
+
+/* 손가락으로 누르는 곳은 높이 44px 이상. */
+@media (max-width: 760px), (pointer: coarse) {
+    .missions-app .missions-fold > summary { box-sizing: border-box; min-height: 44px; padding: 12px 0; }
+    .missions-app .missions-bps a, .missions-app .missions-list a, .missions-app .missions-note a, .missions-app .missions-source a, .missions-app .missions-chosen a { display: inline-flex; align-items: center; min-height: 44px; padding: 0; }
+    .missions-app .missions-bps { gap: 0 14px; }
+    .missions-app .missions-table .missions-open, .missions-app .missions-th { min-height: 44px; }
+}

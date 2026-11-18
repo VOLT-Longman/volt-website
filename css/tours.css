@@ -1,0 +1,116 @@
+/* VOLT 순회 무역 (#tours) — 이 화면 전용 스타일. 모든 선택자는 .tours-app 아래에 둔다.
+   색·간격은 css/styles.css 의 토큰(var(--color-*), var(--radius-*), var(--volt-orange))을 쓴다. */
+.tours-app { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); min-width: 0; --to-card: #1a1b1f; --to-card-2: #212329; --to-line: rgba(255, 255, 255, 0.09); --to-good: #7fd88a; }
+.tours-app h3, .tours-app h5, .tours-app p, .tours-app dl, .tours-app dd, .tours-app ul, .tours-app ol { margin: 0; }
+.tours-app ul, .tours-app ol { padding: 0; list-style: none; }
+
+/* 탭 */
+.tours-app .tours-tabs { display: inline-flex; justify-self: start; max-width: 100%; border: 1px solid var(--to-line); border-radius: 10px; overflow: hidden; }
+.tours-app .tours-tab { min-height: 44px; padding: 0 18px; border: 0; background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.tours-app .tours-tab.is-active { background: var(--volt-orange); color: #111; }
+
+/* 틀: 왼쪽 조건, 오른쪽 결과 */
+.tours-app .tours-layout { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.tours-app .tours-side, .tours-app .tours-main { display: grid; gap: 16px; min-width: 0; }
+.tours-app .tours-panel { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--to-line); border-radius: 12px; background: var(--to-card); min-width: 0; }
+.tours-app .tours-panel h3 { font-size: 16px; }
+.tours-app .tours-grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+
+/* 입력 */
+.tours-app .tours-field { display: grid; gap: 4px; min-width: 0; }
+.tours-app .tours-label { font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
+.tours-app .tours-hint { font-size: 12px; line-height: 1.5; color: var(--color-text-tertiary); }
+.tours-app .tours-input { width: 100%; min-width: 0; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--to-line); background: var(--to-card-2); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.tours-app select.tours-input { text-overflow: ellipsis; }
+.tours-app .tours-input:disabled { opacity: 0.5; }
+.tours-app .tours-checks { display: grid; gap: 4px; }
+.tours-app .tours-checks + .tours-hint { margin-top: -8px; }
+.tours-app .tours-check { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 14px; color: var(--color-text-primary); cursor: pointer; }
+.tours-app .tours-check input { width: 20px; height: 20px; flex: 0 0 auto; accent-color: var(--volt-orange); }
+.tours-app .tours-btn { min-height: 44px; padding: 0 16px; justify-self: start; border-radius: 10px; border: 1px solid var(--color-border-hover); background: transparent; color: var(--color-text-primary); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.tours-app .tours-btn.is-primary { justify-self: stretch; border-color: var(--volt-orange); background: var(--volt-orange); color: #111; }
+.tours-app .tours-btn.is-small { align-self: end; padding: 0 12px; }
+.tours-app .tours-times { display: grid; gap: 10px; padding-top: 10px; border-top: 1px solid var(--to-line); }
+.tours-app .tours-times > summary, .tours-app .tours-assume > summary { min-height: 44px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--color-text-primary); cursor: pointer; }
+.tours-app .tours-times[open] > summary { margin-bottom: 8px; }
+.tours-app .tours-times .tours-grid { margin: 10px 0; }
+.tours-app .tours-switch { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--to-line); border-radius: 10px; overflow: hidden; }
+.tours-app .tours-switch-btn { min-height: 44px; padding: 6px 10px; border: 0; background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.tours-app .tours-switch-btn.is-active { background: rgba(232, 72, 47, 0.16); color: var(--color-text-primary); box-shadow: inset 0 -2px 0 var(--volt-orange); }
+.tours-app .tours-set { display: grid; gap: 10px; margin: 0; padding: 12px; border: 1px solid var(--to-line); border-radius: 10px; min-width: 0; }
+.tours-app .tours-set legend { padding: 0 6px; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
+.tours-app .tours-items { display: grid; gap: 10px; }
+.tours-app .tours-item { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 8px; padding-bottom: 10px; border-bottom: 1px dashed var(--to-line); }
+.tours-app .tours-item .tours-field:first-child { grid-column: 1 / -1; }
+
+/* 결과 */
+.tours-app .tours-empty { display: grid; gap: 12px; justify-items: center; padding: 28px 16px; border: 1px dashed var(--to-line); border-radius: 12px; color: var(--color-text-secondary); text-align: center; line-height: 1.6; }
+.tours-app .tours-warn { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 12px 16px; border: 1px solid rgba(255, 179, 0, 0.45); border-radius: 12px; background: var(--to-card); font-size: 14px; line-height: 1.6; color: var(--color-warning); }
+.tours-app .tours-progress { display: grid; gap: 12px; padding: 20px 16px; border: 1px solid var(--to-line); border-radius: 12px; background: var(--to-card); }
+.tours-app .tours-progress progress { width: 100%; height: 10px; accent-color: var(--volt-orange); }
+.tours-app .tours-results-title { font-size: 17px; }
+.tours-app .tours-results-title:focus, .tours-app .tours-detail-head h3:focus { outline: none; }
+.tours-app .tours-note { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+.tours-app .tours-note.is-warn { color: var(--color-warning); }
+.tours-app .tours-lead { font-size: 14px; color: var(--color-text-secondary); }
+.tours-app .tours-cards, .tours-app .tours-legs { display: grid; gap: 12px; }
+.tours-app .tours-card, .tours-app .tours-leg { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--to-line); border-radius: 12px; background: var(--to-card); min-width: 0; }
+.tours-app .tours-card-head, .tours-app .tours-leg-head { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+.tours-app .tours-rank { flex: 0 0 auto; min-width: 28px; height: 28px; display: inline-grid; place-items: center; border-radius: 8px; background: var(--to-card-2); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tours-app .tours-leg-no { flex: 0 0 auto; padding: 4px 10px; border-radius: 8px; background: rgba(232, 72, 47, 0.16); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.tours-app .tours-path { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-width: 0; font-size: 15px; font-weight: 600; line-height: 1.5; }
+.tours-app .tours-path.is-big { font-size: 16px; }
+.tours-app .tours-stop { overflow-wrap: anywhere; }
+.tours-app .tours-arrow { color: var(--volt-orange-light); }
+.tours-app .tours-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.tours-app .tours-stat { padding: 8px 10px; border: 1px solid var(--to-line); border-radius: 8px; background: var(--to-card-2); min-width: 0; }
+.tours-app .tours-stat dt { font-size: 12px; color: var(--color-text-secondary); }
+.tours-app .tours-stat dd { margin-top: 2px; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.tours-app .tours-est { display: inline-block; padding: 1px 6px; border-radius: 6px; border: 1px solid var(--to-line); font-size: 11px; font-weight: 600; color: var(--color-text-secondary); vertical-align: middle; white-space: nowrap; }
+.tours-app .tours-detail-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.tours-app .tours-detail-head h3 { font-size: 18px; }
+.tours-app .tours-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.tours-app .tours-leg-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: start; }
+.tours-app .tours-stack { display: grid; gap: 10px; min-width: 0; }
+.tours-app .tours-box { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--to-line); border-radius: 10px; background: var(--to-card-2); min-width: 0; }
+.tours-app .tours-box.is-warn { border-color: rgba(255, 179, 0, 0.45); }
+.tours-app .tours-box h5 { font-size: 13px; font-weight: 700; color: var(--color-text-secondary); overflow-wrap: anywhere; }
+.tours-app .tours-box h5 small { font-size: 12px; font-weight: 400; }
+.tours-app .tours-goods { display: grid; gap: 10px; }
+.tours-app .tours-good { display: grid; gap: 3px; min-width: 0; }
+.tours-app .tours-good + .tours-good { padding-top: 10px; border-top: 1px dashed var(--to-line); }
+.tours-app .tours-good-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px; font-size: 15px; }
+.tours-app .tours-qty { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tours-app .tours-sub { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); overflow-wrap: anywhere; }
+.tours-app .tours-age { color: var(--text-muted-bright); white-space: nowrap; }
+.tours-app .tours-flags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.tours-app .tours-flag { display: inline-block; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--to-line); font-size: 12px; color: var(--color-text-secondary); }
+.tours-app .tours-flag.is-warn { border-color: rgba(255, 179, 0, 0.55); color: var(--color-warning); }
+.tours-app .tours-flag.is-must { border-color: rgba(232, 72, 47, 0.6); color: var(--color-text-primary); }
+.tours-app .tours-leg-sum { font-size: 14px; }
+.tours-app .tours-leg-sum strong { color: var(--to-good); }
+.tours-app .tours-links { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.tours-app .tours-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--color-text-primary); text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.3); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.tours-app .tours-plain { display: grid; gap: 6px; font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); }
+.tours-app .tours-plain strong { color: var(--color-text-primary); }
+.tours-app .tours-pergood { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.tours-app .tours-assume { padding: 4px 14px 12px; border: 1px solid var(--to-line); border-radius: 12px; background: var(--to-card); }
+.tours-app .tours-assume ul { display: grid; gap: 6px; padding-left: 18px; list-style: disc; font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+.tours-app .tours-notice { min-height: 1.4em; font-size: 13px; color: var(--color-text-primary); }
+.tours-app .tours-notice:empty { display: none; }
+.tours-app .tours-source { padding-top: 10px; border-top: 1px solid var(--to-line); font-size: 12px; line-height: 1.7; color: var(--color-text-secondary); }
+
+@media (hover: hover) {
+    .tours-app .tours-btn:hover { border-color: var(--volt-orange); }
+    .tours-app .tours-link:hover { text-decoration-color: var(--volt-orange); }
+}
+@media (max-width: 1000px) {
+    .tours-app .tours-layout { grid-template-columns: minmax(0, 1fr); }
+    .tours-app .tours-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+@media (max-width: 640px) {
+    .tours-app .tours-tabs { display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch; }
+    .tours-app .tours-tab { padding: 0 8px; }
+    .tours-app .tours-leg-cols { grid-template-columns: minmax(0, 1fr); }
+    .tours-app .tours-card, .tours-app .tours-leg, .tours-app .tours-panel { padding: 12px; }
+}

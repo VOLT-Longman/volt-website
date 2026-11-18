@@ -324,6 +324,7 @@ body {
 
 body.nav-more-open::before,
 body.nav-ships-open::before,
+body.nav-work-open::before,
 body.nav-trade-open::before {
     position: fixed;
     inset: 0;
@@ -487,6 +488,24 @@ body.nav-trade-open::before {
     display: grid;
     gap: 8px;
     align-items: stretch;
+}
+/* 도구 묶음(무역, 임무 · 자원)은 두 칸으로 놓아 메뉴 길이를 늘리지 않는다. */
+.mobile-menu-primary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mobile-menu-primary > li {
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+.mobile-menu-primary > li.mobile-menu-half {
+    grid-column: auto;
+}
+.mobile-menu .mobile-menu-half a {
+    height: 100%;
+    padding: 6px 12px;
+    font-size: 16px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
 }
 .mobile-menu-group-label {
     margin: 18px 0 4px;
@@ -10530,6 +10549,21 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 
 /* A wide table must scroll within its own panel, not size the guide's grid track. */
 .mining-app, .hauling-app { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+
+/* 도우미 도구 화면 공용 틀 (무역 경로 · 시세 · 순회 무역 · 임무 · 제작 설계도). 화면별 스타일은 css/<화면>.css. 계약: docs/helper-tools.md */
+.helper-app { min-width: 0; }
+.helper-app .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.helper-soon { display: grid; gap: 6px; margin: 0; padding: 28px 20px; border: 1px dashed var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-card); color: var(--color-text-secondary); text-align: center; }
+.helper-soon-title { color: var(--color-text-primary); font-size: 17px; }
+.helper-soon-body { margin: 0; font-size: 14px; }
+.helper-soon-error { color: var(--color-text-primary); }
+/* 도구끼리 오가는 줄 (index.html 의 각 도구 섹션 제목 아래). 좁은 화면에서는 한 줄로 두고 옆으로 민다. */
+.helper-related { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 16px; min-width: 0; }
+.helper-related-title { flex: none; font-size: 13px; color: var(--color-text-secondary); }
+.helper-related-link { display: inline-flex; align-items: center; flex: none; min-height: 44px; padding: 0 14px; border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-bg-card); color: var(--color-text-primary); font-size: 14px; line-height: 1.2; text-decoration: none; white-space: nowrap; }
+.helper-related-link:focus-visible { outline: 2px solid var(--volt-orange); outline-offset: 2px; }
+@media (hover: hover) { .helper-related-link:hover { border-color: var(--color-border-hover); background: var(--color-bg-card-hover); } }
+@media (max-width: 720px) { .helper-related { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; } }
 .hauling-app > *, .hauling-filters label { min-width: 0; }
 .hauling-filters select { min-width: 0; max-width: 100%; }
 .hauling-note { margin: 0; font-size: 13px; line-height: 1.7; color: var(--color-text-secondary); }

@@ -33,6 +33,21 @@ test('sale of existing cargo never fabricates a profit or uses stale/future repo
     assert.equal(result.revenue, 540); assert.equal(result.profit, null); assert.equal(result.cost, null);
     for (const date_modified of [null, 1, Math.floor(Date.now() / 1000) + 100]) assert.equal(calc.trade(null, { ...sell, date_modified }, { mode: 'sell', capacity: 8, quantity: 3 }).status, 'stale');
 });
+test('price age: 60 minutes unless a cut-off in days is passed; the age is never ignored', () => {
+    const [buy, sell] = priceRows();
+    const now = Date.now();
+    const at = (hoursAgo) => Math.floor(now / 1000) - hoursAgo * 3600;
+    const choices = { capacity: 8, quantity: 8, budget: 800 };
+    const twoDays = [{ ...buy, date_modified: at(48) }, { ...sell, date_modified: at(48) }];
+    assert.equal(calc.trade(twoDays[0], twoDays[1], choices, now).status, 'stale');                      // no cut-off given: 60-minute rule
+    const ok = calc.trade(twoDays[0], twoDays[1], { ...choices, maxAgeDays: 3 }, now);
+    assert.equal(ok.status, 'ok'); assert.equal(ok.reportAt, at(48));                                    // the age travels with the result
+    assert.equal(calc.trade(twoDays[0], twoDays[1], { ...choices, maxAgeDays: 1 }, now).status, 'stale');
+    assert.equal(calc.trade(buy, { ...sell, date_modified: at(96) }, { ...choices, maxAgeDays: 3 }, now).status, 'stale'); // one old side is enough
+    for (const bad of [0, -1, 'x', null]) assert.equal(calc.trade(twoDays[0], twoDays[1], { ...choices, maxAgeDays: bad }, now).status, 'stale');
+    assert.equal(calc.fresh({ date_modified: at(48) }, now), false); assert.equal(calc.fresh({ date_modified: at(48) }, now, 3), true);
+    assert.equal(calc.fresh({ date_modified: at(-1) }, now, 3), false); assert.equal(calc.fresh({ date_modified: null }, now, 3), false);
+});
 test('craft totals preserve units and only use supported game recipes', async () => {
     const source = await (await assets.fetch('https://assets.local/data/loadout/crafting.json')).json();
     const id = 'Mining_Laser_THCN_Helix_S2';
