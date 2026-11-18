@@ -1,0 +1,8641 @@
+{
+ "gameBuild": "4.10.200.58746",
+ "gameBranch": "sc-alpha-4.10.0",
+ "gameChangelist": "13165946",
+ "gameBuildDate": "Wed Nov 11 2026",
+ "researchedAt": "2026-11-18T00:42:59.342Z",
+ "uexApi": "https://api.uexcorp.uk/2.0",
+ "uexFetchedAt": {
+  "commodities": "2026-11-18T00:41:22.939Z",
+  "planets": "2026-11-18T00:41:24.774Z",
+  "moons": "2026-11-18T00:41:26.354Z",
+  "space_stations": "2026-11-18T00:41:28.327Z",
+  "cities": "2026-11-18T00:41:28.750Z",
+  "outposts": "2026-11-18T00:41:29.647Z",
+  "vehicles": "2026-11-18T00:41:32.126Z"
+ },
+ "matchRule": "UUID 가 같으면 verified, 이름만 같으면 name, 여러 개가 걸리면 ambiguous. name·ambiguous 는 사람이 확인하기 전에는 확정이 아니다.",
+ "summary": {
+  "commodities": {
+   "none": 40,
+   "name": 167
+  },
+  "uexOnlyCommodities": 38,
+  "miningLocations": {
+   "none": 24,
+   "name": 25
+  },
+  "places": {
+   "name": 167,
+   "none": 14,
+   "ambiguous": 3
+  },
+  "vehicles": {
+   "verified": 159,
+   "none": 125,
+   "sameScu": 140,
+   "differentScu": 19
+  }
+ },
+ "commodities": [
+  {
+   "id": "Electricity",
+   "uuid": "bcc8cde9-de58-4e6b-8ee9-37d4aaa507eb",
+   "name": "Power:",
+   "link": "none"
+  },
+  {
+   "id": "Ammonia",
+   "uuid": "a11394c9-ad7c-404d-9209-3a5e57bb4aa4",
+   "name": "Ammonia",
+   "link": "name",
+   "uex": {
+    "id": 85,
+    "name": "Ammonia",
+    "code": "AMMO",
+    "kind": "Raw Materials",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 770,
+    "priceSell": 991
+   }
+  },
+  {
+   "id": "Argon",
+   "uuid": "0d41371c-3cde-4939-8583-cd718f5edd60",
+   "name": "Argon",
+   "link": "name",
+   "uex": {
+    "id": 111,
+    "name": "Argon",
+    "code": "ARGO",
+    "kind": "Gas",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 308,
+    "priceSell": 449
+   }
+  },
+  {
+   "id": "Helium",
+   "uuid": "00686389-dfb8-49e4-9eea-66a4ebf24db2",
+   "name": "Helium",
+   "link": "name",
+   "uex": {
+    "id": 38,
+    "name": "Helium",
+    "code": "HELI",
+    "kind": "Gas",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 736,
+    "priceSell": 1057
+   }
+  },
+  {
+   "id": "Hydrogen",
+   "uuid": "530da47b-c6bb-4d95-a1ee-23a1e4e27b45",
+   "name": "Hydrogen",
+   "link": "name",
+   "uex": {
+    "id": 41,
+    "name": "Hydrogen",
+    "code": "HYDR",
+    "kind": "Gas",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 764,
+    "priceSell": 1052
+   }
+  },
+  {
+   "id": "Methane",
+   "uuid": "9e65a7bd-adcf-4129-9ef5-26f4fe13f85b",
+   "name": "Methane",
+   "link": "name",
+   "uex": {
+    "id": 114,
+    "name": "Methane",
+    "code": "METH",
+    "kind": "Gas",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3088,
+    "priceSell": 3623
+   }
+  },
+  {
+   "id": "Nitrogen",
+   "uuid": "8ee121cc-aabb-4394-87dd-02552d228d0b",
+   "name": "Nitrogen",
+   "link": "name",
+   "uex": {
+    "id": 106,
+    "name": "Nitrogen",
+    "code": "NITR",
+    "kind": "Gas",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 2440,
+    "priceSell": 3037
+   }
+  },
+  {
+   "id": "Partiullium",
+   "uuid": "d24d3982-aba6-4e0e-803e-4839ceeef328",
+   "name": "Partillium",
+   "link": "name",
+   "uex": {
+    "id": 121,
+    "name": "Partillium",
+    "code": "PRTL",
+    "kind": "Gas",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 89571
+   }
+  },
+  {
+   "id": "Tritium",
+   "uuid": "2fdf6809-4eba-4bed-b75c-09c9207fbc37",
+   "name": "Tritium",
+   "link": "name",
+   "uex": {
+    "id": 153,
+    "name": "Tritium",
+    "code": "TRIT",
+    "kind": "Gas",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 15769,
+    "priceSell": 33111
+   }
+  },
+  {
+   "id": "Oxygen",
+   "uuid": "15fe1d6a-8e3e-41ad-b4b0-8a5960d75f2d",
+   "name": "Oxygen",
+   "link": "none"
+  },
+  {
+   "id": "CarbonDioxide",
+   "uuid": "0efb796d-49c7-4f8f-8640-21ce6b1fbd97",
+   "name": "CO<font size=\"%d\">2</font>",
+   "link": "none"
+  },
+  {
+   "id": "Atlassium",
+   "uuid": "ad752f96-3a1c-4ce7-9bde-fa847b7b2e48",
+   "name": "Atlasium",
+   "link": "name",
+   "uex": {
+    "id": 130,
+    "name": "Atlasium",
+    "code": "ATLA",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 73001,
+    "priceSell": 90600
+   }
+  },
+  {
+   "id": "Dymantium",
+   "uuid": "53513e3d-93cc-4079-b87b-cf20a4692661",
+   "name": "Dymantium",
+   "link": "name",
+   "uex": {
+    "id": 127,
+    "name": "Dymantium",
+    "code": "DYMA",
+    "kind": "Explosive",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 20821,
+    "priceSell": 22947
+   }
+  },
+  {
+   "id": "Steel",
+   "uuid": "97f623df-e359-4d51-b819-91644b31ead2",
+   "name": "Steel",
+   "link": "name",
+   "uex": {
+    "id": 109,
+    "name": "Steel",
+    "code": "STEE",
+    "kind": "Alloy",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 1555,
+    "priceSell": 1956
+   }
+  },
+  {
+   "id": "Xapyen",
+   "uuid": "91e0d004-ecd2-48b5-af06-5dbeed33460d",
+   "name": "Xa'Pyen",
+   "link": "name",
+   "uex": {
+    "id": 118,
+    "name": "Xa'Pyen",
+    "code": "XAPY",
+    "kind": "Alloy",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3149,
+    "priceSell": 4780
+   }
+  },
+  {
+   "id": "Ore_Stileron",
+   "uuid": "32bafbd4-c52a-476d-b31c-97c4b3102471",
+   "name": "Stileron (Ore)",
+   "link": "none"
+  },
+  {
+   "id": "Ore_Riccite",
+   "uuid": "c3697191-8ad0-43a9-af7a-29c0ad58de34",
+   "name": "Riccite (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 163,
+    "name": "Riccite (Ore)",
+    "code": "RICO",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Agricium",
+   "uuid": "fc1ec740-3047-48d8-81f0-396f4c9a90ef",
+   "name": "Agricium (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 2,
+    "name": "Agricium (Ore)",
+    "code": "AGRI",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Aluminum",
+   "uuid": "e30bdd32-8fd5-44b8-9994-5fd253a16c37",
+   "name": "Aluminum (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 6,
+    "name": "Aluminum (Ore)",
+    "code": "ALUM",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Borase",
+   "uuid": "728a3d7e-9567-4e1c-87fd-2bd45b458aa6",
+   "name": "Borase (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 16,
+    "name": "Borase (Ore)",
+    "code": "BORA",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true,
+    "priceBuy": 5520
+   }
+  },
+  {
+   "id": "Ore_Copper",
+   "uuid": "d4ba4af8-80f1-4a8a-b8cd-5ba7e37c005c",
+   "name": "Copper (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 21,
+    "name": "Copper (Ore)",
+    "code": "COPP",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 1200
+   }
+  },
+  {
+   "id": "Ore_Gold",
+   "uuid": "57aba429-cf97-4fdd-8042-94b1d643f5bd",
+   "name": "Gold (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 34,
+    "name": "Gold (Ore)",
+    "code": "GOLD",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Titanium",
+   "uuid": "64978449-1d87-4a16-ba55-4b5f94fee217",
+   "name": "Titanium (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 76,
+    "name": "Titanium (Ore)",
+    "code": "TITA",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Tungsten",
+   "uuid": "addc9aa4-5d2d-4c0d-b01b-ad2b2e50a5d6",
+   "name": "Tungsten (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 78,
+    "name": "Tungsten (Ore)",
+    "code": "TUNG",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Iron",
+   "uuid": "32c57a12-5de5-49b1-827a-9fd80278fbc4",
+   "name": "Iron (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 45,
+    "name": "Iron (Ore)",
+    "code": "IRONO",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 1000
+   }
+  },
+  {
+   "id": "Ore_Tin",
+   "uuid": "551cf88d-c09f-46e3-99b3-66c60bb65af1",
+   "name": "Tin (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 176,
+    "name": "Tin (Ore)",
+    "code": "TINO",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Jaclium",
+   "uuid": "2c1e1693-4d19-446c-8224-ebad36feb618",
+   "name": "Jaclium (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 173,
+    "name": "Jaclium (Ore)",
+    "code": "JACO",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 23000000
+   }
+  },
+  {
+   "id": "Ore_Saldynium",
+   "uuid": "5fdfdea8-3d75-4287-85c7-f29a722ee351",
+   "name": "Saldynium (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 172,
+    "name": "Saldynium (Ore)",
+    "code": "SALD",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 34000000
+   }
+  },
+  {
+   "id": "Ore_Savrilium",
+   "uuid": "d76ea7ef-5116-488c-93d3-71e02bada13d",
+   "name": "Savrilium (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 187,
+    "name": "Savrilium (Ore)",
+    "code": "SAVW",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": true,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Torite",
+   "uuid": "48b9b7ba-cd5e-458b-bb91-9b43eb46c568",
+   "name": "Torite (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 189,
+    "name": "Torite (Ore)",
+    "code": "TORIO",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": true,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Ore_Lindinium",
+   "uuid": "87327e0c-86a7-4c6b-82c3-d0c8fe6bf15f",
+   "name": "Lindinium (Ore)",
+   "link": "name",
+   "uex": {
+    "id": 185,
+    "name": "Lindinium (Ore)",
+    "code": "LINW",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Agricium",
+   "uuid": "dc6fbcbb-5990-4ed5-82ee-93152dab7845",
+   "name": "Agricium",
+   "link": "name",
+   "uex": {
+    "id": 1,
+    "name": "Agricium",
+    "code": "AGRI",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 8338,
+    "priceSell": 9655
+   }
+  },
+  {
+   "id": "Aluminum",
+   "uuid": "48c7080a-bbef-43d2-901a-698321ed4340",
+   "name": "Aluminum",
+   "link": "name",
+   "uex": {
+    "id": 5,
+    "name": "Aluminum",
+    "code": "ALUM",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 2989,
+    "priceSell": 3686
+   }
+  },
+  {
+   "id": "Borase",
+   "uuid": "33bff393-42f1-4f70-85a1-71e695ed2a5a",
+   "name": "Borase",
+   "link": "name",
+   "uex": {
+    "id": 15,
+    "name": "Borase",
+    "code": "BORA",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 27104
+   }
+  },
+  {
+   "id": "Cobalt",
+   "uuid": "c6b26962-9a6c-4ee8-b8cd-494828e0876f",
+   "name": "Cobalt",
+   "link": "name",
+   "uex": {
+    "id": 110,
+    "name": "Cobalt",
+    "code": "COBA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 18690,
+    "priceSell": 20578
+   }
+  },
+  {
+   "id": "Copper",
+   "uuid": "a789f57a-e12b-4bcd-8132-e0c03d84fc89",
+   "name": "Copper",
+   "link": "name",
+   "uex": {
+    "id": 20,
+    "name": "Copper",
+    "code": "COPP",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3177,
+    "priceSell": 3712
+   }
+  },
+  {
+   "id": "Gold",
+   "uuid": "21825507-7923-4683-9bf3-9cfe316940e3",
+   "name": "Gold",
+   "link": "name",
+   "uex": {
+    "id": 33,
+    "name": "Gold",
+    "code": "GOLD",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 28062,
+    "priceSell": 28870
+   }
+  },
+  {
+   "id": "Mercury",
+   "uuid": "28611d12-4140-4488-9722-b61091cc2f7c",
+   "name": "Mercury",
+   "link": "name",
+   "uex": {
+    "id": 123,
+    "name": "Mercury",
+    "code": "MERC",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 743,
+    "priceSell": 1004
+   }
+  },
+  {
+   "id": "Potassium",
+   "uuid": "8dda1cf4-dc6c-4b31-93f2-8ca28ef6ec55",
+   "name": "Potassium",
+   "link": "name",
+   "uex": {
+    "id": 116,
+    "name": "Potassium",
+    "code": "POTA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 419,
+    "priceSell": 575
+   }
+  },
+  {
+   "id": "Titanium",
+   "uuid": "07570c9f-fdf6-4bca-a56b-c42809ec0e01",
+   "name": "Titanium",
+   "link": "name",
+   "uex": {
+    "id": 75,
+    "name": "Titanium",
+    "code": "TITA",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 7300,
+    "priceSell": 8153
+   }
+  },
+  {
+   "id": "Tungsten",
+   "uuid": "60f116f4-c02a-45b2-9ded-333747795124",
+   "name": "Tungsten",
+   "link": "name",
+   "uex": {
+    "id": 77,
+    "name": "Tungsten",
+    "code": "TUNG",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 8490,
+    "priceSell": 10358
+   }
+  },
+  {
+   "id": "Iron",
+   "uuid": "f386a33c-ac9a-400a-a7b8-fe1fc7c8d270",
+   "name": "Iron",
+   "link": "name",
+   "uex": {
+    "id": 44,
+    "name": "Iron",
+    "code": "IRON",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 2688,
+    "priceSell": 3393
+   }
+  },
+  {
+   "id": "Riccite",
+   "uuid": "86d00bd8-08f7-4231-b375-a609803fc46d",
+   "name": "Riccite",
+   "link": "name",
+   "uex": {
+    "id": 124,
+    "name": "Riccite",
+    "code": "RICC",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 68492
+   }
+  },
+  {
+   "id": "Tin",
+   "uuid": "1b4c4042-5fdc-4b52-bec4-07085cb3520a",
+   "name": "Tin",
+   "link": "name",
+   "uex": {
+    "id": 103,
+    "name": "Tin",
+    "code": "TIN",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3289,
+    "priceSell": 3999
+   }
+  },
+  {
+   "id": "Stileron",
+   "uuid": "8cd317a3-df9b-4315-8ac3-0f1fca42dfd4",
+   "name": "Stileron",
+   "link": "name",
+   "uex": {
+    "id": 122,
+    "name": "Stileron",
+    "code": "STIL",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceBuy": 122850,
+    "priceSell": 137818
+   }
+  },
+  {
+   "id": "Savrilium",
+   "uuid": "4a47cad8-0271-4048-b19b-d9b52521fc20",
+   "name": "Savrilium",
+   "link": "name",
+   "uex": {
+    "id": 188,
+    "name": "Savrilium",
+    "code": "SAVR",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 121111
+   }
+  },
+  {
+   "id": "Torite",
+   "uuid": "75b37a54-45c9-4f27-ac09-9830f092dd86",
+   "name": "Torite",
+   "link": "name",
+   "uex": {
+    "id": 190,
+    "name": "Torite",
+    "code": "TORI",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 7688
+   }
+  },
+  {
+   "id": "Lindinium",
+   "uuid": "392b4dca-449a-4d4d-8fef-beab024d9ee7",
+   "name": "Lindinium",
+   "link": "name",
+   "uex": {
+    "id": 184,
+    "name": "Lindinium",
+    "code": "LIND",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 47579
+   }
+  },
+  {
+   "id": "Raw_Beryl",
+   "uuid": "eb503701-389a-48a1-af28-eb7374009d5d",
+   "name": "Beryl (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 12,
+    "name": "Beryl (Raw)",
+    "code": "BERY",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Bexalite",
+   "uuid": "3848c27d-49cc-4fdb-9a18-e93770bc8bc2",
+   "name": "Bexalite (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 14,
+    "name": "Bexalite (Raw)",
+    "code": "BEXA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Corundum",
+   "uuid": "4ceb21c5-48f8-418a-8188-0b0196c33505",
+   "name": "Corundum (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 23,
+    "name": "Corundum (Raw)",
+    "code": "CORU",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Diamond",
+   "uuid": "9491a4b4-7887-49fc-af04-e7f132078d0f",
+   "name": "Diamond (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 26,
+    "name": "Diamond (Raw)",
+    "code": "DIAM",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Hephaestanite",
+   "uuid": "cad319d9-e0e5-420d-bbfd-dd62a0362d05",
+   "name": "Hephaestanite (R)",
+   "link": "name",
+   "uex": {
+    "id": 40,
+    "name": "Hephaestanite (Raw)",
+    "code": "HEPH",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Laranite",
+   "uuid": "7b7178c1-b0f0-4760-89de-9a3e3851e7a8",
+   "name": "Laranite (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 48,
+    "name": "Laranite (Raw)",
+    "code": "LARA",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Quantainium",
+   "uuid": "501d9b2e-136c-483b-a4d9-282fe6a5d37a",
+   "name": "Quantainium (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 59,
+    "name": "Quantainium (Raw)",
+    "code": "QUAN",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Quartz",
+   "uuid": "8569b931-06bb-4d86-9f24-5e303e2ff3ee",
+   "name": "Quartz (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 61,
+    "name": "Quartz (Raw)",
+    "code": "QUAR",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Taranite",
+   "uuid": "b6175879-fc61-4600-b4a9-1e15f2c2ddd5",
+   "name": "Taranite (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 74,
+    "name": "Taranite (Raw)",
+    "code": "TARA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Raw_Aslarite",
+   "uuid": "f0c1f30b-001c-4a80-ac20-27df27183056",
+   "name": "Aslarite (Raw)",
+   "link": "name",
+   "uex": {
+    "id": 199,
+    "name": "Aslarite (Raw)",
+    "code": "ASLW",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": true,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Janalite",
+   "uuid": "f3379bda-0520-4c75-920a-c29a50eb6b50",
+   "name": "Janalite",
+   "link": "name",
+   "uex": {
+    "id": 46,
+    "name": "Janalite",
+    "code": "JANA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 1439540
+   }
+  },
+  {
+   "id": "Aphorite",
+   "uuid": "9b47bacf-8efa-42e2-8d84-dee64983a00a",
+   "name": "Aphorite",
+   "link": "name",
+   "uex": {
+    "id": 8,
+    "name": "Aphorite",
+    "code": "APHO",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 97838
+   }
+  },
+  {
+   "id": "Beryl",
+   "uuid": "93c8b7df-d6ac-4b4f-a115-b0e3afc238b8",
+   "name": "Beryl",
+   "link": "name",
+   "uex": {
+    "id": 11,
+    "name": "Beryl",
+    "code": "BERY",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 15390,
+    "priceSell": 19806
+   }
+  },
+  {
+   "id": "Bexalite",
+   "uuid": "999e3149-fd10-49ac-914f-8911e61c6122",
+   "name": "Bexalite",
+   "link": "name",
+   "uex": {
+    "id": 13,
+    "name": "Bexalite",
+    "code": "BEXA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 23885,
+    "priceSell": 28535
+   }
+  },
+  {
+   "id": "Corundum",
+   "uuid": "4236c16b-c47f-4083-9e26-4313733f2326",
+   "name": "Corundum",
+   "link": "name",
+   "uex": {
+    "id": 22,
+    "name": "Corundum",
+    "code": "CORU",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 2865,
+    "priceSell": 3668
+   }
+  },
+  {
+   "id": "Diamond",
+   "uuid": "935255d1-2eda-414b-bdd7-207e57c26e36",
+   "name": "Diamond",
+   "link": "name",
+   "uex": {
+    "id": 25,
+    "name": "Diamond",
+    "code": "DIAM",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 5772,
+    "priceSell": 7477
+   }
+  },
+  {
+   "id": "Dolivine",
+   "uuid": "7e86e2f4-6c31-41f8-9438-0fd8ad037426",
+   "name": "Dolivine",
+   "link": "name",
+   "uex": {
+    "id": 28,
+    "name": "Dolivine",
+    "code": "DOLI",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 143631
+   }
+  },
+  {
+   "id": "Hadanite",
+   "uuid": "3e5fdc37-cb59-4fd3-8168-e3c538ab9722",
+   "name": "Hadanite",
+   "link": "name",
+   "uex": {
+    "id": 36,
+    "name": "Hadanite",
+    "code": "HADA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 524906
+   }
+  },
+  {
+   "id": "Hephaestanite",
+   "uuid": "61189578-ed7a-4491-9774-37ae2f82b8b0",
+   "name": "Hephaestanite",
+   "link": "name",
+   "uex": {
+    "id": 39,
+    "name": "Hephaestanite",
+    "code": "HEPH",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3982,
+    "priceSell": 4597
+   }
+  },
+  {
+   "id": "InertMaterials",
+   "uuid": "b8029480-f171-4a88-a44d-4323e021f82a",
+   "name": "Inert Materials",
+   "link": "name",
+   "uex": {
+    "id": 42,
+    "name": "Inert Materials",
+    "code": "INER",
+    "kind": "Other",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": false,
+    "priceSell": 4
+   }
+  },
+  {
+   "id": "Laranite",
+   "uuid": "7f4599b0-a2b2-4178-8c7e-13292054ab20",
+   "name": "Laranite",
+   "link": "name",
+   "uex": {
+    "id": 47,
+    "name": "Laranite",
+    "code": "LARA",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 7344,
+    "priceSell": 8600
+   }
+  },
+  {
+   "id": "MixedMining",
+   "uuid": "df2ef5ee-dbb1-404b-a1c9-fb9877ed1eba",
+   "name": "Mixed Mining",
+   "link": "none"
+  },
+  {
+   "id": "Quantanium",
+   "uuid": "bde5a2c8-2ef4-46ac-9403-2fcb79e4016c",
+   "name": "Quantainium",
+   "link": "name",
+   "uex": {
+    "id": 58,
+    "name": "Quantainium",
+    "code": "QUAN",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 148409
+   }
+  },
+  {
+   "id": "Quartz",
+   "uuid": "35121003-f1af-481a-b16f-7f48d8af0efb",
+   "name": "Quartz",
+   "link": "name",
+   "uex": {
+    "id": 60,
+    "name": "Quartz",
+    "code": "QUAR",
+    "kind": "Metal",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3445,
+    "priceSell": 4284
+   }
+  },
+  {
+   "id": "Taranite",
+   "uuid": "06cafea0-49fe-4dce-b0f0-dc583316c66d",
+   "name": "Taranite",
+   "link": "name",
+   "uex": {
+    "id": 73,
+    "name": "Taranite",
+    "code": "TARA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 21924,
+    "priceSell": 25895
+   }
+  },
+  {
+   "id": "Pressurized_Ice",
+   "uuid": "f9f3251a-8e48-408a-b957-f1e3d5d3e213",
+   "name": "Pressurized Ice",
+   "link": "name",
+   "uex": {
+    "id": 101,
+    "name": "Pressurized Ice",
+    "code": "PICE",
+    "kind": "Raw Materials",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 4536,
+    "priceSell": 5150
+   }
+  },
+  {
+   "id": "Beradom",
+   "uuid": "c339897c-d682-48ad-a16f-daf145bc0f4d",
+   "name": "Beradom",
+   "link": "name",
+   "uex": {
+    "id": 167,
+    "name": "Beradom",
+    "code": "BERA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 138116
+   }
+  },
+  {
+   "id": "Glacosite",
+   "uuid": "960eda23-d77c-425e-8cbd-89d94ca6e2aa",
+   "name": "Glacosite",
+   "link": "name",
+   "uex": {
+    "id": 168,
+    "name": "Glacosite",
+    "code": "GLAC",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 93536
+   }
+  },
+  {
+   "id": "Feynmaline",
+   "uuid": "7310c15d-359c-42b4-b61e-7da3d0da3384",
+   "name": "Feynmaline",
+   "link": "name",
+   "uex": {
+    "id": 169,
+    "name": "Feynmaline",
+    "code": "FEYN",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": true,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 323824
+   }
+  },
+  {
+   "id": "Carinite",
+   "uuid": "d7d39082-ba27-470c-bc9a-d9e82ce838ae",
+   "name": "Carinite",
+   "link": "name",
+   "uex": {
+    "id": 170,
+    "name": "Carinite",
+    "code": "CARI",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true
+   }
+  },
+  {
+   "id": "CarinitePure",
+   "uuid": "80dd9dd7-1a4e-41b9-9b3b-4f385b87396c",
+   "name": "Carinite (Pure)",
+   "link": "name",
+   "uex": {
+    "id": 178,
+    "name": "Carinite (Pure)",
+    "code": "CARP",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Sadaryx",
+   "uuid": "93feeedc-6d17-4b86-b8ae-8e0f4ba56cbf",
+   "name": "Sadaryx",
+   "link": "name",
+   "uex": {
+    "id": 200,
+    "name": "Sadaryx",
+    "code": "SADA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 500000
+   }
+  },
+  {
+   "id": "Aslarite",
+   "uuid": "fde0cd65-8827-4b23-804d-cc8845dfa7ac",
+   "name": "Aslarite",
+   "link": "name",
+   "uex": {
+    "id": 193,
+    "name": "Aslarite",
+    "code": "ASLA",
+    "kind": "Mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 5100
+   }
+  },
+  {
+   "id": "GoldenMedmon",
+   "uuid": "d99498e8-1464-4ff7-8177-afd05d75c3d8",
+   "name": "Golden Medmon",
+   "link": "name",
+   "uex": {
+    "id": 35,
+    "name": "Golden Medmon",
+    "code": "GOLM",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 51415,
+    "priceSell": 56590
+   }
+  },
+  {
+   "id": "HeartOfTheWoods",
+   "uuid": "293cbddc-9515-456e-8090-bdc94f746619",
+   "name": "Heart of the Woods",
+   "link": "name",
+   "uex": {
+    "id": 37,
+    "name": "Heart of the Woods",
+    "code": "HOTW",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 35429
+   }
+  },
+  {
+   "id": "Pitambu",
+   "uuid": "1e4ca7fc-bb70-4080-b94f-7ad24ba4f520",
+   "name": "Pitambu",
+   "link": "name",
+   "uex": {
+    "id": 55,
+    "name": "Pitambu",
+    "code": "PITA",
+    "kind": "Food",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceBuy": 49114,
+    "priceSell": 56333
+   }
+  },
+  {
+   "id": "SunsetBerry",
+   "uuid": "306f93e6-a500-415b-b71b-631e8c93721c",
+   "name": "Sunset Berries",
+   "link": "name",
+   "uex": {
+    "id": 72,
+    "name": "Sunset Berries",
+    "code": "SUNB",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 66058,
+    "priceSell": 79647
+   }
+  },
+  {
+   "id": "BlueBilva",
+   "uuid": "6e0cd1d0-80ad-47c8-8692-461eebf24bc2",
+   "name": "Blue Bilva",
+   "link": "name",
+   "uex": {
+    "id": 215,
+    "name": "Blue Bilva",
+    "code": "BLUE",
+    "kind": "Food",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "JumpingLimes",
+   "uuid": "aaf46f4c-f8d8-4808-a39b-2b47de9b78fa",
+   "name": "Jumping Limes",
+   "link": "name",
+   "uex": {
+    "id": 144,
+    "name": "Jumping Limes",
+    "code": "JUMP",
+    "kind": "Food",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Oza",
+   "uuid": "fc107c3a-6776-4b7d-bac2-f9ab869391a9",
+   "name": "Oza",
+   "link": "none"
+  },
+  {
+   "id": "SpiralFruit",
+   "uuid": "0e6aa9fc-00ba-4767-8727-33b6009e9933",
+   "name": "Lunes (Spiral Fruit)",
+   "link": "none"
+  },
+  {
+   "id": "GaspingWeevilEggs",
+   "uuid": "3871740a-f82f-445d-a2e5-8163d1405733",
+   "name": "Gasping Weevil Eggs",
+   "link": "name",
+   "uex": {
+    "id": 32,
+    "name": "Gasping Weevil Eggs",
+    "code": "GAWE",
+    "kind": "Natural",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 66600
+   }
+  },
+  {
+   "id": "HumanFoodBars",
+   "uuid": "ea78052a-11b2-484e-a7ee-d19ed906a037",
+   "name": "Human Food Bars",
+   "link": "name",
+   "uex": {
+    "id": 97,
+    "name": "Human Food Bars",
+    "code": "HFBA",
+    "kind": "Commodity",
+    "illegal": true,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 412,
+    "priceSell": 484
+   }
+  },
+  {
+   "id": "FreshFood",
+   "uuid": "096618a0-1f7d-48db-9c6a-9ac459386527",
+   "name": "Fresh Food",
+   "link": "name",
+   "uex": {
+    "id": 120,
+    "name": "Fresh Food",
+    "code": "FFOO",
+    "kind": "Food",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 21526,
+    "priceSell": 24630
+   }
+  },
+  {
+   "id": "AgriculturalSupplies",
+   "uuid": "9c09556c-a9c7-4af8-893d-7a3cd6152746",
+   "name": "Agricultural Supplies",
+   "link": "name",
+   "uex": {
+    "id": 3,
+    "name": "Agricultural Supplies",
+    "code": "AGRS",
+    "kind": "Agricultural",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 1087,
+    "priceSell": 1368
+   }
+  },
+  {
+   "id": "AmioshiPlague",
+   "uuid": "6c45b24e-bb2d-45f1-9622-f7ef9359dc77",
+   "name": "Amioshi Plague",
+   "link": "name",
+   "uex": {
+    "id": 7,
+    "name": "Amioshi Plague",
+    "code": "AMIP",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 23950
+   }
+  },
+  {
+   "id": "Carbonsilk",
+   "uuid": "7df4bf83-34e8-451b-bfb6-e17149daf57e",
+   "name": "Carbon-Silk",
+   "link": "name",
+   "uex": {
+    "id": 113,
+    "name": "Carbon-Silk",
+    "code": "CSIL",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 17810,
+    "priceSell": 20561
+   }
+  },
+  {
+   "id": "DegnousRoot",
+   "uuid": "a0046f6f-ce84-4ca2-b5d1-d6598a9aad39",
+   "name": "Degnous Root",
+   "link": "name",
+   "uex": {
+    "id": 24,
+    "name": "Degnous Root",
+    "code": "DEGR",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 44447,
+    "priceSell": 58830
+   }
+  },
+  {
+   "id": "Prota",
+   "uuid": "70684af3-55f1-43db-8aca-eae33cfac445",
+   "name": "Prota",
+   "link": "name",
+   "uex": {
+    "id": 57,
+    "name": "Prota",
+    "code": "PROT",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 58647
+   }
+  },
+  {
+   "id": "RantaDung",
+   "uuid": "5cc98bf3-8edd-4184-9e47-2ff40e4c556b",
+   "name": "Ranta Dung",
+   "link": "name",
+   "uex": {
+    "id": 62,
+    "name": "Ranta Dung",
+    "code": "RAND",
+    "kind": "Agricultural",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceBuy": 34733,
+    "priceSell": 35528
+   }
+  },
+  {
+   "id": "RevenantPod",
+   "uuid": "75982fed-2b4b-4433-be1f-5657fb783918",
+   "name": "Revenant Pod",
+   "link": "name",
+   "uex": {
+    "id": 65,
+    "name": "Revenant Pod",
+    "code": "REVP",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 9200
+   }
+  },
+  {
+   "id": "AltruciaToxin_unprocessed",
+   "uuid": "ee845b46-a156-47f7-a58a-22f9b77b9c2b",
+   "name": "Revenant Tree Pollen",
+   "link": "name",
+   "uex": {
+    "id": 66,
+    "name": "Revenant Tree Pollen",
+    "code": "REVE",
+    "kind": "Vice",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 990,
+    "priceSell": 1266
+   }
+  },
+  {
+   "id": "DecariPod",
+   "uuid": "469a34fe-2e37-4269-82eb-490eaed361a1",
+   "name": "Decari Pod",
+   "link": "name",
+   "uex": {
+    "id": 105,
+    "name": "Decari Pod",
+    "code": "DECA",
+    "kind": "Natural",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Fotia",
+   "uuid": "def044a7-a56a-4f99-a497-ef6022113922",
+   "name": "Fotia Seedpod",
+   "link": "none"
+  },
+  {
+   "id": "Pingala",
+   "uuid": "b442105e-6eeb-46b7-b50b-15cb39918d09",
+   "name": "Pingala Seeds",
+   "link": "none"
+  },
+  {
+   "id": "CK13SeedBlend",
+   "uuid": "2ed08e8e-7d46-4056-b877-42809af9905b",
+   "name": "CK13-GID Seed Blend",
+   "link": "name",
+   "uex": {
+    "id": 126,
+    "name": "CK13-GID Seed Blend",
+    "code": "CK13",
+    "kind": "Seed",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 7000
+   }
+  },
+  {
+   "id": "Slam_Unprocessed",
+   "uuid": "9890f3ac-8b41-4821-a1bd-2d64ab507c2b",
+   "name": "DCSR2",
+   "link": "name",
+   "uex": {
+    "id": 98,
+    "name": "DCSR2",
+    "code": "DCSR",
+    "kind": "Agricultural",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false,
+    "priceSell": 1200
+   }
+  },
+  {
+   "id": "Raw_Ice",
+   "uuid": "d9653427-af7f-4fea-bbd6-ae89393524b7",
+   "name": "Raw Ice",
+   "link": "none"
+  },
+  {
+   "id": "KopionHorn",
+   "uuid": "1d4bce93-f0a3-47f2-8885-195f906a32d1",
+   "name": "Kopion Horn",
+   "link": "name",
+   "uex": {
+    "id": 92,
+    "name": "Kopion Horn",
+    "code": "KOPH",
+    "kind": "Medical",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 34706
+   }
+  },
+  {
+   "id": "MarokPearl",
+   "uuid": "0f7378e2-2106-4c40-abd6-927cb91ba60d",
+   "name": "Marok Gem",
+   "link": "name",
+   "uex": {
+    "id": 91,
+    "name": "Marok Gem",
+    "code": "MARG",
+    "kind": "Animal",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 48100
+   }
+  },
+  {
+   "id": "Vlk_Limpet",
+   "uuid": "272539c8-e211-4c82-8bd0-6ecaabbc9c10",
+   "name": "<= PLACEHOLDER =>",
+   "link": "none"
+  },
+  {
+   "id": "QuasiEgg",
+   "uuid": "48bf58e1-8cba-469b-92ae-09dbc0acc645",
+   "name": "Desert Quasi Grazer Egg",
+   "link": "none"
+  },
+  {
+   "id": "Vlk_Fang",
+   "uuid": "8ba78e89-0832-48c2-b8ab-4eaa7d4bba42",
+   "name": "Valakkar Fang",
+   "link": "none"
+  },
+  {
+   "id": "MoldSample",
+   "uuid": "70f388a3-a84c-44c6-be8b-3ed295d39e77",
+   "name": "Molina Mold Samples",
+   "link": "name",
+   "uex": {
+    "id": 197,
+    "name": "Molina Mold Samples",
+    "code": "MOLMS",
+    "kind": "Medicine",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "OrganiMass",
+   "uuid": "7f72bf18-3334-4e60-837d-d51d9fa745cd",
+   "name": "Organics",
+   "link": "name",
+   "uex": {
+    "id": 186,
+    "name": "Organics",
+    "code": "ORGN",
+    "kind": "Organics",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 9745,
+    "priceSell": 12105
+   }
+  },
+  {
+   "id": "MoldTreatment",
+   "uuid": "c87a8d56-8998-46ba-b056-0ebd0b07eed6",
+   "name": "Molina Mold Treatment",
+   "link": "name",
+   "uex": {
+    "id": 195,
+    "name": "Molina Mold Treatment",
+    "code": "MOLMT",
+    "kind": "Medicine",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Armillaria",
+   "uuid": "1996b79b-14bc-42ad-9cc4-36b0705fd284",
+   "name": "Bluemoon Fungus",
+   "link": "none"
+  },
+  {
+   "id": "Genmod Seeds",
+   "uuid": "99df66b9-5cc2-4ddb-858f-f44e3fc22185",
+   "name": "Genmod Seeds",
+   "link": "none"
+  },
+  {
+   "id": "BiologicalSamples",
+   "uuid": "e81bb594-a380-49fb-a9e4-a6cf2c7f9fa0",
+   "name": "Biological Samples",
+   "link": "none"
+  },
+  {
+   "id": "VirusCultures",
+   "uuid": "08df1d49-3a9f-4697-b99f-1166742deaec",
+   "name": "Virus Cultures",
+   "link": "none"
+  },
+  {
+   "id": "YormandiEye",
+   "uuid": "1e5e3c87-5e4c-4cac-8a17-6a46f97abb8a",
+   "name": "Yormandi Eye",
+   "link": "none"
+  },
+  {
+   "id": "Astatine",
+   "uuid": "e821252d-9d3f-479d-aea3-6ac6cb835784",
+   "name": "Astatine",
+   "link": "name",
+   "uex": {
+    "id": 9,
+    "name": "Astatine",
+    "code": "ASTA",
+    "kind": "Halogen",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 2760,
+    "priceSell": 3452
+   }
+  },
+  {
+   "id": "Chlorine",
+   "uuid": "65fa8e9f-0413-46a6-a9cd-3fce91194f18",
+   "name": "Chlorine",
+   "link": "name",
+   "uex": {
+    "id": 17,
+    "name": "Chlorine",
+    "code": "CHLO",
+    "kind": "Halogen",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 1314,
+    "priceSell": 1482
+   }
+  },
+  {
+   "id": "Flourine",
+   "uuid": "0e49f648-a7d0-4e5c-80e6-9636bd9a8ed6",
+   "name": "Fluorine",
+   "link": "name",
+   "uex": {
+    "id": 31,
+    "name": "Fluorine",
+    "code": "FLUO",
+    "kind": "Halogen",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 1036,
+    "priceSell": 1249
+   }
+  },
+  {
+   "id": "Iodine",
+   "uuid": "a0db59ab-1497-47e4-b0cd-d205c0a4d2f5",
+   "name": "Iodine",
+   "link": "name",
+   "uex": {
+    "id": 43,
+    "name": "Iodine",
+    "code": "IODI",
+    "kind": "Halogen",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 14945,
+    "priceSell": 11427
+   }
+  },
+  {
+   "id": "Carbon",
+   "uuid": "9dc16af8-bfb9-4119-9e54-6db11b0a7ed2",
+   "name": "Carbon",
+   "link": "name",
+   "uex": {
+    "id": 102,
+    "name": "Carbon",
+    "code": "CARB",
+    "kind": "Raw Materials",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 262,
+    "priceSell": 363
+   }
+  },
+  {
+   "id": "RawSilicon",
+   "uuid": "d137b905-b3bc-4721-a790-830499263c0c",
+   "name": "Raw Silicon",
+   "link": "none"
+  },
+  {
+   "id": "Silicon",
+   "uuid": "7bbd3197-a6e1-49b3-a495-0b7ef4f8ce40",
+   "name": "Silicon",
+   "link": "name",
+   "uex": {
+    "id": 100,
+    "name": "Silicon",
+    "code": "SILI",
+    "kind": "Raw Materials",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 1864,
+    "priceSell": 2406
+   }
+  },
+  {
+   "id": "RawOuratite",
+   "uuid": "ca3ae4c1-3483-4985-ba61-50412994dc83",
+   "name": "Raw Ouratite",
+   "link": "none"
+  },
+  {
+   "id": "Ouratite",
+   "uuid": "989f9b73-f636-4f35-a81d-579dcbe3f0ab",
+   "name": "Ouratite",
+   "link": "name",
+   "uex": {
+    "id": 194,
+    "name": "Ouratite",
+    "code": "OURA",
+    "kind": "mineral",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceSell": 45677
+   }
+  },
+  {
+   "id": "AltruciaToxin",
+   "uuid": "6fc6df10-0267-4097-8233-67983e594669",
+   "name": "Altruciatoxin",
+   "link": "name",
+   "uex": {
+    "id": 4,
+    "name": "Altruciatoxin",
+    "code": "AUTR",
+    "kind": "Drug",
+    "illegal": true,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 5337,
+    "priceSell": 6293
+   }
+  },
+  {
+   "id": "DistilledSpirits",
+   "uuid": "e938ab24-2af8-48b5-9af7-8e82fb26dcb3",
+   "name": "Distilled Spirits",
+   "link": "name",
+   "uex": {
+    "id": 27,
+    "name": "Distilled Spirits",
+    "code": "DIST",
+    "kind": "Vice",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 1569,
+    "priceSell": 1878
+   }
+  },
+  {
+   "id": "Etam",
+   "uuid": "ba11589f-a278-44e9-9bd9-79552832fc94",
+   "name": "E'tam",
+   "link": "name",
+   "uex": {
+    "id": 29,
+    "name": "E'tam",
+    "code": "ETAM",
+    "kind": "Drug",
+    "illegal": true,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 17721,
+    "priceSell": 23364
+   }
+  },
+  {
+   "id": "Maze",
+   "uuid": "ca8dcc9f-35d9-4652-b270-7db91ccd25a8",
+   "name": "Maze",
+   "link": "name",
+   "uex": {
+    "id": 50,
+    "name": "Maze",
+    "code": "MAZE",
+    "kind": "Drug",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 230000
+   }
+  },
+  {
+   "id": "Neon",
+   "uuid": "d3c3ec68-b4ac-4504-85b3-e860a70eb9a5",
+   "name": "Neon",
+   "link": "name",
+   "uex": {
+    "id": 52,
+    "name": "Neon",
+    "code": "NEON",
+    "kind": "Drug",
+    "illegal": true,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 14206,
+    "priceSell": 18389
+   }
+  },
+  {
+   "id": "Slam",
+   "uuid": "8950d9c5-8a54-4e2c-87a2-c56c1b9edd3c",
+   "name": "SLAM",
+   "link": "name",
+   "uex": {
+    "id": 68,
+    "name": "SLAM",
+    "code": "SLAM",
+    "kind": "Drug",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 38102
+   }
+  },
+  {
+   "id": "SlamUncut",
+   "uuid": "3dc64c8c-8784-43e0-a003-3230b3ae680e",
+   "name": "Uncut SLAM",
+   "link": "none"
+  },
+  {
+   "id": "Stims",
+   "uuid": "f4c68747-fa77-4c42-aff5-c3d72b8c8388",
+   "name": "Stims",
+   "link": "name",
+   "uex": {
+    "id": 70,
+    "name": "Stims",
+    "code": "STIM",
+    "kind": "Vice",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 4246,
+    "priceSell": 5320
+   }
+  },
+  {
+   "id": "Widow",
+   "uuid": "a69c19f9-f33e-4c87-bfd2-09663585d158",
+   "name": "WiDoW",
+   "link": "name",
+   "uex": {
+    "id": 80,
+    "name": "WiDoW",
+    "code": "WIDO",
+    "kind": "Drug",
+    "illegal": true,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 5929,
+    "priceSell": 7155
+   }
+  },
+  {
+   "id": "Dopple",
+   "uuid": "93d40906-a95a-4df5-9ac0-0a47c0d782b1",
+   "name": "Dopple",
+   "link": "name",
+   "uex": {
+    "id": 155,
+    "name": "Dopple",
+    "code": "DOPP",
+    "kind": "Vice",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Freeze",
+   "uuid": "f1604838-e521-49e6-87d0-3ef4d02db4c0",
+   "name": "Freeze",
+   "link": "name",
+   "uex": {
+    "id": 156,
+    "name": "Freeze",
+    "code": "FREE",
+    "kind": "Vice",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Glow",
+   "uuid": "bdeef09b-a4da-4b51-a7fa-54147871525e",
+   "name": "Glow",
+   "link": "name",
+   "uex": {
+    "id": 157,
+    "name": "Glow",
+    "code": "GLOW",
+    "kind": "Vice",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Mala",
+   "uuid": "801ba093-ccce-4514-9fff-212fdcce9397",
+   "name": "Mala",
+   "link": "name",
+   "uex": {
+    "id": 158,
+    "name": "Mala",
+    "code": "MALA",
+    "kind": "Vice",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Thrust",
+   "uuid": "4b904eb5-7e6b-4c18-914e-7735a4e8ed67",
+   "name": "Thrust",
+   "link": "name",
+   "uex": {
+    "id": 159,
+    "name": "Thrust",
+    "code": "THRU",
+    "kind": "Vice",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Zip",
+   "uuid": "910562b9-93d9-4e46-af2d-ba0858f231d0",
+   "name": "Zip",
+   "link": "name",
+   "uex": {
+    "id": 160,
+    "name": "Zip",
+    "code": "ZIP",
+    "kind": "Vice",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Detatrine",
+   "uuid": "8bc60017-e4b6-47b1-bbe0-f2eb944fdeaf",
+   "name": "Detatrine",
+   "link": "name",
+   "uex": {
+    "id": 166,
+    "name": "Detatrine",
+    "code": "DETA",
+    "kind": "Explosive",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true
+   }
+  },
+  {
+   "id": "Bioplastic",
+   "uuid": "9c9b1fde-10ee-4707-a391-5ea8f03e8178",
+   "name": "Bioplastic",
+   "link": "name",
+   "uex": {
+    "id": 112,
+    "name": "Bioplastic",
+    "code": "BIOPL",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 6474,
+    "priceSell": 7611
+   }
+  },
+  {
+   "id": "CadmiumAllinide",
+   "uuid": "50ec433d-37a8-4123-a803-73a4b09a5e39",
+   "name": "Cadmium Allinide",
+   "link": "name",
+   "uex": {
+    "id": 139,
+    "name": "Cadmium Allinide",
+    "code": "CAAL",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "DiamondLaminate",
+   "uuid": "e25b7a4c-e642-44bb-8941-552ad9b9a875",
+   "name": "Diamond Laminate",
+   "link": "name",
+   "uex": {
+    "id": 119,
+    "name": "Diamond Laminate",
+    "code": "DIAL",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 84185
+   }
+  },
+  {
+   "id": "Dynaflex",
+   "uuid": "a8d60f68-349e-4755-98fc-9a0a8dc349a5",
+   "name": "DynaFlex",
+   "link": "name",
+   "uex": {
+    "id": 93,
+    "name": "DynaFlex",
+    "code": "DYNF",
+    "kind": "Man-Made",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 1569,
+    "priceSell": 1891
+   }
+  },
+  {
+   "id": "Elespo",
+   "uuid": "ca524406-0e3e-4d5e-baad-8a6c7b42054b",
+   "name": "Elespo",
+   "link": "name",
+   "uex": {
+    "id": 138,
+    "name": "Elespo",
+    "code": "ELES",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false,
+    "priceBuy": 6000
+   }
+  },
+  {
+   "id": "Lastaprene",
+   "uuid": "16314a82-085d-415f-a4ae-f0a0c077022f",
+   "name": "Lastaprene",
+   "link": "none"
+  },
+  {
+   "id": "Lycara",
+   "uuid": "ac0c8daa-05d6-4000-a12d-5e0451da4aea",
+   "name": "Lycara",
+   "link": "name",
+   "uex": {
+    "id": 136,
+    "name": "Lycara",
+    "code": "LYCA",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Neograph",
+   "uuid": "c184c595-78c9-4e19-8e27-5ae16e166f20",
+   "name": "Neograph",
+   "link": "name",
+   "uex": {
+    "id": 133,
+    "name": "Neograph",
+    "code": "NEOG",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false,
+    "priceSell": 92188
+   }
+  },
+  {
+   "id": "Omnapoxy",
+   "uuid": "3274fabb-2dde-4291-b17f-c58a44090218",
+   "name": "Omnapoxy",
+   "link": "name",
+   "uex": {
+    "id": 115,
+    "name": "Omnapoxy",
+    "code": "OMPO",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3619,
+    "priceSell": 4532
+   }
+  },
+  {
+   "id": "Sarilus",
+   "uuid": "a3bff629-d9fb-4999-a5f8-410137e76324",
+   "name": "Sarilus",
+   "link": "name",
+   "uex": {
+    "id": 134,
+    "name": "Sarilus",
+    "code": "SARI",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Silnex",
+   "uuid": "1447fd18-aaac-4788-ae2f-55055dcc31cf",
+   "name": "Silnex",
+   "link": "name",
+   "uex": {
+    "id": 135,
+    "name": "Silnex",
+    "code": "SILN",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "Thermalfoam",
+   "uuid": "6e8c18c9-f6cd-4311-805e-6daeaef4a26d",
+   "name": "ThermalFoam",
+   "link": "name",
+   "uex": {
+    "id": 132,
+    "name": "Thermalfoam",
+    "code": "FOAM",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 5088,
+    "priceSell": 6241
+   }
+  },
+  {
+   "id": "ShipAmmoSize1",
+   "uuid": "1fdb2e84-1622-4685-8194-2d108498d90f",
+   "name": "Ship Ammunition - Size 1",
+   "link": "name",
+   "uex": {
+    "id": 201,
+    "name": "Ship Ammunition - Size 1",
+    "code": "SHPA1",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 6868
+   }
+  },
+  {
+   "id": "ShipAmmoSize2",
+   "uuid": "12b3419e-8300-4a4e-9dc9-4c2d4469fc11",
+   "name": "Ship Ammunition - Size 2",
+   "link": "name",
+   "uex": {
+    "id": 202,
+    "name": "Ship Ammunition - Size 2",
+    "code": "SHPA2",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 7126
+   }
+  },
+  {
+   "id": "ShipAmmoSize3",
+   "uuid": "393c2115-5ba5-4748-9664-3f5a7998a816",
+   "name": "Ship Ammunition - Size 3",
+   "link": "name",
+   "uex": {
+    "id": 203,
+    "name": "Ship Ammunition - Size 3",
+    "code": "SHPA3",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 7381
+   }
+  },
+  {
+   "id": "ShipAmmoSize4",
+   "uuid": "42a961ba-0039-41d3-a020-989410a2958c",
+   "name": "Ship Ammunition - Size 4",
+   "link": "name",
+   "uex": {
+    "id": 204,
+    "name": "Ship Ammunition - Size 4",
+    "code": "SHPA4",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 7637
+   }
+  },
+  {
+   "id": "ShipAmmoSize5",
+   "uuid": "313b4437-fde2-4eab-af35-aae4421b9d2e",
+   "name": "Ship Ammunition - Size 5",
+   "link": "name",
+   "uex": {
+    "id": 205,
+    "name": "Ship Ammunition - Size 5",
+    "code": "SHPA5",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 7981
+   }
+  },
+  {
+   "id": "ShipAmmoSize6",
+   "uuid": "a6e40cd4-c10e-403c-aaa0-79a8f112cf6c",
+   "name": "Ship Ammunition - Size 6",
+   "link": "name",
+   "uex": {
+    "id": 206,
+    "name": "Ship Ammunition - Size 6",
+    "code": "SHPA6",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 8328
+   }
+  },
+  {
+   "id": "ShipAmmoSize7",
+   "uuid": "a790133a-b77b-4699-9ae5-264b61fe9ffc",
+   "name": "Ship Ammunition - Size 7",
+   "link": "name",
+   "uex": {
+    "id": 207,
+    "name": "Ship Ammunition - Size 7",
+    "code": "SHPA7",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 8671
+   }
+  },
+  {
+   "id": "ShipCountermeasuresDecoy",
+   "uuid": "b2f14f8c-3780-4706-8bc3-7792fc0b00de",
+   "name": "Ship Decoy Countermeasures",
+   "link": "name",
+   "uex": {
+    "id": 208,
+    "name": "Ship Decoy Countermeasures",
+    "code": "SHPDC",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 4293
+   }
+  },
+  {
+   "id": "ShipCountermeasuresNoise",
+   "uuid": "c473310f-6284-4ab8-a6f7-1604ac5d634a",
+   "name": "Ship Noise Countermeasures",
+   "link": "name",
+   "uex": {
+    "id": 209,
+    "name": "Ship Noise Countermeasures",
+    "code": "SHPNC",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 8584
+   }
+  },
+  {
+   "id": "ShipAmmoSize8",
+   "uuid": "b5d360d2-0ebe-472d-afa9-69c4dff908bb",
+   "name": "Ship Ammunition - Size 8",
+   "link": "none"
+  },
+  {
+   "id": "ShipAmmoSize9",
+   "uuid": "2eebe444-03ed-4d17-b9e7-037482b9dbc6",
+   "name": "Ship Ammunition - Size 9",
+   "link": "none"
+  },
+  {
+   "id": "ConstructionMaterials",
+   "uuid": "98aa6a70-80e7-41d7-9128-9692053d57a2",
+   "name": "Construction Materials",
+   "link": "name",
+   "uex": {
+    "id": 19,
+    "name": "Construction Materials",
+    "code": "CMAT",
+    "kind": "Scrap",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 9128,
+    "priceSell": 11893
+   }
+  },
+  {
+   "id": "ElectronicsEquipment",
+   "uuid": "5f2d394d-6e69-4cb8-afb2-81a96544936e",
+   "name": "Audio-Visual Equipment",
+   "link": "name",
+   "uex": {
+    "id": 10,
+    "name": "Audio-Visual Equipment",
+    "code": "AUDI",
+    "kind": "Temporary",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceBuy": 27965,
+    "priceSell": 34565
+   }
+  },
+  {
+   "id": "HolidayBox",
+   "uuid": "167d6564-7325-49de-bc0a-406dbb54f5dc",
+   "name": "Luminalia Gift",
+   "link": "name",
+   "uex": {
+    "id": 49,
+    "name": "Luminalia Gift",
+    "code": "LUMG",
+    "kind": "Temporary",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 5141670
+   }
+  },
+  {
+   "id": "HolidayLetter",
+   "uuid": "ff8c1dbd-5ced-4f0a-8c47-0cf3b751722f",
+   "name": "Year of the Rat Envelope",
+   "link": "name",
+   "uex": {
+    "id": 192,
+    "name": "Year of the Rat Envelope",
+    "code": "YTRO",
+    "kind": "Temporary",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 2037500
+   }
+  },
+  {
+   "id": "HPMC",
+   "uuid": "3702ad47-7681-452d-b92f-9372bc1e6a4e",
+   "name": "HexaPolyMesh Coating",
+   "link": "name",
+   "uex": {
+    "id": 129,
+    "name": "HexaPolyMesh Coating",
+    "code": "HPMC",
+    "kind": "Crafting",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 1
+   }
+  },
+  {
+   "id": "MedicalSupplies",
+   "uuid": "d5506a24-5729-4354-81fb-0959173357c4",
+   "name": "Medical Supplies",
+   "link": "name",
+   "uex": {
+    "id": 51,
+    "name": "Medical Supplies",
+    "code": "MEDS",
+    "kind": "Medical",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3753,
+    "priceSell": 5148
+   }
+  },
+  {
+   "id": "PartyFavors",
+   "uuid": "00f23f09-a8ae-4ccb-845f-accd63dd7906",
+   "name": "Party Favors",
+   "link": "name",
+   "uex": {
+    "id": 54,
+    "name": "Party Favors",
+    "code": "PART",
+    "kind": "Temporary",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 4740
+   }
+  },
+  {
+   "id": "PlasmaFuel",
+   "uuid": "de9f4d03-6b60-429d-9b26-9f2308bae973",
+   "name": "Hydrogen Fuel",
+   "link": "name",
+   "uex": {
+    "id": 104,
+    "name": "Hydrogen Fuel",
+    "code": "HYDF",
+    "kind": "Fuel",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceBuy": 781,
+    "priceSell": 738
+   }
+  },
+  {
+   "id": "ProcessedFood",
+   "uuid": "accacd33-3a1a-4ec7-8b4a-14b9f028047c",
+   "name": "Processed Food",
+   "link": "name",
+   "uex": {
+    "id": 56,
+    "name": "Processed Food",
+    "code": "PFOO",
+    "kind": "Food",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 1202,
+    "priceSell": 1442
+   }
+  },
+  {
+   "id": "ProcyonCanister_Damage",
+   "uuid": "d32df14b-43f3-44dc-a39c-124217fac045",
+   "name": "AcryliPlex Composite",
+   "link": "name",
+   "uex": {
+    "id": 82,
+    "name": "AcryliPlex Composite",
+    "code": "ACCO",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": false
+   }
+  },
+  {
+   "id": "ProcyonCanister_Quantum",
+   "uuid": "47b8b3dc-5ad0-4780-8049-ad33f6a7d10b",
+   "name": "Diluthermex",
+   "link": "name",
+   "uex": {
+    "id": 83,
+    "name": "Diluthermex",
+    "code": "DILU",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true
+   }
+  },
+  {
+   "id": "ProcyonCanister_Time",
+   "uuid": "1396faad-eb0c-4ed1-be34-571ca7ca159e",
+   "name": "Zeta-Prolanide",
+   "link": "name",
+   "uex": {
+    "id": 84,
+    "name": "Zeta-Prolanide",
+    "code": "ZEPR",
+    "kind": "Man-made",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "QuantumFuel",
+   "uuid": "f4846780-182f-49d1-a711-f08c0172735e",
+   "name": "Quantum Fuel",
+   "link": "name",
+   "uex": {
+    "id": 87,
+    "name": "Quantum Fuel",
+    "code": "QFUE",
+    "kind": "Fuel",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceBuy": 1760,
+    "priceSell": 1600
+   }
+  },
+  {
+   "id": "RMC",
+   "uuid": "a0e6c4cf-face-4f52-a020-dfa869607901",
+   "name": "Recycled Material Composite",
+   "link": "name",
+   "uex": {
+    "id": 63,
+    "name": "Recycled Material Composite",
+    "code": "RMC",
+    "kind": "Scrap",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 7568,
+    "priceSell": 7011
+   }
+  },
+  {
+   "id": "ShipAmmunition",
+   "uuid": "984c2ac5-70dc-43be-85a2-15b8db95dcd2",
+   "name": "Ship Ammunition",
+   "link": "name",
+   "uex": {
+    "id": 128,
+    "name": "Ship Ammunition",
+    "code": "SHPA",
+    "kind": "Ammunition",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 11
+   }
+  },
+  {
+   "id": "Souvenirs",
+   "uuid": "18671657-8b11-4407-b190-10c9f73661fe",
+   "name": "Souvenirs",
+   "link": "name",
+   "uex": {
+    "id": 69,
+    "name": "Souvenirs",
+    "code": "SOUV",
+    "kind": "Temporary",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": true,
+    "priceSell": 18183
+   }
+  },
+  {
+   "id": "HLX99Hyperprocessors",
+   "uuid": "5e079d07-630a-41d5-a314-16381f07e2c3",
+   "name": "HLX99 Hyperprocessors",
+   "link": "none"
+  },
+  {
+   "id": "OsoianHides",
+   "uuid": "c93a256a-66eb-41ef-a4eb-f14972976694",
+   "name": "Osoian Hides",
+   "link": "name",
+   "uex": {
+    "id": 53,
+    "name": "Osoian Hides",
+    "code": "OSOH",
+    "kind": "Vice",
+    "illegal": true,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 283500
+   }
+  },
+  {
+   "id": "LifeCureMedsticks",
+   "uuid": "4ad4350f-d61a-47c0-809b-78ecba2e4f6b",
+   "name": "LifeCure Medsticks",
+   "link": "name",
+   "uex": {
+    "id": 96,
+    "name": "LifeCure Medsticks",
+    "code": "LMED",
+    "kind": "Medical",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false,
+    "priceSell": 1400
+   }
+  },
+  {
+   "id": "mobyGlassPersonalComputers",
+   "uuid": "460e7516-8162-4d02-bcbb-09deec89df1f",
+   "name": "mobyGlass Personal Computers",
+   "link": "none"
+  },
+  {
+   "id": "RS1OdyseySpacesuits",
+   "uuid": "03a947b5-8cb9-412e-908e-19ff41df4504",
+   "name": "RS1 Odysey Spacesuits",
+   "link": "none"
+  },
+  {
+   "id": "RedfinEnergyModulator",
+   "uuid": "a1aac2a9-048d-43da-ba8e-5b090901e845",
+   "name": "Redfin Energy Modulators",
+   "link": "name",
+   "uex": {
+    "id": 95,
+    "name": "Redfin Energy Modulators",
+    "code": "REMO",
+    "kind": "Electronics",
+    "illegal": true,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "EvidenceBox",
+   "uuid": "91ad8b9e-426e-462a-a7f5-cf06eb79971a",
+   "name": "<= PLACEHOLDER =>",
+   "link": "none"
+  },
+  {
+   "id": "OrganHarvesting",
+   "uuid": "14b738eb-fe9f-4822-953d-c00329bd7141",
+   "name": "Organs",
+   "link": "none"
+  },
+  {
+   "id": "EVAFuel",
+   "uuid": "12181a14-034b-4deb-92b7-2faf2cfd182b",
+   "name": "EVA Fuel",
+   "link": "none"
+  },
+  {
+   "id": "AceInterceptorHelmet",
+   "uuid": "7abd6c08-3755-4a2a-ba3f-cb3019c2f213",
+   "name": "Ace Interceptor Helmet",
+   "link": "none"
+  },
+  {
+   "id": "MilitarySupplies",
+   "uuid": "08e3441f-2e05-49b8-b102-20b09e2a3e0f",
+   "name": "Combat Supplies",
+   "link": "none"
+  },
+  {
+   "id": "MedGel",
+   "uuid": "83101c4a-baea-429f-b5db-2a439dabe963",
+   "name": "MedGel",
+   "link": "none"
+  },
+  {
+   "id": "ConstructionMaterialPowder",
+   "uuid": "344b54b4-e1c3-4863-b605-f4498b0a8a27",
+   "name": "Construction Rubble",
+   "link": "none"
+  },
+  {
+   "id": "ConstructionMaterialScrap",
+   "uuid": "0de337b5-01ca-4fd7-afdf-b67cf598f3c3",
+   "name": "Construction Pieces",
+   "link": "name",
+   "uex": {
+    "id": 217,
+    "name": "Construction Pieces",
+    "code": "CP",
+    "kind": "Scrap",
+    "illegal": false,
+    "raw": true,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "ConstructionMaterialChunks",
+   "uuid": "ebacf963-517e-4b05-b6cd-ee135e04a1ae",
+   "name": "Construction Salvage",
+   "link": "none"
+  },
+  {
+   "id": "VentFilters",
+   "uuid": "990291f7-211f-4c04-914f-bc98385451be",
+   "name": "Molina Ventilation Filters",
+   "link": "name",
+   "uex": {
+    "id": 196,
+    "name": "Molina Ventilation Filters",
+    "code": "MOLVF",
+    "kind": "Medicine",
+    "illegal": false,
+    "raw": false,
+    "buyable": false,
+    "sellable": false
+   }
+  },
+  {
+   "id": "CompBoard",
+   "uuid": "9177e3bb-6714-49f5-8beb-46a981226ff6",
+   "name": "Compboard",
+   "link": "name",
+   "uex": {
+    "id": 18,
+    "name": "Compboard",
+    "code": "COMP",
+    "kind": "Scrap",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 27452,
+    "priceSell": 29079
+   }
+  },
+  {
+   "id": "Scrap",
+   "uuid": "dae3efcb-f82e-4c2a-b24b-81f2be8daa51",
+   "name": "Scrap",
+   "link": "name",
+   "uex": {
+    "id": 67,
+    "name": "Scrap",
+    "code": "SCRA",
+    "kind": "Scrap",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 3071,
+    "priceSell": 3488
+   }
+  },
+  {
+   "id": "Waste",
+   "uuid": "b999ef65-35be-45bf-908a-5eac6e06ba12",
+   "name": "Waste",
+   "link": "name",
+   "uex": {
+    "id": 79,
+    "name": "Waste",
+    "code": "WAST",
+    "kind": "Waste",
+    "illegal": false,
+    "raw": false,
+    "buyable": true,
+    "sellable": true,
+    "priceBuy": 214,
+    "priceSell": 319
+   }
+  },
+  {
+   "id": "hot",
+   "uuid": "67914a88-252d-40b0-85cd-3dd260c9f080",
+   "name": "Heat",
+   "link": "none"
+  },
+  {
+   "id": "cold",
+   "uuid": "c4aab556-6ac3-4c62-a81a-8608d2855f20",
+   "name": "Cooler",
+   "link": "none"
+  },
+  {
+   "id": "LifeSupport",
+   "uuid": "250d5b5c-9699-4347-95e4-6bc436e8bf73",
+   "name": "Life Support",
+   "link": "none"
+  },
+  {
+   "id": "VIPCryopod",
+   "uuid": "987d063b-b666-4871-9e05-4d286acb13ba",
+   "name": "<= PLACEHOLDER =>",
+   "link": "none"
+  },
+  {
+   "id": "MolinaMold",
+   "uuid": "42bac39f-171f-4310-ba8a-f87cfb63b15c",
+   "name": "Molina Mold",
+   "link": "none"
+  }
+ ],
+ "uexOnlyCommodities": [
+  {
+   "id": 30,
+   "name": "Fireworks",
+   "code": "FIRE",
+   "kind": "Temporary",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 64,
+   "name": "Year of the Monkey Envelope",
+   "code": "YTMO",
+   "kind": "Temporary",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 71,
+   "name": "Stone Bug Shell",
+   "code": "STBS",
+   "kind": "Natural",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 81,
+   "name": "Year of the Rooster Envelope",
+   "code": "YTRO",
+   "kind": "Temporary",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 88,
+   "name": "Year of the Dog Envelope",
+   "code": "YTDO",
+   "kind": "Temporary",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 108,
+   "name": "Apoxygenite",
+   "code": "APOX",
+   "kind": "Chemical",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 125,
+   "name": "Ice (Raw)",
+   "code": "ICEW",
+   "kind": "Liquid",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 137,
+   "name": "Lastaphrene",
+   "code": "LAST",
+   "kind": "Man-made",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 140,
+   "name": "Krypton",
+   "code": "KRYP",
+   "kind": "Gas",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 141,
+   "name": "Anti-Hydrogen",
+   "code": "AHYD",
+   "kind": "Gas",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 142,
+   "name": "Jahlium",
+   "code": "JAHL",
+   "kind": "Metal",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 143,
+   "name": "Magnesium",
+   "code": "MAGN",
+   "kind": "Metal",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 145,
+   "name": "Lunes",
+   "code": "LUNE",
+   "kind": "Food",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 146,
+   "name": "Arsenic",
+   "code": "ARSE",
+   "kind": "Non-Metal",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 148,
+   "name": "Coal",
+   "code": "COAL",
+   "kind": "Non-Metal",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 149,
+   "name": "Crude Oil",
+   "code": "COIL",
+   "kind": "Non-Metal",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 150,
+   "name": "Phosphorus",
+   "code": "PHOS",
+   "kind": "Non-Metal",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 151,
+   "name": "Selenium",
+   "code": "SELE",
+   "kind": "Non-Metal",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 152,
+   "name": "Tellurium",
+   "code": "TELL",
+   "kind": "Non-Metal",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 154,
+   "name": "Xenon",
+   "code": "XENO",
+   "kind": "Gas",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 161,
+   "name": "Silicon (Raw)",
+   "code": "SILI",
+   "kind": "Raw Materials",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 162,
+   "name": "Stileron (Raw)",
+   "code": "STIL",
+   "kind": "Man-made",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 164,
+   "name": "Year of the Pig Envelope",
+   "code": "YTPO",
+   "kind": "Temporary",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 165,
+   "name": "Cobalt (Raw)",
+   "code": "COBA",
+   "kind": "Mineral",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 171,
+   "name": "Jaclium",
+   "code": "JACL",
+   "kind": "Mineral",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 174,
+   "name": "Cave Kopion Horn",
+   "code": "CAVEK",
+   "kind": "Medical",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 175,
+   "name": "Tundra Kopion Horn",
+   "code": "KOPT",
+   "kind": "Medical",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 179,
+   "name": "Atacamite",
+   "code": "ATAC",
+   "kind": "Mineral",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 180,
+   "name": "Irradiated Kopion Horn",
+   "code": "IKOP",
+   "kind": "Natural",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 181,
+   "name": "Construction Material Rubble",
+   "code": "CMATR",
+   "kind": "Scrap",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 182,
+   "name": "Construction Material Pebbles",
+   "code": "CMATP",
+   "kind": "Scrap",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 183,
+   "name": "Construction Material Salvage",
+   "code": "CMATS",
+   "kind": "Scrap",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 191,
+   "name": "CryoPod",
+   "code": "CRYP",
+   "kind": "Medical",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 198,
+   "name": "Wuotan Seed",
+   "code": "WUOT",
+   "kind": "Organic",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 210,
+   "name": "Ouratite (Raw)",
+   "code": "OURW",
+   "kind": "Minteral",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 212,
+   "name": "Sadaryx (Raw)",
+   "code": "SADA",
+   "kind": "Mineral",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 213,
+   "name": "Caranite (Raw)",
+   "code": "CARW",
+   "kind": "Mineral",
+   "visible": true,
+   "available": true
+  },
+  {
+   "id": 214,
+   "name": "Caranite",
+   "code": "CARA",
+   "kind": "Mineral",
+   "visible": true,
+   "available": true
+  }
+ ],
+ "miningLocations": [
+  {
+   "id": "AsteroidCluster_Low_Yield",
+   "link": "none"
+  },
+  {
+   "id": "AsteroidCluster_Medium_Yield",
+   "link": "none"
+  },
+  {
+   "id": "HPP_AaronHalo",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Lagrange_A",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Lagrange_B",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Lagrange_C",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Lagrange_D",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Lagrange_E",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Lagrange_F",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Lagrange_G",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Lagrange_Occupied",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Nyx_GlaciemRing",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Nyx_KeegerBelt",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Pyro_AkiroCluster",
+   "starMapObject": "Pyro_AkiroCluster",
+   "name": "Akiro Cluster",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Pyro_Cool01",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Pyro_Cool02",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Pyro_DeepSpaceAsteroids",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Pyro_Warm01",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Pyro_Warm02",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Pyro1",
+   "starMapObject": "Pyro1",
+   "name": "Pyro I",
+   "link": "name",
+   "uex": {
+    "kind": "planet",
+    "id": 240,
+    "name": "Pyro I",
+    "system": "Pyro"
+   }
+  },
+  {
+   "id": "HPP_Pyro2",
+   "starMapObject": "Pyro2",
+   "name": "Monox",
+   "link": "name",
+   "uex": {
+    "kind": "planet",
+    "id": 241,
+    "name": "Monox",
+    "system": "Pyro"
+   }
+  },
+  {
+   "id": "HPP_Pyro3",
+   "starMapObject": "Pyro3",
+   "name": "Bloom",
+   "link": "name",
+   "uex": {
+    "kind": "planet",
+    "id": 242,
+    "name": "Bloom",
+    "system": "Pyro"
+   }
+  },
+  {
+   "id": "HPP_Pyro4",
+   "starMapObject": "Pyro4",
+   "name": "Pyro IV",
+   "link": "name",
+   "uex": {
+    "kind": "planet",
+    "id": 243,
+    "name": "Pyro IV",
+    "system": "Pyro"
+   }
+  },
+  {
+   "id": "HPP_Pyro5a",
+   "starMapObject": "Pyro5a",
+   "name": "Ignis",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 43,
+    "name": "Ignis",
+    "system": "Pyro",
+    "planet": "Pyro V"
+   }
+  },
+  {
+   "id": "HPP_Pyro5b",
+   "starMapObject": "Pyro5b",
+   "name": "Vatra",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 69,
+    "name": "Vatra",
+    "system": "Pyro",
+    "planet": "Pyro V"
+   }
+  },
+  {
+   "id": "HPP_Pyro5c",
+   "starMapObject": "Pyro5c",
+   "name": "Adir",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 2,
+    "name": "Adir",
+    "system": "Pyro",
+    "planet": "Pyro V"
+   }
+  },
+  {
+   "id": "HPP_Pyro5d",
+   "starMapObject": "Pyro5d",
+   "name": "Fairo",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 35,
+    "name": "Fairo",
+    "system": "Pyro",
+    "planet": "Pyro V"
+   }
+  },
+  {
+   "id": "HPP_Pyro5e",
+   "starMapObject": "Pyro5e",
+   "name": "Fuego",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 36,
+    "name": "Fuego",
+    "system": "Pyro",
+    "planet": "Pyro V"
+   }
+  },
+  {
+   "id": "HPP_Pyro5f",
+   "starMapObject": "Pyro5f",
+   "name": "Vuur",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 73,
+    "name": "Vuur",
+    "system": "Pyro",
+    "planet": "Pyro V"
+   }
+  },
+  {
+   "id": "HPP_Pyro6",
+   "starMapObject": "Pyro6",
+   "name": "Terminus",
+   "link": "name",
+   "uex": {
+    "kind": "planet",
+    "id": 245,
+    "name": "Terminus",
+    "system": "Pyro"
+   }
+  },
+  {
+   "id": "HPP_ResourceRush_Gold",
+   "link": "none"
+  },
+  {
+   "id": "HPP_ResourceRush_Gold_HighDensity",
+   "link": "none"
+  },
+  {
+   "id": "HPP_ShipGraveyard_001",
+   "link": "none"
+  },
+  {
+   "id": "HPP_SpaceDerelict_General",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Stanton1",
+   "starMapObject": "Stanton1",
+   "name": "Hurston",
+   "link": "name",
+   "uex": {
+    "kind": "planet",
+    "id": 116,
+    "name": "Hurston",
+    "system": "Stanton"
+   }
+  },
+  {
+   "id": "HPP_Stanton1a",
+   "starMapObject": "Stanton1a",
+   "name": "Arial",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 4,
+    "name": "Arial",
+    "system": "Stanton",
+    "planet": "Hurston"
+   }
+  },
+  {
+   "id": "HPP_Stanton1b",
+   "starMapObject": "Stanton1b",
+   "name": "Aberdeen",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 1,
+    "name": "Aberdeen",
+    "system": "Stanton",
+    "planet": "Hurston"
+   }
+  },
+  {
+   "id": "HPP_Stanton1c",
+   "starMapObject": "Stanton1c",
+   "name": "Magda",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 51,
+    "name": "Magda",
+    "system": "Stanton",
+    "planet": "Hurston"
+   }
+  },
+  {
+   "id": "HPP_Stanton1d",
+   "starMapObject": "Stanton1d",
+   "name": "Ita",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 45,
+    "name": "Ita",
+    "system": "Stanton",
+    "planet": "Hurston"
+   }
+  },
+  {
+   "id": "HPP_Stanton2a",
+   "starMapObject": "Stanton2a",
+   "name": "Cellin",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 18,
+    "name": "Cellin",
+    "system": "Stanton",
+    "planet": "Crusader"
+   }
+  },
+  {
+   "id": "HPP_Stanton2b",
+   "starMapObject": "Stanton2b",
+   "name": "Daymar",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 25,
+    "name": "Daymar",
+    "system": "Stanton",
+    "planet": "Crusader"
+   }
+  },
+  {
+   "id": "HPP_Stanton2c",
+   "starMapObject": "Stanton2c",
+   "name": "Yela",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 75,
+    "name": "Yela",
+    "system": "Stanton",
+    "planet": "Crusader"
+   }
+  },
+  {
+   "id": "HPP_Stanton2c_Belt",
+   "link": "none"
+  },
+  {
+   "id": "HPP_Stanton3a",
+   "starMapObject": "Stanton3a",
+   "name": "Lyria",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 50,
+    "name": "Lyria",
+    "system": "Stanton",
+    "planet": "ArcCorp"
+   }
+  },
+  {
+   "id": "HPP_Stanton3b",
+   "starMapObject": "Stanton3b",
+   "name": "Wala",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 74,
+    "name": "Wala",
+    "system": "Stanton",
+    "planet": "ArcCorp"
+   }
+  },
+  {
+   "id": "HPP_Stanton4",
+   "starMapObject": "Stanton4",
+   "name": "microTech",
+   "link": "name",
+   "uex": {
+    "kind": "planet",
+    "id": 190,
+    "name": "MicroTech",
+    "system": "Stanton"
+   }
+  },
+  {
+   "id": "HPP_Stanton4a",
+   "starMapObject": "Stanton4a",
+   "name": "Calliope",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 16,
+    "name": "Calliope",
+    "system": "Stanton",
+    "planet": "MicroTech"
+   }
+  },
+  {
+   "id": "HPP_Stanton4b",
+   "starMapObject": "Stanton4b",
+   "name": "Clio",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 23,
+    "name": "Clio",
+    "system": "Stanton",
+    "planet": "MicroTech"
+   }
+  },
+  {
+   "id": "HPP_Stanton4c",
+   "starMapObject": "Stanton4c",
+   "name": "Euterpe",
+   "link": "name",
+   "uex": {
+    "kind": "moon",
+    "id": 34,
+    "name": "Euterpe",
+    "system": "Stanton",
+    "planet": "MicroTech"
+   }
+  }
+ ],
+ "places": [
+  {
+   "kind": "space_station",
+   "id": 1,
+   "name": "ARC-L1 Wide Forest Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_arc_l1"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 2,
+   "name": "ARC-L2 Lively Pathway Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_arc_l2"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 3,
+   "name": "ARC-L3 Modern Express Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_arc_l3"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 4,
+   "name": "ARC-L4 Faint Glen Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_arc_l4"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 5,
+   "name": "ARC-L5 Yellow Core Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_arc_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 6,
+   "name": "Baijini Point",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_arc_leo"
+   ],
+   "refinery": false,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 7,
+   "name": "CRU-L1 Ambitious Dream Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_cru_l1"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 8,
+   "name": "CRU-L4 Shallow Fields Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_cru_l4"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 9,
+   "name": "CRU-L5 Beautiful Glen Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_cru_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 10,
+   "name": "Everus Harbor",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_hur_leo"
+   ],
+   "refinery": false,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 11,
+   "name": "Green Imperial Housing Exchange",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "grimhex"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 12,
+   "name": "HUR-L1 Green Glade Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_hur_l1"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 13,
+   "name": "HUR-L2 Faithful Dream Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_hur_l2"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 14,
+   "name": "HUR-L3 Thundering Express Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_hur_l3"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 15,
+   "name": "HUR-L4 Melodic Fields Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_hur_l4"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 16,
+   "name": "HUR-L5 High Course Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_hur_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 17,
+   "name": "MIC-L1 Shallow Frontier Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_mic_l1"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 18,
+   "name": "MIC-L2 Long Forest Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_mic_l2"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 19,
+   "name": "MIC-L3 Endless Odyssey Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_mic_l3"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 20,
+   "name": "MIC-L4 Red Crossroads Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_mic_l4"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 21,
+   "name": "MIC-L5 Modern Icarus Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_mic_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 22,
+   "name": "Port Olisar",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 23,
+   "name": "Port Tressler",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_mic_leo"
+   ],
+   "refinery": false,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 24,
+   "name": "Pyro Gateway (Stanton)",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 25,
+   "name": "Nyx Gateway (Stanton)",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 26,
+   "name": "Terra Gateway (Stanton)",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 27,
+   "name": "Seraphim Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "rr_cru_leo"
+   ],
+   "refinery": false,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 28,
+   "name": "PYAM-FARSTAT-1-2",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p1_l2"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 29,
+   "name": "PYAM-FARSTAT-1-3",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p1_l3"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 30,
+   "name": "PYAM-FARSTAT-1-5",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p1_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 31,
+   "name": "Checkmate Station",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p2_l4"
+   ],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 32,
+   "name": "Orbituary",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p3_leo"
+   ],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 33,
+   "name": "Starlight Service Station",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p3_l1"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 34,
+   "name": "Patch City",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p3_l3"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 35,
+   "name": "PYAM-FARSTAT-3-5",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p3_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 36,
+   "name": "PYAM-FARSTAT-5-1",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p5_l1"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 37,
+   "name": "PYAM-FARSTAT-5-3",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p5_l3"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 38,
+   "name": "Rod's Fuel 'N Supplies",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p5_l4"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 39,
+   "name": "Rat's Nest",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p5_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 40,
+   "name": "PYAM-FARSTAT-6-2",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p6_l2"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 41,
+   "name": "Endgame",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p6_l3"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 42,
+   "name": "Dudley & Daughters",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p6_l4"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 43,
+   "name": "Megumi Refueling",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p6_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 44,
+   "name": "INS Jericho",
+   "system": "Stanton",
+   "link": "ambiguous",
+   "starMapObjects": [
+    "s4_l1_securitydockstation",
+    "jumppoint_stanton_pyro_securitydock"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 45,
+   "name": "Ruin Station",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p6_leo"
+   ],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 46,
+   "name": "Gaslight",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p5_l2"
+   ],
+   "refinery": false,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 47,
+   "name": "PYAM-FARSTAT-2-3",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "rr_p2_l3"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 48,
+   "name": "PYAM-SUPVISR-3-4",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "asteroidclusterbase_pyro_dungeon_p3_l4"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 49,
+   "name": "PYAM-SUPVISR-3-5",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "asteroidclusterbase_pyro_dungeon_p3_l5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 50,
+   "name": "Stanton Gateway (Pyro)",
+   "system": "Pyro",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 51,
+   "name": "Wikelo Emporium Kinga Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "thecollectorasteroid_stanton4"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 52,
+   "name": "Wikelo Emporium Dasi Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "thecollectorasteroid_stanton1"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 53,
+   "name": "Wikelo Emporium Selo Station",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "thecollectorasteroid_stanton2"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "space_station",
+   "id": 55,
+   "name": "Nyx Gateway (Pyro)",
+   "system": "Pyro",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 56,
+   "name": "Stanton Gateway (Nyx)",
+   "system": "Nyx",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 57,
+   "name": "Pyro Gateway (Nyx)",
+   "system": "Nyx",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 58,
+   "name": "People's Service Station Delta",
+   "system": "Nyx",
+   "link": "name",
+   "starMapObjects": [
+    "asteroidclusterbase_nyx_social_keeger_002"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 59,
+   "name": "People's Service Station Alpha",
+   "system": "Nyx",
+   "link": "name",
+   "starMapObjects": [
+    "asteroidclusterbase_nyx_social_keeger_001"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 60,
+   "name": "People's Service Station Theta",
+   "system": "Nyx",
+   "link": "name",
+   "starMapObjects": [
+    "asteroidclusterbase_nyx_social_keeger_003"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "space_station",
+   "id": 61,
+   "name": "People's Service Station Lambda",
+   "system": "Nyx",
+   "link": "name",
+   "starMapObjects": [
+    "asteroidclusterbase_nyx_social_keeger_004"
+   ],
+   "refinery": true,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "city",
+   "id": 1,
+   "name": "Area 18",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3_area18"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "city",
+   "id": 2,
+   "name": "Levski",
+   "system": "Nyx",
+   "link": "name",
+   "starMapObjects": [
+    "nyx_levski"
+   ],
+   "refinery": true,
+   "cargoCenter": true,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "city",
+   "id": 3,
+   "name": "Lorville",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_lorville"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "city",
+   "id": 4,
+   "name": "New Babbage",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_newbabbage"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "city",
+   "id": 5,
+   "name": "Orison",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2_orison"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 1,
+   "name": "ArcCorp Mining Area 045",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3b_arccorp_area045"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 2,
+   "name": "ArcCorp Mining Area 048",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3b_arccorp_area048"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 3,
+   "name": "ArcCorp Mining Area 056",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3b_arccorp_area056"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 4,
+   "name": "ArcCorp Mining Area 061",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3b_arccorp_area061"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 5,
+   "name": "ArcCorp Mining Area 141",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2b_arccorpmining_area141"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 6,
+   "name": "ArcCorp Mining Area 157",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2c_arccorpmining_area157"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 7,
+   "name": "Benson Mining Outpost",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2c_indyminer_bensonmining"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 8,
+   "name": "Bountiful Harvest Hydroponics",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2b_indyfarmer_bountifulharvest"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 9,
+   "name": "Brio's Breaker Yard",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2b_junksite_briosbreakeryard"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 10,
+   "name": "Bud's Growery",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4c_indyfarm_budsgrowery"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 11,
+   "name": "Deakins Research",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 12,
+   "name": "Devlin Scrap & Salvage",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4c_junksite_delvinscrapandsalvage"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 13,
+   "name": "Gallete Family Farms",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2a_indyfarmer_galletefamily"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 14,
+   "name": "HDMS-Anderson",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1b_hurdynmining_hdmsanderson"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 15,
+   "name": "HDMS-Bezdek",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1a_hurdynmining_hdmsbezdek"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 16,
+   "name": "HDMS-Edmond",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_hurdynmining_hdmsedmond"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 17,
+   "name": "HDMS-Hadley",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_hurdynmining_hdmshadley"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 18,
+   "name": "HDMS-Hahn",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1c_hurdynmining_hdmshahn"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 19,
+   "name": "HDMS-Lathan",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1a_hurdynmining_hdmslathan"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 20,
+   "name": "HDMS-Norgaard",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1b_hurdynmining_hdmsnorgaard"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 21,
+   "name": "HDMS-Oparei",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_hurdynmining_hdmsoparei"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 22,
+   "name": "HDMS-Perlman",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1c_hurdynmining_hdmsperlman"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 23,
+   "name": "HDMS-Pinewood",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_hurdynmining_hdmspinewood"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 24,
+   "name": "HDMS-Ryder",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1d_hurdynmining_hdmsryder"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 25,
+   "name": "HDMS-Stanhope",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_hurdynmining_hdmsstanhope"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 26,
+   "name": "HDMS-Thedus",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_hurdynmining_hdmsthedus"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 27,
+   "name": "HDMS-Woodruff",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1d_hurdynmining_hdmswoodruff"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 28,
+   "name": "Hickes Research",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 29,
+   "name": "Humboldt Mines",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3a_indymine_humboldtmines"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 30,
+   "name": "Jumptown",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2c_druglab_jumptown"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 31,
+   "name": "Kudre Ore",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2b_indyminer_kudreore"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 32,
+   "name": "Loveridge Mineral Reserve",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3a_indymine_loveridgereserve"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 33,
+   "name": "NT-999-XX",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2c_stash_unknown_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 34,
+   "name": "Nuen Waste Management",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2b_stash_nuenwastemanagement"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 35,
+   "name": "Outpost 54",
+   "system": "Stanton",
+   "link": "ambiguous",
+   "starMapObjects": [
+    "miningfacility_stanton1b_template",
+    "stanton4_stash_outpost54",
+    "miningfacility_stanton1b_reyes",
+    "miningfacility_stanton1b_sloane"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 36,
+   "name": "Paradise Cove",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3a_druglab_paradisecove"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 37,
+   "name": "Private Property",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2a_stash_unknown_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 38,
+   "name": "Raven's Roost",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4a_druglab_ravensroost"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 39,
+   "name": "Rayari Anvik Research Outpost",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4a_rayarihydro_anvik"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 40,
+   "name": "Rayari Cantwell Research Outpost",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4b_rayarihydro_cantwell"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 41,
+   "name": "Rayari Deltana Research Outpost",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_rayarihydro_deltana"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 42,
+   "name": "Rayari Kaltag Research Outpost",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4a_rayarihydro_kaltag"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 43,
+   "name": "Rayari McGrath Research Outpost",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4b_rayarihydro_mcgarth"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 44,
+   "name": "Reclamation & Disposal Orinth",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_junksite_reclamationanddisposalorinth"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 45,
+   "name": "Samson & Son's Salvage Center",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3b_junksite_samsonsonssalvagecenter"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 46,
+   "name": "Shubin Mining Facility SAL-2",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3a_shubin_sal2"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 47,
+   "name": "Shubin Mining Facility SAL-5",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3a_shubin_sal5"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 48,
+   "name": "Shubin Mining Facility SCD-1",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2b_shubinmining_scd1"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 49,
+   "name": "Shubin Mining Facility SM0-10",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_shubin_sm0_10"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 50,
+   "name": "Shubin Mining Facility SM0-13",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_shubin_sm0_13"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 51,
+   "name": "Shubin Mining Facility SM0-18",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_shubin_sm0_18"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 52,
+   "name": "Shubin Mining Facility SM0-22",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_shubin_sm0_22"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 53,
+   "name": "Shubin Mining Facility SMCa-6",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4a_shubin_smca_6"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 54,
+   "name": "Shubin Mining Facility SMCa-8",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4a_shubin_smca_8"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 55,
+   "name": "Terra Mills HydroFarm",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2a_terramillshydro_hydrofarm"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 56,
+   "name": "The Necropolis",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_stash_thenecropolis"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 57,
+   "name": "The Orphanage",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton3a_stash_theorphanage"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 58,
+   "name": "Tram & Myers Mining",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2a_indyminer_trammyers"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 59,
+   "name": "Shady Glen",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 60,
+   "name": "Astor's Clearing",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_astorsclearing"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 61,
+   "name": "Harper's Point",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_harperspoint"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 62,
+   "name": "Dunboro",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_dunboro"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 63,
+   "name": "Weeping Cove",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_weepingcove"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 64,
+   "name": "Maker's Point",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_makerspoint"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 65,
+   "name": "Rappel",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_rappel"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 66,
+   "name": "Picker's Field",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_pickersfield"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 67,
+   "name": "NT-999-XXII",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2c_nt-999-xxii"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 68,
+   "name": "Rustville",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro1_outpost_col_m_scrp_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 69,
+   "name": "Jackson's Swap",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro2_outpost_col_m_trdp_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 70,
+   "name": "Last Ditch",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro2_outpost_col_m_mng_otlw_002"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 71,
+   "name": "Sunset Mesa",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro2_outpost_col_m_scrp_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 72,
+   "name": "Yang's Place",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro2_outpost_col_s_mng_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 73,
+   "name": "Bueno Ravine",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_m_mng_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 74,
+   "name": "Shadowfall",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_m_hmstd_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 75,
+   "name": "Shepherd's Rest",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_m_frm_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 76,
+   "name": "The Golden Riviera",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_m_trdpst_otlw_006"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 77,
+   "name": "The Yard",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_s_frm_otlw_002"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 78,
+   "name": "Zephyr",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_zephyr"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 79,
+   "name": "Cutter's Rig",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_cuttersrig"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 80,
+   "name": "Finn's Folly",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_finnsfolly"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 81,
+   "name": "Ludlow",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_ludlow"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 82,
+   "name": "Bloodshot Ridge",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 83,
+   "name": "Frostbite",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_frostbite"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 84,
+   "name": "Ghost Hollow",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_ghosthollow"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 85,
+   "name": "Moreland Hills",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 86,
+   "name": "Razor's Edge",
+   "system": "Stanton",
+   "link": "none",
+   "starMapObjects": [],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 87,
+   "name": "Jumptown",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton2c_druglab_jumptown"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 88,
+   "name": "Sakura Sun Magnolia Workcenter",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_distributioncentre_sakurasun_magnolia"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 89,
+   "name": "Stag's Rut",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro1_outpost_col_s_mng_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 90,
+   "name": "Arid Reach",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro2_outpost_col_s_trdpst_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 92,
+   "name": "Ostler's Claim",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro2_outpost_col_s_mng_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 93,
+   "name": "Carver's Ridge",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_s_mng_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 94,
+   "name": "Frigid Knot",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_s_tsrpst_indy_002"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 95,
+   "name": "Narena's Rest",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_m_hmstd_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 96,
+   "name": "Windfall",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_s_scrp_otlw_002"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 98,
+   "name": "Ashland",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro5a_outpost_col_m_trdpst_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 99,
+   "name": "Chawla's Beach",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro4_outpost_col_m_scrp_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 100,
+   "name": "Fallow Field",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro4_outpost_col_m_trdpst_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 101,
+   "name": "Goner's Deal",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro4_outpost_col_s_trdpst_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 102,
+   "name": "Sacren's Plot",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro4_outpost_col_m_trdpst_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 103,
+   "name": "Kabir's Post",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro5a_outpost_col_s_trdpst_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 104,
+   "name": "Blackrock Exchange",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_s_trdpst_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 105,
+   "name": "Bullock's Reach",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_s_frm_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 106,
+   "name": "Canard View",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_m_trdpst_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 107,
+   "name": "Kinder Plots",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_s_frm_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 108,
+   "name": "Last Landings",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_m_scrp_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 109,
+   "name": "Rough Landing",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_s_trdpst_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 110,
+   "name": "Scarper's Turn",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_m_frm_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 111,
+   "name": "Stonetree",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_s_hmstd_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 112,
+   "name": "Prophet's Peak",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro5c_outpost_col_m_hmstd_indy_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 113,
+   "name": "Seer's Canyon",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro5b_outpost_col_m_scrp_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 114,
+   "name": "Prospect Depot",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro3_outpost_col_xs_dpt_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 115,
+   "name": "Dinger's Depot",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro4_outpost_col_xs_dpt_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 116,
+   "name": "Slowburn Depot",
+   "system": "Pyro",
+   "link": "ambiguous",
+   "starMapObjects": [
+    "pyro2_outpost_col_m_hmstd_otlw_001",
+    "pyro2_outpost_col_xs_dpt_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 117,
+   "name": "Feo Canyon Depot",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro5d_outpost_col_xs_dpt_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 118,
+   "name": "Gray Gardens Depot",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro1_outpost_col_xs_dpt_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 119,
+   "name": "Watcher's Depot",
+   "system": "Pyro",
+   "link": "name",
+   "starMapObjects": [
+    "pyro6_outpost_col_xs_dpt_otlw_001"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": true
+  },
+  {
+   "kind": "outpost",
+   "id": 120,
+   "name": "Sakura Sun Goldenrod Workcenter",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton4_distributioncentre_sakurasun_goldenrod"
+   ],
+   "refinery": false,
+   "cargoCenter": false,
+   "tradeTerminal": false
+  },
+  {
+   "kind": "outpost",
+   "id": 121,
+   "name": "Covalex Distribution Centre S1DC06",
+   "system": "Stanton",
+   "link": "name",
+   "starMapObjects": [
+    "stanton1_distributioncentre_covalex_s1dc06"
+   ],
+   "refinery": false,
+   "cargoCenter": true,
+   "tradeTerminal": false
+  }
+ ],
+ "vehicles": [
+  {
+   "uexId": 1,
+   "name": "Origin 100i",
+   "cls": "ORIG_100i",
+   "link": "verified",
+   "uexScu": 2,
+   "gameScu": 2,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 2,
+   "name": "Origin 125a",
+   "cls": "ORIG_125a",
+   "link": "verified",
+   "uexScu": 2,
+   "gameScu": 2,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 3,
+   "name": "Origin 135c",
+   "cls": "ORIG_135c",
+   "link": "verified",
+   "uexScu": 6,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 4,
+   "name": "Origin 300i",
+   "cls": "ORIG_300i",
+   "link": "verified",
+   "uexScu": 8,
+   "gameScu": 8,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 5,
+   "name": "Origin 315p",
+   "cls": "ORIG_315p",
+   "link": "verified",
+   "uexScu": 12,
+   "gameScu": 12,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 6,
+   "name": "Origin 325a",
+   "cls": "ORIG_325a",
+   "link": "verified",
+   "uexScu": 4,
+   "gameScu": 4,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 7,
+   "name": "Origin 350r",
+   "cls": "ORIG_350r",
+   "link": "verified",
+   "uexScu": 4,
+   "gameScu": 4,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 8,
+   "name": "Origin 400i",
+   "cls": "ORIG_400i",
+   "link": "verified",
+   "uexScu": 42,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4,8,16,24"
+  },
+  {
+   "uexId": 9,
+   "name": "Origin 600i Executive Edition",
+   "link": "none",
+   "uexScu": 40
+  },
+  {
+   "uexId": 10,
+   "name": "Origin 600i Explorer",
+   "cls": "ORIG_600i",
+   "link": "verified",
+   "uexScu": 44,
+   "gameScu": 44,
+   "same": true,
+   "grids": 7,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 11,
+   "name": "Origin 600i Touring",
+   "cls": "ORIG_600i_Touring",
+   "link": "verified",
+   "uexScu": 20,
+   "gameScu": 20,
+   "same": true,
+   "grids": 4,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 12,
+   "name": "Origin 85X",
+   "cls": "ORIG_85X",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 13,
+   "name": "Origin 890 Jump",
+   "cls": "ORIG_890Jump",
+   "link": "verified",
+   "uexScu": 388,
+   "gameScu": 100,
+   "same": false,
+   "grids": 6,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 14,
+   "name": "Crusader A2 Hercules Starlifter",
+   "link": "none",
+   "uexScu": 234
+  },
+  {
+   "uexId": 15,
+   "name": "RSI Apollo Medivac",
+   "link": "none",
+   "uexScu": 32
+  },
+  {
+   "uexId": 16,
+   "name": "RSI Apollo Triage",
+   "link": "none",
+   "uexScu": 32
+  },
+  {
+   "uexId": 17,
+   "name": "Crusader Ares Star Fighter Inferno",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 18,
+   "name": "Crusader Ares Star Fighter Ion",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 19,
+   "name": "RSI Arrastra",
+   "link": "none",
+   "uexScu": 576
+  },
+  {
+   "uexId": 20,
+   "name": "Anvil Arrow",
+   "cls": "ANVL_Arrow",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 21,
+   "name": "RSI Aurora Mk I CL",
+   "link": "none",
+   "uexScu": 6
+  },
+  {
+   "uexId": 22,
+   "name": "RSI Aurora Mk I ES",
+   "link": "none",
+   "uexScu": 3
+  },
+  {
+   "uexId": 23,
+   "name": "RSI Aurora Mk I LN",
+   "link": "none",
+   "uexScu": 3
+  },
+  {
+   "uexId": 24,
+   "name": "RSI Aurora Mk I LX",
+   "link": "none",
+   "uexScu": 3
+  },
+  {
+   "uexId": 25,
+   "name": "RSI Aurora Mk I MR",
+   "link": "none",
+   "uexScu": 3
+  },
+  {
+   "uexId": 26,
+   "name": "Aegis Avenger Stalker",
+   "cls": "AEGS_Avenger_Stalker",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 27,
+   "name": "Aegis Avenger Titan",
+   "cls": "AEGS_Avenger_Titan",
+   "link": "verified",
+   "uexScu": 8,
+   "gameScu": 8,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 28,
+   "name": "Aegis Avenger Titan Renegade",
+   "cls": "AEGS_Avenger_Titan_Renegade",
+   "link": "verified",
+   "uexScu": 8,
+   "gameScu": 8,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 29,
+   "name": "Aegis Avenger Warlock",
+   "cls": "AEGS_Avenger_Warlock",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 30,
+   "name": "Anvil HM6 Ballista",
+   "cls": "ANVL_Ballista",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 31,
+   "name": "Anvil Ballista Dunestalker",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 32,
+   "name": "Anvil Ballista Snowblind",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 33,
+   "name": "Esperia Blade",
+   "cls": "VNCL_Blade",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 34,
+   "name": "Drake Buccaneer",
+   "cls": "DRAK_Buccaneer",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 35,
+   "name": "Crusader C2 Hercules Starlifter",
+   "link": "none",
+   "uexScu": 696
+  },
+  {
+   "uexId": 36,
+   "name": "Anvil C8 Pisces",
+   "cls": "ANVL_C8_Pisces",
+   "link": "verified",
+   "uexScu": 4,
+   "gameScu": 4,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 37,
+   "name": "Anvil C8R Pisces Rescue",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 38,
+   "name": "Anvil C8X Pisces Expedition",
+   "cls": "ANVL_C8X_Pisces_Expedition",
+   "link": "verified",
+   "uexScu": 4,
+   "gameScu": 4,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 39,
+   "name": "Anvil Carrack",
+   "cls": "ANVL_Carrack",
+   "link": "verified",
+   "uexScu": 456,
+   "gameScu": 456,
+   "same": true,
+   "grids": 9,
+   "uexBoxes": "1,2,4,8,16"
+  },
+  {
+   "uexId": 40,
+   "name": "Anvil Carrack Expedition",
+   "cls": "ANVL_Carrack_Expedition",
+   "link": "verified",
+   "uexScu": 456,
+   "gameScu": 456,
+   "same": true,
+   "grids": 9,
+   "uexBoxes": "1,2,4,8,16"
+  },
+  {
+   "uexId": 41,
+   "name": "Drake Caterpillar",
+   "cls": "DRAK_Caterpillar",
+   "link": "verified",
+   "uexScu": 576,
+   "gameScu": 576,
+   "same": true,
+   "grids": 14,
+   "uexBoxes": "1,2,4,8,16,24"
+  },
+  {
+   "uexId": 42,
+   "name": "Drake Caterpillar Best In Show Edition",
+   "link": "none",
+   "uexScu": 576
+  },
+  {
+   "uexId": 43,
+   "name": "Drake Caterpillar Pirate Edition",
+   "cls": "DRAK_Caterpillar_Pirate",
+   "link": "verified",
+   "uexScu": 576,
+   "gameScu": 576,
+   "same": true,
+   "grids": 14,
+   "uexBoxes": "1,2,4,8,16,24"
+  },
+  {
+   "uexId": 44,
+   "name": "Anvil HM6 Centurion",
+   "cls": "ANVL_Centurion",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 45,
+   "name": "RSI Constellation Mk IV Andromeda",
+   "link": "none",
+   "uexScu": 96
+  },
+  {
+   "uexId": 46,
+   "name": "RSI Constellation Mk IV Aquila",
+   "link": "none",
+   "uexScu": 96
+  },
+  {
+   "uexId": 47,
+   "name": "RSI Constellation Mk IV Phoenix",
+   "cls": "RSI_Constellation_Phoenix",
+   "link": "verified",
+   "uexScu": 80,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 48,
+   "name": "RSI Constellation Mk IV Phoenix Emerald",
+   "link": "none",
+   "uexScu": 80
+  },
+  {
+   "uexId": 49,
+   "name": "RSI Constellation Mk IV Taurus",
+   "cls": "RSI_Constellation_Taurus",
+   "link": "verified",
+   "uexScu": 174,
+   "gameScu": 6,
+   "same": false,
+   "grids": 1,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 50,
+   "name": "Drake Corsair",
+   "cls": "DRAK_Corsair",
+   "link": "verified",
+   "uexScu": 72,
+   "gameScu": 72,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4,8,16,24"
+  },
+  {
+   "uexId": 51,
+   "name": "Anvil Crucible",
+   "link": "none",
+   "uexScu": 240
+  },
+  {
+   "uexId": 52,
+   "name": "Drake Cutlass Black",
+   "cls": "DRAK_Cutlass_Black",
+   "link": "verified",
+   "uexScu": 46,
+   "gameScu": 46,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4,8,16"
+  },
+  {
+   "uexId": 53,
+   "name": "Drake Cutlass Black Best In Show Edition",
+   "link": "none",
+   "uexScu": 46
+  },
+  {
+   "uexId": 54,
+   "name": "Drake Cutlass Blue",
+   "cls": "DRAK_Cutlass_Blue",
+   "link": "verified",
+   "uexScu": 12,
+   "gameScu": 12,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 55,
+   "name": "Drake Cutlass Red",
+   "cls": "DRAK_Cutlass_Red",
+   "link": "verified",
+   "uexScu": 12,
+   "gameScu": 12,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 56,
+   "name": "Drake Cutlass Steel",
+   "cls": "DRAK_Cutlass_Steel",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 57,
+   "name": "Drake Cutter",
+   "cls": "DRAK_Cutter",
+   "link": "verified",
+   "uexScu": 4,
+   "gameScu": 4,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1"
+  },
+  {
+   "uexId": 58,
+   "name": "Drake Cutter Scout",
+   "cls": "DRAK_Cutter_Scout",
+   "link": "verified",
+   "uexScu": 2,
+   "gameScu": 2,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1"
+  },
+  {
+   "uexId": 59,
+   "name": "Drake Cutter Rambler",
+   "cls": "DRAK_Cutter_Rambler",
+   "link": "verified",
+   "uexScu": 2,
+   "gameScu": 2,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1"
+  },
+  {
+   "uexId": 60,
+   "name": "Tumbril Cyclone",
+   "cls": "TMBL_Cyclone",
+   "link": "verified",
+   "uexScu": 1,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1"
+  },
+  {
+   "uexId": 61,
+   "name": "Tumbril Cyclone AA",
+   "cls": "TMBL_Cyclone_AA",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 62,
+   "name": "Tumbril Cyclone MT",
+   "cls": "TMBL_Cyclone_MT",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 63,
+   "name": "Tumbril Cyclone RC",
+   "cls": "TMBL_Cyclone_RC",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 64,
+   "name": "Tumbril Cyclone RN",
+   "cls": "TMBL_Cyclone_RN",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 65,
+   "name": "Tumbril Cyclone TR",
+   "cls": "TMBL_Cyclone_TR",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 66,
+   "name": "Banu Defender",
+   "cls": "BANU_Defender",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 67,
+   "name": "Drake Dragonfly Black",
+   "cls": "DRAK_Dragonfly",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 68,
+   "name": "Drake Dragonfly Yellowjacket",
+   "cls": "DRAK_Dragonfly_Yellow",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 69,
+   "name": "Aegis Eclipse",
+   "cls": "AEGS_Eclipse",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 70,
+   "name": "MISC Endeavor",
+   "link": "none",
+   "uexScu": 500
+  },
+  {
+   "uexId": 71,
+   "name": "MISC Expanse",
+   "link": "none",
+   "uexScu": 128
+  },
+  {
+   "uexId": 72,
+   "name": "Anvil F7A Hornet Mk I",
+   "cls": "ANVL_Hornet_F7A_Mk1",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 73,
+   "name": "Anvil F7C Hornet Mk II",
+   "cls": "ANVL_Hornet_F7C_Mk2",
+   "link": "verified",
+   "uexScu": 2,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 74,
+   "name": "Anvil F7C Hornet Wildfire Mk I",
+   "cls": "ANVL_Hornet_F7C_Wildfire",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 75,
+   "name": "Anvil F7C-M Super Hornet Mk I",
+   "cls": "ANVL_Hornet_F7CM",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 76,
+   "name": "Anvil F7C-M Super Hornet Heartseeker Mk I",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 77,
+   "name": "Anvil F7C-R Hornet Tracker Mk I",
+   "cls": "ANVL_Hornet_F7CR",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 78,
+   "name": "Anvil F7C-S Hornet Ghost Mk I",
+   "cls": "ANVL_Hornet_F7CS",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 79,
+   "name": "Anvil F8C Lightning",
+   "cls": "ANVL_Lightning_F8C",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 80,
+   "name": "MISC Freelancer",
+   "cls": "MISC_Freelancer",
+   "link": "verified",
+   "uexScu": 66,
+   "gameScu": 66,
+   "same": true,
+   "grids": 3,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 81,
+   "name": "MISC Freelancer DUR",
+   "cls": "MISC_Freelancer_DUR",
+   "link": "verified",
+   "uexScu": 36,
+   "gameScu": 36,
+   "same": true,
+   "grids": 3,
+   "uexBoxes": "1,2,4,8,16"
+  },
+  {
+   "uexId": 82,
+   "name": "MISC Freelancer MAX",
+   "cls": "MISC_Freelancer_MAX",
+   "link": "verified",
+   "uexScu": 120,
+   "gameScu": 120,
+   "same": true,
+   "grids": 3,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 83,
+   "name": "MISC Freelancer MIS",
+   "cls": "MISC_Freelancer_MIS",
+   "link": "verified",
+   "uexScu": 36,
+   "gameScu": 36,
+   "same": true,
+   "grids": 3,
+   "uexBoxes": "1,2,4,8,16"
+  },
+  {
+   "uexId": 84,
+   "name": "Mirai Fury",
+   "cls": "MISC_Fury",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 85,
+   "name": "Mirai Fury LX",
+   "cls": "MISC_Fury_LX",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 86,
+   "name": "Mirai Fury MX",
+   "cls": "MISC_Fury_Miru",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 87,
+   "name": "Origin G12",
+   "link": "none",
+   "uexScu": 2
+  },
+  {
+   "uexId": 88,
+   "name": "Origin G12-A",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 89,
+   "name": "Origin G12-R",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 90,
+   "name": "RSI Galaxy",
+   "link": "none",
+   "uexScu": 64
+  },
+  {
+   "uexId": 91,
+   "name": "Crusader Genesis Starliner",
+   "link": "none",
+   "uexScu": 300
+  },
+  {
+   "uexId": 92,
+   "name": "Anvil Gladiator",
+   "cls": "ANVL_Gladiator",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 93,
+   "name": "Aegis Gladius",
+   "cls": "AEGS_Gladius",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 94,
+   "name": "Aegis Gladius Pirate",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 95,
+   "name": "Aegis Gladius Valiant",
+   "cls": "AEGS_Gladius_Valiant",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 96,
+   "name": "Esperia Glaive",
+   "cls": "VNCL_Glaive",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 97,
+   "name": "Aegis Hammerhead",
+   "link": "none",
+   "uexScu": 40
+  },
+  {
+   "uexId": 98,
+   "name": "Aegis Hammerhead Best In Show Edition",
+   "link": "none",
+   "uexScu": 40
+  },
+  {
+   "uexId": 99,
+   "name": "Anvil Hawk",
+   "cls": "ANVL_Hawk",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 100,
+   "name": "Drake Herald",
+   "cls": "DRAK_Herald",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 101,
+   "name": "C.O. HoverQuad",
+   "cls": "CNOU_HoverQuad",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 102,
+   "name": "MISC Hull A",
+   "cls": "MISC_Hull_A",
+   "link": "verified",
+   "uexScu": 64,
+   "gameScu": 64,
+   "same": true,
+   "grids": 4,
+   "uexBoxes": "1,2,4,8,16"
+  },
+  {
+   "uexId": 103,
+   "name": "MISC Hull B",
+   "link": "none",
+   "uexScu": 512
+  },
+  {
+   "uexId": 104,
+   "name": "MISC Hull C",
+   "cls": "MISC_Hull_C",
+   "link": "verified",
+   "uexScu": 4608,
+   "gameScu": 4608,
+   "same": true,
+   "grids": 16,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 105,
+   "name": "MISC Hull D",
+   "link": "none",
+   "uexScu": 6912
+  },
+  {
+   "uexId": 106,
+   "name": "MISC Hull E",
+   "link": "none",
+   "uexScu": 12288
+  },
+  {
+   "uexId": 107,
+   "name": "Anvil Hurricane",
+   "cls": "ANVL_Hurricane",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 108,
+   "name": "Aegis Idris-M",
+   "link": "none",
+   "uexScu": 1326
+  },
+  {
+   "uexId": 109,
+   "name": "Aegis Idris-P",
+   "link": "none",
+   "uexScu": 1374
+  },
+  {
+   "uexId": 110,
+   "name": "Aegis Javelin",
+   "cls": "AEGS_Javelin",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 111,
+   "name": "Aopoa Khartu-al",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 112,
+   "name": "Drake Kraken",
+   "link": "none",
+   "uexScu": 3792
+  },
+  {
+   "uexId": 113,
+   "name": "Drake Kraken Privateer",
+   "link": "none",
+   "uexScu": 768
+  },
+  {
+   "uexId": 114,
+   "name": "Anvil Legionnaire",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 115,
+   "name": "Anvil Liberator",
+   "link": "none",
+   "uexScu": 400
+  },
+  {
+   "uexId": 116,
+   "name": "RSI Lynx",
+   "cls": "RSI_Lynx",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 117,
+   "name": "Crusader M2 Hercules Starlifter",
+   "link": "none",
+   "uexScu": 522
+  },
+  {
+   "uexId": 118,
+   "name": "Origin M50",
+   "cls": "ORIG_m50",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 119,
+   "name": "RSI Mantis",
+   "cls": "RSI_Mantis",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 120,
+   "name": "Banu Merchantman",
+   "link": "none",
+   "uexScu": 2880
+  },
+  {
+   "uexId": 121,
+   "name": "Crusader Mercury Star Runner",
+   "link": "none",
+   "uexScu": 114
+  },
+  {
+   "uexId": 122,
+   "name": "Argo MOLE",
+   "cls": "ARGO_MOLE",
+   "link": "verified",
+   "uexScu": 32,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0
+  },
+  {
+   "uexId": 123,
+   "name": "Argo MOLE Carbon Edition",
+   "link": "none",
+   "uexScu": 96
+  },
+  {
+   "uexId": 124,
+   "name": "Argo MOLE Talus Edition",
+   "link": "none",
+   "uexScu": 96
+  },
+  {
+   "uexId": 125,
+   "name": "Argo MPUV Cargo",
+   "link": "none",
+   "uexScu": 2
+  },
+  {
+   "uexId": 126,
+   "name": "Argo MPUV Personnel",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 127,
+   "name": "Drake MULE",
+   "link": "none",
+   "uexScu": 2
+  },
+  {
+   "uexId": 128,
+   "name": "C.O. Mustang Alpha",
+   "cls": "CNOU_Mustang_Alpha",
+   "link": "verified",
+   "uexScu": 4,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 129,
+   "name": "C.O. Mustang Alpha Vindicator",
+   "cls": "CNOU_Mustang_Alpha_CitizenCon2018",
+   "link": "verified",
+   "uexScu": 4,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 130,
+   "name": "C.O. Mustang Beta",
+   "cls": "CNOU_Mustang_Beta",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 131,
+   "name": "C.O. Mustang Delta",
+   "cls": "CNOU_Mustang_Delta",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 132,
+   "name": "C.O. Mustang Gamma",
+   "cls": "CNOU_Mustang_Gamma",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 133,
+   "name": "C.O. Mustang Omega",
+   "cls": "CNOU_Mustang_Omega",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 134,
+   "name": "Aegis Nautilus",
+   "link": "none",
+   "uexScu": 64
+  },
+  {
+   "uexId": 135,
+   "name": "Aegis Nautilus Solstice Edition",
+   "link": "none",
+   "uexScu": 64
+  },
+  {
+   "uexId": 136,
+   "name": "C.O. Nomad",
+   "cls": "CNOU_Nomad",
+   "link": "verified",
+   "uexScu": 24,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4,8,16"
+  },
+  {
+   "uexId": 137,
+   "name": "Tumbril Nova Tank",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 138,
+   "name": "Aopoa Nox",
+   "cls": "XIAN_Nox",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 139,
+   "name": "Aopoa Nox Kue",
+   "cls": "XIAN_Nox_Kue",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 140,
+   "name": "MISC Odyssey",
+   "link": "none",
+   "uexScu": 252
+  },
+  {
+   "uexId": 141,
+   "name": "RSI Orion",
+   "link": "none",
+   "uexScu": 384
+  },
+  {
+   "uexId": 142,
+   "name": "Kruger P-52 Merlin",
+   "cls": "KRIG_P52_Merlin",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 143,
+   "name": "Kruger P-72 Archimedes",
+   "cls": "KRIG_P72_Archimedes",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 144,
+   "name": "Kruger P-72 Archimedes Emerald",
+   "cls": "KRIG_P72_Archimedes_Emerald",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 145,
+   "name": "RSI Perseus",
+   "link": "none",
+   "uexScu": 96
+  },
+  {
+   "uexId": 146,
+   "name": "C.O. Pioneer",
+   "link": "none",
+   "uexScu": 1000
+  },
+  {
+   "uexId": 147,
+   "name": "RSI Polaris",
+   "link": "none",
+   "uexScu": 576
+  },
+  {
+   "uexId": 148,
+   "name": "MISC Prospector",
+   "cls": "MISC_Prospector",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 149,
+   "name": "Esperia Prowler",
+   "cls": "ESPR_Prowler",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 150,
+   "name": "Greycat PTV",
+   "cls": "GRIN_PTV",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 151,
+   "name": "Argo RAFT",
+   "cls": "ARGO_RAFT",
+   "link": "verified",
+   "uexScu": 192,
+   "gameScu": 192,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 152,
+   "name": "Gatac Railen",
+   "link": "none",
+   "uexScu": 640
+  },
+  {
+   "uexId": 153,
+   "name": "Tumbril Ranger CV",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 154,
+   "name": "Tumbril Ranger RC",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 155,
+   "name": "Tumbril Ranger TR",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 156,
+   "name": "Mirai Razor",
+   "cls": "MISC_Razor",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 157,
+   "name": "Mirai Razor EX",
+   "cls": "MISC_Razor_EX",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 158,
+   "name": "Mirai Razor LX",
+   "cls": "MISC_Razor_LX",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 159,
+   "name": "Aegis Reclaimer",
+   "cls": "AEGS_Reclaimer",
+   "link": "verified",
+   "uexScu": 420,
+   "gameScu": 420,
+   "same": true,
+   "grids": 12,
+   "uexBoxes": "1,2,4,8,16,24"
+  },
+  {
+   "uexId": 160,
+   "name": "Aegis Reclaimer Best In Show Edition",
+   "link": "none",
+   "uexScu": 180
+  },
+  {
+   "uexId": 161,
+   "name": "Aegis Redeemer",
+   "cls": "AEGS_Redeemer",
+   "link": "verified",
+   "uexScu": 2,
+   "gameScu": 2,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1"
+  },
+  {
+   "uexId": 162,
+   "name": "MISC Reliant Kore",
+   "cls": "MISC_Reliant",
+   "link": "verified",
+   "uexScu": 6,
+   "gameScu": 6,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 163,
+   "name": "MISC Reliant Mako",
+   "cls": "MISC_Reliant_Mako",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 164,
+   "name": "MISC Reliant Sen",
+   "cls": "MISC_Reliant_Sen",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 165,
+   "name": "MISC Reliant Tana",
+   "cls": "MISC_Reliant_Tana",
+   "link": "verified",
+   "uexScu": 1,
+   "gameScu": 1,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1"
+  },
+  {
+   "uexId": 166,
+   "name": "Aegis Retaliator",
+   "link": "none",
+   "uexScu": 74
+  },
+  {
+   "uexId": 167,
+   "name": "Aegis Retaliator Bomber",
+   "cls": "AEGS_Retaliator",
+   "link": "verified",
+   "uexScu": 74,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0
+  },
+  {
+   "uexId": 168,
+   "name": "Greycat ROC",
+   "cls": "GRIN_ROC",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 169,
+   "name": "Greycat ROC-DS",
+   "cls": "GRIN_ROC_DS",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 170,
+   "name": "Aegis Sabre",
+   "cls": "AEGS_Sabre",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 171,
+   "name": "Aegis Sabre Comet",
+   "cls": "AEGS_Sabre_Comet",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 172,
+   "name": "Aegis Sabre Raven",
+   "cls": "AEGS_Sabre_Raven",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 173,
+   "name": "Aopoa San'tok.yāi",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 174,
+   "name": "RSI Scorpius",
+   "cls": "RSI_Scorpius",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 175,
+   "name": "RSI Scorpius Antares",
+   "cls": "RSI_Scorpius_Antares",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 176,
+   "name": "Vanduul Scythe",
+   "cls": "VNCL_Scythe",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 177,
+   "name": "Anvil HM6 Spartan",
+   "cls": "ANVL_Spartan",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 178,
+   "name": "Crusader A1 Spirit",
+   "cls": "CRUS_Spirit_A1",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 179,
+   "name": "Crusader C1 Spirit",
+   "cls": "CRUS_Spirit_C1",
+   "link": "verified",
+   "uexScu": 64,
+   "gameScu": 64,
+   "same": true,
+   "grids": 2,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 180,
+   "name": "Crusader E1 Spirit",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 181,
+   "name": "Argo SRV",
+   "cls": "ARGO_SRV",
+   "link": "verified",
+   "uexScu": 12,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 182,
+   "name": "MISC Starfarer",
+   "cls": "MISC_Starfarer",
+   "link": "verified",
+   "uexScu": 291,
+   "gameScu": 291,
+   "same": true,
+   "grids": 5,
+   "uexBoxes": "1,2,4,8,16,24"
+  },
+  {
+   "uexId": 183,
+   "name": "MISC Starfarer Gemini",
+   "cls": "MISC_Starfarer_Gemini",
+   "link": "verified",
+   "uexScu": 291,
+   "gameScu": 291,
+   "same": true,
+   "grids": 5,
+   "uexBoxes": "1,2,4,8,16,24"
+  },
+  {
+   "uexId": 184,
+   "name": "Tumbril Storm",
+   "cls": "TMBL_Storm",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 186,
+   "name": "Tumbril Storm AA",
+   "cls": "TMBL_Storm_AA",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 187,
+   "name": "Greycat STV",
+   "cls": "GRIN_STV",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 188,
+   "name": "Gatac Syulen",
+   "cls": "GAMA_Syulen",
+   "link": "verified",
+   "uexScu": 6,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1"
+  },
+  {
+   "uexId": 189,
+   "name": "Esperia Talon",
+   "cls": "ESPR_Talon",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 190,
+   "name": "Esperia Talon Shrike",
+   "cls": "ESPR_Talon_Shrike",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 191,
+   "name": "Anvil Terrapin",
+   "cls": "ANVL_Terrapin",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 192,
+   "name": "RSI Ursa",
+   "cls": "RSI_Ursa_Rover",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 193,
+   "name": "RSI Ursa Fortuna",
+   "cls": "RSI_Ursa_Rover_Emerald",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 194,
+   "name": "Anvil Valkyrie",
+   "cls": "ANVL_Valkyrie",
+   "link": "verified",
+   "uexScu": 90,
+   "gameScu": 90,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 195,
+   "name": "Anvil Valkyrie Liberator Edition",
+   "cls": "ANVL_Valkyrie_CitizenCon",
+   "link": "verified",
+   "uexScu": 30,
+   "gameScu": 90,
+   "same": false,
+   "grids": 1,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 196,
+   "name": "Aegis Vanguard Harbinger",
+   "cls": "AEGS_Vanguard_Harbinger",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 197,
+   "name": "Aegis Vanguard Hoplite",
+   "cls": "AEGS_Vanguard_Hoplite",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 198,
+   "name": "Aegis Vanguard Sentinel",
+   "cls": "AEGS_Vanguard_Sentinel",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 199,
+   "name": "Aegis Vanguard Warden",
+   "cls": "AEGS_Vanguard",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 200,
+   "name": "Aegis Vulcan",
+   "link": "none",
+   "uexScu": 12
+  },
+  {
+   "uexId": 201,
+   "name": "Drake Vulture",
+   "cls": "DRAK_Vulture",
+   "link": "verified",
+   "uexScu": 12,
+   "gameScu": 12,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4,8"
+  },
+  {
+   "uexId": 202,
+   "name": "Origin X1",
+   "cls": "ORIG_X1",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 203,
+   "name": "Origin X1 Force",
+   "cls": "ORIG_X1_Force",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 204,
+   "name": "Origin X1 Velocity",
+   "cls": "ORIG_X1_Velocity",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 205,
+   "name": "RSI Zeus Mk II ES",
+   "cls": "RSI_Zeus_ES",
+   "link": "verified",
+   "uexScu": 32,
+   "gameScu": 32,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4,8,16"
+  },
+  {
+   "uexId": 206,
+   "name": "RSI Zeus Mk II MR",
+   "link": "none",
+   "uexScu": 16
+  },
+  {
+   "uexId": 207,
+   "name": "RSI Zeus Mk II CL",
+   "cls": "RSI_Zeus_CL",
+   "link": "verified",
+   "uexScu": 128,
+   "gameScu": 128,
+   "same": true,
+   "grids": 3,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 208,
+   "name": "MISC Endeavor Landing Bay Pod",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 209,
+   "name": "MISC Endeavor General Research Pod",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 210,
+   "name": "MISC Endeavor Medical Bay Pod",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 211,
+   "name": "MISC Endeavor Telescope Array Bay Pod",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 212,
+   "name": "MISC Endeavor Fuel Bay Pod",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 213,
+   "name": "RSI Galaxy Cargo Module",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 214,
+   "name": "RSI Galaxy Medical Module",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 215,
+   "name": "RSI Galaxy Refinery Module",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 216,
+   "name": "Aegis Retaliator Cargo Module - Stern",
+   "link": "none",
+   "uexScu": 36
+  },
+  {
+   "uexId": 217,
+   "name": "Aegis Retaliator Cargo Module - Bow",
+   "link": "none",
+   "uexScu": 38
+  },
+  {
+   "uexId": 218,
+   "name": "Aegis Retaliator Living Front Module",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 219,
+   "name": "Aegis Retaliator Living Rear Module",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 220,
+   "name": "Aegis Retaliator Torpedo Module – Bow",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 221,
+   "name": "Aegis Retaliator Dropship Front Module",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 222,
+   "name": "Anvil F8C Lightning Executive Edition",
+   "cls": "ANVL_Lightning_F8C_Exec",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 223,
+   "name": "Anvil F7A Hornet Mk II",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 224,
+   "name": "Anvil F7C Hornet Mk I",
+   "cls": "ANVL_Hornet_F7C",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 225,
+   "name": "Mirai Pulse",
+   "cls": "MRAI_Pulse",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 226,
+   "name": "Mirai Pulse LX",
+   "cls": "MRAI_Pulse_LX",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 227,
+   "name": "Argo MPUV Tractor",
+   "link": "none",
+   "uexScu": 16
+  },
+  {
+   "uexId": 228,
+   "name": "Aegis Sabre Firebird",
+   "cls": "AEGS_Sabre_Firebird",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 229,
+   "name": "RSI Ursa Medivac",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 230,
+   "name": "Drake Ironclad",
+   "link": "none",
+   "uexScu": 2200
+  },
+  {
+   "uexId": 231,
+   "name": "Drake Ironclad Assault",
+   "link": "none",
+   "uexScu": 1440
+  },
+  {
+   "uexId": 232,
+   "name": "Aegis Sabre Peregrine",
+   "cls": "AEGS_Sabre_Peregrine",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 233,
+   "name": "Argo ATLS",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 234,
+   "name": "MISC Fortune",
+   "cls": "MISC_Fortune",
+   "link": "verified",
+   "uexScu": 16,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2,4"
+  },
+  {
+   "uexId": 236,
+   "name": "Crusader Intrepid",
+   "cls": "CRUS_Intrepid",
+   "link": "verified",
+   "uexScu": 8,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0,
+   "uexBoxes": "1,2"
+  },
+  {
+   "uexId": 238,
+   "name": "Mirai Guardian",
+   "cls": "MRAI_Guardian",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 239,
+   "name": "Mirai Guardian QI",
+   "cls": "MRAI_Guardian_QI",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 240,
+   "name": "Argo CSV-SM",
+   "link": "none",
+   "uexScu": 4
+  },
+  {
+   "uexId": 241,
+   "name": "MISC Starlancer TAC",
+   "cls": "MISC_Starlancer_TAC",
+   "link": "verified",
+   "uexScu": 96,
+   "gameScu": 96,
+   "same": true,
+   "grids": 2
+  },
+  {
+   "uexId": 242,
+   "name": "MISC Starlancer MAX",
+   "cls": "MISC_Starlancer_Max",
+   "link": "verified",
+   "uexScu": 224,
+   "gameScu": 96,
+   "same": false,
+   "grids": 2,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 243,
+   "name": "MISC Starlancer BLD",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 244,
+   "name": "Argo CSV-FM",
+   "link": "none",
+   "uexScu": 4
+  },
+  {
+   "uexId": 246,
+   "name": "Anvil F7C-R Hornet Tracker Mk II",
+   "cls": "ANVL_Hornet_F7CR_Mk2",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 247,
+   "name": "Anvil F7C-S Hornet Ghost Mk II",
+   "cls": "ANVL_Hornet_F7CS_Mk2",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 248,
+   "name": "Anvil Terrapin Medic",
+   "cls": "ANVL_Terrapin_Medic",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 249,
+   "name": "Anvil Paladin",
+   "link": "none",
+   "uexScu": 4
+  },
+  {
+   "uexId": 250,
+   "name": "Anvil F7C-M Super Hornet Mk II",
+   "cls": "ANVL_Hornet_F7CM_Mk2",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 251,
+   "name": "Drake Golem",
+   "link": "none",
+   "uexScu": 32
+  },
+  {
+   "uexId": 252,
+   "name": "Argo ATLS GEO",
+   "link": "none",
+   "uexScu": 0.8
+  },
+  {
+   "uexId": 254,
+   "name": "Aegis Retaliator Torpedo Module – Stern",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 255,
+   "name": "Anvil Asgard",
+   "cls": "ANVL_Asgard",
+   "link": "verified",
+   "uexScu": 180,
+   "gameScu": 180,
+   "same": true,
+   "grids": 1,
+   "uexBoxes": "1,2,4,8,16,24,32"
+  },
+  {
+   "uexId": 256,
+   "name": "Greycat MTC",
+   "cls": "GRIN_MTC",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 257,
+   "name": "Mirai Guardian MX",
+   "cls": "MRAI_Guardian_QI",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 258,
+   "name": "Argo ATLS IKTI",
+   "link": "none",
+   "uexScu": 0.8
+  },
+  {
+   "uexId": 259,
+   "name": "Argo ATLS IKTI Rad",
+   "link": "none",
+   "uexScu": 0.8
+  },
+  {
+   "uexId": 260,
+   "name": "Argo ATLS IKTI GEO",
+   "link": "none",
+   "uexScu": 0.8
+  },
+  {
+   "uexId": 261,
+   "name": "Argo ATLS IKTI GEO Rad",
+   "link": "none",
+   "uexScu": 0.8
+  },
+  {
+   "uexId": 262,
+   "name": "Esperia Prowler Utility",
+   "cls": "ESPR_Prowler",
+   "link": "verified",
+   "uexScu": 32,
+   "gameScu": 0,
+   "same": false,
+   "grids": 0
+  },
+  {
+   "uexId": 263,
+   "name": "RSI Meteor",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 264,
+   "name": "Kruger L-21 Wolf",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 265,
+   "name": "Esperia Stinger",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 266,
+   "name": "Grey's Market Shiv",
+   "link": "none",
+   "uexScu": 32
+  },
+  {
+   "uexId": 267,
+   "name": "Kruger L-22 Alpha Wolf",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 268,
+   "name": "Drake Clipper",
+   "link": "none",
+   "uexScu": 12
+  },
+  {
+   "uexId": 269,
+   "name": "Drake Golem Ox",
+   "link": "none",
+   "uexScu": 64
+  },
+  {
+   "uexId": 270,
+   "name": "Greycat MDC",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 271,
+   "name": "RSI Salvation",
+   "link": "none",
+   "uexScu": 6
+  },
+  {
+   "uexId": 272,
+   "name": "Anvil Auxilia",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 274,
+   "name": "Kruger S-65 Stingray",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 275,
+   "name": "RSI Hermes",
+   "link": "none",
+   "uexScu": 288
+  },
+  {
+   "uexId": 276,
+   "name": "Argo MOTH",
+   "link": "none",
+   "uexScu": 224
+  },
+  {
+   "uexId": 278,
+   "name": "RSI Aurora Mk II",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 279,
+   "name": "RSI Aurora Mk I SE",
+   "link": "none",
+   "uexScu": 6
+  },
+  {
+   "uexId": 280,
+   "name": "Greycat UTV",
+   "link": "none",
+   "uexScu": 1
+  },
+  {
+   "uexId": 282,
+   "name": "Drake Pitbull",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 283,
+   "name": "Origin M80",
+   "link": "none",
+   "uexScu": 2
+  },
+  {
+   "uexId": 284,
+   "name": "MISC Starlite",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 285,
+   "name": "Aegis Tiburon",
+   "link": "none",
+   "uexScu": 64
+  },
+  {
+   "uexId": 286,
+   "name": "Anvil Odin",
+   "link": "none",
+   "uexScu": 6000
+  },
+  {
+   "uexId": 287,
+   "name": "Gatac Tyilui",
+   "link": "none",
+   "uexScu": 96
+  },
+  {
+   "uexId": 289,
+   "name": "Grey's Market Basher",
+   "cls": "GLSN_Basher",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  },
+  {
+   "uexId": 290,
+   "name": "Aegis Sabre Raven EX",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 291,
+   "name": "Aegis Sabre Raven EX",
+   "link": "none",
+   "uexScu": 0
+  },
+  {
+   "uexId": 292,
+   "name": "RSI Constellation Mk V Centaurus",
+   "link": "none",
+   "uexScu": 240
+  },
+  {
+   "uexId": 293,
+   "name": "Roberts Space Industries Skylark",
+   "cls": "RSI_Skylark",
+   "link": "verified",
+   "uexScu": 0,
+   "gameScu": 0,
+   "same": true,
+   "grids": 0
+  }
+ ]
+}
