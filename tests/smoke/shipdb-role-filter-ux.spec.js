@@ -28,7 +28,7 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         expect(await page.locator('#ship-tag-filters [data-ship-tag-filter]').count()).toBe(0);
         expect(await page.locator('[data-role-option]').count()).toBe(ROLE_COUNT + 1);
         // 옵션 키=Erkul EN, 라벨=KO 번역
-        await expect(page.locator('[data-role-option="Light Fighter"]')).toHaveText('경 전투기');
+        await expect(page.locator('[data-role-option="Light Fighter"]')).toHaveText('경전투기');
         // 리스트박스는 기본 닫힘
         await expect(page.locator('#ship-role-listbox')).toBeHidden();
     });
@@ -69,7 +69,7 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         const input = page.locator('#ship-role-search');
         await input.click();
         await page.locator('[data-role-option="Light Fighter"]').click();
-        await expect(input).toHaveValue('경 전투기');
+        await expect(input).toHaveValue('경전투기');
         await expect.poll(async () => (await allCanonicalRoles(page)).every((role) => role === 'Light Fighter')).toBe(true);
         await page.locator('[data-role-clear]').click();
         await expect(input).toHaveValue('');

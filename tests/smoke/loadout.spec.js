@@ -211,8 +211,8 @@ test.describe('로드아웃 편집기', () => {
         await expect(page).toHaveURL(/#loadout$/);
         await expect(page.locator('#loadout .section-header h2')).toContainText('로드아웃');
         // 함선을 고르기 전에는 전체 목록을 바로 훑어볼 수 있다.
-        await expect(page.locator('#loadout-ship-count')).toHaveText('전체 218척');
-        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(218);
+        await expect(page.locator('#loadout-ship-count')).toHaveText('전체 220척');
+        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(220);
 
         await page.locator('#loadout-ship-search').fill('아스가르드');
         await expect(page.locator('#loadout-ship-count')).toHaveText('검색 결과 1척');
@@ -228,7 +228,7 @@ test.describe('로드아웃 편집기', () => {
         // 함선을 고르면 목록은 접히고, "함선 바꾸기"로 다시 펼친다.
         await expect(page.locator('#loadout-ship-results')).toHaveCount(0);
         await page.locator('[data-loadout-browse]').click();
-        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(218);
+        await expect(page.locator('#loadout-ship-results [data-loadout-ship]')).toHaveCount(220);
         await page.locator('[data-loadout-browse]').click();
 
         // 용어와 부품 이름은 게임 한국어 패치 표기를 따른다.

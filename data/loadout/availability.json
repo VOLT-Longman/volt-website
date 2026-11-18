@@ -1,6 +1,6 @@
 {
-  "source": "https://api.uexcorp.space/2.0/vehicles",
-  "checkedAt": "2026-11-17T01:16:56.331Z",
+  "source": "https://robertsspaceindustries.com/ship-matrix/index",
+  "checkedAt": "2026-11-18",
   "released": [
     "aegs_avenger_stalker",
     "aegs_avenger_titan",
@@ -107,7 +107,9 @@
     "drak_herald",
     "drak_ironclad",
     "drak_ironclad_assault",
+    "drak_marauder",
     "drak_mule",
+    "drak_pitbull",
     "drak_vulture",
     "vncl_blade",
     "vncl_glaive",
@@ -204,6 +206,7 @@
     "rsi_salvation",
     "rsi_scorpius",
     "rsi_scorpius_antares",
+    "rsi_skylark",
     "rsi_ursa_rover",
     "rsi_ursa_rover_emerald",
     "rsi_ursa_medivac",
@@ -223,18 +226,10 @@
   "excluded": [
     {
       "cls": "aegs_javelin",
-      "reason": "concept"
-    },
-    {
-      "cls": "drak_marauder",
       "reason": "unverified-release"
     },
     {
       "cls": "gama_hyun",
-      "reason": "unverified-release"
-    },
-    {
-      "cls": "rsi_skylark",
       "reason": "unverified-release"
     },
     {

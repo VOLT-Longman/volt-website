@@ -407,7 +407,7 @@ function main() {
         const manufacturer = manufacturerOf(vehicle.manufacturer);
         ships.set(cls.toLowerCase(), prune({
             cls: cls.toLowerCase(), ref: record.id, name: name.replace(/\s+/g, ' '), mfr: manufacturer.name, mfrCode: manufacturer.code,
-            size: Number(xml?.attrs.size) || undefined, role: localize(vehicle.vehicleRole) || undefined,
+            size: component(entity, 'SAttachableComponentParams')?.AttachDef?.Size || undefined, role: localize(vehicle.vehicleRole) || undefined,
             volt: voltIds.get(cls.toLowerCase()), ground: /\/groundvehicles\//i.test(record.file) ? true : undefined,
             tags: tagList(xml?.attrs.itemPortTags), base,
             slots,

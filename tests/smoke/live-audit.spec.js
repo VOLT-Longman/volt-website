@@ -130,7 +130,7 @@ for (const width of [1280, 390]) {
         await loadShip(page);
         await page.locator('[data-loadout-browse]').click();
         const list = page.locator('#loadout-ship-results');
-        await expect(list.locator('[data-loadout-ship]')).toHaveCount(218);
+        await expect(list.locator('[data-loadout-ship]')).toHaveCount(220);
         const cards = list.locator('.loadout-shipcard');
         const metrics = await cards.evaluateAll(nodes => nodes.map(node => {
             const card = node.getBoundingClientRect();

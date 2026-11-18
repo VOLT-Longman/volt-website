@@ -10861,7 +10861,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .gear-list[data-gear-type=weapon] tr > :nth-child(2), .gear-list[data-gear-type=weapon] tr > :nth-child(3), .gear-list[data-gear-type=weapon] tr > :nth-child(4), .gear-list[data-gear-type=weapon] tr > :nth-child(6), .gear-list[data-gear-type=weapon] tr > :nth-child(7), .gear-list[data-gear-type=armor] tr > :nth-child(2), .gear-list[data-gear-type=armor] tr > :nth-child(5), .gear-list[data-gear-type=armor] tr > :nth-child(6) { display: none; }
     .gear-list .gear-scroll-hint { display: none; }
     .gear-fit-body { padding: 12px; }
-    .gear-body-map { grid-template-columns: minmax(0, 1fr) 82px minmax(0, 1fr); gap: 4px; }
+    .gear-body-map { grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr); gap: 4px; }
     .gear-body-cards { height: auto; gap: 8px; }
     .gear-body-card { padding: 8px 6px; }
     .gear-body-label { flex-wrap: wrap; }
@@ -10872,3 +10872,8 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .gear-filter-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
 .gear-filter-chips:empty { display: none; }
 .gear-filter-chips .gear-add { border-color: rgba(255, 92, 64, .35); font-size: 12px; }
+
+@media (max-width: 700px) {
+    .gear-body-label { flex-direction: column; align-items: flex-start; gap: 3px; }
+    .gear-body-label strong { font-size: 16px; white-space: nowrap; }
+}

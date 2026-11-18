@@ -1,7 +1,7 @@
 {
   "layer": "ship-filter-taxonomy",
   "note": "2축(규모·플랫폼 / 역할) 필터 분류. 사실원=Erkul canonical과 RSI 공식의 명시 size·role·platform만. 레거시 편집분류 미참조.",
-  "generatedFromCommit": "db40f9b1704ac49286f6ce6a5a89f4e0e13b4399",
+  "generatedFromCommit": "84b3819600f05a8b53d122b0838ac4c6af8ce823",
   "source": "ships-canonical.json[].size·role·platform + ships-rsi-official.json[].rsi.size·role",
   "summary": {
     "totalRoles": 67,

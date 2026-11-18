@@ -194,7 +194,9 @@
     function renderCardRoleDetail(ship) {
         const detail = roleDisplay(ship);
         if (!detail) return '';
-        const tagLabels = shipRoleTags(ship).slice(0, 2).map((key) => taxoTagLabel('role', key));
+        const tags = shipRoleTags(ship).slice(0, 2);
+        if (tags.some(key => normalizeRoleLabel(key) === normalizeRoleLabel(canonicalShip(ship)?.role))) return '';
+        const tagLabels = tags.map((key) => taxoTagLabel('role', key));
         if (tagLabels.some((label) => normalizeRoleLabel(label) === normalizeRoleLabel(detail))) return '';
         return `<div class="ship-card-role-detail">${escapeHtml(detail)}</div>`;
     }

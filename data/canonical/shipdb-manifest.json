@@ -1,6 +1,6 @@
 {
   "schema": "shipdb-client-manifest/v1",
-  "version": "36d60031b0c05a22",
+  "version": "2e67f0980ca074dc",
   "files": {
     "canonical": {
       "path": "data/canonical/ships-canonical.json",
@@ -30,7 +30,7 @@
     "filterTaxonomy": {
       "path": "data/canonical/ship-filter-taxonomy.json",
       "group": "core",
-      "sha256": "fc6ff246c2479515e614e98c5e24c6df01c5fda16015fa05defb5982ddd140f7"
+      "sha256": "48aeb0f6bc1a6da338d005fe88a4a6322e101a87642ff776bd782a25709fb564"
     },
     "rsiOfficial": {
       "path": "data/canonical/ships-rsi-official.json",

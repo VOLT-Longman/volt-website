@@ -37,9 +37,14 @@ test('newly mapped loadouts use exact ship images and flagged localization keys 
     for (const [cls, id] of [['rsi_galaxy', 'galaxy'], ['anvl_liberator', 'liberator']]) {
         const ship = index.ships.find(s => s.cls === cls);
         assert.equal(ship.volt, id);
+        const canonical = await read('data/canonical/ships-canonical.json');
+        assert.equal('S' + ship.size, canonical.ships.find(s => s.id === id).size);
         assert.ok(imagery.records.some(r => r.id === ship.volt && r.reviewStatus === 'verified'));
     }
     assert.ok(index.ships.some(s => s.cls === 'drak_pitbull'));
+    const availability = await read('data/loadout/availability.json');
+    for (const cls of ['drak_pitbull','drak_marauder','rsi_skylark']) assert.ok(availability.released.includes(cls));
+    for (const cls of ['aegs_javelin','gama_hyun','vncl_mauler']) assert.ok(!availability.released.includes(cls));
     const canonical = await read('data/canonical/ships-canonical.json');
     for (const id of ['pitbull', 'tiburon']) assert.ok(canonical.ships.find(s => s.id === id).descriptions.en);
 });
