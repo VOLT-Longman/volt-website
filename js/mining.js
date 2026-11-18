@@ -100,12 +100,12 @@
         if (!list.length) return `<p class="mining-empty">${esc(text('noResult'))}</p>`;
         const sorted = [...list].sort((a, b) => (priceOf(b) || 0) - (priceOf(a) || 0) || label(a.name).localeCompare(label(b.name)));
         return `<p class="mining-note">${esc(text('priceUnitNote'))}</p><div class="mining-tablewrap"><table class="mining-table">
-            <thead><tr><th scope="col">${esc(text('mineral'))}</th><th scope="col">${esc(text('method'))}</th><th scope="col">${esc(text('refined'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th><th scope="col" class="is-num">${esc(text('instability'))}</th><th scope="col" class="is-num">${esc(text('resistance'))}</th></tr></thead>
+            <thead><tr><th scope="col">${esc(text('mineral'))}</th><th scope="col">${esc(text('method'))}</th><th scope="col">${esc(text('refined'))}</th><th scope="col" class="is-num mining-price-column">${esc(text('price'))}</th><th scope="col" class="is-num">${esc(text('instability'))}</th><th scope="col" class="is-num">${esc(text('resistance'))}</th></tr></thead>
             <tbody>${sorted.map((mineral) => `<tr class="${state.mineral === mineral.id ? 'is-selected' : ''}">
-                <th scope="row"><button type="button" class="mining-rowbtn" data-mining-mineral="${esc(mineral.id)}" aria-pressed="${state.mineral === mineral.id}">${esc(label(mineral.name))}</button></th>
+                <th scope="row"><button type="button" class="mining-rowbtn" data-mining-mineral="${esc(mineral.id)}" aria-pressed="${state.mineral === mineral.id}">${esc(label(mineral.name))}</button><span class="mining-mobile-price"><span>${esc(text('price'))}</span>${priceCell(mineral)}</span></th>
                 <td>${mineral.modes.map((mode) => `<span class="mining-tag is-${esc(mode)}">${esc(text(mode))}</span>`).join(' ')}</td>
                 <td>${mineral.refined ? esc(label(mineral.refined.name)) : `<span class="mining-muted">${esc(text('noRefine'))}</span>`}</td>
-                <td class="is-num">${priceCell(mineral)}</td>
+                <td class="is-num mining-price-column">${priceCell(mineral)}</td>
                 <td class="is-num">${esc(num(mineral.instability, 1))}</td>
                 <td class="is-num">${esc(num(mineral.resistance, 2))}</td>
             </tr>`).join('')}</tbody></table></div>`;

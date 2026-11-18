@@ -21,7 +21,8 @@ const arg = (name) => { const index = process.argv.indexOf(name); return index >
 const CACHE = arg('--cache-dir');
 if (!CACHE || !existsSync(resolve(CACHE, 'Game2.dcb'))) { console.error('--cache-dir <Game2.dcb 가 있는 폴더> 가 필요합니다.'); process.exit(2); }
 const df = new DataForge(readFileSync(resolve(CACHE, 'Game2.dcb')));
-const build = JSON.parse(readFileSync(resolve(CACHE, 'build.json'), 'utf8'));
+const manifest = JSON.parse(readFileSync(resolve(CACHE, existsSync(resolve(CACHE, 'build.json')) ? 'build.json' : 'build_manifest.id'), 'utf8'));
+const build = manifest.Data || manifest;
 function loadIni(path) {
     const map = new Map();
     for (const line of readFileSync(path, 'utf8').split(/\r?\n/)) { const at = line.indexOf('='); if (at > 0) map.set(line.slice(0, at).replace(/^﻿/, '').replace(/,P$/i, '').trim().toLowerCase(), line.slice(at + 1).trim()); }
@@ -48,6 +49,7 @@ const rewardAmounts = byName('SReputationRewardAmount');
 const resourceTypes = byName('ResourceType', 2);
 const brokers = new Map(df.recordsOfType('MissionBrokerEntry').map((record) => [idOf(record), record]));
 const starmap = new Map(df.recordsOfType('StarMapObject').map((record) => [idOf(record).toLowerCase(), record]));
+const missionLocalities = byName('MissionLocality', 2);
 
 // 운송 평판 등급
 const scopeRecord = df.recordsOfType('SReputationScopeParams').find((record) => idOf(record) === HAULING_SCOPE);
@@ -61,8 +63,20 @@ const useResource = (id) => { if (!resources[id]) resources[id] = names(resource
 const localities = {};
 function useLocality(id) {
     if (!localities[id]) {
-        const record = starmap.get(id.toLowerCase());
-        localities[id] = (record && names(df.readRecord(record, 2).name)) || { en: id };
+        // Locality IDs are availability groups, not necessarily StarMapObject IDs.
+        // Resolve their actual references; never invent a name from RegionA etc.
+        const refs = missionLocalities.get(id)?.availableLocations || [];
+        const members = new Map();
+        let unresolved = 0;
+        for (const ref of refs) {
+            const record = starmap.get(short(ref)?.toLowerCase());
+            const name = record && names(df.readRecord(record, 2).name);
+            if (name) members.set(idOf(record), { id: idOf(record), name });
+            else unresolved += 1;
+        }
+        const direct = starmap.get(id.toLowerCase());
+        const name = direct && names(df.readRecord(direct, 2).name);
+        localities[id] = prune({ name, members: [...members.values()], unresolved, source: refs.length ? 'MissionLocality.availableLocations' : 'StarMapObject.name' });
     }
     return id;
 }
@@ -112,7 +126,7 @@ contracts.sort((a, b) => a.by.localeCompare(b.by) || (a.min ?? 99) - (b.min ?? 9
 const out = {
     version: `${String(build.Branch || '').replace(/^sc-alpha-/, '')}.${build.RequestedP4ChangeNum || ''}`, gameVersion: build.Version, builtAt: new Date().toISOString(),
     source: 'game-files', sourceHash: createHash('sha256').update(df.buffer).digest('hex'),
-    note: 'cargo = 원본 주문별 resource, order, min/max SCU, box. max 0은 상한 미확인으로 표시. 계약 min/max = 필요 등급(ranks 순번). 중복 주문을 합치거나 총 화물량을 추정하지 않음.',
+    note: 'cargo = 원본 주문별 resource, order, min/max SCU, box. max 0은 상한 미확인으로 표시. 계약 min/max = 필요 등급(ranks 순번). 중복 주문을 합치거나 총 화물량을 추정하지 않음. localities = MissionLocality.availableLocations가 참조하는 정식 별지도 이름. 계약 발급 가능 지역이며 출발/도착 경로를 뜻하지 않음.',
     scope: names(scope.displayName, 'Hauling'), ranks, contractors, localities, resources, contracts,
 };
 mkdirSync(resolve(ROOT, 'data/contracts'), { recursive: true });

@@ -36,3 +36,16 @@ test('generated guides retain audited source values and the same game build', ()
     assert.ok(!crafting.miningResources.includes('Sadaryx'));
     assert.ok(Object.values(crafting.recipes).every((recipe) => recipe.tier === 0 && recipe.blueprint));
 });
+
+test('hauling availability regions follow named game starmap references', () => {
+    const { localities, contracts } = data('contracts/hauling.json');
+    for (const [region, id, english] of [['RegionA', 'Pyro1', 'Pyro I'], ['RegionB', 'Pyro3', 'Bloom'], ['RegionC', 'Pyro4', 'Pyro IV'], ['RegionD', 'Pyro6', 'Terminus']]) {
+        assert.equal(localities[region].source, 'MissionLocality.availableLocations');
+        const place = localities[region].members.find(p => p.id === id);
+        assert.equal(place.name.en, english);
+        assert.ok(place.name.ko);
+    }
+    assert.deepEqual(localities.PyroAndNyx.members.map(p => p.name.ko), ['파이로', '닉스']);
+    assert.equal(contracts.filter(c => c.cargo?.length).length, 36);
+    assert.ok(contracts.every(c => c.reward === undefined), 'Do not invent missing aUEC payouts');
+});

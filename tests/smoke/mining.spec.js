@@ -9,6 +9,22 @@ async function openMining(page, prices = [{ name: 'Gold', price_sell: 28870 }, {
     await expect(page.locator('#mining-app .mining-table').first()).toBeVisible();
 }
 
+test('채광 안내: 375px에서 가로 스크롤 없이 광물 아래 시세와 단위를 읽는다', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await openMining(page);
+    await page.locator('#mining-search').fill('gold');
+    const price = page.locator('.mining-mobile-price').first();
+    await expect(price).toBeVisible();
+    await expect(price).toContainText('28,870');
+    await expect(price).toContainText('aUEC/SCU');
+    const bounds = await price.boundingBox();
+    expect(bounds.x).toBeGreaterThanOrEqual(0);
+    expect(bounds.x + bounds.width).toBeLessThanOrEqual(375);
+    await page.route('**/api/uex/commodities', route => route.fulfill({ status: 503, json: { error: 'unavailable' } }));
+    await page.reload();
+    await expect(page.locator('.mining-mobile-price').first()).toContainText('시세 정보 없음');
+});
+
 test('채광 안내: 광물을 고르면 캐는 곳이 나오고, 장소로 넘어가면 그곳의 광물이 나온다', async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await openMining(page);
