@@ -68,10 +68,27 @@ const grids = new Map(repoJson('data/loadout-research/cargo-grids.json').grids.m
 function shipCargo(record) {
     const entity = game.entity(record, 12);
     const entries = game.component(entity, 'SEntityComponentDefaultLoadoutParams')?.loadout?.entries || [];
-    let scu = 0; const used = [];
-    const walk = (list) => { for (const entry of list || []) { const cls = entry.entityClassName || String(entry.entityClassReference?.name || '').split('.').slice(1).join('.'); const grid = grids.get(cls.toLowerCase()); if (grid) { scu += grid.scu; used.push(grid.cls); } walk(entry.loadout?.entries); } };
-    walk(entries);
-    return { scu, grids: used };
+    let scu = 0; let personal = 0; const used = [];
+    // 화물칸은 함선에 바로 달리기도 하고, 화물 선반·문·승강기 같은 중간 부품의 기본 장착 안에 들어 있기도 하다.
+    // 항목에 하위 장착이 적혀 있으면 그것을, 없으면 그 부품 자신의 기본 장착을 따라간다.
+    const walk = (list, depth) => {
+        for (const entry of list || []) {
+            const cls = entry.entityClassName || String(entry.entityClassReference?.name || '').split('.').slice(1).join('.');
+            const grid = grids.get(cls.toLowerCase());
+            // 개인 보관함(무기고 등)은 화물 적재량에 넣지 않고 따로 센다.
+            if (grid && /PersonalInventory/i.test(grid.container || '')) personal += grid.scu;
+            else if (grid) { scu += grid.scu; used.push(grid.cls); }
+            const nested = entry.loadout?.entries || [];
+            if (nested.length) walk(nested, depth + 1);
+            else if (cls && !grid && depth < 4) {
+                const child = game.byClass.get(cls.toLowerCase());
+                const own = child ? game.component(game.entity(child, 12), 'SEntityComponentDefaultLoadoutParams')?.loadout?.entries : null;
+                if (own?.length) walk(own, depth + 1);
+            }
+        }
+    };
+    walk(entries, 0);
+    return { scu, personal, grids: used };
 }
 // 게임 함선의 영어 이름 → 레코드. 같은 이름이 둘 이상이면 잇지 않는다.
 const shipByName = new Map();
@@ -92,16 +109,19 @@ const vehicleLinks = uex('vehicles').map((vehicle) => {
     }
     if (!record) return { uexId: vehicle.id, name: vehicle.name_full || vehicle.name, link: how, uexScu: vehicle.scu, concept: Boolean(vehicle.is_concept) || undefined };
     const cargo = shipCargo(record);
-    return { uexId: vehicle.id, name: vehicle.name_full || vehicle.name, cls: game.clsOf(record), link: how, uexScu: vehicle.scu, gameScu: cargo.scu, same: Number(vehicle.scu) === cargo.scu, grids: cargo.grids.length, uexBoxes: vehicle.container_sizes || undefined };
+    return { uexId: vehicle.id, name: vehicle.name_full || vehicle.name, cls: game.clsOf(record), link: how, uexScu: vehicle.scu, gameScu: cargo.scu, same: Number(vehicle.scu) === cargo.scu, grids: cargo.grids.length, personalScu: cargo.personal || undefined,
+        // 수치가 다르면 게임 파일을 따른다(소유자 결정 2026-11-18). 단, 화물칸을 하나도 읽지 못한 0은 게임 값이 아니라 추출 누락이다.
+        basis: Number(vehicle.scu) === cargo.scu ? 'same' : cargo.grids.length ? 'game' : 'unread', adoptedScu: Number(vehicle.scu) === cargo.scu || cargo.grids.length ? cargo.scu : undefined, uexBoxes: vehicle.container_sizes || undefined };
 });
 
 writeData('uex-world-links.json', {
     ...base, uexApi: 'https://api.uexcorp.uk/2.0', uexFetchedAt: Object.fromEntries(['commodities', 'planets', 'moons', 'space_stations', 'cities', 'outposts', 'vehicles'].map((n) => [n, fetchedAt(n)])),
+    valuePolicy: '수치가 다르면 게임 파일 값을 따른다. basis=game 은 게임 값을 채택한 것, basis=unread 는 게임 쪽 화물칸을 읽지 못해 아직 정하지 못한 것.',
     matchRule: 'UUID 가 같으면 verified, 이름만 같으면 name, 여러 개가 걸리면 ambiguous. name·ambiguous 는 사람이 확인하기 전에는 확정이 아니다.',
     summary: {
         commodities: count(commodityLinks, 'link'), uexOnlyCommodities: uexOnly.length,
         miningLocations: count(miningLinks, 'link'), places: count(placeLinks, 'link'),
-        vehicles: { ...count(vehicleLinks, 'link'), sameScu: vehicleLinks.filter((v) => v.same).length, differentScu: vehicleLinks.filter((v) => v.cls && !v.same).length },
+        vehicles: { ...count(vehicleLinks, 'link'), sameScu: vehicleLinks.filter((v) => v.same).length, differentScu: vehicleLinks.filter((v) => v.cls && !v.same).length, gameWins: vehicleLinks.filter((v) => v.basis === 'game').length, unread: vehicleLinks.filter((v) => v.basis === 'unread').length },
     },
     commodities: commodityLinks, uexOnlyCommodities: uexOnly, miningLocations: miningLinks, places: placeLinks, vehicles: vehicleLinks,
 });
