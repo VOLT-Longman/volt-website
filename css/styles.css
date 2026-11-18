@@ -11041,6 +11041,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .loadout-dashboard .loadout-mount-card .loadout-link { grid-column: 1 / -1; min-height: 26px; font-size: 11px; }
 .loadout-dashboard .loadout-mount-card .loadout-swapbtn { grid-column: 1 / -1; min-height: 30px; padding: 4px 8px; }
 @media (min-width: 801px) {
+    .loadout-dashboard .loadout-power-pips button.loadout-power-device[data-loadout-power-span="1"] { min-height: 36px; }
     .loadout-dashboard .loadout-group.is-quantum .loadout-assembly-tree { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
     .loadout-dashboard .loadout-group.is-quantum .loadout-assembly-parent .loadout-slot-row { display: grid; grid-template-columns: 34px minmax(0, 1fr); }
     .loadout-dashboard .loadout-group.is-quantum .loadout-assembly-parent .loadout-metric { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 8px; }
