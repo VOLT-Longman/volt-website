@@ -804,7 +804,7 @@
         if (!summary) return;
         summary.hidden = false;
         const secondary = getShipSecondaryName(ship);
-        summary.innerHTML = `<strong>${escapeHtml(getShipDisplayName(ship))}</strong>${secondary ? `<span class="planner-summary-en">${escapeHtml(secondary)}</span>` : ''}<span>${escapeHtml(shipManufacturerLabel(ship))} · ${escapeHtml(ship.cargo)} · ${escapeHtml(ship.size)}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small>`;
+        summary.innerHTML = `<strong>${escapeHtml(getShipDisplayName(ship))}</strong>${secondary ? `<span class="planner-summary-en">${escapeHtml(secondary)}</span>` : ''}<span>${escapeHtml(shipManufacturerLabel(ship))} · ${escapeHtml(ship.cargo)} · ${escapeHtml(ship.size)}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small><div class="volt-tool-links"><button type="button" data-volt-open="ship" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'ShipDB' : '함선 DB'}</button><button type="button" data-volt-open="loadout" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Loadout' : '로드아웃'}</button><button type="button" class="is-ai" data-volt-open="ai" data-volt-context="trade" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Review with AI' : 'AI로 운송 준비 검토'}</button></div>`;
     }
 
     function getPlannerShipRecommendation(ship) {
@@ -1152,6 +1152,34 @@
             }
         });
     }
+
+    async function openTool(action, shipId, contextKind) {
+        const ship = shipById.get(shipId);
+        if (action === 'loadout') {
+            try {
+                const opened = await window.VOLT_LOADOUT?.openShip?.(shipId);
+                if (!opened) { showToast(currentLang() === 'en' ? 'No released loadout data for this ship.' : '이 함선의 출시된 로드아웃 자료가 없습니다.'); return; }
+                closeModal(); showSection('loadout');
+            } catch (_error) { showToast(currentLang() === 'en' ? 'Could not load this ship.' : '함선 자료를 불러오지 못했습니다.'); }
+        } else if (action === 'ship' && ship) { showSection('ships'); openShipModal(ship); }
+        else if (action === 'planner' && ship) useShipInPlanner(ship.id);
+        else if (action === 'ai') {
+            const context = contextKind === 'loadout' ? window.VOLT_LOADOUT?.aiContext?.()
+                : ship ? { kind: contextKind === 'trade' ? 'trade' : 'ship', shipId: ship.id,
+                    ...(contextKind === 'trade' ? { cargoScu: Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0) } : {}) } : null;
+            if (!context) return;
+            const label = context.kind === 'loadout' ? document.getElementById('loadout-ship-title')?.textContent : getShipDisplayName(ship);
+            window.VOLT_AI?.openContext?.(context, label);
+            closeModal(); showSection('ai');
+        }
+    }
+    document.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-volt-open]');
+        if (!button) return;
+        event.preventDefault();
+        openTool(button.dataset.voltOpen, button.dataset.voltShipId, button.dataset.voltContext);
+    });
+    window.VOLT_TOOLS = { open: openTool };
 
 
 
@@ -2041,6 +2069,7 @@
         // 로드아웃 편집기 — 함선 한국어 표시명은 함선DB와 같은 규칙을 쓴다.
         window.VOLT_LOADOUT?.init?.({
             escapeHtml, i18nT, currentLang, showToast, formatCredits, canUse: canUseCommunityTools,
+            canPlan: (id) => { const ship = shipById.get(id); return Boolean(ship && isPlannerEligibleShip(ship)); },
             shipDisplayName: (voltId, fallback) => { const ship = voltId ? shipById.get(voltId) : null; return ship ? getShipDisplayName(ship) : fallback; },
         });
         // 공지 UI 계층 — 데이터 접근·공용 유틸 주입(announcements는 CMS 로드로 재할당되므로 getter).

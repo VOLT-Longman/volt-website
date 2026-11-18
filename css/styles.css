@@ -10596,3 +10596,42 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-ship-sellers li { grid-template-columns: minmax(0, 1fr); }
     .loadout-ship-sellers b { text-align: left; }
 }
+
+/* Individual device power and context-preserving tool navigation. */
+.loadout-power-pips.has-devices { height: auto; min-height: 156px; }
+.loadout-power-pips.has-devices > button:not(.loadout-power-device) { flex: 0 0 14px; min-height: 14px; }
+.loadout-power-pips button.loadout-power-device { min-height: 64px; max-height: none; flex: 0 0 auto; padding: 6px 2px; }
+.loadout-power-pips .loadout-power-device span { max-width: 100%; overflow-wrap: anywhere; }
+.loadout-power-pips .loadout-power-device.is-device-off { border-style: dashed; background: #171a20; color: #c8cdd7; }
+.loadout-power-pips .loadout-power-device.is-unfunded { border-color: #c5a765; background: #302b20; color: #f3dfb0; }
+.volt-tool-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.loadout-identity > .volt-tool-links { padding: 0 16px 16px; }
+.volt-tool-links button, .volt-ai-context-prompts button { min-height: 44px; padding: 9px 13px; border: 1px solid #535967; border-radius: 6px; background: #252932; color: #f1f3f8; font: inherit; font-size: 13px; cursor: pointer; }
+.volt-tool-links .is-ai { border-color: #b36b55; background: #503326; color: #ffcfb9; }
+.volt-tool-links button:hover, .volt-ai-context-prompts button:hover { border-color: #eea183; background: #413027; }
+.volt-tool-links button:focus-visible, .volt-ai-context button:focus-visible { outline: 2px solid #ffb496; outline-offset: 3px; }
+.volt-ai-context { padding: 16px 20px; border-block: 1px solid #664b40; background: #25201d; }
+.volt-ai-context[hidden] { display: none; }
+.volt-ai-context-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; color: #ffe0cb; }
+.volt-ai-context-heading > span, .volt-ai-context p { color: #d6ccd0; font-size: 13px; line-height: 1.6; }
+.volt-ai-context-heading button { margin-left: auto; min-height: 32px; }
+.volt-ai-context p { margin: 10px 0; }
+.volt-ai-context-prompts { display: flex; flex-wrap: wrap; gap: 8px; }
+.volt-ai-context-prompts button:disabled { opacity: .65; cursor: default; }
+.volt-ai-review { margin-top: 20px; --lo-up: #a3d7ad; --lo-down: #ffab9c; }
+.volt-ai-review h4 { margin: 16px 0 10px; font-size: 16px; color: #fff0e6; }
+.volt-ai-review-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.volt-ai-review-metrics > div { padding: 12px; border: 1px solid #424854; border-radius: 7px; background: #20242b; }
+.volt-ai-review-metrics dt, .volt-ai-review-metrics small { display: block; color: #c6cbd5; font-size: 12px; line-height: 1.5; }
+.volt-ai-review-metrics dd { margin: 5px 0; font-size: 20px; font-weight: 650; color: #f4f5f8; font-variant-numeric: tabular-nums; }
+.volt-ai-review-metrics .loadout-change { display: block; margin: 5px 0 0; }
+.volt-ai-review-checks { padding: 0; list-style: none; }
+.volt-ai-review-checks li { margin: 10px 0; padding: 12px 14px; border-left: 3px solid #686f7b; background: #20242b; }
+.volt-ai-review-checks li.is-warning { border-color: #e8ac65; }
+.volt-ai-review-checks strong { color: #ffe5c7; }
+.volt-ai-review-checks p { margin: 6px 0 0; line-height: 1.65; color: #d9dce2; }
+@media (max-width: 540px) {
+    .volt-tool-links button { flex: 1 1 auto; }
+    .volt-ai-context { padding: 14px; }
+    .volt-ai-review-metrics { grid-template-columns: minmax(0, 1fr); }
+}

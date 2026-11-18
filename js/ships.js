@@ -1188,6 +1188,8 @@
                 <div class="ship-modal-actions ship-reader-actions">
                     <a class="btn btn-primary ship-modal-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(officialLabel)}</a>
                     ${renderShipPlannerAction(ship, 'btn btn-secondary ship-modal-link')}
+                    <button class="btn btn-secondary ship-modal-link" type="button" data-volt-open="loadout" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Open loadout' : '로드아웃에서 구성'}</button>
+                    <button class="btn btn-secondary ship-modal-link" type="button" data-volt-open="ai" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Ask VOLT AI' : 'VOLT AI에 물어보기'}</button>
                     ${renderHangarToggleButton(ship, true)}
                 </div>`, true);
     }

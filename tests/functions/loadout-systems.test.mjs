@@ -143,3 +143,38 @@ test('레이더: 8종 시그니처·조준 보조·전력 요구량은 같은 �
     assert.equal(radar.radar.ping, 2.5);
     assert.equal(radar.powerLimits.min, 2);
 });
+
+test('타이탄 실드: 각 2칸 전원을 독립 제어하고 전력·성능·복원을 일치시킨다', () => {
+    const titan = ship('aegs_avenger_titan');
+    const left = 'hardpoint_shield_generator_left', right = 'hardpoint_shield_generator_right';
+    const before = calc.powerPlan(titan, items, {});
+    const first = calc.togglePower(titan, items, {}, left);
+    const plan = calc.powerPlan(titan, items, {}, first);
+    const shields = plan.groups.find(group => group.key === 'shields');
+    assert.equal(shields.members.length, 2);
+    assert.equal(shields.min, 2); assert.equal(shields.max, 3); assert.equal(shields.allocated, 2);
+    assert.equal(plan.remaining, before.remaining + 2);
+    assert.equal(calc.summarize(titan, items, {}, first).shield.hp, 2160);
+    const both = calc.togglePower(titan, items, {}, right, first);
+    assert.equal(calc.summarize(titan, items, {}, both).shield.hp, 0);
+    assert.equal(calc.powerPlan(titan, items, {}, both).groups.find(group => group.key === 'shields').members.length, 2);
+    const one = calc.togglePower(titan, items, {}, left, both);
+    assert.deepEqual(one.off, { [right]: true });
+    assert.equal(calc.powerPlan(titan, items, {}, one).groups.find(group => group.key === 'shields').allocated, 2);
+    const restored = calc.togglePower(titan, items, {}, right, one);
+    assert.deepEqual(restored.off, {});
+    assert.equal(calc.summarize(titan, items, {}, restored).shield.hp, 4320);
+    assert.deepEqual(calc.powerPlan(titan, items, {}, restored).groups.map(group => group.allocated), before.groups.map(group => group.allocated));
+});
+
+test('실드 재시작: 다른 계통의 배정을 빼앗지 않고 부족한 칸을 알린다', () => {
+    const titan = ship('aegs_avenger_titan');
+    const left = 'hardpoint_shield_generator_left';
+    const options = calc.togglePower(titan, items, {}, left);
+    options.operation.power.weapons += 2;
+    const snapshot = JSON.stringify(options);
+    const result = calc.togglePower(titan, items, {}, left, options);
+    assert.deepEqual(result, { blocked: true, needed: 2 });
+    assert.equal(JSON.stringify(options), snapshot);
+    assert.equal(calc.togglePower(titan, items, {}, 'unknown', options), null);
+});

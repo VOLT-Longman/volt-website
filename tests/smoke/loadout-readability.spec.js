@@ -14,21 +14,28 @@ for (const width of [1440, 390, 320]) test(`${width}px 최소 전력 묶음을 �
     const pips = page.getByRole('group', { name: '실드', exact: true });
     const minimum = pips.locator('.is-minimum');
     expect((await page.locator('#loadout-power-shields').boundingBox()).width).toBeGreaterThanOrEqual(24);
-    await expect(minimum).toHaveCount(1);
-    await expect(minimum).toContainText('4');
-    await expect(pips.locator('button')).toHaveCount(3); // one 4-pip block, then 5 and 6
+    await expect(minimum).toHaveCount(2);
+    await expect(minimum.first()).toContainText('2');
+    await expect(minimum.last()).toContainText('2');
+    await expect(pips.locator('button')).toHaveCount(4); // two independent 2-pip devices, then 5 and 6
     const sizes = await pips.locator('button').evaluateAll((buttons) => buttons.map((b) => ({ minimum: b.classList.contains('is-minimum'), height: b.getBoundingClientRect().height })));
+    expect(sizes.filter(b => b.minimum).every(b => b.height >= 64)).toBe(true);
     expect(sizes.find((b) => b.minimum).height).toBeGreaterThan(sizes.find((b) => !b.minimum).height * 2);
-    await page.locator('[data-loadout-power-clear]').click();
-    await minimum.press('Enter');
-    await expect(page.locator('#loadout-power-shields')).toHaveValue('4');
-    await expect(minimum).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('.loadout-power-meter')).toHaveAttribute('value', '4');
+    await minimum.first().press('Enter');
+    await expect(page.locator('#loadout-power-shields')).toHaveValue('2');
+    await expect(minimum.first()).toHaveAttribute('aria-pressed', 'false');
+    await expect(minimum.last()).toHaveAttribute('aria-pressed', 'true');
+    await minimum.last().press('Enter');
+    await expect(page.locator('#loadout-power-shields')).toHaveValue('0');
+    await minimum.first().press('Enter');
+    await expect(page.locator('#loadout-power-shields')).toHaveValue('2');
     await page.getByRole('button', { name: '실드 배정 늘리기', exact: true }).click();
-    await expect(page.locator('#loadout-power-shields')).toHaveValue('5');
+    await expect(page.locator('#loadout-power-shields')).toHaveValue('3');
     await page.getByRole('button', { name: '실드 배정 줄이기', exact: true }).click();
     await page.getByRole('button', { name: '실드 배정 줄이기', exact: true }).click();
     await expect(page.locator('#loadout-power-shields')).toHaveValue('0');
+    await expect(minimum.first()).toHaveClass(/is-unfunded/);
+    await expect(minimum.first()).toContainText('미배정');
     const accessibility = await new AxeBuilder({ page }).include('.loadout-power-plan').analyze();
     expect(accessibility.violations.filter((v) => ['serious', 'critical'].includes(v.impact))).toEqual([]);
     await page.locator('[data-loadout-jump="equipment"]').click();

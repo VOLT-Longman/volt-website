@@ -193,31 +193,35 @@
         const groups = new Map();
         const off = Object.keys(options.off || {}).filter((key) => options.off[key]);
         const groupFor = (type) => ({ WeaponGun: 'weapons', Shield: 'shields', FlightController: 'engines', Radar: 'radar', Cooler: 'coolers', QuantumDrive: 'quantum', LifeSupportGenerator: 'lifeSupport', WeaponMining: 'mining', SalvageHead: 'utility', TractorBeam: 'utility', TowingBeam: 'utility' })[type] || 'other';
-        const add = (type, min, max) => {
+        const add = (type, min, max, member) => {
             if (!(max > 0) || !Number.isFinite(min)) return;
             const key = groupFor(type);
-            const group = groups.get(key) || { key, min: 0, max: 0 };
-            group.min += min; group.max += max; groups.set(key, group);
+            const group = groups.get(key) || { key, min: 0, max: 0, members: [] };
+            if (member) group.members.push({ ...member, min, max });
+            if (!member?.off) { group.min += min; group.max += max; }
+            groups.set(key, group);
         };
         let generation = 0;
         const plants = [];
         walkLoadout(ship, items, overrides, ({ item, itemId, path }) => {
-            if (!item || off.some((key) => path === key || path.startsWith(`${key}/`))) return;
+            if (!item) return;
+            const disabled = off.some((key) => path === key || path.startsWith(`${key}/`));
+            const inherited = off.some((key) => path.startsWith(`${key}/`));
             if (item.type === 'PowerPlant') {
                 const output = Number(item.power?.gen);
                 const supplied = Number.isFinite(output) ? Math.max(0, output) : 0;
-                generation += supplied;
-                plants.push({ item, itemId, path, generation: supplied });
+                generation += disabled ? 0 : supplied;
+                plants.push({ item, itemId, path, generation: disabled ? 0 : supplied, off: disabled });
             }
-            if (item.powerLimits) add(item.type, item.powerLimits.min, item.powerLimits.max);
+            if (item.powerLimits) add(item.type, item.powerLimits.min, item.powerLimits.max, { path, itemId, off: disabled, inherited });
         });
         for (const item of ship.systems?.fixed || []) add(item.type, item.min, item.max);
         const order = ['weapons', 'engines', 'shields', 'radar', 'lifeSupport', 'coolers', 'quantum', 'mining', 'utility', 'other'];
         const rows = order.filter((key) => groups.has(key)).map((key) => {
             const group = groups.get(key);
             const pool = ship.systems?.pools?.find((p) => p.itemType === 'WeaponGun' && p.kind === 'FixedPowerPool');
-            const max = key === 'weapons' && pool?.poolSize > 0 ? Math.min(Math.ceil(group.max), pool.poolSize) : Math.ceil(group.max - 1e-7);
-            const min = Math.min(max, Math.ceil(group.min - 1e-7));
+            const max = Math.max(0, key === 'weapons' && pool?.poolSize > 0 ? Math.min(Math.ceil(group.max), pool.poolSize) : Math.ceil(group.max - 1e-7));
+            const min = Math.max(0, Math.min(max, Math.ceil(group.min - 1e-7)));
             const chosen = options.operation?.power?.[key];
             const allocated = Number.isFinite(chosen) ? Math.max(0, Math.min(max, Math.round(chosen))) : max;
             return { ...group, min, max, allocated: allocated > 0 ? Math.max(min, allocated) : 0 };
@@ -258,6 +262,28 @@
             if (input?.activeModules?.[path] === true && item?.miningModule?.activation === 'ActivateOnDemand') activeModules[path] = true;
         });
         return { power, activeModules };
+    }
+
+    // The same switch is used in equipment cards and the power panel. Preserve
+    // other systems' allocations; restarting a device reserves its minimum.
+    function togglePower(ship, items, overrides, path, options = {}) {
+        let exists = false;
+        walkLoadout(ship, items, overrides, (node) => { if (node.path === path && node.item) exists = true; });
+        if (!exists) return null;
+        const off = { ...(options.off || {}) };
+        const turningOn = Boolean(off[path]);
+        if (turningOn) delete off[path]; else off[path] = true;
+        const before = powerPlan(ship, items, overrides, options);
+        const after = powerPlan(ship, items, overrides, { ...options, off });
+        const power = Object.fromEntries(after.groups.map((group) => {
+            const previous = before.groups.find((entry) => entry.key === group.key);
+            const requested = Math.max(0, (previous?.allocated || 0) + group.min - (previous?.min || 0));
+            return [group.key, Math.min(group.max, requested > 0 ? Math.max(group.min, requested) : 0)];
+        }));
+        const used = Object.values(power).reduce((sum, value) => sum + value, 0);
+        if (turningOn && used > after.capacity) return { blocked: true, needed: used - after.capacity };
+        const operation = sanitizeOperation(ship, items, overrides, { ...options.operation, power }, { off });
+        return { off, operation };
     }
 
     // Direct source multipliers only. Two overlapping contributions do not establish
@@ -414,5 +440,5 @@
         return valid;
     }
 
-    return { DAMAGE_TYPES, COMPONENT_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, isGun, rackLoad, fitsSlot, normalizeTag, normalizeSlots, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides, powerPlan, autoPowerPlan, sanitizeOperation, miningHeads };
+    return { DAMAGE_TYPES, COMPONENT_TYPES, sumDamage, weaponStats, weaponSustain, weaponRange, isGun, rackLoad, fitsSlot, normalizeTag, normalizeSlots, walkLoadout, summarize, quantumTravelTime, encodeOverrides, decodeOverrides, sanitizeOverrides, powerPlan, autoPowerPlan, sanitizeOperation, togglePower, miningHeads };
 });

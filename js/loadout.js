@@ -31,6 +31,7 @@
     // 화면 문구(이 구역 전용). 정적 제목·설명은 js/i18n.js의 loadout.* 키를 쓴다.
     const TEXT = {
         ko: {
+            powerDeviceHelp: '이름이 있는 칸은 장비별 전원입니다. 한 개씩 끄고 켤 수 있으며, 켤 때 최소 전력을 확보합니다. 위의 작은 칸은 추가 배정이며 성능 수치는 정격 기준입니다.', powerNeed: '전력을 {count}칸 더 비워야 이 장비를 켤 수 있습니다.', powerParentOff: '상위 장비의 전원이 꺼져 있습니다.', powerDeviceOn: '켜짐', powerDeviceOff: '꺼짐', openShipDb: '함선 DB', openPlanner: '무역플래너', askLoadoutAi: 'AI로 구성 검토',
             shipMarketTitle: '함선 판매처', shipMarketLoading: '함선 판매처 확인 중…', shipMarketEmpty: 'UEX에서 확인된 인게임 판매처가 없습니다.', shipMarketUnmatched: 'UEX에서 같은 함선을 확인하지 못했습니다.', shipMarketError: '함선 판매처를 불러오지 못했습니다.', shipMarketMore: '다른 판매처 {count}곳', shipMarketSource: 'UEX 커뮤니티 제보 · 실시간 재고가 아닙니다.', shipMarketNameMatch: '영문 이름 일치 기준 · UEX 고유번호 없음', shipMarketDate: '가격 제보', shipMarketFetched: '자료 조회', signatures: '시그니처', powerSummary: '정격 출력·냉각',
             powerPlanTitle: '전력·캐패시터 분배', allocation: '배정 전력', minimumPower: '최소 전력', detectionYes: '가능', detectionNo: '불가', radarPing: '핑 재사용 대기', radarPassive: '수동 탐지', radarActive: '능동 탐지', powerBudget: '{used} / {total}칸 배정', powerBudgetHelp: '장착한 파워플랜트 출력 안에서 배정합니다. 다른 계통을 늘리려면 먼저 칸을 비워 주세요. 부분 전력의 탄창·충전 속도·실드 재생 환산식은 미검증이므로 성능은 정격 기준입니다.', powerAuto: '자동 배분', powerRated: '배정 초기화', powerClear: '모두 비우기', powerSupply: '파워플랜트 공급 {total}칸', powerLess: '{name} 배정 줄이기', powerMore: '{name} 배정 늘리기', powerAvailable: '지금 배정 가능 {max}칸', powerReserve: '남은 전력', powerOver: '초과 배정', powerMinimum: '작동 최소 {min} · 최대 {max}칸',
             power_weapons: '무기', power_engines: '엔진', power_shields: '실드', power_radar: '레이더', power_lifeSupport: '생명 유지', power_coolers: '쿨러', power_quantum: '퀀텀', power_mining: '채광', power_utility: '작업 장비', power_other: '기타',
@@ -100,6 +101,7 @@
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
         en: {
+            powerDeviceHelp: 'Named blocks switch individual devices on or off. Switching on reserves minimum power. Small blocks add allocation; performance values remain rated.', powerNeed: 'Free {count} more power pips to switch this device on.', powerParentOff: 'The parent device is switched off.', powerDeviceOn: 'On', powerDeviceOff: 'Off', openShipDb: 'ShipDB', openPlanner: 'Trade Planner', askLoadoutAi: 'Review with AI',
             shipMarketTitle: 'Ship purchase locations', shipMarketLoading: 'Checking ship sellers…', shipMarketEmpty: 'No in-game sellers reported by UEX.', shipMarketUnmatched: 'No matching ship could be verified in UEX.', shipMarketError: 'Could not load ship sellers.', shipMarketMore: '{count} more sellers', shipMarketSource: 'UEX community reports · not live stock.', shipMarketNameMatch: 'Exact English name match · UEX UUID missing', shipMarketDate: 'Price reported', shipMarketFetched: 'Data fetched', signatures: 'Signatures', powerSummary: 'Rated power & cooling',
             powerPlanTitle: 'Power & capacitor allocation', allocation: 'Allocated power', minimumPower: 'Minimum power', detectionYes: 'Supported', detectionNo: 'Unsupported', radarPing: 'Ping cooldown', radarPassive: 'Passive detection', radarActive: 'Active detection', powerBudget: '{used} / {total} pips allocated', powerBudgetHelp: 'Allocation is limited to the installed power plants. Free pips in another system before adding more. Partial-power ammo, recharge and shield-regeneration rules are unverified; performance remains rated.', powerAuto: 'Auto allocate', powerRated: 'Reset allocation', powerClear: 'Clear allocation', powerSupply: 'Power plants supply {total} pips', powerLess: 'Reduce {name} allocation', powerMore: 'Increase {name} allocation', powerAvailable: 'Available now: {max} pips', powerReserve: 'Unallocated power', powerOver: 'Over budget', powerMinimum: 'Minimum {min} · maximum {max} pips',
             power_weapons: 'Weapons', power_engines: 'Engines', power_shields: 'Shields', power_radar: 'Radar', power_lifeSupport: 'Life support', power_coolers: 'Coolers', power_quantum: 'Quantum', power_mining: 'Mining', power_utility: 'Utility', power_other: 'Other',
@@ -388,6 +390,23 @@
         return undefined;
     }
 
+    async function openShip(id) {
+        if (!deps.canUse?.()) return false;
+        await ensureBase();
+        const matches = state.index.filter((ship) => ship.cls === canonicalShip(id) || ship.volt === id);
+        if (matches.length !== 1) return false;
+        state.browsing = false;
+        if (state.shipCls !== matches[0].cls) await selectShip(matches[0].cls);
+        return !state.error;
+    }
+
+    function aiContext() {
+        if (!state.ship) return null;
+        return { kind: 'loadout', ship: state.shipCls, slot: state.slot,
+            overrides: { ...state.overrides }, off: { ...state.off }, operation: copyOperation(),
+            ...(state.alt ? { comparison: JSON.parse(JSON.stringify(state.alt)) } : {}) };
+    }
+
     // ---- 가격 (UEX) -------------------------------------------------------
     function loadCategoryPrices(type, refresh = false) {
         const category = UEX_CATEGORY[type];
@@ -575,6 +594,7 @@
                 ${image ? `<img class="loadout-shipphoto" src="${esc(image.thumbnail.path)}" width="${image.thumbnail.width}" height="${image.thumbnail.height}" alt="" decoding="async">` : '<div class="loadout-shipphoto is-empty" aria-hidden="true"></div>'}
                 <div class="loadout-shipinfo"><span class="loadout-maker">${esc(makerName(ship))}</span><h3 id="loadout-ship-title">${esc(shipName(ship))}</h3>${originalName(ship.name, shipName(ship))}<p class="loadout-shipfacts"><span class="loadout-abstate">${esc(text('abSlot', { slot: state.slot }))}</span>${facts.map((fact) => `<span>${esc(fact)}</span>`).join('')}</p><p class="loadout-shipstate">${esc(totals.changed ? text('changedCount', { count: totals.changed }) : text('stockState'))}${totals.off ? ` · ${esc(text('offState', { count: totals.off }))}` : ''}</p></div>
             </div>
+            <div class="volt-tool-links">${state.ship.volt ? `<button type="button" data-volt-open="ship" data-volt-ship-id="${esc(state.ship.volt)}">${esc(text('openShipDb'))}</button>${deps.canPlan?.(state.ship.volt) ? `<button type="button" data-volt-open="planner" data-volt-ship-id="${esc(state.ship.volt)}">${esc(text('openPlanner'))}</button>` : ''}` : ''}<button type="button" class="is-ai" data-volt-open="ai" data-volt-context="loadout">${esc(text('askLoadoutAi'))}</button></div>
         </div>`;
     }
 
@@ -1106,14 +1126,27 @@ ${section(text('cost'), `
             const base = Math.max(1, group.min);
             const count = Math.min(Math.max(0, group.max - base), 19);
             const steps = [base, ...Array.from({ length: count }, (_, i) => base + Math.ceil((i + 1) * (group.max - base) / count))];
-            const blocks = steps.map((value, index) => {
+            const individual = ['shields', 'coolers', 'radar', 'quantum'].includes(group.key) && group.members.length > 0;
+            const devices = individual ? group.members.map((member, index) => {
+                const item = state.items[member.itemId] || state.ship.extra?.[member.itemId];
+                const node = allNodes().find((entry) => entry.path === member.path);
+                const place = node ? position(node.slot) : '';
+                const label = group.members.length > 1 ? (place || `${name} ${index + 1}`) : itemName(member.itemId, item);
+                const minimum = Math.ceil(member.min - 1e-7);
+                const title = `${label} · ${shoppingName(member.itemId, item)} · ${text('powerBase', { min: minimum })} · ${text(member.off ? 'powerOn' : 'powerOff')}`;
+                const funded = group.allocated >= group.min;
+                const status = text(member.off ? 'powerDeviceOff' : funded ? 'powerDeviceOn' : 'powerEmpty');
+                return `<button type="button" class="loadout-power-device is-minimum${member.off ? ' is-device-off' : funded ? ' is-filled' : ' is-unfunded'}" data-loadout-power="${esc(member.path)}" data-loadout-power-span="${Math.max(1, minimum)}" aria-pressed="${!member.off}" aria-label="${esc(title)} · ${esc(status)}" title="${esc(member.inherited ? text('powerParentOff') : title)}" ${member.inherited ? 'disabled' : ''}><span>${esc(label)}</span><b>${minimum}</b><span>${esc(status)}</span></button>`;
+            }) : [];
+            const blocks = steps.filter((_value, index) => group.max > 0 && (!individual || index > 0)).map((value) => {
+                const index = steps.indexOf(value);
                 const minimum = index === 0 && group.min > 1;
                 const selected = value === group.allocated;
                 return `<button type="button" class="${value <= group.allocated ? 'is-filled ' : ''}${minimum ? 'is-minimum' : ''}" data-loadout-pip="${group.key}" data-loadout-value="${value}" data-loadout-power-span="${value - (steps[index - 1] || 0)}" aria-label="${esc(text('powerPip', { name, value }))}${minimum ? ` · ${esc(text('powerBase', { min: group.min }))}` : ''}" aria-pressed="${selected}" ${value > available ? 'disabled' : ''} title="${esc(text('powerPip', { name, value }))} · ${esc(text('powerAvailable', { max: available }))}">${minimum ? `<b>${group.min}</b><span>${esc(text('minimumPower'))}</span>` : `<span class="visually-hidden">${value}</span>`}</button>`;
             });
-            return `<div class="loadout-power-channel${group.allocated === 0 ? ' is-empty' : ''}"><label for="loadout-power-${group.key}">${esc(name)}</label><div class="loadout-power-pips" role="group" aria-label="${esc(name)}">${blocks.reverse().join('')}</div><div class="loadout-power-adjust"><button type="button" data-loadout-pip="${group.key}" data-loadout-value="${decrease}" aria-label="${esc(text('powerLess', { name }))}" ${group.allocated === 0 ? 'disabled' : ''}>−</button><input id="loadout-power-${group.key}" type="number" inputmode="numeric" min="0" max="${available}" step="1" value="${group.allocated}" data-loadout-power-value="${group.key}" aria-describedby="loadout-power-hint-${group.key}"><button type="button" data-loadout-pip="${group.key}" data-loadout-value="${increase}" aria-label="${esc(text('powerMore', { name }))}" ${increase > available ? 'disabled' : ''}>+</button></div><small id="loadout-power-hint-${group.key}" title="${esc(text('powerMinimum', group))} · ${esc(text('powerAvailable', { max: available }))}">${esc(group.allocated === 0 ? text('powerEmpty') : text('powerLimitShort', group))}</small></div>`;
+            return `<div class="loadout-power-channel${group.allocated === 0 ? ' is-empty' : ''}"><label for="loadout-power-${group.key}">${esc(name)}</label><div class="loadout-power-pips${individual ? ' has-devices' : ''}" role="group" aria-label="${esc(name)}">${blocks.reverse().join('')}${devices.join('')}</div><div class="loadout-power-adjust"><button type="button" data-loadout-pip="${group.key}" data-loadout-value="${decrease}" aria-label="${esc(text('powerLess', { name }))}" ${group.allocated === 0 ? 'disabled' : ''}>−</button><input id="loadout-power-${group.key}" type="number" inputmode="numeric" min="0" max="${available}" step="1" value="${group.allocated}" data-loadout-power-value="${group.key}" aria-describedby="loadout-power-hint-${group.key}"><button type="button" data-loadout-pip="${group.key}" data-loadout-value="${increase}" aria-label="${esc(text('powerMore', { name }))}" ${increase > available ? 'disabled' : ''}>+</button></div><small id="loadout-power-hint-${group.key}" title="${esc(text('powerMinimum', group))} · ${esc(text('powerAvailable', { max: available }))}">${esc(group.allocated === 0 ? text('powerEmpty') : text('powerLimitShort', group))}</small></div>`;
         };
-        return `<section class="loadout-panel-section loadout-power-plan"><h4 id="loadout-power-title" tabindex="-1">${esc(text('powerPlanTitle'))}</h4><div class="loadout-power-budget" role="status"><span>${esc(text('powerBudget', { used: num(plan.allocated), total: num(plan.capacity) }))}</span><strong>${esc(text('powerReserve'))} <b>${num(plan.remaining)}</b></strong></div><meter class="loadout-power-meter" min="0" max="${plan.capacity || 1}" value="${plan.allocated}" aria-label="${esc(text('powerBudget', { used: plan.allocated, total: plan.capacity }))}"></meter><div class="loadout-power-channels">${plan.groups.map(control).join('')}</div><p class="loadout-note loadout-power-guide">${esc(text('powerGuide'))}</p><div class="loadout-power-actions"><button type="button" class="btn btn-secondary" data-loadout-power-auto>${esc(text('powerAuto'))}</button><button type="button" class="loadout-link" data-loadout-power-clear>${esc(text('powerClear'))}</button><button type="button" class="loadout-link" data-loadout-power-rated>${esc(text('powerRated'))}</button></div>${drawPowerSummary(totals, stock)}<div class="loadout-power-supply"><strong>${esc(text('powerSupply', { total: num(plan.capacity) }))}</strong><span>${plan.plants.map((plant) => `${esc(shoppingName(plant.itemId, plant.item))} · ${num(plant.generation)}`).join(' / ')}</span></div><details class="loadout-help"><summary>${esc(text('powerHelp'))}</summary><p class="loadout-note">${esc(text('powerBudgetHelp'))}</p></details></section>`;
+        return `<section class="loadout-panel-section loadout-power-plan"><h4 id="loadout-power-title" tabindex="-1">${esc(text('powerPlanTitle'))}</h4><div class="loadout-power-budget" role="status"><span>${esc(text('powerBudget', { used: num(plan.allocated), total: num(plan.capacity) }))}</span><strong>${esc(text('powerReserve'))} <b>${num(plan.remaining)}</b></strong></div><meter class="loadout-power-meter" min="0" max="${plan.capacity || 1}" value="${plan.allocated}" aria-label="${esc(text('powerBudget', { used: plan.allocated, total: plan.capacity }))}"></meter><div class="loadout-power-channels">${plan.groups.map(control).join('')}</div><p class="loadout-note loadout-power-guide">${esc(text('powerDeviceHelp'))}</p><div class="loadout-power-actions"><button type="button" class="btn btn-secondary" data-loadout-power-auto>${esc(text('powerAuto'))}</button><button type="button" class="loadout-link" data-loadout-power-clear>${esc(text('powerClear'))}</button><button type="button" class="loadout-link" data-loadout-power-rated>${esc(text('powerRated'))}</button></div>${drawPowerSummary(totals, stock)}<div class="loadout-power-supply"><strong>${esc(text('powerSupply', { total: num(plan.capacity) }))}</strong><span>${plan.plants.map((plant) => `${esc(shoppingName(plant.itemId, plant.item))} · ${num(plant.generation)}`).join(' / ')}</span></div><details class="loadout-help"><summary>${esc(text('powerHelp'))}</summary><p class="loadout-note">${esc(text('powerBudgetHelp'))}</p></details></section>`;
     }
 
     const miningLabels = { laserInstability: 'instab', resistanceModifier: 'resistMod', optimalChargeWindowSizeModifier: 'windowMod', optimalChargeWindowRateModifier: 'moduleCharge', shatterdamageModifier: 'shatterMod' };
@@ -1560,7 +1593,7 @@ ${section(text('cost'), `
         } else toolbar?.classList.add('is-scrolled');
         // CSSOM assignments keep dynamic measurements compatible with strict CSP.
         for (const bar of container.querySelectorAll('[data-loadout-width]')) bar.style.width = `${Math.max(0, Math.min(100, Number(bar.dataset.loadoutWidth) || 0))}%`;
-        for (const block of container.querySelectorAll('[data-loadout-power-span]')) {
+        for (const block of container.querySelectorAll('[data-loadout-power-span]:not(.loadout-power-device)')) {
             const span = Math.max(1, Number(block.dataset.loadoutPowerSpan) || 1);
             block.style.flexGrow = String(span);
             block.style.maxHeight = `${Math.min(128, span * 18 + (span - 1) * 4)}px`;
@@ -1767,15 +1800,18 @@ ${section(text('cost'), `
         if (target.hasAttribute('data-loadout-pick')) { setOverride(target.getAttribute('data-loadout-path'), target.getAttribute('data-loadout-pick')); return; }
         const powerPath = target.getAttribute('data-loadout-power');
         if (powerPath !== null) {
+            const result = calc.togglePower(state.ship, state.items, state.overrides, powerPath, { off: state.off, operation: state.operation });
+            if (!result) return;
+            if (result.blocked) { deps.showToast?.(text('powerNeed', { count: result.needed })); return; }
             remember();
-            state.operation = copyOperation();
-            const next = { ...state.off };
-            if (next[powerPath]) delete next[powerPath]; else next[powerPath] = true;
-            state.off = next;
-            state.operation = cleanOperation(state.operation);
+            state.off = result.off;
+            state.operation = result.operation;
             // 화면을 덮는 선택 창에서 눌렀으면 창을 닫아 결과가 바로 보이게 한다.
             if (target.closest('.loadout-picker')) closePicker();
-            writeStored(); draw(); return;
+            const inPowerPanel = Boolean(target.closest('.loadout-power-plan'));
+            writeStored(); draw();
+            if (inPowerPanel) root()?.querySelector(`.loadout-power-plan [data-loadout-power="${CSS.escape(powerPath)}"]`)?.focus({ preventScroll: true });
+            return;
         }
         const splitParent = target.getAttribute('data-loadout-split');
         if (splitParent !== null) {
@@ -1968,5 +2004,5 @@ ${section(text('cost'), `
         if (event.target.open) folds.add(key); else folds.delete(key);
     }, true);
 
-    window.VOLT_LOADOUT = { init, render, onLanguageChange: draw };
+    window.VOLT_LOADOUT = { init, render, openShip, aiContext, onLanguageChange: draw };
 })();
