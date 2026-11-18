@@ -10887,6 +10887,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 .loadout-main-column, .loadout-systems-column, .loadout-control-column { display: grid; gap: 18px; min-width: 0; align-content: start; }
 .loadout-dashboard.is-secondary { grid-template-columns: minmax(0, 2.5fr) minmax(290px, .6fr); }
 .loadout-dashboard.is-cart { grid-template-columns: minmax(0, 1fr); }
+.loadout-dashboard.is-cart .loadout-kpis { position: static; }
 .loadout-main-column .loadout-topbar { top: 76px; margin: 0; border: 0; background: var(--lo-bg); }
 .loadout-main-column .loadout-selector-row { grid-template-columns: minmax(0, 1fr) auto auto auto; }
 .loadout-main-column .loadout-jump { padding: 6px 8px; font-size: 12px; }
