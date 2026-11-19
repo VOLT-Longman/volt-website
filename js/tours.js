@@ -1893,8 +1893,9 @@
             ? `<div class="tours-warn" role="alert"><p>${esc(t('namesMissing'))}</p><button type="button" class="tours-btn" data-act="retry" data-k="retry">${esc(t('retry'))}</button></div>` : '';
         return `${tabs}
             ${warn}
+            ${minePanel()}
             <div class="tours-layout">
-                <div class="tours-side">${minePanel()}${form}</div>
+                <div class="tours-side">${form}</div>
                 <div class="tours-main">${results}</div>
             </div>
             <p class="tours-notice" role="status" data-notice>${esc(notice)}</p>
