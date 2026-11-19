@@ -10,13 +10,13 @@ on:
 jobs:
   smoke:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     # 화면 검사가 늘어 한 번에 돌리면 14분이 넘는다. Cloudflare Pages 배포는 이 검사 통과를
-    # 최대 20분 기다리며(scripts/check-release-gate.mjs), 셋으로 나눠 동시에 돌려 여유를 둔다.
+    # 최대 20분 기다리며(scripts/check-release-gate.mjs), 넷으로 나눠 동시에 돌려 여유를 둔다.
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3]
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
 
@@ -50,7 +50,7 @@ jobs:
           npx playwright install --with-deps --only-shell chromium
 
       - name: Run smoke tests
-        run: npx playwright test --shard=${{ matrix.shard }}/3
+        run: npx playwright test --shard=${{ matrix.shard }}/4
 
       - name: Upload traces on failure
         if: failure()
