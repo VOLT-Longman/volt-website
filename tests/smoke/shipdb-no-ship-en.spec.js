@@ -53,8 +53,12 @@ test.describe('ship-en 제거 (커밋 C)', () => {
         await expect(modal.locator('.ship-modal-stat span').first()).toHaveText('Role');
         await page.keyboard.press('Escape');
         // 비교
-        await page.locator('#ship-search').fill('');
-        for (const id of ['freelancer', 'caterpillar']) await page.locator(`[data-compare-ship-id="${id}"]`).click();
+        for (const id of ['freelancer', 'caterpillar']) {
+            await page.locator('#ship-search').fill(id);
+            const compare = page.locator(`#ships-grid [data-compare-ship-id="${id}"]`);
+            await compare.click();
+            await expect(compare).toHaveAttribute('aria-pressed', 'true');
+        }
         await page.locator('#ship-compare-open').click();
         await expect(page.locator('.ship-compare-table')).toBeVisible();
         expect(hits).toEqual([]);
