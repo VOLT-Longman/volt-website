@@ -11319,3 +11319,7 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
     .loadout-app .loadout-group .loadout-slot-row { grid-template-columns: 30px minmax(0, 1fr); gap: 6px; }
     .loadout-app .loadout-group .loadout-metric { grid-column: 1 / -1; justify-self: end; }
 }
+@media (orientation: landscape) and (max-height: 600px) {
+    .loadout-app .loadout-dashboard .loadout-topbar { position: relative; top: auto; }
+    .loadout-app .loadout-dashboard .loadout-tabs { scroll-margin-block-start: 72px; }
+}
