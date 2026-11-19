@@ -3,7 +3,7 @@
  * 제작 설계도 전체 자료 — 설치된 게임 파일의 제작 설계도(CraftingBlueprintRecord)를 모두 뽑는다.
  *
  * 입력(--cache-dir): Game2.dcb, global.ini(영어), build.json.  선택: --ko-ini <한국어 패치 global.ini>
- *   또한 data/mining/mining.json 을 읽어 재료를 채광 자료의 광물 id와 잇는다(같은 게임 빌드여야 한다).
+ *   또한 data/mining/helper.json 을 읽어 재료를 채광 자료의 광물 id와 잇는다(같은 게임 빌드여야 한다).
  * 출력: data/crafting/blueprints.json
  * 사용: node scripts/crafting/build-blueprints-data.mjs --cache-dir <폴더> [--ko-ini <경로>] [--check]
  *   --check 는 아무것도 쓰지 않고, 만들어질 내용이 기존 파일과 다르면 종료 코드 1로 끝난다(builtAt 은 비교하지 않는다).
@@ -191,7 +191,7 @@ function build({ cacheDir, koIni }) {
     const names = (key) => { const english = lookup(en, key); if (!english) return undefined; const korean = lookup(ko, key); return korean && korean !== english ? { en: english, ko: korean } : { en: english }; };
     const component = (entity, type) => (entity?.Components || []).find((c) => c && c.__type === type);
 
-    const mining = JSON.parse(readFileSync(resolve(ROOT, 'data/mining/mining.json'), 'utf8'));
+    const mining = JSON.parse(readFileSync(resolve(ROOT, 'data/mining/helper.json'), 'utf8'));
     if (mining.gameVersion !== buildInfo.Version) throw new Error('Mining and blueprint game builds must match. Rebuild mining data first.');
     // mining.json mineral id for a material: the mineral itself (hand / vehicle mining) or the mineral whose refined.id is the material.
     const mineralOf = new Map();

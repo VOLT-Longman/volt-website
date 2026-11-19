@@ -11223,7 +11223,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
 }
 .missions-card .is-unknown, .missions-table .is-unknown { color: var(--text-muted, #a8adb5); }
 
-#journey-trade a[href="#routes"] { color: var(--color-text-primary); text-decoration: underline; }
+#journey-trade-plan a[href="#routes"] { color: var(--color-text-primary); text-decoration: underline; }
 
 :is(#routes, #tours, #market, #mining, #missions, #hauling, #fabricator) .section-header { padding-block: 0; }
 @media (max-width: 700px) {
@@ -11280,3 +11280,21 @@ button.gear-mod-slotbtn:hover, .gear-mod-part:hover { border-color: var(--volt-o
 .gear-mod-table th[scope="row"] { font-weight: 600; }
 @media (max-width: 1100px) { .gear-mod-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "show" "slots" "parts" "stats"; grid-template-rows: none; } .gear-mod-parts > ul { max-height: 360px; } }
 @media (max-width: 640px) { .gear-mod-bar .gear-select { max-width: none; flex-basis: 100%; } .gear-mod-bar .gear-add { flex: 1 1 auto; } .gear-mod-panel { padding: 12px; } .gear-mod-table { font-size: 13px; } }
+
+[data-fleet-helper]:not([data-helper-allowed]) > .section-content:not(.helper-access),
+[data-helper-allowed] > .helper-access { display: none; }
+.helper-access a { display: inline-flex; min-height: 44px; align-items: center; }
+
+.hauling-app a.hauling-link, .helper-access a { color: var(--color-text-primary); text-decoration: underline; min-height: 44px; display: inline-flex; align-items: center; }
+
+[data-fleet-helper] .tool-view-links a[aria-current="page"], #routes .tool-view-links a[href="#routes"],
+#hauling .tool-view-links a[href="#missions?tab=hauling"] { border-color: var(--volt-orange); color: var(--color-text-primary); }
+.missions-tabs a.missions-tab, .tours-tabs a.tours-tab { color: var(--color-text-primary); display: inline-flex; align-items: center; }
+
+[data-fleet-helper] summary.helper-condition { display: flex; gap: .65rem; align-items: center; min-height: 44px; }
+.helper-condition-values { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+details[open] > .helper-condition .helper-condition-values { white-space: normal; }
+.helper-condition-edit { font-size: .85rem; text-decoration: underline; }
+#ships .section-header a[href="#market?tab=ships"] { color: var(--color-text-primary); display: inline-flex; align-items: center; min-height: 44px; }
+
+.helper-ship-link { color: var(--accent, #75deff); text-underline-offset: .2em; }

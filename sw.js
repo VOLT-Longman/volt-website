@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261119-02';
+const CACHE_VERSION = '20261119-03';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -121,7 +121,9 @@ self.addEventListener('fetch', (event) => {
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/') || url.pathname.startsWith('/admin')) return;
     // Membership-protected data must always reach the server, including after logout.
     // Activation deletes the old runtime caches that previously stored these files.
-    if (url.pathname.startsWith('/data/canonical/') || url.pathname.startsWith('/data/loadout/')
+    if (url.pathname.startsWith('/data/trade/') || url.pathname.startsWith('/data/crafting/')
+        || ['/data/mining/helper.json', '/data/contracts/hauling.json', '/data/contracts/missions.json'].includes(url.pathname)
+        || url.pathname.startsWith('/data/canonical/') || url.pathname.startsWith('/data/loadout/')
         || url.pathname === '/data/ship-live-stats.js' || url.pathname === '/data/ship-market.js'
         || url.pathname === '/data/gear/models.json' || url.pathname === '/data/gear/attachments.json') return;
     // Range 부분 요청(미션 컨트롤 콘솔의 레이어 헤더 조회)은 SW 우회 —

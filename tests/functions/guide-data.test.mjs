@@ -19,7 +19,7 @@ test('conflicting or missing mining traits are not replaced by the last record o
 });
 
 test('generated guides retain audited source values and the same game build', () => {
-    const mining = data('mining/mining.json'), hauling = data('contracts/hauling.json'), crafting = data('loadout/crafting.json');
+    const mining = data('mining/helper.json'), hauling = data('contracts/hauling.json'), crafting = data('loadout/crafting.json');
     for (const guide of [mining, hauling, crafting]) {
         assert.equal(guide.gameVersion, data('loadout/meta.json').gameVersion);
         assert.equal(guide.sourceHash, '005984f5507314a0d5dc3a8d7457bffc03578eeabb1e5da6e6c2d010e81649f4');
@@ -55,7 +55,7 @@ const LOCATION_TYPES = ['planet', 'moon', 'belt', 'lagrange', 'cluster'];
 const SITE_TYPES = ['cluster', 'cave', 'event', 'site'];
 
 test('mining guide keeps the fields the current page reads', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     assert.equal(mining.minerals.length, 33);
     assert.equal(mining.locations.length, 43);
     assert.equal(typeof mining.note, 'string');
@@ -78,7 +78,7 @@ test('mining guide keeps the fields the current page reads', () => {
 });
 
 test('every mining location has a type and a star system; event and test tables stay out of locations', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     for (const location of mining.locations) {
         assert.ok(LOCATION_TYPES.includes(location.type), `${location.id}: ${location.type}`);
         assert.ok(['Stanton', 'Pyro', 'Nyx'].includes(location.system), location.id);
@@ -106,7 +106,7 @@ test('every mining location has a type and a star system; event and test tables 
 });
 
 test('base scan signature and cluster sizes allow "signature value -> rock x count"', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const rows = [...mining.locations, ...mining.sites].flatMap((place) => (place.groups || []).flatMap((group) => group.rocks));
     assert.ok(rows.length > 200);
     for (const rock of rows) {
@@ -131,7 +131,7 @@ test('base scan signature and cluster sizes allow "signature value -> rock x cou
 });
 
 test('mining groups carry file weights and both parts of a two-part ore stay labelled', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const hurston = mining.locations.find((item) => item.id === 'Stanton1');
     assert.deepEqual(hurston.groups.map((group) => [group.mode, group.weight]), [['vehicle', 12.5], ['hand', 25], ['ship', 6]]);
     assert.equal(mining.locations.find((item) => item.id === 'AaronHalo').groups[0].weight, 0.3);
@@ -144,7 +144,7 @@ test('mining groups carry file weights and both parts of a two-part ore stay lab
 });
 
 test('quality ranges come per mineral with system and place overrides', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const iron = mining.minerals.find((item) => item.id === 'Ore_Iron');
     assert.deepEqual(mining.quality.dists[iron.quality.dist], { min: 501, max: 1000, mean: 500, stddev: 143 });
     assert.deepEqual(mining.quality.overrides[iron.quality.over], [{ system: 'Pyro', min: 501, max: 1000, mean: 500, stddev: 149 }]);
@@ -167,7 +167,7 @@ test('quality ranges come per mineral with system and place overrides', () => {
 });
 
 test('plants, wrecks and debris are listed per location with file weights', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const hurston = mining.locations.find((item) => item.id === 'Stanton1');
     assert.equal(hurston.harvest.weight, 35);
     assert.deepEqual(hurston.harvest.items[0], { id: 'Plant_Prota', share: 24.4, cluster: 'Harvestables_Cluster_Low' });
@@ -196,7 +196,7 @@ test('plants, wrecks and debris are listed per location with file weights', () =
 });
 
 test('special deposits, event tables and unresolved rows are explicit, not guessed', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     assert.ok(!mining.minerals.some((item) => item.id === 'Sadaryx'));
     assert.deepEqual(mining.extraMinerals.map((item) => item.id).sort(), ['Carinite', 'CarinitePure', 'Ore_Jaclium', 'Ore_Saldynium', 'Sadaryx']);
     const special = (id) => mining.special.find((item) => item.rock === id);
@@ -213,7 +213,7 @@ test('special deposits, event tables and unresolved rows are explicit, not guess
 });
 
 test('Lagrange points link to their tables and refineries are a game-file list without yields', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const place = (id) => mining.places.find((item) => item.id === id);
     assert.deepEqual(place('Stanton1_L1'), { id: 'Stanton1_L1', name: { en: 'HUR L1' }, system: 'Stanton', type: 'lagrange', tables: ['Lagrange_A'] });
     assert.deepEqual(place('Stanton4_L2').tables, ['Lagrange_C']);
@@ -238,7 +238,7 @@ test('Lagrange points link to their tables and refineries are a game-file list w
 });
 
 test('mining belt names come from the game text and the Korean patch, not hand-written', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const location = (id) => mining.locations.find((item) => item.id === id);
     assert.deepEqual(location('AaronHalo').name, { en: 'Aaron Halo', ko: '아론 헤일로' });
     assert.deepEqual(location('Nyx_GlaciemRing').name, { en: 'Glaciem Ring', ko: '글레시엠 고리' });
@@ -251,7 +251,7 @@ test('mining belt names come from the game text and the Korean patch, not hand-w
 });
 
 test('tables no place uses are not shown as Lagrange fields; every Lagrange table names the points that use it', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const placeIds = new Set(mining.places.map((item) => item.id));
     for (const location of mining.locations) {
         for (const id of location.usedBy || []) {
@@ -275,7 +275,7 @@ test('tables no place uses are not shown as Lagrange fields; every Lagrange tabl
 });
 
 test('scan signatures are ambiguous for hand and vehicle rocks and the data says so', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const sigs = (mode) => new Set(Object.values(mining.rocks).filter((rock) => rock.modes?.includes(mode) && rock.sig).map((rock) => rock.sig));
     assert.deepEqual([...sigs('hand')], [3000]);
     assert.deepEqual([...sigs('vehicle')], [4000]);

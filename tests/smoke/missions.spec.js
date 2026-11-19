@@ -18,7 +18,7 @@ const countText = (n) => `${ko(total)}개 중 ${ko(n)}개`;
 const title = (c) => data.texts[c.t][1] || data.texts[c.t][0];
 
 async function open(page, hash = '#missions') {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await gotoSection(page, hash);
     await expect(page.locator('#missions-app .missions-source')).toBeVisible({ timeout: 20000 });
 }
@@ -109,7 +109,7 @@ test('임무 목록: 표 보기와 정렬, 공유 주소가 같은 화면을 되
     const count = await page.locator('.missions-count').innerText();
 
     const other = await context.newPage();
-    await mockApi(other);
+    await mockApi(other, { fleet: true });
     await other.goto(link);
     await expect(other.locator('.missions-table tbody tr').first()).toBeVisible({ timeout: 20000 });
     expect(await other.locator('.missions-table tbody tr').first().innerText()).toBe(firstRow);
@@ -261,7 +261,7 @@ for (const width of [375, 1440]) {
 }
 
 test('자료를 못 받으면 안내와 다시 시도 단추를 보여 준다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     let fail = true;
     await page.route('**/data/contracts/missions.json*', (route) => (fail ? route.fulfill({ status: 500, body: 'x' }) : route.fallback()));
     await gotoSection(page, '#missions');

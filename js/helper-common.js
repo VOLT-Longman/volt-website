@@ -528,7 +528,7 @@
     // 섹션이 화면에 나올 때마다 불린다. 처음이면 init, 그다음부터는 onRoute.
     function onSectionShow(section, params) {
         const entry = SECTIONS[section];
-        if (!entry) return;
+        if (!entry || !document.getElementById(section)?.hasAttribute('data-helper-allowed')) return;
         hookLanguage();
         updateTitle(section);
         const mount = document.getElementById(entry.mount);
@@ -563,14 +563,21 @@
         return lang() === 'ko' ? labels[system] || system : system;
     }
 
-    function conditionSummary(state, ship) {
+    function conditionSummary(state, ship, capacity) {
         const ko = lang() === 'ko';
         const budget = state.budget == null ? (ko ? '예산 제한 없음' : 'Unlimited budget') : price(state.budget);
-        return [ship || (ko ? '함선 미선택' : 'No ship selected'), budget, systemLabel(state.system),
+        const vessel = ship && Number.isFinite(capacity) ? `${ship} · ${scu(capacity)}` : ship;
+        return [vessel || (ko ? '함선 미선택' : 'No ship selected'), budget, systemLabel(state.system),
             ko ? `${num(state.maxAgeDays, { digits: 1 })}일 이내 가격` : `Prices within ${num(state.maxAgeDays, { digits: 1 })} days`].join(' · ');
     }
 
+    function conditionRow(state, ship, capacity) {
+        const ko = lang() === 'ko';
+        return `<strong>${ko ? '내 조건' : 'My settings'}</strong><span class="helper-condition-values">${esc(conditionSummary(state, ship, capacity))}</span><span class="helper-condition-edit">${ko ? '바꾸기' : 'Edit'}</span>`;
+    }
+
     window.VOLT_HELPER = {
+        conditionRow,
         conditionSummary, systemLabel,
         SECTIONS, HASH_SECTIONS, DEFAULT_PRICE_AGE_DAYS, CACHE_VERSION,
         lang, text, translator, name, esc,

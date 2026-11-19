@@ -552,7 +552,7 @@
         const tid = toId(p.t);
         const tab = TABS.includes(p.tab) ? p.tab : (tid !== null && c === null ? 'stations' : 'prices');
         view = {
-            tab, c, t: tid,
+            tab, c, t: tid, capacity: toId(p.capacity),
             q: typeof p.q === 'string' ? p.q.slice(0, 60) : '',
             sys: typeof p.sys === 'string' ? p.sys : '',
             sort: SORTS.includes(p.sort) ? p.sort : 'margin',
@@ -572,7 +572,7 @@
         if (v.tab === 'prices') Object.assign(out, { c: v.c, q: v.c === null ? v.q : '', sort: v.sort === 'margin' ? null : v.sort });
         if (v.tab === 'stations') Object.assign(out, { t: v.t, q: v.t === null ? v.q : '', fac: v.fac.join(','), box: v.box });
         if (v.tab === 'movers') Object.assign(out, { c: v.c, t: v.c === null ? v.t : null, scan: v.c === null && v.t === null && v.scan ? 1 : null });
-        if (v.tab === 'ships') Object.assign(out, { ship: v.ship, box: v.box, mode: v.mode === 'both' ? null : v.mode });
+        if (v.tab === 'ships') Object.assign(out, { ship: v.ship, box: v.box, capacity: v.capacity, mode: v.mode === 'both' ? null : v.mode });
         if ((v.tab === 'prices' && v.c !== null) || (v.tab === 'stations' && v.t !== null)) Object.assign(out, { ht: v.ht, hc: v.hc });
         return out;
     }
@@ -862,9 +862,9 @@
         const ages = AGE_CHOICES.includes(state.maxAgeDays) ? AGE_CHOICES : [...AGE_CHOICES, state.maxAgeDays].sort((a, b) => a - b);
         const systems = ['', ...((game && game.world.systems) || [])].map((system) =>
             `<option value="${esc(system)}"${system === (state.system || '') ? ' selected' : ''}>${esc(H.systemLabel(system))}</option>`).join('');
-        const now = H.conditionSummary(state, state.ship && shipName(state.ship));
+        const now = H.conditionRow(state, state.ship && shipName(state.ship), model && E.shipProfile(model, state).scu);
         return `<details class="market-panel market-settings"${detailsAttr('settings', false)}>
-            <summary data-k="sum-settings"><span class="market-settings-title">${esc(t('mine'))}</span><span class="market-settings-now">${esc(now)}</span></summary>
+            <summary class="helper-condition" data-k="sum-settings">${now}</summary>
             <div class="market-settings-body">
             <div class="market-fields">
                 <label class="market-field"><span>${esc(t('myShip'))}</span><select data-change="ship" data-k="my-ship">${shipOptions(state.ship, true)}</select></label>
@@ -1200,10 +1200,15 @@
     function drawBudget() {
         const state = shared();
         const form = `<div class="market-toolbar">
-            ${view.box ? `<p class="market-note">${esc(t('box'))} · ${esc(H.scu(view.box))}</p>` : ''}
+            ${view.box ? `<p class="market-note">${esc(t('maxBox'))} · ${esc(H.scu(view.box))}</p>` : ''}
             ${moneyField('budgetMoney', 'budget-money', '', true)}
             <label class="market-field"><span>${esc(t('budgetMode'))}</span><select data-change="mode" data-k="mode">${MODES.map((mode) => `<option value="${mode}"${view.mode === mode ? ' selected' : ''}>${esc(t(`mode${mode[0].toUpperCase()}${mode.slice(1)}`))}</option>`).join('')}</select></label>
         </div>`;
+        const fits = view.box ? E.listShips(model).filter((ship) => {
+            const hold = E.shipProfile(model, { ship: ship.id });
+            return hold.known && hold.slots.some((slot) => slot.minBox <= view.box && view.box <= slot.size) && (!view.capacity || hold.capacity >= view.capacity);
+        }) : [];
+        const compatible = view.box ? `<div class="market-toolbar"><label class="market-field"><span>${esc(H.lang() === 'ko' ? '상자 크기와 적재량이 맞는 함선' : 'Ships matching crate size and capacity')}${view.capacity ? ` · ${esc(H.scu(view.capacity))}` : ''}</span><select data-change="hold" data-k="contract-ship"><option value="">${esc(t('ship'))} (${fits.length})</option>${fits.map((ship) => `<option value="${esc(ship.id)}"${ship.id === view.ship ? ' selected' : ''}>${esc(shipName(ship.id))} · ${esc(H.scu(ship.scu))}</option>`).join('')}</select></label></div>` : '';
         let body;
         if (pricesError) body = errorBox(pricesError, 'retry-prices');
         else if (!prices) body = `<p class="market-empty" role="status">${esc(t('loadingPrices'))}</p>`;
@@ -1212,7 +1217,7 @@
         else if (state.budget === null) body = emptyBox(t('budgetEnter'));
         else if (!budget || budget.running) body = `<p class="market-empty" role="status">${esc(t('budgetRunning', { done: budget ? budget.done : 0, total: budget ? budget.total : 0 }))}</p>`;
         else body = budgetTable();
-        return `<section class="market-block" data-market-budget><h3>${esc(t('budgetTitle'))}</h3>${form}${body}</section>`;
+        return `<section class="market-block" data-market-budget><h3>${esc(t('budgetTitle'))}</h3>${compatible}${form}${body}</section>`;
     }
 
     function budgetTable() {
@@ -1220,7 +1225,7 @@
             ${budget.unknownCargo.length ? `<p class="market-note">${esc(t('unknownCargoShips', { list: budget.unknownCargo.map(shipName).join(', ') }))}</p>` : ''}`;
         const matching = view.box ? budget.rows.filter((row) => {
             const profile = E.shipProfile(model, { ...settings(), ship: row.ship });
-            return profile.known && profile.maxBox >= view.box;
+            return profile.known && profile.maxBox >= view.box && (!view.capacity || profile.capacity >= view.capacity);
         }) : budget.rows;
         if (!matching.length) return emptyBox(t('budgetNone')) + stats;
         const heads = [{ label: t('ship') }, { label: `${t('buyOrRent')} · ${t('shipPrice')}`, num: true }, { label: t('soldAt') }, { label: t('hold'), num: true }, { label: t('moneyLeft'), num: true },
@@ -1315,6 +1320,7 @@
         if (!root) return;
         const active = document.activeElement && root.contains(document.activeElement) ? document.activeElement : null;
         const focus = active ? { key: active.getAttribute('data-k'), start: active.selectionStart, end: active.selectionEnd } : null;
+        for (const box of root.querySelectorAll('details[data-d]')) openDetails.set(box.dataset.d, box.open);
         let html;
         if (gameError) html = errorBox(gameError, 'retry-game');
         else if (!game || !model) html = `<p class="market-empty" role="status">${esc(t('loading'))}</p>`;

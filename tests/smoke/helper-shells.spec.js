@@ -31,7 +31,7 @@ async function prepare(page) {
         const response = await route.fetch();
         await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': STRICT_CSP } });
     });
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.addInitScript(() => {
         window.__cspViolations = [];
         document.addEventListener('securitypolicyviolation', (event) => {
@@ -103,7 +103,7 @@ for (const lang of ['ko', 'en']) {
 
 test('모바일 메뉴: 도구 묶음은 두 칸이고 누를 자리는 44px 이상', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await gotoSection(page, '?lang=en');
     await page.locator('#hamburger').click();
     await expect(page.locator('#mobileMenu')).toHaveClass(/active/);
@@ -122,7 +122,7 @@ test('모바일 메뉴: 도구 묶음은 두 칸이고 누를 자리는 44px 이
 });
 
 test('주소의 화면 값(#section?key=value)이 화면 모듈에 전달되고, 언어 변경도 전달된다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.addInitScript(() => { window.__helperCalls = []; });
     await gotoSection(page, '?lang=ko#routes?from=a&sys=stanton%2C-pyro');
     await expect(page.locator('section#routes')).toHaveClass(/active/);
@@ -157,8 +157,8 @@ test('주소의 화면 값(#section?key=value)이 화면 모듈에 전달되고,
         };
     });
     expect(result.calls).toEqual([
-        ['init', 'tours-app', 'tours', 'ko', { stops: '3' }],
-        ['route', { stops: '4', mix: '1' }],
+        ['init', 'tours-app', 'tours', 'ko', { stops: '3', tab: 'tour' }],
+        ['route', { stops: '4', mix: '1', tab: 'tour' }],
         ['lang', 'en'],
     ]);
     expect(result.title).toMatch(/^Trade Routes \| /);
@@ -172,7 +172,7 @@ test('주소의 화면 값(#section?key=value)이 화면 모듈에 전달되고,
 });
 
 test('공용 도우미: 모르는 값은 0이 아니고, 가격 나이와 UEX 실패 종류를 구분한다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     const dataRequests = [];
     page.on('request', (request) => { if (request.url().includes('/data/trade/cargo.json')) dataRequests.push(request.url()); });
     await page.route('**/api/uex/market', (route) => route.fulfill({ status: 401, json: { error: 'login' } }));
@@ -367,6 +367,13 @@ test('이어 가기: 무역 경로 ↔ 시세 · 거래소 ↔ 순회 무역', a
         await expect(page.locator('#routes-detail')).toBeVisible();
     };
 
+    // 한 경로의 함선, 상품, 터미널, 수량을 플래너로 보낸다.
+    await openRoute();
+    const transfer = page.locator('#routes-detail [data-act="planner"]').first();
+    const amount = await transfer.getAttribute('data-quantity');
+    await transfer.click();
+    await expect(page.locator('#trade-planner')).toHaveClass(/active/);
+    await expect(page.locator('#journey-quantity')).toHaveValue(amount);
     // 무역 경로 → 상품 시세
     await openRoute();
     await page.locator('#routes-detail a[href="#market?c=47&tab=prices"]').first().click();
@@ -411,6 +418,7 @@ test('이어 가기: 무역 경로 ↔ 시세 · 거래소 ↔ 순회 무역', a
     await openRoute();
     const shipButton = page.locator('#routes-app [data-volt-open="ship"]').first();
     if (await shipButton.count()) {
+        await page.locator('#routes-context-title').click();
         await shipButton.click();
         await expect(page.locator('section#ships')).toHaveClass(/active/);
     }
@@ -421,7 +429,7 @@ test('첫 화면과 관계없는 섹션은 도구 자료를 받지 않는다', a
     test.setTimeout(90000);
     const requests = [];
     page.on('request', (request) => requests.push(new URL(request.url()).pathname));
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await gotoSection(page, '?lang=ko');
     for (const section of ['about', 'ships', 'loadout', 'gear', 'trade-planner', 'hub', 'guide', 'notices', 'schedule', 'gallery', 'leadership', 'timeline', 'faq', 'policy', 'join', 'hauling']) {
         await page.evaluate((id) => { window.location.hash = `#${id}`; }, section);
@@ -437,4 +445,41 @@ test('첫 화면과 관계없는 섹션은 도구 자료를 받지 않는다', a
     await page.evaluate(() => { window.location.hash = '#routes'; });
     await expect(page.locator('section#routes')).toHaveClass(/active/);
     await expect.poll(() => requests.filter((path) => path === '/data/trade/cargo.json').length).toBe(1);
+});
+
+test('커뮤니티 공개 중에도 새 화면은 함대원 역할을 확인하고 자료 요청 전에 멈춘다', async ({ page }) => {
+    const assets = [];
+    page.on('request', (request) => {
+        if (/\/data\/(?:trade\/|contracts\/missions|crafting\/blueprints|mining\/helper)/.test(request.url())) assets.push(request.url());
+    });
+    for (const loggedIn of [false, true]) {
+        await mockApi(page, { loggedIn, community: true, fleet: false });
+        await page.goto('about:blank');
+        for (const section of ['market', 'routes', 'missions', 'fabricator', 'mining', 'tours', 'hauling']) {
+            await gotoSection(page, '#' + section);
+            const gate = page.locator('section.active .helper-access');
+            await expect(gate).toContainText(loggedIn ? '함대원 역할이 필요합니다' : '함대원 전용 기능입니다');
+            await expect(gate.getByRole('link')).toHaveCount(loggedIn ? 0 : 1);
+        }
+    }
+    expect(assets).toEqual([]);
+});
+
+test('운송 계약에서 화물선 크기를 확인하고 함선DB에서 고른 함선으로 경로를 찾는다', async ({ page }) => {
+    await prepare(page);
+    await gotoSection(page, '#hauling');
+    const cargo = page.locator('.hauling-link').first();
+    const cargoHash = await cargo.getAttribute('href');
+    await cargo.click();
+    await expect(page).toHaveURL((url) => url.hash === cargoHash);
+    const ships = page.locator('[data-k="contract-ship"]');
+    await expect(ships).toBeVisible();
+    await expect.poll(() => ships.locator('option').count()).toBeGreaterThan(1);
+    await gotoSection(page, '#ships');
+    await page.locator('#ship-search').fill('C2 Hercules');
+    await page.locator('[data-ship-id="c2-hercules"] .ship-name-btn').click();
+    await page.locator('#global-modal [data-volt-open="routes"]').click();
+    await expect(page.locator('#routes-context-title')).toContainText('696 SCU');
+    await expect(page.locator('#routes-ship')).toHaveValue('c2-hercules');
+    await expect(page.locator('#global-modal')).not.toHaveClass(/active/);
 });

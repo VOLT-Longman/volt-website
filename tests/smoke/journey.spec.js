@@ -12,7 +12,7 @@ function market(id, stale = false) {
     ];
 }
 async function setup(page, requests = [], { stale = false, missingDeparture = false } = {}) {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     let preferences = { favorites: [], planner: {} };
     await page.route('**/api/me/preferences', route => {
         if (route.request().method() === 'PUT') preferences = { ...preferences, ...route.request().postDataJSON() };

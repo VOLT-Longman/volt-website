@@ -101,7 +101,9 @@
         const amount = (row) => !Number.isFinite(row.min) ? text('unknownAmount') : row.max > row.min ? `${num(row.min)}–${num(row.max)} SCU` : row.max === row.min ? `${num(row.min)} SCU` : text('atLeast', { n: num(row.min) });
         const shipLink = (contract) => {
             if (!contract.maxBox) return '';
-            const url = window.VOLT_HELPER.buildHash('market', { tab: 'ships', box: contract.maxBox });
+            const amounts = (contract.cargo || []).map((row) => row.max);
+            const capacity = amounts.length && amounts.every(Number.isFinite) ? amounts.reduce((sum, value) => sum + value, 0) : null;
+            const url = window.VOLT_HELPER.buildHash('market', { tab: 'ships', box: contract.maxBox, capacity });
             return ` <a class="hauling-link" href="${esc(url)}">${lang() === 'ko' ? '이 상자를 싣는 화물선' : 'Ships that fit this crate'}</a>`;
         };
         const shown = rows.slice(0, state.limit);

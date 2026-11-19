@@ -289,8 +289,16 @@
         initialized = true; renderBars(); mountTrade();
         window.VOLT_I18N?.onChange?.(() => { renderBars(); renderTradeControls(); renderTrade(); renderCrafts(); });
     }
+    async function openRoute({ shipId, budget, quantity, commodityId, buyTerminal, sellTerminal }) {
+        if (shipId && window.VOLT_TOOLS.canPlan(shipId)) window.VOLT_TOOLS.open('planner', shipId);
+        else window.VOLT_APP.showSection('trade-planner');
+        update({ budget, quantity, commodityId, buyTerminal, sellTerminal, mode: 'buy' });
+        renderTradeControls();
+        const found = await window.VOLT_UEX_PANEL.openCommodity({ id: commodityId, buyTerminal, sellTerminal });
+        if (!found) deps.toast?.(tr('이 상품의 시세를 불러오지 못했습니다.', 'Prices for this commodity could not be loaded.'));
+    }
     function restoreTrade() {
         if (state.commodityId) window.VOLT_UEX_PANEL?.openCommodity?.({ id: state.commodityId, buyTerminal: state.buyTerminal, sellTerminal: state.sellTerminal, focus: false });
     }
-    window.VOLT_JOURNEY = { init, ship, transport, currentContext, ask, open, addCraft, showCrafts, miningSelection, drawMiningActions, tradeSelection, restoreTrade, renderTrade, marketResource, getSelection: () => ({ ...state }) };
+    window.VOLT_JOURNEY = { init, ship, transport, currentContext, ask, open, addCraft, showCrafts, miningSelection, drawMiningActions, tradeSelection, openRoute, restoreTrade, renderTrade, marketResource, getSelection: () => ({ ...state }) };
 })();

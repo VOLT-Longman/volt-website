@@ -668,7 +668,7 @@
 
     function legsFor(s, options) {
         if (legStore.s === s && legStore.options === options && legStore.model === data.model) return legStore; // 같은 계산 안에서는 바로
-        const key = JSON.stringify([s.ship, s.maxAgeDays, s.boxes, s.capacityScu, s.time, Math.floor(s.now / 600000), legalOn(options), options.goods, options.goal]);
+        const key = JSON.stringify([s.ship, s.system, s.maxAgeDays, s.boxes, s.capacityScu, s.time, Math.floor(s.now / 600000), legalOn(options), options.goods, options.goal]);
         if (legStore.key !== key || legStore.model !== data.model) {
             legStore = { key, model: data.model, free: E.settings({ ...s, budget: null }), origins: new Map(), exact: new Map(), empty: new Map() };
         }
@@ -688,7 +688,7 @@
         for (const row of sheet.buys) {
             if (row.ageLevel !== 'ok' || row.soldOut) continue;
             // 상품 하나만 실었을 때의 값을 도착지마다 받는다 (한 출발지·한 상품이라 500개를 넘지 않는다).
-            const ranked = E.rankRoutes(data.model, store.free, { system: E.state.get().system || undefined, from: [from], commodity: [row.c], maxGoods: 1, limit: 500, sort: 'profit', legalOnly: legalOn(options) });
+            const ranked = E.rankRoutes(data.model, store.free, { system: s.system || undefined, from: [from], commodity: [row.c], maxGoods: 1, limit: 500, sort: 'profit', legalOnly: legalOn(options) });
             if (!ranked.ok) continue;
             for (const route of ranked.routes) {
                 const good = route.goods[0];
@@ -1490,7 +1490,7 @@
             if (!groups.has(system)) groups.set(system, []);
             groups.get(system).push({ value: terminal.id, label: placeName(terminal.id) });
         });
-        return [{ value: '', label: first }, ...[...groups].map(([system, items]) => ({ group: system, items }))];
+        return [{ value: '', label: first }, ...[...groups].map(([system, items]) => ({ group: H.systemLabel(system), items }))];
     }
 
     function ageTag(at) {
@@ -1543,7 +1543,7 @@
             return field(t(`time.${key}`), numberInput(`time.${key}`, times[key], ' min="0" max="14400" step="10"'));
         }).join('');
         return `<details class="tours-panel tours-mine" data-conditions${conditionsOpen ? ' open' : ''}>
-            <summary><strong>${esc(t('mine'))}</strong> ${esc(H.conditionSummary(state, state.ship && shipName(state.ship)))}</summary>
+            <summary class="helper-condition">${H.conditionRow(state, state.ship && shipName(state.ship), profile?.scu)}</summary>
             <p class="tours-hint">${esc(t('mineHint'))}</p>
             <div class="tours-grid">
                 ${field(t('ship'), select('ship', state.ship, [{ value: '', label: t('shipNone') }, ...ships]), hold)}

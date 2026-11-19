@@ -54,7 +54,7 @@ async function expandControls(page, group) {
 async function prepare(page, { lang = 'ko', state = null, market = null } = {}) {
     const data = fixtures();
     const meta = { source: 'uex', cached: true, ttlSeconds: 1800, fetchedAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() };
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.route('**/api/uex/market**', (route) => (market ? market(route) : route.fulfill({ json: { status: 'ok', data: data.market, meta } })));
     await page.route('**/api/uex/terminals**', (route) => route.fulfill({ json: { status: 'ok', data: data.terminals, meta } }));
     await page.route('**/api/uex/commodities', (route) => route.fulfill({ json: { status: 'ok', data: data.commodities, meta } }));
@@ -144,6 +144,7 @@ test('무역 경로: 좁히기, 상품 숨기기, 불법 상품 보기, 가격 �
     await page.reload();
     await page.waitForSelector('#loading-splash', { state: 'hidden' });
     await expect(page.locator('#routes-unhide-47')).toContainText('라라나이트'); // 숨긴 상품도 한글 패치 이름으로
+    await expandControls(page, 'filters');
     await page.locator('#routes-unhide-47').click();
     await expect(page.locator('#routes-table tr[data-route="1-12"]')).toBeVisible();
 
@@ -334,7 +335,7 @@ test('Trade routes: English at 375px, no sideways scroll, keyboard reaches the d
     await prepare(page, { lang: 'en', state: { ...C2, budget: 2000000 } });
     await gotoSection(page, '#routes');
     await expect(rows(page)).toHaveCount(4);
-    await expect(app(page)).toContainText('My setup');
+    await expect(app(page)).toContainText('My settings');
     await expect(page.locator('#routes-table tr[data-route="1-12"]')).toContainText('Laranite');
     await expect(page.locator('#routes-table tr[data-route="1-12"]')).toContainText('5 h ago');
     expect(await sideways(page)).toBeLessThanOrEqual(1);
@@ -344,6 +345,7 @@ test('Trade routes: English at 375px, no sideways scroll, keyboard reaches the d
     await expect(page.locator('#routes-detail-title')).toBeFocused();
     await expect(page.locator('#routes-detail')).toContainText('Money needed');
     await expect(page.locator('#routes-detail')).toContainText('What this calculation assumes');
+    await expandControls(page, 'context');
     await page.locator('#routes-options > summary').click();
     await page.locator('#routes-time > summary').click();
     expect(await sideways(page)).toBeLessThanOrEqual(1);
@@ -366,6 +368,7 @@ test('무역 경로: 접근성 검사 (목록 + 자세히)', async ({ page }) =>
     await prepare(page, { state: { ...C2, budget: 2000000 } });
     await gotoSection(page, '#routes?d=1.12');
     await expect(page.locator('#routes-detail')).toBeVisible();
+    await expandControls(page, 'context');
     await page.locator('#routes-options > summary').click();
     await page.locator('#routes-time > summary').click();
     const results = await new AxeBuilder({ page }).include('#routes-app').analyze();
@@ -389,6 +392,7 @@ test('무역 경로: SCU당 이익이 큰 상품이 조금뿐이어도, 더 많�
     await expect(page.locator('#routes-detail .routes-part').nth(0)).toContainText('750,000 aUEC');
     await expect(page.locator('#routes-detail .routes-assume')).toContainText('한 가지만 실었을 때 이익이 가장 큰 것');
     // 두 가지를 싣게 하면 둘 다 싣는다: 20,000 + 750,000
+    await expandControls(page, 'context');
     await page.locator('#routes-options > summary').click();
     await page.locator('#routes-goods').selectOption('2');
     await expect(page.locator('#routes-detail .routes-part').nth(0)).toContainText('770,000 aUEC');
@@ -416,6 +420,7 @@ test('무역 경로: 잘못 넣은 내 가격으로 경로가 사라져도 화�
     await page.locator('#routes-close').click();
     await expect(rows(page)).toHaveCount(3);
     await expect(page.locator('#routes-table tr[data-route="1-12"]')).toHaveCount(0);
+    await expandControls(page, 'filters');
     await page.locator('#routes-mine-0').click();
     await expect(page.locator('#routes-table tr[data-route="1-12"]')).toContainText('750,000');
     await expect(page.locator('#routes-mine-0')).toHaveCount(0);
@@ -474,7 +479,7 @@ test('Trade routes: closing the detail returns to the same place; cards say esti
     await gotoSection(page, '#routes');
     await expect(rows(page)).toHaveCount(4);
     const last = rows(page).nth(3);
-    await expect(last.locator('.routes-est').first()).toBeVisible(); // 카드에서도 "estimate" 표시가 보인다
+    await expect(last.locator('.routes-est:visible').first()).toBeVisible(); // 카드에서도 "estimate" 표시가 보인다
     const open = last.locator('.routes-open');
     await open.scrollIntoViewIfNeeded();
     const id = await open.getAttribute('id');
@@ -497,6 +502,7 @@ test('Trade routes: closing the detail returns to the same place; cards say esti
     await expandControls(page, 'context');
     await page.locator('#routes-budget').press('Enter');
     await expect(app(page).locator('[data-routes-empty]')).toContainText('Your money to spend is 0');
+    await expandControls(page, 'context');
     await page.locator('#routes-options > summary').click();
     await expandControls(page, 'context');
     await page.locator('#routes-capacity').fill('abc');

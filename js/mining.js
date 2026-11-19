@@ -1,6 +1,6 @@
 /**
  * 채광 안내 — 광물별로 캐는 곳을, 장소별로 나오는 광물을 보여 준다.
- * - 광물·암석·장소: /data/mining/mining.json (출처: 게임 파일, scripts/mining/build-mining-data.mjs)
+ * - 광물·암석·장소: /data/mining/helper.json (출처: 게임 파일, scripts/mining/build-mining-data.mjs)
  * - 시세: /api/uex/commodities (출처 UEX). 받지 못해도 나머지는 그대로 보인다.
  * 비중과 함량은 게임 파일 값이며 게임 안 실측값이 아니다.
  *
@@ -16,7 +16,7 @@
  */
 (function () {
     'use strict';
-    const DATA_URL = '/data/mining/mining.json';
+    const DATA_URL = '/data/mining/helper.json';
     const H = window.VOLT_HELPER;
     // 게임과 UEX의 표기만 다른 상품 (게임 id → UEX 이름).
     const UEX_ALIASES = { Raw_Ice: 'Ice (Raw)', RawSilicon: 'Silicon (Raw)', RawOuratite: 'Ouratite (Raw)' };

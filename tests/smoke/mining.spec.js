@@ -3,7 +3,7 @@ const AxeBuilder = require('@axe-core/playwright').default;
 const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
 async function openMining(page, prices = [{ name: 'Gold', price_sell: 28870 }, { name: 'Quantainium', price_sell: 148409 }, { name: 'Hadanite', price_sell: 2750 }]) {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.route('**/api/uex/commodities', (route) => route.fulfill({ json: { status: 'ok', data: prices } }));
     await gotoSection(page, '#mining');
     await expect(page.locator('#mining-app .mining-table').first()).toBeVisible();
@@ -69,7 +69,7 @@ test('채광 안내: 검색과 방식 필터, 영어 전환', async ({ page }) =
 });
 
 test('채광 안내: 시세를 받지 못해도 광물과 장소는 그대로 보인다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.route('**/api/uex/commodities', (route) => route.fulfill({ status: 503, json: { error: 'down' } }));
     await gotoSection(page, '#mining');
     await expect(page.locator('.mining-list tbody tr').first()).toBeVisible();
@@ -79,9 +79,9 @@ test('채광 안내: 시세를 받지 못해도 광물과 장소는 그대로 �
 });
 
 test('채광 안내: 자료를 받지 못하면 다시 시도할 수 있다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     let fail = true;
-    await page.route('**/data/mining/mining.json*', (route) => (fail ? route.fulfill({ status: 500, body: 'x' }) : route.continue()));
+    await page.route('**/data/mining/helper.json*', (route) => (fail ? route.fulfill({ status: 500, body: 'x' }) : route.continue()));
     await gotoSection(page, '#mining');
     await expect(page.locator('#mining-app [role="alert"]')).toBeVisible();
     fail = false;
@@ -103,7 +103,7 @@ for (const width of [1280, 390]) {
 test('채광 안내: 새 보기 탭이 더해져도 기존 화면이 그대로이고, 출처와 게임 버전, 암석 신호 값을 보여 준다', async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await openMining(page);
-    await expect(page.locator('.mining-tab')).toHaveText(['광물별', '장소별', '신호 찾기', '정제소 찾기']);
+    await expect(page.locator('.mining-tab')).toHaveText(['광물별', '장소별', '신호값으로 찾기', '정제소 찾기']);
     await expect(page.locator('#mining-view-mineral')).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('.mining-chips [data-mining-mode]')).toHaveCount(4);
     await expect(page.locator('.mining-sources')).toContainText('게임 버전 4.');

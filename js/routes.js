@@ -305,7 +305,7 @@
             pricesLoading: 'Loading prices…',
             retry: 'Try again',
             refresh: 'Fetch prices again',
-            contextTitle: 'My setup',
+            contextTitle: 'My settings',
             contextNote: 'The ship, budget, system and price age chosen here are shared with the other trade screens and stored only in this browser.',
             ship: 'My ship',
             shipNone: 'Choose a ship',
@@ -1277,7 +1277,7 @@
         const what = [state.ship ? shipName(state.ship) : null, budgetText].filter(Boolean).join(' · ');
         const banner = linkSetup ? `<p class="routes-warn" id="routes-link-banner">${esc(t('linkBanner', { what }))} <button type="button" class="routes-link" id="routes-link-drop" data-act="link-drop">${esc(t('linkDrop'))}</button></p>` : '';
         return `<details class="routes-card routes-context" data-fold="contextOpen"${ui.contextOpen || linkSetup ? ' open' : ''}>
-            <summary id="routes-context-title"><strong>${esc(t('contextTitle'))}</strong> ${esc(H.conditionSummary(state, state.ship && shipName(state.ship)))}</summary>
+            <summary class="helper-condition" id="routes-context-title">${H.conditionRow(state, state.ship && shipName(state.ship), model && E.shipProfile(model, state).scu)}</summary>
             ${banner}
             <div class="routes-fields">
                 <div class="routes-field is-wide">
@@ -1823,7 +1823,7 @@
         const links = route.goods.map((good) => `<a class="routes-btn" href="${esc(H.buildHash('market', { tab: 'prices', c: good.c }))}">${esc(t('toMarketGood', { name: goodName(good.c) }))}</a>`);
         for (const good of route.goods) {
             const label = H.lang() === 'ko' ? '이 경로를 무역플래너로 보내기' : 'Send route to trade planner';
-            links.push(`<button type="button" class="routes-btn" data-act="planner" data-c="${esc(good.c)}" data-from="${esc(route.from)}" data-to="${esc(route.to)}">${esc(label)} · ${esc(goodName(good.c))}</button>`);
+            links.push(`<button type="button" class="routes-btn" data-act="planner" data-quantity="${esc(good.quantity)}" data-c="${esc(good.c)}" data-from="${esc(route.from)}" data-to="${esc(route.to)}">${esc(label)} · ${esc(goodName(good.c))}</button>`);
         }
         links.push(`<a class="routes-btn" href="${esc(H.buildHash('market', { tab: 'stations', t: route.from }))}">${esc(t('toMarketFrom'))}</a>`);
         links.push(`<a class="routes-btn" href="${esc(H.buildHash('market', { tab: 'stations', t: route.to }))}">${esc(t('toMarketTo'))}</a>`);
@@ -2040,6 +2040,7 @@
         savePrefs();
         rebuild();
         syncHash(false);
+        ui.filtersOpen = true;
         focusAfterDraw = `routes-unhide-${id}`;
         requestDraw();
     }
@@ -2076,8 +2077,9 @@
         if (!target || !root.contains(target) || target.matches('input, select')) return;
         const act = target.dataset.act;
         if (act === 'planner') {
-            window.VOLT_APP.showSection('trade-planner');
-            window.VOLT_UEX_PANEL.openCommodity({ id: toId(target.dataset.c), buyTerminal: toId(target.dataset.from), sellTerminal: toId(target.dataset.to) });
+            const state = shared();
+            window.VOLT_JOURNEY.openRoute({ shipId: state.ship, budget: state.budget, quantity: Number(target.dataset.quantity),
+                commodityId: toId(target.dataset.c), buyTerminal: toId(target.dataset.from), sellTerminal: toId(target.dataset.to) });
         } else if (act === 'open') openDetail(toId(target.dataset.from), toId(target.dataset.to));
         else if (act === 'close') closeDetail();
         else if (act === 'hide') hideGood(toId(target.dataset.c));

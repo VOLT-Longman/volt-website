@@ -9,7 +9,7 @@
  *         파일도 없으면 멈춘다(종료 코드 2). 저장된 자료에서 places·containers 가 말없이 빠지는 일을 막기 위해서다.
  *   선택: --no-links  장소 묶음 결과 없이 일부러 만든다. places·containers·usedBy·unplaced 를 빼고 unknowns.links 에 적는다.
  *   선택: --check  아무것도 쓰지 않고, 지금 만든 결과가 저장된 파일과 다르면 종료 코드 1 (builtAt 은 비교하지 않는다)
- * 출력: data/mining/mining.json
+ * 출력: data/mining/helper.json
  *
  * 사용: node scripts/mining/build-mining-data.mjs --cache-dir <폴더> [--ko-ini <경로>] [--p4k <Data.p4k> | --no-links] [--check]
  * 외부 서비스에 접근하지 않는다. 시세·정제 수율은 화면이 UEX 프록시로 따로 조회한다(게임 파일에 정제 수율 숫자는 없다).
@@ -27,7 +27,7 @@ import { miningTraits } from '../gamedata/guide-extract.mjs';
 import { createHash } from 'node:crypto';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const OUT_PATH = resolve(ROOT, 'data/mining/mining.json');
+const OUT_PATH = resolve(ROOT, 'data/mining/helper.json');
 const arg = (name) => { const index = process.argv.indexOf(name); return index > -1 ? process.argv[index + 1] : null; };
 const CHECK = process.argv.includes('--check');
 const CACHE = arg('--cache-dir');
@@ -589,7 +589,7 @@ const same = previous && comparable(previous) === comparable(out);
 const size = JSON.stringify(out).length;
 const summary = `채광 자료: 광물 ${minerals.length}종(+특수 ${extraMinerals.length}, 한글 이름 ${minerals.filter((m) => m.name.ko).length}), 장소 ${locations.length}곳(천체 ${locations.filter((l) => l.kind === 'body').length}), 특수 목록 ${sites.length}개, 암석 ${Object.keys(rocks).length}종, 지점 연결 ${places.length}곳, 정제소 ${refineries.length}곳, 크기 ${Math.round(size / 1024)}KB (gzip ${Math.round(zlib.gzipSync(JSON.stringify(out)).length / 1024)}KB)`;
 if (CHECK) {
-    console.log(same ? `변경 없음. ${summary}` : `저장된 data/mining/mining.json 과 다릅니다. ${summary}`);
+    console.log(same ? `변경 없음. ${summary}` : `저장된 data/mining/helper.json 과 다릅니다. ${summary}`);
     process.exit(same ? 0 : 1);
 }
 // 내용이 그대로면 builtAt 만 바뀐 파일을 다시 쓰지 않는다.

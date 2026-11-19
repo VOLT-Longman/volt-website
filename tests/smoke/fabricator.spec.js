@@ -19,7 +19,7 @@ async function open(page, hash = '#fabricator', lang = 'ko') {
         const response = await route.fetch();
         await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': STRICT_CSP } });
     });
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.addInitScript(() => {
         window.__cspViolations = [];
         document.addEventListener('securitypolicyviolation', (event) => window.__cspViolations.push(`${event.violatedDirective} <- ${event.blockedURI || 'inline'}`));
@@ -440,7 +440,7 @@ test('영어 화면 · 모르는 주소 값은 조용히 버린다', async ({ pa
 });
 
 test('자료를 못 받으면 안내와 다시 시도 버튼을 보여 준다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     let fail = true;
     await page.route('**/data/crafting/blueprints.json*', (route) => (fail ? route.fulfill({ status: 500, body: 'no' }) : route.fallback()));
     await gotoSection(page, '?lang=ko#fabricator');

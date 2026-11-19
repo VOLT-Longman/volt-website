@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
 async function openAsgard(page) {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.route('**/api/uex/**', (route) => route.fulfill({ json: { status: 'ok', data: [] } }));
     await gotoSection(page, '#loadout');
     await page.locator('#loadout-ship-search').fill('asgard');

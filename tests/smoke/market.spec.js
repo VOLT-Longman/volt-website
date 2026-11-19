@@ -73,7 +73,7 @@ async function prepare(page, { state = null, marketStatus = 200, namesStatus = 2
         const response = await route.fetch();
         await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': STRICT_CSP } });
     });
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.route('**/api/uex/market**', (route) => (marketStatus === 200 ? route.fulfill(ok(data.market)) : route.fulfill({ status: marketStatus, json: { error: 'no' } })));
     await page.route('**/api/uex/terminals', (route) => route.fulfill(ok(data.terminals)));
     await page.route('**/api/uex/commodities', (route) => (namesStatus === 200 ? route.fulfill(ok(data.commodities)) : route.fulfill({ status: namesStatus, json: { error: 'no' } })));
@@ -478,6 +478,7 @@ test('시세 변동: 여러 상품 살펴보기 결과는 주소에 남아 새�
 test('돈 입력: 잘못 적으면 알리고 값을 바꾸지 않는다. 쉼표와 aUEC 는 받아 주고 쉼표를 넣어 보여 준다', async ({ page }) => {
     await prepare(page);
     await gotoSection(page, '?lang=ko#market');
+    await openSettings(page);
     const money = app(page).locator('[data-k="my-money"]');
     await money.fill('1,500,000 aUEC');
     await money.press('Tab');
@@ -546,6 +547,6 @@ test('영어 화면과 언어 전환, 모르는 주소 값은 조용히 기본 �
     await expect(app(page).locator('[data-market-station="25"] h3')).toHaveText('Everus Harbor');
     await page.evaluate(() => window.VOLT_I18N.setLang('ko'));
     await expect(app(page).locator('[data-market-station="25"] h3')).toContainText('에버러스 하버');
-    await expect(app(page).locator('[data-k="tab-stations"]')).toHaveText('거래소');
+    await expect(app(page).locator('[data-k="tab-stations"]')).toHaveText('거래 장소');
     expect(await tracker.collect()).toEqual([]);
 });

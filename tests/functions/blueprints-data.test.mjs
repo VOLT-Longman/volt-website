@@ -115,7 +115,7 @@ const outputClass = (blueprint) => (blueprint.noOutput ? undefined : blueprint.o
 
 test('blueprint data comes from the same game build as the other guides', () => {
     assert.equal(blueprints.gameVersion, data('loadout/meta.json').gameVersion);
-    assert.equal(blueprints.sourceHash, data('mining/mining.json').sourceHash);
+    assert.equal(blueprints.sourceHash, data('mining/helper.json').sourceHash);
     assert.equal(blueprints.source, 'game-files');
     assert.equal(blueprints.koSource, 'korean-patch');
 });
@@ -204,7 +204,7 @@ test('default-owned blueprints and dismantle values are the CraftingGlobalParams
 });
 
 test('materials link to the mining guide by id wherever the material is mined', () => {
-    const mining = data('mining/mining.json');
+    const mining = data('mining/helper.json');
     const minerals = new Map(mining.minerals.map((mineral) => [mineral.id, mineral]));
     assert.equal(blueprints.materials.length, 37);
     for (const material of blueprints.materials) {

@@ -3,7 +3,7 @@ const AxeBuilder = require('@axe-core/playwright').default;
 const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
 async function openHauling(page) {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await gotoSection(page, '#hauling');
     await expect(page.locator('#hauling-app .hauling-table')).toBeVisible();
 }
@@ -34,7 +34,7 @@ test('운송 계약: 확인된 화물을 먼저 보여 주고 숨긴 계약 수�
 });
 
 test('운송 계약: 미확인 지역 코드 여러 개를 한 번만 표시한다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     const fixture = { version: 'test', ranks: [{ name: { ko: '교육생' }, min: 0 }], contractors: { a: { ko: '의뢰처' } }, resources: { gold: { ko: '금' } }, localities: { RegionA: { en: 'RegionA' }, RegionB: { en: 'RegionB' } }, contracts: [{ by: 'a', kind: 'local', min: 0, max: 0, places: ['RegionA', 'RegionB'], cargo: [{ resource: 'gold', min: 1, max: 1 }] }] };
     await page.route('**/data/contracts/hauling.json*', route => route.fulfill({ json: fixture }));
     await gotoSection(page, '#hauling');
@@ -80,7 +80,7 @@ test('운송 계약: 의뢰처·종류 필터, 더 보기, 영어 전환', async
 });
 
 test('운송 계약: 자료를 받지 못하면 다시 시도할 수 있다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     let fail = true;
     await page.route('**/data/contracts/hauling.json*', (route) => (fail ? route.fulfill({ status: 500, body: 'x' }) : route.continue()));
     await gotoSection(page, '#hauling');

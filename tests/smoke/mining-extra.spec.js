@@ -39,7 +39,7 @@ const TERMINALS = [
 ];
 
 async function openMining(page, hash = '#mining', { refineries = refineryFixture(), market = [] } = {}) {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await page.route('**/api/uex/commodities', (route) => route.fulfill({ json: { status: 'ok', data: [{ id: 33, name: 'Gold', price_sell: 28870 }, { id: 60, name: 'Quantainium', price_sell: 148409 }] } }));
     await page.route('**/api/uex/market*', (route) => route.fulfill({ json: { status: 'ok', data: market, meta: { source: 'uex', fetchedAt: new Date().toISOString() } } }));
     await page.route('**/api/uex/refineries*', (route) => route.fulfill({ json: { status: 'ok', data: refineries, meta: { source: 'uex', fetchedAt: new Date().toISOString() } } }));
@@ -254,7 +254,7 @@ test('정제소 찾기: 게임 파일 목록을 바탕으로 UEX 보너스와 �
     await expect(arc1).toContainText('게임 파일 · UEX 모두');
     await expect(arc1).toContainText('-3%');
     await expect(arc1).toContainText('25일 전');
-    await expect(table.locator('tbody tr', { hasText: 'Levski' })).toContainText('UEX에만 있음');
+    await expect(table.locator('tbody tr', { hasText: '레브스키' })).toContainText('UEX에만 있음');
     const farstat = table.locator('tbody tr', { hasText: 'PYAM-FARSTAT-1-2' });
     await expect(farstat).toContainText('게임 파일에만 있음');
     await expect(farstat.locator('td').nth(2)).toHaveText('보고 없음');
@@ -275,7 +275,7 @@ test('정제소 찾기: 게임 파일 목록을 바탕으로 UEX 보너스와 �
     await expect(table.locator('tbody tr').first()).toContainText('ARC-L2');
     await expect(table.locator('thead th')).toHaveCount(6);
     // 보고가 하나뿐인 정제소는 1/2 로 적고 보고가 다 있는 곳 뒤에 둔다.
-    await expect(table.locator('tbody tr', { hasText: 'Levski' })).toContainText('1/2');
+    await expect(table.locator('tbody tr', { hasText: '레브스키' })).toContainText('1/2');
     await expect.poll(() => page.evaluate(() => location.hash)).toBe('#mining?ores=34%2C59&tab=ref');
     // 방식 등급.
     const methods = page.locator('.mining-method-table');
@@ -292,7 +292,7 @@ test('정제소 찾기: 게임 파일 목록을 바탕으로 UEX 보너스와 �
 });
 
 test('정제소 찾기: UEX 를 받지 못해도 게임 파일 목록은 남고 다시 받을 수 있다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     let status = 503;
     await page.route('**/api/uex/refineries*', (route) => (status ? route.fulfill({ status, json: { error: 'x' } }) : route.fulfill({ json: { status: 'ok', data: refineryFixture(), meta: {} } })));
     await page.route('**/api/uex/terminals*', (route) => route.fulfill({ json: { status: 'ok', data: TERMINALS } }));
@@ -422,7 +422,7 @@ test('정제소 찾기: UEX 보고가 없는 광물에서 넘어오면 앞서 �
 });
 
 test('정제소 찾기: 정제소 이름 목록만 못 받으면 번호 줄을 만들지 않고 알린 뒤 다시 받을 수 있다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     let down = true;
     await page.route('**/api/uex/refineries*', (route) => route.fulfill({ json: { status: 'ok', data: refineryFixture(), meta: {} } }));
     await page.route('**/api/uex/terminals*', (route) => (down ? route.fulfill({ status: 503, json: { error: 'x' } }) : route.fulfill({ json: { status: 'ok', data: TERMINALS } })));
@@ -534,7 +534,7 @@ test('광물 목록: 최근 보고 가격에 나이를 적고, 가격 보고 기
 });
 
 test('광물 목록: 시세를 못 받으면 이유와 다시 받기 단추가 나오고, 다시 받으면 시세가 채워진다', async ({ page }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     let status = 401;
     await page.route('**/api/uex/commodities*', (route) => (status ? route.fulfill({ status, json: { error: 'x' } }) : route.fulfill({ json: { status: 'ok', data: [{ id: 33, name: 'Gold', price_sell: 28870 }] } })));
     await page.route('**/api/uex/market*', (route) => route.fulfill({ json: { status: 'ok', data: [{ t: 12, c: 33, sell: 30100, at: now() - 3600 }] } }));
@@ -580,9 +580,10 @@ test('정제소 찾기 375px: 옆으로 밀어도 정제소 이름이 남고, �
     await openMining(page, '#mining?tab=ref');
     const table = page.locator('table[data-mining-csv="refineries"]');
     const head = table.locator('tbody tr', { hasText: 'ARC-L1' }).locator('th');
-    await expect(head).toContainText('Stanton · 게임 파일 · UEX 모두');
+    await expect(head).toContainText('스탠턴 · 게임 파일 · UEX 모두');
     await expect(table.locator('thead th').nth(1)).toBeHidden();
-    const wrap = page.locator('.mining-tool > .mining-tablewrap').first();
+    await page.locator('.mining-ref-full > summary').click();
+    const wrap = page.locator('.mining-ref-full .mining-tablewrap').first();
     await wrap.evaluate((node) => { node.scrollLeft = 400; });
     const box = await head.boundingBox();
     const outer = await wrap.boundingBox();

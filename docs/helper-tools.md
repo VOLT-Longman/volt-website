@@ -12,13 +12,13 @@ game files for facts, UEX only for prices, stock and shop availability.
 | Section (hash) | Nav label ko / en | Desktop group | Mount element | Global the file must set | Builder's files (only these) |
 |---|---|---|---|---|---|
 | `#routes` | 무역 경로 / Trade Routes | 무역 (Trade) | `#routes-app` | `window.VOLT_ROUTES` | `js/routes.js`, `css/routes.css` |
-| `#market` | 시세 · 거래소 / Market Prices | 무역 (Trade) | `#market-app` | `window.VOLT_MARKET` | `js/market.js`, `css/market.css` |
-| `#tours` | 순회 무역 / Multi-stop Tours | 무역 (Trade) | `#tours-app` | `window.VOLT_TOURS` | `js/tours.js`, `css/tours.css` |
-| `#missions` | 임무 찾기 / Mission Finder | 임무 · 자원 (Jobs & Resources) | `#missions-app` | `window.VOLT_MISSIONS` | `js/missions.js`, `css/missions.css` |
-| `#fabricator` | 제작 설계도 / Blueprints | 임무 · 자원 | `#fabricator-app` | `window.VOLT_FABRICATOR` | `js/fabricator.js`, `css/fabricator.css` |
-| `#mining` (existing) | 채광 안내 / Mining Guide | 임무 · 자원 | `#mining-app` | `window.VOLT_MINING` (existing shape, see 2.2) | `js/mining.js`, `css/mining-extra.css` |
+| `#market` | 시세 / Prices | 무역 (Trade) | `#market-app` | `window.VOLT_MARKET` | `js/market.js`, `css/market.css` |
+| `#tours` | 여러 곳 돌기 / Multi-stop route (Routes tab) | 무역 (Trade) | `#tours-app` | `window.VOLT_TOURS` | `js/tours.js`, `css/tours.css` |
+| `#missions` | 임무 찾기 / Mission Finder | 임무 · 채광 · 제작 | `#missions-app` | `window.VOLT_MISSIONS` | `js/missions.js`, `css/missions.css` |
+| `#fabricator` | 제작 / Crafting | 임무 · 채광 · 제작 | `#fabricator-app` | `window.VOLT_FABRICATOR` | `js/fabricator.js`, `css/fabricator.css` |
+| `#mining` (existing) | 채광 / Mining | 임무 · 채광 · 제작 | `#mining-app` | `window.VOLT_MINING` (existing shape, see 2.2) | `js/mining.js`, `css/mining-extra.css` |
 
-Also in the group menus and unchanged: `#trade-planner`, `#hub`, `#guide` (Trade) and `#hauling` (Jobs & Resources).
+The existing Trade Planner, Hub and Guide keep their original addresses. Hauling is now under Missions.
 
 Each builder may also add **its own test files**: `tests/smoke/<section>*.spec.js` and `tests/functions/<section>*.test.mjs`.
 
@@ -132,11 +132,9 @@ for a link or `go(...)`, but **not** for browser Back / Forward inside the secti
 and scroll to the top) — the screen puts the player back where they were. A screen that restores its own scroll or focus after `onRoute` should
 still do it one timer tick later, because the router's scroll runs after `onRoute`.
 
-Links between the tools (checked by `tests/smoke/helper-shells.spec.js`): every tool section has a "related tools" row under its heading
-(`.helper-related` in `index.html`, text in `js/i18n.js` `helper.related.*`), and the screens link to each other with the **link** keys above:
-mission → blueprint (`#fabricator?bp=`) → material → where to mine it (`#mining?m=`) → refinery finder (`#mining?tab=ref`);
-blueprint → missions that award it (`#missions?m=`); mineral → its prices (`#market?c=`); route ↔ market (`#market?tab=prices&c=`, `#market?tab=stations&t=`,
-`#routes?from=&to=&c=`) ↔ tours (`#tours?stops=`); ships (`#ships`, `#market?tab=ships`).
+The navigation groups use `#routes` (round trip, tour, mixed cargo), `#market`, `#missions` (including hauling), `#mining` and `#fabricator`. Old `#tours` and `#hauling` links keep their parameters and open the corresponding tab. Links inside a result carry the commodity, terminal, ship, blueprint or mineral to its destination. The trade planner remains a separate screen.
+
+The helper screens use the server-verified Discord fleet role, independent of the community tools switch. The middleware protects the helper datasets and their five UEX endpoints before the cache lookup. The service worker bypasses those paths. The legacy mining dataset used by the trade planner remains at `data/mining/mining.json`. The expanded mining records are generated at `data/mining/helper.json`.
 
 ## 4. `window.VOLT_HELPER` (js/helper-common.js)
 
@@ -257,11 +255,10 @@ The existing trade planner (`#trade-planner`, `js/journey.js`) does **not** read
    at 375 and 1440 px with no console error, no failed request and no CSP violation). In browser tests stub `/api/uex/*` with fixtures — the dev server has no Functions;
    `tests/smoke/helpers.js` `mockApi(page)` answers them with an empty list by default. Look at screenshots of your screen at both widths.
 
-## 7. What the shell already does (so you do not have to)
+## 7. Integrated navigation and access
 
-- `index.html`: section wrappers, `<link>` and `<script>` tags with the cache version.
-- `js/navigation.js`: the ids are valid routes; desktop groups "무역" (planner, routes, market, tours, hub, guide) and "임무 · 자원" (missions, hauling, mining, blueprints);
-  the mobile menu shows the same two groups in two columns; `#section?…` is routed to the section; first show calls `VOLT_HELPER.onSectionShow`.
-- `js/main.js` is unchanged. Document titles for the five new sections are set by `helper-common.js`.
-- `sw.js`: all new js / css files are precached with the cache version. `/data/**` (except the member-only folders) is cache-first, which is why `loadJson` adds the version.
-- Community gate: the five new sections are public like mining and hauling. `/api/uex/*` is behind the gate when it is switched on — handled by the failure rule above.
+Trade has five menu entries: Routes, Prices, Trade Planner, Trade Hub and Trade Guide. Missions, Mining and Crafting have one entry each. The old tours and hauling links resolve to the corresponding tab, including parameters. The implementation mounts listed above remain separate so old shared links and browser Back keep working.
+
+All integrated helper screens require the fleet role, even when community tools are public. The server checks protected helper data and UEX requests before reading the asset or a cached response. The service worker skips those paths. The base mining data used by the existing planner stays at its existing URL. The enhanced mining guide reads `/data/mining/helper.json`.
+
+Routes and Prices share the user's ship, budget, system and maximum report age. The default is three days, including in the planner and AI journey context. Local previews of market data need a Functions server or the UEX proxy. Static preview alone only tests the layout.

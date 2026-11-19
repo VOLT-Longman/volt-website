@@ -1090,7 +1090,7 @@
     function headHtml() {
         // 탭: 고른 탭만 Tab 키로 닿고, 나머지는 좌우 화살표 · Home · End 로 옮긴다 (onKeydown).
         const tab = (id, label) => `<button type="button" role="tab" id="missions-tab-${id}" class="missions-tab${view.tab === id ? ' is-on' : ''}" data-ms-tab="${id}" data-focus="tab:${id}" aria-selected="${view.tab === id}" aria-controls="missions-panel" tabindex="${view.tab === id ? 0 : -1}">${esc(label)}</button>`;
-        return `<div class="missions-tabs" role="tablist" aria-label="${esc(t('tabs'))}">${tab('list', t('tabList'))}<a class="missions-tab" href="#missions?tab=hauling">${H.lang() === 'ko' ? '운송 계약' : 'Hauling contracts'}</a>${tab('rank', t('tabRank'))}${tab('path', t('tabPath'))}</div>
+        return `<div class="missions-tabs" role="tablist" aria-label="${esc(t('tabs'))}">${tab('list', t('tabList'))}<a class="missions-tab" role="tab" aria-selected="false" href="#missions?tab=hauling">${H.lang() === 'ko' ? '운송 계약' : 'Hauling contracts'}</a>${tab('rank', t('tabRank'))}${tab('path', t('tabPath'))}</div>
             <div class="missions-share"><button type="button" class="btn btn-secondary" data-ms-share data-focus="share">${esc(t('share'))}</button><span class="missions-status" role="status" data-ms-status>${esc(statusText)}</span></div>`;
     }
 

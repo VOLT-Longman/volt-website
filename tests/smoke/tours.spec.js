@@ -50,7 +50,7 @@ const SHIP_STATE = { v: 1, ship: 'c2-hercules', budget: null, system: null, maxA
 
 async function open(page, { hash = '#tours', state = SHIP_STATE, lang = 'ko', uex = 'ok', names = uex } = {}) {
     const errors = trackConsoleErrors(page);
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     const meta = { source: 'uex', cached: true, ttlSeconds: 1800, fetchedAt: new Date(Date.now() - 5 * 60000).toISOString() };
     const answer = (data) => (route) => (uex === 'ok' ? route.fulfill({ json: { status: 'ok', data, meta } }) : route.fulfill({ status: 503, json: { error: 'down' } }));
     await page.route('**/api/uex/market**', answer(market()));
@@ -354,7 +354,7 @@ for (const width of [375, 1440]) {
         await page.setViewportSize({ width, height: 900 });
         const errors = await open(page, { lang: 'en' });
         const app = page.locator('#tours-app');
-        await expect(app.locator('[data-tab="tour"]')).toHaveText('Find a tour');
+        await expect(app.locator('[data-tab="tour"]')).toHaveText('Visit multiple stops');
         await app.locator('[data-k="tour.start"]').selectOption('1');
         await app.locator('[data-act="run-tour"]').focus();
         await page.keyboard.press('Enter');
