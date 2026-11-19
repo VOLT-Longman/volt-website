@@ -2,6 +2,7 @@ import { communityToolsRequireMembership, isCommunityResource, privateResponse }
 import { requireCommunityMember, requireFleetMember } from './_shared/rbac.js';
 import { isFleetResource } from './_shared/fleet-access.js';
 import { serveGearModel } from './_shared/gear-models.js';
+import { serveStarmapTexture } from './_shared/starmap-textures.js';
 
 export async function onRequest(context) {
   const url = new URL(context.request.url);
@@ -41,7 +42,10 @@ async function serveRequest(context) {
   if (isFleetResource(path)) {
     const member = await requireFleetMember(context.request, context.env);
     if (member instanceof Response) return privateResponse(member);
-    if (path.startsWith('/assets/models/gear')) return serveGearModel(context, path);
+    // Private art never falls through to static files, whatever the letter case of the request (the handlers 404 a path that is not exact).
+    const lower = path.toLowerCase();
+    if (lower.startsWith('/assets/models/gear')) return serveGearModel(context, path);
+    if (lower.startsWith('/assets/models/starmap')) return serveStarmapTexture(context, path);
     return privateResponse(await context.next());
   }
   if (!isCommunityResource(path)) return context.next();

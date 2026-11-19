@@ -90,7 +90,7 @@
     function buildSearchIndex() {
         if (searchIndexCache) return searchIndexCache;
         const result = [
-            ...['routes', 'market', 'missions', 'mining', 'fabricator'].map(section =>
+            ...['routes', 'market', 'missions', 'mining', 'fabricator', 'starmap'].map(section =>
                 makeSearchItem('nav.' + section, section, window.VOLT_I18N.t('nav.' + section), window.VOLT_I18N.t(section + '.subtitle'))),
             ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', localized(item, 'title'), localized(item, 'content'))),
             // ON에서는 메인 함선DB와 같은 공개 집합(Erkul 219 + RSI 공식 30)만 색인한다.

@@ -802,6 +802,11 @@
         return [terminal.system, terminal.place, twin ? terminal.uexName : null].filter(Boolean).join(' · ');
     }
 
+    // "지도에서 보기": 성계지도에 실제로 보일 수 있는 곳일 때만 링크가 나온다 (js/starmap.js VOLT_STARMAP.links).
+    function mapLink(params, options) {
+        return window.VOLT_STARMAP?.links?.button?.(params, options) || '';
+    }
+
     function terminalCell(id, fallback) {
         const place = placeLine(id);
         return `<a class="market-link" href="${link({ tab: 'stations', t: id })}">${esc(terminalName(id, fallback))}</a>${place ? `<small>${esc(place)}</small>` : ''}`;
@@ -1064,10 +1069,10 @@
         const sellTable = sells.length ? table(t('sellPlaces'), sellHeads, sells, rowClass(detail.sells), after(detail.sells)) : emptyBox(t('noMatch'));
         return `<div class="market-detail" data-market-commodity="${detail.c}">
             <div class="market-detailhead"><div><h3>${esc(commodityName(detail.c))}</h3><p class="market-muted">${esc([detail.code, detail.group].filter(Boolean).join(' · '))}</p></div>
-                <div class="market-actions">${back}<a class="market-btn" href="${link({ tab: 'movers', c: detail.c })}" data-k="to-movers">${esc(t('compareAverage'))}</a></div></div>
+                <div class="market-actions">${back}<a class="market-btn" href="${link({ tab: 'movers', c: detail.c })}" data-k="to-movers">${esc(t('compareAverage'))}</a>${mapLink({ mark: [...detail.buys, ...detail.sells].map((row) => row.t) }, { name: commodityName(detail.c), count: true, cls: 'market-maplink-all' })}</div></div>
             ${legalityLine(detail)}${traits}${historyPlaced ? '' : drawHistory()}
-            <section class="market-block"><h4>${esc(t('buyPlaces'))}</h4>${buyTable}</section>
-            <section class="market-block"><h4>${esc(t('sellPlaces'))}</h4>${sellTable}</section>
+            <section class="market-block"><h4>${esc(t('buyPlaces'))}</h4>${mapLink({ mark: detail.buys.map((row) => row.t) }, { name: t('buyPlaces'), count: true, cls: 'market-maplink-buy' })}${buyTable}</section>
+            <section class="market-block"><h4>${esc(t('sellPlaces'))}</h4>${mapLink({ mark: detail.sells.map((row) => row.t) }, { name: t('sellPlaces'), count: true, cls: 'market-maplink-sell' })}${sellTable}</section>
             ${routes}</div>`;
     }
 
@@ -1098,7 +1103,7 @@
         const heads = [{ label: t('station') }, { label: t('facilities') }, { label: t('maxBox'), num: true }, { label: t('buyCount'), num: true }, { label: t('sellCount'), num: true }];
         const shown = list.slice(0, listLimit);
         const rows = shown.map((terminal) => [
-            `<a class="market-link is-strong" href="${link({ tab: 'stations', t: terminal.id })}" data-k="t-${terminal.id}">${esc(H.name(terminal.name) || terminal.uexName)}</a><small>${esc(placeLine(terminal.id))}</small>`,
+            `<a class="market-link is-strong" href="${link({ tab: 'stations', t: terminal.id })}" data-k="t-${terminal.id}">${esc(H.name(terminal.name) || terminal.uexName)}</a><small>${esc(placeLine(terminal.id))}</small>${mapLink({ focus: terminal.id }, { name: H.name(terminal.name) || terminal.uexName, cls: 'market-maplink-row' })}`,
             facilityTags(terminal),
             esc(terminal.maxBox === null ? H.unknown('uex') : H.scu(terminal.maxBox)),
             esc(t('countValue', { n: terminal.buyCount })), esc(t('countValue', { n: terminal.sellCount })),
@@ -1149,7 +1154,7 @@
             <div class="market-detailhead"><div><h3>${esc(H.name(terminal.name) || terminal.uexName)}</h3>
                 <p class="market-muted">${esc([...new Set([terminal.system, terminal.place, terminal.uexName, terminal.code].filter(Boolean))].join(' · '))}</p>
                 ${terminal.live ? '' : `<p><span class="market-tag is-warn">${esc(t('notLive'))}</span></p>`}</div>
-                <div class="market-actions">${back}<a class="market-btn" href="${esc(H.buildHash('tours', { tab: 'tour', start: terminal.id }))}">${esc(H.lang() === 'ko' ? '여기서 여러 곳 돌기' : 'Visit multiple stops from here')}</a><a class="market-btn" href="${link({ tab: 'movers', t: terminal.id })}" data-k="to-movers">${esc(t('compareAverage'))}</a></div></div>
+                <div class="market-actions">${back}${mapLink({ focus: terminal.id }, { name: H.name(terminal.name) || terminal.uexName, cls: 'market-maplink-station' })}<a class="market-btn" href="${esc(H.buildHash('tours', { tab: 'tour', start: terminal.id }))}">${esc(H.lang() === 'ko' ? '여기서 여러 곳 돌기' : 'Visit multiple stops from here')}</a><a class="market-btn" href="${link({ tab: 'movers', t: terminal.id })}" data-k="to-movers">${esc(t('compareAverage'))}</a></div></div>
             <div class="market-here"><button type="button" class="market-btn is-primary" data-act="here" data-k="here">${esc(t('here'))}</button><small class="market-muted">${esc(t('hereNote'))}</small></div>
             ${traits}
             <div class="market-columns">
@@ -1496,6 +1501,7 @@
             draw();
             loadGame();
             loadPrices();
+            window.VOLT_STARMAP?.links?.load?.().then((ready) => { if (ready && root) update(); });
         },
         // 언어가 바뀔 때마다 (init 뒤에만).
         onLanguageChange() {

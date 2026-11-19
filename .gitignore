@@ -24,3 +24,5 @@ data/rsi-ship-matrix-index.json
 
 # Private game models: upload to the fleet-only R2 bucket, never Git.
 /assets/models/gear/
+# Private star-map planet textures (game art): same private R2 bucket, never Git.
+/assets/models/starmap/

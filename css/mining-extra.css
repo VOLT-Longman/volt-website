@@ -128,3 +128,6 @@
 .mining-app .mining-recent strong { color: var(--color-text-primary); }
 .mining-app .mining-table thead .mining-recent { white-space: normal; }
 .mining-app .mining-csv-only { display: none; }
+/* 성계지도에서 넘어온 정제소 줄 (#mining?tab=ref&ref=<id>) */
+.mining-app .mining-ref-table tbody tr.is-picked, .mining-app .mining-ref-table tbody tr.is-picked th { background: #3a2019; }
+.mining-app .mining-ref-table tbody tr.is-picked th { box-shadow: inset 3px 0 0 var(--volt-orange); }

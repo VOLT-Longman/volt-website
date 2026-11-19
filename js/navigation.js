@@ -14,16 +14,16 @@
 
     let deps = {};
 
-    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'loadout', 'trade-planner', 'schedule', 'policy', 'faq', 'guide', 'mining', 'hauling', 'gear', 'ai', 'comms', 'routes', 'market', 'tours', 'missions', 'fabricator'];
+    const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'loadout', 'trade-planner', 'schedule', 'policy', 'faq', 'guide', 'mining', 'hauling', 'gear', 'ai', 'comms', 'routes', 'market', 'tours', 'missions', 'fabricator', 'starmap'];
     // 도우미 도구 섹션은 주소 뒤에 화면 상태를 붙일 수 있다: #routes?from=...  (형식: docs/helper-tools.md)
-    const PARAM_SECTIONS = ['gear', 'routes', 'market', 'tours', 'missions', 'fabricator', 'mining', 'hauling'];
+    const PARAM_SECTIONS = ['gear', 'routes', 'market', 'tours', 'missions', 'fabricator', 'mining', 'hauling', 'starmap'];
 
     function updateActiveNav(id) {
         document.querySelectorAll('.nav-links [data-section]').forEach((link) => {
             link.classList.toggle('nav-active', link.getAttribute('data-section') === id);
         });
         document.getElementById('nav-trade-toggle')?.classList.toggle('nav-active', ['trade-planner', 'routes', 'market', 'tours', 'hub', 'guide'].includes(id));
-        document.getElementById('nav-work-toggle')?.classList.toggle('nav-active', ['missions', 'hauling', 'mining', 'fabricator'].includes(id));
+        document.getElementById('nav-work-toggle')?.classList.toggle('nav-active', ['missions', 'hauling', 'mining', 'fabricator', 'starmap'].includes(id));
         document.getElementById('nav-ships-toggle')?.classList.toggle('nav-active', ['ships', 'loadout', 'gear'].includes(id));
         document.getElementById('nav-more-toggle')?.classList.toggle('nav-active', ['timeline', 'leadership', 'streamers', 'gallery', 'policy', 'faq', 'comms'].includes(id));
     }

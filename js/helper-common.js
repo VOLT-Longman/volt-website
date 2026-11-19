@@ -18,6 +18,7 @@
         tours: { mount: 'tours-app', global: 'VOLT_TOURS', titleKey: 'nav.tours' },
         missions: { mount: 'missions-app', global: 'VOLT_MISSIONS', titleKey: 'nav.missions' },
         fabricator: { mount: 'fabricator-app', global: 'VOLT_FABRICATOR', titleKey: 'nav.fabricator' },
+        starmap: { mount: 'starmap-app', global: 'VOLT_STARMAP', titleKey: 'nav.starmap' },
     });
     // 해시 뒤에 ?key=value 를 붙일 수 있는 섹션 (기존 채광·운송 계약 포함).
     const HASH_SECTIONS = Object.freeze([...Object.keys(SECTIONS), 'mining', 'hauling']);

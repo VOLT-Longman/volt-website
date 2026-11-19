@@ -52,6 +52,8 @@ const BASELINE = {
   'js/tours.js': 1,
   'js/missions.js': 1,
   'js/fabricator.js': 1,
+  // 성계지도: 같은 방식 — paint() 한 곳, 모든 동적 값은 VOLT_HELPER.esc(). 3D 모듈 js/starmap-viewer.js 는 싱크 0.
+  'js/starmap.js': 1,
 };
 
 const SINK_PATTERN = /\.(?:innerHTML|outerHTML)\s*[+]?=|\.insertAdjacentHTML\s*\(|document\.write(?:ln)?\s*\(/g;

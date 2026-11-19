@@ -83,7 +83,8 @@ test('Cache quota failures preserve successful network responses', async () => {
 
 test('Private responses, API, admin, canonical, cross-origin and Range requests bypass storage', async () => {
     const sw = worker();
-    for (const path of ['/data/gear/models.json', '/data/gear/attachments.json?v=1', '/assets/models/gear/weapons/test/body_lod0.glb?v=1', '/assets/models/gear/tex/test.webp']) {
+    for (const path of ['/data/gear/models.json', '/data/gear/attachments.json?v=1', '/assets/models/gear/weapons/test/body_lod0.glb?v=1', '/assets/models/gear/tex/test.webp',
+        '/data/starmap/textures.json', '/data/starmap/system-stanton.json?v=1', '/assets/models/starmap/tex/ui_sm_nyx_1_512.webp?v=1']) {
         assert.equal(await sw.request(path), undefined);
     }
     for (const path of ['/api/ai/chat', '/auth/me', '/admin/', '/admin/index.html', '/data/canonical/manifest.json', '/data/loadout/items.json?v=current', '/data/loadout/ships/anvl_asgard.json', '/data/ship-live-stats.js', '/data/ship-market.js', 'https://example.com/a.js']) {

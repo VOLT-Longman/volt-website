@@ -553,6 +553,16 @@
         return `<div class="mining-market"><dt>${esc(text('marketBest', { days: num(maxAgeDays(), 1) }))}</dt><dd>${recentCell(mineral)}${link}</dd></div>`;
     }
 
+    // "지도에서 보기": 성계지도에 실제로 보일 수 있는 곳일 때만 링크가 나온다 (js/starmap.js VOLT_STARMAP.links).
+    function mapLink(params, options) {
+        return window.VOLT_STARMAP?.links?.button?.(params, options) || '';
+    }
+    // 채광 장소 → 지도 주소 값. 천체는 그 천체를, 점이 아닌 구역(소행성대 등)은 구역을 보여 준다.
+    function mapParams(locations) {
+        const list = locations.filter((location) => location && !location.unplaced);
+        return { mark: [...new Set(list.filter((location) => location.kind !== 'area').map((location) => location.id))], area: [...new Set(list.filter((location) => location.kind === 'area').map((location) => location.id))] };
+    }
+
     function mineralDetail() {
         const mineral = state.data.minerals.find((item) => item.id === state.mineral);
         if (!mineral) return `<p class="mining-hint">${esc(text('pick'))}</p>`;
@@ -561,7 +571,7 @@
         const systems = [...new Set(rows.flatMap((row) => index.entryById.get(row.location.id)?.systems || []))];
         const quality = qualityBlock([mineral.id], systems);
         return `<section class="mining-detail" aria-labelledby="mining-detail-title">
-            <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whereTitle', { name: label(mineral.name) }))}</h3><span class="mining-muted">${esc(text('placesCount', { count: places }))}</span></header>
+            <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whereTitle', { name: label(mineral.name) }))}</h3><span class="mining-muted">${esc(text('placesCount', { count: places }))}</span>${mapLink(mapParams(rows.map((row) => row.location)), { name: text('whereTitle', { name: label(mineral.name) }), count: true, cls: 'mining-maplink-mineral' })}</header>
             <p class="mining-note">${esc(text('detailNote'))}</p>${mineral.traitsVary ? `<p class="mining-note">${esc(text('traitsVary'))}</p>` : ''}
             <dl class="mining-traits" aria-label="${esc(text('traits'))}">
                 <div><dt>${esc(text('instability'))}</dt><dd>${esc(num(mineral.instability, 1))}</dd></div>
@@ -805,7 +815,7 @@
                 <tbody>${rockRows(group.rocks)}</tbody></table></div>` : ''}</div>`).join('')}
             ${slotBlock(entry)}${showOther('harvest') ? harvestBlock(entry) : ''}${showOther('salvage') ? salvageBlock(entry) : ''}`;
         return `<section class="mining-detail" aria-labelledby="mining-detail-title">
-            <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whatTitle', { name: entryName(entry) }))}</h3><span class="mining-muted">${esc([entry.systems.join(', '), entry.type ? typeLabel(entry.type) : ''].filter(Boolean).join(' · '))}</span></header>
+            <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whatTitle', { name: entryName(entry) }))}</h3><span class="mining-muted">${esc([entry.systems.join(', '), entry.type ? typeLabel(entry.type) : ''].filter(Boolean).join(' · '))}</span>${entry.isSite ? '' : mapLink(location.kind === 'area' ? { area: location.id } : { focus: location.id }, { name: entryName(entry), cls: 'mining-maplink-location' })}</header>
             <div class="mining-acts" role="group" aria-label="${esc(text('activities'))}">${entry.acts.map((act) => actTag(act)).join(' ')}</div>
             ${location.kind === 'area' && !location.named ? `<p class="mining-note">${esc(text('areaNote'))}</p>` : ''}
             ${entry.isSite ? `<p class="mining-note mining-warn">${esc(text('siteNote'))}${location.unplaced ? ` ${esc(text('unplacedNote'))}` : ''}</p>` : ''}
@@ -1001,7 +1011,7 @@
         };
         const table = `<div class="mining-tablewrap" tabindex="0" role="region" aria-label="${esc(text('byRef'))}"><table class="mining-table mining-ref-table" data-mining-csv="refineries">
             <thead><tr><th scope="col">${esc(text('refinery'))}</th><th scope="col" class="mining-ref-wide">${esc(text('system'))}</th><th scope="col" class="mining-ref-wide">${esc(text('refCheck'))}</th>${model.selected.length && usable ? `<th scope="col" class="is-num">${esc(text('refAvg'))}</th>` : ''}${columns.map((ore) => `<th scope="col" class="is-num">${esc(ore.name)}</th>`).join('')}</tr></thead>
-            <tbody>${model.rows.map((row) => `<tr><th scope="row" data-csv="${esc(`${row.name}${row.game && !row.game.name ? ` (${text('noName')})` : ''}`)}">${esc(row.name)}${row.game && !row.game.name ? ` <small class="mining-muted">${esc(text('noName'))}</small>` : ''}<small class="mining-ref-narrow mining-muted">${esc([row.system && H.systemLabel(row.system), check(row)].filter(Boolean).join(' · '))}</small></th>
+            <tbody>${model.rows.map((row) => `<tr${row.game && row.game.id === ref.pick ? ' class="is-picked" id="mining-ref-picked"' : ''}><th scope="row" data-csv="${esc(`${row.name}${row.game && !row.game.name ? ` (${text('noName')})` : ''}`)}">${esc(row.name)}${row.game && !row.game.name ? ` <small class="mining-muted">${esc(text('noName'))}</small>` : ''} ${mapLink({ focus: row.game ? row.game.id : row.terminalId }, { name: row.name, cls: 'mining-maplink-ref' })}<small class="mining-ref-narrow mining-muted">${esc([row.system && H.systemLabel(row.system), check(row)].filter(Boolean).join(' · '))}</small></th>
                 <td class="mining-ref-wide">${esc(row.system && H.systemLabel(row.system))}</td>
                 <td class="mining-ref-wide"><span class="mining-tag ${usable && row.game && row.terminalId !== null ? 'is-both' : 'is-partial'}">${esc(check(row))}</span></td>
                 ${model.selected.length && usable ? `<td class="is-num" data-csv="${esc(row.average === null ? text('unknownUex') : `${bonus(row.average)} (${row.known}/${model.selected.length})`)}">${row.average === null ? `<span class="mining-muted">${esc(text('unknownUex'))}</span>` : `<strong>${esc(bonus(row.average))}</strong> <small>${esc(`${row.known}/${model.selected.length}`)}</small>`}</td>` : ''}
@@ -1018,7 +1028,7 @@
             <p class="mining-note">${esc(text('refGameNote'))} ${esc(text('refNameMatch'))}</p>
             ${status}${missing}${oreChips}${best}
             ${usable ? `<p class="mining-note">${esc(text('refAgeNote'))}</p>` : ''}
-            ${model.selected.length ? table : `<details class="mining-ref-full"><summary>${lang() === 'ko' ? '전체 정제소 표 보기' : 'Show all refineries'}</summary>${table}</details>`}${usable ? methods : ''}
+            ${model.selected.length ? table : `<details class="mining-ref-full"${ref.pick && model.rows.some((row) => row.game && row.game.id === ref.pick) ? ' open' : ''}><summary>${lang() === 'ko' ? '전체 정제소 표 보기' : 'Show all refineries'}</summary>${table}</details>`}${usable ? methods : ''}
         </section>`;
     }
     async function loadRefineries(refresh) {
@@ -1080,6 +1090,7 @@
             if (state.sig.how === 'range') params.sv2 = state.sig.to;
         }
         if (state.ref.ores.size) params.ores = [...state.ref.ores].sort((a, b) => a - b).join(',');
+        if (state.view === 'ref' && state.ref.pick) params.ref = state.ref.pick;
         return params;
     }
     const onMining = () => Boolean(H?.parseHash) && H.parseHash().section === 'mining';
@@ -1101,6 +1112,8 @@
         state.ref.missing = '';
         state.sig = { value: params.sv || '', how: ['approx', 'range'].includes(params.sm) ? params.sm : 'exact', tol: params.st || '50', to: params.sv2 || '' };
         state.ref.ores = new Set(String(params.ores || '').split(',').map(Number).filter((id) => Number.isInteger(id) && id > 0));
+        // ref = 강조할 정제소(게임 기록 이름). 성계지도의 "정제소 찾기에서 보기"가 넘긴다: 표를 펼치고 그 줄을 강조한다.
+        state.ref.pick = /^[\w-]{1,80}$/.test(params.ref || '') ? params.ref : '';
         return true;
     }
     function validateState() {
@@ -1315,6 +1328,7 @@
         if (H?.readHash) applyHash(H.readHash('mining'));
         window.addEventListener('hashchange', onHashChange);
         load();
+        window.VOLT_STARMAP?.links?.load?.().then((ready) => { if (ready && state.data) draw(); });
     }
 
     // 다른 화면(로드아웃의 제작 재료)에서 광물을 지정해 연다. 정제 상품 id 로 와도 원광을 찾아 준다.

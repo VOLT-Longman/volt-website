@@ -261,6 +261,14 @@
         const actions = el('div', undefined, 'journey-links');
         if (model.bestSell?.id_terminal) actions.append(button(tr('판매한 곳에서 다음 운송 찾기', 'Find next cargo at destination'), () => nextCargo(model.bestSell)));
         actions.append(button(tr('AI로 이 운송 계획 검토', 'Review this trip with AI'), () => ask('trade'), 'journey-primary'));
+        // 지도에서 보기 (함대원만: 성계지도 자료는 함대원 확인 뒤에만 받는다). 사는 곳 → 파는 곳, 한쪽만 있으면 그곳.
+        const mapLinks = window.VOLT_STARMAP?.links;
+        if (mapLinks) {
+            const buy = state.mode === 'sell' ? null : Number(model.bestBuy?.id_terminal) || null, sell = Number(model.bestSell?.id_terminal) || null;
+            const mapLink = mapLinks.node(buy && sell && buy !== sell ? { route: [buy, sell] } : { focus: sell || buy }, { cls: 'journey-maplink' });
+            if (mapLink) actions.append(mapLink);
+            else if (!mapLinks.ready()) mapLinks.load().then(ready => { if (ready && tradeModel === model) renderTrade(); });
+        }
         root.append(actions);
     }
     async function nextCargo(place) {

@@ -197,3 +197,8 @@
     .missions-app .missions-bps { gap: 0 14px; }
     .missions-app .missions-table .missions-open, .missions-app .missions-th { min-height: 44px; }
 }
+/* 성계지도에서 장소를 들고 왔을 때의 장소 조건 */
+.missions-app .missions-placebar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin: 0 0 10px; padding: 10px 12px; border: 1px solid var(--volt-orange); border-radius: 10px; background: var(--volt-orange-glow); }
+.missions-app .missions-placebar p { margin: 0; font-size: 14px; line-height: 1.5; min-width: 0; flex: 1 1 260px; }
+.missions-app .missions-placebar-acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.missions-app .missions-placebar-acts .btn { min-height: 44px; }

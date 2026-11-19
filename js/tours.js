@@ -1595,6 +1595,16 @@
         return `<p class="tours-flags"><span class="tours-flag is-warn">${esc(t(chain.legal === 'illegal' ? 'hasIllegal' : 'hasUnknownLegal'))}</span></p>`;
     }
 
+    // "지도에서 보기": 성계지도에 실제로 보일 수 있는 곳일 때만 링크가 나온다 (js/starmap.js VOLT_STARMAP.links).
+    function mapLink(params, options) {
+        return window.VOLT_STARMAP?.links?.button?.(params, options) || '';
+    }
+    // 들르는 순서 그대로. 출발지로 돌아오는 계획이면 마지막에 출발지를 한 번 더 넣는다.
+    function mapRoute(stops, back) {
+        const list = back && stops.length > 1 ? [...stops, stops[0]] : stops;
+        return mapLink({ route: list }, { name: list.map(placeName).join(' → '), cls: 'tours-maplink' });
+    }
+
     function tourResults() {
         if (tour.job) return progressBox(tour.job);
         const result = tour.result;
@@ -1619,7 +1629,7 @@
                 ${stat(t('invest'), esc(money(chain.investment)))}
                 ${stat(t('oldest'), esc(H.age(chain.oldestAt)))}
             </dl>
-            <button type="button" class="tours-btn" data-act="open" data-stops="${esc(chain.stops.join(','))}">${esc(t('openPlan'))}<span class="visually-hidden"> ${esc(chain.stops.map(placeName).join(' → '))}</span></button>
+            <div class="tours-actions"><button type="button" class="tours-btn" data-act="open" data-stops="${esc(chain.stops.join(','))}">${esc(t('openPlan'))}<span class="visually-hidden"> ${esc(chain.stops.map(placeName).join(' → '))}</span></button>${mapRoute(chain.stops, view.tour.rt)}</div>
         </li>`).join('');
         return `<h3 class="tours-results-title" data-results tabindex="-1">${esc(t('results', { n: result.chains.length }))}</h3>
             ${notes.map((note) => `<p class="tours-note">${esc(note)}</p>`).join('')}
@@ -1709,6 +1719,7 @@
         return `${head}
             <p class="tours-lead">${esc(t('planLead'))}</p>
             <p class="tours-path is-big">${pathHtml(stops, options.rt)}</p>
+            ${mapRoute(stops, options.rt)}
             ${legalFlag(chain)}
             <dl class="tours-stats">
                 ${stat(t('profit'), esc(signed(chain.profit)))}
@@ -1800,6 +1811,7 @@
             </div>
             ${unsold}
             ${plan.time ? `<p class="tours-sub">${esc(timeParts(plan.time, plan.from, plan.stops[0].t))}</p>` : ''}
+            ${mapRoute([plan.from, ...plan.stops.map((stop) => stop.t)], false)}
         </li>`;
     }
 
@@ -1828,7 +1840,7 @@
                 </dl>
                 <div class="tours-leg-cols"><div class="tours-box"><h5>${esc(t('sellAt', { place: placeName(place.t) }))}</h5><ul class="tours-goods">${goods}</ul></div>${along ? `<div class="tours-stack">${along}</div>` : ''}</div>
                 ${place.unsold.length ? `<p class="tours-note is-warn">${esc(t('cantSell', { list: place.unsold.map(goodName).join(', ') }))}</p>` : ''}
-                <p class="tours-links"><a class="tours-link" href="${esc(H.buildHash('market', { tab: 'stations', t: place.t }))}">${esc(t('toStation'))}: ${esc(placeName(place.t))}</a></p>
+                <p class="tours-links"><a class="tours-link" href="${esc(H.buildHash('market', { tab: 'stations', t: place.t }))}">${esc(t('toStation'))}: ${esc(placeName(place.t))}</a>${result.at ? mapRoute([result.at, place.t], false) : mapLink({ focus: place.t }, { name: placeName(place.t), cls: 'tours-maplink' })}</p>
             </li>`;
         }).join('');
         const perGood = result.perGood.map((good) => `<div class="tours-box"><h5>${esc(goodName(good.c))} <small>${esc(H.scu(good.scu))}</small></h5>${good.places.length
@@ -2100,6 +2112,7 @@
             root.addEventListener('toggle', onToggle, true);
             E.state.subscribe(() => { if (!muted && data.status === 'ready') scheduleRefresh(); });
             load(false);
+            window.VOLT_STARMAP?.links?.load?.().then((ready) => { if (ready && data.status === 'ready') draw(); });
         },
         // 언어가 바뀔 때마다 (init 뒤에만). 결과는 언어와 무관한 값이라 다시 그리기만 한다.
         onLanguageChange() {

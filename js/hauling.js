@@ -68,6 +68,11 @@
         </div><label class="hauling-missing"><input type="checkbox" id="hauling-missing"${state.includeMissing ? ' checked' : ''}> ${esc(text('showMissing'))}</label>`;
     }
 
+    // "지도에서 보기": 계약이 나오는 지역의 천체들을 성계지도에 표시한다. 지도에 보일 수 있는 곳이 없으면 링크가 없다.
+    function mapLink(ids, name) {
+        return window.VOLT_STARMAP?.links?.button?.({ mark: ids }, { name, count: true, cls: 'hauling-maplink' }) || '';
+    }
+
     function placesOf(contract) {
         const found = new Map();
         let unknown = false;
@@ -87,8 +92,9 @@
         const unknownText = text('rawRegion');
         if (!names.length) return esc(unknownText);
         const values = [...names, ...(unknown ? [unknownText] : [])];
-        if (values.length <= 2) return esc(values.join(' · '));
-        return `<details class="hauling-places"><summary>${esc(text('placesMore', { name: names[0], count: num(names.length - 1) }))}</summary><ul>${values.map((name) => `<li>${esc(name)}</li>`).join('')}</ul><small>${esc(text('availability'))}</small></details>`;
+        const map = mapLink([...found.keys()], names.length > 1 ? text('placesMore', { name: names[0], count: num(names.length - 1) }) : names[0]);
+        if (values.length <= 2) return `${esc(values.join(' · '))}${map}`;
+        return `<details class="hauling-places"><summary>${esc(text('placesMore', { name: names[0], count: num(names.length - 1) }))}</summary><ul>${values.map((name) => `<li>${esc(name)}</li>`).join('')}</ul><small>${esc(text('availability'))}</small></details>${map}`;
     }
 
     function table() {
@@ -163,6 +169,7 @@
         });
         window.VOLT_I18N?.onChange?.(() => draw());
         load();
+        window.VOLT_STARMAP?.links?.load?.().then((ready) => { if (ready && state.data) draw(); });
     }
 
     window.VOLT_HAULING = { render };

@@ -9,6 +9,7 @@
  *
  * 주소(#missions?...) 키 — 공유 주소가 화면을 그대로 되살린다.
  *   link 키: m = 임무 id (상세 화면; tab=rank 와 같이 오면 계산기의 임무), tab = list | rank | path
+ *            place = 장소 (게임 기록 이름, 성계지도의 장소 id) — 그곳에서 나오거나 그곳이 임무 장소 후보인 임무만 보여 준다 (성계지도가 보낸다)
  *   목록:   q 검색어 · view = table · sort (앞에 '-' 면 내림차순) · type, sys, org, con, scope, ev, flag (포함/제외 칩)
  *           con 값은 의뢰처 영어 이름으로 만든 글자(예: ling-family-hauling) — 자료를 다시 만들어도 바뀌지 않는다.
  *           scu = "최소-최대" · box = 가장 큰 상자 상한 · rank = 내 등급(평판 종류 칩을 하나만 포함했을 때)
@@ -73,7 +74,8 @@
             slotDone: '끝냈을 때', slotProgress: '진행 중', slotFailed: '실패했을 때', slotAbandoned: '포기했을 때', slotWithdrawn: '철회됐을 때',
             slotNote: '어느 결과에 주는지는 게임 파일의 칸 순서에서 미룬 것입니다.', repLine: '{org} · {scope}', givesTag: '끝내면 받는 완료 표시', points: '이벤트 점수',
             order: '주문 {n}', orderTotal: '화물 합계', pickups: '싣는 곳 {n}곳', dropoffs: '내리는 곳 {n}곳', maxBox: '가장 큰 상자 {n} SCU', boxValue: '상자 {n} SCU 이하', boxUnset: '상자 크기 제한 없음으로 읽음 (확인 안 됨)',
-            fromTo: '{a} → {b}', pickupN: '싣는 곳 {n}', dropoffN: '내리는 곳 {n}', pickup: '싣는 곳', dropoff: '내리는 곳', site: '임무 장소',
+            placeFilter: '장소: {name}', placeNote: '이곳에서 나오는 임무와, 이곳이 임무 장소 후보에 들어 있는 임무만 보여 줍니다.', placeWait: '임무 장소 자료를 확인하는 중입니다…', placeClear: '장소 조건 풀기',
+            mapAll: '후보 모두', fromTo: '{a} → {b}', pickupN: '싣는 곳 {n}', dropoffN: '내리는 곳 {n}', pickup: '싣는 곳', dropoff: '내리는 곳', site: '임무 장소',
             pieces: '{n}개', anyOf: '다음 중 하나', setOf: '{name} 종류 중 아무거나', setMembers: '해당 물품 {n}종', missionItem: '임무 물품', taggedItem: '임무가 지정한 물품', haulNote: '주문마다 적힌 그대로입니다. 같은 화물이라도 합치지 않습니다.',
             siteNamed: '후보 {n}곳', siteMany: '후보 {n}곳 (목록이 길어 싣지 않음)', siteUnknown: '후보를 게임 자료에서 찾지 못함', siteDyn: '실제 임무에서는 다른 조건으로 더 좁혀집니다', siteNeed: '이 중 {a}~{b}곳', siteTimes: '같은 조건의 장소 {n}곳', unnamedPlace: '이름 없는 장소',
             cShips: '함선', cNpcs: '사람(지상 · 선내)', cCreatures: '생물 · 물건', cNums: '교전 설정 값', cGroup: '무리', cEach: '{n}척', cEachNpc: '{n}', cAlt: '다음 중 하나', cWeight: '비중 {v}',
@@ -144,7 +146,8 @@
             slotDone: 'On completion', slotProgress: 'In progress', slotFailed: 'On failure', slotAbandoned: 'On abandoning', slotWithdrawn: 'When withdrawn',
             slotNote: 'Which outcome a reward belongs to is inferred from the slot order in the game files.', repLine: '{org} · {scope}', givesTag: 'Completion marks you receive', points: 'Event points',
             order: 'Order {n}', orderTotal: 'Total cargo', pickups: '{n} pickup(s)', dropoffs: '{n} drop-off(s)', maxBox: 'largest box {n} SCU', boxValue: 'boxes up to {n} SCU', boxUnset: 'read as no box size limit (not verified)',
-            fromTo: '{a} → {b}', pickupN: 'Pickup {n}', dropoffN: 'Drop-off {n}', pickup: 'Pickup', dropoff: 'Drop-off', site: 'Mission site',
+            placeFilter: 'Place: {name}', placeNote: 'Only missions offered here, and missions that list this place as a possible mission site.', placeWait: 'Checking mission-site data…', placeClear: 'Clear place filter',
+            mapAll: 'all candidates', fromTo: '{a} → {b}', pickupN: 'Pickup {n}', dropoffN: 'Drop-off {n}', pickup: 'Pickup', dropoff: 'Drop-off', site: 'Mission site',
             pieces: '× {n}', anyOf: 'One of', setOf: 'any {name}', setMembers: '{n} matching items', missionItem: 'Mission item', taggedItem: 'Item chosen by the mission', haulNote: 'Listed per order as written. Identical cargo in separate orders is not merged.',
             siteNamed: '{n} candidate(s)', siteMany: '{n} candidates (list too long to show)', siteUnknown: 'candidates not found in the game files', siteDyn: 'the live mission narrows this further by other conditions', siteNeed: '{a}–{b} of these', siteTimes: '{n} sites with the same condition', unnamedPlace: 'Unnamed place',
             cShips: 'Ships', cNpcs: 'People (on foot)', cCreatures: 'Creatures and objects', cNums: 'Combat settings', cGroup: 'Group', cEach: '{n} ship(s)', cEachNpc: '{n}', cAlt: 'one of', cWeight: 'weight {v}',
@@ -190,7 +193,7 @@
 
     function resetView() {
         // m = 상세 화면의 임무, calcM = 등급 계산기의 임무. 둘을 따로 두어야 '임무 목록' 탭이 늘 목록을 연다.
-        Object.assign(view, { tab: 'list', m: '', calcM: '', q: '', view: 'tiles', sort: '', scuMin: '', scuMax: '', box: '', rank: '', limit: PAGE, filtersOpen: false,
+        Object.assign(view, { tab: 'list', m: '', calcM: '', q: '', place: '', view: 'tiles', sort: '', scuMin: '', scuMax: '', box: '', rank: '', limit: PAGE, filtersOpen: false,
             calcRep: '', calcPair: '', pick: '', pickLimit: PICK_PAGE, pathPair: '', pathRep: '', pathTo: '', pathSys: '' });
         view.chips = Object.fromEntries(CHIP_KEYS.map((key) => [key, H.chips()]));
     }
@@ -209,6 +212,7 @@
         if (view.tab === 'rank' && !view.calcM) view.calcM = view.m;
         if (view.tab !== 'list') view.m = '';
         view.q =typeof p.q === 'string' ? p.q.slice(0, 80) : '';
+        view.place = typeof p.place === 'string' && /^[\w.\-']{1,120}$/.test(p.place) ? p.place : '';
         view.view = p.view === 'table' ? 'table' : 'tiles';
         view.sort = SORTS.includes(String(p.sort || '').replace(/^-/, '')) ? p.sort : '';
         CHIP_KEYS.forEach((key) => { if (typeof p[key] === 'string') view.chips[key].decode(p[key]); });
@@ -253,10 +257,10 @@
     }
 
     // 목록의 조건이 같은지 견주는 값 — 같으면 '더 보기'로 늘린 줄 수를 그대로 둔다.
-    const listKey = () => JSON.stringify([view.q.trim(), view.view, view.sort, view.scuMin, view.scuMax, view.box, view.rank, CHIP_KEYS.map((key) => view.chips[key].encode())]);
+    const listKey = () => JSON.stringify([view.q.trim(), view.place, view.view, view.sort, view.scuMin, view.scuMax, view.box, view.rank, CHIP_KEYS.map((key) => view.chips[key].encode())]);
 
     function currentParams() {
-        const p = { tab: view.tab === 'list' ? '' : view.tab, m: view.tab === 'list' ? view.m : '', cm: view.calcM, q: view.q.trim(), view: view.view === 'table' ? 'table' : '', sort: view.sort,
+        const p = { tab: view.tab === 'list' ? '' : view.tab, m: view.tab === 'list' ? view.m : '', cm: view.calcM, q: view.q.trim(), place: view.tab === 'list' ? view.place : '', view: view.view === 'table' ? 'table' : '', sort: view.sort,
             scu: view.scuMin || view.scuMax ? `${view.scuMin}-${view.scuMax}` : '', box: view.box, rank: view.rank,
             rep: view.calcRep, pair: view.calcPair, pp: view.pathPair, prep: view.pathRep, pto: view.pathTo, psys: view.pathSys };
         CHIP_KEYS.forEach((key) => { p[key] = view.chips[key].encode(); });
@@ -489,8 +493,55 @@
         return included.length === 1 ? included[0] : '';
     }
 
+    // 장소 → 그 장소와 이어진 임무 번호들. 이어진다 = 임무가 나오는 곳(지역이면 그 지역에 든 곳 모두)이거나, 임무 장소 후보가 지도에서 그곳에 놓여 있다.
+    // 임무 장소 후보가 어디에 놓였는지는 성계지도의 연결 목록(VOLT_STARMAP.links)에서 읽는다. 아직 못 받았으면 나오는 곳만으로 거른다.
+    let placeIx = null;
+    function placeEntries(id) {
+        const links = window.VOLT_STARMAP?.links;
+        const sites = Boolean(links?.ready?.());
+        if (!placeIx || placeIx.sites !== sites || placeIx.ix !== ix) {
+            const map = new Map();
+            const add = (place, i) => {
+                for (const key of [place, place.replace(/SolarSystem$/, 'Star')]) { if (!map.has(key)) map.set(key, new Set()); map.get(key).add(i); }
+            };
+            const siteAt = new Map();
+            ix.entries.forEach((e) => {
+                for (const place of [...(e.c.at || []), ...(e.c.loc || [])]) {
+                    add(place, e.i);
+                    for (const member of load.data.localities[place]?.members || []) add(member, e.i);
+                }
+                if (!sites) return;
+                for (const site of e.c.sites || []) {
+                    for (const n of site.at || []) {
+                        if (!siteAt.has(n)) siteAt.set(n, links.site(load.data.locations[n]?.id)?.at || []);
+                        for (const place of siteAt.get(n)) add(place, e.i);
+                    }
+                }
+            });
+            placeIx = { sites, ix, map };
+        }
+        return placeIx.map.get(id) || new Set();
+    }
+    // 장소 조건의 이름: 임무 자료의 장소 이름, 없으면 성계지도에 적힌 이름(지도에서 "에어리어 18"을 골라 넘어왔는데 다른 이름으로 보이지 않게),
+    // 그것도 아직 없으면 그곳에 놓인 임무 현장의 이름, 마지막으로 기록 이름 그대로. 지도 이름은 그 항성계 자료를 받아야 알 수 있어서 한 번 받아 오고 다시 그린다.
+    const placeNameAsked = new Set();
+    function placeLabel(id) {
+        const named = placeName(id);
+        if (named) return named;
+        const links = window.VOLT_STARMAP?.links;
+        const onMap = links?.name?.(id);
+        if (onMap) return onMap;
+        if (links?.ready?.() && links.loadName && !placeNameAsked.has(id)) {
+            placeNameAsked.add(id);
+            links.loadName(id).then((name) => { if (name && load.data && view.place === id) draw(); });
+        }
+        const location = links?.ready?.() ? load.data.locations.find((item) => item.name && (links.site(item.id)?.at || []).includes(id)) : null;
+        return location ? H.name(location.name) : id;
+    }
+
     function filtered() {
         const terms = view.q.toLowerCase().split(/\s+/).filter(Boolean);
+        const here = view.place ? placeEntries(view.place) : null;
         const chips = view.chips;
         const wantFlags = chips.flag.included();
         const dropFlags = chips.flag.excluded();
@@ -501,6 +552,7 @@
         const rank = scope && view.rank !== '' ? Number(view.rank) : null;
         const list = ix.entries.filter((e) => {
             const c = e.c;
+            if (here && !here.has(e.i)) return false;
             if (!chips.type.test([c.type]) || !chips.sys.test(c.sys || []) || !chips.org.test([c.by]) || !chips.con.test([e.con || null]) || !chips.scope.test(e.scopes) || !chips.ev.test(c.ev || [])) return false;
             if (wantFlags.some((flag) => !e.flags.has(flag)) || dropFlags.some((flag) => e.flags.has(flag))) return false;
             if (scuMin !== null || scuMax !== null) {
@@ -653,7 +705,10 @@
             const unknown = rows.filter((e) => e.c.haul && e.box === null).length;
             if (unknown) notes.push(t('boxUnknownCount', { n: H.num(unknown) }));
         }
-        const count = `<p class="missions-count" role="status">${esc(t('count', { n: H.num(rows.length), total: H.num(ix.entries.length) }))}</p>${notes.map((value) => `<p class="missions-note is-unknown" data-ms-listnote>${esc(value)}</p>`).join('')}`;
+        const linksReady = Boolean(window.VOLT_STARMAP?.links?.ready?.());
+        const placeBar = view.place ? `<div class="missions-placebar" data-ms-placebar><p><strong>${esc(t('placeFilter', { name: placeLabel(view.place) }))}</strong> ${esc(t('placeNote'))}${linksReady || !window.VOLT_STARMAP?.links ? '' : ` ${esc(t('placeWait'))}`}</p>
+            <div class="missions-placebar-acts">${mapLink({ focus: view.place }, { name: placeLabel(view.place), cls: 'missions-maplink-place' })}<button type="button" class="btn btn-secondary" data-ms-placeclear data-focus="placeclear">${esc(t('placeClear'))}</button></div></div>` : '';
+        const count = `${placeBar}<p class="missions-count" role="status">${esc(t('count', { n: H.num(rows.length), total: H.num(ix.entries.length) }))}</p>${notes.map((value) => `<p class="missions-note is-unknown" data-ms-listnote>${esc(value)}</p>`).join('')}`;
         if (!rows.length) return `${count}<p class="helper-soon missions-empty">${esc(t('noResult'))}</p>`;
         const shown = rows.slice(0, view.limit);
         const rest = rows.length - shown.length;
@@ -696,6 +751,8 @@
     const itemName = (id) => nameOf(load.data.items[id], id);
     const slotNames = (on) => (on.length ? on.map((slot) => t(SLOT_KEYS[slot] || 'slotDone')).join(' · ') : t('oddNoSlot'));
 
+    // 항성계 전체에서 나오는 임무는 "나오는 곳"이 항성 기록으로 적혀 있다. 지도에 항성 하나를 찍으면 항성에서 나오는 임무처럼 읽히므로 표시에서 뺀다.
+    const SYSTEM_WIDE = /^(Stanton|Pyro|Nyx)(Star|SolarSystem)?$/;
     function requirementsBlock(c) {
         const cd = load.data.cooldowns[c.cd];
         const places = [...new Set([...(c.loc || []), ...(c.at || [])])];
@@ -711,7 +768,7 @@
         }
         const rankHtml = c.scope ? `${esc(rankRange(c.scope, c.min, c.max))}<small>${esc(t('reqRankBy', { org: c.by ? orgName(c.by) : '', scope: scopeName(c.scope) }))}${Number.isInteger(c.min) && H.isKnown(load.data.scopes[c.scope]?.ranks?.[c.min]?.min) ? ` · ${esc(t('reqRep', { v: H.num(load.data.scopes[c.scope].ranks[c.min].min) }))}` : ''}</small>` : esc(t('rankNone'));
         return block(t('secReq'), `<dl class="missions-kv">${row(t('reqRank'), rankHtml)}
-            ${row(t('offered'), `${esc(where)}${members.length ? `<details class="missions-fold"><summary>${esc(t('siteNamed', { n: members.length }))}</summary><p>${esc(members.join(', '))}</p></details>` : ''}<small>${esc(t('offeredNote'))}${c.sysBy ? ` ${esc(t(`sysBy_${c.sysBy}`))}` : ''}</small>`)}
+            ${row(t('offered'), `${esc(where)}${mapLink({ mark: places.filter((id) => !SYSTEM_WIDE.test(id)) }, { name: t('offered'), count: true, cls: 'missions-maplink-offer' })}${members.length ? `<details class="missions-fold"><summary>${esc(t('siteNamed', { n: members.length }))}</summary><p>${esc(members.join(', '))}</p></details>` : ''}<small>${esc(t('offeredNote'))}${c.sysBy ? ` ${esc(t(`sysBy_${c.sysBy}`))}` : ''}</small>`)}
             ${row(t('legality'), esc(c.illegal === 1 ? t('legalNo') : c.illegal === 0 ? t('legalYes') : H.unknown('game')))}
             ${row(t('sharing'), esc(c.share === undefined ? H.unknown('game') : `${t(c.share ? 'shareYes' : 'shareNo')}${c.shareDef ? ` ${t('shareDef')}` : ''}`))}
             ${row(t('repeat'), esc(t(c.once ? 'onceYes' : 'onceNo')))}
@@ -829,14 +886,39 @@
             ${note(t('haulNote'))}${isHauling ? `<p class="missions-note">${esc(t('haulingLink'))} — <a href="#hauling">${esc(t('haulingGo'))}</a></p>` : ''}`);
     }
 
+    // "지도에서 보기": 성계지도에 실제로 보일 수 있는 곳일 때만 링크가 나온다 (js/starmap.js VOLT_STARMAP.links).
+    function mapLink(params, options) {
+        return window.VOLT_STARMAP?.links?.button?.(params, options) || '';
+    }
+    // 임무 장소 한 줄(싣는 곳 · 내리는 곳 · 임무 장소)의 후보들이 지도에서 놓인 곳. 후보 목록이 자료에 없으면 빈 목록.
+    function siteObjects(site) {
+        const links = window.VOLT_STARMAP?.links;
+        if (!links?.ready?.() || !site.at) return [];
+        return [...new Set(site.at.flatMap((index) => links.site(load.data.locations[index]?.id)?.at || []))];
+    }
+    function siteLink(site, label) {
+        const { data } = load;
+        // 후보가 한 곳이면 그 현장을 그대로 연다(따로 찍힌 지점, "근처" 추정까지 지도가 보여 준다). 여러 곳이면 놓인 곳을 모두 표시한다.
+        if (site.at?.length === 1) return mapLink({ site: data.locations[site.at[0]]?.id }, { name: label, cls: 'missions-maplink' });
+        return mapLink({ mark: siteObjects(site) }, { name: label, count: true, cls: 'missions-maplink' });
+    }
+    // 임무 전체: 싣는 곳과 내리는 곳이 한 곳씩으로 정해져 있으면 그 둘을 잇는 경로, 아니면 후보를 모두 표시한다.
+    function sitesLink(c) {
+        const of = (kind) => [...new Set(c.sites.filter((site) => (kind === 'site' ? site.k !== 'pickup' && site.k !== 'dropoff' : site.k === kind)).flatMap(siteObjects))];
+        const from = of('pickup');
+        const to = of('dropoff');
+        if (from.length === 1 && to.length === 1 && from[0] !== to[0]) return mapLink({ route: [from[0], to[0]] }, { name: `${t('pickup')} → ${t('dropoff')}`, note: `${t('pickup')} → ${t('dropoff')}`, cls: 'missions-maplink-all' });
+        return mapLink({ mark: [...from, ...to, ...of('site')] }, { name: t('secSites'), note: t('mapAll'), count: true, cls: 'missions-maplink-all' });
+    }
+
     function sitesBlock(c) {
         if (!c.sites?.length) return '';
         const { data } = load;
-        return block(t('secSites'), `<ul class="missions-list">${c.sites.map((site) => {
+        return block(t('secSites'), `${c.sites.length > 1 ? sitesLink(c) : ''}<ul class="missions-list">${c.sites.map((site) => {
             const names = (site.at || []).map((index) => { const place = data.locations[index]; return place?.name ? H.name(place.addr || place.name) : t('unnamedPlace'); });
             const facts = [site.at ? t('siteNamed', { n: H.num(site.n ?? names.length) }) : site.n ? t('siteMany', { n: H.num(site.n) }) : t('siteUnknown'),
                 site.need ? t('siteNeed', { a: site.need[0], b: site.need[1] }) : '', site.x ? t('siteTimes', { n: site.x }) : '', site.dyn ? t('siteDyn') : ''].filter(Boolean);
-            return `<li><strong>${esc(t(site.k === 'pickup' ? 'pickup' : site.k === 'dropoff' ? 'dropoff' : 'site'))}</strong> ${esc(facts.join(' · '))}${names.length ? `<p class="missions-places">${esc([...new Set(names)].join(' / '))}</p>` : ''}</li>`;
+            return `<li><strong>${esc(t(site.k === 'pickup' ? 'pickup' : site.k === 'dropoff' ? 'dropoff' : 'site'))}</strong> ${esc(facts.join(' · '))}${names.length ? `<p class="missions-places">${esc([...new Set(names)].join(' / '))}</p>` : ''}${siteLink(site, t(site.k === 'pickup' ? 'pickup' : site.k === 'dropoff' ? 'dropoff' : 'site'))}</li>`;
         }).join('')}</ul>`);
     }
 
@@ -1169,7 +1251,7 @@
     }
 
     function onClick(event) {
-        const target = event.target.closest('[data-ms-open],[data-ms-back],[data-ms-chip],[data-ms-clear],[data-ms-view],[data-ms-sort],[data-ms-dir],[data-ms-more],[data-ms-share],[data-ms-calc],[data-ms-pick],[data-ms-pickmore],[data-ms-tab],[data-ms-retry]');
+        const target = event.target.closest('[data-ms-open],[data-ms-back],[data-ms-chip],[data-ms-clear],[data-ms-placeclear],[data-ms-view],[data-ms-sort],[data-ms-dir],[data-ms-more],[data-ms-share],[data-ms-calc],[data-ms-pick],[data-ms-pickmore],[data-ms-tab],[data-ms-retry]');
         if (!target || !root.contains(target)) return;
         const data = target.dataset;
         if (data.msRetry !== undefined) { fetchData(); return; }
@@ -1195,6 +1277,11 @@
             view.filtersOpen = true;
             syncHash();
             draw();
+        } else if (data.msPlaceclear !== undefined) {
+            view.place = '';
+            view.limit = PAGE;
+            syncHash();
+            draw('q');
         } else if (data.msClear !== undefined) {
             for (const key of CHIP_KEYS) view.chips[key].clear();
             Object.assign(view, { scuMin: '', scuMax: '', box: '', rank: '', limit: PAGE, filtersOpen: true });
@@ -1298,6 +1385,7 @@
             root.addEventListener('toggle', onToggle, true);
             applyParams(ctx?.params);
             fetchData();
+            window.VOLT_STARMAP?.links?.load?.().then((ready) => { if (ready && load.data && view.tab === 'list' && (view.m || view.place)) draw(); });
         },
         // 언어가 바뀔 때마다 (init 뒤에만). 이름표를 새 언어로 다시 만든다.
         onLanguageChange() {

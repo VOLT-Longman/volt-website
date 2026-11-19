@@ -6,10 +6,16 @@ export function fleetAccess(roleIds, env = {}) {
   return { configured: Boolean(id), allowed: Boolean(id) && Array.isArray(roleIds) && roleIds.includes(id) };
 }
 
-export function isFleetResource(path) {
+// Compared in lower case: a host that serves files case-insensitively must not hand out /DATA/STARMAP/index.json
+// past the gate. (Cloudflare Pages is case-sensitive, so such a path is a 404 there anyway; this does not rely on it.)
+export function isFleetResource(rawPath) {
+  const path = String(rawPath).toLowerCase();
   return path.startsWith('/data/trade/') || path.startsWith('/data/crafting/')
     || path === '/data/mining/helper.json' || path === '/data/contracts/missions.json' || path === '/data/contracts/hauling.json'
     || /^\/api\/uex\/(?:market|terminals|refineries|vehicle-prices|price-history)$/.test(path)
     || path === '/assets/models/gear' || path.startsWith('/assets/models/gear/')
-    || path === '/data/gear/models.json' || path === '/data/gear/attachments.json';
+    || path === '/data/gear/models.json' || path === '/data/gear/attachments.json'
+    // Star map: data and game art are fleet-only, like the helper screens.
+    || path === '/data/starmap' || path.startsWith('/data/starmap/')
+    || path === '/assets/models/starmap' || path.startsWith('/assets/models/starmap/');
 }

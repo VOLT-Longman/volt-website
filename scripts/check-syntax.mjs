@@ -37,7 +37,7 @@ const classicTargets = [
 
 // 브라우저에서 import()로 불러오는 ES 모듈. 저장소 package.json에 "type"이 없어 .js는 클래식으로 취급되므로
 // Node 버전에 따라 node --check가 import 문을 문법 오류로 볼 수 있다 → .mjs 임시 사본으로 검사한다.
-const BROWSER_MODULES = new Set([path.join(root, 'js', 'gear-viewer.js')]);
+const BROWSER_MODULES = new Set([path.join(root, 'js', 'gear-viewer.js'), path.join(root, 'js', 'starmap-viewer.js')]);
 const moduleScratch = mkdtempSync(path.join(os.tmpdir(), 'volt-check-syntax-'));
 
 for (const file of classicTargets) {

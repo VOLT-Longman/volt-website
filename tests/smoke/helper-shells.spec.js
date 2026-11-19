@@ -17,6 +17,7 @@ const NEW_SECTIONS = [
     { id: 'market', menu: 'trade', mount: 'market-app', ko: ['시세', '시세'], en: ['Prices', 'Prices'] },
     { id: 'missions', menu: 'work', mount: 'missions-app', ko: ['임무', '임무 찾기'], en: ['Missions', 'Mission Finder'] },
     { id: 'fabricator', menu: 'work', mount: 'fabricator-app', ko: ['제작', '제작'], en: ['Crafting', 'Crafting'] },
+    { id: 'starmap', menu: 'work', mount: 'starmap-app', ko: ['성계지도', '성계 지도'], en: ['Star Map', 'Star Map'] },
 ];
 // 기존 섹션도 계속 메뉴에서 열려야 한다.
 const KEPT_SECTIONS = [
@@ -111,7 +112,7 @@ test('모바일 메뉴: 도구 묶음은 두 칸이고 누를 자리는 44px 이
         const rect = link.getBoundingClientRect();
         return { left: Math.round(rect.left), width: rect.width, height: rect.height, clipped: link.scrollWidth > link.clientWidth + 1 };
     }));
-    expect(boxes).toHaveLength(8);
+    expect(boxes).toHaveLength(9);   // 무역 5 + 임무 · 채광 · 제작 · 성계지도 4
     expect(new Set(boxes.map((box) => box.left)).size).toBe(2);
     for (const box of boxes) {
         expect(box.height).toBeGreaterThanOrEqual(44);
@@ -450,12 +451,12 @@ test('첫 화면과 관계없는 섹션은 도구 자료를 받지 않는다', a
 test('커뮤니티 공개 중에도 새 화면은 함대원 역할을 확인하고 자료 요청 전에 멈춘다', async ({ page }) => {
     const assets = [];
     page.on('request', (request) => {
-        if (/\/data\/(?:trade\/|contracts\/missions|crafting\/blueprints|mining\/helper)/.test(request.url())) assets.push(request.url());
+        if (/\/data\/(?:trade\/|contracts\/missions|crafting\/blueprints|mining\/helper|starmap\/)|\/assets\/models\/starmap\//.test(request.url())) assets.push(request.url());
     });
     for (const loggedIn of [false, true]) {
         await mockApi(page, { loggedIn, community: true, fleet: false });
         await page.goto('about:blank');
-        for (const section of ['market', 'routes', 'missions', 'fabricator', 'mining', 'tours', 'hauling']) {
+        for (const section of ['market', 'routes', 'missions', 'fabricator', 'mining', 'tours', 'hauling', 'starmap']) {
             await gotoSection(page, '#' + section);
             const gate = page.locator('section.active .helper-access');
             await expect(gate).toContainText(loggedIn ? '함대원 역할이 필요합니다' : '함대원 전용 기능입니다');

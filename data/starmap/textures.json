@@ -1,0 +1,971 @@
+{
+ "version": 1,
+ "gameBuild": "4.10.200.58746",
+ "assetVersion": "4.10.200.58746-9f6cc57a82",
+ "base": "assets/models/starmap/tex",
+ "sizes": [
+  "512",
+  "1k"
+ ],
+ "webpQuality": 0.85,
+ "keyRule": "starMapMaterialPath -> .mtl Texture[Map=TexSlot4].File -> basename without extension, lower-case",
+ "projection": {
+  "type": "equirectangular",
+  "topRow": "north (+Z in game, +Y in three.js)",
+  "uIncreases": "east (not mirrored)",
+  "storedSquare": "most maps are 2:1 pictures squeezed into a square; sample with plain 0..1 UVs",
+  "three": {
+   "geometry": "SphereGeometry",
+   "flipY": true,
+   "colorSpace": "srgb",
+   "wrapS": "RepeatWrapping",
+   "wrapT": "ClampToEdgeWrapping",
+   "meshRotationYDegrees": -90,
+   "textureOffsetX": 0
+  }
+ },
+ "totals": {
+  "textures": 30,
+  "bytes": {
+   "512": 1476372,
+   "1k": 6007582
+  },
+  "failed": 0
+ },
+ "textures": {
+  "ui_sm_nyx_1": {
+   "source": "Data/UI/starmap/textures/Nyx/ui_sm_nyx_1.dds",
+   "system": "nyx",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    2048,
+    1024
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_nyx_1_512.webp",
+     "width": 512,
+     "height": 256,
+     "bytes": 11958,
+     "sha256": "a1e15340d4d11ecdef466122762a05591a18c17804ca2c547f0969871845362f",
+     "webpMaxError": 48,
+     "webpMeanError": 2.175
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_nyx_1_1k.webp",
+     "width": 1024,
+     "height": 512,
+     "bytes": 32300,
+     "sha256": "7855115820a45fa3b9a12765990eb421f8e0dd982c28cf9f58fe36afbcf32183",
+     "webpMaxError": 54,
+     "webpMeanError": 1.714
+    }
+   }
+  },
+  "ui_sm_nyx_2": {
+   "source": "Data/UI/starmap/textures/Nyx/ui_sm_nyx_2.dds",
+   "system": "nyx",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    2048,
+    1024
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_nyx_2_512.webp",
+     "width": 512,
+     "height": 256,
+     "bytes": 19584,
+     "sha256": "fa2ccc59fbd6913a377ab52d7a1ef51c586ca9a156ac755d2be3709577a048d8",
+     "webpMaxError": 39,
+     "webpMeanError": 2.684
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_nyx_2_1k.webp",
+     "width": 1024,
+     "height": 512,
+     "bytes": 72272,
+     "sha256": "ad6578d89e16a7a5ef68e967fed134f6d8e70f39033597fce9db7b9bb8696467",
+     "webpMaxError": 41,
+     "webpMeanError": 2.542
+    }
+   }
+  },
+  "ui_sm_nyx_3": {
+   "source": "Data/UI/starmap/textures/Nyx/ui_sm_nyx_3.dds",
+   "system": "nyx",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 4868,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_nyx_3_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 102694,
+     "sha256": "af9cf497df45f565bfa030e3668f60795d711c81c96933c2b3cbd23ad9619e58",
+     "webpMaxError": 67,
+     "webpMeanError": 4.408
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_nyx_3_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 358080,
+     "sha256": "ce18183a37dc6f7434a99d01ff25ac27ab968d6cda5d9860300df3960d26c0a5",
+     "webpMaxError": 76,
+     "webpMeanError": 3.931
+    }
+   }
+  },
+  "ui_sm_pyro_1": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_1.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_1_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 37390,
+     "sha256": "100ad735fe79cdcd24ee606c67ce83f02d06fc80fa3e638a2f60acb629ca1f87",
+     "webpMaxError": 57,
+     "webpMeanError": 2.81
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_1_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 164996,
+     "sha256": "7e381246e2ce3af42484032ced5ae038554899599abcf5027a4618f12fde2d51",
+     "webpMaxError": 67,
+     "webpMeanError": 2.971
+    }
+   }
+  },
+  "ui_sm_pyro_2": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_2.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_2_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 72278,
+     "sha256": "75dc1a732a97fb78bc73ef1298061a20c48ade67a6d4021318fa205c0490f769",
+     "webpMaxError": 43,
+     "webpMeanError": 3.846
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_2_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 301166,
+     "sha256": "e10d3a95da02b48316a3b6d2e56302d26af2416a16db9d35e6322076fe2fbb51",
+     "webpMaxError": 65,
+     "webpMeanError": 4.228
+    }
+   }
+  },
+  "ui_sm_pyro_3": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_3.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_3_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 56490,
+     "sha256": "85647b0108811a5fb29a30d9584ad75d59c0f334f991fe54de08fc081e26fefd",
+     "webpMaxError": 66,
+     "webpMeanError": 2.997
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_3_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 198818,
+     "sha256": "b5ad4b78e440745c31954d9e0d88c8eb217b017ed295ffe1ad8f516625a2d725",
+     "webpMaxError": 81,
+     "webpMeanError": 2.984
+    }
+   }
+  },
+  "ui_sm_pyro_4": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_4.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_4_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 40514,
+     "sha256": "835ec332408c5e98b7f272c876096e0c4b8d333e41d6c9483c98ba271c461ce8",
+     "webpMaxError": 37,
+     "webpMeanError": 2.58
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_4_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 153532,
+     "sha256": "183cf7477c8e0acb02e951f441aa2562ed519854a69beef681d2fddd00d1a8a8",
+     "webpMaxError": 51,
+     "webpMeanError": 2.459
+    }
+   }
+  },
+  "ui_sm_pyro_5a": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_5a.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5a_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 57442,
+     "sha256": "742de61f739bd64f0a02205d4c23797c258152a379d1feda9947f85ecb5e23cf",
+     "webpMaxError": 35,
+     "webpMeanError": 3.198
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5a_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 232592,
+     "sha256": "c76127e07e693e9b7650a7ebac0c6ccf2c464b62cd6da506e6546053abd6723f",
+     "webpMaxError": 41,
+     "webpMeanError": 3.299
+    }
+   }
+  },
+  "ui_sm_pyro_5b": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_5b.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5b_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 28288,
+     "sha256": "2bf25599435b6424b5fc1f28326071c3202871b398cad3218d5d808c8880c302",
+     "webpMaxError": 25,
+     "webpMeanError": 2.354
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5b_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 108714,
+     "sha256": "41787cd7e608c75d75a9d7e81a1226919799fa6c5ae5c9bac1ae85213944bd22",
+     "webpMaxError": 27,
+     "webpMeanError": 2.333
+    }
+   }
+  },
+  "ui_sm_pyro_5c": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_5c.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5c_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 52728,
+     "sha256": "bf722fbe9f30c07c16296eef9a26e2974ff78d280263470c58cfb960253075f2",
+     "webpMaxError": 21,
+     "webpMeanError": 2.306
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5c_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 210602,
+     "sha256": "53cf646fe873577d83b5532b0d9ccde29f4004431c281c7abcbf7a8cef464672",
+     "webpMaxError": 29,
+     "webpMeanError": 2.273
+    }
+   }
+  },
+  "ui_sm_pyro_5d": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_5d.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5d_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 29590,
+     "sha256": "6692992d90bd556477f9bd07ac3cba71cd14ce49821ea37afbfc4268dfbf6f35",
+     "webpMaxError": 48,
+     "webpMeanError": 2.626
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5d_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 126698,
+     "sha256": "19d6a6f0ee5d70e63710910a926e7faf8ec1b2a86c615d4159e29fb8542fbc7a",
+     "webpMaxError": 42,
+     "webpMeanError": 2.815
+    }
+   }
+  },
+  "ui_sm_pyro_5e": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_5e.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5e_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 58208,
+     "sha256": "780c6859ea946e850b824e085db1806d8be8fefd6b7fc52dbf46b2fa5800fda8",
+     "webpMaxError": 42,
+     "webpMeanError": 3.069
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5e_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 242114,
+     "sha256": "068f87d8cf60887b25140d592503cab26cc425f7ae808046b4653cb7e6cc7dbc",
+     "webpMaxError": 47,
+     "webpMeanError": 3.095
+    }
+   }
+  },
+  "ui_sm_pyro_5f": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_5f.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5f_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 54992,
+     "sha256": "5ca156e1b247846597411359c138022175306fee00856c51cb9a153d98837781",
+     "webpMaxError": 69,
+     "webpMeanError": 2.969
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_5f_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 223084,
+     "sha256": "e4d63c06037ec47e361d8870dce100c9d745aedd30910f81d719302836cd6105",
+     "webpMaxError": 75,
+     "webpMeanError": 2.92
+    }
+   }
+  },
+  "ui_sm_pyro_6": {
+   "source": "Data/UI/starmap/textures/Pyro/ui_sm_pyro_6.dds",
+   "system": "pyro",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_6_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 68464,
+     "sha256": "a5e1efeb8fab39b10219483ac064bb0c7682d92fd004e3988d4113d5e905c6bc",
+     "webpMaxError": 23,
+     "webpMeanError": 3.085
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_pyro_6_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 289570,
+     "sha256": "b45dcb687f1530db07f755492e03735cf587a3c7112f0568533184e2fe1ad1b4",
+     "webpMaxError": 32,
+     "webpMeanError": 3.156
+    }
+   }
+  },
+  "ui_sm_stanton_1_hurston": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_1_hurston.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1_hurston_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 41032,
+     "sha256": "36cad6298fcb9c390c0319cfa973a3a873cdce1f7243ca8099c650323715f234",
+     "webpMaxError": 46,
+     "webpMeanError": 3.005
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1_hurston_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 174234,
+     "sha256": "18fbac3ad54794aec068db56ae598dae52d036e7a4e02cfec003bdd88dd20933",
+     "webpMaxError": 57,
+     "webpMeanError": 3.196
+    }
+   }
+  },
+  "ui_sm_stanton_1a_hurston_arial": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_1a_hurston_arial.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1a_hurston_arial_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 66364,
+     "sha256": "85fc89cdaa7a78f7e2b7ad0d0b6d7c2a6f3d4853f1781d6353f2590058b4f301",
+     "webpMaxError": 37,
+     "webpMeanError": 3.71
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1a_hurston_arial_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 259662,
+     "sha256": "a294678ed5b303eeecd32d46152cd2b098c774f45b61cf01800a447d603ca365",
+     "webpMaxError": 54,
+     "webpMeanError": 3.602
+    }
+   }
+  },
+  "ui_sm_stanton_1b_hurston_aberdeen": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_1b_hurston_aberdeen.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1b_hurston_aberdeen_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 20018,
+     "sha256": "10a4487f6a22a59f42c6fe5082d391cf18c4d8826b4d0551e3cdccafa87fcf11",
+     "webpMaxError": 19,
+     "webpMeanError": 1.964
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1b_hurston_aberdeen_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 87034,
+     "sha256": "83ba0e6105ca8f6367df7b50d0c28ded3299fd70e537257b268bf6897cc5cb33",
+     "webpMaxError": 22,
+     "webpMeanError": 2.037
+    }
+   }
+  },
+  "ui_sm_stanton_1c_hurston_magda": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_1c_hurston_magda.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1c_hurston_magda_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 34440,
+     "sha256": "84c9274c5641af287882f16b129ef52ad320784e9fb050f6a1b764ee3c42eba3",
+     "webpMaxError": 34,
+     "webpMeanError": 2.546
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1c_hurston_magda_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 160824,
+     "sha256": "d22ea7852284d764c79fe51a9a4740f85b206ec4b7ce561cfda92213640513a3",
+     "webpMaxError": 28,
+     "webpMeanError": 2.693
+    }
+   }
+  },
+  "ui_sm_stanton_1d_hurston_ita": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_1d_hurston_ita.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1d_hurston_ita_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 25944,
+     "sha256": "62ff194db6446f15834521f9daf62657af1713a60d2069e6a222c294aa6abbe8",
+     "webpMaxError": 26,
+     "webpMeanError": 2.256
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_1d_hurston_ita_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 118478,
+     "sha256": "c8027215633d708c3135aa6c756be0d3a3c64655d4aa2833d67df6db8c1d5e7d",
+     "webpMaxError": 25,
+     "webpMeanError": 2.432
+    }
+   }
+  },
+  "ui_sm_stanton_2_crusader": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_2_crusader.dds",
+   "system": "stanton",
+   "format": "DXT5 (BC3)",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 4092,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_2_crusader_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 97298,
+     "sha256": "f2ed8120523cc328f863b05762b953d22329bed3614c79ee1b9540a448c1b082",
+     "webpMaxError": 50,
+     "webpMeanError": 3.247
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_2_crusader_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 339700,
+     "sha256": "a83278d51f9b25cfa69f31f0b0882655dbde9d1f48c7fe37b7ec5cc40cc7d7de",
+     "webpMaxError": 64,
+     "webpMeanError": 3.165
+    }
+   }
+  },
+  "ui_sm_stanton_2a_crusader_cellin": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_2a_crusader_cellin.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_2a_crusader_cellin_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 51448,
+     "sha256": "5baafa328767aff71d723348400d8f0f98da760b609989bb38ecae4a5861f7c7",
+     "webpMaxError": 22,
+     "webpMeanError": 2.354
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_2a_crusader_cellin_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 229420,
+     "sha256": "f0a2201933dc7824f847fd779daa64cb6bfcc132403c8652a2b6dae3a6bb3dd2",
+     "webpMaxError": 18,
+     "webpMeanError": 2.351
+    }
+   }
+  },
+  "ui_sm_stanton_2b_crusader_daymar": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_2b_crusader_daymar.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_2b_crusader_daymar_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 32188,
+     "sha256": "8fe033d17c85fb58ff713f2f0924281b13a4930188de6ec105ef1cb6318a8bef",
+     "webpMaxError": 19,
+     "webpMeanError": 2.19
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_2b_crusader_daymar_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 142746,
+     "sha256": "6b37732f219e00edb46825e2cbc56e3059cebd69bd92863b5e39fdc377f8ebdf",
+     "webpMaxError": 20,
+     "webpMeanError": 2.321
+    }
+   }
+  },
+  "ui_sm_stanton_2c_crusader_yela": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_2c_crusader_yela.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_2c_crusader_yela_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 57280,
+     "sha256": "3e044956ae1fb3ca5e4f8f19ffaeec210f782629fcd6ef0957ce24e46bcb9beb",
+     "webpMaxError": 18,
+     "webpMeanError": 2.426
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_2c_crusader_yela_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 248766,
+     "sha256": "26eb1c9d1e07c237d672d5695a7626ec3485a8d62d6bda7955c53917cf0514fc",
+     "webpMaxError": 20,
+     "webpMeanError": 2.397
+    }
+   }
+  },
+  "ui_sm_stanton_3_arccorp": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_3_arccorp.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_3_arccorp_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 58178,
+     "sha256": "8c59f179fe2c9892ce6dd4b2c5972666814bbaba063eac02fd0c0cdef1af311a",
+     "webpMaxError": 27,
+     "webpMeanError": 3.024
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_3_arccorp_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 289642,
+     "sha256": "df09fafc2e36fc12f368f1ca59e34731818bb6034eb68cfa392d1e9fdc177b6f",
+     "webpMaxError": 34,
+     "webpMeanError": 3.368
+    }
+   }
+  },
+  "ui_sm_stanton_3a_arccorp_lyria": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_3a_arccorp_lyria.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_3a_arccorp_lyria_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 52056,
+     "sha256": "b647a267e5171fa179aa41beb948d80185161f6677a0dda65799729df218d530",
+     "webpMaxError": 24,
+     "webpMeanError": 2.358
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_3a_arccorp_lyria_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 238074,
+     "sha256": "b4e6193ff19e71c5f1c8f79826f3fa6c7deb2cd5e2ddef267de4acc7b1a58f42",
+     "webpMaxError": 30,
+     "webpMeanError": 2.386
+    }
+   }
+  },
+  "ui_sm_stanton_3b_arccorp_wala": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_3b_arccorp_wala.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_3b_arccorp_wala_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 65932,
+     "sha256": "a8df0a8f37e728bd01bc8c5e6fef049cc8586258ef64d90e12e7d44bb5c122cc",
+     "webpMaxError": 23,
+     "webpMeanError": 2.454
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_3b_arccorp_wala_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 270184,
+     "sha256": "49c3cf29a2873a37d5acde884d58b782451de7173a84e4343fd854843146028a",
+     "webpMaxError": 27,
+     "webpMeanError": 2.464
+    }
+   }
+  },
+  "ui_sm_stanton_4_microtech": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_4_microtech.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_4_microtech_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 36584,
+     "sha256": "57a6dd6870379f51c1707b47b37a78d2a63df2fcc9b93e14dd61fff5a6d2a982",
+     "webpMaxError": 24,
+     "webpMeanError": 1.719
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_4_microtech_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 126018,
+     "sha256": "5679a1f8789dcc785621d0f7bee99c1b5cd81c43f7f9a1dc69fb167cd0404aed",
+     "webpMaxError": 26,
+     "webpMeanError": 1.754
+    }
+   }
+  },
+  "ui_sm_stanton_4a_microtech_calliope": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_4a_microtech_calliope.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_4a_microtech_calliope_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 70874,
+     "sha256": "3f8c0c16df4807e697640163e09390f2eee47ba80e02fa6542a502b63ea891e6",
+     "webpMaxError": 20,
+     "webpMeanError": 2.397
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_4a_microtech_calliope_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 266140,
+     "sha256": "b8364b8bf7cc48bc4b13af063546dff7fb5e4e2ef3c1754ae5704a44e4059514",
+     "webpMaxError": 24,
+     "webpMeanError": 2.342
+    }
+   }
+  },
+  "ui_sm_stanton_4b_microtech_clio": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_4b_microtech_clio.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_4b_microtech_clio_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 42568,
+     "sha256": "fbd1a6646f3e996231e7b13a40442d0f451012dc2567b86d16eb64b15dae9905",
+     "webpMaxError": 18,
+     "webpMeanError": 2.195
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_4b_microtech_clio_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 200810,
+     "sha256": "a063491d1d126f659bccc6c4110502abcdb2bc077d478f085465d74990d31955",
+     "webpMaxError": 20,
+     "webpMeanError": 2.284
+    }
+   }
+  },
+  "ui_sm_stanton_4c_microtech_euterpe": {
+   "source": "Data/UI/starmap/textures/Stanton/ui_sm_stanton_4c_microtech_euterpe.dds",
+   "system": "stanton",
+   "format": "BC7_UNORM_SRGB",
+   "native": [
+    4096,
+    4096
+   ],
+   "alphaForced": 0,
+   "files": {
+    "512": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_4c_microtech_euterpe_512.webp",
+     "width": 512,
+     "height": 512,
+     "bytes": 33548,
+     "sha256": "0a6a8627f13ca8bcd9d1866a687dbbc17d4bc0e23375744fe24d919b62087b39",
+     "webpMaxError": 19,
+     "webpMeanError": 1.834
+    },
+    "1k": {
+     "file": "assets/models/starmap/tex/ui_sm_stanton_4c_microtech_euterpe_1k.webp",
+     "width": 1024,
+     "height": 1024,
+     "bytes": 141312,
+     "sha256": "932157a5d6944ae0d150d3fc3743fde747ef5bfbb6d05f6fa484886b2fdc27eb",
+     "webpMaxError": 21,
+     "webpMeanError": 1.972
+    }
+   }
+  }
+ },
+ "materials": {
+  "materials/ui/starmap/planetsmoons/nyx/ui_sm_nyx_1.mtl": "ui_sm_nyx_1",
+  "materials/ui/starmap/planetsmoons/nyx/ui_sm_nyx_2.mtl": "ui_sm_nyx_2",
+  "materials/ui/starmap/planetsmoons/nyx/ui_sm_nyx_3.mtl": "ui_sm_nyx_3",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_1.mtl": "ui_sm_pyro_1",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_2.mtl": "ui_sm_pyro_2",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_3.mtl": "ui_sm_pyro_3",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_4.mtl": "ui_sm_pyro_4",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_5a.mtl": "ui_sm_pyro_5a",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_5b.mtl": "ui_sm_pyro_5b",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_5c.mtl": "ui_sm_pyro_5c",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_5d.mtl": "ui_sm_pyro_5d",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_5e.mtl": "ui_sm_pyro_5e",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_5f.mtl": "ui_sm_pyro_5f",
+  "materials/ui/starmap/planetsmoons/pyro/ui_sm_pyro_6.mtl": "ui_sm_pyro_6",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_1_hurston.mtl": "ui_sm_stanton_1_hurston",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_1a_hurston_arial.mtl": "ui_sm_stanton_1a_hurston_arial",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_1b_hurston_aberdeen.mtl": "ui_sm_stanton_1b_hurston_aberdeen",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_1c_hurston_magda.mtl": "ui_sm_stanton_1c_hurston_magda",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_1d_hurston_ita.mtl": "ui_sm_stanton_1d_hurston_ita",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_2_crusader.mtl": "ui_sm_stanton_2_crusader",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_2a_crusader_cellin.mtl": "ui_sm_stanton_2a_crusader_cellin",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_2b_crusader_daymar.mtl": "ui_sm_stanton_2b_crusader_daymar",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_2c_crusader_yela.mtl": "ui_sm_stanton_2c_crusader_yela",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_3_arccorp.mtl": "ui_sm_stanton_3_arccorp",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_3a_arccorp_lyria.mtl": "ui_sm_stanton_3a_arccorp_lyria",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_3b_arccorp_wala.mtl": "ui_sm_stanton_3b_arccorp_wala",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_4_microtech.mtl": "ui_sm_stanton_4_microtech",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_4a_microtech_calliope.mtl": "ui_sm_stanton_4a_microtech_calliope",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_4b_microtech_clio.mtl": "ui_sm_stanton_4b_microtech_clio",
+  "materials/ui/starmap/planetsmoons/stanton/ui_sm_stanton_4c_microtech_euterpe.mtl": "ui_sm_stanton_4c_microtech_euterpe"
+ },
+ "materialsWithoutTexture": [],
+ "failed": []
+}

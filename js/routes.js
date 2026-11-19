@@ -691,6 +691,11 @@
         return body ? H.name(body.name) : uex;
     }
 
+    // "지도에서 보기": 성계지도에 실제로 보일 수 있는 곳일 때만 링크가 나온다 (js/starmap.js VOLT_STARMAP.links).
+    function mapLink(params, options) {
+        return window.VOLT_STARMAP?.links?.button?.(params, options) || '';
+    }
+
     function placeWhere(id) {
         const entry = terminal(id);
         if (!entry) return '';
@@ -1447,6 +1452,7 @@
                     <span class="routes-arrow" aria-hidden="true">→</span>
                     <span class="routes-leg"><strong>${esc(placeName(route.to))}</strong><small>${esc(placeWhere(route.to))}</small></span>
                 </button>
+                ${mapLink({ route: [route.from, route.to] }, { name: `${placeName(route.from)} → ${placeName(route.to)}`, cls: 'routes-maplink' })}
             </th>
             <td data-label="${esc(t('colCargo'))}"><div class="routes-chips">${cargoChips(route, `routes-row-${key}`)}</div><small>${esc(t('fill', { q: H.num(route.quantity), cap: H.num(route.capacity) }))} · ${ageTag(route.oldestAt)}</small></td>
             <td class="is-num" data-label="${esc(t('colProfit'))}"><strong>${esc(money(route.profit))}</strong></td>
@@ -1828,6 +1834,7 @@
         links.push(`<a class="routes-btn" href="${esc(H.buildHash('market', { tab: 'stations', t: route.from }))}">${esc(t('toMarketFrom'))}</a>`);
         links.push(`<a class="routes-btn" href="${esc(H.buildHash('market', { tab: 'stations', t: route.to }))}">${esc(t('toMarketTo'))}</a>`);
         links.push(`<a class="routes-btn" href="${esc(H.buildHash('tours', { stops: `${route.from},${route.to}` }))}">${esc(t('toTours'))}</a>`);
+        links.push(mapLink({ route: [route.from, route.to] }, { name: `${placeName(route.from)} → ${placeName(route.to)}` }));
         links.push(`<a class="routes-btn" href="#hauling">${esc(t('toHauling'))}</a>`);
         return `<section class="routes-block" aria-labelledby="routes-handoff-title"><h4 id="routes-handoff-title">${esc(t('handoffTitle'))}</h4><div class="routes-actions">${links.join('')}</div></section>`;
     }
@@ -1845,7 +1852,7 @@
             <span class="routes-leg"><strong>${esc(placeName(pair.from))}</strong><small>${esc(placeWhere(pair.from))}</small></span>
             <span class="routes-arrow" aria-hidden="true">→</span>
             <span class="routes-leg"><strong>${esc(placeName(pair.to))}</strong><small>${esc(placeWhere(pair.to))}</small></span></h3>`;
-        const actions = `<div class="routes-actions"><button type="button" class="routes-btn" id="routes-share" data-act="share">${esc(t('share'))}</button>${closeButton}</div>`;
+        const actions = `<div class="routes-actions">${mapLink({ route: [pair.from, pair.to] }, { name: `${placeName(pair.from)} → ${placeName(pair.to)}`, cls: 'routes-maplink-head' })}<button type="button" class="routes-btn" id="routes-share" data-act="share">${esc(t('share'))}</button>${closeButton}</div>`;
         const notice = `<p class="routes-notice" id="routes-notice" role="status">${esc(ui.notice)}</p>`;
         const result = detailResult(pair);
         if (!result.ok) return head(`<div class="routes-detail-head">${title}${actions}</div>${notice}${drawProblem(result.problem)}`);
@@ -2273,6 +2280,7 @@
             draw();
             loadGame();
             loadPrices(false);
+            window.VOLT_STARMAP?.links?.load?.().then((ready) => { if (ready) requestDraw(); });
         },
         onLanguageChange() {
             draw();

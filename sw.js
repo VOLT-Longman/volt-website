@@ -34,6 +34,7 @@ const VERSIONED_ASSETS = [
     '/css/missions.css',
     '/css/fabricator.css',
     '/css/mining-extra.css',
+    '/css/starmap.css',
     '/js/motion.js',
     '/js/cinematic-motion.js',
     '/assets/vendor/gsap/gsap.min.js',
@@ -63,6 +64,7 @@ const VERSIONED_ASSETS = [
     '/js/tours.js',
     '/js/missions.js',
     '/js/fabricator.js',
+    '/js/starmap.js',
     '/js/ships.js',
     '/js/ship-imagery.js',
     '/js/shipdb-manufacturers.js',
@@ -125,7 +127,8 @@ self.addEventListener('fetch', (event) => {
         || ['/data/mining/helper.json', '/data/contracts/hauling.json', '/data/contracts/missions.json'].includes(url.pathname)
         || url.pathname.startsWith('/data/canonical/') || url.pathname.startsWith('/data/loadout/')
         || url.pathname === '/data/ship-live-stats.js' || url.pathname === '/data/ship-market.js'
-        || url.pathname === '/data/gear/models.json' || url.pathname === '/data/gear/attachments.json') return;
+        || url.pathname === '/data/gear/models.json' || url.pathname === '/data/gear/attachments.json'
+        || url.pathname.startsWith('/data/starmap/')) return;
     // Range 부분 요청(미션 컨트롤 콘솔의 레이어 헤더 조회)은 SW 우회 —
     // Cache API는 206을 저장하지 못하고, cache-first가 응답을 고정하면 syncedAt이 낡는다.
     if (request.headers.get('range')) return;
