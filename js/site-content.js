@@ -96,9 +96,10 @@
         if (!container || !Array.isArray(tradeGuide)) return;
         container.innerHTML = tradeGuide.map((guide) => `
             <div class="guide-card reveal">
-                <div class="guide-step-num">${escapeHtml(String(guide.step))}</div>
                 <h3>${escapeHtml(tx(guide, 'title'))}</h3>
                 <p>${escapeHtml(tx(guide, 'content'))}</p>
+                <ol class="guide-instructions">${txArr(guide, 'steps').map((step) => `<li>${escapeHtml(step)}</li>`).join('')}</ol>
+                ${['routes', 'routes?tab=tour', 'trade-planner', 'market', 'hub'].includes(guide.route) ? `<a class="guide-launch" href="#${escapeHtml(guide.route)}">${escapeHtml(tx(guide, 'action'))} →</a>` : ''}
             </div>`).join('');
         renderTradeSupport?.();
     }

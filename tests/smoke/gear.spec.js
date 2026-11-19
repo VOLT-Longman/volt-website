@@ -316,7 +316,7 @@ test('개인 장비 DB: 구매 자료 실패를 품절로 단정하지 않고 �
     await gotoSection(page, '#gear');
     await expect(page.locator('[data-gear-price-retry]')).toBeVisible();
     await page.locator('#gear-shop-only').check();
-    await expect(page.locator('.gear-filters')).toContainText('가격을 불러오지 못했습니다');
+    await expect(page.locator('.gear-toolbar')).toContainText('가격을 불러오지 못했습니다');
     failed = false;
     await page.locator('[data-gear-price-retry]').click();
     await expect(page.locator('.gear-list tbody tr')).toHaveCount(1);
@@ -327,10 +327,18 @@ test('개인 장비 DB: 휴대폰 필터를 펼쳐 조작하고 부위 선택으
     await page.setViewportSize({width:375,height:812});
     await openGear(page);
     await expect(page.locator('.gear-filters')).not.toHaveAttribute('open');
-    await page.locator('.gear-filters summary').click();
     await page.locator('#gear-shop-only').check();
     await expect(page.locator('.gear-list tbody tr')).toHaveCount(1);
     await expect(page.locator('.gear-list tbody td:last-child')).toBeVisible();
+    const row = page.locator('[data-gear-pick]').first();
+    await row.click();
+    await expect(page.locator('#gear-detail-title')).toBeFocused();
+    expect((await page.locator('.gear-side').boundingBox()).y).toBeLessThan((await row.boundingBox()).y);
+    await page.locator('[data-gear-back]').click();
+    await expect(row).toBeFocused();
+    await expect(page.locator('.gear-side')).toBeHidden();
+    await page.locator('.gear-filters summary').click();
+    await expect(page.locator('#gear-maker')).toBeVisible();
     await page.locator('[data-gear-view="fit"]').click();
     await page.locator('[data-gear-preset="heavy"]').click();
     await page.locator('[data-gear-part="head"]').click();

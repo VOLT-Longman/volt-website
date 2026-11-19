@@ -150,7 +150,7 @@
         modCredit: '3D models and textures © Cloud Imperium Games. Converted from the game files for this unofficial fan site; colours and surfaces are approximate. Numbers are from game build {version}.',
     });
     const FILTER_DEFAULTS = { query: '', kind: '', slot: '', cls: '', maker: '', damageType: '', fireMode: '', minMag: '', maxMass: '', minStore: '', environment: '', shopOnly: false };
-    const state = { ...FILTER_DEFAULTS, filtersOpen: window.innerWidth > 700, part: 'torso', view: 'weapon', data: {}, error: {}, loading: {}, sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {}, mod: { weapon: '', slot: '', builds: {}, visiting: {}, notice: '' } };
+    const state = { ...FILTER_DEFAULTS, detailOpen: false, filtersOpen: window.innerWidth > 700, part: 'torso', view: 'weapon', data: {}, error: {}, loading: {}, sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {}, mod: { weapon: '', slot: '', builds: {}, visiting: {}, notice: '' } };
     let root = null;
     let composingSearch = null;
     let started = false;
@@ -319,10 +319,7 @@
         const select = (id, title, entries, current) => `<label class="gear-select"><span>${esc(text(title))}</span><select id="gear-${id}">${option('', text('all'), current)}${entries.map(([value, name]) => option(value, name, current)).join('')}</select></label>`;
         const numeric = (id, title, current, min = '0') => `<label class="gear-select"><span>${esc(text(title))}</span><input id="gear-${id}" type="number" step="any"${min !== '' ? ` min="${min}"` : ''} value="${esc(current)}" placeholder="—" inputmode="decimal"></label>`;
         const makers = [...new Set(groupsOf(state.view).map((group) => group.mfr).filter(Boolean))].sort();
-        const status = state.priceState[state.view];
         return `<details class="gear-filters"${state.filtersOpen ? ' open' : ''}><summary>${esc(text('filters'))}<span>${esc(text('filterCount', { count: filterCount() }))}</span></summary><div class="gear-filter-fields">
-            <label class="gear-shop-filter"><input id="gear-shop-only" type="checkbox"${state.shopOnly ? ' checked' : ''}><span>${esc(text('shopOnly'))}<small>${esc(text('shopOnlyNote'))}</small></span></label>
-            ${status === 'loading' ? `<p class="gear-note" role="status">${esc(text('priceLoading'))}</p>` : status === 'failed' || status === 'partial' ? `<p class="gear-note" role="status">${esc(text(status === 'failed' ? 'priceFailed' : 'pricePartial'))} <button class="gear-add" type="button" data-gear-price-retry>${esc(text('priceRetry'))}</button></p>` : ''}
             ${select('maker', 'maker', makers.map((maker) => [maker, maker]), state.maker)}
             ${weapon ? `${select('kind', 'kinds', KINDS.map((kind) => [kind, text(kind)]), state.kind)}${select('damage-type', 'damageType', DAMAGE.map((key) => [key, text(key)]), state.damageType)}${select('fire-mode', 'fireMode', ['single', 'rapid', 'burst', 'charged', 'beam', 'sequence'].map((key) => [key, text(key)]), state.fireMode)}${numeric('min-mag', 'minMag', state.minMag)}`
                 : `${select('slot', 'slot', SLOTS.map((slot) => [slot, text(slot)]), state.slot)}${select('class', 'armorClass', [...CLASSES.map((cls) => [cls, text(cls)]), ['none', text('noClass')]], state.cls)}${numeric('min-store', 'minStore', state.minStore)}${numeric('environment', 'environment', state.environment, '')}`}
@@ -334,12 +331,15 @@
         const tab = (view) => `<button type="button" role="tab" class="gear-tab${state.view === view ? ' is-active' : ''}" aria-selected="${state.view === view}" data-gear-view="${view}">${esc(text(view))}</button>`;
         const tabs = `<div class="gear-tabs" role="tablist" aria-label="${esc(text('views'))}">${tab('weapon')}${tab('armor')}${tab('fit')}${tab('mod')}<button type="button" role="tab" class="gear-tab${state.view === 'cart' ? ' is-active' : ''}" aria-selected="${state.view === 'cart'}" data-gear-view="cart">${esc(cartTotal() ? text('cartCount', { count: cartTotal() }) : text('cart'))}</button></div>`;
         if (state.view === 'fit' || state.view === 'cart' || state.view === 'mod') return `<div class="gear-toolbar">${tabs}</div>`;
+        const status = state.priceState[state.view];
         const weaponView = state.view === 'weapon';
         const sorts = weaponView ? [['', 'sortDefault'], ['dps', 'sortDps'], ['price', 'sortPrice']] : [['', 'sortDefault'], ['cut', 'sortCut'], ['store', 'sortStore'], ['price', 'sortPrice']];
         return `<div class="gear-toolbar">
             ${tabs}
-            <label class="gear-search"><span class="visually-hidden">${esc(text('searchLabel'))}</span><input type="search" id="gear-search" value="${esc(state.query)}" placeholder="${esc(text('search'))}" autocomplete="off"></label>
+            <label class="gear-search"><span>${esc(text('searchLabel'))}</span><input type="search" id="gear-search" value="${esc(state.query)}" placeholder="${esc(text('search'))}" autocomplete="off"></label>
             <label class="gear-select"><span>${esc(text('sort'))}</span><select id="gear-sort">${sorts.map(([value, key]) => option(value, text(key), state.sort)).join('')}</select></label>
+            <label class="gear-shop-filter"><input id="gear-shop-only" type="checkbox"${state.shopOnly ? ' checked' : ''}><span>${esc(text('shopOnly'))}<small>${esc(text('shopOnlyNote'))}</small></span></label>
+            ${status === 'loading' ? `<p class="gear-note" role="status">${esc(text('priceLoading'))}</p>` : status === 'failed' || status === 'partial' ? `<p class="gear-note" role="status">${esc(text(status === 'failed' ? 'priceFailed' : 'pricePartial'))} <button class="gear-add" type="button" data-gear-price-retry>${esc(text('priceRetry'))}</button></p>` : ''}
         </div>`;
     }
     const variantsTag = (group) => `<small class="gear-muted">${esc(group.variants.length > 1 ? text('variantsCount', { count: group.variants.length }) : text('oneVariant'))}${group.specialMode ? ` · ${esc(text('specialMode'))}` : ''}</small>`;
@@ -823,7 +823,7 @@
         else if (state.view === 'fit' || state.view === 'cart') html = special();
         else if (state.error[state.view]) html = `${toolbar()}<div class="gear-status" role="alert"><p>${esc(text('loadError'))}</p><button type="button" class="btn btn-secondary" data-gear-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.data[state.view]) html = `${toolbar()}<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
-        else html = `${toolbar()}<div class="gear-workspace">${filters()}<div class="gear-columns"><div class="gear-list" data-gear-type="${state.view}">${activeFilters()}${list()}</div><div class="gear-side">${detail()}</div></div></div>
+        else html = `${toolbar()}<div class="gear-workspace">${filters()}<div class="gear-columns${state.detailOpen ? ' is-reading' : ''}"><div class="gear-list" data-gear-type="${state.view}">${activeFilters()}${list()}</div><div class="gear-side">${detail()}</div></div></div>
             <p class="gear-sources">${esc(text('sourceGame', { version: state.data[state.view].version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
         const template = document.activeElement?.matches('input[type="search"]') && root.contains(document.activeElement) ? document.createElement('template') : null;
         const output = template || root;
@@ -875,8 +875,13 @@
             if (target.hasAttribute('data-gear-reset-filters')) { Object.assign(state, FILTER_DEFAULTS); state.limit = PAGE; draw('#gear-search'); return; }
             if (target.hasAttribute('data-gear-price-retry')) { delete state.priceState[state.view]; loadPrices(state.view); draw(); return; }
             if (target.dataset.gearPart) { state.part = target.dataset.gearPart; draw(`[data-gear-part="${state.part}"]`); return; }
-            if (target.hasAttribute('data-gear-back')) { root.querySelector(`[data-gear-pick="${CSS.escape(state.selected[state.view])}"]`)?.focus(); return; }
-            if (target.dataset.gearView) { state.view = target.dataset.gearView; Object.assign(state, FILTER_DEFAULTS); state.sort = ''; state.limit = PAGE; draw(`[data-gear-view="${state.view}"]`); load(state.view); return; }
+            if (target.hasAttribute('data-gear-back')) {
+                state.detailOpen = false;
+                const row = `[data-gear-pick="${CSS.escape(state.selected[state.view])}"]`;
+                draw(root.querySelector(row) ? row : '#gear-search');
+                return;
+            }
+            if (target.dataset.gearView) { state.detailOpen = false; state.view = target.dataset.gearView; Object.assign(state, FILTER_DEFAULTS); state.sort = ''; state.limit = PAGE; draw(`[data-gear-view="${state.view}"]`); load(state.view); return; }
             if (target.dataset.gearAdd) { const uuid = target.dataset.gearAdd; state.cart[uuid] = Math.min(99, (state.cart[uuid] || 0) + 1); store(CART_KEY, state.cart); draw(`[data-gear-add="${uuid}"]`); return; }
             if (target.dataset.gearQty) { const uuid = target.dataset.gearQty; const next = (state.cart[uuid] || 0) + Number(target.dataset.step); if (next > 0) state.cart[uuid] = Math.min(next, 99); else delete state.cart[uuid]; store(CART_KEY, state.cart); draw(state.cart[uuid] ? `[data-gear-qty="${uuid}"][data-step="${target.dataset.step}"]` : '[data-gear-view="cart"]'); return; }
             if (target.dataset.gearRemove) { delete state.cart[target.dataset.gearRemove]; store(CART_KEY, state.cart); draw('[data-gear-view="cart"]'); return; }
@@ -907,10 +912,11 @@
             }
             if (target.dataset.gearShoot) { state.fit.weapon = target.dataset.gearShoot; state.fit.mode = 0; store(FIT_KEY, state.fit); state.view = 'fit'; draw('[data-gear-view="fit"]'); load('fit'); return; }
             if (target.hasAttribute('data-gear-more')) { const before = state.limit; state.limit += PAGE; draw(`.gear-list tbody tr:nth-child(${before + 1}) .gear-rowbtn`); return; }
-            if (target.dataset.gearPick) { state.selected[state.view] = target.dataset.gearPick; draw('#gear-detail-title'); }
+            if (target.dataset.gearPick) { state.detailOpen = true; state.selected[state.view] = target.dataset.gearPick; draw('#gear-detail-title'); }
         });
         const applySearch = (input) => {
             if (state.query === input.value) return;
+            state.detailOpen = false;
             state.query = input.value;
             state.limit = PAGE;
             draw();
@@ -936,6 +942,7 @@
             if (event.target.id === 'gear-fit-mode') { state.fit.mode = Number(event.target.value) || 0; store(FIT_KEY, state.fit); draw('#gear-fit-mode'); return; }
             if (event.target.id === 'gear-fit-distance') { state.fit.distance = Math.min(2000, Math.max(0, Number(event.target.value) || 0)); store(FIT_KEY, state.fit); draw('#gear-fit-distance'); return; }
             const key = { 'gear-kind': 'kind', 'gear-slot': 'slot', 'gear-class': 'cls', 'gear-sort': 'sort', 'gear-maker': 'maker', 'gear-damage-type': 'damageType', 'gear-fire-mode': 'fireMode', 'gear-min-mag': 'minMag', 'gear-max-mass': 'maxMass', 'gear-min-store': 'minStore', 'gear-environment': 'environment', 'gear-shop-only': 'shopOnly' }[event.target.id]; if (!key) return;
+            state.detailOpen = false;
             state[key] = key === 'shopOnly' ? event.target.checked : event.target.value; state.limit = PAGE; draw(`#${event.target.id}`);
         });
         window.VOLT_I18N?.onChange?.(() => draw());

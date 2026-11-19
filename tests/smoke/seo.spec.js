@@ -16,7 +16,9 @@ test.describe('SEO 및 공유 메타데이터', () => {
         await page.waitForSelector('#loading-splash', { state: 'hidden' });
         await expect(page.locator('#search-overlay')).toHaveClass(/active/);
         await expect(page.locator('#global-search-input')).toHaveValue('Cutlass');
-        await expect(page.locator('.search-result')).not.toHaveCount(0);
+        await expect(page.locator('.search-result[data-search-section="ships"]').first()).toBeVisible();
+        await page.locator('#global-search-input').fill('구매 금액과 판매 금액의 차이');
+        await expect(page.locator('.search-result[data-search-section="guide"]').first()).toBeVisible();
     });
 
     test('FAQPage JSON-LD와 다국어 공유 메타데이터를 제공한다', async ({ page }) => {
