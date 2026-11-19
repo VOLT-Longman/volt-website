@@ -579,16 +579,14 @@ test('임무를 보는 동안 10초보다 늦은 권한 응답을 기다리고 �
     await gotoSection(page, '#missions');
     const tabs = page.locator('#missions .missions-tabs');
     await expect(tabs).toBeVisible();
-    await page.clock.install();
+    await page.clock.setFixedTime(new Date(await page.evaluate(() => Date.now() + 31000)));
     mode = 'slow';
-    await page.clock.fastForward(31000);
     await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await expect.poll(() => Boolean(pending)).toBe(true);
-    await page.clock.fastForward(11000);
+    await new Promise(resolve => setTimeout(resolve, 11000));
     await expect(tabs).toBeVisible();
     mode = 'down';
     pending();
-    await page.clock.resume();
     await expect(page.locator('#missions .helper-access button')).toBeVisible();
     await expect(tabs).toBeHidden();
     mode = 'ok';
