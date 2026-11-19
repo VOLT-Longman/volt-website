@@ -106,6 +106,7 @@ test('Bad paths, other versions and other methods are refused without reading th
 test('Letter case does not get a request past the gate or through to a static file', async () => {
   const env = environment(); const cookie = await memberCookie({ sub: 'fleet', roles: [FLEET] }, env);
   const keys = []; env.FLEET_GEAR_MODELS = bucket(keys);
+  env.FLEET_TOOLS_REQUIRE_MEMBERSHIP = 'true';
   const shouted = ['/DATA/STARMAP/index.json', '/data/Starmap/index.json', '/Data/starmap/links.json', '/ASSETS/models/starmap/tex/ui_sm_nyx_1_512.webp', '/assets/Models/Starmap/tex/ui_sm_nyx_1_512.webp', '/DATA/TRADE/world.json', '/Data/Mining/helper.json'];
   for (const path of shouted) {
     assert.equal(isFleetResource(path), true, path);

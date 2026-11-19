@@ -165,6 +165,9 @@
     let authStatus = 'loading';
     let authRequest = null;
     let authCheckedAt = 0;
+    let authRecoveryTimer = 0;
+    let authRetryAt = 0;
+    let publicTools = { community: false, helpers: false };
     let fleetCheckedAt = 0;
     let communityPanelSetup = false;
     let communityAllowed = false;
@@ -1096,10 +1099,14 @@
     const renderedLazySections = new Set();
 
     // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.
+    function needsFleetCheck(id) {
+        return id === 'starmap' || (!publicTools.helpers && document.getElementById(id)?.hasAttribute('data-fleet-helper'));
+    }
+
     function renderSectionOnShow(id) {
         const section = document.getElementById(id);
-        if (section?.hasAttribute('data-fleet-helper')) {
-            if (authStatus !== 'ready' || !authState.helperTools) return;
+        if (needsFleetCheck(id)) {
+            if (authStatus !== 'ready' || !(id === 'starmap' ? authState.starmap : authState.helperTools)) return;
             if (Date.now() - fleetCheckedAt >= 5000) {
                 // Confirm once before a helper fans out into several protected requests.
                 section.setAttribute('data-helper-checking', '');
@@ -1111,7 +1118,7 @@
             }
         }
         if (['ships', 'trade-planner', 'loadout'].includes(id)) {
-            if (Date.now() - authCheckedAt > 60000) setupAuthStatus({ background: true });
+            if (!publicTools.community && Date.now() - authCheckedAt > 60000) setupAuthStatus({ background: true });
             if (!canUseCommunityTools()) return;
         }
         const render = LAZY_SECTIONS[id];
@@ -1124,7 +1131,7 @@
     function refreshRenderedLazySections() {
         renderedLazySections.forEach((id) => {
             const helper = document.getElementById(id)?.hasAttribute('data-fleet-helper');
-            if (helper ? authStatus === 'ready' && authState.helperTools : id === 'gallery' || canUseCommunityTools()) LAZY_SECTIONS[id]?.();
+            if (helper ? publicTools.helpers || (authStatus === 'ready' && authState.helperTools) : id === 'gallery' || canUseCommunityTools()) LAZY_SECTIONS[id]?.();
         });
     }
 
@@ -1557,18 +1564,20 @@
 
 
     function canUseCommunityTools() {
-        return authStatus === 'ready' && authState.communityTools === true;
+        return publicTools.community || (authStatus === 'ready' && authState.communityTools === true);
     }
 
     let verifiedHelperAccount = null;
+    let verifiedMapAccount = null;
     function updateHelperAccess() {
-        const allowed = authStatus === 'ready' && authState.helperTools === true;
+        const allowed = publicTools.helpers || (authStatus === 'ready' && authState.helperTools === true);
         const en = currentLang() === 'en';
         for (const section of document.querySelectorAll('[data-fleet-helper]')) {
             section.removeAttribute('data-helper-checking');
-            section.toggleAttribute('data-helper-allowed', allowed);
+            const sectionAllowed = section.id === 'starmap' ? authStatus === 'ready' && authState.starmap === true : allowed;
+            section.toggleAttribute('data-helper-allowed', sectionAllowed);
             const gate = section.querySelector('.helper-access');
-            if (allowed) { gate.replaceChildren(); continue; }
+            if (sectionAllowed) { gate.replaceChildren(); continue; }
             const message = document.createElement('p');
             if (authStatus === 'loading') message.textContent = en ? 'Checking fleet membership…' : '함대원 권한을 확인하고 있습니다.';
             else if (authStatus === 'error') message.textContent = en ? 'Could not check access. Try again shortly.' : '권한을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.';
@@ -1592,9 +1601,12 @@
         // Hide protected content during an outage. Discard the previous account's
         // in-memory data only after a successful check confirms a change.
         if (authStatus === 'ready') {
-            const account = allowed ? authState.user?.sub : null;
+            const account = allowed && !publicTools.helpers ? authState.user?.sub : null;
             if (verifiedHelperAccount && account !== verifiedHelperAccount) { window.location.reload(); return; }
             verifiedHelperAccount = account;
+            const mapAccount = authState.starmap ? authState.user?.sub : null;
+            if (verifiedMapAccount && verifiedMapAccount !== mapAccount) { window.location.reload(); return; }
+            verifiedMapAccount = mapAccount;
         }
         if (allowed) {
             const active = parseRouteFromHash().section;
@@ -1607,7 +1619,7 @@
 
     function applyCommunityGates() {
         updateHelperAccess();
-        window.VOLT_GEAR?.setAccess?.({ status: authStatus, loggedIn: authState.loggedIn,
+        window.VOLT_GEAR?.setAccess?.({ status: authStatus, publicEditor: publicTools.helpers, loggedIn: authState.loggedIn,
             allowed: authStatus === 'ready' && authState.gunModding === true, configured: authState.fleetConfigured });
         const allowed = canUseCommunityTools();
         const changed = communityAllowed !== allowed;
@@ -1632,8 +1644,11 @@
         window.VOLT_LOADOUT?.onLanguageChange?.();
     }
 
-    function setupAuthStatus({ refresh = document.getElementById(parseRouteFromHash().section)?.hasAttribute('data-fleet-helper'), background = false } = {}) {
+    function setupAuthStatus({ refresh = needsFleetCheck(parseRouteFromHash().section), background = false } = {}) {
         if (authRequest) return authRequest;
+        if (Date.now() < authRetryAt) return Promise.resolve();
+        window.clearTimeout(authRecoveryTimer);
+        const wasVerified = authStatus === 'ready' && authState.loggedIn;
         notifyAuthErrorFromQuery();
         if (!background) {
             authStatus = 'loading';
@@ -1643,13 +1658,19 @@
         const readAuth = refresh ? (window.VOLT_HELPER?.fetchHelperData ?? fetch) : fetch;
         authRequest = readAuth(`/auth/me${refresh ? '?refresh=1' : ''}`, {
             method: 'GET', credentials: 'same-origin', cache: 'no-store',
-            headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10000)
+            headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(refresh ? 25000 : 10000)
         })
             .then((response) => {
-                if (!response.ok) throw new Error(`AUTH ${response.status}`);
+                if (response.status === 401) return { logged_in: false };
+                if (!response.ok) {
+                    const delay = Number(response.headers.get('Retry-After'));
+                    if (delay > 0 && Number.isFinite(delay)) authRetryAt = Date.now() + delay * 1000;
+                    throw new Error(`AUTH ${response.status}`);
+                }
                 return response.json();
             })
             .then((payload) => {
+                if (typeof payload?.logged_in !== 'boolean' || (payload.logged_in && !payload.user?.sub)) throw new Error('Invalid session response');
                 authCheckedAt = Date.now();
                 if (refresh) fleetCheckedAt = authCheckedAt;
                 authStatus = 'ready';
@@ -1657,7 +1678,7 @@
                     const changedAccount = authState.user?.sub !== payload.user.sub;
                     authState = { loggedIn: true, user: payload.user, roles: Array.isArray(payload.user.roles) ? payload.user.roles : [],
                         communityTools: payload.features?.communityTools === true, communityConfigured: payload.features?.communityConfigured,
-                        helperTools: payload.features?.helperTools === true, gunModding: payload.features?.gunModding === true, fleetConfigured: payload.features?.fleetConfigured };
+                        starmap: payload.features?.starmap === true, helperTools: payload.features?.helperTools === true, gunModding: payload.features?.gunModding === true, fleetConfigured: payload.features?.fleetConfigured };
                     if (changedAccount) {
                         window.clearTimeout(preferencesSaveTimer);
                         window.VOLT_SCHEDULE?.clearRsvpCache?.();
@@ -1680,8 +1701,13 @@
             .catch(() => {
                 authStatus = 'error';
                 window.VOLT_SCHEDULE?.clearRsvpCache?.();
-                authState = { loggedIn: false, user: null, roles: [], communityTools: false };
-                userPreferencesLoaded = false;
+                // An unavailable verifier cannot confirm logout or grant protected access.
+                authState = { loggedIn: authState.loggedIn, user: authState.user, roles: [], communityTools: false };
+                if (wasVerified && refresh) {
+                    authRecoveryTimer = window.setTimeout(() => {
+                        if (authStatus === 'error' && document.visibilityState === 'visible') setupAuthStatus({ refresh: true, background: true });
+                    }, Math.max(3000, authRetryAt - Date.now()));
+                }
                 window.VOLT_AUTH_UI?.render?.({ status: 'error' });
                 applyRoleGates();
                 renderMyPage();
@@ -1750,7 +1776,7 @@
     function applyRoleGates() {
         applyCommunityGates();
         document.querySelectorAll('[data-requires-auth]').forEach((element) => {
-            const locked = !authState.loggedIn;
+            const locked = authStatus !== 'ready' || !authState.loggedIn;
             element.classList.toggle('is-auth-locked', locked);
             if ('disabled' in element) element.disabled = locked;
             if (locked && element.tagName === 'A') element.setAttribute('aria-disabled', 'true');
@@ -2247,12 +2273,17 @@
         setupGlobalKeyboardShortcuts();
         setupScrollEffect();
         setupScrollTop();
-        setupAuthStatus();
+        fetch('/api/tool-access', { cache: 'no-store', signal: AbortSignal.timeout(5000) })
+            .then(response => response.ok ? response.json() : null)
+            .then(policy => {
+                publicTools = { community: policy?.community === true, helpers: policy?.helpers === true };
+                applyCommunityGates();
+            }).catch(() => {}).finally(() => setupAuthStatus());
         const recheckAccess = () => {
             const section = parseRouteFromHash().section;
-            const gear = section === 'gear' || document.getElementById(section)?.hasAttribute('data-fleet-helper');
-            if (document.visibilityState === 'visible' && Date.now() - authCheckedAt > (gear ? 15000 : 60000)
-                && (gear || ['ships', 'trade-planner', 'loadout'].includes(section))) setupAuthStatus({ background: true, refresh: gear });
+            const checkFleet = needsFleetCheck(section) || (!publicTools.helpers && section === 'gear');
+            if (document.visibilityState === 'visible' && Date.now() - authCheckedAt > (checkFleet ? 15000 : 60000)
+                && (checkFleet || (!publicTools.community && ['ships', 'trade-planner', 'loadout'].includes(section)))) setupAuthStatus({ background: true, refresh: checkFleet });
         };
         window.addEventListener('focus', recheckAccess);
         document.addEventListener('visibilitychange', recheckAccess);

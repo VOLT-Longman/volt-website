@@ -28,14 +28,14 @@
             mineral: '광물', method: '방식', refined: '정제 후', price: 'UEX 판매 시세', instability: '불안정성', resistance: '저항',
             noRefine: '정제 없음', priceUnknown: '시세 정보 없음', priceLoading: '시세 확인 중', priceFailed: '시세를 불러오지 못했습니다',
             noResult: '맞는 항목이 없습니다.', pick: '광물을 고르면 캐는 곳이 나옵니다.', pickLocation: '장소를 고르면 나오는 광물이 나옵니다.',
-            whereTitle: '{name} — 캐는 곳', place: '장소', rock: '암석', rockShare: '암석 비중', content: '함량', chance: '포함 확률',
+            whereTitle: '{name} — 캐는 곳', place: '장소', rock: '암석', rockShare: '스폰 확률', content: '함량',
             placesCount: '{count}곳', system: '성계', whatTitle: '{name} — 나오는 광물', rocksCount: '암석 {count}종',
             areaNote: '이 이름은 게임에 표시되는 이름이 아니라 내부 구분을 풀어 쓴 것입니다.',
             traits: '채광 특성', window: '최적 구간 위치', windowThinness: '최적 구간 좁기', explosion: '폭발 보정값',
-            sourceGame: '광물·암석·장소: Star Citizen 게임 파일 {version}', sourcePrice: '시세: UEX 이용자 보고', sourceRef: '정제 수율 보너스: UEX 이용자 보고', sourceRefAt: '{age} 받아 옴', sourceNote: '비중·함량·확률은 게임 파일에 적힌 값이며, 게임 안에서 실측한 값이 아닙니다.',
+            sourceGame: '광물·암석·장소: Star Citizen 게임 파일 {version}', sourcePrice: '시세: UEX 이용자 보고', sourceRef: '정제 수율 보너스: UEX 이용자 보고', sourceRefAt: '{age} 받아 옴', sourceNote: '스폰 확률은 같은 장소·채광 방식에서 종류가 확인된 암석끼리 게임 파일의 등장 가중치를 비교한 값입니다.',
             perScu: 'aUEC/SCU', backToList: '목록으로', unofficial: '임시 구분명',
             priceUnitNote: '시세는 SCU당 값입니다. 손 채광 광물 한 개의 판매 가격이 아닙니다.',
-            detailNote: '같은 광물이 여러 줄이면 원본의 별도 구성 항목입니다. 함량·확률을 합산하지 않습니다. 암석 비중순으로 표시하며 실제 수율 순위가 아닙니다.',
+            detailNote: '암석의 스폰 확률이 높은 순서입니다. 같은 광물이 여러 줄이면 게임 파일에 기록된 함량 범위를 각각 보여 줍니다.',
             traitsVary: '암석에 따라 특성 정의가 다릅니다. 하나로 확정할 수 없는 값은 —로 표시합니다.',
             // ── 추가 화면 ──
             bySig: '신호값으로 찾기', byRef: '정제소 찾기', harvest: '채집', salvage: '잔해 수거', activities: '할 수 있는 일',
@@ -102,14 +102,14 @@
             mineral: 'Mineral', method: 'Method', refined: 'Refines to', price: 'UEX sell price', instability: 'Instability', resistance: 'Resistance',
             noRefine: 'Not refined', priceUnknown: 'No price data', priceLoading: 'Checking price', priceFailed: 'Prices could not be loaded',
             noResult: 'Nothing matches.', pick: 'Pick a mineral to see where it is mined.', pickLocation: 'Pick a location to see its minerals.',
-            whereTitle: '{name} — where to mine', place: 'Location', rock: 'Rock', rockShare: 'Rock share', content: 'Content', chance: 'Chance',
+            whereTitle: '{name} — where to mine', place: 'Location', rock: 'Rock', rockShare: 'Spawn chance', content: 'Content',
             placesCount: '{count} locations', system: 'System', whatTitle: '{name} — minerals found', rocksCount: '{count} rock types',
             areaNote: 'This name is not shown in game; it spells out an internal label.',
             traits: 'Mining traits', window: 'Optimal window position', windowThinness: 'Optimal window thinness', explosion: 'Explosion modifier',
-            sourceGame: 'Minerals, rocks and locations: Star Citizen game files {version}', sourcePrice: 'Prices: UEX player reports', sourceRef: 'Refining yield bonuses: UEX player reports', sourceRefAt: 'fetched {age}', sourceNote: 'Shares, content and chances are the values written in the game files, not rates measured in game.',
+            sourceGame: 'Minerals, rocks and locations: Star Citizen game files {version}', sourcePrice: 'Prices: UEX player reports', sourceRef: 'Refining yield bonuses: UEX player reports', sourceRefAt: 'fetched {age}', sourceNote: 'Spawn chance compares game-file weights for identified rock types at the same location and with the same mining method.',
             perScu: 'aUEC/SCU', backToList: 'Back to list', unofficial: 'Descriptive label',
             priceUnitNote: 'Prices are per SCU, not the sale price of one hand-mined gem.',
-            detailNote: 'Repeated minerals are separate entries in the source composition. Content and chances are not added together. Sorted by rock share, not measured yield.',
+            detailNote: 'Rocks are sorted by spawn chance. Repeated minerals show separate content ranges from the game files.',
             traitsVary: 'Traits vary between rock definitions. Values without a single confirmed definition are shown as —.',
             bySig: 'Signature finder', byRef: 'Refinery finder', harvest: 'Harvesting', salvage: 'Salvage', activities: 'What you can do here',
             layout: 'List layout', layTiles: 'Tiles', layTable: 'Table', layMatrix: 'Mineral × location',
@@ -585,14 +585,13 @@
             </dl>
             ${mineral.refined && mineral.modes.includes('ship') ? `<div class="mining-detail-actions"><button type="button" id="mining-refine-go" class="mining-action" data-mining-refine="${esc(mineral.id)}">${esc(text('refFind'))}</button></div>` : ''}
             ${rows.length ? `<div class="mining-tablewrap"><table class="mining-table">
-                <thead><tr><th scope="col">${esc(text('place'))}</th><th scope="col">${esc(text('method'))}</th><th scope="col">${esc(text('rock'))}</th><th scope="col" class="is-num">${esc(text('rockShare'))}</th><th scope="col" class="is-num">${esc(text('content'))}</th><th scope="col" class="is-num">${esc(text('chance'))}</th><th scope="col" class="is-num">${esc(text('sig'))}</th></tr></thead>
+                <thead><tr><th scope="col">${esc(text('place'))}</th><th scope="col">${esc(text('method'))}</th><th scope="col">${esc(text('rock'))}</th><th scope="col" class="is-num">${esc(text('rockShare'))}</th><th scope="col" class="is-num">${esc(text('content'))}</th><th scope="col" class="is-num">${esc(text('sig'))}</th></tr></thead>
                 <tbody>${rows.map((row) => `<tr>
                     <th scope="row"><button type="button" class="mining-rowbtn" data-mining-location="${esc(row.location.id)}">${esc(label(row.location.name))}</button>${!row.location.named ? ` <small class="mining-muted">${esc(text('unofficial'))}</small>` : ''} <small class="mining-muted">${esc(row.location.system || '')}</small></th>
                     <td>${actTag(row.mode)}</td>
                     <td>${esc(label(row.rock.name) || row.rock.id)}</td>
                     <td class="is-num">${esc(num(row.rock.share, 1))}%</td>
                     <td class="is-num">${esc(num(row.part.min, 1))}–${esc(num(row.part.max, 1))}%</td>
-                    <td class="is-num">${esc(num(Number.isFinite(row.part.chance) ? row.part.chance * 100 : undefined))}%</td>
                     <td class="is-num">${esc(known(state.data.rocks?.[row.rock.id]?.sig))}</td>
                 </tr>`).join('')}</tbody></table></div>` : `<p class="mining-empty">${esc(text('noResult'))}</p>`}
         </section>${quality ? `<section class="mining-panel">${quality}</section>` : ''}`;
@@ -729,7 +728,7 @@
             <td class="is-num">${esc(num(rock.share, 1))}%</td>
             <td class="is-num">${esc(known(state.data.rocks?.[rock.id]?.sig))}</td>
             <td class="is-num">${esc(sizeRange(rock.cluster))}</td>
-            <td><ul class="mining-parts">${rock.minerals.map((part) => `<li>${mineralLink(part.id)} <small>${esc(num(part.min, 1))}–${esc(num(part.max, 1))}% · ${esc(num(Number.isFinite(part.chance) ? part.chance * 100 : undefined))}%</small></li>`).join('')}</ul></td>
+            <td><ul class="mining-parts">${rock.minerals.map((part) => `<li>${mineralLink(part.id)} <small>${esc(num(part.min, 1))}–${esc(num(part.max, 1))}%</small></li>`).join('')}</ul></td>
         </tr>`).join('');
     }
     function slotBlock(entry) {
@@ -811,7 +810,7 @@
         const body = `${groups.map((group) => `<div class="mining-group"><h4>${actTag(group.mode)} <span class="mining-muted">${esc(group.unresolved?.length && !group.rocks.length ? text('rocksUnknown') : text('rocksCount', { count: group.rocks.length }))} · ${esc(text('groupWeight', { value: known(group.weight, 5) }))}</span></h4>
                 ${group.unresolved?.length ? `<p class="mining-note mining-warn">${esc(text('unresolved', { list: group.unresolved.join(', ') }))}</p>` : ''}
                 ${group.rocks.length ? `<div class="mining-tablewrap"><table class="mining-table">
-                <thead><tr><th scope="col">${esc(text('rock'))}</th><th scope="col" class="is-num">${esc(text('rockShare'))}</th><th scope="col" class="is-num">${esc(text('sig'))}</th><th scope="col" class="is-num">${esc(text('clusterSize'))}</th><th scope="col">${esc(text('mineral'))} · ${esc(text('content'))} · ${esc(text('chance'))}</th></tr></thead>
+                <thead><tr><th scope="col">${esc(text('rock'))}</th><th scope="col" class="is-num">${esc(text('rockShare'))}</th><th scope="col" class="is-num">${esc(text('sig'))}</th><th scope="col" class="is-num">${esc(text('clusterSize'))}</th><th scope="col">${esc(text('mineral'))} · ${esc(text('content'))}</th></tr></thead>
                 <tbody>${rockRows(group.rocks)}</tbody></table></div>` : ''}</div>`).join('')}
             ${slotBlock(entry)}${showOther('harvest') ? harvestBlock(entry) : ''}${showOther('salvage') ? salvageBlock(entry) : ''}`;
         return `<section class="mining-detail" aria-labelledby="mining-detail-title">

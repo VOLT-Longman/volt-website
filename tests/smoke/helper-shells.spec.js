@@ -567,3 +567,46 @@ test('함대원 화면을 보는 중 권한 재확인이 실패하면 재로그�
     await expect(page.locator('#mining .helper-access a')).toBeVisible();
     await expect(minerals).toHaveCount(0);
 });
+
+test('임무를 보는 동안 10초보다 늦은 권한 응답을 기다리고 일시 오류 뒤에는 자동 복구한다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    let mode = 'ok';
+    let pending;
+    await page.route(/\/auth\/me(?:\?.*)?$/, async route => {
+        if (mode === 'slow') await new Promise(resolve => { pending = resolve; });
+        if (mode === 'down') return route.fulfill({ status: 503, json: {} });
+        return route.fallback();
+    });
+    await gotoSection(page, '#missions');
+    const tabs = page.locator('#missions .missions-tabs');
+    await expect(tabs).toBeVisible();
+    await page.clock.setFixedTime(new Date(await page.evaluate(() => Date.now() + 31000)));
+    mode = 'slow';
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await expect.poll(() => Boolean(pending)).toBe(true);
+    await new Promise(resolve => setTimeout(resolve, 11000));
+    await expect(tabs).toBeVisible();
+    mode = 'down';
+    pending();
+    await expect(page.locator('#missions .helper-access button')).toBeVisible();
+    await expect(tabs).toBeHidden();
+    mode = 'ok';
+    await expect(tabs).toBeVisible({ timeout: 8000 });
+    await expect(page).toHaveURL(/#missions$/);
+});
+
+test('임시 공개 중에는 디스코드 오류가 나도 임무와 개조 화면을 쓸 수 있다', async ({ page }) => {
+    await mockApi(page, { loggedIn: false });
+    await page.route('**/api/tool-access', route => route.fulfill({ json: { community: true, helpers: true } }));
+    let refreshes = 0;
+    await page.route(/\/auth\/me(?:\?.*)?$/, route => {
+        if (route.request().url().includes('refresh=1')) refreshes++;
+        return route.fulfill({ status: 503, headers: { 'Retry-After': '60' }, body: '' });
+    });
+    await gotoSection(page, '#missions');
+    await expect(page.locator('#missions .missions-tabs')).toBeVisible();
+    await page.goto('/#gear?view=mod');
+    await expect(page.locator('#gear .gear-mod-gate')).toHaveCount(0);
+    await expect(page.locator('#gear-mod-weapon')).toBeVisible();
+    expect(refreshes).toBe(0);
+});

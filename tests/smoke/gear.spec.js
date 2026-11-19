@@ -51,7 +51,7 @@ test('개인 장비: 변종 이름으로 찾아도 그 묶음이 나오고, 순�
     await expect(page.locator('.gear-detail')).toContainText('발사 순서의 대기 시간으로 계산한 값');
     await page.locator('#gear-search').fill('');
     await page.locator('#gear-kind').selectOption('sniper');
-    for (const cell of await page.locator('.gear-list tbody td:nth-child(2)').allTextContents()) expect(cell).toContain('스나이퍼');
+    for (const cell of await page.locator('.gear-list tbody td .gear-tag').allTextContents()) expect(cell).toContain('스나이퍼');
     await page.locator('#gear-sort').selectOption('dps');
     await expect(page.locator('#gear-sort')).toBeFocused();
 });

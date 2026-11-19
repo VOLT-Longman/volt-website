@@ -15,7 +15,7 @@ const asset = '/assets/models/gear/weapons/behr_rifle_ballistic_01/body_lod1.glb
 const helpers = ['/data/mining/helper.json', '/data/contracts/hauling.json', '/data/contracts/missions.json', '/data/crafting/blueprints.json', '/data/trade/world.json', '/data/trade/cargo.json',
   ...['market', 'terminals', 'refineries', 'vehicle-prices', 'price-history'].map((name) => '/api/uex/' + name)];
 const paths = ['/data/gear/models.json', '/data/gear/attachments.json', asset, '/assets/models/gear/tex/example.webp'];
-const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'false', DISCORD_ROLE_MAP: JSON.stringify({ [FLEET]: 'VOLT 함대원', [COMMUNITY]: '커뮤니티 멤버', admin: '대표이사' }) });
+const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), FLEET_TOOLS_REQUIRE_MEMBERSHIP: 'true', COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'false', DISCORD_ROLE_MAP: JSON.stringify({ [FLEET]: 'VOLT 함대원', [COMMUNITY]: '커뮤니티 멤버', admin: '대표이사' }) });
 const request = (path, cookie = '', method = 'GET', origin = 'https://www.volt.ceo') => new Request(origin + path, { method, headers: { Cookie: cookie } });
 async function invoke(env, path, cookie = '', method = 'GET', origin) {
   let calls = 0;
@@ -103,6 +103,8 @@ test('/auth/me exposes only verified fleet feature; role removal and Discord out
   assert.equal((await invoke(env, paths[0], cookie)).response.status, 403);
   await expire(); globalThis.fetch = async () => new Response('', { status: 503 });
   assert.equal((await getMe()).status, 503); assert.equal((await invoke(env, asset, cookie)).response.status, 503);
+  globalThis.fetch = async () => new Response('', { status: 429, headers: { 'Retry-After': '24' } });
+  assert.equal((await getMe()).headers.get('Retry-After'), '24');
   globalThis.fetch = async () => new Response('', { status: 401 });
   assert.equal((await invoke(env, asset, cookie)).response.status, 401);
 });
@@ -114,4 +116,16 @@ test('Only bounded local gear combinations survive the login return cookie', () 
   for (const path of ['https://evil.test/#gear', '/#gear?mod=a&redirect=https://evil.test', '/#gear?mod=../a', '/#gear?mod=a&mod=b', '/#gear?mod=%252f', '/#gear?mod=' + 'x'.repeat(501)]) {
     const cookie = createOAuthReturnCookie(path).split(';')[0]; assert.equal(readOAuthReturnPath(request('/auth/discord/callback', cookie)), '/');
   }
+});
+
+test('Temporary public policy opens guest helper data and private-bucket models without Discord', async () => {
+  const env = { FLEET_GEAR_MODELS: { head: async () => ({ size: 4, customMetadata: { assetversion: index.assetVersion } }) } };
+  for (const path of [...helpers, ...paths.slice(0, 2), asset]) {
+    const { response } = await invoke(env, path, '', 'HEAD');
+    assert.equal(response.status, 200, path);
+    cacheHeaders(response);
+  }
+  const policy = await import('../../functions/api/tool-access.js');
+  assert.deepEqual(await policy.onRequestGet({ env }).json(), { community: true, helpers: true });
+  assert.deepEqual(await policy.onRequestGet({ env: { FLEET_TOOLS_REQUIRE_MEMBERSHIP: 'true', COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'true' } }).json(), { community: false, helpers: false });
 });

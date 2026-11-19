@@ -9,7 +9,7 @@
 
 ## 1. 함대원 전용
 
-도우미 화면과 똑같다. `<section id="starmap" data-fleet-helper>` 이므로 `js/main.js` 의 `updateHelperAccess()` 가 안내문을 그리고,
+다른 도우미 화면이 임시 공개되어도 성계지도는 함대원 전용이다. 서버는 확인된 함대원 역할로만 `features.starmap`을 부여한다. `<section id="starmap" data-fleet-helper>` 이므로 `js/main.js` 의 `updateHelperAccess()` 가 안내문을 그리고,
 `VOLT_HELPER.onSectionShow` 는 `data-helper-allowed` 가 없으면 `init` 을 부르지 않는다.
 그래서 로그아웃·역할 없음 상태에서는 `/data/starmap/**`, `/assets/models/starmap/**`, `js/starmap-viewer.js`, three.js 를 **요청하지 않는다**(확인함).
 서버는 앞의 두 경로를 함대원 확인 뒤에만 내려주고, 서비스 워커는 저장하지 않는다(`docs/starmap-assets.md`).

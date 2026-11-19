@@ -43,12 +43,16 @@ test('채광 안내: 광물을 고르면 캐는 곳이 나오고, 장소로 넘�
     await expect(detail.locator('h3')).toBeFocused();
     await expect(detail).toContainText('28,870');
     expect(await detail.locator('tbody tr').count()).toBeGreaterThan(3);
+    await expect(detail.getByRole('columnheader', { name: '스폰 확률' })).toBeVisible();
+    await expect(detail.locator('thead')).not.toContainText('포함 확률');
     // 캐는 곳 목록에서 장소로 넘어간다.
     await detail.locator('[data-mining-location]').first().click();
     await expect(page.locator('.mining-tab.is-active')).toHaveText('장소별');
     await expect(page.locator('#mining-search')).toHaveValue('');
     await expect(page.locator('.mining-detail h3')).toContainText('나오는 광물');
     await expect(page.locator('.mining-detail .mining-parts li').first()).toBeVisible();
+    await expect(detail.getByRole('columnheader', { name: '스폰 확률' }).first()).toBeVisible();
+    await expect(detail.locator('.mining-parts li small').first()).toHaveText(/^[^%]+%$/);
     expect(errors).toEqual([]);
 });
 

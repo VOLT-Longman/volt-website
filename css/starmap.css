@@ -1,5 +1,5 @@
 /* 성계지도 (#starmap). 모든 선택자는 .starmap-app 으로 시작한다 (docs/helper-tools.md 2.4). */
-.starmap-app { --sm-line: rgba(255, 255, 255, 0.12); --sm-card: rgba(255, 255, 255, 0.04); --sm-card-2: rgba(255, 255, 255, 0.07); --sm-mark: #ffd23f; --sm-route: #ff6a4d; --sm-measure: #7fe0c2; color: var(--color-text-primary); }
+.starmap-app { --sm-line: var(--tool-hairline); --sm-card: var(--tool-surface); --sm-card-2: var(--tool-control); --sm-mark: #ffd23f; --sm-route: #ff6a4d; --sm-measure: #7fe0c2; color: var(--color-text-primary); }
 .starmap-app [hidden] { display: none !important; }
 .starmap-app .starmap-root { display: grid; gap: 14px; min-width: 0; }
 .starmap-app .starmap-h { margin: 0 0 6px; font-size: 14px; font-weight: 700; color: var(--color-text-primary); }
@@ -35,7 +35,7 @@
 .starmap-app .starmap-over { min-width: 0; display: grid; gap: 12px; align-content: start; }
 .starmap-app .starmap-tree { grid-area: tree; min-width: 0; }
 @media (min-width: 1000px) {
-    .starmap-app .starmap-grid { grid-template-columns: 320px minmax(0, 1fr) 340px; grid-template-rows: auto auto auto; grid-template-areas: "search stage panel" "tree stage panel"; align-items: start; }
+    .starmap-app .starmap-grid { grid-template-columns: clamp(210px, 23vw, 320px) minmax(0, 1fr) clamp(225px, 24vw, 340px); grid-template-rows: auto auto auto; grid-template-areas: "search stage panel" "tree stage panel"; align-items: start; }
     .starmap-app .starmap-tree { max-height: 74vh; overflow: auto; }
     .starmap-app .starmap-panel { max-height: calc(72vh + 120px); overflow: auto; }
 }
@@ -175,9 +175,9 @@
     .starmap-app .starmap-tree { max-height: 70vh; overflow: auto; overscroll-behavior: contain; }
     .starmap-app .starmap-root[data-view="ready"] .starmap-tools .starmap-tool { font-size: 13px; padding: 0 10px; }
     .starmap-app .starmap-info[data-empty="false"] { position: fixed; left: 0; right: 0; bottom: 0; z-index: 905; max-height: 34vh; overflow: auto; overscroll-behavior: contain; border-radius: 18px 18px 0 0;
-        border-bottom: 0; background: #0b0f17; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6); padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+        border-bottom: 0; background: var(--tool-surface); box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6); padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
     .starmap-app .starmap-root[data-sheet="open"] .starmap-info[data-empty="false"] { max-height: 80vh; }
-    .starmap-app .starmap-info-head { position: sticky; top: -14px; margin: -14px -14px 0; padding: 12px 14px 6px; background: #0b0f17; z-index: 1; }
+    .starmap-app .starmap-info-head { position: sticky; top: -14px; margin: -14px -14px 0; padding: 12px 14px 6px; background: var(--tool-surface); z-index: 1; }
     .starmap-app .starmap-info-head > div:first-child { min-width: 0; }
     .starmap-app .starmap-info-title { font-size: 16px; }
     .starmap-app .starmap-info-head .starmap-acts { flex-wrap: nowrap; }

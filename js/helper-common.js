@@ -221,7 +221,11 @@
         if (uexMeta) {
             parts.push(text('sourceUex'));
             const fetched = Date.parse(uexMeta.fetchedAt || '');
-            if (Number.isFinite(fetched)) parts.push(text('sourceUexAt', { age: age(fetched / 1000) }));
+            if (Number.isFinite(fetched) && fetched <= Date.now() + 60000) {
+                // A freshly fetched response can be a few seconds ahead of the browser clock.
+                const ageLabel = age(Math.min(fetched, Date.now()) / 1000);
+                parts.push(text('sourceUexAt', { age: ageLabel }));
+            }
             if (uexMeta.stale) parts.push(text('sourceStale'));
         }
         return parts.join(' · ');

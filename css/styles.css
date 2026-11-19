@@ -10929,7 +10929,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .gear-item-name { grid-template-columns: 44px minmax(100px, 1fr); gap: 8px; }
     .gear-thumb { width: 44px; height: 52px; }
     .gear-table th, .gear-table td { padding: 8px; }
-    .gear-list[data-gear-type=weapon] tr > :nth-child(2), .gear-list[data-gear-type=weapon] tr > :nth-child(3), .gear-list[data-gear-type=weapon] tr > :nth-child(4), .gear-list[data-gear-type=weapon] tr > :nth-child(6), .gear-list[data-gear-type=weapon] tr > :nth-child(7), .gear-list[data-gear-type=armor] tr > :nth-child(2), .gear-list[data-gear-type=armor] tr > :nth-child(5), .gear-list[data-gear-type=armor] tr > :nth-child(6) { display: none; }
+    .gear-list .gear-secondary-col { display: none; }
     .gear-list .gear-scroll-hint { display: none; }
     .gear-fit-body { padding: 12px; }
     .gear-body-map { grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr); gap: 4px; }
@@ -11313,4 +11313,125 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
 @media (max-width: 1279px) {
     .gear-columns .gear-side { display: none; }
     .gear-columns.is-reading .gear-side { display: block; order: -1; }
+}
+
+/* Shared hierarchy for the data tools. Keep the site's existing typefaces and theme. */
+.tool-workspace {
+    --tool-surface: #17181b;
+    --tool-control: #232428;
+    --tool-selected: #414247;
+    --tool-hairline: rgb(255 255 255 / 11%);
+}
+.section.tool-workspace .section-content > .section-header {
+    margin-block-end: clamp(18px, 2vw, 30px);
+    text-align: start;
+}
+.section.tool-workspace .section-header h2 {
+    margin-block-end: 6px;
+    font-size: clamp(28px, 2.8vw, 42px);
+    line-height: 1.18;
+    letter-spacing: -.035em;
+}
+.section.tool-workspace .section-header h2 .accent { color: inherit; }
+.section.tool-workspace .section-header p {
+    margin: 0;
+    max-width: 65ch;
+    font-size: clamp(14px, 1.2vw, 17px);
+    line-height: 1.55;
+    text-wrap: pretty;
+}
+.tool-workspace .section-content :is(.gear-tabs, .mining-tabs, .tool-view-links, .market-tabs, .missions-tabs, .fab-tabs, .tours-tabs, .loadout-tabs, .starmap-tabs) {
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 3px;
+    gap: 3px;
+    border: 1px solid var(--tool-hairline);
+    border-radius: 14px;
+    background: var(--tool-control);
+}
+.tool-workspace .section-content :is(.gear-tabs, .mining-tabs, .tool-view-links, .market-tabs, .missions-tabs, .fab-tabs, .tours-tabs, .loadout-tabs, .starmap-tabs) > :is(button, a) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin: 0;
+    padding-inline: clamp(10px, 1.1vw, 17px);
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #c6c7cc;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: center;
+    text-decoration: none;
+}
+.tool-workspace .section-content :is(.gear-tabs, .mining-tabs, .tool-view-links, .market-tabs, .missions-tabs, .fab-tabs, .tours-tabs, .loadout-tabs, .starmap-tabs) > :is(.is-active, .is-on, [aria-selected="true"], [aria-current="page"], [aria-pressed="true"]),
+#routes.tool-workspace .tool-view-links a[href="#routes"],
+#hauling.tool-workspace .tool-view-links a[href="#missions?tab=hauling"] {
+    background: var(--tool-selected);
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 14%), 0 1px 3px rgb(0 0 0 / 24%);
+}
+.tool-workspace .section-content :is(.gear-tabs, .mining-tabs, .tool-view-links, .market-tabs, .missions-tabs, .fab-tabs, .tours-tabs, .loadout-tabs, .starmap-tabs) > :focus-visible {
+    outline: 2px solid var(--volt-orange-light);
+    outline-offset: -2px;
+}
+.tool-workspace .section-content :is(.gear-toolbar, .gear-filters, .gear-tablewrap, .mining-tablewrap, .hauling-tablewrap, .missions-tablewrap, .fab-tablewrap) {
+    border-color: var(--tool-hairline);
+    border-radius: 14px;
+    background-color: var(--tool-surface);
+}
+.tool-workspace .section-content input[type="search"] {
+    min-height: 44px;
+    border: 1px solid var(--tool-hairline);
+    border-radius: 11px;
+    background-color: var(--tool-control);
+    color: var(--color-text-primary);
+}
+.tool-workspace .section-content input[type="search"]:focus-visible {
+    outline: 2px solid var(--volt-orange-light);
+    outline-offset: 1px;
+}
+@media (max-width: 640px) {
+    .tool-workspace .section-content input[type="search"] { font-size: 16px; }
+    .tool-workspace .section-content :is(.gear-tabs, .mining-tabs, .missions-tabs) { flex-wrap: wrap; }
+    .tool-workspace .section-content :is(.gear-tabs, .mining-tabs, .missions-tabs) > :is(button, a) { flex: 1 1 auto; }
+}
+@media (max-width: 640px) {
+    .tool-workspace .section-content .gear-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 2px;
+    }
+    .tool-workspace .section-content .gear-tabs > button {
+        flex: 1 0 auto;
+        padding-inline: 6px;
+        white-space: nowrap;
+    }
+}
+
+/* Lead a comparison with its main measurement; keep supporting values quiet. */
+.tool-workspace .gear-list tbody .gear-metric {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+.tool-workspace .gear-list .gear-rowbtn { font-weight: 650; }
+.tool-workspace .section-content :is(.gear-list, .mining-table, .market-table, .routes-table, .missions-table, .fab-table) small {
+    line-height: 1.45;
+}
+.tool-workspace .gear-list td, .tool-workspace .market-price { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 640px) {
+    #loadout .loadout-shippicker:not(.is-overlay) .loadout-ship-results {
+        max-height: 55vh;
+        max-height: 55svh;
+        overflow-y: auto;
+        align-content: start;
+        grid-auto-rows: max-content;
+    }
+    #missions .missions-open, #ships .ship-name-btn {
+        min-height: 44px;
+        text-align: start;
+    }
 }

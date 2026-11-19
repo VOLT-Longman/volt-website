@@ -92,6 +92,7 @@ test('함대원: 지도와 목록이 열리고 캔버스에 그림이 그려진�
 for (const [name, options, text, links] of [['로그아웃', { loggedIn: false }, '함대원 전용 기능입니다', 1], ['함대원 아님', { fleet: false }, '함대원 역할이 필요합니다', 0]]) {
     test(`${name}: 안내만 보이고 보호 자료·그림·three.js 를 하나도 요청하지 않는다`, async ({ page }) => {
         const tracker = await prepare(page, options);
+        await page.route('**/api/tool-access', route => route.fulfill({ json: { community: true, helpers: true } }));
         await gotoSection(page, '?lang=ko#starmap?focus=Stanton1_Lorville&route=Stanton1_Lorville,RR_HUR_L1');
         const gate = page.locator('section#starmap .helper-access');
         await expect(gate).toContainText(text);

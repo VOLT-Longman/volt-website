@@ -1,6 +1,6 @@
 import { communityToolsRequireMembership, isCommunityResource, privateResponse } from './_shared/community-access.js';
 import { requireCommunityMember, requireFleetMember } from './_shared/rbac.js';
-import { isFleetResource } from './_shared/fleet-access.js';
+import { isFleetResource, isStarmapResource, publicHelperTools } from './_shared/fleet-access.js';
 import { serveGearModel } from './_shared/gear-models.js';
 import { serveStarmapTexture } from './_shared/starmap-textures.js';
 
@@ -41,9 +41,10 @@ async function serveRequest(context) {
   }
   catch (_error) { return privateResponse(new Response('Invalid path', { status: 400 })); }
   if (isFleetResource(path)) {
-    const member = await requireFleetMember(context.request, context.env);
-    if (member instanceof Response) return privateResponse(member);
-    // Private art never falls through to static files, whatever the letter case of the request (the handlers 404 a path that is not exact).
+    if (isStarmapResource(path) || !publicHelperTools(context.env)) {
+      const member = await requireFleetMember(context.request, context.env);
+      if (member instanceof Response) return privateResponse(member);
+    }
     const lower = path.toLowerCase();
     if (lower.startsWith('/assets/models/gear')) return serveGearModel(context, path);
     if (lower.startsWith('/assets/models/starmap')) return serveStarmapTexture(context, path);
