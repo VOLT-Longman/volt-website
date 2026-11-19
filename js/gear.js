@@ -152,6 +152,7 @@
     const FILTER_DEFAULTS = { query: '', kind: '', slot: '', cls: '', maker: '', damageType: '', fireMode: '', minMag: '', maxMass: '', minStore: '', environment: '', shopOnly: false };
     const state = { ...FILTER_DEFAULTS, filtersOpen: window.innerWidth > 700, part: 'torso', view: 'weapon', data: {}, error: {}, loading: {}, sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {}, mod: { weapon: '', slot: '', builds: {}, visiting: {}, notice: '' } };
     let root = null;
+    let composingSearch = null;
     let started = false;
     let modAccess = { status: 'loading', loggedIn: false, allowed: false };
     let refreshModAccess = () => Promise.resolve();
@@ -809,7 +810,7 @@
     }
 
     function draw(focus) {
-        if (!root) return;
+        if (!root || (composingSearch?.isConnected && state.view !== 'mod')) return;
         const activeElement = document.activeElement; const active = activeElement?.id; let keep = '';
         if (!focus && activeElement && root.contains(activeElement) && !active) {
             if (activeElement === mod3d.canvas) keep = 'canvas.gear-mod-canvas';
@@ -824,12 +825,15 @@
         else if (!state.data[state.view]) html = `${toolbar()}<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
         else html = `${toolbar()}<div class="gear-workspace">${filters()}<div class="gear-columns"><div class="gear-list" data-gear-type="${state.view}">${activeFilters()}${list()}</div><div class="gear-side">${detail()}</div></div></div>
             <p class="gear-sources">${esc(text('sourceGame', { version: state.data[state.view].version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
-        root.innerHTML = html;
+        const template = document.activeElement?.matches('input[type="search"]') && root.contains(document.activeElement) ? document.createElement('template') : null;
+        const output = template || root;
+        output.innerHTML = html;
+        if (template) window.VOLT_SEARCH_RENDER(root, template.content);
         if (partScroll) { const partList = root.querySelector('.gear-mod-partlist'); if (partList) partList.scrollTop = partScroll; }
         syncModUrl(); syncMod3d();
         const target = focus ? root.querySelector(focus) : (active && /^gear-/.test(active) ? document.getElementById(active) : keep ? root.querySelector(keep) : null);
-        target?.focus();
-        if (caret !== null && target?.id === 'gear-search') target.setSelectionRange(caret, caret);
+        if (target && target !== activeElement) target.focus();
+        if (target !== activeElement && caret !== null && target?.id === 'gear-search') target.setSelectionRange(caret, caret);
     }
 
     async function load(view) {
@@ -905,7 +909,24 @@
             if (target.hasAttribute('data-gear-more')) { const before = state.limit; state.limit += PAGE; draw(`.gear-list tbody tr:nth-child(${before + 1}) .gear-rowbtn`); return; }
             if (target.dataset.gearPick) { state.selected[state.view] = target.dataset.gearPick; draw('#gear-detail-title'); }
         });
-        root.addEventListener('input', (event) => { if (event.target.id === 'gear-search') { state.query = event.target.value; state.limit = PAGE; draw(); } });
+        const applySearch = (input) => {
+            if (state.query === input.value) return;
+            state.query = input.value;
+            state.limit = PAGE;
+            draw();
+        };
+        root.addEventListener('compositionstart', (event) => {
+            if (event.target.id === 'gear-search') composingSearch = event.target;
+        });
+        root.addEventListener('compositionend', (event) => {
+            if (event.target !== composingSearch) return;
+            composingSearch = null;
+            if (state.query === event.target.value) draw();
+            else applySearch(event.target);
+        });
+        root.addEventListener('input', (event) => {
+            if (event.target.id === 'gear-search' && !event.isComposing && !composingSearch?.isConnected) applySearch(event.target);
+        });
         root.addEventListener('toggle', (event) => { if (event.target.classList?.contains('gear-filters')) state.filtersOpen = event.target.open; }, true);
         root.addEventListener('change', (event) => {
             const slot = event.target.dataset?.gearSlot;
