@@ -8,10 +8,9 @@
     const amount = value => value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value)) && Number(value) >= 0 ? Number(value) : null;
     const round = value => Math.round(value * 1000000) / 1000000;
     // maxAgeDays: the player's price-age cut-off in days (owner rule 2026-11-19: default 3, shared with the helper tools).
-    // Without it the earlier 60-minute rule applies, which the server-side AI check still uses.
-    function fresh(row, now = Date.now(), maxAgeDays = null) {
+    function fresh(row, now = Date.now(), maxAgeDays = 3) {
         const at = amount(row?.date_modified);
-        const limit = amount(maxAgeDays) > 0 ? Number(maxAgeDays) * 86400000 : 3600000;
+        const limit = amount(maxAgeDays) > 0 ? Number(maxAgeDays) * 86400000 : 3 * 86400000;
         return at !== null && at > 0 && at * 1000 <= now && now - at * 1000 <= limit;
     }
     function trade(buy, sell, choices = {}, now = Date.now()) {

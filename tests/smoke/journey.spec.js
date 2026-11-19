@@ -5,7 +5,7 @@ const path = require('node:path');
 const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
 function market(id, stale = false) {
-    const date_modified = Math.floor(Date.now() / 1000) - (stale ? 7200 : 0);
+    const date_modified = Math.floor(Date.now() / 1000) - (stale ? 4 * 86400 : 0);
     return [
         { id_commodity: id, commodity_name: id === 1 ? 'Gold' : 'Iron', id_terminal: 101, terminal_name: 'Port A', price_buy: 100, price_sell: 0, scu_buy: 12, date_modified },
         { id_commodity: id, commodity_name: id === 1 ? 'Gold' : 'Iron', id_terminal: 102, terminal_name: 'Port B', price_buy: id === 1 ? 120 : 0, price_sell: 180, scu_sell: 9, date_modified },
@@ -108,7 +108,7 @@ test('오래된 시세는 계산을 보류하고 상품 변경 중 이전 거래
     const requests = []; await setup(page, requests, { stale: true });
     await gotoSection(page, '#trade-planner'); await selectTransport(page); await chooseIron(page);
     await page.locator('#journey-budget').fill('500'); await page.locator('#journey-quantity').fill('8');
-    await expect(page.locator('.journey-trade-result')).toContainText('60분');
+    await expect(page.locator('.journey-trade-result')).toContainText('3일');
     await expect(page.locator('.journey-totals')).toHaveCount(0);
     await page.locator('#uex-commodity-search').fill('Gold');
     await page.locator('#uex-commodity-results [data-commodity-id="1"]').click();

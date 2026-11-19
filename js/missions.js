@@ -1,5 +1,5 @@
 /**
- * VOLT 임무 찾기 (#missions) — 임무 목록 · 임무 상세 · 등급 계산기 · 등급 길잡이.
+ * VOLT 임무 찾기 (#missions) — 임무 목록 · 임무 상세 · 등급 계산기 · 등급 올리는 길.
  *
  * 자료: /data/contracts/missions.json (게임 파일에서 뽑은 값, scripts/contracts/build-contracts-data.mjs).
  *   - 자료에 없는 값은 0이 아니라 "게임 자료에 없음"으로 보여 준다. 보수 금액(pay = 'calc')은 추정하지 않는다.
@@ -13,7 +13,7 @@
  *           con 값은 의뢰처 영어 이름으로 만든 글자(예: ling-family-hauling) — 자료를 다시 만들어도 바뀌지 않는다.
  *           scu = "최소-최대" · box = 가장 큰 상자 상한 · rank = 내 등급(평판 종류 칩을 하나만 포함했을 때)
  *   등급 계산기: cm = 계산할 임무 id · rep = 지금 평판 · pair = "세력.평판종류"
- *   등급 길잡이: pp = "세력.평판종류" · prep = 지금 평판 · pto = 목표 등급 번호 · psys = 성계
+ *   등급 올리는 길: pp = "세력.평판종류" · prep = 지금 평판 · pto = 목표 등급 번호 · psys = 성계
  *
  * 공개 형태: window.VOLT_MISSIONS = { init(mount, ctx), onLanguageChange(lang), onRoute(params) }
  */
@@ -35,7 +35,7 @@
     const TEXT = {
         ko: {
             loading: '임무 자료를 불러오는 중입니다… (처음 한 번만 받습니다)', retry: '다시 시도',
-            tabs: '임무 도구', tabList: '임무 목록', tabRank: '등급 계산기', tabPath: '등급 길잡이',
+            tabs: '임무 도구', tabList: '임무 목록', tabRank: '등급 계산기', tabPath: '등급 올리는 길',
             share: '이 화면 주소 복사', haulingLink: '운송 평판 등급표는 운송 계약 화면에 있습니다', haulingGo: '운송 계약 열기',
             search: '임무 검색', searchPh: '찾을 말', searchHint: '임무 이름, 의뢰처, 설명 글, 임무 종류, 세력, 화물, 장소 이름과 게임 파일 이름에서 찾습니다.', filters: '걸러 보기', filtersOn: '걸러 보기 ({n}개 적용)',
             chipHelp: '한 번 누르면 그것만 보기(＋), 한 번 더 누르면 빼고 보기(−), 또 누르면 풀립니다.', clear: '조건 모두 풀기',
@@ -106,7 +106,7 @@
         },
         en: {
             loading: 'Loading mission data… (downloaded once)', retry: 'Retry',
-            tabs: 'Mission tools', tabList: 'Missions', tabRank: 'Rank calculator', tabPath: 'Rank path',
+            tabs: 'Mission tools', tabList: 'Missions', tabRank: 'Rank calculator', tabPath: 'Rank progression',
             share: 'Copy link to this view', haulingLink: 'The hauling reputation ladder is on the Hauling Contracts screen', haulingGo: 'Open Hauling Contracts',
             search: 'Search missions', searchPh: 'Search text', searchHint: 'Searches mission name, contractor, briefing, mission type, faction, cargo and place names, and the game file name.', filters: 'Filters', filtersOn: 'Filters ({n} active)',
             chipHelp: 'Press once to show only that (＋), again to leave it out (−), a third time to clear.', clear: 'Clear all filters',
@@ -321,6 +321,11 @@
     const typeName = (c) => (c.type ? nameOf(load.data.types[c.type], c.type) : '');
     const orgName = (id) => nameOf(load.data.factions[id], id);
     const scopeName = (id) => ix.scopeLabels[id] || nameOf(load.data.scopes[id]?.name, id);
+    function repName(faction, scope) {
+        const org = orgName(faction);
+        const label = scopeName(scope);
+        return org && org.toLowerCase().endsWith(label.toLowerCase()) ? org : t('repLine', { org, scope: label });
+    }
     function sysName(id) {
         const place = load.data.places[`${id}SolarSystem`] || load.data.places[id];
         return place?.name && !place.name.raw ? H.name(place.name) : id;
@@ -452,7 +457,8 @@
         const scopeLabels = {};
         const seen = new Map();
         Object.entries(data.scopes).forEach(([id, scope]) => {
-            const base = scope.name?.raw ? `${t('noName')} (${words(id.replace(/^.*?ReputationScope_?/, ''))})` : H.name(scope.name);
+            let base = scope.name?.raw ? `${t('noName')} (${words(id.replace(/^.*?ReputationScope_?/, ''))})` : H.name(scope.name);
+            if (H.lang() === 'ko' && base === 'Battaglia') base = '바타글리아';
             scopeLabels[id] = seen.has(base) ? `${base} · ${words(id.split('_').pop())}` : base;
             seen.set(base, id);
         });
@@ -606,7 +612,7 @@
             <p class="missions-sub">${esc([contractorOf(c), typeName(c)].filter(Boolean).join(' · '))}</p>
             <ul class="missions-tags">${tagList(e)}</ul>
             <dl class="missions-facts"><div><dt>${esc(t('colRank'))}</dt><dd>${esc(rankCell(c))}</dd></div><div><dt>${esc(t('colRep'))}</dt><dd>${esc(repCell(e))}</dd></div>
-                <div><dt>${esc(t('colPay'))}</dt><dd${c.pay === 'calc' ? ' class="is-unknown"' : ''}>${esc(payText(c.pay))}</dd></div>
+                <div><dt>${esc(t('colPay'))}</dt><dd${c.pay === 'calc' ? ' class="is-unknown"' : ''}>${c.pay === 'calc' ? '—' : esc(payText(c.pay))}</dd></div>
                 ${cargo ? `<div><dt>${esc(t('colCargo'))}</dt><dd>${esc([goods, cargo, e.box ? t('maxBox', { n: e.box }) : t('boxNoData')].filter(Boolean).join(' · '))}</dd></div>` : ''}
                 ${e.route ? `<div><dt>${esc(t('colPlace'))}</dt><dd>${esc(e.route)}</dd></div>` : ''}
                 ${e.twin && c.n ? `<div title="${esc(t('fileNameHint'))}"><dt>${esc(t('fileName'))}</dt><dd lang="en">${esc(fileName(c))}</dd></div>` : ''}</dl></li>`;
@@ -618,7 +624,7 @@
         const tag = (flag, kind) => (e.flags.has(flag) ? ` <span class="missions-tag is-${kind}">${esc(t(`flag_${flag}`))}</span>` : '');
         return `<tr><th scope="row"><button type="button" class="missions-open" data-ms-open="${esc(c.id)}" data-focus="open:${esc(c.id)}">${titleHtml(c)}</button>${tag('illegal', 'illegal')}${tag('bp', 'bp')}${tag('event', 'event')}${apart ? `<small class="missions-apart">${esc(apart)}</small>` : ''}</th>
             <td>${esc(contractorOf(c))}</td><td>${esc(typeName(c))}</td><td>${esc((c.sys || []).map(sysName).join(', '))}</td><td>${esc(rankCell(c))}</td>
-            <td class="is-num">${esc(repCell(e))}</td><td class="is-num${c.pay === 'calc' ? ' is-unknown' : ''}">${esc(payText(c.pay))}</td><td class="is-num">${esc(cargoCell(e) || '—')}</td>
+            <td class="is-num">${esc(repCell(e))}</td><td class="is-num${c.pay === 'calc' ? ' is-unknown' : ''}">${c.pay === 'calc' ? '—' : esc(payText(c.pay))}</td><td class="is-num">${esc(cargoCell(e) || '—')}</td>
             <td class="is-num${c.haul && !e.box ? ' is-unknown' : ''}">${esc(e.box ? H.scu(e.box) : c.haul ? H.unknown('game') : '—')}</td></tr>`;
     }
 
@@ -784,7 +790,7 @@
     function reputationBlock(c, e) {
         const real = (c.rep || []).filter((r) => r.on === undefined || r.on.length);
         if (!real.length) return block(t('secRep'), `<p>${esc(t('repNone'))}</p>`);
-        const line = (r) => `<li><strong class="${r.calc ? 'is-unknown' : r.n < 0 ? 'is-loss' : 'is-gain'}">${esc(r.calc ? t('repCalc') : signed(r.n))}</strong> ${esc(t('repLine', { org: orgName(r.f), scope: scopeName(r.s) }))}</li>`;
+        const line = (r) => `<li><strong class="${r.calc ? 'is-unknown' : r.n < 0 ? 'is-loss' : 'is-gain'}">${esc(r.calc ? t('repCalc') : signed(r.n))}</strong> ${esc(repName(r.f, r.s))}</li>`;
         const groups = new Map();
         real.forEach((r) => {
             const key = r.on === undefined ? '0' : r.on.join(',');
@@ -905,7 +911,7 @@
 
     function oddBlock(c) {
         const lines = (c.odd || []).map((code) => `<li>${esc(TEXT.ko[`odd_${code}`] ? t(`odd_${code}`) : code)}</li>`);
-        for (const r of (c.rep || []).filter((entry) => entry.on && !entry.on.length)) lines.push(`<li>${esc(t('oddNoSlot'))}: ${esc(t('oddRes_rep'))} ${esc(r.calc ? t('repCalc') : signed(r.n))} (${esc(t('repLine', { org: orgName(r.f), scope: scopeName(r.s) }))})</li>`);
+        for (const r of (c.rep || []).filter((entry) => entry.on && !entry.on.length)) lines.push(`<li>${esc(t('oddNoSlot'))}: ${esc(t('oddRes_rep'))} ${esc(r.calc ? t('repCalc') : signed(r.n))} (${esc(repName(r.f, r.s))})</li>`);
         (c.res || []).forEach(([kind, on, ...payload]) => {
             const value = kind === 'item' ? t('itemTimes', { name: itemName(payload[0]), n: payload[1] }) : kind === 'pay' ? (payload[0] === 'calc' ? t('payCalc') : H.num(payload[0]))
                 : kind === 'tags' ? (payload[0] || []).join(', ') : kind === 'bp' ? words(payload[0]) : String(payload[0]);
@@ -992,7 +998,7 @@
                 <td class="is-num">${left > 0 ? `<strong>${esc(t('runs', { n: H.num(Math.ceil(left / gain.n)) }))}</strong>${outside ? ` <small>${esc(t('refOnly'))}</small>` : ''}` : '—'}</td>
                 <td class="is-num">${esc(left > 0 ? H.num(left) : t('reached'))}</td><td class="is-num">${esc(H.num(rank.min))}</td></tr>`;
         }).join('');
-        return `<p class="missions-big">${esc(t('rankPer', { v: H.num(gain.n) }))} <small>${esc(t('repLine', { org: orgName(gain.f), scope: scopeName(gain.s) }))}${losses.length ? ` · ${esc(losses.join(' · '))}` : ''}</small></p>
+        return `<p class="missions-big">${esc(t('rankPer', { v: H.num(gain.n) }))} <small>${esc(repName(gain.f, gain.s))}${losses.length ? ` · ${esc(losses.join(' · '))}` : ''}</small></p>
             <p class="missions-note">${esc(t('rankNowAt', { name: rankName(gain.s, at) }))}${H.isKnown(scope.ceiling) ? ` · ${esc(t('ceiling', { v: H.num(scope.ceiling) }))}` : ''}</p>
             ${over ? `<p class="missions-note is-unknown" data-ms-over>${esc(t('repOver', { v: H.num(scope.ceiling) }))}</p>` : ''}${notes.map(note).join('')}
             <div class="missions-tablewrap" tabindex="0" role="region" aria-label="${esc(t('tabRank'))}"><table class="missions-table missions-ranktable"><thead><tr><th scope="col">${esc(t('colRankName'))}</th><th scope="col" class="is-num">${esc(t('colRuns'))}</th><th scope="col" class="is-num">${esc(t('colLeft'))}</th><th scope="col" class="is-num">${esc(t('colNeed'))}</th></tr></thead><tbody>${rows}</tbody></table></div>
@@ -1014,7 +1020,7 @@
         </div><div class="missions-out" data-ms-out>${calcOutHtml(e)}</div>`;
     }
 
-    // ── 등급 길잡이 ─────────────────────────────────────────────────────────
+    // ── 등급 올리는 길 ─────────────────────────────────────────────────────────
     function pathOutHtml() {
         const pair = ix.pairs.get(view.pathPair);
         if (!pair) return `<p class="helper-soon">${esc(t('pathPick'))}</p>`;
@@ -1064,7 +1070,7 @@
     }
 
     function pathHtml() {
-        const pairs = [...ix.pairs.entries()].map(([id, pair]) => [id, `${orgName(pair.f)} · ${scopeName(pair.s)}`]).sort((a, b) => a[1].localeCompare(b[1], H.lang()));
+        const pairs = [...ix.pairs.entries()].map(([id, pair]) => [id, repName(pair.f, pair.s)]).sort((a, b) => a[1].localeCompare(b[1], H.lang()));
         const pair = ix.pairs.get(view.pathPair);
         const scope = pair ? scopeOf(pair.s) : null;
         return `<div class="missions-form">
@@ -1084,7 +1090,7 @@
     function headHtml() {
         // 탭: 고른 탭만 Tab 키로 닿고, 나머지는 좌우 화살표 · Home · End 로 옮긴다 (onKeydown).
         const tab = (id, label) => `<button type="button" role="tab" id="missions-tab-${id}" class="missions-tab${view.tab === id ? ' is-on' : ''}" data-ms-tab="${id}" data-focus="tab:${id}" aria-selected="${view.tab === id}" aria-controls="missions-panel" tabindex="${view.tab === id ? 0 : -1}">${esc(label)}</button>`;
-        return `<div class="missions-tabs" role="tablist" aria-label="${esc(t('tabs'))}">${tab('list', t('tabList'))}${tab('rank', t('tabRank'))}${tab('path', t('tabPath'))}</div>
+        return `<div class="missions-tabs" role="tablist" aria-label="${esc(t('tabs'))}">${tab('list', t('tabList'))}<a class="missions-tab" href="#missions?tab=hauling">${H.lang() === 'ko' ? '운송 계약' : 'Hauling contracts'}</a>${tab('rank', t('tabRank'))}${tab('path', t('tabPath'))}</div>
             <div class="missions-share"><button type="button" class="btn btn-secondary" data-ms-share data-focus="share">${esc(t('share'))}</button><span class="missions-status" role="status" data-ms-status>${esc(statusText)}</span></div>`;
     }
 
@@ -1094,7 +1100,7 @@
         if (view.tab === 'rank') return `${rankHtml()}${source}`;
         if (view.tab === 'path') return `${pathHtml()}${source}`;
         const e = ix.entries[ix.byId.get(view.m)];
-        return `${e ? detailHtml(e) : listHtml()}${source}`;
+        return `${e ? detailHtml(e) : `<p class="missions-note">${H.lang() === 'ko' ? '게임 자료에서 보상 금액을 확인할 수 없는 임무는 —로 표시합니다.' : 'A dash in the pay column means the amount is unavailable.'}</p>${listHtml()}`}${source}`;
     }
 
     function draw(focusKey) {

@@ -15,7 +15,7 @@
  *   sub   종류 (아이템 타입), sz 크기·무게 (S1.. 또는 Light/Medium/Heavy/Small/Large)
  *   own   default | earned | none
  *   pool  설계도 묶음 id (묶음 탭)
- *   list  준비물 목록: <설계도 id>.<수량>,... (내 저장 목록과 다르면 '받은 목록'으로만 보여 주고 저장하지 않는다)
+ *   list  모을 재료 목록: <설계도 id>.<수량>,... (내 저장 목록과 다르면 '받은 목록'으로만 보여 주고 저장하지 않는다)
  *   ql    재료 품질 0~1000 (기본 품질이 아닐 때만), tt 교환 종류 ships | items
  *
  * 공개 형태: window.VOLT_FABRICATOR = { init(mount, ctx), onLanguageChange(lang), onRoute(params) }
@@ -37,7 +37,7 @@
     const TEXT = {
         ko: {
             loading: '설계도 자료를 불러오는 중입니다…', retry: '다시 시도',
-            tabs: '보기 고르기', tabList: '설계도', tabMats: '재료', tabPools: '설계도 묶음', tabTrades: '위켈로 교환', tabCart: '준비물 목록',
+            tabs: '보기 고르기', tabList: '설계도', tabMats: '재료', tabPools: '설계도 묶음', tabTrades: '위켈로 교환', tabCart: '모을 재료 목록',
             search: '설계도 이름 검색', searchLabel: '검색', searchPool: '묶음 이름이나 설계도 이름 검색', searchTrade: '교환 이름이나 물건 이름 검색',
             cat: '큰 분류', sub: '종류', sz: '크기 · 무게', own: '얻는 방법', all: '전체',
             kind_armor: '방어구 · 옷', kind_fpsWeapon: '개인 무기', kind_shipComponent: '함선 부품', kind_shipWeapon: '함선 무기', kind_missionItem: '임무 물품', kind_other: '기타',
@@ -48,12 +48,12 @@
             oddValue: '게임 파일에 적힌 그대로입니다. 같은 수치의 다른 값들(대부분 {m} 안팎)과 크게 달라서, 게임 파일에 잘못 적힌 값일 수 있습니다.',
             slot_Completed: '완료', slot_InProgress: '진행 중', slot_Failed: '실패', slot_Abandoned: '포기', slot_Withdrawn: '철회',
             tradeShip: '함선 교환', tradeItem: '물품 교환',
-            sharedNote: '주소로 받은 목록을 보고 있습니다. 내 준비물 목록({n}개)은 그대로 저장되어 있고, 여기서 바꾼 것은 내 목록에 저장되지 않습니다.', sharedEmpty: '받은 목록이 비어 있습니다.',
+            sharedNote: '주소로 받은 목록을 보고 있습니다. 내 모을 재료 목록({n}개)은 그대로 저장되어 있고, 여기서 바꾼 것은 내 목록에 저장되지 않습니다.', sharedEmpty: '받은 목록이 비어 있습니다.',
             sharedMerge: '내 목록에 더하기', sharedReplace: '내 목록을 이 목록으로 바꾸기', sharedMine: '내 목록 보기',
             sharedMerged: '받은 목록을 내 목록에 더했습니다.', sharedReplaced: '내 목록을 받은 목록으로 바꿨습니다.',
             pick: '설계도를 고르면 필요한 재료와 얻는 방법이 나옵니다.', back: '목록으로',
             noName: '이름이 게임 자료에 없음', internalName: '게임 내부 이름',
-            add: '준비물에 담기', added: '준비물 목록에 담았습니다: {name} (지금 {n}개)', addAria: '준비물에 담기: {name}', copyLink: '이 화면 주소 복사',
+            add: '준비물에 담기', added: '모을 재료 목록에 담았습니다: {name} (지금 {n}개)', addAria: '준비물에 담기: {name}', copyLink: '이 화면 주소 복사',
             maker: '만든 곳', size: '크기', grade: '등급 값', craftTime: '제작 시간', craftTimeNote: '게임 파일 값',
             noOutput: '이 설계도로 만들어지는 물건이 게임 자료에 없습니다.',
             quality: '재료 품질', qualityHelp: '품질을 움직이면 아래 칸마다 적힌 값이 바뀝니다. 0 ~ 1000, 처음 값은 게임 기본 품질 {n}입니다.',
@@ -82,7 +82,7 @@
             tradeOv: '이 계약에는 게임이 실제로 쓰는지 확인되지 않은 추가 화물 설정이 있습니다. 여기 적힌 것에는 들어 있지 않습니다.', tradeNote: '공개된 위켈로 교환만 있습니다. 적힌 수량은 게임 파일 값입니다.',
             cartEmpty: '담은 설계도가 없습니다. 설계도 화면에서 "준비물에 담기"를 눌러 주세요.', cartItems: '만들 것', qty: '수량', qtyAria: '{name} 수량', remove: '빼기', removeAria: '{name} 빼기', cartClear: '모두 비우기',
             cartTotals: '재료 합계', cartChoices: '골라야 하는 칸 (합계에 넣지 않음)', cartTime: '제작 시간 합계', cartTimeNote: '하나씩 차례로 만들 때. 게임 파일 값을 더한 것입니다.',
-            cartCopy: '글자로 복사', cartCopied: '준비물 목록을 복사했습니다.', cartCopyFailed: '복사하지 못했습니다. 아래 글자를 직접 골라 복사해 주세요.', cartText: '복사할 글자',
+            cartCopy: '글자로 복사', cartCopied: '모을 재료 목록을 복사했습니다.', cartCopyFailed: '복사하지 못했습니다. 아래 글자를 직접 골라 복사해 주세요.', cartText: '복사할 글자',
             cartHead: 'VOLT 제작 준비물', cartNote: '같은 재료라도 최소 품질이 다르면 줄을 나눴습니다. SCU와 낱개는 다른 단위입니다.',
             notes: '제작기와 분해', stations: '제작기', dismantle: '분해: {time}, 효율 값 {eff}. 이 값으로 돌려받는 양이 어떻게 정해지는지는 게임 자료에 없습니다.', dismantleNoReturn: '분해해도 돌려받지 못하는 재료: {list}',
             stationNote: '제작기가 어디에 있는지는 우리 자료에 없습니다.',
@@ -90,7 +90,7 @@
         },
         en: {
             loading: 'Loading blueprint data…', retry: 'Try again',
-            tabs: 'Choose a view', tabList: 'Blueprints', tabMats: 'Materials', tabPools: 'Blueprint pools', tabTrades: 'Wikelo trades', tabCart: 'Shopping list',
+            tabs: 'Choose a view', tabList: 'Blueprints', tabMats: 'Materials', tabPools: 'Blueprint pools', tabTrades: 'Wikelo trades', tabCart: 'Materials to collect',
             search: 'Search blueprint names', searchLabel: 'Search', searchPool: 'Search pool or blueprint names', searchTrade: 'Search trade or item names',
             cat: 'Category', sub: 'Type', sz: 'Size · weight', own: 'How you get it', all: 'All',
             kind_armor: 'Armor & clothing', kind_fpsWeapon: 'Personal weapons', kind_shipComponent: 'Ship components', kind_shipWeapon: 'Ship weapons', kind_missionItem: 'Mission items', kind_other: 'Other',
@@ -135,7 +135,7 @@
             tradeOv: 'This contract carries an extra cargo setting that the game may not use. It is not included here.', tradeNote: 'Released Wikelo trades only. Amounts are game file values.',
             cartEmpty: 'No blueprints added yet. Press "Add to shopping list" on a blueprint.', cartItems: 'To craft', qty: 'Quantity', qtyAria: 'Quantity of {name}', remove: 'Remove', removeAria: 'Remove {name}', cartClear: 'Empty the list',
             cartTotals: 'Material totals', cartChoices: 'Slots where you choose (not in the totals)', cartTime: 'Total craft time', cartTimeNote: 'crafted one after another; a sum of game file values.',
-            cartCopy: 'Copy as text', cartCopied: 'Shopping list copied.', cartCopyFailed: 'Could not copy. Please select the text below and copy it yourself.', cartText: 'Text to copy',
+            cartCopy: 'Copy as text', cartCopied: 'Materials to collect copied.', cartCopyFailed: 'Could not copy. Please select the text below and copy it yourself.', cartText: 'Text to copy',
             cartHead: 'VOLT crafting shopping list', cartNote: 'The same material is listed on separate lines when the minimum quality differs. SCU and pieces are different units.',
             notes: 'Fabricators and dismantling', stations: 'Fabricators', dismantle: 'Dismantling: {time}, efficiency value {eff}. How that turns into returned amounts is not in the game files.', dismantleNoReturn: 'Materials not returned when dismantled: {list}',
             stationNote: 'Where fabricators stand in the world is not in our data.',
@@ -423,6 +423,12 @@
     }
     // 자료가 온 뒤에, 모르는 id를 조용히 버린다.
     function resolveParams() {
+        if (pending.mineral) {
+            const matches = D.materials.filter((mat) => mat.mine === pending.mineral);
+            if (matches.length) S.mats = H.chips(matches.map((mat) => mat.id).join(','));
+            else S.q = pending.mineral;
+            S.matsOpen = matches.length > 0;
+        }
         const index = X.byId.get(S.bpId);
         S.bp = index === undefined ? null : index;
         if (S.bp === null) S.bpId = '';
@@ -539,9 +545,10 @@
         return `<div class="fab-tabs" role="group" aria-label="${e(t('tabs'))}" data-region="tabs">${tabButtons()}</div>`;
     }
     function tabButtons() {
-        return TABS.filter((tab) => tab !== 'trades' || (D.trades || []).length).map((tab) => {
+        const group = ({ pools: 'list', trades: 'mats' })[S.tab] || S.tab;
+        return ['list', 'mats', 'cart'].map((tab) => {
             const badge = tab === 'cart' && cart.size ? ` <span class="fab-badge">${e(fmt(cart.size, 0))}</span>` : '';
-            return btn('tab', tab, `${e(t(TAB_LABELS[tab]))}${badge}`, { cls: `fab-tab${S.tab === tab ? ' is-active' : ''}`, pressed: S.tab === tab });
+            return btn('tab', tab, `${e(t(TAB_LABELS[tab]))}${badge}`, { cls: `fab-tab${group === tab ? ' is-active' : ''}`, pressed: group === tab });
         }).join('');
     }
     function searchHtml(placeholderKey) {
@@ -780,7 +787,7 @@
         return `<h3 class="fab-title">${e(t('tradesTitle', { n: fmt(D.trades.length, 0) }))}</h3><p class="fab-note">${e(t('tradeNote'))}</p><div class="fab-filters">${searchHtml('searchTrade')}<div class="fab-chips" role="group" aria-label="${e(t('tabTrades'))}">${chips}</div></div><div class="fab-results" data-region="results">${tradeResultsHtml()}</div>`;
     }
 
-    // ── 준비물 목록 ──────────────────────────────────────────────────────────
+    // ── 모을 재료 목록 ──────────────────────────────────────────────────────────
     function cartTotals() {
         const sums = new Map();
         const choices = [];
@@ -854,7 +861,9 @@
         if (loadError) return `<div class="fab-status" role="alert"><p>${e(H.errorText(loadError))}</p>${btn('reload', '', e(t('retry')))}</div>`;
         if (!D) return `<p class="fab-status" role="status">${e(t('loading'))}</p>`;
         const body = { list: listTab, mats: matsTab, pools: poolsTab, trades: tradesTab, cart: cartTab }[S.tab]();
-        return `${tabsHtml()}<p class="fab-live" role="status" aria-live="polite" data-region="status">${e(S.status)}</p><div class="fab-body fab-body-${e(S.tab)}">${body}</div><p class="fab-source">${e(H.sourceLine(D))} · ${e(t('sourceNote'))}</p>`;
+        const sub = S.tab === 'list' ? 'pools' : S.tab === 'mats' && D.trades?.length ? 'trades' : null;
+        const filter = sub ? btn('tab', sub, e(t(TAB_LABELS[sub])), { cls: 'fab-chip' }) : '';
+        return `${tabsHtml()}${filter}<p class="fab-live" role="status" aria-live="polite" data-region="status">${e(S.status)}</p><div class="fab-body fab-body-${e(S.tab)}">${body}</div><p class="fab-source">${e(H.sourceLine(D))} · ${e(t('sourceNote'))}</p>`;
     }
     function render(focusKey) {
         if (!root) return;

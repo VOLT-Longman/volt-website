@@ -46,6 +46,11 @@ function fixtures() {
     };
 }
 
+async function expandControls(page, group) {
+    const panel = page.locator(`.routes-${group}`);
+    if (!(await panel.evaluate((node) => node.open))) await panel.locator(':scope > summary').click();
+}
+
 async function prepare(page, { lang = 'ko', state = null, market = null } = {}) {
     const data = fixtures();
     const meta = { source: 'uex', cached: true, ttlSeconds: 1800, fetchedAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() };
@@ -75,6 +80,7 @@ test('무역 경로: 함선과 예산을 고르면 순위표가 나오고, 고�
     await expect(app(page).locator('[data-routes-problem="no-ship"]')).toContainText('내 함선을 골라 주세요');
     await expect(page.locator('#routes-table')).toHaveCount(0);
 
+    await expandControls(page, 'context');
     await page.locator('#routes-ship').selectOption('c2-hercules');
     await expect(rows(page).first()).toBeVisible();
     await expect(app(page).locator('.routes-hold')).toContainText('696 SCU');
@@ -88,12 +94,16 @@ test('무역 경로: 함선과 예산을 고르면 순위표가 나오고, 고�
     await expect(laranite.locator('.routes-back')).toContainText('스팀 200 SCU');
 
     // 예산 줄임말: 2m → 2,000,000 → 285 SCU × 1,500 = 427,500
+    await expandControls(page, 'context');
     await page.locator('#routes-budget').fill('2m');
+    await expandControls(page, 'context');
     await page.locator('#routes-budget').press('Enter');
     await expect(laranite).toContainText('427,500');
     await expect(page.locator('#routes-budget')).toHaveValue('2,000,000');
     expect(await sharedState(page)).toMatchObject({ ship: 'c2-hercules', budget: 2000000, maxAgeDays: 3 });
+    await expandControls(page, 'context');
     await page.locator('#routes-budget').fill('많이');
+    await expandControls(page, 'context');
     await page.locator('#routes-budget').press('Enter');
     await expect(page.locator('#routes-budget-hint')).toContainText('읽을 수 없는 값');
 
@@ -113,9 +123,11 @@ test('무역 경로: 좁히기, 상품 숨기기, 불법 상품 보기, 가격 �
     await gotoSection(page, '#routes');
     await expect(rows(page)).toHaveCount(4); // 라라나이트, 알루미늄(L4), 아그리슘, 돌아오는 스팀
 
+    await expandControls(page, 'filters');
     await page.locator('#routes-good').selectOption('5');
     await expect(rows(page)).toHaveCount(1);
     await expect(page).toHaveURL(/#routes\?c=5$/);
+    await expandControls(page, 'filters');
     await page.locator('#routes-clear').click();
     await expect(rows(page)).toHaveCount(4);
     await expect(page).toHaveURL(/#routes$/);
@@ -136,18 +148,22 @@ test('무역 경로: 좁히기, 상품 숨기기, 불법 상품 보기, 가격 �
     await expect(page.locator('#routes-table tr[data-route="1-12"]')).toBeVisible();
 
     // 불법 상품도 보기
+    await page.locator('#routes-count summary').click();
     await page.locator('#routes-show-illegal').click();
     await expect(page.locator('#routes-legal')).not.toBeChecked();
     await expect(page.locator('#routes-table tr[data-route="85-12"]')).toContainText('오소이안 가죽');
     await expect(page.locator('#routes-table tr[data-route="85-12"] .routes-tag.is-illegal')).toBeVisible();
 
     // 가격 기준을 7일로 늘리면 5일 전 보고도 쓴다.
+    await expandControls(page, 'context');
     await page.locator('#routes-age').selectOption('7');
     expect((await sharedState(page)).maxAgeDays).toBe(7);
+    await expandControls(page, 'filters');
     await page.locator('#routes-good').selectOption('5');
     await expect(rows(page)).toHaveCount(2);
     await expect(page.locator('#routes-table tr[data-route="1-12"]')).toContainText('알루미늄');
     await expect(page.locator('#routes-table tr[data-route="1-12"] .routes-age.is-ok')).toContainText('5일 전');
+    await expandControls(page, 'filters');
     await page.locator('#routes-good').selectOption('');
 
     // 상자 크기를 줄이면 실을 수 있는 양이 달라진다.
@@ -214,7 +230,7 @@ test('무역 경로: 경로 자세히 — 이익·돈·시간, 순서 표시, �
     await expect(page.locator('#routes-next-12-1')).toContainText('출발지로 돌아감');
     // 다른 화면으로 넘기는 링크
     await expect(detail.locator('a[href="#market?c=47&tab=prices"]')).toBeVisible();
-    await expect(detail.locator('a[href="#tours?stops=1%2C12"]')).toBeVisible();
+    await expect(detail.locator('a[href="#routes?stops=1%2C12&tab=tour"]')).toBeVisible();
     await expect(detail.locator('a[href="#hauling"]')).toBeVisible();
 
     // 주소 복사
@@ -308,6 +324,7 @@ test('무역 경로: 로그인이 필요한 가격(401)은 안내만 보여 준�
     await prepare(page, { state: C2, market: (route) => route.fulfill({ status: 401, json: { error: 'login required' } }) });
     await gotoSection(page, '#routes');
     await expect(app(page).locator('[data-routes-price-error="login"]')).toContainText('로그인이 필요합니다');
+    await expandControls(page, 'context');
     await expect(page.locator('#routes-ship')).toBeVisible();
 });
 
@@ -475,11 +492,15 @@ test('Trade routes: closing the detail returns to the same place; cards say esti
     await expect(page.locator(`#${id}`)).toBeInViewport();
     expect(await page.evaluate(() => window.scrollY)).toBe(before);
     // 예산 0 과 읽을 수 없는 화물칸 값은 까닭을 말해 준다.
+    await expandControls(page, 'context');
     await page.locator('#routes-budget').fill('0');
+    await expandControls(page, 'context');
     await page.locator('#routes-budget').press('Enter');
     await expect(app(page).locator('[data-routes-empty]')).toContainText('Your money to spend is 0');
     await page.locator('#routes-options > summary').click();
+    await expandControls(page, 'context');
     await page.locator('#routes-capacity').fill('abc');
+    await expandControls(page, 'context');
     await page.locator('#routes-capacity').press('Enter');
     await expect(page.locator('#routes-capacity-hint')).toContainText('could not be read');
 });

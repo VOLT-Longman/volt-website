@@ -1166,6 +1166,11 @@
             } catch (_error) { showToast(currentLang() === 'en' ? 'Could not load this ship.' : '함선 자료를 불러오지 못했습니다.'); }
         } else if (action === 'ship' && ship) { showSection('ships'); openShipModal(ship); }
         else if (action === 'planner' && ship) useShipInPlanner(ship.id);
+        else if (action === 'routes' && ship) {
+            window.VOLT_TRADE_ENGINE.state.set({ ship: ship.id });
+            closeModal();
+            window.VOLT_HELPER.go('routes');
+        }
         else if (action === 'ai') {
             if (contextKind === 'trade' && window.VOLT_JOURNEY) { window.VOLT_JOURNEY.ask('trade'); return; }
             const context = contextKind === 'loadout' ? window.VOLT_LOADOUT?.aiContext?.()
@@ -2189,7 +2194,7 @@
             const route = parseRouteFromHash();
             showSection(route.section, false, route.anchorId);
         };
-        window.addEventListener('popstate', applyRouteFromLocation);
+        window.addEventListener('popstate', () => { closeModal(); applyRouteFromLocation(); });
         window.addEventListener('hashchange', applyRouteFromLocation);
         const initial = getInitialRoute();
         history.replaceState({ section: initial.section }, '', initial.url);

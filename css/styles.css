@@ -11210,3 +11210,22 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .loadout-app .loadout-swap .loadout-opttable .loadout-optprice { grid-column: 1; align-self: center; }
     .loadout-app .loadout-swap .loadout-opttable .loadout-optact { grid-column: 2; justify-self: end; min-width: 80px; }
 }
+
+.tool-view-links { display:flex; gap:.4rem; flex-wrap:wrap; margin-block:.5rem; }
+.tool-view-links a { display:inline-flex; align-items:center; min-height:44px; padding:0 .8rem; color:inherit; border:1px solid var(--border,#444); border-radius:.4rem; }
+#routes .section-header,#tours .section-header,#missions .section-header,#hauling .section-header,#market .section-header,#fabricator .section-header,#mining .section-header { margin-bottom:1rem; }
+
+.tool-view-links a, .tours-tab, .missions-tab, .fab-chip { min-height: 44px; }
+.routes-context > summary, .routes-filters > summary, .tours-mine > summary, .mining-ref-full > summary {
+    min-height: 44px;
+    align-content: center;
+    cursor: pointer;
+}
+.missions-card .is-unknown, .missions-table .is-unknown { color: var(--text-muted, #a8adb5); }
+
+#journey-trade a[href="#routes"] { color: var(--color-text-primary); text-decoration: underline; }
+
+:is(#routes, #tours, #market, #mining, #missions, #hauling, #fabricator) .section-header { padding-block: 0; }
+@media (max-width: 700px) {
+    :is(#routes, #tours, #market, #mining, #missions, #hauling, #fabricator).page-section { padding-top: 16px; }
+}

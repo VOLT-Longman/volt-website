@@ -291,10 +291,14 @@
         const section = cut < 0 ? raw : raw.slice(0, cut);
         const params = {};
         if (cut >= 0) new URLSearchParams(raw.slice(cut + 1)).forEach((value, key) => { params[key] = value; });
+        if (section === 'routes' && ['tour', 'mix'].includes(params.tab)) return { section: 'tours', params };
+        if (section === 'missions' && params.tab === 'hauling') return { section: 'hauling', params };
         return { section, params };
     }
 
     function buildHash(section, params) {
+        if (section === 'tours') { section = 'routes'; params = { ...params, tab: params?.tab === 'mix' ? 'mix' : 'tour' }; }
+        if (section === 'hauling') { section = 'missions'; params = { ...params, tab: 'hauling' }; }
         const query = new URLSearchParams();
         Object.keys(params || {}).sort().forEach((key) => {
             const value = params[key];
@@ -553,7 +557,21 @@
         }
     }
 
+    function systemLabel(system) {
+        if (!system) return lang() === 'ko' ? '전체 항성계' : 'All systems';
+        const labels = { Stanton: '스탠턴', Pyro: '파이로', Nyx: '닉스' };
+        return lang() === 'ko' ? labels[system] || system : system;
+    }
+
+    function conditionSummary(state, ship) {
+        const ko = lang() === 'ko';
+        const budget = state.budget == null ? (ko ? '예산 제한 없음' : 'Unlimited budget') : price(state.budget);
+        return [ship || (ko ? '함선 미선택' : 'No ship selected'), budget, systemLabel(state.system),
+            ko ? `${num(state.maxAgeDays, { digits: 1 })}일 이내 가격` : `Prices within ${num(state.maxAgeDays, { digits: 1 })} days`].join(' · ');
+    }
+
     window.VOLT_HELPER = {
+        conditionSummary, systemLabel,
         SECTIONS, HASH_SECTIONS, DEFAULT_PRICE_AGE_DAYS, CACHE_VERSION,
         lang, text, translator, name, esc,
         isKnown, unknown, num, price, scu, percent, age, ageSeconds, ageLevel, duration, sourceLine,

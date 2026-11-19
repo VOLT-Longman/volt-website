@@ -36,7 +36,7 @@
     const PREF_KEY = 'volt-routes-prefs-v1';
     const STEP_KEY = 'volt-routes-steps-v1';
     const PRICE_KEY = 'volt-routes-myprices-v1';
-    const PAGE = 50;
+    const PAGE = window.matchMedia('(max-width: 700px)').matches ? 10 : 20;
     const FRESH_DAYS = 1;
     const MY_PRICE_KEEP_DAYS = 30;
     const AGE_CHOICES = [0.25, 1, 3, 7, 15, 30];
@@ -584,7 +584,7 @@
         prices: 'loading', priceError: null, market: [], terminals: [], commodities: null, names: 'loading', meta: null,
     };
     const view = { c: null, from: null, to: null, sort: 'perHour', st: false, full: false, fresh: false, d: null, limit: PAGE };
-    const ui = { optionsOpen: false, timeOpen: false, compareAll: false, edit: null, editError: false, budgetError: false, capacityError: false, notice: '', refreshing: false, refreshError: null };
+    const ui = { contextOpen: false, filtersOpen: false, optionsOpen: false, timeOpen: false, compareAll: false, edit: null, editError: false, budgetError: false, capacityError: false, notice: '', refreshing: false, refreshError: null };
     let prefs = { ...PREF_DEFAULTS };
     let steps = {};
     let myPrices = {};
@@ -1276,8 +1276,8 @@
         const budgetText = state.budget === null ? t('budgetNone') : H.price(state.budget);
         const what = [state.ship ? shipName(state.ship) : null, budgetText].filter(Boolean).join(' · ');
         const banner = linkSetup ? `<p class="routes-warn" id="routes-link-banner">${esc(t('linkBanner', { what }))} <button type="button" class="routes-link" id="routes-link-drop" data-act="link-drop">${esc(t('linkDrop'))}</button></p>` : '';
-        return `<section class="routes-card routes-context" aria-labelledby="routes-context-title">
-            <h3 id="routes-context-title">${esc(t('contextTitle'))}</h3>
+        return `<details class="routes-card routes-context" data-fold="contextOpen"${ui.contextOpen || linkSetup ? ' open' : ''}>
+            <summary id="routes-context-title"><strong>${esc(t('contextTitle'))}</strong> ${esc(H.conditionSummary(state, state.ship && shipName(state.ship)))}</summary>
             ${banner}
             <div class="routes-fields">
                 <div class="routes-field is-wide">
@@ -1324,7 +1324,7 @@
                 </fieldset>
             </details>
             <p class="routes-hint">${esc(t('contextNote'))}</p>
-        </section>`;
+        </details>`;
     }
 
     // ── 그리기: 좁히기 ──────────────────────────────────────────────────────
@@ -1363,8 +1363,8 @@
                 }).join('')}
                 <span class="routes-hint">${esc(t('hiddenNote'))}</span>
             </div>` : '';
-        return `<section class="routes-card routes-filters" aria-labelledby="routes-filter-title">
-            <h3 id="routes-filter-title">${esc(t('filterTitle'))}</h3>
+        return `<details class="routes-card routes-filters" data-fold="filtersOpen"${ui.filtersOpen ? ' open' : ''}>
+            <summary id="routes-filter-title">${esc(t('filterTitle'))}</summary>
             <div class="routes-fields">
                 <div class="routes-field">
                     <label for="routes-good">${esc(t('good'))}</label>
@@ -1391,7 +1391,7 @@
             </div>
             ${hidden}
             ${drawMine('routes-mine', null)}
-        </section>`;
+        </details>`;
     }
 
     // ── 그리기: 순위표 ──────────────────────────────────────────────────────
@@ -1430,7 +1430,8 @@
         const legal = illegal ? ` ${esc(t('statIllegal', { n: H.num(illegal) }))}${linkSetup ? '' : ` <button type="button" class="routes-link" id="routes-show-illegal" data-act="show-illegal">${esc(t('showIllegal'))}</button>`}` : '';
         const names = o.legalOnly && !namesKnown() && data.market.length
             ? `<p class="routes-warn" id="routes-legal-off">${esc(t('legalOff'))} <button type="button" class="routes-link" id="routes-names-retry" data-act="retry-names">${esc(t('namesRetry'))}</button></p>` : '';
-        return `${names}<p class="routes-count" id="routes-count" role="status" tabindex="-1">${esc(lines.join(' '))}${legal}</p>`;
+        return `${names}<div class="routes-count" id="routes-count" tabindex="-1"><span role="status">${esc(lines.shift())}</span>
+            ${lines.length || legal ? `<details data-fold="countOpen"${ui.countOpen ? ' open' : ''}><summary>${H.lang() === 'ko' ? '계산에 쓴 조건' : 'How routes were ranked'}</summary>${esc(lines.join(' '))}${legal}</details>` : ''}</div>`;
     }
 
     function rowHtml(route, index) {
@@ -1820,6 +1821,10 @@
 
     function drawHandoff(route) {
         const links = route.goods.map((good) => `<a class="routes-btn" href="${esc(H.buildHash('market', { tab: 'prices', c: good.c }))}">${esc(t('toMarketGood', { name: goodName(good.c) }))}</a>`);
+        for (const good of route.goods) {
+            const label = H.lang() === 'ko' ? '이 경로를 무역플래너로 보내기' : 'Send route to trade planner';
+            links.push(`<button type="button" class="routes-btn" data-act="planner" data-c="${esc(good.c)}" data-from="${esc(route.from)}" data-to="${esc(route.to)}">${esc(label)} · ${esc(goodName(good.c))}</button>`);
+        }
         links.push(`<a class="routes-btn" href="${esc(H.buildHash('market', { tab: 'stations', t: route.from }))}">${esc(t('toMarketFrom'))}</a>`);
         links.push(`<a class="routes-btn" href="${esc(H.buildHash('market', { tab: 'stations', t: route.to }))}">${esc(t('toMarketTo'))}</a>`);
         links.push(`<a class="routes-btn" href="${esc(H.buildHash('tours', { stops: `${route.from},${route.to}` }))}">${esc(t('toTours'))}</a>`);
@@ -2070,7 +2075,10 @@
         const target = event.target.closest('[data-act]');
         if (!target || !root.contains(target) || target.matches('input, select')) return;
         const act = target.dataset.act;
-        if (act === 'open') openDetail(toId(target.dataset.from), toId(target.dataset.to));
+        if (act === 'planner') {
+            window.VOLT_APP.showSection('trade-planner');
+            window.VOLT_UEX_PANEL.openCommodity({ id: toId(target.dataset.c), buyTerminal: toId(target.dataset.from), sellTerminal: toId(target.dataset.to) });
+        } else if (act === 'open') openDetail(toId(target.dataset.from), toId(target.dataset.to));
         else if (act === 'close') closeDetail();
         else if (act === 'hide') hideGood(toId(target.dataset.c));
         else if (act === 'unhide') {
@@ -2091,6 +2099,7 @@
             if (linkSetup) return;
             prefs.legalOnly = false;
             savePrefs();
+            ui.contextOpen = true;
             ui.optionsOpen = true;
             focusAfterDraw = 'routes-legal';
             requestDraw();
@@ -2108,6 +2117,7 @@
             syncHash(false);
             requestDraw();
         } else if (act === 'focus') {
+            ui.contextOpen = true;
             if (target.dataset.open) ui[target.dataset.open] = true;
             focusAfterDraw = target.dataset.target || '';
             draw();

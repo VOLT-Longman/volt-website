@@ -6,7 +6,7 @@
  *
  * 추가 화면 (docs/helper-tools.md 2.2):
  * - 장소별: 할 수 있는 일 아이콘(함선·차량·손·채집·잔해), 종류·성계 포함/제외 칩, 묶음·표·광물×장소 표.
- * - 신호 찾기: 스캐너 숫자 → 암석 종류와 개수 후보. "기본 신호 값 × 암석 수" 규칙은 게임 안 확인 전이다.
+ * - 신호값으로 찾기: 스캐너 숫자 → 암석 종류와 개수 후보. "기본 신호 값 × 암석 수" 규칙은 게임 안 확인 전이다.
  * - 정제소 찾기: 게임 파일의 정제 시설 목록 + UEX 이용자 보고 수율 보너스(/api/uex/refineries, /api/uex/terminals).
  * - 표 내려받기(CSV, data: 주소 — CSP 가 blob: 을 막는다), 표 복사, 주소 복사.
  *
@@ -38,7 +38,7 @@
             detailNote: '같은 광물이 여러 줄이면 원본의 별도 구성 항목입니다. 함량·확률을 합산하지 않습니다. 암석 비중순으로 표시하며 실제 수율 순위가 아닙니다.',
             traitsVary: '암석에 따라 특성 정의가 다릅니다. 하나로 확정할 수 없는 값은 —로 표시합니다.',
             // ── 추가 화면 ──
-            bySig: '신호 찾기', byRef: '정제소 찾기', harvest: '채집', salvage: '잔해 수거', activities: '할 수 있는 일',
+            bySig: '신호값으로 찾기', byRef: '정제소 찾기', harvest: '채집', salvage: '잔해 수거', activities: '할 수 있는 일',
             layout: '목록 모양', layTiles: '묶음', layTable: '표', layMatrix: '광물 × 장소',
             typeChips: '장소 종류', sysChips: '성계', chipHelp: '누를 때마다 포함 → 제외 → 상관없음으로 바뀝니다.',
             tPlanet: '행성', tMoon: '위성', tBelt: '소행성대', tLagrange: '라그랑주 지점', tCluster: '소행성 무리', tCave: '동굴', tEvent: '행사', tSite: '시설',
@@ -571,6 +571,7 @@
                 <div><dt>${esc(text('explosion'))}</dt><dd>${esc(num(mineral.explosion, 1))}</dd></div>
                 <div><dt>${esc(text('priceAvg'))}</dt><dd>${priceCell(mineral)}</dd></div>
                 ${marketLine(mineral)}
+                <div><dt>${lang() === 'ko' ? '제작' : 'Crafting'}</dt><dd><a class="mining-link" href="${esc(H.buildHash('fabricator', { mineral: mineral.id }))}">${lang() === 'ko' ? '이 광물을 쓰는 설계도' : 'Blueprints using this mineral'}</a></dd></div>
             </dl>
             ${mineral.refined && mineral.modes.includes('ship') ? `<div class="mining-detail-actions"><button type="button" id="mining-refine-go" class="mining-action" data-mining-refine="${esc(mineral.id)}">${esc(text('refFind'))}</button></div>` : ''}
             ${rows.length ? `<div class="mining-tablewrap"><table class="mining-table">
@@ -815,7 +816,7 @@
         </section>`;
     }
 
-    // ── 신호 찾기 ───────────────────────────────────────────────────────────
+    // ── 신호값으로 찾기 ───────────────────────────────────────────────────────────
     const parseValue = (value) => {
         const parsed = Number(String(value || '').replace(/[,\s]/g, ''));
         return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
@@ -954,6 +955,7 @@
         for (const row of rows) {
             const terminal = terminals.get(row.terminalId);
             row.name = row.game ? (label(row.game.name) || row.game.id) : (terminal?.station || terminal?.city || terminal?.nick || terminal?.name || text('refTerminal', { id: row.terminalId }));
+            if (lang() === 'ko' && row.name === 'Levski') row.name = '레브스키';
             row.system = row.game?.system || terminal?.system || '';
             row.yields = byTerminal.get(row.terminalId) || new Map();
             const values = selected.map((ore) => row.yields.get(ore.id)).filter(Boolean).map((cell) => cell.v);
@@ -985,7 +987,7 @@
                 const top = model.rows.filter((row) => row.known > 0);
                 const lead = top.filter((row) => row.known === top[0].known && row.average === top[0].average).slice(0, 3);
                 best = `<div class="mining-best" id="mining-ref-best"><h4>${esc(text('refBestTitle'))}</h4>${lead.length
-                    ? `<ul>${lead.map((row) => `<li><strong>${esc(text('refBest', { name: row.name, value: bonus(row.average), known: row.known, total: model.selected.length }))}</strong> <small class="mining-muted">${esc(row.system)}</small></li>`).join('')}</ul>`
+                    ? `<ul>${lead.map((row) => `<li><strong>${esc(text('refBest', { name: row.name, value: bonus(row.average), known: row.known, total: model.selected.length }))}</strong> <small class="mining-muted">${esc(row.system && H.systemLabel(row.system))}</small></li>`).join('')}</ul>`
                     : `<p>${esc(text('refBestNone'))}</p>`}<p class="mining-note">${esc(text('refBestNote'))}</p></div>`;
             }
         }
@@ -999,8 +1001,8 @@
         };
         const table = `<div class="mining-tablewrap" tabindex="0" role="region" aria-label="${esc(text('byRef'))}"><table class="mining-table mining-ref-table" data-mining-csv="refineries">
             <thead><tr><th scope="col">${esc(text('refinery'))}</th><th scope="col" class="mining-ref-wide">${esc(text('system'))}</th><th scope="col" class="mining-ref-wide">${esc(text('refCheck'))}</th>${model.selected.length && usable ? `<th scope="col" class="is-num">${esc(text('refAvg'))}</th>` : ''}${columns.map((ore) => `<th scope="col" class="is-num">${esc(ore.name)}</th>`).join('')}</tr></thead>
-            <tbody>${model.rows.map((row) => `<tr><th scope="row" data-csv="${esc(`${row.name}${row.game && !row.game.name ? ` (${text('noName')})` : ''}`)}">${esc(row.name)}${row.game && !row.game.name ? ` <small class="mining-muted">${esc(text('noName'))}</small>` : ''}<small class="mining-ref-narrow mining-muted">${esc([row.system, check(row)].filter(Boolean).join(' · '))}</small></th>
-                <td class="mining-ref-wide">${esc(row.system)}</td>
+            <tbody>${model.rows.map((row) => `<tr><th scope="row" data-csv="${esc(`${row.name}${row.game && !row.game.name ? ` (${text('noName')})` : ''}`)}">${esc(row.name)}${row.game && !row.game.name ? ` <small class="mining-muted">${esc(text('noName'))}</small>` : ''}<small class="mining-ref-narrow mining-muted">${esc([row.system && H.systemLabel(row.system), check(row)].filter(Boolean).join(' · '))}</small></th>
+                <td class="mining-ref-wide">${esc(row.system && H.systemLabel(row.system))}</td>
                 <td class="mining-ref-wide"><span class="mining-tag ${usable && row.game && row.terminalId !== null ? 'is-both' : 'is-partial'}">${esc(check(row))}</span></td>
                 ${model.selected.length && usable ? `<td class="is-num" data-csv="${esc(row.average === null ? text('unknownUex') : `${bonus(row.average)} (${row.known}/${model.selected.length})`)}">${row.average === null ? `<span class="mining-muted">${esc(text('unknownUex'))}</span>` : `<strong>${esc(bonus(row.average))}</strong> <small>${esc(`${row.known}/${model.selected.length}`)}</small>`}</td>` : ''}
                 ${columns.map((ore) => cell(row, ore)).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -1016,7 +1018,7 @@
             <p class="mining-note">${esc(text('refGameNote'))} ${esc(text('refNameMatch'))}</p>
             ${status}${missing}${oreChips}${best}
             ${usable ? `<p class="mining-note">${esc(text('refAgeNote'))}</p>` : ''}
-            ${table}${usable ? methods : ''}
+            ${model.selected.length ? table : `<details class="mining-ref-full"><summary>${lang() === 'ko' ? '전체 정제소 표 보기' : 'Show all refineries'}</summary>${table}</details>`}${usable ? methods : ''}
         </section>`;
     }
     async function loadRefineries(refresh) {

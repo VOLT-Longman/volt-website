@@ -7,8 +7,8 @@
  * 네 개의 탭:
  *   prices   상품 시세 — 상품별 가장 싼 구매처·가장 비싼 판매처·차익, 상품 하나의 거래소별 표, 내 함선 추천 경로
  *   stations 거래소 — 거래소 목록과 한 곳의 정보(시설, 사고파는 상품, "여기에 있어요")
- *   movers   시세 변동 — 지금 가격과 UEX 15일 평균 비교 (UEX 원본 표에 평균이 있을 때만)
- *   ships    내 돈에 맞는 화물선 — 살 수 있는/빌릴 수 있는 화물선과 화물칸 보기
+ *   movers   가격 변동 — 지금 가격과 UEX 15일 평균 비교 (UEX 원본 표에 평균이 있을 때만)
+ *   ships    화물선 고르기 — 살 수 있는/빌릴 수 있는 화물선과 화물칸 보기
  *
  * 주소 값 (#market?...):
  *   tab   prices | stations | movers | ships      (link 키. 없으면 t 만 있을 때 stations, 그 밖에는 prices)
@@ -17,7 +17,7 @@
  *   q     검색어            sys  항성계 칩(포함/제외)      sort  상품 목록 정렬 (margin | marginPercent | name)
  *   fac   거래소 시설 조건 (쉼표 목록: refinery,freightElevator,autoLoad,loadingDock)
  *   box   거래소의 가장 큰 상자가 이 크기 이상
- *   ht,hc 가격 기록을 볼 터미널 id · 상품 id      scan  1 = 시세 변동 탭에서 차익 큰 상품 여러 개를 살펴본 결과
+ *   ht,hc 가격 기록을 볼 터미널 id · 상품 id      scan  1 = 가격 변동 탭에서 차익 큰 상품 여러 개를 살펴본 결과
  *   ship  화물칸을 볼 함선 id      mode  buy | rent | both
  * 내 함선·가진 돈·가격 기준일은 주소가 아니라 VOLT_TRADE_ENGINE.state 에 둔다.
  *
@@ -38,7 +38,7 @@
     const AGE_CHOICES = [1, 3, 7, 15];
     const UEX_AVERAGE_DAYS = 15;   // UEX 평균의 기간 (docs/uex-endpoints.md 6번)
     const SCAN_COUNT = 12;         // "여러 상품 살펴보기"가 한 번에 받아 오는 상품 수
-    const LIST_LIMIT = 60;
+    const LIST_LIMIT = 20;
     const BUDGET_CHUNK = 10;
     const HISTORY_ROWS = 12;       // 가격 기록 표에 처음 보여 주는 보고 수
     const esc = H.esc;
@@ -50,10 +50,10 @@
             retry: '다시 시도',
             tabsLabel: '시세 화면 탭',
             tabPrices: '상품 시세',
-            tabStations: '거래소',
-            tabMovers: '시세 변동',
-            tabShips: '내 돈에 맞는 화물선',
-            mine: '내 설정',
+            tabStations: '거래 장소',
+            tabMovers: '가격 변동',
+            tabShips: '화물선 고르기',
+            mine: '내 조건',
             mineNote: '이 값은 무역 경로·순회 무역 화면과 함께 씁니다. 이 기기에만 저장됩니다.',
             myShip: '내 함선',
             noShip: '고르지 않음',
@@ -264,7 +264,7 @@
             lawControlledTo: '불법: 도착지에서 통제 품목',
             lawIllegalUex: '불법 상품 (UEX 표시)',
             lawUnknown: '합법 여부 모름',
-            routesIllegalNote: '"불법" 표시가 있는 경로는 그 지역에서 금지되거나 통제되는 상품을 싣습니다. 이익에는 벌금·압수 위험을 넣지 않았습니다. "내 돈에 맞는 화물선" 탭은 합법 상품만으로 계산합니다.',
+            routesIllegalNote: '"불법" 표시가 있는 경로는 그 지역에서 금지되거나 통제되는 상품을 싣습니다. 이익에는 벌금·압수 위험을 넣지 않았습니다. "화물선 고르기" 탭은 합법 상품만으로 계산합니다.',
             destFull: '도착지 상점이 가득 찬 것으로 보고됨 — 안 받아 줄 수 있음',
             historyCut: '표에는 최근 {n}건만 보여 줍니다. 그래프와 요약은 {total}건 모두를 씁니다.',
             historyShowAll: '{total}건 모두 보기',
@@ -280,10 +280,10 @@
             retry: 'Try again',
             tabsLabel: 'Market tabs',
             tabPrices: 'Commodity prices',
-            tabStations: 'Stations',
+            tabStations: 'Trading locations',
             tabMovers: 'Price changes',
-            tabShips: 'Cargo ship for my money',
-            mine: 'My settings',
+            tabShips: 'Choose a cargo ship',
+            mine: 'My conditions',
             mineNote: 'Shared with the Trade Routes and Multi-stop Tours screens. Saved on this device only.',
             myShip: 'My ship',
             noShip: 'Not chosen',
@@ -494,7 +494,7 @@
             lawControlledTo: 'Illegal: controlled at the destination',
             lawIllegalUex: 'Illegal commodity (UEX flag)',
             lawUnknown: 'Legality unknown',
-            routesIllegalNote: 'Routes marked "Illegal" carry goods that are prohibited or controlled there. The profit does not include the risk of fines or seizure. The "Cargo ship for my money" tab uses legal goods only.',
+            routesIllegalNote: 'Routes marked "Illegal" carry goods that are prohibited or controlled there. The profit does not include the risk of fines or seizure. The "Choose a cargo ship" tab uses legal goods only.',
             destFull: 'Destination shop reported full — it may not take the load',
             historyCut: 'The table shows the {n} newest reports. The chart and the summary use all {total}.',
             historyShowAll: 'Show all {total}',
@@ -536,7 +536,7 @@
     const openDetails = new Map(); // 접는 상자(data-d)를 이용자가 열었는지 닫았는지
 
     const narrow = () => window.matchMedia('(max-width: 720px)').matches;
-    const pageSize = () => (narrow() ? 20 : LIST_LIMIT);
+    const pageSize = () => (narrow() ? 10 : LIST_LIMIT);
     const isShown = () => { const section = document.getElementById(SECTION); return !section || section.classList.contains('active'); };
     // once: 바로 다음에 그릴 때만 찾는다. 아니면 주소가 바뀌고 자료가 올 때까지(최대 10초) 기다린다.
     const later = (selector, scroll, focus = true, once = false) => { pending = { selector, scroll, focus, once, until: Date.now() + 10000 }; };
@@ -572,7 +572,7 @@
         if (v.tab === 'prices') Object.assign(out, { c: v.c, q: v.c === null ? v.q : '', sort: v.sort === 'margin' ? null : v.sort });
         if (v.tab === 'stations') Object.assign(out, { t: v.t, q: v.t === null ? v.q : '', fac: v.fac.join(','), box: v.box });
         if (v.tab === 'movers') Object.assign(out, { c: v.c, t: v.c === null ? v.t : null, scan: v.c === null && v.t === null && v.scan ? 1 : null });
-        if (v.tab === 'ships') Object.assign(out, { ship: v.ship, mode: v.mode === 'both' ? null : v.mode });
+        if (v.tab === 'ships') Object.assign(out, { ship: v.ship, box: v.box, mode: v.mode === 'both' ? null : v.mode });
         if ((v.tab === 'prices' && v.c !== null) || (v.tab === 'stations' && v.t !== null)) Object.assign(out, { ht: v.ht, hc: v.hc });
         return out;
     }
@@ -711,14 +711,14 @@
     function systemFilter() {
         const systems = (game && game.world.systems) || [];
         const chips = H.chips(view.sys);
-        if (chips.isEmpty()) return null;
+        if (chips.isEmpty()) return shared().system ? [shared().system] : null;
         const list = systems.filter((system) => chips.test([system.toLowerCase()]));
         return list.length ? list : ['-'];
     }
 
     function startBudget() {
         const state = shared();
-        const key = JSON.stringify([state.budget, view.mode, state.maxAgeDays, view.sys]);
+        const key = JSON.stringify([state.budget, view.mode, state.maxAgeDays, state.system, view.sys]);
         if (budget && budget.key === key) return;
         const token = ++runToken;
         const ids = E.listShips(model).filter((ship) => ship.scu === null || ship.scu > 0).sort((a, b) => (b.scu || 0) - (a.scu || 0)).map((ship) => ship.id);
@@ -849,7 +849,7 @@
         return `<details class="market-assume"${detailsAttr(key, false)}><summary data-k="sum-${key}">${esc(t('assumptions'))}</summary><ul>${lines.map((line) => `<li>${esc(line)}</li>`).join('')}</ul></details>`;
     }
 
-    // ── 위쪽: 내 설정 · 탭 ───────────────────────────────────────────────────
+    // ── 위쪽: 내 조건 · 탭 ───────────────────────────────────────────────────
     function shipOptions(selected, withEmpty) {
         const ships = E.listShips(model).filter((ship) => ship.scu === null || ship.scu > 0 || ship.id === selected)
             .map((ship) => ({ ...ship, label: shipName(ship.id) })).sort((a, b) => a.label.localeCompare(b.label, H.lang()));
@@ -860,17 +860,10 @@
     function drawSettings() {
         const state = shared();
         const ages = AGE_CHOICES.includes(state.maxAgeDays) ? AGE_CHOICES : [...AGE_CHOICES, state.maxAgeDays].sort((a, b) => a - b);
-        const chips = H.chips(view.sys);
-        const systems = ((game && game.world.systems) || []).map((system) => {
-            const id = system.toLowerCase();
-            const mode = chips.get(id);
-            return `<button type="button" class="market-chip is-${mode}" data-act="sys" data-id="${esc(id)}" data-k="sys-${esc(id)}" aria-label="${esc(`${system}: ${chips.label(mode)}`)}">${esc(system)}<span class="market-chip-state">${esc(chips.label(mode))}</span></button>`;
-        }).join('');
-        // 좁은 화면에서는 접어 두고 지금 값만 한 줄로 보여 준다 (첫 화면에 표가 보이도록). 넓은 화면에서는 펼쳐 둔다.
-        const now = [state.ship ? shipName(state.ship) : `${t('myShip')}: ${t('noShip')}`,
-            state.budget === null ? t('noMoneyLimit') : t('moneyValue', { v: H.price(state.budget) }),
-            t('maxAgeDays', { n: H.num(state.maxAgeDays, { digits: 1 }) })].join(' · ');
-        return `<details class="market-panel market-settings"${detailsAttr('settings', !narrow())}>
+        const systems = ['', ...((game && game.world.systems) || [])].map((system) =>
+            `<option value="${esc(system)}"${system === (state.system || '') ? ' selected' : ''}>${esc(H.systemLabel(system))}</option>`).join('');
+        const now = H.conditionSummary(state, state.ship && shipName(state.ship));
+        return `<details class="market-panel market-settings"${detailsAttr('settings', false)}>
             <summary data-k="sum-settings"><span class="market-settings-title">${esc(t('mine'))}</span><span class="market-settings-now">${esc(now)}</span></summary>
             <div class="market-settings-body">
             <div class="market-fields">
@@ -878,7 +871,7 @@
                 ${moneyField('myMoney', 'my-money', t('moneyHint'))}
                 <label class="market-field"><span>${esc(t('maxAge'))}</span><select data-change="age" data-k="max-age">${ages.map((days) => `<option value="${days}"${days === state.maxAgeDays ? ' selected' : ''}>${esc(t('maxAgeDays', { n: H.num(days, { digits: 1 }) }))}</option>`).join('')}</select></label>
             </div>
-            <div class="market-chiprow" role="group" aria-label="${esc(t('systems'))}"><span class="market-chiprow-label">${esc(t('systems'))}</span>${systems}<small class="market-muted">${esc(t('systemsHint'))}</small></div>
+            <label class="market-field"><span>${esc(t('systems'))}</span><select data-change="system" data-k="my-system">${systems}</select></label>
             <p class="market-note">${esc(t('mineNote'))}</p>
             </div>
         </details>`;
@@ -1156,7 +1149,7 @@
             <div class="market-detailhead"><div><h3>${esc(H.name(terminal.name) || terminal.uexName)}</h3>
                 <p class="market-muted">${esc([...new Set([terminal.system, terminal.place, terminal.uexName, terminal.code].filter(Boolean))].join(' · '))}</p>
                 ${terminal.live ? '' : `<p><span class="market-tag is-warn">${esc(t('notLive'))}</span></p>`}</div>
-                <div class="market-actions">${back}<a class="market-btn" href="${link({ tab: 'movers', t: terminal.id })}" data-k="to-movers">${esc(t('compareAverage'))}</a></div></div>
+                <div class="market-actions">${back}<a class="market-btn" href="${esc(H.buildHash('tours', { tab: 'tour', start: terminal.id }))}">${esc(H.lang() === 'ko' ? '여기서 여러 곳 돌기' : 'Visit multiple stops from here')}</a><a class="market-btn" href="${link({ tab: 'movers', t: terminal.id })}" data-k="to-movers">${esc(t('compareAverage'))}</a></div></div>
             <div class="market-here"><button type="button" class="market-btn is-primary" data-act="here" data-k="here">${esc(t('here'))}</button><small class="market-muted">${esc(t('hereNote'))}</small></div>
             ${traits}
             <div class="market-columns">
@@ -1169,7 +1162,7 @@
             ${routes}</div>`;
     }
 
-    // ── 탭: 시세 변동 ────────────────────────────────────────────────────────
+    // ── 탭: 가격 변동 ────────────────────────────────────────────────────────
     function drawMovers() {
         const commodities = [...model.commodities.values()].map((commodity) => ({ id: commodity.id, label: commodityName(commodity.id) })).sort((a, b) => a.label.localeCompare(b.label, H.lang()));
         const stations = [...terminalIndex.values()].filter((terminal) => terminal.live && terminal.buyCount + terminal.sellCount > 0)
@@ -1203,10 +1196,11 @@
             ${all.length > shown.length ? `<p class="market-note">${esc(t('showing', { n: shown.length, total: all.length }))} <button type="button" class="market-btn is-small" data-act="more" data-k="more">${esc(t('showMore'))}</button></p>` : ''}`;
     }
 
-    // ── 탭: 내 돈에 맞는 화물선 ──────────────────────────────────────────────
+    // ── 탭: 화물선 고르기 ──────────────────────────────────────────────
     function drawBudget() {
         const state = shared();
         const form = `<div class="market-toolbar">
+            ${view.box ? `<p class="market-note">${esc(t('box'))} · ${esc(H.scu(view.box))}</p>` : ''}
             ${moneyField('budgetMoney', 'budget-money', '', true)}
             <label class="market-field"><span>${esc(t('budgetMode'))}</span><select data-change="mode" data-k="mode">${MODES.map((mode) => `<option value="${mode}"${view.mode === mode ? ' selected' : ''}>${esc(t(`mode${mode[0].toUpperCase()}${mode.slice(1)}`))}</option>`).join('')}</select></label>
         </div>`;
@@ -1224,10 +1218,14 @@
     function budgetTable() {
         const stats = `<p class="market-note">${esc(t('budgetLegal'))}</p><p class="market-note">${esc(t('budgetStats', { noPrice: budget.noPrice, tooExpensive: budget.tooExpensive }))}</p>
             ${budget.unknownCargo.length ? `<p class="market-note">${esc(t('unknownCargoShips', { list: budget.unknownCargo.map(shipName).join(', ') }))}</p>` : ''}`;
-        if (!budget.rows.length) return emptyBox(t('budgetNone')) + stats;
+        const matching = view.box ? budget.rows.filter((row) => {
+            const profile = E.shipProfile(model, { ...settings(), ship: row.ship });
+            return profile.known && profile.maxBox >= view.box;
+        }) : budget.rows;
+        if (!matching.length) return emptyBox(t('budgetNone')) + stats;
         const heads = [{ label: t('ship') }, { label: `${t('buyOrRent')} · ${t('shipPrice')}`, num: true }, { label: t('soldAt') }, { label: t('hold'), num: true }, { label: t('moneyLeft'), num: true },
             { label: t('loadOnRoute'), num: true }, { label: t('profitRun'), num: true }, { label: t('payback') }];
-        const shown = budget.rows.slice(0, Math.max(15, listLimit - pageSize() + 15));
+        const shown = matching.slice(0, listLimit);
         const none = `<span class="market-muted">${esc(t('noRouteForShip'))}</span>`;
         const limits = { ship: 'limitShip', stock: 'limitStock', budget: 'limitBudget', boxes: 'limitBoxes', destination: 'limitDestination' };
         const rows = shown.map((row) => {
@@ -1253,7 +1251,7 @@
             ];
         });
         const codes = [...budget.assumptions, ...budget.rows.flatMap((row) => (row.bestRoute ? row.bestRoute.assumptions : []))];
-        const more = budget.rows.length > shown.length ? `<p class="market-note">${esc(t('showing', { n: shown.length, total: budget.rows.length }))} <button type="button" class="market-btn is-small" data-act="more" data-k="more">${esc(t('showMore'))}</button></p>` : '';
+        const more = matching.length > shown.length ? `<p class="market-note">${esc(t('showing', { n: shown.length, total: matching.length }))} <button type="button" class="market-btn is-small" data-act="more" data-k="more">${esc(t('showMore'))}</button></p>` : '';
         return `<div class="market-budget" data-market-paged>${table(t('budgetTitle'), heads, rows)}</div>` + more + stats + assumptionList(codes, 'budget');
     }
 
@@ -1392,13 +1390,7 @@
             later('[data-k="history-close"]', false, true, true);
             draw();
         }
-        else if (act === 'sys') {
-            const chips = H.chips(view.sys);
-            chips.cycle(target.getAttribute('data-id'));
-            view.sys = chips.encode();
-            saveHash();
-            update();
-        } else if (act === 'fac') {
+        else if (act === 'fac') {
             const flag = target.getAttribute('data-id');
             view.fac = view.fac.includes(flag) ? view.fac.filter((item) => item !== flag) : [...view.fac, flag];
             saveHash();
@@ -1439,7 +1431,12 @@
         const kind = target.getAttribute('data-change');
         const value = target.value;
         if (kind === 'ship') E.state.set({ ship: value || null });
-        else if (kind === 'budget') {
+        else if (kind === 'system') {
+            view.sys = '';
+            saveHash();
+            E.state.set({ system: value || null });
+            update();
+        } else if (kind === 'budget') {
             // 쉼표·띄어쓰기·끝의 "aUEC"는 받아 준다. 그 밖의 것(음수, 글자)은 고치지 않고 알린다.
             const text = String(value).trim().replace(/aUEC$/i, '').replace(/[\s,]/g, '');
             if (text && !/^\d+(\.\d+)?$/.test(text)) {

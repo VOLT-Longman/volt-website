@@ -75,6 +75,7 @@ test('순회 무역: 함선을 고르지 않으면 안내하고, 고르면 공�
     const app = page.locator('#tours-app');
     await app.locator('[data-act="run-tour"]').click();
     await expect(app.locator('.tours-main')).toContainText('함선을 고르세요');
+    if (!(await app.locator('[data-conditions]').evaluate((node) => node.open))) await app.locator('[data-conditions] > summary').click();
     await app.locator('[data-k="ship"]').selectOption('c2-hercules');
     await expect(app.locator('.tours-cards')).toBeVisible();
     await expect(app.locator('.tours-mine')).toContainText('화물칸 696 SCU');
@@ -97,11 +98,11 @@ test('순회 무역: 세 곳을 도는 순회를 찾고 구간별 살 것·팔 �
     await expect(first).toContainText('추정');
     await expect(first).toContainText('시간당 이익');
     await expect(first.locator('.tours-flag')).toHaveCount(0); // 합법 화물뿐이면 경고 표시가 없다
-    await expect(page).toHaveURL(/#tours\?.*n=3/);            // 찾기를 돌리면 주소에 남는다
+    await expect(page).toHaveURL(/#routes\?.*n=3/);            // 찾기를 돌리면 주소에 남는다
     // 알루미늄 500 SCU × (150 − 100) + 구리 696 SCU × (280 − 200) = 25,000 + 55,680
     await expect(first).toContainText('+80,680 aUEC');
     await first.locator('[data-act="open"]').click();
-    await expect(page).toHaveURL(/#tours\?.*stops=1%2C13%2C66/);
+    await expect(page).toHaveURL(/#routes\?.*stops=1%2C13%2C66/);
     const legs = app.locator('.tours-leg');
     await expect(legs).toHaveCount(2);
     await expect(legs.nth(0)).toContainText('500 SCU');
@@ -148,6 +149,7 @@ test('순회 무역: 돌아오기·도착지·오래된 보고 제외', async ({
     await app.locator('[data-k="tour.end"]').selectOption('');
     await app.locator('[data-k="tour.start"]').selectOption('2');
     await expect(app.locator('.tours-main .tours-empty')).toContainText('찾지 못했습니다');
+    if (!(await app.locator('[data-conditions]').evaluate((node) => node.open))) await app.locator('[data-conditions] > summary').click();
     await app.locator('[data-k="age"]').fill('30');
     await app.locator('[data-k="age"]').blur();
     await expect(app.locator('.tours-card').first()).toContainText('10일 전');
@@ -252,6 +254,7 @@ test('순회 무역: 기본은 합법 화물만, 끄면 불법 화물이 든 순
     const app = page.locator('#tours-app');
     await expect(app.locator('[data-k="tour.legal"]')).toBeChecked();
     await expect(app.locator('.tours-main .tours-empty')).toContainText('찾지 못했습니다');
+    if (!(await app.locator('[data-tour-advanced]').evaluate((node) => node.open))) await app.locator('[data-tour-advanced] > summary').click();
     await app.locator('[data-k="tour.legal"]').uncheck();
     const card = app.locator('.tours-card').first();
     await expect(card).toContainText('불법 화물 포함');
@@ -269,7 +272,7 @@ test('순회 무역: 새로 고쳐도 목록이 남고, 받은 계획 주소에�
     const app = page.locator('#tours-app');
     await app.locator('[data-act="run-tour"]').click();
     await expect(app.locator('.tours-card').first()).toBeVisible();
-    await expect(page).toHaveURL(/#tours\?n=3$/);
+    await expect(page).toHaveURL(/#routes\?n=3&tab=tour$/);
     await page.reload();
     await expect(app.locator('.tours-card').first()).toBeVisible();
     // 계획을 연 채 새로 고치면 목록이 없는 상태다 (받은 주소로 들어온 것과 같다).
@@ -298,10 +301,12 @@ test('순회 무역: 같은 곳의 두 터미널은 이름이 구별되고, 가�
     expect(labels.filter((label) => label.includes('Area 18 IO Tower'))).toHaveLength(1);
     await page.evaluate(() => { window.location.hash = '#tours?stops=12,1'; });
     await expect(app.locator('.tours-leg .tours-path')).toContainText('(TDD Area 18)');
+    if (!(await app.locator('[data-conditions]').evaluate((node) => node.open))) await app.locator('[data-conditions] > summary').click();
     await app.locator('[data-k="age"]').fill('1e9');
     await app.locator('[data-k="age"]').blur();
     await expect(app.locator('[data-k="age"]')).toHaveValue('365');
     expect(await page.evaluate(() => JSON.parse(localStorage.getItem('volt-helper-state-v1')).maxAgeDays)).toBe(365);
+    if (!(await app.locator('[data-conditions]').evaluate((node) => node.open))) await app.locator('[data-conditions] > summary').click();
     await app.locator('[data-k="budget"]').fill('0');
     await app.locator('[data-k="budget"]').blur();
     await expect(app.locator('.tours-leg')).toContainText('쓸 수 있는 돈이 0이라');
@@ -336,6 +341,7 @@ test('섞어 싣기: 화물칸 크기를 모르는 함선이면 그렇게 말하
     await expect(app.locator('.tours-card').first()).toBeVisible();
     await expect(app.locator('.tours-main')).toContainText('이 함선의 화물칸 크기는 게임 자료에 없어서');
     await expect(app.locator('.tours-main')).not.toContainText('함선을 고르면');
+    if (!(await app.locator('[data-conditions]').evaluate((node) => node.open))) await app.locator('[data-conditions] > summary').click();
     await app.locator('[data-k="ship"]').selectOption('c2-hercules');
     const small = app.locator('.tours-box h5 small').first();
     await expect(small).toContainText('빈 칸 596 SCU');

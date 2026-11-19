@@ -99,6 +99,11 @@
         if (!rows.length) return `${count}<p class="hauling-empty">${esc(text('noResult'))}</p>`;
         const rankName = (index) => label(list[index]?.name) || '';
         const amount = (row) => !Number.isFinite(row.min) ? text('unknownAmount') : row.max > row.min ? `${num(row.min)}–${num(row.max)} SCU` : row.max === row.min ? `${num(row.min)} SCU` : text('atLeast', { n: num(row.min) });
+        const shipLink = (contract) => {
+            if (!contract.maxBox) return '';
+            const url = window.VOLT_HELPER.buildHash('market', { tab: 'ships', box: contract.maxBox });
+            return ` <a class="hauling-link" href="${esc(url)}">${lang() === 'ko' ? '이 상자를 싣는 화물선' : 'Ships that fit this crate'}</a>`;
+        };
         const shown = rows.slice(0, state.limit);
         return `${count}
             <div class="hauling-tablewrap" tabindex="0" role="region" aria-label="${esc(text('contractsAt'))}"><table class="hauling-table">
@@ -110,7 +115,7 @@
                 <td>${esc(contract.min === contract.max ? rankName(contract.min) : `${rankName(contract.min ?? 0)} – ${rankName(contract.max ?? list.length - 1)}`)}</td>
                 <td class="is-num">${contract.minutes ? esc(text('minutesValue', { count: num(contract.minutes) })) : '—'}</td>
                 <td>${hasCargo(contract) ? `<ul class="hauling-cargo">${contract.cargo.map((row, index) => `<li><small>${esc(text('cargoOrder', { n: index + 1 }))}</small> ${esc(label(resources[row.resource]) || row.resource)} <strong>${esc(amount(row))}</strong></li>`).join('')}</ul>` : `<span class="hauling-muted">${esc(text('noCargo'))}</span>`}</td>
-                <td class="is-num">${contract.maxBox ? esc(text('boxValue', { size: contract.maxBox })) : '—'}</td>
+                <td class="is-num">${contract.maxBox ? esc(text('boxValue', { size: contract.maxBox })) : '—'}${shipLink(contract)}</td>
                 <td class="is-num">${contract.rep ? `+${esc(num(contract.rep))}` : '—'}</td>
             </tr>`).join('')}</tbody></table></div>
             ${rows.length > shown.length ? `<button type="button" class="btn btn-secondary hauling-more" data-hauling-more>${esc(text('more', { count: num(Math.min(PAGE, rows.length - shown.length)) }))}</button>` : ''}`;

@@ -1199,7 +1199,7 @@
     }
     function renderShipPlannerAction(ship, className) {
         if (!isPlannerEligibleShip(ship)) return '';
-        return `<button class="${escapeHtml(className)}" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('ships.usePlanner', '무역 플래너에서 사용'))}</button>`;
+        return `<button class="${escapeHtml(className)}" type="button" data-volt-open="routes" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Find trade routes with this ship' : '이 함선으로 무역 경로 찾기'}</button><button class="${escapeHtml(className)}" type="button" data-use-planner-ship-id="${escapeHtml(ship.id)}">${escapeHtml(i18nT('ships.usePlanner', '무역 플래너에서 사용'))}</button>`;
     }
     function getShipOfficialUrl(ship) {
         return canonicalShip(ship)?.sourceUrl || ship.rsiUrl || RSI_SHIP_MATRIX_URL;

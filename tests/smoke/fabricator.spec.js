@@ -95,7 +95,7 @@ test('설계도 찾기: 검색 · 분류 · 얻는 방법 · 재료 포함/제�
     // 줄의 ＋ 는 화면을 다시 그리지 않고 탭 숫자와 안내만 바꾼다
     await row.locator('[data-act="add"]').click();
     await expect(app(page).locator('[data-act="tab"][data-id="cart"] .fab-badge')).toHaveText('1');
-    await expect(app(page).locator('.fab-live')).toContainText('준비물 목록에 담았습니다: S-38 권총 (지금 1개)');
+    await expect(app(page).locator('.fab-live')).toContainText('모을 재료 목록에 담았습니다: S-38 권총 (지금 1개)');
     await expect(row.locator('[data-act="add"]')).toBeFocused();
     await noSidewaysScroll(page);
     expect(await tracker.problems()).toEqual([]);
@@ -261,12 +261,12 @@ test('위켈로 교환: 가져갈 것 · 받는 것 · 조건, 수량 0 은 적�
     expect(await tracker.problems()).toEqual([]);
 });
 
-test('준비물 목록: 여러 설계도 합계 · 수량 · 글자로 복사 · 주소로 공유', async ({ page, context }) => {
+test('모을 재료 목록: 여러 설계도 합계 · 수량 · 글자로 복사 · 주소로 공유', async ({ page, context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.setViewportSize({ width: 1440, height: 900 });
     await open(page, '#fabricator?bp=BP_CRAFT_behr_pistol_ballistic_01');
     await app(page).locator('.fab-detail [data-act="add"]').click();
-    await expect(app(page).locator('.fab-live')).toContainText('준비물 목록에 담았습니다: S-38 권총 (지금 1개)');
+    await expect(app(page).locator('.fab-live')).toContainText('모을 재료 목록에 담았습니다: S-38 권총 (지금 1개)');
     await app(page).locator('.fab-detail [data-act="add"]').click();
     await page.goto('/?lang=ko#fabricator?bp=BP_CRAFT_thp_light_legs_01_01_01');
     await expect(app(page).locator('.fab-detail h3')).toHaveText('아즈탈란 레그');
@@ -285,7 +285,7 @@ test('준비물 목록: 여러 설계도 합계 · 수량 · 글자로 복사 ·
     await app(page).locator('[data-act="qty-up"][data-id="BP_CRAFT_behr_pistol_ballistic_01"]').click();
     await expect(totals.filter({ hasText: '알루미늄' })).toContainText('0.06 SCU');
     await app(page).locator('[data-act="cart-copy"]').click();
-    await expect(app(page).locator('.fab-live')).toHaveText('준비물 목록을 복사했습니다.');
+    await expect(app(page).locator('.fab-live')).toHaveText('모을 재료 목록을 복사했습니다.');
     const copied = await page.evaluate(() => navigator.clipboard.readText());
     expect(copied).toContain('VOLT 제작 준비물');
     expect(copied).toContain('- S-38 권총 × 3');
@@ -301,7 +301,7 @@ test('준비물 목록: 여러 설계도 합계 · 수량 · 글자로 복사 ·
 
     // 남이 준 주소: 받은 목록으로만 보여 주고 내 목록은 그대로 둔다
     await page.goto('/?lang=ko#fabricator?tab=cart&list=BP_CRAFT_volt_lmg_energy_01.4,NOPE.2');
-    await expect(app(page).locator('.fab-shared')).toContainText('내 준비물 목록(2개)은 그대로 저장되어 있고');
+    await expect(app(page).locator('.fab-shared')).toContainText('내 모을 재료 목록(2개)은 그대로 저장되어 있고');
     await expect(app(page).locator('.fab-cartrow')).toHaveCount(1);
     await expect(app(page).locator('.fab-cartrow input')).toHaveValue('4');
     await expect(app(page).locator('.fab-table tbody tr').filter({ hasText: '자나라이트' })).toContainText('4개');
@@ -431,6 +431,7 @@ test('영어 화면 · 모르는 주소 값은 조용히 버린다', async ({ pa
     await expect(detail.locator('h3')).toHaveText('S-38 권총');
     await expect(detail.locator('#fab-quality')).toHaveValue('800');
     await page.evaluate(() => window.VOLT_I18N.setLang('en'));
+    await app(page).locator('[data-act="tab"][data-id="mats"]').click();
     await app(page).locator('[data-act="tab"][data-id="trades"]').click();
     await expect(app(page).locator('.fab-count')).toHaveText('69 found');
     await app(page).locator('[data-act="trade-type"][data-id="WIkelo_Ships"]').click();
@@ -486,6 +487,7 @@ for (const width of [375, 1440]) {
         }
         await app(page).locator('.fab-list [data-act="add"]').first().click();
         for (const tab of ['mats', 'pools', 'trades', 'cart', 'list']) {
+            if (tab === 'pools' || tab === 'trades') await app(page).locator(`[data-act="tab"][data-id="${tab === 'pools' ? 'list' : 'mats'}"]`).click();
             await app(page).locator(`[data-act="tab"][data-id="${tab}"]`).click();
             await expect(app(page).locator(`.fab-body-${tab}`)).toBeVisible();
             if (tab === 'pools') await app(page).locator('.fab-list [data-act="pool"]').nth(3).click();

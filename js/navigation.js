@@ -74,12 +74,17 @@
     }
 
     function updateHistory(id) {
-        const hash = id === 'home' ? '' : `#${id}`;
+        const hash = id === 'home' ? '' : window.VOLT_HELPER.buildHash(id);
         history.pushState({ section: id }, '', hash || window.location.pathname);
     }
 
     function parseRouteFromHash() {
         const hash = window.location.hash.replace('#', '');
+        const route = window.VOLT_HELPER?.parseHash();
+        if (route && ['hauling', 'tours'].includes(route.section)) {
+            if (/^(hauling|tours)(?:\?|$)/.test(hash)) history.replaceState(history.state, '', window.VOLT_HELPER.buildHash(route.section, route.params));
+            return { section: route.section, anchorId: null };
+        }
         if (hash === 'comms-usage') return { section: 'comms', anchorId: hash };
         const policyMatch = hash.match(/^policy-section-(\d+)$/);
         if (policyMatch) return { section: 'policy', anchorId: hash };

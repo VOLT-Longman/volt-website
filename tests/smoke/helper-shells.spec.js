@@ -14,16 +14,14 @@ const STRICT_CSP = [
 // 섹션 id, 들어 있는 데스크톱 묶음, 마운트 요소, 메뉴 글자, 제목 글자.
 const NEW_SECTIONS = [
     { id: 'routes', menu: 'trade', mount: 'routes-app', ko: ['무역 경로', '무역 경로'], en: ['Trade Routes', 'Trade Routes'] },
-    { id: 'market', menu: 'trade', mount: 'market-app', ko: ['시세 · 거래소', '시세 · 거래소'], en: ['Market Prices', 'Market Prices'] },
-    { id: 'tours', menu: 'trade', mount: 'tours-app', ko: ['순회 무역', '순회 무역'], en: ['Multi-stop Tours', 'Multi-stop Tours'] },
-    { id: 'missions', menu: 'work', mount: 'missions-app', ko: ['임무 찾기', '임무 찾기'], en: ['Mission Finder', 'Mission Finder'] },
-    { id: 'fabricator', menu: 'work', mount: 'fabricator-app', ko: ['제작 설계도', '제작 설계도'], en: ['Blueprints', 'Crafting Blueprints'] },
+    { id: 'market', menu: 'trade', mount: 'market-app', ko: ['시세', '시세'], en: ['Prices', 'Prices'] },
+    { id: 'missions', menu: 'work', mount: 'missions-app', ko: ['임무', '임무 찾기'], en: ['Missions', 'Mission Finder'] },
+    { id: 'fabricator', menu: 'work', mount: 'fabricator-app', ko: ['제작', '제작'], en: ['Crafting', 'Crafting'] },
 ];
 // 기존 섹션도 계속 메뉴에서 열려야 한다.
 const KEPT_SECTIONS = [
     { id: 'trade-planner', menu: 'trade' },
     { id: 'mining', menu: 'work', mount: 'mining-app' },
-    { id: 'hauling', menu: 'work', mount: 'hauling-app' },
 ];
 
 async function prepare(page) {
@@ -113,7 +111,7 @@ test('모바일 메뉴: 도구 묶음은 두 칸이고 누를 자리는 44px 이
         const rect = link.getBoundingClientRect();
         return { left: Math.round(rect.left), width: rect.width, height: rect.height, clipped: link.scrollWidth > link.clientWidth + 1 };
     }));
-    expect(boxes).toHaveLength(10);
+    expect(boxes).toHaveLength(8);
     expect(new Set(boxes.map((box) => box.left)).size).toBe(2);
     for (const box of boxes) {
         expect(box.height).toBeGreaterThanOrEqual(44);
@@ -163,11 +161,11 @@ test('주소의 화면 값(#section?key=value)이 화면 모듈에 전달되고,
         ['route', { stops: '4', mix: '1' }],
         ['lang', 'en'],
     ]);
-    expect(result.title).toMatch(/^Multi-stop Tours \| /);
+    expect(result.title).toMatch(/^Trade Routes \| /);
     expect(result.routesParams).toEqual({ from: 'a', sys: 'stanton,-pyro' });
     expect(result.built).toBe('#market?c=12&q=a+b');
     expect(result.share).toMatch(/^http:\/\/127\.0\.0\.1:\d+\/#routes\?from=a$/);
-    expect(result.written).toBe('#tours?stops=5');
+    expect(result.written).toBe('#routes?stops=5&tab=tour');
     expect(result.chipStates).toEqual(['include', 'exclude', 'any', true, false, false, 'include', 'nyx,stanton,-pyro']);
     expect(result.cacheVersion).toMatch(/^20\d{6}-\d{2}$/);
     await expect(page.locator('#tours-app')).toHaveText('tours ready');
@@ -241,50 +239,25 @@ test('공용 도우미: 모르는 값은 0이 아니고, 가격 나이와 UEX �
 
 // ── 도구끼리 오가는 길 ────────────────────────────────────────────────────
 // 각 도구 섹션 제목 아래 "함께 보기" 줄(index.html)과, 화면이 서로 보내는 주소가 정말 그 화면을 여는지 본다.
-const RELATED = {
-    routes: ['#market', '#tours', '#market?tab=ships', '#ships'],
-    market: ['#routes', '#tours', '#ships'],
-    tours: ['#routes', '#market', '#ships'],
-    missions: ['#fabricator', '#hauling', '#mining'],
-    fabricator: ['#missions', '#mining', '#mining?tab=ref'],
-    mining: ['#fabricator?tab=mats', '#mining?tab=ref', '#market'],
-};
-// 주소 값이 붙은 줄은 그 화면의 어느 부분이 열려야 하는지까지 본다.
-const RELATED_VIEW = {
-    '#market?tab=ships': '#market-app .market-tab.is-active[data-k="tab-ships"]',
-    '#mining?tab=ref': '#mining-view-ref[aria-selected="true"]',
-    '#fabricator?tab=mats': '#fabricator-app .fab-tab.is-active[data-id="mats"]',
-};
-
 for (const lang of ['ko', 'en']) {
-    for (const width of [375, 1440]) {
-        test(`함께 보기 줄: 모든 줄이 적힌 화면을 연다 (${lang}, ${width}px)`, async ({ page }) => {
-            test.setTimeout(120000);
-            await page.setViewportSize({ width, height: width === 375 ? 812 : 900 });
+    for (const width of [390, 1440]) {
+        test(`합친 화면의 예전 주소와 탭 이동 (${lang}, ${width}px)`, async ({ page }) => {
+            await page.setViewportSize({ width, height: 900 });
             const tracker = await prepare(page);
-            for (const [section, targets] of Object.entries(RELATED)) {
-                for (const target of targets) {
-                    await gotoSection(page, `?lang=${lang}#${section}`);
-                    const row = page.locator(`section#${section} .helper-related`);
-                    await expect(row).toBeVisible();
-                    const links = row.locator('a.helper-related-link');
-                    expect(await links.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')))).toEqual(targets);
-                    const boxes = await links.evaluateAll((nodes) => nodes.map((node) => ({ height: node.getBoundingClientRect().height, text: node.textContent.trim() })));
-                    for (const box of boxes) {
-                        expect(box.height).toBeGreaterThanOrEqual(44);
-                        expect(box.text.length).toBeGreaterThan(0);
-                        if (lang === 'en') expect(box.text).not.toMatch(/[가-힣]/);
-                    }
-                    await expectNoSidewaysScroll(page);
-                    const link = row.locator(`a.helper-related-link[href="${target}"]`);
-                    await link.scrollIntoViewIfNeeded();
-                    await link.click();
-                    const targetSection = target.slice(1).split('?')[0];
-                    await expect(page.locator(`section#${targetSection}`)).toHaveClass(/active/);
-                    if (targetSection !== section) await expect(page.locator(`section#${section}`)).not.toHaveClass(/active/);
-                    if (RELATED_VIEW[target]) await expect(page.locator(RELATED_VIEW[target])).toBeVisible();
-                    await expectNoSidewaysScroll(page);
-                }
+            for (const [legacy, canonical, section, next, target] of [
+                ['#tours', '#routes?tab=tour', 'tours', '#routes', 'routes'],
+                ['#tours?tab=mix', '#routes?tab=mix', 'tours', '#routes', 'routes'],
+                ['#hauling', '#missions?tab=hauling', 'hauling', '#missions?tab=rank', 'missions'],
+            ]) {
+                await gotoSection(page, `?lang=${lang}${legacy}`);
+                await expect.poll(() => page.evaluate(() => location.hash)).toBe(canonical);
+                const pane = page.locator(`section#${section}.active`);
+                const link = pane.locator(`a[href="${next}"]`).first();
+                await expect(link).toBeVisible();
+                expect((await link.boundingBox()).height).toBeGreaterThanOrEqual(44);
+                await link.click();
+                await expect(page.locator(`section#${target}`)).toHaveClass(/active/);
+                await expectNoSidewaysScroll(page);
             }
             expect(await tracker.collect()).toEqual([]);
         });
@@ -417,7 +390,7 @@ test('이어 가기: 무역 경로 ↔ 시세 · 거래소 ↔ 순회 무역', a
 
     // 무역 경로 → 순회 무역 (같은 두 곳의 계획)
     await openRoute();
-    await page.locator('#routes-detail a[href^="#tours?stops="]').first().click();
+    await page.locator('#routes-detail a[href^="#routes?stops="]').first().click();
     await expect(page.locator('section#tours')).toHaveClass(/active/);
     expect(decodeURIComponent(await hash())).toContain('stops=1,12');
     await expect(page.locator('#tours-app .tours-detail-head')).toBeVisible();

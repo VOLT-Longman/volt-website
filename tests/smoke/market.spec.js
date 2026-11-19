@@ -141,11 +141,12 @@ for (const width of [375, 1440]) {
 
         // 좁은 화면: 내 설정은 접혀 있고 지금 값이 한 줄로 보인다. 넓은 화면에서는 펼쳐져 있다.
         const settings = app(page).locator('details.market-settings');
-        expect(await settings.evaluate((node) => node.open)).toBe(width !== 375);
-        if (width === 375) await expect(settings.locator('summary')).toContainText('3일 이내 보고만');
+        expect(await settings.evaluate((node) => node.open)).toBe(false);
+        if (width === 375) await expect(settings.locator('summary')).toContainText('3일 이내 가격');
         await openSettings(page);
 
         // 기준을 7일로 늘리면 420 보고가 들어오고, 값은 공용 저장소에 남는다. 열어 둔 설정은 다시 그려도 열려 있다.
+        await openSettings(page);
         await app(page).locator('[data-k="max-age"]').selectOption('7');
         await expect(row(page, '알루미늄')).toContainText('420 aUEC');
         expect(await settings.evaluate((node) => node.open)).toBe(true);
@@ -195,9 +196,11 @@ test('상품 하나: 거래소별 표, 오래된 보고 표시, 내 함선 추�
     await expect(routes).not.toContainText('불법');
     // "이 계산이 가정한 것"을 열어 두면 다시 그려도 열려 있다.
     await routes.locator('.market-assume summary').click();
+    await openSettings(page);
     await app(page).locator('[data-k="max-age"]').selectOption('7');
     await expect(detail.locator('tr.is-old')).toHaveCount(0);
     expect(await routes.locator('.market-assume').evaluate((node) => node.open)).toBe(true);
+    await openSettings(page);
     await app(page).locator('[data-k="max-age"]').selectOption('3');
     await expect(detail.locator('tr.is-old')).toHaveCount(1);
 
@@ -223,9 +226,11 @@ test('함선을 고르지 않으면 경로 자리에 안내가 나오고, 고르
     await gotoSection(page, '?lang=ko#market?c=5');
     const routes = app(page).locator('[data-market-routes]');
     await expect(routes).toContainText('"내 함선"을 고르면');
+    await openSettings(page);
     await app(page).locator('[data-k="my-ship"]').selectOption('hull-a');
     await expect(routes).toContainText('5,120 aUEC');
     // 돈이 모자라면 살 수 있는 만큼만: 3,000 aUEC ÷ 300 = 10 SCU 까지, 상자로는 8 + 2
+    await openSettings(page);
     await app(page).locator('[data-k="my-money"]').fill('3000');
     await app(page).locator('[data-k="my-money"]').press('Tab');
     await expect(routes).toContainText('10 SCU');

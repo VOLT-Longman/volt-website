@@ -6,7 +6,7 @@
  *
  * 계산은 전부 js/trade-engine.js 의 공개 함수로 한다 (rankRoutes, evaluateRoute, planMixedLoad, whereToSell,
  * terminalSheet, commodityDetail, splitBoxes). 이 파일이 하는 일은
- *   - 순회 경로 찾기: 먼저 구간 표(출발지 → 도착지마다, 실을 수 있는 상품 하나하나를 엔진 rankRoutes 로 계산한 값)를 만들고,
+ *   - 여러 곳 돌기: 먼저 구간 표(출발지 → 도착지마다, 실을 수 있는 상품 하나하나를 엔진 rankRoutes 로 계산한 값)를 만들고,
  *     그 표로 순회를 잇는다. 조합 수가 EXACT_NODES 이하면 전부 견주고(빠지는 순회 없음), 더 많으면 "마지막에 들른 곳"마다
  *     좋은 후보를 PER_STOP 개씩 남기며 찾고 그 사실을 화면에 적는다. 좋은 후보 POOL 개는 엔진 evaluateRoute 로 다시 계산한다.
  *     한 구간에 무엇을 실을지는 여기서 고른다: 엔진은 SCU당 차익이 큰 상품부터 싣기 때문에, 재고가 몇 SCU뿐인 상품이
@@ -49,7 +49,7 @@
         ko: {
             loading: '자료를 불러오는 중입니다…',
             retry: '다시 시도',
-            tabTour: '순회 경로 찾기',
+            tabTour: '여러 곳 돌기',
             tabMix: '섞어 싣기',
             tabsLabel: '도구 고르기',
             mine: '내 조건',
@@ -97,7 +97,7 @@
             diff: '구간마다 다른 상품 싣기',
             goods: '한 곳에서 싣는 상품 가짓수',
             goodsN: '{n}가지',
-            runTour: '순회 경로 찾기',
+            runTour: '여러 곳 돌기',
             legalOnly: '불법 화물은 빼기',
             legalOnlyHint: '합법인지 알 수 없는 상품도 함께 뺍니다.',
             legalOff: '상품 자료를 받지 못해 합법 여부를 가릴 수 없습니다. 모든 상품을 넣어 계산합니다.',
@@ -107,7 +107,7 @@
             finishing: '찾은 순회를 정리하는 중입니다…',
             cancel: '그만 찾기',
             cancelled: '찾기를 멈췄습니다.',
-            tourIdle: '조건을 정하고 "순회 경로 찾기"를 누르세요. 가격 보고와 내 함선 화물칸으로 이익이 나는 구간을 이어 붙입니다.',
+            tourIdle: '조건을 정하고 "여러 곳 돌기"를 누르세요. 가격 보고와 내 함선 화물칸으로 이익이 나는 구간을 이어 붙입니다.',
             needShip: '먼저 "내 조건"에서 함선을 고르세요.',
             'problem.no-ship': '먼저 "내 조건"에서 함선을 고르세요.',
             'problem.unknown-ship': '이 함선은 화물 자료에 없습니다. 다른 함선을 고르세요.',
@@ -249,10 +249,10 @@
         en: {
             loading: 'Loading data…',
             retry: 'Try again',
-            tabTour: 'Find a tour',
+            tabTour: 'Visit multiple stops',
             tabMix: 'Load several goods',
             tabsLabel: 'Choose a tool',
-            mine: 'My settings',
+            mine: 'My conditions',
             mineHint: 'Shared with the other trade screens. Stored in this browser only.',
             ship: 'My ship',
             shipNone: 'Choose a ship',
@@ -308,8 +308,8 @@
             cancel: 'Stop searching',
             cancelled: 'Search stopped.',
             tourIdle: 'Set your conditions and press "Find tours". Profitable legs are chained using the price reports and your ship\'s hold.',
-            needShip: 'Choose a ship under "My settings" first.',
-            'problem.no-ship': 'Choose a ship under "My settings" first.',
+            needShip: 'Choose a ship under "My conditions" first.',
+            'problem.no-ship': 'Choose a ship under "My conditions" first.',
             'problem.unknown-ship': 'This ship is not in the cargo data. Choose another ship.',
             'problem.cargo-unknown': 'The hold size of this ship is not in the game files, so nothing can be calculated.',
             'problem.no-cargo': 'This ship has no cargo hold in its default loadout.',
@@ -320,7 +320,7 @@
             shortened: 'No tour visits {want} places, so tours with {got} places are shown.',
             partial: 'There were too many combinations to compare them all. Good candidates were kept for every last stop, so a better tour may be missing. Set a start or visit fewer places to compare everything.',
             searchFailed: 'Something went wrong during the calculation. Change the conditions or try again shortly.',
-            noMoney: 'Your money is set to 0, so nothing can be bought. Raise it under "My settings" or leave the field empty.',
+            noMoney: 'Your money is set to 0, so nothing can be bought. Raise it under "My conditions" or leave the field empty.',
             hasIllegal: 'Includes illegal cargo',
             hasUnknownLegal: 'Includes cargo of unknown legality',
             namesMissing: 'The goods list could not be loaded. Goods show as numbers and their legality is unknown.',
@@ -374,7 +374,7 @@
             toRoutes: 'Open this leg in Trade Routes',
             toStation: 'Trading post info',
             assume: 'What this calculation assumes',
-            assumeTimes: 'Time values that are our own default guesses can be changed under "My settings → Change the time assumptions".',
+            assumeTimes: 'Time values that are our own default guesses can be changed under "My conditions → Change the time assumptions".',
             mixMode: 'Hold',
             mixEmpty: 'Nothing loaded yet',
             mixBoard: 'Sell what I am carrying',
@@ -438,7 +438,7 @@
             alongNone: 'Nothing sold where you are pays at this place.',
             alongFree: '{scu} free',
             alongNoRoom: 'The hold has no room left for more.',
-            alongNeedShip: 'Choose a ship under "My settings" to also see what to load on the way.',
+            alongNeedShip: 'Choose a ship under "My conditions" to also see what to load on the way.',
             alongNeedAt: 'Choose where you are to also see what to load on the way.',
             alongHoldUnknown: 'The hold size of this ship is not in the game files, so what else fits cannot be calculated.',
             alongNoHold: 'This ship has no cargo hold in its default loadout, so nothing more is suggested.',
@@ -456,6 +456,8 @@
     const mixed = { job: null, result: null, ran: false };
     let root = null;
     let timeOpen = false;
+    let conditionsOpen = false;
+    let advancedOpen = false;
     let notice = '';
     let focusNext = null;
     let autoRun = { tour: false, mix: false };
@@ -556,7 +558,7 @@
         const commodity = data.model ? data.model.commodities.get(Number(id)) : null;
         return (commodity && H.name(commodity.name)) || `#${id}`;
     };
-    const shipName = (id) => data.shipNames.get(id) || String(id || '').split('-').map((part) => (part ? part[0].toUpperCase() + part.slice(1) : part)).join(' ');
+    const shipName = (id) => H.name(data.shipNames.get(id)) || String(id || '').split('-').map((part) => (part ? part[0].toUpperCase() + part.slice(1) : part)).join(' ');
     const money = (value, options) => H.price(value, options);
     const unitPrice = (value) => H.price(value, { digits: 2 });
     const signed = (value) => (H.isKnown(value) && Number(value) > 0 ? `+${money(value)}` : money(value));
@@ -617,15 +619,17 @@
     // 함선 표시 이름(영문). 함선 DB 가 이미 받았거나 받는 중이면 그 자료를 쓴다 (같은 파일을 두 번 받지 않게). 못 받으면 함선 id 로 보여 준다.
     function loadShipNames() {
         if (data.shipNames.size) return;
-        const take = (file) => {
-            const records = Array.isArray(file?.records) ? file.records : [];
-            records.forEach((record) => { if (record && record.id && record.name) data.shipNames.set(record.id, String(record.name)); });
-            if (data.shipNames.size && !tour.job && !mixed.job) draw();
-        };
         const db = window.VOLT_SHIPDB_CANONICAL;
-        const viaDb = db && (db.state === 'loaded' || db.state === 'loading') ? db.load().then((store) => store && store.presentation) : Promise.reject(new Error('no ship db'));
-        viaDb.then((file) => file || H.loadJson('/data/canonical/presentation-ships.json'), () => H.loadJson('/data/canonical/presentation-ships.json'))
-            .then(take).catch(() => { /* 이름 없이도 화면은 쓸 수 있다 */ });
+        const cached = db && ['loaded', 'loading'].includes(db.state) ? db.load().catch(() => null) : Promise.resolve(null);
+        cached.then(async (store) => {
+            const [presentation, canonical] = await Promise.all([
+                store?.presentation || H.loadJson('/data/canonical/presentation-ships.json'),
+                store?.canonical || H.loadJson('/data/canonical/ships-canonical.json'),
+            ]);
+            const korean = new Map((canonical.ships || []).map((ship) => [ship.id, ship.nameKo]));
+            for (const ship of presentation.records || []) data.shipNames.set(ship.id, { en: ship.name, ko: korean.get(ship.id) });
+            if (!tour.job && !mixed.job) draw();
+        }).catch(() => { /* 이름 파일이 없어도 게임 자료로 계산할 수 있다. */ });
     }
 
     function startAuto() {
@@ -684,7 +688,7 @@
         for (const row of sheet.buys) {
             if (row.ageLevel !== 'ok' || row.soldOut) continue;
             // 상품 하나만 실었을 때의 값을 도착지마다 받는다 (한 출발지·한 상품이라 500개를 넘지 않는다).
-            const ranked = E.rankRoutes(data.model, store.free, { from: [from], commodity: [row.c], maxGoods: 1, limit: 500, sort: 'profit', legalOnly: legalOn(options) });
+            const ranked = E.rankRoutes(data.model, store.free, { system: E.state.get().system || undefined, from: [from], commodity: [row.c], maxGoods: 1, limit: 500, sort: 'profit', legalOnly: legalOn(options) });
             if (!ranked.ok) continue;
             for (const route of ranked.routes) {
                 const good = route.goods[0];
@@ -1538,12 +1542,13 @@
             }
             return field(t(`time.${key}`), numberInput(`time.${key}`, times[key], ' min="0" max="14400" step="10"'));
         }).join('');
-        return `<section class="tours-panel tours-mine" aria-labelledby="tours-mine-title">
-            <h3 id="tours-mine-title">${esc(t('mine'))}</h3>
+        return `<details class="tours-panel tours-mine" data-conditions${conditionsOpen ? ' open' : ''}>
+            <summary><strong>${esc(t('mine'))}</strong> ${esc(H.conditionSummary(state, state.ship && shipName(state.ship)))}</summary>
             <p class="tours-hint">${esc(t('mineHint'))}</p>
             <div class="tours-grid">
                 ${field(t('ship'), select('ship', state.ship, [{ value: '', label: t('shipNone') }, ...ships]), hold)}
                 ${field(t('budget'), numberInput('budget', state.budget, ' min="0" step="1000"'), t('budgetHint'))}
+                ${field(H.lang() === 'ko' ? '항성계' : 'Star system', select('system', state.system, ['', ...new Set(data.terminals.map((row) => row.system).filter(Boolean))].map((value) => ({ value, label: H.systemLabel(value) }))))}
                 ${field(t('age'), numberInput('age', state.maxAgeDays, ' min="0.5" max="365" step="0.5"'), t('ageHint'))}
             </div>
             <details class="tours-times" data-times${timeOpen ? ' open' : ''}>
@@ -1552,7 +1557,7 @@
                 <div class="tours-grid">${timeFields}</div>
                 <button type="button" class="tours-btn" data-act="time-reset" data-k="time-reset">${esc(t('timeReset'))}</button>
             </details>
-        </section>`;
+        </details>`;
     }
 
     // ── 그리기: 순회 ────────────────────────────────────────────────────────
@@ -1567,6 +1572,7 @@
                 ${field(t('mode'), select('tour.rt', o.rt ? '1' : '', [{ value: '', label: t('modeFly') }, { value: '1', label: t('modeRound') }]))}
                 ${field(t('end'), select('tour.end', o.rt ? '' : o.end, terminalOptions(t('endAny'), (terminal) => terminal.sellCount > 0), o.rt ? ' disabled' : ''), o.rt ? t('endOff') : '')}
                 ${field(t('count'), select('tour.n', o.n, counts))}
+                </div><details class="tours-times" data-tour-advanced${advancedOpen ? ' open' : ''}><summary>${H.lang() === 'ko' ? '자세한 조건' : 'More options'}</summary><div class="tours-grid">
                 ${field(t('goal'), select('tour.goal', o.goal, [{ value: 'perHour', label: t('goalHour') }, { value: 'profit', label: t('goalProfit') }, { value: 'short', label: t('goalShort') }]))}
                 ${field(t('leg'), numberInput('tour.leg', o.leg, ' min="1" max="240" step="1"'), t('legHint'))}
                 ${field(t('goods'), select('tour.goods', o.goods, kinds))}
@@ -1577,7 +1583,7 @@
                 ${data.namesError ? '' : check('tour.legal', o.legal, t('legalOnly'))}
             </div>
             <p class="tours-hint">${esc(data.namesError ? t('legalOff') : t('legalOnlyHint'))}</p>
-            <button type="button" class="tours-btn is-primary" data-act="run-tour" data-k="run-tour">${esc(t('runTour'))}</button>
+            </details><button type="button" class="tours-btn is-primary" data-act="run-tour" data-k="run-tour">${esc(t('runTour'))}</button>
         </section>`;
     }
 
@@ -1867,6 +1873,7 @@
             return `<div class="tours-empty" role="alert"><p>${esc(H.errorText(data.error))}</p><button type="button" class="tours-btn" data-act="retry" data-k="retry">${esc(t('retry'))}</button></div>`;
         }
         const tabs = `<div class="tours-tabs" role="group" aria-label="${esc(t('tabsLabel'))}">
+            <a class="tours-tab" href="#routes">${H.lang() === 'ko' ? '한 번 왕복' : 'Round trip'}</a>
             <button type="button" class="tours-tab${view.tab === 'tour' ? ' is-active' : ''}" aria-pressed="${view.tab === 'tour'}" data-act="tab" data-tab="tour" data-k="tab-tour">${esc(t('tabTour'))}</button>
             <button type="button" class="tours-tab${view.tab === 'mix' ? ' is-active' : ''}" aria-pressed="${view.tab === 'mix'}" data-act="tab" data-tab="mix" data-k="tab-mix">${esc(t('tabMix'))}</button>
         </div>`;
@@ -1913,6 +1920,7 @@
         };
         if (key === 'ship') { shared({ ship: raw || null }); return; }
         if (key === 'budget') { shared({ budget: raw === '' || !(Number(raw) >= 0) ? null : Number(raw) }); return; }
+        if (key === 'system') { shared({ system: raw || null }); return; }
         if (key === 'age') { shared({ maxAgeDays: posNum(raw) ? Math.min(365, posNum(raw)) : E.state.defaults.maxAgeDays }); return; }
         if (key.startsWith('time.')) {
             const name = key.slice(5);
@@ -2055,6 +2063,8 @@
     }
 
     function onToggle(event) {
+        if (event.target?.matches('[data-tour-advanced]')) advancedOpen = event.target.open;
+        if (event.target?.matches('[data-conditions]')) conditionsOpen = event.target.open;
         if (event.target && event.target.matches && event.target.matches('[data-times]')) timeOpen = event.target.open;
     }
 
