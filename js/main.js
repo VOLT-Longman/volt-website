@@ -1635,7 +1635,8 @@
             window.VOLT_AUTH_UI?.render?.({ status: 'loading' });
             applyCommunityGates();
         }
-        authRequest = fetch(`/auth/me${refresh ? '?refresh=1' : ''}`, {
+        const readAuth = refresh ? (window.VOLT_HELPER?.fetchHelperData ?? fetch) : fetch;
+        authRequest = readAuth(`/auth/me${refresh ? '?refresh=1' : ''}`, {
             method: 'GET', credentials: 'same-origin', cache: 'no-store',
             headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10000)
         })

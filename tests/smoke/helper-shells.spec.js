@@ -493,7 +493,7 @@ test('도움 화면은 역할을 먼저 확인하고 장애에서 복구한 뒤�
     });
     await page.route(/\/auth\/me\?refresh=1$/, route => {
         checks++;
-        if (checks === 1) return route.fulfill({ status: 503, json: { error: 'unavailable' } });
+        if (checks <= 2) return route.fulfill({ status: 503, json: { error: 'unavailable' } });
         return route.fallback();
     });
     await gotoSection(page, '#missions');
@@ -503,4 +503,35 @@ test('도움 화면은 역할을 먼저 확인하고 장애에서 복구한 뒤�
     await retry.click();
     await expect(page.locator('#missions-app [data-ms-open]').first()).toBeVisible();
     expect(data).toHaveLength(1);
+});
+
+test('채광 자료와 시세가 첫 503 뒤 자동으로 복구된다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    let miningRequests = 0;
+    let marketRequests = 0;
+    await page.route('**/data/mining/helper.json*', route => {
+        if (++miningRequests === 1) return route.fulfill({ status: 503, body: '' });
+        return route.fallback();
+    });
+    await page.route('**/api/uex/market', route => {
+        if (++marketRequests === 1) return route.fulfill({ status: 503, body: '' });
+        return route.fulfill({ json: { status: 'ok', data: [{ t: 1, c: 2, sell: 100 }] } });
+    });
+    await gotoSection(page, '#mining');
+    await expect(page.locator('.mining-mobile-price').first()).toBeAttached();
+    const prices = await page.evaluate(async () => (await window.VOLT_HELPER.uex('market')).data);
+    expect(prices[0].sell).toBe(100);
+    expect(miningRequests).toBe(2);
+    expect(marketRequests).toBe(2);
+});
+
+test('시세 요청이 서버 확인을 거쳐 10초 뒤 도착해도 결과를 받는다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    await page.route('**/api/uex/market', async route => {
+        await new Promise(resolve => setTimeout(resolve, 10500));
+        await route.fulfill({ json: { status: 'ok', data: [{ c: 3, t: 1, buy: 42 }] } });
+    });
+    await gotoSection(page, '#guide');
+    const result = await page.evaluate(async () => (await window.VOLT_HELPER.uex('market')).data);
+    expect(result).toEqual([{ c: 3, t: 1, buy: 42 }]);
 });
