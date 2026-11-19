@@ -115,3 +115,8 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* Tool navigation should expose the next task immediately. */
+.section.tool-workspace.active > .section-content,
+.section.tool-workspace.active .section-header { animation: none; }
+.section.tool-workspace.active .section-header h2::after { content: none; }
