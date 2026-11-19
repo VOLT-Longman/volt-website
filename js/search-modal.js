@@ -28,6 +28,8 @@
 
     function invalidateSearchCache() {
         searchIndexCache = null;
+        const input = document.querySelector('#search-overlay.active #global-search-input');
+        if (input) renderSearchResults(input.value);
     }
     function setupSearch() {
         const overlay = document.getElementById('search-overlay');
@@ -102,7 +104,7 @@
             ...data.departments.map((item) => makeSearchItem('search.type.about', 'about', localized(item, 'name'), localized(item, 'description'))),
             ...data.coreValues.map((item) => makeSearchItem('search.type.values', 'about', localized(item, 'title'), localized(item, 'description'))),
             ...data.calendar.map((item) => makeSearchItem('search.type.schedule', 'schedule', localized(item, 'title'), localized(item, 'description'))),
-            ...data.tradeGuide.map((item) => makeSearchItem('search.type.guide', 'guide', localized(item, 'title'), localized(item, 'content'))),
+            ...data.tradeGuide.map((item) => makeSearchItem('search.type.guide', 'guide', localized(item, 'title'), [localized(item, 'content'), ...localized(item, 'steps')].join(' '))),
             ...data.joinSteps.map((item) => makeSearchItem('search.type.join', 'join', localized(item, 'title'), localized(item, 'description'))),
             ...data.gallery.map((item) => makeSearchItem('search.type.gallery', 'gallery', localized(item, 'title'), localized(item, 'description'))),
             ...data.policy.sections.map((item) => makeSearchItem('search.type.policy', 'policy', localized(item, 'title'), item.items.map((policyItem) => policyItem.text).join(' '))),

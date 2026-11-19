@@ -165,6 +165,7 @@
     let authStatus = 'loading';
     let authRequest = null;
     let authCheckedAt = 0;
+    let fleetCheckedAt = 0;
     let communityPanelSetup = false;
     let communityAllowed = false;
     let userPreferencesLoaded = false;
@@ -1096,7 +1097,19 @@
 
     // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.
     function renderSectionOnShow(id) {
-        if (document.getElementById(id)?.hasAttribute('data-fleet-helper') && (authStatus !== 'ready' || !authState.helperTools)) return;
+        const section = document.getElementById(id);
+        if (section?.hasAttribute('data-fleet-helper')) {
+            if (authStatus !== 'ready' || !authState.helperTools) return;
+            if (Date.now() - fleetCheckedAt >= 5000) {
+                // Confirm once before a helper fans out into several protected requests.
+                section.setAttribute('data-helper-checking', '');
+                if (!authRequest) setupAuthStatus({ refresh: true, background: true });
+                else authRequest.then(() => {
+                    if (section.classList.contains('active')) renderSectionOnShow(id);
+                });
+                return;
+            }
+        }
         if (['ships', 'trade-planner', 'loadout'].includes(id)) {
             if (Date.now() - authCheckedAt > 60000) setupAuthStatus({ background: true });
             if (!canUseCommunityTools()) return;
@@ -1547,11 +1560,12 @@
         return authStatus === 'ready' && authState.communityTools === true;
     }
 
-    let helpersWereAllowed = false;
+    let verifiedHelperAccount = null;
     function updateHelperAccess() {
         const allowed = authStatus === 'ready' && authState.helperTools === true;
         const en = currentLang() === 'en';
         for (const section of document.querySelectorAll('[data-fleet-helper]')) {
+            section.removeAttribute('data-helper-checking');
             section.toggleAttribute('data-helper-allowed', allowed);
             const gate = section.querySelector('.helper-access');
             if (allowed) { gate.replaceChildren(); continue; }
@@ -1560,6 +1574,14 @@
             else if (authStatus === 'error') message.textContent = en ? 'Could not check access. Try again shortly.' : '권한을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.';
             else message.textContent = authState.loggedIn ? (en ? 'The fleet member role is required.' : '함대원 역할이 필요합니다.') : (en ? 'Fleet members only.' : '함대원 전용 기능입니다.');
             gate.replaceChildren(message);
+            if (authStatus === 'error') {
+                const retry = document.createElement('button');
+                retry.type = 'button';
+                retry.className = 'btn btn-secondary';
+                retry.textContent = en ? 'Try again' : '권한 다시 확인';
+                retry.addEventListener('click', () => setupAuthStatus({ refresh: true }), { once: true });
+                gate.append(retry);
+            }
             if (authStatus === 'ready' && !authState.loggedIn) {
                 const login = document.createElement('a');
                 login.href = '/auth/discord/login?returnTo=' + encodeURIComponent('/#' + section.id);
@@ -1567,8 +1589,13 @@
                 gate.append(login);
             }
         }
-        if (helpersWereAllowed && !allowed && authStatus !== 'loading') { window.location.reload(); return; }
-        if (authStatus !== 'loading') helpersWereAllowed = allowed;
+        // Hide protected content during an outage. Discard the previous account's
+        // in-memory data only after a successful check confirms a change.
+        if (authStatus === 'ready') {
+            const account = allowed ? authState.user?.sub : null;
+            if (verifiedHelperAccount && account !== verifiedHelperAccount) { window.location.reload(); return; }
+            verifiedHelperAccount = account;
+        }
         if (allowed) {
             const active = parseRouteFromHash().section;
             if (document.getElementById(active)?.hasAttribute('data-fleet-helper')) {
@@ -1605,7 +1632,7 @@
         window.VOLT_LOADOUT?.onLanguageChange?.();
     }
 
-    function setupAuthStatus({ refresh = false, background = false } = {}) {
+    function setupAuthStatus({ refresh = document.getElementById(parseRouteFromHash().section)?.hasAttribute('data-fleet-helper'), background = false } = {}) {
         if (authRequest) return authRequest;
         notifyAuthErrorFromQuery();
         if (!background) {
@@ -1613,7 +1640,8 @@
             window.VOLT_AUTH_UI?.render?.({ status: 'loading' });
             applyCommunityGates();
         }
-        authRequest = fetch(`/auth/me${refresh ? '?refresh=1' : ''}`, {
+        const readAuth = refresh ? (window.VOLT_HELPER?.fetchHelperData ?? fetch) : fetch;
+        authRequest = readAuth(`/auth/me${refresh ? '?refresh=1' : ''}`, {
             method: 'GET', credentials: 'same-origin', cache: 'no-store',
             headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10000)
         })
@@ -1623,6 +1651,7 @@
             })
             .then((payload) => {
                 authCheckedAt = Date.now();
+                if (refresh) fleetCheckedAt = authCheckedAt;
                 authStatus = 'ready';
                 if (payload && payload.logged_in && payload.user) {
                     const changedAccount = authState.user?.sub !== payload.user.sub;
@@ -2179,7 +2208,7 @@
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         });
         // 헤더 인증 UI 렌더 계층 — i18n·escapeHtml 주입(상태 계산은 main.js).
-        window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml });
+        window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml, retry: () => setupAuthStatus({ refresh: true }) });
         window.VOLT_I18N?.onChange?.(updateHelperAccess);
         window.VOLT_COMMUNITY?.init?.(() => setupAuthStatus({ refresh: true }));
         window.VOLT_GEAR?.initAccess?.(() => setupAuthStatus({ refresh: true, background: true }));

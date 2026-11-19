@@ -484,3 +484,86 @@ test('운송 계약에서 화물선 크기를 확인하고 함선DB에서 고른
     await expect(page.locator('#routes-ship')).toHaveValue('c2-hercules');
     await expect(page.locator('#global-modal')).not.toHaveClass(/active/);
 });
+
+test('도움 화면은 역할을 먼저 확인하고 장애에서 복구한 뒤에만 보호 자료를 읽는다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    let checks = 0;
+    const data = [];
+    page.on('request', request => {
+        if (request.url().includes('/data/contracts/missions.json')) data.push(request.url());
+    });
+    await page.route(/\/auth\/me\?refresh=1$/, route => {
+        checks++;
+        if (checks <= 2) return route.fulfill({ status: 503, json: { error: 'unavailable' } });
+        return route.fallback();
+    });
+    await gotoSection(page, '#missions');
+    const retry = page.locator('#missions .helper-access button');
+    await expect(retry).toBeVisible();
+    expect(data).toHaveLength(0);
+    await retry.click();
+    await expect(page.locator('#missions-app [data-ms-open]').first()).toBeVisible();
+    expect(data).toHaveLength(1);
+});
+
+test('채광 자료와 시세가 첫 503 뒤 자동으로 복구된다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    let miningRequests = 0;
+    let marketRequests = 0;
+    await page.route('**/data/mining/helper.json*', route => {
+        if (++miningRequests === 1) return route.fulfill({ status: 503, body: '' });
+        return route.fallback();
+    });
+    await page.route('**/api/uex/market', route => {
+        if (++marketRequests === 1) return route.fulfill({ status: 503, body: '' });
+        return route.fulfill({ json: { status: 'ok', data: [{ t: 1, c: 2, sell: 100 }] } });
+    });
+    await gotoSection(page, '#mining');
+    await expect(page.locator('.mining-mobile-price').first()).toBeAttached();
+    const prices = await page.evaluate(async () => (await window.VOLT_HELPER.uex('market')).data);
+    expect(prices[0].sell).toBe(100);
+    expect(miningRequests).toBe(2);
+    expect(marketRequests).toBe(2);
+});
+
+test('시세 요청이 서버 확인을 거쳐 10초 뒤 도착해도 결과를 받는다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    await page.route('**/api/uex/market', async route => {
+        await new Promise(resolve => setTimeout(resolve, 10500));
+        await route.fulfill({ json: { status: 'ok', data: [{ c: 3, t: 1, buy: 42 }] } });
+    });
+    await gotoSection(page, '#guide');
+    const result = await page.evaluate(async () => (await window.VOLT_HELPER.uex('market')).data);
+    expect(result).toEqual([{ c: 3, t: 1, buy: 42 }]);
+});
+
+test('함대원 화면을 보는 중 권한 재확인이 실패하면 재로그인 없이 같은 화면으로 복구한다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    let outage = false;
+    let revoked = false;
+    await page.route(/\/auth\/me(?:\?.*)?$/, route => {
+        if (outage) return route.fulfill({ status: 503, json: { error: 'unavailable' } });
+        if (revoked) return route.fulfill({ json: { logged_in: false, features: { helperTools: false } } });
+        return route.fallback();
+    });
+    await gotoSection(page, '#mining');
+    const minerals = page.locator('#mining-list-panel');
+    await expect(minerals).toBeVisible();
+    let reloads = 0;
+    page.on('request', request => { if (request.isNavigationRequest() && request.frame() === page.mainFrame()) reloads++; });
+    outage = true;
+    await page.clock.setFixedTime(new Date(await page.evaluate(() => Date.now() + 31000)));
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await expect(page.locator('#mining .helper-access button')).toBeVisible();
+    await expect(minerals).toBeHidden();
+    expect(reloads).toBe(0);
+    outage = false;
+    await page.locator('#mining .helper-access button').click();
+    await expect(minerals).toBeVisible();
+    expect(reloads).toBe(0);
+    revoked = true;
+    await page.clock.setFixedTime(new Date(await page.evaluate(() => Date.now() + 31000)));
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await expect(page.locator('#mining .helper-access a')).toBeVisible();
+    await expect(minerals).toHaveCount(0);
+});

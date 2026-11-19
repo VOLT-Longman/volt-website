@@ -22,6 +22,11 @@
     function init(options) {
         const deps = options || {};
         t = deps.t;
+        for (const slot of slots()) {
+            slot?.addEventListener('click', event => {
+                if (event.target.closest('[data-auth-retry]')) deps.retry?.();
+            });
+        }
         escapeHtml = deps.escapeHtml || ((value) => String(value == null ? '' : value));
     }
 
@@ -69,7 +74,7 @@
 
     function errorHtml() {
         const label = tr('auth.retry', '인증 재시도');
-        return `<a class="volt-auth-login volt-auth-warning" href="${LOGIN_URL}" aria-live="polite" aria-label="${escapeHtml(label)}">${escapeHtml(label)}</a>`;
+        return `<button type="button" class="volt-auth-login volt-auth-warning" data-auth-retry aria-live="polite">${escapeHtml(label)}</button>`;
     }
 
     function avatarHtml(state) {

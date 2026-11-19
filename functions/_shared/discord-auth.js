@@ -153,7 +153,10 @@ export async function readUserSession(request, env, { membershipTtlMs = MEMBERSH
       await db.prepare('DELETE FROM security_sessions WHERE id = ?').bind(session.sid).run();
       return null;
     }
-    if (response.status !== 404 && !response.ok) throw new Error('Discord membership verification unavailable');
+    if (response.status !== 404 && !response.ok) {
+      console.warn('Discord membership verification failed', { status: response.status });
+      throw new Error('Discord membership verification unavailable');
+    }
     const member = response.status === 404 ? null : await response.json();
     if (member && !Array.isArray(member.roles)) throw new Error('Invalid Discord membership response');
     roleIds = member?.roles || [];

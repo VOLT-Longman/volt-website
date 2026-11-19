@@ -47,7 +47,7 @@
             shipImpact: '현재 함선 성능', stockComparison: '기본 구성 대비 변화', meteorRack: 'RSI 미티어 기본 랙', cycloneRack: '사이클론 MT 전용 랙',
             equipmentHint: '부품 이름을 눌러 교체 후보를 비교하세요.',
             capacitorSize: '에너지 탄창', capacitorDelay: '에너지 재충전 대기', partDetails: '부품 상세', statsTab: '성능', shopsTab: '판매처', craftTab: '제작', craftTime: '제작 시간', craftMaterials: '재료', craftPieces: '낱개 재료', craftAmount: '필요량', craftCount: '{count}개', craftWhere: '캐는 곳 보기', craftNote: '게임 파일 설계도의 첫 단계 재료입니다. 상위 단계·품질 보정은 포함하지 않으며 게임 안에서 확인한 값이 아닙니다.', craftUnmapped: '채광 위치 미확인', craftMinutes: '{m}분 {s}초', craftHours: '{h}시간 {m}분', backToList: '목록으로', previewCompare: '현재 장착 부품과 비교', collapseAll: '장비 모두 접기', expandAll: '장비 모두 펼치기', compactView: '간결하게 보기', changedOnly: '변경한 장비만', noChanges: '변경한 장비가 없습니다.', redo: '다시 실행', equippedNotice: '{name} 장착 완료', detailMissing: '현재 자료에 없는 수치는 표시하지 않습니다.', detailBasis: '기본 부품 수치입니다. 함선 전력 배분과 운용 조건은 반영하지 않습니다.', hpLabel: '부품 내구도', heatShot: '발당 발열', coolingRate: '초당 냉각', coolingDelay: '냉각 시작까지 대기', heatCapacity: '과열 온도', regenRate: '초당 에너지 충전', magSize: '탄창', perProjectile: '발당 피해', fullCharge: '완전 충전 시간', detailCompare: '비교 부품', noComparable: '같은 종류의 비교 부품이 없습니다.',
-            refreshFailed: '판매처를 새로 확인하지 못했습니다. 이전에 받은 정보가 표시될 수 있습니다.', planMode: '구매 방식', planCheapest: '최저가 우선', planGrouped: '같은 상점에 모으기', planHelp: '직접 지정한 상점은 유지합니다. 자동 배정은 가장 많은 종류를 파는 상점부터 묶고, 종류 수가 같으면 합계가 싼 곳을 고릅니다. 최단 이동 경로를 계산하는 기능은 아닙니다.', planAuto: '자동 배정', planShop: '구매 상점', planReset: '상점 지정 해제', planMissing: '지정한 상점의 판매 정보를 확인할 수 없습니다. 다른 상점을 선택해 주세요.', planRoute: '방문 순서', planStops: '방문 상점 {count}곳', planUp: '앞으로 이동', planDown: '뒤로 이동', planCopy: '구매 계획 복사', planCopied: '구매 계획을 복사했습니다.', planExtra: '최저가 합계보다 {price} 높음', planUnknown: '판매처 미확인 {count}종은 합계에서 제외됩니다.', refreshPrices: '판매처 새로고침', refreshingPrices: '판매처 확인 중', keepPicker: '교체 후 목록 유지', variants: '스킨·버전 {count}종', variantBase: '기본형', pickerCart: '현재 부품 장바구니에 담기', liveShipsOnly: '출시가 확인된 함선만 표시합니다.',
+            panelMove: '{name} 배치 변경', panelReset: '기본 배치로', panelAcross: '다른 열로 이동', refreshFailed: '판매처를 새로 확인하지 못했습니다. 이전에 받은 정보가 표시될 수 있습니다.', planMode: '구매 방식', planCheapest: '최저가 우선', planGrouped: '같은 상점에 모으기', planHelp: '직접 지정한 상점은 유지합니다. 자동 배정은 가장 많은 종류를 파는 상점부터 묶고, 종류 수가 같으면 합계가 싼 곳을 고릅니다. 최단 이동 경로를 계산하는 기능은 아닙니다.', planAuto: '자동 배정', planShop: '구매 상점', planReset: '상점 지정 해제', planMissing: '지정한 상점의 판매 정보를 확인할 수 없습니다. 다른 상점을 선택해 주세요.', planRoute: '방문 순서', planStops: '방문 상점 {count}곳', planUp: '앞으로 이동', planDown: '뒤로 이동', planCopy: '구매 계획 복사', planCopied: '구매 계획을 복사했습니다.', planExtra: '최저가 합계보다 {price} 높음', planUnknown: '판매처 미확인 {count}종은 합계에서 제외됩니다.', refreshPrices: '판매처 새로고침', refreshingPrices: '판매처 확인 중', keepPicker: '교체 후 목록 유지', variants: '스킨·버전 {count}종', variantBase: '기본형', pickerCart: '현재 부품 장바구니에 담기', liveShipsOnly: '출시가 확인된 함선만 표시합니다.',
             equipmentNav: '장비 종류', allEquipment: '전체 장비', clearFilters: '검색·필터 초기화', filteredEmpty: '조건에 맞는 부품이 없습니다. 검색어나 필터를 바꿔 보세요.', firepower: '화력', defense: '방어', systems: '파워·쿨러·시그니쳐', weaponCount: '무기', regenLabel: '실드 재생률', perSecond: '/초', seconds: '초',
             shieldCount: '실드 제너레이터', unitCount: '{count}기', signatureEm: 'EM 시그니쳐', signatureIr: 'IR 시그니쳐', qdSpeedLabel: '퀀텀 속도', spoolLabel: '스풀링', cooldownLabel: '쿨다운',
             equipped: '장착', costAll: '바꾼 부품 전부 상점 최저가 기준', crew: '승무원 {count}명', stockState: '기본 장착 상태', offState: '전원 꺼짐 {count}곳', rangeWarning: '최대 이동 거리 {range} Gm 초과 · 중간 급유가 필요합니다.', distanceInvalid: '1~999 Gm 사이 거리를 입력해 주세요.', changedCount: '{count}곳 변경됨',
@@ -118,7 +118,7 @@
             shipImpact: 'Current ship performance', stockComparison: 'Change from stock setup', meteorRack: 'RSI Meteor stock rack', cycloneRack: 'Cyclone MT bespoke rack',
             equipmentHint: 'Select a component name to compare replacements.',
             capacitorSize: 'Capacitor capacity', capacitorDelay: 'Capacitor recharge delay', partDetails: 'Component details', statsTab: 'Stats', shopsTab: 'Shops', craftTab: 'Crafting', craftTime: 'Craft time', craftMaterials: 'Materials', craftPieces: 'Loose materials', craftAmount: 'Needed', craftCount: '{count} pcs', craftWhere: 'Where to mine', craftNote: 'First-tier recipe from the game files. Higher tiers and quality modifiers are not included; not confirmed in game.', craftUnmapped: 'Mining location unverified', craftMinutes: '{m} min {s} s', craftHours: '{h} h {m} min', backToList: 'Back to list', previewCompare: 'Compare with equipped part', collapseAll: 'Collapse equipment', expandAll: 'Expand equipment', compactView: 'Compact view', changedOnly: 'Changed equipment only', noChanges: 'No equipment has changed.', redo: 'Redo', equippedNotice: '{name} equipped', detailMissing: 'Values missing from the current data are not shown.', detailBasis: 'Base component values; ship power allocation and operating conditions are not applied.', hpLabel: 'Component health', heatShot: 'Heat per shot', coolingRate: 'Cooling per second', coolingDelay: 'Cooling delay', heatCapacity: 'Overheat temperature', regenRate: 'Capacitor regen per second', magSize: 'Magazine', perProjectile: 'Damage per shot', fullCharge: 'Full charge time', detailCompare: 'Comparison part', noComparable: 'No component of the same type to compare.',
-            refreshFailed: 'Could not refresh shops. Previously fetched offers may still be shown.', planMode: 'Purchase strategy', planCheapest: 'Lowest price', planGrouped: 'Group at shared shops', planHelp: 'Manual shop choices stay fixed. Automatic assignment picks the shop selling the most remaining product types, then the lowest combined cost. This does not calculate the shortest travel route.', planAuto: 'Automatic', planShop: 'Purchase shop', planReset: 'Clear shop choices', planMissing: 'The chosen shop offer is unavailable. Select another shop.', planRoute: 'Visit order', planStops: '{count} shops to visit', planUp: 'Move earlier', planDown: 'Move later', planCopy: 'Copy purchase plan', planCopied: 'Purchase plan copied.', planExtra: '{price} above the lowest-price total', planUnknown: '{count} products without a confirmed shop are excluded from the total.', refreshPrices: 'Refresh shops', refreshingPrices: 'Checking shops', keepPicker: 'Keep list open after equipping', variants: '{count} paints / variants', variantBase: 'Base model', pickerCart: 'Add current part to cart', liveShipsOnly: 'Only ships confirmed as released are listed.',
+            panelMove: 'Move {name} panel', panelReset: 'Reset panel layout', panelAcross: 'Move to other column', refreshFailed: 'Could not refresh shops. Previously fetched offers may still be shown.', planMode: 'Purchase strategy', planCheapest: 'Lowest price', planGrouped: 'Group at shared shops', planHelp: 'Manual shop choices stay fixed. Automatic assignment picks the shop selling the most remaining product types, then the lowest combined cost. This does not calculate the shortest travel route.', planAuto: 'Automatic', planShop: 'Purchase shop', planReset: 'Clear shop choices', planMissing: 'The chosen shop offer is unavailable. Select another shop.', planRoute: 'Visit order', planStops: '{count} shops to visit', planUp: 'Move earlier', planDown: 'Move later', planCopy: 'Copy purchase plan', planCopied: 'Purchase plan copied.', planExtra: '{price} above the lowest-price total', planUnknown: '{count} products without a confirmed shop are excluded from the total.', refreshPrices: 'Refresh shops', refreshingPrices: 'Checking shops', keepPicker: 'Keep list open after equipping', variants: '{count} paints / variants', variantBase: 'Base model', pickerCart: 'Add current part to cart', liveShipsOnly: 'Only ships confirmed as released are listed.',
             equipmentNav: 'Equipment categories', allEquipment: 'All equipment', clearFilters: 'Clear search & filters', filteredEmpty: 'No parts match. Try another search or clear the filters.', firepower: 'Firepower', defense: 'Defense', systems: 'Power, cooling & signature', weaponCount: 'Weapons', regenLabel: 'Shield regen', perSecond: '/s', seconds: 's',
             shieldCount: 'Shield generators', unitCount: '{count}', signatureEm: 'EM signature', signatureIr: 'IR signature', qdSpeedLabel: 'Quantum speed', spoolLabel: 'Spool', cooldownLabel: 'Cooldown',
             equipped: 'Equipped', costAll: 'Cheapest shop price for every changed part', crew: 'Crew {count}', stockState: 'Stock loadout', offState: '{count} powered off', rangeWarning: 'Exceeds {range} Gm range · refuelling required.', distanceInvalid: 'Enter a distance between 1 and 999 Gm.', changedCount: '{count} slots changed',
@@ -1238,8 +1238,9 @@ ${section(text('cost'), `
             const count = groups.get(key).length;
             const shownCount = groups.get(key).filter((row) => !state.changedOnly || row.changed || state.off[row.path] || state.operation.activeModules[row.path]).length;
             const hidden = state.changedOnly && !rows.some((row) => row.changed || row.mount?.changed || state.off[row.path] || state.operation.activeModules[row.path]);
-            return `<section class="loadout-group is-${key}" ${hidden ? 'hidden' : ''}>
-            <h4><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(state.changedOnly ? text('visibleSlots', { shown: shownCount, count }) : text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>
+            return `<section class="loadout-group is-${key}" data-panel-key="${key}" ${hidden ? 'hidden' : ''}>
+            <h4 data-panel-heading><button type="button" class="loadout-panel-grip" data-panel-handle aria-expanded="false" aria-controls="panel-menu-${key}" aria-label="${esc(text('panelMove', { name: groupLabel(key) }))}" title="${esc(text('panelMove', { name: groupLabel(key) }))}"><span aria-hidden="true"></span></button><button type="button" class="loadout-group-toggle" data-loadout-collapse="${key}" aria-expanded="${!state.collapsed.has(key)}" aria-controls="loadout-rows-${key}"><span>${esc(groupLabel(key))}</span><span>${esc(state.changedOnly ? text('visibleSlots', { shown: shownCount, count }) : text('slotCount', { count }))} <span aria-hidden="true">${state.collapsed.has(key) ? '+' : '−'}</span></span></button></h4>
+            <div id="panel-menu-${key}" class="loadout-panel-menu" data-panel-menu hidden><button type="button" data-panel-move="up">${esc(text('planUp'))}</button><button type="button" data-panel-move="down">${esc(text('planDown'))}</button><button type="button" data-panel-move="other">${esc(text('panelAcross'))}</button></div>
             <ul id="loadout-rows-${key}" class="loadout-slotlist" ${state.collapsed.has(key) ? 'hidden' : ''}>${drawAssemblyRows(rows)}</ul>
         </section>`;
         };
@@ -1248,18 +1249,14 @@ ${section(text('cost'), `
         const navigation = `<div class="loadout-equipment-nav" role="group" aria-label="${esc(text('equipmentNav'))}">${[['', []], ...available].map(([label]) => `<button type="button" id="loadout-category-${label || 'all'}" class="loadout-category${state.equipmentGroup === label ? ' is-active' : ''}" data-loadout-category="${label}" aria-pressed="${state.equipmentGroup === label}">${esc(text(label || 'allEquipment'))}</button>`).join('')}</div>`;
         // Render every group so slot/mount mappings stay complete while filtering the view.
         const controls = `<div class="loadout-view-tools"><button type="button" class="loadout-link" data-loadout-collapse-all>${esc(text(state.collapsed.size ? 'expandAll' : 'collapseAll'))}</button><label><input type="checkbox" id="loadout-compact" ${state.compact ? 'checked' : ''}> ${esc(text('compactView'))}</label><label><input type="checkbox" id="loadout-changed-only" ${state.changedOnly ? 'checked' : ''}> ${esc(text('changedOnly'))}</label></div>${state.changedOnly && !nodes.some((node) => node.changed || state.off[node.path] || state.operation.activeModules[node.path]) ? `<p class="loadout-note">${esc(text('noChanges'))}</p>` : ''}`;
-        const primary = new Set(['weapon', 'mining', 'utility']);
-        const columns = [[], []];
-        for (const [label, keys] of available) {
-            for (const key of keys.filter((key) => groups.get(key).length)) {
-                const html = group(key);
-                columns[primary.has(key) ? 0 : 1].push(state.equipmentGroup && state.equipmentGroup !== label ? html.replace('<section ', '<section hidden ') : html);
-            }
-        }
-        const systemOrder = ['missile', 'quantum', 'shield', 'power', 'cooler', 'radar', 'other'];
-        const order = (html) => systemOrder.findIndex((key) => html.includes(`loadout-group is-${key}"`));
-        columns[1].sort((a, b) => order(a) - order(b));
-        return { controls: navigation + controls, primary: columns[0].join(''), systems: columns[1].join('') };
+        const layout = window.VOLT_LOADOUT_LAYOUT;
+        const activeKeys = SUPER_GROUPS.find(([label]) => label === state.equipmentGroup)?.[1];
+        const columns = layout.columns.map((keys) => keys.filter((key) => groups.get(key).length).map((key) => {
+            const html = group(key);
+            return activeKeys && !activeKeys.includes(key) ? html.replace('<section ', '<section hidden ') : html;
+        }).join(''));
+        const reset = layout.customized ? `<button type="button" class="loadout-link" data-panel-reset>${esc(text('panelReset'))}</button>` : '';
+        return { controls: navigation + controls + reset, primary: columns[0], systems: columns[1] };
     }
 
     function drawShopping(cost) {
@@ -1572,7 +1569,7 @@ ${section(text('cost'), `
 
     function draw() {
         const container = root();
-        if (!container || !deps.canUse?.() || composingInput) return;
+        if (!container || !deps.canUse?.() || composingInput?.isConnected) return;
         state.mining = state.ship ? calc.miningHeads(state.ship, state.items, state.overrides, { off: state.off, operation: state.operation }) : [];
         const focusId = document.activeElement?.id;
         const caret = document.activeElement?.selectionStart;
@@ -1601,9 +1598,9 @@ ${section(text('cost'), `
                         ${drawShipHead(totals, stock)}
                         ${state.tab === 'cart' ? '' : summary.overview}
                         ${drawTabs()}
-                        <div class="loadout-slots loadout-equipment-column is-primary">${main}${shopping}</div>
+                        <div class="loadout-slots loadout-equipment-column is-primary" ${slots ? 'data-panel-column="0"' : ''}>${main}${shopping}</div>
                     </div>
-                    ${slots ? `<div class="loadout-systems-column loadout-equipment-column is-systems">${slots.systems}</div>` : ''}
+                    ${slots ? `<div class="loadout-systems-column loadout-equipment-column is-systems" data-panel-column="1">${slots.systems}</div>` : ''}
                     </div>
                     ${state.tab === 'cart' ? '' : `<aside class="loadout-control-column" aria-label="${esc(text('actions'))}">${summary.operations}</aside>`}
                 </div>${state.cartOpen ? drawCartDrawer() : state.detailId ? drawComponentDetail() : openNode ? drawPicker(openNode, nodes) : ''}`;
@@ -1616,7 +1613,10 @@ ${section(text('cost'), `
             if (!state.ship) body += state.cartOpen ? drawCartDrawer() : state.detailId ? drawComponentDetail() : '';
             body += drawSources();
         }
-        container.innerHTML = body;
+        const template = document.activeElement?.matches('input[type="search"]') && container.contains(document.activeElement) ? document.createElement('template') : null;
+        const output = template || container;
+        output.innerHTML = body;
+        if (template) window.VOLT_SEARCH_RENDER(container, template.content);
         if (state.ship?.volt && !state.loading && document.getElementById('loadout')?.classList.contains('active')) window.VOLT_JOURNEY?.ship?.(state.ship.volt, shipName(state.ship), aiContext());
         summaryObserver?.disconnect();
         const toolbar = container.querySelector('.loadout-topbar');
@@ -1649,7 +1649,7 @@ ${section(text('cost'), `
         if (detailContent && detailScroll) detailContent.scrollTop = detailScroll;
         if (focusId) {
             const target = document.getElementById(focusId);
-            if (target) { target.focus({ preventScroll: true }); if (typeof caret === 'number' && target.setSelectionRange) { try { target.setSelectionRange(caret, caret); } catch (_error) { /* search 입력이 아닌 경우 */ } } }
+            if (target && target !== document.activeElement) { target.focus({ preventScroll: true }); if (typeof caret === 'number' && target.setSelectionRange) { try { target.setSelectionRange(caret, caret); } catch (_error) { /* search 입력이 아닌 경우 */ } } }
         }
     }
 
@@ -1942,7 +1942,7 @@ ${section(text('cost'), `
     }
 
     function handleInput(event) {
-        if (event.isComposing || composingInput) return;
+        if (event.isComposing || composingInput?.isConnected) return;
         if (event.target.id === 'loadout-ship-search') { state.query = event.target.value; draw(); }
         if (event.target.id === 'loadout-picker-search') { state.pickerQuery = event.target.value; draw(); }
         if (event.target.id === 'loadout-finder-search') { state.finderQuery = event.target.value; state.finderLimit = 40; draw(); }
@@ -1997,6 +1997,7 @@ ${section(text('cost'), `
         if (event.target.id === 'loadout-compare-pick') { startCompare(Number(event.target.value)); }
     }
     function handleKeydown(event) {
+        if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || composingInput?.isConnected) return;
         if (root()?.contains(event.target) && event.target.hasAttribute('data-loadout-power-value') && event.key === 'Enter') {
             event.preventDefault(); setPowerAllocation(event.target.dataset.loadoutPowerValue, Number(event.target.value)); return;
         }
@@ -2026,6 +2027,7 @@ ${section(text('cost'), `
     }
 
     document.addEventListener('click', handleClick);
+    window.VOLT_LOADOUT_LAYOUT.redraw = draw;
     document.addEventListener('input', handleInput);
     document.addEventListener('compositionstart', (event) => {
         if (root()?.contains(event.target) && /^(loadout-ship-search|loadout-picker-search|loadout-finder-search)$/.test(event.target.id)) composingInput = event.target;

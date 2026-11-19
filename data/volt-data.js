@@ -691,46 +691,114 @@ const VOLT_DATA = {
     // ===== 무역 가이드 =====
     tradeGuide: [
         {
-            step: 1,
-            title: "기본 무역 흐름",
-            title_en: "Basic Trade Flow",
-            content: "저렴한 곳에서 구매 → 비싼 곳에서 판매. Trade Tools(sc-trade.tools, uexcorp.space)로 최적 루트를 미리 확인하세요.",
-            content_en: "Buy low, sell high. Use Trade Tools (sc-trade.tools, uexcorp.space) to plan the optimal route in advance."
+            "step": 1,
+            "title": "처음이라면 내 함선부터 고르세요",
+            "title_en": "Set up your first trip",
+            "content": "무역 경로를 열고 내 조건에서 바꾸기를 누르세요.",
+            "content_en": "Open Trade Routes and expand your trade settings.",
+            "steps": [
+                "내 함선을 고르세요. SCU는 화물의 부피 단위입니다. 화물칸이 40 SCU라면 최대 40 SCU를 실을 수 있습니다.",
+                "가진 돈에는 이번에 화물을 사는 데 쓸 게임 머니(aUEC)를 넣으세요. 처음에는 지금 있는 항성계를 고르면 가까운 후보부터 살펴보기 쉽습니다."
+            ],
+            "steps_en": [
+                "Choose your ship. SCU measures cargo volume. A 40 SCU hold fits up to 40 SCU.",
+                "Enter the game credits (aUEC) you can spend on cargo. Select your current star system to narrow the search."
+            ],
+            "action": "무역 경로 열기",
+            "action_en": "Open Trade Routes",
+            "route": "routes"
         },
         {
-            step: 2,
-            title: "추천 입문 루트",
-            title_en: "Recommended Starter Route",
-            content: "스탠턴 기준: Microtech ↔ ArcCorp 구간이 초보자에게 안정적입니다. 화물칸 용량에 맞는 고수익 상품을 선택하세요.",
-            content_en: "In Stanton, the Microtech \u2194 ArcCorp leg is stable for beginners. Pick a high-yield commodity that fits your cargo capacity."
+            "step": 2,
+            "title": "어디서 사서 어디에 팔까요?",
+            "title_en": "Find a place to buy and sell",
+            "content": "무역 경로에서 ‘한 번 왕복’을 고르세요.",
+            "content_en": "Choose the round-trip tab in Trade Routes.",
+            "steps": [
+                "결과 한 줄에서 상품, 사는 곳, 파는 곳을 함께 읽으세요. 한 번 운송해서 벌 금액을 보려면 이익을, 시간까지 따져 보려면 시간당 이익을 비교하세요.",
+                "상품 이름을 눌러 가격이 언제 보고됐는지 보세요. 기본은 최근 3일입니다. 결과가 없으면 내 조건에서 항성계 범위를 넓혀 보세요."
+            ],
+            "steps_en": [
+                "Read the commodity, buying location and selling location in one result. Compare profit for one trip or profit per hour when time matters.",
+                "Select the commodity to check when its price was reported. The default window is three days. If no routes appear, broaden the star system setting."
+            ],
+            "action": "한 번 왕복 열기",
+            "action_en": "Find a round trip",
+            "route": "routes"
         },
         {
-            step: 3,
-            title: "함선 선택 기준",
-            title_en: "Choosing a Ship",
-            content: "입문: Cutlass Black(46 SCU) / 중급: Freelancer MAX(122 SCU) / 고급: Hull C(4,608 SCU). 초기엔 소형 화물선으로 루트를 익히는 것을 권장합니다.",
-            content_en: "Starter: Cutlass Black (46 SCU) / Mid: Freelancer MAX (122 SCU) / Advanced: Hull C (4,608 SCU). Early on, learn routes with a small freighter."
+            "step": 3,
+            "title": "고른 경로로 운송 계획을 세우세요",
+            "title_en": "Plan the trip you picked",
+            "content": "마음에 드는 경로에서 ‘자세히’를 연 뒤 ‘이 경로를 무역플래너로 보내기’를 누르세요. 고른 상품과 거래 장소가 플래너에 들어갑니다.",
+            "content_en": "Open the details for a route, then choose ‘Send route to trade planner’. Your commodity and trading locations carry over.",
+            "steps": [
+                "플래너를 직접 열었다면 ‘내 함선 검색’에서 함선을 고르세요. ‘거래 상품 검색’에서 상품을 고르고 ‘거래 후보 조회’를 누르세요. 매수는 내가 사는 곳, 매도는 내가 파는 곳입니다.",
+                "‘이번 운송 계획’에서 ‘사용할 자금’과 ‘운송할 양’을 입력하세요. 예를 들어 빈자리가 20 SCU라면 20까지 입력합니다.",
+                "구매 금액과 판매 금액의 차이가 매매 차익입니다. 이미 가진 화물을 파는 경우에는 판매 금액을 확인하세요. 계획을 함께 살펴보려면 ‘AI로 이 운송 계획 검토’를 누르세요."
+            ],
+            "steps_en": [
+                "Starting in the planner? Search for your ship, select a commodity, then look up trade candidates. Choose where you will buy the cargo and where you will sell it.",
+                "Under “This trip”, enter your budget and quantity. For example, enter up to 20 SCU if that much space is free.",
+                "Compare purchase cost with sale value to see your trade margin. For cargo you already own, check the sale value. Choose ‘Review this trip with AI’ to discuss the plan."
+            ],
+            "action": "무역플래너 열기",
+            "action_en": "Open Trade Planner",
+            "route": "trade-planner"
         },
         {
-            step: 4,
-            title: "리스크 관리",
-            title_en: "Risk Management",
-            content: "파이로 시스템은 무법 지대입니다. 고가치 화물 운송 시 호위를 요청하거나 VOLT-무역허브에서 경호 임무를 모집하세요.",
-            content_en: "The Pyro system is lawless. When hauling high-value cargo, request an escort or recruit security runs in the VOLT Trade Hub."
+            "step": 4,
+            "title": "여러 곳을 돌거나 화물을 섞어 실으세요",
+            "title_en": "Visit several stops or mix cargo",
+            "content": "거래 장소를 이어 다니려면 무역 경로에서 ‘여러 곳 돌기’를 고르세요.",
+            "content_en": "To link several trades, open the multi-stop tab in Trade Routes.",
+            "steps": [
+                "출발지와 들를 곳 수를 고르고 ‘여러 곳 돌기’를 누르세요. 결과의 첫 구간부터 각 장소에서 살 상품과 다음에 팔 장소를 순서대로 보세요.",
+                "한 번에 여러 상품을 실으려면 ‘섞어 싣기’로 바꾸세요. 화물칸과 거래 조건을 정하고 ‘계산하기’를 누르면 상품별로 몇 SCU를 실을지 볼 수 있습니다."
+            ],
+            "steps_en": [
+                "Select a start and the number of stops, then run the search. Follow each leg in order to see what to buy and where to sell it next.",
+                "For several commodities in one hold, switch to the mixed-cargo tab. Set the cargo and trading conditions and choose ‘Calculate’ to see the quantity of each good."
+            ],
+            "action": "여러 곳 돌기 열기",
+            "action_en": "Open multi-stop routes",
+            "route": "routes?tab=tour"
         },
         {
-            step: 5,
-            title: "함대 내부 거래",
-            title_en: "In-Fleet Trading",
-            content: "전리품·부품 판매 시 NPC보다 높은 가격에 함대원에게 판매 가능합니다. VOLT-무역허브 채널을 적극 활용하세요.",
-            content_en: "You can sell loot and parts to fleet members above NPC prices. Make active use of the VOLT Trade Hub channels."
+            "step": 5,
+            "title": "가격이나 판매 장소만 찾고 싶나요?",
+            "title_en": "Check a price or find a trading location",
+            "content": "시세에서 찾으려는 대상에 맞는 탭을 고르세요.",
+            "content_en": "Open Market and pick the tab for what you want to look up.",
+            "steps": [
+                "상품을 알고 있으면 ‘상품 시세’에서 이름을 찾으세요. 장소를 알고 있으면 ‘거래 장소’에서 그곳이 어떤 물건을 사고파는지 보세요.",
+                "이전 보고와 비교하려면 ‘가격 변동’, 예산에 맞는 함선이 궁금하면 ‘화물선 고르기’를 여세요. 보고 뒤에는 가격과 재고가 달라질 수 있으니 구매 직전 게임 안에서 다시 확인하세요."
+            ],
+            "steps_en": [
+                "If you know the commodity, find it in commodity prices. If you know the location, look it up in trading locations to see what is bought and sold there.",
+                "Use price changes to compare reports, or the freighter picker to browse ships within budget. Check in game before buying because prices and stock can change after a report."
+            ],
+            "action": "시세 열기",
+            "action_en": "Open Market",
+            "route": "market"
         },
         {
-            step: 6,
-            title: "버그·규정 주의",
-            title_en: "Bugs & Rules",
-            content: "화물 복사 버그 등 게임 내 버그 악용은 CIG 제재(최대 계정 정지) 및 함대 제재 대상입니다. 발견 시 운영진에게 제보해 주세요.",
-            content_en: "Exploiting in-game bugs such as cargo duplication is subject to CIG penalties (up to account suspension) and fleet sanctions. Report any you find to the staff."
+            "step": 6,
+            "title": "함대원과 거래하거나 함께 운송하세요",
+            "title_en": "Trade or haul with fleet members",
+            "content": "함대원에게 물건을 팔거나 운송을 함께할 사람을 찾을 때는 무역허브를 여세요.",
+            "content_en": "Open Trade Hub to sell to fleet members or find people for a hauling job.",
+            "steps": [
+                "허브에서 거래와 임무 모집 안내를 확인하세요. 거래할 때는 상품 이름·수량·희망 가격을, 함께 운송할 때는 출발지·목적지·시간을 미리 정해 두면 편합니다.",
+                "로그인이나 함대원 역할 안내가 뜨면 VOLT에 연결한 디스코드 계정을 확인하세요."
+            ],
+            "steps_en": [
+                "Read the trading and recruitment instructions. For a sale, prepare the item, quantity and asking price. For a group trip, agree on a start, destination and time.",
+                "If prompted to sign in or obtain a fleet role, check the Discord account you use with VOLT."
+            ],
+            "action": "무역허브 열기",
+            "action_en": "Open Trade Hub",
+            "route": "hub"
         }
     ]
 };

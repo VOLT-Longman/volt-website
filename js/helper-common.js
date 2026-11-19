@@ -27,7 +27,9 @@
     const DEFAULT_PRICE_AGE_DAYS = 3;
     const DAY_SECONDS = 86400;
     const UEX_BASE = '/api/uex';
-    const UEX_TIMEOUT_MS = 10000;
+    // The proxy can spend 5 s checking membership, 6 s waiting for a shared
+    // update and 10 s waiting for UEX. Include those steps in the client budget.
+    const UEX_TIMEOUT_MS = 25000;
 
     const TEXT = {
         ko: {
@@ -379,6 +381,15 @@
         }
     })();
 
+    // A short interruption can affect several reads at once when a tool opens.
+    // Retry a GET once. A role denial or a server-requested cooldown is final.
+    async function fetchHelperData(url, options) {
+        const response = await fetch(url, options);
+        if (![502, 503, 504].includes(response.status) || response.headers.has('Retry-After')) return response;
+        await new Promise(resolve => setTimeout(resolve, 600));
+        return fetch(url, options);
+    }
+
     const jsonCache = new Map();
 
     // loadJson('/data/trade/cargo.json') → Promise<object>. 같은 파일은 한 번만 받는다. 실패하면 다음 호출에서 다시 시도한다.
@@ -391,7 +402,7 @@
         const pending = (async () => {
             let response;
             try {
-                response = await fetch(url, { headers: { Accept: 'application/json' }, credentials: 'same-origin' });
+                response = await fetchHelperData(url, { headers: { Accept: 'application/json' }, credentials: 'same-origin' });
             } catch (_error) {
                 throw makeError('data', `Data network error: ${path}`);
             }
@@ -432,7 +443,7 @@
             let response;
             try {
                 const url = `${UEX_BASE}/${key}${options.refresh ? `${key.includes('?') ? '&' : '?'}refresh=1` : ''}`;
-                response = await fetch(url, { headers: { Accept: 'application/json' }, cache: 'no-store', credentials: 'same-origin', signal: controller.signal });
+                response = await fetchHelperData(url, { headers: { Accept: 'application/json' }, cache: 'no-store', credentials: 'same-origin', signal: controller.signal });
             } catch (error) {
                 throw makeError(error?.name === 'AbortError' ? 'timeout' : 'network', `UEX ${error?.name === 'AbortError' ? 'timeout' : 'network error'}: ${key}`);
             } finally {
@@ -529,7 +540,8 @@
     // 섹션이 화면에 나올 때마다 불린다. 처음이면 init, 그다음부터는 onRoute.
     function onSectionShow(section, params) {
         const entry = SECTIONS[section];
-        if (!entry || !document.getElementById(section)?.hasAttribute('data-helper-allowed')) return;
+        const host = document.getElementById(section);
+        if (!entry || !host?.hasAttribute('data-helper-allowed') || host.hasAttribute('data-helper-checking')) return;
         hookLanguage();
         updateTitle(section);
         const mount = document.getElementById(entry.mount);
@@ -585,7 +597,7 @@
         isKnown, unknown, num, price, scu, percent, age, ageSeconds, ageLevel, duration, sourceLine,
         chips,
         parseHash, buildHash, readHash, writeHash, shareUrl, copyShareUrl, go,
-        loadJson, uex, errorType, errorText,
+        loadJson, uex, errorType, errorText, fetchHelperData,
         el, comingSoon,
         onSectionShow, updateTitle,
     };

@@ -1186,7 +1186,7 @@
         const active = Boolean(focusId) && focused.tagName === 'INPUT';
         const caret = active ? focused.selectionStart : null;
         let html;
-        if (state.error) html = `<div class="mining-status" role="alert"><p>${esc(text('loadError'))}</p><button type="button" class="btn btn-secondary" data-mining-retry>${esc(text('retry'))}</button></div>`;
+        if (state.error) html = `<div class="mining-status" role="alert"><p>${esc(state.error.helperType && H?.errorText ? H.errorText(state.error) : text('loadError'))}</p><button type="button" class="btn btn-secondary" data-mining-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.data) html = `<p class="mining-status" role="status">${esc(text('loading'))}</p>`;
         else {
             let list;
@@ -1307,7 +1307,7 @@
             }
             buildIndex();
             validateState();
-        } catch (_error) { state.data = null; state.error = true; }
+        } catch (error) { state.data = null; state.error = error; }
         if (state.data && state.view === 'ref' && state.ref.status === 'idle') loadRefineries();
         draw();
         applyPending();
