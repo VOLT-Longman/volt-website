@@ -10929,7 +10929,7 @@ html:has(#loadout.active .has-drawer), body:has(#loadout.active .has-drawer) { o
     .gear-item-name { grid-template-columns: 44px minmax(100px, 1fr); gap: 8px; }
     .gear-thumb { width: 44px; height: 52px; }
     .gear-table th, .gear-table td { padding: 8px; }
-    .gear-list[data-gear-type=weapon] tr > :nth-child(2), .gear-list[data-gear-type=weapon] tr > :nth-child(3), .gear-list[data-gear-type=weapon] tr > :nth-child(4), .gear-list[data-gear-type=weapon] tr > :nth-child(6), .gear-list[data-gear-type=weapon] tr > :nth-child(7), .gear-list[data-gear-type=armor] tr > :nth-child(2), .gear-list[data-gear-type=armor] tr > :nth-child(5), .gear-list[data-gear-type=armor] tr > :nth-child(6) { display: none; }
+    .gear-list .gear-secondary-col { display: none; }
     .gear-list .gear-scroll-hint { display: none; }
     .gear-fit-body { padding: 12px; }
     .gear-body-map { grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr); gap: 4px; }
@@ -11409,3 +11409,15 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
         white-space: nowrap;
     }
 }
+
+/* Lead a comparison with its main measurement; keep supporting values quiet. */
+.tool-workspace .gear-list tbody .gear-metric {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+.tool-workspace .gear-list .gear-rowbtn { font-weight: 650; }
+.tool-workspace .section-content :is(.gear-list, .mining-table, .market-table, .routes-table, .missions-table, .fab-table) small {
+    line-height: 1.45;
+}
+.tool-workspace .gear-list td, .tool-workspace .market-price { font-variant-numeric: tabular-nums; }

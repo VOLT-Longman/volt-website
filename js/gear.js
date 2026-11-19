@@ -350,26 +350,26 @@
         return `${mode.basis === 'upperBound' ? '≤ ' : ''}${esc(num(mode.rpm))}`;
     }
     function weaponRows(list) {
-        return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col">${esc(text('kind'))}</th><th scope="col" class="is-num">${esc(text('damage'))}</th><th scope="col" class="is-num">${esc(text('rate'))}</th><th scope="col" class="is-num">${esc(text('dps'))}</th><th scope="col" class="is-num">${esc(text('mag'))}</th><th scope="col" class="is-num">${esc(text('speed'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th></tr></thead>
+        return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col" class="is-num gear-metric">${esc(text('dps'))}</th><th class="gear-secondary-col" scope="col">${esc(text('kind'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('damage'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('rate'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('mag'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('speed'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th></tr></thead>
             <tbody>${list.map((group) => { const mode = bestMode(group); const damage = group.combatVerified === false ? 0 : totalDamage(group.ammo?.dmg); const dps = dpsOf(group); return `<tr class="${state.selected.weapon === group.id ? 'is-selected' : ''}">
                 <th scope="row">${rowButton(group)}</th>
-                <td><span class="gear-tag">${esc(text(group.kind))}</span></td>
-                <td class="is-num">${damage ? `${esc(num(damage, 1))}${mode?.pellets ? ` × ${esc(mode.pellets)}` : ''}` : esc(text('unknown'))}</td>
-                <td class="is-num">${rateCell(mode)}</td>
-                <td class="is-num">${dps ? `${mode?.basis === 'upperBound' ? '≤ ' : ''}${esc(num(dps))}` : esc(text('unknown'))}</td>
-                <td class="is-num">${group.combatVerified !== false && group.mag ? esc(num(group.mag)) : esc(text('unknown'))}</td>
-                <td class="is-num">${group.combatVerified !== false && group.ammo?.speed ? `${esc(num(group.ammo.speed))} m/s` : esc(text('unknown'))}</td>
+                <td class="is-num gear-metric">${dps ? `${mode?.basis === 'upperBound' ? '≤ ' : ''}${esc(num(dps))}` : esc(text('unknown'))}</td>
+                <td class="gear-secondary-col"><span class="gear-tag">${esc(text(group.kind))}</span></td>
+                <td class="is-num gear-secondary-col">${damage ? `${esc(num(damage, 1))}${mode?.pellets ? ` × ${esc(mode.pellets)}` : ''}` : esc(text('unknown'))}</td>
+                <td class="is-num gear-secondary-col">${rateCell(mode)}</td>
+                <td class="is-num gear-secondary-col">${group.combatVerified !== false && group.mag ? esc(num(group.mag)) : esc(text('unknown'))}</td>
+                <td class="is-num gear-secondary-col">${group.combatVerified !== false && group.ammo?.speed ? `${esc(num(group.ammo.speed))} m/s` : esc(text('unknown'))}</td>
                 <td class="is-num">${priceCell(group)}</td></tr>`; }).join('')}</tbody>`;
     }
     function armorRows(list) {
-        return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col">${esc(text('slot'))}</th><th scope="col">${esc(text('armorClass'))}</th><th scope="col" class="is-num">${esc(text('cut'))}</th><th scope="col" class="is-num">${esc(text('temp'))}</th><th scope="col" class="is-num">${esc(text('store'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th></tr></thead>
+        return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col" class="is-num gear-metric">${esc(text('cut'))}</th><th scope="col">${esc(text('armorClass'))}</th><th class="gear-secondary-col" scope="col">${esc(text('slot'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('temp'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('store'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th></tr></thead>
             <tbody>${list.map((group) => `<tr class="${state.selected.armor === group.id ? 'is-selected' : ''}">
                 <th scope="row">${rowButton(group)}</th>
-                <td><span class="gear-tag">${esc(text(group.slot))}</span></td>
+                <td class="is-num gear-metric">${group.cut ? `${esc(num(group.cut[0]))}%` : esc(text('unknown'))}</td>
                 <td>${group.cls ? esc(text(group.cls)) : `<span class="gear-muted">${esc(text('unknown'))}</span>`}</td>
-                <td class="is-num">${group.cut ? `${esc(num(group.cut[0]))}%` : esc(text('unknown'))}</td>
-                <td class="is-num">${group.temp ? `${esc(num(group.temp[0]))} ~ ${esc(num(group.temp[1]))}°C` : esc(text('unknown'))}</td>
-                <td class="is-num">${group.store ? `${esc(num(group.store / 1000, 1))}K µSCU` : esc(text('unknown'))}</td>
+                <td class="gear-secondary-col"><span class="gear-tag">${esc(text(group.slot))}</span></td>
+                <td class="is-num gear-secondary-col">${group.temp ? `${esc(num(group.temp[0]))} ~ ${esc(num(group.temp[1]))}°C` : esc(text('unknown'))}</td>
+                <td class="is-num gear-secondary-col">${group.store ? `${esc(num(group.store / 1000, 1))}K µSCU` : esc(text('unknown'))}</td>
                 <td class="is-num">${priceCell(group)}</td></tr>`).join('')}</tbody>`;
     }
     function list() {

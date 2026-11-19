@@ -165,6 +165,7 @@
     let authStatus = 'loading';
     let authRequest = null;
     let authCheckedAt = 0;
+    let authRecoveryTimer = 0;
     let fleetCheckedAt = 0;
     let communityPanelSetup = false;
     let communityAllowed = false;
@@ -1634,6 +1635,8 @@
 
     function setupAuthStatus({ refresh = document.getElementById(parseRouteFromHash().section)?.hasAttribute('data-fleet-helper'), background = false } = {}) {
         if (authRequest) return authRequest;
+        window.clearTimeout(authRecoveryTimer);
+        const wasVerified = authStatus === 'ready' && authState.loggedIn;
         notifyAuthErrorFromQuery();
         if (!background) {
             authStatus = 'loading';
@@ -1643,13 +1646,15 @@
         const readAuth = refresh ? (window.VOLT_HELPER?.fetchHelperData ?? fetch) : fetch;
         authRequest = readAuth(`/auth/me${refresh ? '?refresh=1' : ''}`, {
             method: 'GET', credentials: 'same-origin', cache: 'no-store',
-            headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10000)
+            headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(refresh ? 25000 : 10000)
         })
             .then((response) => {
+                if (response.status === 401) return { logged_in: false };
                 if (!response.ok) throw new Error(`AUTH ${response.status}`);
                 return response.json();
             })
             .then((payload) => {
+                if (typeof payload?.logged_in !== 'boolean' || (payload.logged_in && !payload.user?.sub)) throw new Error('Invalid session response');
                 authCheckedAt = Date.now();
                 if (refresh) fleetCheckedAt = authCheckedAt;
                 authStatus = 'ready';
@@ -1680,8 +1685,13 @@
             .catch(() => {
                 authStatus = 'error';
                 window.VOLT_SCHEDULE?.clearRsvpCache?.();
-                authState = { loggedIn: false, user: null, roles: [], communityTools: false };
-                userPreferencesLoaded = false;
+                // An unavailable verifier cannot confirm logout or grant protected access.
+                authState = { loggedIn: authState.loggedIn, user: authState.user, roles: [], communityTools: false };
+                if (wasVerified && refresh) {
+                    authRecoveryTimer = window.setTimeout(() => {
+                        if (authStatus === 'error' && document.visibilityState === 'visible') setupAuthStatus({ refresh: true, background: true });
+                    }, 3000);
+                }
                 window.VOLT_AUTH_UI?.render?.({ status: 'error' });
                 applyRoleGates();
                 renderMyPage();
@@ -1750,7 +1760,7 @@
     function applyRoleGates() {
         applyCommunityGates();
         document.querySelectorAll('[data-requires-auth]').forEach((element) => {
-            const locked = !authState.loggedIn;
+            const locked = authStatus !== 'ready' || !authState.loggedIn;
             element.classList.toggle('is-auth-locked', locked);
             if ('disabled' in element) element.disabled = locked;
             if (locked && element.tagName === 'A') element.setAttribute('aria-disabled', 'true');

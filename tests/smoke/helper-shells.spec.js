@@ -566,3 +566,32 @@ test('함대원 화면을 보는 중 권한 재확인이 실패하면 재로그�
     await expect(page.locator('#mining .helper-access a')).toBeVisible();
     await expect(minerals).toHaveCount(0);
 });
+
+test('임무를 보는 동안 10초보다 늦은 권한 응답을 기다리고 일시 오류 뒤에는 자동 복구한다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    let mode = 'ok';
+    let pending;
+    await page.route(/\/auth\/me(?:\?.*)?$/, async route => {
+        if (mode === 'slow') await new Promise(resolve => { pending = resolve; });
+        if (mode === 'down') return route.fulfill({ status: 503, json: {} });
+        return route.fallback();
+    });
+    await gotoSection(page, '#missions');
+    const tabs = page.locator('#missions .missions-tabs');
+    await expect(tabs).toBeVisible();
+    await page.clock.install();
+    mode = 'slow';
+    await page.clock.fastForward(31000);
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await expect.poll(() => Boolean(pending)).toBe(true);
+    await page.clock.fastForward(11000);
+    await expect(tabs).toBeVisible();
+    mode = 'down';
+    pending();
+    await page.clock.resume();
+    await expect(page.locator('#missions .helper-access button')).toBeVisible();
+    await expect(tabs).toBeHidden();
+    mode = 'ok';
+    await expect(tabs).toBeVisible({ timeout: 8000 });
+    await expect(page).toHaveURL(/#missions$/);
+});
