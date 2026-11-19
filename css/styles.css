@@ -11423,6 +11423,13 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
 .tool-workspace .gear-list td, .tool-workspace .market-price { font-variant-numeric: tabular-nums; }
 
 @media (max-width: 640px) {
+    #loadout .loadout-shippicker:not(.is-overlay) .loadout-ship-results {
+        max-height: 55vh;
+        max-height: 55svh;
+        overflow-y: auto;
+        align-content: start;
+        grid-auto-rows: max-content;
+    }
     #missions .missions-open, #ships .ship-name-btn {
         min-height: 44px;
         text-align: start;

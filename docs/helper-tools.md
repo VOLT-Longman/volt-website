@@ -7,6 +7,11 @@ and the six screen builders. Read it before writing a screen. If something here 
 The tools give players help with trade routes, prices, multi-stop runs, missions, blueprints and mining, from our own data:
 game files for facts, UEX only for prices, stock and shop availability.
 
+## Temporary guest access (2026-11-19)
+
+The tools and gear editor, including streamed models, open for guests by default.
+Set `FLEET_TOOLS_REQUIRE_MEMBERSHIP=true` in Pages and redeploy to restore their fleet role checks. Ship DB, loadout and trade planner use `COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP` separately. The read-only `/api/tool-access` endpoint reports these settings even when Discord is unavailable. VOLT AI chat and account-specific actions retain their own server-side authorization.
+
 ## 1. Sections, files, owners
 
 | Section (hash) | Nav label ko / en | Desktop group | Mount element | Global the file must set | Builder's files (only these) |

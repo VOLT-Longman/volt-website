@@ -103,6 +103,8 @@ test('/auth/me exposes only verified fleet feature; role removal and Discord out
   assert.equal((await invoke(env, paths[0], cookie)).response.status, 403);
   await expire(); globalThis.fetch = async () => new Response('', { status: 503 });
   assert.equal((await getMe()).status, 503); assert.equal((await invoke(env, asset, cookie)).response.status, 503);
+  globalThis.fetch = async () => new Response('', { status: 429, headers: { 'Retry-After': '24' } });
+  assert.equal((await getMe()).headers.get('Retry-After'), '24');
   globalThis.fetch = async () => new Response('', { status: 401 });
   assert.equal((await invoke(env, asset, cookie)).response.status, 401);
 });
