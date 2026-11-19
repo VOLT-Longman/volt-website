@@ -202,9 +202,9 @@ export async function toolMarketInfo(env, request, query) {
     return { data: { status: 'unavailable', commodity: commodity.name }, sources: [{ label: 'UEX Corp API', url: '#trade-planner' }], freshness: { label: 'UEX 시세', at: null, status: 'unavailable' } };
   }
   const locationName = (row) => row.terminal_name || row.space_station_name || row.city_name || row.outpost_name || '알 수 없음';
-  // 무역플래너와 동일한 date_modified 기준 stale 판정(M1.1) — 위험 임계(60분)를 넘거나
+  // 무역플래너와 동일한 date_modified 기준 stale 판정(M1.1) — 위험 임계(3일)를 넘거나
   // 갱신 시각이 없는 행은 안내에서 제외한다. 오래된 시세를 최신처럼 답하지 않는다.
-  const STALE_CUTOFF_MS = 60 * 60 * 1000;
+  const STALE_CUTOFF_MS = 3 * 86400000;
   const now = Date.now();
   const isFresh = (row) => Number(row.date_modified) > 0 && (now - Number(row.date_modified) * 1000) >= 0 && (now - Number(row.date_modified) * 1000) < STALE_CUTOFF_MS;
   const freshRows = prices.data.filter(isFresh);
@@ -217,13 +217,13 @@ export async function toolMarketInfo(env, request, query) {
   if (!buys.length && !sells.length) {
     return {
       data: { status: 'stale', commodity: commodity.name },
-      sources: [{ label: 'UEX Corp 시세 (VOLT 프록시 캐시)', detail: '60분 이내 갱신 시세 없음', url: '#trade-planner' }],
+      sources: [{ label: 'UEX Corp 시세 (VOLT 프록시 캐시)', detail: '3일 이내 갱신 시세 없음', url: '#trade-planner' }],
       freshness: { label: 'UEX 시세', at: prices.meta?.fetchedAt ?? null, status: 'stale' }
     };
   }
   return {
     data: { status: 'ok', commodity: commodity.name, buys, sells },
-    sources: [{ label: 'UEX Corp 시세 (VOLT 프록시 캐시)', detail: `조회 ${prices.meta?.fetchedAt ?? '알 수 없음'} · 60분 이내 갱신 행만 표시`, url: '#trade-planner' }],
+    sources: [{ label: 'UEX Corp 시세 (VOLT 프록시 캐시)', detail: `조회 ${prices.meta?.fetchedAt ?? '알 수 없음'} · 3일 이내 갱신 행만 표시`, url: '#trade-planner' }],
     freshness: { label: 'UEX 시세', at: prices.meta?.fetchedAt ?? null, ttlSeconds: prices.meta?.ttlSeconds ?? null }
   };
 }

@@ -45,6 +45,13 @@ const BASELINE = {
   'js/hauling.js': 1,
   // 개인 장비 안내: 같은 방식 (draw 한 곳, 모든 동적 값 esc()).
   'js/gear.js': 1,
+  // 도우미 도구 화면(무역 경로·시세·순회 무역·임무·제작 설계도): 같은 방식 — 파일마다 draw 한 곳, 모든 동적 값은 VOLT_HELPER.esc().
+  // 공용 파일 js/helper-common.js 와 js/trade-engine.js 는 싱크 0. 계약: docs/helper-tools.md
+  'js/routes.js': 1,
+  'js/market.js': 1,
+  'js/tours.js': 1,
+  'js/missions.js': 1,
+  'js/fabricator.js': 1,
 };
 
 const SINK_PATTERN = /\.(?:innerHTML|outerHTML)\s*[+]?=|\.insertAdjacentHTML\s*\(|document\.write(?:ln)?\s*\(/g;

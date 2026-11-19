@@ -247,7 +247,7 @@ test('AI 시세: UEX 정상 → 매수/매도 + 조회 시각, KO 상품명 매�
             return Response.json({ status: 'ok', data: [{ id: 1, name: 'Gold', code: 'GOLD' }], meta: { fetchedAt: '2026-07-14T10:00:00.000Z' } });
         }
         if (path === '/api/uex/commodities/1/prices') {
-            const fresh = Math.floor(Date.now() / 1000) - 300; // 5분 전 갱신 — stale 컷(60분) 이내
+            const fresh = Math.floor(Date.now() / 1000) - 300; // 5분 전 갱신 — stale 컷(3일) 이내
             return Response.json({ status: 'ok', data: [
                 { terminal_name: 'CRU-L1', star_system_name: 'Stanton', price_buy: 5800, price_sell: 0, date_modified: fresh },
                 { terminal_name: 'ARC-L1', star_system_name: 'Stanton', price_buy: 0, price_sell: 6400, date_modified: fresh }
@@ -331,12 +331,12 @@ test('AI aiNote 검증(M1.1): 도구에 없는 수치를 말하면 노트 폐기
     assert.ok(!body.answer.includes('99,999,999'));
 });
 
-test('AI 시세 stale(M1.1): 60분 초과 행만 있으면 가격을 만들지 않고 stale 명시', async (t) => {
+test('AI 시세 stale(M1.1): 3일 초과 행만 있으면 가격을 만들지 않고 stale 명시', async (t) => {
     const env = baseEnv();
     const cookie = await memberCookie(MEMBER, env);
     const originalFetch = globalThis.fetch;
     t.after(() => { globalThis.fetch = originalFetch; });
-    const staleTs = Math.floor(Date.now() / 1000) - 2 * 60 * 60; // 2시간 전
+    const staleTs = Math.floor(Date.now() / 1000) - 4 * 86400; // 4일 전
     globalThis.fetch = async (url) => {
         const path = new URL(url).pathname;
         if (path === '/api/uex/commodities') {
@@ -354,7 +354,7 @@ test('AI 시세 stale(M1.1): 60분 초과 행만 있으면 가격을 만들지 �
     await settle();
     const body = await response.json();
     assert.equal(body.freshness.status, 'stale');
-    assert.match(body.answer, /60분 이내 갱신 시세가 없어/);
+    assert.match(body.answer, /3일 이내 갱신 시세가 없어/);
     assert.ok(!body.answer.includes('5,800'), 'stale 가격을 답변에 싣지 않는다');
 });
 

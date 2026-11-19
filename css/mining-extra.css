@@ -1,0 +1,130 @@
+/* VOLT 채광 안내 추가 화면(#mining) — js/mining.js 가 그리는 새 부분의 스타일.
+   모든 선택자는 .mining-app 아래에 두고, 기존 .mining-* 규칙(css/styles.css)은 여기서 덮어쓰지 않는다.
+   색·간격은 css/styles.css 의 토큰과 .mining-app 의 --mi-* 값을 쓴다. */
+.mining-app .mining-tabs { flex-wrap: wrap; }
+.mining-app .mining-icon { width: 14px; height: 14px; margin-right: 4px; vertical-align: -2px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.mining-app .mining-chip .mining-icon { margin-right: 6px; }
+.mining-app .mining-tag.is-harvest { border-color: rgba(214, 190, 96, 0.6); }
+.mining-app .mining-tag.is-salvage { border-color: rgba(190, 150, 230, 0.6); }
+.mining-app .mining-tag.is-compact { padding: 3px 5px; }
+.mining-app .mining-tag.is-compact .mining-icon { margin-right: 0; }
+.mining-app .mining-tag.is-both { border-color: rgba(127, 216, 138, 0.55); }
+.mining-app .mining-tag.is-partial { border-color: rgba(214, 190, 96, 0.6); white-space: normal; }
+.mining-app .mining-acts { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; }
+.mining-app .mining-used { display: block; font-size: 12px; color: var(--color-text-secondary); }
+.mining-app .mining-warn { color: #f0c987; }
+
+/* 필터 · 행동 줄 */
+.mining-app .mining-filters { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--mi-line); border-radius: 12px; background: var(--mi-card); }
+.mining-app .mining-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-width: 0; }
+.mining-app .mining-filter-name { flex: 0 0 auto; min-width: 72px; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
+.mining-app .mining-tri.is-include { border-color: #7fd88a; color: var(--color-text-primary); background: rgba(127, 216, 138, 0.14); }
+.mining-app .mining-tri.is-exclude { border-color: #ff8f7a; color: var(--color-text-primary); background: rgba(255, 143, 122, 0.12); text-decoration: line-through; }
+.mining-app .mining-tri > span { display: inline-block; margin-right: 4px; font-weight: 700; text-decoration: none; }
+.mining-app .mining-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.mining-app .mining-action { min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--color-border-hover); background: var(--mi-card-2); color: var(--color-text-primary); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.mining-app .mining-notice { flex: 1 1 200px; min-width: 0; font-size: 13px; color: var(--color-text-secondary); }
+.mining-app .mining-chip:focus-visible, .mining-app .mining-action:focus-visible, .mining-app .mining-tab:focus-visible, .mining-app .mining-rowbtn:focus-visible, .mining-app .mining-place:focus-visible, .mining-app .mining-field input:focus-visible, .mining-app .mining-link:focus-visible, .mining-app .mining-tablewrap:focus-visible { outline: 2px solid #ffd1b9; outline-offset: 2px; }
+.mining-app .mining-sites-toggle { margin: 4px 0 14px; }
+.mining-app .mining-special { margin-top: 6px; }
+.mining-app .mining-link { color: var(--color-text-primary); text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
+.mining-app .mining-detail-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.mining-app .mining-market { grid-column: 1 / -1; }
+.mining-app .mining-market dd { font-size: 15px; }
+.mining-app .mining-table caption { padding: 8px 12px; text-align: left; font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
+
+/* 표 · 광물 × 장소 보기에서는 목록을 한 줄 전체에 펼친다 */
+.mining-app .mining-columns.is-wide { grid-template-columns: minmax(0, 1fr); }
+.mining-app .mining-matrixwrap { max-height: 70vh; overflow: auto; }
+.mining-app .mining-matrix { width: auto; min-width: 100%; }
+.mining-app .mining-matrix thead th { position: sticky; top: 0; z-index: 2; vertical-align: bottom; padding: 8px 4px; white-space: normal; }
+.mining-app .mining-matrix tbody th { position: sticky; left: 0; z-index: 1; background: var(--mi-card); white-space: nowrap; }
+.mining-app .mining-matrix .mining-matrix-corner { left: 0; z-index: 3; }
+.mining-app .mining-matrix-col { writing-mode: vertical-rl; min-height: 0; max-height: 170px; padding: 4px 2px; font-size: 12px; font-weight: 600; line-height: 1.2; text-align: left; overflow: hidden; }
+.mining-app .mining-matrix-cell { min-width: 34px; padding: 6px 4px; text-align: center; font-size: 12px; white-space: nowrap; color: var(--color-text-secondary); }
+.mining-app .mining-matrix-cell.is-on { color: var(--color-text-primary); background: rgba(232, 72, 47, 0.16); font-weight: 600; }
+
+/* 신호 찾기 · 정제소 찾기 */
+.mining-app .mining-tool { display: grid; gap: 12px; min-width: 0; padding: 16px; border: 1px solid var(--mi-line); border-radius: 12px; background: var(--mi-card); }
+.mining-app .mining-panel { display: grid; gap: 12px; min-width: 0; margin-top: 16px; padding: 16px; border: 1px solid var(--mi-line); border-radius: 12px; background: var(--mi-card); }
+.mining-app .mining-panel .mining-tablewrap { background: transparent; }
+.mining-app .mining-tool-title { margin: 0; font-size: 18px; }
+.mining-app .mining-tool .mining-tablewrap { background: transparent; }
+.mining-app .mining-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 16px; }
+.mining-app .mining-field { display: grid; gap: 4px; flex: 0 1 180px; min-width: 0; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
+.mining-app .mining-field input { width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--color-border-hover); background: var(--mi-card-2); color: var(--color-text-primary); font: inherit; font-size: 16px; font-variant-numeric: tabular-nums; }
+.mining-app .mining-sig-chart { padding: 12px; border: 1px solid var(--mi-line); border-radius: 10px; background: var(--mi-card-2); }
+.mining-app .mining-sig-lane { display: grid; grid-template-columns: 132px minmax(0, 1fr); align-items: center; gap: 8px; }
+.mining-app .mining-sig-lane-name { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mining-app .mining-sig-svg { display: block; width: 100%; height: 20px; overflow: visible; }
+.mining-app .mining-sig-svg line { vector-effect: non-scaling-stroke; }
+.mining-app .mining-sig-base { stroke: var(--mi-line); stroke-width: 1; }
+.mining-app .mining-sig-mark { stroke: #8b909c; stroke-width: 2; }
+.mining-app .mining-sig-mark.is-hit { stroke: #ffd1b9; stroke-width: 3; }
+.mining-app .mining-sig-target { stroke: var(--volt-orange); stroke-width: 4; }
+.mining-app .mining-sig-axis { display: flex; justify-content: space-between; margin-left: 140px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
+.mining-app .mining-best { display: grid; gap: 6px; padding: 12px 14px; border: 1px solid var(--color-border-accent); border-radius: 10px; background: rgba(232, 72, 47, 0.08); }
+.mining-app .mining-best h4 { margin: 0; font-size: 14px; }
+.mining-app .mining-best ul { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.mining-app .mining-best p { margin: 0; }
+.mining-app .mining-ref-error { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; border: 1px dashed var(--mi-line); border-radius: 10px; }
+.mining-app .mining-ref-error p { flex: 1 1 200px; margin: 0; }
+.mining-app .mining-tool .mining-table tbody th { min-width: 0; }
+.mining-app .mining-tool .mining-ref-table tbody th { min-width: 150px; }
+.mining-app .mining-special .mining-table td:nth-child(2) { min-width: 120px; }
+.mining-app .mining-special .mining-table td:nth-child(4) { overflow-wrap: anywhere; }
+.mining-app .mining-bonus strong { display: block; }
+.mining-app .mining-bonus small { display: block; font-size: 11px; }
+.mining-app .mining-bonus.is-plus strong { color: #9fe3a8; }
+.mining-app .mining-bonus.is-minus strong { color: #ffb3a4; }
+
+@media (max-width: 640px) {
+    .mining-app .mining-tab { flex: 1 1 40%; padding: 0 10px; }
+    .mining-app .mining-filter-name { flex-basis: 100%; }
+    .mining-app .mining-tool, .mining-app .mining-filters { padding: 12px; }
+    .mining-app .mining-sig-lane { grid-template-columns: 96px minmax(0, 1fr); }
+    .mining-app .mining-sig-axis { margin-left: 104px; }
+    .mining-app .mining-field { flex: 1 1 140px; }
+    /* 좁은 화면: 후보 칸을 아래 줄로 내려 가로로 밀지 않게 한다 */
+    .mining-app .mining-sig-table, .mining-app .mining-sig-table thead, .mining-app .mining-sig-table tbody { display: block; }
+    .mining-app .mining-sig-table tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: center; border-top: 1px solid var(--mi-line); }
+    .mining-app .mining-sig-table th, .mining-app .mining-sig-table td { border-top: 0; }
+    .mining-app .mining-sig-table tr > :last-child { grid-column: 1 / -1; padding-top: 0; }
+    .mining-app .mining-matrix tbody th { min-width: 96px; max-width: 120px; white-space: normal; font-size: 13px; }
+}
+/* 긴 내부 이름도 묶음 안에서 줄을 바꾼다 */
+.mining-app .mining-places > li { min-width: 0; }
+.mining-app .mining-place { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.mining-app .mining-place strong, .mining-app .mining-place small, .mining-app .mining-detail-head h3 { min-width: 0; overflow-wrap: anywhere; }
+
+/* 가격 보고 기준 · 시세 실패 안내 */
+.mining-app .mining-pricebar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 16px; margin-bottom: 10px; }
+.mining-app .mining-pricebar .mining-ref-error { flex: 1 1 260px; }
+.mining-app .mining-field select { width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--color-border-hover); background: var(--mi-card-2); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.mining-app .mining-field select:focus-visible { outline: 2px solid #ffd1b9; outline-offset: 2px; }
+.mining-app .mining-mobile-price small { font-size: 12px; }
+
+/* 누르는 곳 크기 */
+.mining-app th > .mining-rowbtn:not(.mining-matrix-col) { min-height: 44px; }
+.mining-app .mining-chip { min-width: 44px; }
+.mining-app .mining-link { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* 정제소 표: 옆으로 밀어도 정제소 이름이 남는다. 좁은 화면에서는 성계·확인 칸을 이름 아래로 내린다 */
+.mining-app .mining-ref-narrow { display: none; }
+.mining-app .mining-ref-table thead th:first-child, .mining-app .mining-ref-table tbody th { position: sticky; left: 0; z-index: 1; background: var(--mi-card); }
+@media (max-width: 640px) {
+    .mining-app .mining-ref-wide { display: none; }
+    .mining-app .mining-ref-narrow { display: block; margin-top: 2px; font-size: 12px; white-space: normal; }
+    .mining-app .mining-tool .mining-ref-table tbody th { min-width: 132px; max-width: 150px; white-space: normal; }
+}
+/* 표 안의 숨김 글자가 표 밖 너비를 늘리지 않게 한다 */
+.mining-app .mining-tablewrap { position: relative; }
+@media (max-width: 640px) {
+    .mining-app .mining-list .mining-table[data-mining-csv="locations"] tbody th { max-width: 190px; white-space: normal; overflow-wrap: anywhere; }
+}
+
+/* 시세 칸: 평균 아래 줄에 보고 시각이 있는 최근 가격. 따로 둔 칸은 CSV·표 복사에만 쓴다 */
+.mining-app .mining-recent { display: block; margin-top: 2px; font-size: 12px; font-weight: 400; color: var(--color-text-secondary); white-space: nowrap; }
+.mining-app .mining-recent strong { color: var(--color-text-primary); }
+.mining-app .mining-table thead .mining-recent { white-space: normal; }
+.mining-app .mining-csv-only { display: none; }

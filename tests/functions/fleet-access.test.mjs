@@ -12,6 +12,8 @@ const FLEET = '1120508650520330310';
 const COMMUNITY = '1150059971887771718';
 const index = JSON.parse(readFileSync(new URL('../../data/gear/models.json', import.meta.url)));
 const asset = '/assets/models/gear/weapons/behr_rifle_ballistic_01/body_lod1.glb';
+const helpers = ['/data/mining/helper.json', '/data/contracts/hauling.json', '/data/contracts/missions.json', '/data/crafting/blueprints.json', '/data/trade/world.json', '/data/trade/cargo.json',
+  ...['market', 'terminals', 'refineries', 'vehicle-prices', 'price-history'].map((name) => '/api/uex/' + name)];
 const paths = ['/data/gear/models.json', '/data/gear/attachments.json', asset, '/assets/models/gear/tex/example.webp'];
 const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'false', DISCORD_ROLE_MAP: JSON.stringify({ [FLEET]: 'VOLT 함대원', [COMMUNITY]: '커뮤니티 멤버', admin: '대표이사' }) });
 const request = (path, cookie = '', method = 'GET', origin = 'https://www.volt.ceo') => new Request(origin + path, { method, headers: { Cookie: cookie } });
@@ -42,7 +44,7 @@ test('Fleet resources deny anonymous, community-only and administrators for GET/
   env.FLEET_GEAR_MODELS = { get: () => assert.fail('Unauthorized R2 read'), head: () => assert.fail('Unauthorized R2 HEAD') };
   const community = await memberCookie({ sub: 'community-only', roles: [COMMUNITY] }, env);
   const admin = await memberCookie({ sub: 'admin-only', roles: ['admin'] }, env);
-  for (const path of paths) for (const method of ['GET', 'HEAD']) for (const [cookie, status] of [['', 401], [community, 403], [admin, 403]]) {
+  for (const path of [...paths, ...helpers]) for (const method of ['GET', 'HEAD']) for (const [cookie, status] of [['', 401], [community, 403], [admin, 403]]) {
     const result = await invoke(env, path, cookie, method);
     assert.equal(result.response.status, status, `${method} ${path}`); assert.equal(result.calls, 0); cacheHeaders(result.response);
   }
@@ -50,6 +52,10 @@ test('Fleet resources deny anonymous, community-only and administrators for GET/
 
 test('Authorized metadata overrides public static headers; models come only from versioned private R2', async () => {
   const env = environment(); const cookie = await memberCookie({ sub: 'fleet', roles: [FLEET] }, env);
+  for (const path of helpers) {
+    const result = await invoke(env, path, cookie);
+    assert.equal(result.response.status, 200); assert.equal(result.calls, 1); cacheHeaders(result.response);
+  }
   const keys = [];
   const object = { size: 4, body: 'GLTF', httpEtag: '"test"', customMetadata: { assetversion: index.assetVersion } };
   env.FLEET_GEAR_MODELS = { get: async (key) => { keys.push(key); return object; }, head: async (key) => { keys.push(key); return object; } };

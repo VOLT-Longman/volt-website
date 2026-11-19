@@ -175,7 +175,7 @@ test.describe('마이페이지 보완 (저장 실패 안내·격납고 전체 �
         await page.locator('#mypage-content [data-mypage-hangar-remove="aurora-es"]').click();
         await page.clock.runFor(1000);
         await expect(page.locator('#toast')).toContainText('새로고침 후 다시 시도');
-        await page.clock.runFor(60000);
+        await page.clock.fastForward(60000);
         expect(puts).toBe(1);
     });
 

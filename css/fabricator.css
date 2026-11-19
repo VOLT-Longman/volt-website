@@ -1,0 +1,160 @@
+/* VOLT 제작 설계도 (#fabricator) — 이 화면 전용 스타일. 모든 선택자는 .fabricator-app 아래에 둔다.
+   색·간격은 css/styles.css 의 토큰(var(--color-*), var(--radius-*), var(--volt-orange))을 쓴다. */
+.fabricator-app { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); min-width: 0; --fb-card: #1a1b1f; --fb-card-2: #212329; --fb-line: rgba(255, 255, 255, 0.09); color: var(--color-text-primary); font-size: 15px; line-height: 1.55; }
+.fabricator-app h3, .fabricator-app h4, .fabricator-app h5, .fabricator-app p, .fabricator-app ul, .fabricator-app dl, .fabricator-app dd { margin: 0; }
+.fabricator-app ul { padding: 0; list-style: none; }
+.fabricator-app code { font-family: var(--font-mono); font-size: 12px; color: var(--color-text-secondary); overflow-wrap: anywhere; }
+.fabricator-app small { color: var(--color-text-secondary); font-size: 12px; font-weight: 400; }
+.fabricator-app :focus-visible { outline: 2px solid var(--volt-orange-light); outline-offset: 2px; }
+
+/* 탭 */
+.fabricator-app .fab-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.fabricator-app .fab-tab { min-height: 44px; padding: 0 16px; border: 1px solid var(--fb-line); border-radius: 10px; background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.fabricator-app .fab-tab.is-active { background: var(--volt-orange); border-color: var(--volt-orange); color: #111; }
+.fabricator-app .fab-badge { display: inline-block; min-width: 20px; padding: 0 6px; border-radius: var(--radius-full); background: rgba(0, 0, 0, 0.35); color: #fff; font-size: 12px; text-align: center; }
+.fabricator-app .fab-tab:not(.is-active) .fab-badge { background: var(--volt-orange); color: #111; }
+.fabricator-app .fab-live { min-height: 0; font-size: 14px; color: var(--color-text-primary); }
+.fabricator-app .fab-live:empty { display: none; }
+.fabricator-app .fab-live:not(:empty) { padding: 8px 12px; border: 1px solid var(--color-border-accent); border-radius: 10px; background: var(--volt-orange-glow); }
+
+/* 버튼 · 칩 */
+.fabricator-app .fab-btn { min-height: 44px; padding: 0 14px; border: 1px solid var(--fb-line); border-radius: 10px; background: var(--fb-card-2); color: var(--color-text-primary); font: inherit; font-size: 14px; cursor: pointer; }
+.fabricator-app .fab-btn-main { background: var(--volt-orange); border-color: var(--volt-orange); color: #111; font-weight: 700; }
+.fabricator-app .fab-btn-quiet { background: transparent; color: var(--color-text-secondary); }
+.fabricator-app .fab-btn-icon { min-width: 44px; padding: 0; font-size: 18px; }
+.fabricator-app .fab-linkbtn { display: inline-flex; align-items: center; min-height: 44px; padding: 2px 0; border: 0; background: none; color: var(--color-text-primary); font: inherit; text-align: left; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.35); text-underline-offset: 3px; cursor: pointer; overflow-wrap: anywhere; }
+.fabricator-app .fab-link { color: var(--volt-orange-light); text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; overflow-wrap: anywhere; }
+.fabricator-app .fab-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.fabricator-app .fab-chip { min-height: 44px; padding: 0 14px; border: 1px solid var(--fb-line); border-radius: var(--radius-full); background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 13px; cursor: pointer; }
+.fabricator-app .fab-chip.is-active, .fabricator-app .fab-chip.is-include { border-color: var(--volt-orange); background: rgba(232, 72, 47, 0.14); color: var(--color-text-primary); }
+.fabricator-app .fab-chip.is-exclude { border-style: dashed; border-color: rgba(255, 255, 255, 0.45); color: var(--color-text-primary); text-decoration: line-through; }
+.fabricator-app .fab-chip.is-exclude small { display: inline-block; text-decoration: none; }
+.fabricator-app .fab-chipstate { font-weight: 700; margin-right: 2px; }
+.fabricator-app .fab-chiprow { display: grid; gap: 6px; }
+.fabricator-app .fab-chiplabel { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); }
+
+/* 목록 + 상세 */
+.fabricator-app .fab-browse { display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 20px; align-items: start; }
+.fabricator-app .fab-listpane, .fabricator-app .fab-detailpane, .fabricator-app .fab-results, .fabricator-app .fab-filters { display: grid; gap: 12px; min-width: 0; }
+/* 넓은 화면: 목록과 상세가 각자 스크롤된다. (페이지 body 가 overflow 를 가져 position: sticky 가 듣지 않는다.)
+   그래서 목록을 아무리 내려도 상세가 바로 옆에 남는다. 안쪽 여백은 포커스 테두리가 잘리지 않게 둔다. */
+.fabricator-app .fab-listpane, .fabricator-app .fab-detailpane { max-height: calc(100vh - 96px); overflow-y: auto; padding: 3px; scroll-margin-top: 96px; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.25) transparent; align-content: start; }
+.fabricator-app .fab-search input { width: 100%; min-height: 44px; padding: 0 14px; border: 1px solid var(--fb-line); border-radius: 10px; background: var(--fb-card); color: var(--color-text-primary); font: inherit; font-size: 16px; }
+.fabricator-app .fab-matfilter, .fabricator-app .fab-notes { border: 1px solid var(--fb-line); border-radius: 10px; background: var(--fb-card); padding: 0 12px; }
+.fabricator-app .fab-matfilter[open], .fabricator-app .fab-notes[open] { padding-bottom: 12px; }
+.fabricator-app .fab-matfilter summary, .fabricator-app .fab-notes summary { min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600; cursor: pointer; }
+.fabricator-app .fab-notes { display: block; font-size: 13px; color: var(--color-text-secondary); }
+.fabricator-app .fab-notes h4 { font-size: 13px; color: var(--color-text-primary); }
+.fabricator-app .fab-notes p { margin-top: 6px; }
+.fabricator-app .fab-count { font-size: 13px; color: var(--color-text-secondary); }
+.fabricator-app .fab-list { display: grid; gap: 6px; }
+.fabricator-app .fab-row { display: flex; align-items: stretch; gap: 8px; padding: 4px 8px 4px 0; border: 1px solid var(--fb-line); border-radius: 10px; background: var(--fb-card); }
+.fabricator-app .fab-row.is-selected { border-color: var(--volt-orange); box-shadow: inset 3px 0 0 var(--volt-orange); }
+.fabricator-app .fab-rowbtn { flex: 1 1 auto; min-width: 0; min-height: 56px; display: grid; gap: 2px; padding: 6px 4px 6px 12px; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.fabricator-app .fab-rowname { font-weight: 600; overflow-wrap: anywhere; }
+.fabricator-app .fab-rowside { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 4px; max-width: 46%; }
+.fabricator-app .fab-meta { font-size: 12px; color: var(--color-text-secondary); overflow-wrap: anywhere; }
+.fabricator-app .fab-tag { display: inline-block; padding: 2px 8px; border: 1px solid var(--fb-line); border-radius: 6px; font-size: 12px; color: var(--color-text-primary); text-align: right; }
+.fabricator-app .fab-tag.is-default { border-color: rgba(127, 216, 138, 0.55); }
+.fabricator-app .fab-tag.is-earned { border-color: rgba(120, 170, 255, 0.6); }
+.fabricator-app .fab-tag.is-none, .fabricator-app .fab-tag.is-warn { border-color: rgba(255, 179, 0, 0.55); }
+.fabricator-app .fab-hint, .fabricator-app .fab-empty, .fabricator-app .fab-status { padding: 24px 16px; border: 1px dashed var(--fb-line); border-radius: 12px; color: var(--color-text-secondary); text-align: center; }
+.fabricator-app .fab-status { display: grid; gap: 10px; justify-items: center; }
+.fabricator-app .fab-note { font-size: 13px; color: var(--color-text-secondary); }
+.fabricator-app .fab-matfilter .fab-note { margin-bottom: 8px; }
+.fabricator-app .fab-unknown { color: var(--color-warning); font-size: 13px; }
+.fabricator-app .fab-title { font-size: 17px; }
+
+/* 상세 */
+.fabricator-app .fab-detail { display: grid; gap: 14px; padding: 16px; border: 1px solid var(--fb-line); border-radius: 12px; background: var(--fb-card); min-width: 0; }
+.fabricator-app .fab-back { display: none; justify-self: start; }
+.fabricator-app .fab-detailhead { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px 12px; }
+.fabricator-app .fab-detailhead h3 { font-size: 20px; line-height: 1.3; overflow-wrap: anywhere; }
+.fabricator-app .fab-detailhead h3:focus { outline: none; }
+.fabricator-app .fab-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.fabricator-app .fab-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.fabricator-app .fab-facts > div { padding: 8px 10px; border: 1px solid var(--fb-line); border-radius: 8px; background: var(--fb-card-2); }
+.fabricator-app .fab-facts dt { font-size: 12px; color: var(--color-text-secondary); }
+.fabricator-app .fab-facts dd { font-size: 15px; font-weight: 600; }
+.fabricator-app .fab-block { display: grid; gap: 10px; padding-top: 12px; border-top: 1px solid var(--fb-line); min-width: 0; }
+.fabricator-app .fab-blocktitle { font-size: 16px; }
+.fabricator-app .fab-block h4:not(.fab-blocktitle) { font-size: 14px; }
+.fabricator-app .fab-quality { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid var(--color-border-accent); border-radius: 10px; background: var(--volt-orange-glow); }
+.fabricator-app .fab-quality label { font-weight: 600; }
+.fabricator-app .fab-quality output { font-variant-numeric: tabular-nums; color: var(--volt-orange-light); }
+.fabricator-app .fab-quality input { width: 100%; min-height: 44px; accent-color: var(--volt-orange); }
+.fabricator-app .fab-slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.fabricator-app .fab-slot { display: grid; gap: 8px; align-content: start; padding: 12px; border: 1px solid var(--fb-line); border-radius: 10px; background: var(--fb-card-2); min-width: 0; }
+.fabricator-app .fab-slot h5 { font-size: 13px; font-weight: 600; color: var(--color-text-secondary); letter-spacing: 0.02em; }
+.fabricator-app .fab-options { display: grid; gap: 6px; }
+.fabricator-app .fab-options.is-alt { padding: 8px; border: 1px dashed rgba(255, 255, 255, 0.3); border-radius: 8px; }
+.fabricator-app .fab-or { font-size: 12px; font-weight: 700; color: var(--color-warning); text-align: center; }
+.fabricator-app .fab-choose { color: var(--color-warning); }
+.fabricator-app .fab-option { display: grid; gap: 4px; }
+.fabricator-app .fab-optionmain { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.fabricator-app .fab-optionmain strong { font-size: 16px; }
+.fabricator-app .fab-amount { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--volt-orange-light); }
+.fabricator-app .fab-optionsrc { font-size: 13px; }
+.fabricator-app .fab-effects { display: grid; gap: 6px; padding-top: 8px; border-top: 1px solid var(--fb-line); }
+.fabricator-app .fab-effects li { display: grid; gap: 1px; }
+.fabricator-app .fab-stat { font-size: 13px; font-weight: 600; }
+.fabricator-app .fab-range { font-size: 12px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.fabricator-app .fab-modval { font-size: 14px; font-variant-numeric: tabular-nums; }
+.fabricator-app .fab-poolrefs, .fabricator-app .fab-sublist, .fabricator-app .fab-poolitems, .fabricator-app .fab-missionlist { display: grid; gap: 6px; font-size: 14px; min-width: 0; }
+.fabricator-app .fab-poolrefs > li { padding: 8px 10px; border: 1px solid var(--fb-line); border-radius: 8px; min-width: 0; }
+.fabricator-app .fab-sublist { font-size: 13px; color: var(--color-text-secondary); }
+.fabricator-app .fab-poolitems { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.fabricator-app .fab-poolitems li, .fabricator-app .fab-missionlist li { display: grid; gap: 1px; min-width: 0; justify-items: start; }
+.fabricator-app .fab-missions { display: grid; gap: 8px; justify-items: start; min-width: 0; }
+.fabricator-app .fab-missionlist { width: 100%; }
+.fabricator-app .fab-missionlist li { padding: 8px 10px; border: 1px solid var(--fb-line); border-radius: 8px; }
+
+/* 표 */
+.fabricator-app .fab-tablewrap { overflow-x: auto; border: 1px solid var(--fb-line); border-radius: 12px; background: var(--fb-card); }
+.fabricator-app .fab-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.fabricator-app .fab-table th, .fabricator-app .fab-table td { padding: 4px 12px; border-top: 1px solid var(--fb-line); text-align: left; vertical-align: middle; font-weight: 400; }
+.fabricator-app .fab-table thead th { padding-top: 10px; padding-bottom: 10px; border-top: 0; background: var(--fb-card-2); font-size: 13px; font-weight: 600; color: #d5d8df; white-space: nowrap; }
+.fabricator-app .fab-table tbody th { font-weight: 600; }
+.fabricator-app .fab-table .is-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* 교환 */
+.fabricator-app .fab-trades { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+.fabricator-app .fab-trade { display: grid; gap: 8px; align-content: start; padding: 14px; border: 1px solid var(--fb-line); border-radius: 12px; background: var(--fb-card); min-width: 0; }
+.fabricator-app .fab-trade h4 { font-size: 16px; overflow-wrap: anywhere; }
+.fabricator-app .fab-trade h5 { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 2px; }
+.fabricator-app .fab-trade ul { display: grid; gap: 2px; font-size: 14px; }
+.fabricator-app .fab-tradegrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+.fabricator-app .fab-access { padding-top: 8px; border-top: 1px solid var(--fb-line); }
+.fabricator-app .fab-access ul { font-size: 13px; color: var(--color-text-secondary); }
+
+/* 준비물 */
+.fabricator-app .fab-cart { display: grid; gap: 4px; }
+.fabricator-app .fab-cart .fab-block:first-child { border-top: 0; padding-top: 0; }
+.fabricator-app .fab-cartlist { display: grid; gap: 6px; }
+.fabricator-app .fab-cartrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; padding: 6px 10px; border: 1px solid var(--fb-line); border-radius: 10px; background: var(--fb-card); }
+.fabricator-app .fab-qty { display: flex; align-items: center; gap: 6px; }
+.fabricator-app .fab-qty input { width: 64px; min-height: 44px; padding: 0 8px; border: 1px solid var(--fb-line); border-radius: 10px; background: var(--fb-card-2); color: var(--color-text-primary); font: inherit; font-size: 16px; text-align: center; }
+.fabricator-app .fab-copytext textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--fb-line); border-radius: 10px; background: var(--fb-card); color: var(--color-text-primary); font-family: var(--font-mono); font-size: 13px; line-height: 1.5; resize: vertical; }
+.fabricator-app .fab-shared { display: grid; gap: 10px; margin-bottom: 14px; padding: 12px; border: 1px solid var(--color-border-accent); border-radius: 10px; background: var(--volt-orange-glow); font-size: 14px; }
+.fabricator-app .fab-source { padding-top: 10px; border-top: 1px solid var(--fb-line); font-size: 12px; line-height: 1.7; color: var(--color-text-secondary); }
+
+@media (hover: hover) {
+    .fabricator-app .fab-row:hover { border-color: var(--color-border-hover); }
+    .fabricator-app .fab-btn:hover, .fabricator-app .fab-chip:hover, .fabricator-app .fab-tab:not(.is-active):hover { border-color: var(--color-border-hover); }
+    .fabricator-app .fab-linkbtn:hover { text-decoration-color: var(--volt-orange); }
+}
+@media (max-width: 1000px) {
+    .fabricator-app .fab-browse { grid-template-columns: minmax(0, 1fr); }
+    .fabricator-app .fab-listpane, .fabricator-app .fab-detailpane { max-height: none; overflow: visible; padding: 0; scroll-margin-top: 0; }
+    .fabricator-app .fab-browse.has-detail .fab-listpane { display: none; }
+    .fabricator-app .fab-browse:not(.has-detail) .fab-detailpane { display: none; }
+    .fabricator-app .fab-back { display: inline-block; }
+}
+@media (max-width: 640px) {
+    .fabricator-app .fab-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .fabricator-app .fab-tab { padding: 0 8px; }
+    .fabricator-app .fab-detail { padding: 12px; }
+    .fabricator-app .fab-slots, .fabricator-app .fab-trades, .fabricator-app .fab-poolitems { grid-template-columns: minmax(0, 1fr); }
+    .fabricator-app .fab-table th, .fabricator-app .fab-table td { padding: 4px 8px; }
+    .fabricator-app .fab-rowside { max-width: 40%; }
+}

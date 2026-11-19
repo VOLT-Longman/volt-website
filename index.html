@@ -33,9 +33,15 @@
   <link rel="apple-touch-icon" href="assets/images/icons/icon-192.png">
   <link rel="preload" href="assets/images/VOLT_logo.webp" as="image">
   <link rel="preload" href="assets/images/landing/hercules-hero-1920.webp" as="image" imagesrcset="assets/images/landing/hercules-hero-960.webp 960w, assets/images/landing/hercules-hero-1600.webp 1600w, assets/images/landing/hercules-hero-1920.webp 1920w, assets/images/landing/hercules-hero-2560.webp 2560w, assets/images/landing/hercules-hero-4000.webp 4000w" imagesizes="100vw" fetchpriority="high">
-  <script src="js/theme-init.js?v=20261119-02"></script>
-  <link rel="stylesheet" href="css/styles.css?v=20261119-02">
-  <link rel="stylesheet" href="css/motion.css?v=20261119-02">
+  <script src="js/theme-init.js?v=20261119-03"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261119-03">
+  <link rel="stylesheet" href="css/motion.css?v=20261119-03">
+  <link rel="stylesheet" href="css/routes.css?v=20261119-03">
+  <link rel="stylesheet" href="css/market.css?v=20261119-03">
+  <link rel="stylesheet" href="css/tours.css?v=20261119-03">
+  <link rel="stylesheet" href="css/missions.css?v=20261119-03">
+  <link rel="stylesheet" href="css/fabricator.css?v=20261119-03">
+  <link rel="stylesheet" href="css/mining-extra.css?v=20261119-03">
   <title>VOLT - Voyagers of Logistics and Trade | 한국 스타시티즌 함대</title>
   <script type="application/ld+json">
   {
@@ -74,7 +80,7 @@
  <body>
 
   <noscript class="noscript-fallback">
-   <link rel="stylesheet" href="css/noscript.css?v=20261119-02">
+   <link rel="stylesheet" href="css/noscript.css?v=20261119-03">
    <section>
     <h1>VOLT - Voyagers of Logistics and Trade</h1>
     <p>VOLT는 한국 커뮤니티 Star Citizen 물류·무역 전문 함대입니다. 전체 기능을 사용하려면 JavaScript를 활성화해 주세요.</p>
@@ -111,10 +117,18 @@
        <button class="nav-trade-toggle" id="nav-trade-toggle" type="button" aria-expanded="false" aria-controls="nav-trade-menu" data-i18n="nav.trade">무역</button>
        <ul class="nav-trade-menu" id="nav-trade-menu">
         <li><a href="#trade-planner" data-section="trade-planner" data-i18n="nav.tradePlanner">무역플래너</a></li>
+        <li><a href="#routes" data-section="routes" data-i18n="nav.routes">무역 경로</a></li>
+        <li><a href="#market" data-section="market" data-i18n="nav.market">시세</a></li>
         <li><a href="#hub" data-section="hub" data-i18n="nav.tradeHub">무역허브</a></li>
         <li><a href="#guide" data-section="guide" data-i18n="nav.tradeGuide">무역가이드</a></li>
-        <li><a href="#mining" data-section="mining" data-i18n="nav.mining">채광 안내</a></li>
-        <li><a href="#hauling" data-section="hauling" data-i18n="nav.hauling">운송 계약</a></li>
+       </ul>
+      </li>
+      <li class="nav-trade nav-work">
+       <button class="nav-trade-toggle" id="nav-work-toggle" type="button" aria-expanded="false" aria-controls="nav-work-menu" data-i18n="nav.work">임무 · 채광 · 제작</button>
+       <ul class="nav-trade-menu" id="nav-work-menu">
+        <li><a href="#missions" data-section="missions" data-i18n="nav.missions">임무</a></li>
+        <li><a href="#mining" data-section="mining" data-i18n="nav.mining">채광</a></li>
+        <li><a href="#fabricator" data-section="fabricator" data-i18n="nav.fabricator">제작</a></li>
        </ul>
       </li>
       <li><a href="#notices" data-section="notices" data-i18n="nav.notices">공지</a></li>
@@ -165,11 +179,15 @@
        <li><a href="#loadout" data-section="loadout" data-i18n="nav.loadout">함선 로드아웃</a></li>
        <li><a href="#gear" data-section="gear" data-i18n="nav.gear">개인 장비</a></li>
        <li class="mobile-menu-group-label" data-i18n="nav.trade">무역</li>
-       <li><a href="#trade-planner" data-section="trade-planner" data-i18n="nav.tradePlanner">무역플래너</a></li>
-       <li><a href="#hub" data-section="hub" data-i18n="nav.tradeHub">무역허브</a></li>
-       <li><a href="#guide" data-section="guide" data-i18n="nav.tradeGuide">무역가이드</a></li>
-       <li><a href="#mining" data-section="mining" data-i18n="nav.mining">채광 안내</a></li>
-       <li><a href="#hauling" data-section="hauling" data-i18n="nav.hauling">운송 계약</a></li>
+       <li class="mobile-menu-half"><a href="#trade-planner" data-section="trade-planner" data-i18n="nav.tradePlanner">무역플래너</a></li>
+       <li class="mobile-menu-half"><a href="#routes" data-section="routes" data-i18n="nav.routes">무역 경로</a></li>
+       <li class="mobile-menu-half"><a href="#market" data-section="market" data-i18n="nav.market">시세</a></li>
+       <li class="mobile-menu-half"><a href="#hub" data-section="hub" data-i18n="nav.tradeHub">무역허브</a></li>
+       <li class="mobile-menu-half"><a href="#guide" data-section="guide" data-i18n="nav.tradeGuide">무역가이드</a></li>
+       <li class="mobile-menu-group-label" data-i18n="nav.work">임무 · 채광 · 제작</li>
+       <li class="mobile-menu-half"><a href="#missions" data-section="missions" data-i18n="nav.missions">임무</a></li>
+       <li class="mobile-menu-half"><a href="#mining" data-section="mining" data-i18n="nav.mining">채광</a></li>
+       <li class="mobile-menu-half"><a href="#fabricator" data-section="fabricator" data-i18n="nav.fabricator">제작</a></li>
        <li class="mobile-menu-group-label" data-i18n="nav.more">더보기</li>
        <li><a href="#timeline" data-section="timeline" data-i18n="nav.history">연혁</a></li>
        <li><a href="#leadership" data-section="leadership" data-i18n="nav.leadership">임원진</a></li>
@@ -481,6 +499,7 @@
    <div class="section-content" data-community-content hidden inert>
     <div class="section-header">
      <h2 data-i18n-html="ships.titleHtml">함선 <span class="accent">데이터베이스</span></h2>
+     <a class="helper-ship-link" href="#market?tab=ships" data-i18n="helper.chooseShip">이 돈으로 살 수 있는 화물선 보기</a>
      <p data-i18n="ships.subtitle">Star Citizen 주요 함선 정보</p>
     </div>
     <div class="ships-controls">
@@ -646,7 +665,8 @@
    </div>
   </section>
 
-  <section class="section" id="mining">
+  <section class="section" id="mining" data-fleet-helper>
+   <div class="helper-access section-content" role="status"></div>
    <div class="section-content">
     <div class="section-header">
      <h2 data-i18n-html="mining.titleHtml">채광 <span class="accent">안내</span></h2>
@@ -656,13 +676,71 @@
    </div>
   </section>
 
-  <section class="section" id="hauling">
+  <section class="section" id="hauling" data-fleet-helper>
+   <div class="helper-access section-content" role="status"></div>
    <div class="section-content">
     <div class="section-header">
      <h2 data-i18n-html="hauling.titleHtml">운송 <span class="accent">계약</span></h2>
      <p data-i18n="hauling.subtitle">운송 평판 등급과, 등급마다 열리는 계약의 화물과 제한 시간을 확인합니다.</p>
     </div>
+    <nav class="tool-view-links"><a href="#missions" data-i18n="helper.view.missions">임무 목록</a><a href="#missions?tab=hauling" data-i18n="helper.view.missions.hauling">운송 계약</a><a href="#missions?tab=rank" data-i18n="helper.view.missions.rank">등급 계산기</a><a href="#missions?tab=path" data-i18n="helper.view.missions.path">등급 올리는 길</a></nav>
     <div class="hauling-app" id="hauling-app"></div>
+   </div>
+  </section>
+
+  <section class="section" id="routes" data-fleet-helper>
+   <div class="helper-access section-content" role="status"></div>
+   <div class="section-content">
+    <div class="section-header">
+     <h2 data-i18n-html="routes.titleHtml">무역 <span class="accent">경로</span></h2>
+     <p data-i18n="routes.subtitle">내 함선과 가진 돈으로 어디서 사서 어디에 팔면 좋은지 찾아봅니다.</p>
+    </div>
+    <nav class="tool-view-links"><a href="#routes" data-i18n="helper.view.routes">한 번 왕복</a><a href="#routes?tab=tour" data-i18n="helper.view.routes.tour">여러 곳 돌기</a><a href="#routes?tab=mix" data-i18n="helper.view.routes.mix">섞어 싣기</a></nav>
+    <div class="helper-app routes-app" id="routes-app"></div>
+   </div>
+  </section>
+
+  <section class="section" id="market" data-fleet-helper>
+   <div class="helper-access section-content" role="status"></div>
+   <div class="section-content">
+    <div class="section-header">
+     <h2 data-i18n-html="market.titleHtml">시세 · <span class="accent">거래소</span></h2>
+     <p data-i18n="market.subtitle">상품 가격과 거래소 정보, 가진 돈으로 살 수 있는 화물선을 확인합니다.</p>
+    </div>
+    <div class="helper-app market-app" id="market-app"></div>
+   </div>
+  </section>
+
+  <section class="section" id="tours" data-fleet-helper>
+   <div class="helper-access section-content" role="status"></div>
+   <div class="section-content">
+    <div class="section-header">
+     <h2 data-i18n-html="tours.titleHtml">순회 <span class="accent">무역</span></h2>
+     <p data-i18n="tours.subtitle">여러 곳을 차례로 들르며 여러 상품을 함께 싣는 계획을 세웁니다.</p>
+    </div>
+    <div class="helper-app tours-app" id="tours-app"></div>
+   </div>
+  </section>
+
+  <section class="section" id="missions" data-fleet-helper>
+   <div class="helper-access section-content" role="status"></div>
+   <div class="section-content">
+    <div class="section-header">
+     <h2 data-i18n-html="missions.titleHtml">임무 <span class="accent">찾기</span></h2>
+     <p data-i18n="missions.subtitle">임무의 보상과 조건을 찾아보고, 평판 등급을 올리는 길을 계산합니다.</p>
+    </div>
+    <div class="helper-app missions-app" id="missions-app"></div>
+   </div>
+  </section>
+
+  <section class="section" id="fabricator" data-fleet-helper>
+   <div class="helper-access section-content" role="status"></div>
+   <div class="section-content">
+    <div class="section-header">
+     <h2 data-i18n-html="fabricator.titleHtml">제작 <span class="accent">설계도</span></h2>
+     <p data-i18n="fabricator.subtitle">설계도마다 필요한 재료와 얻는 방법을 확인합니다.</p>
+    </div>
+    <div class="helper-app fabricator-app" id="fabricator-app"></div>
    </div>
   </section>
 
@@ -971,6 +1049,11 @@
      <div class="footer-section">
       <h2 data-i18n="nav.trade">무역</h2>
       <ul>
+       <li><a href="#routes" data-section="routes" data-i18n="nav.routes">무역 경로</a></li>
+       <li><a href="#market" data-section="market" data-i18n="nav.market">시세</a></li>
+       <li><a href="#missions" data-section="missions" data-i18n="nav.missions">임무</a></li>
+       <li><a href="#mining" data-section="mining" data-i18n="nav.mining">채광</a></li>
+       <li><a href="#fabricator" data-section="fabricator" data-i18n="nav.fabricator">제작</a></li>
        <li><a href="#trade-planner" data-section="trade-planner" data-i18n="nav.tradePlanner">무역플래너</a></li>
        <li><a href="#hub" data-section="hub" data-i18n="nav.tradeHub">무역허브</a></li>
        <li><a href="#guide" data-section="guide" data-i18n="nav.tradeGuide">무역가이드</a></li>
@@ -1020,40 +1103,47 @@
    </div>
   </div>
 
-<script src="js/shipdb-manufacturers.js?v=20261119-02" defer></script>
-<script src="js/shipdb-canonical.js?v=20261119-02" defer></script>
-<script src="data/volt-data.js?v=20261119-02" defer></script>
+<script src="js/shipdb-manufacturers.js?v=20261119-03" defer></script>
+<script src="js/shipdb-canonical.js?v=20261119-03" defer></script>
+<script src="data/volt-data.js?v=20261119-03" defer></script>
 <!-- ship-live-stats.js/ship-market.js는 초기 로드 최적화를 위해 함선DB 진입 시 지연 로드 (main.js ensureShipLiveData) -->
-<script src="data/volt-localization.js?v=20261119-02" defer></script>
-<script src="js/i18n.js?v=20261119-02" defer></script>
-<script src="assets/vendor/gsap/gsap.min.js?v=20261119-02" defer></script>
-<script src="assets/vendor/gsap/ScrollTrigger.min.js?v=20261119-02" defer></script>
-<script src="js/cinematic-motion.js?v=20261119-02" defer></script>
-<script src="js/motion.js?v=20261119-02" defer></script>
-<script src="js/navigation.js?v=20261119-02" defer></script>
-<script src="js/notices.js?v=20261119-02" defer></script>
-<script src="js/schedule.js?v=20261119-02" defer></script>
-<script src="js/leadership.js?v=20261119-02" defer></script>
-<script src="js/landing.js?v=20261119-02" defer></script>
-<script src="js/site-content.js?v=20261119-02" defer></script>
-<script src="js/uex.js?v=20261119-02" defer></script>
-<script src="js/uex-panel.js?v=20261119-02" defer></script>
-<script src="js/trade-planner.js?v=20261119-02" defer></script>
-<script src="js/journey-calc.js?v=20261119-02" defer></script>
-<script src="js/journey.js?v=20261119-02" defer></script>
-<script src="js/loadout-calc.js?v=20261119-02" defer></script>
-<script src="js/loadout-planner.js?v=20261119-02" defer></script>
-<script src="js/loadout.js?v=20261119-02" defer></script>
-<script src="js/mining.js?v=20261119-02" defer></script>
-<script src="js/gear.js?v=20261119-02" defer></script>
-<script src="js/hauling.js?v=20261119-02" defer></script>
-<script src="js/ship-imagery.js?v=20261119-02" defer></script>
-<script src="js/ships.js?v=20261119-02" defer></script>
-<script src="js/search-modal.js?v=20261119-02" defer></script>
-<script src="js/community-access.js?v=20261119-02" defer></script>
- <script src="js/auth-ui.js?v=20261119-02" defer></script>
-<script src="js/mypage.js?v=20261119-02" defer></script>
-<script src="js/main.js?v=20261119-02" defer></script>
-<script src="js/volt-ai.js?v=20261119-02" defer></script>
+<script src="data/volt-localization.js?v=20261119-03" defer></script>
+<script src="js/i18n.js?v=20261119-03" defer></script>
+<script src="js/helper-common.js?v=20261119-03" defer></script>
+<script src="assets/vendor/gsap/gsap.min.js?v=20261119-03" defer></script>
+<script src="assets/vendor/gsap/ScrollTrigger.min.js?v=20261119-03" defer></script>
+<script src="js/cinematic-motion.js?v=20261119-03" defer></script>
+<script src="js/motion.js?v=20261119-03" defer></script>
+<script src="js/navigation.js?v=20261119-03" defer></script>
+<script src="js/notices.js?v=20261119-03" defer></script>
+<script src="js/schedule.js?v=20261119-03" defer></script>
+<script src="js/leadership.js?v=20261119-03" defer></script>
+<script src="js/landing.js?v=20261119-03" defer></script>
+<script src="js/site-content.js?v=20261119-03" defer></script>
+<script src="js/uex.js?v=20261119-03" defer></script>
+<script src="js/uex-panel.js?v=20261119-03" defer></script>
+<script src="js/trade-planner.js?v=20261119-03" defer></script>
+<script src="js/journey-calc.js?v=20261119-03" defer></script>
+<script src="js/trade-engine.js?v=20261119-03" defer></script>
+<script src="js/journey.js?v=20261119-03" defer></script>
+<script src="js/loadout-calc.js?v=20261119-03" defer></script>
+<script src="js/loadout-planner.js?v=20261119-03" defer></script>
+<script src="js/loadout.js?v=20261119-03" defer></script>
+<script src="js/mining.js?v=20261119-03" defer></script>
+<script src="js/gear.js?v=20261119-03" defer></script>
+<script src="js/hauling.js?v=20261119-03" defer></script>
+<script src="js/routes.js?v=20261119-03" defer></script>
+<script src="js/market.js?v=20261119-03" defer></script>
+<script src="js/tours.js?v=20261119-03" defer></script>
+<script src="js/missions.js?v=20261119-03" defer></script>
+<script src="js/fabricator.js?v=20261119-03" defer></script>
+<script src="js/ship-imagery.js?v=20261119-03" defer></script>
+<script src="js/ships.js?v=20261119-03" defer></script>
+<script src="js/search-modal.js?v=20261119-03" defer></script>
+<script src="js/community-access.js?v=20261119-03" defer></script>
+ <script src="js/auth-ui.js?v=20261119-03" defer></script>
+<script src="js/mypage.js?v=20261119-03" defer></script>
+<script src="js/main.js?v=20261119-03" defer></script>
+<script src="js/volt-ai.js?v=20261119-03" defer></script>
  </body>
 </html>

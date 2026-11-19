@@ -74,7 +74,7 @@ function commitUsage(env, waitUntil, keys, usage, intent, estCost, failed) {
 const INTENTS = new Set(['recommend', 'compare', 'market', 'events', 'notices']);
 
 const HELP_EN = 'VOLT AI is a data-based beta. Try “recommend cargo ships with 96 SCU”, “asgard vs aurora-es”, “Gold prices”, “upcoming events”, or “recent notices”. Answers use VOLT and UEX records; this is not a general-purpose generative chat.';
-const SOURCE_EN = { recommend: 'VOLT ShipDB · game files', compare: 'VOLT ShipDB · game files', market: 'UEX prices · records updated within 60 minutes', events: 'VOLT public events', notices: 'VOLT public notices' };
+const SOURCE_EN = { recommend: 'VOLT ShipDB · game files', compare: 'VOLT ShipDB · game files', market: 'UEX prices · records updated within 3 days', events: 'VOLT public events', notices: 'VOLT public notices' };
 
 async function contextualRoute(env, message, history) {
   const followup = /^(그럼|그러면|그중|대신|then\b|what about\b|instead\b|and\b)/i;
@@ -92,7 +92,7 @@ async function contextualRoute(env, message, history) {
 
 function englishAnswer(route, data) {
   if (data.status === 'unavailable') return 'The data source is unavailable. Please try again later.';
-  if (data.status === 'stale') return `No prices updated within 60 minutes are available for ${data.commodity || 'this commodity'}. Check the Trade Planner for timestamps.`;
+  if (data.status === 'stale') return `No prices updated within 3 days are available for ${data.commodity || 'this commodity'}. Check the Trade Planner for timestamps.`;
   switch (route.intent) {
     case 'recommend':
       return data.ships.length ? `${data.ships.length} of ${data.totalMatched} matching ships, sorted by cargo capacity: ` + data.ships.map((ship) => `${ship.id} (cargo ${ship.cargoScu ?? '?'} SCU · crew ${ship.crewSize ?? '?'})`).join(', ') : 'No matching ships. Try broader role, cargo or crew requirements.';
@@ -203,7 +203,7 @@ function templateAnswer(route, tool, lang) {
   if (lang === 'en') return englishAnswer(route, tool.data);
   const data = tool.data;
   if (data.status === 'unavailable') return '지금은 해당 데이터 원본에 연결할 수 없어 최신 정보를 안내할 수 없습니다. 잠시 후 다시 시도해 주세요.';
-  if (data.status === 'stale') return `${data.commodity ?? '해당 상품'}의 60분 이내 갱신 시세가 없어 안내하지 않습니다. 무역플래너에서 갱신 시각과 함께 직접 확인해 주세요.`;
+  if (data.status === 'stale') return `${data.commodity ?? '해당 상품'}의 3일 이내 갱신 시세가 없어 안내하지 않습니다. 무역플래너에서 갱신 시각과 함께 직접 확인해 주세요.`;
   switch (route.intent) {
     case 'recommend':
       if (!data.ships.length) return '조건에 맞는 함선을 찾지 못했습니다. 조건(역할·화물량·인원)을 조금 넓혀 보세요.';

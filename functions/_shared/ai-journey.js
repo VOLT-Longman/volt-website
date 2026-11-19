@@ -27,7 +27,7 @@ export function validateJourneyContext(input) {
   if (loadout && loadout.kind !== 'loadout') throw new Error('Invalid equipment');
   if (!['buy', 'sell'].includes(input.mode)) throw new Error('Invalid trade mode');
   return { kind: 'journey', origin: input.origin, shipId: id(input.shipId, /^[a-z0-9-]{1,100}$/), loadout,
-    transportShipId: id(input.transportShipId, /^[a-z0-9-]{1,100}$/), cargoScu: number(input.cargoScu, 100000), budget: number(input.budget, 10000000000), quantity: number(input.quantity, 100000), mode: input.mode,
+    transportShipId: id(input.transportShipId, /^[a-z0-9-]{1,100}$/), cargoScu: number(input.cargoScu, 100000), budget: number(input.budget, 10000000000), quantity: number(input.quantity, 100000), mode: input.mode, maxAgeDays: number(input.maxAgeDays, 365) || 3,
     commodityId: number(input.commodityId, 1000000000, true), buyTerminal: number(input.buyTerminal, 1000000000, true), sellTerminal: number(input.sellTerminal, 1000000000, true),
     mineralId: id(input.mineralId), locationId: id(input.locationId), crafts };
 }
@@ -124,11 +124,11 @@ export async function toolReviewJourney(env, request, context, lang = 'ko') {
       if (result.profit !== null) metric('profit', tr('매매 차익', 'Trade margin'), result.profit, 'aUEC');
       check(tr('구매 → 적재 → 판매', 'Buy → load → sell'), `${sell.commodity_name || buy?.commodity_name || tr('선택 상품', 'Selected commodity')} · ${context.mode === 'sell' ? tr('보유 상품', 'Cargo held') : buy.terminal_name || tr('선택한 구매처', 'Selected seller')} → ${sell.terminal_name || tr('선택한 판매처', 'Selected buyer')}`);
       if (result.limited) check(tr('수량을 줄인 이유', 'Why quantity was reduced'), tr('입력한 자금·화물량과 UEX에 보고된 재고·수요 중 가장 작은 한도를 적용했습니다.', 'The smallest limit among budget, capacity and reported stock/demand was applied.'));
-    } else check(tr('금액 계산 보류', 'Price calculation withheld'), result.status === 'stale' ? tr('선택한 장소에 60분 이내 갱신된 시세가 없습니다. 무역 화면에서 다시 조회하세요.', 'Selected locations have no price report within 60 minutes. Refresh in Trade.') : tr('상품·구매처·판매처·운송량·자금 입력 또는 시세 자료가 부족합니다. 무역 화면에서 확인하세요.', 'A commodity, location, quantity, budget or price source is missing. Check the Trade screen.'), 'warning');
+    } else check(tr('금액 계산 보류', 'Price calculation withheld'), result.status === 'stale' ? tr('선택한 장소에 선택한 기간 이내 갱신된 시세가 없습니다. 무역 화면에서 다시 조회하세요.', 'Selected locations have no price report within the selected period. Refresh in Trade.') : tr('상품·구매처·판매처·운송량·자금 입력 또는 시세 자료가 부족합니다. 무역 화면에서 확인하세요.', 'A commodity, location, quantity, budget or price source is missing. Check the Trade screen.'), 'warning');
     check(tr('UEX 제보와 계산 한계', 'Reported data and limits'), tr(`재고 ${fmt(result.stock)} / 수요 ${fmt(result.demand)} SCU. —는 자료 없음이며 실제 거래 가능량을 보장하지 않습니다. 연료비·적재 시간·시간당 수익은 계산하지 않습니다.`, `Stock ${fmt(result.stock)} / demand ${fmt(result.demand)} SCU. — means unknown; availability is not guaranteed. Fuel, loading time and hourly profit are not calculated.`));
     if (context.mode === 'sell') check(tr('판매액과 이익 구분', 'Sale value versus profit'), tr('보유 상품의 구매 원가가 없으므로 판매 금액만 계산합니다.', 'Only sale value is calculated because acquisition cost is unknown.'));
     check(tr('다음 운송', 'Next trip'), tr('무역 화면에서 ‘판매한 곳에서 다음 운송 찾기’를 누르면 같은 판매처를 다음 출발지로 이어갑니다. 자동으로 거래하거나 자금을 차감하지 않습니다.', 'Use “Find next cargo at destination” in Trade to keep the destination as your next departure. No transaction is performed or budget deducted.'));
-    sources.push({ label: tr('UEX · 가격·재고 제보', 'UEX · price and stock reports'), detail: tr('선택한 장소의 60분 이내 보고만 계산', 'Only reports within 60 minutes at selected locations are calculated'), url: '#trade-planner' });
+    sources.push({ label: tr('UEX · 가격·재고 제보', 'UEX · price and stock reports'), detail: tr('선택한 장소의 선택한 기간 이내 보고만 계산', 'Only reports within the selected period at selected locations are calculated'), url: '#trade-planner' });
     actions.push({ action: 'trade', label: tr('무역 계획으로 돌아가기', 'Return to trade plan') });
   }
   if (context.origin === 'mining') actions.push({ action: 'mining', label: tr('채광 안내로 돌아가기', 'Return to Mining') });

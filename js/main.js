@@ -1096,6 +1096,7 @@
 
     // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.
     function renderSectionOnShow(id) {
+        if (document.getElementById(id)?.hasAttribute('data-fleet-helper') && (authStatus !== 'ready' || !authState.helperTools)) return;
         if (['ships', 'trade-planner', 'loadout'].includes(id)) {
             if (Date.now() - authCheckedAt > 60000) setupAuthStatus({ background: true });
             if (!canUseCommunityTools()) return;
@@ -1108,7 +1109,10 @@
 
     // 데이터가 바뀐 뒤(CMS 로드·언어 변경) 이미 표시된 지연 섹션만 다시 렌더한다.
     function refreshRenderedLazySections() {
-        renderedLazySections.forEach((id) => { if (id === 'gallery' || canUseCommunityTools()) LAZY_SECTIONS[id]?.(); });
+        renderedLazySections.forEach((id) => {
+            const helper = document.getElementById(id)?.hasAttribute('data-fleet-helper');
+            if (helper ? authStatus === 'ready' && authState.helperTools : id === 'gallery' || canUseCommunityTools()) LAZY_SECTIONS[id]?.();
+        });
     }
 
     function getFocusableElements(container) {
@@ -1166,6 +1170,11 @@
             } catch (_error) { showToast(currentLang() === 'en' ? 'Could not load this ship.' : '함선 자료를 불러오지 못했습니다.'); }
         } else if (action === 'ship' && ship) { showSection('ships'); openShipModal(ship); }
         else if (action === 'planner' && ship) useShipInPlanner(ship.id);
+        else if (action === 'routes' && ship) {
+            window.VOLT_TRADE_ENGINE.state.set({ ship: ship.id });
+            closeModal();
+            window.VOLT_HELPER.go('routes');
+        }
         else if (action === 'ai') {
             if (contextKind === 'trade' && window.VOLT_JOURNEY) { window.VOLT_JOURNEY.ask('trade'); return; }
             const context = contextKind === 'loadout' ? window.VOLT_LOADOUT?.aiContext?.()
@@ -1538,7 +1547,39 @@
         return authStatus === 'ready' && authState.communityTools === true;
     }
 
+    let helpersWereAllowed = false;
+    function updateHelperAccess() {
+        const allowed = authStatus === 'ready' && authState.helperTools === true;
+        const en = currentLang() === 'en';
+        for (const section of document.querySelectorAll('[data-fleet-helper]')) {
+            section.toggleAttribute('data-helper-allowed', allowed);
+            const gate = section.querySelector('.helper-access');
+            if (allowed) { gate.replaceChildren(); continue; }
+            const message = document.createElement('p');
+            if (authStatus === 'loading') message.textContent = en ? 'Checking fleet membership…' : '함대원 권한을 확인하고 있습니다.';
+            else if (authStatus === 'error') message.textContent = en ? 'Could not check access. Try again shortly.' : '권한을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+            else message.textContent = authState.loggedIn ? (en ? 'The fleet member role is required.' : '함대원 역할이 필요합니다.') : (en ? 'Fleet members only.' : '함대원 전용 기능입니다.');
+            gate.replaceChildren(message);
+            if (authStatus === 'ready' && !authState.loggedIn) {
+                const login = document.createElement('a');
+                login.href = '/auth/discord/login?returnTo=' + encodeURIComponent('/#' + section.id);
+                login.textContent = en ? 'Log in with Discord' : '디스코드로 로그인';
+                gate.append(login);
+            }
+        }
+        if (helpersWereAllowed && !allowed && authStatus !== 'loading') { window.location.reload(); return; }
+        if (authStatus !== 'loading') helpersWereAllowed = allowed;
+        if (allowed) {
+            const active = parseRouteFromHash().section;
+            if (document.getElementById(active)?.hasAttribute('data-fleet-helper')) {
+                renderSectionOnShow(active);
+                window.VOLT_HELPER?.onSectionShow(active);
+            }
+        }
+    }
+
     function applyCommunityGates() {
+        updateHelperAccess();
         window.VOLT_GEAR?.setAccess?.({ status: authStatus, loggedIn: authState.loggedIn,
             allowed: authStatus === 'ready' && authState.gunModding === true, configured: authState.fleetConfigured });
         const allowed = canUseCommunityTools();
@@ -1587,7 +1628,7 @@
                     const changedAccount = authState.user?.sub !== payload.user.sub;
                     authState = { loggedIn: true, user: payload.user, roles: Array.isArray(payload.user.roles) ? payload.user.roles : [],
                         communityTools: payload.features?.communityTools === true, communityConfigured: payload.features?.communityConfigured,
-                        gunModding: payload.features?.gunModding === true, fleetConfigured: payload.features?.fleetConfigured };
+                        helperTools: payload.features?.helperTools === true, gunModding: payload.features?.gunModding === true, fleetConfigured: payload.features?.fleetConfigured };
                     if (changedAccount) {
                         window.clearTimeout(preferencesSaveTimer);
                         window.VOLT_SCHEDULE?.clearRsvpCache?.();
@@ -2139,6 +2180,7 @@
         });
         // 헤더 인증 UI 렌더 계층 — i18n·escapeHtml 주입(상태 계산은 main.js).
         window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml });
+        window.VOLT_I18N?.onChange?.(updateHelperAccess);
         window.VOLT_COMMUNITY?.init?.(() => setupAuthStatus({ refresh: true }));
         window.VOLT_GEAR?.initAccess?.(() => setupAuthStatus({ refresh: true, background: true }));
         // 마이페이지 렌더 계층 — 공용 유틸·격납고 제거/함선 상세 콜백 주입.
@@ -2179,7 +2221,7 @@
         setupAuthStatus();
         const recheckAccess = () => {
             const section = parseRouteFromHash().section;
-            const gear = section === 'gear';
+            const gear = section === 'gear' || document.getElementById(section)?.hasAttribute('data-fleet-helper');
             if (document.visibilityState === 'visible' && Date.now() - authCheckedAt > (gear ? 15000 : 60000)
                 && (gear || ['ships', 'trade-planner', 'loadout'].includes(section))) setupAuthStatus({ background: true, refresh: gear });
         };
@@ -2195,7 +2237,7 @@
             const route = parseRouteFromHash();
             showSection(route.section, false, route.anchorId);
         };
-        window.addEventListener('popstate', applyRouteFromLocation);
+        window.addEventListener('popstate', () => { closeModal(); applyRouteFromLocation(); });
         window.addEventListener('hashchange', applyRouteFromLocation);
         const initial = getInitialRoute();
         history.replaceState({ section: initial.section }, '', initial.url);

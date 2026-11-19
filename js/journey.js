@@ -22,8 +22,9 @@
         if (!state.shipId) ship(shipId, label);
         else renderBars();
     }
+    const priceDays = () => window.VOLT_TRADE_ENGINE?.state.get().maxAgeDays || 3;
     function currentContext(origin) {
-        return { kind: 'journey', origin, shipId: state.shipId || null, loadout: state.loadout, transportShipId: document.getElementById('logistics-ship')?.value || null,
+        return { kind: 'journey', origin, maxAgeDays: priceDays(), shipId: state.shipId || null, loadout: state.loadout, transportShipId: document.getElementById('logistics-ship')?.value || null,
             cargoScu: calc.amount(document.getElementById('logistics-cargo')?.value), budget: state.budget, quantity: state.quantity, mode: state.mode,
             commodityId: state.commodityId, buyTerminal: state.buyTerminal, sellTerminal: state.sellTerminal,
             mineralId: state.mineralId || null, locationId: state.locationId || null, crafts: state.crafts.map(({ id, count }) => ({ id, count })) };
@@ -200,6 +201,14 @@
         const mode = el('select'); mode.id = 'journey-trade-mode'; mode.setAttribute('aria-label', tr('운송 방식', 'Trade mode'));
         for (const [value, ko, en] of [['buy', '사서 운송', 'Buy and haul'], ['sell', '이미 가진 상품 판매', 'Sell cargo already held']]) { const option = el('option', tr(ko, en)); option.value = value; mode.append(option); }
         mode.value = state.mode; mode.addEventListener('change', () => { update({ mode: mode.value }); renderTrade(); }); root.append(mode);
+        const ageLabel = el('label', tr('가격 기준 (일)', 'Price age (days)'));
+        const ageInput = el('input'); ageInput.type = 'number'; ageInput.min = '0.5'; ageInput.step = '0.5'; ageInput.max = '365'; ageInput.value = priceDays();
+        ageInput.addEventListener('change', () => {
+            if (ageInput.value && ageInput.validity.valid) window.VOLT_TRADE_ENGINE.state.set({ maxAgeDays: Number(ageInput.value) });
+            ageInput.value = priceDays(); renderTrade();
+        });
+        ageLabel.append(ageInput); root.append(ageLabel);
+        const routes = el('a', tr('더 좋은 경로 찾기', 'Find trade routes')); routes.href = '#routes'; root.append(routes);
         for (const [key, ko, en] of [['budget', '사용할 자금 (aUEC)', 'Budget (aUEC)'], ['quantity', '운송할 양 (SCU)', 'Quantity (SCU)']]) {
             const label = el('label', tr(ko, en)), input = el('input'); input.type = 'number'; input.min = '0'; input.max = key === 'budget' ? '10000000000' : '100000'; input.step = key === 'budget' ? '1' : '.001'; input.id = `journey-${key}`; input.placeholder = tr('직접 입력', 'Enter amount'); input.value = state[key] ?? '';
             input.addEventListener('input', () => { const value = calc.amount(input.value); update({ [key]: input.validity.valid ? value : null }); renderTrade(); });
@@ -216,7 +225,7 @@
         update({ commodityId: Number(model?.commodityId || document.getElementById('uex-commodity-select')?.value) || null, buyTerminal: Number(model?.bestBuy?.id_terminal) || null, sellTerminal: Number(model?.bestSell?.id_terminal) || null });
         renderTrade();
     }
-    function tradeChoices() { return { mode: state.mode, budget: state.budget, quantity: state.quantity, capacity: calc.amount(document.getElementById('logistics-cargo')?.value) }; }
+    function tradeChoices() { return { maxAgeDays: priceDays(), mode: state.mode, budget: state.budget, quantity: state.quantity, capacity: calc.amount(document.getElementById('logistics-cargo')?.value) }; }
     function renderTrade() {
         const root = document.querySelector('.journey-trade-result'); if (!root) return;
         document.querySelector('#journey-trade-plan h3').textContent = tr('이번 운송 계획', 'This trip');
@@ -235,7 +244,8 @@
             [tr('판매', 'Sell'), formatLocation(model.bestSell)],
         ]) { const li = el('li'); li.append(el('span', title), el('strong', detail)); steps.append(li); }
         root.append(steps);
-        const statuses = { unavailable: ['매수 또는 매도 가격 자료가 없습니다.', 'Buy or sell prices are unavailable.'], stale: ['선택한 장소의 60분 이내 시세가 없어 금액 계산을 보류합니다. 가격을 새로 조회해 주세요.', 'Calculation paused: selected locations have no price report within 60 minutes. Refresh prices.'], quantity: ['함선 화물량과 실제 운송할 양을 입력하세요.', 'Enter cargo capacity and the quantity to transport.'], budget: ['사서 운송할 때는 사용할 자금을 입력하세요.', 'Enter a budget before buying cargo.'] };
+        root.append(note(`가격 기준 ${priceDays()}일`, `Price reports within ${priceDays()} days`));
+        const statuses = { unavailable: ['매수 또는 매도 가격 자료가 없습니다.', 'Buy or sell prices are unavailable.'], stale: [`최근 ${priceDays()}일 동안 보고된 시세가 없어 금액 계산을 보류합니다. 가격을 새로 조회해 주세요.`, 'Calculation paused: selected locations have no price report within the selected period. Refresh prices.'], quantity: ['함선 화물량과 실제 운송할 양을 입력하세요.', 'Enter cargo capacity and the quantity to transport.'], budget: ['사서 운송할 때는 사용할 자금을 입력하세요.', 'Enter a budget before buying cargo.'] };
         if (result.status !== 'ok') root.append(note(...statuses[result.status]));
         else {
             const stats = el('dl', undefined, 'journey-totals');
@@ -261,8 +271,8 @@
             const rows = await window.VOLT_UEX.fetchUexData(`location-prices?field=id_terminal&id=${encodeURIComponent(place.id_terminal)}`, 300000);
             if (!panel.isConnected) return;
             panel.replaceChildren(el('h4', tr('다음 운송 · 출발지 유지', 'Next trip · keep this departure')));
-            const fresh = rows.filter(row => Number(row.id_commodity) > 0 && Number(row.price_buy) > 0 && calc.fresh(row));
-            if (!fresh.length) panel.append(note('60분 이내에 보고된 구매 가능 상품이 없습니다.', 'No buyable commodities reported within 60 minutes.'));
+            const fresh = rows.filter(row => Number(row.id_commodity) > 0 && Number(row.price_buy) > 0 && calc.fresh(row, Date.now(), priceDays()));
+            if (!fresh.length) panel.append(note('선택한 기간 안에 보고된 구매 가능 상품이 없습니다.', 'No buyable commodities reported within the selected period.'));
             for (const row of fresh.slice(0, 20)) panel.append(button(`${row.commodity_name} · ${number(Number(row.price_buy))} aUEC/SCU`, async () => {
                 update({ mode: 'buy', quantity: null }); renderTradeControls();
                 await window.VOLT_UEX_PANEL.openCommodity({ id: row.id_commodity, buyTerminal: place.id_terminal });
@@ -279,8 +289,16 @@
         initialized = true; renderBars(); mountTrade();
         window.VOLT_I18N?.onChange?.(() => { renderBars(); renderTradeControls(); renderTrade(); renderCrafts(); });
     }
+    async function openRoute({ shipId, budget, quantity, commodityId, buyTerminal, sellTerminal }) {
+        if (shipId && window.VOLT_TOOLS.canPlan(shipId)) window.VOLT_TOOLS.open('planner', shipId);
+        else window.VOLT_APP.showSection('trade-planner');
+        update({ budget, quantity, commodityId, buyTerminal, sellTerminal, mode: 'buy' });
+        renderTradeControls();
+        const found = await window.VOLT_UEX_PANEL.openCommodity({ id: commodityId, buyTerminal, sellTerminal });
+        if (!found) deps.toast?.(tr('이 상품의 시세를 불러오지 못했습니다.', 'Prices for this commodity could not be loaded.'));
+    }
     function restoreTrade() {
         if (state.commodityId) window.VOLT_UEX_PANEL?.openCommodity?.({ id: state.commodityId, buyTerminal: state.buyTerminal, sellTerminal: state.sellTerminal, focus: false });
     }
-    window.VOLT_JOURNEY = { init, ship, transport, currentContext, ask, open, addCraft, showCrafts, miningSelection, drawMiningActions, tradeSelection, restoreTrade, renderTrade, marketResource, getSelection: () => ({ ...state }) };
+    window.VOLT_JOURNEY = { init, ship, transport, currentContext, ask, open, addCraft, showCrafts, miningSelection, drawMiningActions, tradeSelection, openRoute, restoreTrade, renderTrade, marketResource, getSelection: () => ({ ...state }) };
 })();

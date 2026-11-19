@@ -7,9 +7,11 @@
     'use strict';
     const amount = value => value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value)) && Number(value) >= 0 ? Number(value) : null;
     const round = value => Math.round(value * 1000000) / 1000000;
-    function fresh(row, now = Date.now()) {
+    // maxAgeDays: the player's price-age cut-off in days (owner rule 2026-11-19: default 3, shared with the helper tools).
+    function fresh(row, now = Date.now(), maxAgeDays = 3) {
         const at = amount(row?.date_modified);
-        return at !== null && at > 0 && at * 1000 <= now && now - at * 1000 <= 3600000;
+        const limit = amount(maxAgeDays) > 0 ? Number(maxAgeDays) * 86400000 : 3 * 86400000;
+        return at !== null && at > 0 && at * 1000 <= now && now - at * 1000 <= limit;
     }
     function trade(buy, sell, choices = {}, now = Date.now()) {
         const selling = choices.mode === 'sell';
@@ -18,7 +20,7 @@
         const stock = selling ? null : amount(buy?.scu_buy), demand = amount(sell?.scu_sell);
         const result = { status: 'unavailable', quantity: null, cost: null, revenue: null, profit: null, stock, demand, capacity, budget, selling };
         if ((!selling && !(purchase > 0)) || !(price > 0)) return result;
-        if (!fresh(sell, now) || (!selling && !fresh(buy, now))) return { ...result, status: 'stale' };
+        if (!fresh(sell, now, choices.maxAgeDays) || (!selling && !fresh(buy, now, choices.maxAgeDays))) return { ...result, status: 'stale' };
         if (requested === null || capacity === null || capacity <= 0) return { ...result, status: 'quantity' };
         if (!selling && budget === null) return { ...result, status: 'budget' };
         // All quantities are SCU. Unknown stock/demand is not zero, and never a guarantee.

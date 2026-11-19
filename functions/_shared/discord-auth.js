@@ -55,6 +55,13 @@ export function createOAuthReturnCookie(returnTo) {
 }
 
 const OAUTH_RETURNS = Object.freeze({
+  routes: { input: '/#routes', output: '/#routes' },
+  market: { input: '/#market', output: '/#market' },
+  missions: { input: '/#missions', output: '/#missions' },
+  fabricator: { input: '/#fabricator', output: '/#fabricator' },
+  mining: { input: '/#mining', output: '/#mining' },
+  hauling: { input: '/#hauling', output: '/#hauling' },
+  tours: { input: '/#tours', output: '/#tours' },
   admin: { input: '/admin/', output: '/admin/?discord=1' },
   ships: { input: '/#ships', output: '/#ships' },
   loadout: { input: '/#loadout', output: '/#loadout' },

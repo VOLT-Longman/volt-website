@@ -7,6 +7,9 @@ export function fleetAccess(roleIds, env = {}) {
 }
 
 export function isFleetResource(path) {
-  return path === '/assets/models/gear' || path.startsWith('/assets/models/gear/')
+  return path.startsWith('/data/trade/') || path.startsWith('/data/crafting/')
+    || path === '/data/mining/helper.json' || path === '/data/contracts/missions.json' || path === '/data/contracts/hauling.json'
+    || /^\/api\/uex\/(?:market|terminals|refineries|vehicle-prices|price-history)$/.test(path)
+    || path === '/assets/models/gear' || path.startsWith('/assets/models/gear/')
     || path === '/data/gear/models.json' || path === '/data/gear/attachments.json';
 }

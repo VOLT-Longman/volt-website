@@ -23,12 +23,12 @@ export async function onRequestGet({ request, env }) {
   if (!session) {
     let configured = false;
     try { configured = communityAccess([], env).configured; } catch (_error) { /* Malformed configuration never grants access. */ }
-    return json({ logged_in: false, features: { communityTools: publicTools, communityConfigured: configured, gunModding: false, fleetConfigured: fleetAccess([], env).configured } }, { cacheControl: 'no-store' });
+    return json({ logged_in: false, features: { communityTools: publicTools, communityConfigured: configured, helperTools: false, gunModding: false, fleetConfigured: fleetAccess([], env).configured } }, { cacheControl: 'no-store' });
   }
   return json({ logged_in: true, user: createUserPayload(session), features: {
     communityTools: publicTools || session.communityAccess.allowed,
     communityConfigured: session.communityAccess.configured,
-    gunModding: session.fleetAccess.allowed,
+    helperTools: session.fleetAccess.allowed, gunModding: session.fleetAccess.allowed,
     fleetConfigured: session.fleetAccess.configured
   } }, { cacheControl: 'no-store' });
 }

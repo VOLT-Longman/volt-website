@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261119-02';
+const CACHE_VERSION = '20261119-03';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -28,12 +28,19 @@ function storeRuntime(request, response) {
 const VERSIONED_ASSETS = [
     '/css/styles.css',
     '/css/motion.css',
+    '/css/routes.css',
+    '/css/market.css',
+    '/css/tours.css',
+    '/css/missions.css',
+    '/css/fabricator.css',
+    '/css/mining-extra.css',
     '/js/motion.js',
     '/js/cinematic-motion.js',
     '/assets/vendor/gsap/gsap.min.js',
     '/assets/vendor/gsap/ScrollTrigger.min.js',
     '/js/theme-init.js',
     '/js/i18n.js',
+    '/js/helper-common.js',
     '/js/navigation.js',
     '/js/notices.js',
     '/js/schedule.js',
@@ -43,6 +50,7 @@ const VERSIONED_ASSETS = [
     '/js/uex-panel.js',
     '/js/trade-planner.js',
     '/js/journey-calc.js',
+    '/js/trade-engine.js',
     '/js/journey.js',
     '/js/loadout-calc.js',
     '/js/loadout-planner.js',
@@ -50,6 +58,11 @@ const VERSIONED_ASSETS = [
     '/js/mining.js',
     '/js/gear.js',
     '/js/hauling.js',
+    '/js/routes.js',
+    '/js/market.js',
+    '/js/tours.js',
+    '/js/missions.js',
+    '/js/fabricator.js',
     '/js/ships.js',
     '/js/ship-imagery.js',
     '/js/shipdb-manufacturers.js',
@@ -108,7 +121,9 @@ self.addEventListener('fetch', (event) => {
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/') || url.pathname.startsWith('/admin')) return;
     // Membership-protected data must always reach the server, including after logout.
     // Activation deletes the old runtime caches that previously stored these files.
-    if (url.pathname.startsWith('/data/canonical/') || url.pathname.startsWith('/data/loadout/')
+    if (url.pathname.startsWith('/data/trade/') || url.pathname.startsWith('/data/crafting/')
+        || ['/data/mining/helper.json', '/data/contracts/hauling.json', '/data/contracts/missions.json'].includes(url.pathname)
+        || url.pathname.startsWith('/data/canonical/') || url.pathname.startsWith('/data/loadout/')
         || url.pathname === '/data/ship-live-stats.js' || url.pathname === '/data/ship-market.js'
         || url.pathname === '/data/gear/models.json' || url.pathname === '/data/gear/attachments.json') return;
     // Range 부분 요청(미션 컨트롤 콘솔의 레이어 헤더 조회)은 SW 우회 —
