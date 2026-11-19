@@ -1560,7 +1560,7 @@
         return authStatus === 'ready' && authState.communityTools === true;
     }
 
-    let helpersWereAllowed = false;
+    let verifiedHelperAccount = null;
     function updateHelperAccess() {
         const allowed = authStatus === 'ready' && authState.helperTools === true;
         const en = currentLang() === 'en';
@@ -1589,8 +1589,13 @@
                 gate.append(login);
             }
         }
-        if (helpersWereAllowed && !allowed && authStatus !== 'loading') { window.location.reload(); return; }
-        if (authStatus !== 'loading') helpersWereAllowed = allowed;
+        // Hide protected content during an outage. Discard the previous account's
+        // in-memory data only after a successful check confirms a change.
+        if (authStatus === 'ready') {
+            const account = allowed ? authState.user?.sub : null;
+            if (verifiedHelperAccount && account !== verifiedHelperAccount) { window.location.reload(); return; }
+            verifiedHelperAccount = account;
+        }
         if (allowed) {
             const active = parseRouteFromHash().section;
             if (document.getElementById(active)?.hasAttribute('data-fleet-helper')) {
@@ -2203,7 +2208,7 @@
             resetShipState, openShipModal, showSection, closeMoreMenu, closeTradeMenu, setMobileMenuState,
         });
         // 헤더 인증 UI 렌더 계층 — i18n·escapeHtml 주입(상태 계산은 main.js).
-        window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml });
+        window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml, retry: () => setupAuthStatus({ refresh: true }) });
         window.VOLT_I18N?.onChange?.(updateHelperAccess);
         window.VOLT_COMMUNITY?.init?.(() => setupAuthStatus({ refresh: true }));
         window.VOLT_GEAR?.initAccess?.(() => setupAuthStatus({ refresh: true, background: true }));

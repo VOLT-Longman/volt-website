@@ -535,3 +535,34 @@ test('시세 요청이 서버 확인을 거쳐 10초 뒤 도착해도 결과를 
     const result = await page.evaluate(async () => (await window.VOLT_HELPER.uex('market')).data);
     expect(result).toEqual([{ c: 3, t: 1, buy: 42 }]);
 });
+
+test('함대원 화면을 보는 중 권한 재확인이 실패하면 재로그인 없이 같은 화면으로 복구한다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    let outage = false;
+    let revoked = false;
+    await page.route(/\/auth\/me(?:\?.*)?$/, route => {
+        if (outage) return route.fulfill({ status: 503, json: { error: 'unavailable' } });
+        if (revoked) return route.fulfill({ json: { logged_in: false, features: { helperTools: false } } });
+        return route.fallback();
+    });
+    await gotoSection(page, '#mining');
+    const minerals = page.locator('#mining-list-panel');
+    await expect(minerals).toBeVisible();
+    let reloads = 0;
+    page.on('request', request => { if (request.isNavigationRequest() && request.frame() === page.mainFrame()) reloads++; });
+    outage = true;
+    await page.clock.setFixedTime(new Date(await page.evaluate(() => Date.now() + 31000)));
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await expect(page.locator('#mining .helper-access button')).toBeVisible();
+    await expect(minerals).toBeHidden();
+    expect(reloads).toBe(0);
+    outage = false;
+    await page.locator('#mining .helper-access button').click();
+    await expect(minerals).toBeVisible();
+    expect(reloads).toBe(0);
+    revoked = true;
+    await page.clock.setFixedTime(new Date(await page.evaluate(() => Date.now() + 31000)));
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await expect(page.locator('#mining .helper-access a')).toBeVisible();
+    await expect(minerals).toHaveCount(0);
+});
