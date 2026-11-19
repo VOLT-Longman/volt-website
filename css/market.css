@@ -9,9 +9,6 @@
 .market-app .market-note { margin: 0; font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
 
 .market-app .market-panel { padding: 16px; border: 1px solid var(--mk-line); border-radius: 12px; background: var(--mk-card); min-width: 0; }
-.market-app .market-settings > summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; min-height: 44px; cursor: pointer; }
-.market-app .market-settings > summary::after { content: '▾'; grid-column: 2; grid-row: 1 / span 2; color: var(--color-text-secondary); }
-.market-app .market-settings[open] > summary::after { content: '▴'; }
 .market-app .market-settings-title, .market-app .market-settings-now { grid-column: 1; }
 .market-app .market-settings-title { font-size: 15px; font-weight: 650; color: var(--color-text-primary); }
 .market-app .market-settings-now { font-size: 13px; color: var(--color-text-secondary); overflow-wrap: anywhere; }
