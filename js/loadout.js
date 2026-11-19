@@ -24,7 +24,7 @@
         equipmentGroup: '', query: '', openPath: '', pickerOrigin: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(), priceNames: new Map(), priceIds: new Map(), plan: { mode: 'cheapest', shops: {}, order: [] }, familyOpen: new Set(), keepPicker: false,
         shipMarket: { status: 'idle', data: [], fetchedAt: '' },
-        cartOpen: false, detailShop: '', detailId: '', detailSlot: '', detailReturn: '', detailTab: 'stats', collapsed: new Set(), compact: false, changedOnly: false, redo: [], pickerLimit: 80, pickerReverse: false,
+        cartOpen: false, detailShop: '', detailId: '', detailSlot: '', detailReturn: '', detailTab: 'stats', collapsed: new Set(), compact: window.matchMedia('(max-width: 640px)').matches, changedOnly: false, redo: [], pickerLimit: 80, pickerReverse: false,
         tab: '', cart: {}, buildName: '', finderType: '', finderQuery: '', finderSize: '', finderSort: 'best', finderBuyable: false, finderLimit: 40, qtDistance: 30, compare: null, off: {}, shipMfr: '', shipKind: '', history: [], split: {}, buildsOpen: false, slot: 'A', alt: null,
     };
 
@@ -255,7 +255,7 @@
 
     async function ensureBase() {
         if (state.items && state.index) return;
-        try { const ui = JSON.parse(localStorage.getItem('volt-loadout-ui-v1') || '{}'); state.compact = Boolean(ui.compact); state.keepPicker = Boolean(ui.keepPicker); } catch (_error) { /* optional preference */ }
+        try { const ui = JSON.parse(localStorage.getItem('volt-loadout-ui-v1') || '{}'); if (typeof ui.compact === 'boolean') state.compact = ui.compact; state.keepPicker = Boolean(ui.keepPicker); } catch (_error) { /* optional preference */ }
         state.cart = readCart();
         state.plan = readPlan();
         // meta는 항상 새로 확인하고, 나머지는 자료 버전을 주소에 붙여 패치 후 옛 캐시가 섞이지 않게 한다.

@@ -6,6 +6,10 @@ export function fleetAccess(roleIds, env = {}) {
   return { configured: Boolean(id), allowed: Boolean(id) && Array.isArray(roleIds) && roleIds.includes(id) };
 }
 
+export function publicHelperTools(env = {}) {
+  return String(env.FLEET_TOOLS_REQUIRE_MEMBERSHIP ?? 'false').trim().toLowerCase() === 'false';
+}
+
 export function isFleetResource(path) {
   return path.startsWith('/data/trade/') || path.startsWith('/data/crafting/')
     || path === '/data/mining/helper.json' || path === '/data/contracts/missions.json' || path === '/data/contracts/hauling.json'

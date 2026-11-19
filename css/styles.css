@@ -11421,3 +11421,10 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
     line-height: 1.45;
 }
 .tool-workspace .gear-list td, .tool-workspace .market-price { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 640px) {
+    #missions .missions-open, #ships .ship-name-btn {
+        min-height: 44px;
+        text-align: start;
+    }
+}

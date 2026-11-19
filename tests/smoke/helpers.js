@@ -18,6 +18,7 @@ const TEST_USER = {
 
 // Feature tests default to a community member. Guest/access tests opt out explicitly.
 async function mockApi(page, { loggedIn = true, community = loggedIn, configured = true, fleet = false, roles = TEST_USER.roles } = {}) {
+    await page.route('**/api/tool-access', route => route.fulfill({ json: { community: false, helpers: false } }));
     await page.route(/\/auth\/me(?:\?.*)?$/, (route) => route.fulfill({
         json: loggedIn ? { logged_in: true, user: { ...TEST_USER, roles }, features: { communityTools: community, communityConfigured: configured, helperTools: fleet, gunModding: fleet, fleetConfigured: true } } : { logged_in: false, features: { communityTools: community, communityConfigured: configured, helperTools: false, gunModding: false, fleetConfigured: true } },
     }));

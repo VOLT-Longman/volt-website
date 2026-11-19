@@ -162,7 +162,7 @@
     function setModAccess(access) {
         const wasAllowed = modAccess.allowed;
         const hadFocus = wasAllowed && root?.contains(document.activeElement);
-        modAccess = { ...access, allowed: access.status === 'ready' && access.loggedIn === true && access.allowed === true };
+        modAccess = { ...access, allowed: access.publicEditor === true || (access.status === 'ready' && access.loggedIn === true && access.allowed === true) };
         if (!modAccess.allowed) {
             modAccessEpoch++;
             for (const controller of modRequests) controller.abort();

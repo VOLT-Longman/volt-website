@@ -60,7 +60,7 @@ test('Owner-confirmed default role opens protected routes and reports configured
   const role = '1150059971887771718';
   const cookie = await memberCookie({ sub: 'configured-community-member', roles: [role] }, env);
   const guest = await (await me({ env, request: request('/auth/me') })).json();
-  assert.deepEqual(guest.features, { communityTools: false, communityConfigured: true, helperTools: false, gunModding: false, fleetConfigured: true });
+  assert.deepEqual(guest.features, { communityTools: false, communityConfigured: true, helperTools: true, gunModding: true, fleetConfigured: true });
   for (const path of paths) assert.equal((await invoke(env, path, cookie)).response.status, 200, path);
   const body = await (await me({ env, request: request('/auth/me', cookie) })).json();
   assert.equal(body.features.communityTools, true);
