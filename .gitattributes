@@ -24,3 +24,4 @@ assets/vendor/three-*/** text eol=lf
 *.glb  binary
 *.woff binary
 *.woff2 binary
+data/starmap/*.json text eol=lf

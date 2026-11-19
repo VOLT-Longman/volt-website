@@ -94,7 +94,7 @@
 .starmap-app .starmap-lines line.is-dashed { stroke-dasharray: 7 6; }
 /* 이름표는 누르기를 받지 않는다: 끌기·벌리기가 언제나 캔버스(touch-action: none)에서 시작되게. 이름표를 누른 것은 js/starmap-viewer.js pickAt 이 가린다. */
 .starmap-app .starmap-labels { position: absolute; inset: 0; overflow: hidden; pointer-events: none; touch-action: none; }
-.starmap-app .starmap-label { position: absolute; left: 0; top: 0; padding: 0 5px; font-size: 12px; font-weight: 500; line-height: 18px; white-space: nowrap; color: #e3e9f2; border-radius: 5px; background: rgba(4, 7, 13, 0.62);
+.starmap-app .starmap-label { box-sizing: border-box; max-width: calc(100% - 8px); overflow: hidden; text-overflow: ellipsis; position: absolute; left: 0; top: 0; padding: 0 5px; font-size: 12px; font-weight: 500; line-height: 18px; white-space: nowrap; color: #e3e9f2; border-radius: 5px; background: rgba(4, 7, 13, 0.62);
     text-shadow: 0 0 2px #000, 0 0 5px #000, 0 1px 2px #000; pointer-events: none; user-select: none; will-change: transform; }
 .starmap-app .starmap-label small { display: none; }
 .starmap-app .starmap-label.is-star, .starmap-app .starmap-label.is-planet { font-weight: 700; color: #fff; }

@@ -32,11 +32,20 @@
     const FLAGS = ['trade', 'refinery', 'mine', 'mission'];
     const ASSET_QUERY = (() => { try { return new URL(document.currentScript.src).search; } catch (_error) { return ''; } })();
     const LIST_LIMIT = 40;
+    let returnHash = '';
+    window.addEventListener('hashchange', (event) => {
+        const previous = new URL(event.oldURL).hash;
+        if (!/^#starmap(?:\?|$)/.test(location.hash)) { returnHash = ''; return; }
+        if (/^#(?:routes|market|missions|mining|hauling|tours|trade-planner)(?:\?|$)/.test(previous)) {
+            returnHash = previous;
+            if (ui.phase === 'ready' && ui.parts) drawTop();
+        }
+    });
 
     const TEXT = {
         ko: {
             loading: '성계지도 자료를 불러오는 중입니다…', retry: '다시 시도',
-            systems: '항성계 고르기', share: '이 화면 주소 복사',
+            back: '이전 화면으로 돌아가기', systems: '항성계 고르기', share: '이 화면 주소 복사',
             exits: '다른 항성계로 가는 길', goTo: '{name}{ro} 이동', viaGate: '{gate} 거쳐 감',
             search: '장소 찾기', searchPh: '장소 이름 (한글·영어)', searchHint: '위치 자료가 없는 곳도 찾습니다. 다른 항성계의 장소도 나옵니다.',
             results: '찾은 곳 {n}곳', resultsMore: '찾은 곳 {n}곳 중 {shown}곳', noResult: '맞는 곳이 없습니다.', searching: '찾는 중…',
@@ -107,7 +116,7 @@
         },
         en: {
             loading: 'Loading star map data…', retry: 'Try again',
-            systems: 'Choose a star system', share: 'Copy link to this view',
+            back: 'Return to previous screen', systems: 'Choose a star system', share: 'Copy link to this view',
             exits: 'Ways to other systems', goTo: 'Go to {name}', viaGate: 'via {gate}',
             search: 'Find a place', searchPh: 'Place name (Korean or English)', searchHint: 'Places without position data are found too, and places in other systems.',
             results: '{n} places found', resultsMore: 'Showing {shown} of {n} places', noResult: 'No place matches.', searching: 'Searching…',
@@ -276,8 +285,8 @@
     const kindName = (kind) => t(`kind_${KIND_ORDER.includes(kind) ? kind : 'other'}`);
     const flagsOf = (object) => FLAGS.filter((flag) => object[flag] === 1);
 
-    // 기본으로 보이는 곳: 게임 지도에 나오는 곳. 게임 파일에 놓인 자리가 없는 정거장(unplaced)은 숨은 곳과 같이 다룬다.
-    const offMap = (object) => object.h === 1 || object.unplaced === 1;
+    // 위치 없는 정거장도 기본 목록에 둔다. 지도상의 점은 pos가 있는 장소만 그린다.
+    const offMap = (object) => object.h === 1;
     function visible(object) {
         if (['star', 'planet', 'moon'].includes(object.kind)) return true;
         if (st.off.includes(object.kind)) return false;
@@ -425,8 +434,9 @@
         const target = focusTarget();
         if (target) { viewer.focus(target, { instant }); return; }
         const state = viewerState();
-        const ids = [...state.stops.map((stop) => stop.id), ...state.marks, ...state.paths.flatMap((path) => path.ids)];
-        if (ids.length) viewer.frame(ids, { instant }); else viewer.focus(null, { instant });
+        const ids = [...new Set([...state.stops.map((stop) => stop.id), ...state.marks, ...state.paths.flatMap((path) => path.ids)])];
+        if (ids.length > 1) viewer.frame(ids, { instant });
+        else viewer.focus(ids[0] === cur().data.star ? null : ids[0], { instant });
     }
     function linkBetween(from, to) {
         for (const link of db.index.links || []) {
@@ -586,7 +596,7 @@
         paint(ui.parts.top, `
             <div class="starmap-tabs" role="group" aria-label="${esc(t('systems'))}">${tabs}</div>
             <div class="starmap-exits" role="group" aria-label="${esc(t('exits'))}"><span class="starmap-exits-title">${esc(t('exits'))}</span>${exits}</div>
-            <div class="starmap-share"><button type="button" class="btn starmap-btn" data-act="share">${esc(t('share'))}</button><span class="starmap-flash" role="status">${esc(ui.flash)}</span></div>`);
+            <div class="starmap-share">${returnHash ? `<a class="btn starmap-btn" href="${esc(returnHash)}">${esc(t('back'))}</a>` : ''}<button type="button" class="btn starmap-btn" data-act="share">${esc(t('share'))}</button><span class="starmap-flash" role="status">${esc(ui.flash)}</span></div>`);
     }
 
     function tags(object, withKind) {

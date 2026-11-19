@@ -169,7 +169,7 @@ sites{}     section 5.5
 | `in` | id | nearest object above it in the **container** tree, when that is not `parent` (a rest stop is `in` its Lagrange point, a gateway station `in` its jump point) | Data.p4k |
 | `body` | id | the planet or moon whose container holds it, when it is within 3 body radii of the centre | Data.p4k |
 | `rel` | `[x,y,z]` | whole metres from the centre of `body`, in the body's own (body-fixed) frame | Data.p4k |
-| `geo` | `[lat, lon, alt]` | degrees, degrees, metres above the body radius. From `rel`: lat = asin(z/d), lon = atan2(y, x) | derived |
+| `geo` | `[lat, lon, alt]` | degrees, degrees, metres above the container radius (`phys.r`; falls back to the map radius `r` when absent). From `rel`: lat = asin(z/d), lon = atan2(y, x) | derived |
 | `surf` | 1 | on the ground: the game type is a surface type and there is no station between it and the body | DCB |
 | `r` | number | `StarMapObject.size` in metres: the body radius for stars, planets, moons. Left out when the game holds its placeholder 0.1 or 1 | DCB |
 | `qt` | `[obstruction, arrival, adoption]` | quantum-travel radii in metres. Absent = the record has no such block | DCB |
@@ -234,14 +234,14 @@ Examples, copied from the generated files:
 
 | System | Objects | What to do |
 |---|---|---|
-| Pyro | 11 rest stops `RR_P1_L2`, `RR_P1_L3`, `RR_P1_L4`, `RR_P1_L5`, `RR_P2_L3`, `RR_P3_L2`, `RR_P3_L5`, `RR_P5_L1`, `RR_P5_L3`, `RR_P6_L1`, `RR_P6_L2`, the station `RR_P2_LEO`, and 10 clinic records inside them | list under `parent` as "위치 자료 없음"; `guess` may be shown as "추정" |
+| Pyro | 11 rest stops `RR_P1_L2`, `RR_P1_L3`, `RR_P1_L4`, `RR_P1_L5`, `RR_P2_L3`, `RR_P3_L2`, `RR_P3_L5`, `RR_P5_L1`, `RR_P5_L3`, `RR_P6_L1`, `RR_P6_L2`, the station `RR_P2_LEO`, and 10 clinic records inside them | list and search only; no map marker, trade link or refinery link |
 | Pyro | `Pyro_AkiroCluster` (a mining location) | list only |
 | Pyro | 5 jump points to systems that are not built (Cano, Castra, Hadrian, Oso, Terra) | list as not usable |
 | Nyx | `Delamar` (moon record; its container exists but is not placed in the Nyx system) | list only |
 | Nyx | 4 jump points to systems that are not built (Bremen, Odin, Tohil, Virgil) | list as not usable |
 
 `guess` = `{ "at": "<object id>", "by": "record-name" }`: `RR_P<n>_L<m>` → `Pyro<n>_L<m>`, `RR_P<n>_LEO` → `Pyro<n>`, `<station>_CLINIC` → `<station>`.
-The rule was tested on the 11 Pyro rest stops that **do** have a position: all 11 sit inside the container of the Lagrange point (or under the planet) their name gives, 448 km to 36,550 km from it. That supports the rule; it does not prove it for the unplaced ones. It stays a guess.
+The rule was tested on the 11 Pyro rest stops that **do** have a position: all 11 sit inside the container of the Lagrange point (or under the planet) their name gives, 448 km to 36,550 km from it. That supports the rule; it does not prove it for the unplaced ones. The current build does not publish a guessed location for any of these stations.
 
 ### 5.3 Jump points and links
 

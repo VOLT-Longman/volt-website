@@ -1,7 +1,7 @@
 // Extracted game art for the star map must never be committed. Part of `npm run check`.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const cwd = fileURLToPath(new URL('../../', import.meta.url));
@@ -19,16 +19,18 @@ if (!/^\/assets\/models\/starmap\/$/m.test(readFileSync(new URL('../../.gitignor
 // A staged-but-ignored file would show up in ls-files; an unignored local export would show up here.
 const untracked = git('status', '--porcelain', '--untracked-files=all', '--', 'assets/models/starmap');
 if (untracked.trim()) throw new Error('assets/models/starmap/ is visible to Git (not ignored). Do not add it.');
-// A copy saved under another name or folder: every .webp Git can see (tracked, staged or untracked-but-not-ignored) is compared,
+// Check visible files of matching byte size even if the copy was renamed or its extension changed.
 // by content, with the exported files listed in data/starmap/textures.json. (A re-encoded or cropped copy is NOT caught by this.)
 const indexFile = new URL('../../data/starmap/textures.json', import.meta.url);
 if (existsSync(indexFile)) {
-  const exported = new Set(Object.values(JSON.parse(readFileSync(indexFile, 'utf8')).textures || {}).flatMap((entry) => Object.values(entry.files || {}).map((file) => file.sha256)));
-  const visible = [...tracked.split('\n'), ...git('ls-files', '--others', '--exclude-standard').split('\n')].map((name) => name.trim()).filter((name) => /\.webp$/i.test(name));
+  const files = Object.values(JSON.parse(readFileSync(indexFile, 'utf8')).textures || {}).flatMap((entry) => Object.values(entry.files || {}));
+  const sizes = new Set(files.map((file) => file.bytes));
+  const exported = new Set(files.map((file) => file.sha256));
+  const visible = git('ls-files', '-z', '--cached', '--others', '--exclude-standard').split('\0').filter(Boolean);
   const copies = [];
   for (const name of new Set(visible)) {
     const file = new URL(`../../${name.split('/').map(encodeURIComponent).join('/')}`, import.meta.url);
-    if (existsSync(file) && exported.has(createHash('sha256').update(readFileSync(file)).digest('hex'))) copies.push(name);
+    if (existsSync(file) && sizes.has(statSync(file).size) && exported.has(createHash('sha256').update(readFileSync(file)).digest('hex'))) copies.push(name);
   }
   if (copies.length) throw new Error(`These files are copies of private star-map textures: ${copies.join(', ')}. Remove them before committing.`);
 }

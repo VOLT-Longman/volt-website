@@ -37,6 +37,7 @@ async function serveRequest(context) {
       else segments.push(segment);
     }
     path = '/' + segments.join('/');
+    if (/^\/(?:data|assets\/models)\/starmap;/i.test(path)) throw new Error('Ambiguous map path');
   }
   catch (_error) { return privateResponse(new Response('Invalid path', { status: 400 })); }
   if (isFleetResource(path)) {

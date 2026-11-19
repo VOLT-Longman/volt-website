@@ -201,8 +201,8 @@ test('mark · area 주소: UEX 터미널 번호와 게임 파일에 놓인 자�
     await expect(info.locator('a.starmap-out[href^="#market"], a.starmap-out[href^="#routes"], a.starmap-out[href*="tab=ref"]')).toHaveCount(0);
     await expect(info.locator('[data-act="refocus"]')).toHaveCount(0);
     expect((await debug(page)).viewer.active).toBeNull();
-    // 기본 목록에는 나오지 않는다 (게임 지도에 안 나오는 곳처럼 다룬다).
-    await expect(page.locator('#starmap-app .starmap-tree [data-id="RR_P1_L2"]')).toHaveCount(0);
+    // 정거장 목록에서는 고를 수 있고 위치가 없음을 알려 준다.
+    await expect(page.locator('#starmap-app .starmap-tree [data-id="RR_P1_L2"]')).toContainText('놓인 자리 없음');
 
 
     // 채광 구역 (점이 아닌 곳)

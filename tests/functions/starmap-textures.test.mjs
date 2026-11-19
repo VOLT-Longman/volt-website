@@ -98,7 +98,7 @@ test('Bad paths, other versions and other methods are refused without reading th
   for (const path of ['//assets/models/starmap/tex/a_512.webp', '/assets/%6dodels/starmap/tex/a_512.webp', '/assets%5cmodels%5cstarmap%5ctex%5ca_512.webp', '/data/%73tarmap/textures.json', '/public%2f..%2fdata%2fstarmap%2ftextures.json']) {
     const result = await invoke(env, path); assert.equal(result.response.status, 401, path); assert.equal(result.calls, 0);
   }
-  for (const path of ['/assets/models/starmap/%00.webp', '/assets/models/starmap/%ZZ', '/data/%2573tarmap/textures.json']) {
+  for (const path of ['/assets/models/starmap/%00.webp', '/assets/models/starmap/%ZZ', '/data/%2573tarmap/textures.json', '/data/starmap;x/index.json', '/ASSETS/models/STARMAP;x/tex/a_512.webp']) {
     const result = await invoke(env, path); assert.equal(result.response.status, 400, path); assert.equal(result.calls, 0);
   }
 });

@@ -753,7 +753,7 @@ export function createViewer(host, options = {}) {
             const must = def.prio >= 900 || def.id === hoverId;
             if (def.prio === 800 && ++markLabels > 18) continue;   // 표시가 아주 많으면 이름표는 앞의 몇 개만
             if (!must && placed >= limit) continue;
-            const width = textWidth(def.text, def.strong) + 10 + (def.sub ? textWidth(def.sub, false) + 6 : 0);
+            const width = Math.min(size.w - 8, textWidth(def.text, def.strong) + 12 + (def.sub ? textWidth(def.sub, false) + 6 : 0));
             // 자리가 겹치면 다른 쪽(왼쪽·위·아래)에 놓아 본다.
             const spots = def.body
                 ? [[x - width / 2, y + gap], [x - width / 2, y - gap - 18], [x + gap + 2, y - 9], [x - gap - 2 - width, y - 9]]
@@ -761,21 +761,23 @@ export function createViewer(host, options = {}) {
             let box = null;
             for (const [left, top] of spots) {
                 const candidate = [left, top, left + width, top + 18];
-                if (!must && (candidate[0] < 2 || candidate[2] > size.w - 2 || candidate[1] < 2 || candidate[3] > size.h - 2)) continue;
+                if (left < 2 || left + width > size.w - 2 || top < 2 || top + 18 > size.h - 2) continue;
                 if (taken.some((other) => candidate[0] < other[2] && candidate[2] > other[0] && candidate[1] < other[3] && candidate[3] > other[1])) continue;
                 box = candidate;
                 break;
             }
             if (!box && must) {
                 // 꼭 보여야 하는 이름표(경로의 들르는 곳, 고른 곳)가 겹치면 위아래로 비켜 놓는다.
-                for (const shift of [20, -20, 40, -40, 60, -60]) {
-                    const candidate = [spots[0][0], spots[0][1] + shift, spots[0][0] + width, spots[0][1] + shift + 18];
-                    if (taken.some((other) => candidate[0] < other[2] && candidate[2] > other[0] && candidate[1] < other[3] && candidate[3] > other[1])) continue;
+                const left = Math.max(4, Math.min(size.w - width - 4, spots[0][0]));
+                for (const shift of [20, -20, 40, -40, 60, -60, 0]) {
+                    const top = Math.max(2, Math.min(size.h - 20, spots[0][1] + shift));
+                    const candidate = [left, top, left + width, top + 18];
+                    if (shift !== 0 && taken.some((other) => candidate[0] < other[2] && candidate[2] > other[0] && candidate[1] < other[3] && candidate[3] > other[1])) continue;
                     box = candidate;
                     break;
                 }
             }
-            if (!box) { if (!must) continue; box = [spots[0][0], spots[0][1], spots[0][0] + width, spots[0][1] + 18]; }
+            if (!box) continue;
             taken.push(box);
             if (def.node) labelBoxes.push({ id: def.id, box });
             placed++;

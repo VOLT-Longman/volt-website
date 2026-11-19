@@ -127,7 +127,9 @@ test('무역 경로: 목록의 줄과 경로 자세히에서 그 경로를 지�
     await expect(head).toBeVisible();
     await expect(head).toHaveAttribute('aria-label', /ARC-L1.*→.*지도에서 보기/);
     await expect(page.locator('#routes-detail .routes-block .routes-actions a.volt-map-link')).toHaveCount(1);
+    const sourceHash = await page.evaluate(() => location.hash);
     const state = await follow(page, head);
+    await expect(page.getByRole('link', { name: '이전 화면으로 돌아가기' })).toHaveAttribute('href', sourceHash);
     expect(state.route).toEqual(['RR_ARC_L1', 'Stanton3_Area18']);
     expect(state.sys).toBe('stanton');
     const card = page.locator('#starmap-app [data-over="route"]');
@@ -139,6 +141,10 @@ test('무역 경로: 목록의 줄과 경로 자세히에서 그 경로를 지�
     await page.goBack();
     await expect(page.locator('section#routes')).toHaveClass(/active/);
     await expect(page.locator('#routes-detail')).toBeVisible();
+    await follow(page, head);
+    await page.getByRole('link', { name: '이전 화면으로 돌아가기' }).click();
+    await expect(page.locator('#routes-detail')).toBeVisible();
+    expect(await page.evaluate(() => location.hash)).toBe(sourceHash);
     expect(await tracker.problems()).toEqual([]);
 });
 
