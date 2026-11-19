@@ -528,7 +528,8 @@
     // 섹션이 화면에 나올 때마다 불린다. 처음이면 init, 그다음부터는 onRoute.
     function onSectionShow(section, params) {
         const entry = SECTIONS[section];
-        if (!entry || !document.getElementById(section)?.hasAttribute('data-helper-allowed')) return;
+        const host = document.getElementById(section);
+        if (!entry || !host?.hasAttribute('data-helper-allowed') || host.hasAttribute('data-helper-checking')) return;
         hookLanguage();
         updateTitle(section);
         const mount = document.getElementById(entry.mount);

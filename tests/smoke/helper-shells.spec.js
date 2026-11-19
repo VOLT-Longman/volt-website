@@ -483,3 +483,24 @@ test('운송 계약에서 화물선 크기를 확인하고 함선DB에서 고른
     await expect(page.locator('#routes-ship')).toHaveValue('c2-hercules');
     await expect(page.locator('#global-modal')).not.toHaveClass(/active/);
 });
+
+test('도움 화면은 역할을 먼저 확인하고 장애에서 복구한 뒤에만 보호 자료를 읽는다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    let checks = 0;
+    const data = [];
+    page.on('request', request => {
+        if (request.url().includes('/data/contracts/missions.json')) data.push(request.url());
+    });
+    await page.route(/\/auth\/me\?refresh=1$/, route => {
+        checks++;
+        if (checks === 1) return route.fulfill({ status: 503, json: { error: 'unavailable' } });
+        return route.fallback();
+    });
+    await gotoSection(page, '#missions');
+    const retry = page.locator('#missions .helper-access button');
+    await expect(retry).toBeVisible();
+    expect(data).toHaveLength(0);
+    await retry.click();
+    await expect(page.locator('#missions-app [data-ms-open]').first()).toBeVisible();
+    expect(data).toHaveLength(1);
+});
