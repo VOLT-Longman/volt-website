@@ -494,10 +494,10 @@ test('장소 상세: 장소 전용 품질 값, 풀어 쓴 자리 이름, 같은 
     const salvage = detail.locator('.mining-group', { hasText: '잔해 하나에서 나오는 자재 양은 게임 자료에 없습니다' });
     await expect(salvage).toContainText('× 9종');
     await expect(salvage.locator('thead').first()).toContainText('비중');
-    await expect(salvage.locator('thead').first()).not.toContainText('암석 비중');
+    await expect(salvage.locator('thead').first()).not.toContainText('스폰 확률');
     await page.goto('/#mining?tab=location&loc=Stanton1');
     await expect(detail).toContainText('사막');
-    await expect(detail.locator('.mining-group', { hasText: '채집할 수 있는 식물' }).locator('thead')).not.toContainText('암석 비중');
+    await expect(detail.locator('.mining-group', { hasText: '채집할 수 있는 식물' }).locator('thead')).not.toContainText('스폰 확률');
 });
 
 test('광물 목록: 최근 보고 가격에 나이를 적고, 가격 보고 기준을 바꿀 수 있다', async ({ page }) => {
