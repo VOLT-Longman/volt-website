@@ -1,0 +1,1673 @@
+{
+ "version": 1,
+ "gameBuild": "4.10.200.58746",
+ "generatedAt": "2026-11-18T14:26:04.737Z",
+ "assetVersion": "4.10.200.58746-mwm7s08x",
+ "compatibilityFrom": "data/gear/attachments.json",
+ "totals": {
+  "bytes": 79116473,
+  "weaponBytes": 37364822,
+  "partBytes": 15002112,
+  "textureBytes": 26749539
+ },
+ "weapons": {
+  "klwe_pistol_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/klwe_pistol_energy_01/manifest.json",
+   "triangles": 14143,
+   "bytes": 344220,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 26213,
+   "ports": 4
+  },
+  "ksar_pistol_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/ksar_pistol_ballistic_01/manifest.json",
+   "triangles": 19496,
+   "bytes": 492168,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 34897,
+   "ports": 4
+  },
+  "gmni_pistol_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/gmni_pistol_ballistic_01/manifest.json",
+   "triangles": 13110,
+   "bytes": 377916,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 26612,
+   "ports": 4
+  },
+  "volt_pistol_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/volt_pistol_energy_01/manifest.json",
+   "triangles": 15291,
+   "bytes": 558244,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 22758,
+   "ports": 3
+  },
+  "behr_pistol_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_pistol_ballistic_01/manifest.json",
+   "triangles": 17882,
+   "bytes": 411580,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 32369,
+   "ports": 4
+  },
+  "hdgw_pistol_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/hdgw_pistol_ballistic_01/manifest.json",
+   "triangles": 15696,
+   "bytes": 420800,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 28620,
+   "ports": 4
+  },
+  "none_pistol_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/none_pistol_ballistic_01/manifest.json",
+   "triangles": 15074,
+   "bytes": 410708,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 29993,
+   "ports": 3
+  },
+  "sasu_pistol_toy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/sasu_pistol_toy_01/manifest.json",
+   "triangles": 17614,
+   "bytes": 385392,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 20158,
+   "ports": 1
+  },
+  "sasu_pistol_toy_01~2": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/sasu_pistol_toy_01~2/manifest.json",
+   "triangles": 17614,
+   "bytes": 385396,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 20158,
+   "ports": 1
+  },
+  "lbco_pistol_energy_cen01": {
+   "ok": false,
+   "reason": "the model file named in the game database is not in the game archive (objects/fps_weapons/weapons_v7/lbco/pistol/yubarev/epst_fps_lbco_yubarev_subscriber_01.cdf)",
+   "manifest": "assets/models/gear/weapons/lbco_pistol_energy_cen01/manifest.json",
+   "triangles": 0,
+   "bytes": 0,
+   "looksLikeGroup": "lbco_pistol_energy_01"
+  },
+  "lbco_pistol_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/lbco_pistol_energy_01/manifest.json",
+   "triangles": 26876,
+   "bytes": 584232,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 39162,
+   "ports": 3
+  },
+  "gmni_smg_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/gmni_smg_ballistic_01/manifest.json",
+   "triangles": 19331,
+   "bytes": 508388,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 32430,
+   "ports": 4
+  },
+  "ksar_smg_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/ksar_smg_energy_01/manifest.json",
+   "triangles": 13501,
+   "bytes": 561644,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 27198,
+   "ports": 4
+  },
+  "klwe_smg_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/klwe_smg_energy_01/manifest.json",
+   "triangles": 13848,
+   "bytes": 420664,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 26066,
+   "ports": 4
+  },
+  "behr_smg_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_smg_ballistic_01/manifest.json",
+   "triangles": 23831,
+   "bytes": 563576,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 39018,
+   "ports": 4
+  },
+  "volt_smg_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/volt_smg_energy_01/manifest.json",
+   "triangles": 29934,
+   "bytes": 999828,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 37607,
+   "ports": 3
+  },
+  "none_smg_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/none_smg_energy_01/manifest.json",
+   "triangles": 18840,
+   "bytes": 535904,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 28265,
+   "ports": 3
+  },
+  "hdgw_rifle_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/hdgw_rifle_ballistic_01/manifest.json",
+   "triangles": 20222,
+   "bytes": 399140,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 31925,
+   "ports": 4
+  },
+  "behr_rifle_ballistic_03": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_rifle_ballistic_03/manifest.json",
+   "triangles": 13698,
+   "bytes": 598508,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 28547,
+   "ports": 4
+  },
+  "klwe_rifle_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/klwe_rifle_energy_01/manifest.json",
+   "triangles": 19484,
+   "bytes": 543580,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 31696,
+   "ports": 4
+  },
+  "ksar_rifle_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/ksar_rifle_energy_01/manifest.json",
+   "triangles": 17673,
+   "bytes": 656388,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 30998,
+   "ports": 4
+  },
+  "none_rifle_multi_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/none_rifle_multi_01/manifest.json",
+   "triangles": 13344,
+   "bytes": 567236,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 31513,
+   "ports": 4
+  },
+  "behr_rifle_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_rifle_ballistic_01/manifest.json",
+   "triangles": 15685,
+   "bytes": 418988,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 33553,
+   "ports": 4
+  },
+  "behr_rifle_ballistic_02": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_rifle_ballistic_02/manifest.json",
+   "triangles": 16561,
+   "bytes": 532544,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 32191,
+   "ports": 4
+  },
+  "volt_rifle_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/volt_rifle_energy_01/manifest.json",
+   "triangles": 17243,
+   "bytes": 723964,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 24946,
+   "ports": 3
+  },
+  "gmni_rifle_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/gmni_rifle_ballistic_01/manifest.json",
+   "triangles": 23673,
+   "bytes": 635056,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 38164,
+   "ports": 4
+  },
+  "lbco_rifle_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/lbco_rifle_energy_01/manifest.json",
+   "triangles": 14894,
+   "bytes": 724476,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 26199,
+   "ports": 4
+  },
+  "klwe_lmg_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/klwe_lmg_energy_01/manifest.json",
+   "triangles": 17346,
+   "bytes": 808320,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 35395,
+   "ports": 4
+  },
+  "gmni_lmg_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/gmni_lmg_ballistic_01/manifest.json",
+   "triangles": 17713,
+   "bytes": 505140,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 33147,
+   "ports": 3
+  },
+  "volt_lmg_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/volt_lmg_energy_01/manifest.json",
+   "triangles": 16093,
+   "bytes": 640652,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 28884,
+   "ports": 3
+  },
+  "behr_lmg_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_lmg_ballistic_01/manifest.json",
+   "triangles": 19080,
+   "bytes": 596820,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 34211,
+   "ports": 4
+  },
+  "none_lmg_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/none_lmg_ballistic_01/manifest.json",
+   "triangles": 19928,
+   "bytes": 602832,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 28722,
+   "ports": 2
+  },
+  "ksar_lmg_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/ksar_lmg_energy_01/manifest.json",
+   "triangles": 19329,
+   "bytes": 904332,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 32678,
+   "ports": 4
+  },
+  "apar_hmg_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/apar_hmg_ballistic_01/manifest.json",
+   "triangles": 27423,
+   "bytes": 756992,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 27423,
+   "ports": 0
+  },
+  "behr_shotgun_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_shotgun_ballistic_01/manifest.json",
+   "triangles": 15540,
+   "bytes": 507304,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 34008,
+   "ports": 4
+  },
+  "none_shotgun_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/none_shotgun_ballistic_01/manifest.json",
+   "triangles": 23350,
+   "bytes": 570848,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 26370,
+   "ports": 1
+  },
+  "ksar_shotgun_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/ksar_shotgun_energy_01/manifest.json",
+   "triangles": 20166,
+   "bytes": 867740,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 33539,
+   "ports": 4
+  },
+  "volt_shotgun_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/volt_shotgun_energy_01/manifest.json",
+   "triangles": 19453,
+   "bytes": 774520,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 27408,
+   "ports": 3
+  },
+  "gmni_shotgun_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/gmni_shotgun_ballistic_01/manifest.json",
+   "triangles": 16698,
+   "bytes": 465020,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 31861,
+   "ports": 3
+  },
+  "ksar_shotgun_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/ksar_shotgun_ballistic_01/manifest.json",
+   "triangles": 15151,
+   "bytes": 495056,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 27898,
+   "ports": 3
+  },
+  "gmni_sniper_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/gmni_sniper_ballistic_01/manifest.json",
+   "triangles": 12137,
+   "bytes": 417208,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 31449,
+   "ports": 4
+  },
+  "klwe_sniper_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/klwe_sniper_energy_01/manifest.json",
+   "triangles": 15725,
+   "bytes": 620768,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 27778,
+   "ports": 4
+  },
+  "lbco_sniper_energy_imp01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/lbco_sniper_energy_imp01/manifest.json",
+   "triangles": 17080,
+   "bytes": 516196,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 28885,
+   "ports": 3
+  },
+  "lbco_sniper_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/lbco_sniper_energy_01/manifest.json",
+   "triangles": 17080,
+   "bytes": 516208,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 28885,
+   "ports": 3
+  },
+  "behr_sniper_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_sniper_ballistic_01/manifest.json",
+   "triangles": 11074,
+   "bytes": 340728,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 26759,
+   "ports": 4
+  },
+  "ksar_sniper_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/ksar_sniper_ballistic_01/manifest.json",
+   "triangles": 29340,
+   "bytes": 748920,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 39680,
+   "ports": 3
+  },
+  "volt_sniper_energy_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/volt_sniper_energy_01/manifest.json",
+   "triangles": 15835,
+   "bytes": 596796,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 29784,
+   "ports": 3
+  },
+  "apar_special_ballistic_02": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/apar_special_ballistic_02/manifest.json",
+   "triangles": 34943,
+   "bytes": 886868,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 39669,
+   "ports": 1
+  },
+  "none_special_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/none_special_ballistic_01/manifest.json",
+   "triangles": 32111,
+   "bytes": 696056,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 37885,
+   "ports": 1
+  },
+  "behr_glauncher_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_glauncher_ballistic_01/manifest.json",
+   "triangles": 11963,
+   "bytes": 483308,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 24788,
+   "ports": 3
+  },
+  "apar_special_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/apar_special_ballistic_01/manifest.json",
+   "triangles": 17778,
+   "bytes": 604160,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 26592,
+   "ports": 1
+  },
+  "utfl_crossbow_ballistic_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/utfl_crossbow_ballistic_01/manifest.json",
+   "triangles": 18161,
+   "bytes": 864248,
+   "lod": 2,
+   "lods": [
+    2
+   ],
+   "exampleTriangles": 34328,
+   "ports": 3
+  },
+  "kegr_fire_extinguisher_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/kegr_fire_extinguisher_01/manifest.json",
+   "triangles": 16197,
+   "bytes": 365896,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 16197,
+   "ports": 0,
+   "portsMissing": [
+    "magazine_attach: helper \"magAttach\" is not a bone or node of the weapon model"
+   ]
+  },
+  "kegr_fire_extinguisher_01~2": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/kegr_fire_extinguisher_01~2/manifest.json",
+   "triangles": 16197,
+   "bytes": 365904,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 16197,
+   "ports": 0,
+   "portsMissing": [
+    "magazine_attach: helper \"magAttach\" is not a bone or node of the weapon model"
+   ]
+  },
+  "grin_salvage_repair_01~2": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/grin_salvage_repair_01~2/manifest.json",
+   "triangles": 30597,
+   "bytes": 1061304,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 32021,
+   "ports": 1
+  },
+  "grin_salvage_repair_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/grin_salvage_repair_01/manifest.json",
+   "triangles": 30597,
+   "bytes": 1061304,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 32021,
+   "ports": 1
+  },
+  "grin_salvage_repair_iasi": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/grin_salvage_repair_iasi/manifest.json",
+   "triangles": 30597,
+   "bytes": 1061312,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 32021,
+   "ports": 1
+  },
+  "grin_tractor_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/grin_tractor_01/manifest.json",
+   "triangles": 25515,
+   "bytes": 821608,
+   "lod": 1,
+   "lods": [
+    1
+   ],
+   "exampleTriangles": 26939,
+   "ports": 1
+  },
+  "crlf_medgun_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/crlf_medgun_01/manifest.json",
+   "triangles": 11697,
+   "bytes": 244156,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 16393,
+   "ports": 1
+  },
+  "grin_multitool_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/grin_multitool_01/manifest.json",
+   "triangles": 28626,
+   "bytes": 595428,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 29170,
+   "ports": 1
+  },
+  "grin_multitool_01~2": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/grin_multitool_01~2/manifest.json",
+   "triangles": 28626,
+   "bytes": 595432,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 29170,
+   "ports": 1
+  },
+  "behr_binoculars_01": {
+   "ok": true,
+   "manifest": "assets/models/gear/weapons/behr_binoculars_01/manifest.json",
+   "triangles": 17029,
+   "bytes": 363192,
+   "lod": 0,
+   "lods": [
+    0
+   ],
+   "exampleTriangles": 17029,
+   "ports": 0,
+   "portsMissing": [
+    "magazine_attach: helper \"magAttach\" is not a bone or node of the weapon model"
+   ]
+  }
+ },
+ "parts": {
+  "apar_special_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/apar_special_ballistic_01_mag.glb",
+   "triangles": 8814,
+   "bytes": 186476
+  },
+  "apar_special_ballistic_02_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/apar_special_ballistic_02_mag.glb",
+   "triangles": 4726,
+   "bytes": 109152
+  },
+  "arma_barrel_comp_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s1.glb",
+   "triangles": 1496,
+   "bytes": 35180
+  },
+  "arma_barrel_comp_s1_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s1_02.glb",
+   "triangles": 3320,
+   "bytes": 71432
+  },
+  "arma_barrel_comp_s1_03": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s1_03.glb",
+   "triangles": 3388,
+   "bytes": 74288
+  },
+  "arma_barrel_comp_s1_04": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s1_04.glb",
+   "triangles": 1424,
+   "bytes": 36568
+  },
+  "arma_barrel_comp_s1_contestedzonereward": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s1_contestedzonereward.glb",
+   "triangles": 1496,
+   "bytes": 35260
+  },
+  "arma_barrel_comp_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s2.glb",
+   "triangles": 1956,
+   "bytes": 39448
+  },
+  "arma_barrel_comp_s2_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s2_02.glb",
+   "triangles": 3618,
+   "bytes": 77860
+  },
+  "arma_barrel_comp_s2_03": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s2_03.glb",
+   "triangles": 3656,
+   "bytes": 79796
+  },
+  "arma_barrel_comp_s2_04": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s2_04.glb",
+   "triangles": 1424,
+   "bytes": 36556
+  },
+  "arma_barrel_comp_s2_contestedzonereward": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s2_contestedzonereward.glb",
+   "triangles": 1956,
+   "bytes": 39528
+  },
+  "arma_barrel_comp_s2_firerats01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s2_firerats01.glb",
+   "triangles": 1956,
+   "bytes": 39496
+  },
+  "arma_barrel_comp_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s3.glb",
+   "triangles": 2184,
+   "bytes": 42808
+  },
+  "arma_barrel_comp_s3_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s3_02.glb",
+   "triangles": 3740,
+   "bytes": 81092
+  },
+  "arma_barrel_comp_s3_03": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s3_03.glb",
+   "triangles": 3836,
+   "bytes": 83832
+  },
+  "arma_barrel_comp_s3_04": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_comp_s3_04.glb",
+   "triangles": 1424,
+   "bytes": 36564
+  },
+  "arma_barrel_flhd_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_flhd_s1.glb",
+   "triangles": 1400,
+   "bytes": 33416
+  },
+  "arma_barrel_flhd_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_flhd_s2.glb",
+   "triangles": 1394,
+   "bytes": 33556
+  },
+  "arma_barrel_flhd_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_flhd_s3.glb",
+   "triangles": 1442,
+   "bytes": 34604
+  },
+  "arma_barrel_stab_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_stab_s1.glb",
+   "triangles": 1862,
+   "bytes": 52328
+  },
+  "arma_barrel_stab_s1_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_stab_s1_02.glb",
+   "triangles": 1636,
+   "bytes": 45704
+  },
+  "arma_barrel_stab_s1_firerats01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_stab_s1_firerats01.glb",
+   "triangles": 1862,
+   "bytes": 52364
+  },
+  "arma_barrel_stab_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_stab_s2.glb",
+   "triangles": 2092,
+   "bytes": 57120
+  },
+  "arma_barrel_stab_s2_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_stab_s2_02.glb",
+   "triangles": 1636,
+   "bytes": 45704
+  },
+  "arma_barrel_stab_s2_contestedzonereward": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_stab_s2_contestedzonereward.glb",
+   "triangles": 2092,
+   "bytes": 57200
+  },
+  "arma_barrel_stab_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_stab_s3.glb",
+   "triangles": 2138,
+   "bytes": 59760
+  },
+  "arma_barrel_stab_s3_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_stab_s3_02.glb",
+   "triangles": 1636,
+   "bytes": 45700
+  },
+  "arma_barrel_supp_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s1.glb",
+   "triangles": 1676,
+   "bytes": 37876
+  },
+  "arma_barrel_supp_s1_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s1_02.glb",
+   "triangles": 6942,
+   "bytes": 125560
+  },
+  "arma_barrel_supp_s1_03": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s1_03.glb",
+   "triangles": 5490,
+   "bytes": 102040
+  },
+  "arma_barrel_supp_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s2.glb",
+   "triangles": 1620,
+   "bytes": 36460
+  },
+  "arma_barrel_supp_s2_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s2_02.glb",
+   "triangles": 6942,
+   "bytes": 125556
+  },
+  "arma_barrel_supp_s2_03": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s2_03.glb",
+   "triangles": 5726,
+   "bytes": 121296
+  },
+  "arma_barrel_supp_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s3.glb",
+   "triangles": 1620,
+   "bytes": 36580
+  },
+  "arma_barrel_supp_s3_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s3_02.glb",
+   "triangles": 8094,
+   "bytes": 168208
+  },
+  "arma_barrel_supp_s3_03": {
+   "ok": true,
+   "file": "assets/models/gear/parts/arma_barrel_supp_s3_03.glb",
+   "triangles": 5726,
+   "bytes": 105540
+  },
+  "behr_glauncher_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_glauncher_ballistic_01_mag.glb",
+   "triangles": 4824,
+   "bytes": 178588
+  },
+  "behr_lmg_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_lmg_ballistic_01_mag.glb",
+   "triangles": 5174,
+   "bytes": 132076
+  },
+  "behr_optics_holo_x1_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_optics_holo_x1_s1.glb",
+   "triangles": 4077,
+   "bytes": 97896
+  },
+  "behr_optics_holo_x2_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_optics_holo_x2_s1.glb",
+   "triangles": 5780,
+   "bytes": 116800
+  },
+  "behr_optics_holo_x3_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_optics_holo_x3_s1.glb",
+   "triangles": 6679,
+   "bytes": 154200
+  },
+  "behr_optics_holo_x3_s1_tint01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_optics_holo_x3_s1_tint01.glb",
+   "triangles": 6679,
+   "bytes": 154232
+  },
+  "behr_optics_rdot_x1_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_optics_rdot_x1_s1.glb",
+   "triangles": 3266,
+   "bytes": 80888
+  },
+  "behr_optics_tsco_x16_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_optics_tsco_x16_s3.glb",
+   "triangles": 6220,
+   "bytes": 160788
+  },
+  "behr_optics_tsco_x4_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_optics_tsco_x4_s2.glb",
+   "triangles": 7477,
+   "bytes": 163344
+  },
+  "behr_optics_tsco_x8_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_optics_tsco_x8_s3.glb",
+   "triangles": 5299,
+   "bytes": 149176
+  },
+  "behr_pistol_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_pistol_ballistic_01_mag.glb",
+   "triangles": 4990,
+   "bytes": 111408
+  },
+  "behr_rifle_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_rifle_ballistic_01_mag.glb",
+   "triangles": 7911,
+   "bytes": 167180
+  },
+  "behr_rifle_ballistic_02_mag_civilian": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_rifle_ballistic_02_mag_civilian.glb",
+   "triangles": 5673,
+   "bytes": 125412
+  },
+  "behr_rifle_ballistic_03_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_rifle_ballistic_03_mag.glb",
+   "triangles": 4892,
+   "bytes": 112856
+  },
+  "behr_shotgun_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_shotgun_ballistic_01_mag.glb",
+   "triangles": 8283,
+   "bytes": 181856
+  },
+  "behr_smg_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_smg_ballistic_01_mag.glb",
+   "triangles": 5690,
+   "bytes": 118596
+  },
+  "behr_sniper_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/behr_sniper_ballistic_01_mag.glb",
+   "triangles": 4506,
+   "bytes": 101176
+  },
+  "crlf_medgun_vial_01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/crlf_medgun_vial_01.glb",
+   "triangles": 4696,
+   "bytes": 104976
+  },
+  "gmni_lmg_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_lmg_ballistic_01_mag.glb",
+   "triangles": 7171,
+   "bytes": 202484
+  },
+  "gmni_optics_tsco_x4_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_optics_tsco_x4_s2.glb",
+   "triangles": 4339,
+   "bytes": 104004
+  },
+  "gmni_optics_tsco_x4_s2_firerats01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_optics_tsco_x4_s2_firerats01.glb",
+   "triangles": 4339,
+   "bytes": 104048
+  },
+  "gmni_optics_tsco_x8_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_optics_tsco_x8_s3.glb",
+   "triangles": 6313,
+   "bytes": 143444
+  },
+  "gmni_optics_tsco_x8_s3_firerats01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_optics_tsco_x8_s3_firerats01.glb",
+   "triangles": 6313,
+   "bytes": 143464
+  },
+  "gmni_optics_tsco_x8_s3_store01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_optics_tsco_x8_s3_store01.glb",
+   "triangles": 6313,
+   "bytes": 143500
+  },
+  "gmni_pistol_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_pistol_ballistic_01_mag.glb",
+   "triangles": 4005,
+   "bytes": 85860
+  },
+  "gmni_rifle_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_rifle_ballistic_01_mag.glb",
+   "triangles": 4272,
+   "bytes": 102988
+  },
+  "gmni_shotgun_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_shotgun_ballistic_01_mag.glb",
+   "triangles": 7162,
+   "bytes": 157680
+  },
+  "gmni_smg_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_smg_ballistic_01_mag.glb",
+   "triangles": 3602,
+   "bytes": 86372
+  },
+  "gmni_sniper_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/gmni_sniper_ballistic_01_mag.glb",
+   "triangles": 7119,
+   "bytes": 136168
+  },
+  "grin_multitool_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/grin_multitool_energy_01_mag.glb",
+   "triangles": 544,
+   "bytes": 19440
+  },
+  "grin_tool_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/grin_tool_01_mag.glb",
+   "triangles": 1424,
+   "bytes": 37104
+  },
+  "grin_tractor_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/grin_tractor_01_mag.glb",
+   "triangles": 1424,
+   "bytes": 37116
+  },
+  "hdgw_optics_tsco_x4_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/hdgw_optics_tsco_x4_s2.glb",
+   "triangles": 4665,
+   "bytes": 118316
+  },
+  "hdgw_pistol_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/hdgw_pistol_ballistic_01_mag.glb",
+   "triangles": 3427,
+   "bytes": 82928
+  },
+  "hdgw_rifle_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/hdgw_rifle_ballistic_01_mag.glb",
+   "triangles": 1158,
+   "bytes": 29348
+  },
+  "kegr_fire_extinguisher_01_mag": {
+   "ok": false,
+   "reason": "no geometry path in the game database",
+   "file": "assets/models/gear/parts/kegr_fire_extinguisher_01_mag.glb",
+   "triangles": 0,
+   "bytes": 0
+  },
+  "klwe_lmg_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_lmg_energy_01_mag.glb",
+   "triangles": 7975,
+   "bytes": 163140
+  },
+  "klwe_optics_disp_x8_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_optics_disp_x8_s3.glb",
+   "triangles": 4577,
+   "bytes": 137688
+  },
+  "klwe_optics_holo_x1_5_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_optics_holo_x1_5_s1.glb",
+   "triangles": 4756,
+   "bytes": 120920
+  },
+  "klwe_optics_holo_x2_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_optics_holo_x2_s1.glb",
+   "triangles": 4022,
+   "bytes": 102296
+  },
+  "klwe_optics_holo_x3_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_optics_holo_x3_s1.glb",
+   "triangles": 5242,
+   "bytes": 131860
+  },
+  "klwe_optics_rdot_x1_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_optics_rdot_x1_s1.glb",
+   "triangles": 4214,
+   "bytes": 103756
+  },
+  "klwe_optics_tsco_2_5x_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_optics_tsco_2_5x_s2.glb",
+   "triangles": 7166,
+   "bytes": 180792
+  },
+  "klwe_optics_tsco_3_5x_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_optics_tsco_3_5x_s2.glb",
+   "triangles": 8365,
+   "bytes": 206332
+  },
+  "klwe_pistol_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_pistol_energy_01_mag.glb",
+   "triangles": 1990,
+   "bytes": 52544
+  },
+  "klwe_rifle_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_rifle_energy_01_mag.glb",
+   "triangles": 2138,
+   "bytes": 54696
+  },
+  "klwe_smg_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_smg_energy_01_mag.glb",
+   "triangles": 2138,
+   "bytes": 54688
+  },
+  "klwe_sniper_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_sniper_energy_01_mag.glb",
+   "triangles": 2158,
+   "bytes": 55528
+  },
+  "klwe_ubarrel_flsh_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_ubarrel_flsh_s1.glb",
+   "triangles": 3924,
+   "bytes": 102728
+  },
+  "klwe_ubarrel_lasr_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_ubarrel_lasr_s1.glb",
+   "triangles": 5341,
+   "bytes": 142544
+  },
+  "klwe_ubarrel_lasr_s1_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/klwe_ubarrel_lasr_s1_02.glb",
+   "triangles": 3643,
+   "bytes": 103860
+  },
+  "ksar_lmg_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/ksar_lmg_energy_01_mag.glb",
+   "triangles": 3954,
+   "bytes": 94984
+  },
+  "ksar_optics_tsco_x8_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/ksar_optics_tsco_x8_s3.glb",
+   "triangles": 2320,
+   "bytes": 81664
+  },
+  "ksar_pistol_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/ksar_pistol_ballistic_01_mag.glb",
+   "triangles": 5904,
+   "bytes": 171944
+  },
+  "ksar_rifle_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/ksar_rifle_energy_01_mag.glb",
+   "triangles": 3930,
+   "bytes": 107048
+  },
+  "ksar_shotgun_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/ksar_shotgun_ballistic_01_mag.glb",
+   "triangles": 4746,
+   "bytes": 119436
+  },
+  "ksar_shotgun_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/ksar_shotgun_energy_01_mag.glb",
+   "triangles": 3930,
+   "bytes": 107056
+  },
+  "ksar_smg_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/ksar_smg_energy_01_mag.glb",
+   "triangles": 4296,
+   "bytes": 103468
+  },
+  "ksar_sniper_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/ksar_sniper_ballistic_01_mag.glb",
+   "triangles": 4096,
+   "bytes": 110160
+  },
+  "lbco_optics_tsco_x16_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/lbco_optics_tsco_x16_s3.glb",
+   "triangles": 6013,
+   "bytes": 142136
+  },
+  "lbco_optics_tsco_x16_s3_acid01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/lbco_optics_tsco_x16_s3_acid01.glb",
+   "triangles": 6013,
+   "bytes": 142160
+  },
+  "lbco_optics_tsco_x16_s3_chromic01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/lbco_optics_tsco_x16_s3_chromic01.glb",
+   "triangles": 6013,
+   "bytes": 142172
+  },
+  "lbco_optics_tsco_x16_s3_imp01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/lbco_optics_tsco_x16_s3_imp01.glb",
+   "triangles": 6013,
+   "bytes": 142160
+  },
+  "lbco_optics_tsco_x16_s3_sunset01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/lbco_optics_tsco_x16_s3_sunset01.glb",
+   "triangles": 6013,
+   "bytes": 142168
+  },
+  "lbco_pistol_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/lbco_pistol_energy_01_mag.glb",
+   "triangles": 4285,
+   "bytes": 75232
+  },
+  "lbco_rifle_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/lbco_rifle_energy_01_mag.glb",
+   "triangles": 1910,
+   "bytes": 49092
+  },
+  "lbco_sniper_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/lbco_sniper_energy_01_mag.glb",
+   "triangles": 1868,
+   "bytes": 49524
+  },
+  "none_lmg_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/none_lmg_ballistic_01_mag.glb",
+   "triangles": 4717,
+   "bytes": 123400
+  },
+  "none_pistol_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/none_pistol_ballistic_01_mag.glb",
+   "triangles": 6918,
+   "bytes": 153252
+  },
+  "none_rifle_multi_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/none_rifle_multi_01_mag.glb",
+   "triangles": 8212,
+   "bytes": 198948
+  },
+  "none_shotgun_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/none_shotgun_ballistic_01_mag.glb",
+   "triangles": 3020,
+   "bytes": 82920
+  },
+  "none_smg_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/none_smg_energy_01_mag.glb",
+   "triangles": 1424,
+   "bytes": 36540
+  },
+  "none_special_ballistic_01_rocket": {
+   "ok": true,
+   "file": "assets/models/gear/parts/none_special_ballistic_01_rocket.glb",
+   "triangles": 5774,
+   "bytes": 166116
+  },
+  "nvtc_optics_holo_x1_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_holo_x1_s1.glb",
+   "triangles": 3600,
+   "bytes": 86680
+  },
+  "nvtc_optics_holo_x1_s1_LAMP": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_holo_x1_s1_LAMP.glb",
+   "triangles": 3600,
+   "bytes": 86700
+  },
+  "nvtc_optics_holo_x1_s1_tint01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_holo_x1_s1_tint01.glb",
+   "triangles": 3600,
+   "bytes": 86712
+  },
+  "nvtc_optics_holo_x2_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_holo_x2_s1.glb",
+   "triangles": 5271,
+   "bytes": 122028
+  },
+  "nvtc_optics_holo_x2_s1_LAMP": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_holo_x2_s1_LAMP.glb",
+   "triangles": 5271,
+   "bytes": 122048
+  },
+  "nvtc_optics_holo_x3_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_holo_x3_s1.glb",
+   "triangles": 3952,
+   "bytes": 98996
+  },
+  "nvtc_optics_holo_x3_s1_LAMP": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_holo_x3_s1_LAMP.glb",
+   "triangles": 3952,
+   "bytes": 99016
+  },
+  "nvtc_optics_holo_x3_s1_tint01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_holo_x3_s1_tint01.glb",
+   "triangles": 3952,
+   "bytes": 99028
+  },
+  "nvtc_optics_rdot_x1_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_rdot_x1_s1.glb",
+   "triangles": 2604,
+   "bytes": 68428
+  },
+  "nvtc_optics_rdot_x1_s1_firerats01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_rdot_x1_s1_firerats01.glb",
+   "triangles": 2604,
+   "bytes": 68468
+  },
+  "nvtc_optics_rdot_x1_s1_LAMP": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_rdot_x1_s1_LAMP.glb",
+   "triangles": 2604,
+   "bytes": 68448
+  },
+  "nvtc_optics_tsco_x4_s2": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_tsco_x4_s2.glb",
+   "triangles": 6178,
+   "bytes": 148252
+  },
+  "nvtc_optics_tsco_x4_s2_firerats01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_tsco_x4_s2_firerats01.glb",
+   "triangles": 6178,
+   "bytes": 148292
+  },
+  "nvtc_optics_tsco_x4_s2_LAMP": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_tsco_x4_s2_LAMP.glb",
+   "triangles": 6178,
+   "bytes": 148272
+  },
+  "nvtc_optics_tsco_x8_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_tsco_x8_s3.glb",
+   "triangles": 7966,
+   "bytes": 188936
+  },
+  "nvtc_optics_tsco_x8_s3_LAMP": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_optics_tsco_x8_s3_LAMP.glb",
+   "triangles": 7966,
+   "bytes": 188956
+  },
+  "nvtc_ubarrel_flsh_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_ubarrel_flsh_s1.glb",
+   "triangles": 2646,
+   "bytes": 65012
+  },
+  "nvtc_ubarrel_flsh_s1_02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_ubarrel_flsh_s1_02.glb",
+   "triangles": 1269,
+   "bytes": 35676
+  },
+  "nvtc_ubarrel_flsh_s1_03": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_ubarrel_flsh_s1_03.glb",
+   "triangles": 1517,
+   "bytes": 40672
+  },
+  "nvtc_ubarrel_flsh_s1_04": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_ubarrel_flsh_s1_04.glb",
+   "triangles": 1489,
+   "bytes": 41948
+  },
+  "nvtc_ubarrel_flsh_s1_firerats01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_ubarrel_flsh_s1_firerats01.glb",
+   "triangles": 2646,
+   "bytes": 65072
+  },
+  "nvtc_ubarrel_lasr_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/nvtc_ubarrel_lasr_s1.glb",
+   "triangles": 2396,
+   "bytes": 60360
+  },
+  "sasu_pistol_toy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/sasu_pistol_toy_01_mag.glb",
+   "triangles": 2544,
+   "bytes": 61780
+  },
+  "sasu_pistol_toy_01_mag_ea_elim": {
+   "ok": true,
+   "file": "assets/models/gear/parts/sasu_pistol_toy_01_mag_ea_elim.glb",
+   "triangles": 2544,
+   "bytes": 61812
+  },
+  "utfl_crossbow_ballistic_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/utfl_crossbow_ballistic_01_mag.glb",
+   "triangles": 8166,
+   "bytes": 188084
+  },
+  "volt_lmg_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_lmg_energy_01_mag.glb",
+   "triangles": 6664,
+   "bytes": 174376
+  },
+  "volt_optics_holo_x1_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_holo_x1_s1.glb",
+   "triangles": 2755,
+   "bytes": 73252
+  },
+  "volt_optics_holo_x2_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_holo_x2_s1.glb",
+   "triangles": 3580,
+   "bytes": 95320
+  },
+  "volt_optics_holo_x3_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_holo_x3_s1.glb",
+   "triangles": 3451,
+   "bytes": 90000
+  },
+  "volt_optics_tsco_x8_s3": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_tsco_x8_s3.glb",
+   "triangles": 6279,
+   "bytes": 143640
+  },
+  "volt_optics_tsco_x8_s3_collector01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_tsco_x8_s3_collector01.glb",
+   "triangles": 6279,
+   "bytes": 143688
+  },
+  "volt_optics_tsco_x8_s3_store01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_tsco_x8_s3_store01.glb",
+   "triangles": 6279,
+   "bytes": 143668
+  },
+  "volt_optics_tsco_x8_s3_tint01": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_tsco_x8_s3_tint01.glb",
+   "triangles": 6279,
+   "bytes": 143664
+  },
+  "volt_optics_tsco_x8_s3_tint02": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_tsco_x8_s3_tint02.glb",
+   "triangles": 6279,
+   "bytes": 143668
+  },
+  "volt_optics_tsco_x8_s3_tint03": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_optics_tsco_x8_s3_tint03.glb",
+   "triangles": 6279,
+   "bytes": 143668
+  },
+  "volt_pistol_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_pistol_energy_01_mag.glb",
+   "triangles": 1340,
+   "bytes": 37020
+  },
+  "volt_rifle_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_rifle_energy_01_mag.glb",
+   "triangles": 1576,
+   "bytes": 45820
+  },
+  "volt_shotgun_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_shotgun_energy_01_mag.glb",
+   "triangles": 1828,
+   "bytes": 48356
+  },
+  "volt_smg_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_smg_energy_01_mag.glb",
+   "triangles": 1546,
+   "bytes": 44500
+  },
+  "volt_sniper_energy_01_mag": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_sniper_energy_01_mag.glb",
+   "triangles": 4298,
+   "bytes": 114620
+  },
+  "volt_ubarrel_flsh_s1": {
+   "ok": true,
+   "file": "assets/models/gear/parts/volt_ubarrel_flsh_s1.glb",
+   "triangles": 3372,
+   "bytes": 84604
+  }
+ }
+}

@@ -16,7 +16,7 @@
 
     const VALID_SECTIONS = ['about', 'timeline', 'leadership', 'partner-fleets', 'hub', 'streamers', 'gallery', 'join', 'mypage', 'notices', 'ships', 'loadout', 'trade-planner', 'schedule', 'policy', 'faq', 'guide', 'mining', 'hauling', 'gear', 'ai', 'comms', 'routes', 'market', 'tours', 'missions', 'fabricator'];
     // 도우미 도구 섹션은 주소 뒤에 화면 상태를 붙일 수 있다: #routes?from=...  (형식: docs/helper-tools.md)
-    const PARAM_SECTIONS = ['routes', 'market', 'tours', 'missions', 'fabricator', 'mining', 'hauling'];
+    const PARAM_SECTIONS = ['gear', 'routes', 'market', 'tours', 'missions', 'fabricator', 'mining', 'hauling'];
 
     function updateActiveNav(id) {
         document.querySelectorAll('.nav-links [data-section]').forEach((link) => {

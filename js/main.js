@@ -1544,6 +1544,8 @@
     }
 
     function applyCommunityGates() {
+        window.VOLT_GEAR?.setAccess?.({ status: authStatus, loggedIn: authState.loggedIn,
+            allowed: authStatus === 'ready' && authState.gunModding === true, configured: authState.fleetConfigured });
         const allowed = canUseCommunityTools();
         const changed = communityAllowed !== allowed;
         communityAllowed = allowed;
@@ -1589,7 +1591,8 @@
                 if (payload && payload.logged_in && payload.user) {
                     const changedAccount = authState.user?.sub !== payload.user.sub;
                     authState = { loggedIn: true, user: payload.user, roles: Array.isArray(payload.user.roles) ? payload.user.roles : [],
-                        communityTools: payload.features?.communityTools === true, communityConfigured: payload.features?.communityConfigured };
+                        communityTools: payload.features?.communityTools === true, communityConfigured: payload.features?.communityConfigured,
+                        gunModding: payload.features?.gunModding === true, fleetConfigured: payload.features?.fleetConfigured };
                     if (changedAccount) {
                         window.clearTimeout(preferencesSaveTimer);
                         window.VOLT_SCHEDULE?.clearRsvpCache?.();
@@ -2142,6 +2145,7 @@
         // 헤더 인증 UI 렌더 계층 — i18n·escapeHtml 주입(상태 계산은 main.js).
         window.VOLT_AUTH_UI?.init?.({ t: i18nT, escapeHtml });
         window.VOLT_COMMUNITY?.init?.(() => setupAuthStatus({ refresh: true }));
+        window.VOLT_GEAR?.initAccess?.(() => setupAuthStatus({ refresh: true, background: true }));
         // 마이페이지 렌더 계층 — 공용 유틸·격납고 제거/함선 상세 콜백 주입.
         window.VOLT_MYPAGE?.init?.({
             retryPreferences: () => { preferencesLoadAttempt = 0; loadUserPreferences(); },
@@ -2179,13 +2183,15 @@
         setupScrollTop();
         setupAuthStatus();
         const recheckAccess = () => {
-            if (document.visibilityState === 'visible' && Date.now() - authCheckedAt > 60000
-                && ['ships', 'trade-planner', 'loadout'].includes(parseRouteFromHash().section)) setupAuthStatus({ background: true });
+            const section = parseRouteFromHash().section;
+            const gear = section === 'gear';
+            if (document.visibilityState === 'visible' && Date.now() - authCheckedAt > (gear ? 15000 : 60000)
+                && (gear || ['ships', 'trade-planner', 'loadout'].includes(section))) setupAuthStatus({ background: true, refresh: gear });
         };
         window.addEventListener('focus', recheckAccess);
         document.addEventListener('visibilitychange', recheckAccess);
         window.addEventListener('pageshow', (event) => { if (event.persisted) setupAuthStatus(); });
-        window.setInterval(recheckAccess, 60000);
+        window.setInterval(recheckAccess, 15000);
         setupPwaInstallPrompt();
         registerServiceWorker();
         hydrateMemberCount();

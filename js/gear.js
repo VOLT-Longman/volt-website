@@ -7,7 +7,13 @@
  */
 (function () {
     'use strict';
-    const DATA = { weapon: '/data/gear/weapons.json', armor: '/data/gear/armor.json', body: '/data/gear/body.json', icons: '/data/gear/icons.json', images: '/data/gear/images.json' };
+    const DATA = { weapon: '/data/gear/weapons.json', armor: '/data/gear/armor.json', body: '/data/gear/body.json', icons: '/data/gear/icons.json', images: '/data/gear/images.json', attach: '/data/gear/attachments.json', models: '/data/gear/models.json' };
+    const MOD_KEY = 'volt.gear.mod.v1';
+    // 3D는 넓은 화면 + 마우스(정밀 포인터)에서만 켠다. 휴대폰은 항상 그림으로 보여 준다.
+    const MOD_3D_QUERY = '(min-width: 1024px) and (pointer: fine)';
+    const MOD_VIEWS = ['iso', 'side', 'top', 'back'];
+    // index.html 이 이 파일에 붙인 ?v= 를 3D 보기 모듈에도 그대로 붙인다(배포 때 함께 바뀐다).
+    const ASSET_QUERY = (() => { try { return new URL(document.currentScript.src).search; } catch (_error) { return ''; } })();
     const CART_KEY = 'volt.gear.cart.v1';
     const FIT_KEY = 'volt.gear.fit.v1';
     const BODY_PARTS = ['head', 'torso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
@@ -102,10 +108,84 @@
     };
     Object.assign(TEXT.ko, { filters: '상세 필터', resetFilters: '필터 초기화', shopOnly: '상점에서 구매 가능한 장비만', shopOnlyNote: '스킨·버전 중 하나 이상을 상점에서 살 수 있는 장비', damageType: '피해 종류', minMag: '최소 탄창 용량', maxMass: '최대 무게 (kg)', minStore: '최소 수납공간 (µSCU)', environment: '사용할 온도 (°C)', filterCount: '필터 {count}개', matched: '{count} / {total}종', filterEmpty: '조건에 맞는 장비가 없습니다. 필터를 줄여 보세요.', afterHit: '1발 맞았을 때', remainingHealth: '피격 후 남은 부위 체력 (가정)', bodyHealth: '부위별 상태', choosePart: '부위를 선택해 보호 장비와 피해를 확인하세요.', fullHealth: '기본 부위 체력', allMakers: '모든 제조사', priceRetry: '판매처 다시 조회', selectedPart: '선택한 부위', equipment: '착용 장비' });
     Object.assign(TEXT.en, { filters: 'Filters', resetFilters: 'Reset filters', shopOnly: 'Available at shops only', shopOnlyNote: 'At least one variant has a confirmed shop listing', damageType: 'Damage type', minMag: 'Minimum magazine', maxMass: 'Maximum mass (kg)', minStore: 'Minimum storage (µSCU)', environment: 'Operating temperature (°C)', filterCount: '{count} filters', matched: '{count} / {total} groups', filterEmpty: 'No matching gear. Try removing a filter.', afterHit: 'One-hit scenario for this part', remainingHealth: 'Hypothetical remaining part health', bodyHealth: 'Body status', choosePart: 'Select a part to inspect its protection and damage.', fullHealth: 'Base part health', allMakers: 'All manufacturers', priceRetry: 'Retry shops', selectedPart: 'Selected part', equipment: 'Protecting equipment' });
+    // 개조 화면. 자리 이름(조준경 부착물 등)과 수치 이름은 자료(attachments.json, 한국어 패치 표기)에서 온다.
+    Object.assign(TEXT.ko, {
+        mod: '개조', modThis: '이 무기 개조하기', modPick: '개조할 무기', modPickHint: '개조할 무기를 고르면 부착물 자리와 그 자리에 맞는 부품이 나옵니다.',
+        modSlots: '부착물 자리', modEmpty: '비어 있음', modClear: '떼기', modFixed: '기본으로 들어가는 것만 보여 줍니다', modNoSlots: '이 무기에는 바꿔 달 수 있는 부착물 자리가 없습니다.',
+        modParts: '{slot} 고르기', modPartsCount: '맞는 부품 {count}개', modFitted: '장착됨', modPartsNote: '목록에는 주요 수치만 나옵니다. 장착하면 수치 표에 전부 나옵니다.',
+        modDesc: '게임 안 설명문', modDescNote: '설명문과 수치 표의 값이 다를 때가 있습니다. 둘 다 게임 파일에 적힌 그대로입니다.',
+        modStats: '수치', modBase: '무기 기본 수치', modChanges: '부착물별 기록값', modStat: '항목', modChange: '기록값', modAfter: '부착물',
+        modNoChange: '지금 장착한 부품은 수치를 바꾸지 않습니다.', modNothing: '장착한 부착물이 없습니다.',
+        modEstimate: '각 부착물의 게임 기록값을 따로 보여 줍니다. 여러 부품의 효과가 겹치는 방식은 확인되지 않아 합산하거나 최종 성능을 추정하지 않습니다.',
+        modSiteLabel: '＊ 표시는 게임 설명문에 없는 항목이라 사이트에서 이름을 붙였습니다. 게임에서 실제로 쓰이는 값인지 확인되지 않았습니다.',
+        modDefaults: '게임 기본 상태', modStrip: '모두 떼기', modShare: '공유 주소 복사', modCopied: '주소를 복사했습니다.', modCopyFail: '복사하지 못했습니다. 주소 표시줄의 주소를 직접 복사하세요.',
+        modSaved: '조합은 이 브라우저에 저장됩니다. 주소에도 담기므로 주소를 보내면 같은 조합이 열립니다.',
+        mod3dLoading: '3D 모형을 불러오는 중입니다…', modCanvas: '{name} 3D 모형', modCanvasHelp: '끌어서 돌립니다. 모형을 한 번 누른 뒤에는 휠로 확대하고, 화살표 키로 돌리고, +, - 키로 확대·축소할 수 있습니다. 누르지 않았을 때는 Ctrl 을 누른 채 휠을 굴리면 확대됩니다.',
+        modWhyLost: '3D 그림이 멈춰서 그림으로 보여 줍니다.', modRetry3d: '3D 다시 불러오기', modShared: '받은 주소의 조합을 보여 주고 있습니다. 저장해 둔 내 조합은 그대로 있고, 여기서 부품을 바꾸면 그때 내 조합으로 저장됩니다.',
+        modDiffers: '이 부품은 게임 설명문의 숫자와 게임 기록값이 서로 다릅니다. 위 목록과 수치 표는 기록값이고, 아래는 설명문 그대로입니다. 게임 안에서 어느 쪽이 맞는지는 확인하지 못했습니다.',
+        modViews: '보는 방향', modView_iso: '비스듬히', modView_side: '옆', modView_top: '위', modView_back: '뒤',
+        modWhySmall: '화면이 작거나 터치 기기에서는 3D 대신 그림으로 보여 줍니다.', modWhyUnsupported: '이 브라우저에서는 3D를 쓸 수 없어 그림으로 보여 줍니다.', modWhyNoModel: '이 무기는 3D 모형이 준비되지 않아 그림으로 보여 줍니다.',
+        modWhyNoData: '3D 모형 목록을 받지 못해 그림으로 보여 줍니다.', modWhyFailed: '3D 모형을 불러오지 못해 그림으로 보여 줍니다.', modNoImage: '이 무기는 보여 줄 그림이 없습니다.', modPartNoModel: '이 부품은 3D 모형이 없어 화면에는 나오지 않습니다.',
+        modScopeZoom: '확대', modScopeNight: '야간 투시', modLight: '세기 {intensity} · 퍼짐 {fov}°',
+        modCredit: '3D 모형과 겉면 그림 © Cloud Imperium Games. 비공식 팬 사이트에서 보여 주려고 게임 파일에서 변환한 것이며, 색과 질감은 실제 게임과 다를 수 있습니다. 수치는 게임 빌드 {version} 기준입니다.',
+    });
+    Object.assign(TEXT.en, {
+        mod: 'Modding', modThis: 'Mod this weapon', modPick: 'Weapon to mod', modPickHint: 'Pick a weapon to see its attachment slots and the parts that fit them.',
+        modSlots: 'Attachment slots', modEmpty: 'Empty', modClear: 'Remove', modFixed: 'Shows the default item only', modNoSlots: 'This weapon has no attachment slots you can change.',
+        modParts: 'Choose: {slot}', modPartsCount: '{count} parts fit', modFitted: 'Fitted', modPartsNote: 'The list shows the main numbers only. Fit a part to see all of them in the stats table.',
+        modDesc: 'In-game description', modDescNote: 'The description and the stats table sometimes disagree. Both are exactly what the game files say.',
+        modStats: 'Stats', modBase: 'Base weapon stats', modChanges: 'Records for each attachment', modStat: 'Stat', modChange: 'Recorded value', modAfter: 'Attachment',
+        modNoChange: 'The fitted parts do not change any stats.', modNothing: 'No attachments fitted.',
+        modEstimate: 'Game records are shown separately for each attachment. Stacking rules are not verified, so these values are not combined and final weapon performance is not estimated.',
+        modSiteLabel: '＊ marks stats that the in-game descriptions do not mention; the names are ours, and it is not confirmed that the game uses these values.',
+        modDefaults: 'Game default', modStrip: 'Remove all', modShare: 'Copy share link', modCopied: 'Link copied.', modCopyFail: 'Could not copy. Copy the address from the address bar instead.',
+        modSaved: 'Builds are saved in this browser. The address also carries the build, so sending it opens the same build.',
+        mod3dLoading: 'Loading the 3D model…', modCanvas: '3D model of {name}', modCanvasHelp: 'Drag to turn. After clicking the model you can zoom with the wheel, turn it with the arrow keys and zoom with + and -. Without clicking, hold Ctrl and scroll to zoom.',
+        modWhyLost: 'The 3D picture stopped, so a picture is shown instead.', modRetry3d: 'Load 3D again', modShared: 'Showing the build from the address you opened. Your own saved build is untouched; it is replaced only when you change a part here.',
+        modDiffers: 'For this part the numbers in the game description and the values in the game data differ. The list and the table use the data values; the lines below are the description as written. Which one the game applies was not verified in game.',
+        modViews: 'View direction', modView_iso: 'Angled', modView_side: 'Side', modView_top: 'Top', modView_back: 'Rear',
+        modWhySmall: 'On small screens and touch devices a picture is shown instead of 3D.', modWhyUnsupported: 'This browser cannot show 3D, so a picture is shown instead.', modWhyNoModel: 'No 3D model is available for this weapon, so a picture is shown instead.',
+        modWhyNoData: 'The 3D model list could not be loaded, so a picture is shown instead.', modWhyFailed: 'The 3D model could not be loaded, so a picture is shown instead.', modNoImage: 'There is no picture for this weapon.', modPartNoModel: 'This part has no 3D model, so it is not drawn.',
+        modScopeZoom: 'Zoom', modScopeNight: 'Night vision', modLight: 'Intensity {intensity} · spread {fov}°',
+        modCredit: '3D models and textures © Cloud Imperium Games. Converted from the game files for this unofficial fan site; colours and surfaces are approximate. Numbers are from game build {version}.',
+    });
     const FILTER_DEFAULTS = { query: '', kind: '', slot: '', cls: '', maker: '', damageType: '', fireMode: '', minMag: '', maxMass: '', minStore: '', environment: '', shopOnly: false };
-    const state = { ...FILTER_DEFAULTS, filtersOpen: window.innerWidth > 700, part: 'torso', view: 'weapon', data: {}, error: {}, loading: {}, sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {} };
+    const state = { ...FILTER_DEFAULTS, filtersOpen: window.innerWidth > 700, part: 'torso', view: 'weapon', data: {}, error: {}, loading: {}, sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {}, mod: { weapon: '', slot: '', builds: {}, visiting: {}, notice: '' } };
     let root = null;
     let started = false;
+    let modAccess = { status: 'loading', loggedIn: false, allowed: false };
+    let refreshModAccess = () => Promise.resolve();
+    let modAccessEpoch = 0;
+    const modRequests = new Set();
+
+    function setModAccess(access) {
+        const wasAllowed = modAccess.allowed;
+        const hadFocus = wasAllowed && root?.contains(document.activeElement);
+        modAccess = { ...access, allowed: access.status === 'ready' && access.loggedIn === true && access.allowed === true };
+        if (!modAccess.allowed) {
+            modAccessEpoch++;
+            for (const controller of modRequests) controller.abort();
+            modRequests.clear();
+            for (const key of ['attach', 'models']) { delete state.data[key]; delete state.loading[key]; delete state.error[key]; }
+            stopMod3d();
+        }
+        if (state.view === 'mod' && root) {
+            draw(!modAccess.allowed && hadFocus ? '[data-gear-mod-access-retry]' : undefined);
+            if (modAccess.allowed && !wasAllowed) load('mod');
+        }
+    }
+
+    function modGate() {
+        const t = (key) => window.VOLT_I18N.t(`gear.modAccess.${key}`);
+        const key = modAccess.status === 'loading' ? 'checking' : modAccess.status === 'error' ? 'error'
+            : !modAccess.loggedIn ? 'signedOut' : modAccess.configured === false ? 'unconfigured' : 'missingRole';
+        const current = /^#gear\?mod=[\w~-]+(?:&[\w~=-]+)*$/.test(window.location.hash) ? `/${window.location.hash}`
+            : state.mod.weapon ? `/#gear?mod=${encodeURIComponent(state.mod.weapon)}` : '/#gear?view=mod';
+        return `${toolbar()}<section class="gear-mod-gate community-gate" aria-labelledby="gear-mod-access-title">
+            <h3 id="gear-mod-access-title">${esc(t('title'))}</h3><p role="status">${esc(t(key))}</p>
+            <div class="community-gate-actions">${key === 'signedOut' ? `<a class="btn btn-primary" href="/auth/discord/login?returnTo=${esc(encodeURIComponent(current))}">${esc(t('login'))}</a>` : ''}
+            <button type="button" class="btn btn-secondary" data-gear-mod-access-retry${key === 'checking' ? ' disabled' : ''}>${esc(t('retry'))}</button></div></section>`;
+    }
 
     const lang = () => (window.VOLT_I18N?.getLang?.() === 'en' ? 'en' : 'ko');
     const text = (key, values) => String(TEXT[lang()][key] ?? TEXT.ko[key] ?? key).replace(/\{(\w+)\}/g, (_, name) => values?.[name] ?? '');
@@ -251,8 +331,8 @@
     }
     function toolbar() {
         const tab = (view) => `<button type="button" role="tab" class="gear-tab${state.view === view ? ' is-active' : ''}" aria-selected="${state.view === view}" data-gear-view="${view}">${esc(text(view))}</button>`;
-        const tabs = `<div class="gear-tabs" role="tablist" aria-label="${esc(text('views'))}">${tab('weapon')}${tab('armor')}${tab('fit')}<button type="button" role="tab" class="gear-tab${state.view === 'cart' ? ' is-active' : ''}" aria-selected="${state.view === 'cart'}" data-gear-view="cart">${esc(cartTotal() ? text('cartCount', { count: cartTotal() }) : text('cart'))}</button></div>`;
-        if (state.view === 'fit' || state.view === 'cart') return `<div class="gear-toolbar">${tabs}</div>`;
+        const tabs = `<div class="gear-tabs" role="tablist" aria-label="${esc(text('views'))}">${tab('weapon')}${tab('armor')}${tab('fit')}${tab('mod')}<button type="button" role="tab" class="gear-tab${state.view === 'cart' ? ' is-active' : ''}" aria-selected="${state.view === 'cart'}" data-gear-view="cart">${esc(cartTotal() ? text('cartCount', { count: cartTotal() }) : text('cart'))}</button></div>`;
+        if (state.view === 'fit' || state.view === 'cart' || state.view === 'mod') return `<div class="gear-toolbar">${tabs}</div>`;
         const weaponView = state.view === 'weapon';
         const sorts = weaponView ? [['', 'sortDefault'], ['dps', 'sortDps'], ['price', 'sortPrice']] : [['', 'sortDefault'], ['cut', 'sortCut'], ['store', 'sortStore'], ['price', 'sortPrice']];
         return `<div class="gear-toolbar">
@@ -353,7 +433,7 @@
             <button type="button" class="gear-add gear-back" data-gear-back>${esc(text('backList'))}</button>
             <header class="gear-detail-head"><h3 id="gear-detail-title" tabindex="-1">${esc(label(group.name))}</h3>${lang() === 'ko' && group.name.ko ? `<span class="gear-muted">${esc(group.name.en)}</span>` : ''}</header>
             ${figureOf(group)}
-            <div class="gear-actions">${state.view === 'weapon' ? `${photoOf(group) ? '' : iconOf(group)}${group.combatVerified === false ? '' : `<button type="button" class="btn btn-secondary" data-gear-shoot="${esc(group.id)}">${esc(text('shootWith'))}</button>`}` : (group.slot ? `<button type="button" class="btn btn-secondary" data-gear-wear="${esc(group.id)}">${esc(text('wear'))}</button>` : '')}</div>
+            <div class="gear-actions">${state.view === 'weapon' ? `${photoOf(group) ? '' : iconOf(group)}${group.combatVerified === false ? '' : `<button type="button" class="btn btn-secondary" data-gear-shoot="${esc(group.id)}">${esc(text('shootWith'))}</button>`}<button type="button" class="btn btn-secondary" data-gear-mod="${esc(group.id)}">${esc(text('modThis'))}</button>` : (group.slot ? `<button type="button" class="btn btn-secondary" data-gear-wear="${esc(group.id)}">${esc(text('wear'))}</button>` : '')}</div>
             ${state.view === 'weapon' ? weaponDetail(group) : armorDetail(group)}
             ${variants(group)}
         </section>`;
@@ -503,34 +583,279 @@
             <p class="gear-sources">${esc(text('sourceGame', { version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
     }
 
+    // ---- 개조 ---------------------------------------------------------------
+    // 조합: { 무기 묶음 id: { 자리 이름: 부착물 클래스 | null } }. 적어 두지 않은 자리는 게임 기본 상태다.
+    // 부품 위치·모형은 모두 자료(models.json, manifest)에서 오고, 여기서 손으로 맞추는 숫자는 없다.
+    const MOD_DATA = ['weapon', 'attach', 'models'];
+    const mod3d = { status: 'off', reason: '', weapon: '', viewer: null, canvas: null, token: 0, view: 'iso', module: null, bad: new Set() };
+    const modQuery = typeof window.matchMedia === 'function' ? window.matchMedia(MOD_3D_QUERY) : null;
+    const modPorts = (id) => { const ports = state.data.attach?.weapons?.[id]?.ports; return Array.isArray(ports) ? ports.filter((port) => port && typeof port.name === 'string') : []; };
+    const modPart = (cls) => (typeof cls === 'string' && Object.hasOwn(state.data.attach?.attachments || {}, cls) ? state.data.attach.attachments[cls] : null);
+    const modAllowed = (port, cls) => cls === null || (Boolean(modPart(cls)) && Array.isArray(port.compatible) && port.compatible.includes(cls));
+    // 지금 조합: 바꿀 수 있는 자리는 저장한 값(그 자리에 맞는 부품일 때만), 나머지는 게임 기본.
+    // state.mod.visiting: 받은 주소로 들어온 조합. 저장하지 않고 보여 주기만 한다 — 부품을 바꾸면 그때 내 조합이 된다.
+    function modBuild(id) {
+        const source = state.mod.visiting?.[id] || state.mod.builds[id];
+        const saved = source && typeof source === 'object' ? source : {}; const build = {};
+        for (const port of modPorts(id)) build[port.name] = port.editable && Object.hasOwn(saved, port.name) && modAllowed(port, saved[port.name]) ? saved[port.name] : (modPart(port.default) ? port.default : null);
+        return build;
+    }
+    const saveMod = () => store(MOD_KEY, { weapon: state.mod.weapon, builds: state.mod.builds });
+    function modSet(id, changes) {
+        const build = modBuild(id); const next = {};
+        for (const port of modPorts(id)) if (port.editable) next[port.name] = Object.hasOwn(changes, port.name) ? changes[port.name] : build[port.name];
+        state.mod.builds[id] = next; delete state.mod.visiting[id]; state.mod.notice = ''; saveMod();
+    }
+    function modPick(id) { state.mod.weapon = String(id || ''); state.mod.slot = ''; state.mod.notice = ''; saveMod(); }
+    function modSlot(id) { const ports = modPorts(id).filter((port) => port.editable); return (ports.find((port) => port.name === state.mod.slot) || ports[0])?.name || ''; }
+    const modModelOk = (id) => { const entry = state.data.models?.weapons?.[id]; return entry?.ok === true && typeof entry.manifest === 'string' && /^assets\/models\/gear\/weapons\/[\w~.-]+\/manifest\.json$/.test(entry.manifest) && !entry.manifest.includes('..'); };
+    const modPartHasModel = (cls) => state.data.models?.parts?.[cls]?.ok === true;
+
+    // 주소: #gear?mod=<무기>&optics=<부품>&barrel=-… 그대로 붙여 넣으면 같은 조합이 열린다.
+    let modSeenHash = ''; // 마지막으로 읽었거나 써 넣은 주소. 같은 주소를 두 번 읽어 고른 자리를 되돌리지 않는다.
+    function modHash() {
+        const id = state.mod.weapon; if (state.view !== 'mod' || !findGroup('weapon', id)) return '#gear';
+        const build = modBuild(id); const query = new URLSearchParams({ mod: id });
+        for (const port of modPorts(id)) if (port.editable) query.set(port.name.replace(/_attach$/, ''), build[port.name] || '-');
+        return `#gear?${query}`;
+    }
+    function syncModUrl() {
+        if (window.location.hash.split('?')[0] !== '#gear') return;
+        if (state.view === 'mod' && !modAccess.allowed) return;
+        if (state.view === 'mod' && !(state.data.attach && state.data.weapon)) return; // 자료가 오기 전에는 받은 주소를 지우지 않는다
+        const hash = modHash();
+        modSeenHash = hash;
+        if (hash !== window.location.hash) { try { window.history.replaceState(window.history.state, '', hash); } catch (_error) { /* 주소를 못 바꿔도 화면은 동작한다 */ } }
+    }
+    function readModHash() {
+        if (window.location.hash === '#gear?view=mod') { state.view = 'mod'; return false; }
+        const match = /^#gear\?(.+)$/.exec(window.location.hash); if (!match || window.location.hash === modSeenHash) return false;
+        modSeenHash = window.location.hash;
+        const query = new URLSearchParams(match[1]); const id = query.get('mod') || '';
+        if (!/^[\w~.-]{1,80}$/.test(id)) return false;
+        const build = {};
+        for (const [key, value] of query) if (key !== 'mod' && /^[a-z]{1,30}$/.test(key) && /^(?:-|[\w~.-]{1,80})$/.test(value)) build[`${key}_attach`] = value === '-' ? null : value;
+        state.view = 'mod'; state.mod.weapon = id; state.mod.slot = ''; state.mod.notice = '';
+        // 저장해 둔 조합과 다를 때만 "받은 조합"으로 띄운다. 저장소의 내 조합은 건드리지 않는다.
+        const mine = state.mod.builds[id] && typeof state.mod.builds[id] === 'object' ? state.mod.builds[id] : null;
+        delete state.mod.visiting[id];
+        if (Object.keys(build).length && (!mine || Object.keys(build).some((name) => (mine[name] ?? null) !== build[name]))) {
+            state.mod.visiting[id] = build;
+            if (mine) state.mod.notice = 'modShared';
+        }
+        saveMod();
+        return true;
+    }
+
+    // 수치 표기: 배율은 퍼센트 변화로, 조준경 값은 그대로.
+    const modPercent = (mult) => { const value = (mult - 1) * 100; return `${value > 0 ? '+' : value < 0 ? '−' : ''}${num(Math.abs(value), 1)}%`; };
+    function modValue(unit, value) {
+        if (unit === 'mult') return Number.isFinite(value) ? modPercent(value) : '';
+        if (unit === 'mult3') return Array.isArray(value) ? value.map((item) => (Number.isFinite(item) ? modPercent(item) : text('unknown'))).join(' / ') : '';
+        if (unit === 'add') return Number.isFinite(value) ? `${value > 0 ? '+' : value < 0 ? '−' : ''}${num(Math.abs(value))}` : '';
+        if (unit === 'x') return Number.isFinite(value) ? `${num(value, 2)}x` : '';
+        if (unit === 'm') return Number.isFinite(value) ? `${num(value)} m` : '';
+        if (unit === 'count') return Number.isFinite(value) ? num(value) : '';
+        if (unit === 'enum') return value === 'nightvision' ? text('modScopeNight') : value === 'zoom' ? text('modScopeZoom') : '';
+        if (unit === 'light') return value && Number.isFinite(value.intensity) && Number.isFinite(value.fov) ? text('modLight', { intensity: num(value.intensity, 1), fov: num(value.fov) }) : '';
+        return '';
+    }
+    // 목록에는 게임 설명문에 나오는 항목과 조준경 배율만 짧게 보여 준다.
+    function modChips(part) {
+        const fields = state.data.attach?.statFields || {};
+        return Object.keys(fields).filter((key) => Object.hasOwn(part.stats || {}, key) && (fields[key].labelSource === 'game' || ['zoom', 'zoom2', 'scope', 'light'].includes(key)))
+            .map((key) => { const value = modValue(fields[key].unit, part.stats[key]); return value ? `<span class="gear-mod-chip">${esc(label(fields[key].label))} <strong>${esc(value)}</strong></span>` : ''; }).join('');
+    }
+    function modStats(group, build) {
+        const fitted = modPorts(group.id).filter((port) => port.editable).map((port) => modPart(build[port.name])).filter(Boolean);
+        const combat = group.combatVerified !== false; const mode = combat ? bestMode(group) : null; const ammo = group.ammo || {};
+        const fields = state.data.attach?.statFields || {};
+        // Keep each source value separate: modifier stacking and final weapon
+        // performance have not been verified against the game's calculation.
+        const rows = fitted.flatMap((part) => Object.keys(fields).filter((key) => Object.hasOwn(part.stats || {}, key)).map((key) => {
+            const field = fields[key]; const value = modValue(field.unit, part.stats[key]);
+            return value ? `<tr><th scope="row">${esc(label(field.label))}${field.labelSource === 'site' ? '<span aria-hidden="true"> ＊</span>' : ''}</th><td class="is-num">${esc(value)}</td><td>${esc(label(part.name))}</td></tr>` : '';
+        })).join('');
+        const baseStats = combat ? `<dl class="gear-stats">${ammo.dmg ? stat(text('damage'), damageLine(ammo.dmg)) : ''}${mode ? stat(text('rate'), rateCell(mode)) : ''}${group.mag ? stat(text('mag'), esc(num(group.mag))) : ''}${ammo.speed ? stat(text('speed'), `${esc(num(ammo.speed))} m/s`) : ''}${group.mass ? stat(text('mass'), `${esc(num(group.mass, 2))} kg`) : ''}</dl>` : `<p class="gear-note">${esc(text('toolNote'))}</p>`;
+        return `<section class="gear-mod-panel gear-mod-stats" aria-labelledby="gear-mod-stats-title"><h3 id="gear-mod-stats-title">${esc(text('modStats'))}</h3>
+            <h4>${esc(text('modBase'))}</h4>${baseStats}
+            <h4>${esc(text('modChanges'))}</h4>
+            ${rows ? `<div class="gear-tablewrap" tabindex="0" role="region" aria-label="${esc(text('modChanges'))}"><table class="gear-table gear-mod-table"><thead><tr><th scope="col">${esc(text('modStat'))}</th><th scope="col" class="is-num">${esc(text('modChange'))}</th><th scope="col" class="is-num">${esc(text('modAfter'))}</th></tr></thead><tbody>${rows}</tbody></table></div>
+                <p class="gear-note">${esc(text('modEstimate'))}</p>${/＊/.test(rows) ? `<p class="gear-note">${esc(text('modSiteLabel'))}</p>` : ''}` : `<p class="gear-note" role="status">${esc(text(fitted.length ? 'modNoChange' : 'modNothing'))}</p>`}
+        </section>`;
+    }
+    function modStage(group) {
+        const id = group.id; let why = '';
+        if (!modQuery?.matches) why = 'modWhySmall';
+        else if (state.error.models) why = 'modWhyNoData';
+        else if (state.data.models && !modModelOk(id)) why = 'modWhyNoModel';
+        else if (mod3d.status === 'failed' && mod3d.weapon === id) why = mod3d.reason === 'unsupported' ? 'modWhyUnsupported' : mod3d.reason === 'lost' ? 'modWhyLost' : 'modWhyFailed';
+        if (why) return `<div class="gear-mod-stage" data-gear-mod-3d="off">${figureOf(group) || (iconOf(group) ? `<div class="gear-mod-still">${iconOf(group)}</div>` : `<p class="gear-note">${esc(text('modNoImage'))}</p>`)}</div><p class="gear-note gear-mod-why">${esc(text(why))}</p>${why === 'modWhyLost' || why === 'modWhyFailed' ? `<button type="button" class="gear-add" data-gear-mod-retry3d>${esc(text('modRetry3d'))}</button>` : ''}`;
+        const ready = mod3d.status === 'ready' && mod3d.weapon === id;
+        return `<div class="gear-mod-stage is-3d" data-gear-mod-3d="${ready ? 'ready' : 'loading'}"><div class="gear-mod-view" data-gear-mod-stage></div>${ready ? '' : `<p class="gear-mod-wait" role="status">${esc(text('mod3dLoading'))}</p>`}</div>
+            ${ready ? `<div class="gear-mod-viewbar" role="group" aria-label="${esc(text('modViews'))}">${MOD_VIEWS.map((view) => `<button type="button" class="gear-add" data-gear-mod-view="${view}" aria-pressed="${mod3d.view === view}">${esc(text(`modView_${view}`))}</button>`).join('')}</div><p class="gear-note">${esc(text('modCanvasHelp'))}</p>` : ''}`;
+    }
+    function modSlots(group, build, slot) {
+        const ports = modPorts(group.id); const ready = mod3d.status === 'ready' && mod3d.weapon === group.id;
+        const sizeText = (port) => (port.minSize === port.maxSize ? `S${port.maxSize}` : `S${port.minSize}~S${port.maxSize}`);
+        const rows = ports.filter((port) => port.editable || modPart(build[port.name])).map((port) => {
+            const cls = build[port.name]; const part = modPart(cls); const name = part ? label(part.name) : text('modEmpty');
+            const head = `<span class="gear-mod-slotname">${esc(label(port.label))} <small>${esc(sizeText(port))}</small></span><strong>${esc(name)}</strong>`;
+            const missing = ready && part && (!modPartHasModel(cls) || mod3d.bad.has(cls)) ? `<small class="gear-muted">${esc(text('modPartNoModel'))}</small>` : '';
+            if (!port.editable) return `<li class="gear-mod-slot is-fixed"><div class="gear-mod-slotbtn">${head}<small class="gear-muted">${esc(text('modFixed'))}</small>${missing}</div></li>`;
+            return `<li class="gear-mod-slot${port.name === slot ? ' is-selected' : ''}"><button type="button" class="gear-mod-slotbtn" data-gear-mod-slot="${esc(port.name)}" aria-pressed="${port.name === slot}">${head}${missing}</button>
+                <button type="button" class="gear-add" data-gear-mod-clear="${esc(port.name)}"${part ? '' : ' disabled'} aria-label="${esc(`${label(port.label)} ${text('modClear')}`)}">${esc(text('modClear'))}</button></li>`;
+        }).join('');
+        return `<section class="gear-mod-panel gear-mod-slots" aria-labelledby="gear-mod-slots-title"><h3 id="gear-mod-slots-title">${esc(text('modSlots'))}</h3>
+            ${rows ? `<ul class="gear-mod-slotlist">${rows}</ul>` : ''}${ports.some((port) => port.editable) ? '' : `<p class="gear-note">${esc(text('modNoSlots'))}</p>`}</section>`;
+    }
+    function modParts(group, build, slot) {
+        const port = modPorts(group.id).find((item) => item.name === slot && item.editable); if (!port) return '';
+        const current = build[port.name]; const list = (Array.isArray(port.compatible) ? port.compatible : []).filter((cls) => modPart(cls));
+        const items = list.map((cls) => {
+            const part = modPart(cls); const chips = modChips(part);
+            const meta = [part.type ? label(part.type) : '', Number.isFinite(part.size) ? `S${part.size}` : '', lang() === 'ko' && part.mfrKo ? part.mfrKo : part.mfr].filter(Boolean).join(' · ');
+            return `<li><button type="button" class="gear-mod-part${cls === current ? ' is-fitted' : ''}" data-gear-mod-part="${esc(cls)}" aria-pressed="${cls === current}"><span class="gear-mod-partname">${esc(label(part.name))}${cls === current ? ` <span class="gear-tag">${esc(text('modFitted'))}</span>` : ''}</span><small class="gear-muted">${esc(meta)}</small>${chips ? `<span class="gear-mod-chips">${chips}</span>` : ''}</button></li>`;
+        }).join('');
+        const lines = modPart(current)?.desc; const desc = lines ? (lang() === 'ko' && Array.isArray(lines.ko) && lines.ko.length ? lines.ko : lines.en) : null;
+        return `<section class="gear-mod-panel gear-mod-parts" aria-labelledby="gear-mod-parts-title"><h3 id="gear-mod-parts-title">${esc(text('modParts', { slot: label(port.label) }))} <small class="gear-muted">${esc(text('modPartsCount', { count: num(list.length) }))}</small></h3>
+            <ul class="gear-mod-partlist">${items}</ul>
+            <p class="gear-note">${esc(text('modPartsNote'))}</p>
+            ${Array.isArray(desc) && desc.length ? `<div class="gear-mod-desc"><h4>${esc(text('modDesc'))}: ${esc(label(modPart(current).name))}</h4><ul>${desc.map((line) => `<li>${esc(line)}</li>`).join('')}</ul><p class="gear-note">${esc(text(Array.isArray(modPart(current).descDiffers) && modPart(current).descDiffers.length ? 'modDiffers' : 'modDescNote'))}</p></div>` : ''}</section>`;
+    }
+    function modView() {
+        if (!modAccess.allowed) return modGate();
+        if (state.error.weapon || state.error.attach) return `${toolbar()}<div class="gear-status" role="alert"><p>${esc(text('loadError'))}</p><button type="button" class="btn btn-secondary" data-gear-retry>${esc(text('retry'))}</button></div>`;
+        if (!state.data.weapon || !state.data.attach) return `${toolbar()}<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
+        const group = findGroup('weapon', state.mod.weapon); const current = group ? group.id : '';
+        const picker = `<label class="gear-select"><span>${esc(text('modPick'))}</span><select id="gear-mod-weapon">${option('', text('noWeapon'), current)}${KINDS.map((kind) => { const list = groupsOf('weapon').filter((item) => item.kind === kind); return list.length ? `<optgroup label="${esc(text(kind))}">${list.map((item) => option(item.id, label(item.name), current)).join('')}</optgroup>` : ''; }).join('')}</select></label>`;
+        const version = state.data.models?.gameBuild || state.data.attach.gameVersion || state.data.weapon.version || '';
+        const credit = `<p class="gear-sources">${esc(text('modCredit', { version }))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
+        if (!group) return `${toolbar()}<div class="gear-mod"><div class="gear-mod-bar">${picker}</div><p class="gear-hint">${esc(text('modPickHint'))}</p></div>${credit}`;
+        const build = modBuild(group.id); const slot = modSlot(group.id); const editable = modPorts(group.id).some((port) => port.editable);
+        return `${toolbar()}<div class="gear-mod">
+            <div class="gear-mod-bar">${picker}
+                ${editable ? `<button type="button" class="gear-add" data-gear-mod-defaults>${esc(text('modDefaults'))}</button><button type="button" class="gear-add" data-gear-mod-strip>${esc(text('modStrip'))}</button>` : ''}
+                <button type="button" class="gear-add" data-gear-mod-share>${esc(text('modShare'))}</button>
+                <p class="gear-note gear-mod-notice" role="status">${state.mod.notice ? esc(text(state.mod.notice)) : ''}</p></div>
+            <div class="gear-mod-grid">
+                <section class="gear-mod-panel gear-mod-show" aria-labelledby="gear-mod-title"><h3 id="gear-mod-title" tabindex="-1">${esc(label(group.name))}${lang() === 'ko' && group.name.ko ? ` <small class="gear-muted">${esc(group.name.en)}</small>` : ''}</h3>${modStage(group)}</section>
+                ${modSlots(group, build, slot)}${modParts(group, build, slot)}${modStats(group, build)}
+            </div>
+            <p class="gear-note">${esc(text('modSaved'))}</p></div>${credit}`;
+    }
+
+    // 3D 보기: 될 때만 켠다. 캔버스는 다시 그릴 때마다 새 자리로 옮겨 붙인다(같은 캔버스, 같은 3D 상태).
+    const gearActive = () => document.getElementById('gear')?.classList.contains('active') === true;
+    const modWants3d = () => modAccess.allowed && state.view === 'mod' && gearActive() && modQuery?.matches === true && Boolean(state.data.attach) && Boolean(findGroup('weapon', state.mod.weapon)) && modModelOk(state.mod.weapon);
+    function stopMod3d() {
+        mod3d.token += 1; mod3d.viewer?.dispose(); mod3d.canvas?.remove();
+        Object.assign(mod3d, { status: 'off', reason: '', weapon: '', viewer: null, canvas: null }); mod3d.bad.clear();
+    }
+    // 3D에 보낼 조합: 모형이 없는 부품은 비워 둔다(자리 목록에 그 사실을 적는다).
+    function modViewerParts(id) { const build = modBuild(id); for (const name of Object.keys(build)) if (!modPartHasModel(build[name]) || mod3d.bad.has(build[name])) build[name] = null; return build; }
+    function mountModCanvas() {
+        const place = root?.querySelector('[data-gear-mod-stage]'); const canvas = mod3d.canvas; if (!place || !canvas) return;
+        const group = findGroup('weapon', mod3d.weapon);
+        canvas.setAttribute('aria-label', text('modCanvas', { name: group ? label(group.name) : '' }));
+        if (canvas.parentNode !== place) place.appendChild(canvas);
+    }
+    function applyMod3d() {
+        const viewer = mod3d.viewer; if (!viewer || mod3d.status !== 'ready') return;
+        const id = mod3d.weapon; const wanted = modViewerParts(id); const now = viewer.stats().parts || {};
+        for (const name of viewer.ports || []) {
+            const cls = wanted[name] ?? null; if ((now[name] ?? null) === cls) continue;
+            viewer.setPart(name, cls).catch(() => { if (cls && mod3d.viewer === viewer) { mod3d.bad.add(cls); if (state.view === 'mod') draw(); } });
+        }
+        const slot = modSlot(id); viewer.highlightPort(slot && !modBuild(id)[slot] ? slot : null);
+        viewer.render();
+    }
+    function startMod3d(id) {
+        stopMod3d();
+        const token = mod3d.token; const canvas = document.createElement('canvas');
+        canvas.className = 'gear-mod-canvas'; canvas.setAttribute('role', 'img'); canvas.tabIndex = 0;
+        Object.assign(mod3d, { status: 'loading', weapon: id, canvas });
+        mountModCanvas();
+        (async () => {
+            try {
+                mod3d.module = mod3d.module || await import(`/js/gear-viewer.js${ASSET_QUERY}`);
+                if (token !== mod3d.token) return;
+                if (!mod3d.module.isSupported()) throw Object.assign(new Error('unsupported'), { code: 'unsupported' });
+                // 3D 그림이 멈추면(그래픽 자원을 잃으면) 멈춘 그림을 두지 않고 사진으로 바꾼 뒤 다시 불러올 단추를 준다.
+                const onContext = (info) => {
+                    if (info?.type !== 'lost' || token !== mod3d.token) return;
+                    stopMod3d(); Object.assign(mod3d, { status: 'failed', reason: 'lost', weapon: id });
+                    if (state.view === 'mod') draw();
+                };
+                const version = typeof state.data.models.assetVersion === 'string' ? state.data.models.assetVersion : '';
+                const viewer = await mod3d.module.createGunViewer(canvas, { manifestUrl: `/${state.data.models.weapons[id].manifest}`, partsIndex: state.data.models.parts || {}, parts: modViewerParts(id), view: mod3d.view, version, onContext });
+                if (token !== mod3d.token) { viewer.dispose(); return; }
+                for (const item of viewer.failed || []) if (item?.cls) mod3d.bad.add(item.cls);
+                Object.assign(mod3d, { status: 'ready', viewer });
+            } catch (error) {
+                if (token !== mod3d.token) return;
+                canvas.remove();
+                Object.assign(mod3d, { status: 'failed', reason: error?.code === 'unsupported' ? 'unsupported' : 'failed', weapon: id, viewer: null, canvas: null });
+                refreshModAccess();
+            }
+            if (state.view === 'mod') draw();
+        })();
+    }
+    function syncMod3d() {
+        if (!modWants3d()) { if (mod3d.status !== 'off') stopMod3d(); return; }
+        if (mod3d.status === 'failed' && mod3d.weapon === state.mod.weapon) return; // 그림으로 보여 주는 중. 다시 불러오기 단추나 무기 바꾸기로만 다시 시도한다
+        if (mod3d.weapon !== state.mod.weapon || mod3d.status === 'off') { startMod3d(state.mod.weapon); return; }
+        mountModCanvas(); applyMod3d();
+    }
+
     function draw(focus) {
         if (!root) return;
-        const active = document.activeElement?.id; const caret = active === 'gear-search' ? document.activeElement.selectionStart : null;
+        const activeElement = document.activeElement; const active = activeElement?.id; let keep = '';
+        if (!focus && activeElement && root.contains(activeElement) && !active) {
+            if (activeElement === mod3d.canvas) keep = 'canvas.gear-mod-canvas';
+            else { const mark = [...activeElement.attributes].find((item) => item.name.startsWith('data-gear-') && item.name !== 'data-gear-mod-stage'); if (mark) keep = `${activeElement.tagName.toLowerCase()}[${mark.name}="${CSS.escape(mark.value)}"]`; }
+        }
+        const partScroll = root.querySelector('.gear-mod-partlist')?.scrollTop || 0; const caret = active === 'gear-search' ? document.activeElement.selectionStart : null;
         let html;
         // 화면 전체를 이 한 곳에서 다시 그린다. 모든 동적 값은 esc()를 거친다.
-        if (state.view === 'fit' || state.view === 'cart') html = special();
+        if (state.view === 'mod') html = modView();
+        else if (state.view === 'fit' || state.view === 'cart') html = special();
         else if (state.error[state.view]) html = `${toolbar()}<div class="gear-status" role="alert"><p>${esc(text('loadError'))}</p><button type="button" class="btn btn-secondary" data-gear-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.data[state.view]) html = `${toolbar()}<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
         else html = `${toolbar()}<div class="gear-workspace">${filters()}<div class="gear-columns"><div class="gear-list" data-gear-type="${state.view}">${activeFilters()}${list()}</div><div class="gear-side">${detail()}</div></div></div>
             <p class="gear-sources">${esc(text('sourceGame', { version: state.data[state.view].version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
         root.innerHTML = html;
-        const target = focus ? root.querySelector(focus) : (active && /^gear-/.test(active) ? document.getElementById(active) : null);
+        if (partScroll) { const partList = root.querySelector('.gear-mod-partlist'); if (partList) partList.scrollTop = partScroll; }
+        syncModUrl(); syncMod3d();
+        const target = focus ? root.querySelector(focus) : (active && /^gear-/.test(active) ? document.getElementById(active) : keep ? root.querySelector(keep) : null);
         target?.focus();
         if (caret !== null && target?.id === 'gear-search') target.setSelectionRange(caret, caret);
     }
 
     async function load(view) {
+        if (view === 'mod') { if (!modAccess.allowed) { draw(); return; } await Promise.all(MOD_DATA.map(load)); if (state.view === view) draw(); return; }
         if (view === 'fit' || view === 'cart') { await Promise.all(['weapon', 'armor', 'body'].map(load)); if (state.view === view) draw(); return; }
+        const protectedData = view === 'attach' || view === 'models';
+        if (protectedData && !modAccess.allowed) return;
         if (state.data[view] || state.loading[view]) return;
+        const epoch = modAccessEpoch; const controller = new AbortController();
+        if (protectedData) modRequests.add(controller);
         state.loading[view] = true; state.error[view] = false;
         draw();
         try {
-            const response = await fetch(DATA[view], { cache: 'no-cache' });
+            const response = await fetch(DATA[view], { cache: protectedData ? 'no-store' : 'no-cache', signal: controller.signal });
+            if (protectedData && [401, 403].includes(response.status)) {
+                setModAccess({ status: 'ready', loggedIn: response.status !== 401, configured: true, allowed: false });
+                return;
+            }
             if (!response.ok) throw new Error(String(response.status));
-            state.data[view] = await response.json();
-        } catch (_error) { state.error[view] = true; }
+            const data = await response.json();
+            if (protectedData && (epoch !== modAccessEpoch || !modAccess.allowed)) return;
+            state.data[view] = data;
+        } catch (_error) { if (protectedData && epoch !== modAccessEpoch) return; state.error[view] = true; }
+        finally { modRequests.delete(controller); }
         state.loading[view] = false;
-        if (state.view === view) draw();
+        if (state.view === view || (state.view === 'mod' && MOD_DATA.includes(view))) draw();
         if (state.data[view] && PRICE_CATEGORIES[view]) loadPrices(view);
     }
 
@@ -540,6 +865,7 @@
         started = true;
         root.addEventListener('click', (event) => {
             const target = event.target.closest('button'); if (!target || !root.contains(target)) return;
+            if (target.hasAttribute('data-gear-mod-access-retry')) { refreshModAccess(); return; }
             if (target.hasAttribute('data-gear-retry')) { load(state.view); return; }
             if (target.dataset.gearClearFilter && Object.hasOwn(FILTER_DEFAULTS, target.dataset.gearClearFilter)) { state[target.dataset.gearClearFilter] = FILTER_DEFAULTS[target.dataset.gearClearFilter]; state.limit = PAGE; draw('#gear-search'); return; }
             if (target.hasAttribute('data-gear-reset-filters')) { Object.assign(state, FILTER_DEFAULTS); state.limit = PAGE; draw('#gear-search'); return; }
@@ -559,6 +885,22 @@
             }
             if (target.hasAttribute('data-gear-clear-fit')) { state.fit.wear = {}; store(FIT_KEY, state.fit); draw('[data-gear-view="fit"]'); return; }
             if (target.dataset.gearWear) { const group = findGroup('armor', target.dataset.gearWear); if (group?.slot) { state.fit.wear[group.slot] = group.id; store(FIT_KEY, state.fit); state.view = 'fit'; draw('[data-gear-view="fit"]'); load('fit'); } return; }
+            if (target.dataset.gearMod) { state.view = 'mod'; modPick(target.dataset.gearMod); draw(); load('mod').then(() => { if (state.view === 'mod') draw('#gear-mod-title'); }); return; }
+            if (state.view === 'mod') {
+                const id = findGroup('weapon', state.mod.weapon)?.id; const port = (name) => modPorts(id).find((item) => item.name === name && item.editable);
+                if (target.dataset.gearModSlot) { if (id && port(target.dataset.gearModSlot)) { state.mod.slot = target.dataset.gearModSlot; state.mod.notice = ''; draw(`[data-gear-mod-slot="${CSS.escape(state.mod.slot)}"]`); } return; }
+                if (target.dataset.gearModPart) { const slot = id && port(modSlot(id)); const cls = target.dataset.gearModPart; if (slot && modAllowed(slot, cls)) { modSet(id, { [slot.name]: cls }); draw(`[data-gear-mod-part="${CSS.escape(cls)}"]`); } return; }
+                if (target.dataset.gearModClear) { const slot = id && port(target.dataset.gearModClear); if (slot) { modSet(id, { [slot.name]: null }); draw(`[data-gear-mod-slot="${CSS.escape(slot.name)}"]`); } return; }
+                if (target.hasAttribute('data-gear-mod-defaults')) { if (id) { delete state.mod.builds[id]; delete state.mod.visiting[id]; state.mod.notice = ''; saveMod(); draw('[data-gear-mod-defaults]'); } return; }
+                if (target.hasAttribute('data-gear-mod-strip')) { if (id) { modSet(id, Object.fromEntries(modPorts(id).filter((item) => item.editable).map((item) => [item.name, null]))); draw('[data-gear-mod-strip]'); } return; }
+                if (target.dataset.gearModView) { if (MOD_VIEWS.includes(target.dataset.gearModView)) { mod3d.view = target.dataset.gearModView; mod3d.viewer?.setView(mod3d.view); draw(`[data-gear-mod-view="${mod3d.view}"]`); } return; }
+                if (target.hasAttribute('data-gear-mod-retry3d')) { if (id) { stopMod3d(); draw('#gear-mod-title'); } return; }
+                if (target.hasAttribute('data-gear-mod-share')) {
+                    const done = (key) => { state.mod.notice = key; if (state.view === 'mod') draw('[data-gear-mod-share]'); };
+                    try { window.navigator.clipboard.writeText(window.location.href).then(() => done('modCopied'), () => done('modCopyFail')); } catch (_error) { done('modCopyFail'); }
+                    return;
+                }
+            }
             if (target.dataset.gearShoot) { state.fit.weapon = target.dataset.gearShoot; state.fit.mode = 0; store(FIT_KEY, state.fit); state.view = 'fit'; draw('[data-gear-view="fit"]'); load('fit'); return; }
             if (target.hasAttribute('data-gear-more')) { const before = state.limit; state.limit += PAGE; draw(`.gear-list tbody tr:nth-child(${before + 1}) .gear-rowbtn`); return; }
             if (target.dataset.gearPick) { state.selected[state.view] = target.dataset.gearPick; draw('#gear-detail-title'); }
@@ -568,6 +910,7 @@
         root.addEventListener('change', (event) => {
             const slot = event.target.dataset?.gearSlot;
             if (slot) { if (event.target.value) state.fit.wear[slot] = event.target.value; else delete state.fit.wear[slot]; store(FIT_KEY, state.fit); draw(`[data-gear-slot="${slot}"]`); return; }
+            if (event.target.id === 'gear-mod-weapon') { modPick(event.target.value); draw('#gear-mod-weapon'); return; }
             if (event.target.id === 'gear-fit-weapon') { state.fit.weapon = event.target.value; state.fit.mode = 0; store(FIT_KEY, state.fit); draw('#gear-fit-weapon'); return; }
             if (event.target.id === 'gear-fit-mode') { state.fit.mode = Number(event.target.value) || 0; store(FIT_KEY, state.fit); draw('#gear-fit-mode'); return; }
             if (event.target.id === 'gear-fit-distance') { state.fit.distance = Math.min(2000, Math.max(0, Number(event.target.value) || 0)); store(FIT_KEY, state.fit); draw('#gear-fit-distance'); return; }
@@ -578,11 +921,26 @@
         state.cart = Object.fromEntries(Object.entries(readStored(CART_KEY, {})).filter(([key, count]) => /^[a-f0-9-]{36}$/i.test(key) && Number.isSafeInteger(count) && count > 0).map(([key, count]) => [key, Math.min(99, count)]));
         const savedFit = readStored(FIT_KEY, null);
         if (savedFit) state.fit = { wear: savedFit.wear && typeof savedFit.wear === 'object' ? savedFit.wear : {}, weapon: String(savedFit.weapon || ''), mode: Number(savedFit.mode) || 0, distance: Number(savedFit.distance) || 0 };
+        const savedMod = readStored(MOD_KEY, null);
+        if (savedMod) {
+            const builds = {};
+            for (const [id, build] of Object.entries(savedMod.builds && typeof savedMod.builds === 'object' ? savedMod.builds : {}).slice(0, 200)) {
+                if (!/^[\w~.-]{1,80}$/.test(id) || !build || typeof build !== 'object') continue;
+                builds[id] = Object.fromEntries(Object.entries(build).filter(([name, cls]) => /^[a-z_]{1,40}$/.test(name) && (cls === null || (typeof cls === 'string' && /^[\w~.-]{1,80}$/.test(cls)))));
+            }
+            state.mod.builds = builds; state.mod.weapon = /^[\w~.-]{1,80}$/.test(String(savedMod.weapon || '')) ? String(savedMod.weapon) : '';
+        }
+        readModHash();
+        // 받은 주소(#gear?mod=…)로 들어오거나, 화면 크기·섹션이 바뀌면 개조 화면과 3D를 다시 맞춘다. 섹션을 떠나면 3D를 놓아 준다.
+        window.addEventListener('hashchange', () => { if (readModHash()) { draw(); load('mod'); } });
+        modQuery?.addEventListener?.('change', () => { if (state.view === 'mod') draw(); });
+        const section = document.getElementById('gear');
+        if (section && typeof MutationObserver === 'function') new MutationObserver(() => { if (readModHash()) { draw(); load('mod'); } else if (state.view === 'mod') { if (gearActive()) draw(); else syncMod3d(); } }).observe(section, { attributes: true, attributeFilter: ['class'] });
         // 아이콘은 없어도 화면이 동작한다.
         fetch(DATA.images, { cache: 'no-cache' }).then((response) => (response.ok ? response.json() : null)).then((images) => { if (images) { state.data.images = images; draw(); } }).catch(() => {});
         fetch(DATA.icons, { cache: 'no-cache' }).then((response) => (response.ok ? response.json() : null)).then((icons) => { if (icons) { state.data.icons = icons; draw(); } }).catch(() => {});
         load(state.view);
     }
 
-    window.VOLT_GEAR = { render };
+    window.VOLT_GEAR = { render, setAccess: setModAccess, initAccess: (refresh) => { refreshModAccess = refresh; } };
 })();
