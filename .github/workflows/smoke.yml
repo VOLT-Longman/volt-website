@@ -45,7 +45,7 @@ jobs:
           # minutes to serve 32 MB of fonts. Keep the signed Ubuntu packages and
           # use the primary archive for this disposable runner instead.
           if [ -f /etc/apt/apt-mirrors.txt ]; then
-            printf '%s\n' 'http://archive.ubuntu.com/ubuntu/' | sudo tee /etc/apt/apt-mirrors.txt
+            printf '%s\n' 'https://azure.archive.ubuntu.com/ubuntu/' 'https://archive.ubuntu.com/ubuntu/' | sudo tee /etc/apt/apt-mirrors.txt
           fi
           npx playwright install --with-deps --only-shell chromium
 
