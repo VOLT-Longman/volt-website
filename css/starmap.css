@@ -199,3 +199,7 @@
 .volt-map-link-icon { width: 16px; height: 16px; flex: none; fill: var(--volt-orange-light); }
 .volt-map-link small { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }
 .volt-map-link .volt-map-link-guess { padding: 1px 6px; border: 1px solid var(--color-warning); border-radius: 999px; color: var(--color-warning); }
+
+.starmap-how-labels { margin-block: .5rem; }
+.starmap-how-labels summary { min-height: 44px; align-content: center; cursor: pointer; width: fit-content; padding-block: .5rem; font-weight: 600; }
+.starmap-how-labels .starmap-check { min-height: 44px; display: inline-flex; align-items: center; }

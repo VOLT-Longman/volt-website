@@ -676,3 +676,28 @@ test('English: one place is "1 place", not "1 places"', async ({ page }) => {
     await expect(page.locator('#starmap-app [data-over="site"]')).toContainText('Found at 1 place');
     await expect(page.locator('#starmap-app [data-over="site"]')).not.toContainText('1 places');
 });
+
+test('지도 이름표는 천체와 채광 지대를 숨기지 않고 종류별로 바뀐다', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await prepare(page);
+    await open3d(page);
+    const panel = page.locator('.starmap-how-labels');
+    await panel.locator('summary').click();
+    const planets = page.locator('.starmap-label.is-planet:visible');
+    const belts = page.locator('.starmap-label.is-region:visible');
+    await expect(planets.first()).toBeVisible();
+    await expect(belts).toHaveCount(0);
+    await panel.locator('[data-map-label="planet"]').uncheck();
+    await expect(planets).toHaveCount(0);
+    await panel.locator('[data-map-label="planet"]').check();
+    await expect(planets.first()).toBeVisible();
+    await panel.locator('[data-map-label="belt"]').check();
+    await expect(belts.first()).toBeVisible();
+    const label = belts.first();
+    const id = (await label.getAttribute('data-id')).slice(7);
+    await label.scrollIntoViewIfNeeded();
+    const bounds = await label.boundingBox();
+    await page.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+    await expect(page).toHaveURL(new RegExp('area=' + id));
+    await expect(page.locator('[data-over="area"]')).toBeVisible();
+});

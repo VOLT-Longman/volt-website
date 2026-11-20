@@ -53,6 +53,7 @@
             needs: '할 일로 거르기', need_trade: '무역', need_refinery: '정제', need_mine: '채광', need_mission: '임무',
             moreFilters: '종류로 거르기', showHidden: '게임 지도에 안 나오는 곳도 보기', kinds: '지도에 보일 종류',
             open: '{name} 펼치기', close: '{name} 접기', places: '{n}곳',
+            mapLabels: '지도 이름표', labelGate: '게이트웨이', labelBelt: '소행성 지대',
             kind_star: '항성', kind_planet: '행성', kind_moon: '위성', kind_city: '정착지', kind_station: '정거장', kind_jump: '점프 포인트',
             kind_lagrange: '라그랑주 점', kind_poi: '관심 지점', kind_outpost: '전초기지', kind_asteroid: '소행성', kind_nav: '이동 지점', kind_anomaly: '이상현상', kind_other: '그 밖',
             group_station: '우주 정거장 · 휴게소', group_jump: '점프 포인트', group_lagrange: '라그랑주 점', group_asteroid: '소행성 · 채광 구역', group_other: '그 밖',
@@ -123,6 +124,7 @@
             needs: 'Filter by activity', need_trade: 'Trade', need_refinery: 'Refining', need_mine: 'Mining', need_mission: 'Missions',
             moreFilters: 'Filter by type', showHidden: 'Also show places the in-game map hides', kinds: 'Types shown on the map',
             open: 'Expand {name}', close: 'Collapse {name}', places: '{n} places',
+            mapLabels: 'Map labels', labelGate: 'Gateways', labelBelt: 'Asteroid belts',
             kind_star: 'Star', kind_planet: 'Planet', kind_moon: 'Moon', kind_city: 'Settlement', kind_station: 'Station', kind_jump: 'Jump point',
             kind_lagrange: 'Lagrange point', kind_poi: 'Point of interest', kind_outpost: 'Outpost', kind_asteroid: 'Asteroid', kind_nav: 'Nav point', kind_anomaly: 'Anomaly', kind_other: 'Other',
             group_station: 'Stations and rest stops', group_jump: 'Jump points', group_lagrange: 'Lagrange points', group_asteroid: 'Asteroids and mining fields', group_other: 'Other',
@@ -203,6 +205,8 @@
 
     const st = { sys: null, focus: null, route: [], mark: [], area: [], site: null, measure: [], measuring: false, hidden: false, off: [], need: [], q: '', open: new Set(), sheet: false };
     const db = { index: null, textures: null, systems: new Map(), cargo: null, cargoState: '' };
+    const labelGroups = { planet: 'kind_planet', moon: 'kind_moon', gateway: 'labelGate', station: 'kind_station', belt: 'labelBelt' };
+    const hiddenLabels = new Set(['belt']);
     const ui = { mount: null, parts: null, phase: 'loading', error: null, flash: '', flashTimer: 0, view: 'idle', texFailed: false, token: 0, searchTimer: 0, searchAll: false };
     let viewer = null;
     let viewerModule = null;
@@ -391,6 +395,12 @@
             viewer = viewerModule.createViewer(ui.parts.view, {
                 label: mapLabel,
                 onPick: (id) => pick(id, { fromMap: true }),
+                onRegionPick: (id) => {
+                    st.area = [id];
+                    syncHash();
+                    drawOver();
+                    syncViewer();
+                },
                 onTextureError: () => { ui.texFailed = true; drawHud(); },
                 onContextLost: () => { stopViewer(); ui.view = 'lost'; drawHud(); },
             });
@@ -485,7 +495,7 @@
             stops: st.route.map((token, index) => ({ id: here(token), n: index + 1 })).filter((stop) => stop.id),
             paths: [...pathsFor(st.route, 'route'), ...(st.measure.length === 2 ? pathsFor(st.measure, 'measure') : [])],
             spots: (site?.spots || []).map((spot) => ({ pos: [spot[1], spot[2], spot[3]], at: spot[0], text: t('siteSpot') })),
-            rings: st.area,
+            rings: st.area, hiddenLabels,
             filter: { hidden: st.hidden, off: st.off, need: st.need },
         };
     }
@@ -704,6 +714,8 @@
                 : ui.view === 'loading' || ui.view === 'idle' ? `<p class="starmap-fallback is-wait" role="status">${esc(t('view3dLoading'))}</p>` : '';
         paint(ui.parts.hud, `${message}${tools}
             ${has3d ? `<p class="starmap-scale"><strong>${esc(t('scaleTitle'))}</strong> ${esc(t('scaleBody'))}</p>
+            <details class="starmap-how-labels"${ui.labelsOpen ? ' open' : ''}><summary>${esc(t('mapLabels'))}</summary>
+                <fieldset class="starmap-kinds" aria-label="${esc(t('mapLabels'))}">${Object.entries(labelGroups).map(([key, label]) => `<label class="starmap-check"><input type="checkbox" data-map-label="${key}"${hiddenLabels.has(key) ? '' : ' checked'}> <span>${esc(t(label))}</span></label>`).join('')}</fieldset></details>
             <details class="starmap-how"${ui.howOpen ? ' open' : ''}><summary>${esc(t('scaleHow'))} · ${esc(t('legend'))}</summary>
                 <ul class="starmap-how-list">${[1, 2, 3, 4, 5, 6, 7].map((n) => `<li>${esc(t(`scale${n}`))}</li>`).join('')}</ul>
                 <ul class="starmap-legend">${legend}<li><i class="starmap-key is-guide" aria-hidden="true"></i>${esc(t('legendGuide'))}</li><li><i class="starmap-key is-stem" aria-hidden="true"></i>${esc(t('legendStem'))}</li></ul></details>
@@ -1095,6 +1107,13 @@
     function onChange(event) {
         const input = event.target;
         if (ui.phase !== 'ready' || !input.matches?.('input[type="checkbox"]')) return;
+        const group = input.dataset.mapLabel;
+        if (Object.hasOwn(labelGroups, group)) {
+            if (input.checked) hiddenLabels.delete(group);
+            else hiddenLabels.add(group);
+            syncViewer();
+            return;
+        }
         ui.filtersOpen = true;
         if (input.dataset.filter === 'hidden') st.hidden = input.checked;
         else if (input.dataset.kind) st.off = input.checked ? st.off.filter((kind) => kind !== input.dataset.kind) : [...new Set([...st.off, input.dataset.kind])];
@@ -1115,6 +1134,7 @@
     }
     function onToggle(event) {
         if (event.target.classList?.contains('starmap-filters')) ui.filtersOpen = event.target.open;
+        if (event.target.classList?.contains('starmap-how-labels')) ui.labelsOpen = event.target.open;
         if (event.target.classList?.contains('starmap-how')) ui.howOpen = event.target.open;
     }
 

@@ -411,6 +411,7 @@ export function createViewer(host, options = {}) {
                 entry.derived = true;
                 entry.labelAt = new THREE.Vector3(radius * 0.74, 0, -radius * 0.67);
             } else continue;
+            entry.object.userData.regionId = region.id;
             entry.name = region.name;
             root.add(entry.object);
             regions.push(entry);
@@ -629,13 +630,16 @@ export function createViewer(host, options = {}) {
             if (state.selected === node.id) prio = 1000;
             // 표시·경로가 켜져 있으면 흐리게 그린 다른 곳의 이름표는 뺀다 (천체와 게이트웨이는 길잡이로 남긴다).
             const pinnedHere = marks.has(node.id) || stopIds.has(node.id) || state.selected === node.id;
+            const labelGroup = node.o.gate || node.kind === 'jump' ? 'gateway' : node.kind === 'asteroid' ? 'belt' : node.kind;
+            if (!pinnedHere && state.hiddenLabels?.has(labelGroup)) continue;
             if ((marks.size || stopIds.size) && !pinnedHere && !node.isBody && !node.o.gate) continue;
             const extra = node.isBody && count.get(node.id) ? ` · ${count.get(node.id)}` : '';
             defs.push({ id: node.id, node, text: label.text + extra, sub: state.selected === node.id ? label.sub : '', prio, body: node.isBody, strong: prio >= 800, cls: node.kind });
         }
         for (const region of world.regions) {
+            if (!region.hot && state.hiddenLabels?.has('belt')) continue;
             const label = options.label ? options.label({ name: region.name }) : { text: region.id };
-            defs.push({ id: `region:${region.id}`, region, text: label.text + (region.derived ? ' *' : ''), sub: '', prio: region.hot ? 780 : 230, body: false, strong: region.hot, cls: 'region' });
+            defs.push({ id: `region:${region.id}`, region, text: label.text + (region.derived ? ' *' : ''), sub: '', prio: region.hot ? 780 : 440, body: false, strong: region.hot, cls: 'region' });
         }
         for (const spot of world.spots || []) defs.push({ id: spot.id, spot, text: spot.text || '', sub: '', prio: 790, body: false, strong: true, cls: 'spot' });
         defs.sort((a, b) => b.prio - a.prio);
@@ -758,6 +762,9 @@ export function createViewer(host, options = {}) {
             const spots = def.body
                 ? [[x - width / 2, y + gap], [x - width / 2, y - gap - 18], [x + gap + 2, y - 9], [x - gap - 2 - width, y - 9]]
                 : [[x + gap, y - 9], [x - gap - width, y - 9], [x - width / 2, y - gap - 18], [x - width / 2, y + gap]];
+            if (def.region) {
+                for (const dy of [-28, 28, -46, 46]) spots.push([x - width / 2, y + dy]);
+            }
             let box = null;
             for (const [left, top] of spots) {
                 const candidate = [left, top, left + width, top + 18];
@@ -779,7 +786,7 @@ export function createViewer(host, options = {}) {
             }
             if (!box) continue;
             taken.push(box);
-            if (def.node) labelBoxes.push({ id: def.id, box });
+            if (def.node || def.region) labelBoxes.push({ id: def.id, box });
             placed++;
             used.add(def.id);
             const element = labelElement(def);
@@ -1045,6 +1052,15 @@ export function createViewer(host, options = {}) {
         return { x: event.clientX - rect.left, y: event.clientY - rect.top };
     }
     function onPointerDown(event) { press = { ...localPoint(event), at: performance.now(), id: event.pointerId }; }
+    const regionRay = new THREE.Raycaster();
+    function pickRegion(x, y) {
+        if (!world) return null;
+        regionRay.setFromCamera({ x: x / size.w * 2 - 1, y: 1 - y / size.h * 2 }, camera);
+        const distance = camera.position.distanceTo(controls.target);
+        regionRay.params.Line.threshold = distance * Math.tan(camera.fov * Math.PI / 360) * 8 / size.h;
+        const objects = world.regions.map(region => region.object).filter(object => object.visible);
+        return regionRay.intersectObjects(objects, false)[0]?.object.userData.regionId;
+    }
     function onPointerUp(event) {
         if (!press || press.id !== event.pointerId) return;
         const point = localPoint(event);
@@ -1053,7 +1069,11 @@ export function createViewer(host, options = {}) {
         press = null;
         if (moved > 6 || !quick) return;
         const id = pickAt(point.x, point.y);
-        if (id) options.onPick?.(id);
+        if (id && !id.startsWith('region:')) options.onPick?.(id);
+        else {
+            const region = id ? id.slice(7) : pickRegion(point.x, point.y);
+            if (region) options.onRegionPick?.(region);
+        }
     }
     function onPointerMove(event) {
         if (event.pointerType !== 'mouse' || press || !world) return;
