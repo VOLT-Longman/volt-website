@@ -564,3 +564,36 @@ test.describe('무역플래너 안정화 (P1-2)', () => {
         await ctx.close();
     });
 });
+
+
+test('모듈 자료가 늦게 도착해도 입력 중인 함선 이름과 새 후보가 유지된다', async ({ page }) => {
+    await mockApi(page);
+    let release;
+    const held = new Promise(resolve => { release = resolve; });
+    await page.route('**/data/trade/cargo.json*', async route => {
+        await held;
+        await route.continue();
+    });
+    await gotoSection(page, '#trade-planner');
+    const input = page.locator('#logistics-ship-search');
+    await input.fill('galaxy');
+    await page.locator('[data-planner-ship-id="galaxy"]').click();
+    await input.fill('retaliator');
+    release();
+    await expect(page.locator('#planner-cargo-module')).toBeVisible();
+    await expect(input).toHaveValue('retaliator');
+    await page.locator('[data-planner-ship-id="retaliator"]').click();
+    await page.locator('#planner-cargo-module').selectOption('retaliator-both');
+    await expect(page.locator('#logistics-cargo')).toHaveValue('74');
+});
+
+
+test('새 기기에서 계정에 저장한 리탈리에이터 모듈과 운송량이 자동 복원된다', async ({ page }) => {
+    await mockApi(page);
+    const planner = { shipId: 'retaliator', cargo: '60', cargoConfig: 'retaliator-both' };
+    await page.route('**/api/me/preferences', route => route.fulfill({ json: { preferences: { favorites: [], planner } } }));
+    await gotoSection(page, '#trade-planner');
+    await expect(page.locator('#logistics-ship')).toHaveValue('retaliator');
+    await expect(page.locator('#planner-cargo-module')).toHaveValue('retaliator-both');
+    await expect(page.locator('#logistics-cargo')).toHaveValue('60');
+});

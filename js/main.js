@@ -324,6 +324,7 @@
             set('logistics-ship-search', state.shipSearch);
             set('logistics-cargo', state.cargo);
             syncPlannerSelectedShip(state.shipId);
+            if (state.shipId && document.getElementById('trade-planner')?.classList.contains('active') && canUseCommunityTools()) loadPlannerCargoOptions();
         } catch (error) {
             console.warn('Invalid planner state', error);
             localStorage.removeItem(preferenceKey(PLANNER_STORAGE_KEY));
@@ -721,14 +722,24 @@
 
     let plannerCargoShips = new Map();
     let plannerCargoConfig = '';
+    let loadingPlannerCargo = false;
     async function loadPlannerCargoOptions() {
-        if (plannerCargoShips.size) return;
+        if (loadingPlannerCargo || plannerCargoShips.size) return;
+        loadingPlannerCargo = true;
         try {
             const catalog = await window.VOLT_HELPER.loadJson('/data/trade/cargo.json');
             plannerCargoShips = new Map(catalog.ships.filter(s => s.configurations?.length).map(s => [s.id, s]));
             renderLogisticsShipOptions();
-            syncPlannerSelectedShip(document.getElementById('logistics-ship')?.value);
+            const input = document.getElementById('logistics-ship-search');
+            const searching = input?.getAttribute('aria-expanded') === 'true';
+            const focusedOption = document.activeElement?.dataset.plannerShipId;
+            syncPlannerSelectedShip(document.getElementById('logistics-ship')?.value, searching);
+            if (searching) {
+                renderPlannerShipResults(input.value);
+                if (focusedOption) document.querySelector(`[data-planner-ship-id="${CSS.escape(focusedOption)}"]`)?.focus({ preventScroll: true });
+            }
         } catch { /* The standard ship picker and manual cargo input remain available. */ }
+        finally { loadingPlannerCargo = false; }
     }
 
     function showPlannerCargoOptions(ship) {
@@ -752,12 +763,8 @@
     }
 
     function isPlannerEligibleShip(ship) {
-        // ON: '미구현' 태그 제거(D7). implemented!==false가 미출시(unreleased 31=implemented false)를
-        // 그대로 배제하므로 태그 없이도 게이트 동일. OFF는 레거시 태그 게이트 유지.
         if (isRsiOfficialShip(ship)) return false;
-        const releasedOk = true;
         return shipImplemented(ship)
-            && releasedOk
             && (shipCargoValue(ship) > 0 || plannerCargoShips.has(ship.id));
     }
 
@@ -1160,7 +1167,7 @@
             if (!publicTools.community && Date.now() - authCheckedAt > 60000) setupAuthStatus({ background: true });
             if (!canUseCommunityTools()) return;
         }
-        if (id === 'trade-planner' && document.getElementById('logistics-ship')?.value) loadPlannerCargoOptions();
+        if (id === 'trade-planner' && getPlannerStateFromStorage().shipId) loadPlannerCargoOptions();
         const render = LAZY_SECTIONS[id];
         if (!render || renderedLazySections.has(id)) return;
         renderedLazySections.add(id);
@@ -1303,7 +1310,7 @@
         showToast(i18nT('planner.resetToast', '무역플래너 입력을 초기화했습니다.'));
     }
 
-    function syncPlannerSelectedShip(shipId) {
+    function syncPlannerSelectedShip(shipId, keepSearch = false) {
         const ship = shipById.get(shipId);
         if (!ship || !isPlannerEligibleShip(ship)) {
             showPlannerCargoOptions(null);
@@ -1312,7 +1319,7 @@
             return;
         }
         const input = document.getElementById('logistics-ship-search');
-        if (input) input.value = ship.name;
+        if (input && !keepSearch) input.value = ship.name;
         renderPlannerShipSummary(ship);
     }
 
@@ -1908,7 +1915,8 @@
 
     function getPlannerStateFromStorage() {
         try {
-            return JSON.parse(localStorage.getItem(preferenceKey(PLANNER_STORAGE_KEY)) || '{}');
+            const state = JSON.parse(localStorage.getItem(preferenceKey(PLANNER_STORAGE_KEY)) || '{}');
+            return state && typeof state === 'object' && !Array.isArray(state) ? state : {};
         } catch (error) {
             console.warn('Invalid planner state', error);
             localStorage.removeItem(preferenceKey(PLANNER_STORAGE_KEY));

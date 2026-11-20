@@ -7,7 +7,7 @@ const PREFERENCES_RATE_LIMIT = { limit: 30, windowSeconds: 60 };
 
 const MAX_JSON_LENGTH = 24000;
 const MAX_PLANNER_FIELD_LENGTH = 160;
-const PLANNER_KEYS = new Set(['shipId', 'shipSearch', 'cargo', 'opType', 'crew', 'risk', 'travelTime']);
+const PLANNER_KEYS = new Set(['shipId', 'shipSearch', 'cargo', 'cargoConfig', 'opType', 'crew', 'risk', 'travelTime']);
 
 export async function onRequest({ request, env }) {
   if (request.method === 'GET') return getPreferences(request, env);

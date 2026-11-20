@@ -3031,7 +3031,8 @@ body.nav-trade-open::before {
     display: flex;
     flex-direction: column;
     gap: 16px;
- display: flex; flex-direction: column; gap: 16px; margin-top: 56px; }
+    margin-top: 56px;
+}
 .schedule-item {
     display: flex; gap: 32px; align-items: flex-start;
     background: var(--color-bg-card); border: 1px solid var(--color-border);
@@ -3064,12 +3065,9 @@ body.nav-trade-open::before {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 36px 40px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     position: relative;
     overflow: hidden;
-
-    background: var(--color-bg-card); border: 1px solid var(--color-border);
-    border-radius: var(--radius-md); padding: 36px 40px; margin-bottom: 20px;
     border-left: 4px solid var(--volt-orange);
 }
 .policy-section-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; letter-spacing: var(--tracking-snug); color: var(--volt-orange); }
@@ -4984,10 +4982,8 @@ body:has(.loadout-picker[aria-modal="true"]) .pwa-install-prompt { display: none
     display: grid;
     grid-template-columns: minmax(220px, 1.3fr) minmax(120px, 0.7fr) minmax(160px, 1fr) minmax(110px, 0.7fr) minmax(110px, 0.7fr) auto;
     gap: 14px;
-    align-items: end;
-    margin-top: 24px;
-
     align-items: start;
+    margin-top: 24px;
 }
 
 .partner-fleets-grid {

@@ -106,7 +106,8 @@ test('잘못된 저장 요청은 기존 설정을 비우지 않고 거부한다'
   const env = { ...TEST_ENV, DB: database() };
   const cookie = await memberCookie(member, env);
   const url = 'https://volt.ceo/api/me/preferences';
-  const saved = await preferences({ env, request: jsonRequest(url, { method: 'PUT', cookie, body: { favorites: ['asgard'], planner: { cargo: '96' } } }) });
+  const planner = { shipId: 'retaliator', cargo: '74', cargoConfig: 'retaliator-both' };
+  const saved = await preferences({ env, request: jsonRequest(url, { method: 'PUT', cookie, body: { favorites: ['asgard'], planner } }) });
   assert.equal(saved.status, 200);
   const broken = new Request(url, { method: 'PUT', headers: { 'Content-Type': 'application/json', Cookie: cookie }, body: '{"favorites":[' });
   assert.equal((await preferences({ env, request: broken })).status, 400);
@@ -116,7 +117,7 @@ test('잘못된 저장 요청은 기존 설정을 비우지 않고 거부한다'
   }
   const row = await env.DB.prepare('SELECT favorites_json, planner_json FROM user_preferences').first();
   assert.deepEqual(JSON.parse(row.favorites_json), ['asgard']);
-  assert.deepEqual(JSON.parse(row.planner_json), { cargo: '96' });
+  assert.deepEqual(JSON.parse(row.planner_json), planner);
   // 의도적으로 비우는 정상 요청(빈 배열·빈 객체)은 계속 허용한다.
   assert.equal((await preferences({ env, request: jsonRequest(url, { method: 'PUT', cookie, body: { favorites: [], planner: {} } }) })).status, 200);
 });

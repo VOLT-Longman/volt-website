@@ -7,7 +7,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 // Preview hosts pass --port; Playwright keeps the existing default.
 const portFlag = process.argv.indexOf('--port');
-const port = Number(portFlag >= 0 ? process.argv[portFlag + 1] : process.env.PORT) || 8787;
+const port = Number((portFlag >= 0 ? process.argv[portFlag + 1] : process.env.PORT) || 8787);
 
 const MIME_TYPES = {
     '.html': 'text/html; charset=utf-8',
@@ -27,27 +27,34 @@ const MIME_TYPES = {
     '.woff2': 'font/woff2',
 };
 
-const server = http.createServer((req, res) => {
-    const urlPath = decodeURIComponent(new URL(req.url, `http://localhost:${port}`).pathname);
+const server = http.createServer(async (req, res) => {
+    let urlPath;
+    try {
+        urlPath = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+        if (urlPath.includes('\0')) throw new Error('Invalid path');
+    } catch {
+        res.writeHead(400);
+        res.end('Bad Request');
+        return;
+    }
     let filePath = path.normalize(path.join(root, urlPath));
-    if (!filePath.startsWith(root)) {
+    const relative = path.relative(root, filePath);
+    if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
         res.writeHead(403);
         res.end('Forbidden');
         return;
     }
-    if (urlPath === '/' || (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory())) {
-        filePath = path.join(filePath, 'index.html');
-    }
-    fs.readFile(filePath, (error, content) => {
-        if (error) {
-            res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-            res.end('Not Found');
-            return;
-        }
+    try {
+        const stat = await fs.promises.stat(filePath);
+        if (stat.isDirectory()) filePath = path.join(filePath, 'index.html');
+        const content = await fs.promises.readFile(filePath);
         const type = MIME_TYPES[path.extname(filePath).toLowerCase()] || 'application/octet-stream';
         res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-store' });
         res.end(content);
-    });
+    } catch {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('Not Found');
+    }
 });
 
 server.on('error', (error) => {
@@ -75,5 +82,5 @@ function shutdown() {
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, shutdown);
 
 server.listen(port, () => {
-    console.log(`VOLT dev server: http://localhost:${port}`);
+    console.log(`VOLT dev server: http://localhost:${server.address().port}`);
 });
