@@ -41,7 +41,7 @@
             bySig: '신호값으로 찾기', byRef: '정제소 찾기', harvest: '채집', salvage: '잔해 수거', activities: '할 수 있는 일',
             layout: '목록 모양', layTiles: '묶음', layTable: '표', layMatrix: '광물 × 장소',
             typeChips: '장소 종류', sysChips: '성계', chipHelp: '누를 때마다 포함 → 제외 → 상관없음으로 바뀝니다.',
-            tPlanet: '행성', tMoon: '위성', tBelt: '소행성대', tLagrange: '라그랑주 지점', tCluster: '소행성 무리', tCave: '동굴', tEvent: '행사', tSite: '시설',
+            tPlanet: '행성', tMoon: '위성', tBelt: '소행성대', tLagrange: '라그랑주 포인트', tCluster: '소행성 무리', tCave: '동굴', tEvent: '행사', tSite: '시설',
             type: '종류', share: '주소 복사', csv: 'CSV 내려받기', copyTable: '표 복사', tableCopied: '표를 복사했습니다. 표 계산 프로그램에 붙여 넣을 수 있습니다.',
             tableCopyFailed: '표를 복사하지 못했습니다.', csvDone: 'CSV 파일을 만들었습니다. 내려받기가 시작되지 않으면 "표 복사"를 써 주세요.',
             usedBy: '게임 안 장소', sharedNote: '이 목록은 위 장소들이 함께 씁니다. 장소마다 따로 정해진 값이 아니며, 목록 이름은 우리가 붙인 것입니다.',
