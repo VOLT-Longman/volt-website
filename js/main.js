@@ -1653,7 +1653,7 @@
             const gate = section.querySelector('.helper-access');
             if (allowed) { gate.replaceChildren(); continue; }
             const message = document.createElement('p');
-            if (authStatus === 'loading') message.textContent = en ? 'Checking fleet membership…' : '함대원 권한을 확인하고 있습니다.';
+            if (authStatus === 'loading') message.textContent = en ? 'Opening this screen…' : '화면을 여는 중입니다…';
             else if (authStatus === 'error') message.textContent = en ? 'Could not check access. Try again shortly.' : '권한을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.';
             else message.textContent = authState.loggedIn ? (en ? 'The fleet member role is required.' : '함대원 역할이 필요합니다.') : (en ? 'Fleet members only.' : '함대원 전용 기능입니다.');
             gate.replaceChildren(message);

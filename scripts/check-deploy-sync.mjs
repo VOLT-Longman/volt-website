@@ -7,14 +7,14 @@
 //   node scripts/check-deploy-sync.mjs                 # https://www.volt.ceo 기준
 //   node scripts/check-deploy-sync.mjs https://staging.example.com
 //
-// 종료 코드: 동기화 일치 0 / 불일치 1 / 확인 불가(네트워크·챌린지) 2.
+// 종료 코드: 확인 성공 0 / 버전 불일치 또는 배포 대기 1 / 확인 불가·배포 실패 2.
 
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { checkPagesDeployment } from './check-pages-deployment.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const targetBase = (process.argv[2] || 'https://www.volt.ceo').replace(/\/+$/, '');
 
 // 저장소 기준 버전: sw.js의 CACHE_VERSION이 단일 진실원본(update-cache-version.js가 일괄 갱신).
 function readRepoVersion() {
@@ -35,7 +35,7 @@ function looksLikeBotChallenge(html) {
   return /Just a moment|cf-mitigated|challenges\.cloudflare\.com/i.test(html);
 }
 
-async function main() {
+export async function checkDeploySync({ targetBase = 'https://www.volt.ceo', pagesSha, fetchImpl = fetch } = {}) {
   const repoVersion = readRepoVersion();
   console.log(`저장소 기준(sw.js CACHE_VERSION): ${repoVersion}`);
   console.log(`라이브 대상: ${targetBase}/`);
@@ -43,7 +43,7 @@ async function main() {
   let res;
   let html;
   try {
-    res = await fetch(`${targetBase}/`, {
+    res = await fetchImpl(`${targetBase}/`, {
       headers: { Accept: 'text/html', 'User-Agent': 'volt-deploy-sync-check' },
       redirect: 'follow',
       signal: AbortSignal.timeout(15000),
@@ -55,6 +55,15 @@ async function main() {
     return 2;
   }
 
+  if (targetBase === 'https://www.volt.ceo' && pagesSha
+      && !res.redirected && res.status === 403 && res.headers.get('cf-mitigated') === 'challenge') {
+    if (await checkPagesDeployment(pagesSha, fetchImpl)) {
+      console.log(`::warning::Cloudflare가 운영 배포를 확인했습니다 (${pagesSha}). 봇 차단으로 운영 주소의 HTML 버전은 직접 확인하지 못했습니다.`);
+      return 0;
+    }
+    console.log('같은 커밋의 Cloudflare 운영 배포 완료 기록을 기다립니다.');
+    return 1;
+  }
   if (looksLikeBotChallenge(html)) {
     console.error(`\n⚠️  확인 불가: 라이브가 Cloudflare 봇 챌린지를 반환했습니다(status ${res.status}).`);
     console.error('   실제 브라우저가 있는 운영자 PC에서 실행하거나, 페이지 소스에서 ?v= 를 직접 확인하세요.');
@@ -91,7 +100,11 @@ async function main() {
   return 1;
 }
 
-main().then((code) => { process.exitCode = code; }).catch((error) => {
-  console.error(error.message);
-  process.exitCode = 2;
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try {
+    process.exitCode = await checkDeploySync({ targetBase: process.argv[2]?.replace(/\/+$/, ''), pagesSha: process.env.VOLT_VERIFY_PAGES_SHA });
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 2;
+  }
+}

@@ -46,7 +46,7 @@ Pages 빌드 명령은 `node scripts/check-release-gate.mjs`다. `CF_PAGES_COMMI
 
 이 명령은 Pages Git 빌드에 적용되며 직접 업로드나 별도의 배포 경로에 대한 접근 통제를 대체하지 않는다. 운영 브랜치를 바꾸면 스크립트도 함께 수정해야 한다. main 이외의 미리보기에는 이 운영 게이트를 적용하지 않는다. 과거 버전으로 재배포할 때 이 스크립트가 없는 커밋은 해당 빌드 명령을 사용할 수 없으므로, 검증된 현재 코드에서 수정·배포하는 방식을 권장한다.
 
-`Deploy Verify`도 같은 Smoke Tests가 성공한 후 해당 커밋을 체크아웃해 운영 캐시 버전을 확인한다. Pages가 먼저 공개되고 테스트가 나중에 실패하던 순서를 보완한다.
+`Deploy Verify`는 Smoke Tests가 통과하면 운영 주소의 HTML 버전을 해당 커밋과 대조한다. Cloudflare가 봇 확인 응답(403과 `cf-mitigated: challenge`)을 보낸 경우에만 공식 Cloudflare 앱이 기록한 같은 main 커밋의 `volt-website` 배포 성공을 대조한다. 이 경로에서는 운영 주소의 HTML을 직접 확인하지 못했다는 경고를 남긴다. 일반 403, 서버 오류, 버전 불일치는 배포 기록으로 대신하지 않는다. 운영자 PC에서는 `node scripts/check-deploy-sync.mjs`로 운영 주소를 직접 확인할 수 있다.
 
 ## 기존 갤러리 썸네일
 

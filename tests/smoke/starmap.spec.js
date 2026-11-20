@@ -104,9 +104,23 @@ for (const [name, options, text, links] of [['로그아웃', { loggedIn: false }
 
 test('공개 지도는 인증 서버가 응답하지 않아도 성계를 바꿀 수 있다', async ({ page }) => {
     const tracker = await prepare(page, { loggedIn: false });
-    await page.route('**/api/tool-access', route => route.fulfill({ json: { community: true, helpers: true } }));
+    let releasePolicy;
+    const policyReady = new Promise(resolve => { releasePolicy = resolve; });
+    await page.route('**/api/tool-access', async route => {
+        await policyReady;
+        await route.fulfill({ json: { community: true, helpers: true } });
+    });
     await page.route(/\/auth\/me(?:\?.*)?$/, route => route.fulfill({ status: 503, json: {} }));
-    await open3d(page);
+    try {
+        await page.goto('/?lang=ko#starmap', { waitUntil: 'domcontentloaded' });
+        const gate = page.locator('#starmap .helper-access');
+        await expect(gate).toHaveText('화면을 여는 중입니다…');
+        await expect(gate.getByRole('link')).toHaveCount(0);
+        expect(tracker.requests.filter(url => PROTECTED.test(url))).toEqual([]);
+    } finally {
+        releasePolicy();
+    }
+    await expect.poll(async () => (await debug(page)).viewer?.ready, { timeout: 30000 }).toBe(true);
     for (const id of ['pyro', 'nyx', 'stanton']) {
         await page.locator('.starmap-tab[data-id="' + id + '"]').click();
         await expect(page.locator('.starmap-tab[aria-pressed="true"]')).toHaveAttribute('data-id', id);
