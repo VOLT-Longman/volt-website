@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
-const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
+const { mockMapTextures, mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
 // 성계지도(#starmap): 함대원 전용 3D 지도, 목록·검색, 정보 칸, 다른 화면에서 들어오는 주소(focus·route·mark·area).
 // 기대값(거리, 이름, 연결)은 data/starmap/*.json 에서 직접 계산한다.
@@ -26,7 +26,7 @@ const STRICT_CSP = [
 ].join('; ');
 const PROTECTED = /\/data\/starmap\/|\/assets\/models\/starmap\/|starmap-viewer\.js|\/assets\/vendor\/three-/;
 // 2x2 PNG. 게임 그림은 Git 에 없으므로, 그림 폴더가 없는 곳(CI)에서는 이 그림으로 대신한다.
-const TINY_PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP8z8DAwMDAxMDAwMDAAAANHQEDasKb6QAAAABJRU5ErkJggg==', 'base64');
+
 
 // WebGL 이 필요한 테스트는 소프트웨어 렌더러를 쓴다 (총기 개조 화면 테스트와 같다).
 test.use({ launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] } });
@@ -41,10 +41,7 @@ async function prepare(page, options = { fleet: true }) {
         const response = await route.fetch();
         await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': STRICT_CSP } });
     });
-    await page.route('**/assets/models/starmap/tex/**', (route) => {
-        const file = path.join(root, new URL(route.request().url()).pathname);
-        return fs.existsSync(file) ? route.fallback() : route.fulfill({ contentType: 'image/png', body: TINY_PNG });
-    });
+    await mockMapTextures(page);
     await mockApi(page, options);
     await page.addInitScript(() => {
         window.__cspViolations = [];

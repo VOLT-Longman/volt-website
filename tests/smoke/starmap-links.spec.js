@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
-const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
+const { mockMapTextures, mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
 // "지도에서 보기" — 무역·임무·채광 화면에서 성계지도(#starmap)로 들어가는 링크와, 지도 정보 칸에서 그 화면들로 돌아가는 링크.
 // 기대값(어느 장소가 지도에 있는지)은 data/starmap/links.json 과 각 화면의 자료에서 직접 계산한다.
@@ -26,7 +26,7 @@ const STRICT_CSP = [
     "img-src 'self' data: https:", "script-src 'self' https://static.cloudflareinsights.com", "style-src 'self'",
     "connect-src 'self' https://cloudflareinsights.com", "font-src 'self' data:", "object-src 'none'",
 ].join('; ');
-const TINY_PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP8z8DAwMDAxMDAwMDAAAANHQEDasKb6QAAAABJRU5ErkJggg==', 'base64');
+
 const HOUR = 3600;
 const ALL_BOXES = [1, 2, 4, 8, 16, 24, 32];
 const C2 = { v: 1, ship: 'c2-hercules', budget: null, system: null, maxAgeDays: 3, time: {}, boxes: null };
@@ -78,10 +78,7 @@ async function prepare(page, { lang = 'ko', access = { fleet: true } } = {}) {
         const response = await route.fetch();
         await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': STRICT_CSP } });
     });
-    await page.route('**/assets/models/starmap/tex/**', (route) => {
-        const file = path.join(root, new URL(route.request().url()).pathname);
-        return fs.existsSync(file) ? route.fallback() : route.fulfill({ contentType: 'image/png', body: TINY_PNG });
-    });
+    await mockMapTextures(page);
     await mockApi(page, access);
     await page.route('**/api/uex/market**', (route) => route.fulfill({ json: { status: 'ok', data: data.market, meta } }));
     await page.route('**/api/uex/terminals**', (route) => route.fulfill({ json: { status: 'ok', data: data.terminals, meta } }));

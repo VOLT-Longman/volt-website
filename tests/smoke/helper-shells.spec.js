@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { mockApi, gotoSection } = require('./helpers');
+const { mockMapTextures, mockApi, gotoSection } = require('./helpers');
 
 // 도우미 도구 섹션의 틀(내비게이션 → 섹션 → 마운트 요소)이 한국어·영어, 375 · 1440 px에서
 // 콘솔 오류와 CSP 위반 없이 열리는지 본다. 화면 내용 자체는 화면별 테스트가 맡는다.
@@ -32,6 +32,7 @@ async function prepare(page) {
         const response = await route.fetch();
         await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': STRICT_CSP } });
     });
+    await mockMapTextures(page);
     await mockApi(page, { fleet: true });
     await page.addInitScript(() => {
         window.__cspViolations = [];

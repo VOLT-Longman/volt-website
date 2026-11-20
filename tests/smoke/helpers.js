@@ -17,6 +17,17 @@ const TEST_USER = {
 };
 
 // Feature tests default to a community member. Guest/access tests opt out explicitly.
+const TINY_PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP8z8DAwMDAxMDAwMDAAAANHQEDasKb6QAAAABJRU5ErkJggg==', 'base64');
+const textureIndex = require('../../data/starmap/textures.json');
+const texturePaths = new Set(Object.values(textureIndex.textures).flatMap(entry => Object.values(entry.files).map(file => '/' + file.file)));
+async function mockMapTextures(page) {
+    await page.route('**/assets/models/starmap/tex/**', route => {
+        const pathname = new URL(route.request().url()).pathname;
+        if (!texturePaths.has(pathname) || fs.existsSync(require('node:path').join(__dirname, '../..', pathname))) return route.fallback();
+        return route.fulfill({ contentType: 'image/png', body: TINY_PNG });
+    });
+}
+
 async function mockApi(page, { loggedIn = true, community = loggedIn, configured = true, fleet = false, roles = TEST_USER.roles } = {}) {
     await page.route('**/api/tool-access', route => route.fulfill({ json: { community: false, helpers: false } }));
     await page.route(/\/auth\/me(?:\?.*)?$/, (route) => route.fulfill({
@@ -58,4 +69,4 @@ async function gotoSection(page, hash) {
     await page.waitForSelector('#loading-splash', { state: 'hidden' });
 }
 
-module.exports = { mockApi, trackConsoleErrors, gotoSection, TEST_USER, mockAdminShipSource };
+module.exports = { mockMapTextures, mockApi, trackConsoleErrors, gotoSection, TEST_USER, mockAdminShipSource };
