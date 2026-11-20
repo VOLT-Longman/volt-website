@@ -130,6 +130,15 @@
 .mining-app .mining-recent { display: block; margin-top: 2px; font-size: 12px; font-weight: 400; color: var(--color-text-secondary); white-space: nowrap; }
 .mining-app .mining-recent strong { color: var(--color-text-primary); }
 .mining-app .mining-table thead .mining-recent { white-space: normal; }
+.mining-table[data-mining-csv="minerals"] .volt-sort-head { white-space: normal; }
+.mining-table .mining-price-column .volt-sort-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    gap: 2px 4px;
+}
+.mining-table .mining-price-column .volt-sort-arrow { grid-area: 1 / 2; }
+.mining-table .mining-price-column .mining-recent { grid-column: 1 / -1; }
 .mining-app .mining-csv-only { display: none; }
 /* 성계지도에서 넘어온 정제소 줄 (#mining?tab=ref&ref=<id>) */
 .mining-app .mining-ref-table tbody tr.is-picked, .mining-app .mining-ref-table tbody tr.is-picked th { background: #3a2019; }
@@ -139,5 +148,15 @@
     .mining-app .mining-columns:has([data-mining-csv="minerals"]) {
         grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
     }
+    .mining-list:has([data-mining-csv="minerals"]) { container-type: inline-size; }
     .mining-app [data-mining-csv="minerals"] .mining-recent { white-space: normal; }
+}
+@container (max-width: 880px) {
+    .mining-table[data-mining-csv="minerals"] { table-layout: fixed; }
+    .mining-table[data-mining-csv="minerals"] :is(th, td) { padding-inline: 5px; overflow-wrap: anywhere; }
+    .mining-table[data-mining-csv="minerals"] th:nth-child(1) { width: 22%; }
+    .mining-table[data-mining-csv="minerals"] th:nth-child(2) { width: 17%; }
+    .mining-table[data-mining-csv="minerals"] th:nth-child(3) { width: 17%; }
+    .mining-table[data-mining-csv="minerals"] .mining-price-column { width: 24%; white-space: normal; }
+    .mining-table[data-mining-csv="minerals"] .mining-tag { max-width: 100%; white-space: normal; }
 }
