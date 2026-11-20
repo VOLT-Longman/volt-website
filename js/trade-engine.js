@@ -220,6 +220,7 @@
             system: typeof source.system === 'string' && source.system ? source.system : null,
             maxAgeDays: isNum(source.maxAgeDays) && source.maxAgeDays > 0 ? source.maxAgeDays : 3,
             boxes: cleanBoxes(source.boxes),
+            cargoConfig: typeof source.cargoConfig === 'string' ? source.cargoConfig : '',
             capacityScu: isNum(source.capacityScu) && source.capacityScu > 0 ? Math.floor(source.capacityScu) : null,
             time: timeSettings(source.time),
             now: isNum(source.now) ? source.now : Date.now(),
@@ -494,16 +495,26 @@
      *             drive, driveId, tank, deck, ground, override, sizes }
      * 화물칸을 모르는 함선(scu 없음)은 known:false, capacity:null.
      */
+    function cargoOptions(ship, lang) {
+        if (!ship?.configurations?.length) return [];
+        const labels = lang === 'en'
+            ? { stock: 'No cargo module', cargo: 'Cargo module fitted', front: 'Front module', rear: 'Rear module', both: 'Front and rear modules' }
+            : { stock: '카고 모듈 없음', cargo: '카고 모듈 장착', front: '전방 모듈', rear: '후방 모듈', both: '전방 + 후방 모듈' };
+        return [{ key: '', scu: ship.scu }, ...ship.configurations].map(c => ({
+            key: c.key, scu: c.scu, label: labels[c.key ? c.key.slice(ship.id.length + 1) : 'stock'] + ' · ' + c.scu + ' SCU',
+        }));
+    }
     function shipProfile(model, settingsInput) {
         const s = settings(settingsInput);
         const enabled = s.boxes || STANDARD_BOXES;
-        const key = [s.ship, enabled.join('.'), s.capacityScu || ''].join('|');
+        const key = [s.ship, enabled.join('.'), s.capacityScu || '', s.cargoConfig].join('|');
         const cached = model.cache.profile.get(key);
         if (cached) return cached;
         const ship = s.ship ? model.ships.get(s.ship) : null;
+        const hold = ship?.configurations?.find(c => c.key === s.cargoConfig) || ship;
         const driveId = ship?.qd || null;
         const profile = {
-            id: s.ship, exists: Boolean(ship), known: false, scu: ship && isNum(ship.scu) ? ship.scu : null, capacity: null, slots: [],
+            id: s.ship, exists: Boolean(ship), known: false, scu: hold && isNum(hold.scu) ? hold.scu : null, capacity: null, slots: [],
             maxBox: null, minBox: null, driveId, drive: driveId ? model.drives[driveId] || null : null,
             tank: ship && isNum(ship.qt) ? ship.qt : null, deck: ship?.deck === 1, ground: ship?.k === 'g', override: false, sizes: enabled, capCache: new Map(),
         };
@@ -514,9 +525,9 @@
             addSlot(slots, top, 1, Math.floor(s.capacityScu / top));
             decompose(slots, s.capacityScu % top, 1);
             profile.known = true;
-        } else if (ship && isNum(ship.scu)) {
+        } else if (hold && isNum(hold.scu)) {
             profile.known = true;
-            for (const grid of ship.g || []) {
+            for (const grid of hold.g || []) {
                 const minBox = grid.minBox || 1;
                 const sizes = enabled.filter((size) => size <= grid.box && size >= minBox).sort((a, b) => b - a);
                 if (!sizes.length) continue;
@@ -1633,7 +1644,7 @@
         state: { get, set, reset, subscribe, defaults: DEFAULTS },
         settings, timeSettings, ageSeconds, ageLevel,
         travel: { STATUS: TRAVEL_MODEL_STATUS, trapezoidSeconds, quantumTravel, distanceMeters },
-        buildModel, shipProfile: (model, settingsInput) => publicProfile(shipProfile(model, settingsInput)),
+        buildModel, cargoOptions, shipProfile: (model, settingsInput) => publicProfile(shipProfile(model, settingsInput)),
         splitBoxes: (model, settingsInput, scu, sizes) => splitBoxes(shipProfile(model, settingsInput), scu, sizes),
         travelBetween, legality: (model, commodityId, fromId, toId) => {
             const commodity = model.commodities.get(Number(commodityId));

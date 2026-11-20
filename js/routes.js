@@ -869,7 +869,7 @@
 
     // 빈 배로 가는 구간 (시간만). 함선과 시간 설정이 같으면 다시 묻지 않는다.
     function emptyLeg(s, from, to) {
-        const key = `${s.ship}|${s.capacityScu}|${JSON.stringify(s.time)}|${from}.${to}`;
+        const key = `${s.ship}|${s.cargoConfig}|${s.capacityScu}|${JSON.stringify(s.time)}|${from}.${to}`;
         if (!emptyLegs.has(key)) {
             if (emptyLegs.size > 20000) emptyLegs.clear();
             const route = evalLeg(s, from, to, [NO_GOOD]);
@@ -891,7 +891,7 @@
     }
 
     function settingsKey(s) {
-        return [modelRev, s.ship, s.budget, s.maxAgeDays, s.boxes, s.capacityScu, s.time];
+        return [modelRev, s.ship, s.cargoConfig, s.budget, s.maxAgeDays, s.boxes, s.capacityScu, s.time];
     }
 
     const timeBucket = (s) => Math.floor(s.now / 600000); // 가격 나이 기준이 움직이므로 10분마다 다시 계산한다
@@ -1156,7 +1156,7 @@
         const s = shared();
         const o = opt();
         return {
-            ship: s.ship, b: s.budget, sys: s.system,
+            ship: s.ship, cm: s.cargoConfig || null, b: s.budget, sys: s.system,
             age: s.maxAgeDays === H.DEFAULT_PRICE_AGE_DAYS ? null : s.maxAgeDays,
             bx: s.boxes ? s.boxes.join('.') : null,
             tm: timeKey(s.time) || null,
@@ -1179,7 +1179,7 @@
         const goods = number(source.g);
         const link = {
             state: {
-                ship: source.ship, budget: number(source.b),
+                ship: source.ship, cargoConfig: typeof source.cm === 'string' ? source.cm : '', budget: number(source.b),
                 system: typeof source.sys === 'string' && /^[\w -]{1,40}$/.test(source.sys) ? source.sys : null,
                 maxAgeDays: number(source.age) > 0 ? number(source.age) : H.DEFAULT_PRICE_AGE_DAYS,
                 boxes: boxes.length && boxes.length < E.STANDARD_BOXES.length ? boxes : null,
@@ -1192,7 +1192,7 @@
             },
         };
         const own = E.state.get();
-        const shape = (state, options) => JSON.stringify([state.ship, state.budget, state.system, state.maxAgeDays, state.boxes ? [...state.boxes].sort((a, b) => a - b) : null, timeKey(state.time),
+        const shape = (state, options) => JSON.stringify([state.ship, state.cargoConfig || '', state.budget, state.system, state.maxAgeDays, state.boxes ? [...state.boxes].sort((a, b) => a - b) : null, timeKey(state.time),
             options.goods, options.legalOnly, options.returnTrip, options.avoidFull, options.capacityScu]);
         return shape(link.state, link.prefs) === shape(own, prefs) ? null : link;
     }
@@ -1242,7 +1242,7 @@
         if (!model) return option('', t('shipNone'), true);
         const ships = E.listShips(model).map((ship) => ({ ...ship, label: shipName(ship.id) }));
         ships.sort((a, b) => a.label.localeCompare(b.label, H.lang()));
-        const withHold = ships.filter((ship) => ship.scu > 0);
+        const withHold = ships.filter((ship) => ship.scu > 0 || model.ships.get(ship.id)?.configurations?.length);
         const unknown = ships.filter((ship) => ship.scu === null);
         const current = state.ship && !withHold.concat(unknown).some((ship) => ship.id === state.ship) ? state.ship : null;
         const group = (label, list) => (list.length ? `<optgroup label="${esc(label)}">${list.join('')}</optgroup>` : '');
@@ -1279,6 +1279,7 @@
         const ages = AGE_CHOICES.includes(state.maxAgeDays) ? AGE_CHOICES : [...AGE_CHOICES, state.maxAgeDays].sort((a, b) => a - b);
         const enabled = state.boxes || E.STANDARD_BOXES;
         const budgetText = state.budget === null ? t('budgetNone') : H.price(state.budget);
+        const modules = E.cargoOptions(model?.ships.get(state.ship), H.lang());
         const what = [state.ship ? shipName(state.ship) : null, budgetText].filter(Boolean).join(' · ');
         const banner = linkSetup ? `<p class="routes-warn" id="routes-link-banner">${esc(t('linkBanner', { what }))} <button type="button" class="routes-link" id="routes-link-drop" data-act="link-drop">${esc(t('linkDrop'))}</button></p>` : '';
         return `<details class="routes-card routes-context" data-fold="contextOpen"${ui.contextOpen || linkSetup ? ' open' : ''}>
@@ -1288,6 +1289,7 @@
                 <div class="routes-field is-wide">
                     <label for="routes-ship">${esc(t('ship'))}</label>
                     <select id="routes-ship" data-act="ship"${lock}>${shipOptions(state)}</select>
+                    ${modules.length ? `<label for="routes-module">${H.lang() === 'ko' ? '카고 모듈' : 'Cargo module'}</label><select id="routes-module" data-act="module"${lock}>${modules.map(c => option(c.key, c.label, c.key === (state.cargoConfig || ''))).join('')}</select>` : ''}
                     ${holdLine(state)}
                 </div>
                 <div class="routes-field">
@@ -2076,7 +2078,7 @@
         requestDraw();
     }
 
-    const LOCKED = new Set(['ship', 'budget', 'system', 'age', 'box', 'time-loading', 'time', 'goods', 'legal', 'return', 'avoid', 'capacity']);
+    const LOCKED = new Set(['ship', 'module', 'budget', 'system', 'age', 'box', 'time-loading', 'time', 'goods', 'legal', 'return', 'avoid', 'capacity']);
 
     function onClick(event) {
         const target = event.target.closest('[data-act]');
@@ -2188,7 +2190,12 @@
             requestDraw();
             return;
         }
-        if (act === 'ship') E.state.set({ ship: value || null });
+        if (act === 'ship') E.state.set({ ship: value || null, cargoConfig: '' });
+        else if (act === 'module') {
+            prefs.capacityScu = null;
+            writeStore(PREF_KEY, prefs);
+            E.state.set({ cargoConfig: value });
+        }
         else if (act === 'budget') {
             const amount = parseMoney(value);
             ui.budgetError = amount === undefined;

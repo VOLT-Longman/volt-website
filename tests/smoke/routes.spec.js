@@ -517,3 +517,25 @@ test('무역 경로: 로그인이 필요하면 로그인 버튼을 함께 보여
     await expect(page.locator('#routes-login')).toHaveAttribute('href', '/auth/discord/login?returnTo=%2F%23routes');
     await expect(page.locator('#routes-retry')).toBeVisible();
 });
+
+test('갤럭시 카고 모듈을 경로와 플래너에서 장착하고 해제한다', async ({ page }) => {
+    await mockApi(page, { loggedIn: true, fleet: true });
+    await gotoSection(page, '#routes');
+    const selector = page.locator('#routes-ship');
+    if (!(await selector.isVisible())) await page.locator('#routes-context-title').click();
+    await selector.selectOption('galaxy');
+    const module = page.locator('#routes-module');
+    await module.selectOption('galaxy-cargo');
+    await expect(page.locator('.routes-hold')).toContainText('720 SCU');
+    await gotoSection(page, '#trade-planner');
+    await page.locator('#logistics-ship-search').fill('galaxy');
+    await page.locator('[data-planner-ship-id="galaxy"]').click();
+    await expect(page.locator('#planner-cargo-module')).toHaveValue('galaxy-cargo');
+    await expect(page.locator('#logistics-cargo')).toHaveValue('720');
+    await page.locator('#planner-cargo-module').selectOption('');
+    await expect(page.locator('#logistics-cargo')).toHaveValue('64');
+    await gotoSection(page, '#routes');
+    if (!(await selector.isVisible())) await page.locator('#routes-context-title').click();
+    await expect(module).toHaveValue('');
+    await expect(page.locator('.routes-hold')).toContainText('64 SCU');
+});

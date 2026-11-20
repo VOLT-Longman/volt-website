@@ -295,6 +295,7 @@
         const state = {
             shipId: document.getElementById('logistics-ship')?.value || '',
             shipSearch: document.getElementById('logistics-ship-search')?.value || '',
+            cargoConfig: plannerCargoConfig,
             cargo: document.getElementById('logistics-cargo')?.value || ''
         };
         localStorage.setItem(preferenceKey(PLANNER_STORAGE_KEY), JSON.stringify(state));
@@ -318,6 +319,7 @@
                 const element = document.getElementById(id);
                 if (element && value !== undefined) element.value = value;
             };
+            plannerCargoConfig = state.cargoConfig || '';
             set('logistics-ship', state.shipId);
             set('logistics-ship-search', state.shipSearch);
             set('logistics-cargo', state.cargo);
@@ -717,6 +719,37 @@
         if (selectedShipId) select.value = selectedShipId;
     }
 
+    let plannerCargoShips = new Map();
+    let plannerCargoConfig = '';
+    async function loadPlannerCargoOptions() {
+        try {
+            const catalog = await window.VOLT_HELPER.loadJson('/data/trade/cargo.json');
+            plannerCargoShips = new Map(catalog.ships.filter(s => s.configurations?.length).map(s => [s.id, s]));
+            renderLogisticsShipOptions();
+            syncPlannerSelectedShip(document.getElementById('logistics-ship')?.value);
+        } catch { /* The standard ship picker and manual cargo input remain available. */ }
+    }
+
+    function showPlannerCargoOptions(ship) {
+        const field = document.getElementById('planner-module-field');
+        const select = document.getElementById('planner-cargo-module');
+        if (!field || !select) return;
+        const options = window.VOLT_TRADE_ENGINE.cargoOptions(plannerCargoShips.get(ship?.id), currentLang());
+        field.hidden = !options.length;
+        if (!options.length) return;
+        document.getElementById('planner-module-label').textContent = currentLang() === 'en' ? 'Cargo module' : '카고 모듈';
+        select.replaceChildren(...options.map(c => new Option(c.label, c.key)));
+        const shared = window.VOLT_TRADE_ENGINE.state.get();
+        const key = shared.ship === ship.id ? shared.cargoConfig : plannerCargoConfig;
+        const config = options.find(c => c.key === key) || options[0];
+        select.value = config.key;
+        if (config.key !== plannerCargoConfig) {
+            plannerCargoConfig = config.key;
+            setPlannerControlValue('logistics-cargo', String(config.scu));
+            savePlannerState();
+        }
+    }
+
     function isPlannerEligibleShip(ship) {
         // ON: '미구현' 태그 제거(D7). implemented!==false가 미출시(unreleased 31=implemented false)를
         // 그대로 배제하므로 태그 없이도 게이트 동일. OFF는 레거시 태그 게이트 유지.
@@ -724,7 +757,7 @@
         const releasedOk = true;
         return shipImplemented(ship)
             && releasedOk
-            && shipCargoValue(ship) > 0;
+            && (shipCargoValue(ship) > 0 || plannerCargoShips.has(ship.id));
     }
 
     function comparePlannerShips(left, right) {
@@ -797,7 +830,12 @@
         const cargoInput = document.getElementById('logistics-cargo');
         if (input) input.value = getShipDisplayName(ship);
         const shouldUseShipCargo = setCargo || !Number(cargoInput?.value);
-        if (shouldUseShipCargo) setPlannerControlValue('logistics-cargo', String(shipCargoValue(ship)));
+        if (shouldUseShipCargo) {
+            const shared = window.VOLT_TRADE_ENGINE.state.get();
+            plannerCargoConfig = shared.ship === ship.id ? shared.cargoConfig || '' : '';
+            const config = plannerCargoShips.get(ship.id)?.configurations.find(c => c.key === plannerCargoConfig);
+            setPlannerControlValue('logistics-cargo', String(config?.scu ?? shipCargoValue(ship)));
+        }
         renderPlannerShipSummary(ship);
         window.VOLT_JOURNEY?.transport?.(ship.id, getShipDisplayName(ship));
         announcePickerSelection(i18nT('planner.shipSelectedAnnounce', '{name} 함선을 선택했습니다.').replace('{name}', getShipDisplayName(ship)));
@@ -809,8 +847,11 @@
         const summary = document.getElementById('logistics-ship-summary');
         if (!summary) return;
         summary.hidden = false;
+        showPlannerCargoOptions(ship);
         const secondary = getShipSecondaryName(ship);
-        summary.innerHTML = `<strong>${escapeHtml(getShipDisplayName(ship))}</strong>${secondary ? `<span class="planner-summary-en">${escapeHtml(secondary)}</span>` : ''}<span>${[shipManufacturerLabel(ship), ship.cargo, ship.size].filter(Boolean).map(escapeHtml).join(' · ')}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small><div class="volt-tool-links"><button type="button" data-volt-open="ship" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'ShipDB' : '함선 DB'}</button><button type="button" data-volt-open="loadout" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Loadout' : '로드아웃'}</button><button type="button" class="is-ai" data-volt-open="ai" data-volt-context="trade" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Review with AI' : 'AI로 운송 준비 검토'}</button></div>`;
+        const module = plannerCargoShips.get(ship.id)?.configurations.find(c => c.key === plannerCargoConfig);
+        const capacityLabel = module ? module.scu + ' SCU' : ship.cargo;
+        summary.innerHTML = `<strong>${escapeHtml(getShipDisplayName(ship))}</strong>${secondary ? `<span class="planner-summary-en">${escapeHtml(secondary)}</span>` : ''}<span>${[shipManufacturerLabel(ship), capacityLabel, ship.size].filter(Boolean).map(escapeHtml).join(' · ')}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small><div class="volt-tool-links"><button type="button" data-volt-open="ship" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'ShipDB' : '함선 DB'}</button><button type="button" data-volt-open="loadout" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Loadout' : '로드아웃'}</button><button type="button" class="is-ai" data-volt-open="ai" data-volt-context="trade" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Review with AI' : 'AI로 운송 준비 검토'}</button></div>`;
     }
 
     function getPlannerShipRecommendation(ship) {
@@ -1117,6 +1158,7 @@
             if (!publicTools.community && Date.now() - authCheckedAt > 60000) setupAuthStatus({ background: true });
             if (!canUseCommunityTools()) return;
         }
+        if (id === 'trade-planner') loadPlannerCargoOptions();
         const render = LAZY_SECTIONS[id];
         if (!render || renderedLazySections.has(id)) return;
         renderedLazySections.add(id);
@@ -1218,6 +1260,16 @@
         const cargo = document.getElementById('logistics-cargo');
         if (!cargo) return;
         document.getElementById('planner-reset')?.addEventListener('click', resetPlannerInputs);
+        document.getElementById('planner-cargo-module')?.addEventListener('change', event => {
+            const ship = document.getElementById('logistics-ship').value;
+            const choice = window.VOLT_TRADE_ENGINE.cargoOptions(plannerCargoShips.get(ship), currentLang()).find(c => c.key === event.target.value);
+            if (!choice) return;
+            plannerCargoConfig = choice.key;
+            window.VOLT_TRADE_ENGINE.state.set({ ship, cargoConfig: choice.key });
+            setPlannerControlValue('logistics-cargo', String(choice.scu));
+            renderPlannerShipSummary(shipById.get(ship));
+            savePlannerState();
+        });
         cargo.addEventListener('input', savePlannerState);
         cargo.addEventListener('change', savePlannerState);
         setupPlannerShipPicker();
@@ -1230,6 +1282,8 @@
     }
 
     function resetPlannerInputs() {
+        plannerCargoConfig = '';
+        showPlannerCargoOptions(null);
         setPlannerControlValue('logistics-ship', '');
         setPlannerControlValue('logistics-ship-search', '');
         setPlannerControlValue('logistics-cargo', '0');
@@ -1249,6 +1303,7 @@
     function syncPlannerSelectedShip(shipId) {
         const ship = shipById.get(shipId);
         if (!ship || !isPlannerEligibleShip(ship)) {
+            showPlannerCargoOptions(null);
             const summary = document.getElementById('logistics-ship-summary');
             if (summary) { summary.hidden = true; summary.replaceChildren(); }
             return;

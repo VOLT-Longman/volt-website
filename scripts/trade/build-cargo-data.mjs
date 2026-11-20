@@ -202,17 +202,22 @@ const boxDims = boxes.map((box) => ({ scu: box.scu, sorted: [...box.cells].sort(
 const largestBox = (limit, grid) => { const a = [...limit].sort((x, y) => x - y); const g = [...grid].sort((x, y) => x - y); return boxDims.filter((box) => box.sorted.every((d, i) => d <= a[i] && d <= g[i])).at(-1)?.scu; };
 const smallestBox = (limit) => { const a = [...limit].sort((x, y) => x - y); return boxDims.find((box) => box.sorted.every((d, i) => d >= a[i]))?.scu; };
 
-function readShip(root) {
+function readShip(root, replacements = new Map()) {
     const result = { grids: [], cargoComplete: true, unresolved: [], drives: [], tanks: [], subVehicles: [] };
     const unresolved = (why) => { result.cargoComplete = false; if (!result.unresolved.includes(why)) result.unresolved.push(why); };
     const walk = (entries, ancestry, depth, inSubVehicle) => {
         for (const slot of entries || []) {
-            const record = slot.entityClassReference?.__record ? df.recordById.get(slot.entityClassReference.__record) : entityRecords.get(String(slot.entityClassName || '').toLowerCase());
+            let record = slot.entityClassReference?.__record ? df.recordById.get(slot.entityClassReference.__record) : entityRecords.get(String(slot.entityClassName || '').toLowerCase());
+            const replacement = record && replacements.get(idOf(record));
+            if (replacement) {
+                record = entityRecords.get(replacement.toLowerCase());
+                result.replaced = (result.replaced || 0) + 1;
+            }
             if (!record) { if ((slot.entityClassReference || slot.entityClassName) && !NON_CARGO_MISSING.has(slot.itemPortName)) unresolved(`item on port ${slot.itemPortName} is not in the file`); continue; }
             if (ancestry.has(record.id)) continue; // a self-reference is not another installed item
             const data = entity(record); const attach = component(data, 'SAttachableComponentParams')?.AttachDef;
             const own = component(data, 'SEntityComponentDefaultLoadoutParams')?.loadout;
-            const nested = slot.loadout?.entries?.length ? slot.loadout.entries : loadoutEntries(own);
+            const nested = !replacement && slot.loadout?.entries?.length ? slot.loadout.entries : loadoutEntries(own);
             // An item that is itself a vehicle (carried snub / detachable module) owns its own drive and tank.
             const sub = inSubVehicle || (component(data, 'VehicleComponentParams') ? idOf(record) : null);
             if (sub && !inSubVehicle) result.subVehicles.push(sub);
@@ -246,21 +251,15 @@ function readShip(root) {
     return result;
 }
 
-const ships = []; const cargoMismatches = []; const cargoUnknownButCanonicalNumber = []; const cargoUnresolvedWhy = {}; const tankMismatches = []; const shipNotes = [];
-for (const { id, cls } of identities) {
-    const record = entityRecords.get(cls.toLowerCase());
-    if (!record) throw new Error(`Missing game record ${cls}`);
-    const root = entity(record);
-    const vehicle = component(root, 'VehicleComponentParams');
-    const read = readShip(root);
+function groupGrids(rawGrids) {
     // Group identical grids (same cells and limits) and count them.
     const grouped = new Map();
-    for (const grid of read.grids) {
+    for (const grid of rawGrids) {
         const key = JSON.stringify([grid.cells, grid.min, grid.max, grid.external]);
         if (!grouped.has(key)) grouped.set(key, { ...grid, n: 0 });
         grouped.get(key).n += 1;
     }
-    const grids = [...grouped.values()].map((grid) => {
+    return [...grouped.values()].map((grid) => {
         const minIsZero = grid.min && grid.min.every((d) => d === 0);
         return prune({
             c: grid.cells, // InventoryContainer.interiorDimensions / 1.25 m, [x, y, z] cells
@@ -272,6 +271,36 @@ for (const { id, cls } of identities) {
             ext: grid.external || undefined, // InventoryOpenContainerType.isExternalContainer
         });
     }).sort((x, y) => y.c[0] * y.c[1] * y.c[2] * (y.n || 1) - x.c[0] * x.c[1] * x.c[2] * (x.n || 1) || JSON.stringify(x).localeCompare(JSON.stringify(y)));
+}
+
+const cargoReplacements = {
+    galaxy: { cargo: [['RSI_Galaxy_Module_Base', 'RSI_Galaxy_Module_Cargo']] },
+    retaliator: {
+        front: [['AEGS_Retaliator_Module_Front_Base', 'AEGS_Retaliator_Module_Front_Cargo']],
+        rear: [['AEGS_Retaliator_Module_Rear_Base', 'AEGS_Retaliator_Module_Rear_Cargo']],
+    },
+};
+cargoReplacements.retaliator.both = [...cargoReplacements.retaliator.front, ...cargoReplacements.retaliator.rear];
+
+function cargoConfigurations(id, root) {
+    if (!cargoReplacements[id]) return undefined;
+    return Object.entries(cargoReplacements[id]).map(([key, pairs]) => {
+        const read = readShip(root, new Map(pairs));
+        if (!read.cargoComplete || read.replaced !== pairs.length) throw new Error(`Unverified cargo configuration: ${id}/${key}`);
+        const g = groupGrids(read.grids);
+        const scu = g.reduce((sum, grid) => sum + grid.c.reduce((a, b) => a * b, grid.n || 1), 0);
+        return { key: id + '-' + key, scu, g };
+    });
+}
+
+const ships = []; const cargoMismatches = []; const cargoUnknownButCanonicalNumber = []; const cargoUnresolvedWhy = {}; const tankMismatches = []; const shipNotes = [];
+for (const { id, cls } of identities) {
+    const record = entityRecords.get(cls.toLowerCase());
+    if (!record) throw new Error(`Missing game record ${cls}`);
+    const root = entity(record);
+    const vehicle = component(root, 'VehicleComponentParams');
+    const read = readShip(root);
+    const grids = groupGrids(read.grids);
     const scu = read.cargoComplete ? read.grids.reduce((sum, grid) => sum + grid.cells[0] * grid.cells[1] * grid.cells[2], 0) : undefined;
     const canon = canonical.get(id);
     if (!canon) throw new Error(`Ship ${id} is not in ships-canonical.json`);
@@ -297,6 +326,7 @@ for (const { id, cls } of identities) {
         k: vehicle?.movementClass === 'ArcadeWheeled' ? 'g' : undefined, // VehicleComponentParams.movementClass: ArcadeWheeled = ground vehicle
         scu, // sum of grid cells in the DEFAULT loadout (0 = no grid there); left out when a grid / container could not be resolved
         g: grids,
+        configurations: cargoConfigurations(id, root),
         qd: drive, // key into `drives`: default-loadout item with AttachDef.Type QuantumDrive
         qt: read.tanks.some((tank) => !tank.sub) ? round(ownTank, 3) : undefined, // quantum fuel tank: sum of ResourceContainer.capacity.standardCargoUnits on QuantumFuel tanks (SCU)
         deck: controller?.cargoDeckLoaded === true ? 1 : undefined, // CargoControllerParams.cargoDeckLoaded

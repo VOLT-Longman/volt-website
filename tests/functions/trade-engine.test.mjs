@@ -798,3 +798,17 @@ test('performance and sanity on the saved UEX responses, trimmed the way the pro
     const chains = engine.findChains(m, { ship: 'c2-hercules', budget: 2_000_000, now }, { stops: 8, beam: 200, maxWork: 400000 });
     assert.ok(chains.work <= 400000); assert.ok(chains.chains.length > 0);
 });
+
+test('module configurations use their own grids and do not leak into another ship', () => {
+    const cargo = JSON.parse(readFileSync(new URL('../../data/trade/cargo.json', import.meta.url), 'utf8'));
+    const m = model([], { cargo });
+    for (const [ship, cargoConfig, expected] of [
+        ['galaxy', '', 64], ['galaxy', 'galaxy-cargo', 720], ['retaliator', 'retaliator-front', 38],
+        ['retaliator', 'retaliator-rear', 36], ['retaliator', 'retaliator-both', 74], ['retaliator', 'galaxy-cargo', 0],
+    ]) {
+        const profile = engine.shipProfile(m, { ship, cargoConfig });
+        assert.equal(profile.scu, expected);
+        assert.equal(profile.capacity, expected);
+    }
+    assert.equal(engine.shipProfile(m, {ship:'retaliator', cargoConfig:'retaliator-both', boxes:[32]}).capacity, 0);
+});
