@@ -14,12 +14,12 @@ test('English headings and content use real public CMS response mappings, and sw
     await page.goto('/#leadership');
     await page.locator('.nav-lang [data-set-lang="en"]').click();
     await expect(page.locator('#leadership-grid')).toContainText('Test Leader');
-    await expect(page.locator('#leadership-grid')).toContainText('Translated competence');
     const headings = await page.locator('main .section-header h2').allTextContents();
     expect(headings.length).toBe(28);
     for (const heading of headings) expect(heading).not.toMatch(/[가-힣]/);
     await page.locator('#leadership-grid [data-leader-id="ceo"]').click();
     await expect(page.locator('.modal-backdrop')).toContainText('Translated philosophy');
+    await expect(page.locator('.modal-backdrop')).toContainText('Translated competence');
     await page.locator('.modal-backdrop .modal-close').click();
     for (const [selector, text] of [['#partner-fleets-grid', 'Year 2613'], ['#timeline-list', 'Translated history'], ['#gallery-grid', 'Translated photo'], ['#schedule-list', 'Translated operation'], ['#notices-list', 'Translated notice']]) { await page.goto('/#' + ({ '#partner-fleets-grid': 'partner-fleets', '#timeline-list': 'timeline', '#gallery-grid': 'gallery', '#schedule-list': 'schedule', '#notices-list': 'notices' }[selector])); await expect(page.locator(selector)).toContainText(text); }
     await page.locator('.nav-lang [data-set-lang="ko"]').click();

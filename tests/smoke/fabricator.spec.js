@@ -48,8 +48,11 @@ const app = (page) => page.locator('#fabricator-app');
 test('설계도 찾기: 검색 · 분류 · 얻는 방법 · 재료 포함/제외', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const tracker = await open(page);
-    await expect(app(page).locator('.fab-count')).toHaveText('1,634개 중 60개 표시');
+    await expect(app(page).locator('.fab-count')).toHaveText('762개 중 60개 표시');
     await expect(app(page).locator('.fab-source')).toHaveCount(0);
+    await app(page).getByRole('button', {name:'제작 불가', exact:true}).click();
+    await expect(app(page).locator('.fab-count')).toHaveText('871개 중 60개 표시');
+    await app(page).locator('[data-act="tab"][data-id="list"]').click();
 
     // 처음부터 가진 설계도 8개
     await app(page).locator('[data-act="own"][data-id="default"]').click();
@@ -59,14 +62,15 @@ test('설계도 찾기: 검색 · 분류 · 얻는 방법 · 재료 포함/제�
 
     // 큰 분류 → 종류 → 크기
     await app(page).locator('[data-act="cat"][data-id="shipComponent"]').click();
-    await expect(app(page).locator('.fab-count')).toHaveText('381개 중 60개 표시');
-    await app(page).locator('[data-act="sub"][data-id="Shield"]').click();
-    await expect(app(page).locator('.fab-count')).toHaveText('62개 중 60개 표시');
-    await expect(app(page).locator('[data-act="sub"][data-id="Shield"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(app(page).locator('.fab-count')).toHaveText('200개 중 60개 표시');
     await app(page).locator('[data-act="more"]').click();
-    await expect(app(page).locator('.fab-list > li')).toHaveCount(62);
+    await expect(app(page).locator('.fab-list > li')).toHaveCount(120);
+    await app(page).locator('[data-act="sub"][data-id="Shield"]').click();
+    await expect(app(page).locator('.fab-count')).toHaveText('37개');
+    await expect(app(page).locator('[data-act="sub"][data-id="Shield"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(app(page).locator('.fab-list > li')).toHaveCount(37);
     await app(page).locator('[data-act="clear"]').click();
-    await expect(app(page).locator('.fab-count')).toHaveText('1,634개 중 60개 표시');
+    await expect(app(page).locator('.fab-count')).toHaveText('762개 중 60개 표시');
 
     // 재료 칩: 포함 → 제외 → 상관없음
     await app(page).locator('.fab-matfilter summary').click();
@@ -77,16 +81,16 @@ test('설계도 찾기: 검색 · 분류 · 얻는 방법 · 재료 포함/제�
     await expect(page).toHaveURL(/#fabricator\?mat=Carinite$/);
     await app(page).locator('[data-act="mat"][data-id="Carinite"]').click();
     await expect(app(page).locator('[data-act="mat"][data-id="Carinite"]')).toHaveAttribute('aria-label', '카리나이트: 제외');
-    await expect(app(page).locator('.fab-count')).toHaveText('1,626개 중 60개 표시');
+    await expect(app(page).locator('.fab-count')).toHaveText('754개 중 60개 표시');
     await expect(page).toHaveURL(/#fabricator\?mat=-Carinite$/);
     await app(page).locator('[data-act="mat"][data-id="Carinite"]').click();
-    await expect(app(page).locator('.fab-count')).toHaveText('1,634개 중 60개 표시');
+    await expect(app(page).locator('.fab-count')).toHaveText('762개 중 60개 표시');
 
     // 검색: 글자를 치는 동안 입력 칸이 그대로 남는다
     const search = app(page).locator('#fab-q');
     await search.pressSequentially('S-38 권총');
     await expect(search).toBeFocused();
-    await expect(app(page).locator('.fab-list > li')).toHaveCount(3);
+    await expect(app(page).locator('.fab-list > li')).toHaveCount(2);
     const row = app(page).locator('.fab-list > li').filter({ has: page.locator('[data-act="bp"][data-id="BP_CRAFT_behr_pistol_ballistic_01"]') });
     await expect(row.locator('.fab-rowname')).toHaveText('S-38 권총');
     await expect(row.locator('.fab-tag')).toHaveText('처음부터 가진 설계도');
@@ -125,6 +129,7 @@ test('설계도 상세: 칸별 재료 · 단위 · 최소 품질 · 품질에 �
     await expect(recoil.locator('.fab-modval')).toHaveText('품질 500일 때 1');
     await detail.locator('#fab-quality').fill('1000');
     await expect(recoil.locator('.fab-modval')).toHaveText('품질 1,000일 때 0.8');
+    await expect(recoil.locator('.fab-delta')).toHaveText('품질 500 대비 보정값 -20%');
     await expect(detail.locator('#fab-quality-out')).toHaveText('1,000');
     await detail.locator('#fab-quality').focus();
     await page.keyboard.press('Home');
@@ -135,6 +140,8 @@ test('설계도 상세: 칸별 재료 · 단위 · 최소 품질 · 품질에 �
     await page.goto('/?lang=ko#fabricator?bp=BP_CRAFT_behr_pistol_ballistic_01&ql=750');
     await expect(detail.locator('#fab-quality')).toHaveValue('750');
     await expect(recoil.locator('.fab-modval')).toHaveText('품질 750일 때 0.9');
+    await page.goto('/?lang=ko#fabricator?bp=BP_CRAFT_behr_lmg_ballistic_01&ql=1000');
+    await expect(detail.locator('.fab-effects li').filter({hasText:'발사 속도'}).locator('.fab-delta')).toHaveText('품질 500 대비 보정값 +12%');
     await page.goto('/?lang=ko#fabricator?bp=BP_CRAFT_behr_pistol_ballistic_01&ql=abc');
     await expect(detail.locator('#fab-quality')).toHaveValue('500');
     expect(await tracker.problems()).toEqual([]);
@@ -152,6 +159,7 @@ test('낱개 재료 · 얻는 곳 없는 재료 · 골라 채우는 칸은 그�
     // 3칸 중 2칸만 채우는 설계도
     await page.goto('/?lang=ko#fabricator?bp=BP_CRAFT_thp_light_legs_01_01_01');
     await expect(detail.locator('h3')).toHaveText('아즈탈란 레그');
+    await expect(app(page).locator('[data-act="tab"][data-id="unavailable"]')).toHaveAttribute('aria-pressed', 'true');
     await expect(detail.locator('.fab-choose')).toContainText('2칸만 채우면 됩니다');
     // 게임 파일 값 9 → 1.1 은 그대로 보여 주되, 다른 값들과 크게 다르다고 알려 준다
     const oddSlot = detail.locator('.fab-slot').first();
@@ -159,13 +167,13 @@ test('낱개 재료 · 얻는 곳 없는 재료 · 골라 채우는 칸은 그�
     await expect(oddSlot.locator('.fab-effects .fab-unknown')).toContainText('게임 파일에 잘못 적힌 값일 수 있습니다');
     await expect(detail.locator('.fab-effects .fab-unknown')).toHaveCount(1);
 
-    // 만들어지는 물건이 없는 설계도는 물건 이름을 지어내지 않는다
-    await page.goto('/?lang=ko#fabricator?bp=BP_CRAFT_COOL_S04_CNOU_Pioneer');
-    await expect(detail.locator('h3')).toHaveText('BP_CRAFT_COOL_S04_CNOU_Pioneer');
-    await expect(detail).toContainText('이 설계도로 만들어지는 물건이 게임 자료에 없습니다.');
     // 값 범위가 없는 칸은 같은 말을 두 번 적지 않는다
     const texts = await detail.locator('.fab-effects li').allTextContents();
     expect(texts.filter((text) => (text.match(/값 범위가 게임 자료에 없음/g) || []).length > 1)).toEqual([]);
+
+    await page.goto('/?lang=ko#fabricator?bp=BP_CRAFT_COOL_S04_CNOU_Pioneer');
+    await expect(app(page).locator('.fab-count')).toHaveText('762개 중 60개 표시');
+    await expect(detail).toHaveCount(0);
 
     // 재료 표: 캐는 곳이 없는 재료는 없다고 적는다
     await app(page).locator('[data-act="tab"][data-id="mats"]').click();
@@ -290,7 +298,7 @@ test('모을 재료 목록: 여러 설계도 합계 · 수량 · 글자로 복�
     expect(copied).toContain('VOLT 제작 준비물');
     expect(copied).toContain('- S-38 권총 × 3');
     expect(copied).toContain('- 알루미늄 0.06 SCU (최소 품질 0)');
-    expect(copied.split('\n')[0]).toBe('VOLT 제작 준비물');
+    expect(copied.split(/\r?\n/)[0]).toBe('VOLT 제작 준비물');
 
     // 새로 열어도 남아 있고, 주소의 목록이 있으면 그 목록을 보여 준다
     await page.goto('/?lang=ko#fabricator');
@@ -359,7 +367,7 @@ test('주소에 이상한 묶음 · 종류 이름이 와도 화면이 멈추지 
         await page.goto('about:blank');
     }
     tracker = await open(page, '#fabricator?sub=constructor&cat=toString&sz=__proto__&own=valueOf&tab=constructor&tt=constructor&mat=constructor,-__proto__');
-    await expect(app(page).locator('.fab-count')).toHaveText('1,634개 중 60개 표시');
+    await expect(app(page).locator('.fab-count')).toHaveText('762개 중 60개 표시');
     expect(await tracker.problems()).toEqual([]);
 });
 
@@ -416,7 +424,7 @@ test('375px: 목록으로 돌아가면 보던 줄이 화면에 있다', async ({
 test('영어 화면 · 모르는 주소 값은 조용히 버린다', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const tracker = await open(page, '#fabricator?bp=NOPE&mat=Nothing&cat=zzz&pool=none&sub=x&sz=y&own=q', 'en');
-    await expect(app(page).locator('.fab-count')).toHaveText('showing 60 of 1,634');
+    await expect(app(page).locator('.fab-count')).toHaveText('showing 60 of 762');
     await expect(app(page).locator('.fab-hint')).toHaveText('Pick a blueprint to see its materials and how to get it.');
     await expect(app(page).locator('.fab-source')).toHaveCount(0);
     await app(page).locator('#fab-q').fill('S-38 Pistol');
@@ -447,7 +455,7 @@ test('자료를 못 받으면 안내와 다시 시도 버튼을 보여 준다', 
     await expect(app(page).locator('.fab-status')).toContainText('게임 자료를 불러오지 못했습니다');
     fail = false;
     await app(page).locator('[data-act="reload"]').click();
-    await expect(app(page).locator('.fab-count')).toHaveText('1,634개 중 60개 표시');
+    await expect(app(page).locator('.fab-count')).toHaveText('762개 중 60개 표시');
 });
 
 for (const width of [375, 1440]) {
@@ -510,7 +518,7 @@ test('키보드만으로 설계도를 고르고 준비물에 담는다', async (
     await open(page);
     await app(page).locator('#fab-q').focus();
     await page.keyboard.type('S-38 권총');
-    await expect(app(page).locator('.fab-list > li')).toHaveCount(3);
+    await expect(app(page).locator('.fab-list > li')).toHaveCount(2);
     await app(page).locator('.fab-list [data-act="bp"][data-id="BP_CRAFT_behr_pistol_ballistic_01"]').focus();
     await page.keyboard.press('Enter');
     await expect(app(page).locator('#fab-detail-title')).toBeFocused();

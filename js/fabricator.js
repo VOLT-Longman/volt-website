@@ -30,14 +30,14 @@
     const CART_KEY = 'volt-fabricator-list-v1';
     const PAGE = 60;
     const MISSION_PAGE = 20;
-    const TABS = ['list', 'mats', 'pools', 'trades', 'cart'];
+    const TABS = ['list', 'unavailable', 'mats', 'pools', 'trades', 'cart'];
     const KINDS = ['armor', 'fpsWeapon', 'shipComponent', 'shipWeapon', 'missionItem', 'other'];
     const OWNS = ['default', 'earned', 'none'];
 
     const TEXT = {
         ko: {
             loading: '설계도 자료를 불러오는 중입니다…', retry: '다시 시도',
-            tabs: '보기 고르기', tabList: '설계도', tabMats: '재료', tabPools: '설계도 묶음', tabTrades: '위켈로 교환', tabCart: '모을 재료 목록',
+            tabs: '보기 고르기', tabList: '설계도', tabUnavailable: '제작 불가', unavailableNote: '현재 자료에서 설계도 획득 방법이 확인되지 않은 항목입니다.', tabMats: '재료', tabPools: '설계도 묶음', tabTrades: '위켈로 교환', tabCart: '모을 재료 목록',
             search: '설계도 이름 검색', searchLabel: '검색', searchPool: '묶음 이름이나 설계도 이름 검색', searchTrade: '교환 이름이나 물건 이름 검색',
             cat: '큰 분류', sub: '종류', sz: '크기 · 무게', own: '얻는 방법', all: '전체',
             kind_armor: '방어구 · 옷', kind_fpsWeapon: '개인 무기', kind_shipComponent: '함선 부품', kind_shipWeapon: '함선 무기', kind_missionItem: '임무 물품', kind_other: '기타',
@@ -61,6 +61,7 @@
             alternatives: '아래 재료 가운데 하나를 고릅니다 (더하지 않습니다).', or: '또는',
             pieces: '{n}개', minQuality: '최소 품질 {q}', multiplier: '수량 배수 {x}가 적혀 있지만 필요량에 곱해지는지 확인되지 않아 곱하지 않았습니다.',
             effects: '품질에 따라 바뀌는 값', noEffects: '이 칸은 품질에 따라 바뀌는 값이 게임 자료에 없습니다.',
+            comparedQuality: '품질 {q} 대비 보정값 {p}%',
             atQuality: '품질 {q}일 때 {v}', addValue: '{v} 더함', rangeNone: '값 범위가 게임 자료에 없음', outOfRange: '품질 {q}의 값은 게임 자료에 없음',
             effectNote: '숫자는 게임 파일에 적힌 그대로입니다. 더하는 값이라고 적힌 것 말고는, 이 숫자가 기본 수치에 곱해지는지 게임 파일에 적혀 있지 않습니다. 1보다 크면 늘고 작으면 준다고 읽을 수는 있지만 우리의 해석입니다. 같은 수치를 바꾸는 칸이 둘일 때 어떻게 합쳐지는지도 게임 자료에 없습니다.',
             mineLink: '캐는 곳 보기', noSource: '얻는 곳이 우리 자료에 없음', noReturn: '분해해도 돌려받지 못함',
@@ -89,7 +90,7 @@
         },
         en: {
             loading: 'Loading blueprint data…', retry: 'Try again',
-            tabs: 'Choose a view', tabList: 'Blueprints', tabMats: 'Materials', tabPools: 'Blueprint pools', tabTrades: 'Wikelo trades', tabCart: 'Materials to collect',
+            tabs: 'Choose a view', tabList: 'Blueprints', tabUnavailable: 'Unavailable', unavailableNote: 'These blueprints have no known acquisition method in the current data.', tabMats: 'Materials', tabPools: 'Blueprint pools', tabTrades: 'Wikelo trades', tabCart: 'Materials to collect',
             search: 'Search blueprint names', searchLabel: 'Search', searchPool: 'Search pool or blueprint names', searchTrade: 'Search trade or item names',
             cat: 'Category', sub: 'Type', sz: 'Size · weight', own: 'How you get it', all: 'All',
             kind_armor: 'Armor & clothing', kind_fpsWeapon: 'Personal weapons', kind_shipComponent: 'Ship components', kind_shipWeapon: 'Ship weapons', kind_missionItem: 'Mission items', kind_other: 'Other',
@@ -113,6 +114,7 @@
             alternatives: 'Choose one of these materials (they are not added together).', or: 'or',
             pieces: '{n} pcs', minQuality: 'min. quality {q}', multiplier: 'A quantity multiplier of {x} is written here, but whether the game multiplies the amount by it is not verified, so it is not applied.',
             effects: 'Values that change with quality', noEffects: 'The game files list no quality-dependent value for this slot.',
+            comparedQuality: 'Modifier {p}% vs. quality {q}',
             atQuality: 'at quality {q}: {v}', addValue: 'adds {v}', rangeNone: 'value range not in the game files', outOfRange: 'no value in the game files for quality {q}',
             effectNote: 'Numbers are exactly as written in the game files. Except where marked as an added value, the files do not say that the number multiplies the base stat. Reading "above 1 raises it, below 1 lowers it" is our interpretation. How two slots that change the same stat combine is not in the game files either.',
             mineLink: 'Where to mine it', noSource: 'No known source in our data', noReturn: 'Not returned when dismantled',
@@ -273,23 +275,40 @@
         return t('atQuality', { q: fmt(quality, 0), v: mod.add ? t('addValue', { v: signed(value) }) : fmt(value) });
     }
 
+    function qualityChange(index, quality) {
+        const mod = D.mods[index];
+        if (mod.add || X.odd.has(index)) return '';
+        const baseQuality = D.globals?.defaultQuality;
+        if (!Number.isFinite(baseQuality)) return '';
+        const base = modAt(mod, baseQuality);
+        const current = modAt(mod, quality);
+        if (!(base > 0) || !Number.isFinite(current)) return '';
+        const percent = Number(((current / base - 1) * 100).toFixed(2));
+        return t('comparedQuality', { q: fmt(baseQuality, 0), p: signed(percent) });
+    }
+
     // ── 찾아보기 표 ──────────────────────────────────────────────────────────
     function buildIndex() {
-        const byId = new Map(D.blueprints.map((bp, i) => [bp.id, i]));
+        const byId = new Map();
+        D.blueprints.forEach((bp, index) => {
+            if (!bp.noOutput && D.recipes[bp.r]?.slots.some(slot => slot.o.some(option => D.materials[option.mat]))) byId.set(bp.id, index);
+        });
         const bpPools = D.blueprints.map(() => []);
         const poolItems = Object.create(null);
         Object.entries(D.pools).forEach(([id, pool]) => {
             const seen = new Set();
             (pool.e || []).forEach(([index]) => {
-                if (!D.blueprints[index] || seen.has(index)) return;
+                if (!byId.has(D.blueprints[index]?.id) || seen.has(index)) return;
                 seen.add(index);
                 bpPools[index].push(id);
             });
-            poolItems[id] = { items: [...seen], repeat: (pool.e || []).length > seen.size, missing: pool.missing };
+            poolItems[id] = { items: [...seen], repeat: (pool.e || []).filter(([index]) => byId.has(D.blueprints[index]?.id)).length > seen.size, missing: pool.missing };
         });
         const recipeMats = D.recipes.map((recipe) => [...new Set(recipe.slots.flatMap((slot) => slot.o.map((option) => option.mat)))]);
         const matUses = D.materials.map(() => ({ count: 0, scu: false, pc: false }));
-        for (const bp of D.blueprints) {
+        for (const index of byId.values()) {
+            const bp = D.blueprints[index];
+            if (!bp.d && !bpPools[index].length) continue;
             for (const mat of recipeMats[bp.r] || []) if (matUses[mat]) matUses[mat].count += 1;
         }
         for (const option of D.recipes.flatMap((recipe) => recipe.slots.flatMap((slot) => slot.o))) {
@@ -327,11 +346,13 @@
         if (D.blueprints[i].d) return 'default';
         return X.bpPools[i].length ? 'earned' : 'none';
     }
+    const blueprintTab = i => sourceOf(i) === 'none' ? 'unavailable' : 'list';
+    const browsingBlueprints = () => S.tab === 'list' || S.tab === 'unavailable';
     function ordered() {
         const lang = H.lang();
         if (!X.order[lang]) {
             const names = D.blueprints.map((_, i) => bpName(i));
-            X.order[lang] = D.blueprints.map((_, i) => i).sort((a, b) => names[a].localeCompare(names[b], lang));
+            X.order[lang] = [...X.byId.values()].sort((a, b) => names[a].localeCompare(names[b], lang));
         }
         return X.order[lang];
     }
@@ -341,6 +362,7 @@
     function filtered() {
         const words = tokens();
         const list = ordered().filter((i) => {
+            if (blueprintTab(i) !== S.tab) return false;
             const bp = D.blueprints[i];
             if (S.cat && kindOf(bp) !== S.cat) return false;
             if (S.sub && typeKey(bp) !== S.sub) return false;
@@ -429,6 +451,9 @@
         }
         const index = X.byId.get(S.bpId);
         S.bp = index === undefined ? null : index;
+        if (browsingBlueprints() && S.bp !== null) S.tab = blueprintTab(S.bp);
+        else if (browsingBlueprints() && S.own === 'none') S.tab = 'unavailable';
+        if (S.tab === 'unavailable') S.own = '';
         if (S.bp === null) S.bpId = '';
         if (!has(D.pools, S.pool)) S.pool = '';
         [...S.mats.included(), ...S.mats.excluded()].forEach((id) => { if (!X.matById.has(id)) S.mats.set(id, 'any'); });
@@ -442,12 +467,12 @@
         return {
             tab: S.tab === 'list' ? '' : S.tab,
             q: S.q,
-            cat: S.tab === 'list' ? S.cat : '', sub: S.tab === 'list' ? S.sub : '', sz: S.tab === 'list' ? S.sz : '', own: S.tab === 'list' ? S.own : '',
-            mat: S.tab === 'list' ? S.mats.encode() : '',
-            bp: S.tab === 'list' && S.bp !== null ? D.blueprints[S.bp].id : '',
+            cat: browsingBlueprints() ? S.cat : '', sub: browsingBlueprints() ? S.sub : '', sz: browsingBlueprints() ? S.sz : '', own: browsingBlueprints() ? S.own : '',
+            mat: browsingBlueprints() ? S.mats.encode() : '',
+            bp: browsingBlueprints() && S.bp !== null ? D.blueprints[S.bp].id : '',
             pool: S.tab === 'pools' ? S.pool : '',
             list: S.tab === 'cart' ? listString(viewed()) : '',
-            ql: S.tab === 'list' && S.bp !== null && S.quality !== defaultQuality() ? String(S.quality) : '',
+            ql: browsingBlueprints() && S.bp !== null && S.quality !== defaultQuality() ? String(S.quality) : '',
             tt: S.tab === 'trades' ? (TRADE_TYPES.find(([, type]) => type === S.tradeType) || ['', ''])[0] : '',
         };
     }
@@ -538,13 +563,13 @@
     }
 
     // ── 화면 조각 ────────────────────────────────────────────────────────────
-    const TAB_LABELS = { list: 'tabList', mats: 'tabMats', pools: 'tabPools', trades: 'tabTrades', cart: 'tabCart' };
+    const TAB_LABELS = { list: 'tabList', unavailable: 'tabUnavailable', mats: 'tabMats', pools: 'tabPools', trades: 'tabTrades', cart: 'tabCart' };
     function tabsHtml() {
         return `<div class="fab-tabs" role="group" aria-label="${e(t('tabs'))}" data-region="tabs">${tabButtons()}</div>`;
     }
     function tabButtons() {
         const group = ({ pools: 'list', trades: 'mats' })[S.tab] || S.tab;
-        return ['list', 'mats', 'cart'].map((tab) => {
+        return ['list', 'mats', 'cart', 'unavailable'].map((tab) => {
             const badge = tab === 'cart' && cart.size ? ` <span class="fab-badge">${e(fmt(cart.size, 0))}</span>` : '';
             return btn('tab', tab, `${e(t(TAB_LABELS[tab]))}${badge}`, { cls: `fab-tab${group === tab ? ' is-active' : ''}`, pressed: group === tab });
         }).join('');
@@ -563,7 +588,7 @@
         return counts;
     }
     function filtersHtml() {
-        const all = D.blueprints;
+        const all = [...X.byId.values()].filter(i => blueprintTab(i) === S.tab).map(i => D.blueprints[i]);
         const kinds = countBy(all, kindOf);
         const kindOptions = KINDS.filter((kind) => kinds.has(kind)).map((kind) => [kind, t(`kind_${kind}`), kinds.get(kind)]);
         let rows = chipRow('cat', 'cat', S.cat, kindOptions);
@@ -575,7 +600,7 @@
             const order = ['Small', 'Light', 'Medium', 'Heavy', 'Large'];
             rows += chipRow('sz', 'sz', S.sz, [...sizes].map(([key, count]) => [key, sizeLabel(S.cat, key), count]).sort((a, b) => (order.indexOf(a[0]) - order.indexOf(b[0])) || a[0].localeCompare(b[0])));
         }
-        rows += chipRow('own', 'own', S.own, [['default', t('ownDefault')], ['earned', t('ownEarned')], ['none', t('ownNone')]]);
+        if (S.tab === 'list') rows += chipRow('own', 'own', S.own, [['default', t('ownDefault')], ['earned', t('ownEarned')]]);
         const chosen = S.mats.included().length + S.mats.excluded().length;
         const matChips = D.materials.map((mat, i) => ({ mat, i, label: matName(i) })).sort((a, b) => a.label.localeCompare(b.label, H.lang())).map(({ mat, label }) => {
             const state = S.mats.get(mat.id);
@@ -621,7 +646,8 @@
             const mod = D.mods[index];
             const stat = mod && D.stats[mod.s];
             if (!mod || !stat) return '';
-            const value = mod.r?.length ? `<strong class="fab-modval" data-fab-mod="${e(index)}" data-fab-min="${e(minQuality)}">${e(modValueText(mod, Math.max(S.quality, minQuality)))}</strong>` : '';
+            const quality = Math.max(S.quality, minQuality);
+            const value = mod.r?.length ? `<span class="fab-modifier" data-fab-mod="${e(index)}" data-fab-min="${e(minQuality)}"><strong class="fab-delta">${e(qualityChange(index, quality))}</strong><span class="fab-modval">${e(modValueText(mod, quality))}</span></span>` : '';
             const odd = X.odd.has(index) ? `<span class="fab-unknown">${e(t('oddValue', { m: fmt(X.odd.get(index), 2) }))}</span>` : '';
             return `<li><span class="fab-stat">${e(statLabel(stat, bp))}</span><span class="fab-range">${e(modRangeText(mod))}</span>${value}${odd}</li>`;
         }).join('');
@@ -695,7 +721,7 @@
         return `<details class="fab-notes"><summary data-fk="notes">${e(t('notes'))}</summary>${stations ? `<h4>${e(t('stations'))}</h4><ul>${stations}</ul><p class="fab-note">${e(t('stationNote'))}</p>` : ''}${dismantle}</details>`;
     }
     function listTab() {
-        return `<div class="fab-browse${S.bp !== null ? ' has-detail' : ''}"><div class="fab-listpane">${filtersHtml()}<div class="fab-results" data-region="results">${resultsHtml()}</div>${notesHtml()}</div><div class="fab-detailpane" data-region="detail">${detailHtml()}</div></div>`;
+        return `${S.tab === 'unavailable' ? `<p class="fab-note">${e(t('unavailableNote'))}</p>` : ''}<div class="fab-browse${S.bp !== null ? ' has-detail' : ''}"><div class="fab-listpane">${filtersHtml()}<div class="fab-results" data-region="results">${resultsHtml()}</div>${notesHtml()}</div><div class="fab-detailpane" data-region="detail">${detailHtml()}</div></div>`;
     }
     function matsTab() {
         const rows = D.materials.map((mat, i) => ({ mat, i, label: matName(i) })).sort((a, b) => a.label.localeCompare(b.label, H.lang())).map(({ mat, i, label }) => {
@@ -858,7 +884,7 @@
     function pageHtml() {
         if (loadError) return `<div class="fab-status" role="alert"><p>${e(H.errorText(loadError))}</p>${btn('reload', '', e(t('retry')))}</div>`;
         if (!D) return `<p class="fab-status" role="status">${e(t('loading'))}</p>`;
-        const body = { list: listTab, mats: matsTab, pools: poolsTab, trades: tradesTab, cart: cartTab }[S.tab]();
+        const body = { list: listTab, unavailable: listTab, mats: matsTab, pools: poolsTab, trades: tradesTab, cart: cartTab }[S.tab]();
         const sub = S.tab === 'list' ? 'pools' : S.tab === 'mats' && D.trades?.length ? 'trades' : null;
         const filter = sub ? btn('tab', sub, e(t(TAB_LABELS[sub])), { cls: 'fab-chip' }) : '';
         return `${tabsHtml()}${filter}<p class="fab-live" role="status" aria-live="polite" data-region="status">${e(S.status)}</p><div class="fab-body fab-body-${e(S.tab)}">${body}</div>`;
@@ -890,7 +916,7 @@
         }
     }
     function renderResults() {
-        const html = { list: resultsHtml, pools: poolResultsHtml, trades: tradeResultsHtml }[S.tab];
+        const html = { list: resultsHtml, unavailable: resultsHtml, pools: poolResultsHtml, trades: tradeResultsHtml }[S.tab];
         if (html) paint(root.querySelector('[data-region="results"]'), html());
     }
     function say(message) {
@@ -921,8 +947,8 @@
     function openBlueprint(id) {
         const index = X.byId.get(id);
         if (index === undefined) return;
-        if (S.tab !== 'list') S.q = '';
-        S.tab = 'list';
+        if (S.tab !== blueprintTab(index)) S.q = '';
+        S.tab = blueprintTab(index);
         S.bp = index;
         S.bpId = id;
         S.missionsShown = MISSION_PAGE;
@@ -969,6 +995,9 @@
         tab(id) {
             if (!TABS.includes(id) || id === S.tab) return;
             S.tab = id;
+            if (browsingBlueprints() && S.bp !== null && blueprintTab(S.bp) !== id) { S.bp = null; S.bpId = ''; }
+            if (id === 'unavailable') S.own = '';
+            S.shown = PAGE;
             S.q = '';
             S.status = '';
             sync(true);
@@ -1056,8 +1085,10 @@
             const out = root.querySelector('#fab-quality-out');
             if (out) out.textContent = fmt(S.quality, 0);
             root.querySelectorAll('[data-fab-mod]').forEach((node) => {
-                const mod = D.mods[Number(node.getAttribute('data-fab-mod'))];
-                if (mod) node.textContent = modValueText(mod, Math.max(S.quality, Number(node.getAttribute('data-fab-min')) || 0));
+                const index = Number(node.dataset.fabMod);
+                const quality = Math.max(S.quality, Number(node.dataset.fabMin) || 0);
+                node.querySelector('.fab-modval').textContent = modValueText(D.mods[index], quality);
+                node.querySelector('.fab-delta').textContent = qualityChange(index, quality);
             });
         }
     }

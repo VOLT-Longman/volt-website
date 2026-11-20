@@ -158,3 +158,7 @@
     .fabricator-app .fab-table th, .fabricator-app .fab-table td { padding: 4px 8px; }
     .fabricator-app .fab-rowside { max-width: 40%; }
 }
+
+.fabricator-app .fab-modifier { display: grid; gap: .15rem; }
+.fabricator-app .fab-delta { font-variant-numeric: tabular-nums; }
+.fabricator-app .fab-delta:empty { display: none; }
