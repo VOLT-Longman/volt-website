@@ -28,7 +28,7 @@ test('임무 목록: 전체 수를 보여 주고, 검색하는 동안 입력 칸
     await open(page);
     await expect(page.locator('.missions-count')).toHaveText(countText(total));
     await expect(page.locator('.missions-tile')).toHaveCount(30); // 한 번에 30개만 그린다
-    await expect(page.locator('.missions-source')).toContainText(`게임 버전 ${data.gameVersion}`);
+    await expect(page.locator('.missions-source')).toContainText('빈칸은 값 미확인');
     await expect(page.locator('.missions-source a[href="#hauling"]')).toBeVisible();
 
     const input = page.locator('#missions-q');
@@ -245,7 +245,7 @@ for (const width of [375, 1440]) {
         await expect(page.locator('[data-ms-chip="flag"][data-id="bp"]')).toHaveAttribute('aria-label', 'Blueprint reward: Include');
         for (const hash of views) {
             await page.evaluate((value) => { window.location.hash = value; }, hash);
-            await expect(page.locator('#missions-app .missions-source')).toContainText('Data: game files');
+            await expect(page.locator('#missions-app .missions-source')).toContainText('A blank means the value is unknown');
             await page.waitForTimeout(500); // 섹션 전환 애니메이션이 끝난 뒤에 잰다
             expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth), hash).toBeLessThanOrEqual(0);
             const axe = await new AxeBuilder({ page }).include('#missions-app').analyze();

@@ -244,11 +244,11 @@ test.describe('로드아웃 편집기', () => {
 
         // 자료 출처를 화면에 밝힌다.
         const sources = page.locator('#loadout-sources');
-        await expect(sources).toContainText('함선·부품 수치: Star Citizen 게임 파일에서 직접 추출');
+        await expect(sources).not.toContainText('함선·부품 수치: Star Citizen 게임 파일에서 직접 추출');
         await expect(sources.locator('a')).toHaveCount(1);
         await expect(sources.locator('a', { hasText: 'UEX' })).toHaveAttribute('href', 'https://uexcorp.space/');
-        await expect(sources).toContainText('한국어 표기: 스타 시티즌 한국어 패치');
-        await expect(sources).toContainText(/게임 자료 버전 \d+\.\d+\.\d+-LIVE/);
+        await expect(sources).not.toContainText('한국어 표기: 스타 시티즌 한국어 패치');
+        await expect(sources).not.toContainText(/게임 자료 버전 \d+\.\d+\.\d+-LIVE/);
         expect(errors).toEqual([]);
     });
 
@@ -773,7 +773,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(page.locator('.loadout-hull .loadout-fold-body')).toBeVisible();
         // 출처는 한 줄 요약으로 늘 보이고, 누르면 자세한 내용이 펼쳐진다.
         const sources = page.locator('#loadout-sources');
-        await expect(sources.locator('summary')).toContainText(/자료 출처 · 게임 파일 \d+\.\d+\.\d+-LIVE.* · 가격 UEX · 한국어 패치 표기/);
+        await expect(sources.locator('summary')).toHaveText('자료 출처 · 가격 UEX');
         await expect(sources.locator('a')).toBeHidden();
         await sources.locator('summary').click();
         await expect(sources.locator('a')).toBeVisible();

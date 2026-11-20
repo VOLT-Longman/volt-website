@@ -76,7 +76,7 @@ test('운송 계약: 의뢰처·종류 필터, 더 보기, 영어 전환', async
     await expect(page.locator('.hauling-table, .hauling-empty').first()).toBeVisible();
     await page.locator('.nav-lang [data-set-lang="en"]').click();
     await expect(page.locator('#hauling-ranks-title')).toHaveText('Hauling reputation ranks');
-    await expect(page.locator('.hauling-sources')).toContainText('game files');
+    await expect(page.locator('.hauling-sources')).toContainText('Missing cargo data');
 });
 
 test('운송 계약: 자료를 받지 못하면 다시 시도할 수 있다', async ({ page }) => {

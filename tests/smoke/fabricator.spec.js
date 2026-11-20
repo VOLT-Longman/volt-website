@@ -49,7 +49,7 @@ test('설계도 찾기: 검색 · 분류 · 얻는 방법 · 재료 포함/제�
     await page.setViewportSize({ width: 1440, height: 900 });
     const tracker = await open(page);
     await expect(app(page).locator('.fab-count')).toHaveText('1,634개 중 60개 표시');
-    await expect(app(page).locator('.fab-source')).toContainText('게임 버전 4.10.200.58746');
+    await expect(app(page).locator('.fab-source')).toHaveCount(0);
 
     // 처음부터 가진 설계도 8개
     await app(page).locator('[data-act="own"][data-id="default"]').click();
@@ -290,7 +290,7 @@ test('모을 재료 목록: 여러 설계도 합계 · 수량 · 글자로 복�
     expect(copied).toContain('VOLT 제작 준비물');
     expect(copied).toContain('- S-38 권총 × 3');
     expect(copied).toContain('- 알루미늄 0.06 SCU (최소 품질 0)');
-    expect(copied).toContain('게임 버전 4.10.200.58746');
+    expect(copied.split('\n')[0]).toBe('VOLT 제작 준비물');
 
     // 새로 열어도 남아 있고, 주소의 목록이 있으면 그 목록을 보여 준다
     await page.goto('/?lang=ko#fabricator');
@@ -418,7 +418,7 @@ test('영어 화면 · 모르는 주소 값은 조용히 버린다', async ({ pa
     const tracker = await open(page, '#fabricator?bp=NOPE&mat=Nothing&cat=zzz&pool=none&sub=x&sz=y&own=q', 'en');
     await expect(app(page).locator('.fab-count')).toHaveText('showing 60 of 1,634');
     await expect(app(page).locator('.fab-hint')).toHaveText('Pick a blueprint to see its materials and how to get it.');
-    await expect(app(page).locator('.fab-source')).toContainText('Data: game files');
+    await expect(app(page).locator('.fab-source')).toHaveCount(0);
     await app(page).locator('#fab-q').fill('S-38 Pistol');
     await app(page).locator('.fab-list [data-act="bp"][data-id="BP_CRAFT_behr_pistol_ballistic_01"]').click();
     const detail = app(page).locator('.fab-detail');

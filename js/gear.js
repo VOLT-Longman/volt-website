@@ -46,7 +46,7 @@
             variantsNote: '아래 스킨·버전은 성능이 같습니다. 판매처와 가격은 다를 수 있습니다.', priceLoading: '가격 확인 중', priceFailed: '가격을 불러오지 못했습니다',
             noShopNote: '판매처 정보가 없다고 해서 얻을 수 없다는 뜻은 아닙니다. 전리품·보상으로만 얻는 품목일 수 있습니다.',
             dpsNote: '이론 DPS = 피해 × 산탄 수 × 연사 ÷ 60. 재장전·반동·거리 감소를 뺀 값입니다.',
-            sourceGame: '수치: Star Citizen 게임 파일 {version}', sourcePrice: '판매처·가격: UEX', sourceNote: '게임 파일에 적힌 값이며 게임 안에서 실측한 값이 아닙니다. UEX와 수치가 다르면 게임 파일 값을 따릅니다.',
+            sourcePrice: '판매처·가격: UEX',
             uec: 'aUEC', unknown: '—',
             preset: '세트로 착용', presetBare: '맨몸', presetLight: '라이트 아머 세트', presetMedium: '미디움 아머 세트', presetHeavy: '헤비 아머 세트', headShots: '머리에 맞으면', torsoShots: '몸통에 맞으면', limbShots: '팔다리에 맞으면', legend: '색 구분', legendLow: '6발 이상', legendMid: '3~5발', legendHigh: '2발 이하', legendCovered: '실선 = 방어구로 덮임',
             fit: '착용·피해 테스트', cart: '장바구니', cartCount: '장바구니 {count}', wear: '이 방어구 착용하기', shootWith: '이 무기로 피해 테스트', addCart: '담기', inCart: '담김 {count}',
@@ -86,7 +86,7 @@
             variantsNote: 'These variants have identical stats. Only shops and prices differ.', priceLoading: 'Checking prices', priceFailed: 'Prices could not be loaded',
             noShopNote: 'No shop data does not mean an item cannot be obtained; it may be loot or a reward only.',
             dpsNote: 'Theoretical DPS = damage × pellets × rate ÷ 60. Reloads, recoil and range drop-off are not included.',
-            sourceGame: 'Stats: Star Citizen game files {version}', sourcePrice: 'Shops and prices: UEX', sourceNote: 'These are the values written in the game files, not measured in game. Where UEX differs, the game file value is used.',
+            sourcePrice: 'Shops and prices: UEX',
             uec: 'aUEC', unknown: '—',
             preset: 'Quick sets', presetBare: 'Bare', presetLight: 'Light set', presetMedium: 'Medium set', presetHeavy: 'Heavy set', headShots: 'Hit in the head', torsoShots: 'Hit in the torso', limbShots: 'Hit in a limb', legend: 'Colours', legendLow: '6+ shots', legendMid: '3–5 shots', legendHigh: '2 or fewer', legendCovered: 'Solid outline = covered by armor',
             fit: 'Fitting test', cart: 'Cart', cartCount: 'Cart {count}', wear: 'Put on the mannequin', shootWith: 'Shoot with this weapon', addCart: 'Add', inCart: 'In cart {count}',
@@ -127,7 +127,7 @@
         modWhySmall: '화면이 작거나 터치 기기에서는 3D 대신 그림으로 보여 줍니다.', modWhyUnsupported: '이 브라우저에서는 3D를 쓸 수 없어 그림으로 보여 줍니다.', modWhyNoModel: '이 무기는 3D 모형이 준비되지 않아 그림으로 보여 줍니다.',
         modWhyNoData: '3D 모형 목록을 받지 못해 그림으로 보여 줍니다.', modWhyFailed: '3D 모형을 불러오지 못해 그림으로 보여 줍니다.', modNoImage: '이 무기는 보여 줄 그림이 없습니다.', modPartNoModel: '이 부품은 3D 모형이 없어 화면에는 나오지 않습니다.',
         modScopeZoom: '확대', modScopeNight: '야간 투시', modLight: '세기 {intensity} · 퍼짐 {fov}°',
-        modCredit: '3D 모형과 겉면 그림 © Cloud Imperium Games. 비공식 팬 사이트에서 보여 주려고 게임 파일에서 변환한 것이며, 색과 질감은 실제 게임과 다를 수 있습니다. 수치는 게임 빌드 {version} 기준입니다.',
+        modCredit: '3D 모형과 겉면 그림 © Cloud Imperium Games. 비공식 팬 사이트에서 보여 주려고 게임 파일에서 변환한 것이며, 색과 질감은 실제 게임과 다를 수 있습니다.',
     });
     Object.assign(TEXT.en, {
         mod: 'Modding', modThis: 'Mod this weapon', modPick: 'Weapon to mod', modPickHint: 'Pick a weapon to see its attachment slots and the parts that fit them.',
@@ -147,7 +147,7 @@
         modWhySmall: 'On small screens and touch devices a picture is shown instead of 3D.', modWhyUnsupported: 'This browser cannot show 3D, so a picture is shown instead.', modWhyNoModel: 'No 3D model is available for this weapon, so a picture is shown instead.',
         modWhyNoData: 'The 3D model list could not be loaded, so a picture is shown instead.', modWhyFailed: 'The 3D model could not be loaded, so a picture is shown instead.', modNoImage: 'There is no picture for this weapon.', modPartNoModel: 'This part has no 3D model, so it is not drawn.',
         modScopeZoom: 'Zoom', modScopeNight: 'Night vision', modLight: 'Intensity {intensity} · spread {fov}°',
-        modCredit: '3D models and textures © Cloud Imperium Games. Converted from the game files for this unofficial fan site; colours and surfaces are approximate. Numbers are from game build {version}.',
+        modCredit: '3D models and textures © Cloud Imperium Games. Converted from the game files for this unofficial fan site; colours and surfaces are approximate.',
     });
     const FILTER_DEFAULTS = { query: '', kind: '', slot: '', cls: '', maker: '', damageType: '', fireMode: '', minMag: '', maxMass: '', minStore: '', environment: '', shopOnly: false };
     const state = { ...FILTER_DEFAULTS, detailOpen: false, filtersOpen: window.innerWidth > 700, part: 'torso', view: 'weapon', data: {}, error: {}, loading: {}, sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {}, mod: { weapon: '', slot: '', builds: {}, visiting: {}, notice: '' } };
@@ -579,9 +579,8 @@
             <p class="gear-note">${esc(text('cartNote'))}</p>`;
     }
     function special() {
-        const version = state.data.weapon?.version || state.data.armor?.version || '';
         return `${toolbar()}<div class="gear-special">${state.view === 'fit' ? fitView() : cartView()}</div>
-            <p class="gear-sources">${esc(text('sourceGame', { version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
+            <p class="gear-sources">${esc(text('sourcePrice'))}</p><p class="gear-note">${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
     }
 
     // ---- 개조 ---------------------------------------------------------------
@@ -730,8 +729,7 @@
         if (!state.data.weapon || !state.data.attach) return `${toolbar()}<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
         const group = findGroup('weapon', state.mod.weapon); const current = group ? group.id : '';
         const picker = `<label class="gear-select"><span>${esc(text('modPick'))}</span><select id="gear-mod-weapon">${option('', text('noWeapon'), current)}${KINDS.map((kind) => { const list = groupsOf('weapon').filter((item) => item.kind === kind); return list.length ? `<optgroup label="${esc(text(kind))}">${list.map((item) => option(item.id, label(item.name), current)).join('')}</optgroup>` : ''; }).join('')}</select></label>`;
-        const version = state.data.models?.gameBuild || state.data.attach.gameVersion || state.data.weapon.version || '';
-        const credit = `<p class="gear-sources">${esc(text('modCredit', { version }))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
+        const credit = `<p class="gear-note gear-art-credit">${esc(text('modCredit'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
         if (!group) return `${toolbar()}<div class="gear-mod"><div class="gear-mod-bar">${picker}</div><p class="gear-hint">${esc(text('modPickHint'))}</p></div>${credit}`;
         const build = modBuild(group.id); const slot = modSlot(group.id); const editable = modPorts(group.id).some((port) => port.editable);
         return `${toolbar()}<div class="gear-mod">
@@ -824,7 +822,7 @@
         else if (state.error[state.view]) html = `${toolbar()}<div class="gear-status" role="alert"><p>${esc(text('loadError'))}</p><button type="button" class="btn btn-secondary" data-gear-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.data[state.view]) html = `${toolbar()}<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
         else html = `${toolbar()}<div class="gear-workspace">${filters()}<div class="gear-columns${state.detailOpen ? ' is-reading' : ''}"><div class="gear-list" data-gear-type="${state.view}">${activeFilters()}${list()}</div><div class="gear-side">${detail()}</div></div></div>
-            <p class="gear-sources">${esc(text('sourceGame', { version: state.data[state.view].version }))} · ${esc(text('sourcePrice'))}<br>${esc(text('sourceNote'))}${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
+            <p class="gear-sources">${esc(text('sourcePrice'))}</p><p class="gear-note">${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
         const template = document.activeElement?.matches('input[type="search"]') && root.contains(document.activeElement) ? document.createElement('template') : null;
         const output = template || root;
         output.innerHTML = html;

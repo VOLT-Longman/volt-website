@@ -16,7 +16,7 @@
             place: '지역', rankRange: '필요 등급', minutes: '제한 시간', cargo: '화물', biggestBox: '가장 큰 상자', rep: '평판 보상', combat: '교전 가능',
             minutesValue: '{count}분', noCargo: '자료에 화물 내역 없음', boxValue: '{size} SCU 상자', count: '{count}건', noResult: '맞는 계약이 없습니다.', more: '{count}건 더 보기',
             showMissing: '화물 내역 미확인 계약도 보기', hiddenCount: '화물 내역 미확인 {count}건 숨김', includedCount: '화물 내역 미확인 {count}건 포함', placesMore: '{name} 외 {count}곳', availability: '계약 발급 가능 지역입니다. 실제 출발·도착 경로와는 다릅니다.', rankHint: '등급을 옆으로 넘겨 선택하세요.',
-            sourceGame: '계약·평판: Star Citizen 게임 파일 {version}', sourceNote: '게임 파일에 적힌 값이며 게임 안에서 확인한 값이 아닙니다. 보상 금액은 이 계약 정의에서 확인되지 않았습니다. 화물 내역 미확인은 화물 없음이 아닙니다.', rawRegion: '지역 미확인', cargoOrder: '주문 {n}', atLeast: '최소 {n} SCU (상한 미확인)', unknownAmount: '수량 미확인', cargoNote: '원본 주문별 수량입니다. 같은 재료라도 서로 다른 주문을 합치거나 제거하지 않습니다.',
+            sourceNote: '보상 금액은 이 계약 정의에서 확인되지 않았습니다. 화물 내역 미확인은 화물 없음이 아닙니다.', rawRegion: '지역 미확인', cargoOrder: '주문 {n}', atLeast: '최소 {n} SCU (상한 미확인)', unknownAmount: '수량 미확인', cargoNote: '원본 주문별 수량입니다. 같은 재료라도 서로 다른 주문을 합치거나 제거하지 않습니다.',
         },
         en: {
             loading: 'Loading hauling contracts…', loadError: 'Hauling contract data could not be loaded.', retry: 'Retry',
@@ -26,7 +26,7 @@
             place: 'Region', rankRange: 'Rank needed', minutes: 'Time limit', cargo: 'Cargo', biggestBox: 'Largest box', rep: 'Reputation', combat: 'May involve combat',
             minutesValue: '{count} min', noCargo: 'No cargo listed in the data', boxValue: '{size} SCU box', count: '{count} contracts', noResult: 'No contracts match.', more: 'Show {count} more',
             showMissing: 'Include contracts with unverified cargo', hiddenCount: '{count} contracts with unverified cargo hidden', includedCount: 'Includes {count} contracts with unverified cargo', placesMore: '{name} and {count} more', availability: 'Contract availability areas, not actual pickup and delivery routes.', rankHint: 'Swipe across to choose a rank.',
-            sourceGame: 'Contracts and reputation: Star Citizen game files {version}', sourceNote: 'Game-file definitions, not confirmed in game. Payouts are unavailable in these contract definitions. Missing cargo data does not mean no cargo.', rawRegion: 'Region unverified', cargoOrder: 'Order {n}', atLeast: 'At least {n} SCU (upper bound unverified)', unknownAmount: 'Quantity unavailable', cargoNote: 'Quantities are listed per source order. Identical materials in separate orders are not merged or removed.',
+            sourceNote: 'Payouts are unavailable in these contract definitions. Missing cargo data does not mean no cargo.', rawRegion: 'Region unverified', cargoOrder: 'Order {n}', atLeast: 'At least {n} SCU (upper bound unverified)', unknownAmount: 'Quantity unavailable', cargoNote: 'Quantities are listed per source order. Identical materials in separate orders are not merged or removed.',
         },
     };
     const PAGE = 20;
@@ -136,7 +136,7 @@
         if (state.error) html = `<div class="hauling-status" role="alert"><p>${esc(text('loadError'))}</p><button type="button" class="btn btn-secondary" data-hauling-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.data) html = `<p class="hauling-status" role="status">${esc(text('loading'))}</p>`;
         else html = `${ranks()}${controls()}<section aria-label="${esc(text('contractsAt'))}">${table()}</section><p class="hauling-note">${esc(text('cargoNote'))}</p>
-            <p class="hauling-sources">${esc(text('sourceGame', { version: state.data.version }))}<br>${esc(text('sourceNote'))}</p>`;
+            <p class="hauling-sources">${esc(text('sourceNote'))}</p>`;
         root.innerHTML = html;
         if (focusId) (root.querySelector(focusId))?.focus();
     }

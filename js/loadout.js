@@ -66,7 +66,7 @@
             tableRegion: '표 (좌우로 넘겨 볼 수 있음)',
             mountChange: '마운트 변경', rackChange: '랙 교체', fixedRack: '고정 랙 · 교체 불가', mountedOn: '장착 방식', equip: '장착', regenShort: '재생률', sortBy: '{label}순', buildsToggle: '저장·불러오기', comparePick: '비교할 구성', compareChoose: '비교할 저장 구성을 고르세요.', compareNone: '저장한 구성이 없습니다. 위의 「저장·불러오기」에서 지금 구성을 먼저 저장해 보세요.', fullLoad: '최대 가동 기준', detail: '지금 장착',
             splitRun: '하나씩 보기', mergeRun: '묶어 보기', runNote: '같은 부품이 달린 이 줄의 {count}곳을 함께 바꿉니다.', powerUseLabel: '최대 소비 전력', better: '유리', worse: '불리',
-            sourceBrief: '자료 출처 · 게임 파일 {version} · 가격 UEX · 한국어 패치 표기', role: '역할',
+            sourceBrief: '자료 출처 · 가격 UEX', role: '역할',
             variantNote: '함선 전용 변형', undo: '직전 변경 취소', undone: '직전 변경을 취소했습니다.', pickSlotHint: '왼쪽 목록에서 바꿀 자리의 「변경」을 누르면 여기에 맞는 부품이 나옵니다.',
             tabsLabel: '로드아웃 화면', tab_slots: '장착', tab_weapons: '무기 상세', tab_finder: '부품 찾기', tab_cart: '장바구니',
             cartEmpty: '장바구니가 비어 있습니다. 부품 찾기나 부품 선택 창에서 「담기」를 눌러 보세요.', cartSummary: '부품 {kinds}종 · {count}개', cartClear: '장바구니 비우기', cartRemove: '빼기',
@@ -85,7 +85,7 @@
             select: '장착', selected: '장착 중', priceFrom: '최저 {price}', priceShops: '판매처 {count}곳', priceNone: '판매처 정보 없음', priceLoading: '가격 확인 중',
             priceFail: '가격을 불러오지 못했습니다', shopping: '구매 목록', shoppingEmpty: '부품을 바꾸면 여기에 살 곳과 가격이 정리됩니다.', qty: '수량', cheapest: '가장 싼 곳', subtotal: '품목 합계', total: '합계',
             share: '공유 링크 복사', shareOk: '공유 링크를 복사했습니다.', shareFail: '링크를 복사하지 못했습니다.', resetAll: '전체 기본값으로', resetOk: '기본 장착으로 되돌렸습니다.',
-            sourceStats: '함선·부품 수치', sourcePrices: '구매처·가격', sourceTerms: '한국어 표기', sourceGame: 'Star Citizen 게임 파일에서 직접 추출', sourceVersion: '게임 자료 버전 {version}', sourceNote: '비공식 팬 사이트입니다. 수치는 게임 패치에 따라 달라지며, 화력 등은 자체 계산이라 실제 게임과 차이가 있을 수 있습니다.',
+            sourcePrices: '구매처·가격',
             size: '크기', grade: '등급', rpm: '분당 {value}발', perShot: '1발 {value}', speed: '탄속 {value}m/s', reach: '사거리 {value}m', hp: '내구 {value}',
             gen: '출력 {value}', coolGen: '냉각 {value}', qdSpeed: '{value} km/s', dmg: '피해 {value}', lock: '락온 {value}초', signal: '{value} 추적',
             groups: { weapon: '무기·터렛', missile: '미사일·폭탄', shield: '실드 제너레이터', power: '파워 플랜트', cooler: '쿨러', quantum: '퀀텀 드라이브', radar: '레이더', mining: '채광 장비', utility: '작업 장비', other: '기타 장비' },
@@ -137,7 +137,7 @@
             tableRegion: 'Table (scrolls sideways)',
             mountChange: 'Change mount', rackChange: 'Change rack', fixedRack: 'Fixed rack · cannot replace', mountedOn: 'Mounted on', equip: 'Equip', regenShort: 'Regen', sortBy: 'By {label}', buildsToggle: 'Save / load', comparePick: 'Compare with', compareChoose: 'Pick a saved setup to compare.', compareNone: 'No saved setups yet. Save the current setup with Save / load above.', fullLoad: 'at full load', detail: 'Equipped',
             splitRun: 'Show each', mergeRun: 'Group', runNote: 'Changes all {count} slots in this row together.', powerUseLabel: 'Maximum power draw', better: 'better', worse: 'worse',
-            sourceBrief: 'Sources · game files {version} · prices from UEX', role: 'Role',
+            sourceBrief: 'Sources · prices from UEX', role: 'Role',
             variantNote: 'Ship-specific variant', undo: 'Undo last change', undone: 'Last change undone.', pickSlotHint: 'Press Change on a slot in the list to see compatible parts here.',
             tabsLabel: 'Loadout views', tab_slots: 'Hardpoints', tab_weapons: 'Weapons', tab_finder: 'Part finder', tab_cart: 'Cart',
             cartEmpty: 'Your cart is empty. Use Add in the part finder or the part picker.', cartSummary: '{kinds} parts · {count} items', cartClear: 'Empty cart', cartRemove: 'Remove',
@@ -156,7 +156,7 @@
             select: 'Equip', selected: 'Equipped', priceFrom: 'From {price}', priceShops: '{count} shops', priceNone: 'No known shop', priceLoading: 'Checking prices',
             priceFail: 'Couldn\'t load prices', shopping: 'Shopping list', shoppingEmpty: 'Change a part to see where to buy it and what it costs.', qty: 'Qty', cheapest: 'Cheapest shop', subtotal: 'Subtotal', total: 'Total',
             share: 'Copy share link', shareOk: 'Share link copied.', shareFail: 'Couldn\'t copy the link.', resetAll: 'Reset to stock', resetOk: 'Restored the stock loadout.',
-            sourceStats: 'Ship & component stats', sourcePrices: 'Shops & prices', sourceTerms: 'Korean terms', sourceGame: 'extracted directly from the Star Citizen game files', sourceVersion: 'Game data version {version}', sourceNote: 'Unofficial fan site. Values change with game patches; firepower figures are our own calculation and may differ from the live game.',
+            sourcePrices: 'Shops & prices',
             size: 'Size', grade: 'Grade', rpm: '{value} rpm', perShot: '{value} per shot', speed: '{value} m/s', reach: '{value} m range', hp: '{value} HP',
             gen: 'Output {value}', coolGen: 'Cooling {value}', qdSpeed: '{value} km/s', dmg: '{value} damage', lock: 'Lock {value}s', signal: '{value} tracking',
             groups: { weapon: 'Weapons & turrets', missile: 'Missiles & bombs', shield: 'Shields', power: 'Power plants', cooler: 'Coolers', quantum: 'Quantum drive', radar: 'Radar', mining: 'Mining equipment', utility: 'Utility equipment', other: 'Other equipment' },
@@ -1555,12 +1555,8 @@ ${section(text('cost'), `
     function drawSources() {
         const meta = state.meta || {};
         return `<details class="loadout-sources loadout-fold" id="loadout-sources" data-loadout-fold="sources" ${folds.has('sources') ? 'open' : ''}>
-            <summary>${esc(text('sourceBrief', { version: meta.version || '' }))}</summary><p>
-            <span>${esc(text('sourceStats'))}: ${esc(text('sourceGame'))}</span>
+            <summary>${esc(text('sourceBrief'))}</summary><p>
             <span>${esc(text('sourcePrices'))}: <a href="${esc(meta.priceSourceUrl || 'https://uexcorp.space/')}" target="_blank" rel="noopener noreferrer">UEX</a></span>
-            ${lang() === 'ko' && state.ko?.source ? `<span>${esc(text('sourceTerms'))}: ${esc(state.ko.source)}</span>` : ''}
-            ${meta.version ? `<span>${esc(text('sourceVersion', { version: meta.version }))}</span>` : ''}
-            <span>${esc(text('sourceNote'))}</span>
         </p></details>`;
     }
 

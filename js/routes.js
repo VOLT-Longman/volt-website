@@ -1903,12 +1903,11 @@
     }
 
     function drawSources() {
-        const header = model ? model.header : null;
         const names = data.prices === 'ready' && data.market.length && data.names === 'error' ? `<br>${esc(t('namesMissing'))}` : '';
         const refresh = data.prices !== 'ready' ? '' : ui.refreshing ? ` <span role="status">${esc(t('pricesLoading'))}</span>`
             : ` <button type="button" class="routes-link" id="routes-refresh" data-act="refresh">${esc(t('refresh'))}</button>`;
         const failed = ui.refreshError ? `<br><span class="routes-hint is-error" id="routes-refresh-error" role="alert">${esc(`${t('refreshFailed')} ${H.errorText(ui.refreshError)}`)}</span>` : '';
-        return `<p class="routes-sources">${esc(H.sourceLine(header, data.prices === 'ready' ? data.meta || {} : null))}${refresh}${failed}<br>${esc(t('estimateNote'))}${names}</p>`;
+        return `<p class="routes-sources">${esc(H.sourceLine(data.prices === 'ready' ? data.meta || {} : null))}${refresh}${failed}<br>${esc(t('estimateNote'))}${names}</p>`;
     }
 
     // ── 그리기: 구역별로 ────────────────────────────────────────────────────

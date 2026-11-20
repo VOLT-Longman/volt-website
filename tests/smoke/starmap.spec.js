@@ -52,7 +52,7 @@ async function prepare(page, options = { fleet: true }) {
 const debug = (page) => page.evaluate(() => { const d = window.VOLT_STARMAP.debug(); return { phase: d.phase, view: d.view, state: d.state, loaded: d.loaded, viewer: d.viewer }; });
 async function open3d(page, hash = '#starmap', lang = 'ko') {
     await gotoSection(page, `?lang=${lang}${hash}`);
-    await expect(page.locator('#starmap-app .starmap-source')).toBeVisible({ timeout: 20000 });
+    await expect(page.locator('#starmap-app .starmap-tab').first()).toBeVisible({ timeout: 20000 });
     await expect.poll(async () => (await debug(page)).viewer?.ready, { timeout: 30000 }).toBe(true);
 }
 const overflow = (page) => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -64,7 +64,7 @@ test('함대원: 지도와 목록이 열리고 캔버스에 그림이 그려진�
     await expect(page.locator('section#starmap .section-header h2')).toHaveText('성계 지도');
     await expect(page.locator('#starmap-app .starmap-canvas')).toBeVisible();
     await expect(page.locator('#starmap-app .starmap-scale')).toContainText('거리는 줄여서 그렸습니다');
-    await expect(page.locator('#starmap-app .starmap-source')).toContainText(`게임 버전 ${index.gameVersion}`);
+    await expect(page.locator('#starmap-app .starmap-source')).toHaveCount(0);
     await expect(page.locator('#starmap-app .starmap-tab[aria-pressed="true"]')).toHaveText(index.systems[0].name.ko);
 
     // 512 그림이 다 올라올 때까지 기다린 뒤 화면을 읽는다.

@@ -1911,7 +1911,7 @@
                 <div class="tours-main">${results}</div>
             </div>
             <p class="tours-notice" role="status" data-notice>${esc(notice)}</p>
-            <p class="tours-source">${esc(H.sourceLine(data.model.header, data.uexMeta))}</p>`;
+            <p class="tours-source">${esc(H.sourceLine(data.uexMeta))}</p>`;
     }
 
     function draw() {

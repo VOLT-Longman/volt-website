@@ -32,7 +32,7 @@
             placesCount: '{count}곳', system: '성계', whatTitle: '{name} — 나오는 광물', rocksCount: '암석 {count}종',
             areaNote: '이 이름은 게임에 표시되는 이름이 아니라 내부 구분을 풀어 쓴 것입니다.',
             traits: '채광 특성', window: '최적 구간 위치', windowThinness: '최적 구간 좁기', explosion: '폭발 보정값',
-            sourceGame: '광물·암석·장소: Star Citizen 게임 파일 {version}', sourcePrice: '시세: UEX 이용자 보고', sourceRef: '정제 수율 보너스: UEX 이용자 보고', sourceRefAt: '{age} 받아 옴', sourceNote: '스폰 확률은 같은 장소·채광 방식에서 종류가 확인된 암석끼리 게임 파일의 등장 가중치를 비교한 값입니다.',
+            sourcePrice: '시세: UEX 이용자 보고', sourceRef: '정제 수율 보너스: UEX 이용자 보고', sourceRefAt: '{age} 받아 옴', sourceNote: '스폰 확률은 같은 장소·채광 방식에서 종류가 확인된 암석끼리 등장 가중치를 비교한 값입니다.',
             perScu: 'aUEC/SCU', backToList: '목록으로', unofficial: '임시 구분명',
             priceUnitNote: '시세는 SCU당 값입니다. 손 채광 광물 한 개의 판매 가격이 아닙니다.',
             detailNote: '암석의 스폰 확률이 높은 순서입니다. 같은 광물이 여러 줄이면 게임 파일에 기록된 함량 범위를 각각 보여 줍니다.',
@@ -106,7 +106,7 @@
             placesCount: '{count} locations', system: 'System', whatTitle: '{name} — minerals found', rocksCount: '{count} rock types',
             areaNote: 'This name is not shown in game; it spells out an internal label.',
             traits: 'Mining traits', window: 'Optimal window position', windowThinness: 'Optimal window thinness', explosion: 'Explosion modifier',
-            sourceGame: 'Minerals, rocks and locations: Star Citizen game files {version}', sourcePrice: 'Prices: UEX player reports', sourceRef: 'Refining yield bonuses: UEX player reports', sourceRefAt: 'fetched {age}', sourceNote: 'Spawn chance compares game-file weights for identified rock types at the same location and with the same mining method.',
+            sourcePrice: 'Prices: UEX player reports', sourceRef: 'Refining yield bonuses: UEX player reports', sourceRefAt: 'fetched {age}', sourceNote: 'Spawn chance compares spawn weights for identified rock types at the same location and with the same mining method.',
             perScu: 'aUEC/SCU', backToList: 'Back to list', unofficial: 'Descriptive label',
             priceUnitNote: 'Prices are per SCU, not the sale price of one hand-mined gem.',
             detailNote: 'Rocks are sorted by spawn chance. Repeated minerals show separate content ranges from the game files.',
@@ -1165,8 +1165,6 @@
     }
 
     function sourcesLine() {
-        // 게임 버전은 한 곳(함께 쓰는 출처 줄)에만 적는다. UEX 줄은 이 화면이 UEX에서 실제로 받는 것만 적는다.
-        const game = H?.sourceLine ? H.sourceLine(state.data, null) : text('sourceGame', { version: state.data.gameVersion || state.data.version });
         let uex = '';
         if (state.view === 'mineral') uex = state.priceState === 'failed' ? text('priceFailed') : state.marketState === 'failed' ? `${text('sourcePrice')} · ${text('marketFailed')}` : text('sourcePrice');
         else if (state.view === 'ref') {
@@ -1174,7 +1172,7 @@
             uex = state.ref.status === 'failed' ? (H?.errorText ? H.errorText(state.ref.error) : text('priceFailed'))
                 : `${text('sourceRef')}${state.ref.status === 'ready' && Number.isFinite(fetched) && H?.age ? ` · ${text('sourceRefAt', { age: H.age(fetched / 1000) })}` : ''}`;
         }
-        return `<p class="mining-sources">${esc(game)}${uex ? `<br>${esc(uex)}` : ''}<br>${esc(text('sourceNote'))}${state.view === 'mineral' ? `<br>${esc(text('priceUnitNote'))}` : ''}</p>`;
+        return `<p class="mining-sources">${uex ? `${esc(uex)}<br>` : ''}${esc(text('sourceNote'))}${state.view === 'mineral' ? `<br>${esc(text('priceUnitNote'))}` : ''}</p>`;
     }
 
     function draw(focusDetail) {

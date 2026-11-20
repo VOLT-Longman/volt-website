@@ -86,7 +86,6 @@
             cartHead: 'VOLT 제작 준비물', cartNote: '같은 재료라도 최소 품질이 다르면 줄을 나눴습니다. SCU와 낱개는 다른 단위입니다.',
             notes: '제작기와 분해', stations: '제작기', dismantle: '분해: {time}, 효율 값 {eff}. 이 값으로 돌려받는 양이 어떻게 정해지는지는 게임 자료에 없습니다.', dismantleNoReturn: '분해해도 돌려받지 못하는 재료: {list}',
             stationNote: '제작기가 어디에 있는지는 우리 자료에 없습니다.',
-            sourceNote: '게임 파일에 적힌 값이며 게임 안에서 직접 재 본 값이 아닙니다.',
         },
         en: {
             loading: 'Loading blueprint data…', retry: 'Try again',
@@ -139,7 +138,6 @@
             cartHead: 'VOLT crafting shopping list', cartNote: 'The same material is listed on separate lines when the minimum quality differs. SCU and pieces are different units.',
             notes: 'Fabricators and dismantling', stations: 'Fabricators', dismantle: 'Dismantling: {time}, efficiency value {eff}. How that turns into returned amounts is not in the game files.', dismantleNoReturn: 'Materials not returned when dismantled: {list}',
             stationNote: 'Where fabricators stand in the world is not in our data.',
-            sourceNote: 'Values are as written in the game files, not measured in game.',
         },
     };
     // 종류(아이템 타입) 이름. 게임 이름이 아니라 화면 분류용 쉬운 말.
@@ -825,7 +823,7 @@
     }
     function cartText() {
         const totals = cartTotals();
-        const lines = [`${t('cartHead')} (${H.sourceLine(D)})`, '', `[${t('cartItems')}]`];
+        const lines = [t('cartHead'), '', `[${t('cartItems')}]`];
         for (const [i, qty] of viewed()) lines.push(`- ${bpName(i)} × ${fmt(qty, 0)}`);
         lines.push('', `[${t('cartTotals')}]`);
         for (const row of totals.rows) lines.push(`- ${matName(row.mat)} ${totalAmount(row)} (${t('minQuality', { q: fmt(row.q, 0) })})`);
@@ -863,7 +861,7 @@
         const body = { list: listTab, mats: matsTab, pools: poolsTab, trades: tradesTab, cart: cartTab }[S.tab]();
         const sub = S.tab === 'list' ? 'pools' : S.tab === 'mats' && D.trades?.length ? 'trades' : null;
         const filter = sub ? btn('tab', sub, e(t(TAB_LABELS[sub])), { cls: 'fab-chip' }) : '';
-        return `${tabsHtml()}${filter}<p class="fab-live" role="status" aria-live="polite" data-region="status">${e(S.status)}</p><div class="fab-body fab-body-${e(S.tab)}">${body}</div><p class="fab-source">${e(H.sourceLine(D))} · ${e(t('sourceNote'))}</p>`;
+        return `${tabsHtml()}${filter}<p class="fab-live" role="status" aria-live="polite" data-region="status">${e(S.status)}</p><div class="fab-body fab-body-${e(S.tab)}">${body}</div>`;
     }
     function render(focusKey) {
         if (!root) return;

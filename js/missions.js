@@ -104,7 +104,7 @@
             pathStep: '{a} → {b}', pathNeed: '평판 {v} 더 필요', pathBest: '반복해서 하기 좋은 임무 (한 번에 +{v})', pathRuns: '{n}회 반복', pathNoRepeat: '이 등급에서 평판을 주는 반복 임무가 게임 자료에 없습니다. 여기서부터는 계산할 수 없습니다.',
             pathOnce: '한 번만 할 수 있는 임무 (하면 그만큼 횟수가 줄어듭니다)', pathUnlock: '{name} 등급이 되면 새로 열리는 임무 {n}개', pathMore: '외 {n}개', pathTotal: '반복 임무 합계 {n}회', pathDone: '이미 목표 등급입니다.',
             pathCross: '등급 조건이 다른 평판에 걸림', pathNote: '평판 값만으로 만든 단순한 계산입니다. 임무 장소, 다시 받기 대기 시간, 먼저 해야 하는 임무, 이벤트 여부는 따지지 않았습니다. 이벤트 때만 나오는 임무와 출시용이 아닌 임무는 뺐습니다.',
-            dataNote: '모든 값은 게임 파일 그대로이며 서버 설정으로 달라질 수 있습니다. 빈 값은 0이 아니라 ‘게임 자료에 없음’입니다.',
+            dataNote: '서버 설정에 따라 값이 달라질 수 있습니다. 빈칸은 값 미확인을 뜻합니다.',
         },
         en: {
             loading: 'Loading mission data… (downloaded once)', retry: 'Retry',
@@ -176,7 +176,7 @@
             pathStep: '{a} → {b}', pathNeed: '{v} more reputation needed', pathBest: 'Good mission to repeat (+{v} each)', pathRuns: 'repeat {n} times', pathNoRepeat: 'No repeatable mission gives this reputation at this rank in the game files. Nothing can be calculated from here.',
             pathOnce: 'Once-only missions (each one lowers the count)', pathUnlock: '{n} missions open when you reach {name}', pathMore: 'and {n} more', pathTotal: '{n} repeatable runs in total', pathDone: 'You are already at the target rank.',
             pathCross: 'rank requirement on another reputation', pathNote: 'A simple calculation from reputation values only. Mission location, cooldowns, prerequisite missions and events are not considered. Event-only missions and missions not for release are left out.',
-            dataNote: 'All values are as written in the game files and may differ by server settings. An empty value is “not in the game files”, not 0.',
+            dataNote: 'Values can vary by server settings. A blank means the value is unknown.',
         },
     };
     const t = H.translator(TEXT);
@@ -1177,7 +1177,7 @@
     }
 
     function bodyHtml() {
-        const source = `<footer class="missions-source"><p>${esc(H.sourceLine({ gameVersion: load.data.gameVersion, builtAt: load.data.builtAt }))}</p><p>${esc(t('dataNote'))}</p>
+        const source = `<footer class="missions-source"><p>${esc(t('dataNote'))}</p>
             <p>${esc(t('haulingLink'))} — <a href="#hauling">${esc(t('haulingGo'))}</a></p></footer>`;
         if (view.tab === 'rank') return `${rankHtml()}${source}`;
         if (view.tab === 'path') return `${pathHtml()}${source}`;

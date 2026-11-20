@@ -69,7 +69,7 @@ test('채광 안내: 검색과 방식 필터, 영어 전환', async ({ page }) =
     await page.locator('#mining-search').fill('');
     await page.locator('.nav-lang [data-set-lang="en"]').click();
     await expect(page.locator('.mining-tab').first()).toHaveText('By mineral');
-    await expect(page.locator('.mining-sources')).toContainText('game files');
+    await expect(page.locator('.mining-sources')).toContainText('Spawn chance');
 });
 
 test('채광 안내: 시세를 받지 못해도 광물과 장소는 그대로 보인다', async ({ page }) => {
@@ -110,10 +110,9 @@ test('채광 안내: 새 보기 탭이 더해져도 기존 화면이 그대로�
     await expect(page.locator('.mining-tab')).toHaveText(['광물별', '장소별', '신호값으로 찾기', '정제소 찾기']);
     await expect(page.locator('#mining-view-mineral')).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('.mining-chips [data-mining-mode]')).toHaveCount(4);
-    await expect(page.locator('.mining-sources')).toContainText('게임 버전 4.');
-    await expect(page.locator('.mining-sources')).toContainText('자료: 게임 파일');
-    // 버전 번호는 하나만 적는다.
-    expect((await page.locator('.mining-sources').innerText()).match(/\d+\.\d+\.\d+\.\d+/g)).toHaveLength(1);
+    await expect(page.locator('.mining-sources')).not.toContainText('게임 버전 4.');
+    await expect(page.locator('.mining-sources')).not.toContainText('자료: 게임 파일');
+    expect((await page.locator('.mining-sources').innerText())).not.toMatch(/\d+\.\d+\.\d+\.\d+/);
     await page.locator('#mining-search').fill('gold');
     await page.locator('[data-mining-mineral="Ore_Gold"]').first().click();
     await expect(page.locator('.mining-detail thead')).toContainText('신호 값 (1개)');

@@ -73,7 +73,7 @@ test('개인 장비: 방어구는 부위·등급으로 거르고 피해 감소�
     await expect(detail.locator('.gear-variants tbody tr').first()).toBeVisible();
     await page.locator('.nav-lang [data-set-lang="en"]').click();
     await expect(page.locator('.gear-tab').first()).toHaveText('Weapons');
-    await expect(page.locator('.gear-sources')).toContainText('game files');
+    await expect(page.locator('.gear-sources')).toContainText('Shops and prices: UEX');
 });
 
 test('개인 장비: 가격을 받지 못해도 수치는 보이고, 자료 실패는 다시 시도할 수 있다', async ({ page }) => {
@@ -233,7 +233,7 @@ test('개인 장비: 위키 이미지는 만든 사람·이용 조건·원본 �
     await expect(figure.getByRole('link', { name: '원본 보기' })).toHaveAttribute('rel', 'noopener noreferrer');
     await expect(figure).toContainText('이미지 예시');
     await expect(figure.getByRole('link', { name: 'CC BY-SA 4.0', exact: true })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by-sa/4.0/');
-    await expect(page.locator('.gear-sources')).toContainText('Star Citizen Wiki');
+    await expect(page.locator('.gear-note').filter({ hasText: 'Star Citizen Wiki' })).toBeVisible();
     expect(errors).toEqual([]);
 });
 

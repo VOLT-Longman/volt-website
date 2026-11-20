@@ -82,7 +82,7 @@ test('순회 무역: 함선을 고르지 않으면 안내하고, 고르면 공�
     const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('volt-helper-state-v1')));
     expect(saved.ship).toBe('c2-hercules');
     expect(saved.maxAgeDays).toBe(3);
-    await expect(app.locator('.tours-source')).toContainText('자료: 게임 파일');
+    await expect(app.locator('.tours-source')).not.toContainText('자료: 게임 파일');
     await expect(app.locator('.tours-source')).toContainText('UEX 이용자 보고');
     expect(errors).toEqual([]);
 });
@@ -222,7 +222,7 @@ test('순회 무역: 가격을 못 받아 와도 내 조건은 보이고 다시 
     await expect(app.locator('.tours-main [role="alert"]')).toContainText('UEX 가격을 받아 올 수 없습니다');
     await expect(app.locator('[data-k="ship"]')).toHaveValue('c2-hercules');
     await expect(app.locator('.tours-mine')).toContainText('화물칸 696 SCU');
-    await expect(app.locator('.tours-source')).toContainText('게임 버전');
+    await expect(app.locator('.tours-source')).not.toContainText('게임 버전');
     await expect(app.locator('[data-act="run-tour"]')).toHaveCount(0);
     await page.unroute('**/api/uex/market**');
     await page.unroute('**/api/uex/terminals**');
@@ -363,7 +363,7 @@ for (const width of [375, 1440]) {
         await app.locator('[data-act="open"]').first().focus();
         await page.keyboard.press('Enter');
         await expect(app.locator('.tours-leg').first()).toContainText('price reported 2 h ago');
-        await expect(app.locator('.tours-source')).toContainText('Data: game files');
+        await expect(app.locator('.tours-source')).toContainText('UEX player reports');
         await expectNoSidewaysScroll(page);
         const small = await app.locator('button, select, input[type="number"], .tours-link').evaluateAll((nodes) => nodes
             .filter((node) => node.offsetParent !== null && node.getBoundingClientRect().height < 43.5).map((node) => node.outerHTML.slice(0, 80)));

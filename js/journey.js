@@ -146,7 +146,7 @@
             else row.append(note('채집 장소 자료 없음', 'No verified gathering locations'));
             links.append(button(tr('판매처 확인', 'Check market'), () => marketResource(material.id, 'buy'))); row.append(links); rows.append(row);
         }
-        target.append(rows, note('게임 파일 · 설계도 첫 단계 재료 합계입니다. SCU와 낱개는 따로 계산합니다. 채굴량·정제 수율·제작 품질은 추정하지 않습니다.', 'Game files · totals for the first recipe tier. SCU and pieces are kept separate. Mining yield, refining output and crafted quality are not estimated.'));
+        target.append(rows, note('설계도 첫 단계 재료 합계입니다. SCU와 낱개는 따로 계산합니다. 채굴량·정제 수율·제작 품질은 추정하지 않습니다.', 'Totals for the first recipe tier. SCU and pieces are kept separate. Mining yield, refining output and crafted quality are not estimated.'));
         if (result.missing.length) target.append(note('일부 설계도 자료가 없어 합계가 불완전합니다. 해당 부품을 다시 선택해 주세요.', 'Some recipes are unavailable. Totals are incomplete; please reselect those parts.'));
         target.append(button(tr('AI로 재료 확보 계획 검토', 'Review material plan with AI'), () => ask('craft'), 'journey-primary')); panel.append(target);
     }

@@ -24,7 +24,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(existing).toBeVisible();
         await existing.click();
         await expect(page.locator('#global-modal .ship-live-summary')).toContainText('103,004');
-        await expect(page.locator('#global-modal .ship-live-summary')).toContainText('4.10.0-LIVE');
+        await expect(page.locator('#global-modal .ship-live-summary')).toHaveText('가격: UEX');
         await page.keyboard.press('Escape');
         const modal = await openShipModalByName(page, '센타우루스');
         await expect(modal.locator('.ship-live-summary')).toContainText('170,500');

@@ -212,7 +212,7 @@ test('공용 도우미: 모르는 값은 0이 아니고, 가격 나이와 UEX �
             ko: [H.num(null), H.num(0), H.price(undefined), H.price(12500), H.scu(null), H.scu(46), H.name({ en: 'Gold', ko: '금' }), H.name({ en: 'Gold' }),
                 H.age(at(0.5), now), H.age(at(5), now), H.age(at(80), now), H.age(null, now), H.duration(4800), H.esc('<b a="1">&\'')],
             levels: [H.ageLevel(at(71), undefined, now), H.ageLevel(at(73), undefined, now), H.ageLevel(at(73), 7, now), H.ageLevel(0, 3, now)],
-            source: H.sourceLine({ gameVersion: '4.10.200.58746', builtAt: '2026-11-19T01:02:03Z' }),
+            source: H.sourceLine(null),
             failures: [await failure('market'), await failure('terminals'), await failure('refineries'), await failure('commodities'), await failure('../auth/me')],
             vehicles: [vehicles.stale, Array.isArray(vehicles.data.vehicles)],
             cargoShips: Array.isArray(cargo.ships),
@@ -224,7 +224,7 @@ test('공용 도우미: 모르는 값은 0이 아니고, 가격 나이와 UEX �
     expect(result.ko).toEqual(['게임 자료에 없음', '0', '보고 없음', '12,500 aUEC', '게임 자료에 없음', '46 SCU', '금', 'Gold',
         '30분 전', '5시간 전', '3일 전', '보고 시각 모름', '1시간 20분', '&lt;b a=&quot;1&quot;&gt;&amp;&#39;']);
     expect(result.levels).toEqual(['ok', 'old', 'ok', 'unknown']);
-    expect(result.source).toBe('자료: 게임 파일 · 게임 버전 4.10.200.58746 · 정리한 날 2026-11-19');
+    expect(result.source).toBe('');
     expect(result.failures.map((item) => item[0])).toEqual(['login', 'member', 'unavailable', 'invalid', 'invalid']);
     expect(result.failures[0][1]).toBe('가격을 보려면 로그인이 필요합니다.');
     expect(result.vehicles).toEqual([true, true]);

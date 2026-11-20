@@ -134,8 +134,8 @@ for (const width of [375, 1440]) {
         await expect(row(page, '아그리슘')).toContainText('2,100 aUEC');
 
         const source = app(page).locator('[data-market-source]');
-        await expect(source).toContainText('자료: 게임 파일');
-        await expect(source).toContainText('게임 버전 4.');
+        await expect(source).not.toContainText('자료: 게임 파일');
+        await expect(source).not.toContainText('게임 버전 4.');
         await expect(source).toContainText('가격·재고: UEX 이용자 보고');
         await expectNoSidewaysScroll(page);
 
@@ -365,7 +365,7 @@ test('가격을 못 받아도 화면은 남는다: 안내와 다시 시도, 화�
     await gotoSection(page, '?lang=ko#market');
     await expect(app(page).locator('.market-error')).toContainText('가격을 보려면 로그인이 필요합니다.');
     await expect(app(page).locator('[data-k="retry-prices"]')).toBeVisible();
-    await expect(app(page).locator('[data-market-source]')).toContainText('게임 버전 4.');
+    await expect(app(page).locator('[data-market-source]')).not.toContainText('게임 버전 4.');
     await app(page).locator('[data-k="tab-ships"]').click();
     await expect(app(page).locator('[data-market-budget] .market-error')).toBeVisible();
     await app(page).locator('[data-k="hold-ship"]').selectOption('hull-a');
@@ -534,7 +534,7 @@ test('영어 화면과 언어 전환, 모르는 주소 값은 조용히 기본 �
     const aluminum = row(page, 'Aluminum');
     await expect(aluminum).toContainText('Everus Harbor');
     await expect(aluminum).toContainText('2 h ago');
-    await expect(app(page).locator('[data-market-source]')).toContainText('Data: game files');
+    await expect(app(page).locator('[data-market-source]')).toContainText('UEX player reports');
     await expectNoSidewaysScroll(page);
 
     // 없는 상품·거래소 id: 오류 없이 안내만.

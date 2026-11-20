@@ -154,8 +154,8 @@ test('개조: 무기 상세의 「이 무기 개조하기」로 들어가고, �
     await page.evaluate(() => window.VOLT_I18N.setLang('en'));
     await expect(page.locator('[data-gear-view="mod"]')).toHaveText('Modding');
     await expect(slotRow(page, 'optics_attach')).toContainText('Optics Attachment');
-    await expect(page.locator('.gear-sources')).toContainText('© Cloud Imperium Games');
-    await expect(page.locator('.gear-sources')).toContainText('unofficial fan site');
+    await expect(page.locator('.gear-art-credit')).toContainText('© Cloud Imperium Games');
+    await expect(page.locator('.gear-art-credit')).toContainText('unofficial fan site');
 });
 
 test('개조: 넓은 화면에서는 3D 모형이 뜨고, 부품을 바꾸면 그림이 바뀐다 (콘솔 오류·CSP 위반 없음)', async ({ page }) => {
@@ -190,8 +190,8 @@ test('개조: 넓은 화면에서는 3D 모형이 뜨고, 부품을 바꾸면 �
     await expect(page.locator('[data-gear-mod-view="side"]')).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('[data-gear-mod-view="side"]')).toBeFocused();
     // 저작권·출처 줄이 있고 모형 내려받기 단추는 없다.
-    await expect(page.locator('.gear-sources')).toContainText('© Cloud Imperium Games');
-    await expect(page.locator('.gear-sources')).toContainText('게임 빌드 4.');
+    await expect(page.locator('.gear-art-credit')).toContainText('© Cloud Imperium Games');
+    await expect(page.locator('.gear-art-credit')).toContainText('비공식 팬 사이트');
     await expect(page.locator('#gear a[download], #gear a[href$=".glb"]')).toHaveCount(0);
     expect(await axeSerious(page)).toEqual([]);
     // 다른 화면으로 가면 3D 를 놓아 준다. 돌아오면 다시 뜬다.

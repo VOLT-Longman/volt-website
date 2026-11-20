@@ -562,7 +562,7 @@ test('출처 줄과 탭 줄: 정제소 화면은 수율 보너스 출처를 적�
     const sources = page.locator('.mining-sources');
     await expect(sources).toContainText('정제 수율 보너스: UEX 이용자 보고');
     await expect(sources).not.toContainText('가격·재고');
-    expect((await sources.innerText()).match(/\d+\.\d+\.\d+\.\d+/g)).toHaveLength(1);
+    expect((await sources.innerText())).not.toMatch(/\d+\.\d+\.\d+\.\d+/);
     await page.locator('#mining-view-ref').focus();
     await page.keyboard.press('ArrowLeft');
     await expect(page.locator('#mining-view-sig')).toBeFocused();

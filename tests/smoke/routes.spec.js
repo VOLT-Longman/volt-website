@@ -108,7 +108,7 @@ test('무역 경로: 함선과 예산을 고르면 순위표가 나오고, 고�
     await expect(page.locator('#routes-budget-hint')).toContainText('읽을 수 없는 값');
 
     // 출처·게임 버전·가격 나이
-    await expect(app(page).locator('.routes-sources')).toContainText('게임 버전');
+    await expect(app(page).locator('.routes-sources')).not.toContainText('게임 버전');
     await expect(app(page).locator('.routes-sources')).toContainText('UEX 이용자 보고');
     // 3일 넘은 보고(알루미늄 Area18)와 불법 상품은 기본으로 빠진다.
     await expect(page.locator('#routes-table tr[data-route="85-12"]')).not.toContainText('오소이안');
@@ -315,7 +315,7 @@ test('무역 경로: 가격을 못 받아도 내 조건과 게임 자료는 남�
     await expect(app(page).locator('[data-routes-price-error="unavailable"]')).toContainText('UEX 가격을 받아 올 수 없습니다');
     await expect(page.locator('#routes-ship')).toHaveValue('c2-hercules');
     await expect(app(page).locator('.routes-hold')).toContainText('696 SCU');
-    await expect(app(page).locator('.routes-sources')).toContainText('게임 버전');
+    await expect(app(page).locator('.routes-sources')).not.toContainText('게임 버전');
     fail = false;
     await page.locator('#routes-retry').click();
     await expect(rows(page)).toHaveCount(4);

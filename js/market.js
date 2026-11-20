@@ -895,9 +895,8 @@
     }
 
     function drawFooter() {
-        const header = model ? model.header : null;
         return `<div class="market-foot">
-            <p class="market-sources" data-market-source>${esc(H.sourceLine(header, prices ? { fetchedAt: prices.meta && prices.meta.fetchedAt, stale: prices.stale } : null))}</p>
+            <p class="market-sources" data-market-source>${esc(H.sourceLine(prices ? { fetchedAt: prices.meta && prices.meta.fetchedAt, stale: prices.stale } : null))}</p>
             <div class="market-actions">
                 <button type="button" class="market-btn" data-act="refresh" data-k="refresh"${pricesLoading ? ' disabled' : ''}>${esc(t('refresh'))}</button>
                 <button type="button" class="market-btn" data-act="copy" data-k="copy">${esc(t('copy'))}</button>

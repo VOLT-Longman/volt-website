@@ -46,9 +46,9 @@
             durSec: '{n}초',
             durMin: '{n}분',
             durHour: '{n}시간',
-            sourceGame: '자료: 게임 파일',
-            sourceVersion: '게임 버전 {v}',
-            sourceBuilt: '정리한 날 {d}',
+
+
+
             sourceUex: '가격·재고: UEX 이용자 보고',
             sourceUexAt: '{age} 받아 옴',
             sourceStale: 'UEX 연결이 안 되어 이전에 받아 둔 자료를 보여 줍니다',
@@ -79,9 +79,9 @@
             durSec: '{n} s',
             durMin: '{n} min',
             durHour: '{n} h',
-            sourceGame: 'Data: game files',
-            sourceVersion: 'game version {v}',
-            sourceBuilt: 'built {d}',
+
+
+
             sourceUex: 'Prices and stock: UEX player reports',
             sourceUexAt: 'fetched {age}',
             sourceStale: 'UEX could not be reached, showing the copy fetched earlier',
@@ -208,16 +208,8 @@
         return minutes ? `${text('durHour', { n: hours })} ${text('durMin', { n: minutes })}` : text('durHour', { n: hours });
     }
 
-    // 화면마다 보여 줘야 하는 "자료 출처 · 게임 버전" 한 줄.
-    //   sourceLine({ gameVersion, builtAt })                       → 게임 파일 자료
-    //   sourceLine({ gameVersion }, { fetchedAt, stale })          → + UEX 가격 안내
-    function sourceLine(dataHeader, uexMeta) {
+    function sourceLine(uexMeta) {
         const parts = [];
-        if (dataHeader) {
-            parts.push(text('sourceGame'));
-            if (dataHeader.gameVersion) parts.push(text('sourceVersion', { v: dataHeader.gameVersion }));
-            if (dataHeader.builtAt) parts.push(text('sourceBuilt', { d: String(dataHeader.builtAt).slice(0, 10) }));
-        }
         if (uexMeta) {
             parts.push(text('sourceUex'));
             const fetched = Date.parse(uexMeta.fetchedAt || '');
