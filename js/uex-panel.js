@@ -16,7 +16,7 @@
     // main.js가 주입하는 공용 의존성(이름 동일 → 이동한 코드 무수정).
     let escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,
         formatCommodityLabel, getCommodityKoreanName,
-        handlePickerKeyboard, closePicker, announcePickerSelection, trapFocus,
+        setupSearchPicker, closePicker, announcePickerSelection, trapFocus,
         UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES;
 
     // UEX 패널 소유 상태(main.js에서 이동).
@@ -33,7 +33,7 @@
         ({
             escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,
             formatCommodityLabel, getCommodityKoreanName,
-            handlePickerKeyboard, closePicker, announcePickerSelection, trapFocus,
+            setupSearchPicker, closePicker, announcePickerSelection, trapFocus,
             UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES,
         } = deps || {});
     }
@@ -78,10 +78,7 @@
         const recommendButton = document.getElementById('uex-recommend-refresh');
         const recommendResults = document.getElementById('uex-recommend-results');
         if (!select || !search || !results || !button) return;
-        search.addEventListener('focus', () => renderCommodityResults(search.value));
-        search.addEventListener('input', () => renderCommodityResults(search.value));
-        search.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectCommodity));
-        results.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectCommodity));
+        setupSearchPicker(search, results, renderCommodityResults, selectCommodity);
         results.addEventListener('click', (event) => {
             const option = event.target.closest('[data-commodity-id]');
             if (option) selectCommodity(option.getAttribute('data-commodity-id'));

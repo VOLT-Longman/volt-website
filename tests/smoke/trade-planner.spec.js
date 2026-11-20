@@ -614,3 +614,29 @@ test('첫 방문에 함선 목록보다 검색어를 먼저 입력해도 결과�
     await expect(page.locator('[data-planner-ship-id="liberator"]')).toBeVisible();
     await expect(input).toHaveValue('liberator');
 });
+
+test('함선 검색에서 한글 확정 키와 목록 선택 키를 구분하고 취소하면 검색창으로 돌아온다', async ({ page }) => {
+    await mockApi(page);
+    await gotoSection(page, '#trade-planner');
+    const input = page.locator('#logistics-ship-search');
+    const options = page.locator('#logistics-ship-results [role="option"]');
+    await input.fill('어벤저');
+    await expect(options.first()).toBeVisible();
+    await input.dispatchEvent('keydown', { key: 'Enter', isComposing: true });
+    await expect(input).toHaveValue('어벤저');
+    await expect(input).toHaveAttribute('aria-expanded', 'true');
+
+    await input.press('ArrowUp');
+    await expect(options.last()).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(input).toBeFocused();
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+    await input.press('Enter');
+    await expect(input).toHaveValue('어벤저');
+    await input.press('ArrowDown');
+    await expect(options.first()).toBeFocused();
+    const id = await options.first().getAttribute('data-planner-ship-id');
+    await page.keyboard.press('Enter');
+    await expect(input).toBeFocused();
+    await expect(page.locator('#logistics-ship')).toHaveValue(id);
+});

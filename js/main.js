@@ -790,10 +790,7 @@
         const input = document.getElementById('logistics-ship-search');
         const results = document.getElementById('logistics-ship-results');
         if (!input || !results) return;
-        input.addEventListener('focus', () => renderPlannerShipResults(input.value));
-        input.addEventListener('input', () => renderPlannerShipResults(input.value));
-        input.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectPlannerShip));
-        results.addEventListener('keydown', (event) => handlePickerKeyboard(event, results, selectPlannerShip));
+        setupSearchPicker(input, results, renderPlannerShipResults, selectPlannerShip);
         results.addEventListener('click', (event) => {
             const option = event.target.closest('[data-planner-ship-id]');
             if (option) selectPlannerShip(option.getAttribute('data-planner-ship-id'), true);
@@ -870,18 +867,36 @@
         return i18nT('planner.shipRec.escort', '소규모 화물 / 호송 운송 추천');
     }
 
-    function handlePickerKeyboard(event, results, onSelect) {
-        const options = [...results.querySelectorAll('[role="option"]')];
-        if (event.key === 'Escape') return closePicker(event.target, results);
-        if (options.length === 0 || !['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) return;
-        event.preventDefault();
-        const current = options.indexOf(document.activeElement);
-        if (event.key === 'Enter') {
-            const option = current >= 0 ? options[current] : options[0];
-            return onSelect(getPickerOptionValue(option), true);
+    function setupSearchPicker(input, results, renderOptions, onSelect) {
+        const show = () => renderOptions(input.value);
+        function handleKey(event) {
+            if (event.isComposing || event.keyCode === 229) return;
+            if (event.key === 'Escape' && !results.hidden) {
+                event.preventDefault();
+                input.focus();
+                closePicker(input, results);
+                return;
+            }
+            const arrow = event.key === 'ArrowDown' || event.key === 'ArrowUp';
+            if (!arrow && (event.key !== 'Enter' || results.hidden)) return;
+            if (results.hidden) show();
+            const options = [...results.querySelectorAll('[role="option"]')];
+            if (!options.length) return;
+            event.preventDefault();
+            const current = options.indexOf(document.activeElement);
+            if (event.key === 'Enter') {
+                const value = getPickerOptionValue(options[Math.max(0, current)]);
+                input.focus();
+                onSelect(value, true);
+                return;
+            }
+            const next = event.key === 'ArrowDown' ? current + 1 : (current <= 0 ? options.length - 1 : current - 1);
+            options[next % options.length].focus();
         }
-        const direction = event.key === 'ArrowUp' ? -1 : 1;
-        options[(current + direction + options.length) % options.length].focus();
+        input.addEventListener('focus', show);
+        input.addEventListener('input', show);
+        input.addEventListener('keydown', handleKey);
+        results.addEventListener('keydown', handleKey);
     }
 
     function getPickerOptionValue(option) {
@@ -2221,7 +2236,7 @@
         window.VOLT_UEX_PANEL?.init?.({
             escapeHtml, i18nT, formatCredits, formatPercent, formatLocalizedName,
             formatCommodityLabel, getCommodityKoreanName,
-            handlePickerKeyboard, closePicker, announcePickerSelection, trapFocus,
+            setupSearchPicker, closePicker, announcePickerSelection, trapFocus,
             UEX_CACHE_TTL_MS, RECOMMENDED_COMMODITY_CANDIDATES,
         });
         // 무역플래너 수익표 — 공용 포매터·토스트·i18n 주입.
