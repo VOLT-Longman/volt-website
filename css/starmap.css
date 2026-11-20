@@ -203,3 +203,8 @@
 .starmap-how-labels { margin-block: .5rem; }
 .starmap-how-labels summary { min-height: 44px; align-content: center; cursor: pointer; width: fit-content; padding-block: .5rem; font-weight: 600; }
 .starmap-how-labels .starmap-check { min-height: 44px; display: inline-flex; align-items: center; }
+
+@media (min-width: 1600px) {
+    .starmap-app .starmap-grid { grid-template-columns: clamp(320px, 15%, 520px) minmax(0, 1fr) clamp(340px, 18%, 660px); }
+    .starmap-app .starmap-stage { --sm-view-h: 72vh; }
+}

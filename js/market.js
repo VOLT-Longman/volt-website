@@ -535,8 +535,14 @@
     let lastViewKey = '';
     const openDetails = new Map(); // 접는 상자(data-d)를 이용자가 열었는지 닫았는지
 
-    const narrow = () => window.matchMedia('(max-width: 720px)').matches;
+    const compactList = window.matchMedia('(max-width: 720px)');
+    const narrow = () => compactList.matches;
     const pageSize = () => (narrow() ? 10 : LIST_LIMIT);
+    compactList.addEventListener('change', ({ matches }) => {
+        if (listLimit !== (matches ? LIST_LIMIT : 10)) return;
+        listLimit = pageSize();
+        if (root?.closest('section.active')) draw();
+    });
     const isShown = () => { const section = document.getElementById(SECTION); return !section || section.classList.contains('active'); };
     // once: 바로 다음에 그릴 때만 찾는다. 아니면 주소가 바뀌고 자료가 올 때까지(최대 10초) 기다린다.
     const later = (selector, scroll, focus = true, once = false) => { pending = { selector, scroll, focus, once, until: Date.now() + 10000 }; };

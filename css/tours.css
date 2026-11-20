@@ -114,3 +114,7 @@
     .tours-app .tours-leg-cols { grid-template-columns: minmax(0, 1fr); }
     .tours-app .tours-card, .tours-app .tours-leg, .tours-app .tours-panel { padding: 12px; }
 }
+
+@media (min-width: 1600px) {
+    .tours-app .tours-layout { grid-template-columns: clamp(380px, 21%, 700px) minmax(0, 1fr); }
+}

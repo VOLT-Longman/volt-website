@@ -36,7 +36,8 @@
     const PREF_KEY = 'volt-routes-prefs-v1';
     const STEP_KEY = 'volt-routes-steps-v1';
     const PRICE_KEY = 'volt-routes-myprices-v1';
-    const PAGE = window.matchMedia('(max-width: 700px)').matches ? 10 : 20;
+    const compactList = window.matchMedia('(max-width: 700px)');
+    let pageSize = compactList.matches ? 10 : 20;
     const FRESH_DAYS = 1;
     const MY_PRICE_KEEP_DAYS = 30;
     const AGE_CHOICES = [0.25, 1, 3, 7, 15, 30];
@@ -583,7 +584,13 @@
         game: 'loading', gameError: null, cargo: null, world: null, bodyById: new Map(), bodyByName: new Map(),
         prices: 'loading', priceError: null, market: [], terminals: [], commodities: null, names: 'loading', meta: null,
     };
-    const view = { c: null, from: null, to: null, sort: 'perHour', st: false, full: false, fresh: false, d: null, limit: PAGE };
+    const view = { c: null, from: null, to: null, sort: 'perHour', st: false, full: false, fresh: false, d: null, limit: pageSize };
+    compactList.addEventListener('change', ({ matches }) => {
+        const next = matches ? 10 : 20;
+        if (view.limit === pageSize) view.limit = next;
+        pageSize = next;
+        if (root?.closest('section.active') && data.game === 'ready' && !view.d) drawList();
+    });
     const ui = { contextOpen: false, filtersOpen: false, optionsOpen: false, timeOpen: false, compareAll: false, edit: null, editError: false, budgetError: false, capacityError: false, notice: '', refreshing: false, refreshError: null };
     let prefs = { ...PREF_DEFAULTS };
     let steps = {};
@@ -1209,7 +1216,7 @@
         view.d = /^\d+\.\d+$/.test(source.d || '') ? source.d : null;
         // 다른 화면이 사는 곳과 파는 곳만 함께 보내면(d 없음) 그 경로를 바로 연다. 이 화면이 적은 주소에는 d 가 있다(닫아 두었으면 d=0).
         if (source.d === undefined && view.from && view.to && view.from !== view.to) view.d = `${view.from}.${view.to}`;
-        view.limit = PAGE;
+        view.limit = pageSize;
         linkSetup = readLink(source);
         ui.compareAll = false;
         ui.edit = null;
@@ -1485,7 +1492,7 @@
         const rank = rankAll();
         if (!rank.ok) return only(drawProblem(rank.problem));
         if (rank.key !== listKey) { // 조건이 바뀌어 새 목록이 되었다: 첫 묶음부터 다시 보여 준다.
-            if (listKey) view.limit = PAGE;
+            if (listKey) view.limit = pageSize;
             listKey = rank.key;
         }
         const shown = rank.routes.slice(0, view.limit);
@@ -1501,7 +1508,7 @@
             <th scope="col" class="is-num">${esc(t('colProfit'))}</th><th scope="col" class="is-num">${esc(t('colTime'))}${est}</th><th scope="col" class="is-num">${esc(t('colPerHour'))}${est}</th>
             ${opt().returnTrip ? `<th scope="col">${esc(t('colReturn'))}</th>` : ''}<th scope="col">${esc(t('colBest'))}</th>
         </tr>`);
-        const pages = Math.ceil(shown.length / PAGE);
+        const pages = Math.ceil(shown.length / pageSize);
         while (shell.pages.length < pages) {
             const body = document.createElement('tbody');
             shell.table.appendChild(body);
@@ -1509,10 +1516,10 @@
         }
         while (shell.pages.length > pages) shell.pages.pop().remove();
         shell.pages.forEach((body, page) => {
-            paint(body, shown.slice(page * PAGE, (page + 1) * PAGE).map((route, offset) => rowHtml(route, page * PAGE + offset)).join(''));
+            paint(body, shown.slice(page * pageSize, (page + 1) * pageSize).map((route, offset) => rowHtml(route, page * pageSize + offset)).join(''));
         });
         const left = rank.total - shown.length;
-        paint(shell.more, left > 0 && view.limit < 500 ? `<button type="button" class="routes-btn routes-more" id="routes-more" data-act="more">${esc(t('more', { n: H.num(Math.min(PAGE, left, 500 - view.limit)) }))}</button>` : '');
+        paint(shell.more, left > 0 && view.limit < 500 ? `<button type="button" class="routes-btn routes-more" id="routes-more" data-act="more">${esc(t('more', { n: H.num(Math.min(pageSize, left, 500 - view.limit)) }))}</button>` : '');
         fillHints();
     }
 
@@ -2098,10 +2105,10 @@
             focusAfterDraw = 'routes-good';
             requestDraw();
         } else if (act === 'more') {
-            view.limit = Math.min(500, view.limit + PAGE);
+            view.limit = Math.min(500, view.limit + pageSize);
             requestDraw();
         } else if (act === 'clear') {
-            Object.assign(view, { c: null, from: null, to: null, sort: 'perHour', st: false, full: false, fresh: false, limit: PAGE });
+            Object.assign(view, { c: null, from: null, to: null, sort: 'perHour', st: false, full: false, fresh: false, limit: pageSize });
             focusAfterDraw = 'routes-good';
             syncHash(false);
             requestDraw();
@@ -2251,7 +2258,7 @@
             else if (act === 'full') view.full = target.checked;
             else if (act === 'fresh') view.fresh = target.checked;
             else return;
-            view.limit = PAGE;
+            view.limit = pageSize;
             savePrefs();
             syncHash(false);
             requestDraw();

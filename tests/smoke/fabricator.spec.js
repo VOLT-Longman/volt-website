@@ -528,3 +528,19 @@ test('키보드만으로 설계도를 고르고 준비물에 담는다', async (
     await expect(app(page).locator('.fab-detail [data-act="add"]')).toBeFocused();
     await expect(app(page).locator('[data-act="tab"][data-id="cart"] .fab-badge')).toHaveText('1');
 });
+
+
+test('설계도 목록은 같은 창에서 넓히면 두 열, 줄이면 한 열로 돌아온다', async ({ page }) => {
+    await open(page);
+    const list = app(page).locator('.fab-browse .fab-list').first();
+    const rows = list.locator(':scope > li');
+    await expect(rows.first()).toBeVisible();
+    for (const [width, sideBySide] of [[3440, true], [1440, false], [390, false], [3440, true]]) {
+        await page.setViewportSize({ width, height: width === 3440 ? 1440 : 900 });
+        await expect.poll(() => rows.evaluateAll(items => {
+            const first = items[0].getBoundingClientRect();
+            const second = items[1].getBoundingClientRect();
+            return Math.abs(first.top - second.top) < 1 && second.left > first.left;
+        })).toBe(sideBySide);
+    }
+});

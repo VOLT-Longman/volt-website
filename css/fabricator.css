@@ -162,3 +162,8 @@
 .fabricator-app .fab-modifier { display: grid; gap: .15rem; }
 .fabricator-app .fab-delta { font-variant-numeric: tabular-nums; }
 .fabricator-app .fab-delta:empty { display: none; }
+
+@media (min-width: 1600px) {
+    .fabricator-app .fab-browse { grid-template-columns: minmax(440px, 35%) minmax(0, 1fr); }
+    .fabricator-app .fab-browse .fab-list { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+}
