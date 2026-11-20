@@ -25,7 +25,8 @@ jobs:
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    # Pages can wait up to 20 minutes for the exact push, then publish its assets.
+    timeout-minutes: 28
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,15 +36,15 @@ jobs:
         with:
           node-version: 22
 
-      # Cloudflare Pages 빌드가 끝날 시간을 준 뒤, 간격을 두고 최대 6회 확인한다.
+      # 한 번의 403으로 끝내지 않고 Pages 빌드와 전파에 필요한 시간을 준다.
       - name: Wait for Pages deploy and verify cache version
         env:
           VOLT_VERIFY_PAGES_SHA: ${{ github.event.workflow_run.head_sha }}
           GH_TOKEN: ${{ github.token }}
         run: |
           sleep 60
-          for attempt in 1 2 3 4 5 6; do
-            echo "::group::시도 ${attempt}/6"
+          for attempt in {1..24}; do
+            echo "::group::시도 ${attempt}/24"
             set +e
             node scripts/check-deploy-sync.mjs
             code=$?
@@ -58,9 +59,9 @@ jobs:
               exit 1
             fi
             # code 1(불일치): 배포 전파 중일 수 있으므로 재시도
-            if [ "$attempt" -lt 6 ]; then
-              echo "운영 배포 확인 대기 중 — 40초 후 재시도"
-              sleep 40
+            if [ "$attempt" -lt 24 ]; then
+              echo "운영 배포 확인 대기 중 — 1분 후 재시도"
+              sleep 60
             fi
           done
           echo "::error::기한 안에 이 커밋의 운영 배포를 확인하지 못했습니다."

@@ -44,3 +44,23 @@ test('failed, missing, invalid or indefinitely unavailable checks never publish'
   await assert.rejects(waitForProductionChecks({ ...options, timeoutMs: 20, pollMs: 10, now: () => clock, sleep: async (ms) => { clock += ms; }, fetchImpl: async () => ({ ok: true, json: async () => payload() }) }), /timed out/);
   assert.equal((await waitForProductionChecks({ ...options, branch: 'preview' })).state, 'preview');
 });
+
+test('release gate respects GitHub quota reset and Retry-After before verifying the same commit', async () => {
+  let clock = 60000;
+  const calls = [];
+  const responses = [
+    new Response(null, { status: 403, headers: { 'x-ratelimit-remaining': '0', 'x-ratelimit-reset': '70' } }),
+    new Response(null, { status: 429, headers: { 'retry-after': '3' } }),
+    Response.json(payload(run()))
+  ];
+  const result = await waitForProductionChecks({ sha, branch: 'main', githubToken: 'test-only', now: () => clock,
+    sleep: async ms => { clock += ms; }, timeoutMs: 30000, pollMs: 10, log: () => {},
+    fetchImpl: async (url, options) => {
+      assert.equal(new URL(url).origin, 'https://api.github.com');
+      assert.equal(options.headers.Authorization, 'Bearer test-only');
+      calls.push(clock);
+      return responses.shift();
+    } });
+  assert.deepEqual(calls, [60000, 71000, 74000]);
+  assert.equal(result.state, 'passed');
+});

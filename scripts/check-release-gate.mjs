@@ -7,8 +7,8 @@ const REPOSITORY = 'VOLT-Longman/volt-website';
 const WORKFLOW_PATH = '.github/workflows/smoke.yml';
 const DEFAULT_TIMEOUT_MS = 20 * 60 * 1000;
 // GitHub 공개 API는 로그인 없이 시간당 60번까지만 답한다(같은 주소를 쓰는 빌드끼리 한도를 나눠 쓴다).
-// 30초마다 물으면 한 시간에 몇 번만 올려도 한도를 넘겨 배포가 막히므로 60초 간격으로 묻는다.
-const DEFAULT_POLL_MS = 60000;
+// 빌드가 몰려도 조회 한도를 아끼고 GitHub가 알려 준 재시도 시각을 존중한다.
+const DEFAULT_POLL_MS = 120000;
 
 export function assessSmokeRuns(payload, sha) {
   if (!Array.isArray(payload?.workflow_runs)) throw new Error('Invalid GitHub workflow response');
@@ -28,7 +28,7 @@ export function assessSmokeRuns(payload, sha) {
 }
 
 export async function waitForProductionChecks({
-  sha, branch, fetchImpl = fetch, now = Date.now,
+  sha, branch, githubToken, fetchImpl = fetch, now = Date.now,
   sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
   timeoutMs = DEFAULT_TIMEOUT_MS, pollMs = DEFAULT_POLL_MS, log = console.log
 }) {
@@ -41,12 +41,13 @@ export async function waitForProductionChecks({
   log(`Waiting for Smoke Tests on main commit ${sha}`);
   const deadline = now() + timeoutMs;
   const url = `https://api.github.com/repos/${REPOSITORY}/actions/runs?head_sha=${sha}&branch=main&event=push&per_page=100`;
+  const headers = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'VOLT-release-gate' };
+  if (githubToken) headers.Authorization = `Bearer ${githubToken}`;
   while (now() < deadline) {
     let response;
     try {
       response = await fetchImpl(url, {
-        headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'VOLT-release-gate' },
-        signal: AbortSignal.timeout(10000)
+        headers, redirect: 'error', signal: AbortSignal.timeout(10000)
       });
     } catch (_error) {
       log('GitHub checks unavailable; deployment remains blocked');
@@ -59,7 +60,12 @@ export async function waitForProductionChecks({
     } else if (response) {
       log(`GitHub HTTP ${response.status}; deployment remains blocked`);
     }
-    await sleep(Math.min(pollMs, Math.max(0, deadline - now())));
+    const retryMs = (Number(response?.headers?.get('retry-after')) || 0) * 1000;
+    const resetMs = response?.headers?.get('x-ratelimit-remaining') === '0'
+      ? (Number(response.headers.get('x-ratelimit-reset')) || 0) * 1000 - now() + 1000 : 0;
+    const delay = Math.max(pollMs, retryMs, resetMs);
+    if (delay > pollMs) log(`GitHub rate limit: next check allowed at ${new Date(now() + delay).toISOString()}`);
+    await sleep(Math.min(delay, Math.max(0, deadline - now())));
   }
   throw new Error('Deployment blocked: timed out waiting for exact commit checks');
 }
@@ -67,7 +73,7 @@ export async function waitForProductionChecks({
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
     if (process.env.CF_PAGES !== '1') throw new Error('Release gate must run in Cloudflare Pages');
-    await waitForProductionChecks({ sha: process.env.CF_PAGES_COMMIT_SHA, branch: process.env.CF_PAGES_BRANCH });
+    await waitForProductionChecks({ sha: process.env.CF_PAGES_COMMIT_SHA, branch: process.env.CF_PAGES_BRANCH, githubToken: process.env.VOLT_GITHUB_ACTIONS_READ_TOKEN });
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
