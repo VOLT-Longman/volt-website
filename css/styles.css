@@ -11518,3 +11518,17 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
         grid-column: 2; margin-top: 0; padding-top: 0; border-top: 0;
     }
 }
+
+@media (min-width: 1600px) {
+    #notices :is(.notice-tools, .notice-results-bar),
+    #notices .notices-grid, #schedule .schedule-list, #faq #faq-list, #faq .faq-accordion {
+        max-width: none;
+        width: 100%;
+    }
+    #notices .notices-grid, #schedule .schedule-list, #faq .faq-accordion {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 34rem), 1fr));
+        align-items: start;
+        gap: clamp(16px, 1vw, 32px);
+    }
+}
