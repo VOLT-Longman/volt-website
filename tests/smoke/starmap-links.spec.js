@@ -95,8 +95,8 @@ const hrefOf = async (locator) => decodeURIComponent(await locator.getAttribute(
 const mapState = (page) => page.evaluate(() => { const d = window.VOLT_STARMAP.debug(); return { phase: d.phase, ...d.state }; });
 // 링크를 눌러 성계지도가 그 값으로 열릴 때까지 기다린다.
 async function follow(page, link) {
-    // 화면이 자료를 더 받으면서 링크를 다시 그리는 순간과 겹칠 수 있다: 붙어 있는 링크를 누를 때까지 다시 해 본다.
-    await expect(async () => { await link.scrollIntoViewIfNeeded({ timeout: 2000 }); await link.click({ timeout: 2000 }); }).toPass({ timeout: 15000 });
+    // Playwright가 스크롤과 렌더 대기를 맡는다. 지도로 이동한 뒤 숨겨진 출발 링크를 다시 누르지 않는다.
+    await link.click({ timeout: 15000 });
     await expect(page.locator('section#starmap')).toHaveClass(/active/);
     await expect.poll(async () => (await mapState(page)).phase, { timeout: 30000 }).toBe('ready');
     return mapState(page);
@@ -549,12 +549,8 @@ async function plannerTrip(page, access) {
         return route.fulfill({ json: { status: 'ok', data } });
     });
     await gotoSection(page, '#trade-planner');
-    // 함선 목록 자료가 다 오기 전에 입력하면 결과가 뜨지 않는다. 결과가 뜰 때까지 다시 입력한다.
-    await expect(async () => {
-        await page.locator('#logistics-ship-search').fill('');
-        await page.locator('#logistics-ship-search').fill('titan');
-        await expect(page.locator('#logistics-ship-results [data-planner-ship-id="avenger-titan"]')).toBeVisible({ timeout: 1500 });
-    }).toPass({ timeout: 20000 });
+    await page.locator('#logistics-ship-search').fill('titan');
+    await expect(page.locator('#logistics-ship-results [data-planner-ship-id="avenger-titan"]')).toBeVisible({ timeout: 20000 });
     await page.locator('#logistics-ship-results [data-planner-ship-id="avenger-titan"]').click();
     await page.locator('#uex-commodity-search').fill('Iron');
     await page.locator('#uex-commodity-results [data-commodity-id="2"]').click();
