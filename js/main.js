@@ -710,14 +710,23 @@
             .sort(comparePlannerShips);
     }
 
-    function renderLogisticsShipOptions() {
+    function renderLogisticsShipOptions({ refreshSummary = false } = {}) {
         const select = document.getElementById('logistics-ship');
         if (!select) return;
-        const selectedShipId = select.value || getPlannerStateFromStorage().shipId;
+        const previousId = select.value;
+        const selectedShipId = previousId || getPlannerStateFromStorage().shipId;
         select.innerHTML = `<option value="">${escapeHtml(i18nT('planner.shipSelectDefault', '보유 함선 선택'))}</option>${getLogisticsShips().map((ship) => (
             `<option value="${escapeHtml(ship.id)}">${escapeHtml(ship.name)} · ${escapeHtml(ship.cargo)}</option>`
         )).join('')}`;
         if (selectedShipId) select.value = selectedShipId;
+        const input = document.getElementById('logistics-ship-search');
+        const searching = input?.getAttribute('aria-expanded') === 'true';
+        const focusedOption = document.activeElement?.dataset.plannerShipId;
+        if (refreshSummary || select.value !== previousId) syncPlannerSelectedShip(select.value, searching || Boolean(input?.value));
+        if (searching) {
+            renderPlannerShipResults(input.value);
+            if (focusedOption) document.querySelector(`[data-planner-ship-id="${CSS.escape(focusedOption)}"]`)?.focus({ preventScroll: true });
+        }
     }
 
     let plannerCargoShips = new Map();
@@ -729,15 +738,7 @@
         try {
             const catalog = await window.VOLT_HELPER.loadJson('/data/trade/cargo.json');
             plannerCargoShips = new Map(catalog.ships.filter(s => s.configurations?.length).map(s => [s.id, s]));
-            renderLogisticsShipOptions();
-            const input = document.getElementById('logistics-ship-search');
-            const searching = input?.getAttribute('aria-expanded') === 'true';
-            const focusedOption = document.activeElement?.dataset.plannerShipId;
-            syncPlannerSelectedShip(document.getElementById('logistics-ship')?.value, searching);
-            if (searching) {
-                renderPlannerShipResults(input.value);
-                if (focusedOption) document.querySelector(`[data-planner-ship-id="${CSS.escape(focusedOption)}"]`)?.focus({ preventScroll: true });
-            }
+            renderLogisticsShipOptions({ refreshSummary: true });
         } catch { /* The standard ship picker and manual cargo input remain available. */ }
         finally { loadingPlannerCargo = false; }
     }
@@ -1012,10 +1013,9 @@
     function mergeShipOverride(ship, override) {
         if (!override) return ship;
         const merged = { ...ship };
-        const canonical = true;
         Object.entries(override).forEach(([key, value]) => {
             if (['id', 'shipId', 'updatedAt'].includes(key)) return;
-            if (canonical && !CANONICAL_SHIP_OVERRIDE_KEYS.has(key)) return;
+            if (!CANONICAL_SHIP_OVERRIDE_KEYS.has(key)) return;
             if (value === null || value === undefined || value === '') return;
             merged[key] = key === 'tags' && !Array.isArray(value) ? getShipTags({ tags: value }) : value;
         });

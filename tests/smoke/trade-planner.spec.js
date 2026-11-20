@@ -597,3 +597,20 @@ test('새 기기에서 계정에 저장한 리탈리에이터 모듈과 운송�
     await expect(page.locator('#planner-cargo-module')).toHaveValue('retaliator-both');
     await expect(page.locator('#logistics-cargo')).toHaveValue('60');
 });
+
+
+test('첫 방문에 함선 목록보다 검색어를 먼저 입력해도 결과가 갱신된다', async ({ page }) => {
+    await mockApi(page);
+    let release;
+    const held = new Promise(resolve => { release = resolve; });
+    await page.route('**/data/canonical/ships-canonical.json*', async route => {
+        await held;
+        await route.continue();
+    });
+    await gotoSection(page, '#trade-planner');
+    const input = page.locator('#logistics-ship-search');
+    await input.fill('liberator');
+    release();
+    await expect(page.locator('[data-planner-ship-id="liberator"]')).toBeVisible();
+    await expect(input).toHaveValue('liberator');
+});
