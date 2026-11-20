@@ -605,6 +605,10 @@ export function createViewer(host, options = {}) {
         return widths.get(key);
     }
     function buildLabels(marks, stopIds) {
+        if (state.labelsOff) {
+            world.labels = [];
+            return;
+        }
         const defs = [];
         const count = new Map();
         for (const id of marks) {

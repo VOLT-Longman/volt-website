@@ -205,10 +205,10 @@
 
     const st = { sys: null, focus: null, route: [], mark: [], area: [], site: null, measure: [], measuring: false, hidden: false, off: [], need: [], q: '', open: new Set(), sheet: false };
     const db = { index: null, textures: null, systems: new Map(), cargo: null, cargoState: '' };
-    const labelGroups = { planet: 'kind_planet', moon: 'kind_moon', gateway: 'labelGate', station: 'kind_station', belt: 'labelBelt' };
+    const labelGroups = { planet: 'kind_planet', moon: 'kind_moon', gateway: 'labelGate', station: 'kind_station', lagrange: 'kind_lagrange', belt: 'labelBelt' };
     const labelStorageKey = 'volt.starmap.labels.v1';
     function readHiddenLabels() {
-        const hidden = new Set(['belt']);
+        const hidden = new Set(['lagrange', 'belt']);
         try {
             const saved = JSON.parse(localStorage.getItem(labelStorageKey));
             for (const key of Object.keys(labelGroups)) {
@@ -509,7 +509,7 @@
             stops: st.route.map((token, index) => ({ id: here(token), n: index + 1 })).filter((stop) => stop.id),
             paths: [...pathsFor(st.route, 'route'), ...(st.measure.length === 2 ? pathsFor(st.measure, 'measure') : [])],
             spots: (site?.spots || []).map((spot) => ({ pos: [spot[1], spot[2], spot[3]], at: spot[0], text: t('siteSpot') })),
-            rings: st.area, hiddenLabels,
+            rings: st.area, hiddenLabels, labelsOff: hiddenLabels.size === Object.keys(labelGroups).length,
             filter: { hidden: st.hidden, off: st.off, need: st.need },
         };
     }

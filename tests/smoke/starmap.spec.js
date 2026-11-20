@@ -747,9 +747,10 @@ for (const [width, lang, buttonName] of [[1440, 'ko', '이름표'], [390, 'en', 
         const box = key => panel.locator(`[data-map-label="${key}"]`);
         await expect(toggle).toHaveAttribute('aria-expanded', 'false');
         await toggle.click();
-        await expect(panel.getByRole('checkbox')).toHaveCount(5);
+        await expect(panel.getByRole('checkbox')).toHaveCount(6);
         for (const key of ['planet', 'moon', 'gateway', 'station']) await expect(box(key)).toBeChecked();
         await expect(box('belt')).not.toBeChecked();
+        await expect(panel.getByRole('checkbox', { name: lang === 'ko' ? '라그랑주 포인트' : 'Lagrange point', exact: true })).not.toBeChecked();
         await expect(panel).toContainText(lang === 'ko' ? '확대하면' : 'Zoom in');
         expect(await overflow(page)).toBeLessThanOrEqual(1);
         const frame = await page.locator('.starmap-view').boundingBox();
@@ -759,6 +760,7 @@ for (const [width, lang, buttonName] of [[1440, 'ko', '이름표'], [390, 'en', 
         await box('moon').uncheck();
         await box('gateway').uncheck();
         await box('belt').check();
+        await box('lagrange').check();
         await page.locator('.starmap-tab[data-id="pyro"]').click();
         await expect(panel).toBeHidden();
         await toggle.click();
@@ -769,7 +771,30 @@ for (const [width, lang, buttonName] of [[1440, 'ko', '이름표'], [390, 'en', 
         await expect(box('gateway')).not.toBeChecked();
         await expect(box('station')).toBeChecked();
         await expect(box('belt')).toBeChecked();
+        await expect(box('lagrange')).toBeChecked();
         await toggle.click();
         await expect(panel).toBeHidden();
     });
 }
+
+test('기존 설정에서 모든 이름표를 끄면 CRU L2·L3의 위치만 남고, 라그랑주 이름표를 따로 켤 수 있다', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await prepare(page);
+    await page.addInitScript(() => {
+        localStorage.setItem('volt.starmap.labels.v1', JSON.stringify({ planet: false, moon: false, gateway: false, station: false, belt: false }));
+    });
+    await open3d(page, '#starmap?focus=StantonStar');
+    const shown = page.locator('#starmap-app .starmap-label:visible');
+    await expect(shown).toHaveCount(0);
+    await expect(page.locator('.starmap-info-title')).toContainText('스탠턴');
+    await page.locator('.starmap-tools').getByRole('button', { name: '전체 보기' }).click();
+    for (const id of ['Stanton2_L2', 'Stanton2_L3']) await expect.poll(async () => (await screenOf(page, id)).shown).toBe(true);
+    const button = page.locator('.starmap-tools').getByRole('button', { name: '이름표' });
+    await button.click();
+    const points = page.getByRole('group', { name: '지도 이름표' }).getByRole('checkbox', { name: '라그랑주 포인트' });
+    await expect(points).not.toBeChecked();
+    await points.check();
+    await expect(shown.filter({ hasText: /^CRU L[23]$/ }).first()).toBeVisible();
+    await points.uncheck();
+    await expect(shown).toHaveCount(0);
+});
