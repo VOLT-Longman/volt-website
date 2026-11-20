@@ -89,7 +89,6 @@ test('함대원: 지도와 목록이 열리고 캔버스에 그림이 그려진�
 for (const [name, options, text, links] of [['로그아웃', { loggedIn: false }, '함대원 전용 기능입니다', 1], ['함대원 아님', { fleet: false }, '함대원 역할이 필요합니다', 0]]) {
     test(`${name}: 안내만 보이고 보호 자료·그림·three.js 를 하나도 요청하지 않는다`, async ({ page }) => {
         const tracker = await prepare(page, options);
-        await page.route('**/api/tool-access', route => route.fulfill({ json: { community: true, helpers: true } }));
         await gotoSection(page, '?lang=ko#starmap?focus=Stanton1_Lorville&route=Stanton1_Lorville,RR_HUR_L1');
         const gate = page.locator('section#starmap .helper-access');
         await expect(gate).toContainText(text);
@@ -102,6 +101,18 @@ for (const [name, options, text, links] of [['로그아웃', { loggedIn: false }
         expect(await tracker.problems()).toEqual([]);
     });
 }
+
+test('공개 지도는 인증 서버가 응답하지 않아도 성계를 바꿀 수 있다', async ({ page }) => {
+    const tracker = await prepare(page, { loggedIn: false });
+    await page.route('**/api/tool-access', route => route.fulfill({ json: { community: true, helpers: true } }));
+    await page.route(/\/auth\/me(?:\?.*)?$/, route => route.fulfill({ status: 503, json: {} }));
+    await open3d(page);
+    for (const id of ['pyro', 'nyx', 'stanton']) {
+        await page.locator('.starmap-tab[data-id="' + id + '"]').click();
+        await expect(page.locator('.starmap-tab[aria-pressed="true"]')).toHaveAttribute('data-id', id);
+    }
+    expect(tracker.requests.filter(url => url.includes('/auth/me?refresh=1'))).toEqual([]);
+});
 
 test('focus 주소: 그 장소를 고르고, 1k 그림은 고른 천체 하나만, 다른 화면으로 가는 길이 연결 자료대로 나온다', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });

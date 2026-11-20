@@ -7,12 +7,9 @@
 - 파일: `js/starmap.js`(틀: 함대원 확인 뒤 `init`, 목록·검색·정보 칸·주소, 다른 화면용 `links`), `js/starmap-viewer.js`(3D, ES 모듈), `css/starmap.css`, `tests/smoke/starmap.spec.js`, `tests/smoke/starmap-links.spec.js`(다른 화면 ↔ 지도 링크)
 - 아래에서 "확인함"이라고 쓴 것은 `tests/smoke/starmap.spec.js` 또는 직접 찍은 화면으로 본 것이다. 실행 중인 게임과 비교한 것은 하나도 없다.
 
-## 1. 함대원 전용
+## 1. 임시 공개
 
-다른 도우미 화면이 임시 공개되어도 성계지도는 함대원 전용이다. 서버는 확인된 함대원 역할로만 `features.starmap`을 부여한다. `<section id="starmap" data-fleet-helper>` 이므로 `js/main.js` 의 `updateHelperAccess()` 가 안내문을 그리고,
-`VOLT_HELPER.onSectionShow` 는 `data-helper-allowed` 가 없으면 `init` 을 부르지 않는다.
-그래서 로그아웃·역할 없음 상태에서는 `/data/starmap/**`, `/assets/models/starmap/**`, `js/starmap-viewer.js`, three.js 를 **요청하지 않는다**(확인함).
-서버는 앞의 두 경로를 함대원 확인 뒤에만 내려주고, 서비스 워커는 저장하지 않는다(`docs/starmap-assets.md`).
+2026-11-20부터 로그인 없이 지도와 행성 원본 그림을 열 수 있다. 다른 도움 도구와 함께 `FLEET_TOOLS_REQUIRE_MEMBERSHIP=true`로 다시 잠근다. 그림은 비공개 R2에서 사이트를 통해 전달하며, 서비스 워커에는 저장하지 않는다. VOLT AI는 기존 로그인 규칙을 따른다.
 
 ## 2. 어떻게 그리는가 (화면에도 적혀 있다)
 

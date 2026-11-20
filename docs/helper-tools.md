@@ -22,7 +22,7 @@ Set `FLEET_TOOLS_REQUIRE_MEMBERSHIP=true` in Pages and redeploy to restore their
 | `#missions` | 임무 찾기 / Mission Finder | 임무 · 채광 · 제작 | `#missions-app` | `window.VOLT_MISSIONS` | `js/missions.js`, `css/missions.css` |
 | `#fabricator` | 제작 / Crafting | 임무 · 채광 · 제작 | `#fabricator-app` | `window.VOLT_FABRICATOR` | `js/fabricator.js`, `css/fabricator.css` |
 | `#mining` (existing) | 채광 / Mining | 임무 · 채광 · 제작 | `#mining-app` | `window.VOLT_MINING` (existing shape, see 2.2) | `js/mining.js`, `css/mining-extra.css` |
-| `#starmap` (added 2026-11-19) | 성계지도 / Star Map | 임무 · 채광 · 제작 | `#starmap-app` | `window.VOLT_STARMAP` (2.1 shape plus `href`, `open`) | `js/starmap.js`, `js/starmap-viewer.js` (ES module, loaded with `import()` only for fleet members), `css/starmap.css` — see `docs/starmap.md` |
+| `#starmap` (added 2026-11-19) | 성계지도 / Star Map | 임무 · 채광 · 제작 | `#starmap-app` | `window.VOLT_STARMAP` (2.1 shape plus `href`, `open`) | `js/starmap.js`, `js/starmap-viewer.js` (ES module, loaded with `import()` when the map opens), `css/starmap.css` — see `docs/starmap.md` |
 
 The existing Trade Planner, Hub and Guide keep their original addresses. Hauling is now under Missions.
 
@@ -268,6 +268,6 @@ Trade has five menu entries: Routes, Prices, Trade Planner, Trade Hub and Trade 
 
 All integrated helper screens require the fleet role, even when community tools are public. The server checks protected helper data and UEX requests before reading the asset or a cached response. The service worker skips those paths. The base mining data used by the existing planner stays at its existing URL. The enhanced mining guide reads `/data/mining/helper.json`.
 
-The star map (`#starmap`) is in the "임무 · 채광 · 제작" group (desktop menu, mobile menu, footer) and uses the same fleet check: `data-fleet-helper` on the section, so a visitor without the role sees the shared notice and the screen's `init` never runs — no request goes to `/data/starmap/**`, `/assets/models/starmap/**`, `js/starmap-viewer.js` or three.js. The server protects the first two paths; the service worker skips them.
+The star map (`#starmap`) is in the "임무 · 채광 · 제작" group (desktop menu, mobile menu, footer) and follows the public helper policy, including original planet pictures. When membership is required it uses the same fleet check: `data-fleet-helper` on the section, so a visitor without the role sees the shared notice and the screen's `init` never runs — no request goes to `/data/starmap/**`, `/assets/models/starmap/**`, `js/starmap-viewer.js` or three.js. The server protects the first two paths; the service worker skips them.
 
 Routes and Prices share the user's ship, budget, system and maximum report age. The default is three days, including in the planner and AI journey context. Local previews of market data need a Functions server or the UEX proxy. Static preview alone only tests the layout.

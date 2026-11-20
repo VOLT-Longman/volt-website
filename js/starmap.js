@@ -2,7 +2,7 @@
  * VOLT 성계지도 (#starmap) — 무역·임무·채광 화면에 글자로만 나오는 장소가 실제로 어디에 있는지 보여 준다.
  *
  * 자료: /data/starmap/index.json + 지금 보는 항성계 파일 하나 (게임 파일에서 뽑은 값, docs/starmap-data.md).
- *       행성 그림은 /assets/models/starmap/tex/** (함대원 전용, docs/starmap-assets.md).
+ *       행성 그림은 /assets/models/starmap/tex/** (docs/starmap-assets.md).
  * 3D 화면은 js/starmap-viewer.js (ES 모듈). 함대원 확인을 통과해 이 화면이 열릴 때만 import() 한다.
  * WebGL 을 못 쓰면 목록·검색·정보 칸만으로 그대로 쓸 수 있다.
  * 계약: docs/helper-tools.md, 화면 설명: docs/starmap.md.
@@ -112,7 +112,7 @@
             areaShared: '{name}{wa} 같은 광물이 나오는 곳', areaSharedNote: '이 구역의 광물 목록은 {name} 것을 함께 씁니다. 이름은 다른 항성계의 장소 이름입니다.',
             areaAlso: '같은 광물이 나오는 작은 채광 지점(광구)이 다른 곳에 {n}곳 더 있습니다. 지도에는 따로 표시하지 않았습니다.',
             areasTitle: '채광 구역 {n}곳', areasElse: '{name} 항성계에 {n}곳', sameName: '같은 이름 {n}곳',
-            sourceArt: '행성 그림: 게임 파일 (함대원 전용)', sourceNote: '위치·거리는 게임 파일 값이며 게임 안에서 재 본 값이 아닙니다.',
+            sourceArt: '행성 그림: 게임 파일', sourceNote: '위치·거리는 게임 파일 값이며 게임 안에서 재 본 값이 아닙니다.',
         },
         en: {
             loading: 'Loading star map data…', retry: 'Try again',
@@ -184,7 +184,7 @@
             areaAlso: 'The same minerals are also found at {n} small mining claims elsewhere. They are not marked on the map.',
             areasTitle: '{n} mining fields', areasElse: '{n} in the {name} system', sameName: '{n} with this name',
             places1: '1 place', results1: '1 place found', mapLinkCount1: '1 place', markTitle1: '1 place marked', areaAt1: 'Found at 1 place', siteAt1: 'Found at 1 place', siteSpots1: '1 separately placed point',
-            sourceArt: 'Planet pictures: game files (fleet members only)', sourceNote: 'Positions and distances are game-file values, not measured in game.',
+            sourceArt: 'Planet pictures: game files', sourceNote: 'Positions and distances are game-file values, not measured in game.',
         },
     };
     const translate = H.translator(TEXT);

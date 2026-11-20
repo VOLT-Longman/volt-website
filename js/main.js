@@ -1099,14 +1099,10 @@
     const renderedLazySections = new Set();
 
     // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.
-    function needsFleetCheck(id) {
-        return id === 'starmap' || (!publicTools.helpers && document.getElementById(id)?.hasAttribute('data-fleet-helper'));
-    }
-
     function renderSectionOnShow(id) {
         const section = document.getElementById(id);
-        if (needsFleetCheck(id)) {
-            if (authStatus !== 'ready' || !(id === 'starmap' ? authState.starmap : authState.helperTools)) return;
+        if (!publicTools.helpers && section?.hasAttribute('data-fleet-helper')) {
+            if (authStatus !== 'ready' || !authState.helperTools) return;
             if (Date.now() - fleetCheckedAt >= 5000) {
                 // Confirm once before a helper fans out into several protected requests.
                 section.setAttribute('data-helper-checking', '');
@@ -1568,16 +1564,14 @@
     }
 
     let verifiedHelperAccount = null;
-    let verifiedMapAccount = null;
     function updateHelperAccess() {
         const allowed = publicTools.helpers || (authStatus === 'ready' && authState.helperTools === true);
         const en = currentLang() === 'en';
         for (const section of document.querySelectorAll('[data-fleet-helper]')) {
             section.removeAttribute('data-helper-checking');
-            const sectionAllowed = section.id === 'starmap' ? authStatus === 'ready' && authState.starmap === true : allowed;
-            section.toggleAttribute('data-helper-allowed', sectionAllowed);
+            section.toggleAttribute('data-helper-allowed', allowed);
             const gate = section.querySelector('.helper-access');
-            if (sectionAllowed) { gate.replaceChildren(); continue; }
+            if (allowed) { gate.replaceChildren(); continue; }
             const message = document.createElement('p');
             if (authStatus === 'loading') message.textContent = en ? 'Checking fleet membership…' : '함대원 권한을 확인하고 있습니다.';
             else if (authStatus === 'error') message.textContent = en ? 'Could not check access. Try again shortly.' : '권한을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.';
@@ -1604,9 +1598,6 @@
             const account = allowed && !publicTools.helpers ? authState.user?.sub : null;
             if (verifiedHelperAccount && account !== verifiedHelperAccount) { window.location.reload(); return; }
             verifiedHelperAccount = account;
-            const mapAccount = authState.starmap ? authState.user?.sub : null;
-            if (verifiedMapAccount && verifiedMapAccount !== mapAccount) { window.location.reload(); return; }
-            verifiedMapAccount = mapAccount;
         }
         if (allowed) {
             const active = parseRouteFromHash().section;
@@ -1644,7 +1635,7 @@
         window.VOLT_LOADOUT?.onLanguageChange?.();
     }
 
-    function setupAuthStatus({ refresh = needsFleetCheck(parseRouteFromHash().section), background = false } = {}) {
+    function setupAuthStatus({ refresh = !publicTools.helpers && document.getElementById(parseRouteFromHash().section)?.hasAttribute('data-fleet-helper'), background = false } = {}) {
         if (authRequest) return authRequest;
         if (Date.now() < authRetryAt) return Promise.resolve();
         window.clearTimeout(authRecoveryTimer);
@@ -1678,7 +1669,7 @@
                     const changedAccount = authState.user?.sub !== payload.user.sub;
                     authState = { loggedIn: true, user: payload.user, roles: Array.isArray(payload.user.roles) ? payload.user.roles : [],
                         communityTools: payload.features?.communityTools === true, communityConfigured: payload.features?.communityConfigured,
-                        starmap: payload.features?.starmap === true, helperTools: payload.features?.helperTools === true, gunModding: payload.features?.gunModding === true, fleetConfigured: payload.features?.fleetConfigured };
+                        helperTools: payload.features?.helperTools === true, gunModding: payload.features?.gunModding === true, fleetConfigured: payload.features?.fleetConfigured };
                     if (changedAccount) {
                         window.clearTimeout(preferencesSaveTimer);
                         window.VOLT_SCHEDULE?.clearRsvpCache?.();
@@ -2281,9 +2272,9 @@
             }).catch(() => {}).finally(() => setupAuthStatus());
         const recheckAccess = () => {
             const section = parseRouteFromHash().section;
-            const checkFleet = needsFleetCheck(section) || (!publicTools.helpers && section === 'gear');
-            if (document.visibilityState === 'visible' && Date.now() - authCheckedAt > (checkFleet ? 15000 : 60000)
-                && (checkFleet || (!publicTools.community && ['ships', 'trade-planner', 'loadout'].includes(section)))) setupAuthStatus({ background: true, refresh: checkFleet });
+            const gear = !publicTools.helpers && (section === 'gear' || document.getElementById(section)?.hasAttribute('data-fleet-helper'));
+            if (document.visibilityState === 'visible' && Date.now() - authCheckedAt > (gear ? 15000 : 60000)
+                && (gear || (!publicTools.community && ['ships', 'trade-planner', 'loadout'].includes(section)))) setupAuthStatus({ background: true, refresh: gear });
         };
         window.addEventListener('focus', recheckAccess);
         document.addEventListener('visibilitychange', recheckAccess);

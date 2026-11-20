@@ -15,7 +15,7 @@ const index = JSON.parse(readFileSync(new URL('../../data/starmap/textures.json'
 const small = '/assets/models/starmap/tex/ui_sm_stanton_2_crusader_512.webp';
 const large = '/assets/models/starmap/tex/ui_sm_stanton_2_crusader_1k.webp';
 const metadata = '/data/starmap/textures.json';
-const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'false', DISCORD_ROLE_MAP: JSON.stringify({ [FLEET]: 'VOLT 함대원', [COMMUNITY]: '커뮤니티 멤버', admin: '대표이사' }) });
+const environment = () => ({ ...TEST_ENV, FLEET_TOOLS_REQUIRE_MEMBERSHIP: 'true', DB: createSqliteDb(), COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'false', DISCORD_ROLE_MAP: JSON.stringify({ [FLEET]: 'VOLT 함대원', [COMMUNITY]: '커뮤니티 멤버', admin: '대표이사' }) });
 async function invoke(env, path, cookie = '', method = 'GET', origin = 'https://www.volt.ceo') {
   let calls = 0;
   const response = await onRequest({ env, request: new Request(origin + path, { method, headers: { Cookie: cookie } }), next: async () => {
@@ -49,6 +49,16 @@ test('Logged-out is 401 and non-fleet is 403 for GET/HEAD, before the bucket or 
     assert.equal(result.response.status, status, `${method} ${path}`); assert.equal(result.calls, 0); cacheHeaders(result.response);
   }
   assert.equal((await invoke(env, small, '', 'HEAD', 'https://hash.volt-ceo.pages.dev')).response.status, 401);
+});
+
+test('Public helper mode serves the map and original planet art without a session', async () => {
+  const env = { FLEET_TOOLS_REQUIRE_MEMBERSHIP: 'false', FLEET_GEAR_MODELS: bucket([]) };
+  for (const method of ['GET', 'HEAD']) for (const path of [metadata, small, large]) {
+    const { response } = await invoke(env, path, '', method);
+    assert.equal(response.status, 200);
+    cacheHeaders(response);
+    if (method === 'GET' && path !== metadata) assert.equal(await response.text(), 'WEBP');
+  }
 });
 
 test('Fleet members get textures only from the versioned private bucket key, with private headers', async () => {
@@ -106,7 +116,6 @@ test('Bad paths, other versions and other methods are refused without reading th
 test('Letter case does not get a request past the gate or through to a static file', async () => {
   const env = environment(); const cookie = await memberCookie({ sub: 'fleet', roles: [FLEET] }, env);
   const keys = []; env.FLEET_GEAR_MODELS = bucket(keys);
-  env.FLEET_TOOLS_REQUIRE_MEMBERSHIP = 'true';
   const shouted = ['/DATA/STARMAP/index.json', '/data/Starmap/index.json', '/Data/starmap/links.json', '/ASSETS/models/starmap/tex/ui_sm_nyx_1_512.webp', '/assets/Models/Starmap/tex/ui_sm_nyx_1_512.webp', '/DATA/TRADE/world.json', '/Data/Mining/helper.json'];
   for (const path of shouted) {
     assert.equal(isFleetResource(path), true, path);
