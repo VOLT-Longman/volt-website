@@ -31,7 +31,7 @@ const arg = (name) => { const index = process.argv.indexOf(name); return index >
 const P4K = arg('--p4k') || 'C:/Program Files/Roberts Space Industries/StarCitizen/LIVE/Data.p4k';
 const CACHE = arg('--cache-dir');
 const QUALITY = Number(arg('--quality') || 0.85);
-if (!existsSync(P4K)) { console.error(`Data.p4k 를 찾을 수 없습니다: ${P4K} (--p4k 로 지정)`); process.exit(2); }
+
 
 const VERSION = 1;
 const TEXTURE_DIR = 'data/ui/starmap/textures/';
@@ -58,6 +58,7 @@ export function colourMapOf(material) {
 }
 
 async function main() {
+    if (!existsSync(P4K)) { console.error(`Data.p4k 를 찾을 수 없습니다: ${P4K} (--p4k 로 지정)`); process.exit(2); }
     const build = (() => { try { const m = JSON.parse(readFileSync(resolve(CACHE, 'build.json'), 'utf8')); return m.Data || m; } catch { return {}; } })();
     const norm = (name) => name.split('\\').join('/');
     const p4k = new P4k(P4K);
