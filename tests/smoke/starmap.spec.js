@@ -293,6 +293,22 @@ test('WebGL 을 못 쓰면 오류 화면 없이 목록·검색·정보 칸으로
     expect(tracker.requests.filter((url) => /three-|starmap-viewer|\/assets\/models\/starmap\//.test(url))).toEqual([]);
     await expect(page.locator('#starmap-app .helper-soon-error')).toHaveCount(0);
 
+    // 다른 성계 자료가 뒤늦게 도착해도 먼저 찾은 장소에서 키보드 초점이 사라지지 않는다.
+    let releaseNyx;
+    const nyxReady = new Promise((resolve) => { releaseNyx = resolve; });
+    await page.route('**/data/starmap/nyx.json*', async (route) => { await nyxReady; await route.fallback(); });
+    const localResult = page.locator('#starmap-app .starmap-results [data-id="Stanton1_Lorville"]');
+    try {
+        await page.locator('#starmap-q').fill('로어빌');
+        await expect(page.locator('.starmap-results-head')).toContainText('찾는 중');
+        await localResult.focus();
+    } finally {
+        releaseNyx();
+    }
+    await expect(page.locator('.starmap-results-head')).not.toContainText('찾는 중');
+    await expect(localResult).toBeFocused();
+    await page.locator('#starmap-q').fill('');
+
     // 키보드만으로: 찾기 → 결과 → 고르기 → 정보.
     await page.locator('#starmap-q').focus();
     await page.keyboard.type('FARSTAT-1-2');

@@ -650,6 +650,8 @@
         return hits.sort((a, b) => a.score - b.score);
     }
     function drawResults() {
+        const focused = document.activeElement;
+        const selectedRow = ui.parts.results.contains(focused) && focused.matches('[data-act="pick"]') ? focused : null;
         const hits = searchHits();
         if (!hits) { paint(ui.parts.results, ''); return; }
         const shown = hits.slice(0, LIST_LIMIT);
@@ -661,6 +663,11 @@
                 const where = [hit.sys !== st.sys ? systemName(hit.sys) : '', parent && parent.id !== hit.object.id ? mapLabel(parent).text : ''].filter(Boolean).join(' · ');
                 return `<li>${row(hit.object, hit.sys, where ? `<span class="starmap-tag is-where">${esc(where)}</span>` : '')}</li>`;
             }).join('')}</ul>`);
+        // 다른 성계의 검색 결과가 도착해도 키보드로 읽던 행에 그대로 머문다.
+        if (selectedRow && !selectedRow.isConnected) {
+            const match = ui.parts.results.querySelector(`[data-sys="${CSS.escape(selectedRow.dataset.sys)}"][data-id="${CSS.escape(selectedRow.dataset.id)}"]`);
+            (match || ui.parts.search).focus({ preventScroll: true });
+        }
     }
 
     function branch(object, system, depth) {
