@@ -12,7 +12,7 @@ for (const [id, cls, name] of [['galaxy', 'rsi_galaxy', '갤럭시'], ['liberato
         const card = page.locator(`[data-ship-id="${id}"]`);
         await expect(card).toBeVisible();
         await card.locator('.ship-name-btn').click();
-        await expect(page.locator('.ship-live-summary')).toContainText('게임 파일');
+        await expect(page.locator('.ship-live-summary .ship-live-heading .ship-live-meta')).toHaveText('가격: UEX');
         await page.locator('#global-modal [data-volt-open="loadout"]').click();
         await expect(page.locator('#loadout-ship-title')).toContainText(name);
         const photo = page.locator('.loadout-shiphead img.loadout-shipphoto');
