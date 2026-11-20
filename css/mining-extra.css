@@ -94,7 +94,10 @@
 }
 /* 긴 내부 이름도 묶음 안에서 줄을 바꾼다 */
 .mining-app .mining-places > li { min-width: 0; }
-.mining-app .mining-place { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.mining-app .mining-place { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; height: 100%; }
+.mining-app .mining-place .mining-acts { margin-top: auto; }
+.mining-app #mining-caves-toggle::after { content: "▾"; margin-inline-start: .6em; }
+.mining-app #mining-caves-toggle[aria-expanded="true"]::after { content: "▴"; }
 .mining-app .mining-place strong, .mining-app .mining-place small, .mining-app .mining-detail-head h3 { min-width: 0; overflow-wrap: anywhere; }
 
 /* 가격 보고 기준 · 시세 실패 안내 */

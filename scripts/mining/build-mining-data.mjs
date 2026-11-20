@@ -341,6 +341,41 @@ for (const site of slotSites.filter((entry) => !/_Test$/i.test(entry.id)).sort(b
     else mergedSlotSites.set(key, site);
 }
 const sites = [...providerSites, ...mergedSlotSites.values()];
+// These are descriptions of spawn tables. Keep them separate from verified place names.
+const slotDescriptions = {
+    APX_MineFacility_Exterior: ['채광 시설 외부', 'Mining facility exterior'],
+    AsteroidBase_Dungeon_001: ['소행성 기지', 'Asteroid base'],
+    Cave_Prison_Harvestables: ['교도소 동굴', 'Prison cave'],
+    Cave_Sand_Medium_MultiConfig: ['모래 동굴 · 보통', 'Sandy cave · medium'],
+    GhostArena_01: ['투기장', 'Arena'],
+    LootGeneration_MultiSlotPreset_DerelictOutposts: ['폐쇄된 전초기지', 'Derelict outposts'],
+    V3SlotPreset_ASDDelving: ['여러 시설 공통 · 손 채광', 'Hand mining in multiple facilities'],
+    V3SlotPreset_Battaglia: ['행사 공통 · 손 채광', 'Hand mining at events'],
+    V3SlotPreset_Harvestable_BattagliaIntro: ['행사 소행성 · 티타늄', 'Event asteroid · titanium'],
+    V3SlotPreset_Harvestable_RockCracker_Asteroid: ['소행성 · 사브릴륨', 'Asteroid · Savrilium'],
+    V3SlotPreset_RockCracker: ['손 채광 시설 · 사다릭스', 'Hand-mining facility · Sadaryx'],
+};
+for (const site of mergedSlotSites.values()) {
+    const body = /^Cave_(Aberdeen|Daymar|Hurston)_(Medium|Poor|Rich)$/.exec(site.id);
+    const cave = /^Loot_Caves_(Occupied|Unoccupied)(?:_(Acidic|Rock|Sand))?(?:_(Stanton|Pyro))?(_Orbageddon)?$/.exec(site.id);
+    let words = slotDescriptions[site.id];
+    if (body) {
+        const place = locations.find((loc) => loc.name?.en === body[1])?.name;
+        const grade = { Medium: '보통', Poor: '적음', Rich: '풍부' }[body[2]];
+        words = [`${place?.ko || body[1]} 동굴 · ${grade}`, `${body[1]} cave · ${body[2].toLowerCase()}`];
+    } else if (cave) {
+        const terrain = { Acidic: ['산성 동굴', 'Acidic cave'], Rock: ['바위 동굴', 'Rocky cave'], Sand: ['모래 동굴', 'Sandy cave'] }[cave[2]] || ['일반 동굴', 'Cave'];
+        const labels = [terrain];
+        if (cave[3]) labels.push([cave[3] === 'Stanton' ? '스탠턴' : '파이로', cave[3]]);
+        if (cave[4]) labels.push(['행사용', 'Event']);
+        if (!site.also?.some(id => id.startsWith('Loot_Caves_Unoccupied')) && cave[2] === 'Rock') {
+            labels.push(cave[1] === 'Occupied' ? ['점거', 'Occupied'] : ['비점거', 'Unoccupied']);
+        }
+        words = [0, 1].map(i => labels.map(pair => pair[i]).join(' · '));
+        if (site.type !== 'cave') site.cave = true;
+    }
+    if (words) site.description = { ko: words[0], en: words[1] };
+}
 
 // ---- 암석 사전(스캐너 값 → 암석 찾기용) -----------------------------------
 const locationRockIds = new Set(locations.flatMap((location) => location.groups.flatMap((group) => group.rocks.map((rock) => rock.id))));
@@ -451,6 +486,16 @@ const refineries = !refineryAmenity ? [] : df.recordsOfType('StarMapObject').map
     if (!(data.amenities || []).some((amenity) => short(amenity) === idOf(refineryAmenity))) return null;
     return prune({ id: idOf(record), name: names(data.name), system: systemOf(idOf(record)), parent: short(data.parent) });
 }).filter(Boolean).sort(byNumericId);
+
+// Verified desk locations for offline use. A star-map amenity alone does not establish a working terminal.
+const world = JSON.parse(readFileSync(resolve(ROOT, 'data/trade/world.json'), 'utf8'));
+const directory = JSON.parse(readFileSync(resolve(ROOT, 'scripts/trade/uex-join-snapshot.json'), 'utf8'));
+if (world.gameVersion !== build.Version) throw new Error('무역 장소 자료를 같은 게임 버전으로 먼저 갱신하세요.');
+const refineryDesks = directory.terminals.filter((terminal) => terminal.type === 'refinery' && terminal.is_available_live === 1).flatMap((terminal) => {
+    const id = world.joins.refineries.map[terminal.id];
+    const name = names(starObject(id)?.name);
+    return name ? [{ id, terminalId: terminal.id, name, system: systemOf(id) }] : [];
+});
 
 // ---- 장소 묶음(object container)에서 찾은 연결 --------------------------------
 const LINKS_PATH = resolve(CACHE, 'mining-links.json');
@@ -580,7 +625,7 @@ const out = {
     harvestables: Object.fromEntries([...harvestables].sort(([x], [y]) => x.localeCompare(y))),
     wrecks: Object.fromEntries([...wrecks].sort(([x], [y]) => x.localeCompare(y))),
     salvageSets: Object.fromEntries(salvageSets),
-    special, places, refineries,
+    special, places, refineries, refineryDesks,
 };
 
 const comparable = (value) => JSON.stringify({ ...value, builtAt: '' });

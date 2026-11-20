@@ -110,6 +110,7 @@
     Object.assign(TEXT.en, { filters: 'Filters', resetFilters: 'Reset filters', shopOnly: 'Available at shops only', shopOnlyNote: 'At least one variant has a confirmed shop listing', damageType: 'Damage type', minMag: 'Minimum magazine', maxMass: 'Maximum mass (kg)', minStore: 'Minimum storage (µSCU)', environment: 'Operating temperature (°C)', filterCount: '{count} filters', matched: '{count} / {total} groups', filterEmpty: 'No matching gear. Try removing a filter.', afterHit: 'One-hit scenario for this part', remainingHealth: 'Hypothetical remaining part health', bodyHealth: 'Body status', choosePart: 'Select a part to inspect its protection and damage.', fullHealth: 'Base part health', allMakers: 'All manufacturers', priceRetry: 'Retry shops', selectedPart: 'Selected part', equipment: 'Protecting equipment' });
     // 개조 화면. 자리 이름(조준경 부착물 등)과 수치 이름은 자료(attachments.json, 한국어 패치 표기)에서 온다.
     Object.assign(TEXT.ko, {
+        modBarrelBallistic: '실탄 무기용', modBarrelEnergy: '에너지 무기용', modBarrelBoth: '실탄·에너지 공용', modBarrelUnknown: '호환 계열 미확인',
         mod: '개조', modThis: '이 무기 개조하기', modPick: '개조할 무기', modPickHint: '개조할 무기를 고르면 부착물 자리와 그 자리에 맞는 부품이 나옵니다.',
         modSlots: '부착물 자리', modEmpty: '비어 있음', modClear: '떼기', modFixed: '기본으로 들어가는 것만 보여 줍니다', modNoSlots: '이 무기에는 바꿔 달 수 있는 부착물 자리가 없습니다.',
         modParts: '{slot} 고르기', modPartsCount: '맞는 부품 {count}개', modFitted: '장착됨', modPartsNote: '목록에는 주요 수치만 나옵니다. 장착하면 수치 표에 전부 나옵니다.',
@@ -130,6 +131,7 @@
         modCredit: '3D 모형과 겉면 그림 © Cloud Imperium Games. 비공식 팬 사이트에서 보여 주려고 게임 파일에서 변환한 것이며, 색과 질감은 실제 게임과 다를 수 있습니다.',
     });
     Object.assign(TEXT.en, {
+        modBarrelBallistic: 'Ballistic only', modBarrelEnergy: 'Energy only', modBarrelBoth: 'Ballistic & energy', modBarrelUnknown: 'Weapon family unconfirmed',
         mod: 'Modding', modThis: 'Mod this weapon', modPick: 'Weapon to mod', modPickHint: 'Pick a weapon to see its attachment slots and the parts that fit them.',
         modSlots: 'Attachment slots', modEmpty: 'Empty', modClear: 'Remove', modFixed: 'Shows the default item only', modNoSlots: 'This weapon has no attachment slots you can change.',
         modParts: 'Choose: {slot}', modPartsCount: '{count} parts fit', modFitted: 'Fitted', modPartsNote: 'The list shows the main numbers only. Fit a part to see all of them in the stats table.',
@@ -150,7 +152,7 @@
         modCredit: '3D models and textures © Cloud Imperium Games. Converted from the game files for this unofficial fan site; colours and surfaces are approximate.',
     });
     const FILTER_DEFAULTS = { query: '', kind: '', slot: '', cls: '', maker: '', damageType: '', fireMode: '', minMag: '', maxMass: '', minStore: '', environment: '', shopOnly: false };
-    const state = { ...FILTER_DEFAULTS, detailOpen: false, filtersOpen: window.innerWidth > 700, part: 'torso', view: 'weapon', data: {}, error: {}, loading: {}, sort: '', selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {}, mod: { weapon: '', slot: '', builds: {}, visiting: {}, notice: '' } };
+    const state = { ...FILTER_DEFAULTS, detailOpen: false, filtersOpen: window.innerWidth > 700, part: 'torso', view: 'weapon', data: {}, error: {}, loading: {}, selected: { weapon: '', armor: '' }, limit: PAGE, prices: {}, priceState: {}, fit: { wear: {}, weapon: '', mode: 0, distance: 10 }, cart: {}, mod: { weapon: '', slot: '', builds: {}, visiting: {}, notice: '' } };
     let root = null;
     let composingSearch = null;
     let started = false;
@@ -234,7 +236,6 @@
         if (mode.beam) return totalDamage(mode.beam);
         return totalDamage(group.ammo?.dmg) * (mode.pellets || 1) * (mode.rpm || 0) / 60;
     }
-    const cutOf = (group) => group.cut?.[0] ?? -1;
 
     // ---- 가격 ---------------------------------------------------------------
     function shopsOf(variant, view = state.view) {
@@ -277,6 +278,19 @@
     }
 
     // ---- 목록 ---------------------------------------------------------------
+    const weaponColumns = ['name', 'dps', 'kind', 'damage', 'rate', 'mag', 'speed', 'price'];
+    const armorColumns = ['name', 'cut', 'armorClass', 'slot', 'temp', 'store', 'price'];
+    const gearColumns = () => state.view === 'weapon' ? weaponColumns : armorColumns;
+    const sortId = () => 'gear-' + state.view;
+    const defaultDown = (key) => ['dps', 'damage', 'rate', 'mag', 'speed', 'cut', 'store', 'temp'].includes(key);
+    const sortValues = {
+        name: group => label(group.name), kind: group => text(group.kind), armorClass: group => group.cls ? text(group.cls) : null,
+        slot: group => text(group.slot), cut: group => group.cut?.[0], temp: group => group.temp?.[0], store: group => group.store || null,
+        dps: group => dpsOf(group) || null,
+        damage: group => group.combatVerified === false ? null : totalDamage(group.ammo?.dmg) * (bestMode(group)?.pellets || 1) || null,
+        rate: group => bestMode(group)?.rpm || null, mag: group => group.combatVerified === false ? null : group.mag || null,
+        speed: group => group.combatVerified === false ? null : group.ammo?.speed || null, price: group => cheapest(group)?.price,
+    };
     function filtered() {
         const groups = state.data[state.view]?.groups || [];
         const query = state.query.trim().toLowerCase();
@@ -298,11 +312,7 @@
             if (!query) return true;
             return `${group.name.ko || ''} ${group.name.en}`.toLowerCase().includes(query) || group.variants.some((variant) => `${variant[2] || ''} ${variant[1]}`.toLowerCase().includes(query));
         });
-        if (state.sort === 'dps') list.sort((a, b) => dpsOf(b) - dpsOf(a));
-        else if (state.sort === 'cut') list.sort((a, b) => cutOf(b) - cutOf(a));
-        else if (state.sort === 'store') list.sort((a, b) => (b.store || 0) - (a.store || 0));
-        else if (state.sort === 'price') list.sort((a, b) => (cheapest(a)?.price ?? Infinity) - (cheapest(b)?.price ?? Infinity));
-        return list;
+        return window.VOLT_TABLE_SORT.rows(sortId(), list, gearColumns().map(key => sortValues[key]), () => draw());
     }
     const option = (value, name, current) => `<option value="${esc(value)}"${current === value ? ' selected' : ''}>${esc(name)}</option>`;
     function activeFilters() {
@@ -332,12 +342,18 @@
         const tabs = `<div class="gear-tabs" role="tablist" aria-label="${esc(text('views'))}">${tab('weapon')}${tab('armor')}${tab('fit')}${tab('mod')}<button type="button" role="tab" class="gear-tab${state.view === 'cart' ? ' is-active' : ''}" aria-selected="${state.view === 'cart'}" data-gear-view="cart">${esc(cartTotal() ? text('cartCount', { count: cartTotal() }) : text('cart'))}</button></div>`;
         if (state.view === 'fit' || state.view === 'cart' || state.view === 'mod') return `<div class="gear-toolbar">${tabs}</div>`;
         const status = state.priceState[state.view];
-        const weaponView = state.view === 'weapon';
-        const sorts = weaponView ? [['', 'sortDefault'], ['dps', 'sortDps'], ['price', 'sortPrice']] : [['', 'sortDefault'], ['cut', 'sortCut'], ['store', 'sortStore'], ['price', 'sortPrice']];
+        const columns = gearColumns();
+        const active = window.VOLT_TABLE_SORT.choice(sortId());
+        const sortKey = active && columns[active.column];
+        const current = sortKey ? sortKey + (active.desc === defaultDown(sortKey) ? '' : '-rev') : '';
+        const sorts = columns.flatMap(key => [false, true].map(reverse => {
+            const down = reverse !== defaultDown(key);
+            return option(key + (reverse ? '-rev' : ''), text(key) + (down ? ' ↓' : ' ↑'), current);
+        }));
         return `<div class="gear-toolbar">
             ${tabs}
             <label class="gear-search"><span>${esc(text('searchLabel'))}</span><input type="search" id="gear-search" value="${esc(state.query)}" placeholder="${esc(text('search'))}" autocomplete="off"></label>
-            <label class="gear-select"><span>${esc(text('sort'))}</span><select id="gear-sort">${sorts.map(([value, key]) => option(value, text(key), state.sort)).join('')}</select></label>
+            <label class="gear-select"><span>${esc(text('sort'))}</span><select id="gear-sort">${option('', text('sortDefault'), current)}${sorts.join('')}</select></label>
             <label class="gear-shop-filter"><input id="gear-shop-only" type="checkbox"${state.shopOnly ? ' checked' : ''}><span>${esc(text('shopOnly'))}<small>${esc(text('shopOnlyNote'))}</small></span></label>
             ${status === 'loading' ? `<p class="gear-note" role="status">${esc(text('priceLoading'))}</p>` : status === 'failed' || status === 'partial' ? `<p class="gear-note" role="status">${esc(text(status === 'failed' ? 'priceFailed' : 'pricePartial'))} <button class="gear-add" type="button" data-gear-price-retry>${esc(text('priceRetry'))}</button></p>` : ''}
         </div>`;
@@ -350,7 +366,7 @@
         return `${mode.basis === 'upperBound' ? '≤ ' : ''}${esc(num(mode.rpm))}`;
     }
     function weaponRows(list) {
-        return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col" class="is-num gear-metric">${esc(text('dps'))}</th><th class="gear-secondary-col" scope="col">${esc(text('kind'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('damage'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('rate'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('mag'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('speed'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th></tr></thead>
+        return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col" class="is-num gear-metric">${esc(text('dps'))}</th><th class="gear-secondary-col" scope="col">${esc(text('kind'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('damage'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('rate'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('mag'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('speed'))}</th><th scope="col" class="is-num" data-asc-first>${esc(text('price'))}</th></tr></thead>
             <tbody>${list.map((group) => { const mode = bestMode(group); const damage = group.combatVerified === false ? 0 : totalDamage(group.ammo?.dmg); const dps = dpsOf(group); return `<tr class="${state.selected.weapon === group.id ? 'is-selected' : ''}">
                 <th scope="row">${rowButton(group)}</th>
                 <td class="is-num gear-metric">${dps ? `${mode?.basis === 'upperBound' ? '≤ ' : ''}${esc(num(dps))}` : esc(text('unknown'))}</td>
@@ -362,7 +378,7 @@
                 <td class="is-num">${priceCell(group)}</td></tr>`; }).join('')}</tbody>`;
     }
     function armorRows(list) {
-        return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col" class="is-num gear-metric">${esc(text('cut'))}</th><th scope="col">${esc(text('armorClass'))}</th><th class="gear-secondary-col" scope="col">${esc(text('slot'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('temp'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('store'))}</th><th scope="col" class="is-num">${esc(text('price'))}</th></tr></thead>
+        return `<thead><tr><th scope="col">${esc(text('name'))}</th><th scope="col" class="is-num gear-metric">${esc(text('cut'))}</th><th scope="col">${esc(text('armorClass'))}</th><th class="gear-secondary-col" scope="col">${esc(text('slot'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('temp'))}</th><th scope="col" class="is-num gear-secondary-col">${esc(text('store'))}</th><th scope="col" class="is-num" data-asc-first>${esc(text('price'))}</th></tr></thead>
             <tbody>${list.map((group) => `<tr class="${state.selected.armor === group.id ? 'is-selected' : ''}">
                 <th scope="row">${rowButton(group)}</th>
                 <td class="is-num gear-metric">${group.cut ? `${esc(num(group.cut[0]))}%` : esc(text('unknown'))}</td>
@@ -378,7 +394,7 @@
         const shown = rows.slice(0, state.limit);
         return `<p class="gear-count" role="status">${esc(text('matched', { count: num(rows.length), total: num(groupsOf(state.view).length) }))}</p>
             <p class="gear-scroll-hint">${esc(text('scrollHint'))}</p>
-            <div class="gear-tablewrap" tabindex="0" role="region" aria-label="${esc(text(state.view))}"><table class="gear-table">${state.view === 'weapon' ? weaponRows(shown) : armorRows(shown)}</table></div>
+            <div class="gear-tablewrap" tabindex="0" role="region" aria-label="${esc(text(state.view))}"><table class="gear-table" data-sort-source="${sortId()}">${state.view === 'weapon' ? weaponRows(shown) : armorRows(shown)}</table></div>
             ${rows.length > shown.length ? `<button type="button" class="btn btn-secondary gear-more" data-gear-more>${esc(text('more', { count: num(Math.min(PAGE, rows.length - shown.length)) }))}</button>` : ''}`;
     }
 
@@ -424,7 +440,7 @@
         }).join('');
         return `<section class="gear-variants"><h4>${esc(text('variants'))} <small class="gear-muted">${esc(group.variants.length > 1 ? text('variantsCount', { count: group.variants.length }) : text('oneVariant'))}</small></h4>
             ${group.variants.length > 1 ? `<p class="gear-note">${esc(text('variantsNote'))}</p>` : ''}
-            <div class="gear-tablewrap" tabindex="0" role="region" aria-label="${esc(text('variants'))}"><table class="gear-table"><thead><tr><th scope="col">${esc(text('variantName'))}</th><th scope="col" class="is-num">${esc(text('cheapest'))}</th><th scope="col">${esc(text('shops'))}</th><th scope="col" class="is-num">${esc(text('cart'))}</th></tr></thead><tbody>${rows}</tbody></table></div>
+            <div class="gear-tablewrap" tabindex="0" role="region" aria-label="${esc(text('variants'))}"><table class="gear-table"><thead><tr><th scope="col">${esc(text('variantName'))}</th><th scope="col" class="is-num">${esc(text('cheapest'))}</th><th scope="col">${esc(text('shops'))}</th><th scope="col" class="is-num" data-no-sort>${esc(text('cart'))}</th></tr></thead><tbody>${rows}</tbody></table></div>
             <p class="gear-note">${esc(status === 'failed' ? text('priceFailed') : status === 'partial' ? text('pricePartial') : text('noShopNote'))}</p></section>`;
     }
     function detail() {
@@ -591,6 +607,12 @@
     const modQuery = typeof window.matchMedia === 'function' ? window.matchMedia(MOD_3D_QUERY) : null;
     const modPorts = (id) => { const ports = state.data.attach?.weapons?.[id]?.ports; return Array.isArray(ports) ? ports.filter((port) => port && typeof port.name === 'string') : []; };
     const modPart = (cls) => (typeof cls === 'string' && Object.hasOwn(state.data.attach?.attachments || {}, cls) ? state.data.attach.attachments[cls] : null);
+    function barrelBadge(item) {
+        if (item.kind !== 'barrel') return '';
+        const keys = { ballistic: 'modBarrelBallistic', energy: 'modBarrelEnergy', both: 'modBarrelBoth' };
+        const family = Object.hasOwn(keys, item.family) ? item.family : 'unknown';
+        return ` <span class="gear-tag gear-barrel-family is-${family}">${esc(text(keys[family] || 'modBarrelUnknown'))}</span>`;
+    }
     const modAllowed = (port, cls) => cls === null || (Boolean(modPart(cls)) && Array.isArray(port.compatible) && port.compatible.includes(cls));
     // 지금 조합: 바꿀 수 있는 자리는 저장한 값(그 자리에 맞는 부품일 때만), 나머지는 게임 기본.
     // state.mod.visiting: 받은 주소로 들어온 조합. 저장하지 않고 보여 주기만 한다 — 부품을 바꾸면 그때 내 조합이 된다.
@@ -700,7 +722,7 @@
         const sizeText = (port) => (port.minSize === port.maxSize ? `S${port.maxSize}` : `S${port.minSize}~S${port.maxSize}`);
         const rows = ports.filter((port) => port.editable || modPart(build[port.name])).map((port) => {
             const cls = build[port.name]; const part = modPart(cls); const name = part ? label(part.name) : text('modEmpty');
-            const head = `<span class="gear-mod-slotname">${esc(label(port.label))} <small>${esc(sizeText(port))}</small></span><strong>${esc(name)}</strong>`;
+            const head = `<span class="gear-mod-slotname">${esc(label(port.label))} <small>${esc(sizeText(port))}</small>${barrelBadge(port)}</span><strong>${esc(name)}</strong>`;
             const missing = ready && part && (!modPartHasModel(cls) || mod3d.bad.has(cls)) ? `<small class="gear-muted">${esc(text('modPartNoModel'))}</small>` : '';
             if (!port.editable) return `<li class="gear-mod-slot is-fixed"><div class="gear-mod-slotbtn">${head}<small class="gear-muted">${esc(text('modFixed'))}</small>${missing}</div></li>`;
             return `<li class="gear-mod-slot${port.name === slot ? ' is-selected' : ''}"><button type="button" class="gear-mod-slotbtn" data-gear-mod-slot="${esc(port.name)}" aria-pressed="${port.name === slot}">${head}${missing}</button>
@@ -715,7 +737,7 @@
         const items = list.map((cls) => {
             const part = modPart(cls); const chips = modChips(part);
             const meta = [part.type ? label(part.type) : '', Number.isFinite(part.size) ? `S${part.size}` : '', lang() === 'ko' && part.mfrKo ? part.mfrKo : part.mfr].filter(Boolean).join(' · ');
-            return `<li><button type="button" class="gear-mod-part${cls === current ? ' is-fitted' : ''}" data-gear-mod-part="${esc(cls)}" aria-pressed="${cls === current}"><span class="gear-mod-partname">${esc(label(part.name))}${cls === current ? ` <span class="gear-tag">${esc(text('modFitted'))}</span>` : ''}</span><small class="gear-muted">${esc(meta)}</small>${chips ? `<span class="gear-mod-chips">${chips}</span>` : ''}</button></li>`;
+            return `<li><button type="button" class="gear-mod-part${cls === current ? ' is-fitted' : ''}" data-gear-mod-part="${esc(cls)}" aria-pressed="${cls === current}"><span class="gear-mod-partname">${esc(label(part.name))}${barrelBadge(part)}${cls === current ? ` <span class="gear-tag">${esc(text('modFitted'))}</span>` : ''}</span><small class="gear-muted">${esc(meta)}</small>${chips ? `<span class="gear-mod-chips">${chips}</span>` : ''}</button></li>`;
         }).join('');
         const lines = modPart(current)?.desc; const desc = lines ? (lang() === 'ko' && Array.isArray(lines.ko) && lines.ko.length ? lines.ko : lines.en) : null;
         return `<section class="gear-mod-panel gear-mod-parts" aria-labelledby="gear-mod-parts-title"><h3 id="gear-mod-parts-title">${esc(text('modParts', { slot: label(port.label) }))} <small class="gear-muted">${esc(text('modPartsCount', { count: num(list.length) }))}</small></h3>
@@ -879,7 +901,7 @@
                 draw(root.querySelector(row) ? row : '#gear-search');
                 return;
             }
-            if (target.dataset.gearView) { state.detailOpen = false; state.view = target.dataset.gearView; Object.assign(state, FILTER_DEFAULTS); state.sort = ''; state.limit = PAGE; draw(`[data-gear-view="${state.view}"]`); load(state.view); return; }
+            if (target.dataset.gearView) { state.detailOpen = false; state.view = target.dataset.gearView; Object.assign(state, FILTER_DEFAULTS); state.limit = PAGE; draw(`[data-gear-view="${state.view}"]`); load(state.view); return; }
             if (target.dataset.gearAdd) { const uuid = target.dataset.gearAdd; state.cart[uuid] = Math.min(99, (state.cart[uuid] || 0) + 1); store(CART_KEY, state.cart); draw(`[data-gear-add="${uuid}"]`); return; }
             if (target.dataset.gearQty) { const uuid = target.dataset.gearQty; const next = (state.cart[uuid] || 0) + Number(target.dataset.step); if (next > 0) state.cart[uuid] = Math.min(next, 99); else delete state.cart[uuid]; store(CART_KEY, state.cart); draw(state.cart[uuid] ? `[data-gear-qty="${uuid}"][data-step="${target.dataset.step}"]` : '[data-gear-view="cart"]'); return; }
             if (target.dataset.gearRemove) { delete state.cart[target.dataset.gearRemove]; store(CART_KEY, state.cart); draw('[data-gear-view="cart"]'); return; }
@@ -936,10 +958,16 @@
             const slot = event.target.dataset?.gearSlot;
             if (slot) { if (event.target.value) state.fit.wear[slot] = event.target.value; else delete state.fit.wear[slot]; store(FIT_KEY, state.fit); draw(`[data-gear-slot="${slot}"]`); return; }
             if (event.target.id === 'gear-mod-weapon') { modPick(event.target.value); draw('#gear-mod-weapon'); return; }
+            if (event.target.id === 'gear-sort') {
+                const [key, reverse] = event.target.value.split('-');
+                const column = gearColumns().indexOf(key);
+                window.VOLT_TABLE_SORT.select(sortId(), column < 0 ? null : column, defaultDown(key) !== Boolean(reverse));
+                state.limit = PAGE; draw('#gear-sort'); return;
+            }
             if (event.target.id === 'gear-fit-weapon') { state.fit.weapon = event.target.value; state.fit.mode = 0; store(FIT_KEY, state.fit); draw('#gear-fit-weapon'); return; }
             if (event.target.id === 'gear-fit-mode') { state.fit.mode = Number(event.target.value) || 0; store(FIT_KEY, state.fit); draw('#gear-fit-mode'); return; }
             if (event.target.id === 'gear-fit-distance') { state.fit.distance = Math.min(2000, Math.max(0, Number(event.target.value) || 0)); store(FIT_KEY, state.fit); draw('#gear-fit-distance'); return; }
-            const key = { 'gear-kind': 'kind', 'gear-slot': 'slot', 'gear-class': 'cls', 'gear-sort': 'sort', 'gear-maker': 'maker', 'gear-damage-type': 'damageType', 'gear-fire-mode': 'fireMode', 'gear-min-mag': 'minMag', 'gear-max-mass': 'maxMass', 'gear-min-store': 'minStore', 'gear-environment': 'environment', 'gear-shop-only': 'shopOnly' }[event.target.id]; if (!key) return;
+            const key = { 'gear-kind': 'kind', 'gear-slot': 'slot', 'gear-class': 'cls', 'gear-maker': 'maker', 'gear-damage-type': 'damageType', 'gear-fire-mode': 'fireMode', 'gear-min-mag': 'minMag', 'gear-max-mass': 'maxMass', 'gear-min-store': 'minStore', 'gear-environment': 'environment', 'gear-shop-only': 'shopOnly' }[event.target.id]; if (!key) return;
             state.detailOpen = false;
             state[key] = key === 'shopOnly' ? event.target.checked : event.target.value; state.limit = PAGE; draw(`#${event.target.id}`);
         });

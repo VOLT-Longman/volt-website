@@ -112,6 +112,23 @@ async function openSettings(page) {
     await expect(box).toHaveCount(1);
     if (!(await box.evaluate((node) => node.open))) await box.locator('summary').click();
 }
+test('시세 표에서 고른 정렬이 카드·주소·기존 선택창에 같이 반영된다', async ({ page }) => {
+    await prepare(page);
+    await gotoSection(page, '?lang=ko#market');
+    const table = page.locator('[data-sort-source="market-prices"]');
+    const buy = table.locator('thead th').nth(1);
+    await buy.getByRole('button').click();
+    await expect(buy).toHaveAttribute('aria-sort', 'ascending');
+    await expect(app(page).locator('[data-change="sort"]')).toHaveValue('buy');
+    await expect(table.locator('tbody tr').first()).toContainText('300 aUEC');
+    await page.setViewportSize({ width: 390, height: 844 });
+    const picker = app(page).locator('.volt-sort-mobile select').first();
+    await picker.selectOption('1/1');
+    await expect(buy).toHaveAttribute('aria-sort', 'descending');
+    await expect(page).toHaveURL(/sort=buy-rev/);
+    await expect(app(page).locator('[data-change="sort"]')).toHaveValue('buy-rev');
+    await expect(table.locator('tbody tr').first()).toContainText('2,100 aUEC');
+});
 const top = (locator) => locator.evaluate((node) => Math.round(node.getBoundingClientRect().top));
 const row = (page, text) => app(page).locator('.market-table tbody tr', { hasText: text });
 

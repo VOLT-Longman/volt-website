@@ -322,6 +322,14 @@ test('joins: every key the trade, mining and mission screens use resolves or is 
     assert.equal(c.uexTerminals.terminalIds, world.joins.terminals.matched);
     for (const [terminal, id] of Object.entries(world.joins.refineries.map)) assert.ok(byId.get(id).uexRef.includes(Number(terminal)));
     // refineries and mining
+    const desks = new Map(helper.refineryDesks.map((desk) => [desk.id, desk.terminalId]));
+    assert.equal(desks.size, 20);
+    assert.equal(desks.get('Nyx_Levski'), 788);
+    assert.equal(all.filter((object) => object.refinery).length, desks.size);
+    for (const [id, terminal] of desks) {
+        assert.equal(byId.get(id).refinery, 1, id);
+        assert.ok(byId.get(id).uexRef.includes(terminal), id);
+    }
     for (const refinery of helper.refineries) assert.equal(byId.get(refinery.id).refinery, unplaced.has(refinery.id) ? undefined : 1, refinery.id);
     assert.equal(helper.refineries.filter((refinery) => unplaced.has(refinery.id)).length, 12);
     assert.equal(c.refineries.onMap, helper.refineries.length);

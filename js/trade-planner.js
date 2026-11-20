@@ -353,7 +353,11 @@
             if (actions) actions.hidden = true;
             return;
         }
-        list.innerHTML = `${renderCargoWarning(t.qty)}${renderTotalCards(t, totalProfit)}${renderDesktopTable(t, totalProfit)}${renderMobileCards()}`;
+        const sorted = window.VOLT_TABLE_SORT.rows('planner-ledger', items, [
+            row => row.commodity, row => row.buyLoc, row => row.sellLoc, row => row.qty, row => row.buyPrice * row.qty,
+            row => row.sellPrice * row.qty, row => (row.sellPrice - row.buyPrice) * row.qty,
+        ], render);
+        list.innerHTML = `${renderCargoWarning(t.qty)}${renderTotalCards(t, totalProfit)}${renderDesktopTable(sorted, t, totalProfit)}${renderMobileCards(sorted)}`;
         if (actions) actions.hidden = false;
     }
 
@@ -401,8 +405,8 @@
         return `<div class="ledger-cargo-warning" role="alert">${escapeHtml(message)}</div>`;
     }
 
-    function renderDesktopTable(total, totalProfit) {
-        const rows = items.map((it) => {
+    function renderDesktopTable(sorted, total, totalProfit) {
+        const rows = sorted.map((it) => {
             const buyTotal = it.buyPrice * it.qty;
             const sellTotal = it.sellPrice * it.qty;
             const profit = sellTotal - buyTotal;
@@ -417,7 +421,7 @@
                 <td><button class="ledger-remove" type="button" data-ledger-remove="${escapeHtml(it.id)}" aria-label="${escapeHtml(i18nT('ledger.col.remove', '삭제'))}">×</button></td>
             </tr>`;
         }).join('');
-        return `<div class="ledger-table-wrap"><table class="ledger-table">
+        return `<div class="ledger-table-wrap"><table class="ledger-table" data-sort-source="planner-ledger">
             <thead><tr>
                 <th>${escapeHtml(i18nT('ledger.col.commodity', '품목'))}</th>
                 <th>${escapeHtml(i18nT('ledger.col.buy', '구입처'))}</th>
@@ -440,8 +444,8 @@
         </table></div>`;
     }
 
-    function renderMobileCards() {
-        const cards = items.map((it) => {
+    function renderMobileCards(sorted) {
+        const cards = sorted.map((it) => {
             const profit = (it.sellPrice - it.buyPrice) * it.qty;
             return `<article class="ledger-mobile-card">
                 <div><strong>${escapeHtml(it.commodity)}</strong><button class="ledger-remove" type="button" data-ledger-remove="${escapeHtml(it.id)}" aria-label="${escapeHtml(i18nT('ledger.col.remove', '삭제'))}">×</button></div>

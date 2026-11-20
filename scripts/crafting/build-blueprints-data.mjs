@@ -195,7 +195,10 @@ function build({ cacheDir, koIni }) {
     if (mining.gameVersion !== buildInfo.Version) throw new Error('Mining and blueprint game builds must match. Rebuild mining data first.');
     // mining.json mineral id for a material: the mineral itself (hand / vehicle mining) or the mineral whose refined.id is the material.
     const mineralOf = new Map();
-    for (const mineral of mining.minerals) { mineralOf.set(mineral.id, mineral.id); if (mineral.refined?.id) mineralOf.set(mineral.refined.id, mineral.id); }
+    for (const mineral of [...mining.minerals, ...mining.extraMinerals]) {
+        mineralOf.set(mineral.id, mineral.id);
+        if (mineral.refined?.id) mineralOf.set(mineral.refined.id, mineral.id);
+    }
 
     const resourceRecords = new Map(df.recordsOfType('ResourceType').map((record) => [idOf(record), record]));
     const entityRecords = new Map(df.recordsOfType('EntityClassDefinition').map((record) => [idOf(record).toLowerCase(), record]));

@@ -73,7 +73,7 @@
         return window.VOLT_STARMAP?.links?.button?.({ mark: ids }, { name, count: true, cls: 'hauling-maplink' }) || '';
     }
 
-    function placesOf(contract) {
+    function contractPlaces(contract) {
         const found = new Map();
         let unknown = false;
         for (const id of contract.places || []) {
@@ -88,6 +88,10 @@
             }
             if (place?.unresolved) unknown = true;
         }
+        return { found, unknown };
+    }
+    function placesOf(contract) {
+        const { found, unknown } = contractPlaces(contract);
         const names = [...new Set(found.values())];
         const unknownText = text('rawRegion');
         if (!names.length) return esc(unknownText);
@@ -112,9 +116,14 @@
             const url = window.VOLT_HELPER.buildHash('market', { tab: 'ships', box: contract.maxBox, capacity });
             return ` <a class="hauling-link" href="${esc(url)}">${lang() === 'ko' ? '이 상자를 싣는 화물선' : 'Ships that fit this crate'}</a>`;
         };
-        const shown = rows.slice(0, state.limit);
+        const shown = window.VOLT_TABLE_SORT.rows('hauling-contracts', rows, [
+            contract => label(contractors[contract.by]), contract => text(contract.kind),
+            contract => [...contractPlaces(contract).found.values()].join(' · ') || null, contract => contract.min,
+            contract => contract.minutes || null, contract => contract.cargo?.map(row => label(resources[row.resource]) || row.resource).join(' · ') || null,
+            contract => contract.maxBox || null, contract => contract.rep || null,
+        ], () => draw()).slice(0, state.limit);
         return `${count}
-            <div class="hauling-tablewrap" tabindex="0" role="region" aria-label="${esc(text('contractsAt'))}"><table class="hauling-table">
+            <div class="hauling-tablewrap" tabindex="0" role="region" aria-label="${esc(text('contractsAt'))}"><table class="hauling-table" data-sort-source="hauling-contracts">
             <thead><tr><th scope="col">${esc(text('contractor'))}</th><th scope="col">${esc(text('kind'))}</th><th scope="col">${esc(text('place'))}</th><th scope="col">${esc(text('rankRange'))}</th><th scope="col" class="is-num">${esc(text('minutes'))}</th><th scope="col">${esc(text('cargo'))}</th><th scope="col" class="is-num">${esc(text('biggestBox'))}</th><th scope="col" class="is-num">${esc(text('rep'))}</th></tr></thead>
             <tbody>${shown.map((contract) => `<tr>
                 <th scope="row" tabindex="-1">${esc(label(contractors[contract.by]))}</th>

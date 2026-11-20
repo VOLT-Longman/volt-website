@@ -7,7 +7,7 @@
  * 추가 화면 (docs/helper-tools.md 2.2):
  * - 장소별: 할 수 있는 일 아이콘(함선·차량·손·채집·잔해), 종류·성계 포함/제외 칩, 묶음·표·광물×장소 표.
  * - 신호값으로 찾기: 스캐너 숫자 → 암석 종류와 개수 후보. "기본 신호 값 × 암석 수" 규칙은 게임 안 확인 전이다.
- * - 정제소 찾기: 게임 파일의 정제 시설 목록 + UEX 이용자 보고 수율 보너스(/api/uex/refineries, /api/uex/terminals).
+ * - 정제소 찾기: 이용 가능한 정제 단말 목록과 단말 번호별 UEX 이용자 수율 보고.
  * - 표 내려받기(CSV, data: 주소 — CSP 가 blob: 을 막는다), 표 복사, 주소 복사.
  *
  * 주소(해시) 키 — #mining?key=value
@@ -48,12 +48,13 @@
             unplacedGroup: '쓰는 곳을 찾지 못한 목록', unplacedNote: '게임 파일 안에서 이 목록을 쓰는 실제 장소를 찾지 못했습니다. 갈 수 있는 장소가 아닐 수 있습니다.',
             sitesGroup: '행사·동굴·시설 목록', sitesToggle: '행사·동굴·시설 목록 보기 ({count})', sitesHide: '행사·동굴·시설 목록 숨기기',
             siteNote: '행사·시험용이거나 고정 자리 목록입니다. 지금 게임에서 열려 있는지는 게임 파일로 알 수 없습니다.',
-            caveNote: '이 목록이 실제로 어느 동굴·시설에 쓰이는지는 확인하지 못했습니다. 내부 이름만 있습니다.',
-            noName: '이름 없음 (내부 이름)', maybeOff: '지금 없을 수 있음',
+            caveNote: '이 목록이 실제로 어느 동굴·시설에 쓰이는지는 확인하지 못했습니다.',
+            caveGroup: '동굴 · 채광 목록 {count}개', caveTypes: '동굴 종류', unnamedSite: '위치 미확인', maybeOff: '지금 없을 수 있음',
+            fixedSources: '동굴·시설 채광 기록', fixedNote: '이 광물이 나오는 기록입니다. 정확한 채광 위치와 현재 이용 가능 여부는 확인되지 않았습니다.',
             sig: '신호 값 (1개)', clusterSize: '한 무리 개수', groupWeight: '묶음 가중치 {value}', countUnit: '{value}개',
-            unresolved: '어떤 암석인지 게임 파일에 비어 있는 항목: {list}',
+            unresolved: '종류를 확인할 수 없는 암석이 있습니다.',
             slotTitle: '고정 자리', slotName: '자리', slotChance: '자리 확률 (파일 값)', slotItems: '나오는 것 · 가중치 (파일 값)', slotDeep: '깊은 곳 {value}',
-            also: '암석·식물 줄이 똑같은 다른 목록: {list}',
+            also: '같은 암석·식물 구성을 쓰는 다른 기록 {count}개',
             harvestTitle: '채집할 수 있는 식물', plant: '이름', gives: '얻는 것', notPlant: '식물 아님', slotChanceShort: '열매 자리 확률 (파일 값)',
             salvageTitle: '잔해', salvageNote: '잔해 하나에서 나오는 자재 양은 게임 자료에 없습니다.',
             sFresh: '통째 잔해', sPoor: '부품 잔해 (낮음)', sNormal: '부품 잔해 (보통)', sElite: '부품 잔해 (높음)', salvageKind: '종류',
@@ -77,18 +78,19 @@
             sigOtherNote: '게임 파일에 적힌 "한 무리 개수"에는 없는 개수입니다. 참고로만 보세요.',
             sigChart: '신호 값 그림', sigChartBase: '암석 하나의 기본 신호 값 (개수 1)', sigChartNear: '입력한 값 근처에서 나올 수 있는 값',
             sigLegend: '굵은 선 = 입력한 값 · 밝은 선 = 맞는 후보 · 흐린 선 = 근처의 다른 값', sigLane: '{name}: {count}개 표시',
-            refIntro: '정제 수율과 정제 시간의 실제 숫자는 게임 파일에 없습니다. 아래 보너스는 UEX 이용자들이 보고한 값(%)이며, 정제소 목록의 바탕은 게임 파일의 별 지도 정제 시설 표시입니다.',
-            refGameNote: '게임 파일의 표시는 별 지도의 시설 꼬리표일 뿐, 정제 창구가 실제로 열려 있다는 보장은 아닙니다. UEX에도 있는 곳이 더 확실합니다.',
+            refIntro: '정제 수율과 정제 시간의 실제 숫자는 게임 파일에 없습니다. 표의 보너스(%)는 UEX 이용자 보고입니다.',
+            refGameNote: 'UEX에 정제 단말이 등록된 장소를 보여 줍니다.',
+            refYieldsFailed: '정제 수율 보고를 불러오지 못했습니다.',
             refAgeNote: '칸마다 보고가 얼마나 오래됐는지 함께 적습니다. 수율 보너스 보고는 몇 주 전 것이 많습니다(가격이 아니므로 3일 기준으로 걸러 내지 않습니다).',
             refOres: '광물 고르기', refClear: '모두 해제', refLoading: 'UEX 정제 보고를 받는 중입니다…', refRetry: '다시 받기', refEmpty: 'UEX 정제 보고가 없습니다.',
-            refinery: '정제소', refCheck: '확인', refBoth: '게임 파일 · UEX 모두', refGameOnly: '게임 파일에만 있음', refUexOnly: 'UEX에만 있음',
+            refinery: '정제소', refCheck: '확인', refListed: '정제 단말 확인', refSaved: '저장된 정제소 목록', refNoDesks: '현재 목록에 이용 가능한 정제 단말이 없습니다.',
             refAvg: '고른 광물 평균', refBestTitle: '고른 광물에 가장 좋은 정제소', refBest: '{name} — 평균 {value} ({known}/{total}개 광물 보고)',
             refBestNone: '고른 광물의 보고가 있는 정제소가 없습니다.', refBestNote: '추정: 고른 광물의 보너스를 단순 평균한 값입니다. 광물마다 양이 같다고 가정하며, 보고가 없는 광물은 빼고 계산합니다. 보고가 모두 있는 정제소를 먼저 놓습니다.',
             refPick: '광물을 고르면 그 광물에 가장 좋은 정제소를 찾아 줍니다.', refMethods: '정제 방식 등급 (UEX)', refMethod: '방식', refYield: '수율', refCost: '비용', refSpeed: '속도',
             refMethodNote: '등급은 UEX의 1~3 표기이며 실제 배율이 아닙니다. 어느 쪽 숫자가 좋은지는 UEX가 밝히지 않았습니다. 방식 이름은 UEX 영어 표기입니다.',
             refNoReport: '{name}: UEX에 정제 수율 보고가 없는 광물입니다. 그래서 가장 좋은 정제소를 고를 수 없습니다. 아래에서 다른 광물을 고를 수 있습니다.',
-            refNoNames: 'UEX 정제소 이름 목록을 받지 못했습니다. 수율 보고가 어느 정제소 것인지 맞출 수 없어 게임 파일의 정제소 목록만 보여 줍니다.', refUnchecked: 'UEX 확인 못 함',
-            refFind: '정제소 찾기', refNameMatch: '게임 파일과 UEX의 정제소는 이름으로 맞춘 것입니다.', refTerminal: '정제소 #{id}',
+            refNoNames: 'UEX 정제소 이름 목록을 받지 못했습니다. 마지막으로 정제 단말이 확인된 장소를 보여 줍니다.',
+            refFind: '정제소 찾기',
             marketBest: '최근 보고 최고 판매가 ({days}일 이내)', marketNone: '{days}일 이내 보고 없음', marketLink: '시세 화면에서 보기', marketLoading: '확인 중', marketFailed: '최근 보고를 받지 못했습니다',
             avgNote: 'UEX 평균 판매 시세는 여러 거래소 보고의 평균이라 보고 시각이 따로 없습니다. 그래서 보고 시각이 있는 "최근 보고 최고 판매가"를 함께 적습니다.',
             priceAvg: 'UEX 평균 판매 시세', ageLabel: '가격 보고 기준', ageOption: '{n}일 이내 보고만', priceRetry: '시세 다시 받기',
@@ -121,12 +123,13 @@
             unplacedGroup: 'Tables with no place found', unplacedNote: 'No real place using this table was found in the game files. It may not be a place you can go to.',
             sitesGroup: 'Event, cave and facility tables', sitesToggle: 'Show event, cave and facility tables ({count})', sitesHide: 'Hide event, cave and facility tables',
             siteNote: 'This is an event, test or fixed-slot table. The game files cannot tell whether it is active in game right now.',
-            caveNote: 'Which cave or facility actually uses this table could not be resolved. Only the internal name exists.',
-            noName: 'No name (internal name)', maybeOff: 'May be inactive',
+            caveNote: 'The exact cave or facility using this table is unknown.',
+            caveGroup: 'Caves · mining tables ({count})', caveTypes: 'Cave types', unnamedSite: 'Location unknown', maybeOff: 'May be inactive',
+            fixedSources: 'Cave and facility mining records', fixedNote: 'These records contain this mineral. The exact mining locations and their current availability are unknown.',
             sig: 'Signature (one)', clusterSize: 'Cluster size', groupWeight: 'Group weight {value}', countUnit: '{value}',
-            unresolved: 'Entries whose rock is blank in the game files: {list}',
+            unresolved: 'Some rock types are unknown.',
             slotTitle: 'Fixed slots', slotName: 'Slot', slotChance: 'Slot chance (file value)', slotItems: 'What appears · weight (file value)', slotDeep: 'deep {value}',
-            also: 'Other tables with identical rock and plant rows: {list}',
+            also: 'Other records with the same rocks and plants: {count}',
             harvestTitle: 'Harvestable plants', plant: 'Name', gives: 'Gives', notPlant: 'Not a plant', slotChanceShort: 'Fruit slot chance (file value)',
             salvageTitle: 'Salvage', salvageNote: 'How much material one wreck gives is not in the game files.',
             sFresh: 'Whole wrecks', sPoor: 'Part debris (low)', sNormal: 'Part debris (normal)', sElite: 'Part debris (high)', salvageKind: 'Kind',
@@ -150,18 +153,19 @@
             sigOtherNote: 'These counts are not among the cluster sizes written in the game files. For reference only.',
             sigChart: 'Signature chart', sigChartBase: 'Base signature of one rock (count 1)', sigChartNear: 'Values possible near the typed number',
             sigLegend: 'Thick line = typed value · bright line = matching candidate · faint line = other nearby value', sigLane: '{name}: {count} marks',
-            refIntro: 'Real refining yield and time numbers are not in the game files. The bonuses below are values (%) reported by UEX players; the refinery list is based on the star-map refinery tag in the game files.',
-            refGameNote: 'The game-file tag is only a star-map amenity label, not a guarantee that a refinery desk is open. Places that UEX also lists are more certain.',
+            refIntro: 'Real refining yield and time numbers are not in the game files. The bonuses (%) in the table are UEX player reports.',
+            refGameNote: 'Locations are listed when UEX records a live refinery terminal.',
+            refYieldsFailed: 'Refining yield reports could not be loaded.',
             refAgeNote: 'Each cell shows how old the report is. Yield bonus reports are often weeks old (they are not prices, so the 3-day cut-off is not applied).',
             refOres: 'Pick minerals', refClear: 'Clear all', refLoading: 'Loading UEX refinery reports…', refRetry: 'Reload', refEmpty: 'No UEX refinery reports.',
-            refinery: 'Refinery', refCheck: 'Check', refBoth: 'Game files and UEX', refGameOnly: 'Game files only', refUexOnly: 'UEX only',
+            refinery: 'Refinery', refCheck: 'Listing', refListed: 'Refinery terminal listed', refSaved: 'Saved refinery listing', refNoDesks: 'No active refinery terminals in the current directory.',
             refAvg: 'Average for selection', refBestTitle: 'Best refinery for the selection', refBest: '{name} — average {value} ({known}/{total} minerals reported)',
             refBestNone: 'No refinery has a report for the selected minerals.', refBestNote: 'Estimate: a plain average of the bonuses of the selected minerals. It assumes equal amounts of each mineral and leaves out minerals with no report. Refineries with every report come first.',
             refPick: 'Pick minerals to find the best refinery for them.', refMethods: 'Refining method ratings (UEX)', refMethod: 'Method', refYield: 'Yield', refCost: 'Cost', refSpeed: 'Speed',
             refMethodNote: 'Ratings are UEX labels from 1 to 3, not real multipliers. UEX does not state which end of the scale is better.',
             refNoReport: '{name}: UEX has no refining yield reports for this mineral, so no best refinery can be picked. You can pick other minerals below.',
-            refNoNames: 'The UEX refinery name list could not be loaded. Yield reports cannot be matched to refineries, so only the game-file refinery list is shown.', refUnchecked: 'Not checked with UEX',
-            refFind: 'Find a refinery', refNameMatch: 'Game-file refineries and UEX refineries are matched by name.', refTerminal: 'Refinery #{id}',
+            refNoNames: 'The UEX refinery directory is unavailable. Showing the last verified refinery locations.',
+            refFind: 'Find a refinery',
             marketBest: 'Best recent sell report (within {days} d)', marketNone: 'No report within {days} d', marketLink: 'Open in Market Prices', marketLoading: 'Checking', marketFailed: 'Recent reports could not be loaded',
             avgNote: 'The UEX average sell price is an average over many shops, so it has no single report time. The "best recent sell report" shown with it carries its report time.',
             priceAvg: 'UEX average sell price', ageLabel: 'Price report cut-off', ageOption: 'Reports up to {n} d old', priceRetry: 'Reload prices',
@@ -203,9 +207,9 @@
     const chipSet = (value) => (H?.chips ? H.chips(value) : { get: () => 'any', cycle: () => 'any', test: () => true, encode: () => '', decode() {}, clear() {}, set() {}, isEmpty: () => true, included: () => [], excluded: () => [], label: () => '' });
     const state = {
         data: null, error: false, view: 'mineral', query: '', mode: '', mineral: '', location: '', prices: null, priceState: 'loading',
-        layout: 'tiles', typeChips: chipSet(), sysChips: chipSet(), showSites: false, notice: '',
+        layout: 'tiles', typeChips: chipSet(), sysChips: chipSet(), showSites: false, showCaves: false, notice: '',
         sig: { value: '', how: 'exact', tol: '50', to: '' },
-        ref: { status: 'idle', error: null, data: null, meta: null, terminals: [], ores: new Set(), want: '', missing: '', namesFailed: false },
+        ref: { status: 'idle', error: null, data: null, meta: null, terminals: null, ores: new Set(), want: '', missing: '' },
         priceIds: new Map(), priceError: null, market: null, marketState: 'idle', marketError: null, marketBest: null,
     };
     let root = null;
@@ -275,7 +279,6 @@
     function buildIndex() {
         const data = state.data;
         const minerals = new Map([...(data.minerals || []), ...(data.extraMinerals || [])].map((mineral) => [mineral.id, mineral]));
-        const listed = new Set((data.minerals || []).map((mineral) => mineral.id));
         const places = new Map((data.places || []).map((place) => [place.id, place]));
         const rockUse = new Map();
         const thingClusters = new Map();
@@ -328,7 +331,7 @@
             entries.push({
                 id: source.id, source, isSite, unplaced: source.unplaced === true, type: source.type || '', systems, used,
                 acts: ACTS.filter((act) => acts.has(act)), rocks, mineralIds, plantIds, unknownRocks: (source.groups || []).some((group) => group.unresolved?.length > 0), unknownMinerals: false,
-                hay: `${haystack(source.name)} ${String(source.id).toLowerCase()} ${used.map((place) => haystack(place.name)).join(' ')}`,
+                hay: `${haystack(source.name)} ${haystack(source.description)} ${String(source.id).toLowerCase()} ${used.map((place) => haystack(place.name)).join(' ')}`,
             });
         };
         for (const location of data.locations || []) addEntry(location, false);
@@ -368,7 +371,7 @@
             const parts = use?.minerals || rock.minerals || [];
             const main = parts.find((part) => norm(minerals.get(part.id)?.name?.en) === norm(rock.name?.en)) || parts[0];
             const lane = (rock.modes || [])[0] || 'ship';
-            addSig(`rock|${norm(rock.name?.en) || rockId}|${rock.sig}|${lane}`, { name: rock.name || { en: rockId }, sig: rock.sig, lane, tier: rock.tier || '', mineralId: main && listed.has(main.id) ? main.id : '' }, sizesFor(use));
+            addSig(`rock|${norm(rock.name?.en) || rockId}|${rock.sig}|${lane}`, { name: rock.name || { en: rockId }, sig: rock.sig, lane, tier: rock.tier || '', mineralId: main && minerals.has(main.id) ? main.id : '' }, sizesFor(use));
         }
         for (const [id, plant] of Object.entries(data.harvestables || {})) {
             if (Number.isFinite(plant.sig)) addSig(`plant|${id}`, { name: plant.name || { en: id }, sig: plant.sig, lane: 'harvest', tier: '', mineralId: '' }, sizesFor(thingClusters.get(id)));
@@ -376,17 +379,23 @@
         for (const [id, wreck] of Object.entries(data.wrecks || {})) {
             if (Number.isFinite(wreck.sig)) addSig(`wreck|${norm(wreck.name?.en) || id}|${wreck.sig}`, { name: wreck.name || { en: id }, sig: wreck.sig, lane: 'salvage', tier: '', mineralId: '' }, sizesFor(thingClusters.get(id)));
         }
-        index = { minerals, listed, places, entries, entryById: new Map(entries.map((entry) => [entry.id, entry])), rockUse, sigItems: [...sigItems.values()] };
+        index = { minerals, places, entries, entryById: new Map(entries.map((entry) => [entry.id, entry])), rockUse, sigItems: [...sigItems.values()] };
     }
-    const entryName = (entry) => label(entry.source.name) || entry.id;
+    const entryName = (entry) => label(entry.source.name) || label(entry.source.description) || text('unnamedSite');
+    const isCave = (entry) => entry?.type === 'cave' || entry?.source.cave === true;
     // 모르는 개수는 0으로 적지 않는다.
     const countText = (count, unknown) => (unknown ? (count ? `${num(count)} + ${text('unknownGame')}` : text('unknownGame')) : num(count));
-    const slotLabel = (name) => (lang() === 'ko' && SLOT_KO[name]) || name;
+    function slotLabel(name, order) {
+        if (!Object.hasOwn(SLOT_KO, name)) return `${text('slotName')} ${order + 1}`;
+        if (lang() === 'ko') return SLOT_KO[name];
+        return ({ 'FPS mineables': 'Hand-mining rocks', 'Ground mineables': 'Vehicle-mining rocks', 'LOOSE - MINING': 'Loose rocks', 'LOOSE - PLANTS': 'Loose plants',
+            'Minable Rare': 'Rare rocks', 'Minable Uncommon': 'Uncommon rocks', 'Minable Common': 'Common rocks', 'Aphorite minable': 'Aphorite rocks', 'Sadaryx minable': 'Sadaryx rocks' })[name] || name.replaceAll('_', ' ');
+    }
     const areaLabel = (name) => (lang() === 'ko' && AREA_KO[name]) || name;
     const mineralName = (id) => label(index.minerals.get(id)?.name) || id;
     const rockName = (id) => label(state.data.rocks?.[id]?.name) || id;
     function mineralLink(id) {
-        return index.listed.has(id) ? `<button type="button" class="mining-rowbtn" data-mining-mineral="${esc(id)}">${esc(mineralName(id))}</button>` : `<span>${esc(mineralName(id))}</span>`;
+        return index.minerals.has(id) ? `<button type="button" class="mining-rowbtn" data-mining-mineral="${esc(id)}">${esc(mineralName(id))}</button>` : `<span>${esc(mineralName(id))}</span>`;
     }
 
     // ── 위쪽 도구 줄 ────────────────────────────────────────────────────────
@@ -435,12 +444,16 @@
     // ── 광물별 ──────────────────────────────────────────────────────────────
     function mineralList() {
         const query = state.query.trim().toLowerCase();
-        const list = state.data.minerals.filter((mineral) => (!state.mode || mineral.modes.includes(state.mode))
+        const list = [...index.minerals.values()].filter((mineral) => (!state.mode || mineral.modes.includes(state.mode))
             && (!query || haystack(mineral.name).includes(query) || haystack(mineral.refined?.name).includes(query)));
         if (!list.length) return `<p class="mining-empty">${esc(text('noResult'))}</p>`;
-        const sorted = [...list].sort((a, b) => (priceOf(b) || 0) - (priceOf(a) || 0) || label(a.name).localeCompare(label(b.name)));
+        if (!window.VOLT_TABLE_SORT.choice('mining-minerals')) window.VOLT_TABLE_SORT.select('mining-minerals', 3, true);
+        const sorted = window.VOLT_TABLE_SORT.rows('mining-minerals', list.sort((a, b) => label(a.name).localeCompare(label(b.name))), [
+            m => label(m.name), m => m.modes.map(mode => text(mode)).join(' / '), m => m.refined ? label(m.refined.name) : null,
+            priceOf, null, m => m.instability, m => m.resistance,
+        ], () => draw());
         const days = num(maxAgeDays(), 1);
-        return `${priceTools()}<p class="mining-note">${esc(text('priceUnitNote'))} ${esc(text('avgNote'))}</p><div class="mining-tablewrap"><table class="mining-table" data-mining-csv="minerals">
+        return `${priceTools()}<p class="mining-note">${esc(text('priceUnitNote'))} ${esc(text('avgNote'))}</p><div class="mining-tablewrap"><table class="mining-table" data-mining-csv="minerals" data-sort-source="mining-minerals">
             <thead><tr><th scope="col">${esc(text('mineral'))}</th><th scope="col">${esc(text('method'))}</th><th scope="col">${esc(text('refined'))}</th><th scope="col" class="is-num mining-price-column" data-csv="${esc(text('priceAvg'))}">${esc(text('priceAvg'))}<small class="mining-recent">${esc(text('marketBest', { days }))}</small></th><th scope="col" class="mining-csv-only">${esc(text('marketBest', { days }))}</th><th scope="col" class="is-num">${esc(text('instability'))}</th><th scope="col" class="is-num">${esc(text('resistance'))}</th></tr></thead>
             <tbody>${sorted.map((mineral) => `<tr class="${state.mineral === mineral.id ? 'is-selected' : ''}">
                 <th scope="row" data-csv="${esc(label(mineral.name))}"><button type="button" class="mining-rowbtn" data-mining-mineral="${esc(mineral.id)}" aria-pressed="${state.mineral === mineral.id}">${esc(label(mineral.name))}</button><span class="mining-mobile-price"><span>${esc(text('priceAvg'))}</span>${priceCell(mineral)}</span><span class="mining-mobile-price"><span>${esc(text('marketBest', { days }))}</span>${recentCell(mineral)}</span></th>
@@ -564,15 +577,17 @@
     }
 
     function mineralDetail() {
-        const mineral = state.data.minerals.find((item) => item.id === state.mineral);
+        const mineral = index.minerals.get(state.mineral);
         if (!mineral) return `<p class="mining-hint">${esc(text('pick'))}</p>`;
         const rows = sourcesOf(mineral.id).filter((row) => !state.mode || row.mode === state.mode);
+        const fixedSources = rows.length ? [] : index.entries.filter(entry => entry.isSite && entry.mineralIds.has(mineral.id)
+            && (!state.mode || mineral.modes.includes(state.mode)));
         const places = new Set(rows.filter((row) => !row.location.unplaced).map((row) => row.location.id)).size;
         const systems = [...new Set(rows.flatMap((row) => index.entryById.get(row.location.id)?.systems || []))];
         const quality = qualityBlock([mineral.id], systems);
         return `<section class="mining-detail" aria-labelledby="mining-detail-title">
-            <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whereTitle', { name: label(mineral.name) }))}</h3><span class="mining-muted">${esc(text('placesCount', { count: places }))}</span>${mapLink(mapParams(rows.map((row) => row.location)), { name: text('whereTitle', { name: label(mineral.name) }), count: true, cls: 'mining-maplink-mineral' })}</header>
-            <p class="mining-note">${esc(text('detailNote'))}</p>${mineral.traitsVary ? `<p class="mining-note">${esc(text('traitsVary'))}</p>` : ''}
+            <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whereTitle', { name: label(mineral.name) }))}</h3><span class="mining-muted">${esc(fixedSources.length ? text('unnamedSite') : text('placesCount', { count: places }))}</span>${rows.length ? mapLink(mapParams(rows.map((row) => row.location)), { name: text('whereTitle', { name: label(mineral.name) }), count: true, cls: 'mining-maplink-mineral' }) : ''}</header>
+            ${rows.length ? `<p class="mining-note">${esc(text('detailNote'))}</p>` : ''}${mineral.traitsVary ? `<p class="mining-note">${esc(text('traitsVary'))}</p>` : ''}
             <dl class="mining-traits" aria-label="${esc(text('traits'))}">
                 <div><dt>${esc(text('instability'))}</dt><dd>${esc(num(mineral.instability, 1))}</dd></div>
                 <div><dt>${esc(text('resistance'))}</dt><dd>${esc(num(mineral.resistance, 2))}</dd></div>
@@ -593,7 +608,8 @@
                     <td class="is-num">${esc(num(row.rock.share, 1))}%</td>
                     <td class="is-num">${esc(num(row.part.min, 1))}–${esc(num(row.part.max, 1))}%</td>
                     <td class="is-num">${esc(known(state.data.rocks?.[row.rock.id]?.sig))}</td>
-                </tr>`).join('')}</tbody></table></div>` : `<p class="mining-empty">${esc(text('noResult'))}</p>`}
+                </tr>`).join('')}</tbody></table></div>` : fixedSources.length ? `<h4>${esc(text('fixedSources'))}</h4><p class="mining-note">${esc(text('fixedNote'))}</p>
+                <ul>${fixedSources.map(entry => `<li><button type="button" class="mining-rowbtn" data-mining-location="${esc(entry.id)}">${esc(entryName(entry))}</button></li>`).join('')}</ul>` : `<p class="mining-empty">${esc(text('noResult'))}</p>`}
         </section>${quality ? `<section class="mining-panel">${quality}</section>` : ''}`;
     }
 
@@ -601,15 +617,22 @@
     function sitesShown() {
         return state.showSites || SITE_TYPES.some((type) => state.typeChips.get(type) === 'include') || index.entryById.get(state.location)?.isSite === true;
     }
+    function cavesShown() {
+        return state.showCaves || isCave(index.entryById.get(state.location));
+    }
+    function caveToggle(caves) {
+        return caves.length ? `<div class="mining-sites-toggle"><button type="button" id="mining-caves-toggle" class="mining-action" data-mining-caves aria-expanded="${cavesShown()}">${esc(text('caveGroup', { count: num(caves.length) }))}</button></div>` : '';
+    }
     function visibleEntries() {
         const query = state.query.trim().toLowerCase();
         return index.entries.filter((entry) => (!state.mode || entry.acts.includes(state.mode))
-            && state.typeChips.test([entry.type]) && state.sysChips.test(entry.systems) && (!query || entry.hay.includes(query)));
+            && state.typeChips.test(entry.source.cave ? [entry.type, 'cave'] : [entry.type]) && state.sysChips.test(entry.systems)
+            && (!query || entry.hay.includes(query) || (isCave(entry) && text('tCave').toLowerCase().includes(query))));
     }
     function entryTags(entry) {
         const tags = [];
         if (!entry.source.named && !entry.isSite) tags.push(text('unofficial'));
-        if (entry.isSite && !entry.source.name) tags.push(text('noName'));
+        if (entry.isSite && !entry.source.name) tags.push(text('unnamedSite'));
         if (entry.isSite || entry.unplaced) tags.push(text('maybeOff'));
         return tags;
     }
@@ -633,19 +656,24 @@
         if (unplaced.length) parts.push(group(text('unplacedGroup'), unplaced, text('unplacedNote')));
         if (sites.length) {
             parts.push(`<div class="mining-sites-toggle"><button type="button" id="mining-sites-toggle" class="mining-action" data-mining-sites aria-expanded="${shown}">${esc(shown ? text('sitesHide') : text('sitesToggle', { count: sites.length }))}</button></div>`);
-            if (shown) parts.push(group(text('sitesGroup'), sites, text('siteNote')));
+            if (shown) {
+                const caves = sites.filter(isCave);
+                parts.push(group(text('sitesGroup'), sites.filter(entry => !isCave(entry)), text('siteNote')), caveToggle(caves));
+                if (caves.length && cavesShown()) parts.push(group(text('caveTypes'), caves));
+            }
         }
         if (!reachable.length && !unplaced.length && !sites.length) return `<p class="mining-empty">${esc(text('noResult'))}</p>`;
         return parts.join('') + specialBlock();
     }
     function listEntries() {
         const shown = sitesShown();
-        return visibleEntries().filter((entry) => !entry.isSite || shown);
+        return visibleEntries().filter((entry) => !entry.isSite || (shown && (!isCave(entry) || cavesShown())));
     }
     function sitesToggleRow() {
-        const count = visibleEntries().filter((entry) => entry.isSite).length;
+        const sites = visibleEntries().filter((entry) => entry.isSite);
+        const count = sites.length;
         const shown = sitesShown();
-        return count ? `<div class="mining-sites-toggle"><button type="button" id="mining-sites-toggle" class="mining-action" data-mining-sites aria-expanded="${shown}">${esc(shown ? text('sitesHide') : text('sitesToggle', { count }))}</button></div>` : '';
+        return count ? `<div class="mining-sites-toggle"><button type="button" id="mining-sites-toggle" class="mining-action" data-mining-sites aria-expanded="${shown}">${esc(shown ? text('sitesHide') : text('sitesToggle', { count }))}</button></div>${shown ? caveToggle(sites.filter(isCave)) : ''}` : '';
     }
     function shipSigRange(entry) {
         const sigs = [...entry.rocks].map((id) => state.data.rocks?.[id]).filter((rock) => rock?.modes?.includes('ship') && Number.isFinite(rock.sig)).map((rock) => rock.sig);
@@ -656,8 +684,9 @@
     }
     function locationTable() {
         const list = listEntries();
-        if (!list.length) return `<p class="mining-empty">${esc(text('noResult'))}</p>${sitesToggleRow()}`;
-        return `<div class="mining-tablewrap"><table class="mining-table" data-mining-csv="locations">
+        const controls = sitesToggleRow();
+        if (!list.length) return controls || `<p class="mining-empty">${esc(text('noResult'))}</p>`;
+        return `${controls}<div class="mining-tablewrap"><table class="mining-table" data-mining-csv="locations">
             <thead><tr><th scope="col">${esc(text('place'))}</th><th scope="col">${esc(text('system'))}</th><th scope="col">${esc(text('type'))}</th><th scope="col">${esc(text('activities'))}</th><th scope="col">${esc(text('usedBy'))}</th><th scope="col" class="is-num">${esc(text('tableRocks'))}</th><th scope="col" class="is-num">${esc(text('tableMinerals'))}</th><th scope="col" class="is-num">${esc(text('tablePlants'))}</th><th scope="col" class="is-num">${esc(text('tableSalvage'))}</th><th scope="col" class="is-num">${esc(text('tableSig'))}</th></tr></thead>
             <tbody>${list.map((entry) => `<tr class="${state.location === entry.id ? 'is-selected' : ''}">
                 <th scope="row" data-csv="${esc([entryName(entry), ...entryTags(entry)].join(' · '))}"><button type="button" class="mining-rowbtn" data-mining-location="${esc(entry.id)}" aria-pressed="${state.location === entry.id}">${esc(entryName(entry))}</button>${entryTags(entry).map((tag) => ` <small class="mining-muted">${esc(tag)}</small>`).join('')}</th>
@@ -670,11 +699,12 @@
                 <td class="is-num">${esc(num(entry.plantIds.size))}</td>
                 <td class="is-num">${esc(num((entry.source.salvage || []).length))}</td>
                 <td class="is-num">${esc(shipSigRange(entry))}</td>
-            </tr>`).join('')}</tbody></table></div>${sitesToggleRow()}`;
+            </tr>`).join('')}</tbody></table></div>`;
     }
     function matrix() {
         const list = listEntries();
-        if (!list.length) return `<p class="mining-empty">${esc(text('noResult'))}</p>${sitesToggleRow()}`;
+        const controls = sitesToggleRow();
+        if (!list.length) return controls || `<p class="mining-empty">${esc(text('noResult'))}</p>`;
         const letters = { ship: text('mShip'), vehicle: text('mVehicle'), hand: text('mHand') };
         const cells = new Map();
         const mark = (resourceId, entryId, letter) => {
@@ -695,23 +725,23 @@
         const wantMinerals = state.mode !== 'harvest' && state.mode !== 'salvage';
         const wantPlants = !state.mode || state.mode === 'harvest';
         const rows = [];
-        if (wantMinerals) for (const mineral of index.minerals.values()) if (!state.mode || mineral.modes.includes(state.mode)) rows.push({ id: mineral.id, name: label(mineral.name), mineral: index.listed.has(mineral.id) });
+        if (wantMinerals) for (const mineral of index.minerals.values()) if (!state.mode || mineral.modes.includes(state.mode)) rows.push({ id: mineral.id, name: label(mineral.name), mineral: true });
         if (wantPlants) for (const [id, plant] of Object.entries(state.data.harvestables || {})) rows.push({ id, name: label(plant.name) || id, mineral: false });
         const used = rows.filter((row) => list.some((entry) => cells.has(`${row.id}|${entry.id}`)));
-        if (!used.length) return `<p class="mining-empty">${esc(text('noResult'))}</p>${sitesToggleRow()}`;
-        return `<p class="mining-note">${esc(text('matrixNote'))}</p><div class="mining-tablewrap mining-matrixwrap"><table class="mining-table mining-matrix" data-mining-csv="matrix">
+        if (!used.length) return `${controls}<p class="mining-empty">${esc(text('noResult'))}</p>`;
+        return `${controls}<p class="mining-note">${esc(text('matrixNote'))}</p><div class="mining-tablewrap mining-matrixwrap"><table class="mining-table mining-matrix" data-mining-csv="matrix">
             <thead><tr><th scope="col" class="mining-matrix-corner">${esc(text('resource'))}</th>${list.map((entry) => `<th scope="col" data-csv="${esc(entryName(entry))}"><button type="button" class="mining-rowbtn mining-matrix-col" data-mining-location="${esc(entry.id)}">${esc(entryName(entry))}</button></th>`).join('')}</tr></thead>
             <tbody>${used.map((row) => `<tr><th scope="row" data-csv="${esc(row.name)}">${row.mineral ? `<button type="button" class="mining-rowbtn" data-mining-mineral="${esc(row.id)}">${esc(row.name)}</button>` : esc(row.name)}</th>${list.map((entry) => {
                 const found = cells.get(`${row.id}|${entry.id}`);
-                return `<td class="mining-matrix-cell${found ? ' is-on' : ''}">${found ? esc(found.join('·')) : ''}</td>`;
-            }).join('')}</tr>`).join('')}</tbody></table></div>${sitesToggleRow()}`;
+                return `<td data-sort-value="${found ? 1 : 0}" class="mining-matrix-cell${found ? ' is-on' : ''}">${found ? esc(found.join('·')) : ''}</td>`;
+            }).join('')}</tr>`).join('')}</tbody></table></div>`;
     }
     function specialBlock() {
         const list = state.data.special || [];
         if (!list.length) return '';
         const where = (item) => [...(item.at || []), ...(item.sites || [])].map((id) => {
             const entry = index.entryById.get(id);
-            return entry ? `<button type="button" class="mining-rowbtn" data-mining-location="${esc(id)}">${esc(entryName(entry))}</button>` : esc(id);
+            return entry ? `<button type="button" class="mining-rowbtn" data-mining-location="${esc(id)}">${esc(entryName(entry))}</button>` : esc(text('unnamedSite'));
         }).join(', ');
         return `<section class="mining-system mining-special"><h3>${esc(text('specialTitle'))}</h3><p class="mining-note">${esc(text('specialNote'))}</p>
             <div class="mining-tablewrap"><table class="mining-table">
@@ -742,10 +772,10 @@
         return `<div class="mining-group"><h4>${esc(text('slotTitle'))}</h4><p class="mining-note mining-warn">${esc(text('caveNote'))}</p>
             <div class="mining-tablewrap" tabindex="0" role="region" aria-label="${esc(text('slotTitle'))}"><table class="mining-table">
             <thead><tr><th scope="col">${esc(text('slotName'))}</th><th scope="col" class="is-num">${esc(text('slotChance'))}</th><th scope="col">${esc(text('slotItems'))}</th></tr></thead>
-            <tbody>${slots.map((slot, order) => `<tr><th scope="row">${esc(slotLabel(slot.name) || `#${order + 1}`)}${slot.name && slotLabel(slot.name) !== slot.name ? ` <small class="mining-muted">${esc(text('slotInternal', { name: slot.name }))}</small>` : ''}</th>
+            <tbody>${slots.map((slot, order) => `<tr><th scope="row">${esc(slotLabel(slot.name, order))}</th>
                 <td class="is-num">${esc(known(slot.chance, 3))}${Number.isFinite(slot.chanceDeep) ? ` <small>${esc(text('slotDeep', { value: num(slot.chanceDeep, 3) }))}</small>` : ''}</td>
                 <td><ul class="mining-parts">${(slot.items || []).map(item).join('')}</ul></td></tr>`).join('')}</tbody></table></div>
-            ${entry.source.also?.length ? `<p class="mining-note">${esc(text('also', { list: entry.source.also.join(', ') }))}</p>` : ''}</div>`;
+            ${entry.source.also?.length ? `<p class="mining-note">${esc(text('also', { count: num(entry.source.also.length) }))}</p>` : ''}</div>`;
     }
     function harvestBlock(entry) {
         const harvest = entry.source.harvest;
@@ -808,7 +838,7 @@
         const showOther = (act) => !state.mode || state.mode === act;
         const shared = entry.used.length > 1 || entry.used.some((place) => place.system !== location.system);
         const body = `${groups.map((group) => `<div class="mining-group"><h4>${actTag(group.mode)} <span class="mining-muted">${esc(group.unresolved?.length && !group.rocks.length ? text('rocksUnknown') : text('rocksCount', { count: group.rocks.length }))} · ${esc(text('groupWeight', { value: known(group.weight, 5) }))}</span></h4>
-                ${group.unresolved?.length ? `<p class="mining-note mining-warn">${esc(text('unresolved', { list: group.unresolved.join(', ') }))}</p>` : ''}
+                ${group.unresolved?.length ? `<p class="mining-note mining-warn">${esc(text('unresolved'))}</p>` : ''}
                 ${group.rocks.length ? `<div class="mining-tablewrap"><table class="mining-table">
                 <thead><tr><th scope="col">${esc(text('rock'))}</th><th scope="col" class="is-num">${esc(text('rockShare'))}</th><th scope="col" class="is-num">${esc(text('sig'))}</th><th scope="col" class="is-num">${esc(text('clusterSize'))}</th><th scope="col">${esc(text('mineral'))} · ${esc(text('content'))}</th></tr></thead>
                 <tbody>${rockRows(group.rocks)}</tbody></table></div>` : ''}</div>`).join('')}
@@ -934,7 +964,6 @@
     }
 
     // ── 정제소 찾기 ─────────────────────────────────────────────────────────
-    const stationKey = (value) => norm(String(value || '').replace(/\([^)]*\)/g, ' ').replace(/^refinement (processing|center)\s*-\s*/i, '').replace(/\bstation\b/ig, ' '));
     function refModel() {
         const data = state.ref.data || {};
         const yields = Array.isArray(data.yields) ? data.yields : [];
@@ -945,35 +974,31 @@
                 || [...index.minerals.values()].find((item) => item.name?.en?.includes('(') && norm(item.name.en.split('(')[0]) === norm(String(name).split('(')[0]));
             return { id: Number(id), name: mineral ? label(mineral.name) : (label(UEX_EXTRA_NAMES[norm(name)]) || String(name)), mineralId: mineral?.id || '' };
         }).sort((a, b) => a.name.localeCompare(b.name));
-        const terminals = new Map(state.ref.terminals.filter((row) => row && row.type === 'refinery').map((row) => [row.id, row]));
-        const byTerminal = new Map();
-        for (const row of yields) {
-            if (!byTerminal.has(row.t)) byTerminal.set(row.t, new Map());
-            byTerminal.get(row.t).set(row.c, row);
-        }
-        const rows = (state.data.refineries || []).map((game) => ({ game, terminalId: null }));
-        // 정제소 이름 목록이 없으면 수율 보고를 정제소와 맞출 수 없다. 번호만 있는 줄을 만들지 않고 게임 파일 목록만 남긴다.
-        const unnamed = state.ref.status === 'ready' && (state.ref.namesFailed || (terminals.size === 0 && byTerminal.size > 0));
-        for (const terminalId of unnamed ? [] : new Set([...terminals.keys(), ...byTerminal.keys()])) {
-            const terminal = terminals.get(terminalId);
-            const keys = terminal ? [terminal.station, terminal.nick, terminal.city, terminal.name].map(stationKey).filter(Boolean) : [];
-            const match = rows.find((row) => row.terminalId === null && row.game.name?.en && keys.includes(stationKey(row.game.name.en)) && (!terminal.system || terminal.system === row.game.system));
-            if (match) match.terminalId = terminalId; else rows.push({ game: null, terminalId });
+        const saved = new Map((state.data.refineryDesks || []).map((desk) => [desk.terminalId, desk]));
+        const directory = state.ref.terminals;
+        const unnamed = !Array.isArray(directory);
+        const rows = new Map();
+        if (unnamed) {
+            for (const desk of saved.values()) rows.set(desk.terminalId, { game: desk, name: label(desk.name), system: desk.system, yields: new Map() });
+        } else {
+            for (const terminal of directory) {
+                if (terminal.type !== 'refinery' || terminal.live !== true) continue;
+                const game = saved.get(terminal.id);
+                const name = label(game?.name) || terminal.station || terminal.city || terminal.nick || terminal.name;
+                if (name) rows.set(terminal.id, { game, terminalId: terminal.id, name, system: game?.system || terminal.system || '', yields: new Map() });
+            }
+            for (const report of yields) rows.get(report.t)?.yields.set(report.c, report);
         }
         const selected = ores.filter((ore) => state.ref.ores.has(ore.id));
-        for (const row of rows) {
-            const terminal = terminals.get(row.terminalId);
-            row.name = row.game ? (label(row.game.name) || row.game.id) : (terminal?.station || terminal?.city || terminal?.nick || terminal?.name || text('refTerminal', { id: row.terminalId }));
-            if (lang() === 'ko' && row.name === 'Levski') row.name = '레브스키';
-            row.system = row.game?.system || terminal?.system || '';
-            row.yields = byTerminal.get(row.terminalId) || new Map();
+        const ranked = [...rows.values()];
+        for (const row of ranked) {
             const values = selected.map((ore) => row.yields.get(ore.id)).filter(Boolean).map((cell) => cell.v);
             row.known = values.length;
             row.average = values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
         }
-        rows.sort((a, b) => (selected.length ? ((b.known === selected.length) - (a.known === selected.length)) || ((b.average ?? -Infinity) - (a.average ?? -Infinity)) : 0)
+        ranked.sort((a, b) => (selected.length ? ((b.known === selected.length) - (a.known === selected.length)) || ((b.average ?? -Infinity) - (a.average ?? -Infinity)) : 0)
             || ((b.yields.size > 0) - (a.yields.size > 0)) || a.system.localeCompare(b.system) || a.name.localeCompare(b.name));
-        return { ores, selected, rows, methods: Array.isArray(data.methods) ? data.methods : [], hasYields: yields.length > 0, unnamed };
+        return { ores, selected, rows: ranked, methods: Array.isArray(data.methods) ? data.methods : [], hasYields: ranked.some((row) => row.yields.size), unnamed };
     }
     const bonus = (value) => `${value > 0 ? '+' : ''}${num(value, 1)}%`;
     function refPanel() {
@@ -981,12 +1006,16 @@
         const model = refModel();
         const usable = !model.unnamed;
         const columns = !usable ? [] : model.selected.length ? model.selected : model.ores;
-        const check = (row) => (!usable ? text('refUnchecked') : row.game && row.terminalId !== null ? text('refBoth') : row.game ? text('refGameOnly') : text('refUexOnly'));
+        const check = text(usable ? 'refListed' : 'refSaved');
         const retry = `<button type="button" id="mining-ref-retry" class="mining-action" data-mining-ref-retry>${esc(text('refRetry'))}</button>`;
         let status = '';
         if (ref.status === 'loading' || ref.status === 'idle') status = `<p class="mining-note" role="status">${esc(text('refLoading'))}</p>`;
-        else if (ref.status === 'failed') status = `<div class="mining-ref-error" role="alert"><p>${esc(H?.errorText ? H.errorText(ref.error) : text('priceFailed'))}</p>${retry}</div>`;
+        else if (ref.status === 'failed') {
+            const reason = ['login', 'member'].includes(ref.error?.helperType) ? H.errorText(ref.error) : text('refYieldsFailed');
+            status = `<div class="mining-ref-error" role="alert"><p>${esc(reason)}</p>${retry}</div>`;
+        }
         else if (!usable) status = `<div class="mining-ref-error" id="mining-ref-nonames" role="alert"><p>${esc(text('refNoNames'))}</p>${retry}</div>`;
+        else if (!model.rows.length) status = `<p class="mining-note" role="status">${esc(text('refNoDesks'))}</p>`;
         else if (!model.hasYields) status = `<p class="mining-note mining-warn">${esc(text('refEmpty'))}</p>`;
         let best = '';
         const missing = ref.missing && usable && ref.status === 'ready' ? `<p class="mining-note mining-warn" id="mining-ref-missing" role="status">${esc(text('refNoReport', { name: mineralName(ref.missing) }))}</p>` : '';
@@ -1010,9 +1039,9 @@
         };
         const table = `<div class="mining-tablewrap" tabindex="0" role="region" aria-label="${esc(text('byRef'))}"><table class="mining-table mining-ref-table" data-mining-csv="refineries">
             <thead><tr><th scope="col">${esc(text('refinery'))}</th><th scope="col" class="mining-ref-wide">${esc(text('system'))}</th><th scope="col" class="mining-ref-wide">${esc(text('refCheck'))}</th>${model.selected.length && usable ? `<th scope="col" class="is-num">${esc(text('refAvg'))}</th>` : ''}${columns.map((ore) => `<th scope="col" class="is-num">${esc(ore.name)}</th>`).join('')}</tr></thead>
-            <tbody>${model.rows.map((row) => `<tr${row.game && row.game.id === ref.pick ? ' class="is-picked" id="mining-ref-picked"' : ''}><th scope="row" data-csv="${esc(`${row.name}${row.game && !row.game.name ? ` (${text('noName')})` : ''}`)}">${esc(row.name)}${row.game && !row.game.name ? ` <small class="mining-muted">${esc(text('noName'))}</small>` : ''} ${mapLink({ focus: row.game ? row.game.id : row.terminalId }, { name: row.name, cls: 'mining-maplink-ref' })}<small class="mining-ref-narrow mining-muted">${esc([row.system && H.systemLabel(row.system), check(row)].filter(Boolean).join(' · '))}</small></th>
+            <tbody>${model.rows.map((row) => `<tr${row.game && row.game.id === ref.pick ? ' class="is-picked" id="mining-ref-picked"' : ''}><th scope="row" data-csv="${esc(row.name)}">${esc(row.name)} ${mapLink({ focus: row.game ? row.game.id : row.terminalId }, { name: row.name, cls: 'mining-maplink-ref' })}<small class="mining-ref-narrow mining-muted">${esc([row.system && H.systemLabel(row.system), check].filter(Boolean).join(' · '))}</small></th>
                 <td class="mining-ref-wide">${esc(row.system && H.systemLabel(row.system))}</td>
-                <td class="mining-ref-wide"><span class="mining-tag ${usable && row.game && row.terminalId !== null ? 'is-both' : 'is-partial'}">${esc(check(row))}</span></td>
+                <td class="mining-ref-wide"><span class="mining-tag ${usable ? 'is-both' : 'is-partial'}">${esc(check)}</span></td>
                 ${model.selected.length && usable ? `<td class="is-num" data-csv="${esc(row.average === null ? text('unknownUex') : `${bonus(row.average)} (${row.known}/${model.selected.length})`)}">${row.average === null ? `<span class="mining-muted">${esc(text('unknownUex'))}</span>` : `<strong>${esc(bonus(row.average))}</strong> <small>${esc(`${row.known}/${model.selected.length}`)}</small>`}</td>` : ''}
                 ${columns.map((ore) => cell(row, ore)).join('')}</tr>`).join('')}</tbody></table></div>`;
         const rating = (value) => (Number.isFinite(value) ? `${num(value)} / 3` : text('unknownUex'));
@@ -1024,7 +1053,7 @@
         return `<section class="mining-tool" aria-labelledby="mining-ref-title">
             <h3 id="mining-ref-title" class="mining-tool-title">${esc(text('byRef'))}</h3>
             <p class="mining-note mining-warn" id="mining-ref-intro">${esc(text('refIntro'))}</p>
-            <p class="mining-note">${esc(text('refGameNote'))} ${esc(text('refNameMatch'))}</p>
+            <p class="mining-note">${esc(text('refGameNote'))}</p>
             ${status}${missing}${oreChips}${best}
             ${usable ? `<p class="mining-note">${esc(text('refAgeNote'))}</p>` : ''}
             ${model.selected.length ? table : `<details class="mining-ref-full"${ref.pick && model.rows.some((row) => row.game && row.game.id === ref.pick) ? ' open' : ''}><summary>${lang() === 'ko' ? '전체 정제소 표 보기' : 'Show all refineries'}</summary>${table}</details>`}${usable ? methods : ''}
@@ -1035,16 +1064,18 @@
         state.ref.status = 'loading';
         state.ref.error = null;
         draw();
-        const [refineries, terminals] = await Promise.allSettled([H.uex('refineries', { refresh: refresh === true }), H.uex('terminals')]);
+        const options = { refresh: refresh === true };
+        const [refineries, terminals] = await Promise.allSettled([H.uex('refineries', options), H.uex('terminals', options)]);
+        state.ref.terminals = terminals.status === 'fulfilled' && Array.isArray(terminals.value.data) ? terminals.value.data : null;
         if (refineries.status === 'fulfilled') {
             state.ref.data = refineries.value.data;
             state.ref.meta = refineries.value.meta;
-            state.ref.terminals = terminals.status === 'fulfilled' && Array.isArray(terminals.value.data) ? terminals.value.data : [];
-            state.ref.namesFailed = terminals.status !== 'fulfilled';
             state.ref.status = 'ready';
             applyWantedOre();
         } else {
             state.ref.status = 'failed';
+            state.ref.data = null;
+            state.ref.meta = null;
             state.ref.error = refineries.reason;
         }
         draw();
@@ -1082,6 +1113,7 @@
         if (!state.typeChips.isEmpty()) params.type = state.typeChips.encode();
         if (!state.sysChips.isEmpty()) params.sys = state.sysChips.encode();
         if (state.view === 'location' && state.showSites) params.sites = '1';
+        if (state.view === 'location' && state.showCaves) params.caves = '1';
         if (state.view === 'sig' && state.sig.value) {
             params.sv = state.sig.value;
             if (state.sig.how !== 'exact') params.sm = state.sig.how;
@@ -1108,6 +1140,7 @@
         state.typeChips.decode(params.type || '');
         state.sysChips.decode(params.sys || '');
         state.showSites = params.sites === '1';
+        state.showCaves = params.caves === '1';
         state.ref.missing = '';
         state.sig = { value: params.sv || '', how: ['approx', 'range'].includes(params.sm) ? params.sm : 'exact', tol: params.st || '50', to: params.sv2 || '' };
         state.ref.ores = new Set(String(params.ores || '').split(',').map(Number).filter((id) => Number.isInteger(id) && id > 0));
@@ -1117,7 +1150,7 @@
     }
     function validateState() {
         if (!state.data) return;
-        if (state.mineral && !state.data.minerals.some((item) => item.id === state.mineral)) state.mineral = '';
+        if (state.mineral && !index.minerals.has(state.mineral)) state.mineral = '';
         if (state.location && !index.entryById.has(state.location)) state.location = '';
         if (state.view !== 'location' && !MODES.includes(state.mode)) state.mode = '';
         for (const type of [...state.typeChips.included(), ...state.typeChips.excluded()]) if (!TYPES.includes(type)) state.typeChips.set(type, 'any');
@@ -1202,7 +1235,7 @@
         }
         root.innerHTML = html;
         if (state.data) {
-            const selected = state.data.minerals.find(item => item.id === state.mineral);
+            const selected = index.minerals.get(state.mineral);
             window.VOLT_JOURNEY?.drawMiningActions?.(state.view === 'mineral' ? selected : null);
             if (state.view === 'mineral' && state.priceState === 'ready') loadMarket();
             syncHash();
@@ -1229,7 +1262,13 @@
         if (target.dataset.miningLocation) { setView('location'); state.location = target.dataset.miningLocation; window.VOLT_JOURNEY?.miningSelection?.(state.mineral, state.location); draw(true); return; }
         if (target.dataset.miningLayout) { state.layout = LAYOUTS.includes(target.dataset.miningLayout) ? target.dataset.miningLayout : 'tiles'; draw(); return; }
         if (target.dataset.miningChip) { (target.dataset.miningChip === 'type' ? state.typeChips : state.sysChips).cycle(target.dataset.miningChipId); draw(); return; }
-        if (target.hasAttribute('data-mining-sites')) { state.showSites = !sitesShown(); if (!state.showSites) { for (const type of SITE_TYPES) if (state.typeChips.get(type) === 'include') state.typeChips.set(type, 'any'); if (index.entryById.get(state.location)?.isSite) state.location = ''; } draw(); return; }
+        if (target.hasAttribute('data-mining-sites')) { state.showSites = !sitesShown(); if (!state.showSites) { state.showCaves = false; for (const type of SITE_TYPES) if (state.typeChips.get(type) === 'include') state.typeChips.set(type, 'any'); if (index.entryById.get(state.location)?.isSite) state.location = ''; } draw(); return; }
+        if (target.hasAttribute('data-mining-caves')) {
+            state.showCaves = !cavesShown();
+            state.showSites = true;
+            if (!state.showCaves && isCave(index.entryById.get(state.location))) state.location = '';
+            draw(); return;
+        }
         if (target.dataset.miningSigHow) { state.sig.how = target.dataset.miningSigHow; draw(); return; }
         if (target.dataset.miningOre) { const id = Number(target.dataset.miningOre); state.ref.missing = ''; if (target.dataset.miningOre === 'clear') state.ref.ores = new Set(); else if (state.ref.ores.has(id)) state.ref.ores.delete(id); else state.ref.ores.add(id); draw(); return; }
         if (target.hasAttribute('data-mining-ref-retry')) { state.ref.status = 'idle'; loadRefineries(true); return; }
@@ -1336,7 +1375,7 @@
     }
     function applyPending() {
         if ((!state.pending && !state.pendingLocation) || !state.data) return;
-        const mineral = state.data.minerals.find((item) => item.id === state.pending || item.refined?.id === state.pending);
+        const mineral = index.minerals.get(state.pending) || [...index.minerals.values()].find(item => item.refined?.id === state.pending);
         const location = state.data.locations.find(item => item.id === state.pendingLocation);
         state.pending = ''; state.pendingLocation = '';
         if (!mineral && !location) return;

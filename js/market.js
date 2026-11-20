@@ -30,7 +30,10 @@
     const E = window.VOLT_TRADE_ENGINE;
     const SECTION = 'market';
     const TABS = ['prices', 'stations', 'movers', 'ships'];
-    const SORTS = ['margin', 'marginPercent', 'name'];
+    const PRICE_SORT = ['name', 'buy', 'sell', 'margin', 'marginPercent', 'places'];
+    const PRICE_LABEL = ['commodity', 'cheapestBuy', 'bestSell', 'margin', 'marginPercent', 'places'];
+    const SORTS = PRICE_SORT.flatMap(key => [key, key + '-rev']);
+    const priceDown = key => key !== 'name' && key !== 'buy';
     const MODES = ['both', 'buy', 'rent'];
     const FACILITY_FILTERS = ['refinery', 'freightElevator', 'autoLoad', 'loadingDock'];
     const FLAG_ORDER = ['refinery', 'freightElevator', 'autoLoad', 'loadingDock', 'cargoCenter', 'dockingPort', 'refuel', 'repair', 'nqa', 'playerOwned'];
@@ -821,14 +824,14 @@
     function ageTag(at, level) {
         const state = level || H.ageLevel(at, shared().maxAgeDays);
         const extra = state === 'old' ? ` <span class="market-tag is-warn">${esc(t('old'))}</span>` : '';
-        return `<span class="market-age${state === 'ok' ? '' : ' is-old'}">${esc(H.age(at))}</span>${extra}`;
+        return `<span data-sort-value="${esc(at ?? '')}" class="market-age${state === 'ok' ? '' : ' is-old'}">${esc(H.age(at))}</span>${extra}`;
     }
 
     const priceWithAge = (price, at, level) => `<strong class="market-price">${esc(H.price(price, { digits: 2 }))}</strong><small>${ageTag(at, level)}</small>`;
     const boxesText = (box) => (Array.isArray(box) && box.length ? box.join(', ') : H.unknown('uex'));
 
     function stockCell(row) {
-        if (row.soldOut) return `<span class="market-tag is-warn">${esc(t('soldOut'))}</span>`;
+        if (row.soldOut) return `<span data-sort-value="0" class="market-tag is-warn">${esc(t('soldOut'))}</span>`;
         return esc(H.scu(row.stock, { unknown: 'uex' }));
     }
 
@@ -841,13 +844,13 @@
 
     // heads: [{ label, num }] · rows: [[html, …]] (첫 칸은 행 제목). 좁은 화면에서는 칸마다 data-label 로 제목을 붙인다.
     // after(index, columns): 그 줄 바로 아래에 넣을 줄의 HTML (가격 기록). 없으면 ''.
-    function table(caption, heads, rows, rowClass, after) {
-        const head = heads.map((item) => `<th scope="col"${item.num ? ' class="is-num"' : ''}>${esc(item.label)}</th>`).join('');
+    function table(caption, heads, rows, rowClass, after, source) {
+        const head = heads.map((item) => `<th scope="col"${item.action ? ' data-no-sort' : ''}${item.asc ? ' data-asc-first' : ''}${item.num ? ' class="is-num"' : ''}>${esc(item.label)}</th>`).join('');
         const body = rows.map((cells, index) => `<tr${rowClass && rowClass(index) ? ` class="${rowClass(index)}"` : ''}>${cells.map((cell, column) => {
             const tag = column === 0 ? 'th scope="row"' : 'td';
             return `<${tag} data-label="${esc(heads[column].label)}"${heads[column].num ? ' class="is-num"' : ''}><div class="market-cell">${cell}</div></${column === 0 ? 'th' : 'td'}>`;
         }).join('')}</tr>${after ? after(index, heads.length) : ''}`).join('');
-        return `<div class="market-tablewrap"><table class="market-table"><caption class="visually-hidden">${esc(caption)}</caption><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+        return `<div class="market-tablewrap"><table class="market-table"${source ? ` data-sort-source="${esc(source)}"` : ''}><caption class="visually-hidden">${esc(caption)}</caption><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
     }
 
     const emptyBox = (message) => `<p class="market-empty">${esc(message)}</p>`;
@@ -986,7 +989,10 @@
             ${points.length > 1 ? `<polyline class="market-chart-line" points="${line}"></polyline>` : ''}${dots}</svg>`;
         const heads = [{ label: t('when') }, { label: t('price'), num: true }, { label: t('stock'), num: true }, { label: t('gameVersion') }];
         const cut = !historyAll && points.length > HISTORY_ROWS;
-        const listRows = points.slice().reverse().slice(0, cut ? HISTORY_ROWS : points.length).map((point) => [
+        const historyRows = window.VOLT_TABLE_SORT.rows('market-history', points.slice().reverse(), [
+            point => point.at, point => point.price, point => point.side === 'buy' ? point.row.stock : point.row.inv, point => point.row.v,
+        ], draw);
+        const listRows = historyRows.slice(0, cut ? HISTORY_ROWS : points.length).map((point) => [
             `${esc(new Date(point.at * 1000).toLocaleString(H.lang() === 'en' ? 'en-US' : 'ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }))}<small>${esc(H.age(point.at))}</small>`,
             `${esc(H.price(point.price, { digits: 2 }))}<small>${esc(t(point.side === 'buy' ? 'buyPrice' : 'sellPrice'))}</small>`,
             point.side === 'buy' ? esc(H.scu(point.row.stock, { unknown: 'uex' })) : (H.isKnown(point.row.inv) ? esc(t('shopInv', { v: H.scu(point.row.inv) })) : `<span class="market-muted">${esc(t('takesUnknown'))}</span>`),
@@ -995,7 +1001,7 @@
         return `<figure class="market-figure"><div class="market-chartbox">${svg}
             <span class="market-chart-high">${esc(H.price(high, { digits: 2 }))}</span><span class="market-chart-low">${esc(H.price(low, { digits: 2 }))}</span></div>
             <figcaption><span>${esc(date(minAt))}</span><span>${esc(summary)}</span><span>${esc(date(maxAt))}</span></figcaption></figure>
-            ${table(t('historyTable'), heads, listRows)}
+            ${table(t('historyTable'), heads, listRows, null, null, 'market-history')}
             ${cut ? `<p class="market-note">${esc(t('historyCut', { n: HISTORY_ROWS, total: points.length }))} <button type="button" class="market-btn is-small" data-act="history-all" data-k="history-all">${esc(t('historyShowAll', { total: points.length }))}</button></p>` : ''}`;
     }
 
@@ -1011,18 +1017,31 @@
     // ── 탭: 상품 시세 ────────────────────────────────────────────────────────
     function drawPrices() {
         if (view.c !== null) return drawCommodity();
-        const result = E.commoditySummary(model, settings(), { system: systemFilter() || undefined, sort: view.sort });
+        const result = E.commoditySummary(model, settings(), { system: systemFilter() || undefined, sort: view.sort.split('-')[0] });
         const query = view.q.trim().toLowerCase();
         const rows = result.rows.filter((row) => !query || [row.name && row.name.en, row.name && row.name.ko, row.code].some((value) => value && String(value).toLowerCase().includes(query)));
         const old = rows.reduce((sum, row) => sum + row.oldBuy + row.oldSell, 0);
         const toolbar = `<div class="market-toolbar">
             <label class="market-field is-grow"><span>${esc(t('search'))}</span><input type="search" data-input="q" data-k="q" value="${esc(view.q)}" placeholder="${esc(t('searchCommodity'))}"></label>
-            <label class="market-field"><span>${esc(t('sort'))}</span><select data-change="sort" data-k="sort">${SORTS.map((sort) => `<option value="${sort}"${view.sort === sort ? ' selected' : ''}>${esc(t(`sort${sort[0].toUpperCase()}${sort.slice(1)}`))}</option>`).join('')}</select></label>
+            <label class="market-field"><span>${esc(t('sort'))}</span><select data-change="sort" data-k="sort">${SORTS.map(sort => {
+                const [key, reverse] = sort.split('-');
+                return `<option value="${sort}"${view.sort === sort ? ' selected' : ''}>${esc(t(PRICE_LABEL[PRICE_SORT.indexOf(key)]))} ${priceDown(key) !== Boolean(reverse) ? '↓' : '↑'}</option>`;
+            }).join('')}</select></label>
         </div>`;
         if (!result.rows.length) return toolbar + emptyBox(t('noPriceRows'));
         if (!rows.length) return toolbar + emptyBox(t('noMatch'));
-        const heads = [{ label: t('commodity') }, { label: t('cheapestBuy') }, { label: t('bestSell') }, { label: t('margin'), num: true }, { label: t('marginPercent'), num: true }, { label: t('places') }];
-        const shown = rows.slice(0, listLimit);
+        const heads = PRICE_LABEL.map((key, i) => ({ label: t(key), num: i > 0, asc: i === 1 }));
+        const [key, reverse] = view.sort.split('-');
+        window.VOLT_TABLE_SORT.select('market-prices', PRICE_SORT.indexOf(key), priceDown(key) !== Boolean(reverse));
+        const shown = window.VOLT_TABLE_SORT.rows('market-prices', rows, [
+            row => commodityName(row.c), row => row.cheapestBuy?.price, row => row.bestSell?.price,
+            row => row.margin, row => row.marginPercent, row => row.buyPlaces + row.sellPlaces,
+        ], (column, desc) => {
+            const field = PRICE_SORT[column];
+            view.sort = field + (desc === priceDown(field) ? '' : '-rev');
+            saveHash();
+            draw();
+        }).slice(0, listLimit);
         const body = shown.map((row) => [
             `<a class="market-link is-strong" href="${link({ tab: 'prices', c: row.c })}" data-k="c-${row.c}">${esc(commodityName(row.c))}</a>${row.legalEverywhere === false ? ` <span class="market-tag is-warn">${esc(t('illegalSome'))}</span>` : ''}`,
             row.cheapestBuy ? `${priceWithAge(row.cheapestBuy.price, row.cheapestBuy.at, row.cheapestBuy.ageLevel)}<span class="market-where">${terminalCell(row.cheapestBuy.t)}</span>` : `<span class="market-muted">${esc(t('noBuy'))}</span>`,
@@ -1031,7 +1050,7 @@
             row.marginPercent === null ? '<span class="market-muted">—</span>' : esc(H.percent(row.marginPercent, { digits: 1 })),
             esc(t('placesValue', { b: row.buyPlaces, s: row.sellPlaces })),
         ]);
-        return `${toolbar}<div data-market-paged>${table(t('tabPrices'), heads, body)}</div>
+        return `${toolbar}<div data-market-paged>${table(t('tabPrices'), heads, body, null, null, 'market-prices')}</div>
             ${rows.length > shown.length ? `<p class="market-note">${esc(t('showing', { n: shown.length, total: rows.length }))} <button type="button" class="market-btn is-small" data-act="more" data-k="more">${esc(t('showMore'))}</button></p>` : ''}
             ${old ? `<p class="market-note">${esc(t('oldLeftOut', { n: old }))}</p>` : ''}`;
     }
@@ -1054,8 +1073,8 @@
         const back = `<a class="market-btn" href="${link({ tab: 'prices' })}" data-k="back">← ${esc(t('back'))}</a>`;
         if (!detail.ok) return `<div class="market-detail">${back}${emptyBox(t('unknownCommodity'))}</div>`;
         const rowClass = (list) => (index) => (list[index].ageLevel === 'ok' ? '' : 'is-old');
-        const buyHeads = [{ label: t('station') }, { label: t('price'), num: true }, { label: t('stock'), num: true }, { label: t('boxes') }, { label: t('reported') }, { label: t('history') }];
-        const sellHeads = [{ label: t('station') }, { label: t('price'), num: true }, { label: t('shopLevel') }, { label: t('boxes') }, { label: t('reported') }, { label: t('history') }];
+        const buyHeads = [{ label: t('station') }, { label: t('price'), num: true }, { label: t('stock'), num: true }, { label: t('boxes') }, { label: t('reported') }, { label: t('history'), action: true }];
+        const sellHeads = [{ label: t('station') }, { label: t('price'), num: true }, { label: t('shopLevel') }, { label: t('boxes') }, { label: t('reported') }, { label: t('history'), action: true }];
         const buys = detail.buys.map((row) => [terminalCell(row.t), `<strong class="market-price">${esc(H.price(row.price, { digits: 2 }))}</strong>`, stockCell(row), esc(boxesText(row.box)), ageTag(row.at, row.ageLevel), historyButton(row.t, detail.c)]);
         const sells = detail.sells.map((row) => [terminalCell(row.t), `<strong class="market-price">${esc(H.price(row.price, { digits: 2 }))}</strong>`, levelCell(row), esc(boxesText(row.box)), ageTag(row.at, row.ageLevel), historyButton(row.t, detail.c)]);
         const bestBuy = detail.buys.find((row) => row.ageLevel === 'ok' && !row.soldOut);
@@ -1106,14 +1125,17 @@
         <div class="market-chiprow" role="group" aria-label="${esc(t('facilityFilter'))}"><span class="market-chiprow-label">${esc(t('facilityFilter'))}</span>${FACILITY_FILTERS.map((flag) => `<button type="button" class="market-chip${view.fac.includes(flag) ? ' is-include' : ''}" data-act="fac" data-id="${flag}" data-k="fac-${flag}" aria-pressed="${view.fac.includes(flag)}">${esc(t(`flag_${flag}`))}</button>`).join('')}</div>`;
         if (!list.length) return toolbar + emptyBox(t(terminalIndex.size ? 'noMatch' : 'noPriceRows'));
         const heads = [{ label: t('station') }, { label: t('facilities') }, { label: t('maxBox'), num: true }, { label: t('buyCount'), num: true }, { label: t('sellCount'), num: true }];
-        const shown = list.slice(0, listLimit);
+        const shown = window.VOLT_TABLE_SORT.rows('market-stations', list, [
+            row => H.name(row.name) || row.uexName, row => FLAG_ORDER.filter(flag => hasFacility(row, flag)).map(flag => t('flag_' + flag)).join(' ') || null,
+            row => row.maxBox, row => row.buyCount, row => row.sellCount,
+        ], draw).slice(0, listLimit);
         const rows = shown.map((terminal) => [
             `<a class="market-link is-strong" href="${link({ tab: 'stations', t: terminal.id })}" data-k="t-${terminal.id}">${esc(H.name(terminal.name) || terminal.uexName)}</a><small>${esc(placeLine(terminal.id))}</small>${mapLink({ focus: terminal.id }, { name: H.name(terminal.name) || terminal.uexName, cls: 'market-maplink-row' })}`,
             facilityTags(terminal),
             esc(terminal.maxBox === null ? H.unknown('uex') : H.scu(terminal.maxBox)),
             esc(t('countValue', { n: terminal.buyCount })), esc(t('countValue', { n: terminal.sellCount })),
         ]);
-        return `${toolbar}<p class="market-note">${esc(t('stationsCount', { n: list.length }))}</p><div data-market-paged>${table(t('tabStations'), heads, rows)}</div>
+        return `${toolbar}<p class="market-note">${esc(t('stationsCount', { n: list.length }))}</p><div data-market-paged>${table(t('tabStations'), heads, rows, null, null, 'market-stations')}</div>
             ${list.length > shown.length ? `<p class="market-note">${esc(t('showing', { n: shown.length, total: list.length }))} <button type="button" class="market-btn is-small" data-act="more" data-k="more">${esc(t('showMore'))}</button></p>` : ''}`;
     }
 
@@ -1146,8 +1168,8 @@
         const illegal = (row) => (row.illegal ? ` <span class="market-tag is-warn">${esc(t('illegalHere'))}</span>` : '');
         const commodityCell = (row) => `<a class="market-link" href="${link({ tab: 'prices', c: row.c })}">${esc(commodityName(row.c))}</a>${illegal(row)}`;
         const rowClass = (list) => (index) => (list[index].ageLevel === 'ok' ? '' : 'is-old');
-        const buyHeads = [{ label: t('commodity') }, { label: t('price'), num: true }, { label: t('stock'), num: true }, { label: t('boxes') }, { label: t('reported') }, { label: t('history') }];
-        const sellHeads = [{ label: t('commodity') }, { label: t('price'), num: true }, { label: t('shopLevel') }, { label: t('boxes') }, { label: t('reported') }, { label: t('history') }];
+        const buyHeads = [{ label: t('commodity') }, { label: t('price'), num: true }, { label: t('stock'), num: true }, { label: t('boxes') }, { label: t('reported') }, { label: t('history'), action: true }];
+        const sellHeads = [{ label: t('commodity') }, { label: t('price'), num: true }, { label: t('shopLevel') }, { label: t('boxes') }, { label: t('reported') }, { label: t('history'), action: true }];
         const buys = sheet.buys.map((row) => [commodityCell(row), `<strong class="market-price">${esc(H.price(row.price, { digits: 2 }))}</strong>`, stockCell(row), esc(boxesText(row.box)), ageTag(row.at, row.ageLevel), historyButton(terminal.id, row.c)]);
         const sells = sheet.sells.map((row) => [commodityCell(row), `<strong class="market-price">${esc(H.price(row.price, { digits: 2 }))}</strong>`, levelCell(row), esc(boxesText(row.box)), ageTag(row.at, row.ageLevel), historyButton(terminal.id, row.c)]);
         const routes = routesBlock(t('routesFromHere'), E.nextLegs(model, settings(), { from: terminal.id }, { limit: 5 }), { from: terminal.id }, 'routes-t');
@@ -1191,7 +1213,10 @@
         if (!all.length) return controls + emptyBox(t('moversEmpty'));
         const first = view.c !== null ? t('station') : (view.t !== null ? t('commodity') : `${t('commodity')} · ${t('station')}`);
         const heads = [{ label: first }, { label: t('side') }, { label: t('nowPrice'), num: true }, { label: t('avgPrice', { d: UEX_AVERAGE_DAYS }), num: true }, { label: t('change'), num: true }, { label: t('reported') }];
-        const shown = all.slice(0, listLimit);
+        const shown = window.VOLT_TABLE_SORT.rows('market-movers', all, [
+            row => view.c !== null ? terminalName(row.t, row.terminalName) : commodityName(row.c, row.commodityName),
+            row => t(row.side === 'buy' ? 'buyPrice' : 'sellPrice'), row => row.price, row => row.average, row => row.diff, row => row.at,
+        ], draw).slice(0, listLimit);
         const rows = shown.map((row) => {
             const commodity = `<a class="market-link" href="${link({ tab: 'prices', c: row.c })}">${esc(commodityName(row.c, row.commodityName))}</a>`;
             const name = view.c !== null ? terminalCell(row.t, row.terminalName) : (view.t !== null ? commodity : `${commodity}<span class="market-where">${terminalCell(row.t, row.terminalName)}</span>`);
@@ -1202,7 +1227,7 @@
                 row.average === null ? `<span class="market-muted">${esc(t('noAverage', { d: UEX_AVERAGE_DAYS }))}</span>` : esc(H.price(row.average, { digits: 2 })), change, ageTag(row.at)];
         });
         return `${controls}${movers.key === 'scan' ? `<p class="market-note">${esc(t('moversScanNote', { n: movers.scanned }))}</p>` : ''}
-            <div data-market-movers data-market-paged>${table(t('tabMovers'), heads, rows, (index) => (H.ageLevel(shown[index].at, shared().maxAgeDays) === 'ok' ? '' : 'is-old'))}</div>
+            <div data-market-movers data-market-paged>${table(t('tabMovers'), heads, rows, (index) => (H.ageLevel(shown[index].at, shared().maxAgeDays) === 'ok' ? '' : 'is-old'), null, 'market-movers')}</div>
             ${all.length > shown.length ? `<p class="market-note">${esc(t('showing', { n: shown.length, total: all.length }))} <button type="button" class="market-btn is-small" data-act="more" data-k="more">${esc(t('showMore'))}</button></p>` : ''}`;
     }
 
@@ -1240,7 +1265,10 @@
         if (!matching.length) return emptyBox(t('budgetNone')) + stats;
         const heads = [{ label: t('ship') }, { label: `${t('buyOrRent')} · ${t('shipPrice')}`, num: true }, { label: t('soldAt') }, { label: t('hold'), num: true }, { label: t('moneyLeft'), num: true },
             { label: t('loadOnRoute'), num: true }, { label: t('profitRun'), num: true }, { label: t('payback') }];
-        const shown = matching.slice(0, listLimit);
+        const shown = window.VOLT_TABLE_SORT.rows('market-ships', matching, [
+            row => shipName(row.ship), row => row.price, row => row.shop.name || row.shop.place || null,
+            row => row.capacity, row => row.moneyLeft, row => row.bestRoute?.quantity, row => row.profitPerRun, row => row.runsToPayBack,
+        ], draw).slice(0, listLimit);
         const none = `<span class="market-muted">${esc(t('noRouteForShip'))}</span>`;
         const limits = { ship: 'limitShip', stock: 'limitStock', budget: 'limitBudget', boxes: 'limitBoxes', destination: 'limitDestination' };
         const rows = shown.map((row) => {
@@ -1267,7 +1295,7 @@
         });
         const codes = [...budget.assumptions, ...budget.rows.flatMap((row) => (row.bestRoute ? row.bestRoute.assumptions : []))];
         const more = matching.length > shown.length ? `<p class="market-note">${esc(t('showing', { n: shown.length, total: matching.length }))} <button type="button" class="market-btn is-small" data-act="more" data-k="more">${esc(t('showMore'))}</button></p>` : '';
-        return `<div class="market-budget" data-market-paged>${table(t('budgetTitle'), heads, rows)}</div>` + more + stats + assumptionList(codes, 'budget');
+        return `<div class="market-budget" data-market-paged>${table(t('budgetTitle'), heads, rows, null, null, 'market-ships')}</div>` + more + stats + assumptionList(codes, 'budget');
     }
 
     function drawHold() {
@@ -1336,6 +1364,7 @@
         else if (!game || !model) html = `<p class="market-empty" role="status">${esc(t('loading'))}</p>`;
         else html = `${drawSettings()}${drawTabs()}<div class="market-body" data-market-tab="${view.tab}" tabindex="-1">${content()}</div>${drawFooter()}`;
         root.innerHTML = html;
+        window.VOLT_TABLE_SORT.enhance(root);
         const viewKey = view.tab === 'ships' ? 'ships' : `${view.tab}:${view.c}:${view.t}`;
         const changed = viewKey !== lastViewKey;
         lastViewKey = viewKey;

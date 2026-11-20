@@ -40,6 +40,7 @@ function fixtures() {
     const ago = (hours) => now - Math.round(hours * HOUR);
     return {
         terminals: [
+            ...helper.refineryDesks.map((desk) => ({ id: desk.terminalId, type: 'refinery', name: desk.name.en, system: desk.system, live: true })),
             { id: 1, type: 'commodity', name: 'Admin - ARC-L1', nick: 'ARC-L1', code: 'ARCL1', live: true, system: 'Stanton', planet: 'ArcCorp', stationId: 1, station: 'ARC-L1 Wide Forest Station', flags: ['autoLoad', 'freightElevator'], maxBox: 32 },
             { id: 4, type: 'commodity', name: 'Admin - ARC-L4', nick: 'ARC-L4', code: 'ARCL4', live: true, system: 'Stanton', planet: 'ArcCorp', stationId: 4, station: 'ARC-L4 Faint Glen Station', flags: ['autoLoad', 'freightElevator'], maxBox: 32 },
             { id: 12, type: 'commodity', name: 'TDD - Area 18', nick: 'TDD Area 18', code: 'TDA18', live: true, system: 'Stanton', planet: 'ArcCorp', cityId: 1, city: 'Area 18', flags: ['autoLoad', 'freightElevator'], maxBox: 32 },
@@ -320,7 +321,7 @@ test('채광: 광물은 나오는 천체와 구역을, 장소는 그 천체나 �
     await page.evaluate(() => { window.location.hash = '#mining?tab=ref'; });
     await page.locator('#mining-app .mining-ref-full > summary').click();
     const refLinks = page.locator('#mining-app .mining-ref-table a.volt-map-link.mining-maplink-ref');
-    await expect(refLinks).toHaveCount(helper.refineries.filter((refinery) => ON_MAP.has(refinery.id)).length);
+    await expect(refLinks).toHaveCount(helper.refineryDesks.filter((desk) => ON_MAP.has(desk.id)).length);
     const arcL1 = page.locator('#mining-app .mining-ref-table a.mining-maplink-ref[href*="focus=RR_ARC_L1&"]');
     await expect(arcL1).toHaveCount(1);
     await expect(arcL1.locator('.volt-map-link-guess')).toHaveCount(0);

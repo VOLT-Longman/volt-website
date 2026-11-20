@@ -15,6 +15,35 @@ async function openGear(page, { prices = { [P4AR]: [{ shop: 'Cubby Blast', place
     await expect(page.locator('#gear-app .gear-table').first()).toBeVisible();
 }
 
+test('개인 장비 표 제목과 정렬 선택이 같은 전체 목록을 양방향으로 정렬한다', async ({ page }) => {
+    await openGear(page);
+    const table = page.locator('[data-sort-source="gear-weapon"]');
+    const dps = table.getByRole('button', { name: '이론 DPS 정렬', exact: true });
+    await dps.click();
+    await expect(dps.locator('..')).toHaveAttribute('aria-sort', 'descending');
+    await expect(page.locator('#gear-sort')).toHaveValue('dps');
+    const first = table.locator('tbody tr').first();
+    const highest = await first.innerText();
+    await dps.press('Enter');
+    await expect(dps.locator('..')).toHaveAttribute('aria-sort', 'ascending');
+    await expect(first).not.toHaveText(highest);
+    await page.locator('#gear-sort').selectOption('price');
+    await expect(table.locator('th[aria-sort="ascending"]')).toContainText('최저가');
+    await expect(first).toContainText('P4-AR');
+    await table.getByRole('button', { name: '최저가 정렬', exact: true }).click();
+    await expect(first).toContainText('P4-AR'); // no reported price always comes last, in both directions
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('[data-gear-view="armor"]').click();
+    const armor = page.locator('[data-sort-source="gear-armor"]');
+    const lastName = await page.evaluate(async () => {
+        const { groups } = await (await fetch('/data/gear/armor.json')).json();
+        return groups.map(g => g.name.ko || g.name.en).sort(new Intl.Collator('ko', { numeric: true }).compare).at(-1);
+    });
+    await armor.getByRole('button', { name: '이름 정렬', exact: true }).click();
+    await armor.getByRole('button', { name: '이름 정렬', exact: true }).click();
+    await expect(armor.locator('tbody [data-gear-pick]').first()).toHaveText(lastName);
+});
+
 test('개인 장비: 무기를 고르면 수치와 발사 방식, 변종별 판매처가 나온다', async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await openGear(page);

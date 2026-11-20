@@ -26,7 +26,8 @@ export function buildTerminals(rows) {
     if (text(row.nickname)) out.nick = text(row.nickname);
     if (text(row.code)) out.code = text(row.code);
     // 현재 라이브 서버에 없는 터미널(is_available 또는 is_available_live가 0)은 live:false.
-    out.live = !uexIsZero(row.is_available) && !uexIsZero(row.is_available_live);
+    const liveInGame = row.type === 'refinery' ? uexIsOne(row.is_available_live) : !uexIsZero(row.is_available_live);
+    out.live = !uexIsZero(row.is_available) && liveInGame;
     for (const [idField, nameField, key] of PLACES) {
       if (id(row[idField])) out[key + 'Id'] = id(row[idField]);
       if (text(row[nameField])) out[key] = text(row[nameField]);
@@ -42,5 +43,5 @@ export function buildTerminals(rows) {
 }
 
 export async function onRequestGet(context) {
-  return proxyUexDerived(context, { cacheName: 'terminals/v1', upstreamPaths: ['terminals'], ttlSeconds: CACHE_TTL_SECONDS, build: buildTerminals, isUsable: (data) => data.length > 0 });
+  return proxyUexDerived(context, { cacheName: 'terminals/v2', upstreamPaths: ['terminals'], ttlSeconds: CACHE_TTL_SECONDS, build: buildTerminals, isUsable: (data) => data.length > 0 });
 }

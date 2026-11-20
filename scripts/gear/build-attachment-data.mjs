@@ -305,7 +305,8 @@ for (const cls of [...used].sort((a, b) => a.localeCompare(b))) {
     const recordMfr = manufacturerOf(x.manufacturer); const mfrLine = lines.find((line) => line.label.toLowerCase() === 'manufacturer');
     const mfr = mfrLine ? { en: mfrLine.value, ko: mfrLine.valueKo ?? mfrLine.value } : recordMfr;
     if (mfrLine && (recordMfr?.en ?? '') !== mfrLine.value) mfrConflict.push(`${cls}: 설명 ${mfrLine.value} / 기록 ${recordMfr?.en ?? '(이름 없음)'}`);
-    const family = x.tags.includes('ballistic_attach') && !x.tags.includes('energy_attach') ? 'ballistic' : x.tags.includes('energy_attach') && !x.tags.includes('ballistic_attach') ? 'energy' : undefined;
+    const families = ['ballistic', 'energy'].filter((name) => x.tags.includes(`${name}_attach`));
+    const family = families.length === 1 ? families[0] : kind === 'barrel' && families.length === 2 ? 'both' : undefined;
     attachmentsOut[cls] = prune({
         name: both(x.nameKey) || both(kind === 'magazine' ? '@item_TypeFPS_Magazine' : KIND_LABEL_KEY[kind]), unnamed: unnamed.has(cls) || undefined, kind, sub, type: typeLine ? { en: typeLine.value, ko: typeLine.valueKo ?? typeLine.value } : undefined,
         size: x.size, mfr: mfr?.en, mfrKo: mfr && mfr.ko !== mfr.en ? mfr.ko : undefined, family,

@@ -443,7 +443,7 @@ function main() {
     const uexNotLive = new Set(existsSync(uexSnapshotFile) ? (readJson(uexSnapshotFile).terminals || []).filter((terminal) => terminal.is_available_live === 0).map((terminal) => Number(terminal.id)) : []);
     const tradeIds = new Set(world.locations.map((location) => location.id));
     const tradeBodyIds = new Set(world.bodies.map((body) => body.id));
-    const refineryIds = new Set(helper.refineries.map((refinery) => refinery.id));
+    const refineryIds = new Set(helper.refineryDesks.map((desk) => desk.id));
     const miningBodyIds = new Set(mining.locations.filter((location) => location.kind === 'body').map((location) => location.id));
     const miningPlaceIds = new Set((helper.places || []).map((place) => place.id));
     const missionPlaceIds = new Set(Object.keys(missions.places || {}));
@@ -552,7 +552,7 @@ function main() {
     // refining there and does not mark a spot: they stay in the list as `unplaced`, and so do the records parented to them.
     const unplacedStations = [];
     for (const object of objects.values()) {
-        if (!object.nopos || object.kind !== 'station' || !(object.trade || object.refinery) || object.uex || object.uexRef) continue;
+        if (!object.nopos || object.kind !== 'station' || !(object.trade || object.am?.includes('ref')) || object.uex || object.uexRef) continue;
         delete object.trade; delete object.refinery; object.unplaced = 1; unplacedStations.push(object.id);
     }
     for (const object of objects.values()) if (object.nopos && unplacedStations.includes(object.parent)) object.unplaced = 1;

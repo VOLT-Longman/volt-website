@@ -28,7 +28,8 @@
     const PICK_PAGE = 12;
     const CHIP_KEYS = ['type', 'sys', 'org', 'con', 'scope', 'ev', 'flag'];
     const FLAGS = ['illegal', 'share', 'once', 'bp', 'cargo', 'combat', 'items', 'event'];
-    const SORTS = ['title', 'rank', 'rep', 'pay', 'scu', 'time'];
+    const SORTS = ['title', 'rank', 'rep', 'pay', 'scu', 'time', 'contractor', 'type', 'system', 'box'];
+    const sortLabel = key => t(({ contractor: 'colCon', type: 'colType', system: 'colSys', box: 'colBox' })[key] || 'sort_' + key);
     const BOXES = [1, 2, 4, 8, 16, 24, 32];
     const SLOT_KEYS = ['slotDone', 'slotProgress', 'slotFailed', 'slotAbandoned', 'slotWithdrawn'];
     const AXES = ['axisSkill', 'axisMind', 'axisRisk', 'axisKnow'];
@@ -553,6 +554,8 @@
         // 보수는 화폐가 다르면 견줄 수 없으므로 aUEC 를 먼저, 다른 화폐를 그 뒤에 따로 줄 세운다.
         const group = key === 'pay' ? (e) => e.payCur : () => 0;
         const value = { title: (e) => plain(titleOf(e.c)).toLowerCase() || null, rank: (e) => e.c.min ?? null, rep: (e) => (e.main && e.main.n > 0 ? e.main.n : null),
+            contractor: e => contractorOf(e.c) || null, type: e => typeName(e.c) || null,
+            system: e => (e.c.sys || []).map(sysName).join(', ') || null, box: e => e.box ?? null,
             pay: (e) => e.payA, scu: (e) => e.scuHi, time: (e) => e.c.time ?? null }[key];
         // 자료에 없는 값은 방향과 상관없이 맨 뒤로 보낸다.
         return list.map((e) => [value(e), e]).sort((a, b) => {
@@ -612,7 +615,7 @@
         return `<div class="missions-toolbar">
             <label class="missions-search"><span>${esc(t('search'))}</span>
                 <input type="search" id="missions-q" data-focus="q" value="${esc(view.q)}" placeholder="${esc(t('searchPh'))}" aria-describedby="missions-q-hint" autocomplete="off" spellcheck="false" maxlength="80"></label>
-            <label class="missions-sort"><span>${esc(t('sortLabel'))}</span><select id="missions-sort" data-focus="sort">${option('', t('sortDefault'), key)}${SORTS.map((id) => option(id, t(`sort_${id}`), key)).join('')}</select></label>
+            <label class="missions-sort"><span>${esc(t('sortLabel'))}</span><select id="missions-sort" data-focus="sort">${option('', t('sortDefault'), key)}${SORTS.map((id) => option(id, sortLabel(id), key)).join('')}</select></label>
             <button type="button" class="missions-toggle" data-ms-dir data-focus="dir"${key ? '' : ' disabled'} aria-label="${esc(`${t('sortDir')}: ${t(down ? 'desc' : 'asc')}`)}"><span aria-hidden="true">${down ? '↓' : '↑'}</span> ${esc(t(down ? 'desc' : 'asc'))}</button>
             <div class="missions-viewswitch" role="group" aria-label="${esc(t('viewLabel'))}">${['tiles', 'table'].map((id) => `<button type="button" class="missions-toggle${view.view === id ? ' is-on' : ''}" data-ms-view="${id}" data-focus="view:${id}" aria-pressed="${view.view === id}">${esc(t(id === 'tiles' ? 'viewTiles' : 'viewTable'))}</button>`).join('')}</div>
         </div><p class="missions-hint" id="missions-q-hint">${esc(t('searchHint'))}</p>`;
@@ -670,10 +673,10 @@
         const head = (label, sortKey, numeric) => {
             if (!sortKey) return `<th scope="col"${numeric ? ' class="is-num"' : ''}>${esc(label)}</th>`;
             const on = key === sortKey;
-            return `<th scope="col"${numeric ? ' class="is-num"' : ''} aria-sort="${on ? (down ? 'descending' : 'ascending') : 'none'}"><button type="button" class="missions-th" data-ms-sort="${sortKey}" data-focus="th:${sortKey}">${esc(label)}<span aria-hidden="true">${on ? (down ? ' ↓' : ' ↑') : ''}</span></button></th>`;
+            return `<th scope="col"${numeric ? ' class="is-num"' : ''} aria-sort="${on ? (down ? 'descending' : 'ascending') : 'none'}"><button type="button" class="missions-th" data-ms-sort="${sortKey}" data-focus="th:${sortKey}">${esc(label)}<span class="volt-sort-arrow" aria-hidden="true">${on ? (down ? ' ↓' : ' ↑') : ' ↕'}</span></button></th>`;
         };
         return `<div class="missions-tablewrap" tabindex="0" role="region" aria-label="${esc(t('tabList'))}"><table class="missions-table">
-            <thead><tr>${head(t('colTitle'), 'title')}${head(t('colCon'))}${head(t('colType'))}${head(t('colSys'))}${head(t('colRank'), 'rank')}${head(t('colRep'), 'rep', true)}${head(t('colPay'), 'pay', true)}${head(t('colCargo'), 'scu', true)}${head(t('colBox'), '', true)}</tr></thead>
+            <thead><tr>${head(t('colTitle'), 'title')}${head(t('colCon'), 'contractor')}${head(t('colType'), 'type')}${head(t('colSys'), 'system')}${head(t('colRank'), 'rank')}${head(t('colRep'), 'rep', true)}${head(t('colPay'), 'pay', true)}${head(t('colCargo'), 'scu', true)}${head(t('colBox'), 'box', true)}</tr></thead>
             <tbody>${shown.map(tableRow).join('')}</tbody></table></div>`;
     }
 
@@ -1275,7 +1278,7 @@
             syncHash();
             draw();
         } else if (data.msSort) {
-            view.sort = view.sort === data.msSort ? `-${data.msSort}` : view.sort === `-${data.msSort}` ? '' : data.msSort;
+            view.sort = view.sort === data.msSort ? `-${data.msSort}` : data.msSort;
             syncHash();
             draw();
         } else if (data.msDir !== undefined) {

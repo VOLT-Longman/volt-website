@@ -41,7 +41,9 @@
     const FRESH_DAYS = 1;
     const MY_PRICE_KEEP_DAYS = 30;
     const AGE_CHOICES = [0.25, 1, 3, 7, 15, 30];
-    const SORTS = ['perHour', 'profit', 'margin', 'roi'];
+    const ROUTE_FIELDS = { perHour: 'sort_perHour', profit: 'sort_profit', margin: 'sort_margin', roi: 'sort_roi', route: 'colRoute', cargo: 'colCargo', time: 'colTime', legProfit: 'colProfit', legHour: 'colPerHour', back: 'colReturn' };
+    const SORTS = Object.keys(ROUTE_FIELDS).flatMap(key => [key, key + '-rev']);
+    const routeDown = key => !['route', 'cargo', 'time'].includes(key);
     const TIME_KEYS = ['takeoffSeconds', 'landingSeconds', 'atmosphereSeconds', 'terminalSeconds', 'manualBaseSeconds', 'manualBoxSeconds', 'sameBodySeconds', 'jumpSeconds'];
     const PREF_DEFAULTS = { goods: 1, legalOnly: true, returnTrip: true, avoidFull: false, hidden: [], capacityScu: null };
 
@@ -904,18 +906,28 @@
     const timeBucket = (s) => Math.floor(s.now / 600000); // 가격 나이 기준이 움직이므로 10분마다 다시 계산한다
 
     function sortRoutes(cache) {
-        const round = opt().returnTrip && (view.sort === 'perHour' || view.sort === 'profit');
-        const sortKey = `${view.sort}|${round}`;
+        const [key, reverse] = view.sort.split('-');
+        const round = opt().returnTrip && (key === 'perHour' || key === 'profit');
+        const sortKey = `${view.sort}|${opt().returnTrip}|${H.lang()}`;
         if (!cache.ok || cache.sort === sortKey) return;
         const score = (route) => (round && route.roundTrip ? route.roundTrip : route);
-        const low = (value) => value ?? -Infinity;
-        const by = {
-            perHour: (a, b) => low(score(b).profitPerHour) - low(score(a).profitPerHour) || score(b).profit - score(a).profit,
-            profit: (a, b) => score(b).profit - score(a).profit,
-            margin: (a, b) => low(b.marginPerScu) - low(a.marginPerScu) || b.profit - a.profit,
-            roi: (a, b) => low(b.roi) - low(a.roi) || b.profit - a.profit,
-        }[view.sort];
-        cache.routes.sort((a, b) => by(a, b) || a.from - b.from || a.to - b.to);
+        const getters = {
+            perHour: row => score(row).profitPerHour, profit: row => score(row).profit, margin: row => row.marginPerScu, roi: row => row.roi,
+            route: row => placeName(row.from) + ' → ' + placeName(row.to), cargo: row => row.goods.map(g => goodName(g.c)).join(', '),
+            time: row => row.time.known ? row.seconds : null, legProfit: row => row.profit, legHour: row => row.profitPerHour, back: row => row.ret?.profit,
+        };
+        const desc = routeDown(key) !== Boolean(reverse);
+        const columns = [null, 'route', 'cargo', opt().returnTrip ? 'legProfit' : 'profit', 'time', opt().returnTrip ? 'legHour' : 'perHour', opt().returnTrip ? 'back' : null];
+        cache.routes.sort((a, b) => score(b).profit - score(a).profit || a.from - b.from || a.to - b.to);
+        cache.routes = window.VOLT_TABLE_SORT.ordered(cache.routes, getters[key], desc);
+        const column = columns.indexOf(key);
+        window.VOLT_TABLE_SORT.select('routes-ranking', column < 0 ? null : column, desc);
+        window.VOLT_TABLE_SORT.register('routes-ranking', columns.map(field => getters[field]), (i, down) => {
+            const field = columns[i];
+            view.sort = field + (down === routeDown(field) ? '' : '-rev');
+            syncHash(false);
+            draw();
+        });
         cache.sort = sortKey;
     }
 
@@ -1394,7 +1406,10 @@
                 </div>
                 <div class="routes-field">
                     <label for="routes-sort">${esc(t('sort'))}</label>
-                    <select id="routes-sort" data-act="sort">${SORTS.map((sort) => option(sort, t(`sort_${sort}`), sort === view.sort)).join('')}</select>
+                    <select id="routes-sort" data-act="sort">${SORTS.filter(sort => opt().returnTrip || !['legProfit', 'legHour', 'back'].includes(sort.split('-')[0])).map(sort => {
+                        const [field, reverse] = sort.split('-');
+                        return option(sort, t(ROUTE_FIELDS[field]) + (routeDown(field) !== Boolean(reverse) ? ' ↓' : ' ↑'), sort === view.sort);
+                    }).join('')}</select>
                 </div>
             </div>
             <div class="routes-checks">
@@ -1434,7 +1449,7 @@
         const stats = rank.stats || {};
         const o = opt();
         const lines = [t('count', { total: H.num(rank.total), shown: H.num(shown) })];
-        if (o.returnTrip && (view.sort === 'perHour' || view.sort === 'profit')) lines.push(t('countRound'));
+        if (o.returnTrip && ['perHour', 'profit'].includes(view.sort.split('-')[0])) lines.push(t('countRound'));
         if (stats.tooOld) lines.push(t('statOld', { n: H.num(stats.tooOld) }));
         if (stats.ageUnknown) lines.push(t('statAgeUnknown', { n: H.num(stats.ageUnknown) }));
         if (stats.soldOut) lines.push(t('statSoldOut', { n: H.num(stats.soldOut) }));
@@ -1505,7 +1520,7 @@
         const est = ` <span class="routes-est">${esc(t('estimate'))}</span>`;
         paint(shell.thead, `<tr>
             <th scope="col">${esc(t('colRank'))}</th><th scope="col">${esc(t('colRoute'))}</th><th scope="col">${esc(t('colCargo'))}</th>
-            <th scope="col" class="is-num">${esc(t('colProfit'))}</th><th scope="col" class="is-num">${esc(t('colTime'))}${est}</th><th scope="col" class="is-num">${esc(t('colPerHour'))}${est}</th>
+            <th scope="col" class="is-num">${esc(t('colProfit'))}</th><th scope="col" class="is-num" data-asc-first>${esc(t('colTime'))}${est}</th><th scope="col" class="is-num">${esc(t('colPerHour'))}${est}</th>
             ${opt().returnTrip ? `<th scope="col">${esc(t('colReturn'))}</th>` : ''}<th scope="col">${esc(t('colBest'))}</th>
         </tr>`);
         const pages = Math.ceil(shown.length / pageSize);
@@ -1784,7 +1799,10 @@
 
     function drawCompare(result, state) {
         const top = 8;
-        let rows = result.rows;
+        let rows = window.VOLT_TABLE_SORT.rows('routes-ships', result.rows, [
+            row => shipName(row.ship), row => row.capacity, row => row.quantity, row => row.investment, row => row.profit,
+            row => row.seconds, row => row.profitPerHour,
+        ], draw);
         if (!ui.compareAll && rows.length > top) {
             const mine = rows.findIndex((row) => row.ship === state.ship);
             rows = rows.slice(0, top).concat(mine >= top ? [rows[mine]] : []);
@@ -1809,7 +1827,7 @@
         return `<section class="routes-block" aria-labelledby="routes-compare-title">
             <h4 id="routes-compare-title">${esc(t('compareTitle'))}</h4>
             <p class="routes-hint">${esc(t('compareNote'))}</p>
-            ${body ? `<div class="routes-tablewrap"><table class="routes-table is-small is-compare" id="routes-compare">
+            ${body ? `<div class="routes-tablewrap"><table class="routes-table is-small is-compare" id="routes-compare" data-sort-source="routes-ships">
                 <thead><tr><th scope="col">${esc(t('colShip'))}</th><th scope="col" class="is-num">${esc(t('colHold'))}</th><th scope="col" class="is-num">${esc(t('colQty'))}</th><th scope="col" class="is-num">${esc(t('colInvest'))}</th><th scope="col" class="is-num">${esc(t('colProfit'))}</th><th scope="col" class="is-num">${esc(t('colTime'))}</th><th scope="col" class="is-num">${esc(t('colPerHour'))}</th><th scope="col"><span class="visually-hidden">${esc(t('useShip'))}</span></th></tr></thead>
                 <tbody>${body}</tbody></table></div>${toggle}` : `<p class="routes-empty">${esc(t('compareEmpty'))}</p>`}
             ${unknown}
@@ -1941,6 +1959,7 @@
             time: make('div', 'routes-zone'), sources: make('div', 'routes-zone'), pages: [],
         };
         shell.table.id = 'routes-table';
+        shell.table.dataset.sortSource = 'routes-ranking';
         shell.table.appendChild(shell.thead);
         shell.wrap.appendChild(shell.table);
         shell.list.append(shell.head, shell.more);

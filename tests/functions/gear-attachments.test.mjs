@@ -42,7 +42,8 @@ test('compatible parts respect the port size range and ammunition family', () =>
         for (const cls of port.compatible) {
             const item = data.attachments[cls];
             assert.ok(item.size >= port.minSize && item.size <= port.maxSize, `${port.id}.${port.name} -> ${cls}`);
-            if (port.family && item.family) assert.equal(item.family, port.family, `${port.id}.${port.name} -> ${cls}`);
+            if (port.kind === 'barrel') assert.ok(['ballistic', 'energy', 'both'].includes(item.family), cls);
+            if (port.family && item.family && item.family !== 'both') assert.equal(item.family, port.family, `${port.id}.${port.name} -> ${cls}`);
         }
     }
 });
@@ -98,6 +99,9 @@ test('sampled game values: P4-AR slots, suppressor, laser pointer, scope', () =>
     const p4ar = Object.fromEntries(data.weapons.behr_rifle_ballistic_01.ports.map((p) => [p.kind, p]));
     assert.deepEqual([p4ar.optics.minSize, p4ar.optics.maxSize, p4ar.barrel.minSize, p4ar.barrel.maxSize, p4ar.underbarrel.minSize, p4ar.underbarrel.maxSize], [1, 2, 2, 2, 1, 2]);
     assert.equal(p4ar.barrel.family, 'ballistic');
+    assert.equal(data.attachments.arma_barrel_comp_s2_03.family, 'ballistic');
+    assert.equal(data.attachments.arma_barrel_stab_s2.family, 'energy');
+    assert.equal(data.attachments.arma_barrel_supp_s2.family, 'both');
     assert.equal(p4ar.optics.compatible.length, 32);
     assert.equal(p4ar.barrel.compatible.length, 10);
     assert.equal(p4ar.underbarrel.compatible.length, 10);

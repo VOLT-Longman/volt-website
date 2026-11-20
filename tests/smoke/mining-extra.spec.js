@@ -27,6 +27,7 @@ function refineryFixture() {
             { t: 247, c: 34, v: 7, at }, { t: 247, c: 59, v: 3, at: now() - 2 * DAY },
             { t: 788, c: 34, v: 5, at }, { t: 788, c: 125, v: -9, at },
             { t: 245, c: 34, v: -6 },
+            { t: 98765, c: 34, v: 99, at }, { t: 99998, c: 34, v: 98, at },
         ],
     };
 }
@@ -36,6 +37,7 @@ const TERMINALS = [
     { id: 247, type: 'refinery', name: 'Refinement Processing - ARC-L2', nick: 'ARC-L2', live: true, system: 'Stanton', station: 'ARC-L2 Lively Pathway Station' },
     { id: 788, type: 'refinery', name: 'Refinement Center - Levski', nick: 'Levski', live: true, system: 'Nyx', city: 'Levski' },
     { id: 12, type: 'commodity', name: 'Admin - ARC-L1', nick: 'ARC-L1', live: true, system: 'Stanton' },
+    { id: 99998, type: 'refinery', name: 'Closed desk', live: false, system: 'Pyro' },
 ];
 
 async function openMining(page, hash = '#mining', { refineries = refineryFixture(), market = [] } = {}) {
@@ -69,7 +71,8 @@ test('장소 목록: 할 수 있는 일 아이콘, 쓰는 곳, 함께 쓰는 목
     await expect(event).toContainText('지금 없을 수 있음');
     await event.click();
     await expect(page.locator('.mining-detail')).toContainText('지금 게임에서 열려 있는지는 게임 파일로 알 수 없습니다');
-    await expect(page.locator('.mining-detail')).toContainText('Mining_AsteroidGoldOnly');
+    await expect(page.locator('.mining-detail')).toContainText('종류를 확인할 수 없는 암석');
+    await expect(page.locator('.mining-detail')).not.toContainText('Mining_AsteroidGoldOnly');
     // 함께 쓰는 목록: 옐라 소행성대는 파이로의 터미너스에서도 쓴다.
     await page.locator('.mining-place[data-mining-location="Stanton2c_Belt"]').click();
     const detail = page.locator('.mining-detail');
@@ -78,6 +81,44 @@ test('장소 목록: 할 수 있는 일 아이콘, 쓰는 곳, 함께 쓰는 목
     // 희귀 암석 표.
     await expect(page.locator('.mining-special')).toContainText('행사·시설 전용');
     expect(errors).toEqual([]);
+});
+
+test('동굴은 한 묶음으로 열고 기존 장소 주소와 언어 전환도 유지한다', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openMining(page, '#mining?tab=location&sites=1');
+    const group = page.locator('#mining-caves-toggle');
+    const cave = page.locator('.mining-place[data-mining-location="Cave_Aberdeen_Rich"]');
+    await expect(group).toHaveAttribute('aria-expanded', 'false');
+    await expect(cave).toHaveCount(0);
+    await group.click();
+    await expect(cave).toContainText('애버딘');
+    await cave.click();
+    await expect(page.locator('.mining-detail h3')).toContainText('동굴 · 풍부');
+    await page.reload();
+    await expect(group).toHaveAttribute('aria-expanded', 'true');
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.locator('.nav-lang [data-set-lang="en"]').click();
+    await expect(page.locator('.mining-detail h3')).toContainText('Aberdeen cave · rich');
+    await expect(page.locator('#mining-app')).not.toContainText(/V3SlotPreset_|Cave_Aberdeen_|Loot_Caves_|APX_MineFacility_/);
+    await page.locator('[data-mining-layout="matrix"]').click();
+    await expect(page.getByRole('button', { name: 'Aberdeen cave · rich', exact: true })).toBeVisible();
+    await group.click();
+    await expect(page.getByRole('button', { name: 'Aberdeen cave · rich', exact: true })).toHaveCount(0);
+});
+
+test('사다릭스 제작 재료에서 손 채광 기록까지 확인한다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    await gotoSection(page, '#fabricator?tab=mats');
+    const row = page.locator('.fab-table tbody tr').filter({ hasText: '사다릭스' });
+    await row.getByRole('link', { name: '캐는 곳 보기' }).click();
+    const detail = page.locator('.mining-detail');
+    await expect(detail.locator('h3')).toContainText('사다릭스');
+    await expect(detail).toContainText('정확한 채광 위치');
+    await expect(detail.locator('.mining-maplink-mineral')).toHaveCount(0);
+    await detail.getByRole('button', { name: '손 채광 시설 · 사다릭스' }).click();
+    await expect(detail.locator('h3')).toContainText('손 채광 시설 · 사다릭스');
+    await expect(detail.getByRole('rowheader', { name: '사다릭스 암석' })).toBeVisible();
+    await expect(detail).not.toContainText(/V3SlotPreset_|Sadaryx minable/);
 });
 
 test('장소 상세: 신호 값과 무리 개수, 식물, 잔해, 품질 값, 지형 보정값', async ({ page }) => {
@@ -188,7 +229,16 @@ test('광물 × 장소 표: 방식 글자가 칸에 들어가고 장소를 누�
     await expect(hadanite.locator('td').first()).toHaveText('손');
     await expect(table.locator('tbody tr', { hasText: '프로타' }).locator('td').first()).toHaveText('채');
     await expect(page.locator('.mining-list')).toContainText('빈칸은 게임 파일에 없다는 뜻입니다');
-    await table.locator('thead [data-mining-location="Stanton4"]').click();
+    const location = table.locator('thead [data-mining-location="Stanton4"]');
+    const sort = location.locator('..').locator('.volt-sort-head');
+    const cellIndex = await location.evaluate(b => b.parentElement.cellIndex);
+    for (const direction of ['descending', 'ascending']) {
+        await sort.click();
+        await expect(sort.locator('..')).toHaveAttribute('aria-sort', direction);
+        const presence = await table.locator('tbody tr').evaluateAll((rows, col) => rows.map(row => Number(row.cells[col].dataset.sortValue)), cellIndex);
+        expect(presence).toEqual([...presence].sort((a, b) => direction === 'descending' ? b - a : a - b));
+    }
+    await location.click();
     await expect(page.locator('.mining-detail h3')).toBeFocused();
     await expect(page.locator('.mining-detail h3')).toContainText('마이크로텍');
     await expect(page.locator('[data-mining-layout="matrix"]')).toHaveAttribute('aria-pressed', 'true');
@@ -242,22 +292,21 @@ test('신호 찾기: 정확히 · 비슷한 값 · 범위, 확인 전 안내와 
     expect(errors).toEqual([]);
 });
 
-test('정제소 찾기: 게임 파일 목록을 바탕으로 UEX 보너스와 보고 나이, 가장 좋은 정제소, 방식 등급', async ({ page }) => {
+test('정제소 찾기: 확인된 정제 단말의 UEX 보너스와 보고 나이, 가장 좋은 정제소, 방식 등급', async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await openMining(page);
     await page.locator('[data-mining-view="ref"]').click();
     await expect(page.locator('#mining-ref-intro')).toContainText('정제 수율과 정제 시간의 실제 숫자는 게임 파일에 없습니다');
     const table = page.locator('table[data-mining-csv="refineries"]');
-    // 게임 파일의 정제 시설 31곳 + UEX에만 있는 레브스키.
-    await expect(table.locator('tbody tr')).toHaveCount(32);
+    // Live desks only. Neither a raw amenity, a closed terminal nor an orphaned report can create a row.
+    await expect(table.locator('tbody tr')).toHaveCount(4);
     const arc1 = table.locator('tbody tr', { hasText: 'ARC-L1' });
-    await expect(arc1).toContainText('게임 파일 · UEX 모두');
+    await expect(arc1).toContainText('정제 단말 확인');
     await expect(arc1).toContainText('-3%');
     await expect(arc1).toContainText('25일 전');
-    await expect(table.locator('tbody tr', { hasText: '레브스키' })).toContainText('UEX에만 있음');
-    const farstat = table.locator('tbody tr', { hasText: 'PYAM-FARSTAT-1-2' });
-    await expect(farstat).toContainText('게임 파일에만 있음');
-    await expect(farstat.locator('td').nth(2)).toHaveText('보고 없음');
+    await expect(table.locator('tbody tr', { hasText: '레브스키' })).toContainText('정제 단말 확인');
+    await expect(table.locator('tbody tr', { hasText: '레브스키' })).toContainText('보고 없음');
+    await expect(table).not.toContainText(/PYAM-FARSTAT|RR_P[1-6]_|Closed desk|98765|99998/);
     // 보고 시각이 없는 줄은 "보고 시각 모름".
     await expect(table.locator('tbody tr', { hasText: 'CRU-L1' })).toContainText('보고 시각 모름');
     await expect(page.locator('#mining-ref-best')).toContainText('광물을 고르면');
@@ -291,24 +340,24 @@ test('정제소 찾기: 게임 파일 목록을 바탕으로 UEX 보너스와 �
     expect(errors).toEqual([]);
 });
 
-test('정제소 찾기: UEX 를 받지 못해도 게임 파일 목록은 남고 다시 받을 수 있다', async ({ page }) => {
+test('정제소 찾기: 수율 요청이 실패해도 정제 단말 목록은 남고 다시 받을 수 있다', async ({ page }) => {
     await mockApi(page, { fleet: true });
     let status = 503;
     await page.route('**/api/uex/refineries*', (route) => (status ? route.fulfill({ status, json: { error: 'x' } }) : route.fulfill({ json: { status: 'ok', data: refineryFixture(), meta: {} } })));
     await page.route('**/api/uex/terminals*', (route) => route.fulfill({ json: { status: 'ok', data: TERMINALS } }));
     await gotoSection(page, '#mining?tab=ref&ores=34');
     const table = page.locator('table[data-mining-csv="refineries"]');
-    await expect(table.locator('tbody tr')).toHaveCount(31);
-    await expect(page.locator('.mining-ref-error')).toContainText('지금 UEX 가격을 받아 올 수 없습니다');
+    await expect(table.locator('tbody tr')).toHaveCount(4);
+    await expect(page.locator('.mining-ref-error')).toContainText('정제 수율 보고를 불러오지 못했습니다');
     status = 0;
     await page.locator('#mining-ref-retry').click();
-    await expect(table.locator('tbody tr')).toHaveCount(32);
+    await expect(table.locator('tbody tr')).toHaveCount(4);
     await expect(page.locator('#mining-ref-best')).toContainText('ARC-L2');
     // 커뮤니티 전용으로 막힌 경우(401)는 로그인 안내.
     status = 401;
     await page.reload();
     await expect(page.locator('.mining-ref-error')).toContainText('로그인');
-    await expect(table.locator('tbody tr')).toHaveCount(31);
+    await expect(table.locator('tbody tr')).toHaveCount(4);
 });
 
 test('광물 상세: 보고 시각이 있는 최근 가격과 시세 화면 연결, 정제소 찾기로 넘어가기', async ({ page }) => {
@@ -429,14 +478,16 @@ test('정제소 찾기: 정제소 이름 목록만 못 받으면 번호 줄을 �
     await gotoSection(page, '#mining?tab=ref&ores=34');
     const table = page.locator('table[data-mining-csv="refineries"]');
     await expect(page.locator('#mining-ref-nonames')).toContainText('UEX 정제소 이름 목록을 받지 못했습니다');
-    await expect(table.locator('tbody tr')).toHaveCount(31);
+    await expect(table.locator('tbody tr')).toHaveCount(20);
+    await expect(table).not.toContainText(/PYAM-FARSTAT|RR_P[1-6]_/);
+    await expect(table).toContainText('레브스키');
     await expect(table).not.toContainText('정제소 #');
     await expect(table).not.toContainText('게임 파일에만 있음');
-    await expect(table.locator('tbody tr').first()).toContainText('UEX 확인 못 함');
+    await expect(table.locator('tbody tr').first()).toContainText('저장된 정제소 목록');
     await expect(page.locator('#mining-ref-best')).toHaveCount(0);
     down = false;
     await page.locator('#mining-ref-retry').click();
-    await expect(table.locator('tbody tr')).toHaveCount(32);
+    await expect(table.locator('tbody tr')).toHaveCount(4);
     await expect(page.locator('#mining-ref-nonames')).toHaveCount(0);
     await expect(page.locator('#mining-ref-best')).toContainText('ARC-L2');
 });
@@ -444,6 +495,8 @@ test('정제소 찾기: 정제소 이름 목록만 못 받으면 번호 줄을 �
 test('장소 표: 동굴·시설 목록의 광물 수를 0으로 적지 않고, 알 수 없는 암석은 "게임 자료에 없음"으로 적는다', async ({ page }) => {
     await openMining(page, '#mining?tab=location&lay=table&sites=1');
     const row = (id) => page.locator('table[data-mining-csv="locations"] tbody tr', { has: page.locator(`[data-mining-location="${id}"]`) });
+    await expect(row('Loot_Caves_Occupied_Rock_Pyro')).toHaveCount(0);
+    await page.locator('#mining-caves-toggle').click();
     await expect(row('Loot_Caves_Occupied_Rock_Pyro').locator('td').nth(4)).toHaveText('4');
     await expect(row('Loot_Caves_Occupied_Rock_Pyro').locator('td').nth(5)).toHaveText('4');
     await expect(row('ResourceRush_Gold').locator('td').nth(4)).toHaveText('게임 자료에 없음');
@@ -459,7 +512,7 @@ test('장소 표: 동굴·시설 목록의 광물 수를 0으로 적지 않고, 
     await row('Loot_Caves_Occupied_Rock_Pyro').locator('[data-mining-location]').click();
     await expect(page.locator('.mining-detail')).toContainText('품질 분포 (게임 파일 값)');
     await expect(page.locator('.mining-detail')).toContainText('손 채광 암석');
-    await expect(page.locator('.mining-detail')).toContainText('내부 이름 FPS mineables');
+    await expect(page.locator('.mining-detail')).not.toContainText('FPS mineables');
 });
 
 test('장소 묶음: 행사·동굴·시설 목록 보기는 주소에 남고, 375px 에서 긴 이름이 잘리지 않는다', async ({ page }) => {
@@ -580,7 +633,7 @@ test('정제소 찾기 375px: 옆으로 밀어도 정제소 이름이 남고, �
     await openMining(page, '#mining?tab=ref');
     const table = page.locator('table[data-mining-csv="refineries"]');
     const head = table.locator('tbody tr', { hasText: 'ARC-L1' }).locator('th');
-    await expect(head).toContainText('스탠턴 · 게임 파일 · UEX 모두');
+    await expect(head).toContainText('스탠턴 · 정제 단말 확인');
     await expect(table.locator('thead th').nth(1)).toBeHidden();
     await page.locator('.mining-ref-full > summary').click();
     const wrap = page.locator('.mining-ref-full .mining-tablewrap').first();

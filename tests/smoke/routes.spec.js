@@ -71,6 +71,21 @@ const rows = (page) => page.locator('#routes-table tbody tr');
 const sharedState = (page) => page.evaluate(() => JSON.parse(window.localStorage.getItem('volt-helper-state-v1') || 'null'));
 const sideways = (page) => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 
+test('경로 표와 선택창이 같은 방향을 가리키고 휴대폰 카드도 순서를 바꾼다', async ({ page }) => {
+    await prepare(page, { state: C2 });
+    await gotoSection(page, '#routes');
+    const table = page.locator('#routes-table');
+    const route = table.locator('thead th').nth(1);
+    await route.getByRole('button').click();
+    await expect(route).toHaveAttribute('aria-sort', 'ascending');
+    await expect(page.locator('#routes-sort')).toHaveValue('route');
+    await page.setViewportSize({ width: 390, height: 844 });
+    await app(page).locator('.volt-sort-mobile.for-routes select').first().selectOption('1/1');
+    await expect(route).toHaveAttribute('aria-sort', 'descending');
+    await expect(page.locator('#routes-sort')).toHaveValue('route-rev');
+    await expect(rows(page).first().locator('[data-act="open"]')).toBeVisible();
+});
+
 test('무역 경로: 함선과 예산을 고르면 순위표가 나오고, 고른 값은 공용 저장소에 남는다', async ({ page }) => {
     const errors = trackConsoleErrors(page);
     test.setTimeout(90000);

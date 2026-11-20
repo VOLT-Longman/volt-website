@@ -35,6 +35,36 @@ async function openMod(page, { hash = '#gear', viewport = PHONE, csp = false } =
     await expect(page.locator('#gear-mod-weapon')).toBeVisible();
 }
 const slotRow = (page, name) => page.locator(`[data-gear-mod-slot="${name}"]`);
+test('총열은 실탄용·에너지용·공용을 구분하고 다른 계열 전용 부품은 장착하지 않는다', async ({ page }) => {
+    const energy = 'klwe_rifle_energy_01';
+    const ballisticPart = 'arma_barrel_comp_s2_03';
+    const energyPart = 'arma_barrel_stab_s2';
+    const sharedPart = 'arma_barrel_supp_s2';
+    const slot = slotRow(page, 'barrel_attach');
+    const part = (id) => page.locator(`[data-gear-mod-part="${id}"]`);
+    await openMod(page, { hash: `#gear?mod=${P4AR}` });
+    await slot.click();
+    await expect(slot).toContainText('실탄 무기용');
+    await expect(part(ballisticPart)).toContainText('실탄 무기용');
+    await expect(part(energyPart)).toHaveCount(0);
+    await expect(part(sharedPart)).toContainText('실탄·에너지 공용');
+    await part(ballisticPart).click();
+    await expect(slot).toContainText('토렌트');
+    await page.goto(`/#gear?mod=${energy}&barrel=${ballisticPart}`);
+    await slot.click();
+    await expect(slot).toContainText('에너지 무기용');
+    await expect(slot).not.toContainText('토렌트');
+    await expect(part(ballisticPart)).toHaveCount(0);
+    await expect(part(energyPart)).toContainText('에너지 무기용');
+    await part(energyPart).click();
+    await expect(slot).toContainText('이모드');
+    await part(sharedPart).click();
+    await expect(slot).toContainText('태싯');
+    await page.setViewportSize(DESKTOP);
+    await page.locator('.nav-lang [data-set-lang="en"]').click();
+    await expect(part(sharedPart)).toContainText('Ballistic & energy');
+    await expect(part(energyPart)).toContainText('Energy only');
+});
 const changeRow = (page, name) => page.locator('.gear-mod-table tbody tr').filter({ hasText: name });
 const axeSerious = async (page) => (await new AxeBuilder({ page }).include('#gear').analyze()).violations.filter((v) => ['critical', 'serious'].includes(v.impact)).map((v) => `${v.id}: ${v.nodes.length}`);
 

@@ -180,7 +180,8 @@ test('낱개 재료 · 얻는 곳 없는 재료 · 골라 채우는 칸은 그�
     const rows = app(page).locator('.fab-table tbody tr');
     await expect(rows).toHaveCount(37);
     const carinite = rows.filter({ hasText: '카리나이트' });
-    await expect(carinite).toContainText('얻는 곳이 우리 자료에 없음');
+    await expect(rows.filter({ hasText: '요르만디' })).toContainText('얻는 곳이 우리 자료에 없음');
+    await expect(carinite.getByRole('link', { name: '캐는 곳 보기' })).toHaveAttribute('href', '#mining?m=Carinite');
     await expect(carinite).toContainText('낱개');
     await carinite.locator('[data-act="mat-show"]').click();
     await expect(page).toHaveURL(/#fabricator\?mat=Carinite$/);

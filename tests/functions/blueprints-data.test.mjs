@@ -205,7 +205,8 @@ test('default-owned blueprints and dismantle values are the CraftingGlobalParams
 
 test('materials link to the mining guide by id wherever the material is mined', () => {
     const mining = data('mining/helper.json');
-    const minerals = new Map(mining.minerals.map((mineral) => [mineral.id, mineral]));
+    const allMinerals = [...mining.minerals, ...mining.extraMinerals];
+    const minerals = new Map(allMinerals.map((mineral) => [mineral.id, mineral]));
     assert.equal(blueprints.materials.length, 37);
     for (const material of blueprints.materials) {
         assert.ok(material.name?.en && material.name?.ko, material.id);
@@ -214,9 +215,9 @@ test('materials link to the mining guide by id wherever the material is mined', 
         assert.ok(mineral, `${material.id} -> ${material.mine}`);
         assert.ok(mineral.id === material.id || mineral.refined?.id === material.id, 'material id is the mineral id or its refined id');
     }
-    assert.deepEqual(blueprints.materials.filter((m) => !m.mine).map((m) => m.id).sort(), ['Carinite', 'Ore_Saldynium', 'Sadaryx', 'YormandiEye']);
+    assert.deepEqual(blueprints.materials.filter((m) => !m.mine).map((m) => m.id).sort(), ['YormandiEye']);
     // Every mineral or refined product of the mining guide that a recipe uses must carry the link.
-    const mineable = new Set(mining.minerals.flatMap((mineral) => [mineral.id, mineral.refined?.id]));
+    const mineable = new Set(allMinerals.flatMap((mineral) => [mineral.id, mineral.refined?.id]));
     assert.ok(blueprints.materials.every((m) => Boolean(m.mine) === mineable.has(m.id)));
 });
 

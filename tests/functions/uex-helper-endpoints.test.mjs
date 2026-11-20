@@ -234,6 +234,8 @@ test('UEX terminals: 상품·정제소 터미널만, 시설 표시와 위치만 
         { id: 263, id_star_system: 68, name: 'Platinum Bay - ARC-L1', type: 'commodity', is_available: 0, is_available_live: 0, star_system_name: 'Stanton', max_container_size: 0 },
         { id: 242, id_star_system: 68, id_orbit: 339, name: 'Refinement Processing - MIC-L1', type: 'refinery', is_available: 1, is_available_live: 1, is_refinery: 1, star_system_name: 'Stanton', orbit_name: 'microTech Lagrange Point 1', max_container_size: 0 },
         { id: 300, name: 'Astro Armada', type: 'vehicle_buy', is_available_live: 1 },
+        { id: 801, name: 'Unconfirmed desk', type: 'refinery', is_available: 1 },
+        { id: 802, name: 'Closed desk', type: 'refinery', is_available: 0, is_available_live: 1 },
         { id: 301, name: 'Casaba', type: 'item' },
         { id: 0, name: 'broken', type: 'commodity' },
         null
@@ -241,13 +243,15 @@ test('UEX terminals: 상품·정제소 터미널만, 시설 표시와 위치만 
     assert.deepEqual(terminals.buildTerminals(rows), [
         { id: 1, type: 'commodity', name: 'Admin - ARC-L1', nick: 'ARC-L1', code: 'ARCL1', live: true, systemId: 68, system: 'Stanton', planetId: 4, planet: 'ArcCorp', orbitId: 326, orbit: 'ArcCorp Lagrange Point 1', stationId: 1, station: 'ARC-L1 Wide Forest Station', faction: 'United Empire of Earth', flags: ['autoLoad', 'freightElevator'], maxBox: 32 },
         { id: 263, type: 'commodity', name: 'Platinum Bay - ARC-L1', live: false, systemId: 68, system: 'Stanton' },
-        { id: 242, type: 'refinery', name: 'Refinement Processing - MIC-L1', live: true, systemId: 68, system: 'Stanton', orbitId: 339, orbit: 'microTech Lagrange Point 1', flags: ['refinery'] }
+        { id: 242, type: 'refinery', name: 'Refinement Processing - MIC-L1', live: true, systemId: 68, system: 'Stanton', orbitId: 339, orbit: 'microTech Lagrange Point 1', flags: ['refinery'] },
+        { id: 801, type: 'refinery', name: 'Unconfirmed desk', live: false },
+        { id: 802, type: 'refinery', name: 'Closed desk', live: false }
     ]);
 
     const harness = createHarness({ terminals: rows });
     try {
         const first = await harness.get(terminals, '/api/uex/terminals');
-        assert.equal((await first.json()).data.length, 3);
+        assert.equal((await first.json()).data.length, 5);
         assert.equal(first.headers.get('Cache-Control'), 'public, max-age=43200');
         // 12시간 캐시되는 표는 refresh=1을 무시한다.
         const again = await harness.get(terminals, '/api/uex/terminals?refresh=1&type=item');
