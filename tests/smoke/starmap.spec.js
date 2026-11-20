@@ -681,8 +681,10 @@ test('지도 이름표는 천체와 채광 지대를 숨기지 않고 종류별�
     await page.setViewportSize({ width: 1440, height: 900 });
     await prepare(page);
     await open3d(page);
-    const panel = page.locator('.starmap-how-labels');
-    await panel.locator('summary').click();
+    const toolbar = page.locator('.starmap-tools');
+    const labels = toolbar.getByRole('button', { name: '이름표', exact: true });
+    await labels.click();
+    const panel = toolbar.getByRole('group', { name: '지도 이름표' });
     const planets = page.locator('.starmap-label.is-planet:visible');
     const belts = page.locator('.starmap-label.is-region:visible');
     await expect(planets.first()).toBeVisible();
@@ -693,6 +695,8 @@ test('지도 이름표는 천체와 채광 지대를 숨기지 않고 종류별�
     await expect(planets.first()).toBeVisible();
     await panel.locator('[data-map-label="belt"]').check();
     await expect(belts.first()).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(labels).toBeFocused();
     const label = belts.first();
     const id = (await label.getAttribute('data-id')).slice(7);
     await label.scrollIntoViewIfNeeded();
@@ -701,3 +705,41 @@ test('지도 이름표는 천체와 채광 지대를 숨기지 않고 종류별�
     await expect(page).toHaveURL(new RegExp('area=' + id));
     await expect(page.locator('[data-over="area"]')).toBeVisible();
 });
+
+for (const [width, lang, buttonName] of [[1440, 'ko', '이름표'], [390, 'en', 'Labels']]) {
+    test(`이름표 설정은 지도 도구에서 열리고 성계 전환·새로고침 뒤에도 유지된다 (${width}px)`, async ({ page }) => {
+        await page.setViewportSize({ width, height: width === 390 ? 844 : 900 });
+        await prepare(page);
+        await open3d(page, '#starmap', lang);
+        const tools = page.locator('.starmap-tools');
+        const toggle = tools.getByRole('button', { name: buttonName, exact: true });
+        const panel = tools.locator('#starmap-label-panel');
+        const box = key => panel.locator(`[data-map-label="${key}"]`);
+        await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+        await toggle.click();
+        await expect(panel.getByRole('checkbox')).toHaveCount(5);
+        for (const key of ['planet', 'moon', 'gateway', 'station']) await expect(box(key)).toBeChecked();
+        await expect(box('belt')).not.toBeChecked();
+        await expect(panel).toContainText(lang === 'ko' ? '확대하면' : 'Zoom in');
+        expect(await overflow(page)).toBeLessThanOrEqual(1);
+        const frame = await page.locator('.starmap-view').boundingBox();
+        const menu = await panel.boundingBox();
+        expect(menu.x).toBeGreaterThanOrEqual(frame.x);
+        expect(menu.y + menu.height).toBeLessThanOrEqual(frame.y + frame.height);
+        await box('moon').uncheck();
+        await box('gateway').uncheck();
+        await box('belt').check();
+        await page.locator('.starmap-tab[data-id="pyro"]').click();
+        await expect(panel).toBeHidden();
+        await toggle.click();
+        await expect(box('moon')).not.toBeChecked();
+        await page.reload();
+        await toggle.click();
+        await expect(box('moon')).not.toBeChecked();
+        await expect(box('gateway')).not.toBeChecked();
+        await expect(box('station')).toBeChecked();
+        await expect(box('belt')).toBeChecked();
+        await toggle.click();
+        await expect(panel).toBeHidden();
+    });
+}

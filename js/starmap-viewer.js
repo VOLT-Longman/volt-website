@@ -261,6 +261,7 @@ export function createViewer(host, options = {}) {
     }
 
     const size = { w: 1, h: 1 };
+    const toolbarSize = { w: 0, h: 0 };
     const tmp = new THREE.Vector3();
     const tmp2 = new THREE.Vector3();
     const measure = document.createElement('canvas').getContext('2d');
@@ -719,7 +720,7 @@ export function createViewer(host, options = {}) {
         // 점처럼 보이는 천체의 자리는 미리 차지해 둔다: 이름표가 천체를 덮어 누르기를 가로채지 않게.
         // (구가 크게 보일 때는 그 위에 장소 이름표가 올라가야 하므로 작은 점일 때만.) 오른쪽 위는 단추 자리.
         const taken = world.bodies.filter((body) => body.shown && body.ok && body.px <= 30).map((body) => [body.x - body.px, body.y - body.px, body.x + body.px, body.y + body.px]);
-        taken.push([size.w - 290, 0, size.w, 58]);
+        taken.push([size.w - toolbarSize.w - 16, 0, size.w, toolbarSize.h + 16]);
         // 아래 왼쪽은 "거리는 줄여서 그렸습니다" 안내 자리.
         taken.push([0, size.h - (size.w < 460 ? 50 : 32), Math.min(size.w, 380), size.h]);
         const used = new Set();
@@ -1095,6 +1096,12 @@ export function createViewer(host, options = {}) {
     document.addEventListener('visibilitychange', onVisibility);
     const resizeObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null;
     resizeObserver?.observe(host);
+    const toolbarObserver = options.toolbar && typeof ResizeObserver === 'function' ? new ResizeObserver(([entry]) => {
+        toolbarSize.w = entry.contentRect.width;
+        toolbarSize.h = entry.contentRect.height;
+        invalidate();
+    }) : null;
+    if (toolbarObserver) toolbarObserver.observe(options.toolbar);
     const intersectionObserver = typeof IntersectionObserver === 'function'
         ? new IntersectionObserver((entries) => { onScreen = entries[entries.length - 1].isIntersecting; if (onScreen) invalidate(); })
         : null;
@@ -1131,6 +1138,7 @@ export function createViewer(host, options = {}) {
         generation++;
         if (frameId) cancelAnimationFrame(frameId);
         resizeObserver?.disconnect();
+        toolbarObserver?.disconnect();
         intersectionObserver?.disconnect();
         document.removeEventListener('visibilitychange', onVisibility);
         canvas.removeEventListener('pointerdown', onPointerDown);

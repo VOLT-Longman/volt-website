@@ -53,7 +53,7 @@
             needs: '할 일로 거르기', need_trade: '무역', need_refinery: '정제', need_mine: '채광', need_mission: '임무',
             moreFilters: '종류로 거르기', showHidden: '게임 지도에 안 나오는 곳도 보기', kinds: '지도에 보일 종류',
             open: '{name} 펼치기', close: '{name} 접기', places: '{n}곳',
-            mapLabels: '지도 이름표', labelGate: '게이트웨이', labelBelt: '소행성 지대',
+            mapLabels: '지도 이름표', labelsButton: '이름표', labelsHint: '이름이 겹치면 일부만 표시됩니다. 확대하면 더 볼 수 있어요.', labelGate: '게이트웨이', labelBelt: '소행성 지대',
             kind_star: '항성', kind_planet: '행성', kind_moon: '위성', kind_city: '정착지', kind_station: '정거장', kind_jump: '점프 포인트',
             kind_lagrange: '라그랑주 포인트', kind_poi: '관심 지점', kind_outpost: '전초기지', kind_asteroid: '소행성', kind_nav: '이동 지점', kind_anomaly: '이상현상', kind_other: '그 밖',
             group_station: '우주 정거장 · 휴게소', group_jump: '점프 포인트', group_lagrange: '라그랑주 포인트', group_asteroid: '소행성 · 채광 구역', group_other: '그 밖',
@@ -124,7 +124,7 @@
             needs: 'Filter by activity', need_trade: 'Trade', need_refinery: 'Refining', need_mine: 'Mining', need_mission: 'Missions',
             moreFilters: 'Filter by type', showHidden: 'Also show places the in-game map hides', kinds: 'Types shown on the map',
             open: 'Expand {name}', close: 'Collapse {name}', places: '{n} places',
-            mapLabels: 'Map labels', labelGate: 'Gateways', labelBelt: 'Asteroid belts',
+            mapLabels: 'Map labels', labelsButton: 'Labels', labelsHint: 'Overlapping names are hidden. Zoom in to see more.', labelGate: 'Gateways', labelBelt: 'Asteroid belts',
             kind_star: 'Star', kind_planet: 'Planet', kind_moon: 'Moon', kind_city: 'Settlement', kind_station: 'Station', kind_jump: 'Jump point',
             kind_lagrange: 'Lagrange point', kind_poi: 'Point of interest', kind_outpost: 'Outpost', kind_asteroid: 'Asteroid', kind_nav: 'Nav point', kind_anomaly: 'Anomaly', kind_other: 'Other',
             group_station: 'Stations and rest stops', group_jump: 'Jump points', group_lagrange: 'Lagrange points', group_asteroid: 'Asteroids and mining fields', group_other: 'Other',
@@ -206,7 +206,19 @@
     const st = { sys: null, focus: null, route: [], mark: [], area: [], site: null, measure: [], measuring: false, hidden: false, off: [], need: [], q: '', open: new Set(), sheet: false };
     const db = { index: null, textures: null, systems: new Map(), cargo: null, cargoState: '' };
     const labelGroups = { planet: 'kind_planet', moon: 'kind_moon', gateway: 'labelGate', station: 'kind_station', belt: 'labelBelt' };
-    const hiddenLabels = new Set(['belt']);
+    const labelStorageKey = 'volt.starmap.labels.v1';
+    function readHiddenLabels() {
+        const hidden = new Set(['belt']);
+        try {
+            const saved = JSON.parse(localStorage.getItem(labelStorageKey));
+            for (const key of Object.keys(labelGroups)) {
+                if (saved?.[key] === false) hidden.add(key);
+                if (saved?.[key] === true) hidden.delete(key);
+            }
+        } catch { /* Use the map defaults when browser storage is unavailable. */ }
+        return hidden;
+    }
+    const hiddenLabels = readHiddenLabels();
     const ui = { mount: null, parts: null, phase: 'loading', error: null, flash: '', flashTimer: 0, view: 'idle', texFailed: false, token: 0, searchTimer: 0, searchAll: false };
     let viewer = null;
     let viewerModule = null;
@@ -394,6 +406,7 @@
             if (!sectionOpen() || viewer) { if (!viewer) ui.view = 'idle'; return; }
             viewer = viewerModule.createViewer(ui.parts.view, {
                 label: mapLabel,
+                toolbar: ui.parts.tools,
                 onPick: (id) => pick(id, { fromMap: true }),
                 onRegionPick: (id) => {
                     st.area = [id];
@@ -414,6 +427,7 @@
         drawHud();
     }
     function stopViewer() {
+        setLabelPanel(false);
         if (viewer) { try { viewer.dispose(); } catch (_error) { /* 이미 닫힘 */ } }
         viewer = null;
         ui.loadedSys = null;
@@ -553,13 +567,14 @@
             results: el('div', { class: 'starmap-results', 'aria-live': 'polite' }),
             tree: el('nav', { class: 'starmap-tree' }),
             view: el('div', { class: 'starmap-view', role: 'img' }),
+            tools: el('div', { class: 'starmap-tools' }),
             hud: el('div', { class: 'starmap-hud' }),
             info: el('section', { class: 'starmap-info', 'aria-live': 'polite' }),
             over: el('div', { class: 'starmap-over' }),
             status: el('p', { class: 'visually-hidden', role: 'status' }),
         };
         const searchBox = el('div', { class: 'starmap-search' }, parts.searchLabel, parts.search, parts.searchHint, parts.results);
-        const stage = el('div', { class: 'starmap-stage' }, parts.view, parts.hud);
+        const stage = el('div', { class: 'starmap-stage' }, parts.view, parts.tools, parts.hud);
         parts.stage = stage;
         parts.panel = el('div', { class: 'starmap-panel' }, parts.over, parts.info);
         parts.grid = el('div', { class: 'starmap-grid' }, searchBox, stage, parts.panel, parts.tree);
@@ -703,19 +718,24 @@
         ui.parts.root.dataset.view = ui.view;
         const legend = ['city', 'station', 'outpost', 'jump', 'lagrange', 'asteroid']
             .map((kind) => `<li><i class="starmap-key is-${kind}" aria-hidden="true"></i>${esc(kindName(kind))}</li>`).join('');
-        const tools = has3d ? `<div class="starmap-tools">
-                <button type="button" class="starmap-tool" data-act="home">${esc(t('home'))}</button>
+        const measureButton = `<button type="button" class="starmap-tool" data-act="measure" aria-pressed="${st.measuring}">${esc(t(st.measuring ? 'measureOn' : 'measure'))}</button>`;
+        paint(ui.parts.tools, has3d ? `<button type="button" class="starmap-tool" data-act="home">${esc(t('home'))}</button>
+                <div class="starmap-label-control">
+                    <button type="button" class="starmap-tool" data-act="labels" aria-controls="starmap-label-panel" aria-expanded="${Boolean(ui.labelsOpen)}">${esc(t('labelsButton'))}<span class="starmap-chevron" aria-hidden="true"></span></button>
+                    <div id="starmap-label-panel" class="starmap-label-panel"${ui.labelsOpen ? '' : ' hidden'}>
+                        <fieldset aria-describedby="starmap-label-hint"><legend>${esc(t('mapLabels'))}</legend>
+                            ${Object.entries(labelGroups).map(([key, label]) => `<label class="starmap-check"><input type="checkbox" data-map-label="${key}"${hiddenLabels.has(key) ? '' : ' checked'}> <span>${esc(t(label))}</span></label>`).join('')}
+                        </fieldset><p class="starmap-note" id="starmap-label-hint">${esc(t('labelsHint'))}</p>
+                    </div>
+                </div>
                 <button type="button" class="starmap-tool is-icon" data-act="zoom-in" aria-label="${esc(t('zoomIn'))}"><span aria-hidden="true">＋</span></button>
                 <button type="button" class="starmap-tool is-icon" data-act="zoom-out" aria-label="${esc(t('zoomOut'))}"><span aria-hidden="true">－</span></button>
-                <button type="button" class="starmap-tool" data-act="measure" aria-pressed="${st.measuring}">${esc(t(st.measuring ? 'measureOn' : 'measure'))}</button></div>` : `<div class="starmap-tools">
-                <button type="button" class="starmap-tool" data-act="measure" aria-pressed="${st.measuring}">${esc(t(st.measuring ? 'measureOn' : 'measure'))}</button></div>`;
+                ${measureButton}` : measureButton);
         const message = ui.view === 'none' ? `<p class="starmap-fallback" role="status">${esc(t('view3dNone'))}</p>`
             : ui.view === 'lost' ? `<p class="starmap-fallback" role="status">${esc(t('view3dLost'))} <button type="button" class="starmap-tool" data-act="retry3d">${esc(t('view3dRetry'))}</button></p>`
                 : ui.view === 'loading' || ui.view === 'idle' ? `<p class="starmap-fallback is-wait" role="status">${esc(t('view3dLoading'))}</p>` : '';
-        paint(ui.parts.hud, `${message}${tools}
+        paint(ui.parts.hud, `${message}
             ${has3d ? `<p class="starmap-scale"><strong>${esc(t('scaleTitle'))}</strong> ${esc(t('scaleBody'))}</p>
-            <details class="starmap-how-labels"${ui.labelsOpen ? ' open' : ''}><summary>${esc(t('mapLabels'))}</summary>
-                <fieldset class="starmap-kinds" aria-label="${esc(t('mapLabels'))}">${Object.entries(labelGroups).map(([key, label]) => `<label class="starmap-check"><input type="checkbox" data-map-label="${key}"${hiddenLabels.has(key) ? '' : ' checked'}> <span>${esc(t(label))}</span></label>`).join('')}</fieldset></details>
             <details class="starmap-how"${ui.howOpen ? ' open' : ''}><summary>${esc(t('scaleHow'))} · ${esc(t('legend'))}</summary>
                 <ul class="starmap-how-list">${[1, 2, 3, 4, 5, 6, 7].map((n) => `<li>${esc(t(`scale${n}`))}</li>`).join('')}</ul>
                 <ul class="starmap-legend">${legend}<li><i class="starmap-key is-guide" aria-hidden="true"></i>${esc(t('legendGuide'))}</li><li><i class="starmap-key is-stem" aria-hidden="true"></i>${esc(t('legendStem'))}</li></ul></details>
@@ -1042,6 +1062,13 @@
         syncViewer();
     }
 
+    function setLabelPanel(open) {
+        ui.labelsOpen = open;
+        const button = ui.parts?.tools.querySelector('[data-act="labels"]');
+        if (!button) return;
+        button.setAttribute('aria-expanded', String(open));
+        ui.parts.tools.querySelector('#starmap-label-panel').hidden = !open;
+    }
     function onClick(event) {
         const target = event.target.closest('[data-act]');
         if (!target || !ui.mount.contains(target)) return;
@@ -1075,6 +1102,7 @@
             return;
         }
         if (act === 'home') { viewer?.focus(null); return; }
+        if (act === 'labels') { setLabelPanel(!ui.labelsOpen); return; }
         if (act === 'zoom-in') { viewer?.zoomBy(0.6); return; }
         if (act === 'zoom-out') { viewer?.zoomBy(1.6); return; }
         if (act === 'refocus') { viewer?.focus(focusTarget()); ui.parts.view.scrollIntoView({ block: 'nearest' }); return; }
@@ -1084,7 +1112,7 @@
             st.measuring = !st.measuring;
             if (st.measuring) st.measure = [];
             syncHash(); drawHud(); drawOver(); syncViewer();
-            refocus('[data-act="measure"]', 'hud');
+            refocus('[data-act="measure"]', 'tools');
             return;
         }
         if (act === 'measure-from') {
@@ -1111,6 +1139,9 @@
         if (Object.hasOwn(labelGroups, group)) {
             if (input.checked) hiddenLabels.delete(group);
             else hiddenLabels.add(group);
+            try {
+                localStorage.setItem(labelStorageKey, JSON.stringify(Object.fromEntries(Object.keys(labelGroups).map(key => [key, !hiddenLabels.has(key)]))));
+            } catch { /* Keep the choice for this visit if storage is full or blocked. */ }
             syncViewer();
             return;
         }
@@ -1134,7 +1165,6 @@
     }
     function onToggle(event) {
         if (event.target.classList?.contains('starmap-filters')) ui.filtersOpen = event.target.open;
-        if (event.target.classList?.contains('starmap-how-labels')) ui.labelsOpen = event.target.open;
         if (event.target.classList?.contains('starmap-how')) ui.howOpen = event.target.open;
     }
 
@@ -1146,6 +1176,15 @@
         mount.addEventListener('change', onChange);
         mount.addEventListener('input', onInput);
         mount.addEventListener('toggle', onToggle, true);
+        mount.addEventListener('keydown', event => {
+            if (event.key !== 'Escape' || !ui.labelsOpen) return;
+            event.stopPropagation();
+            setLabelPanel(false);
+            refocus('[data-act="labels"]', 'tools');
+        });
+        document.addEventListener('pointerdown', event => {
+            if (ui.labelsOpen && !ui.parts.tools.querySelector('.starmap-label-control')?.contains(event.target)) setLabelPanel(false);
+        });
         window.VOLT_TRADE_ENGINE?.state?.subscribe?.(() => { if (ui.phase === 'ready') drawOver(); });
         // 이 화면을 떠나면 3D 자원을 내려놓고, 돌아오면 다시 만든다.
         const section = document.getElementById(SECTION);

@@ -108,7 +108,7 @@
 
 .starmap-app .starmap-hud { margin-top: 8px; }
 .starmap-app .starmap-tools { display: flex; flex-wrap: wrap; gap: 6px; }
-.starmap-app .starmap-root[data-view="ready"] .starmap-tools { position: absolute; top: 10px; right: 10px; justify-content: flex-end; max-width: calc(100% - 20px); }
+.starmap-app .starmap-root[data-view="ready"] .starmap-tools { position: absolute; z-index: 4; top: 10px; right: 10px; justify-content: flex-end; max-width: calc(100% - 20px); }
 .starmap-app .starmap-root[data-view="ready"] .starmap-tools .starmap-tool { background: rgba(8, 12, 20, 0.82); }
 .starmap-app .starmap-root[data-view="ready"] .starmap-tools .starmap-tool[aria-pressed="true"] { background: var(--volt-orange-dark); }
 /* 축척 안내는 지도 안 왼쪽 아래에 둔다 (첫 화면에서 스크롤하지 않아도 보이게). 누르기는 지도로 지나간다. */
@@ -200,9 +200,13 @@
 .volt-map-link small { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }
 .volt-map-link .volt-map-link-guess { padding: 1px 6px; border: 1px solid var(--color-warning); border-radius: 999px; color: var(--color-warning); }
 
-.starmap-how-labels { margin-block: .5rem; }
-.starmap-how-labels summary { min-height: 44px; align-content: center; cursor: pointer; width: fit-content; padding-block: .5rem; font-weight: 600; }
-.starmap-how-labels .starmap-check { min-height: 44px; display: inline-flex; align-items: center; }
+.starmap-app .starmap-chevron { width: 7px; height: 7px; margin: -3px 2px 0; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.starmap-app .starmap-tool[aria-expanded="true"] .starmap-chevron { transform: rotate(225deg); margin-top: 3px; }
+.starmap-app .starmap-tools [data-act="labels"][aria-expanded="true"] { border-color: var(--volt-orange); }
+.starmap-app .starmap-label-panel { position: absolute; top: calc(100% + 6px); right: 0; width: min(18rem, 100%); max-height: calc(var(--sm-view-h) - 100% - 24px); overflow-y: auto; overscroll-behavior: contain; box-sizing: border-box; padding: 12px 16px; border: 1px solid var(--sm-line); border-radius: 14px; background: var(--sm-card); box-shadow: 0 8px 26px rgba(0, 0, 0, .32); }
+.starmap-app .starmap-label-panel fieldset { margin: 0; padding: 0; min-width: 0; border: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 6px; }
+.starmap-app .starmap-label-panel legend { padding: 0; font-weight: 700; font-size: 14px; }
+.starmap-app .starmap-label-panel .starmap-note { padding-top: 8px; border-top: 1px solid var(--sm-line); }
 
 @media (min-width: 1600px) {
     .starmap-app .starmap-grid { grid-template-columns: clamp(320px, 15%, 520px) minmax(0, 1fr) clamp(340px, 18%, 660px); }
