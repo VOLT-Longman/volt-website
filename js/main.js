@@ -1788,6 +1788,7 @@
     }
 
     function setLoggedOutState(features = {}) {
+        const leftAccount = authState.loggedIn;
         window.clearTimeout(preferencesLoadTimer);
         preferencesLoadError = false;
         window.clearTimeout(preferencesSaveTimer);
@@ -1795,7 +1796,7 @@
         authState = { loggedIn: false, user: null, roles: [],
             communityTools: features.communityTools === true, communityConfigured: features.communityConfigured };
         userPreferencesLoaded = false;
-        restorePlannerState();
+        if (leftAccount) restorePlannerState();
         window.VOLT_AUTH_UI?.render?.({ status: 'loggedOut' });
         applyRoleGates();
         renderMyPage();

@@ -640,3 +640,26 @@ test('함선 검색에서 한글 확정 키와 목록 선택 키를 구분하고
     await expect(input).toBeFocused();
     await expect(page.locator('#logistics-ship')).toHaveValue(id);
 });
+
+test('공개 플래너에서 늦은 비로그인 확인이 검색 중인 함선 이름을 지우지 않는다', async ({ page }) => {
+    await mockApi(page, { loggedIn: false });
+    await page.route('**/api/tool-access', route => route.fulfill({ json: { community: true, helpers: true } }));
+    let release;
+    const held = new Promise(resolve => { release = resolve; });
+    await page.route('**/auth/me', async route => {
+        await held;
+        await route.fulfill({ json: { logged_in: false } });
+    });
+    await page.goto('/#trade-planner', { waitUntil: 'domcontentloaded' });
+    const input = page.locator('#logistics-ship-search');
+    try {
+        await input.click();
+        await input.fill('galaxy');
+        await expect(page.locator('[data-planner-ship-id="galaxy"]')).toBeVisible();
+    } finally {
+        release();
+    }
+    await expect(page.locator('#volt-auth-desktop .volt-auth-login')).toBeAttached();
+    await expect(input).toHaveValue('galaxy');
+    await expect(page.locator('[data-planner-ship-id="galaxy"]')).toBeVisible();
+});
