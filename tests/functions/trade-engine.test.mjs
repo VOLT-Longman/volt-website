@@ -803,7 +803,7 @@ test('module configurations use their own grids and do not leak into another shi
     const cargo = JSON.parse(readFileSync(new URL('../../data/trade/cargo.json', import.meta.url), 'utf8'));
     const m = model([], { cargo });
     for (const [ship, cargoConfig, expected] of [
-        ['galaxy', '', 64], ['galaxy', 'galaxy-cargo', 720], ['retaliator', 'retaliator-front', 38],
+        ['aurora-mk2', '', 2], ['aurora-mk2', 'aurora-mk2-cargo', 8], ['galaxy', '', 64], ['galaxy', 'galaxy-cargo', 720], ['retaliator', 'retaliator-front', 38],
         ['retaliator', 'retaliator-rear', 36], ['retaliator', 'retaliator-both', 74], ['retaliator', 'galaxy-cargo', 0],
     ]) {
         const profile = engine.shipProfile(m, { ship, cargoConfig });

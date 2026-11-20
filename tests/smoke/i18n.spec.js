@@ -101,7 +101,8 @@ test.describe('i18n (KO/EN)', () => {
         const ctx = await browser.newContext({ locale: 'en-US' });
         const leadPage = await load(ctx, '/#leadership');
         await expect(leadPage.locator('#leadership-grid')).toContainText('Fleet Commander');
-        await expect(leadPage.locator('#leadership-grid')).toContainText('Key competencies');
+        await leadPage.locator('#leadership-grid [data-leader-id]').first().click();
+        await expect(leadPage.locator('.modal-backdrop')).toContainText('Key competencies');
         const streamPage = await load(ctx, '/#streamers');
         await expect(streamPage.locator('#streamers-grid')).toContainText('Watch stream');
         await expect(streamPage.locator('#streamers-grid')).not.toContainText('방송 보기');

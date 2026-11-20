@@ -832,8 +832,9 @@
         const shouldUseShipCargo = setCargo || !Number(cargoInput?.value);
         if (shouldUseShipCargo) {
             const shared = window.VOLT_TRADE_ENGINE.state.get();
-            plannerCargoConfig = shared.ship === ship.id ? shared.cargoConfig || '' : '';
-            const config = plannerCargoShips.get(ship.id)?.configurations.find(c => c.key === plannerCargoConfig);
+            const key = shared.ship === ship.id ? shared.cargoConfig : '';
+            const config = plannerCargoShips.get(ship.id)?.configurations?.find(c => c.key === key);
+            plannerCargoConfig = config?.key || '';
             setPlannerControlValue('logistics-cargo', String(config?.scu ?? shipCargoValue(ship)));
         }
         renderPlannerShipSummary(ship);
@@ -849,7 +850,7 @@
         summary.hidden = false;
         showPlannerCargoOptions(ship);
         const secondary = getShipSecondaryName(ship);
-        const module = plannerCargoShips.get(ship.id)?.configurations.find(c => c.key === plannerCargoConfig);
+        const module = plannerCargoShips.get(ship.id)?.configurations?.find(c => c.key === plannerCargoConfig);
         const capacityLabel = module ? module.scu + ' SCU' : ship.cargo;
         summary.innerHTML = `<strong>${escapeHtml(getShipDisplayName(ship))}</strong>${secondary ? `<span class="planner-summary-en">${escapeHtml(secondary)}</span>` : ''}<span>${[shipManufacturerLabel(ship), capacityLabel, ship.size].filter(Boolean).map(escapeHtml).join(' · ')}</span><small>${escapeHtml(getPlannerShipRecommendation(ship))}</small><div class="volt-tool-links"><button type="button" data-volt-open="ship" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'ShipDB' : '함선 DB'}</button><button type="button" data-volt-open="loadout" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Loadout' : '로드아웃'}</button><button type="button" class="is-ai" data-volt-open="ai" data-volt-context="trade" data-volt-ship-id="${escapeHtml(ship.id)}">${currentLang() === 'en' ? 'Review with AI' : 'AI로 운송 준비 검토'}</button></div>`;
     }

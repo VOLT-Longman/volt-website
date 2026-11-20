@@ -11478,3 +11478,38 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
     border-color: var(--color-border-accent);
     background: var(--color-bg-card-hover);
 }
+
+/* Wide workspaces share the navigation edges. Text keeps its own reading measure. */
+@media (min-width: 1400px) {
+    :root { --wide-inset: clamp(32px, 3vw, 132px); }
+    .nav-container, .footer-content {
+        width: 100%;
+        max-width: none;
+        padding-inline: var(--wide-inset);
+    }
+    main > .section:not(#loadout) { padding-inline: var(--wide-inset); }
+    main > .section[id]:not(#loadout) > .section-content,
+    #home .hero-layout, #home .hero-content, #home .landing-inner {
+        width: 100%;
+        max-width: none;
+    }
+    #home .hero-layout, #home .landing-inner { padding-inline: var(--wide-inset); }
+    #home .hero-copy { max-width: clamp(740px, 35vw, 1140px); }
+    #home h1 { max-width: none; font-size: clamp(100px, min(7vw, 12vh), 156px); }
+    #trade-planner .trade-planner, #trade-planner .trade-secondary-block { width: 100%; max-width: none; }
+    #trade-planner .trade-planner-form { grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); }
+    #leadership .leadership-grid { max-width: none; }
+}
+@media (min-width: 1600px) {
+    #trade-planner .trade-planner {
+        display: grid;
+        grid-template-columns: minmax(380px, .8fr) minmax(0, 1.6fr);
+        column-gap: clamp(24px, 2.5vw, 80px);
+        align-items: start;
+    }
+    #trade-planner .trade-planner > * { grid-column: 1 / -1; min-width: 0; }
+    #trade-planner .trade-planner > .planner-ship-column { grid-column: 1; }
+    #trade-planner .trade-planner > .uex-live-panel {
+        grid-column: 2; margin-top: 0; padding-top: 0; border-top: 0;
+    }
+}

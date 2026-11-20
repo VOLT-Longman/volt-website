@@ -202,7 +202,7 @@ const boxDims = boxes.map((box) => ({ scu: box.scu, sorted: [...box.cells].sort(
 const largestBox = (limit, grid) => { const a = [...limit].sort((x, y) => x - y); const g = [...grid].sort((x, y) => x - y); return boxDims.filter((box) => box.sorted.every((d, i) => d <= a[i] && d <= g[i])).at(-1)?.scu; };
 const smallestBox = (limit) => { const a = [...limit].sort((x, y) => x - y); return boxDims.find((box) => box.sorted.every((d, i) => d >= a[i]))?.scu; };
 
-function readShip(root, replacements = new Map()) {
+function readShip(root, replacements = new Map(), extraSlots = []) {
     const result = { grids: [], cargoComplete: true, unresolved: [], drives: [], tanks: [], subVehicles: [] };
     const unresolved = (why) => { result.cargoComplete = false; if (!result.unresolved.includes(why)) result.unresolved.push(why); };
     const walk = (entries, ancestry, depth, inSubVehicle) => {
@@ -247,7 +247,7 @@ function readShip(root, replacements = new Map()) {
             if (nested?.length) walk(nested, new Set([...ancestry, record.id]), depth + 1, sub);
         }
     };
-    walk(loadoutEntries(component(root, 'SEntityComponentDefaultLoadoutParams')?.loadout), new Set(), 0, null);
+    walk([...loadoutEntries(component(root, 'SEntityComponentDefaultLoadoutParams')?.loadout), ...extraSlots], new Set(), 0, null);
     return result;
 }
 
@@ -283,10 +283,23 @@ const cargoReplacements = {
 cargoReplacements.retaliator.both = [...cargoReplacements.retaliator.front, ...cargoReplacements.retaliator.rear];
 
 function cargoConfigurations(id, root) {
-    if (!cargoReplacements[id]) return undefined;
-    return Object.entries(cargoReplacements[id]).map(([key, pairs]) => {
-        const read = readShip(root, new Map(pairs));
-        if (!read.cargoComplete || read.replaced !== pairs.length) throw new Error(`Unverified cargo configuration: ${id}/${key}`);
+    let extraSlots = [];
+    if (id === 'aurora-mk2') {
+        const itemPortName = 'hardpoint_module';
+        const entityClassName = 'RSI_Aurora_Mk2_Module_Cargo';
+        const port = component(root, 'SItemPortContainerComponentParams')?.Ports.find(p => p.Name === itemPortName);
+        const attach = component(entity(entityRecords.get(entityClassName.toLowerCase())), 'SAttachableComponentParams')?.AttachDef;
+        const installed = loadoutEntries(component(root, 'SEntityComponentDefaultLoadoutParams')?.loadout);
+        if (!port || !attach || port.defaultItem?.entityClass || installed.some(s => s.itemPortName === itemPortName)
+            || !port.Types.some(t => t.Type === attach.Type) || port.RequiredPortTags !== '$' + attach.Tags
+            || attach.Size < port.MinSize || attach.Size > port.MaxSize) throw new Error('Aurora cargo module port changed');
+        extraSlots = [{ itemPortName, entityClassName }];
+    }
+    const configurations = extraSlots.length ? { cargo: [] } : cargoReplacements[id];
+    if (!configurations) return undefined;
+    return Object.entries(configurations).map(([key, pairs]) => {
+        const read = readShip(root, new Map(pairs), extraSlots);
+        if (!read.cargoComplete || (read.replaced || 0) !== pairs.length) throw new Error(`Unverified cargo configuration: ${id}/${key}`);
         const g = groupGrids(read.grids);
         const scu = g.reduce((sum, grid) => sum + grid.c.reduce((a, b) => a * b, grid.n || 1), 0);
         return { key: id + '-' + key, scu, g };
