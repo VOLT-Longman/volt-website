@@ -38,7 +38,7 @@
             loading: '임무 자료를 불러오는 중입니다… (처음 한 번만 받습니다)', retry: '다시 시도',
             tabs: '임무 도구', tabList: '임무 목록', tabRank: '등급 계산기', tabPath: '등급 올리는 길',
             share: '이 화면 주소 복사', haulingLink: '운송 평판 등급표는 운송 계약 화면에 있습니다', haulingGo: '운송 계약 열기',
-            search: '임무 검색', searchPh: '찾을 말', searchHint: '임무 이름, 의뢰처, 설명 글, 임무 종류, 세력, 화물, 장소 이름과 게임 파일 이름에서 찾습니다.', filters: '걸러 보기', filtersOn: '걸러 보기 ({n}개 적용)',
+            search: '임무 검색', searchPh: '찾을 말', searchHint: '임무 이름, 의뢰처, 설명 글, 임무 종류, 세력, 화물, 장소 이름에서 찾습니다.', filters: '걸러 보기', filtersOn: '걸러 보기 ({n}개 적용)',
             chipHelp: '한 번 누르면 그것만 보기(＋), 한 번 더 누르면 빼고 보기(−), 또 누르면 풀립니다.', clear: '조건 모두 풀기',
             fType: '임무 종류', fSys: '임무가 나오는 행성계', fOrg: '평판을 주는 세력', fCon: '의뢰처', fScope: '평판 종류', fEv: '이벤트', fFlag: '특징',
             flag_illegal: '불법', flag_share: '공유 가능', flag_once: '한 번만', flag_bp: '설계도 보상', flag_cargo: '화물 있음', flag_combat: '교전 있음', flag_items: '물품 보상', flag_event: '이벤트 때만',
@@ -50,7 +50,7 @@
             sort_title: '이름', sort_rank: '필요 등급', sort_rep: '평판 보상', sort_pay: '보수', sort_scu: '화물 양', sort_time: '예상 시간',
             asc: '오름차순', desc: '내림차순', sortDir: '정렬 방향',
             count: '{total}개 중 {n}개', noResult: '조건에 맞는 임무가 없습니다. 조건을 줄여 보세요.', more: '{n}개 더 보기',
-            colTitle: '임무', colCon: '의뢰처', colType: '종류', colSys: '행성계', colRank: '필요 등급', colRep: '평판', colPay: '보수', colCargo: '화물', colBox: '가장 큰 상자', colPlace: '장소', fileName: '게임 파일 이름', fileNameHint: '겉으로 똑같아 보이는 임무가 더 있어 구분용으로 적었습니다', dropped: '주소에 있던 조건 {n}개는 지금 자료에 없어 뺐습니다.',
+            colTitle: '임무', colCon: '의뢰처', colType: '종류', colSys: '행성계', colRank: '필요 등급', colRep: '평판', colPay: '보수', colCargo: '화물', colBox: '가장 큰 상자', colPlace: '장소', dropped: '주소에 있던 조건 {n}개는 지금 자료에 없어 뺐습니다.',
             noTitle: '이름 없는 임무', noName: '이름 없음', rankNo: '{n}단계', token: '게임에서 정해짐', tokenHint: '게임 안에서 채워지는 자리입니다',
             tok_location: '장소', tok_destination: '목적지', tok_target: '목표', tok_creature: '생물', tok_ship: '함선', tok_item: '물품', tok_system: '행성계', tok_amount: '수량', tok_code: '번호', tok_person: '요청한 사람', tok_pay: '보수', tok_contractor: '의뢰처 문구',
             payCalc: '금액이 게임 자료에 없음', payNone: '돈 보상 없음', payMax: '최대 {v}', repCalc: '양이 게임 자료에 없음', repNone: '평판 보상 없음',
@@ -110,7 +110,7 @@
             loading: 'Loading mission data… (downloaded once)', retry: 'Retry',
             tabs: 'Mission tools', tabList: 'Missions', tabRank: 'Rank calculator', tabPath: 'Rank progression',
             share: 'Copy link to this view', haulingLink: 'The hauling reputation ladder is on the Hauling Contracts screen', haulingGo: 'Open Hauling Contracts',
-            search: 'Search missions', searchPh: 'Search text', searchHint: 'Searches mission name, contractor, briefing, mission type, faction, cargo and place names, and the game file name.', filters: 'Filters', filtersOn: 'Filters ({n} active)',
+            search: 'Search missions', searchPh: 'Search text', searchHint: 'Searches mission name, contractor, briefing, mission type, faction, cargo and place names.', filters: 'Filters', filtersOn: 'Filters ({n} active)',
             chipHelp: 'Press once to show only that (＋), again to leave it out (−), a third time to clear.', clear: 'Clear all filters',
             fType: 'Mission type', fSys: 'System where it is offered', fOrg: 'Faction giving reputation', fCon: 'Contractor', fScope: 'Reputation type', fEv: 'Event', fFlag: 'Traits',
             flag_illegal: 'Illegal', flag_share: 'Sharable', flag_once: 'Once only', flag_bp: 'Blueprint reward', flag_cargo: 'Has cargo', flag_combat: 'Has combat', flag_items: 'Item reward', flag_event: 'Event only',
@@ -122,7 +122,7 @@
             sort_title: 'Name', sort_rank: 'Rank needed', sort_rep: 'Reputation', sort_pay: 'Payout', sort_scu: 'Cargo amount', sort_time: 'Expected time',
             asc: 'Ascending', desc: 'Descending', sortDir: 'Sort direction',
             count: '{n} of {total}', noResult: 'No missions match. Try fewer filters.', more: 'Show {n} more',
-            colTitle: 'Mission', colCon: 'Contractor', colType: 'Type', colSys: 'System', colRank: 'Rank needed', colRep: 'Reputation', colPay: 'Payout', colCargo: 'Cargo', colBox: 'Largest box', colPlace: 'Place', fileName: 'Game file name', fileNameHint: 'Shown because another mission looks identical otherwise', dropped: '{n} filter value(s) in the link are not in the current data and were removed.',
+            colTitle: 'Mission', colCon: 'Contractor', colType: 'Type', colSys: 'System', colRank: 'Rank needed', colRep: 'Reputation', colPay: 'Payout', colCargo: 'Cargo', colBox: 'Largest box', colPlace: 'Place', dropped: '{n} filter value(s) in the link are not in the current data and were removed.',
             noTitle: 'Untitled mission', noName: 'No name', rankNo: 'Step {n}', token: 'set in game', tokenHint: 'Filled in by the game',
             tok_location: 'location', tok_destination: 'destination', tok_target: 'target', tok_creature: 'creature', tok_ship: 'ship', tok_item: 'item', tok_system: 'system', tok_amount: 'amount', tok_code: 'code', tok_person: 'requester', tok_pay: 'payout', tok_contractor: 'contractor text',
             payCalc: 'Amount not in the game files', payNone: 'No money reward', payMax: 'up to {v}', repCalc: 'amount not in the game files', repNone: 'No reputation reward',
@@ -320,7 +320,7 @@
     const paragraphs = (value) => rich(String(value).trim()).split(/\n{2,}/).map((part) => `<p>${part.replace(/\n/g, '<br>')}</p>`).join('');
 
     const titleOf = (c) => textAt(c.t) || '';
-    const titleHtml = (c) => (titleOf(c) ? rich(titleOf(c)) : `${esc(t('noTitle'))} <small>${esc(c.n || '')}</small>`);
+    const titleHtml = (c) => (titleOf(c) ? rich(titleOf(c)) : esc(t('noTitle')));
     const contractorOf = (c) => plain(textAt(c.con));
     const typeName = (c) => (c.type ? nameOf(load.data.types[c.type], c.type) : '');
     const orgName = (id) => nameOf(load.data.factions[id], id);
@@ -452,7 +452,7 @@
             const fixed = typeof c.pay === 'object' && c.pay;
             // 기본 순서: 세력이 있는 보통 임무 → 세력 없는 임무 → 이벤트 때만 나오는 임무 → 임무 틀에 문제가 있는 임무.
             const rest = (c.odd || []).some((code) => /^template/.test(code)) ? 3 : c.ev?.length ? 2 : c.by ? 0 : 1;
-            return { c, i, flags, gain, main, scopes, scuLo, scuHi, box: c.haul?.maxBox ?? null, meta, con, goods, route, rest, twin: false,
+            return { c, i, flags, gain, main, scopes, scuLo, scuHi, box: c.haul?.maxBox ?? null, meta, con, goods, route, rest,
                 // 찾기: 이름, 의뢰처가 맨 앞 두 개 (계산기의 임무 찾기는 이 둘만 본다), 그 뒤로 설명 글과 다른 문구.
                 texts: [c.t, c.con, c.d, ...(c.tAlt || []), ...(c.dAlt || [])].filter(Number.isInteger).map((index) => lowTexts[index]),
                 payA: fixed ? Number(c.pay.a) : null, payCur: fixed && c.pay.cur && c.pay.cur !== 'UEC' ? 1 : 0 };
@@ -469,23 +469,7 @@
         return { entries, byId, givers, pairs, used, scopeLabels, conText };
     }
 
-    // 목록에서 겉으로 똑같아 보이는 임무(이름, 의뢰처, 표지, 등급, 평판, 보수, 화물, 장소가 모두 같음)에 표시를 해 둔다.
-    // 표시된 임무에는 구분용으로 게임 파일 이름을 함께 보여 준다.
-    function rebuildIndex() {
-        ix = buildIndex(load.data);
-        const seen = new Map();
-        ix.entries.forEach((e) => {
-            const c = e.c;
-            const key = [titleOf(c), e.con, c.type, (c.sys || []).join(), c.illegal, c.once, c.share, e.flags.has('event'), e.flags.has('bp'), e.flags.has('combat'), rankCell(c), repCell(e), payText(c.pay), cargoCell(e), e.box, e.route].join('\u0001');
-            const first = seen.get(key);
-            if (!first) { seen.set(key, e); return; }
-            first.twin = true;
-            e.twin = true;
-        });
-    }
-    const fileName = (c) => words(c.n);
-    // 이름이 같은 임무를 가려내는 짧은 말: 화물, 장소, (겉이 똑같으면) 게임 파일 이름.
-    const tellApart = (e) => [e.goods.slice(0, 2).join(', '), e.route, e.twin ? fileName(e.c) : ''].filter(Boolean).join(' · ');
+    const tellApart = (e) => [e.goods.slice(0, 2).join(', '), e.route].filter(Boolean).join(' · ');
 
     // ── 거르기 · 정렬 ───────────────────────────────────────────────────────
     function rankScope() {
@@ -667,7 +651,7 @@
                 <div><dt>${esc(t('colPay'))}</dt><dd${c.pay === 'calc' ? ' class="is-unknown"' : ''}>${c.pay === 'calc' ? '—' : esc(payText(c.pay))}</dd></div>
                 ${cargo ? `<div><dt>${esc(t('colCargo'))}</dt><dd>${esc([goods, cargo, e.box ? t('maxBox', { n: e.box }) : t('boxNoData')].filter(Boolean).join(' · '))}</dd></div>` : ''}
                 ${e.route ? `<div><dt>${esc(t('colPlace'))}</dt><dd>${esc(e.route)}</dd></div>` : ''}
-                ${e.twin && c.n ? `<div title="${esc(t('fileNameHint'))}"><dt>${esc(t('fileName'))}</dt><dd lang="en">${esc(fileName(c))}</dd></div>` : ''}</dl></li>`;
+                </dl></li>`;
     }
 
     function tableRow(e) {
@@ -742,7 +726,7 @@
     const block = (title, inner, extraClass) => (inner ? `<section class="missions-block${extraClass ? ` ${extraClass}` : ''}"><h4>${esc(title)}</h4>${inner}</section>` : '');
     const row = (label, valueHtml) => (valueHtml ? `<div><dt>${esc(label)}</dt><dd>${valueHtml}</dd></div>` : '');
     const note = (value) => `<p class="missions-note">${esc(value)}</p>`;
-    // 이름이 같은 임무가 많아서, 고르는 목록에서는 화물 · 장소 · (필요하면) 게임 파일 이름을 옆에 붙인다.
+    // 이름이 같은 임무가 많아서, 고르는 목록에서는 화물과 장소을 옆에 붙인다.
     const missionLink = (index, apart) => {
         const e = ix.entries[index];
         const extra = apart ? tellApart(e) : '';
@@ -1025,7 +1009,6 @@
             <header class="missions-detail-head"><h3 tabindex="-1" data-focus="detail-title">${titleHtml(c)}</h3>
                 <p class="missions-sub">${esc([contractorOf(c), typeName(c), c.by ? orgName(c.by) : ''].filter((value, index, list) => value && list.indexOf(value) === index).join(' · '))}</p>
                 <ul class="missions-tags">${tagList(e)}</ul>
-                ${e.twin && c.n ? `<p class="missions-note">${esc(t('fileName'))}: <span lang="en">${esc(fileName(c))}</span> <small>(${esc(t('fileNameHint'))})</small></p>` : ''}
                 ${alt.length ? `<p class="missions-note">${esc(t('alsoShown'))}: ${alt.map(rich).join(' / ')} <small>${esc(t('variantNote'))}</small></p>` : ''}</header>
             <div class="missions-blocks">
                 ${block(t('secBrief'), brief ? `<div class="missions-brief">${paragraphs(brief)}</div>${briefAlt.length ? `<details class="missions-fold"><summary>${esc(t('briefAlt', { n: briefAlt.length }))}</summary>${briefAlt.map((value) => `<div class="missions-brief">${paragraphs(value)}</div>`).join('<hr>')}<p class="missions-note">${esc(t('variantNote'))}</p></details>` : ''}${patchHtml}` : `<p>${esc(t('noBrief'))}</p>${patchHtml}`, 'is-wide')}
@@ -1235,7 +1218,7 @@
             if (!Array.isArray(data?.contracts) || !Array.isArray(data?.texts)) throw Object.assign(new Error('Unexpected mission data'), { helperType: 'data' });
             load.data = data;
             patchCache.clear();
-            rebuildIndex();
+            ix = buildIndex(load.data);
             sanitize();
         } catch (error) {
             load.error = error;
@@ -1389,7 +1372,7 @@
         },
         // 언어가 바뀔 때마다 (init 뒤에만). 이름표를 새 언어로 다시 만든다.
         onLanguageChange() {
-            if (load.data) rebuildIndex();
+            if (load.data) ix = buildIndex(load.data);
             statusText = '';
             draw();
         },

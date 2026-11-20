@@ -298,13 +298,13 @@ test('한글 패치에 덧붙은 글은 임무 설명과 따로, 표시를 달�
     await expect(page.locator('[data-ms-patch]')).toHaveCount(0);
 });
 
-test('겉이 같은 임무는 화물 · 장소 · 게임 파일 이름으로 가려낼 수 있다', async ({ page }) => {
+test('비슷한 임무의 카드와 선택 목록에는 게임 파일 이름이 보이지 않는다', async ({ page }) => {
     await open(page);
     await page.locator('#missions-q').fill('RedWind_Pyro_SmallGrade_RegionA');
     const twins = data.contracts.filter((c) => (c.n || '').startsWith('RedWind_Pyro_SmallGrade_RegionA')).length;
     await expect(page.locator('.missions-count')).toHaveText(countText(twins));
     const cards = await page.locator('.missions-tile').allInnerTexts();
-    expect(new Set(cards).size).toBe(cards.length);
+    expect(cards.join(' ')).not.toMatch(/게임 파일 이름|RedWind|Red Wind/i);
     await expect(page.locator('.missions-tile').first()).toContainText('장소');
 
     // 등급 계산기의 임무 찾기: 몇 개 중 몇 개인지 알려 주고, 더 볼 수 있고, 이름표가 서로 다르다.
@@ -316,7 +316,9 @@ test('겉이 같은 임무는 화물 · 장소 · 게임 파일 이름으로 가
     await expect(page.locator('.missions-pick')).toHaveCount(24);
     await expect(page.locator('.missions-pick').nth(12)).toBeFocused();
     const labels = await page.locator('.missions-pick').allInnerTexts();
-    expect(new Set(labels).size).toBe(labels.length);
+    expect(labels.join(' ')).not.toMatch(/게임 파일 이름|Covalex Delivery Pilot/i);
+    const ids = await page.locator('.missions-pick').evaluateAll(nodes => nodes.map(node => node.dataset.msPick));
+    expect(new Set(ids).size).toBe(ids.length);
 });
 
 test('탭: 계산기에서 임무를 골라도 임무 목록 탭은 목록을 열고, 화살표로 옮길 수 있다', async ({ page }) => {

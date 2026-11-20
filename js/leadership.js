@@ -27,35 +27,16 @@
         observeNewReveals(container);
     }
 
-    // CEO(is-primary)는 전체 폭 3열(아바타 | 정보 | 핵심역량·CTA) 그리드,
-    // 나머지 임원은 compact 카드. 상세는 모달로 분리.
     function renderLeaderCard(leader) {
-        const isPrimary = leader.avatarStyle === 'ceo';
         const id = escapeHtml(String(leader.id || leader.name || ''));
-        const info = `
-                <div class="leader-info">
-                    <h3>${escapeHtml(tx(leader, 'name'))}</h3>
-                    <span class="leader-role">${escapeHtml(tx(leader, 'role'))}</span>
-                    <p class="leader-contact">Discord: ${escapeHtml(leader.discord)}</p>
-                    <p class="leader-description leader-summary">${escapeHtml(tx(leader, 'description'))}</p>
-                    ${isPrimary ? '' : `${renderLeaderKeyPoints(leader, 2)}<span class="leader-more" aria-hidden="true">${escapeHtml(i18nT('leadership.viewDetail', '자세히 보기 →'))}</span>`}
-                </div>`;
-        const aside = isPrimary ? `
-                <div class="leader-aside">
-                    ${renderLeaderKeyPoints(leader, 3)}
-                    <span class="leader-more" aria-hidden="true">${escapeHtml(i18nT('leadership.viewDetail', '자세히 보기 →'))}</span>
-                </div>` : '';
-        return `
-            <button class="leader-card${isPrimary ? ' ceo-card is-primary' : ''} reveal" type="button" data-leader-id="${id}" aria-label="${escapeHtml(`${tx(leader, 'name')} ${i18nT('leadership.detailAria', '상세 보기')}`)}">
-                ${renderLeaderAvatar(leader)}${info}${aside}
-            </button>`;
-    }
-
-    // 카드에는 핵심 역량 상위 3개만 요약. 철학·기여·전체 역량 등 상세는 모달로 분리.
-    function renderLeaderKeyPoints(leader, limit = 3) {
-        const items = txArr(leader, 'competencies').slice(0, limit);
-        if (!items.length) return '';
-        return `<div class="leader-keypoints"><strong>${escapeHtml(i18nT('leadership.keyCompetencies', '핵심 역량'))}</strong><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>`;
+        const name = escapeHtml(tx(leader, 'name'));
+        return `<button class="leader-card streamer-card community-profile${leader.avatarStyle === 'ceo' ? ' is-primary' : ''} reveal" type="button" data-leader-id="${id}" aria-label="${name} ${escapeHtml(i18nT('leadership.detailAria', '상세 보기'))}">
+            <span class="streamer-icon">${renderLeaderAvatar(leader)}</span>
+            <h3>${name}</h3>
+            <span class="streamer-platform">${escapeHtml(tx(leader, 'role'))}</span>
+            <p class="streamer-description">${escapeHtml(tx(leader, 'description'))}</p>
+            <span class="leader-more" aria-hidden="true">${escapeHtml(i18nT('leadership.viewDetail', '자세히 보기 →'))}</span>
+        </button>`;
     }
 
     function getRenderableLeadership() {

@@ -1028,9 +1028,9 @@
             fleet.websiteUrl ? `<a class="partner-fleet-link" href="${escapeHtml(fleet.websiteUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(i18nT('partner.website', '웹사이트'))}</a>` : ''
         ].filter(Boolean).join('');
         return `
-            <article class="partner-fleet-card reveal">
+            <article class="partner-fleet-card streamer-card community-profile reveal">
                 <div class="partner-fleet-header">
-                    ${logo}
+                    <div class="streamer-icon">${logo}</div>
                     <div class="partner-fleet-heading">
                         <h3 class="partner-fleet-title">${escapeHtml(name)}</h3>
                         <div class="partner-fleet-meta">${meta}</div>
