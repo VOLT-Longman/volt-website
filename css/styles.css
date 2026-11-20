@@ -11479,6 +11479,11 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
     background: var(--color-bg-card-hover);
 }
 
+#planner-module-field[hidden] { display: none; }
+@media (max-width: 1599px) {
+    .planner-ship-column { display: contents; }
+}
+
 /* Wide workspaces share the navigation edges. Text keeps its own reading measure. */
 @media (min-width: 1400px) {
     :root { --wide-inset: clamp(32px, 3vw, 132px); }

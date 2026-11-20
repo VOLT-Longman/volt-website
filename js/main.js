@@ -722,6 +722,7 @@
     let plannerCargoShips = new Map();
     let plannerCargoConfig = '';
     async function loadPlannerCargoOptions() {
+        if (plannerCargoShips.size) return;
         try {
             const catalog = await window.VOLT_HELPER.loadJson('/data/trade/cargo.json');
             plannerCargoShips = new Map(catalog.ships.filter(s => s.configurations?.length).map(s => [s.id, s]));
@@ -1159,7 +1160,7 @@
             if (!publicTools.community && Date.now() - authCheckedAt > 60000) setupAuthStatus({ background: true });
             if (!canUseCommunityTools()) return;
         }
-        if (id === 'trade-planner') loadPlannerCargoOptions();
+        if (id === 'trade-planner' && document.getElementById('logistics-ship')?.value) loadPlannerCargoOptions();
         const render = LAZY_SECTIONS[id];
         if (!render || renderedLazySections.has(id)) return;
         renderedLazySections.add(id);
@@ -1260,6 +1261,7 @@
     function setupLogisticsCalculator() {
         const cargo = document.getElementById('logistics-cargo');
         if (!cargo) return;
+        document.getElementById('logistics-ship-search')?.addEventListener('focus', loadPlannerCargoOptions);
         document.getElementById('planner-reset')?.addEventListener('click', resetPlannerInputs);
         document.getElementById('planner-cargo-module')?.addEventListener('change', event => {
             const ship = document.getElementById('logistics-ship').value;
