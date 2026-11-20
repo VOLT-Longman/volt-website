@@ -24,7 +24,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(existing).toBeVisible();
         await existing.click();
         await expect(page.locator('#global-modal .ship-live-summary')).toContainText('103,004');
-        await expect(page.locator('#global-modal .ship-live-summary')).toHaveText('가격: UEX');
+        await expect(page.locator('#global-modal .ship-live-heading .ship-live-meta')).toHaveText('가격: UEX');
         await page.keyboard.press('Escape');
         const modal = await openShipModalByName(page, '센타우루스');
         await expect(modal.locator('.ship-live-summary')).toContainText('170,500');
@@ -44,7 +44,7 @@ test.describe('함선DB Live 레이어 (A-6)', () => {
         await expect(summary).toContainText('203 m/s');
         await expect(summary).toContainText('1075 m/s');
         await expect(summary).toContainText('17,860,500 aUEC');
-        await expect(summary.locator('.ship-live-heading .ship-live-meta')).toContainText('4.10.0-LIVE');
+        await expect(summary.locator('.ship-live-heading .ship-live-meta')).toHaveText('가격: UEX');
     });
 
     test('Asgard 모달: 구매처 Astro Armada/Area18/가격/재고 표시', async ({ page }) => {
