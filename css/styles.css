@@ -2673,6 +2673,7 @@ body.nav-trade-open::before {
     color: var(--volt-orange);
     border: 1px solid rgba(232, 72, 47, 0.35);
 }
+.ship-rsi-status-concept { color: #ff927d; }
 .ship-rsi-status-flight-ready { background: rgba(47, 163, 107, 0.12); color: #5bc98b; border-color: rgba(47, 163, 107, 0.4); }
 .ship-role-select { position: relative; width: 100%; max-width: 360px; }
 .ship-role-search {
@@ -11263,7 +11264,7 @@ th[aria-sort="ascending"] .volt-sort-arrow, th[aria-sort="descending"] .volt-sor
 @media (max-width: 680px) { .volt-sort-mobile.for-ledger { display: flex; } }
 @media (max-width: 1100px) { .market-budget:has(.volt-sort-mobile) .market-table thead { display: none; } }
 @media (max-width: 860px) { .routes-app .volt-sort-mobile + .routes-table thead { display: none; } }
-@media (max-width: 720px) { .market-app .volt-sort-mobile + .market-table thead { display: none; } }
+@media (max-width: 720px) { .market-app .volt-sort-mobile + .market-table thead, .market-app [data-sort-source="market-prices"] thead { display: none; } }
 .gear-barrel-family { font-weight: 600; color: var(--color-text-secondary); }
 .gear-barrel-family.is-ballistic { color: #f4c399; border-color: #77553d; }
 .gear-barrel-family.is-energy { color: #a9daff; border-color: #3e627c; }

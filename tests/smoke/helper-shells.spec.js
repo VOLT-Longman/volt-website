@@ -50,6 +50,33 @@ async function prepare(page) {
     };
 }
 
+test.describe('도구 스크립트 요청과 복구', () => {
+    test.use({ serviceWorkers: 'block' });
+
+    test('도구 코드는 홈에서 받지 않고, 첫 요청 실패 후 같은 화면에서 다시 열 수 있다', async ({ page }) => {
+        await mockApi(page, { fleet: true });
+        const requests = [];
+        page.on('request', request => {
+            const path = new URL(request.url()).pathname;
+            if (/^\/js\/(routes|market|tours|missions|fabricator)\.js$/.test(path)) requests.push(path);
+        });
+        await gotoSection(page, '');
+        expect(requests).toEqual([]);
+        let available = false;
+        await page.route(/\/js\/market\.js(?:\?|$)/, route => available ? route.continue() : route.abort());
+        await page.evaluate(() => { location.hash = 'market'; });
+        const mount = page.locator('#market-app');
+        const retry = mount.getByRole('button', { name: '다시 시도' });
+        await expect(retry).toBeVisible();
+        const failedRequests = requests.length;
+        available = true;
+        await retry.click();
+        await expect(mount.locator('.market-tab').first()).toBeVisible();
+        expect(requests.length).toBe(failedRequests + 1);
+        expect(new Set(requests)).toEqual(new Set(['/js/market.js']));
+    });
+});
+
 async function openFromNavigation(page, width, section) {
     if (width >= 1201) {
         await page.locator(`#nav-${section.menu}-toggle`).click();
@@ -336,8 +363,16 @@ test('이어 가기: 임무 → 설계도 → 재료 → 캐는 곳 → 정제�
     // 임무 자료는 한 번 받으면 남아 있다. 아직 없을 때만 "임무 보기"를 누른다.
     if (!(await awarding.count())) await page.locator('#fabricator-app [data-act="missions"]').first().click();
     await awarding.click();
-    await expect(page.locator('section#missions')).toHaveClass(/active/);
-    await expect(page.locator(`#missions-app .missions-detail[data-ms-detail="${missionId}"]`)).toBeVisible();
+    const preview = page.locator('dialog[open]');
+    await expect(preview.locator('h3')).toHaveText(await awarding.textContent());
+    const tabOpened = page.waitForEvent('popup');
+    await preview.getByRole('link', { name: '자세히 보기 (새 탭)' }).click();
+    const tab = await tabOpened;
+    await mockApi(tab, { fleet: true });
+    await tab.reload();
+    await expect(tab.locator(`#missions-app .missions-detail[data-ms-detail="${missionId}"]`)).toBeVisible();
+    await tab.close();
+    await expect(page.locator('section#fabricator')).toHaveClass(/active/);
     expect(await tracker.collect()).toEqual([]);
 });
 

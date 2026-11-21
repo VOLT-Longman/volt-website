@@ -85,7 +85,7 @@
             role_ace: '에이스 조종사', role_wave: '{n}차 증원', role_reinforce: '증원', role_interdict: '이동 중 끼어드는 무리', role_ambush: '매복', role_boss: '우두머리', role_friend: '지키거나 다뤄야 하는 쪽', role_enemy: '적', role_other: '기타',
             num_ace: '에이스 조종사가 나올 확률 값', num_reinforce: '증원이 올 확률 값', num_ambush: '매복 확률 값', num_interdict: '이동 중 끼어들 확률 값', num_encounter: '교전이 생길 확률 값',
             num_waves: '물결(증원) 수', num_delay: '물결 사이 간격 (단위 표시 없음)', num_maxships: '한 번에 나오는 함선 최대 수', num_zones: '지켜야 하는 구역 수', num_search: '찾아야 하는 곳 수', num_kill: '처치해야 하는 수', num_wavecount: '{n}차 물결의 수', num_child: '하위 임무 수',
-            preDone: '‘{tags}’ 완료 표시가 있어야 합니다', preDoneN: '‘{tags}’ 완료 표시를 {n}만큼 모아야 합니다', preNot: '‘{tags}’ 완료 표시가 있으면 받을 수 없습니다', preGivers: '같은 세력에서 이 표시를 주는 임무', preGiversNone: '이 표시를 주는 임무를 같은 세력 안에서 찾지 못했습니다.',
+            preDone: '선행 임무 완료 기록이 필요합니다', preDoneN: '선행 임무 완료 기록이 {n}만큼 필요합니다', preNot: '해당 임무를 이미 완료했다면 받을 수 없습니다', preGivers: '같은 세력에서 이 표시를 주는 임무', preGiversNone: '이 표시를 주는 임무를 같은 세력 안에서 찾지 못했습니다.',
             preRep: '{org} · {scope} 등급 {range}', preRepEx: '{org} · {scope} 등급이 {range}이면 받을 수 없습니다', preRepExAny: '{org} · {scope} 평판에 제외 조건이 걸려 있습니다 (범위 표시 없음)', preNone: '먼저 해야 하는 일이 자료에 없습니다.',
             evOnly: '이 임무는 이벤트 ‘{name}’ 때만 나옵니다.', evNow: '지금 이벤트가 열려 있는지는 게임 자료로 알 수 없습니다.', evOnInFile: '(게임 파일에는 켜짐으로 표시)',
             bpChance: '나올 확률 {v}', bpFrom: '아래 묶음에서 나옵니다. 한 번에 몇 개가 나오는지는 게임 자료에 없습니다.', bpWeight: '비중 {v}', bpNull: '빈 칸 (비중 {v}) — 나올 확률을 낮추는지는 알 수 없습니다', bpOpen: '{name} 제작 설계도 보기', bpSlot: '{slot}',
@@ -157,7 +157,7 @@
             role_ace: 'Ace pilot', role_wave: 'Reinforcement wave {n}', role_reinforce: 'Reinforcements', role_interdict: 'Group that cuts in during travel', role_ambush: 'Ambush', role_boss: 'Boss', role_friend: 'Side to protect or handle', role_enemy: 'Hostile', role_other: 'Other',
             num_ace: 'Ace pilot chance value', num_reinforce: 'Reinforcement chance value', num_ambush: 'Ambush chance value', num_interdict: 'Interdiction chance value', num_encounter: 'Encounter chance value',
             num_waves: 'Number of waves', num_delay: 'Delay between waves (no unit given)', num_maxships: 'Most ships at once', num_zones: 'Zones to defend', num_search: 'Places to search', num_kill: 'Number to eliminate', num_wavecount: 'Size of wave {n}', num_child: 'Number of sub-missions',
-            preDone: 'You need the completion mark “{tags}”', preDoneN: 'You need {n} of the completion mark “{tags}”', preNot: 'Not available if you have the completion mark “{tags}”', preGivers: 'Missions of the same faction that give this mark', preGiversNone: 'No mission of the same faction gives this mark.',
+            preDone: 'A prerequisite mission completion is required', preDoneN: 'Required prerequisite completion marks: {n}', preNot: 'Unavailable if the excluded mission was completed', preGivers: 'Missions of the same faction that give this mark', preGiversNone: 'No mission of the same faction gives this mark.',
             preRep: '{org} · {scope} rank {range}', preRepEx: 'Not available while {org} · {scope} rank is {range}', preRepExAny: '{org} · {scope} reputation has an exclusion condition (no range given)', preNone: 'No prerequisites in the data.',
             evOnly: 'This mission appears only during the event “{name}”.', evNow: 'The game files do not say whether the event is running now.', evOnInFile: '(marked enabled in the game files)',
             bpChance: 'Drop chance {v}', bpFrom: 'Comes from the pool below. How many drop at once is not in the game files.', bpWeight: 'weight {v}', bpNull: 'Empty entry (weight {v}) — whether it lowers the chance is unknown', bpOpen: 'Open the {name} blueprint', bpSlot: '{slot}',
@@ -464,7 +464,9 @@
         Object.entries(data.scopes).forEach(([id, scope]) => {
             let base = scope.name?.raw ? `${t('noName')} (${words(id.replace(/^.*?ReputationScope_?/, ''))})` : H.name(scope.name);
             if (H.lang() === 'ko' && base === 'Battaglia') base = '바타글리아';
-            scopeLabels[id] = seen.has(base) ? `${base} · ${words(id.split('_').pop())}` : base;
+            const qualifier = words(id.split('_').pop());
+            const localized = H.lang() === 'ko' && qualifier === 'Battaglia' ? '바타글리아' : qualifier;
+            scopeLabels[id] = seen.has(base) && localized !== base ? base + ' · ' + localized : base;
             seen.set(base, id);
         });
         return { entries, byId, givers, pairs, used, scopeLabels, conText };
@@ -773,12 +775,16 @@
         (pre.done || []).forEach((entry) => {
             const need = [...new Set(entry.need || [])];
             const not = [...new Set(entry.not || [])];
+            const related = tags => [...new Set(tags.flatMap((label) => ix.givers.get(label) || []))].filter((index) => ix.entries[index].c.by === c.by && index !== ix.byId.get(c.id));
             if (need.length) {
-                const givers = [...new Set(need.flatMap((label) => ix.givers.get(label) || []))].filter((index) => ix.entries[index].c.by === c.by && index !== ix.byId.get(c.id));
-                lines.push(`<li>${esc(entry.n ? t('preDoneN', { tags: need.join(', '), n: H.num(entry.n) }) : t('preDone', { tags: need.join(', ') }))}
+                const givers = related(need);
+                lines.push(`<li>${esc(entry.n ? t('preDoneN', { n: H.num(entry.n) }) : t('preDone'))}
                     ${givers.length ? `<details class="missions-fold"><summary>${esc(t('preGivers'))} (${H.num(givers.length)})</summary><ul>${givers.slice(0, 12).map((index) => `<li>${missionLink(index)}</li>`).join('')}${givers.length > 12 ? `<li>${esc(t('pathMore', { n: H.num(givers.length - 12) }))}</li>` : ''}</ul></details>` : `<small>${esc(t('preGiversNone'))}</small>`}</li>`);
             }
-            if (not.length) lines.push(`<li>${esc(t('preNot', { tags: not.join(', ') }))}</li>`);
+            if (not.length) {
+                const names = related(not).map(index => plain(titleOf(ix.entries[index].c))).filter(Boolean);
+                lines.push(`<li>${esc(t('preNot'))}${names.length ? ' · ' + esc([...new Set(names)].join(', ')) : ''}</li>`);
+            }
         });
         (pre.rep || []).forEach((entry) => {
             const names = { org: orgName(entry.f), scope: scopeName(entry.s) };
@@ -932,9 +938,9 @@
         const tags = (index) => `<span class="missions-tagline" lang="en">${esc(String(data.tagSets[index] || '').split('|').join(' · '))}</span>`;
         const slot = (entry, unit) => (Array.isArray(entry) ? `<li>${esc(t(unit, { n: H.num(entry[0]) }))} ${tags(entry[1])}</li>`
             : `<li>${esc(t('cAlt'))}<ul class="missions-list">${entry.alt.map((alt) => `<li>${esc(t(unit, { n: H.num(alt[0]) }))} ${tags(alt[1])} <small>${esc(t('cWeight', { v: alt[2] }))}</small></li>`).join('')}</ul></li>`);
-        const groupsOf = (list, render) => list.map((prop) => `<li><strong>${esc(roleOf(prop.p, ...prop.g.map((g) => (typeof g === 'number' ? data.spawnGroups[g]?.n : g.n))))}</strong> <small lang="en">${esc(words(prop.p))}</small>
+        const groupsOf = (list, render) => list.map((prop) => `<li><strong>${esc(roleOf(prop.p, ...prop.g.map((g) => (typeof g === 'number' ? data.spawnGroups[g]?.n : g.n))))}</strong>
             <ul class="missions-list">${prop.g.map(render).join('')}</ul></li>`).join('');
-        const shipGroup = (index) => { const group = data.spawnGroups[index] || { s: [] }; return `<li>${group.n ? `<em lang="en">${esc(group.n.trim())}</em>` : esc(t('cGroup'))}<ul class="missions-list">${group.s.map((entry) => slot(entry, 'cEach')).join('')}</ul></li>`; };
+        const shipGroup = (index) => { const group = data.spawnGroups[index] || { s: [] }; return `<li>${esc(t('cGroup'))}<ul class="missions-list">${group.s.map((entry) => slot(entry, 'cEach')).join('')}</ul></li>`; };
         const npcGroup = (group) => `<li><em lang="en">${esc(group.n || t('cGroup'))}</em>${group.opts > 1 ? ` <small>${esc(t('npcOpts', { n: group.opts }))}</small>` : ''}
             <ul class="missions-list">${group.o.map((o) => `<li>${esc(t('npcSpawn', { a: o[1], b: o[2], c: o[3], d: o[4] }))} ${tags(o[0])}</li>`).join('')}</ul></li>`;
         const creatureGroup = (group) => `<li><em lang="en">${esc(group.n || t('cGroup'))}</em><ul class="missions-list">${group.s.map((entry) => slot(entry, 'cEachNpc')).join('')}</ul></li>`;
@@ -954,12 +960,13 @@
         const { data } = load;
         return block(t('secBp'), `${c.bp.map(([poolId, chance, slotIndex]) => {
             const pool = data.pools[poolId] || [];
-            return `<h5>${esc(t('bpChance', { v: H.percent(Number(chance) * 100) }))}${slotIndex !== undefined ? ` · ${esc(t(SLOT_KEYS[slotIndex] || 'slotDone'))}` : ''} <small lang="en">${esc(words(poolId))}</small></h5>
+            return `<h5>${esc(t('bpChance', { v: H.percent(Number(chance) * 100) }))}${slotIndex !== undefined ? ` · ${esc(t(SLOT_KEYS[slotIndex] || 'slotDone'))}` : ''}</h5>
                 <ul class="missions-bps">${pool.map((entry) => {
                     const id = Array.isArray(entry) ? entry[0] : entry;
                     const weight = Array.isArray(entry) ? entry[1] : null;
                     if (id === null) return `<li class="is-unknown">${esc(t('bpNull', { v: weight }))}</li>`;
-                    const name = nameOf(data.blueprints[id], id);
+                    const bp = data.blueprints[id];
+                    const name = bp && !bp.raw && H.name(bp) || t('noName');
                     return `<li><a href="${esc(H.buildHash('fabricator', { bp: id }))}" aria-label="${esc(t('bpOpen', { name }))}">${esc(name)}</a>${weight !== null && weight !== 1 ? ` <small>${esc(t('bpWeight', { v: weight }))}</small>` : ''}</li>`;
                 }).join('')}</ul>`;
         }).join('')}${note(t('bpFrom'))}`, 'is-wide');
@@ -1013,9 +1020,13 @@
                 <p class="missions-sub">${esc([contractorOf(c), typeName(c), c.by ? orgName(c.by) : ''].filter((value, index, list) => value && list.indexOf(value) === index).join(' · '))}</p>
                 <ul class="missions-tags">${tagList(e)}</ul>
                 ${alt.length ? `<p class="missions-note">${esc(t('alsoShown'))}: ${alt.map(rich).join(' / ')} <small>${esc(t('variantNote'))}</small></p>` : ''}</header>
+            <p class="missions-summary-line">${esc(t('colRank'))} · ${esc(rankCell(c))} <span>${esc(t('colPay'))} · ${esc(payText(c.pay))}</span></p>
+            <div class="missions-overview">
+                ${block(t('secBrief'), brief ? `<div class="missions-brief">${paragraphs(brief)}</div>${briefAlt.length ? `<details class="missions-fold"><summary>${esc(t('briefAlt', { n: briefAlt.length }))}</summary>${briefAlt.map((value) => `<div class="missions-brief">${paragraphs(value)}</div>`).join('<hr>')}<p class="missions-note">${esc(t('variantNote'))}</p></details>` : ''}${patchHtml}` : `<p>${esc(t('noBrief'))}</p>${patchHtml}`, 'missions-story')}
+                <div class="missions-overview-facts">${requirementsBlock(c)}${payoutBlock(c)}${sitesBlock(c)}</div>
+            </div>
             <div class="missions-blocks">
-                ${block(t('secBrief'), brief ? `<div class="missions-brief">${paragraphs(brief)}</div>${briefAlt.length ? `<details class="missions-fold"><summary>${esc(t('briefAlt', { n: briefAlt.length }))}</summary>${briefAlt.map((value) => `<div class="missions-brief">${paragraphs(value)}</div>`).join('<hr>')}<p class="missions-note">${esc(t('variantNote'))}</p></details>` : ''}${patchHtml}` : `<p>${esc(t('noBrief'))}</p>${patchHtml}`, 'is-wide')}
-                ${requirementsBlock(c)}${prerequisitesBlock(c)}${payoutBlock(c)}${reputationBlock(c, e)}${haulBlock(c)}${sitesBlock(c)}${combatBlock(c)}${eventBlock(c)}${blueprintBlock(c)}${itemsBlock(c)}${oddBlock(c)}${variantsBlock(c)}
+                ${prerequisitesBlock(c)}${reputationBlock(c, e)}${haulBlock(c)}${combatBlock(c)}${eventBlock(c)}${blueprintBlock(c)}${itemsBlock(c)}${oddBlock(c)}${variantsBlock(c)}
             </div></article>`;
     }
 
@@ -1213,15 +1224,33 @@
         typingTimer = window.setTimeout(job, 140);
     }
 
+    let indexLanguage;
+    async function readMissions() {
+        const data = await H.loadJson(DATA_URL);
+        if (!Array.isArray(data?.contracts) || !Array.isArray(data?.texts)) throw Object.assign(new Error('Unexpected mission data'), { helperType: 'data' });
+        if (load.data !== data || indexLanguage !== H.lang()) {
+            load.data = data;
+            patchCache.clear();
+            ix = buildIndex(data);
+            indexLanguage = H.lang();
+        }
+    }
+    async function preview(id, place) {
+        await readMissions();
+        if (place) await window.VOLT_STARMAP?.links?.load?.();
+        const indexes = place ? [...placeEntries(place)] : ix.byId.has(id) ? [ix.byId.get(id)] : [];
+        return { count: indexes.length, items: indexes.slice(0, 5).map(index => {
+            const { c } = ix.entries[index];
+            return { id: c.id, name: plain(titleOf(c)) || t('noTitle'),
+                rank: t('colRank') + ' · ' + rankCell(c), pay: t('colPay') + ' · ' + payText(c.pay) };
+        }) };
+    }
+
     async function fetchData() {
         load.error = null;
         draw();
         try {
-            const data = await H.loadJson(DATA_URL);
-            if (!Array.isArray(data?.contracts) || !Array.isArray(data?.texts)) throw Object.assign(new Error('Unexpected mission data'), { helperType: 'data' });
-            load.data = data;
-            patchCache.clear();
-            ix = buildIndex(load.data);
+            await readMissions();
             sanitize();
         } catch (error) {
             load.error = error;
@@ -1358,6 +1387,7 @@
     }
 
     window.VOLT_MISSIONS = {
+        preview,
         // 섹션이 처음 열릴 때 한 번. mount = #missions-app, ctx = { section, lang, params }
         init(mount, ctx) {
             root = mount;

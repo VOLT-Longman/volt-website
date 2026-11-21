@@ -52,7 +52,7 @@
             sharedMerge: '내 목록에 더하기', sharedReplace: '내 목록을 이 목록으로 바꾸기', sharedMine: '내 목록 보기',
             sharedMerged: '받은 목록을 내 목록에 더했습니다.', sharedReplaced: '내 목록을 받은 목록으로 바꿨습니다.',
             pick: '설계도를 고르면 필요한 재료와 얻는 방법이 나옵니다.', back: '목록으로',
-            noName: '이름이 게임 자료에 없음', internalName: '게임 내부 이름',
+            noName: '이름 미확인 설계도',
             add: '준비물에 담기', added: '모을 재료 목록에 담았습니다: {name} (지금 {n}개)', addAria: '준비물에 담기: {name}', copyLink: '이 화면 주소 복사',
             maker: '만든 곳', size: '크기', grade: '등급 값', craftTime: '제작 시간', craftTimeNote: '게임 파일 값',
             noOutput: '이 설계도로 만들어지는 물건이 게임 자료에 없습니다.',
@@ -75,7 +75,7 @@
             missionCount: '같은 이름 {n}건', chance: '묶음을 받을 확률 값 {p}', resultSlot: '결과 구분: {slot}', minRank: '최소 등급 {rank}', illegal: '불법', eventOnly: '이벤트 전용',
             missionOpen: '임무 찾기에서 보기', missionNoTitle: '제목이 게임 자료에 없음', moreMissions: '임무 더 보기 ({n}건 남음)',
             matsTitle: '재료 {n}종', matName: '재료', matUnit: '세는 단위', matUses: '쓰는 설계도', matSource: '얻는 곳', matShow: '{n}개 보기', unitScu: 'SCU', unitPc: '낱개', unitBoth: 'SCU · 낱개',
-            poolsTitle: '설계도 묶음 {n}개', poolPick: '묶음을 고르면 들어 있는 설계도와 쓰이는 곳이 나옵니다.', poolName: '묶음 이름 (게임 내부 이름)', poolItems: '들어 있는 설계도 {n}개',
+            poolsTitle: '설계도 묶음 {n}개', poolPick: '묶음을 고르면 들어 있는 설계도와 쓰이는 곳이 나옵니다.', poolItems: '들어 있는 설계도 {n}개',
             poolMissing: '게임 파일에서 설계도 이름이 비어 있는 칸 {n}개', poolRepeat: '같은 설계도가 여러 번 적힌 묶음입니다. 한 번만 보여 줍니다.', poolUsed: '이 묶음이 쓰이는 곳', poolNoUse: '이벤트 보상 · 위켈로 교환에는 쓰이지 않습니다.', noPool: '맞는 묶음이 없습니다.',
             tradesTitle: '위켈로 교환 {n}건', tradeAll: '전체', tradeShips: '함선 교환', tradeItems: '물품 교환', tradeNeed: '가져갈 것', tradeGive: '받는 것', tradeRoll: '받는 물건 묶음',
             tradeRollNote: '게임 파일 가중치 값 {w}. 이 값이 확률인지는 확인되지 않았습니다.', tradeBp: '함께 받는 설계도 묶음', tradeAccess: '조건', noTrade: '맞는 교환이 없습니다.',
@@ -105,7 +105,7 @@
             sharedMerged: 'Added the linked list to your list.', sharedReplaced: 'Replaced your list with the linked list.',
             clear: 'Clear all filters', count: '{n} found', countOf: 'showing {shown} of {n}', more: 'Show more', noResult: 'No blueprint matches.',
             pick: 'Pick a blueprint to see its materials and how to get it.', back: 'Back to list',
-            noName: 'No name in the game files', internalName: 'internal game name',
+            noName: 'Unnamed blueprint',
             add: 'Add to shopping list', added: 'Added to the shopping list: {name} (now {n})', addAria: 'Add to shopping list: {name}', copyLink: 'Copy link to this view',
             maker: 'Maker', size: 'Size', grade: 'Grade value', craftTime: 'Craft time', craftTimeNote: 'game file value',
             noOutput: 'The game files name no item that this blueprint produces.',
@@ -128,7 +128,7 @@
             missionCount: '{n} with the same name', chance: 'pool chance value {p}', resultSlot: 'result slot: {slot}', minRank: 'min. rank {rank}', illegal: 'Illegal', eventOnly: 'Event only',
             missionOpen: 'Open in Mission Finder', missionNoTitle: 'Title not in the game files', moreMissions: 'Show more missions ({n} left)',
             matsTitle: '{n} materials', matName: 'Material', matUnit: 'Counted in', matUses: 'Blueprints using it', matSource: 'Where to get it', matShow: 'Show {n}', unitScu: 'SCU', unitPc: 'pieces', unitBoth: 'SCU · pieces',
-            poolsTitle: '{n} blueprint pools', poolPick: 'Pick a pool to see its blueprints and where it is used.', poolName: 'Pool name (internal game name)', poolItems: '{n} blueprints inside',
+            poolsTitle: '{n} blueprint pools', poolPick: 'Pick a pool to see its blueprints and where it is used.', poolItems: '{n} blueprints inside',
             poolMissing: '{n} entries whose blueprint name is empty in the game files', poolRepeat: 'This pool lists the same blueprint more than once. It is shown once.', poolUsed: 'Where this pool is used', poolNoUse: 'Not used by event rewards or Wikelo trades.', noPool: 'No pool matches.',
             tradesTitle: '{n} Wikelo trades', tradeAll: 'All', tradeShips: 'Ship trades', tradeItems: 'Item trades', tradeNeed: 'Bring', tradeGive: 'You get', tradeRoll: 'Item set you get',
             tradeRollNote: 'Game file weighting value {w}. Whether it is a chance is not verified.', tradeBp: 'Blueprint pool given with it', tradeAccess: 'Conditions', noTrade: 'No trade matches.',
@@ -205,14 +205,9 @@
         return `<button type="button" class="${e(options.cls || 'fab-btn')}" data-act="${e(act)}" data-id="${e(id ?? '')}" data-fk="${e(`${act}:${id ?? ''}`)}"${pressed}${aria}>${labelHtml}</button>`;
     }
 
-    function outputClass(bp) {
-        // 만들어지는 물건이 없다고 적힌 설계도는 물건 이름을 지어내지 않고 설계도 id 를 그대로 쓴다.
-        if (bp.noOutput) return String(bp.id);
-        return bp.o || String(bp.id).replace(/^BP_CRAFT_/, '');
-    }
     function bpName(i) {
         const bp = D.blueprints[i];
-        return bp.name ? H.name(bp.name) : outputClass(bp);
+        return H.name(bp?.name) || t('noName');
     }
     function kindOf(bp) {
         const kind = D.categories[bp.c]?.kind;
@@ -556,7 +551,7 @@
                 group.count > 1 ? t('missionCount', { n: fmt(group.count, 0) }) : '',
             ].filter(Boolean);
             const tags = `${c.illegal === 1 ? `<span class="fab-tag is-warn">${e(t('illegal'))}</span>` : ''}${c.ev?.length ? `<span class="fab-tag">${e(t('eventOnly'))}</span>` : ''}`;
-            return `<li><a class="fab-link" href="${e(H.buildHash('missions', { m: c.id }))}" title="${e(t('missionOpen'))}">${e(group.title || t('missionNoTitle'))}</a> ${tags}<span class="fab-meta">${e(meta.join(' · '))}</span></li>`;
+            return `<li><a class="fab-link" data-mission-preview aria-haspopup="dialog" href="${e(H.buildHash('missions', { m: c.id }))}" title="${e(t('missionOpen'))}">${e(group.title || t('missionNoTitle'))}</a> ${tags}<span class="fab-meta">${e(meta.join(' · '))}</span></li>`;
         }).join('');
         const left = groups.length - S.missionsShown;
         return `<div class="fab-missions">${title}<ul class="fab-missionlist">${rows}</ul>${left > 0 ? btn('more-missions', '', e(t('moreMissions', { n: fmt(left, 0) }))) : ''}<p class="fab-note">${e(t('poolDraw'))}</p></div>`;
@@ -665,6 +660,14 @@
         const choose = slot.o.length > 1 ? `<p class="fab-note fab-choose">${e(t('alternatives'))}</p>` : '';
         return `<li class="fab-slot"><h5>${slotLabel(slot)}</h5>${choose}<ul class="fab-options${slot.o.length > 1 ? ' is-alt' : ''}">${options.join(slot.o.length > 1 ? `<li class="fab-or" aria-hidden="true">${e(t('or'))}</li>` : '')}</ul>${effects}</li>`;
     }
+    function poolName(id) {
+        const items = X.poolItems[id]?.items || [];
+        const names = items.map(i => H.name(D.blueprints[i].name)).filter(Boolean);
+        if (!names.length) return H.lang() === 'ko' ? '이름이 확인되지 않은 설계도 묶음' : 'Unnamed blueprint pool';
+        const more = items.length - 1;
+        if (!more) return names[0];
+        return H.lang() === 'ko' ? names[0] + ' 외 ' + fmt(more, 0) + '개' : names[0] + ' and ' + fmt(more, 0) + ' more';
+    }
     function poolUseHtml(id) {
         const use = X.poolUse[id];
         if (!use) return '';
@@ -682,7 +685,7 @@
         if (bp.d) body += `<p>${e(t('srcDefault'))}</p>`;
         if (!bp.d && !pools.length) body += `<p class="fab-unknown">${e(t('srcNone'))}</p>`;
         if (pools.length) {
-            const rows = pools.map((id) => `<li>${btn('pool', id, `<code>${e(id)}</code>`, { cls: 'fab-linkbtn', aria: `${t('poolOpen')}: ${id}` })}<ul class="fab-sublist">${poolUseHtml(id)}</ul></li>`).join('');
+            const rows = pools.map((id) => `<li>${btn('pool', id, e(poolName(id)), { cls: 'fab-linkbtn', aria: `${t('poolOpen')}: ${poolName(id)}` })}<ul class="fab-sublist">${poolUseHtml(id)}</ul></li>`).join('');
             body += `<h4>${e(t('srcPools'))} <small>${e(t('count', { n: pools.length }))}</small></h4><ul class="fab-poolrefs">${rows}</ul>${missionsHtml(pools, false)}`;
         }
         return `<section class="fab-block"><h4 class="fab-blocktitle">${e(t('sources'))}</h4>${body}</section>`;
@@ -705,7 +708,7 @@
         const pick = H.isKnown(recipe.pick) ? `<p class="fab-note fab-choose">${e(t('pickSlots', { n: fmt(recipe.pick, 0) }))}</p>` : '';
         return `<article class="fab-detail" aria-labelledby="fab-detail-title">
             ${btn('back', '', `<span aria-hidden="true">←</span> ${e(t('back'))}`, { cls: 'fab-btn fab-back' })}
-            <header class="fab-detailhead"><div><h3 id="fab-detail-title" tabindex="-1">${e(name)}</h3><p class="fab-meta">${e(bpMeta(i))}${bp.name ? '' : ` · ${e(t('noName'))} (${e(t('internalName'))})`}</p><p class="fab-id"><code>${e(bp.id)}</code></p></div><div class="fab-headside">${tagsHtml(i)}</div></header>
+            <header class="fab-detailhead"><div><h3 id="fab-detail-title" tabindex="-1">${e(name)}</h3><p class="fab-meta">${e(bpMeta(i))}</p></div><div class="fab-headside">${tagsHtml(i)}</div></header>
             <div class="fab-actions">${btn('add', bp.id, e(t('add')), { cls: 'fab-btn fab-btn-main' })}${btn('copy', '', e(t('copyLink')))}</div>
             ${bp.noOutput ? `<p class="fab-unknown">${e(t('noOutput'))}</p>` : ''}
             <dl class="fab-facts">${facts}</dl>
@@ -739,7 +742,7 @@
             return words.every((word) => hay.includes(word));
         });
         if (!ids.length) return `<p class="fab-empty">${e(t('noPool'))}</p>`;
-        const rows = ids.map((id) => `<li class="fab-row${S.pool === id ? ' is-selected' : ''}">${btn('pool', id, `<span class="fab-rowname"><code>${e(id)}</code></span><span class="fab-meta">${e(t('poolItems', { n: fmt(X.poolItems[id].items.length, 0) }))}</span>`, { cls: 'fab-rowbtn', pressed: S.pool === id })}</li>`).join('');
+        const rows = ids.map((id) => `<li class="fab-row${S.pool === id ? ' is-selected' : ''}">${btn('pool', id, `<span class="fab-rowname">${e(poolName(id))}</span><span class="fab-meta">${e(t('poolItems', { n: fmt(X.poolItems[id].items.length, 0) }))}</span>`, { cls: 'fab-rowbtn', pressed: S.pool === id })}</li>`).join('');
         return `<p class="fab-count">${e(t('count', { n: fmt(ids.length, 0) }))}</p><ul class="fab-list">${rows}</ul>`;
     }
     function poolDetailHtml() {
@@ -750,7 +753,7 @@
         const used = poolUseHtml(S.pool);
         return `<article class="fab-detail" aria-labelledby="fab-detail-title">
             ${btn('back', '', `<span aria-hidden="true">←</span> ${e(t('back'))}`, { cls: 'fab-btn fab-back' })}
-            <header class="fab-detailhead"><div><p class="fab-meta">${e(t('poolName'))}</p><h3 id="fab-detail-title" tabindex="-1"><code>${e(S.pool)}</code></h3></div></header>
+            <header class="fab-detailhead"><div><h3 id="fab-detail-title" tabindex="-1">${e(poolName(S.pool))}</h3></div></header>
             <div class="fab-actions">${btn('copy', '', e(t('copyLink')))}</div>
             <section class="fab-block"><h4 class="fab-blocktitle">${e(t('poolItems', { n: fmt(info.items.length, 0) }))}</h4>${info.repeat ? `<p class="fab-note">${e(t('poolRepeat'))}</p>` : ''}${H.isKnown(info.missing) && info.missing > 0 ? `<p class="fab-note">${e(t('poolMissing', { n: fmt(info.missing, 0) }))}</p>` : ''}<ul class="fab-poolitems">${items}</ul><p class="fab-note">${e(t('poolDraw'))}</p></section>
             <section class="fab-block"><h4 class="fab-blocktitle">${e(t('poolUsed'))}</h4>${used ? `<ul class="fab-sublist">${used}</ul>` : `<p class="fab-note">${e(t('poolNoUse'))}</p>`}${missionsHtml([S.pool], true)}</section>
@@ -797,7 +800,7 @@
         const cards = list.map((trade) => {
             const give = trade.give?.length ? `<div><h5>${e(t('tradeGive'))}</h5><ul>${li(trade.give.map((row) => `${tradeItemName(row.i)} × ${fmt(row.n, 0)}`))}</ul></div>` : '';
             const roll = (trade.roll || []).map((group) => `<div><h5>${e(t('tradeRoll'))}</h5><ul>${li((group.items || []).map((row) => `${tradeItemName(row.i)} × ${fmt(row.n, 0)}`))}</ul><p class="fab-note">${e(t('tradeRollNote', { w: fmt(group.w) }))}</p></div>`).join('');
-            const pools = trade.bp?.length ? `<div><h5>${e(t('tradeBp'))}</h5><ul>${trade.bp.map(([id, chance]) => `<li>${btn('pool', id, `<code>${e(id)}</code>`, { cls: 'fab-linkbtn', aria: `${t('poolOpen')}: ${id}` })} <span class="fab-meta">${e(H.isKnown(chance) ? t('chance', { p: fmt(chance) }) : '')}</span></li>`).join('')}</ul></div>` : '';
+            const pools = trade.bp?.length ? `<div><h5>${e(t('tradeBp'))}</h5><ul>${trade.bp.map(([id, chance]) => `<li>${btn('pool', id, e(poolName(id)), { cls: 'fab-linkbtn', aria: `${t('poolOpen')}: ${poolName(id)}` })} <span class="fab-meta">${e(H.isKnown(chance) ? t('chance', { p: fmt(chance) }) : '')}</span></li>`).join('')}</ul></div>` : '';
             const access = accessText(D.tradeAccess?.[trade.a]);
             return `<li class="fab-trade" id="fab-trade-${e(trade.id)}"><h4>${e(H.name(trade.name) || trade.key)}</h4><p class="fab-meta">${e(t(trade.type === 'WIkelo_Ships' ? 'tradeShip' : 'tradeItem'))}</p>
                 <div class="fab-tradegrid"><div><h5>${e(t('tradeNeed'))}</h5><ul>${li((trade.need || []).map(needText))}</ul></div>${give}${roll}${pools}</div>

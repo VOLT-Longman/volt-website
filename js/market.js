@@ -1023,7 +1023,7 @@
         const old = rows.reduce((sum, row) => sum + row.oldBuy + row.oldSell, 0);
         const toolbar = `<div class="market-toolbar">
             <label class="market-field is-grow"><span>${esc(t('search'))}</span><input type="search" data-input="q" data-k="q" value="${esc(view.q)}" placeholder="${esc(t('searchCommodity'))}"></label>
-            <label class="market-field"><span>${esc(t('sort'))}</span><select data-change="sort" data-k="sort">${SORTS.map(sort => {
+            <label class="market-field"><span>${esc(t('sort'))}</span><select aria-label="${esc(t('sort'))}" data-change="sort" data-k="sort">${SORTS.map(sort => {
                 const [key, reverse] = sort.split('-');
                 return `<option value="${sort}"${view.sort === sort ? ' selected' : ''}>${esc(t(PRICE_LABEL[PRICE_SORT.indexOf(key)]))} ${priceDown(key) !== Boolean(reverse) ? '↓' : '↑'}</option>`;
             }).join('')}</select></label>
