@@ -478,8 +478,20 @@ test('지도 → 임무: 그 장소의 임무만 걸러서 열고, 장소 조건
     expect(expected).toBeGreaterThan(0);
     await gotoSection(page, `#starmap?focus=${place.id}`);
     const info = page.locator('#starmap-app .starmap-info');
+    async function verifyPreview(id) {
+        const link = info.locator('a.starmap-out[href="#missions?place=' + id + '"]');
+        await link.click();
+        const preview = page.locator('dialog[open]');
+        await expect(preview).toContainText('이곳의 임무 ' + missionsAt(id).toLocaleString('ko-KR') + '개');
+        const details = preview.getByRole('link', { name: '자세히 보기 (새 탭)', exact: true });
+        const href = await details.getAttribute('href');
+        await expect(details).toHaveAttribute('target', '_blank');
+        await page.keyboard.press('Escape');
+        await expect(link).toBeFocused();
+        await gotoSection(page, new URL(href).hash);
+    }
     await expect(info.locator('.starmap-info-title')).toHaveText(place.name.ko || place.name.en, { timeout: 30000 });
-    await info.locator(`a.starmap-out[href="#missions?place=${place.id}"]`).click();
+    await verifyPreview(place.id);
     await expect(page.locator('section#missions')).toHaveClass(/active/);
     const bar = page.locator('#missions-app [data-ms-placebar]');
     await expect(bar).toContainText(`장소: ${place.name.ko || place.name.en}`, { timeout: 30000 });
@@ -498,7 +510,7 @@ test('지도 → 임무: 그 장소의 임무만 걸러서 열고, 장소 조건
     await page.evaluate((id) => { window.location.hash = `#starmap?focus=${id}`; }, siteOnly.id);
     await expect(page.locator('section#starmap')).toHaveClass(/active/);
     await expect.poll(async () => (await mapState(page)).focus).toBe(siteOnly.id);
-    await info.locator(`a.starmap-out[href="#missions?place=${siteOnly.id}"]`).click();
+    await verifyPreview(siteOnly.id);
     await expect(page.locator('section#missions')).toHaveClass(/active/);
     await expect(page.locator('#missions-app [data-ms-placebar]')).toBeVisible();
     await expect.poll(() => shownCount(page)).toBe(missionsAt(siteOnly.id));
@@ -507,7 +519,7 @@ test('지도 → 임무: 그 장소의 임무만 걸러서 열고, 장소 조건
     expect(missions.places.Stanton3_Area18).toBeUndefined();
     await page.evaluate(() => { window.location.hash = '#starmap?focus=Stanton3_Area18'; });
     await expect(info.locator('.starmap-info-title')).toHaveText(S.get('Stanton3_Area18').name.ko);
-    await info.locator('a.starmap-out[href="#missions?place=Stanton3_Area18"]').click();
+    await verifyPreview('Stanton3_Area18');
     await expect(page.locator('section#missions')).toHaveClass(/active/);
     await expect(page.locator('#missions-app [data-ms-placebar] strong')).toHaveText(`장소: ${S.get('Stanton3_Area18').name.ko}`);
     // 주소로 바로 들어와도(지도 자료를 아직 받지 않은 상태) 같은 이름이 된다.

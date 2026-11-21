@@ -77,6 +77,7 @@
         }
     }
     function mobilePicker(table, apply) {
+        if (table.dataset.sortSource === 'market-prices') return; // The price toolbar already sorts every row.
         if (!table.matches('.market-table,.routes-table,.ledger-table,.mining-ref-table,[data-mining-csv="minerals"]')) return;
         const target = table.matches('.ledger-table') ? table.parentElement : table;
         const label = document.createElement('label');

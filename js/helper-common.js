@@ -37,7 +37,7 @@
             unknownUex: '보고 없음',
             soonTitle: '준비 중입니다',
             soonBody: '이 화면은 곧 열립니다.',
-            moduleMissing: '화면을 불러오지 못했습니다. 페이지를 새로 고쳐 주세요.',
+            moduleMissing: '화면을 불러오지 못했습니다.',
             ageNow: '방금',
             ageMin: '{n}분 전',
             ageHour: '{n}시간 전',
@@ -70,7 +70,7 @@
             unknownUex: 'Not reported',
             soonTitle: 'Coming soon',
             soonBody: 'This screen will open shortly.',
-            moduleMissing: 'This screen could not be loaded. Please reload the page.',
+            moduleMissing: 'This screen could not be loaded.',
             ageNow: 'just now',
             ageMin: '{n} min ago',
             ageHour: '{n} h ago',
@@ -508,6 +508,23 @@
         return entry ? window[entry.global] : null;
     }
 
+    const loadingTools = new Map();
+    function loadTool(section) {
+        const ready = moduleOf(section);
+        if (ready) return Promise.resolve(ready);
+        if (!Object.hasOwn(SECTIONS, section)) return Promise.reject(new Error('Unknown tool'));
+        if (!loadingTools.has(section)) {
+            const script = el('script', { src: '/js/' + section + '.js?v=' + encodeURIComponent(CACHE_VERSION) });
+            const loaded = new Promise((resolve, reject) => {
+                script.onload = () => moduleOf(section) ? resolve(moduleOf(section)) : reject(new Error('Tool missing'));
+                script.onerror = () => reject(new Error('Tool unavailable'));
+            }).finally(() => { loadingTools.delete(section); script.remove(); });
+            loadingTools.set(section, loaded);
+            document.head.append(script);
+        }
+        return loadingTools.get(section);
+    }
+
     function updateTitle(section) {
         const entry = SECTIONS[section];
         const i18n = window.VOLT_I18N;
@@ -549,8 +566,16 @@
         const alreadyOpen = document.getElementById(section)?.classList.contains('active');
         if (started.has(section) && alreadyOpen && delivered.get(section) === key) return;
         delivered.set(section, key);
-        if (!module || typeof module.init !== 'function') {
-            mount.replaceChildren(el('p', { class: 'helper-soon helper-soon-error', role: 'alert' }, text('moduleMissing')));
+        if (!module) {
+            mount.replaceChildren(el('p', { role: 'status' }, lang() === 'ko' ? '불러오는 중…' : 'Loading…'));
+            loadTool(section).then(() => {
+                if (host.classList.contains('active')) onSectionShow(section);
+            }).catch(() => {
+                if (!host.classList.contains('active')) return;
+                const retry = el('button', { type: 'button', class: 'btn' }, lang() === 'ko' ? '다시 시도' : 'Retry');
+                retry.onclick = () => onSectionShow(section);
+                mount.replaceChildren(el('p', { role: 'alert' }, text('moduleMissing')), retry);
+            });
             return;
         }
         try {
@@ -565,6 +590,51 @@
             mount.replaceChildren(el('p', { class: 'helper-soon helper-soon-error', role: 'alert' }, text('moduleMissing')));
         }
     }
+
+    // Linked tools keep their current selection while a mission is inspected.
+    document.addEventListener('click', async (event) => {
+        const link = event.target.closest?.('a[data-mission-preview]');
+        if (!link || event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        const host = link.closest('section[data-helper-allowed]');
+        if (!host || host.hasAttribute('data-helper-checking')) return;
+        event.preventDefault();
+        const ko = lang() === 'ko';
+        const params = new URLSearchParams(link.hash.split('?')[1]);
+        const close = el('button', { type: 'button', class: 'btn', autofocus: true }, ko ? '닫기' : 'Close');
+        const title = el('h2', { id: 'mission-preview-title' }, ko ? '임무 요약' : 'Mission summary');
+        const body = el('div', { class: 'mission-preview-body', 'aria-live': 'polite' }, ko ? '임무를 불러오는 중…' : 'Loading missions…');
+        const full = el('a', { class: 'btn', href: link.href, target: '_blank', rel: 'noopener' }, ko ? '자세히 보기 (새 탭)' : 'View details (new tab)');
+        const dialog = el('dialog', { class: 'mission-preview', 'aria-labelledby': title.id }, el('header', {}, title, close), body, full);
+        document.body.append(dialog);
+        close.onclick = () => dialog.close();
+        const guard = new MutationObserver(() => {
+            if (!host.classList.contains('active') || !host.hasAttribute('data-helper-allowed') || host.hasAttribute('data-helper-checking')) dialog.close();
+        });
+        guard.observe(host, { attributes: true, attributeFilter: ['class', 'data-helper-allowed', 'data-helper-checking'] });
+        dialog.onclose = () => {
+            guard.disconnect();
+            dialog.remove();
+            if (link.isConnected && host.classList.contains('active')) link.focus({ preventScroll: true });
+        };
+        dialog.showModal();
+        try {
+            const missions = await loadTool('missions');
+            const summary = await missions.preview(params.get('m'), params.get('place'));
+            if (!dialog.open) return;
+            body.replaceChildren();
+            for (const item of summary.items) {
+                const heading = params.has('place') ? el('a', {
+                    href: buildHash('missions', { m: item.id }), target: '_blank', rel: 'noopener',
+                    'aria-label': ko ? item.name + ' 자세히 보기 (새 탭)' : item.name + ' details (new tab)'
+                }, item.name) : item.name;
+                body.append(el('article', {}, el('h3', {}, heading), el('p', {}, item.rank), el('p', {}, item.pay)));
+            }
+            if (params.has('place')) body.prepend(el('p', {}, ko ? '이곳의 임무 ' + num(summary.count) + '개' : 'Missions here: ' + num(summary.count)));
+            else if (!summary.count) body.append(ko ? '임무 정보를 찾을 수 없습니다.' : 'Mission details unavailable.');
+        } catch {
+            if (dialog.open) body.textContent = ko ? '임무를 불러오지 못했습니다. 잠시 뒤 다시 열어 주세요.' : 'Could not load missions. Please try again.';
+        }
+    });
 
     function systemLabel(system) {
         if (!system) return lang() === 'ko' ? '전체 항성계' : 'All systems';
@@ -595,6 +665,6 @@
         parseHash, buildHash, readHash, writeHash, shareUrl, copyShareUrl, go,
         loadJson, uex, errorType, errorText, fetchHelperData,
         el, comingSoon,
-        onSectionShow, updateTitle,
+        onSectionShow, updateTitle, loadTool,
     };
 })();

@@ -4,6 +4,8 @@ import { isFleetResource, publicHelperTools } from './_shared/fleet-access.js';
 import { serveGearModel } from './_shared/gear-models.js';
 import { serveStarmapTexture } from './_shared/starmap-textures.js';
 
+import { productionCommit } from './_shared/pages-release.js';
+
 export async function onRequest(context) {
   const url = new URL(context.request.url);
   // The production Pages hostname must not expose an alternate API/auth origin.
@@ -11,7 +13,12 @@ export async function onRequest(context) {
   if (url.hostname === 'volt-ceo.pages.dev') {
     url.protocol = 'https:';
     url.host = 'www.volt.ceo';
-    return new Response(null, { status: 308, headers: { Location: url.href } });
+    const headers = new Headers({ Location: url.href });
+    if (url.pathname === '/.well-known/volt-release') {
+      headers.set('Cache-Control', 'no-store');
+      if (productionCommit) headers.set('X-VOLT-Production-Commit', productionCommit);
+    }
+    return new Response(null, { status: 308, headers });
   }
   const response = await serveRequest(context);
   if (/^[a-z0-9-]+\.volt-ceo\.pages\.dev$/.test(url.hostname)) {

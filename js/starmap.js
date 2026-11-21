@@ -821,7 +821,7 @@
             links.push(`<a class="starmap-out" href="${esc(H.buildHash('routes', { from: terminal }))}">${esc(t('linkRoutes') + suffix)}</a>`);
         });
         // 임무: 임무가 나오는 곳(mission)이거나 임무 현장이 이곳에 놓여 있을 때(sites[].at). 임무 화면은 place 로 그 임무들만 보여 준다.
-        if (o.mission === 1 || system.siteAt.has(o.id)) links.push(`<a class="starmap-out" href="${esc(H.buildHash('missions', { place: o.id }))}" title="${esc(t('missionsNote'))}">${esc(t('linkMissions'))}</a>`);
+        if (o.mission === 1 || system.siteAt.has(o.id)) links.push(`<a class="starmap-out" data-mission-preview aria-haspopup="dialog" href="${esc(H.buildHash('missions', { place: o.id }))}" title="${esc(t('missionsNote'))}">${esc(t('linkMissions'))}</a>`);
         if (o.mine === 1) links.push(`<a class="starmap-out" href="${esc(H.buildHash('mining', { loc: o.id }))}">${esc(t('linkMining'))}</a>`);
         for (const area of o.areas || []) {
             const region = system.regions.get(area);

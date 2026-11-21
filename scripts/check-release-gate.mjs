@@ -1,6 +1,7 @@
 // Pages waits for this exact commit's complete GitHub checks before publishing.
 // Public repository API only: no Cloudflare/GitHub credentials are needed.
 import path from 'node:path';
+import { writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
 const REPOSITORY = 'VOLT-Longman/volt-website';
@@ -73,7 +74,11 @@ export async function waitForProductionChecks({
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
     if (process.env.CF_PAGES !== '1') throw new Error('Release gate must run in Cloudflare Pages');
-    await waitForProductionChecks({ sha: process.env.CF_PAGES_COMMIT_SHA, branch: process.env.CF_PAGES_BRANCH, githubToken: process.env.VOLT_GITHUB_ACTIONS_READ_TOKEN });
+    const release = await waitForProductionChecks({ sha: process.env.CF_PAGES_COMMIT_SHA, branch: process.env.CF_PAGES_BRANCH, githubToken: process.env.VOLT_GITHUB_ACTIONS_READ_TOKEN });
+    if (release.state === 'passed') {
+      const file = new URL('../functions/_shared/pages-release.js', import.meta.url);
+      await writeFile(file, "export const productionCommit = '" + process.env.CF_PAGES_COMMIT_SHA + "';\n");
+    }
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;

@@ -4,7 +4,7 @@
 #   0 = 확인 성공 / 1 = 버전 불일치 또는 배포 대기 / 2 = 실패 또는 확인 불가
 #
 # Cloudflare가 GitHub의 HTML 요청을 봇 챌린지로 막으면 같은 main 커밋의
-# 공식 Pages 배포 기록을 확인하고 직접 검증이 생략된 이유를 남긴다.
+# 운영 Pages 주소가 알려 주는 배포 번호를 확인한다.
 
 name: Deploy Verify
 
@@ -16,7 +16,6 @@ on:
 
 permissions:
   contents: read
-  checks: read
 
 jobs:
   verify:
@@ -40,7 +39,6 @@ jobs:
       - name: Wait for Pages deploy and verify cache version
         env:
           VOLT_VERIFY_PAGES_SHA: ${{ github.event.workflow_run.head_sha }}
-          GH_TOKEN: ${{ github.token }}
         run: |
           sleep 60
           for attempt in {1..24}; do

@@ -193,7 +193,7 @@ test('이 설계도를 주는 임무: 누를 때만 임무 자료를 받고 임�
     const tracker = await open(page, '#fabricator?bp=BP_CRAFT_volt_lmg_energy_01');
     const detail = app(page).locator('.fab-detail');
     await expect(detail.locator('.fab-headside')).toContainText('임무 · 보상으로 얻음');
-    await expect(detail.locator('.fab-poolrefs')).toContainText('BP_MISSIONREWARD_ASD2A');
+    await expect(detail.locator('.fab-poolrefs')).toContainText('프레넬 에너지 LMG 외');
     expect(tracker.requests.some((url) => url.includes('/data/contracts/missions.json'))).toBe(false);
 
     await detail.locator('[data-act="missions"]').click();
@@ -206,16 +206,27 @@ test('이 설계도를 주는 임무: 누를 때만 임무 자료를 받고 임�
 
     // 게임 내부 낱말(InProgress)을 그대로 보여 주지 않는다
     await page.goto('/?lang=ko#fabricator?pool=BP_REWARD_CollectorMaterial_002');
-    await expect(app(page).locator('.fab-detail h3')).toHaveText('BP_REWARD_CollectorMaterial_002');
+    await expect(app(page).locator('.fab-detail h3')).toHaveText('메타물질 실험 #152');
     await expect(app(page).locator('.fab-missionlist li').first()).toContainText('결과 구분: 진행 중');
     await expect(app(page).locator('.fab-missionlist')).not.toContainText('InProgress');
     await page.goBack();
     await expect(missions.first()).toBeVisible();
 
-    // 임무 찾기 화면으로 넘어간다
-    await missions.first().locator('a').click();
-    await expect(page.locator('section#missions')).toHaveClass(/active/);
-    await expect(page).toHaveURL(/#missions\?m=/);
+    const mission = missions.first().locator('a');
+    const name = await mission.textContent();
+    const href = await mission.getAttribute('href');
+    await mission.click();
+    const preview = page.locator('dialog[open]');
+    await expect(preview.locator('h3')).toHaveText(name);
+    await expect(preview).toContainText('필요 등급');
+    const opened = page.waitForEvent('popup');
+    await preview.getByRole('link', { name: /자세히 보기/ }).click();
+    const tab = await opened;
+    expect(new URL(tab.url()).hash).toBe(href);
+    await tab.close();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('section#fabricator')).toHaveClass(/active/);
+    await expect(mission).toBeFocused();
     expect(await tracker.problems()).toEqual([]);
 });
 
@@ -228,7 +239,7 @@ test('묶음 보기: 들어 있는 설계도와 쓰이는 곳, 설계도로 돌�
     await app(page).locator('.fab-list [data-act="pool"]').click();
     await expect(page).toHaveURL(/#fabricator\?pool=BP_REWARDS_Xenothreat2_15_01&q=Xenothreat2_15_01&tab=pools$/);
     const detail = app(page).locator('.fab-detail');
-    await expect(detail.locator('h3')).toHaveText('BP_REWARDS_Xenothreat2_15_01');
+    await expect(detail.locator('h3')).toHaveText('카이론 암 퍼거토리 위장');
     await expect(detail).toContainText('18,000점 이상');
     await expect(detail).toContainText('이벤트가 열려 있는지는 서버가 정하므로');
     await expect(detail).toContainText('하나만 나오는지 전부 주는지');
@@ -238,7 +249,7 @@ test('묶음 보기: 들어 있는 설계도와 쓰이는 곳, 설계도로 돌�
     await expect(app(page).locator('.fab-detail h3')).toHaveText(name);
     await expect(page).toHaveURL(/#fabricator\?bp=/);
     await page.goBack();
-    await expect(app(page).locator('.fab-detail h3')).toHaveText('BP_REWARDS_Xenothreat2_15_01');
+    await expect(app(page).locator('.fab-detail h3')).toHaveText('카이론 암 퍼거토리 위장');
 });
 
 test('위켈로 교환: 가져갈 것 · 받는 것 · 조건, 수량 0 은 적지 않는다', async ({ page }) => {

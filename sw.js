@@ -3,7 +3,7 @@
  * CACHE_VERSION is updated during deployment so browsers refresh cached assets.
  */
 
-const CACHE_VERSION = '20261120-21';
+const CACHE_VERSION = '20261121-01';
 const CACHE_NAME = `volt-cache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `volt-runtime-${CACHE_VERSION}`;
 const RUNTIME_LIMIT = 80;
@@ -62,11 +62,6 @@ const VERSIONED_ASSETS = [
     '/js/mining.js',
     '/js/gear.js',
     '/js/hauling.js',
-    '/js/routes.js',
-    '/js/market.js',
-    '/js/tours.js',
-    '/js/missions.js',
-    '/js/fabricator.js',
     '/js/starmap.js',
     '/js/ships.js',
     '/js/ship-imagery.js',

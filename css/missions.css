@@ -202,3 +202,25 @@
 .missions-app .missions-placebar p { margin: 0; font-size: 14px; line-height: 1.5; min-width: 0; flex: 1 1 260px; }
 .missions-app .missions-placebar-acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .missions-app .missions-placebar-acts .btn { min-height: 44px; }
+
+.missions-overview, .missions-overview-facts { display: grid; gap: 12px; align-items: start; min-width: 0; }
+.missions-summary-line { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; font-size: 14px; }
+.missions-summary-line span { font-weight: 650; }
+.missions-app .missions-kv > div { grid-template-columns: minmax(0, min(34%, 12rem)) minmax(0, 1fr); }
+@media (min-width: 980px) {
+    .missions-overview { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+@media (min-width: 1650px) {
+    .missions-overview { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+    .missions-overview-facts, .missions-app .missions-blocks { grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); }
+}
+.mission-preview { width: min(34rem, calc(100% - 2rem)); max-height: 80dvh; overflow: auto; box-sizing: border-box; margin: auto; border: 1px solid var(--color-border); border-radius: 16px; padding: clamp(16px, 3vw, 24px); background: var(--color-surface, #202127); color: var(--color-text-primary); }
+.mission-preview::backdrop { background: rgb(0 0 0 / 65%); }
+.mission-preview header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mission-preview h2 { font-size: 1.3rem; }
+.mission-preview h3 { font-size: 1rem; }
+.mission-preview-body { margin: 14px 0; overflow-wrap: anywhere; }
+.mission-preview article { border-top: 1px solid var(--color-border); padding: 10px 0; }
+.mission-preview article p { color: var(--color-text-secondary); margin: 4px 0; }
+.mission-preview article a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; }
+.mission-preview .btn { min-height: 44px; }

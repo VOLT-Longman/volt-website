@@ -122,8 +122,9 @@ test('시세 표에서 고른 정렬이 카드·주소·기존 선택창에 같�
     await expect(app(page).locator('[data-change="sort"]')).toHaveValue('buy');
     await expect(table.locator('tbody tr').first()).toContainText('300 aUEC');
     await page.setViewportSize({ width: 390, height: 844 });
-    const picker = app(page).locator('.volt-sort-mobile select').first();
-    await picker.selectOption('1/1');
+    const picker = app(page).getByLabel('정렬', { exact: true });
+    await expect(picker).toHaveCount(1);
+    await picker.selectOption('buy-rev');
     await expect(buy).toHaveAttribute('aria-sort', 'descending');
     await expect(page).toHaveURL(/sort=buy-rev/);
     await expect(app(page).locator('[data-change="sort"]')).toHaveValue('buy-rev');
