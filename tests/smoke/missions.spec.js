@@ -274,7 +274,7 @@ test('자료를 못 받으면 안내와 다시 시도 단추를 보여 준다', 
 test('한글 패치에 덧붙은 글은 임무 설명과 따로, 표시를 달아 보여 준다', async ({ page }) => {
     const c = data.contracts.find((x) => x.n === 'CleanAir_Bulk_MedicalSupplies') || data.contracts.find((x) => /미션 상세 정보/.test(data.texts[x.d]?.[1] || ''));
     await open(page, `#missions?m=${c.id}`);
-    const brief = page.locator('.missions-block.is-wide').first();
+    const brief = page.locator('.missions-story');
     await expect(brief.locator('.missions-brief').first()).not.toContainText('미션 상세 정보');
     await expect(brief.locator('.missions-brief').first()).not.toContainText('난이도 (1-7)');
     const fold = brief.locator('[data-ms-patch]');
