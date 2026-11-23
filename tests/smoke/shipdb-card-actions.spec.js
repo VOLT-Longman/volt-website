@@ -57,6 +57,8 @@ test.describe('카드 액션 버튼 높이 계약 (48px)', () => {
     });
 
     test('데스크톱: 플래너 유무와 설명 길이와 무관하게 비교 버튼 기준선이 같다', async ({ page }) => {
+        // 카드가 나타나는 동안의 이동량을 제외하고 최종 배치를 잰다.
+        await page.emulateMedia({ reducedMotion: 'reduce' });
         await mockApi(page);
         await gotoSection(page, '#ships');
         await page.waitForSelector('.ship-card-actions .ship-compare-toggle');
