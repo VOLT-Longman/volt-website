@@ -48,13 +48,14 @@ export function clearOAuthStateCookie() {
 }
 
 export function createOAuthReturnCookie(returnTo) {
-  const gear = gearReturnPath(returnTo);
+  const gear = toolReturnPath(returnTo);
   if (gear) return createCookie(OAUTH_RETURN_COOKIE, encodeURIComponent(gear), OAUTH_STATE_MAX_AGE);
   const key = Object.keys(OAUTH_RETURNS).find((id) => OAUTH_RETURNS[id].input === returnTo) || '';
   return createCookie(OAUTH_RETURN_COOKIE, key, key ? OAUTH_STATE_MAX_AGE : 0);
 }
 
 const OAUTH_RETURNS = Object.freeze({
+  starmap: { input: '/#starmap', output: '/#starmap' },
   routes: { input: '/#routes', output: '/#routes' },
   market: { input: '/#market', output: '/#market' },
   missions: { input: '/#missions', output: '/#missions' },
@@ -68,9 +69,22 @@ const OAUTH_RETURNS = Object.freeze({
   planner: { input: '/#trade-planner', output: '/#trade-planner' }
 });
 
+function toolReturnPath(value) {
+  const gear = gearReturnPath(value);
+  if (gear) return gear;
+  if (typeof value !== 'string' || value.length > 1200) return null;
+  const match = /^\/#([a-z-]+)\?([^#]+)$/.exec(value);
+  if (!match || !Object.values(OAUTH_RETURNS).some(route => route.input === '/#' + match[1])) return null;
+  const params = new URLSearchParams(match[2]);
+  for (const [key, item] of params) {
+    if (!/^[a-zA-Z][\w-]{0,31}$/.test(key) || !/^[\p{L}\p{N} _,.~+-]{0,500}$/u.test(item)) return null;
+  }
+  return '/#' + match[1] + '?' + params;
+}
+
 export function readOAuthReturnPath(request) {
   const key = parseCookies(request)[OAUTH_RETURN_COOKIE];
-  try { const gear = gearReturnPath(decodeURIComponent(key || '')); if (gear) return gear; } catch (_error) { /* Invalid cookie: return home. */ }
+  try { const gear = toolReturnPath(decodeURIComponent(key || '')); if (gear) return gear; } catch (_error) { /* Invalid cookie: return home. */ }
   return Object.hasOwn(OAUTH_RETURNS, key) ? OAUTH_RETURNS[key].output : '/';
 }
 

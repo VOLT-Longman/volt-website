@@ -475,7 +475,7 @@ test('첫 화면과 관계없는 섹션은 도구 자료를 받지 않는다', a
     }
     await page.waitForLoadState('networkidle');
     // 새 도구가 쓰는 자료 파일과 UEX 주소. 이 섹션들에서는 하나도 나가면 안 된다.
-    const helperOnly = requests.filter((path) => /^\/data\/(trade|crafting)\//.test(path) || path === '/data/contracts/missions.json'
+    const helperOnly = requests.filter((path) => /^\/data\/(trade|crafting)\//.test(path) || path.startsWith('/data/contracts/mission')
         || /^\/api\/uex\/(market|terminals|refineries|vehicle-prices|price-history)/.test(path));
     expect(helperOnly).toEqual([]);
     // 도구를 열면 그때 받는다 (잰 방법이 맞는지 확인).
@@ -526,7 +526,7 @@ test('도움 화면은 역할을 먼저 확인하고 장애에서 복구한 뒤�
     let checks = 0;
     const data = [];
     page.on('request', request => {
-        if (request.url().includes('/data/contracts/missions.json')) data.push(request.url());
+        if (request.url().includes('/data/contracts/mission-list.json')) data.push(request.url());
     });
     await page.route(/\/auth\/me\?refresh=1$/, route => {
         checks++;

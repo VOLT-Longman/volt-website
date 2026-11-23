@@ -181,5 +181,5 @@
         window.VOLT_STARMAP?.links?.load?.().then((ready) => { if (ready && state.data) draw(); });
     }
 
-    window.VOLT_HAULING = { render };
+    window.VOLT_HAULING = { init: render, render };
 })();

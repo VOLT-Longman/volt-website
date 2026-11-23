@@ -39,10 +39,29 @@
         const input = document.getElementById('global-search-input');
         if (!overlay || !desktopButton || !mobileButton || !closeButton || !input) return;
         desktopButton.addEventListener('click', () => openSearch(overlay, input, desktopButton));
+        const headerButton = document.getElementById('header-search-toggle');
+        headerButton?.addEventListener('click', () => openSearch(overlay, input, headerButton));
         mobileButton.addEventListener('click', () => openSearch(overlay, input, mobileButton));
         closeButton.addEventListener('click', () => closeSearch(overlay, input));
         overlay.addEventListener('click', (event) => { if (event.target === overlay) closeSearch(overlay, input); });
         input.addEventListener('input', () => renderSearchResults(input.value));
+        input.addEventListener('keydown', event => {
+            if (event.isComposing || event.keyCode === 229) return;
+            const first = overlay.querySelector('.search-result');
+            if (!first) return;
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                first.click();
+            } else if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                first.focus();
+            }
+        });
+        document.getElementById('search-more')?.addEventListener('click', () => {
+            const shown = overlay.querySelectorAll('.search-result').length;
+            renderSearchResults(input.value, shown + 12);
+            overlay.querySelectorAll('.search-result')[shown]?.focus();
+        });
         openSearchFromQuery(overlay, input);
     }
 
@@ -82,6 +101,11 @@
         input.value = '';
         if (lastSearchTrigger?.isConnected) lastSearchTrigger.focus({ preventScroll: true });
         lastSearchTrigger = null;
+        const url = new URL(window.location.href);
+        if (url.searchParams.has('search')) {
+            url.searchParams.delete('search');
+            history.replaceState(history.state, '', url);
+        }
     }
 
     function localized(item, field) {
@@ -89,25 +113,39 @@
         return en ? (item[field + 'En'] || item[field + '_en'] || item[field] || '') : (item[field] || '');
     }
 
+    function menuShortcuts() {
+        const featured = ['routes', 'market', 'missions', 'mining', 'fabricator', 'starmap'];
+        const links = document.querySelectorAll('#nav .nav-links a[data-section][href^="#"]');
+        const shortcuts = Array.from(links, link => {
+            const section = link.dataset.section;
+            const title = link.textContent.trim();
+            const heading = document.getElementById(section)?.querySelector('.section-header h2')?.textContent.trim() || '';
+            const featuredIndex = featured.indexOf(section);
+            const body = featuredIndex >= 0 ? t(section + '.subtitle') : '';
+            const item = makeSearchItem('search.shortcut', section, title, body);
+            return { ...item, menuName: (title + '|' + heading).toLowerCase().replace(/\s+/g, ''), featuredIndex };
+        });
+        return shortcuts;
+    }
+
     function buildSearchIndex() {
         if (searchIndexCache) return searchIndexCache;
         const result = [
-            ...['routes', 'market', 'missions', 'mining', 'fabricator', 'starmap'].map(section =>
-                makeSearchItem('nav.' + section, section, window.VOLT_I18N.t('nav.' + section), window.VOLT_I18N.t(section + '.subtitle'))),
-            ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', localized(item, 'title'), localized(item, 'content'))),
+            ...menuShortcuts(),
+            ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', localized(item, 'title'), localized(item, 'content'), item.id)),
             // ON에서는 메인 함선DB와 같은 공개 집합(Erkul 219 + RSI 공식 30)만 색인한다.
             ...shipSearchEntries().map(({ ship, title, body }) => makeSearchItem('search.type.ships', 'ships', title, body, ship.id)),
-            ...data.faq.map((item) => makeSearchItem('search.type.faq', 'faq', localized(item, 'q'), localized(item, 'a'))),
+            ...data.faq.map((item, index) => makeSearchItem('search.type.faq', 'faq', localized(item, 'q'), localized(item, 'a'), String(index))),
             ...data.timeline.map((item) => makeSearchItem('search.type.timeline', 'timeline', localized(item, 'title'), localized(item, 'description'))),
             ...data.leadership.map((item) => makeSearchItem('search.type.leadership', 'leadership', localized(item, 'name'), `${localized(item, 'role')} ${localized(item, 'description')}`)),
             ...(Array.isArray(data.partnerFleets) ? data.partnerFleets.map((item) => makeSearchItem('search.type.partnerFleets', 'partner-fleets', localized(item, 'name'), `${localized(item, 'region') || ''} ${localized(item, 'game') || ''} ${localized(item, 'focus') || ''} ${localized(item, 'description') || ''}`)) : []),
             ...data.departments.map((item) => makeSearchItem('search.type.about', 'about', localized(item, 'name'), localized(item, 'description'))),
             ...data.coreValues.map((item) => makeSearchItem('search.type.values', 'about', localized(item, 'title'), localized(item, 'description'))),
-            ...data.calendar.map((item) => makeSearchItem('search.type.schedule', 'schedule', localized(item, 'title'), localized(item, 'description'))),
+            ...data.calendar.map((item) => makeSearchItem('search.type.schedule', 'schedule', localized(item, 'title'), localized(item, 'description'), String(item.id || item.title || '').trim().replace(/\s+/g, '-'))),
             ...data.tradeGuide.map((item) => makeSearchItem('search.type.guide', 'guide', localized(item, 'title'), [localized(item, 'content'), ...localized(item, 'steps')].join(' '))),
             ...data.joinSteps.map((item) => makeSearchItem('search.type.join', 'join', localized(item, 'title'), localized(item, 'description'))),
             ...data.gallery.map((item) => makeSearchItem('search.type.gallery', 'gallery', localized(item, 'title'), localized(item, 'description'))),
-            ...data.policy.sections.map((item) => makeSearchItem('search.type.policy', 'policy', localized(item, 'title'), item.items.map((policyItem) => policyItem.text).join(' '))),
+            ...data.policy.sections.map((item, index) => makeSearchItem('search.type.policy', 'policy', localized(item, 'title'), item.items.map((policyItem) => localized(policyItem, 'text')).join(' '), String(index + 1))),
             ...getLocalizationSearchItems()
         ];
         searchIndexCache = result;
@@ -144,11 +182,21 @@
         return `${start ? '…' : ''}${text.slice(start, end).trim()}${end < text.length ? '…' : ''}`;
     }
 
-    function renderSearchResults(query) {
+    function renderSearchResults(query, limit = 12) {
         const container = document.getElementById('search-results');
         if (!container) return;
         const normalized = query.trim().toLowerCase();
-        const results = buildSearchIndex().filter((item) => !normalized || item.haystack.includes(normalized)).slice(0, 12);
+        const index = buildSearchIndex();
+        const compact = normalized.replace(/\s+/g, '');
+        const shortcuts = index.filter(item => item.menuName && (normalized
+            ? item.menuName.includes(compact) || item.haystack.includes(normalized)
+            : item.featuredIndex >= 0));
+        if (!normalized) shortcuts.sort((a, b) => a.featuredIndex - b.featuredIndex);
+        const matches = index.filter(item => !item.menuName && (!normalized || item.haystack.includes(normalized)));
+        const all = [...shortcuts, ...matches];
+        const results = all.slice(0, limit);
+        document.getElementById('search-count').textContent = !normalized ? '' : t('audit.count').replace('{total}', all.length).replace('{shown}', results.length);
+        document.getElementById('search-more').hidden = !normalized || results.length === all.length;
         if (results.length === 0) {
             container.innerHTML = `<div class="search-empty">${escapeHtml(t('search.empty', '검색 결과가 없습니다.'))}</div>`;
             return;
@@ -169,9 +217,22 @@
         const input = document.getElementById('global-search-input');
         if (overlay && input) closeSearch(overlay, input);
         trackEvent('search_result_select', { section, itemId });
-        if (section === 'ships') resetShipState();
+        if (section === 'ships' && itemId) resetShipState();
         showSection(section);
         if (section === 'ships' && itemId) focusShipResult(itemId);
+        if (itemId && ['faq', 'policy', 'schedule'].includes(section)) {
+            let target;
+            if (section === 'faq') target = document.getElementById('faq-q-' + itemId);
+            if (section === 'policy') target = document.querySelector('#policy-section-' + CSS.escape(itemId) + ' .policy-anchor-copy');
+            if (section === 'schedule') target = document.querySelector('[data-schedule-event-id="' + CSS.escape(itemId) + '"] .schedule-item-toggle');
+            if (target?.getAttribute('aria-expanded') === 'false') target.click();
+            target?.focus({ preventScroll: true });
+            target?.scrollIntoView({ block: 'center', behavior: 'instant' });
+        }
+        if (section === 'notices' && itemId) {
+            const notice = window.VOLT_NOTICES?.findAnnouncement(itemId);
+            if (notice) window.VOLT_NOTICES.openNoticeModal(notice);
+        }
     }
 
     function focusShipResult(shipId) {

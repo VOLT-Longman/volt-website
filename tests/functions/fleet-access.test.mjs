@@ -12,7 +12,7 @@ const FLEET = '1120508650520330310';
 const COMMUNITY = '1150059971887771718';
 const index = JSON.parse(readFileSync(new URL('../../data/gear/models.json', import.meta.url)));
 const asset = '/assets/models/gear/weapons/behr_rifle_ballistic_01/body_lod1.glb';
-const helpers = ['/data/mining/helper.json', '/data/contracts/hauling.json', '/data/contracts/missions.json', '/data/crafting/blueprints.json', '/data/trade/world.json', '/data/trade/cargo.json',
+const helpers = ['/data/mining/helper.json', '/data/contracts/mission-list.json', '/data/contracts/hauling.json', '/data/contracts/missions.json', '/data/crafting/blueprints.json', '/data/trade/world.json', '/data/trade/cargo.json',
   ...['market', 'terminals', 'refineries', 'vehicle-prices', 'price-history'].map((name) => '/api/uex/' + name)];
 const paths = ['/data/gear/models.json', '/data/gear/attachments.json', asset, '/assets/models/gear/tex/example.webp'];
 const environment = () => ({ ...TEST_ENV, DB: createSqliteDb(), FLEET_TOOLS_REQUIRE_MEMBERSHIP: 'true', COMMUNITY_TOOLS_REQUIRE_MEMBERSHIP: 'false', DISCORD_ROLE_MAP: JSON.stringify({ [FLEET]: 'VOLT 함대원', [COMMUNITY]: '커뮤니티 멤버', admin: '대표이사' }) });
@@ -107,6 +107,13 @@ test('/auth/me exposes only verified fleet feature; role removal and Discord out
   assert.equal((await getMe()).headers.get('Retry-After'), '24');
   globalThis.fetch = async () => new Response('', { status: 401 });
   assert.equal((await invoke(env, asset, cookie)).response.status, 401);
+});
+
+test('A helper login preserves a bounded local route and its filters', () => {
+  for (const path of ['/#starmap', '/#missions?tab=hauling', '/#routes?from=Stanton&scu=20']) {
+    const cookie = createOAuthReturnCookie(path).split(';')[0];
+    assert.equal(readOAuthReturnPath(request('/auth/discord/callback', cookie)), path);
+  }
 });
 
 test('Only bounded local gear combinations survive the login return cookie', () => {

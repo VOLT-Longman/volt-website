@@ -39,5 +39,27 @@ for (const width of [1280, 390]) {
         await result.click();
         await expect(page.locator('#search-overlay')).not.toHaveClass(/active/);
         await expect(page).toHaveURL(/#notices$/);
+        await expect(page.locator('#global-modal [data-notice-reader-id="long-notice"]')).toBeVisible();
+    });
+}
+
+for (const [width, lang, query] of [[360, 'ko', '함선 DB'], [768, 'ko', '함선 데이터베이스'], [1280, 'en', 'Ship DB']]) {
+    test(`메뉴를 거치지 않고 함선 DB로 이동한다 ${width}px ${lang}`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 844 });
+        await mockApi(page);
+        await gotoSection(page, `?lang=${lang}#home`);
+        const trigger = page.locator(width <= 1200 ? '#header-search-toggle' : '#search-toggle');
+        await trigger.click();
+        const input = page.locator('#global-search-input');
+        await expect(input).toBeFocused();
+        await page.keyboard.press('Escape');
+        await expect(trigger).toBeFocused();
+        await trigger.click();
+        await input.fill(query);
+        const top = page.locator('#search-results .search-result').first();
+        await expect(top).toHaveAttribute('data-search-section', 'ships');
+        await top.click();
+        await expect(page).toHaveURL(/#ships$/);
+        await expect(page.locator('#ships')).toBeVisible();
     });
 }

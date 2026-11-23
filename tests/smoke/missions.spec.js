@@ -263,7 +263,7 @@ for (const width of [375, 1440]) {
 test('자료를 못 받으면 안내와 다시 시도 단추를 보여 준다', async ({ page }) => {
     await mockApi(page, { fleet: true });
     let fail = true;
-    await page.route('**/data/contracts/missions.json*', (route) => (fail ? route.fulfill({ status: 500, body: 'x' }) : route.fallback()));
+    await page.route('**/data/contracts/mission-list.json*', (route) => (fail ? route.fulfill({ status: 500, body: 'x' }) : route.fallback()));
     await gotoSection(page, '#missions');
     await expect(page.locator('#missions-app [role="alert"]')).toContainText('게임 자료를 불러오지 못했습니다');
     fail = false;

@@ -19,13 +19,16 @@
     const PARAM_SECTIONS = ['gear', 'routes', 'market', 'tours', 'missions', 'fabricator', 'mining', 'hauling', 'starmap'];
 
     function updateActiveNav(id) {
-        document.querySelectorAll('.nav-links [data-section]').forEach((link) => {
-            link.classList.toggle('nav-active', link.getAttribute('data-section') === id);
+        document.querySelectorAll('.nav-links [data-section], #mobileMenu [data-section]').forEach((link) => {
+            const active = link.dataset.section === id;
+            link.classList.toggle('nav-active', active);
+            if (active) link.setAttribute('aria-current', 'page');
+            else link.removeAttribute('aria-current');
         });
         document.getElementById('nav-trade-toggle')?.classList.toggle('nav-active', ['trade-planner', 'routes', 'market', 'tours', 'hub', 'guide'].includes(id));
         document.getElementById('nav-work-toggle')?.classList.toggle('nav-active', ['missions', 'hauling', 'mining', 'fabricator', 'starmap'].includes(id));
         document.getElementById('nav-ships-toggle')?.classList.toggle('nav-active', ['ships', 'loadout', 'gear'].includes(id));
-        document.getElementById('nav-more-toggle')?.classList.toggle('nav-active', ['timeline', 'leadership', 'streamers', 'gallery', 'policy', 'faq', 'comms'].includes(id));
+        document.getElementById('nav-more-toggle')?.classList.toggle('nav-active', ['timeline', 'leadership', 'partner-fleets', 'streamers', 'gallery', 'policy', 'faq', 'comms'].includes(id));
     }
 
     // 뒤로·앞으로 가기인지 알아 둔다 (Navigation API 가 있는 브라우저만. 없으면 예전처럼 동작한다).
@@ -75,12 +78,19 @@
 
     function updateHistory(id) {
         const hash = id === 'home' ? '' : window.VOLT_HELPER.buildHash(id);
+        if (window.location.hash === hash || (id === 'home' && window.location.hash === '#home')) return;
         history.pushState({ section: id }, '', hash || window.location.pathname);
     }
 
     function parseRouteFromHash() {
         const hash = window.location.hash.replace('#', '');
         const route = window.VOLT_HELPER?.parseHash();
+        if (hash && !VALID_SECTIONS.includes(hash.split('?')[0]) && !document.getElementById(hash) && !/^policy-section-\d+$/.test(hash)) {
+            const url = new URL(location.href);
+            url.hash = '';
+            history.replaceState(history.state, '', url);
+            deps.showToast?.(deps.i18nT('audit.unknown'));
+        }
         if (route && ['hauling', 'tours'].includes(route.section)) {
             if (/^(hauling|tours)(?:\?|$)/.test(hash)) history.replaceState(history.state, '', window.VOLT_HELPER.buildHash(route.section, route.params));
             return { section: route.section, anchorId: null };
@@ -122,6 +132,7 @@
         });
         document.querySelectorAll('[data-section]').forEach((link) => {
             link.addEventListener('click', (event) => {
+                if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
                 event.preventDefault();
                 showSection(link.getAttribute('data-section'));
                 closeMoreMenu();
@@ -212,6 +223,12 @@
         const toggle = document.getElementById(toggleId);
         const menu = document.getElementById(menuId);
         if (!toggle || !menu) return;
+        menu.parentElement.addEventListener('keydown', event => {
+            if (event.key !== 'Escape' || toggle.getAttribute('aria-expanded') !== 'true') return;
+            event.stopPropagation();
+            setDropdownState(toggle, menu, bodyClass, false);
+            toggle.focus();
+        });
         toggle.addEventListener('click', () => {
             const expanded = toggle.getAttribute('aria-expanded') === 'true';
             if (!expanded) closeOther?.();
@@ -251,7 +268,17 @@
         menu.addEventListener('click', (event) => {
             if (event.target === menu) close();
         });
-        menu.addEventListener('click', (event) => { if (event.target.closest('a')) close(); });
+        menu.addEventListener('click', (event) => {
+            const link = event.target.closest('a');
+            if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+            close();
+            const section = document.getElementById(link.dataset.section);
+            const heading = section && [...section.querySelectorAll('h1, h2')].find(node => node.offsetHeight);
+            if (heading) {
+                heading.tabIndex = -1;
+                heading.focus({ preventScroll: true });
+            }
+        });
         document.addEventListener('keydown', (event) => {
             if (!menu.classList.contains('active')) return;
             if (event.key === 'Escape') close();
