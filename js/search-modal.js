@@ -39,6 +39,8 @@
         const input = document.getElementById('global-search-input');
         if (!overlay || !desktopButton || !mobileButton || !closeButton || !input) return;
         desktopButton.addEventListener('click', () => openSearch(overlay, input, desktopButton));
+        const headerButton = document.getElementById('header-search-toggle');
+        headerButton?.addEventListener('click', () => openSearch(overlay, input, headerButton));
         mobileButton.addEventListener('click', () => openSearch(overlay, input, mobileButton));
         closeButton.addEventListener('click', () => closeSearch(overlay, input));
         overlay.addEventListener('click', (event) => { if (event.target === overlay) closeSearch(overlay, input); });
@@ -89,12 +91,26 @@
         return en ? (item[field + 'En'] || item[field + '_en'] || item[field] || '') : (item[field] || '');
     }
 
+    function menuShortcuts() {
+        const featured = ['routes', 'market', 'missions', 'mining', 'fabricator', 'starmap'];
+        const links = document.querySelectorAll('#nav .nav-links a[data-section][href^="#"]');
+        const shortcuts = Array.from(links, link => {
+            const section = link.dataset.section;
+            const title = link.textContent.trim();
+            const heading = document.getElementById(section)?.querySelector('.section-header h2')?.textContent.trim() || '';
+            const featuredIndex = featured.indexOf(section);
+            const body = featuredIndex >= 0 ? t(section + '.subtitle') : '';
+            const item = makeSearchItem('search.shortcut', section, title, body);
+            return { ...item, menuName: (title + '|' + heading).toLowerCase().replace(/\s+/g, ''), featuredIndex };
+        });
+        return shortcuts;
+    }
+
     function buildSearchIndex() {
         if (searchIndexCache) return searchIndexCache;
         const result = [
-            ...['routes', 'market', 'missions', 'mining', 'fabricator', 'starmap'].map(section =>
-                makeSearchItem('nav.' + section, section, window.VOLT_I18N.t('nav.' + section), window.VOLT_I18N.t(section + '.subtitle'))),
-            ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', localized(item, 'title'), localized(item, 'content'))),
+            ...menuShortcuts(),
+            ...data.announcements.map((item) => makeSearchItem('search.type.notices', 'notices', localized(item, 'title'), localized(item, 'content'), item.id)),
             // ON에서는 메인 함선DB와 같은 공개 집합(Erkul 219 + RSI 공식 30)만 색인한다.
             ...shipSearchEntries().map(({ ship, title, body }) => makeSearchItem('search.type.ships', 'ships', title, body, ship.id)),
             ...data.faq.map((item) => makeSearchItem('search.type.faq', 'faq', localized(item, 'q'), localized(item, 'a'))),
@@ -148,7 +164,14 @@
         const container = document.getElementById('search-results');
         if (!container) return;
         const normalized = query.trim().toLowerCase();
-        const results = buildSearchIndex().filter((item) => !normalized || item.haystack.includes(normalized)).slice(0, 12);
+        const index = buildSearchIndex();
+        const compact = normalized.replace(/\s+/g, '');
+        const shortcuts = index.filter(item => item.menuName && (normalized
+            ? item.menuName.includes(compact) || item.haystack.includes(normalized)
+            : item.featuredIndex >= 0));
+        if (!normalized) shortcuts.sort((a, b) => a.featuredIndex - b.featuredIndex);
+        const matches = index.filter(item => !item.menuName && (!normalized || item.haystack.includes(normalized)));
+        const results = [...shortcuts, ...matches].slice(0, 12);
         if (results.length === 0) {
             container.innerHTML = `<div class="search-empty">${escapeHtml(t('search.empty', '검색 결과가 없습니다.'))}</div>`;
             return;
@@ -172,6 +195,10 @@
         if (section === 'ships') resetShipState();
         showSection(section);
         if (section === 'ships' && itemId) focusShipResult(itemId);
+        if (section === 'notices' && itemId) {
+            const notice = window.VOLT_NOTICES?.findAnnouncement(itemId);
+            if (notice) window.VOLT_NOTICES.openNoticeModal(notice);
+        }
     }
 
     function focusShipResult(shipId) {
