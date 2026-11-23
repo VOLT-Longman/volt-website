@@ -19,7 +19,7 @@ export function isStarmapResource(path) {
 export function isFleetResource(rawPath) {
   const path = String(rawPath).toLowerCase();
   return path.startsWith('/data/trade/') || path.startsWith('/data/crafting/')
-    || path === '/data/mining/helper.json' || path === '/data/contracts/missions.json' || path === '/data/contracts/hauling.json'
+    || path === '/data/mining/helper.json' || path.startsWith('/data/contracts/')
     || /^\/api\/uex\/(?:market|terminals|refineries|vehicle-prices|price-history)$/.test(path)
     || path === '/assets/models/gear' || path.startsWith('/assets/models/gear/')
     || path === '/data/gear/models.json' || path === '/data/gear/attachments.json'

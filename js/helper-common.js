@@ -13,6 +13,7 @@
 
     // 섹션 id → 마운트 요소 id, 화면 모듈 전역 이름, 탭 제목용 i18n 키.
     const SECTIONS = Object.freeze({
+        hauling: { mount: 'hauling-app', global: 'VOLT_HAULING', titleKey: 'nav.hauling' },
         routes: { mount: 'routes-app', global: 'VOLT_ROUTES', titleKey: 'nav.routes' },
         market: { mount: 'market-app', global: 'VOLT_MARKET', titleKey: 'nav.market' },
         tours: { mount: 'tours-app', global: 'VOLT_TOURS', titleKey: 'nav.tours' },
@@ -21,7 +22,7 @@
         starmap: { mount: 'starmap-app', global: 'VOLT_STARMAP', titleKey: 'nav.starmap' },
     });
     // 해시 뒤에 ?key=value 를 붙일 수 있는 섹션 (기존 채광·운송 계약 포함).
-    const HASH_SECTIONS = Object.freeze([...Object.keys(SECTIONS), 'mining', 'hauling']);
+    const HASH_SECTIONS = Object.freeze([...Object.keys(SECTIONS), 'mining']);
 
     // 소유자 결정(2026-11-19): 기본으로 3일 이내 가격 보고만 쓴다. 이용자가 바꿀 수 있고 나이는 항상 보여 준다.
     const DEFAULT_PRICE_AGE_DAYS = 3;

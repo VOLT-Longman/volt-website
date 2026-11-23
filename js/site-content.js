@@ -67,7 +67,7 @@
         return `<div class="policy-section reveal" id="${sectionId}">
             <div class="policy-section-heading">
                 <h3 class="policy-section-title">${escapeHtml(tx(section, 'title'))}</h3>
-                <button class="policy-anchor-copy" type="button" data-policy-index="${index + 1}" aria-label="${escapeHtml(tx(section, 'title'))} 링크 복사"><span class="icon-link" aria-hidden="true"></span></button>
+                <button class="policy-anchor-copy" type="button" data-policy-index="${index + 1}" aria-label="${escapeHtml(tx(section, 'title'))} ${escapeHtml(i18nT('audit.copy', '링크 복사'))}"><span class="icon-link" aria-hidden="true"></span></button>
             </div>
             ${notice}
             <div class="policy-items">${section.items.map((item) => `<div class="policy-item"><span class="policy-num">${escapeHtml(tx(item, 'num'))}</span><span class="policy-text">${escapeHtml(tx(item, 'text'))}</span></div>`).join('')}</div>

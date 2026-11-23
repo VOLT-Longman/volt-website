@@ -1,12 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { cleanText, fillTokens, matchTagSearch, runsNeeded, stripPatchSuffix } from '../../scripts/contracts/build-contracts-data.mjs';
+import { missionOverview, cleanText, fillTokens, matchTagSearch, runsNeeded, stripPatchSuffix } from '../../scripts/contracts/build-contracts-data.mjs';
 
 const data = (path) => JSON.parse(readFileSync(new URL(`../../data/${path}`, import.meta.url)));
 const missions = data('contracts/missions.json');
 const byName = (name) => missions.contracts.find((contract) => contract.n === name);
 const english = (index) => missions.texts[index][0];
+
+test('The published mission overview matches the complete catalog', () => {
+    assert.equal(readFileSync(new URL('../../data/contracts/mission-list.json', import.meta.url), 'utf8'), missionOverview(missions));
+});
 
 test('Korean patch notes are removed from titles and placeholders stay readable', () => {
     assert.equal(stripPatchSuffix('화물 수송  <EM4>[BP?]</EM4> <EM4>[50-8,000 평판]</EM4>'), '화물 수송');

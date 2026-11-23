@@ -29,7 +29,7 @@ h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.
 p { font-size: 16px; color: #a1a1a6; line-height: 1.7; margin-bottom: 40px; }
 .btn {
   display: inline-block; padding: 14px 36px;
-  background: var(--volt-orange); color: #fff;
+  background: #b53624; color: #fff;
   border-radius: 980px; text-decoration: none;
   font-size: 16px; font-weight: 600;
   transition: all 0.3s; box-shadow: 0 4px 20px rgba(232,72,47,0.3);

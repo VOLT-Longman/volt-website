@@ -17,7 +17,7 @@
         // 콘텐츠 원본이 없으면 렌더할 것이 없어 여기서 중단하지만, 최소한 스플래시가
         // 무한 로딩으로 남지 않게 걷어 "복구 불가 상태"를 화면으로 알 수 있게 한다.
         const splash = document.getElementById('loading-splash');
-        if (splash) splash.style.display = 'none';
+        if (splash) splash.hidden = false;
         return;
     }
     // 랜딩 강화 레이어(js/landing.js)는 선택적이다. 호출부가 window.VOLT_LANDING?.() 옵셔널
@@ -947,6 +947,7 @@
         banner.firstElementChild.textContent = i18nT('cms.unavailable', '일부 콘텐츠를 갱신하지 못했습니다. 표시된 내용은 최신이 아닐 수 있습니다.');
         banner.lastElementChild.textContent = i18nT('cms.retry', '다시 시도');
     }
+    let confirmedNotices = false;
     let cmsLoadPromise = null;
     function loadCmsContent(forceRefresh = false) {
         if (cmsLoadPromise) return cmsLoadPromise;
@@ -955,6 +956,7 @@
         cmsLoadPromise = Promise.all(Object.entries(collections).map(async ([endpoint, property]) => {
             const items = await fetchCmsCollection(`/api/${endpoint}`, forceRefresh);
             if (items !== null) {
+                if (endpoint === 'notices') confirmedNotices = true;
                 if (endpoint === 'events' && forceRefresh) window.VOLT_SCHEDULE?.clearRsvpCache?.();
                 if (property) data[property] = items;
                 else applyShipOverrides(items);
@@ -1160,7 +1162,7 @@
             renderShips();
         });
     }
-    const LAZY_SECTIONS = { gear: () => window.VOLT_GEAR?.render?.(), ships: renderShipsSection, gallery: renderGallery, loadout: () => window.VOLT_LOADOUT?.render?.(), mining: () => window.VOLT_MINING?.render?.(), hauling: () => window.VOLT_HAULING?.render?.() };
+    const LAZY_SECTIONS = { gear: () => window.VOLT_GEAR?.render?.(), ships: renderShipsSection, gallery: renderGallery, loadout: () => window.VOLT_LOADOUT?.render?.(), mining: () => window.VOLT_MINING?.render?.() };
     const renderedLazySections = new Set();
 
     // navigation의 showSection 훅. 처음 보이는 순간에 한 번 렌더한다.
@@ -1608,9 +1610,14 @@
         document.addEventListener('keydown', (event) => {
             const searchOverlay = document.getElementById('search-overlay');
             const isTyping = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
-            if (event.key === '/' && !isTyping && searchOverlay && !searchOverlay.classList.contains('active')) {
+            if (event.key === '/' && !activeModal && !document.querySelector('dialog[open], #mobileMenu.active') && !isTyping && searchOverlay && !searchOverlay.classList.contains('active')) {
                 event.preventDefault();
-                document.getElementById('search-toggle')?.click();
+                const trigger = ['header-search-toggle', 'search-toggle'].map(id => document.getElementById(id)).find(button => button?.offsetWidth);
+                trigger?.click();
+            }
+            if (searchOverlay?.classList.contains('active') && event.key === 'Tab') {
+                trapFocus(searchOverlay, event);
+                return;
             }
             if (activeModal && event.key === 'Tab') {
                 trapFocus(activeModal, event);
@@ -1630,12 +1637,9 @@
     function setupSplash() {
         const splash = document.getElementById('loading-splash');
         if (!splash) return;
-        window.setTimeout(() => {
-            splash.classList.add('splash-hide');
-            // 스플래시가 걷히는 순간 히어로 스태거 진입 모션 시작 (D-②)
-            window.VOLT_LANDING?.startHeroEntrance?.();
-            window.setTimeout(() => { splash.style.display = 'none'; }, 600);
-        }, 1200);
+        splash.hidden = true;
+        document.getElementById('home')?.classList.add('hero-enter');
+        window.VOLT_LANDING?.startHeroEntrance?.();
     }
 
 
@@ -1667,7 +1671,14 @@
             }
             if (authStatus === 'ready' && !authState.loggedIn) {
                 const login = document.createElement('a');
-                login.href = '/auth/discord/login?returnTo=' + encodeURIComponent('/#' + section.id);
+                const updateReturn = () => {
+                    const route = parseRouteFromHash();
+                    const path = route.section === section.id && location.hash ? '/' + location.hash : '/#' + section.id;
+                    login.href = '/auth/discord/login?returnTo=' + encodeURIComponent(path);
+                };
+                updateReturn();
+                login.addEventListener('focus', updateReturn);
+                login.addEventListener('click', updateReturn);
                 login.textContent = en ? 'Log in with Discord' : '디스코드로 로그인';
                 gate.append(login);
             }
@@ -2086,11 +2097,24 @@
     function setupScrollTop() {
         const button = document.getElementById('scroll-to-top');
         if (!button) return;
+        const filters = document.getElementById('return-to-filters');
+        const findFilter = () => document.querySelector('.section.active :is(#ship-search,#gear-search,#mining-search,#missions-q,#fab-q)');
+        filters?.addEventListener('click', () => {
+            const input = findFilter();
+            if (!input) return;
+            const group = input.parentElement;
+            group.tabIndex = -1;
+            group.focus({ preventScroll: true });
+            group.scrollIntoView({ block: 'center' });
+        });
         let ticking = false;
         window.addEventListener('scroll', () => {
             if (ticking) return;
             window.requestAnimationFrame(() => {
+                const input = findFilter();
+                if (filters) filters.hidden = !(input?.getClientRects().length && input.getBoundingClientRect().bottom < 0);
                 button.classList.toggle('visible', window.scrollY > 300);
+                button.inert = window.scrollY <= 300;
                 ticking = false;
             });
             ticking = true;
@@ -2230,7 +2254,7 @@
     }
 
     function initInner() {
-        nav.init({ trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements, onSectionShow: renderSectionOnShow, updateDocumentTitle });
+        nav.init({ showToast, i18nT, trackEvent, observeNewReveals, openNoticeFromQuery, trapFocus, getFocusableElements, onSectionShow: renderSectionOnShow, updateDocumentTitle });
         uex.init({ getCargoTarget: () => Math.max(0, Number(document.getElementById('logistics-cargo')?.value) || 0), formatCommodityLabel });
         // nav/uex는 위에서 이미 폴백 stub 처리(D-1) — 항상 안전하게 호출 가능.
         // UEX 패널(DOM 렌더) 계층 — 공용 포매터·로컬라이즈·피커·상수 주입.
@@ -2271,7 +2295,7 @@
         // 랜딩 하이라이트 계층 — 공지 티저·동적 수치·스타필드/리빌 주입.
         // 랜딩(장식 계층)은 로드 실패해도 사이트가 동작해야 한다 — 옵셔널 참조 (라이브 블랭크 사고 예방)
         window.VOLT_LANDING?.init?.({
-            getAnnouncements: () => data.announcements,
+            getAnnouncements: () => confirmedNotices ? data.announcements : [],
             openNotice: (notice) => window.VOLT_NOTICES?.openNoticeModal?.(notice),
             getShipsCount: () => (publicShips.length > 0 ? publicShips.length : null),
             getMemberLabel,
@@ -2383,7 +2407,7 @@
     // 그 경우에도 로딩 스플래시만은 반드시 걷어 "영구 백지"를 만들지 않는다.
     function forceHideSplash() {
         const splash = document.getElementById('loading-splash');
-        if (splash) splash.style.display = 'none';
+        if (splash) splash.hidden = false;
     }
     function init() {
         try {

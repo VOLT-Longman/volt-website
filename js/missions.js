@@ -1193,6 +1193,10 @@
             bodyEl.setAttribute('role', 'tabpanel');
             bodyEl.setAttribute('aria-labelledby', `missions-tab-${view.tab}`);
         }
+        if (!load.error && load.data?.overview && needsFullData()) {
+            requestDetails(focusKey);
+            return;
+        }
         if (load.error) {
             paint(headEl, '');
             paint(bodyEl, `<div class="helper-soon helper-soon-error" role="alert"><p>${esc(H.errorText(load.error))}</p><button type="button" class="btn btn-secondary" data-ms-retry>${esc(t('retry'))}</button></div>`);
@@ -1210,7 +1214,18 @@
     }
 
     // 결과 영역만 다시 그린다 — 입력 칸은 건드리지 않으므로 치는 도중 끊기지 않는다.
+    let loadingDetails;
+    function requestDetails(focusKey) {
+        if (loadingDetails) return;
+        setStatus(t('loading'));
+        loadingDetails = readMissions(true).catch(error => { load.error = error; }).finally(() => {
+            loadingDetails = null;
+            setStatus('');
+            draw(focusKey);
+        });
+    }
     function drawOut() {
+        if (load.data?.overview && needsFullData()) { requestDetails(); return; }
         const out = bodyEl?.querySelector('[data-ms-out]');
         if (!out) return draw();
         if (view.tab === 'rank') paint(out, calcOutHtml(ix.entries[ix.byId.get(view.calcM)]));
@@ -1225,8 +1240,14 @@
     }
 
     let indexLanguage;
-    async function readMissions() {
-        const data = await H.loadJson(DATA_URL);
+    function needsFullData() {
+        return Boolean(view.m || view.q.trim() || view.tab !== 'list');
+    }
+    async function readMissions(full = needsFullData()) {
+        const data = full || (load.data && !load.data.overview)
+            ? await H.loadJson(DATA_URL)
+            : await H.loadJson('/data/contracts/mission-list.json');
+        if (data?.overview && load.data && !load.data.overview) return;
         if (!Array.isArray(data?.contracts) || !Array.isArray(data?.texts)) throw Object.assign(new Error('Unexpected mission data'), { helperType: 'data' });
         if (load.data !== data || indexLanguage !== H.lang()) {
             load.data = data;

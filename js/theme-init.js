@@ -9,5 +9,13 @@
     // localStorage 접근 실패(프라이빗 모드 등)는 테마 고정에 영향 없음
   }
 
+  window.addEventListener('DOMContentLoaded', () => {
+    // main.js normally registers its startup listener after this file.
+    window.setTimeout(() => {
+      if (window.VOLT_APP) return;
+      const splash = document.getElementById('loading-splash');
+      if (splash) splash.hidden = false;
+    }, 0);
+  });
   document.documentElement.setAttribute('data-theme', 'dark');
 })();

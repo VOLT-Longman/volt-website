@@ -25,6 +25,13 @@ import { DataForge } from '../gamedata/dataforge.mjs';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT_PATH = resolve(ROOT, 'data/contracts/missions.json');
 
+export function missionOverview(data) {
+    const labels = new Set(data.contracts.flatMap(c => [c.t, c.con]));
+    const summary = { ...data, overview: true, texts: data.texts.map((pair, i) => labels.has(i) ? pair : null) };
+    for (const key of ['combats', 'spawnGroups', 'tagSets', 'pools', 'blueprints', 'snapshot']) delete summary[key];
+    return JSON.stringify(summary) + '\n';
+}
+
 // ---------------------------------------------------------------- pure helpers (exported for tests)
 
 /** Korean patch authors append notes such as "<EM4>[BP]</EM4> <EM4>[100 평판]</EM4>" to titles. They are not game text. */
@@ -903,6 +910,7 @@ function main() {
     }
     mkdirSync(dirname(OUT_PATH), { recursive: true });
     writeFileSync(OUT_PATH, json);
+    writeFileSync(resolve(dirname(OUT_PATH), 'mission-list.json'), missionOverview(out));
     console.log(summary);
     if (process.argv.includes('--stats')) console.log(JSON.stringify(stats, null, 1));
 }
