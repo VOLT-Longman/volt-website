@@ -80,6 +80,7 @@ test.describe('role 필터 UX — 단일 검색형 콤보박스 (ON 전용)', ()
         // 휴대폰 폭은 24척씩 보여주므로(더 보기), 전체 로드를 확인한 뒤 폭을 줄인다.
         await onShips(page);
         await page.setViewportSize({ width: 390, height: 800 });
+        await page.locator('#ship-advanced-toggle').click();
         const input = page.locator('#ship-role-search');
         await input.click();
         await input.fill('의료');

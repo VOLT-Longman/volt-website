@@ -24,7 +24,8 @@ export function buildPlacePreviews(data, links) {
             }
         }
         for (const id of ids) {
-            const entry = places[id] ||= { count: 0, ids: [] };
+            places[id] ||= { count: 0, ids: [] };
+            const entry = places[id];
             entry.count++;
             if (entry.ids.length === 5) continue;
             entry.ids.push(contract.id);
