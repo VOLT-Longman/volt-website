@@ -1,3 +1,4 @@
+const { typeKorean } = require('./korean-input');
 const { test, expect } = require('@playwright/test');
 
 async function setup(page) {
@@ -23,6 +24,7 @@ test('CMS 페이지 이동과 검색은 편집 중인 내용을 유지한다', a
   await expect(page.locator('#list-page')).toHaveText('2 / 3 페이지 · 43건');
   await expect(page.locator('#cms-form [name="title"]')).toHaveValue('작성 중인 내용');
   await expect(page.locator('#form-title')).toHaveText('공지 수정');
+  await typeKorean(page, '#cms-search');
   await page.locator('#cms-search').fill('검색어');
   await expect(page.locator('#item-list')).toContainText('검색어');
   await expect(page.locator('#cms-search')).toBeFocused();

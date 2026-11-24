@@ -1609,10 +1609,7 @@ ${section(text('cost'), `
             if (!state.ship) body += state.cartOpen ? drawCartDrawer() : state.detailId ? drawComponentDetail() : '';
             body += drawSources();
         }
-        const template = document.activeElement?.matches('input[type="search"]') && container.contains(document.activeElement) ? document.createElement('template') : null;
-        const output = template || container;
-        output.innerHTML = body;
-        if (template) window.VOLT_SEARCH_RENDER(container, template.content);
+        window.VOLT_SEARCH_RENDER(container, body);
         if (state.ship?.volt && !state.loading && document.getElementById('loadout')?.classList.contains('active')) window.VOLT_JOURNEY?.ship?.(state.ship.volt, shipName(state.ship), aiContext());
         summaryObserver?.disconnect();
         const toolbar = container.querySelector('.loadout-topbar');

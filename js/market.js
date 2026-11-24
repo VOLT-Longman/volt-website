@@ -1027,7 +1027,7 @@
         const rows = result.rows.filter((row) => !query || [row.name && row.name.en, row.name && row.name.ko, row.code].some((value) => value && String(value).toLowerCase().includes(query)));
         const old = rows.reduce((sum, row) => sum + row.oldBuy + row.oldSell, 0);
         const toolbar = `<div class="market-toolbar">
-            <label class="market-field is-grow"><span>${esc(t('search'))}</span><input type="search" data-input="q" data-k="q" value="${esc(view.q)}" placeholder="${esc(t('searchCommodity'))}"></label>
+            <label class="market-field is-grow"><span>${esc(t('search'))}</span><input type="search" id="market-commodity-search" maxlength="60" data-input="q" data-k="q" value="${esc(view.q)}" placeholder="${esc(t('searchCommodity'))}"></label>
             <label class="market-field"><span>${esc(t('sort'))}</span><select aria-label="${esc(t('sort'))}" data-change="sort" data-k="sort">${SORTS.map(sort => {
                 const [key, reverse] = sort.split('-');
                 return `<option value="${sort}"${view.sort === sort ? ' selected' : ''}>${esc(t(PRICE_LABEL[PRICE_SORT.indexOf(key)]))} ${priceDown(key) !== Boolean(reverse) ? '↓' : '↑'}</option>`;
@@ -1124,7 +1124,7 @@
             .filter((terminal) => view.box === null || (terminal.maxBox !== null && terminal.maxBox >= view.box))
             .sort((a, b) => String(a.system).localeCompare(String(b.system)) || H.name(a.name).localeCompare(H.name(b.name), H.lang()));
         const toolbar = `<div class="market-toolbar">
-            <label class="market-field is-grow"><span>${esc(t('search'))}</span><input type="search" data-input="q" data-k="q" value="${esc(view.q)}" placeholder="${esc(t('searchStation'))}"></label>
+            <label class="market-field is-grow"><span>${esc(t('search'))}</span><input type="search" id="market-station-search" maxlength="60" data-input="q" data-k="q" value="${esc(view.q)}" placeholder="${esc(t('searchStation'))}"></label>
             <label class="market-field"><span>${esc(t('minBox'))}</span><select data-change="box" data-k="box"><option value="">${esc(t('minBoxAny'))}</option>${E.STANDARD_BOXES.map((size) => `<option value="${size}"${view.box === size ? ' selected' : ''}>${esc(t('minBoxValue', { n: size }))}</option>`).join('')}</select></label>
         </div>
         <div class="market-chiprow" role="group" aria-label="${esc(t('facilityFilter'))}"><span class="market-chiprow-label">${esc(t('facilityFilter'))}</span>${FACILITY_FILTERS.map((flag) => `<button type="button" class="market-chip${view.fac.includes(flag) ? ' is-include' : ''}" data-act="fac" data-id="${flag}" data-k="fac-${flag}" aria-pressed="${view.fac.includes(flag)}">${esc(t(`flag_${flag}`))}</button>`).join('')}</div>`;
@@ -1368,7 +1368,7 @@
         if (gameError) html = errorBox(gameError, 'retry-game');
         else if (!game || !model) html = `<p class="market-empty" role="status">${esc(t('loading'))}</p>`;
         else html = `${drawSettings()}${drawTabs()}<div class="market-body" data-market-tab="${view.tab}" tabindex="-1">${content()}</div>${drawFooter()}`;
-        root.innerHTML = html;
+        window.VOLT_SEARCH_RENDER(root, html);
         window.VOLT_TABLE_SORT.enhance(root);
         const viewKey = view.tab === 'ships' ? 'ships' : `${view.tab}:${view.c}:${view.t}`;
         const changed = viewKey !== lastViewKey;
@@ -1386,6 +1386,7 @@
         }
         // 2) 다시 그리기 전에 초점이 있던 것과 같은 것
         const next = focus && focus.key ? root.querySelector(`[data-k="${CSS.escape(focus.key)}"]`) : null;
+        if (next === active && next?.matches('input[type="search"]')) return;
         if (next) {
             next.focus({ preventScroll: true });
             if (typeof focus.start === 'number' && typeof next.setSelectionRange === 'function') {

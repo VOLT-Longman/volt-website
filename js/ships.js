@@ -511,7 +511,7 @@
         if (event.target.id === 'ship-role-search') openRoleListbox();
     }
     function handleRoleSelectKeydown(event) {
-        if (event.target.id !== 'ship-role-search') return;
+        if (event.target.id !== 'ship-role-search' || event.isComposing || event.keyCode === 229) return;
         const root = roleSelectRoot();
         if (!root) return;
         const open = root.dataset.open === 'true';

@@ -1,3 +1,4 @@
+const { typeKorean } = require('./korean-input');
 const { test, expect } = require('@playwright/test');
 const { mockApi, gotoSection, trackConsoleErrors } = require('./helpers');
 
@@ -77,6 +78,7 @@ for (const width of [1440, 390]) test(`${width}px 함선 대분류에서 세부 
     if (width === 390) {
         await page.locator('#ship-role-search').click();
         await expect(page.locator('[data-role-option="Medical"]')).toBeHidden();
+        await typeKorean(page, '#ship-role-search');
         await page.locator('#ship-role-search').fill('Light Fighter');
         await page.locator('[data-role-option="Light Fighter"]').click();
     } else await page.locator('[data-activity-detail="Light Fighter"]').click();

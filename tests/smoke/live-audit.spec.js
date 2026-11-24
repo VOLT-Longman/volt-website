@@ -1,3 +1,4 @@
+const { typeKorean } = require('./korean-input');
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -94,6 +95,7 @@ test('감사: 화물 입력·함선 적용·초기화가 UEX 수익과 수익표
     ] } }));
     await gotoSection(page, '#trade-planner');
     await page.locator('#logistics-cargo').fill('100');
+    await typeKorean(page, '#uex-commodity-search');
     await page.locator('#uex-commodity-search').fill('Gold');
     await page.locator('[data-commodity-id="1"]').click();
     await page.locator('#uex-refresh').click();

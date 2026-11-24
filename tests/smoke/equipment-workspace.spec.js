@@ -1,23 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { mockApi, gotoSection } = require('./helpers');
 
-async function typeKorean(page, selector) {
-    const field = page.locator(selector);
-    await field.focus();
-    const initial = await field.elementHandle();
-    const cdp = await page.context().newCDPSession(page);
-    try {
-        for (const [partial, syllable] of [['ㅌ', '타'], ['ㅇ', '이']]) {
-            for (const text of [partial, syllable]) {
-                await cdp.send('Input.imeSetComposition', { text, selectionStart: 1, selectionEnd: 1 });
-                expect(await initial.evaluate((el) => el === document.activeElement && el.isConnected)).toBe(true);
-            }
-            await cdp.send('Input.insertText', { text: syllable });
-            expect(await initial.evaluate((el) => el === document.activeElement && el.isConnected)).toBe(true);
-        }
-        await expect(field).toHaveValue('타이');
-    } finally { await cdp.detach(); }
-}
+const { typeKorean } = require('./korean-input');
 
 test('장비와 함선 검색에서 한글 조합과 초점을 유지한다', async ({ page }) => {
     await mockApi(page);
@@ -81,4 +65,31 @@ test('터치 손잡이로 쉴드와 파워 플랜트 순서를 바꾼다', async
         await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
         await expect(page.locator('[data-panel-key="power"] + [data-panel-key="shield"]')).toBeVisible();
     } finally { await cdp.detach(); }
+});
+
+for (const [route, selector] of [
+    ['ships', '#ship-search'], ['notices', '#notice-search'], ['trade-planner', '#logistics-ship-search'],
+    ['mining', '#mining-search'], ['mining?tab=location', '#mining-search'], ['fabricator', '#fab-q'],
+    ['missions', '#missions-q'], ['missions?tab=rank', '#missions-pick'], ['starmap', '#starmap-q'],
+]) test(route + ' 검색에서 한글 두 음절을 이어 쓴다', async ({ page }) => {
+    await mockApi(page, { fleet: true });
+    await gotoSection(page, '#' + route);
+    await typeKorean(page, selector);
+});
+
+test('전체 검색에서 한글 조합과 초점을 유지한다', async ({ page }) => {
+    await mockApi(page);
+    await gotoSection(page, '#home');
+    await page.keyboard.press('/');
+    await typeKorean(page, '#global-search-input');
+});
+
+test('채광 검색에서 조합한 글자 뒤에 한글을 붙여넣는다', async ({ page, context }) => {
+    await mockApi(page, { fleet: true });
+    await gotoSection(page, '#mining');
+    await typeKorean(page, '#mining-search');
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.evaluate(() => navigator.clipboard.writeText('타늄'));
+    await page.keyboard.press('Control+v');
+    await expect(page.locator('#mining-search')).toHaveValue('타이타늄');
 });
