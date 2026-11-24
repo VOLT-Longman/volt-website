@@ -1,3 +1,4 @@
+const { typeKorean } = require('./korean-input');
 const { test, expect } = require('@playwright/test');
 const { mockAdminShipSource } = require('./helpers');
 test.beforeEach(async ({ page }) => { await mockAdminShipSource(page); });
@@ -48,6 +49,8 @@ test.describe('관리자 CMS', () => {
         const search = page.locator('#ship-admin-search');
         await expect(search).toBeVisible();
 
+        await typeKorean(page, '#ship-admin-search');
+        await search.fill('');
         await search.click();
         // 디바운스(200ms) 뒤 renderList()가 #ship-admin-results의 innerHTML을 통째로 교체한다.
         // 고정 대기 대신 "직전 자식 노드가 DOM에서 떨어졌는가"를 재렌더 완료 신호로 쓴다.

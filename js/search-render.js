@@ -1,10 +1,16 @@
 // Keep the browser's native editing session alive when search results change.
 (() => {
     'use strict';
-    window.VOLT_SEARCH_RENDER = (root, fragment) => {
+    // Callers supply escaped markup. Keep the native input attached across updates.
+    window.VOLT_SEARCH_RENDER = (root, html) => {
+        if (!root) return;
         const field = document.activeElement;
-        const replacement = field?.matches('input[type="search"][id]') && root.contains(field)
-            ? fragment.querySelector('#' + CSS.escape(field.id)) : null;
+        const editing = root.contains(field) && field?.matches('input[type="search"][id]');
+        const output = editing ? document.createElement('template') : root;
+        output.innerHTML = html;
+        if (!editing) return;
+        const fragment = output.content;
+        const replacement = fragment.querySelector('#' + CSS.escape(field.id));
         if (!replacement || field.value !== replacement.value) {
             root.replaceChildren(fragment);
             return;

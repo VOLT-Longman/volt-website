@@ -37,22 +37,11 @@ const BASELINE = {
   'js/search-modal.js': 2,
   'js/trade-planner.js': 2,
   'js/i18n.js': 1,
-  // 로드아웃 편집기: 화면 전체를 한 곳(draw)에서 다시 그린다. 모든 동적 값은 esc()를 거친다.
-  'js/loadout.js': 1,
-  // 채광 안내: 로드아웃과 같은 방식 — 화면 전체를 한 곳(draw)에서 다시 그리고, 모든 동적 값은 esc()를 거친다.
-  'js/mining.js': 1,
-  // 운송 계약 안내: 같은 방식 (draw 한 곳, 모든 동적 값 esc()).
+  // Search screens supply escaped markup to a shared renderer.
+  'js/search-render.js': 1,
   'js/hauling.js': 1,
-  // 개인 장비 안내: 같은 방식 (draw 한 곳, 모든 동적 값 esc()).
-  'js/gear.js': 1,
-  // 도우미 도구 화면(무역 경로·시세·순회 무역·임무·제작 설계도): 같은 방식 — 파일마다 draw 한 곳, 모든 동적 값은 VOLT_HELPER.esc().
-  // 공용 파일 js/helper-common.js 와 js/trade-engine.js 는 싱크 0. 계약: docs/helper-tools.md
   'js/routes.js': 1,
-  'js/market.js': 1,
   'js/tours.js': 1,
-  'js/missions.js': 1,
-  'js/fabricator.js': 1,
-  // 성계지도: 같은 방식 — paint() 한 곳, 모든 동적 값은 VOLT_HELPER.esc(). 3D 모듈 js/starmap-viewer.js 는 싱크 0.
   'js/starmap.js': 1,
 };
 

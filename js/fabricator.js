@@ -196,7 +196,7 @@
     }
 
     function paint(node, html) {
-        if (node) node.innerHTML = html;
+        window.VOLT_SEARCH_RENDER(node, html);
     }
 
     function btn(act, id, labelHtml, options = {}) {
@@ -912,7 +912,7 @@
         if (!key) return;
         const matches = sameKey();
         const next = matches[nth] || matches[0];
-        if (!next) return;
+        if (!next || (next === active && next.type === 'search')) return;
         next.focus({ preventScroll: true });
         if (caret !== null && next.type === 'search') {
             try { next.setSelectionRange(caret, caret); } catch (_error) { /* 커서 위치를 못 옮겨도 된다 */ }

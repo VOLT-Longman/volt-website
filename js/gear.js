@@ -845,10 +845,7 @@
         else if (!state.data[state.view]) html = `${toolbar()}<p class="gear-status" role="status">${esc(text('loading'))}</p>`;
         else html = `${toolbar()}<div class="gear-workspace">${filters()}<div class="gear-columns${state.detailOpen ? ' is-reading' : ''}"><div class="gear-list" data-gear-type="${state.view}">${activeFilters()}${list()}</div><div class="gear-side">${detail()}</div></div></div>
             <p class="gear-sources">${esc(text('sourcePrice'))}</p><p class="gear-note">${state.data.images ? `<br>${esc(text('imageCredit'))}` : ''}${state.data.icons ? `<br>${esc(text('iconCredit'))}` : ''}</p>`;
-        const template = document.activeElement?.matches('input[type="search"]') && root.contains(document.activeElement) ? document.createElement('template') : null;
-        const output = template || root;
-        output.innerHTML = html;
-        if (template) window.VOLT_SEARCH_RENDER(root, template.content);
+        window.VOLT_SEARCH_RENDER(root, html);
         if (partScroll) { const partList = root.querySelector('.gear-mod-partlist'); if (partList) partList.scrollTop = partScroll; }
         syncModUrl(); syncMod3d();
         const target = focus ? root.querySelector(focus) : (active && /^gear-/.test(active) ? document.getElementById(active) : keep ? root.querySelector(keep) : null);

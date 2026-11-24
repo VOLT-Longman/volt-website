@@ -1608,6 +1608,7 @@
 
     function setupGlobalKeyboardShortcuts() {
         document.addEventListener('keydown', (event) => {
+            if (event.isComposing || event.keyCode === 229) return;
             const searchOverlay = document.getElementById('search-overlay');
             const isTyping = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
             if (event.key === '/' && !activeModal && !document.querySelector('dialog[open], #mobileMenu.active') && !isTyping && searchOverlay && !searchOverlay.classList.contains('active')) {

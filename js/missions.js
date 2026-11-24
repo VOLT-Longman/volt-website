@@ -1165,7 +1165,7 @@
     // ── 그리기 ──────────────────────────────────────────────────────────────
     // 이 파일의 유일한 HTML 싱크. 넘기는 문자열의 모든 동적 값은 esc() / rich() 를 거친다.
     function paint(target, html) {
-        if (target) target.innerHTML = html;
+        window.VOLT_SEARCH_RENDER(target, html);
     }
 
     function headHtml() {

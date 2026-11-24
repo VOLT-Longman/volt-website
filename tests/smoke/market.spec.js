@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { typeKorean } = require('./korean-input');
 const { mockApi, gotoSection } = require('./helpers');
 
 // 시세 · 거래소 (#market) 화면. /api/uex/* 는 작은 가짜 자료로 대신한다 (개발 서버에는 Functions 가 없다).
@@ -567,4 +568,11 @@ test('영어 화면과 언어 전환, 모르는 주소 값은 조용히 기본 �
     await expect(app(page).locator('[data-market-station="25"] h3')).toContainText('에버러스 하버');
     await expect(app(page).locator('[data-k="tab-stations"]')).toHaveText('거래 장소');
     expect(await tracker.collect()).toEqual([]);
+});
+
+for (const [tab, id] of [['prices', 'commodity'], ['stations', 'station']]) test(tab + ' 시세 검색에서 한글 조합을 유지한다', async ({ page }) => {
+    await prepare(page);
+    await gotoSection(page, '#market?tab=' + tab);
+    await typeKorean(page, '#market-' + id + '-search');
+    await expect(page).toHaveURL(/q=/);
 });

@@ -1233,15 +1233,15 @@
             </div>
             ${sourcesLine()}`;
         }
-        root.innerHTML = html;
+        window.VOLT_SEARCH_RENDER(root, html);
         if (state.data) {
             const selected = index.minerals.get(state.mineral);
             window.VOLT_JOURNEY?.drawMiningActions?.(state.view === 'mineral' ? selected : null);
             if (state.view === 'mineral' && state.priceState === 'ready') loadMarket();
             syncHash();
         }
-        if (active) { const input = document.getElementById(focusId); input?.focus(); if (caret !== null) { try { input?.setSelectionRange(caret, caret); } catch (_error) { /* 글자 위치를 못 옮기는 입력칸 */ } } }
-        else if (focusId) document.getElementById(focusId)?.focus({ preventScroll: true });
+        if (active && !focused.isConnected) { const input = document.getElementById(focusId); input?.focus(); if (caret !== null) { try { input?.setSelectionRange(caret, caret); } catch (_error) { /* 글자 위치를 못 옮기는 입력칸 */ } } }
+        else if (!active && focusId) document.getElementById(focusId)?.focus({ preventScroll: true });
         if (focusDetail) document.getElementById('mining-detail-title')?.focus({ preventScroll: false });
     }
 
