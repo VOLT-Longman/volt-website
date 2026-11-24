@@ -808,7 +808,10 @@
         }
         const label = H.name(terminal.name) || terminal.uexName;
         const twin = sameNames.names.has(label) && terminal.uexName && terminal.uexName !== label;
-        return [terminal.system, terminal.place, twin ? terminal.uexName : null].filter(Boolean).join(' · ');
+        const name = terminalName(id);
+        const aliases = [name, name.match(/\[([^\]]+)\]$/)?.[1], terminal.name?.en].filter(Boolean);
+        const place = aliases.includes(terminal.place) ? '' : terminal.place;
+        return [...new Set([terminal.system && H.systemLabel(terminal.system), place, twin ? terminal.uexName : null].filter(Boolean))].join(' · ');
     }
 
     // "지도에서 보기": 성계지도에 실제로 보일 수 있는 곳일 때만 링크가 나온다 (js/starmap.js VOLT_STARMAP.links).
@@ -818,7 +821,9 @@
 
     function terminalCell(id, fallback) {
         const place = placeLine(id);
-        return `<a class="market-link" href="${link({ tab: 'stations', t: id })}">${esc(terminalName(id, fallback))}</a>${place ? `<small>${esc(place)}</small>` : ''}`;
+        const name = terminalName(id, fallback);
+        const display = H.lang() === 'ko' ? name.replace(/\s+\[[^\]]+\]$/, '') : name;
+        return `<a class="market-link market-place-link" href="${link({ tab: 'stations', t: id })}">${esc(display)}${place ? `<small>${esc(place)}</small>` : ''}</a>`;
     }
 
     function ageTag(at, level) {

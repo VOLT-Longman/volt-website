@@ -799,6 +799,16 @@
         labelElement.textContent = label;
         countElement.textContent = count;
         container.replaceChildren(labelElement, countElement);
+        const selected = [...document.querySelectorAll('#ship-tag-filters [aria-pressed="true"]:not([data-axis-clear]):not([data-activity=""])')]
+            .map(button => button.textContent.trim()).filter(Boolean);
+        if (shipState.manufacturer !== 'all') selected.unshift(shipState.manufacturer);
+        if (shipState.detailRole && !selected.includes(shipState.detailRole)) selected.push(shipState.detailRole);
+        if (selected.length) {
+            const tags = document.createElement('span');
+            tags.className = 'ship-mobile-selected';
+            tags.textContent = [...new Set(selected)].join(' · ');
+            container.append(tags);
+        }
     }
     function setupShipCompareControls() {
         const grid = document.getElementById('ships-grid');

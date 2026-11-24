@@ -186,3 +186,4 @@
     .market-app .market-budget .market-table tbody th, .market-app .market-budget .market-table td { min-width: 0; }
     .market-app .market-chart { height: 180px; }
 }
+.market-app .market-table .market-place-link { display: flex; flex-direction: column; justify-content: center; min-height: 44px; width: 100%; box-sizing: border-box; }

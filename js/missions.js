@@ -283,13 +283,15 @@
     // 게임 글이 아니고 게임 파일 값과 다를 때도 있어서, 임무 글에서 떼어 내 따로 표시한다. [게임 글, 덧붙은 글]
     const PATCH_HEADS = new Set(['평판', '쿨다운', '미션 상세 정보']);
     const patchCache = new Map();
+    function splitPatch(ko) {
+        const lines = ko.split('\n');
+        const at = ko.includes('미션 상세 정보') ? lines.findIndex((line) => PATCH_HEADS.has(line.trim())) : -1;
+        return at < 0 ? [ko, ''] : [lines.slice(0, at).join('\n').trim(), lines.slice(at).join('\n').trim()];
+    }
     function koParts(index) {
         let parts = patchCache.get(index);
         if (parts) return parts;
-        const ko = load.data.texts[index]?.[1] || '';
-        const lines = ko.split('\n');
-        const at = ko.includes('미션 상세 정보') ? lines.findIndex((line) => PATCH_HEADS.has(line.trim())) : -1;
-        parts = at < 0 ? [ko, ''] : [lines.slice(0, at).join('\n').trim(), lines.slice(at).join('\n').trim()];
+        parts = splitPatch(load.data.texts[index]?.[1] || '');
         patchCache.set(index, parts);
         return parts;
     }
@@ -343,14 +345,14 @@
         if (both) return `${sysName(both[1])} · ${sysName(both[2])}`;
         return '';
     }
-    function rankName(scopeId, index) {
-        const rank = load.data.scopes[scopeId]?.ranks?.[index];
+    function rankName(scopeId, index, scopes = load.data.scopes) {
+        const rank = scopes[scopeId]?.ranks?.[index];
         if (!rank) return t('rankNo', { n: index });
         return rank.name && !rank.name.raw ? H.name(rank.name) : `${t('rankNo', { n: index })} (${H.num(rank.min)})`;
     }
-    function rankRange(scopeId, min, max) {
-        const a = Number.isInteger(min) ? rankName(scopeId, min) : '';
-        const b = Number.isInteger(max) ? rankName(scopeId, max) : '';
+    function rankRange(scopeId, min, max, scopes = load.data.scopes) {
+        const a = Number.isInteger(min) ? rankName(scopeId, min, scopes) : '';
+        const b = Number.isInteger(max) ? rankName(scopeId, max, scopes) : '';
         if (a && b) return a === b ? a : t('rankRange', { a, b });
         if (a) return t('rankFrom', { a });
         return b ? t('rankUpTo', { b }) : t('rankNone');
@@ -1257,6 +1259,17 @@
         }
     }
     async function preview(id, place) {
+        if (place && !load.data) {
+            const data = await H.loadJson('/data/contracts/place-previews.json');
+            const entry = Object.hasOwn(data.places, place) ? data.places[place] : null;
+            return { count: entry?.count || 0, items: (entry?.ids || []).map(key => {
+                const c = data.items[key];
+                const name = (H.lang() === 'ko' && splitPatch(c.title?.[1] || '')[0]) || c.title?.[0];
+                return { id: key, name: plain(name) || t('noTitle'),
+                    rank: t('colRank') + ' · ' + (c.scope ? rankRange(c.scope, c.min, c.max, data.scopes) : t('rankNone')),
+                    pay: t('colPay') + ' · ' + payText(c.pay) };
+            }) };
+        }
         await readMissions();
         if (place) await window.VOLT_STARMAP?.links?.load?.();
         const indexes = place ? [...placeEntries(place)] : ix.byId.has(id) ? [ix.byId.get(id)] : [];

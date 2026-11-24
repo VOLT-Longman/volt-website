@@ -4,6 +4,13 @@ import { readFileSync } from 'node:fs';
 import { missionOverview, cleanText, fillTokens, matchTagSearch, runsNeeded, stripPatchSuffix } from '../../scripts/contracts/build-contracts-data.mjs';
 
 const data = (path) => JSON.parse(readFileSync(new URL(`../../data/${path}`, import.meta.url)));
+import { buildPlacePreviews } from '../../scripts/contracts/build-place-previews.mjs';
+
+test('Map mission previews match the current mission and place records', () => {
+    const expected = buildPlacePreviews(data('contracts/mission-list.json'), data('starmap/links.json'));
+    assert.equal(JSON.stringify(data('contracts/place-previews.json')), JSON.stringify(expected));
+});
+
 const missions = data('contracts/missions.json');
 const byName = (name) => missions.contracts.find((contract) => contract.n === name);
 const english = (index) => missions.texts[index][0];

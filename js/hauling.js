@@ -144,7 +144,7 @@
         // 화면 전체를 이 한 곳에서 다시 그린다. 모든 동적 값은 esc()를 거친다.
         if (state.error) html = `<div class="hauling-status" role="alert"><p>${esc(text('loadError'))}</p><button type="button" class="btn btn-secondary" data-hauling-retry>${esc(text('retry'))}</button></div>`;
         else if (!state.data) html = `<p class="hauling-status" role="status">${esc(text('loading'))}</p>`;
-        else html = `${ranks()}${controls()}<section aria-label="${esc(text('contractsAt'))}">${table()}</section><p class="hauling-note">${esc(text('cargoNote'))}</p>
+        else html = `${ranks()}<details class="hauling-filter-panel"${root.querySelector('.hauling-filter-panel')?.open || (!root.querySelector('.hauling-filter-panel') && !window.matchMedia('(max-width: 700px)').matches) ? ' open' : ''}><summary>${text('filters')}${state.rank ? ' · ' + esc(label(state.data.ranks[Number(state.rank)]?.name)) : ''}</summary>${controls()}</details><section aria-label="${esc(text('contractsAt'))}">${table()}</section><p class="hauling-note">${esc(text('cargoNote'))}</p>
             <p class="hauling-sources">${esc(text('sourceNote'))}</p>`;
         root.innerHTML = html;
         if (focusId) (root.querySelector(focusId))?.focus();
