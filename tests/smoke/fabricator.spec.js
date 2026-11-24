@@ -421,6 +421,11 @@ test('1440px: 목록을 한참 내려 골라도 상세가 바로 옆에 보인�
 test('375px: 목록으로 돌아가면 보던 줄이 화면에 있다', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await open(page);
+    await expect(app(page).locator('.fab-list > li')).toHaveCount(15);
+    for (const count of [30, 45, 60]) {
+        await app(page).locator('[data-act="more"]').click();
+        await expect(app(page).locator('.fab-list > li')).toHaveCount(count);
+    }
     const row = app(page).locator('.fab-list > li').nth(45);
     await row.scrollIntoViewIfNeeded();
     const id = await row.locator('[data-act="bp"]').getAttribute('data-id');

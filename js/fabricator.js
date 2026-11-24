@@ -28,7 +28,7 @@
     const DATA_URL = '/data/crafting/blueprints.json';
     const MISSIONS_URL = '/data/contracts/missions.json';
     const CART_KEY = 'volt-fabricator-list-v1';
-    const PAGE = 60;
+    const pageSize = () => window.matchMedia('(max-width: 700px)').matches ? 15 : 60;
     const MISSION_PAGE = 20;
     const TABS = ['list', 'unavailable', 'mats', 'pools', 'trades', 'cart'];
     const KINDS = ['armor', 'fpsWeapon', 'shipComponent', 'shipWeapon', 'missionItem', 'other'];
@@ -173,7 +173,7 @@
     let paintedTab = '';
     const S = {
         tab: 'list', q: '', cat: '', sub: '', sz: '', own: '', mats: H.chips(), bpId: '', bp: null, pool: '',
-        tradeType: '', quality: 500, shown: PAGE, missionsShown: MISSION_PAGE, matsOpen: false, status: '',
+        tradeType: '', quality: 500, shown: pageSize(), missionsShown: MISSION_PAGE, matsOpen: false, status: '',
     };
 
     // ── 작은 도우미 ──────────────────────────────────────────────────────────
@@ -430,7 +430,7 @@
         S.mats = H.chips(typeof p.mat === 'string' ? p.mat : '');
         S.bpId = typeof p.bp === 'string' ? p.bp : '';
         S.pool = typeof p.pool === 'string' ? p.pool : '';
-        S.shown = PAGE;
+        S.shown = pageSize();
         S.missionsShown = MISSION_PAGE;
         S.matsOpen = !S.mats.isEmpty();
         S.status = '';
@@ -614,7 +614,7 @@
         const bp = D.blueprints[i];
         const kind = kindOf(bp);
         const size = sizeKey(bp);
-        return [t(`kind_${kind}`), typeKey(bp) === 'none' ? '' : typeLabel(typeKey(bp)), size ? sizeLabel(kind, size) : ''].filter(Boolean).join(' · ');
+        return [...new Set([t(`kind_${kind}`), typeKey(bp) === 'none' ? '' : typeLabel(typeKey(bp)), size ? sizeLabel(kind, size) : ''].filter(Boolean))].join(' · ');
     }
     function resultsHtml() {
         const list = filtered();
@@ -1000,19 +1000,19 @@
             S.tab = id;
             if (browsingBlueprints() && S.bp !== null && blueprintTab(S.bp) !== id) { S.bp = null; S.bpId = ''; }
             if (id === 'unavailable') S.own = '';
-            S.shown = PAGE;
+            S.shown = pageSize();
             S.q = '';
             S.status = '';
             sync(true);
             render();
         },
-        cat(id) { S.cat = S.cat === id ? '' : id; S.sub = ''; S.sz = ''; S.shown = PAGE; sync(); render(); },
-        sub(id) { S.sub = S.sub === id ? '' : id; S.sz = ''; S.shown = PAGE; sync(); render(); },
-        sz(id) { S.sz = S.sz === id ? '' : id; S.shown = PAGE; sync(); render(); },
-        own(id) { S.own = S.own === id ? '' : id; S.shown = PAGE; sync(); render(); },
-        mat(id) { S.mats.cycle(id); S.matsOpen = true; S.shown = PAGE; sync(); render(); },
-        clear() { S.q = ''; S.cat = ''; S.sub = ''; S.sz = ''; S.own = ''; S.mats.clear(); S.shown = PAGE; sync(); render('q'); },
-        more() { S.shown += PAGE; renderResults(); },
+        cat(id) { S.cat = S.cat === id ? '' : id; S.sub = ''; S.sz = ''; S.shown = pageSize(); sync(); render(); },
+        sub(id) { S.sub = S.sub === id ? '' : id; S.sz = ''; S.shown = pageSize(); sync(); render(); },
+        sz(id) { S.sz = S.sz === id ? '' : id; S.shown = pageSize(); sync(); render(); },
+        own(id) { S.own = S.own === id ? '' : id; S.shown = pageSize(); sync(); render(); },
+        mat(id) { S.mats.cycle(id); S.matsOpen = true; S.shown = pageSize(); sync(); render(); },
+        clear() { S.q = ''; S.cat = ''; S.sub = ''; S.sz = ''; S.own = ''; S.mats.clear(); S.shown = pageSize(); sync(); render('q'); },
+        more() { S.shown += pageSize(); renderResults(); },
         bp(id) { openBlueprint(id); },
         pool(id) { openPool(id); },
         back() {
@@ -1058,7 +1058,7 @@
         copy() { H.copyShareUrl(SECTION, hashParams()).then((ok) => say(H.text(ok ? 'copied' : 'copyFailed'))); },
         missions() { loadMissions(); },
         'more-missions'() { S.missionsShown += MISSION_PAGE; render(); },
-        'mat-show'(id) { S.tab = 'list'; S.q = ''; S.cat = ''; S.sub = ''; S.sz = ''; S.own = ''; S.mats = H.chips(id); S.matsOpen = true; S.bp = null; S.bpId = ''; S.shown = PAGE; sync(true); render('tab:list'); },
+        'mat-show'(id) { S.tab = 'list'; S.q = ''; S.cat = ''; S.sub = ''; S.sz = ''; S.own = ''; S.mats = H.chips(id); S.matsOpen = true; S.bp = null; S.bpId = ''; S.shown = pageSize(); sync(true); render('tab:list'); },
         trade(id) {
             S.tab = 'trades'; S.q = ''; S.tradeType = '';
             sync(true);
@@ -1080,7 +1080,7 @@
         if (!D || !kind) return;
         if (kind === 'q') {
             S.q = String(target.value || '').slice(0, 80);
-            S.shown = PAGE;
+            S.shown = pageSize();
             sync();
             renderResults();
         } else if (kind === 'quality') {

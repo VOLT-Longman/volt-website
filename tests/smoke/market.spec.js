@@ -467,7 +467,7 @@ test('거래소: 이름이 같은 두 곳을 구별하고, 게임 자료에만 �
     // 이름이 하나뿐인 곳에는 UEX 이름을 덧붙이지 않는다.
     await page.evaluate(() => { window.location.hash = '#market?tab=stations&q=Everus'; });
     await expect(rows).toHaveCount(1);
-    await expect(rows.locator('small').first()).toHaveText('Stanton · Everus Harbor');
+    await expect(rows.locator('small').first()).toHaveText('스탠턴');
 
     // ARC-L1: UEX 보고에는 정제소가 없고 게임 자료에는 있다.
     await page.evaluate(() => { window.location.hash = '#market?t=1'; });

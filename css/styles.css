@@ -11613,3 +11613,18 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
     .mypage-panel .mypage-grid { grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr)); }
     .gear-workspace { grid-template-columns: clamp(240px, 14vw, 400px) minmax(0, 1fr); }
 }
+.ship-mobile-selected { display: none; }
+.hauling-filter-panel > summary, .mining-price-help > summary { cursor: pointer; padding-block: 10px; min-height: 44px; }
+@media (max-width: 700px) {
+    #ships .ships-toolbar { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,0.8fr) auto; gap: 6px; }
+    #ships .ships-toolbar > * { width: 100%; min-width: 0; }
+    #ship-search { grid-column: 1; grid-row: 1; }
+    #ship-sort { grid-column: 2; grid-row: 1; }
+    #ship-advanced-toggle { grid-column: 3; grid-row: 1; padding-inline: 8px; }
+    #ship-manufacturer { grid-column: 1 / -1; }
+    .ships-controls:has(#ship-advanced-toggle[aria-expanded="false"]) :is(#ship-manufacturer, #ship-tag-filters) { display: none; }
+    .ship-mobile-selected { display: inline; }
+    .hauling-filter-panel[open] > summary { margin-bottom: 6px; }
+    .mining-actions { flex-wrap: wrap; }
+}
+@media (max-width: 480px) { #ships .ships-grid { grid-template-columns: minmax(0, 1fr); } #ships .ship-card { min-width: 0; } }

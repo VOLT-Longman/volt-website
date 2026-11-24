@@ -106,6 +106,9 @@ test.describe('2축 태그 필터 (규모·플랫폼 + 역할, 커밋 C)', () =>
         // 휴대폰 폭은 24척씩 보여주므로(더 보기), 전체 로드를 확인한 뒤 폭을 줄인다.
         await onShips(page);
         await page.setViewportSize({ width: 390, height: 844 });
+        await expect(page.locator('#ship-tag-filters')).toBeHidden();
+        await expect(page.locator('.ship-card').first()).toBeInViewport();
+        await page.locator('#ship-advanced-toggle').click();
         const options = page.locator('.ship-filter-axis-options').first();
         expect(await options.evaluate((el) => getComputedStyle(el).flexWrap)).toBe('nowrap');
         expect(['auto', 'scroll']).toContain(await options.evaluate((el) => getComputedStyle(el).overflowX));

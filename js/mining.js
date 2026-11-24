@@ -408,7 +408,7 @@
             <div class="mining-tabs" role="tablist" aria-label="${esc(text('views'))}">${tab('mineral', 'byMineral')}${tab('location', 'byLocation')}${tab('sig', 'bySig')}${tab('ref', 'byRef')}</div>
             ${listView ? `<label class="mining-search"><span class="visually-hidden">${esc(text('searchLabel'))}</span><input type="search" id="mining-search" value="${esc(state.query)}" placeholder="${esc(text('search'))}" autocomplete="off"></label>
             <div class="mining-chips" role="group" aria-label="${esc(text('modes'))}">${chip('', 'modeAll')}${modes.map((mode) => chip(mode, mode)).join('')}</div>` : ''}
-        </div>${state.view === 'location' ? locationFilters() : ''}${actionBar()}`;
+        </div>${state.view === 'location' ? locationFilters() : ''}`;
     }
     function triChip(kind, chips, id, name) {
         const now = chips.get(id);
@@ -453,7 +453,7 @@
             priceOf, null, m => m.instability, m => m.resistance,
         ], () => draw());
         const days = num(maxAgeDays(), 1);
-        return `${priceTools()}<p class="mining-note">${esc(text('priceUnitNote'))} ${esc(text('avgNote'))}</p><div class="mining-tablewrap"><table class="mining-table" data-mining-csv="minerals" data-sort-source="mining-minerals">
+        return `${priceTools()}<details class="mining-price-help"${root?.querySelector('.mining-price-help')?.open ? ' open' : ''}><summary>${lang() === 'ko' ? '시세 읽는 법 · 공유 및 내보내기' : 'Reading prices, sharing and export'}</summary><p class="mining-note">${esc(text('priceUnitNote'))} ${esc(text('avgNote'))}</p>${actionBar()}</details><div class="mining-tablewrap"><table class="mining-table" data-mining-csv="minerals" data-sort-source="mining-minerals">
             <thead><tr><th scope="col">${esc(text('mineral'))}</th><th scope="col">${esc(text('method'))}</th><th scope="col">${esc(text('refined'))}</th><th scope="col" class="is-num mining-price-column" data-csv="${esc(text('priceAvg'))}">${esc(text('priceAvg'))}<small class="mining-recent">${esc(text('marketBest', { days }))}</small></th><th scope="col" class="mining-csv-only">${esc(text('marketBest', { days }))}</th><th scope="col" class="is-num">${esc(text('instability'))}</th><th scope="col" class="is-num">${esc(text('resistance'))}</th></tr></thead>
             <tbody>${sorted.map((mineral) => `<tr class="${state.mineral === mineral.id ? 'is-selected' : ''}">
                 <th scope="row" data-csv="${esc(label(mineral.name))}"><button type="button" class="mining-rowbtn" data-mining-mineral="${esc(mineral.id)}" aria-pressed="${state.mineral === mineral.id}">${esc(label(mineral.name))}</button><span class="mining-mobile-price"><span>${esc(text('priceAvg'))}</span>${priceCell(mineral)}</span><span class="mining-mobile-price"><span>${esc(text('marketBest', { days }))}</span>${recentCell(mineral)}</span></th>
@@ -1226,7 +1226,7 @@
             else if (state.view === 'sig') list = sigPanel();
             else list = refPanel();
             const wide = state.view === 'sig' || state.view === 'ref' || (state.view === 'location' && state.layout !== 'tiles');
-            html = `${toolbar()}
+            html = `${toolbar()}${state.view === 'mineral' ? '' : actionBar()}
             <div class="mining-columns${wide ? ' is-wide' : ''}">
                 <div class="mining-list" id="mining-list-panel" role="tabpanel" aria-labelledby="mining-view-${state.view}">${list}</div>
                 ${side ? `<div class="mining-side">${side}</div>` : ''}

@@ -25,3 +25,4 @@ assets/vendor/three-*/** text eol=lf
 *.woff binary
 *.woff2 binary
 data/starmap/*.json text eol=lf
+data/contracts/mission-list.json text eol=lf
