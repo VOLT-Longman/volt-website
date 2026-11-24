@@ -213,6 +213,7 @@ test('표 보기와 CSV: 강한 CSP 에서도 data: 주소로 내려받고, 표 
     await expect(page.locator('#mining-csv')).toHaveCount(0);
     // 광물 목록 표도 내려받을 수 있다: 이름 칸에 모바일용 시세 글자가 섞이지 않는다.
     await page.locator('[data-mining-view="mineral"]').click();
+    await page.locator('.mining-price-help summary').click();
     const [second] = await Promise.all([page.waitForEvent('download'), page.locator('#mining-csv').click()]);
     const minerals = fs.readFileSync(await second.path(), 'utf8').slice(1).split('\r\n');
     expect(minerals[0]).toBe('광물,방식,정제 후,UEX 평균 판매 시세,최근 보고 최고 판매가 (3일 이내),불안정성,저항');
