@@ -11627,3 +11627,4 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
     .hauling-filter-panel[open] > summary { margin-bottom: 6px; }
     .mining-actions { flex-wrap: wrap; }
 }
+@media (max-width: 480px) { #ships .ships-grid { grid-template-columns: minmax(0, 1fr); } #ships .ship-card { min-width: 0; } }
