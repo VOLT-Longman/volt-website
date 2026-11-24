@@ -85,7 +85,7 @@ test('전체 검색에서 한글 조합과 초점을 유지한다', async ({ pag
 });
 
 test('채광 검색에서 조합한 글자 뒤에 한글을 붙여넣는다', async ({ page, context }) => {
-    await mockApi(page);
+    await mockApi(page, { fleet: true });
     await gotoSection(page, '#mining');
     await typeKorean(page, '#mining-search');
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
