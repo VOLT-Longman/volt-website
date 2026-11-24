@@ -72,6 +72,7 @@ for (const width of [1440, 390]) test(`${width}px 함선 대분류에서 세부 
     await page.setViewportSize({ width, height: 900 });
     await mockApi(page);
     await gotoSection(page, '#ships');
+    if (width === 390) await page.locator('#ship-advanced-toggle').click();
     await page.locator('[data-activity="combat"]').click();
     if (width === 390) {
         await page.locator('#ship-role-search').click();

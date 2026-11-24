@@ -57,6 +57,7 @@ test.describe('화면 평가 보완', () => {
             ['#policy', [], ['.policy-anchor-copy']],
         ]) {
             await gotoSection(page, hash);
+            if (hash === '#ships') await page.locator('#ship-advanced-toggle').click();
             for (const selector of inputs) {
                 const size = await page.locator(selector).first().evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
                 expect(size, `${hash} ${selector} 글자 크기`).toBeGreaterThanOrEqual(16);
