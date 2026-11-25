@@ -645,15 +645,6 @@
     }
 
     // "500k", "2m", "1.5m", "200만", "1억", "1,200,000" → 숫자. 빈 칸은 null(정하지 않음), 못 읽으면 undefined.
-    function parseMoney(input) {
-        const textValue = String(input ?? '').trim().toLowerCase().replace(/auec/g, '').replace(/[\s,_']/g, '');
-        if (!textValue) return null;
-        const match = /^(\d+(?:\.\d+)?)(k|m|b|천|만|억)?$/.exec(textValue);
-        if (!match) return undefined;
-        const scale = { k: 1e3, m: 1e6, b: 1e9, 천: 1e3, 만: 1e4, 억: 1e8 }[match[2]] || 1;
-        const amount = Math.round(Number(match[1]) * scale);
-        return Number.isFinite(amount) && amount >= 0 ? amount : undefined;
-    }
 
     function money(value) {
         return H.price(value, { unit: false });
@@ -1314,6 +1305,7 @@
                 <div class="routes-field">
                     <label for="routes-budget">${esc(t('budget'))}</label>
                     <input type="text" id="routes-budget" data-act="budget" inputmode="decimal" autocomplete="off" value="${esc(state.budget === null ? '' : H.num(state.budget))}" aria-describedby="routes-budget-hint"${ui.budgetError ? ' aria-invalid="true"' : ''}${lock}>
+                    ${H.budgetButtons('routes-budget', Boolean(linkSetup))}
                     <p class="routes-hint${ui.budgetError ? ' is-error' : ''}" id="routes-budget-hint"${ui.budgetError ? ' role="alert"' : ''}>${esc(ui.budgetError ? t('budgetBad') : `${budgetText} · ${t('budgetHint')}`)}</p>
                 </div>
                 <div class="routes-field">
@@ -2083,8 +2075,8 @@
         const from = toId(form.dataset.from);
         const to = toId(form.dataset.to);
         const c = toId(form.dataset.c);
-        const buy = parseMoney(form.elements.buy.value);
-        const sell = parseMoney(form.elements.sell.value);
+        const buy = H.parseMoney(form.elements.buy.value);
+        const sell = H.parseMoney(form.elements.sell.value);
         if (!from || !to || !c || !(buy > 0) || !(sell > 0)) {
             ui.editError = true;
             requestDraw();
@@ -2223,10 +2215,13 @@
             E.state.set({ cargoConfig: value });
         }
         else if (act === 'budget') {
-            const amount = parseMoney(value);
+            const amount = H.parseMoney(value);
             ui.budgetError = amount === undefined;
             if (amount === undefined) requestDraw();
-            else E.state.set({ budget: amount });
+            else {
+                target.value = amount === null ? '' : H.num(amount);
+                E.state.set({ budget: amount });
+            }
         } else if (act === 'system') E.state.set({ system: value || null });
         else if (act === 'age') E.state.set({ maxAgeDays: Number(value) || H.DEFAULT_PRICE_AGE_DAYS });
         else if (act === 'box') {
@@ -2301,6 +2296,7 @@
             root = mount;
             loadLocal();
             readParams(ctx?.params);
+            H.bindBudgetButtons(root);
             root.addEventListener('click', onClick);
             root.addEventListener('change', onChange);
             root.addEventListener('submit', onSubmit);

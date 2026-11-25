@@ -651,13 +651,48 @@
             ko ? `${num(state.maxAgeDays, { digits: 1 })}일 이내 가격` : `Prices within ${num(state.maxAgeDays, { digits: 1 })} days`].join(' · ');
     }
 
+    function parseMoney(input, round = Math.round) {
+        const textValue = String(input ?? '').trim().toLowerCase().replace(/auec$/, '').replace(/[\s,_']/g, '');
+        if (!textValue) return null;
+        const match = /^(\d+(?:\.\d+)?)(k|m|b|천|만|억)?$/.exec(textValue);
+        if (!match) return undefined;
+        const scale = { k: 1e3, m: 1e6, b: 1e9, 천: 1e3, 만: 1e4, 억: 1e8 }[match[2]] || 1;
+        const amount = round(Number(match[1]) * scale);
+        return Number.isFinite(amount) && amount >= 0 ? amount : undefined;
+    }
+
+    function budgetButtons(inputId, disabled = false) {
+        const ko = lang() === 'ko';
+        const buttons = [[100000, ko ? '+10만' : '+100k'], [1000000, ko ? '+100만' : '+1m'], [0, ko ? '제한 없음' : 'Unlimited']];
+        return `<div class="trade-budget-actions" role="group" aria-label="${ko ? '예산 빠른 설정' : 'Quick budget settings'}">${buttons.map(([step, label]) => `<button type="button" data-budget-for="${esc(inputId)}" data-increment="${step}" id="${esc(inputId)}-${step}" data-k="${esc(inputId)}-${step}"${disabled ? ' disabled' : ''}>${label}</button>`).join('')}</div>`;
+    }
+
+    function bindBudgetButtons(root) {
+        // Keep a draft in the field until the button applies it. A blur can redraw the form before click.
+        root.addEventListener('mousedown', event => {
+            const button = event.target.closest('button[data-budget-for]');
+            if (button && document.activeElement?.id === button.dataset.budgetFor) event.preventDefault();
+        });
+        root.addEventListener('click', event => {
+            const button = event.target.closest('button[data-budget-for]');
+            if (!button || button.disabled) return;
+            const field = document.getElementById(button.dataset.budgetFor);
+            if (!field || field.disabled || !root.contains(field)) return;
+            const step = Number(button.dataset.increment);
+            const current = parseMoney(field.value);
+            if (!step) field.value = '';
+            else if (current !== undefined) field.value = String((current ?? 0) + step);
+            field.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+    }
+
     function conditionRow(state, ship, capacity) {
         const ko = lang() === 'ko';
         return `<strong>${ko ? '내 조건' : 'My settings'}</strong><span class="helper-condition-values">${esc(conditionSummary(state, ship, capacity))}</span><span class="helper-condition-edit">${ko ? '바꾸기' : 'Edit'}</span>`;
     }
 
     window.VOLT_HELPER = {
-        conditionRow,
+        conditionRow, parseMoney, budgetButtons, bindBudgetButtons,
         conditionSummary, systemLabel,
         SECTIONS, HASH_SECTIONS, DEFAULT_PRICE_AGE_DAYS, CACHE_VERSION,
         lang, text, translator, name, esc,

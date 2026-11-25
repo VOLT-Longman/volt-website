@@ -110,6 +110,9 @@ test('무역 경로: 함선과 예산을 고르면 순위표가 나오고, 고�
 
     // 예산 줄임말: 2m → 2,000,000 → 285 SCU × 1,500 = 427,500
     await expandControls(page, 'context');
+    await page.locator('#routes-budget').fill('190만');
+    await page.locator('#routes-budget-100000').click();
+    await expect(page.locator('#routes-budget')).toHaveValue('2,000,000');
     await page.locator('#routes-budget').fill('2m');
     await expandControls(page, 'context');
     await page.locator('#routes-budget').press('Enter');
