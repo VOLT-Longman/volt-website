@@ -50,6 +50,8 @@ test('개인 장비: 무기를 고르면 수치와 발사 방식, 변종별 판�
     await expect(page.locator('#gear h2')).toContainText('개인');
     await page.locator('#gear-search').fill('P4-AR');
     const row = page.locator('.gear-list tbody tr').first();
+    await page.locator('[data-gear-view="weapon"]').click();
+    await expect(page.locator('#gear-search')).toHaveValue('P4-AR');
     await expect(row).toContainText('P4-AR 소총');
     await expect(row).toContainText('스킨·버전');
     await expect(row).toContainText('5,130');

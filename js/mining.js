@@ -586,7 +586,7 @@
         const systems = [...new Set(rows.flatMap((row) => index.entryById.get(row.location.id)?.systems || []))];
         const quality = qualityBlock([mineral.id], systems);
         return `<section class="mining-detail" aria-labelledby="mining-detail-title">
-            <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whereTitle', { name: label(mineral.name) }))}</h3><span class="mining-muted">${esc(fixedSources.length ? text('unnamedSite') : text('placesCount', { count: places }))}</span>${rows.length ? mapLink(mapParams(rows.map((row) => row.location)), { name: text('whereTitle', { name: label(mineral.name) }), count: true, cls: 'mining-maplink-mineral' }) : ''}</header>
+            <button type="button" class="mining-action" data-mining-return>← ${esc(text('backToList'))}</button><header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whereTitle', { name: label(mineral.name) }))}</h3><span class="mining-muted">${esc(fixedSources.length ? text('unnamedSite') : text('placesCount', { count: places }))}</span>${rows.length ? mapLink(mapParams(rows.map((row) => row.location)), { name: text('whereTitle', { name: label(mineral.name) }), count: true, cls: 'mining-maplink-mineral' }) : ''}</header>
             ${rows.length ? `<p class="mining-note">${esc(text('detailNote'))}</p>` : ''}${mineral.traitsVary ? `<p class="mining-note">${esc(text('traitsVary'))}</p>` : ''}
             <dl class="mining-traits" aria-label="${esc(text('traits'))}">
                 <div><dt>${esc(text('instability'))}</dt><dd>${esc(num(mineral.instability, 1))}</dd></div>
@@ -844,7 +844,7 @@
                 <tbody>${rockRows(group.rocks)}</tbody></table></div>` : ''}</div>`).join('')}
             ${slotBlock(entry)}${showOther('harvest') ? harvestBlock(entry) : ''}${showOther('salvage') ? salvageBlock(entry) : ''}`;
         return `<section class="mining-detail" aria-labelledby="mining-detail-title">
-            <header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whatTitle', { name: entryName(entry) }))}</h3><span class="mining-muted">${esc([entry.systems.join(', '), entry.type ? typeLabel(entry.type) : ''].filter(Boolean).join(' · '))}</span>${entry.isSite ? '' : mapLink(location.kind === 'area' ? { area: location.id } : { focus: location.id }, { name: entryName(entry), cls: 'mining-maplink-location' })}</header>
+            <button type="button" class="mining-action" data-mining-return>← ${esc(text('backToList'))}</button><header class="mining-detail-head"><h3 id="mining-detail-title" tabindex="-1">${esc(text('whatTitle', { name: entryName(entry) }))}</h3><span class="mining-muted">${esc([entry.systems.join(', '), entry.type ? typeLabel(entry.type) : ''].filter(Boolean).join(' · '))}</span>${entry.isSite ? '' : mapLink(location.kind === 'area' ? { area: location.id } : { focus: location.id }, { name: entryName(entry), cls: 'mining-maplink-location' })}</header>
             <div class="mining-acts" role="group" aria-label="${esc(text('activities'))}">${entry.acts.map((act) => actTag(act)).join(' ')}</div>
             ${location.kind === 'area' && !location.named ? `<p class="mining-note">${esc(text('areaNote'))}</p>` : ''}
             ${entry.isSite ? `<p class="mining-note mining-warn">${esc(text('siteNote'))}${location.unplaced ? ` ${esc(text('unplacedNote'))}` : ''}</p>` : ''}
@@ -1256,6 +1256,14 @@
         const target = event.target.closest('button'); if (!target || !root.contains(target)) return;
         state.notice = '';
         if (target.hasAttribute('data-mining-retry')) { state.error = false; load(); return; }
+        if (target.hasAttribute('data-mining-return')) {
+            const attribute = state.view === 'mineral' ? 'data-mining-mineral' : 'data-mining-location';
+            const id = state.view === 'mineral' ? state.mineral : state.location;
+            const row = root.querySelector(`.mining-list [${attribute}="${CSS.escape(id)}"]`) || root.querySelector('#mining-search');
+            row?.focus({ preventScroll: true });
+            row?.scrollIntoView({ block: 'center', inline: 'nearest' });
+            return;
+        }
         if (target.dataset.miningView) { setView(target.dataset.miningView); draw(); return; }
         if (target.hasAttribute('data-mining-mode')) { state.mode = target.dataset.miningMode; draw(); return; }
         if (target.dataset.miningMineral) { setView('mineral'); state.mineral = target.dataset.miningMineral; window.VOLT_JOURNEY?.miningSelection?.(state.mineral, state.location); draw(true); return; }
