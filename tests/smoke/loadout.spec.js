@@ -978,6 +978,7 @@ test.describe('로드아웃 편집기', () => {
         await expect(pick(page, PAINT)).toHaveCount(0);
         await page.locator(`[data-loadout-family="${PANTHER}"]`).click();
         await expect(pick(page, PAINT)).toBeVisible();
+        await page.locator('.loadout-picker-baseline summary').click();
         await page.locator('#loadout-keep-picker').check();
         await pick(page, PAINT).click();
         await expect(page.locator('.loadout-picker')).toBeVisible();
@@ -1209,4 +1210,26 @@ test('함선을 고르기 전 부품 찾기에서도 선택한 판매처로 담�
     await expect(page.locator('.loadout-cart-drawer select option:checked')).toContainText('Found shop');
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-loadout-tab="cart"]')).toBeFocused();
+});
+
+test('미사일 교체 목록에서 장착 가능한 추적 방식으로 거르고 초기화한다', async ({ page }) => {
+    await mockApi(page);
+    await gotoSection(page, '#loadout');
+    await page.locator('#loadout-ship-search').fill('stalker');
+    await page.locator('[data-loadout-ship="aegs_avenger_stalker"]').click();
+    const slot = page.locator('.loadout-group.is-missile .loadout-slot', { hasText: '이그나이트 II' }).first();
+    await slot.locator('[data-loadout-open]').click();
+    const rows = page.locator('[data-loadout-candidate]');
+    const all = await rows.count();
+    const group = page.getByRole('group', { name: '추적 방식', exact: true });
+    for (const label of ['IR · 적외선', 'EM · 전자기', 'CS · 단면적']) {
+        const filter = group.getByRole('button', { name: label });
+        await filter.click();
+        await expect(filter).toHaveAttribute('aria-pressed', 'true');
+        await expect(rows.first()).toBeVisible();
+        expect(await rows.count()).toBeLessThan(all);
+        expect((await rows.allInnerTexts()).every(row => row.includes(label))).toBe(true);
+    }
+    await page.locator('[data-loadout-clear-filters]').click();
+    await expect(rows).toHaveCount(all);
 });
