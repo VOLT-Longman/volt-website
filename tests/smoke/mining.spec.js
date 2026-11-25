@@ -45,6 +45,9 @@ test('채광 안내: 광물을 고르면 캐는 곳이 나오고, 장소로 넘�
     expect(await detail.locator('tbody tr').count()).toBeGreaterThan(3);
     await expect(detail.getByRole('columnheader', { name: '스폰 확률' })).toBeVisible();
     await expect(detail.locator('thead')).not.toContainText('포함 확률');
+    await detail.locator('[data-mining-return]').click();
+    await expect(page.locator('.mining-list [data-mining-mineral="Ore_Gold"]')).toBeFocused();
+    await expect(page.locator('#mining-search')).toHaveValue('gold');
     // 캐는 곳 목록에서 장소로 넘어간다.
     await detail.locator('[data-mining-location]').first().click();
     await expect(page.locator('.mining-tab.is-active')).toHaveText('장소별');

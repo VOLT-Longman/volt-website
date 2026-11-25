@@ -898,6 +898,13 @@
                 draw(root.querySelector(row) ? row : '#gear-search');
                 return;
             }
+            if (target.dataset.gearView === state.view) {
+                if (state.detailOpen) {
+                    state.detailOpen = false;
+                    draw(`[data-gear-pick="${CSS.escape(state.selected[state.view])}"]`);
+                }
+                return;
+            }
             if (target.dataset.gearView) { state.detailOpen = false; state.view = target.dataset.gearView; Object.assign(state, FILTER_DEFAULTS); state.limit = PAGE; draw(`[data-gear-view="${state.view}"]`); load(state.view); return; }
             if (target.dataset.gearAdd) { const uuid = target.dataset.gearAdd; state.cart[uuid] = Math.min(99, (state.cart[uuid] || 0) + 1); store(CART_KEY, state.cart); draw(`[data-gear-add="${uuid}"]`); return; }
             if (target.dataset.gearQty) { const uuid = target.dataset.gearQty; const next = (state.cart[uuid] || 0) + Number(target.dataset.step); if (next > 0) state.cart[uuid] = Math.min(next, 99); else delete state.cart[uuid]; store(CART_KEY, state.cart); draw(state.cart[uuid] ? `[data-gear-qty="${uuid}"][data-step="${target.dataset.step}"]` : '[data-gear-view="cart"]'); return; }
