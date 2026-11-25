@@ -49,6 +49,7 @@ test('375px 장비 바로가기는 전력 패널을 지나 실제 장비에 도�
     await expect(page.locator('#pwa-install-prompt')).toBeHidden();
     const row = page.locator('.loadout-optrows tr').first();
     await expect(row.locator('.loadout-cmp-cell:visible')).toHaveCount(4);
+    await page.locator('.loadout-picker-baseline summary').click();
     await page.getByLabel('상세 수치·변화량', { exact: true }).check();
     expect(await row.locator('.loadout-cmp-cell:visible').count()).toBeGreaterThan(4);
     await page.getByLabel('상세 수치·변화량', { exact: true }).uncheck();

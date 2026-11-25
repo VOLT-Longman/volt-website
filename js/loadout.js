@@ -21,7 +21,7 @@
     const state = {
         meta: null, index: null, items: null, ko: null, ship: null, shipCls: '', overrides: {},
         operation: { power: {}, activeModules: {} }, systems: {}, assemblies: new Set(), racks: new Set(), pickerMetrics: false, mining: [],
-        equipmentGroup: '', query: '', openPath: '', pickerOrigin: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
+        equipmentGroup: '', query: '', openPath: '', pickerOrigin: '', pickerQuery: '', pickerSort: 'best', pickerGrade: '', pickerClass: '', pickerDamage: '', pickerKind: '', pickerSignal: '', pickerBuyable: false, pickerBulk: false, error: '', loading: false,
         prices: new Map(), priceState: new Map(), priceNames: new Map(), priceIds: new Map(), plan: { mode: 'cheapest', shops: {}, order: [] }, familyOpen: new Set(), keepPicker: false,
         shipMarket: { status: 'idle', data: [], fetchedAt: '' },
         cartOpen: false, detailShop: '', detailId: '', detailSlot: '', detailReturn: '', detailTab: 'stats', collapsed: new Set(), compact: window.matchMedia('(max-width: 640px)').matches, changedOnly: false, redo: [], pickerLimit: 80, pickerReverse: false,
@@ -98,6 +98,7 @@
             },
             classes: { Military: '군용', Civilian: '시민', Industrial: '산업', Stealth: '스텔스', Competition: '경쟁' },
             damage: { physical: '물리', energy: '에너지', distortion: '디스토션', thermal: '열', biochemical: '생화학', stun: '스턴' },
+            pickerOptions: '비교·교체 옵션', signalFilter: '추적 방식', signalLabels: { Infrared: 'IR · 적외선', Electromagnetic: 'EM · 전자기', CrossSection: 'CS · 단면적' },
             signals: { CrossSection: 'CS', Infrared: 'IR', Electromagnetic: 'EM' },
             tokens: { left: '왼쪽', right: '오른쪽', top: '위', bottom: '아래', front: '앞', rear: '뒤', back: '뒤', nose: '기수', wing: '날개', wingtip: '날개 끝', pilot: '파일럿', tail: '꼬리', center: '중앙', upper: '상부', lower: '하부', side: '측면', chin: '턱', remote: '원격', copilot: '부조종사', door: '문' },
         },
@@ -169,6 +170,7 @@
             },
             classes: { Military: 'Military', Civilian: 'Civilian', Industrial: 'Industrial', Stealth: 'Stealth', Competition: 'Competition' },
             damage: { physical: 'Physical', energy: 'Energy', distortion: 'Distortion', thermal: 'Thermal', biochemical: 'Biochemical', stun: 'Stun' },
+            pickerOptions: 'Comparison and swap options', signalFilter: 'Tracking type', signalLabels: { Infrared: 'IR · Infrared', Electromagnetic: 'EM · Electromagnetic', CrossSection: 'CS · Cross-section' },
             signals: { CrossSection: 'Cross-section', Infrared: 'Infrared', Electromagnetic: 'EM' },
             tokens: { left: 'left', right: 'right', top: 'top', bottom: 'bottom', front: 'front', rear: 'rear', back: 'rear', nose: 'nose', wing: 'wing', wingtip: 'wingtip', pilot: 'pilot', tail: 'tail', center: 'center', upper: 'upper', lower: 'lower', side: 'side', chin: 'chin', remote: 'remote', copilot: 'copilot', door: 'door' },
         },
@@ -918,6 +920,7 @@ ${section(text('cost'), `
             .filter(([, item]) => !state.pickerClass || item.klass === state.pickerClass)
             .filter(([, item]) => !state.pickerDamage || damageOf(item) === state.pickerDamage)
             .filter(([, item]) => !state.pickerKind || kindOf(item) === state.pickerKind)
+            .filter(([, item]) => !state.pickerSignal || item.ms?.signal === state.pickerSignal)
             .filter(([id, item]) => !state.pickerBuyable || priceInfo(id, item).min > 0)
             .sort(([ida, a], [idb, b]) => (state.pickerReverse ? -1 : 1) * (sortFn(state.pickerSort)(a, b, ida, idb) || String(itemName(ida, a)).localeCompare(String(itemName(idb, b)))));
         const grouped = familyRows(candidates, query, currentId);
@@ -930,12 +933,17 @@ ${section(text('cost'), `
         const sorts = [['best', text('sort_best')], ...columns.map((metric, index) => [`m${index}`, text('sortBy', { label: metric.label })]), ['name', text('sort_name')], ['price', text('sort_price')]];
         const where = placeOf.get(node.path) || slotLabel(node.slot, node.item);
         const chip = (attr, value, label, active) => `<button type="button" class="loadout-chip${active ? ' is-active' : ''}" ${attr}="${esc(value)}" aria-pressed="${active}">${esc(label)}</button>`;
+        const previousOptions = root()?.querySelector('.loadout-picker-baseline');
+        const optionsOpen = previousOptions?.open && previousOptions.dataset.slot === node.path;
+        const activeOptions = [state.pickerMetrics && text('allMetrics'), state.keepPicker && text('keepPicker')].filter(Boolean);
+        const signalLabels = table('signalLabels');
+        const signals = Object.keys(signalLabels).filter((key) => fitting.some(([, item]) => item.ms?.signal === key));
         const damages = ['energy', 'ballistic', 'distortion'].filter((key) => fitting.some(([, item]) => damageOf(item) === key));
         const kinds = ['cannon', 'repeater', 'gatling', 'scattergun', 'beam'].filter((key) => fitting.some(([, item]) => kindOf(item) === key));
         const ascending = (key) => Boolean(key === 'name' || key === 'price' || (/^m\d+$/.test(key) && columns[Number(key.slice(1))]?.better === 'low')) !== state.pickerReverse;
         const extraMetric = (index) => calc.isGun(node.item) && index >= 4 ? ' is-extra-metric' : '';
         const head = (key, label, first) => `<th scope="col" class="${first ? 'is-name' : ''}${/^m\d+$/.test(key) ? extraMetric(Number(key.slice(1))) : ''}" ${state.pickerSort === key ? `aria-sort="${ascending(key) ? 'ascending' : 'descending'}"` : ''}><button type="button" class="loadout-sortbtn${state.pickerSort === key ? ' is-active' : ''}" data-direction="${ascending(key) ? 'asc' : 'desc'}" data-loadout-sort="${key}" title="${esc(text('sortHint', { label }))}">${esc(label)}</button></th>`;
-        const filtered = Boolean(query || state.pickerGrade || state.pickerClass || state.pickerDamage || state.pickerKind || state.pickerBuyable);
+        const filtered = Boolean(query || state.pickerGrade || state.pickerClass || state.pickerDamage || state.pickerKind || state.pickerSignal || state.pickerBuyable);
         const now = new Map(pickerMetrics(node.item).map((metric) => [metric.label, metric]));
         // 수치 한 칸. 지금 달린 부품과 견준 차이를 유리·불리 색으로 붙인다("동일"은 그 칸의 수치가 같다는 뜻).
         const cell = (item, column, isCurrent, index) => {
@@ -957,8 +965,6 @@ ${section(text('cost'), `
             </div>
             ${mount && mount.slot.kind === 's' ? `<p class="loadout-note loadout-mountnote">${esc(text('mountedOn'))}: ${esc(itemName(mount.itemId, mount.item))} <button type="button" class="loadout-link" data-loadout-open="${esc(mount.path)}">${esc(text(/Launcher$/.test(mount.item?.type || '') ? 'rackChange' : 'mountChange'))}</button></p>` : ''}
             ${node.slot.acc?.some((rule) => rule.type === 'MiningModifier') ? `<p class="loadout-note">${esc(text('moduleNote'))}</p>` : ''}${node.item?.type === 'Radar' ? `<p class="loadout-note">${esc(text('radarNote'))}</p>` : ''}
-            <details class="loadout-picker-baseline"><summary>${esc(text('shipImpact'))} · ${esc(text('stockComparison'))}</summary>${drawShipImpact()}</details>
-            <div class="loadout-picker-tools"><label><input type="checkbox" id="loadout-keep-picker" ${state.keepPicker ? 'checked' : ''}> ${esc(text('keepPicker'))}</label>${node.itemId ? `<button type="button" class="loadout-link" data-loadout-cart-add="${esc(node.itemId)}">${esc(text('pickerCart'))}</button>` : ''}</div>
             <div class="loadout-picker-head">
                 <input type="search" id="loadout-picker-search" autocomplete="off" placeholder="${esc(text('pickerSearch'))}" value="${esc(state.pickerQuery)}" aria-label="${esc(text('pickerSearch'))}">
                 <label class="loadout-sort"><span>${esc(text('sortLabel'))}</span>
@@ -968,6 +974,7 @@ ${section(text('cost'), `
                 </label>
             </div>
             <div class="loadout-filters" role="group" aria-label="${esc(text('filterLabel'))}">
+                ${signals.length ? `<span class="loadout-filtergroup" role="group" aria-label="${esc(text('signalFilter'))}"><small>${esc(text('signalFilter'))}</small>${signals.map((key) => chip('data-loadout-signal', key, signalLabels[key], state.pickerSignal === key)).join('')}</span>` : ''}
                 ${damages.length > 1 ? `<span class="loadout-filtergroup" role="group" aria-label="${esc(text('dmgKind'))}"><small>${esc(text('dmgKind'))}</small>${damages.map((key) => chip('data-loadout-dmg', key, text(`dmg_${key}`), state.pickerDamage === key)).join('')}</span>` : ''}
                 ${kinds.length > 1 ? `<span class="loadout-filtergroup" role="group" aria-label="${esc(text('kindFilter'))}"><small>${esc(text('kindFilter'))}</small>${kinds.map((key) => chip('data-loadout-kind', key, text(`kind_${key}`), state.pickerKind === key)).join('')}</span>` : ''}
                 <span class="loadout-filtergroup">
@@ -979,11 +986,16 @@ ${section(text('cost'), `
             <p class="loadout-note loadout-picker-count">${esc(text('pickerCount', { count: candidates.length }))}${filtered ? ` <button type="button" class="loadout-link" data-loadout-clear-filters>${esc(text('clearFilters'))}</button>` : ''}${node.itemId ? ` <button type="button" class="loadout-link" data-loadout-pick="" data-loadout-path="${esc(node.path)}">${esc(text('removeItem'))}</button>` : ''}${Number(node.item?.power?.use) > 0 || state.off[node.path] ? powerButton(node.path, node.item, Boolean(state.off[node.path])) : ''}</p>
             ${run.length > 1 ? `<p class="loadout-note loadout-runnote">${esc(text('runNote', { count: run.length }))}</p>` : ''}
             ${siblings.length + 1 > run.length ? `<label class="loadout-bulk"><input type="checkbox" id="loadout-bulk" ${state.pickerBulk ? 'checked' : ''}> ${esc(text('bulkApply', { count: siblings.length + 1 }))}</label>` : ''}
+            <details class="loadout-picker-baseline" data-slot="${esc(node.path)}"${optionsOpen ? ' open' : ''}>
+                <summary>${esc([text('pickerOptions'), ...activeOptions].join(' · '))}</summary>
             <label class="loadout-metric-toggle"><input type="checkbox" id="loadout-all-metrics" ${state.pickerMetrics ? 'checked' : ''}> ${esc(text('allMetrics'))}</label>
+            <div class="loadout-picker-tools"><label><input type="checkbox" id="loadout-keep-picker" ${state.keepPicker ? 'checked' : ''}> ${esc(text('keepPicker'))}</label>${node.itemId ? `<button type="button" class="loadout-link" data-loadout-cart-add="${esc(node.itemId)}">${esc(text('pickerCart'))}</button>` : ''}</div>
+                ${drawShipImpact()}
+            </details>
             <div class="loadout-optwrap" tabindex="0" role="region" aria-label="${esc(text('tableRegion'))}"><table class="loadout-opttable">
                 <thead><tr>${head('name', text('colPart'), true)}${columns.map((metric, index) => head(`m${index}`, metric.label)).join('')}${head('price', text('colPrice'))}<th scope="col"></th></tr></thead>
                 <tbody class="loadout-optrows">${shown.map(([id, item]) => `<tr data-loadout-candidate="${esc(id)}" data-loadout-path="${esc(node.path)}" class="${id === currentId ? 'is-current' : ''}${state.families.has(id) ? ' is-variant' : ''}">
-                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><button type="button" class="loadout-part-link" data-loadout-detail="${esc(id)}" aria-label="${esc(text('partDetails'))}: ${esc(itemName(id, item))}" title="${esc(text('partDetails'))}"><strong title="${esc(internalName(item) ? itemName(id, item) : item.name)}">${esc(itemName(id, item))}</strong></button>${familyButton(id)}</div>${itemOriginal(id, item)}${weaponAttribution(item)}<span class="loadout-meta">${esc(itemMeta(item))}</span></th>
+                    <th scope="row" class="loadout-option-main"><div class="loadout-product-title"><button type="button" class="loadout-part-link" data-loadout-detail="${esc(id)}" aria-label="${esc(text('partDetails'))}: ${esc(itemName(id, item))}" title="${esc(text('partDetails'))}"><strong title="${esc(internalName(item) ? itemName(id, item) : item.name)}">${esc(itemName(id, item))}</strong></button>${familyButton(id)}${signalLabels[item.ms?.signal] ? `<small>${esc(signalLabels[item.ms.signal])}</small>` : ''}</div>${itemOriginal(id, item)}${weaponAttribution(item)}<span class="loadout-meta">${esc(itemMeta(item))}</span></th>
                     ${columns.map((column, index) => cell(item, column, id === currentId, index)).join('')}
                     <td class="loadout-optprice">${drawPrice(id, item)}</td>
                     <td class="loadout-optact"><button type="button" class="btn btn-secondary loadout-equip" data-loadout-pick="${esc(id)}" data-loadout-path="${esc(node.path)}" ${id === currentId ? 'disabled' : ''}>${esc(id === currentId ? text('selected') : text('select'))}</button></td>
@@ -1649,7 +1661,7 @@ ${section(text('cost'), `
     // ---- 동작 -------------------------------------------------------------
     function closePicker() {
         state.cartOpen = false;
-        state.openPath = ''; state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerDamage = ''; state.pickerKind = ''; state.pickerBuyable = false; state.pickerBulk = false; state.pickerLimit = 80; state.pickerReverse = false; state.detailId = '';
+        state.openPath = ''; state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerDamage = ''; state.pickerKind = ''; state.pickerSignal = ''; state.pickerBuyable = false; state.pickerBulk = false; state.pickerLimit = 80; state.pickerReverse = false; state.detailId = '';
     }
 
     // 부품 선택 창을 닫고, 창을 열었던 "변경" 버튼으로 초점을 돌려보낸다.
@@ -1794,7 +1806,7 @@ ${section(text('cost'), `
         const category = target.getAttribute('data-loadout-category');
         if (category !== null && ['', ...SUPER_GROUPS.map(([label]) => label)].includes(category)) { state.equipmentGroup = category; draw(); return; }
         if (target.hasAttribute('data-loadout-clear-filters')) {
-            state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerDamage = ''; state.pickerKind = ''; state.pickerBuyable = false;
+            state.pickerQuery = ''; state.pickerGrade = ''; state.pickerClass = ''; state.pickerDamage = ''; state.pickerKind = ''; state.pickerSignal = ''; state.pickerBuyable = false;
             draw(); document.getElementById('loadout-picker-search')?.focus({ preventScroll: true }); return;
         }
         if (target.hasAttribute('data-loadout-retry')) { state.error = ''; render(); return; }
@@ -1822,6 +1834,8 @@ ${section(text('cost'), `
         if (grade !== null) { state.pickerGrade = state.pickerGrade === grade ? '' : grade; draw(); return; }
         const sortKey = target.getAttribute('data-loadout-sort');
         if (sortKey !== null) { state.pickerReverse = state.pickerSort === sortKey ? !state.pickerReverse : false; state.pickerSort = sortKey; draw(); return; }
+        const signal = target.getAttribute('data-loadout-signal');
+        if (signal !== null) { state.pickerSignal = state.pickerSignal === signal ? '' : signal; draw(); return; }
         const dmg = target.getAttribute('data-loadout-dmg');
         if (dmg !== null) { state.pickerDamage = state.pickerDamage === dmg ? '' : dmg; draw(); return; }
         const kind = target.getAttribute('data-loadout-kind');
