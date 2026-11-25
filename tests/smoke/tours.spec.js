@@ -307,6 +307,11 @@ test('순회 무역: 같은 곳의 두 터미널은 이름이 구별되고, 가�
     await expect(app.locator('[data-k="age"]')).toHaveValue('365');
     expect(await page.evaluate(() => JSON.parse(localStorage.getItem('volt-helper-state-v1')).maxAgeDays)).toBe(365);
     if (!(await app.locator('[data-conditions]').evaluate((node) => node.open))) await app.locator('[data-conditions] > summary').click();
+    await app.locator('#tours-budget').fill('100만');
+    await app.locator('#tours-budget-1000000').click();
+    await expect(app.locator('#tours-budget')).toHaveValue('2,000,000');
+    await app.locator('#tours-budget-0').click();
+    await expect(app.locator('#tours-budget')).toHaveValue('');
     await app.locator('[data-k="budget"]').fill('0');
     await app.locator('[data-k="budget"]').blur();
     await expect(app.locator('.tours-leg')).toContainText('쓸 수 있는 돈이 0이라');

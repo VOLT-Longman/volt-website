@@ -1547,7 +1547,7 @@
             <p class="tours-hint">${esc(t('mineHint'))}</p>
             <div class="tours-grid">
                 ${field(t('ship'), select('ship', state.ship, [{ value: '', label: t('shipNone') }, ...ships]), hold)}
-                ${field(t('budget'), numberInput('budget', state.budget, ' min="0" step="1000"'), t('budgetHint'))}
+                <div class="tours-field"><label class="tours-label" for="tours-budget">${esc(t('budget'))}</label><input class="tours-input" id="tours-budget" type="text" inputmode="decimal" data-k="budget" value="${esc(state.budget == null ? '' : H.num(state.budget))}" aria-describedby="tours-budget-hint">${H.budgetButtons('tours-budget')}<span class="tours-hint" id="tours-budget-hint">${esc(t('budgetHint'))}</span></div>
                 ${field(H.lang() === 'ko' ? '항성계' : 'Star system', select('system', state.system, ['', ...new Set(data.terminals.map((row) => row.system).filter(Boolean))].map((value) => ({ value, label: H.systemLabel(value) }))))}
                 ${field(t('age'), numberInput('age', state.maxAgeDays, ' min="0.5" max="365" step="0.5"'), t('ageHint'))}
             </div>
@@ -1932,7 +1932,12 @@
             try { E.state.set(patch); } finally { muted = false; }
         };
         if (key === 'ship') { shared({ ship: raw || null }); return; }
-        if (key === 'budget') { shared({ budget: raw === '' || !(Number(raw) >= 0) ? null : Number(raw) }); return; }
+        if (key === 'budget') {
+            const budget = H.parseMoney(raw);
+            if (budget === undefined) notice = H.lang() === 'ko' ? '예산을 읽을 수 없습니다. 예: 200만' : 'Enter a budget such as 2m.';
+            else shared({ budget });
+            return;
+        }
         if (key === 'system') { shared({ system: raw || null }); return; }
         if (key === 'age') { shared({ maxAgeDays: posNum(raw) ? Math.min(365, posNum(raw)) : E.state.defaults.maxAgeDays }); return; }
         if (key.startsWith('time.')) {
@@ -2108,6 +2113,7 @@
             root = mount;
             applyParams(ctx && ctx.params);
             root.addEventListener('change', onChange);
+            H.bindBudgetButtons(root);
             root.addEventListener('click', onClick);
             root.addEventListener('toggle', onToggle, true);
             E.state.subscribe(() => { if (!muted && data.status === 'ready') scheduleRefresh(); });

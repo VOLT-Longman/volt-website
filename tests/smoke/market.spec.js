@@ -499,6 +499,9 @@ test('돈 입력: 잘못 적으면 알리고 값을 바꾸지 않는다. 쉼표�
     await gotoSection(page, '?lang=ko#market');
     await openSettings(page);
     const money = app(page).locator('[data-k="my-money"]');
+    await money.fill('50만');
+    await app(page).locator('#market-my-money-1000000').click();
+    await expect(money).toHaveValue('1,500,000');
     await money.fill('1,500,000 aUEC');
     await money.press('Tab');
     await expect(money).toHaveValue('1,500,000');

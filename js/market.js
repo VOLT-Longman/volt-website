@@ -899,7 +899,7 @@
     // 돈 입력 칸. 저장된 값은 천 단위 쉼표를 넣어 보여 주고, 잘못 적으면 칸 아래에 알린다.
     function moneyField(labelKey, key, placeholder, grow) {
         const budget = shared().budget;
-        return `<label class="market-field${grow ? ' is-grow' : ''}"><span>${esc(t(labelKey))}</span><input type="text" inputmode="numeric" autocomplete="off" data-change="budget" data-k="${key}" value="${esc(budget === null ? '' : H.num(budget))}"${placeholder ? ` placeholder="${esc(placeholder)}"` : ''}${moneyNote ? ' aria-invalid="true"' : ''}>${moneyNote ? `<small class="market-fieldnote" role="alert">${esc(moneyNote)}</small>` : ''}</label>`;
+        return `<div class="market-field${grow ? ' is-grow' : ''}"><label for="market-${key}">${esc(t(labelKey))}</label><input id="market-${key}" type="text" inputmode="numeric" autocomplete="off" data-change="budget" data-k="${key}" value="${esc(budget === null ? '' : H.num(budget))}"${placeholder ? ` placeholder="${esc(placeholder)}"` : ''}${moneyNote ? ' aria-invalid="true"' : ''}>${moneyNote ? `<small class="market-fieldnote" role="alert">${esc(moneyNote)}</small>` : ''}${H.budgetButtons('market-' + key)}</div>`;
     }
 
     function drawTabs() {
@@ -1488,15 +1488,14 @@
             E.state.set({ system: value || null });
             update();
         } else if (kind === 'budget') {
-            // 쉼표·띄어쓰기·끝의 "aUEC"는 받아 준다. 그 밖의 것(음수, 글자)은 고치지 않고 알린다.
-            const text = String(value).trim().replace(/aUEC$/i, '').replace(/[\s,]/g, '');
-            if (text && !/^\d+(\.\d+)?$/.test(text)) {
+            const amount = H.parseMoney(value, Math.floor);
+            if (amount === undefined) {
                 moneyNote = t('moneyInvalid');
                 draw();
                 return;
             }
             moneyNote = '';
-            E.state.set({ budget: text ? Math.min(Math.floor(Number(text)), 1e12) : null });
+            E.state.set({ budget: amount === null ? null : Math.min(amount, 1e12) });
             draw();
         } else if (kind === 'age') E.state.set({ maxAgeDays: Number(value) || H.DEFAULT_PRICE_AGE_DAYS });
         else {
@@ -1531,6 +1530,7 @@
         init(mount, ctx) {
             root = mount;
             readParams(ctx && ctx.params);
+            H.bindBudgetButtons(root);
             root.addEventListener('click', onClick);
             root.addEventListener('change', onChange);
             root.addEventListener('input', onInput);

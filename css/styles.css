@@ -11631,3 +11631,7 @@ details[open] > .helper-condition .helper-condition-values { white-space: normal
     .mining-actions { flex-wrap: wrap; }
 }
 @media (max-width: 480px) { #ships .ships-grid { grid-template-columns: minmax(0, 1fr); } #ships .ship-card { min-width: 0; } }
+
+.trade-budget-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.trade-budget-actions button { min-width: 44px; min-height: 44px; padding: 4px 10px; border: 1px solid var(--color-border); border-radius: 8px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.trade-budget-actions button:hover:not(:disabled), .trade-budget-actions button:focus-visible { border-color: currentColor; }
