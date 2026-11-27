@@ -57,6 +57,29 @@ test('Data beta carries bounded context, resets it and preserves pending drafts 
     expect(requests[2].history).toEqual([]);
 });
 
+for (const width of [390, 3440]) {
+    test(`AI ship comparison opens the selected stock ships at ${width}px`, async ({ page }) => {
+        await page.setViewportSize({ width, height: width === 390 ? 844 : 1440 });
+        await mockApi(page, { loggedIn: true });
+        await mockAiConfig(page);
+        await page.route('**/api/ai/chat', route => route.request().method() === 'POST'
+            ? route.fulfill({ json: { ...CHAT_RESPONSE, compareIds: ['ares-ion', 'ares-inferno', 'f8c-lightning'] } })
+            : route.fallback());
+        await gotoSection(page, '#ai');
+        await page.locator('#volt-ai-input').fill('라이트닝 vs 인페르노 vs 이온');
+        await page.locator('#volt-ai-send').click();
+        await page.getByRole('button', { name: '함선 비교표 열기' }).click();
+        const stock = page.locator('[data-stock-comparison]');
+        await expect(stock.getByText('조종사 지속 DPS')).toBeVisible();
+        await expect(stock.locator('thead').first()).toContainText('라이트닝');
+        await expect(stock.locator('thead').first()).toContainText('인페르노');
+        await expect(stock.locator('thead').first()).toContainText('이온');
+        const frame = await stock.boundingBox();
+        expect(frame.x).toBeGreaterThanOrEqual(0);
+        expect(frame.x + frame.width).toBeLessThanOrEqual(width);
+    });
+}
+
 test('English beta UI and request locale remain active after changing language', async ({ page }) => {
     await mockApi(page, { loggedIn: true });
     await mockAiConfig(page);

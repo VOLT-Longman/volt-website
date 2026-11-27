@@ -112,7 +112,17 @@ async function routeIntent(env, message) {
   if (/일정|작전|이벤트|스케줄|\b(events?|schedule|operations?)\b/i.test(message)) return { intent: 'events' };
   if (/공지|소식|뉴스|\b(notices?|news|announcements?)\b/i.test(message)) return { intent: 'notices' };
   const { ships } = await loadShipLayers(env);
-  const shipIds = matchShipIds(ships, message);
+  const comparing = /비교|차이|compare|\bvs\.?\b|versus/i.test(message);
+  let shipIds = matchShipIds(ships, message);
+  if (comparing) {
+    const aliases = [['f8c-lightning', /라이트닝|\blightning\b/i], ['ares-inferno', /인페르노|\binferno\b/i],
+      ['ares-ion', /(?<![가-힣])이온|\bion\b/i], ['marauder', /머라우더|머라더|머로더|\bmarauder\b/i]];
+    shipIds = [...new Set([...shipIds, ...aliases.filter(([id, pattern]) => ships[id] && pattern.test(message)).map(([id]) => id)])];
+    if (/\bf[- ]?7c\b/i.test(message) && !shipIds.some(id => id.startsWith('f7c-'))) {
+      const choices = Object.keys(ships).filter(id => id.startsWith('f7c-'));
+      if (choices.length && shipIds.length) return { intent: 'compare', shipIds, choices };
+    }
+  }
   if (shipIds.length >= 2 || (shipIds.length >= 1 && /비교|vs|차이|compare/i.test(message))) {
     return { intent: 'compare', shipIds };
   }
@@ -167,7 +177,14 @@ async function executeTool(env, request, route, lang) {
     case 'loadout': return toolReviewLoadout(env, route.context, lang);
     case 'journey': return toolReviewJourney(env, request, route.context, lang);
     case 'recommend': return toolRecommendShips(env, route.params || {});
-    case 'compare': return toolCompareShips(env, route.shipIds || []);
+    case 'compare': {
+      if (route.choices) return {
+        data: { ships: [] }, sources: [], freshness: null,
+        answer: lang === 'en' ? 'Which F7C Hornet variant do you mean?' : '어느 F7C 호넷과 비교할까요? 기종을 골라 주세요.',
+        compareChoices: route.choices, compareIds: route.shipIds.slice(0, 2)
+      };
+      return toolCompareShips(env, route.shipIds || []);
+    }
     case 'market': return toolMarketInfo(env, request, route.query || '');
     case 'events': return toolUpcomingEvents(env, lang);
     case 'notices': return toolRecentNotices(env, lang);
@@ -198,8 +215,34 @@ export function validateModelNote(toolData, text, lang = 'ko') {
 
 // 항상 서버 확정 답변(도구 데이터 기반 템플릿)을 기준으로 노출한다 (M1.1).
 // 모델 문장은 aiNote(보조 설명)로 분리되며 사실을 추가할 수 없다.
+function compareBasics(data) {
+  return data.ships.map(ship => `${ship.id}: 화물 ${ship.cargoScu ?? '?'} SCU, 승무원 ${ship.crewSize ?? '?'}, HP ${ship.hp ?? '?'}`
+    + (ship.cheapestBuy ? `, 최저가 ${ship.cheapestBuy.price.toLocaleString('en-US')} aUEC (${ship.cheapestBuy.shop}@${ship.cheapestBuy.location})` : ', 인게임 판매처 없음')).join(' / ');
+}
 function templateAnswer(route, tool, lang) {
   if (tool.answer) return tool.answer;
+  if (route.intent === 'compare' && tool.compareIds?.length >= 2) {
+    const en = lang === 'en';
+    const number = new Intl.NumberFormat(en ? 'en' : 'ko', { maximumFractionDigits: 1 });
+    const fmt = value => value == null ? '—' : number.format(value);
+    const display = ship => (en ? ship.name : ship.nameKo) || ship.id;
+    const combat = tool.data.ships.map(ship => {
+      const s = ship.stock;
+      if (!s) return display(ship) + (en ? ' · No stock loadout data' : ' · 기본 장착 자료 없음');
+      return en ? `${display(ship)} · pilot burst / sustained DPS ${fmt(s.pilot)} / ${fmt(s.sustain)}, turret burst DPS ${fmt(s.turret)}, shield ${fmt(s.shield)} HP (+${fmt(s.regen)} HP/s), armor ${fmt(s.armor)} HP`
+        : `${display(ship)} · 조종사 순간 / 지속 DPS ${fmt(s.pilot)} / ${fmt(s.sustain)}, 포탑 순간 DPS ${fmt(s.turret)}, 실드 ${fmt(s.shield)} HP (초당 ${fmt(s.regen)} 재생), 장갑 ${fmt(s.armor)} HP`;
+    }).join('\n');
+    const specs = en ? englishAnswer(route, tool.data) : compareBasics(tool.data);
+    const rows = tool.data.ships;
+    const highlights = [];
+    for (const [key, label] of [['sustain', en ? 'pilot sustained DPS' : '조종사 지속 DPS'], ['shield', en ? 'shield HP' : '실드 총량']]) {
+      if (!rows.every(ship => Number.isFinite(ship.stock?.[key]))) continue;
+      const sorted = [...rows].sort((a, b) => b.stock[key] - a.stock[key]);
+      if (sorted[0].stock[key] === sorted[1].stock[key]) continue;
+      highlights.push(en ? `Highest ${label}: ${display(sorted[0])}.` : `${label} 1위는 ${display(sorted[0])}입니다.`);
+    }
+    return [...highlights, combat, specs].join('\n\n');
+  }
   if (lang === 'en') return englishAnswer(route, tool.data);
   const data = tool.data;
   if (data.status === 'unavailable') return '지금은 해당 데이터 원본에 연결할 수 없어 최신 정보를 안내할 수 없습니다. 잠시 후 다시 시도해 주세요.';
@@ -211,8 +254,7 @@ function templateAnswer(route, tool, lang) {
         + data.ships.map((ship) => `${ship.id}(화물 ${ship.cargoScu ?? '?'} SCU · 승무원 ${ship.crewSize ?? '?'})`).join(', ') + '.';
     case 'compare':
       if (!data.ships.length) return '비교할 함선을 찾지 못했습니다. 함선DB의 함선 id로 다시 시도해 주세요.';
-      return data.ships.map((ship) => `${ship.id}: 화물 ${ship.cargoScu ?? '?'} SCU, 승무원 ${ship.crewSize ?? '?'}, HP ${ship.hp ?? '?'}`
-        + (ship.cheapestBuy ? `, 최저가 ${ship.cheapestBuy.price.toLocaleString('en-US')} aUEC (${ship.cheapestBuy.shop}@${ship.cheapestBuy.location})` : ', 인게임 판매처 없음')).join(' / ');
+      return compareBasics(data);
     case 'market':
       if (data.status === 'not-found') return `'${data.query}' 상품을 UEX 목록에서 찾지 못했습니다. 무역플래너에서 정확한 이름으로 검색해 보세요.`;
       return `${data.commodity} — 매수 최저: ${data.buys.map((row) => `${row.location} ${row.price.toLocaleString('en-US')}`).join(', ') || '없음'} · `
@@ -283,7 +325,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
     // verdict can call a power-starved build "good" without evidence, so these
     // reviews use only the computed comparison and checks. Other tools retain
     // their existing optional commentary.
-    if (config.generative && !tool.review && (tool.data.status === undefined || tool.data.status === 'ok')) {
+    if (config.generative && !tool.review && !tool.compareChoices && (tool.data.status === undefined || tool.data.status === 'ok')) {
       const system = '너는 한국 Star Citizen 함대 VOLT의 안내 도우미다. '
         + (lang === 'en' ? 'Write only two short sentences in English explaining VERIFIED_ANSWER. ' : 'VERIFIED_ANSWER를 설명하는 짧은 한국어 두 문장만 작성한다. ')
         + 'VERIFIED_ANSWER는 이미 검증된 조회 결과이며 다시 필터링하거나 부정하지 않는다. 최소 화물량은 하한, 승무원 수는 상한이다. 모든 ships 항목은 조건에 일치한다. '
@@ -299,6 +341,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
     commitUsage(env, waitUntil, keys, usage, route.intent, config.estCostPerReq, false);
     return json({
       ok: true, intent: route.intent, answer, aiNote, mode: aiNote ? 'assisted' : 'data',
+      ...(tool.compareIds ? { compareIds: tool.compareIds } : {}),
+      ...(tool.compareChoices ? { compareChoices: tool.compareChoices } : {}),
       ...(tool.review ? { review: tool.review, actions: tool.actions } : {}),
       sources: lang === 'en' && SOURCE_EN[route.intent] ? tool.sources.map((source) => ({ ...source, label: SOURCE_EN[route.intent], detail: '' })) : tool.sources,
       freshness: lang === 'en' && SOURCE_EN[route.intent] ? { ...tool.freshness, label: SOURCE_EN[route.intent] } : tool.freshness,

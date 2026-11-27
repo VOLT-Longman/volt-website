@@ -899,10 +899,109 @@
         shipCompareState.clear();
         renderShips();
     }
+    const stockAsset = '/data/loadout/stock-comparison.json' + new URL(document.currentScript?.src || location.href).search;
+    let stockRequest;
+    function openComparisonIds(ids) {
+        const selected = [...new Set(ids)].filter(id => getShipById(id)).slice(0, 3);
+        if (selected.length < 2) return;
+        shipCompareState.clear();
+        selected.forEach(id => { shipCompareState.add(id); });
+        renderShips();
+        openShipComparison();
+    }
+    async function fillStockComparison(panel, ships) {
+        const en = currentLang() === 'en';
+        try {
+            stockRequest ??= fetch(stockAsset).then(response => {
+                if (!response.ok) throw Error('stock');
+                return response.json();
+            }).catch(error => { stockRequest = null; throw error; });
+            const stock = await stockRequest;
+            if (!panel.isConnected) return;
+            const records = ships.map(ship => stock.ships[ship.id]);
+            const cell = (row, tag, value) => {
+                const entry = document.createElement(tag);
+                entry.textContent = value;
+                row.append(entry);
+                return entry;
+            };
+            const table = document.createElement('table');
+            table.className = 'ship-compare-table';
+            const head = table.createTHead().insertRow();
+            cell(head, 'th', en ? 'Stock loadout' : '기본 장착 상태');
+            ships.forEach(ship => { cell(head, 'th', getShipDisplayName(ship)); });
+            const body = table.createTBody();
+            const metrics = [['pilot','조종사 순간 DPS','Pilot burst DPS'],['sustain','조종사 지속 DPS','Pilot sustained DPS'],
+                ['turret','포탑 순간 DPS','Turret burst DPS'],['shield','실드 총량 (HP)','Shield HP'],['regen','실드 재생 (HP/s)','Shield regen (HP/s)'],['armor','장갑 내구도 (HP)','Armor HP']];
+            const format = new Intl.NumberFormat(en ? 'en' : 'ko', { maximumFractionDigits: 1 });
+            for (const [key, ko, english] of metrics) {
+                const row = body.insertRow();
+                cell(row, 'th', en ? english : ko).scope = 'row';
+                const values = records.map(record => record?.[key]);
+                for (const value of values) {
+                    const td = cell(row, 'td', value == null ? '—' : format.format(value));
+                    if (values.every(Number.isFinite) && value === Math.max(...values) && values.some(other => other < value)) {
+                        td.classList.add('compare-winner');
+                        const note = cell(td, 'small', en ? 'Highest' : '가장 높음');
+                        note.className = 'stock-best';
+                    }
+                }
+            }
+            const wrapper = document.createElement('div');
+            wrapper.className = 'ship-compare-table-wrap';
+            wrapper.append(table);
+            const details = document.createElement('details');
+            cell(details, 'summary', en ? 'Compare installed components' : '장착 부품 비교');
+            const label = document.createElement('label');
+            const toggle = document.createElement('input');
+            toggle.type = 'checkbox';
+            toggle.checked = true;
+            label.append(toggle, en ? ' Differences only' : ' 다른 부품만 보기');
+            details.append(label);
+            const partsTable = table.cloneNode(false);
+            partsTable.append(head.parentElement.cloneNode(true));
+            partsTable.tHead.rows[0].cells[0].textContent = en ? 'Component · size' : '부품 · 크기';
+            const partsBody = partsTable.createTBody();
+            const keys = [...new Set(records.flatMap(record => Object.keys(record?.equipment || {})))];
+            const groups = { weapon: en ? 'Weapons' : '무장', shield: en ? 'Shields' : '실드',
+                power: en ? 'Power plants' : '발전기', cooler: en ? 'Coolers' : '쿨러' };
+            const renderParts = () => {
+                partsBody.replaceChildren();
+                for (const [group, title] of Object.entries(groups)) {
+                    let started = false;
+                    for (const id of keys.filter(id => stock.parts[id].group === group)) {
+                        const counts = records.map(record => record ? record.equipment[id] || 0 : null);
+                        if (toggle.checked && new Set(counts).size === 1) continue;
+                        if (!started) {
+                            cell(partsBody.insertRow(), 'th', title).colSpan = ships.length + 1;
+                            started = true;
+                        }
+                        const part = stock.parts[id];
+                        const row = partsBody.insertRow();
+                        cell(row, 'th', (en ? part.en : part.ko) + (part.size == null ? '' : ' · S' + part.size)).scope = 'row';
+                        counts.forEach(count => { cell(row, 'td', count == null ? '—' : String(count)); });
+                    }
+                }
+                if (!partsBody.rows.length) cell(partsBody.insertRow(), 'td', en ? 'No components to show.' : '표시할 부품이 없습니다.').colSpan = ships.length + 1;
+            };
+            toggle.addEventListener('change', renderParts);
+            renderParts();
+            const partWrap = wrapper.cloneNode(false);
+            partWrap.append(partsTable);
+            details.append(partWrap);
+            const hint = document.createElement('p');
+            hint.textContent = en ? 'Sustained DPS includes cooling and recharge time. A dash means data is unavailable.' : '지속 DPS는 냉각·재충전 시간까지 포함한 초당 피해량입니다. —는 자료가 없는 항목입니다.';
+            panel.replaceChildren(wrapper, hint, details);
+        } catch {
+            panel.textContent = en ? 'Stock loadout data unavailable.' : '기본 장착 자료를 불러오지 못했습니다.';
+        }
+    }
     function openShipComparison() {
         const ships = [...shipCompareState].map((id) => getShipById(id)).filter(Boolean);
         if (ships.length < 2) return;
         openModal(renderShipComparison(ships), true);
+        const panel = document.querySelector('[data-stock-comparison]');
+        if (panel) fillStockComparison(panel, ships);
     }
     function renderShipComparison(ships) {
         const fields = [
@@ -922,6 +1021,7 @@
                 <button class="modal-close" type="button" aria-label="${escapeHtml(i18nT('ships.modalClose', '\ubaa8\ub2ec \ub2eb\uae30'))}">\u00d7</button>
             </div>
             <div class="modal-body">
+                <section class="stock-comparison" data-stock-comparison aria-label="${currentLang() === 'en' ? 'Stock loadout' : '기본 장착 상태'}">${currentLang() === 'en' ? 'Loading stock loadouts…' : '기본 장착 자료를 불러오는 중…'}</section>
                 ${renderShipComparisonSummary(ships)}
                 <div class="ship-compare-table-wrap">
                     <table class="ship-compare-table">
@@ -1223,6 +1323,7 @@
         syncShipControls,
         openShipModal,
         openShipFromEvent,
+        openComparisonIds,
         renderShipPurposeSummary,
     };
 })();

@@ -236,6 +236,28 @@ test('AI 비교: 두 함선 스펙 + 최저가 구매처', async () => {
     assert.match(body.answer, /판매처 없음/);
 });
 
+test('ship combat comparison uses stock totals and resolves a bare F7C before comparing', async () => {
+    const env = baseEnv({ ASSETS: { async fetch(url) {
+        return new Response(await readFile(new URL('../..' + new URL(url).pathname, import.meta.url)));
+    } } });
+    const cookie = await memberCookie(MEMBER, env);
+    const ask = async message => {
+        const { context, settle } = makeContext(env, chatRequest(message, cookie));
+        const response = await onRequestPost(context);
+        await settle();
+        return response.json();
+    };
+    resetShipCacheForTests();
+    try {
+        const answer = await ask('라이트닝 vs 인페르노 vs 이온');
+        assert.deepEqual(new Set(answer.compareIds), new Set(['f8c-lightning', 'ares-inferno', 'ares-ion']));
+        assert.match(answer.answer, /조종사 순간 \/ 지속 DPS/);
+        const choice = await ask('머라우더 vs F-7C');
+        assert.deepEqual(choice.compareIds, ['marauder']);
+        assert.ok(choice.compareChoices.includes('f7c-hornet-mk-ii'));
+    } finally { resetShipCacheForTests(); }
+});
+
 test('AI 시세: UEX 정상 → 매수/매도 + 조회 시각, KO 상품명 매핑', async (t) => {
     const env = baseEnv();
     const cookie = await memberCookie(MEMBER, env);
