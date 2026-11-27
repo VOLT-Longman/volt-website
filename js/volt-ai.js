@@ -219,6 +219,25 @@
             }
             if (state.contextVersion === contextVersion) state.history = [...state.history, message].slice(-3);
             if (bubble) bubble.textContent = result.data.answer || '';
+            if (bubble && Array.isArray(result.data.compareIds)) {
+                const ids = result.data.compareIds;
+                if (result.data.compareChoices?.length && ids.length) {
+                    const select = el('select');
+                    const prompt = tr('비교할 F7C 기종 선택', 'Choose an F7C variant');
+                    select.setAttribute('aria-label', prompt);
+                    select.add(new Option(prompt, ''));
+                    for (const id of result.data.compareChoices) select.add(new Option(id.replaceAll('-', ' ').toUpperCase(), id));
+                    select.addEventListener('change', () => {
+                        if (select.value) window.VOLT_TOOLS?.open('compare-ships', [...ids, select.value]);
+                    });
+                    bubble.append(select);
+                } else if (ids.length >= 2) {
+                    const button = el('button', 'btn btn-secondary', tr('함선 비교표 열기', 'Open ship comparison'));
+                    button.type = 'button';
+                    button.addEventListener('click', () => window.VOLT_TOOLS?.open('compare-ships', ids));
+                    bubble.append(button);
+                }
+            }
             appendReview(bubble, result.data.review, result.data.actions);
             // 모델 보조 설명(M1.1) — 확정 답변과 시각적으로 분리, 참고용임을 명시
             if (result.data.aiNote && bubble) {

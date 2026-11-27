@@ -39,7 +39,7 @@ export async function loadShipLayers(env) {
     if (isExcludedShip(s)) continue;
     const op = opsById.get(s.id) || {};
     ships[s.id] = {
-      name: presentation.get(s.id)?.name || s.id,
+      name: presentation.get(s.id)?.name || s.id, nameKo: s.nameKo,
       aliases: [s.nameKo, ...[].concat(localized[presentation.get(s.id)?.name] || [])].filter(Boolean),
       manufacturer: s.manufacturer, role: s.role, career: s.career, size: s.size,
       crewSize: s.crewSize, cargoScu: s.cargoScu, hp: s.hp,
@@ -149,8 +149,27 @@ export async function toolRecommendShips(env, params) {
 
 export async function toolCompareShips(env, ids) {
   const { ships, market, syncedAt } = await loadShipLayers(env);
-  const rows = ids.filter((id) => ships[id]).map((id) => shipSummary(id, ships[id], market[id]));
+  const rows = [...new Set(ids)].filter((id) => ships[id]).slice(0, 3).map((id) => shipSummary(id, ships[id], market[id]));
+  let compareIds;
+  if (rows.length >= 2) {
+    compareIds = rows.map(ship => ship.id);
+    for (const row of rows) {
+      row.name = ships[row.id].name;
+      row.nameKo = ships[row.id].nameKo || row.name;
+    }
+    try {
+      const catalog = JSON.parse(await fetchAssetText(env, '/data/loadout/stock-comparison.json'));
+      for (const ship of rows) {
+        const stock = catalog.ships[ship.id];
+        if (stock) {
+          const { pilot, sustain, turret, shield, regen, armor } = stock;
+          ship.stock = { pilot, sustain, turret, shield, regen, armor };
+        }
+      }
+    } catch { /* The Ship DB comparison still works without stock data. */ }
+  }
   return {
+    compareIds,
     data: { ships: rows },
     sources: shipSources(syncedAt),
     freshness: { label: 'ShipDB 동기화', at: syncedAt }

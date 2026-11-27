@@ -1244,6 +1244,11 @@
     }
 
     async function openTool(action, shipId, contextKind) {
+        if (action === 'compare-ships' && Array.isArray(shipId)) {
+            showSection('ships');
+            if (await ensureCanonicalShips() && document.getElementById('ships')?.classList.contains('active')) window.VOLT_SHIPS.openComparisonIds(shipId);
+            return;
+        }
         const ship = shipById.get(shipId);
         if (ship && action !== 'ai' && action !== 'planner') window.VOLT_JOURNEY?.ship?.(ship.id, getShipDisplayName(ship));
         if (action === 'loadout') {

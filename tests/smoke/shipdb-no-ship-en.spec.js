@@ -60,7 +60,13 @@ test.describe('ship-en 제거 (커밋 C)', () => {
             await expect(compare).toHaveAttribute('aria-pressed', 'true');
         }
         await page.locator('#ship-compare-open').click();
-        await expect(page.locator('.ship-compare-table')).toBeVisible();
+        await expect(page.locator('.ship-compare-table').filter({ hasText: 'Manufacturer' })).toBeVisible();
+        const stock = modal.locator('[data-stock-comparison]');
+        await expect(stock.getByText('Pilot sustained DPS')).toBeVisible();
+        await stock.locator('summary').click();
+        await expect(stock.getByRole('checkbox')).toBeChecked();
+        await stock.getByRole('checkbox').uncheck();
+        await expect(stock.locator('details tbody tr').first()).toBeVisible();
         expect(hits).toEqual([]);
         await ctx.close();
     });
